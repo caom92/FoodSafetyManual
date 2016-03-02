@@ -14,7 +14,6 @@ require_once "paths.php"
         <script type="text/javascript" src="<?=\espresso\JQUERY?>"></script>
             
         <!-- Import Materialize JS -->
-        <script type="text/javascript" 
-            src="<?=\espresso\MATERIALIZE_JS?>"></script>
+        <script type="text/javascript" src="<?=\espresso\MATERIALIZE_JS?>"></script>
     </body>
 </html>
