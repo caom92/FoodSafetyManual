@@ -2,7 +2,7 @@
 
 namespace espresso;
 
-require_once "workdayPeriods.php"
+require_once "workdayPeriods.php";
 
 // Data Access Object for hand_washing_daily_log table
 class HandWashingDailyLog extends DAO
@@ -10,7 +10,28 @@ class HandWashingDailyLog extends DAO
     // Default constructor
     function __construct()
     {
-        parent::__construct("hand_washing_daily_log");
+        parent::__construct("hand_washing_daily_log", "hwd");
+    }
+    
+    
+    // Returns the name of the 'workday_period_id' column
+    function workdayPeriodId()
+    {
+        return $alias_.".workday_period_id";
+    }
+    
+    
+    // Returns the name of the 'date' column
+    function date()
+    {
+        return $alias_.".date";
+    }
+    
+    
+    // Returns the name of the 'washed_hands' column
+    function washedHands()
+    {
+        return $alias_.".washed_hands";
     }
     
     
@@ -25,10 +46,12 @@ class HandWashingDailyLog extends DAO
     // [throws] If the query failed, an exception will be thrown
     function findById($dataBaseConnection, $id) 
     {
-        return innerJoin($dataBaseConnection, array(new WorkdayPeriods()), 
-            "o.id, o.date, t0.period_name, t0.start_time, t0.end_time, ".
-            "o.washed_hands", array("o.workday_period_id=t0.id"), 
-            "o.id=?", array($id));
+        $wp = new WorkdayPeriods();
+        
+        return innerJoin($dataBaseConnection, array($wp), 
+            id().", ".date().", ".$wp->periodName().", ".$wp->startTime().
+            ", ".$wp->endTime().", ".washedHands(), 
+            array(workdayPeriodId()."=".$wp->id()), id()."=?", array($id));
     }
     
     
@@ -43,10 +66,13 @@ class HandWashingDailyLog extends DAO
     // [throws] If the query failed, an exception will be thrown 
     function findByDate($dataBaseConnection, $date) 
     {
-        return innerJoin($dataBaseConnection, array(new WorkdayPeriods()), 
-            "o.id, o.date, t0.start_time, t0.end_time, t0.period_name, ".
-            "o.washed_hands", array("o.workday_period_id=t0.id"), 
-            "DATE(o.date)=DATE(?)", array($date));
+        $wp = new WorkdayPeriods();
+        
+        return innerJoin($dataBaseConnection, array($wp), 
+            id().", ".date().", ".$wp->periodName().", ".$wp->startTime().
+            ", ".$wp->endTime().", ".washedHands(), 
+            array(workdayPeriodId()."=".$wp->id()), "DATE(".date().")=DATE(?)",
+            array($date));
     }
     
     

@@ -4,11 +4,75 @@ namespace espresso;
 
 require_once "dao.php";
 
+// Data Access Object for the hand_washing_weekly_log_comments table
 class HandWashingWeeklyLogComments extends DAO
 {
     function __construct()
     {
-        parent::__construct("hand_washing_weekly_log_comments");
+        parent::__construct("hand_washing_weekly_log_comments", "hwdc");
+    }
+    
+    
+    // Returns a string with the name of the 'start_date' column
+    function startDate()
+    {
+        return $alias_.".start_date";
+    }
+    
+    
+    // Returns a string with the name of the 'end_date' column
+    function endDate()
+    {
+        return $alias_.".end_date";
+    }
+    
+    
+    // Returns a string with the name of the 'sunday_comment' column
+    function sundayComment()
+    {
+        return $alias_."sunday_comment";
+    }
+    
+    
+    // Returns a string with the name of the 'monday_comment' column
+    function mondayComment()
+    {
+        return $alias_.".monday_comment";
+    }
+    
+    
+    // Returns a string with the name of the 'tuesday_comment' column
+    function tuesdayComment()
+    {
+        return $alias_.".tuesday_comment";
+    }
+    
+    
+    // Returns a string with the name of the 'wednesday_comment' column
+    function wednesdayComment()
+    {
+        return $alias_.".wednesday_comment";
+    }
+    
+    
+    // Returns a string with the name of the 'thursday_comment' column
+    function thursdayComment()
+    {
+        return $alias_.".thursday_comment";
+    }
+    
+    
+    // Returns a string with the name of the 'friday_comment' column
+    function fridayComment()
+    {
+        return $alias_.".friday_comment";
+    }
+    
+    
+    // Returns a string with the name of the 'saturday_comment' column
+    function saturdayComment()
+    {
+        return $alias_.".saturday_comment";
     }
     
     

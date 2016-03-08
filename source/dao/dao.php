@@ -12,11 +12,22 @@ abstract class DAO
     // The name of the table that this DAO represents
     protected $tableName_;
     
+    // The alias to be used when addressing this table in a query
+    protected $alias_;
+    
     
     // Creates a new DAO associated with the table of the specified name
-    function __construct($tableName)
+    function __construct($tableName, $alias)
     {
         $tableName_ = $tableName;
+        $alias_ = $alias;
+    }
+    
+    
+    // Returns a string with the name of the 'id' column
+    function id()
+    {
+        return $alias_.".id";
     }
     
     
@@ -143,10 +154,7 @@ abstract class DAO
     // [in] joinTables: a sequential array of the DAO objects of every table
     //      that is going to be joined with this table
     // [in] fields: a string that defines the fields of any of the tables that
-    //      are going to be read; for the purpose of providing a shorthand, 
-    //      this functions use SQL alias "o" for this table and "tn" for 
-    //      any subsequent joining table, where n is an integer that increments 
-    //      by 1, so these aliases can be used in this string
+    //      are going to be read
     // [in] joinConditions: a sequential array of strings that define the 
     //      condition against which each corresponding table is going to be
     //      evaluated when joining; the same alias explained earlier, as well 
@@ -167,10 +175,11 @@ abstract class DAO
     innerJoin($dataBaseConnection, $joinTables, $fields, $joinConditions, 
               $selectCondition, $variables)
     {
-        $query = "SELECT ".$fields." FROM ".$tableName_." AS o ";
+        $query = "SELECT ".$fields." FROM ".$tableName_." AS ".$alias_;
         
         for ($i = 0; $i < count($joinTables); ++$i) {
-            $query .= "INNER JOIN ".$joinTables[$i]->$tableName_." AS t".$i." ";
+            $query .= "INNER JOIN ".$joinTables[$i]->$tableName_." AS ".
+            $joinTables[$i]->$alias_." ";
             $query .= "ON ".$joinConditions[$i];
         }
         

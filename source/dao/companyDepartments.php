@@ -2,7 +2,7 @@
 
 namespace espresso;
 
-require_once "companyZones.php"
+require_once "companyZones.php";
 
 // Data Access Object for the company_departments table
 class CompanyDepartments extends DAO
@@ -10,7 +10,21 @@ class CompanyDepartments extends DAO
     // Default constructor
     function __construct()
     {
-        parent::__construct("company_departments");
+        parent::__construct("company_departments", "cd");
+    }
+    
+    
+    // Returns the name of the 'company_zone_id' column
+    function companyZoneId()
+    {
+        return $alias_.".company_zone_id";
+    }
+    
+    
+    // Returns the name of the 'department_name' column
+    function departmentName()
+    {
+        return $alias_.".department_name";
     }
     
     
@@ -25,9 +39,12 @@ class CompanyDepartments extends DAO
     // [throws] If the query failed, an exception will be thrown
     function findById($dataBaseConnection, $id)
     {
-        return innerJoin($dataBaseConnection, array(new CompanyZones()), 
-            "o.id, t0.zone_name, o.department_name", 
-            array("o.company_zone_id=t0.id"), "o.id=?", array($id));
+        $cz = new CompanyZones();
+        
+        return innerJoin($dataBaseConnection, array($cz),
+            id().", ".$cz->zoneName().", ".departmentName(),
+            array(companyZoneId()."=".$cz->id()), id()."=?", 
+            array($id));
     }
     
     
@@ -42,9 +59,11 @@ class CompanyDepartments extends DAO
     // [throws] If the query failed, an exception will be thrown
     function findByName($dataBaseConnection, $name)
     {   
-        return innerJoin($dataBaseConnection, array(new CompanyZones()), 
-            "o.id, t0.zone_name, o.department_name", 
-            array("o.company_zone_id=t0.id"), "o.department_name=?", 
+        $cz = new CompanyZones();
+        
+        return innerJoin($dataBaseConnection, array($cz),
+            id().", ".$cz->zoneName().", ".departmentName(),
+            array(companyZoneId()."=".$cz->id()), departmentName()."=?", 
             array($name));
     }
     

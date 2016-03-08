@@ -2,7 +2,7 @@
 
 namespace espresso;
 
-require_once "dao.php"
+require_once "dao.php";
 
 // Data Access Object for the certification_programs table
 class CertificationPrograms extends DAO
@@ -10,7 +10,15 @@ class CertificationPrograms extends DAO
     // Default constructor
     function __construct()
     {
-        parent::__construct("certification_programs");
+        parent::__construct("certification_programs", "cp");
+    }
+    
+    
+    // Returns a string with the name of the 'certification_program_name' 
+    // column 
+    function certificationProgramName()
+    {
+        return $alias_.".certification_program_name";
     }
     
     

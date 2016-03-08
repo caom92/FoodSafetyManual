@@ -2,8 +2,9 @@
 
 namespace espresso
 
-require_once "dao.php"
+require_once "dao.php";
 
+// Data Access Object for the workday_periods table
 class WorkdayPeriods extends DAO
 {
     // Returns the element which has the specified id in the table; if the query

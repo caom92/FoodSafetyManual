@@ -2,7 +2,7 @@
 
 namespace espresso;
 
-require_once "dao.php"
+require_once "dao.php";
 
 // Data Access Object for the access_permitions table
 class AccessPermitions extends DAO
@@ -10,7 +10,14 @@ class AccessPermitions extends DAO
     // Default constructor
     function __construct()
     {
-        parent::__construct("access_permitions");
+        parent::__construct("access_permitions", "ap");
+    }
+    
+    
+    // Returns a string with the name of the 'permission_name' column
+    function permissionName()
+    {
+        return $alias_.".permission_name";
     }
     
     
