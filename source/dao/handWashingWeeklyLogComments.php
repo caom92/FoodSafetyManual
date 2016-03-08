@@ -2,15 +2,13 @@
 
 namespace espresso;
 
-require_once "dao.php"
+require_once "dao.php";
 
-// Data Access Object for the certification_programs table
-class CertificationPrograms extends DAO
+class HandWashingWeeklyLogComments extends DAO
 {
-    // Default constructor
     function __construct()
     {
-        parent::__construct("certification_programs");
+        parent::__construct("hand_washing_weekly_log_comments");
     }
     
     
@@ -18,35 +16,35 @@ class CertificationPrograms extends DAO
     // fails, an exception is thrown
     // [in] dataBaseConnection: the object representing a connection to the
     //      data base to be queried
-    // [in] id: the id of the certification program that we want to look for in 
-    //      the table
+    // [in] id: the id of the element that we want to look for in the 
+    //      table
     // [return] The row read from the table ordered as an associative array
     //      using the column name as the key
     // [throws] If the query failed, an exception will be thrown
-    function findById($dataBaseConnection, $id)
+    function findById($dataBaseConnection, $id) 
     {
         return select($dataBaseConnection, "*", "id=?", array($id));
     }
     
     
-    // Returns a list of elements which have the specified program name;
+    // Returns a list of the elements which have the specified date;
     // if the query fails, an exception is thrown
     // [in] dataBaseConnection: the object representing a connection to the
     //      data base to be queried
-    // [in] name: the name of the certification program that we want to look 
-    //      for in the table
+    // [in] date: a string defining the date of the element that we want to 
+    //      look for in the table
     // [return] The rows read from the table ordered as an associative array
     //      using the column name as the key
-    // [throws] If the query failed, an exception will be thrown
-    function findByName($dataBaseConnection, $name)
+    // [throws] If the query failed, an exception will be thrown 
+    function findByDate($dataBaseConnection, $date) 
     {
-        return select($dataBaseConnection, "*", "certification_program_name=?", 
-            array($name));
+        return select($dataBaseConnection, "*", "start_date=DATE(?)", 
+            array($date));
     }
     
     
     // Deleted function
-    function findByDate($dataBaseConnection, $date) {}
+    function findByName($dataBaseConnection, $name) {}
 }
 
 ?>
