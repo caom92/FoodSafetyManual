@@ -10,74 +10,44 @@ class HandWashingDailyLog extends DAO
     // Default constructor
     function __construct()
     {
-        parent::__construct("hand_washing_daily_log", "hwd");
+        parent::__construct("hand_washing_daily_log");
     }
     
     
-    // Returns the name of the 'workday_period_id' column
-    function workdayPeriodId()
+    // Returns the element which has the specified id in the table
+    function findById($id) 
     {
-        return $alias_.".workday_period_id";
+        return join([
+            "[><]workday_periods" => ["workday_period_id" => "id"]
+            ], [
+                "hand_washing_daily_log.id",
+                "hand_washing_daily_log.date",
+                "workday_periods.period_name",
+                "workday_periods.start_time",
+                "workday_periods.end_time",
+                "hand_washing_daily_log.washed_hands"
+            ], [
+                "hand_washing_daily_log.id" => $id
+            ]);
     }
     
     
-    // Returns the name of the 'date' column
-    function date()
+    // Returns the element which has the specified date in the table
+    function findByDate($date) 
     {
-        return $alias_.".date";
+        return join([
+            "[><]workday_periods" => ["workday_period_id" => "id"]
+            ], [
+                "hand_washing_daily_log.id",
+                "hand_washing_daily_log.date",
+                "workday_periods.period_name",
+                "workday_periods.start_time",
+                "workday_periods.end_time",
+                "hand_washing_daily_log.washed_hands"
+            ], [
+                "#hand_washing_daily_log.date" => "DATE(".$date.")"
+            ]);
     }
-    
-    
-    // Returns the name of the 'washed_hands' column
-    function washedHands()
-    {
-        return $alias_.".washed_hands";
-    }
-    
-    
-    // Returns the element which has the specified id in the table; if the query
-    // fails, an exception is thrown
-    // [in] dataBaseConnection: the object representing a connection to the
-    //      data base to be queried
-    // [in] id: the id of the element that we want to look for in the 
-    //      table
-    // [return] The row read from the table ordered as an associative array
-    //      using the column name as the key
-    // [throws] If the query failed, an exception will be thrown
-    function findById($dataBaseConnection, $id) 
-    {
-        $wp = new WorkdayPeriods();
-        
-        return innerJoin($dataBaseConnection, array($wp), 
-            id().", ".date().", ".$wp->periodName().", ".$wp->startTime().
-            ", ".$wp->endTime().", ".washedHands(), 
-            array(workdayPeriodId()."=".$wp->id()), id()."=?", array($id));
-    }
-    
-    
-    // Returns a list of the elements which have the specified date;
-    // if the query fails, an exception is thrown
-    // [in] dataBaseConnection: the object representing a connection to the
-    //      data base to be queried
-    // [in] date: a string defining the date of the element that we want to 
-    //      look for in the table
-    // [return] The rows read from the table ordered as an associative array
-    //      using the column name as the key
-    // [throws] If the query failed, an exception will be thrown 
-    function findByDate($dataBaseConnection, $date) 
-    {
-        $wp = new WorkdayPeriods();
-        
-        return innerJoin($dataBaseConnection, array($wp), 
-            id().", ".date().", ".$wp->periodName().", ".$wp->startTime().
-            ", ".$wp->endTime().", ".washedHands(), 
-            array(workdayPeriodId()."=".$wp->id()), "DATE(".date().")=DATE(?)",
-            array($date));
-    }
-    
-    
-    // Deleted function
-    function findByName($dataBaseConnection, $name) {}
 }
 
 ?>

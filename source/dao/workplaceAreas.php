@@ -14,66 +14,42 @@ class WorkplaceAreas extends DAO
     }
     
     
-    // Returns a string with the name of the 'company_department_id' column
-    function companyDepartmentId()
+    // Returns the element which has the specified id in the table
+    function findById($id) 
     {
-        return $alias_.".company_department_id";
+        return join([
+            "[><]company_departments" => ["company_department_id" => "id"],
+            "[><]company_zones" => [
+                "company_departments.company_zone_id" => "id"
+                ]
+            ], [
+                "workplace_areas.id",
+                "company_zones.zone_name",
+                "company_departments.department_name",
+                "workplace_areas.area_name"
+            ], [
+                "id" => $id
+            ]);
     }
     
     
-    // Returns a string with the name of the 'area_name' column
-    function areaName()
+    // Returns the element which has the specified name in the table
+    function findByName($name) 
     {
-        return $alias_.".area_name";
+        return join([
+            "[><]company_departments" => ["company_department_id" => "id"],
+            "[><]company_zones" => [
+                "company_departments.company_zone_id" => "id"
+                ]
+            ], [
+                "workplace_areas.id",
+                "company_zones.zone_name",
+                "company_departments.department_name",
+                "workplace_areas.area_name"
+            ], [
+                "area_name" => $name
+            ]);
     }
-    
-    
-    // Returns the element which has the specified id in the table; if the query
-    // fails, an exception is thrown
-    // [in] dataBaseConnection: the object representing a connection to the
-    //      data base to be queried
-    // [in] id: the id of the element that we want to look for in the 
-    //      table
-    // [return] The row read from the table ordered as an associative array
-    //      using the column name as the key
-    // [throws] If the query failed, an exception will be thrown
-    function findById($dataBaseConnection, $id) 
-    {
-        $cz = new CompanyZones();
-        $cd = new CompanyDepartments();
-        
-        return innerJoin($dataBaseConnection, array($cz, $cd), 
-            id().", ".$cz->zoneName().", ".$cd->departmentName().", "
-            .areaName(), array($cd->companyZoneId()."=".$cz->id(),
-            companyDepartmentId()."=".$cd->id()), 
-            id()."=?", array($id)); 
-    }
-    
-    
-    // Returns a list of elements which have the specified name;
-    // if the query fails, an exception is thrown
-    // [in] dataBaseConnection: the object representing a connection to the
-    //      data base to be queried
-    // [in] name: the name of the element that we want to look for in the 
-    //      table
-    // [return] The rows read from the table ordered as an associative array
-    //      using the column name as the key
-    // [throws] If the query failed, an exception will be thrown
-    function findByName($dataBaseConnection, $name) 
-    {
-        $cz = new CompanyZones();
-        $cd = new CompanyDepartments();
-        
-        return innerJoin($dataBaseConnection, array($cz, $cd), 
-            id().", ".$cz->zoneName().", ".$cd->departmentName().", "
-            .areaName(), array($cd->companyZoneId()."=".$cz->id(),
-            companyDepartmentId()."=".$cd->id()), 
-            areaName()."=?", array($name)); 
-    }
-    
-    
-    // Deleted function
-    function findByDate($dataBaseConnection, $date) {}
 }
 
 ?>
