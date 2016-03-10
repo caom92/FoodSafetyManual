@@ -5,6 +5,8 @@
     // The main namespace for the project's functions and classes
     namespace espresso;
     
+    require_once "../../external/medoo/medoo.php";
+    
     // Database connection information
     const HOST = "localhost";
     const DATA_BASE = "del_cabo";
@@ -15,14 +17,17 @@
     // succeeded
     function getDataBase()
     {
-        $dataBaseConnection = new PDO("mysql:host=".HOST
-            ."dbname=".DATA_BASE, USER, PASSWORD);
-            
-        $dataBaseConnection->setAttribute(PDO::ATTR_ERRMODE,
-            PDO::ERRMODE_EXCEPTION);
-            
-        $dataBaseConnection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-        
-        return $dataBaseConnection;
+        return new medoo([
+            "database_type" => "mysql",
+            "database_name" => DATA_BASE,
+            "server" => HOST,
+            "username" => USER,
+            "password" => PASSWORD,
+            "charset" => "utf8",
+            "option" => [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_EMULATE_PREPARES => false
+            ] 
+        ]);
     }
 ?>

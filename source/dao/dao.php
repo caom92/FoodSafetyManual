@@ -2,7 +2,7 @@
 
 namespace espresso;
 
-require_once "config.php"
+require_once "config.php";
 
 // Classic Data Access Object for accessing the elements of a specific table in 
 // the database. The interface of this class provides the basic SELECT, INSERT,
@@ -25,10 +25,10 @@ abstract class DAO
     
     
     // Returns a string with the name of the 'id' column
-    function id()
+    /*function id()
     {
         return $alias_.".id";
-    }
+    }*/
     
     
     // Returns an associative array of the data elements read from the table in
@@ -36,57 +36,30 @@ abstract class DAO
     // fails, an exception is thrown.
     // [in] dataBaseConnection: the object representing a connection to the
     //      data base to be queried
-    // [in] fields: a string that defines the columns that are going to be read
-    //      from the table
-    // [in] condition: a string that defines the condition against which the
-    //      data elements are going to be evaluated; named or unnamed parameters
-    //      may be used
-    // [in] variables: if unnamed parameters where used in condition, then this 
-    //      must be a sequential array with the input values for these 
-    //      parameters; if named parameters where used instead, then this must
-    //      be a associative array where the values for the parameters are 
-    //      stored with corresponding parameter names as keys 
+    // [in] fields: an array of string where the columns that are going to be read
+    //      from the table are defined
+    // [in] conditions: an associative array that defines the condition against which the
+    //      data elements are going to be evaluated
     // [return] The rows read from the table ordered as an associative array
     //      using the column name as the key
     // [throws] If the query failed, an exception will be thrown
     protected function 
-    select($dataBaseConnection, $fields, $condition, $variables)
+    select($dataBaseConnection, $fields, $conditions)
     {
-        $dataBaseConnection->prepare("SELECT ".$columns." FROM ".$tableName_.
-            " WHERE ".$condition);
-        
-        $result = $dataBaseConnection->execute($variables);
-                
-        return $result->fetchAll(PDO::FETCH_ASSOC);
+        return $dataBaseConnection->select($tableName_, $fields, $conditions);
     }
     
     
     // Inserts the specified data elements into the table in question
     // [in] dataBaseConnection: the object representing a connection to the
     //      data base to be queried
-    // [in] fields: an string that defines the columns that are going to be 
-    //      modified by the insertion of data
-    // [in] values: a 2D array that organizes the data to be inserted
-    //      as rows and columns
+    // [in] values: an array of associative arrays that define the columns and
+    //      their corresponding values to be inserted into the table
+    // [return] The ID of the last inserted row
     // [throws] If the query failed, an exception will be thrown
-    protected function insert($dataBaseConnection, $fields, $values)
+    protected function insert($dataBaseConnection, $values)
     {
-        $query = "INSER INTO ".$tableName_." (".$fields.") VALUES (";
-        
-        $numColumns = count($values[0]);
-        for ($i = 0; $i < $numColumns; ++$i) {
-            $query .= "?";
-            $query .= ($i < $numColumns - 1) ? ", " : ")";
-        }
-        
-        $dataBaseConnection->beginTransaction();
-        $dataBaseConnection->prepare($query);
-        
-        foreach ($values as $row) {
-            $dataBaseConnection->execute($row);
-        }
-        
-        $dataBaseConnection->commit();
+        return $dataBaseConnection->insert($tableName_, $values)
     }
     
     
@@ -111,12 +84,13 @@ abstract class DAO
     protected function 
     update($dataBaseConnection, $values, $condition, $variables)
     {
-        $dataBaseConnection->prepare("UPDATE ".$tableName_." SET ".$values.
+        $dataBaseConnection->update($tableName_, $values, )
+        /*$dataBaseConnection->prepare("UPDATE ".$tableName_." SET ".$values.
             " WHERE ".$condition);
             
         $result = $dataBaseConnection->execute($variables);
         
-        return $result->rowCount();
+        return $result->rowCount();*/
     }
     
     
