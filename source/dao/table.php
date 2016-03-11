@@ -7,7 +7,7 @@ require_once "config.php";
 // Data Access Object for accessing the elements of a specific table in 
 // the database. The interface of this class provides the basic SELECT, INSERT,
 // UPDATE and DELETE methods.
-abstract class DAO 
+abstract class Table
 {
     // The holder of the connection to the data base that stores our tables
     static protected $dataBaseConnection_;
@@ -105,7 +105,7 @@ abstract class DAO
     
     
     // Returns the element which has the specified id in the table
-    function findById($id)
+    function findItemById($id)
     {
         return select(["*"], ["id" => $id]);
     }
@@ -113,6 +113,6 @@ abstract class DAO
 
 // Establish a connection to the data base and store it in the DAO for future 
 // use
-DAO::$dataBaseConnection = getDataBase();
+Table::$dataBaseConnection = connectToDataBase();
 
 ?>

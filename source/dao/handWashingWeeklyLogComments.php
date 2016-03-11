@@ -2,10 +2,10 @@
 
 namespace espresso;
 
-require_once "dao.php";
+require_once "table.php";
 
 // Data Access Object for the hand_washing_weekly_log_comments table
-class HandWashingWeeklyLogComments extends DAO
+class HandWashingWeeklyLogComments extends Table
 {
     function __construct()
     {
@@ -14,7 +14,7 @@ class HandWashingWeeklyLogComments extends DAO
     
     
     // Returns the element which has the specified date in the table
-    function findByDate($date) 
+    function findItemByDate($date) 
     {
         return select(["*"], ["#start_date" => "DATE(".$date.")"]);
     }

@@ -2,10 +2,10 @@
 
 namespace espresso;
 
-require_once "workdayPeriods.php";
+require_once "table.php";
 
 // Data Access Object for hand_washing_daily_log table
-class HandWashingDailyLog extends DAO
+class HandWashingDailyLog extends Table
 {
     // Default constructor
     function __construct()
@@ -15,7 +15,7 @@ class HandWashingDailyLog extends DAO
     
     
     // Returns the element which has the specified id in the table
-    function findById($id) 
+    function findItemById($id) 
     {
         return join([
             "[><]workday_periods" => ["workday_period_id" => "id"]
@@ -33,7 +33,7 @@ class HandWashingDailyLog extends DAO
     
     
     // Returns the element which has the specified date in the table
-    function findByDate($date) 
+    function findItemByDate($date) 
     {
         return join([
             "[><]workday_periods" => ["workday_period_id" => "id"]

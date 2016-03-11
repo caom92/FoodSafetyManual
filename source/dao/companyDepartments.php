@@ -2,10 +2,10 @@
 
 namespace espresso;
 
-require_once "companyZones.php";
+require_once "table.php";
 
 // Data Access Object for the company_departments table
-class CompanyDepartments extends DAO
+class CompanyDepartments extends Table
 {
     // Default constructor
     function __construct()
@@ -14,7 +14,7 @@ class CompanyDepartments extends DAO
     }
     
     // Returns the element which has the specified id in the table
-    function findById($id)
+    function findItemById($id)
     {
         return join([
             "[><]company_zones" => ["company_zone_id" => "id"]
@@ -29,7 +29,7 @@ class CompanyDepartments extends DAO
     
     
     // Returns the element which has the specified name in the table
-    function findByName($name)
+    function findItemByName($name)
     {   
         return join([
             "[><]company_zones" => ["company_zone_id" => "id"]

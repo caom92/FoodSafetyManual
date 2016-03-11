@@ -15,7 +15,7 @@
     
     // Attempts to connect to the database and returns the connection if
     // succeeded
-    function getDataBase()
+    function connectToDataBase()
     {
         return new medoo([
             "database_type" => "mysql",

@@ -2,10 +2,10 @@
 
 namespace espresso;
 
-require_once "dao.php";
+require_once "table.php";
 
 // Data Access Object for the workday_periods table
-class WorkdayPeriods extends DAO
+class WorkdayPeriods extends Table
 {
     // Default constructor
     function __construct()
@@ -15,7 +15,7 @@ class WorkdayPeriods extends DAO
 
     
     // Returns the element which has the specified id name the table
-    function findByName($name)
+    function findItemByName($name)
     {
         return select(["*"], ["period_name" => $name]);
     }

@@ -2,10 +2,10 @@
 
 namespace espresso;
 
-require_once "dao.php";
+require_once "table.php";
 
 // Data Access Object for the certification_programs table
-class CertificationPrograms extends DAO
+class CertificationPrograms extends Table
 {
     // Default constructor
     function __construct()
@@ -15,7 +15,7 @@ class CertificationPrograms extends DAO
     
     
     // Returns the elements from the table which have the specified name
-    function findByName($name)
+    function findItemByName($name)
     {
         return select(["*"], ["certification_program_name" => $name]);
     }
