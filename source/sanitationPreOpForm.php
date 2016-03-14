@@ -66,21 +66,20 @@
         }
     }   // Repeat this step for every area
     
-    // Send the data to the client
-    echo json_encode($resultingJSON);
-    
+    // Send the data to the client as a JSON with the following format
     /*{
         error_code:[int],
         error_message:[string],
         areas[array<area>]
     }
-    {
+    where area is: {
         area_id:[int],
         area_name:[string],
         hardware:[array<hardware>]
     }
-    {
+    where hardware is: {
         id:[int],
         name:[string]
     }*/
+    echo json_encode($resultingJSON);
 ?>
