@@ -10,15 +10,21 @@ require_once "config.php";
 abstract class Table
 {
     // The holder of the connection to the data base that stores our tables
-    static protected $dataBaseConnection_;
+    protected $dataBaseConnection_;
      
     // The name of the table that this DAO represents
     protected $tableName_;
     
     
-    // Creates a new DAO associated with the table of the specified name
-    function __construct($tableName)
+    // Creates a new DAO connected to the specified data base and associated 
+    // with the table of the specified name
+    // [in]    dataBaseConnection: the object that represents the interface to
+    //         the data base to be queried
+    // [in]    tableName: a string describing the name of the table to be 
+    //         queried
+    function __construct($dataBaseConnection, $tableName)
     {
+        $dataBaseConnection_ = $dataBaseConnection;
         $tableName_ = $tableName;
     }
     
@@ -27,14 +33,14 @@ abstract class Table
     // question that complied with the specified "where" clause.
     // [in]    columns: an array of strings where the name of the columns that 
     //         are going to be read from the table are defined
-    // [in]    where: an associative array that defines the conditions 
-    //         against which the data elements are going to be evaluated to be
-    //         read from the table; the key of the array represents the 
-    //         operation that is going to be performed and the element 
-    //         the value to which the operation is going to be applied
+    // [in]    where (optional): an associative array that defines the 
+    //         conditions against which the data elements are going to be 
+    //         evaluated to be read from the table; the key of the array 
+    //         represents the operation that is going to be performed and the 
+    //         element the value to which the operation is going to be applied
     // [out]   return: the rows read from the table ordered as an associative 
     //         array using the column name as the key
-    protected function select($columns, $where)
+    protected function select($columns, $where = [])
     {
         return $dataBaseConnection_->select($tableName_, $columns, $where);
     }
@@ -55,11 +61,11 @@ abstract class Table
     // specified condition is met to the specified values
     // [in]    newValues: an assocative array that defines the column names 
     //         that are going to be modified and with which corresponding value
-    // [in]    where: an associative array that defines the conditions 
-    //         against which the data elements are going to be evaluated to be 
-    //         updated; the key of the array represents the operation that is
-    //         going to be performed and the element the value to which the 
-    //         operation is going to be applied
+    // [in]    where: an associative array that defines the 
+    //         conditions against which the data elements are going to be 
+    //         evaluated to be updated; the key of the array represents the 
+    //         operation that is going to be performed and the element the 
+    //         value to which the operation is going to be applied
     // [out]   return: the number of rows updated
     protected function update($newValues, $where)
     {
@@ -90,14 +96,14 @@ abstract class Table
     //         the left table
     // [in]    columns: an array of strings where the name of the columns that 
     //         are going to be read from the table are defined
-    // [in]    where: an associative array that defines the conditions 
-    //         against which the data elements are going to be evaluated to be
-    //         read from the table; the key of the array represents the 
-    //         operation that is going to be performed and the element 
-    //         the value to which the operation is going to be applied
+    // [in]    where (optional): an associative array that defines the 
+    //         conditions against which the data elements are going to be 
+    //         evaluated to be read from the table; the key of the array 
+    //         represents the operation that is going to be performed and the 
+    //         element the value to which the operation is going to be applied
     // [out]   return: the rows read from the table ordered as an associative 
     //         array using the column name as the key
-    protected function join($conditions, $columns, $where)
+    protected function join($conditions, $columns, $where = [])
     {
         return $dataBaseConnection_->select($tableName_, $conditions, $columns, 
             $where);
@@ -109,10 +115,13 @@ abstract class Table
     {
         return select(["*"], ["id" => $id]);
     }
+    
+    
+    // Returns an array that stores every element in the table
+    function getAllItems()
+    {
+        return select(["*"]);
+    }
 }
-
-// Establish a connection to the data base and store it in the DAO for future 
-// use
-Table::$dataBaseConnection = connectToDataBase();
 
 ?>

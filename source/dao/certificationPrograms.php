@@ -7,15 +7,16 @@ require_once "table.php";
 // Data Access Object for the certification_programs table
 class CertificationPrograms extends Table
 {
-    // Default constructor
-    function __construct()
+    // Creates an interface for interacting with the certification_programs 
+    // table in the specified data base
+    function __construct($dataBaseConnection)
     {
-        parent::__construct("certification_programs");
+        parent::__construct($dataBaseConnection, "certification_programs");
     }
     
     
-    // Returns the elements from the table which have the specified name
-    function findItemByName($name)
+    // Returns a list of elements which have the specified name
+    function findItemsByName($name)
     {
         return select(["*"], ["certification_program_name" => $name]);
     }

@@ -7,14 +7,17 @@ require_once "table.php";
 // Data Access Object for the hand_washing_weekly_log_comments table
 class HandWashingWeeklyLogComments extends Table
 {
-    function __construct()
+    // Creates an interface for interacting with the 
+    // hand_washing_weekly_log_comments table in the specified data base
+    function __construct($dataBaseConnection)
     {
-        parent::__construct("hand_washing_weekly_log_comments");
+        parent::__construct($dataBaseConnection,
+            "hand_washing_weekly_log_comments");
     }
     
     
-    // Returns the element which has the specified date in the table
-    function findItemByDate($date) 
+    // Returns a list of elements which have the specified date
+    function findItemsByDate($date) 
     {
         return select(["*"], ["#start_date" => "DATE(".$date.")"]);
     }

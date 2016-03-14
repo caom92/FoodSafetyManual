@@ -6,10 +6,11 @@ require_once "table.php";
 
 class UsersCompanyInfo extends Table
 {
-    // Default constructor
-    function __construct()
+    // Creates an interface for interacting with the users_company_info table 
+    // in the specified data base
+    function __construct($dataBaseConnection)
     {
-        parent::__construct("users_company_info");
+        parent::__construct($dataBaseConnection, "users_company_info");
     }
     
     
@@ -35,8 +36,8 @@ class UsersCompanyInfo extends Table
     }
     
     
-    // Returns the element which has the specified name in the table
-    function findItemByName($name)
+    // Returns a list of elements which have the specified name
+    function findItemsByName($name)
     {
         return join([
             "[><]company_departments" => [
@@ -53,6 +54,26 @@ class UsersCompanyInfo extends Table
             "users_company_info.full_name"
         ], [
             "full_name" => $name
+        ]);
+    }
+    
+    
+    // Returns an array that stores every element in the table
+    function getAllItems()
+    {
+        return join([
+            "[><]company_departments" => [
+                "workplace_areas.company_department_id" => "id"
+                ],
+            "[><]company_zones" => [
+                "company_departments.company_zone_id" => "id"
+                ]
+        ], [
+            "users_company_info.id",
+            "users_company_info.employee_id",
+            "company_zones.zone_name",
+            "company_departments.department_name",
+            "users_company_info.full_name"
         ]);
     }
 }

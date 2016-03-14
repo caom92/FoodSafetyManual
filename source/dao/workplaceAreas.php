@@ -2,15 +2,16 @@
 
 namespace espresso;
 
-require_once "companyDepartments.php";
+require_once "table.php";
 
 // Data Access Object for the workplace_areas table
 class WorkplaceAreas extends Table
 {
-    // Default constructor
-    function __construct()
+    // Creates an interface for interacting with the workplace_areas table in 
+    // the specified data base
+    function __construct($dataBaseConnection)
     {
-        parent::__construct("workplace_areas");
+        parent::__construct($dataBaseConnection, "workplace_areas");
     }
     
     
@@ -33,8 +34,8 @@ class WorkplaceAreas extends Table
     }
     
     
-    // Returns the element which has the specified name in the table
-    function findItemByName($name) 
+    // Returns a list of elements which have the specified name
+    function findItemsByName($name) 
     {
         return join([
             "[><]company_departments" => ["company_department_id" => "id"],
@@ -48,6 +49,23 @@ class WorkplaceAreas extends Table
                 "workplace_areas.area_name"
             ], [
                 "area_name" => $name
+            ]);
+    }
+    
+    
+    // Returns an array that stores every element in the table
+    function getAllItems()
+    {
+        return join([
+            "[><]company_departments" => ["company_department_id" => "id"],
+            "[><]company_zones" => [
+                "company_departments.company_zone_id" => "id"
+                ]
+            ], [
+                "workplace_areas.id",
+                "company_zones.zone_name",
+                "company_departments.department_name",
+                "workplace_areas.area_name"
             ]);
     }
 }

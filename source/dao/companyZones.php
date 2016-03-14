@@ -7,15 +7,16 @@ require_once "table.php";
 // Data Access Object for the company_zones table
 class CompanyZones extends Table
 {
-    // Default constructor
-    function __construct()
+    // Creates an interface for interacting with the company_zones table in 
+    // the specified data base
+    function __construct($dataBaseConnection)
     {
-        parent::__construct("company_zones", "cz");
+        parent::__construct($dataBaseConnection, "company_zones", "cz");
     }
     
     
-    // Returns the element which has the specified name in the table
-    function findItemByName($name)
+    // Returns a list of elements which have the specified name
+    function findItemsByName($name)
     {
         return select(["*"], ["zone_name" => $name]);
     }

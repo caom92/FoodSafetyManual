@@ -7,15 +7,16 @@ require_once "table.php";
 // Data Access Object for the workday_periods table
 class WorkdayPeriods extends Table
 {
-    // Default constructor
-    function __construct()
+    // Creates an interface for interacting with the workday_periods table in 
+    // the specified data base
+    function __construct($dataBaseConnection)
     {
-        parent::__construct("workday_periods");
+        parent::__construct($dataBaseConnection, "workday_periods");
     }
 
     
-    // Returns the element which has the specified id name the table
-    function findItemByName($name)
+    // Returns a list of elements which have the specified name
+    function findItemsByName($name)
     {
         return select(["*"], ["period_name" => $name]);
     }

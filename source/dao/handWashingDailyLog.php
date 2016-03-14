@@ -7,10 +7,11 @@ require_once "table.php";
 // Data Access Object for hand_washing_daily_log table
 class HandWashingDailyLog extends Table
 {
-    // Default constructor
-    function __construct()
+    // Creates an interface for interacting with the hand_washing_daily_log 
+    // table in the specified data base
+    function __construct($dataBaseConnection)
     {
-        parent::__construct("hand_washing_daily_log");
+        parent::__construct($dataBaseConnection, "hand_washing_daily_log");
     }
     
     
@@ -32,8 +33,8 @@ class HandWashingDailyLog extends Table
     }
     
     
-    // Returns the element which has the specified date in the table
-    function findItemByDate($date) 
+    // Returns a list of elements which have the specified name
+    function findItemsByDate($date) 
     {
         return join([
             "[><]workday_periods" => ["workday_period_id" => "id"]
@@ -46,6 +47,22 @@ class HandWashingDailyLog extends Table
                 "hand_washing_daily_log.washed_hands"
             ], [
                 "#hand_washing_daily_log.date" => "DATE(".$date.")"
+            ]);
+    }
+    
+    
+    // Returns an array that stores every element in the table
+    function getAllItems()
+    {
+        return join([
+            "[><]workday_periods" => ["workday_period_id" => "id"]
+            ], [
+                "hand_washing_daily_log.id",
+                "hand_washing_daily_log.date",
+                "workday_periods.period_name",
+                "workday_periods.start_time",
+                "workday_periods.end_time",
+                "hand_washing_daily_log.washed_hands"
             ]);
     }
 }
