@@ -9,7 +9,7 @@ class Users extends Table
     // the specified data base
     function __construct($dataBaseConnection)
     {
-        parent_::__construct($dataBaseConnection, "users");
+        parent::__construct($dataBaseConnection, "users");
     }
     
     
