@@ -1,8 +1,6 @@
 <?php
 
-namespace espresso;
-
-require_once "table.php";
+require_once dirname(__FILE__)."\\table.php";
 
 // Data Access Object for the sanitation_pre_op_corrective_actions table
 class SanitationPreOpCorrectiveActions extends Table 
@@ -19,7 +17,7 @@ class SanitationPreOpCorrectiveActions extends Table
     // Returns a list of elements which have the specified name
     function findItemsByName($name)
     {
-        return select(["*"], ["action_name" => $name]);
+        return parent::select(["*"], ["action_name" => $name]);
     }
 }
 

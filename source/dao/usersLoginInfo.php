@@ -1,8 +1,6 @@
 <?php
 
-namespace espresso;
-
-require_once "table.php";
+require_once dirname(__FILE__)."\\table.php";
 
 // Data Access Object for the users_login_info table
 class UsersLoginInfo extends Table

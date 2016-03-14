@@ -1,8 +1,6 @@
 <?php
 
-namespace espresso;
-
-require_once "table.php";
+require_once dirname(__FILE__)."\\table.php";
 
 // Data Access Object for the company_zones table
 class CompanyZones extends Table
@@ -18,7 +16,7 @@ class CompanyZones extends Table
     // Returns a list of elements which have the specified name
     function findItemsByName($name)
     {
-        return select(["*"], ["zone_name" => $name]);
+        return parent::select(["*"], ["zone_name" => $name]);
     }
 }
 

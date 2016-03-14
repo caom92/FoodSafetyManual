@@ -1,8 +1,6 @@
 <?php
 
-namespace espresso;
-
-require_once "table.php";
+require_once dirname(__FILE__)."\\table.php";
 
 // Data Access Object for the access_permitions table
 class AccessPermissions extends Table
@@ -18,7 +16,7 @@ class AccessPermissions extends Table
     // Returns a list of elements which have the specified name
     function findItemsByName($name)
     {
-        return select(["*"], ["permission_name" => $name]);
+        return parent::select(["*"], ["permission_name" => $name]);
     }
 }
 

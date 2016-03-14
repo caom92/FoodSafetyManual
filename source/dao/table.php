@@ -1,8 +1,6 @@
 <?php
 
-namespace espresso;
-
-require_once "config.php";
+require_once dirname(__FILE__)."\\config.php";
 
 // Data Access Object for accessing the elements of a specific table in 
 // the database. The interface of this class provides the basic SELECT, INSERT,
@@ -10,10 +8,10 @@ require_once "config.php";
 abstract class Table
 {
     // The holder of the connection to the data base that stores our tables
-    protected $dataBaseConnection_;
+    protected $dataBaseConnection;
      
     // The name of the table that this DAO represents
-    protected $tableName_;
+    protected $tableName;
     
     
     // Creates a new DAO connected to the specified data base and associated 
@@ -24,8 +22,8 @@ abstract class Table
     //         queried
     function __construct($dataBaseConnection, $tableName)
     {
-        $dataBaseConnection_ = $dataBaseConnection;
-        $tableName_ = $tableName;
+        $this->dataBaseConnection = $dataBaseConnection;
+        $this->tableName = $tableName;
     }
     
     
@@ -42,7 +40,7 @@ abstract class Table
     //         array using the column name as the key
     protected function select($columns, $where = [])
     {
-        return $dataBaseConnection_->select($tableName_, $columns, $where);
+        return $this->dataBaseConnection->select($tableName_, $columns, $where);
     }
     
     
@@ -53,7 +51,7 @@ abstract class Table
     // [out]   return: the ID of the last inserted row
     protected function insert($rows)
     {
-        return $dataBaseConnection_->insert($tableName_, $rows);
+        return $this->dataBaseConnection->insert($tableName_, $rows);
     }
     
     
@@ -69,7 +67,8 @@ abstract class Table
     // [out]   return: the number of rows updated
     protected function update($newValues, $where)
     {
-        return $dataBaseConnection_->update($tableName_, $newValues, $where);
+        return $this->dataBaseConnection->update($tableName_, 
+            $newValues, $where);
     }
     
     
@@ -83,7 +82,7 @@ abstract class Table
     // [out]   return: the number of rows deleted
     protected function delete($where)
     {
-        return $dataBaseConnection_->delete($tableName_, $where);
+        return $this->dataBaseConnection->delete($this->tableName, $where);
     }
     
     
@@ -103,10 +102,10 @@ abstract class Table
     //         element the value to which the operation is going to be applied
     // [out]   return: the rows read from the table ordered as an associative 
     //         array using the column name as the key
-    protected function join($conditions, $columns, $where = [])
+    protected function joinSelect($conditions, $columns, $where = [])
     {
-        return $dataBaseConnection_->select($tableName_, $conditions, $columns, 
-            $where);
+        return $this->dataBaseConnection->select($this->tableName, 
+            $conditions, $columns, $where);
     }
     
     

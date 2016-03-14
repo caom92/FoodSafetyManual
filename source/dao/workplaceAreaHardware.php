@@ -1,8 +1,6 @@
 <?php
 
-namespace espresso;
-
-require_once "table.php";
+require_once dirname(__FILE__)."\\table.php";
 
 // Data Access Object for the workplace_area_hardware table
 class WorkplaceAreaHardware extends Table
@@ -19,7 +17,7 @@ class WorkplaceAreaHardware extends Table
     // identified by the specified ID
     function findItemsByAreaId($id)
     {
-        return join([
+        return parent::joinSelect([
             "[><]workplace_areas" => [
                 "workplace_area_id" => "id"
                 ],
@@ -44,7 +42,7 @@ class WorkplaceAreaHardware extends Table
     // Returns the element which has the specified id in the table
     function findItemById($id)
     {
-        return join([
+        return parent::joinSelect([
             "[><]workplace_areas" => [
                 "workplace_area_id" => "id"
                 ],
@@ -69,7 +67,7 @@ class WorkplaceAreaHardware extends Table
     // Returns a list of elements which have the specified name
     function findItemsByName($name)
     {
-        return join([
+        return parent::joinSelect([
             "[><]workplace_areas" => [
                 "workplace_area_id" => "id"
                 ],
@@ -94,7 +92,7 @@ class WorkplaceAreaHardware extends Table
     // Returns an array of every registry in the table 
     function getAllItems()
     {
-        return join([
+        return parent::joinSelect([
             "[><]workplace_areas" => [
                 "workplace_area_id" => "id"
                 ],

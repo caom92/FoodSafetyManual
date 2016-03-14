@@ -1,8 +1,6 @@
 <?php
 
-namespace espresso;
-
-require_once "table.php";
+require_once dirname(__FILE__)."\\table.php";
 
 // Data Access Object for the hand_washing_weekly_log_comments table
 class HandWashingWeeklyLogComments extends Table
@@ -19,7 +17,7 @@ class HandWashingWeeklyLogComments extends Table
     // Returns a list of elements which have the specified date
     function findItemsByDate($date) 
     {
-        return select(["*"], ["#start_date" => "DATE(".$date.")"]);
+        return parent::select(["*"], ["#start_date" => "DATE(".$date.")"]);
     }
 }
 

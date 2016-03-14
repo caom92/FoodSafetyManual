@@ -1,19 +1,6 @@
 <?php
-    require_once "workplaceAreas.php";
-    require_once "workplaceAreaHardware.php";
-    
-    // Terminates the execution of the current script and generates an error 
-    // message and code for the client to interpret
-    function displayErrorPage($error) 
-    {
-        $resultingJSON = [
-            "error_code" => $error[1],
-            "error_message" => $error[0].": ".$error[2],
-            "areas" => []
-        ];
-        echo json_encode($resultingJSON);
-        exit;
-    }
+    require_once dirname(__FILE__)."\\dao\\workplaceAreas.php";
+    require_once dirname(__FILE__)."\\dao\\workplaceAreaHardware.php";
     
     // initialize all the variables related with the data base
     $dataBaseConnection = null;
@@ -24,55 +11,58 @@
     // attempt to connect to the data base and query the data from the workplace
     // areas
     try {
-        $dataBaseConnection = \espresso\connectToDataBase();
-        $areas = new \espresso\WorkplaceAreas($dataBaseConnection);
-        $hardware = new \espresso\WorkplaceAreaHardware($dataBaseConnection);
+        $dataBaseConnection = connectToDataBase();
+        $areas = new WorkplaceAreas($dataBaseConnection);
+        $hardware = new WorkplaceAreaHardware($dataBaseConnection);
         $areasData = $areas->getAllItems();
     }
     catch (Exception $e) {
-        displayErrorPage($dataBaseConnection->error());
+        displayErrorPageAndExit($e->getCode(), $e->getMessage());
     }
     
     // Initialize the JSON to be sent to the client
     $resultingJSON = [
         "error_code" => 0,
         "error_message" => "",
-        "areas" => []
+        "data" => []
     ];
     
     foreach ($areasData as $area) {
-        // Add each area to the array
-        array_push($resultingJSON["areas"], [
-           "area_id" => $area["id"],
-           "area_name" => $area["area_name"],
-           "hardware" => []
-        ]);
+        // create a temporal area JSON for each area element
+        $areaJSON = [
+            "area_id" => $area["id"],
+            "area_name" => $area["area_name"],
+            "hardware" => []
+        ];
         
-        // Then, attempt get all hardware pieces that belong to that area
+        // Then, attempt to get all hardware pieces that belong to that area
         $items = [];
         try {
             $items = $hardware->findItemsByAreaId($area["id"]);
         }
         catch (Exception $e) {
-            displayErrorPage($dataBaseConnection->error());
+            displayErrorPageAndExit($e->getCode(), $e->getMessage());
         }
         
         // Finally, add every item to the array of the corresponding area
         foreach ($items as $item) {
-            array_push($resultingJSON["areas"]["hardware"], [
+            array_push($areaJSON["hardware"], [
                 "id" => $item["id"],
-                "name" => $item["hardware_name`"]
+                "name" => $item["hardware_name"]
             ]);
         }
-    }   // Repeat this step for every area
+        
+        // Add each area to the areas array in the final JSON
+        array_push($resultingJSON["data"], $areaJSON);
+    }   // Repeat this step for every area element
     
     // Send the data to the client as a JSON with the following format
     /*{
         error_code:[int],
         error_message:[string],
-        areas[array<area>]
+        data[array<area>]
     }
-    where area is: {
+    where data is: {
         area_id:[int],
         area_name:[string],
         hardware:[array<hardware>]

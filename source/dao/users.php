@@ -1,8 +1,6 @@
 <?php
 
-namespace espresso;
-
-require_once "table.php";
+require_once dirname(__FILE__)."\\table.php";
 
 // Data Access Object for the users table
 class Users extends Table
@@ -18,7 +16,7 @@ class Users extends Table
     // Returns the element which has the specified id in the table
     function findItemById($id)
     {
-        return join([
+        return parent::joinSelect([
             "[><]users_company_info" => [
                 "company_info_id" => "id"
                 ],
@@ -56,7 +54,7 @@ class Users extends Table
     // Returns an array that stores every element in the table
     function getAllItems()
     {
-        return join([
+        return parent::joinSelect([
             "[><]users_company_info" => [
                 "company_info_id" => "id"
                 ],

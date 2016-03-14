@@ -1,7 +1,5 @@
 <?php
 
-namespace espresso;
-
 require_once "table.php";
 
 class UsersCompanyInfo extends Table
@@ -17,7 +15,7 @@ class UsersCompanyInfo extends Table
     // Returns the element which has the specified id in the table
     function findItemById($id)
     {
-        return join([
+        return parent::joinSelect([
             "[><]company_departments" => [
                 "workplace_areas.company_department_id" => "id"
                 ],
@@ -39,7 +37,7 @@ class UsersCompanyInfo extends Table
     // Returns a list of elements which have the specified name
     function findItemsByName($name)
     {
-        return join([
+        return parent::joinSelect([
             "[><]company_departments" => [
                 "workplace_areas.company_department_id" => "id"
                 ],
@@ -61,7 +59,7 @@ class UsersCompanyInfo extends Table
     // Returns an array that stores every element in the table
     function getAllItems()
     {
-        return join([
+        return parent::joinSelect([
             "[><]company_departments" => [
                 "workplace_areas.company_department_id" => "id"
                 ],
