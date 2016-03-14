@@ -40,7 +40,8 @@ abstract class Table
     //         array using the column name as the key
     protected function select($columns, $where = [])
     {
-        return $this->dataBaseConnection->select($tableName_, $columns, $where);
+        return $this->dataBaseConnection->select($this->tableName, $columns, 
+            $where);
     }
     
     
@@ -51,7 +52,7 @@ abstract class Table
     // [out]   return: the ID of the last inserted row
     protected function insert($rows)
     {
-        return $this->dataBaseConnection->insert($tableName_, $rows);
+        return $this->dataBaseConnection->insert($this->tableName, $rows);
     }
     
     
@@ -67,7 +68,7 @@ abstract class Table
     // [out]   return: the number of rows updated
     protected function update($newValues, $where)
     {
-        return $this->dataBaseConnection->update($tableName_, 
+        return $this->dataBaseConnection->update($this->tableName, 
             $newValues, $where);
     }
     
@@ -112,14 +113,14 @@ abstract class Table
     // Returns the element which has the specified id in the table
     function findItemById($id)
     {
-        return select(["*"], ["id" => $id]);
+        return $this->select("*", ["id" => $id]);
     }
     
     
     // Returns an array that stores every element in the table
     function getAllItems()
     {
-        return select(["*"]);
+        return $this->select("*");
     }
 }
 

@@ -114,6 +114,15 @@ class SanitationPreOpLog extends Table
             "sanitation_pre_op_log.comment"
         ]);
     }
+    
+    
+    // Inserts the data to the data base
+    // [in]    items: an array of associative arrays which define the rows to
+    //         be inserted, where the key is the column name 
+    function addItems($items)
+    {
+        parent::insert($items);
+    }
 }
 
 ?>

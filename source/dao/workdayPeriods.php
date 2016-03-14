@@ -16,7 +16,7 @@ class WorkdayPeriods extends Table
     // Returns a list of elements which have the specified name
     function findItemsByName($name)
     {
-        return parent::select(["*"], ["period_name" => $name]);
+        return parent::select("*", ["period_name" => $name]);
     }
 }
 

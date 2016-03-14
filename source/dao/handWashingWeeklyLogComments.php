@@ -17,7 +17,7 @@ class HandWashingWeeklyLogComments extends Table
     // Returns a list of elements which have the specified date
     function findItemsByDate($date) 
     {
-        return parent::select(["*"], ["#start_date" => "DATE(".$date.")"]);
+        return parent::select("*", ["#start_date" => "DATE(".$date.")"]);
     }
 }
 

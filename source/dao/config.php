@@ -37,12 +37,11 @@
     //         occurred 
     function displayErrorPageAndExit($code, $message)
     {
-        $resultingJSON = [
+        echo json_encode([
             "error_code" => ($code == 0) ? 1 : $code,
             "error_message" => $message,
             "data" => []
-        ];
-        echo json_encode($resultingJSON);
+        ]);
         exit;
     }
 ?>

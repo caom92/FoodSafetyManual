@@ -16,7 +16,7 @@ class CertificationPrograms extends Table
     // Returns a list of elements which have the specified name
     function findItemsByName($name)
     {
-        return parent::select(["*"], ["certification_program_name" => $name]);
+        return parent::select("*", ["certification_program_name" => $name]);
     }
 }
 
