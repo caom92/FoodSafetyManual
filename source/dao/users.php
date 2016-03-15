@@ -21,7 +21,7 @@ class Users extends Table
                 "company_info_id" => "id"
                 ],
             "[><]company_departments" => [
-                "workplace_areas.company_department_id" => "id"
+                "users_company_info.company_department_id" => "id"
                 ],
             "[><]company_zones" => [
                 "company_departments.company_zone_id" => "id"

@@ -1,6 +1,6 @@
 <?php
 
-require_once(__FILE__)."\\sanitationPreOpLog.php";
+require_once(__FILE__)."\\dao\\sanitationPreOpLog.php";
 
 // initialize all the variables related with the data base
 $dataBaseConnection = null;
