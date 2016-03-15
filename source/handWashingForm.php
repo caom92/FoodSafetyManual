@@ -45,6 +45,8 @@ foreach ($areasData as $area) {
 foreach ($periodsData as $period) {
     array_push($resultingJSON["data"]["workday_periods"], [
         "id" => $period["id"],
+        "start_time" => $period["start_time"],
+        "end_time" => $period["end_time"],
         "period_name" => $period["period_name"]
     ]);
 }
@@ -67,6 +69,8 @@ where area is:
 }
 and period is: {
     id:[uint],
+    start_time:[time],
+    end_time:[time],
     period_name:[string]
 }*/
 echo json_encode($resultingJSON);
