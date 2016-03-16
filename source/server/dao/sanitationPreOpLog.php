@@ -118,10 +118,11 @@ class SanitationPreOpLog extends Table
     
     // Inserts the data to the data base
     // [in]    items: an array of associative arrays which define the rows to
-    //         be inserted, where the key is the column name 
+    //         be inserted, where the key is the column name
+    // [out]   return: the ID of the last inserted item
     function addItems($items)
     {
-        parent::insert($items);
+        return parent::insert($items);
     }
 }
 

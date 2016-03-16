@@ -45,6 +45,16 @@ class WorkdayPeriodHandWashingLog extends Table
             "workday_period_hand_washing_log.washed_hands"
         ]);
     }
+    
+    
+    // Inserts the data to the data base
+    // [in]    items: an array of associative arrays which define the rows to
+    //         be inserted, where the key is the column name
+    // [out]   return: the ID of the last inserted item
+    function addItems($items) 
+    {
+        return parent::insert($items);
+    }
 }
 
 ?>
