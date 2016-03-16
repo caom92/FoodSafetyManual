@@ -5,8 +5,8 @@ require_once dirname(__FILE__)."table.php";
 // Data Access Object for the daily_hand_washing_log table
 class DailyHandWashingLog extends Table
 {
-    // Creates an interface for interacting with the daily_hand_washing_log t-able in 
-    // the specified data base
+    // Creates an interface for interacting with the daily_hand_washing_log 
+    // table in the specified data base
     function __construct($dataBaseConnection)
     {
         parent::__construct($dataBaseConnection, "daily_hand_washing_log");

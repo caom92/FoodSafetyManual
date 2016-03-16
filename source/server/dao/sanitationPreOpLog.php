@@ -78,7 +78,7 @@ class SanitationPreOpLog extends Table
             "sanitation_pre_op_corrective_actions.action_name",
             "sanitation_pre_op_log.comment"
         ], [
-            "#date" => "DATE(".$id.")"
+            "#date" => "DATE(".$date.")"
         ]);
     }
     
