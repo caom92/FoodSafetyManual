@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__)."table.php";
+require_once dirname(__FILE__)."\\table.php";
 
 // Data Access Object for the daily_hand_washing_log table
 class DailyHandWashingLog extends Table
@@ -46,6 +46,7 @@ class DailyHandWashingLog extends Table
                 ]
         ], [
             "daily_hand_washing_log.id",
+            "daily_hand_washing_log.date",
             "company_zones.zone_name",
             "company_departments.department_name",
             "workplace_areas.area_name",
@@ -55,6 +56,7 @@ class DailyHandWashingLog extends Table
             "users_company_info.full_name",
             "workday_periods.start_time",
             "workday_periods.end_time",
+            "workday_periods.period_name",
             "workday_period_hand_washing_log.washed_hands"
         ], [
             "id" => $id
@@ -95,6 +97,7 @@ class DailyHandWashingLog extends Table
                 ]
         ], [
             "daily_hand_washing_log.id",
+            "daily_hand_washing_log.date",
             "company_zones.zone_name",
             "company_departments.department_name",
             "workplace_areas.area_name",
@@ -104,9 +107,66 @@ class DailyHandWashingLog extends Table
             "users_company_info.full_name",
             "workday_periods.start_time",
             "workday_periods.end_time",
+            "workday_periods.period_name",
             "workday_period_hand_washing_log.washed_hands"
         ], [
             "#date" => "DATE(".$date.")"
+        ]);
+    }
+    
+    
+    // Returns a list of elements which are within the specified range of dates
+    // and that are registered to the specified workplace area
+    function findItemsByDateInterval($areaID, $start, $end)
+    {
+        return parent::joinSelect([
+            "[><]workplace_areas" => [
+                "workplace_area_id" => "id"
+                ],
+            "[><]company_departments" => [
+                "workplace_areas.company_department_id" => "id"
+                ],
+            "[><]company_zones" => [
+                "company_departments.company_zone_id" => "id"
+                ],
+            "[><]users" => [
+                "user_id" => "id"
+                ],
+            "[><]users_company_info" => [
+                "users.company_info_id" => "id"
+                ],
+            "[><]company_departments (departments)" => [
+                "users_company_info.company_department_id" => "id"
+                ],
+            "[><]company_zones (zones)" => [
+                "departments.company_zone_id" => "id"
+                ],
+            "[><]workday_period_hand_washing_log" => [
+                "period_log_id" => "id"
+                ],
+            "[><]workday_periods" => [
+                "workday_period_hand_washing_log.workday_period_id" => "id"
+                ]
+        ], [
+            "daily_hand_washing_log.id",
+            "daily_hand_washing_log.date",
+            "company_zones.zone_name",
+            "company_departments.department_name",
+            "workplace_areas.area_name",
+            "zones.zone_name",
+            "departments.department_name",
+            "users_company_info.employee_id", 
+            "users_company_info.full_name",
+            "workday_periods.start_time",
+            "workday_periods.end_time",
+            "workday_periods.period_name",
+            "workday_period_hand_washing_log.washed_hands"
+        ], [
+            "AND" => [
+                "workplace_area_id" => $areaID,
+                "#date[>=]" => "DATE(".$start.")",
+                "#date[<=]" => "DATE(".$end.")"
+            ]
         ]);
     }
     
@@ -144,6 +204,7 @@ class DailyHandWashingLog extends Table
                 ]
         ], [
             "daily_hand_washing_log.id",
+            "daily_hand_washing_log.date",
             "company_zones.zone_name",
             "company_departments.department_name",
             "workplace_areas.area_name",
@@ -153,6 +214,7 @@ class DailyHandWashingLog extends Table
             "users_company_info.full_name",
             "workday_periods.start_time",
             "workday_periods.end_time",
+            "workday_periods.period_name",
             "workday_period_hand_washing_log.washed_hands"
         ]);
     }

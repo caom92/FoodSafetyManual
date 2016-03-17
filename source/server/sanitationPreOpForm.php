@@ -28,7 +28,7 @@ catch (Exception $e) {
 }
 
 // Initialize the JSON to be sent to the client
-$resultingJSON = [
+$outputJSON = [
     "error_code" => 0,
     "error_message" => "",
     "data" => [
@@ -38,7 +38,7 @@ $resultingJSON = [
 ];
 
 foreach ($actionsData as $action) {
-    array_push($resultingJSON["data"]["corrective_actions"], [
+    array_push($outputJSON["data"]["corrective_actions"], [
         "id" => $action["id"],
         "name" => $action["action_name"]
     ]);
@@ -70,7 +70,7 @@ foreach ($areasData as $area) {
     }
     
     // Add each area to the areas array in the final JSON
-    array_push($resultingJSON["data"]["areas"], $areaJSON);
+    array_push($outputJSON["data"]["areas"], $areaJSON);
 }   // Repeat this step for every area element
 
 // Send the data to the client as a JSON with the following format
@@ -99,6 +99,6 @@ where hardware is: {
     id:[uint],
     name:[string]
 }*/
-echo json_encode($resultingJSON);
+echo json_encode($outputJSON);
 
 ?>

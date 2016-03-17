@@ -34,7 +34,7 @@ class SanitationPreOpLog extends Table
             ]
         ], [
             "sanitation_pre_op_log.id",
-            "sanitation_pre_op_log.date",
+            "sanitation_pre_op_log.date_time",
             "company_zones.zone_name",
             "company_departments.department_name",
             "workplace_areas.area_name",
@@ -69,7 +69,7 @@ class SanitationPreOpLog extends Table
             ]
         ], [
             "sanitation_pre_op_log.id",
-            "sanitation_pre_op_log.date",
+            "sanitation_pre_op_log.date_time",
             "company_zones.zone_name",
             "company_departments.department_name",
             "workplace_areas.area_name",
@@ -78,7 +78,7 @@ class SanitationPreOpLog extends Table
             "sanitation_pre_op_corrective_actions.action_name",
             "sanitation_pre_op_log.comment"
         ], [
-            "#date" => "DATE(".$date.")"
+            "#date_time" => "DATE(".$date.")"
         ]);
     }
     
@@ -104,7 +104,7 @@ class SanitationPreOpLog extends Table
             ]
         ], [
             "sanitation_pre_op_log.id",
-            "sanitation_pre_op_log.date",
+            "sanitation_pre_op_log.date_time",
             "company_zones.zone_name",
             "company_departments.department_name",
             "workplace_areas.area_name",

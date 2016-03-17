@@ -1,6 +1,6 @@
 <?php
 
-require_once "table.php";
+require_once dirname(__FILE__)."\\table.php";
 
 class UsersCompanyInfo extends Table
 {

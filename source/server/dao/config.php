@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__)."\\..\\..\\external\\medoo\\medoo.php";
+require_once dirname(__FILE__)."\\..\\..\\..\\external\\medoo\\medoo.php";
 
 // Database connection information
 const HOST = "localhost";
