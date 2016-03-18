@@ -12,7 +12,7 @@ $logEntries = [];
 try {
     $dataBaseConnection = connectToDataBase();
     $log = new SanitationPreOpLog($dataBaseConnection);
-    $logEntries = $log->findItemsByDate($_GET["date"]);
+    $logEntries = $log->findItemsByDate(/*$_GET["date"]*/"2016-03-07");
 }
 catch (Exception $e) {
     displayErrorPageAndExit($e->getCode(), $e->getMessage());
@@ -55,6 +55,7 @@ foreach ($logEntries as $entry) {
         array_push($areaJSON["hardware"], [
             "hardware_name" => $entry["hardware_name"],
             "status" => $entry["status"],
+            "corrective_action" => $entry["action_name"],
             "comment" => $entry["comment"]
         ]);
     }
@@ -78,6 +79,7 @@ where area is:
 where hardware is: {
     hardware_name:[string]
     status:[bool]
+    corrective_action:[string]
     comment:[strig]
 }*/
 echo json_encode($outputJSON);
