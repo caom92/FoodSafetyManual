@@ -105,7 +105,7 @@ abstract class Table
     //         array using the column name as the key
     protected function joinSelect($conditions, $columns, $where = [])
     {
-        return $this->dataBaseConnection->select($this->tableName, 
+        return $this->dataBaseConnection->/*debug()->*/select($this->tableName, 
             $conditions, $columns, $where);
     }
     

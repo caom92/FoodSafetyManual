@@ -12,7 +12,7 @@ $logEntries = [];
 try {
     $dataBaseConnection = connectToDataBase();
     $log = new SanitationPreOpLog($dataBaseConnection);
-    $logEntries = $log->findItemsByDate(/*$_GET["date"]*/"2016-03-07");
+    $logEntries = $log->findItemsByDate($_GET["date"]);
 }
 catch (Exception $e) {
     displayErrorPageAndExit($e->getCode(), $e->getMessage());
@@ -27,7 +27,7 @@ $outputJSON = [
 
 // create temporal variables needed to reorganized the data read
 // from the data base by area names
-$area = null;
+$area = "";
 $areaJSON = [];
 
 // read each element from the data array
@@ -35,15 +35,15 @@ foreach ($logEntries as $entry) {
     // if the area name changed and the temporal JSON is not empty,
     // then we keep the temporal JSON
     if ($area != $entry["area_name"]) {
-        if (!empty($areaJSON)) {
+        if (count($areaJSON) != 0) {
             array_push($outputJSON["data"], $areaJSON);
         }
         
         // then we store the new area name and create a new temporal JSON
-        $area = $data["area_name"];
+        $area = $entry["area_name"];
         $areaJSON = [
-            "date" => $data["date"],
-            "area_name" => $data["area_name"],
+            "date" => $entry["date"],
+            "area_name" => $entry["area_name"],
             "hardware" => []
         ];
     }
@@ -51,14 +51,17 @@ foreach ($logEntries as $entry) {
     // every hardware status info that is associated to the same workplace
     // area are grouped together into a single array so that there is no
     // duplicated data sent to the client
-    if ($area == $data["area_name"]) {
+    if ($area == $entry["area_name"]) {
         array_push($areaJSON["hardware"], [
-            "hardware_name" => $data["hardware_name"],
-            "status" => $data["status"],
-            "comment" => $data["comment"]
+            "hardware_name" => $entry["hardware_name"],
+            "status" => $entry["status"],
+            "comment" => $entry["comment"]
         ]);
     }
 }
+
+// don't forget to save the last data entry to the final JSON
+array_push($outputJSON["data"], $areaJSON);
 
 // Send the data to the client as a JSON with the following format
 /*{

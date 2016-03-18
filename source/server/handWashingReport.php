@@ -32,20 +32,40 @@ $outputJSON = [
 
 // create a temporal json where to store repetitive data read from the data base
 // just once
+$date = "";
 $handWashingLogJSON = [];
+$dailyLogs = [];
 
 // read each entry from the data base
 foreach ($logEntries as $entry) {
     // after the temporal json was filled with the initial data, we simply push
     // the log per workday period into the array 
-    if (!empty($handWashingLogJSON)) {
-        array_push($handWashingLogJSON["period_logs"], [
+    if (count($handWashingLogJSON) != 0) {
+        if ($date == $entry["date"]) {
+            array_push($dailyLogs["period_logs"], [
+                "start_time" => $entry["start_time"],
+                "end_time" => $entry["end_time"],
+                "period_name" => $entry["period_name"],
+                "washed_hands" => $entry["washed_hands"]
+            ]);
+        }
+        else {
+            $date = $entry["date"];
+            array_push($handWashingLogJSON["daily_logs"], $dailyLogs);
+            $dailyLogs = [
+                "date" => $entry["date"],
+                "comment" => $entry["comment"],
+                "period_logs" => []
+            ];
+        }
+        
+        /*array_push($handWashingLogJSON["period_logs"], [
             "date" => $entry["date"],
             "start_time" => $entry["start_time"],
             "end_time" => $entry["end_time"],
             "period_name" => $entry["period_name"],
             "washed_hands" => $entry["washed_hands"]
-        ]);
+        ]);*/
     }
     else {
         // when we run the loop for the first time, we know that the entries 
@@ -53,21 +73,30 @@ foreach ($logEntries as $entry) {
         // it once in our temporal json, also, we save our first non-repetitive
         // data in an array
         $handWashingLogJSON = [
-            "start_date" => $_GET["start_date"],
-            "end_date" => $_GET["end_date"],
+            "start_date" => /*$_GET["start_date"]*/"2016-03-07",
+            "end_date" => /*$_GET["end_date"]*/"2016-03-13",
             "zone_name" => $entry["zone_name"],
-            "department_name" => $entry["depatment_name"],
+            "department_name" => $entry["department_name"],
             "area_name" => $entry["area_name"],
             "employee_id" => $entry["employee_id"],
             "full_name" => $entry["full_name"],
-            "period_logs" => [
-                "date" => $entry["date"],
-                "start_time" => $entry["start_time"],
-                "end_time" => $entry["end_time"],
-                "period_name" => $entry["period_name"],
-                "washed_hands" => $entry["washed_hands"]
-            ]
+            "daily_logs" => []
         ];
+        
+        $dailyLogs = [
+            "date" => $entry["date"],
+            "comment" => $entry["comment"],
+            "period_logs" => []
+        ];
+        
+        array_push($dailyLogs["period_logs"], [
+            "start_time" => $entry["start_time"],
+            "end_time" => $entry["end_time"],
+            "period_name" => $entry["period_name"],
+            "washed_hands" => $entry["washed_hands"]
+        ]);
+        
+        $date = $entry["date"];
     }
 }
 
@@ -89,10 +118,14 @@ where handWashingLog is:
     area_name:[string]
     employee_id:[uint]
     full_name:[string]
-    period_logs:[array<periodLog>]
+    daily_logs:[array<daily_log>]
 }
-where periodLog is: {
+where daily_logs is: {
     date:[date]
+    comment:[string]
+    period_logs:[array<period_log>]
+}
+where period_log is: {
     start_time:[time]
     end_time:[time]
     period_name:[string]

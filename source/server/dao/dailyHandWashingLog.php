@@ -157,6 +157,7 @@ class DailyHandWashingLog extends Table
             "departments.department_name",
             "users_company_info.employee_id", 
             "users_company_info.full_name",
+            "daily_hand_washing_log.comment",
             "workday_periods.start_time",
             "workday_periods.end_time",
             "workday_periods.period_name",
@@ -164,9 +165,10 @@ class DailyHandWashingLog extends Table
         ], [
             "AND" => [
                 "workplace_area_id" => $areaID,
-                "#date[>=]" => "DATE(".$start.")",
-                "#date[<=]" => "DATE(".$end.")"
-            ]
+                "date[>=]" => $start,
+                "date[<=]" => $end
+            ],
+            "ORDER" => "date"
         ]);
     }
     
