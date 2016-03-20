@@ -3,28 +3,26 @@
 require_once dirname(__FILE__)."\\dao\\workplaceAreas.php";
 require_once dirname(__FILE__)."\\dao\\workdayPeriods.php";
 
-// initialize all the variables related with the data base
-$dataBaseConnection = null;
-$areas = null;
-$periods = null;
-$periodsData = null;
-$areasData = [];
+// create the variables where the data read from the data base is going to be
+// stored
+$periodsList = [];
+$areasList = [];
 
 // attempt to connect to the data base and query the data from the workplace
-// areas and the workday periods
+// areas and the workday periods tables
 try {
     $dataBaseConnection = connectToDataBase();
-    $areas = new WorkplaceAreas($dataBaseConnection);
-    $periods = new WorkdayPeriods($dataBaseConnection);
-    $periodsData = $periods->getAllItems();
-    $areasData = $areas->getAllItems();
+    $areasTable = new WorkplaceAreas($dataBaseConnection);
+    $periodsTable = new WorkdayPeriods($dataBaseConnection);
+    $periodsList = $periodsTable->getAllItems();
+    $areasList = $areasTable->getAllItems();
 }
 catch (Exception $e) {
     displayErrorPageAndExit($e->getCode(), $e->getMessage());
 }
 
 // Initialize the JSON to be sent to the client
-$resultingJSON = [
+$outputJSON = [
     "error_code" => 0,
     "error_message" => "",
     "data" => [
@@ -33,17 +31,17 @@ $resultingJSON = [
     ]
 ];
 
-// add each area info to the json
-foreach ($areasData as $area) {
-    array_push($resultingJSON["data"]["areas"], [
+// add the info of each area to the json
+foreach ($areasList as $area) {
+    array_push($outputJSON["data"]["areas"], [
         "id" => $area["id"],
         "area_name" => $area["area_name"]
     ]);
 }
 
-// add each workday period info to the json
-foreach ($periodsData as $period) {
-    array_push($resultingJSON["data"]["workday_periods"], [
+// add the info of each workday period to the json
+foreach ($periodsList as $period) {
+    array_push($outputJSON["data"]["workday_periods"], [
         "id" => $period["id"],
         "start_time" => $period["start_time"],
         "end_time" => $period["end_time"],
@@ -73,6 +71,6 @@ and period is: {
     end_time:[time],
     period_name:[string]
 }*/
-echo json_encode($resultingJSON);
+echo json_encode($outputJSON);
 
 ?>

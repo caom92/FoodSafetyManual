@@ -12,7 +12,7 @@ $logEntries = [];
 try {
     $dataBaseConnection = connectToDataBase();
     $log = new SanitationPreOpLog($dataBaseConnection);
-    $logEntries = $log->findItemsByDate(/*$_GET["date"]*/"2016-03-07");
+    $logEntries = $log->findItemsByDate($_GET["date"]);
 }
 catch (Exception $e) {
     displayErrorPageAndExit($e->getCode(), $e->getMessage());

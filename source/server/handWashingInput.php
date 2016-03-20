@@ -3,28 +3,25 @@
 require_once(__FILE__)."\\dao\\dailyHandWashingLog.php";
 require_once(__FILE__)."\\dao\\workdayPeriodHandWashingLog.php";
 
-// initialize all the variables related with the data base
-$dataBaseConnection = null;
-
 // attempt to connect to the data base and insert the input data, which 
-// is read using the HTTP GET method
+// is read from the client using the HTTP GET method
 try {
     $dataBaseConnection = connectToDataBase();
     $dailyLog = new DailyHandWashingLog($dataBaseConnection);
     $periodLog = new WorkdayPeriodHandWashingLog($dataBaseConnection);
-    $newRows = json_encode($_GET);
+    $inputJSON = json_decode($_GET);
     
-    foreach ($newRows as $row) {
+    foreach ($inputJSON as $newEntry) {
         $id = $periodLog->addItems([
-            "workday_period_id" => $row["workday_period_id"],
-            "washed_hands" => $row["washed_hands"] 
+            "workday_period_id" => $newEntry["workday_period_id"],
+            "washed_hands" => $newEntry["washed_hands"] 
         ]);
         
         $dailyLog->addItems([
-            "date" => $row["date"],
-            "workplace_area_id" => $row["workplace_area_id"],
-            "user_id" => $row["user_id"],
-            "comment" => $row["comment"],
+            "date" => $newEntry["date"],
+            "workplace_area_id" => $newEntry["workplace_area_id"],
+            "user_id" => $newEntry["user_id"],
+            "comment" => $newEntry["comment"],
             "period_log_id" => $id
         ]);
     }
