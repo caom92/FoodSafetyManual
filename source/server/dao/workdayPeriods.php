@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__)."\\table.php";
+require_once realpath("table.php");
 
 // Data Access Object for the workday_periods table
 class WorkdayPeriods extends Table
@@ -13,10 +13,10 @@ class WorkdayPeriods extends Table
     }
 
     
-    // Returns a list of elements which have the specified name
-    function findItemsByName($name)
+    // Returns a list of all the elements in the table
+    function getAllItems() 
     {
-        return parent::select("*", ["period_name" => $name]);
+        return parent::select("*");
     }
 }
 

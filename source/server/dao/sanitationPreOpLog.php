@@ -13,21 +13,25 @@ class SanitationPreOpLog extends Table
     }
     
     
-    // Returns the element which has the specified id in the table
-    function findItemById($id)
+    // Returns a list of elements which are within the specified range of dates
+    // and that are registered to the specified workplace area
+    function searchItemByAreaIDAndDateInterval($areaID, $start, $end)
     {
-        return parent::joinSelect([
+        return parent::join([
             "[><]workplace_area_hardware" => [
                 "workplace_hardware_id" => "id"
             ],
             "[><]workplace_areas" => [
                 "workplace_area_hardware.workplace_area_id" => "id"
             ],
-            "[><]company_departments" => [
-                "workplace_areas.company_department_id" => "id"
-            ],
             "[><]company_zones" => [
-                "company_departments.company_zone_id" => "id"
+                "company_zone_id" => "id"
+            ],
+            "[><]users" => [
+                "user_id" => "id"
+            ],
+            "[><]users_company_info" => [
+                "users.company_info_id" => "id"
             ],
             "[><]sanitation_pre_op_corrective_actions" => [
                 "corrective_action_id" => "id"
@@ -35,83 +39,22 @@ class SanitationPreOpLog extends Table
         ], [
             "sanitation_pre_op_log.id",
             "sanitation_pre_op_log.date",
+            "sanitation_pre_op_log.time",
             "company_zones.zone_name",
-            "company_departments.department_name",
             "workplace_areas.area_name",
+            "users_company_info.employee_id", 
+            "users_company_info.full_name",
             "workplace_area_hardware.hardware_name",
             "sanitation_pre_op_log.status",
             "sanitation_pre_op_corrective_actions.action_name",
             "sanitation_pre_op_log.comment"
         ], [
-            "id" => $id
-        ]);
-    }
-    
-    
-    // Returns a list of elements which have the specified name
-    function findItemsByDate($date)
-    {
-        return parent::joinSelect([
-            "[><]workplace_area_hardware" => [
-                "workplace_hardware_id" => "id"
+            "AND" => [
+                "workplace_area_id" => $areaID,
+                "date[>=]" => $start,
+                "date[<=]" => $end
             ],
-            "[><]workplace_areas" => [
-                "workplace_area_hardware.workplace_area_id" => "id"
-            ],
-            "[><]company_departments" => [
-                "workplace_areas.company_department_id" => "id"
-            ],
-            "[><]company_zones" => [
-                "company_departments.company_zone_id" => "id"
-            ],
-            "[><]sanitation_pre_op_corrective_actions" => [
-                "corrective_action_id" => "id"
-            ]
-        ], [
-            "sanitation_pre_op_log.id",
-            "sanitation_pre_op_log.date",
-            "company_zones.zone_name",
-            "company_departments.department_name",
-            "workplace_areas.area_name",
-            "workplace_area_hardware.hardware_name",
-            "sanitation_pre_op_log.status",
-            "sanitation_pre_op_corrective_actions.action_name",
-            "sanitation_pre_op_log.comment"
-        ], [
-            "date" => $date
-        ]);
-    }
-    
-    
-    // Returns an array that stores every element in the table
-    function getAllItems()
-    {
-        return parent::joinSelect([
-            "[><]workplace_area_hardware" => [
-                "workplace_hardware_id" => "id"
-            ],
-            "[><]workplace_areas" => [
-                "workplace_area_hardware.workplace_area_id" => "id"
-            ],
-            "[><]company_departments" => [
-                "workplace_areas.company_department_id" => "id"
-            ],
-            "[><]company_zones" => [
-                "company_departments.company_zone_id" => "id"
-            ],
-            "[><]sanitation_pre_op_corrective_actions" => [
-                "corrective_action_id" => "id"
-            ]
-        ], [
-            "sanitation_pre_op_log.id",
-            "sanitation_pre_op_log.date",
-            "company_zones.zone_name",
-            "company_departments.department_name",
-            "workplace_areas.area_name",
-            "workplace_area_hardware.hardware_name",
-            "sanitation_pre_op_log.status",
-            "sanitation_pre_op_corrective_actions.action_name",
-            "sanitation_pre_op_log.comment"
+            "ORDER" => "date"
         ]);
     }
     
@@ -120,7 +63,7 @@ class SanitationPreOpLog extends Table
     // [in]    items: an array of associative arrays which define the rows to
     //         be inserted, where the key is the column name
     // [out]   return: the ID of the last inserted item
-    function addItems($items)
+    function saveItems($items)
     {
         return parent::insert($items);
     }

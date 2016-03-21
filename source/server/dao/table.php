@@ -1,11 +1,11 @@
 <?php
 
-require_once dirname(__FILE__)."\\config.php";
+require_once realpath("config.php");
 
 // Data Access Object for accessing the elements of a specific table in 
 // the database. The interface of this class provides the basic SELECT, INSERT,
 // UPDATE and DELETE methods.
-abstract class Table
+class Table
 {
     // The holder of the connection to the data base that stores our tables
     protected $dataBaseConnection;
@@ -103,24 +103,10 @@ abstract class Table
     //         element the value to which the operation is going to be applied
     // [out]   return: the rows read from the table ordered as an associative 
     //         array using the column name as the key
-    protected function joinSelect($conditions, $columns, $where = [])
+    protected function join($conditions, $columns, $where = [])
     {
         return $this->dataBaseConnection->/*debug()->*/select($this->tableName, 
             $conditions, $columns, $where);
-    }
-    
-    
-    // Returns the element which has the specified id in the table
-    function findItemById($id)
-    {
-        return $this->select("*", ["id" => $id]);
-    }
-    
-    
-    // Returns an array that stores every element in the table
-    function getAllItems()
-    {
-        return $this->select("*");
     }
 }
 

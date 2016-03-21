@@ -14,10 +14,10 @@ class SanitationPreOpCorrectiveActions extends Table
     }
     
     
-    // Returns a list of elements which have the specified name
-    function findItemsByName($name)
+    // Returns a list of all the elements stored in this table
+    function getAllItems() 
     {
-        return parent::select("*", ["action_name" => $name]);
+        return parent::select("*");
     }
 }
 

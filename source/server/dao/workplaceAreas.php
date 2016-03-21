@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__)."\\table.php";
+require_once realpath("table.php");
 
 // Data Access Object for the workplace_areas table
 class WorkplaceAreas extends Table
@@ -13,58 +13,18 @@ class WorkplaceAreas extends Table
     }
     
     
-    // Returns the element which has the specified id in the table
-    function findItemById($id) 
+    // Returns a list of elements which are associated with the company zone of 
+    // the especified ID in the data base
+    function searchItemsByZoneID($zoneID)
     {
-        return parent::joinSelect([
-            "[><]company_departments" => ["company_department_id" => "id"],
-            "[><]company_zones" => [
-                "company_departments.company_zone_id" => "id"
-                ]
+        return parent::join([
+            "[><]company_zones" => ["company_zone_id" => "id"], 
             ], [
                 "workplace_areas.id",
                 "company_zones.zone_name",
-                "company_departments.department_name",
                 "workplace_areas.area_name"
-            ], [
-                "id" => $id
-            ]);
-    }
-    
-    
-    // Returns a list of elements which have the specified name
-    function findItemsByName($name) 
-    {
-        return parent::joinSelect([
-            "[><]company_departments" => ["company_department_id" => "id"],
-            "[><]company_zones" => [
-                "company_departments.company_zone_id" => "id"
-                ]
-            ], [
-                "workplace_areas.id",
-                "company_zones.zone_name",
-                "company_departments.department_name",
-                "workplace_areas.area_name"
-            ], [
-                "area_name" => $name
-            ]);
-    }
-    
-    
-    // Returns an array that stores every element in the table
-    function getAllItems()
-    {
-        return parent::joinSelect([
-            "[><]company_departments" => ["company_department_id" => "id"],
-            "[><]company_zones" => [
-                "company_departments.company_zone_id" => "id"
-                ]
-            ], [
-                "workplace_areas.id",
-                "company_zones.zone_name",
-                "company_departments.department_name",
-                "workplace_areas.area_name"
-            ]);
+            ], 
+            ["id" => $zoneID]);
     }
 }
 
