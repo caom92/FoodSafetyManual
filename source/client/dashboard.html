@@ -1,0 +1,89 @@
+<html>
+    <head>
+        <title>Dashboard - Espresso</title>
+        <script type="text/javascript" src="/Espresso/external/jquery-1.12.2.min.js"></script>
+        <script type="text/javascript" src="/Espresso/external/materialize/js/materialize.min.js"></script>
+        <link rel="stylesheet" href="/Espresso/external/materialize/css/materialize.min.css">
+        <script type="text/javascript" src="/Espresso/external/viewerjs-0.5.8/ViewerJS/pdf.js"></script>
+        <link rel="stylesheet" type="text/css" href="/Espresso/data/stylesheets/color_palette.css" />
+        <link rel="stylesheet" type="text/css" href="/Espresso/data/stylesheets/sidebar.css" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8"></meta>
+
+        <script type="text/javascript" src="/Espresso/source/scripts/dashboard.js"></script>
+        <script>
+            $(document).ready(function(){
+                init();
+            });
+        </script>
+
+    </head>
+    <body class="green-200">
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper green-600">
+                    <a class="brand-logo">Espresso</a>
+                    <ul id="slide-out" class="side-nav fixed">
+                        <li><a href="#!">First Sidebar Link</a></li>
+                        <li><a href="#!">Second Sidebar Link</a></li>
+                        <li class="no-padding">
+                            <ul class="collapsible collapsible-accordion">
+                                <li>
+                                    <a class="collapsible-header">Dropdown<i class="mdi-navigation-arrow-drop-down"></i></a>
+                                    <div class="collapsible-body">
+                                        <ul>
+                                            <li><a href="#!">First</a></li>
+                                            <li><a href="#!">Second</a></li>
+                                            <li><a href="#!">Third</a></li>
+                                            <li><a href="#!">Fourth</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+        <div class="card-panel"  id="process_card">
+            <div class="row" id="process_name">
+                <h5>Sanitation Daily Report</h5>
+            </div>
+
+            <div class="row" id="process_description">
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            </div>
+
+
+            <div class="row" id="button_row" style="margin-bottom: 0.5cm;">
+                    <a class="waves-effect waves-light btn-large green-600" id="show_manual" style="margin-bottom: 0.5cm;">
+                        <i class="material-icons right">description</i>Manual
+                    </a>
+
+                    <a class="waves-effect waves-light btn-large green-600" id="show_report" style="margin-bottom: 0.5cm;">
+                        <i class="material-icons right">find_in_page</i>Consultar
+                    </a>
+
+                    <a class="waves-effect waves-light btn-large green-600" id="fill_report" style="margin-bottom: 0.5cm;" target="_blank" href="forms/sanitation_pre_op.html">
+                        <i class="material-icons right">assignment</i>Reporte
+                    </a>
+            </div>
+
+            <div id="pdf_manual_container">
+                <iframe src="/ViewerJS/#../Espresso/source/client/sample.pdf" width="100%" height="50%" style="max-width: 100%;"allowfullscreen webkitallowfullscreen></iframe>
+            </div>
+
+            <div id="load_report">
+                Fecha<input type="date" class="datepicker">
+
+                <a class="waves-effect waves-light btn-large green-600" id="show_report" style="margin-bottom: 0.5cm;" target="_blank" href="reports/sanitation_pre_op.html">
+                        Abrir Reporte
+                </a>
+            </div>
+        </div>
+        </div>
+    </body>
+</html> 

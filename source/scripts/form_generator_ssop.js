@@ -1,5 +1,10 @@
+//Retrieves the data to create a form on the client side. Afterwards, it creates
+//the form with the functions written below. Once completed, it appends the data in
+//the "<body>" tag. Finally, it executes the "init()" function, in order to leave
+//everything ready for the user.
+
 function getSSOPForm(){
-    var src = "../../scripts/test_ssop_form.json";
+    var src = "/Espresso/source/server/sanitationPreOpForm.php";
     $.getJSON(src, function(data){
         console.log("Peticion de JSON exitosa");
         data.data.areas.forEach(function(index){
@@ -10,12 +15,9 @@ function getSSOPForm(){
     });
 }
 
-function log(data){
-    console.log(data);
-}
-
 //Receives an area object; delivers a div customized to display any number of
 //hardware forms
+
 function createAreaCard(areaObject){
     var areaCard = $("<div>");
     var id = areaObject.area_id;
@@ -28,8 +30,6 @@ function createAreaCard(areaObject){
 
     areaCard.append("<h6>" + name + "</h6>");
 
-    //$("body").append(areaCard);
-
     hardwareList.forEach(function(index){
         areaCard.append(createHardwareCard(index));
     });
@@ -39,6 +39,7 @@ function createAreaCard(areaObject){
 
 //Receives an Hardware object; delivers a card panel containing the form to fill
 //the data of one hardware object.
+
 function createHardwareCard(hardwareObject){
     var hardwareCard = $("<div>");
     var firstRow = $("<div>");
@@ -140,8 +141,45 @@ function init(){
 
 function sendSSOPReport(){
     var currentTime = new Date();
-    var time = currentTime.getTime();
-    console.log("Enviar Reporte " + time);
+    var time = "";
+    var date = "";
+
+    //For time in format HH-MM-SS
+    if(currentTime.getHours()<9){
+        time += "0" + currentTime.getHours() + "-";
+    } else {
+        time += currentTime.getHours() + "-";
+    }
+
+    if(currentTime.getMinutes()<9){
+        time += "0" + currentTime.getMinutes() + "-";
+    } else {
+        time += currentTime.getMinutes() + "-";
+    }
+
+    if(currentTime.getSeconds()<9){
+        time += "0" + currentTime.getSeconds();
+    } else {
+        time += currentTime.getSeconds();
+    }
+
+    //For date in format
+
+    date += currentTime.getFullYear() + "-";
+
+    if((currentTime.getMonth() + 1) < 9){
+        date += "0" + currentTime.getMonth() + "-";
+    } else {
+        date += currentTime.getMonth() + "-";
+    }
+
+    if(currentTime.getDate()<9){
+        date += "0" + currentTime.getDate();
+    } else {
+        date += currentTime.getDate();
+    }
+
+    console.log("Enviar Reporte " + time + " " + date);
 
     var idArray = new Array();
     var report = new Array();
@@ -158,7 +196,8 @@ function sendSSOPReport(){
     idArray.forEach(function(index){
         var hardware = new Object();
 
-        hardware.date_time = time;
+        hardware.date = date;
+        hardware.time = time;
         hardware.workplace_hardware_id = Number(index);
         hardware.status = $.parseJSON($("input:radio[name='status_" + index +"']:checked").val());
         if(!hardware.status)
@@ -175,8 +214,8 @@ function sendSSOPReport(){
 
 function sendButtonSSOP(){
     return $('<div class="center-align" style="margin-bottom: 0.5cm">' +
-            '<a class="waves-effect waves-light btn-large green-600" id="send">' +
-                '<i class="material-icons right">send</i>Enviar' +
-            '</a>' +
-        '</div>');
+                '<a class="waves-effect waves-light btn-large green-600" id="send">' +
+                    '<i class="material-icons right">send</i>Enviar' +
+                '</a>' +
+            '</div>');
 }
