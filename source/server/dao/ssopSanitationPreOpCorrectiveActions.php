@@ -2,15 +2,16 @@
 
 require_once dirname(__FILE__)."\\table.php";
 
-// Data Access Object for the sanitation_pre_op_corrective_actions table
-class SanitationPreOpCorrectiveActions extends Table 
+// Data Access Object for the ssop_sanitation_pre_op_corrective_actions table
+class SSOPSanitationPreOpCorrectiveActions extends Table 
 {
     // Creates an interface for interacting with the 
-    // sanitation_pre_op_corrective_actions table in the specified data base
+    // ssop_sanitation_pre_op_corrective_actions table in the specified data 
+    // base
     function __construct($dataBaseConnection)
     {
         parent::__construct($dataBaseConnection, 
-            "sanitation_pre_op_corrective_actions");
+            "ssop_sanitation_pre_op_corrective_actions");
     }
     
     

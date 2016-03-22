@@ -1,6 +1,6 @@
 <?php
 
-require_once realpath("../../dao/dailyHandWashingLog.php");
+require_once dirname(__FILE__)."\\..\\..\\dao\\gmpHandWashingLog.php";
 
 // array of data entries read from the data base table
 $logEntries = [];
@@ -13,13 +13,18 @@ $logEntries = [];
 //     end_date:[date]
 // }
 // we must decode it
-$inputJSON = json_decode($_GET);
+//$inputJSON = json_decode($_GET);
+$inputJSON = [
+    "area_id" => "2",
+    "start_date" => "2016-03-07",
+    "end_date" => "2016-03-12"
+];
 
 // attempt to connect to the data base and query the data from the hand washing
 // log
 try {
     $dataBaseConnection = connectToDataBase();
-    $logTable = new DailyHandWashingLog($dataBaseConnection);
+    $logTable = new GMPHandWashingLog($dataBaseConnection);
     $logEntries = $logTable->searchItemsByAreaIDAndDateInterval(
         $inputJSON["area_id"], 
         $inputJSON["start_date"], 
@@ -59,7 +64,6 @@ foreach ($logEntries as $entry) {
         // date, so we store all these entries before changing date to 
         // process
         array_push($dailyLogInfoJSON["period_logs"], [
-            "time" => $entry["time"],
             "start_time" => $entry["start_time"],
             "end_time" => $entry["end_time"],
             "period_name" => $entry["period_name"],
@@ -93,9 +97,10 @@ foreach ($logEntries as $entry) {
         // prepare a new daily log info JSON for storing the data of the new 
         // date
         $dailyLogInfoJSON = [
-            "date" => $entry["date"],
-            "employee_id" => $entry["employee_id"],
+            "employee_id_num" => $entry["employee_id_num"],
             "full_name" => $entry["full_name"],
+            "date" => $entry["date"],
+            "time" => $entry["time"],
             "comment" => $entry["comment"],
             "period_logs" => []
         ];
@@ -103,7 +108,6 @@ foreach ($logEntries as $entry) {
         // we save the first daily log info entry in the corresponding 
         // of this new date
         array_push($dailyLogInfoJSON["period_logs"], [
-            "time" => $entry["time"],
             "start_time" => $entry["start_time"],
             "end_time" => $entry["end_time"],
             "period_name" => $entry["period_name"],
@@ -134,14 +138,14 @@ array_push($outputJSON["data"], $dateIntervalLogInfoJSON);
 //     daily_logs:[array<daily_log_info>]
 // }
 // where daily_log_info is: {
-//     date:[date]
-//     employee_id:[uint]
+//     employee_id_num:[uint]
 //     full_name:[string]
+//     date:[date]
+//     time:[time]
 //     comment:[string]
 //     period_logs:[array<per_period_log_info>]
 // }
 // where per_period_log_info is: {
-//     time:[time]
 //     start_time:[time]
 //     end_time:[time]
 //     period_name:[string]

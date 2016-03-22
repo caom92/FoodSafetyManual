@@ -1,6 +1,6 @@
 <?php
 
-require_once realpath("table.php");
+require_once dirname(__FILE__)."\\table.php";
 
 // Data Access Object for the workday_periods table
 class WorkdayPeriods extends Table
@@ -13,10 +13,23 @@ class WorkdayPeriods extends Table
     }
 
     
-    // Returns a list of all the elements in the table
-    function getAllItems() 
+    // Returns a list of elements which are associated with the company zone of 
+    // the especified ID in the data base
+    function searchItemsByZoneID($zoneID)
     {
-        return parent::select("*");
+        return parent::join([
+            "[><]company_zones" => [
+                "company_zone_id" => "id"
+            ]
+        ], [
+            "workday_periods.id",
+            "company_zones.zone_name",
+            "workday_periods.start_time",
+            "workday_periods.end_time",
+            "workday_periods.period_name"
+        ], [
+            "workday_periods.company_zone_id" => $zoneID
+        ]);
     }
 }
 

@@ -1,7 +1,7 @@
 <?php
 
-require_once realpath("../../dao/workplaceAreas.php");
-require_once realpath("../../dao/workdayPeriods.php");
+require_once dirname(__FILE__)."\\..\\..\\dao\\workplaceAreas.php";
+require_once dirname(__FILE__)."\\..\\..\\dao\\workdayPeriods.php";
 
 // Data is sent to the server from the client in the form of a JSON with
 // the following format:
@@ -22,7 +22,7 @@ try {
     $periodsTable = new WorkdayPeriods($dataBaseConnection);
     
     // attempt to read the data from the data base tables
-    $periodsList = $periodsTable->getAllItems();
+    $periodsList = $periodsTable->searchItemsByZoneID($inputJSON["zone_id"]);
     $areasList = $areasTable->searchItemsByZoneID($inputJSON["zone_id"]);
 }
 catch (Exception $e) {

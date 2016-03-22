@@ -1,6 +1,6 @@
 <?php
 
-require_once realpath("table.php");
+require_once dirname(__FILE__)."\\table.php";
 
 // Data Access Object for the workplace_areas table
 class WorkplaceAreas extends Table
@@ -24,7 +24,7 @@ class WorkplaceAreas extends Table
                 "company_zones.zone_name",
                 "workplace_areas.area_name"
             ], 
-            ["id" => $zoneID]);
+            ["company_zone_id" => $zoneID]);
     }
 }
 

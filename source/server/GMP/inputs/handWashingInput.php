@@ -1,15 +1,17 @@
 <?php
 
-require_once realpath("../../dao/dailyHandWashingLog.php");
-require_once realpath("../../dao/workdayPeriodHandWashingLog.php");
+require_once dirname(__FILE__)."\\..\\..\\dao\\gmpHandWashingLog.php";
+require_once dirname(__FILE__)."\\..\\..\\dao\\gmpHandWashingDailyLog.php";
+require_once dirname(__FILE__).
+    "\\..\\..\\dao\\gmpHandWashingWorkdayPeriodLog.php";
 
 // Data is sent to the server from the client in the form of a JSON with
 // the following format:
 // {
+//     user_profile_id:[uint]
 //     date:[date]
 //     time:[time]
 //     workplace_area_id:[uint]
-//     user_id:[uint]
 //     comment:[string]
 //     period_logs:[array<period_log>]
 // }
@@ -22,20 +24,26 @@ require_once realpath("../../dao/workdayPeriodHandWashingLog.php");
 try {
     // attempt to connect to the data base 
     $dataBaseConnection = connectToDataBase();
-    $dailyLog = new DailyHandWashingLog($dataBaseConnection);
-    $periodLog = new WorkdayPeriodHandWashingLog($dataBaseConnection);
+    $dailyLog = new GMPHandWashingDailyLog($dataBaseConnection);
+    $periodLog = new GMPHandWashingWorkdayPeriodLog($dataBaseConnection);
+    $finalLog = new GMPHandWashingLog($dataBaseConnection);
     
     // decode the input json
     $inputJSON = json_decode($_GET);
     
+    // first, save the daily data and store its ID
+    $id = $dailyLog->saveItems([
+        "user_profile_id" => $inputJSON["user_profile_id"],
+        "date" => $inputJSON["date"],
+        "time" => $inputJSON["time"],
+        "workplace_area_id" => $inputJSON["workplace_area_id"],
+        "comment" => $inputJSON["comment"]
+    ]);
+    
     // store the data read from the json to their corresponding data base tables
     foreach ($inputJSON["period_logs"] as $log) {
-        $dailyLog->saveItems([
-            "date" => $inputJSON["date"],
-            "time" => $inputJSON["time"],
-            "workplace_area_id" => $inputJSON["workplace_area_id"],
-            "user_id" => $inputJSON["user_id"],
-            "comment" => $inputJSON["comment"],
+        $finalLog->saveItems([
+            "daily_log_id" => $id,
             "period_log_id" => $periodLog->saveItems([
                 "workday_period_id" => $log["workday_period_id"],
                 "washed_hands" => $log["washed_hands"] 
