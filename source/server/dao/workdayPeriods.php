@@ -1,6 +1,11 @@
 <?php
 
-require_once dirname(__FILE__)."\\table.php";
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+    require_once dirname(__FILE__)."\\table.php";
+}
+else {
+    require_once dirname(__FILE__)."/table.php";
+}
 
 // Data Access Object for the workday_periods table
 class WorkdayPeriods extends Table

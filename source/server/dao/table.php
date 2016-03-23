@@ -1,6 +1,11 @@
 <?php
 
-require_once dirname(__FILE__)."\\config.php";
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+    require_once dirname(__FILE__)."\\config.php";
+}
+else {
+    require_once dirname(__FILE__)."/config.php";
+}
 
 // Data Access Object for accessing the elements of a specific table in 
 // the database. The interface of this class provides the basic SELECT, INSERT,

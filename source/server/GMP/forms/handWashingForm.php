@@ -1,7 +1,13 @@
 <?php
 
-require_once dirname(__FILE__)."\\..\\..\\dao\\workplaceAreas.php";
-require_once dirname(__FILE__)."\\..\\..\\dao\\workdayPeriods.php";
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+    require_once dirname(__FILE__)."\\..\\..\\dao\\workplaceAreas.php";
+    require_once dirname(__FILE__)."\\..\\..\\dao\\workdayPeriods.php";
+}
+else {
+    require_once dirname(__FILE__)."/../../dao/workplaceAreas.php";
+    require_once dirname(__FILE__)."/../../dao/workdayPeriods.php";
+}
 
 // Data is sent to the server from the client in the form of a JSON with
 // the following format:

@@ -1,6 +1,11 @@
 <?php
 
-require_once realpath("../../dao/sanitationPreOpLog.php");
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+    require_once dirname(__FILE__)."\\..\\..\\dao\\ssopSanitationPreOpLog.php";
+}
+else {
+    require_once dirname(__FILE__)."/../../dao/ssopSanitationPreOpLog.php";
+}
 
 // array of data entries read from the data base table
 $logEntries = [];
@@ -19,7 +24,7 @@ $inputJSON = json_decode($_GET);
 // pre op log
 try {
     $dataBaseConnection = connectToDataBase();
-    $logTable = new SanitationPreOpLog($dataBaseConnection);
+    $logTable = new SSOPSanitationPreOpLog($dataBaseConnection);
     $logEntries = $logTable->searchItemsByAreaIDAndDateInterval(
         $inputJSON["area_id"], 
         $inputJSON["start_date"], 
@@ -70,12 +75,21 @@ foreach ($logEntries as $entry) {
         $dateToProcess = $entry["date"];
         $areaInfoJSON = [
             "date" => $entry["date"],
-            "zone_name" => $area["zone_name"],
+            "zone_name" => $entry["zone_name"],
             "area_name" => $entry["area_name"],
-            "employee_id" => $entry["employee_id"],
+            "employee_id" => $entry["employee_id_num"],
             "full_name" => $entry["full_name"],
             "hardware" => []
         ];
+        
+        // we save the first log info entry in the corresponding 
+        // of this new date
+        array_push($areaInfoJSON["hardware"], [
+            "hardware_name" => $entry["hardware_name"],
+            "status" => $entry["status"],
+            "corrective_action" => $entry["action_name"],
+            "comment" => $entry["comment"]
+        ]);
     }
 }
 

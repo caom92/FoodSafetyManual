@@ -1,6 +1,11 @@
 <?php
 
-require_once dirname(__FILE__)."\\table.php";
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+    require_once dirname(__FILE__)."\\table.php";
+}
+else {
+    require_once dirname(__FILE__)."/table.php";
+}
 
 // Data Access Object for the ssop_sanitation_pre_op_log table
 class SSOPSanitationPreOpLog extends Table
@@ -15,36 +20,43 @@ class SSOPSanitationPreOpLog extends Table
     
     // Returns a list of elements which are within the specified range of dates
     // and that are registered to the specified workplace area
-    function searchItemByAreaIDAndDateInterval($areaID, $start, $end)
+    function searchItemsByAreaIDAndDateInterval($areaID, $start, $end)
     {
         return parent::join([
+            "[><]ssop_sanitation_pre_op_logs_info" => [
+                "log_info_id" => "id"
+            ],
             "[><]users_profile_info" => [
-                "user_profile_id" => "id"
+                "ssop_sanitation_pre_op_logs_info.user_profile_id" => "id"
+            ],
+            "[><]ssop_sanitation_pre_op_hardware_logs" => [
+                "hardware_log_id" => "id"
             ],
             "[><]workplace_area_hardware" => [
-                "workplace_hardware_id" => "id"
+                "ssop_sanitation_pre_op_hardware_logs.hardware_id" => "id"
             ],
             "[><]workplace_areas" => [
                 "workplace_area_hardware.workplace_area_id" => "id"
             ],
             "[><]company_zones" => [
-                "workplace_area_id.company_zone_id" => "id"
+                "workplace_areas.company_zone_id" => "id"
             ],
-            "[><]sanitation_pre_op_corrective_actions" => [
-                "corrective_action_id" => "id"
+            "[><]ssop_sanitation_pre_op_corrective_actions" => [
+                "ssop_sanitation_pre_op_hardware_logs.corrective_action_id" 
+                    => "id"
             ]
         ], [
             "ssop_sanitation_pre_op_log.id",
             "users_profile_info.employee_id_num",
             "users_profile_info.full_name",
-            "ssop_sanitation_pre_op_log.date",
-            "ssop_sanitation_pre_op_log.time",
+            "ssop_sanitation_pre_op_logs_info.date",
+            "ssop_sanitation_pre_op_logs_info.time",
             "company_zones.zone_name",
             "workplace_areas.area_name",
             "workplace_area_hardware.hardware_name",
-            "ssop_sanitation_pre_op_log.status",
-            "sanitation_pre_op_corrective_actions.action_name",
-            "ssop_sanitation_pre_op_log.comment"
+            "ssop_sanitation_pre_op_hardware_logs.status",
+            "ssop_sanitation_pre_op_corrective_actions.action_name",
+            "ssop_sanitation_pre_op_hardware_logs.comment"
         ], [
             "AND" => [
                 "workplace_area_id" => $areaID,

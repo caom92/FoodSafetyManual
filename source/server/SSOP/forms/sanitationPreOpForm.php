@@ -1,8 +1,15 @@
 <?php
 
-require_once realpath("../../dao/workplaceAreas.php");
-require_once realpath("../../dao/workplaceAreaHardware.php");
-require_once realpath("../../dao/sanitationPreOpCorrectiveActions.php");
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+    require_once dirname(__FILE__)."\\..\\..\\dao\\workplaceAreas.php";
+    require_once dirname(__FILE__)."\\..\\..\\dao\\workplaceAreaHardware.php";
+    require_once dirname(__FILE__)."\\..\\..\\dao\\ssopSanitationPreOpCorrectiveActions.php";
+}
+else {
+    require_once dirname(__FILE__)."/../../dao/workplaceAreas.php";
+    require_once dirname(__FILE__)."/../../dao/workplaceAreaHardware.php";
+    require_once dirname(__FILE__)."/../../dao/ssopSanitationPreOpCorrectiveActions.php";
+}
 
 // Data is sent to the server from the client in the form of a JSON with
 // the following format:
@@ -25,9 +32,9 @@ try {
     $dataBaseConnection = connectToDataBase();
     $areasTable = new WorkplaceAreas($dataBaseConnection);
     $hardwareTable = new WorkplaceAreaHardware($dataBaseConnection);
-    $actionsTable = new SanitationPreOpCorrectiveActions($dataBaseConnection);
-    $actionsList = $actions->getAllItems();
-    $areasList = $areas->searchItemsByZoneID($inputJSON["zone_id"]);
+    $actionsTable = new SSOPSanitationPreOpCorrectiveActions($dataBaseConnection);
+    $actionsList = $actionsTable->getAllItems();
+    $areasList = $areasTable->searchItemsByZoneID($inputJSON["zone_id"]);
 }
 catch (Exception $e) {
     displayErrorPageAndExit($e->getCode(), $e->getMessage());
@@ -61,19 +68,19 @@ foreach ($areasList as $area) {
     ];
     
     // Then, attempt to get all hardware pieces that belong to that area
-    $items = [];
+    $hardwareList = [];
     try {
-        $items = $hardware->searchItemsByAreaID($area["id"]);
+        $hardwareList = $hardwareTable->searchItemsByAreaID($area["id"]);
     }
     catch (Exception $e) {
         displayErrorPageAndExit($e->getCode(), $e->getMessage());
     }
     
     // Finally, add every item to the array of the corresponding area
-    foreach ($items as $item) {
+    foreach ($hardwareList as $hardware) {
         array_push($areaInfoJSON["hardware"], [
-            "id" => $item["id"],
-            "name" => $item["hardware_name"]
+            "id" => $hardware["id"],
+            "name" => $hardware["hardware_name"]
         ]);
     }
     

@@ -1,6 +1,11 @@
 <?php
 
-require_once dirname(__FILE__)."\\..\\..\\dao\\gmpHandWashingLog.php";
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+    require_once dirname(__FILE__)."\\..\\..\\dao\\gmpHandWashingLog.php";
+}
+else {
+    require_once dirname(__FILE__)."/../../dao/gmpHandWashingLog.php";
+}
 
 // array of data entries read from the data base table
 $logEntries = [];
@@ -13,12 +18,7 @@ $logEntries = [];
 //     end_date:[date]
 // }
 // we must decode it
-//$inputJSON = json_decode($_GET);
-$inputJSON = [
-    "area_id" => "2",
-    "start_date" => "2016-03-07",
-    "end_date" => "2016-03-12"
-];
+$inputJSON = json_decode($_GET);
 
 // attempt to connect to the data base and query the data from the hand washing
 // log
