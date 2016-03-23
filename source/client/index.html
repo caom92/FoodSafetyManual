@@ -7,12 +7,48 @@
         <link rel="stylesheet" type="text/css" href="/Espresso/data/stylesheets/color_palette.css" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
         <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8"></meta>
+
+        <script type="text/javascript" src="/Espresso/source/scripts/user_validation.js"></script>
+        <script>
+            $(document).ready(function(){
+                console.log("Index loaded");
+
+                $("#send").click(function(){
+                    console.log("Send button clicked " + Math.random());
+                    var credentials = new Object();
+                    credentials.username = $("#user").val();
+                    credentials.password = $("#password").val();
+                    console.log(credentials);
+                    $.post("/Espresso/source/server/io_tests/ok.php", credentials, function(data){
+                        //data = '{"error_code":0,"error_message":"Exito"}';
+                        data = '{"error_code":1,"error_message":"Contraseña incorrecta"}';
+                        var result = $.parseJSON(data);
+                        if(result.error_code == 0){
+                            Materialize.toast(result.error_message, 4000);
+                            sessionStorage.setItem("username", credentials.username);
+                            sessionStorage.setItem("password", credentials.password);
+                            location.href = "/Espresso/source/client/dashboard.html";
+                        } else {
+                            //When error code is other than zero, there is some kind of mistake
+                            Materialize.toast(result.error_message, 4000);
+                        }
+                    }).fail(function(jqXHR, textStatus, errorThrown){
+                        //For such a case where there is no connection
+                        //if(jqXHR.status == 404) {
+                            //For the time being, let's ignore the reasons behind the error and
+                            //lets just inform the user that something happened
+                            Materialize.toast("Error de conexión; imposible conectar al sistema", 4000);
+                        //}
+                    });
+                });
+            });
+        </script>
     </head>
     <body class="green-200">
         <div class="navbar-fixed">
             <nav>
                 <div class="nav-wrapper green-600">
-                    <a class="brand-logo">Espresso</a>
+                    <a class="brand-logo">Agroproductos del Cabo</a>
                 </div>
             </nav>
         </div>
@@ -37,7 +73,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <a class="waves-effect waves-light btn-large green-600" id="send" href="http://localhost/Espresso/source/client/dashboard.html">
+                        <!--<a class="waves-effect waves-light btn-large green-600" id="send" href="http://localhost/Espresso/source/client/dashboard.html">-->
+                        <a class="waves-effect waves-light btn-large green-600" id="send">
                             Iniciar Sesion
                         </a>
                     </div>

@@ -3,11 +3,82 @@ function getSSOPReport(){
     //var src = "http://localhost/Espresso/source/server/sanitationPreOpForm.php";
     $.getJSON(src, function(data){
         console.log("Petición de JSON exitosa");
+        $("body").append(infoCard({date: "9 de marzo de 2016", name:"Víctor Miracle", zone:"South San Francisco"}));
         data.data.forEach(function(index){
-            $("body").append(createAreaCard(index));
+            $("body").append(createReportTable(index));
         });
         init();
     });
+}
+
+function infoCard(data){
+    var card = $("<div>");
+    var date = data.date;
+    var zone = data.zone;
+    var reporterName = data.name;
+    var imageSrc = "/Espresso/data/images/logo.png";
+
+    card.attr("class", "card-panel");
+    card.attr("style", "width:95%; margin: auto; margin-bottom: 0.5cm;");
+
+    card.append("<h3>Zona: " + zone + "</h3>");
+    card.append("<h5>Fecha de captura: " + date + "</h5>");
+    card.append("<h5>Capturado por: " + reporterName + "</h5>");
+
+    return card;
+}
+
+function createReportTable(areaObject){
+    var reportCard = $("<div>");
+    var table = $("<table>");
+    var tableHeader = $("<thead>");
+    var headerTitles = $("<tr>");
+    var tableBody = $("<tbody>");
+    var areaName = areaObject.area_name;
+    var hardwareList = areaObject.hardware;
+
+    reportCard.attr("class", "card-panel");
+    reportCard.attr("style", "width:95%; margin: auto; margin-bottom: 0.5cm;");
+
+    table.attr("class", "striped");
+
+    headerTitles.append("<th>Elemento</th>");
+    headerTitles.append("<th>Condiciones</th>");
+    headerTitles.append("<th>Acción Correctiva</th>");
+    headerTitles.append("<th>Comentarios</th>");
+
+    tableHeader.append(headerTitles);
+
+    hardwareList.forEach(function(index){
+        tableBody.append(createHardwareRows(index));
+    });
+
+    table.append(tableHeader);
+    table.append(tableBody);
+
+    reportCard.append("<h5>" + areaName + "</h5>");
+    reportCard.append(table);
+
+    return reportCard;
+}
+
+function createHardwareRows(hardwareObject){
+    var row = $("<tr>");
+    var name = hardwareObject.hardware_name;
+    var status = hardwareObject.status;
+    var corrective = hardwareObject.corrective_action;
+    var comment = hardwareObject.comment;
+
+    row.append("<td>" + name + "</td>");
+    if(status == 1){
+        row.append("<td style='color: green;'>Aceptable</td>");
+    } else {
+        row.append("<td style='color: red'>No aceptable</td>");
+    }
+    row.append("<td>" + corrective + "</td>");
+    row.append("<td>" + comment + "</td>");
+
+    return row;
 }
 
 function createAreaCard(areaObject){
@@ -54,9 +125,9 @@ function createHardwareCard(hardwareObject){
     secondColumn.attr("class", "col s6");
     secondColumn.append('<div style="font-weight: bold">Condiciones</div>');
     if(status == 0){
-        secondColumn.append('<div><i class="material-icons" style="color: green;">check_circle</i></div>')
-    } else {
         secondColumn.append('<div><i class="material-icons" style="color: red;">cancel</i></div>');
+    } else {
+        secondColumn.append('<div><i class="material-icons" style="color: green;">check_circle</i></div>')
     }
     firstRow.append(secondColumn);
 
