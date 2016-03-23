@@ -1,13 +1,17 @@
 <?php
 
 if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-    require_once dirname(__FILE__)."\\..\\..\\dao\\ssopSanitationPreOpLogsInfo.php";
-    require_once dirname(__FILE__)."\\..\\..\\dao\\ssopSanitationPreOpHardwareLogs.php";
-    require_once dirname(__FILE__)."\\..\\..\\dao\\ssopSanitationPreOpLog.php";
+    require_once dirname(__FILE__).
+        "\\..\\..\\dao\\ssopSanitationPreOpLogsInfo.php";
+    require_once dirname(__FILE__).
+        "\\..\\..\\dao\\ssopSanitationPreOpHardwareLogs.php";
+    require_once dirname(__FILE__).
+        "\\..\\..\\dao\\ssopSanitationPreOpLog.php";
 }
 else {
     require_once dirname(__FILE__)."/../../dao/ssopSanitationPreOpLogsInfo.php";
-    require_once dirname(__FILE__)."/../../dao/ssopSanitationPreOpHardwareLogs.php";
+    require_once dirname(__FILE__).
+        "/../../dao/ssopSanitationPreOpHardwareLogs.php";
     require_once dirname(__FILE__)."/../../dao/ssopSanitationPreOpLog.php";
 }
 
@@ -29,25 +33,6 @@ else {
 
 // attempt to connect to the data base and insert the input data, which 
 // is read using the HTTP GET method
-$inputJSON = [
-    "user_profile_id" => "1",
-    "date" => "2016-03-22",
-    "time" => "18:00:00",
-    "logs" => [
-        [
-            "hardware_id" => "7",
-            "status" => "0",
-            "corrective_action_id" => "2",
-            "comment" => "hola mundo"
-        ],
-        [
-            "hardware_id" => "8",
-            "status" => "1",
-            "corrective_action_id" => "3",
-            "comment" => "todo perfecto"
-        ]
-    ]
-];
 
 try {
     // attempt to connect to the data base
@@ -58,7 +43,7 @@ try {
     $sanitationPreOpLog = new SSOPSanitationPreOpLog($dataBaseConnection);
     
     // decode the input json
-    // $inputJSON = json_decode($_GET);
+    $inputJSON = json_decode($_GET);
     
     // first, save the date and user profile and store its ID
     $id = $logsInfoTable->saveItems([

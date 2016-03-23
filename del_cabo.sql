@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 22, 2016 at 05:32 AM
--- Server version: 10.1.10-MariaDB
--- PHP Version: 5.6.19
+-- Generation Time: Mar 23, 2016 at 07:52 AM
+-- Server version: 10.1.9-MariaDB
+-- PHP Version: 5.6.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -108,7 +108,10 @@ INSERT INTO `gmp_hand_washing_daily_log` (`id`, `user_profile_id`, `date`, `time
 (39, 1, '2016-03-09', '18:00:00', 2, 'miercoles'),
 (40, 1, '2016-03-10', '18:00:00', 2, 'jueves'),
 (41, 1, '2016-03-11', '18:00:00', 2, 'viernes'),
-(42, 1, '2016-03-12', '18:00:00', 2, 'sabado');
+(42, 1, '2016-03-12', '18:00:00', 2, 'sabado'),
+(47, 1, '2016-03-14', '01:00:00', 1, 'prueba'),
+(48, 1, '2016-03-22', '13:30:00', 2, 'asdf'),
+(49, 1, '2016-03-22', '13:30:00', 2, 'asdf');
 
 -- --------------------------------------------------------
 
@@ -155,7 +158,14 @@ INSERT INTO `gmp_hand_washing_log` (`id`, `daily_log_id`, `period_log_id`) VALUE
 (25, 42, 58),
 (26, 42, 59),
 (27, 42, 60),
-(28, 42, 61);
+(28, 42, 61),
+(36, 47, 68),
+(37, 47, 69),
+(38, 47, 70),
+(39, 47, 71),
+(40, 48, 72),
+(41, 48, 73),
+(42, 49, 74);
 
 -- --------------------------------------------------------
 
@@ -202,7 +212,16 @@ INSERT INTO `gmp_hand_washing_workday_period_log` (`id`, `workday_period_id`, `w
 (58, 1, 1),
 (59, 2, 1),
 (60, 3, 1),
-(61, 4, 1);
+(61, 4, 1),
+(62, 1, 1),
+(63, 1, 1),
+(68, 1, 1),
+(69, 2, 1),
+(70, 3, 1),
+(71, 4, 1),
+(72, 1, 1),
+(73, 1, 1),
+(74, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -228,28 +247,75 @@ INSERT INTO `ssop_sanitation_pre_op_corrective_actions` (`id`, `action_name`) VA
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ssop_sanitation_pre_op_log`
+-- Table structure for table `ssop_sanitation_pre_op_hardware_logs`
 --
 
-DROP TABLE IF EXISTS `ssop_sanitation_pre_op_log`;
-CREATE TABLE `ssop_sanitation_pre_op_log` (
+DROP TABLE IF EXISTS `ssop_sanitation_pre_op_hardware_logs`;
+CREATE TABLE `ssop_sanitation_pre_op_hardware_logs` (
   `id` int(10) UNSIGNED NOT NULL,
-  `user_profile_id` int(10) UNSIGNED NOT NULL,
-  `date` date NOT NULL,
-  `time` time NOT NULL,
-  `workplace_hardware_id` int(10) UNSIGNED NOT NULL,
+  `hardware_id` int(10) UNSIGNED NOT NULL,
   `status` tinyint(1) NOT NULL,
   `corrective_action_id` int(10) UNSIGNED NOT NULL,
   `comment` varchar(512) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Dumping data for table `ssop_sanitation_pre_op_hardware_logs`
+--
+
+INSERT INTO `ssop_sanitation_pre_op_hardware_logs` (`id`, `hardware_id`, `status`, `corrective_action_id`, `comment`) VALUES
+(1, 1, 1, 3, 'Todo perfecto'),
+(2, 7, 0, 2, 'hola mundo'),
+(3, 8, 1, 3, 'todo perfecto'),
+(4, 7, 0, 2, 'hola mundo'),
+(5, 8, 1, 3, 'todo perfecto');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ssop_sanitation_pre_op_log`
+--
+
+DROP TABLE IF EXISTS `ssop_sanitation_pre_op_log`;
+CREATE TABLE `ssop_sanitation_pre_op_log` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `log_info_id` int(10) UNSIGNED NOT NULL,
+  `hardware_log_id` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
 -- Dumping data for table `ssop_sanitation_pre_op_log`
 --
 
-INSERT INTO `ssop_sanitation_pre_op_log` (`id`, `user_profile_id`, `date`, `time`, `workplace_hardware_id`, `status`, `corrective_action_id`, `comment`) VALUES
-(2, 1, '2016-03-07', '08:00:00', 1, 1, 3, 'sfsfdgasfdasdfasdfsfd'),
-(3, 1, '2016-03-07', '10:00:00', 2, 0, 1, 'ghrthgrtgergerg');
+INSERT INTO `ssop_sanitation_pre_op_log` (`id`, `log_info_id`, `hardware_log_id`) VALUES
+(4, 1, 1),
+(5, 2, 2),
+(6, 2, 3),
+(7, 3, 4),
+(8, 3, 5);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ssop_sanitation_pre_op_logs_info`
+--
+
+DROP TABLE IF EXISTS `ssop_sanitation_pre_op_logs_info`;
+CREATE TABLE `ssop_sanitation_pre_op_logs_info` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_profile_id` int(10) UNSIGNED NOT NULL,
+  `date` date NOT NULL,
+  `time` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ssop_sanitation_pre_op_logs_info`
+--
+
+INSERT INTO `ssop_sanitation_pre_op_logs_info` (`id`, `user_profile_id`, `date`, `time`) VALUES
+(1, 1, '2016-03-14', '12:00:00'),
+(2, 1, '2016-03-22', '18:00:00'),
+(3, 1, '2016-04-22', '18:00:00');
 
 -- --------------------------------------------------------
 
@@ -305,6 +371,7 @@ INSERT INTO `users_profile_info` (`id`, `employee_id_num`, `full_name`, `email`,
 DROP TABLE IF EXISTS `workday_periods`;
 CREATE TABLE `workday_periods` (
   `id` int(10) UNSIGNED NOT NULL,
+  `company_zone_id` int(10) UNSIGNED NOT NULL,
   `start_time` time NOT NULL,
   `end_time` time NOT NULL,
   `period_name` varchar(32) NOT NULL
@@ -314,11 +381,11 @@ CREATE TABLE `workday_periods` (
 -- Dumping data for table `workday_periods`
 --
 
-INSERT INTO `workday_periods` (`id`, `start_time`, `end_time`, `period_name`) VALUES
-(1, '08:00:00', '08:00:00', 'Inicio de jornada'),
-(2, '11:00:00', '11:30:00', 'Primer descanso'),
-(3, '14:00:00', '14:00:00', 'Regreso de Comida'),
-(4, '16:00:00', '16:30:00', 'Segundo descanso');
+INSERT INTO `workday_periods` (`id`, `company_zone_id`, `start_time`, `end_time`, `period_name`) VALUES
+(1, 1, '08:00:00', '08:00:00', 'Inicio de jornada'),
+(2, 1, '11:00:00', '11:30:00', 'Primer descanso'),
+(3, 1, '14:00:00', '14:00:00', 'Regreso de Comida'),
+(4, 1, '16:00:00', '16:30:00', 'Segundo descanso');
 
 -- --------------------------------------------------------
 
@@ -423,12 +490,26 @@ ALTER TABLE `ssop_sanitation_pre_op_corrective_actions`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `ssop_sanitation_pre_op_hardware_logs`
+--
+ALTER TABLE `ssop_sanitation_pre_op_hardware_logs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `hardware_id` (`hardware_id`),
+  ADD KEY `corrective_action_id` (`corrective_action_id`);
+
+--
 -- Indexes for table `ssop_sanitation_pre_op_log`
 --
 ALTER TABLE `ssop_sanitation_pre_op_log`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `workplace_thing_id` (`workplace_hardware_id`),
-  ADD KEY `corrective_action_id` (`corrective_action_id`),
+  ADD KEY `log_info_id` (`log_info_id`),
+  ADD KEY `hardware_log_id` (`hardware_log_id`);
+
+--
+-- Indexes for table `ssop_sanitation_pre_op_logs_info`
+--
+ALTER TABLE `ssop_sanitation_pre_op_logs_info`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `user_profile_id` (`user_profile_id`);
 
 --
@@ -451,7 +532,8 @@ ALTER TABLE `users_profile_info`
 -- Indexes for table `workday_periods`
 --
 ALTER TABLE `workday_periods`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `company_zone_id` (`company_zone_id`);
 
 --
 -- Indexes for table `workplace_areas`
@@ -490,26 +572,36 @@ ALTER TABLE `company_zones`
 -- AUTO_INCREMENT for table `gmp_hand_washing_daily_log`
 --
 ALTER TABLE `gmp_hand_washing_daily_log`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 --
 -- AUTO_INCREMENT for table `gmp_hand_washing_log`
 --
 ALTER TABLE `gmp_hand_washing_log`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 --
 -- AUTO_INCREMENT for table `gmp_hand_washing_workday_period_log`
 --
 ALTER TABLE `gmp_hand_washing_workday_period_log`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 --
 -- AUTO_INCREMENT for table `ssop_sanitation_pre_op_corrective_actions`
 --
 ALTER TABLE `ssop_sanitation_pre_op_corrective_actions`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
+-- AUTO_INCREMENT for table `ssop_sanitation_pre_op_hardware_logs`
+--
+ALTER TABLE `ssop_sanitation_pre_op_hardware_logs`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
 -- AUTO_INCREMENT for table `ssop_sanitation_pre_op_log`
 --
 ALTER TABLE `ssop_sanitation_pre_op_log`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `ssop_sanitation_pre_op_logs_info`
+--
+ALTER TABLE `ssop_sanitation_pre_op_logs_info`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `users`
@@ -561,12 +653,24 @@ ALTER TABLE `gmp_hand_washing_workday_period_log`
   ADD CONSTRAINT `gmp_hand_washing_workday_period_log_ibfk_1` FOREIGN KEY (`workday_period_id`) REFERENCES `workday_periods` (`id`);
 
 --
+-- Constraints for table `ssop_sanitation_pre_op_hardware_logs`
+--
+ALTER TABLE `ssop_sanitation_pre_op_hardware_logs`
+  ADD CONSTRAINT `ssop_sanitation_pre_op_hardware_logs_ibfk_1` FOREIGN KEY (`hardware_id`) REFERENCES `workplace_area_hardware` (`id`),
+  ADD CONSTRAINT `ssop_sanitation_pre_op_hardware_logs_ibfk_2` FOREIGN KEY (`corrective_action_id`) REFERENCES `ssop_sanitation_pre_op_corrective_actions` (`id`);
+
+--
 -- Constraints for table `ssop_sanitation_pre_op_log`
 --
 ALTER TABLE `ssop_sanitation_pre_op_log`
-  ADD CONSTRAINT `ssop_sanitation_pre_op_log_ibfk_1` FOREIGN KEY (`workplace_hardware_id`) REFERENCES `workplace_area_hardware` (`id`),
-  ADD CONSTRAINT `ssop_sanitation_pre_op_log_ibfk_2` FOREIGN KEY (`corrective_action_id`) REFERENCES `ssop_sanitation_pre_op_corrective_actions` (`id`),
-  ADD CONSTRAINT `ssop_sanitation_pre_op_log_ibfk_3` FOREIGN KEY (`user_profile_id`) REFERENCES `users_profile_info` (`id`);
+  ADD CONSTRAINT `ssop_sanitation_pre_op_log_ibfk_1` FOREIGN KEY (`log_info_id`) REFERENCES `ssop_sanitation_pre_op_logs_info` (`id`),
+  ADD CONSTRAINT `ssop_sanitation_pre_op_log_ibfk_2` FOREIGN KEY (`hardware_log_id`) REFERENCES `ssop_sanitation_pre_op_hardware_logs` (`id`);
+
+--
+-- Constraints for table `ssop_sanitation_pre_op_logs_info`
+--
+ALTER TABLE `ssop_sanitation_pre_op_logs_info`
+  ADD CONSTRAINT `ssop_sanitation_pre_op_logs_info_ibfk_1` FOREIGN KEY (`user_profile_id`) REFERENCES `users_profile_info` (`id`);
 
 --
 -- Constraints for table `users`

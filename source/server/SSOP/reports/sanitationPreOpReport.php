@@ -20,6 +20,7 @@ $logEntries = [];
 // we must decode it
 $inputJSON = json_decode($_GET);
 
+
 // attempt to connect to the data base and query the data from the sanitation
 // pre op log
 try {
