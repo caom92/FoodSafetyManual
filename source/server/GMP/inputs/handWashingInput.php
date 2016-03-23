@@ -66,7 +66,7 @@ catch (Exception $e) {
 // return a success code just to let the client know
 echo json_encode([
     "error_code" => 0,
-    "error_message" => "",
+    "error_message" => "Éxito",
     "data" => []
 ]);
 
