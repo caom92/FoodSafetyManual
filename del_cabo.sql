@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 23, 2016 at 07:52 AM
+-- Generation Time: Mar 24, 2016 at 08:07 PM
 -- Server version: 10.1.9-MariaDB
 -- PHP Version: 5.6.15
 
@@ -226,6 +226,27 @@ INSERT INTO `gmp_hand_washing_workday_period_log` (`id`, `workday_period_id`, `w
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `pdf_file_paths`
+--
+
+DROP TABLE IF EXISTS `pdf_file_paths`;
+CREATE TABLE `pdf_file_paths` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `program_id` int(10) UNSIGNED NOT NULL,
+  `title_name` varchar(64) NOT NULL,
+  `file_name` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `pdf_file_paths`
+--
+
+INSERT INTO `pdf_file_paths` (`id`, `program_id`, `title_name`, `file_name`) VALUES
+(1, 1, 'SSOP', 'chicken.pdf');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `ssop_sanitation_pre_op_corrective_actions`
 --
 
@@ -253,6 +274,7 @@ INSERT INTO `ssop_sanitation_pre_op_corrective_actions` (`id`, `action_name`) VA
 DROP TABLE IF EXISTS `ssop_sanitation_pre_op_hardware_logs`;
 CREATE TABLE `ssop_sanitation_pre_op_hardware_logs` (
   `id` int(10) UNSIGNED NOT NULL,
+  `time` time NOT NULL,
   `hardware_id` int(10) UNSIGNED NOT NULL,
   `status` tinyint(1) NOT NULL,
   `corrective_action_id` int(10) UNSIGNED NOT NULL,
@@ -263,12 +285,12 @@ CREATE TABLE `ssop_sanitation_pre_op_hardware_logs` (
 -- Dumping data for table `ssop_sanitation_pre_op_hardware_logs`
 --
 
-INSERT INTO `ssop_sanitation_pre_op_hardware_logs` (`id`, `hardware_id`, `status`, `corrective_action_id`, `comment`) VALUES
-(1, 1, 1, 3, 'Todo perfecto'),
-(2, 7, 0, 2, 'hola mundo'),
-(3, 8, 1, 3, 'todo perfecto'),
-(4, 7, 0, 2, 'hola mundo'),
-(5, 8, 1, 3, 'todo perfecto');
+INSERT INTO `ssop_sanitation_pre_op_hardware_logs` (`id`, `time`, `hardware_id`, `status`, `corrective_action_id`, `comment`) VALUES
+(1, '08:00:00', 1, 1, 3, 'Todo perfecto'),
+(2, '07:18:00', 7, 0, 2, 'hola mundo'),
+(3, '10:12:00', 8, 1, 3, 'todo perfecto'),
+(4, '07:17:00', 7, 0, 2, 'hola mundo'),
+(5, '08:17:00', 8, 1, 3, 'todo perfecto');
 
 -- --------------------------------------------------------
 
@@ -304,18 +326,17 @@ DROP TABLE IF EXISTS `ssop_sanitation_pre_op_logs_info`;
 CREATE TABLE `ssop_sanitation_pre_op_logs_info` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_profile_id` int(10) UNSIGNED NOT NULL,
-  `date` date NOT NULL,
-  `time` time NOT NULL
+  `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `ssop_sanitation_pre_op_logs_info`
 --
 
-INSERT INTO `ssop_sanitation_pre_op_logs_info` (`id`, `user_profile_id`, `date`, `time`) VALUES
-(1, 1, '2016-03-14', '12:00:00'),
-(2, 1, '2016-03-22', '18:00:00'),
-(3, 1, '2016-04-22', '18:00:00');
+INSERT INTO `ssop_sanitation_pre_op_logs_info` (`id`, `user_profile_id`, `date`) VALUES
+(1, 1, '2016-03-14'),
+(2, 1, '2016-03-22'),
+(3, 1, '2016-04-22');
 
 -- --------------------------------------------------------
 
@@ -484,6 +505,13 @@ ALTER TABLE `gmp_hand_washing_workday_period_log`
   ADD KEY `workday_period_id` (`workday_period_id`);
 
 --
+-- Indexes for table `pdf_file_paths`
+--
+ALTER TABLE `pdf_file_paths`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `program_id` (`program_id`);
+
+--
 -- Indexes for table `ssop_sanitation_pre_op_corrective_actions`
 --
 ALTER TABLE `ssop_sanitation_pre_op_corrective_actions`
@@ -526,7 +554,8 @@ ALTER TABLE `users`
 -- Indexes for table `users_profile_info`
 --
 ALTER TABLE `users_profile_info`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `login_name` (`login_name`);
 
 --
 -- Indexes for table `workday_periods`
@@ -583,6 +612,11 @@ ALTER TABLE `gmp_hand_washing_log`
 --
 ALTER TABLE `gmp_hand_washing_workday_period_log`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+--
+-- AUTO_INCREMENT for table `pdf_file_paths`
+--
+ALTER TABLE `pdf_file_paths`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `ssop_sanitation_pre_op_corrective_actions`
 --
@@ -651,6 +685,12 @@ ALTER TABLE `gmp_hand_washing_log`
 --
 ALTER TABLE `gmp_hand_washing_workday_period_log`
   ADD CONSTRAINT `gmp_hand_washing_workday_period_log_ibfk_1` FOREIGN KEY (`workday_period_id`) REFERENCES `workday_periods` (`id`);
+
+--
+-- Constraints for table `pdf_file_paths`
+--
+ALTER TABLE `pdf_file_paths`
+  ADD CONSTRAINT `pdf_file_paths_ibfk_1` FOREIGN KEY (`program_id`) REFERENCES `certification_programs` (`id`);
 
 --
 -- Constraints for table `ssop_sanitation_pre_op_hardware_logs`
