@@ -14,11 +14,7 @@ else {
 //     password:[string]
 // }
 // we must decode it
-$inputJSON = decode($_GET);
-/*$inputJSON = [
-    "user_name" => "coliva",
-    "password" => "password"
-];*/
+$inputJSON = $_POST;
 
 // list of elements read from the data base
 $userInfoList = [];
@@ -26,7 +22,7 @@ $userInfoList = [];
 try {
     // attempt to connect to the database
     $dataBaseConnection = connectToDataBase();
-    $usersTable = new UsersProfileInfo($dataBaseConnection);
+    $usersTable = new Users($dataBaseConnection);
 
     // we need to know if the requested user exists in the data base
     // so we simply look it up in the table and if nothing is returned
@@ -52,13 +48,23 @@ if (count($userInfoList) > 0)
         "data" => []
     ];
     
-    $finalUserInfo = [];
-    $zoneInfo = [];
+    // auxiliary json where the profile data and zone permissions of the user 
+    // will be stored
+    $finalUserInfoJSON = [];
+    
+    // auxiliary json where the information of the zones is stored
+    $zoneInfoJSON = [];
+    
+    // the zone that we want to process for this iteration
     $zoneToProcess = "";
     
+    // read each element from the data array
     foreach ($userInfoList as $userInfo) {
+        // we need to store the permission that the user have for every program
+        // that is associated to every zone that is associated to the user
+        // so first we group together the programs of each zone
         if ($zoneToProcess == $userInfo["zone_name"]) {
-            array_push($zoneInfo["program_permissions"], [
+            array_push($zoneInfoJSON["program_permissions"], [
                 "certification_program_id" => $userInfo["program_id"],
                 "certification_program_name" => 
                     $userInfo["certification_program_name"],
@@ -67,11 +73,16 @@ if (count($userInfoList) > 0)
             ]);
         }
         else {
-            if (count($finalUserInfo) != 0) {
-                array_push($finalUserInfo["zone_permissions"], $zoneInfo);
+            // if the zone that is being processed changed, we store all the
+            // permissions that we saved so far in the user json
+            if (count($finalUserInfoJSON) != 0) {
+                array_push($finalUserInfoJSON["zone_permissions"], $zoneInfoJSON);
             }
             else {
-                $finalUserInfo = [
+                // if the user json is empty, it means that this is the first 
+                // iteration and we need to first save the user data before
+                // reading the zones and permissions data
+                $finalUserInfoJSON = [
                     "employee_id_num" => $userInfo["employee_id_num"],
                     "full_name" => $userInfo["full_name"],
                     "email" => $userInfo["email"],
@@ -82,15 +93,18 @@ if (count($userInfoList) > 0)
             }
         }
         
+        // we change the zone...
         $zoneToProcess = $userInfo["zone_id"];
         
-        $zoneInfo = [
+        // and store the first entry related to it
+        $zoneInfoJSON = [
             "company_zone_id" => $userInfo["zone_id"],
             "company_zone_name" => $userInfo["zone_name"],
-            "program_permissios" => []
+            "program_permissions" => []
         ];
         
-        array_push($zoneInfo["program_permissions"], [
+        // and save the first permission associated with it
+        array_push($zoneInfoJSON["program_permissions"], [
             "certification_program_id" => $userInfo["program_id"],
             "certification_program_name" => 
                 $userInfo["certification_program_name"],
@@ -99,9 +113,11 @@ if (count($userInfoList) > 0)
         ]);
     }
     
-    array_push($finalUserInfo["zone_permissions"], $zoneInfo);
+    // don't forget to save the last data entry in the final user JSON
+    array_push($finalUserInfoJSON["zone_permissions"], $zoneInfoJSON);
     
-    array_push($outputJSON["data"], $finalUserInfo);
+    // finally, we store everything in the json to be send to the user
+    array_push($outputJSON["data"], $finalUserInfoJSON);
 }
 else {
     $outputJSON = [
