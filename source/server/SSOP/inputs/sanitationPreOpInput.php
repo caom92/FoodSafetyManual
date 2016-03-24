@@ -48,8 +48,7 @@ try {
     // first, save the date and user profile and store its ID
     $id = $logsInfoTable->saveItems([
         "user_profile_id" => $inputJSON["user_profile_id"],
-        "date" => $inputJSON["date"],
-        "time" => $inputJSON["time"]
+        "date" => $inputJSON["date"]
     ]);
     
     // store the data read from the json to their corresponding data base tables
@@ -57,6 +56,7 @@ try {
         $sanitationPreOpLog->saveItems([
             "log_info_id" => $id,
             "hardware_log_id" => $hardwareLogsTable->saveItems([
+                "time" => $inputJSON["time"],
                 "hardware_id" => $log["hardware_id"],
                 "status" => $log["status"],
                 "corrective_action_id" => $log["corrective_action_id"],
