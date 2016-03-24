@@ -13,12 +13,17 @@ $logEntries = [];
 // Data is sent to the server from the client in the form of a JSON with
 // the following format:
 // {
-//     area_id:[uint]
+//     zone_id:[uint]
 //     start_date:[date]
 //     end_date:[date]
 // }
 // we must decode it
-$inputJSON = json_decode($_GET);
+//$inputJSON = json_decode($_GET);
+$inputJSON = [
+    "zone_id" => "1",
+    "start_date" => "2016-03-01",
+    "end_date" => "2016-04-29"
+];
 
 
 // attempt to connect to the data base and query the data from the sanitation
@@ -26,8 +31,8 @@ $inputJSON = json_decode($_GET);
 try {
     $dataBaseConnection = connectToDataBase();
     $logTable = new SSOPSanitationPreOpLog($dataBaseConnection);
-    $logEntries = $logTable->searchItemsByAreaIDAndDateInterval(
-        $inputJSON["area_id"], 
+    $logEntries = $logTable->searchItemsByZoneIDAndDateInterval(
+        $inputJSON["zone_id"], 
         $inputJSON["start_date"], 
         $inputJSON["end_date"]
     );

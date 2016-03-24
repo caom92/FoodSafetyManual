@@ -19,8 +19,8 @@ class SSOPSanitationPreOpLog extends Table
     
     
     // Returns a list of elements which are within the specified range of dates
-    // and that are registered to the specified workplace area
-    function searchItemsByAreaIDAndDateInterval($areaID, $start, $end)
+    // and that are registered to the specified workplace zone
+    function searchItemsByZoneIDAndDateInterval($zoneID, $start, $end)
     {
         return parent::join([
             "[><]ssop_sanitation_pre_op_logs_info" => [
@@ -50,7 +50,7 @@ class SSOPSanitationPreOpLog extends Table
             "users_profile_info.employee_id_num",
             "users_profile_info.full_name",
             "ssop_sanitation_pre_op_logs_info.date",
-            "ssop_sanitation_pre_op_logs_info.time",
+            "ssop_sanitation_pre_op_hardware_logs.time",
             "company_zones.zone_name",
             "workplace_areas.area_name",
             "workplace_area_hardware.hardware_name",
@@ -59,11 +59,11 @@ class SSOPSanitationPreOpLog extends Table
             "ssop_sanitation_pre_op_hardware_logs.comment"
         ], [
             "AND" => [
-                "workplace_area_id" => $areaID,
+                "company_zone_id" => $zoneID,
                 "date[>=]" => $start,
                 "date[<=]" => $end
             ],
-            "ORDER" => "date"
+            "ORDER" => ["date", "area_name"]
         ]);
     }
     
