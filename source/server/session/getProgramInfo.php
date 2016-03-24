@@ -1,45 +1,46 @@
 <?php
 
 if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-    require_once dirname(__FILE__)."\\..\\dao\\pdfFilePaths.php";
+    require_once dirname(__FILE__)."\\..\\dao\\certificationPrograms.php";
 }
 else {
-    require_once dirname(__FILE__)."/../dao/pdfFilePaths.php";
+    require_once dirname(__FILE__)."/../dao/certificationPrograms.php";
 }
 
 // Data is sent to the server from the client in the form of a JSON with
 // the following format:
 // {
 //     program_id:[uint]
-//     title_name:[string]
 // }
 // we must decode it
 $inputJSON = json_decode($_GET);
 
 // the array of elements read from the data base table
-$filesList = [];
+$programsList = [];
 
 try {
     // attempt to connect to the data base
     $dataBaseConnection = connectToDataBase();
-    $filesTable = new PDFFilePaths($dataBaseConnection);
+    $programsTable = new CertificationPrograms($dataBaseConnection);
     
     // attempt to read the data from the data base 
-    $filesList = $filesTable->searchItemsByProgramIDAndTitleName(
-        $inputJSON["program_id"], $inputJSON["title_name"]);
+    $programsList = $programsTable->searchItemsByID($inputJSON["program_id"]);
 }
 catch (Exception $e) {
     displayErrorPageAndExit($e->getCode(), $e->getMessage());
 }
 
-if (count($filesList) != 0) {
+if (count($programsList) != 0) {
     // if the element exists in the data base, we simply return the name of the 
     // file
     $outputJSON = [
         "error_code" => 0,
         "error_message" => "",
         "data" => [
-            "file_name" => $filesList[0]["file_name"]
+            "full_name" => $programsList[0]["certification_program_name"],
+            "description" => $programsList[0]["description"],
+            "pdf_src" => $programsList[0]["file_name"],
+            "html_src" => $programsList[0]["url"]
         ]
     ];
 }
@@ -62,6 +63,9 @@ else {
 // where data is:
 // {
 //     fine_name:[string]
+//     description:[string]
+//     pdf_src:[string]
+//     html_src:[string]
 // }
 echo json_encode($outputJSON);
 

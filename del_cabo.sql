@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 24, 2016 at 08:07 PM
--- Server version: 10.1.9-MariaDB
--- PHP Version: 5.6.15
+-- Generation Time: Mar 24, 2016 at 11:59 PM
+-- Server version: 10.1.10-MariaDB
+-- PHP Version: 5.6.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -52,15 +52,18 @@ INSERT INTO `access_permissions` (`id`, `permission_name`) VALUES
 DROP TABLE IF EXISTS `certification_programs`;
 CREATE TABLE `certification_programs` (
   `id` int(10) UNSIGNED NOT NULL,
-  `certification_program_name` varchar(32) NOT NULL
+  `certification_program_name` varchar(32) NOT NULL,
+  `description` varchar(512) NOT NULL,
+  `file_name` varchar(64) NOT NULL,
+  `url` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `certification_programs`
 --
 
-INSERT INTO `certification_programs` (`id`, `certification_program_name`) VALUES
-(1, 'Programa de Prueba');
+INSERT INTO `certification_programs` (`id`, `certification_program_name`, `description`, `file_name`, `url`) VALUES
+(1, 'Sanitización Preoperativa', 'Antes de comenzar cada turno los supervisores deben de revisar el estado en el que quedaron las instalaciones y herramientas pertenecientes a la zona. Esto se ve reflejado en una lista de comprobación que indica el estado en el que se encontraron los elementos, la acción correctiva tomada en caso de alguna deficiencia y un comentario con las observaciones del capturista.', 'ssop.pdf', 'sanitation_pre_op.html');
 
 -- --------------------------------------------------------
 
@@ -222,27 +225,6 @@ INSERT INTO `gmp_hand_washing_workday_period_log` (`id`, `workday_period_id`, `w
 (72, 1, 1),
 (73, 1, 1),
 (74, 1, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pdf_file_paths`
---
-
-DROP TABLE IF EXISTS `pdf_file_paths`;
-CREATE TABLE `pdf_file_paths` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `program_id` int(10) UNSIGNED NOT NULL,
-  `title_name` varchar(64) NOT NULL,
-  `file_name` varchar(64) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `pdf_file_paths`
---
-
-INSERT INTO `pdf_file_paths` (`id`, `program_id`, `title_name`, `file_name`) VALUES
-(1, 1, 'SSOP', 'chicken.pdf');
 
 -- --------------------------------------------------------
 
@@ -505,13 +487,6 @@ ALTER TABLE `gmp_hand_washing_workday_period_log`
   ADD KEY `workday_period_id` (`workday_period_id`);
 
 --
--- Indexes for table `pdf_file_paths`
---
-ALTER TABLE `pdf_file_paths`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `program_id` (`program_id`);
-
---
 -- Indexes for table `ssop_sanitation_pre_op_corrective_actions`
 --
 ALTER TABLE `ssop_sanitation_pre_op_corrective_actions`
@@ -613,11 +588,6 @@ ALTER TABLE `gmp_hand_washing_log`
 ALTER TABLE `gmp_hand_washing_workday_period_log`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 --
--- AUTO_INCREMENT for table `pdf_file_paths`
---
-ALTER TABLE `pdf_file_paths`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
 -- AUTO_INCREMENT for table `ssop_sanitation_pre_op_corrective_actions`
 --
 ALTER TABLE `ssop_sanitation_pre_op_corrective_actions`
@@ -685,12 +655,6 @@ ALTER TABLE `gmp_hand_washing_log`
 --
 ALTER TABLE `gmp_hand_washing_workday_period_log`
   ADD CONSTRAINT `gmp_hand_washing_workday_period_log_ibfk_1` FOREIGN KEY (`workday_period_id`) REFERENCES `workday_periods` (`id`);
-
---
--- Constraints for table `pdf_file_paths`
---
-ALTER TABLE `pdf_file_paths`
-  ADD CONSTRAINT `pdf_file_paths_ibfk_1` FOREIGN KEY (`program_id`) REFERENCES `certification_programs` (`id`);
 
 --
 -- Constraints for table `ssop_sanitation_pre_op_hardware_logs`
