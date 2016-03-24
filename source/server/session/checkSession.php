@@ -14,14 +14,14 @@ else {
 //     password:[string]
 // }
 // we must decode it
-// $inputJSON = decode($_GET);
-$inputJSON = [
+$inputJSON = decode($_GET);
+/*$inputJSON = [
     "user_name" => "coliva",
     "password" => "password"
-];
+];*/
 
 // list of elements read from the data base
-$usersList = [];
+$userInfoList = [];
 
 try {
     // attempt to connect to the database
@@ -31,7 +31,7 @@ try {
     // we need to know if the requested user exists in the data base
     // so we simply look it up in the table and if nothing is returned
     // then it means that the user has not signed up yet
-    $usersList = $usersTable->searchItemsByUserNameAndPassword(
+    $userInfoList = $usersTable->searchItemsByUserNameAndPassword(
         $inputJSON["user_name"], $inputJSON["password"]
     );
 }
@@ -42,28 +42,66 @@ catch (Exception $e) {
 // initialize the output json with the proper data 
 $outputJSON = [];
 
-if (count($usersList) > 0)
+
+if (count($userInfoList) > 0)
 {
-    // if the list is not empty, then it means that the user login info is
-    // correct, so we must retrieve its profile data
+    // initialize the json that will be sent to the client
     $outputJSON = [
         "error_code" => 0,
         "error_message" => "Éxito",
-        "data" => [
-            "employee_id_num" => $usersList[0]["employee_id_num"],
-            "full_name" => $usersList[0]["full_name"],
-            "email" => $usersList[0]["email"],
-            "login_name" => $usersList[0]["login_name"],
-            "login_password" => $usersList[0]["login_password"],
-            "zone_privileges" => []
-        ]
+        "data" => []
     ];
     
-    foreach ($usersList as $userInfo) {
-        array_push($outputJSON["zone_privilege"], [
-            /////////////
+    $finalUserInfo = [];
+    $zoneInfo = [];
+    $zoneToProcess = "";
+    
+    foreach ($userInfoList as $userInfo) {
+        if ($zoneToProcess == $userInfo["zone_name"]) {
+            array_push($zoneInfo["program_permissions"], [
+                "certification_program_id" => $userInfo["program_id"],
+                "certification_program_name" => 
+                    $userInfo["certification_program_name"],
+                "access_permission_id" => $userInfo["permission_id"],
+                "access_permission_name" => $userInfo["permission_name"]
+            ]);
+        }
+        else {
+            if (count($finalUserInfo) != 0) {
+                array_push($finalUserInfo["zone_permissions"], $zoneInfo);
+            }
+            else {
+                $finalUserInfo = [
+                    "employee_id_num" => $userInfo["employee_id_num"],
+                    "full_name" => $userInfo["full_name"],
+                    "email" => $userInfo["email"],
+                    "login_name" => $userInfo["login_name"],
+                    "login_password" => $userInfo["login_password"],
+                    "zone_permissions" => []
+                ];
+            }
+        }
+        
+        $zoneToProcess = $userInfo["zone_id"];
+        
+        $zoneInfo = [
+            "company_zone_id" => $userInfo["zone_id"],
+            "company_zone_name" => $userInfo["zone_name"],
+            "program_permissios" => []
+        ];
+        
+        array_push($zoneInfo["program_permissions"], [
+            "certification_program_id" => $userInfo["program_id"],
+            "certification_program_name" => 
+                $userInfo["certification_program_name"],
+            "access_permission_id" => $userInfo["permission_id"],
+            "access_permission_name" => $userInfo["permission_name"]
         ]);
     }
+    
+    array_push($finalUserInfo["zone_permissions"], $zoneInfo);
+    
+    array_push($outputJSON["data"], $finalUserInfo);
 }
 else {
     $outputJSON = [

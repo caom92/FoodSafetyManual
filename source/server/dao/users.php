@@ -42,11 +42,11 @@ class Users extends Table
             "users_profile_info.email",
             "users_profile_info.login_name",
             "users_profile_info.login_password",
-            "company_zones.id",
+            "company_zones.id(zone_id)",
             "company_zones.zone_name",
-            "certification_programs.id",
+            "certification_programs.id(program_id)",
             "certification_programs.certification_program_name",
-            "access_permissions.id",
+            "access_permissions.id(permission_id)",
             "access_permissions.permission_name"
         ], [
             "AND" => [
