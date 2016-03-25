@@ -83,6 +83,7 @@ if (count($userInfoList) > 0)
                 // iteration and we need to first save the user data before
                 // reading the zones and permissions data
                 $finalUserInfoJSON = [
+                    "profile_id" => $userInfo["user_profile_id"],
                     "employee_id_num" => $userInfo["employee_id_num"],
                     "full_name" => $userInfo["full_name"],
                     "email" => $userInfo["email"],
@@ -136,6 +137,7 @@ else {
 // }
 // where data is:
 // {
+//     profile_id:[uint]
 //     employee_id_num:[uint]
 //     full_name:[string]
 //     email:[string]

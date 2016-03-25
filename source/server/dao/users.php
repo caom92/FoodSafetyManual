@@ -37,6 +37,7 @@ class Users extends Table
             ]
         ], [
             "users.id",
+            "users_profile_info.id(user_profile_id)",
             "users_profile_info.employee_id_num",
             "users_profile_info.full_name",
             "users_profile_info.email",
