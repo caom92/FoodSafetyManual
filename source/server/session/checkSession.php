@@ -117,7 +117,7 @@ if (count($userInfoList) > 0)
     array_push($finalUserInfoJSON["zone_permissions"], $zoneInfoJSON);
     
     // finally, we store everything in the json to be send to the user
-    array_push($outputJSON["data"], $finalUserInfoJSON);
+    $outputJSON["data"] = $finalUserInfoJSON;
 }
 else {
     $outputJSON = [
@@ -132,7 +132,7 @@ else {
 // {
 //     error_code:[int],
 //     error_message:[string],
-//     data:[array<data>]
+//     data:[data]
 // }
 // where data is:
 // {

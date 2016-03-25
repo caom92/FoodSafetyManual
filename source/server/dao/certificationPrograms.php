@@ -24,6 +24,13 @@ class CertificationPrograms extends Table
     {
         return parent::select("*", ["id" => $id]);
     }
+    
+    // Updates the information of the entries in the data base table that have
+    // the especified ID
+    function updateItemDataByID($id, $newData)
+    {
+        return parent::update($newData, [ "id" => $id ]);
+    }
 }
 
 ?>
