@@ -57,7 +57,7 @@ class Table
     // [out]   return: the ID of the last inserted row
     protected function insert($rows)
     {
-        return $this->dataBaseConnection->insert($this->tableName, $rows);
+        return $this->dataBaseConnection->/*debug()->*/insert($this->tableName, $rows);
     }
     
     
