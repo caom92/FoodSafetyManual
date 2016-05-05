@@ -1,11 +1,6 @@
 <?php
 
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-    require_once dirname(__FILE__)."\\..\\dao\\certificationPrograms.php";
-}
-else {
-    require_once dirname(__FILE__)."/../dao/certificationPrograms.php";
-}
+require_once realpath(dirname(__FILE__)."/../dao/CertificationPrograms.php");
 
 // Data is sent to the server from the client in the form of a JSON with
 // the following format:

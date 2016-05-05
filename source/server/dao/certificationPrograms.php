@@ -1,14 +1,9 @@
 <?php
 
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-    require_once dirname(__FILE__)."\\table.php";
-}
-else {
-    require_once dirname(__FILE__)."/table.php";
-}
+require_once realpath(dirname(__FILE__)."/DataBaseTable.php");
 
 // Data Access Object for the certification_programs table
-class CertificationPrograms extends Table
+class CertificationPrograms extends DataBaseTable
 {
     // Creates an interface for interacting with the certification_programs 
     // table in the specified data base
@@ -24,6 +19,7 @@ class CertificationPrograms extends Table
     {
         return parent::select("*", ["id" => $id]);
     }
+    
     
     // Updates the information of the entries in the data base table that have
     // the especified ID

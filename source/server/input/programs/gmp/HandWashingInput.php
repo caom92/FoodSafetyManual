@@ -1,17 +1,11 @@
 <?php
 
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-    require_once dirname(__FILE__)."\\..\\..\\dao\\gmpHandWashingLog.php";
-    require_once dirname(__FILE__)."\\..\\..\\dao\\gmpHandWashingDailyLog.php";
-    require_once dirname(__FILE__).
-        "\\..\\..\\dao\\gmpHandWashingWorkdayPeriodLog.php";
-}
-else {
-    require_once dirname(__FILE__)."/../../dao/gmpHandWashingLog.php";
-    require_once dirname(__FILE__)."/../../dao/gmpHandWashingDailyLog.php";
-    require_once dirname(__FILE__).
-        "/../../dao/gmpHandWashingWorkdayPeriodLog.php";
-}
+require_once realpath(dirname(__FILE__).
+    "/../../../dao/programs/gmp/GMPHandWashingLog.php");
+require_once realpath(dirname(__FILE__).
+    "/../../../dao/programs/gmp/GMPHandWashingDailyLog.php");
+require_once realpath(dirname(__FILE__).
+    "/../../../dao/programs/gmp/GMPHandWashingWorkdayPeriodLog.php");
 
 // Data is sent to the server from the client in the form of a JSON with
 // the following format:
@@ -66,7 +60,7 @@ catch (Exception $e) {
 // return a success code just to let the client know
 echo json_encode([
     "error_code" => 0,
-    "error_message" => "Éxito",
+    "error_message" => "&Eacute;xito",
     "data" => []
 ]);
 

@@ -1,11 +1,7 @@
 <?php
 
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-    require_once dirname(__FILE__)."\\..\\..\\..\\external\\medoo\\medoo.php";
-}
-else {
-    require_once dirname(__FILE__)."/../../../external/medoo/medoo.php";
-}
+// Import Medoo library for interfacing with SQL
+require_once realpath(dirname(__FILE__)."/../../external/medoo/medoo.php");
 
 // Database connection information
 const HOST = "localhost";

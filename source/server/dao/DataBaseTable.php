@@ -1,16 +1,11 @@
 <?php
 
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-    require_once dirname(__FILE__)."\\config.php";
-}
-else {
-    require_once dirname(__FILE__)."/config.php";
-}
+require_once realpath(dirname(__FILE__)."/../config.php");
 
 // Data Access Object for accessing the elements of a specific table in 
 // the database. The interface of this class provides the basic SELECT, INSERT,
 // UPDATE and DELETE methods.
-class Table
+class DataBaseTable
 {
     // The holder of the connection to the data base that stores our tables
     protected $dataBaseConnection;
@@ -57,7 +52,7 @@ class Table
     // [out]   return: the ID of the last inserted row
     protected function insert($rows)
     {
-        return $this->dataBaseConnection->/*debug()->*/insert($this->tableName, $rows);
+        return $this->dataBaseConnection->insert($this->tableName, $rows);
     }
     
     
@@ -110,7 +105,7 @@ class Table
     //         array using the column name as the key
     protected function join($conditions, $columns, $where = [])
     {
-        return $this->dataBaseConnection->/*debug()->*/select($this->tableName, 
+        return $this->dataBaseConnection->select($this->tableName, 
             $conditions, $columns, $where);
     }
 }

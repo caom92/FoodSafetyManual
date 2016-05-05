@@ -1,19 +1,11 @@
 <?php
 
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-    require_once dirname(__FILE__).
-        "\\..\\..\\dao\\ssopSanitationPreOpLogsInfo.php";
-    require_once dirname(__FILE__).
-        "\\..\\..\\dao\\ssopSanitationPreOpHardwareLogs.php";
-    require_once dirname(__FILE__).
-        "\\..\\..\\dao\\ssopSanitationPreOpLog.php";
-}
-else {
-    require_once dirname(__FILE__)."/../../dao/ssopSanitationPreOpLogsInfo.php";
-    require_once dirname(__FILE__).
-        "/../../dao/ssopSanitationPreOpHardwareLogs.php";
-    require_once dirname(__FILE__)."/../../dao/ssopSanitationPreOpLog.php";
-}
+require_once realpath(dirname(__FILE__).
+    "/../../../dao/programs/ssop/SSOPSanitationPreOpLogsInfo.php");
+require_once realpath(dirname(__FILE__).
+    "/../../../dao/programs/ssop/SSOPSanitationPreOpHardwareLogs.php");
+require_once realpath(dirname(__FILE__).
+    "/../../../dao/programs/ssop/SSOPSanitationPreOpLog.php");
 
 // Data is sent to the server from the client in the form of a JSON with
 // the following format:
@@ -43,12 +35,12 @@ try {
     $sanitationPreOpLog = new SSOPSanitationPreOpLog($dataBaseConnection);
     
     // decode the input json
-    $inputJSON = json_decode($_GET);
+    $inputJSON = json_decode($_POST["data"]);
     
     // first, save the date and user profile and store its ID
     $id = $logsInfoTable->saveItems([
-        "user_profile_id" => $inputJSON["user_profile_id"],
-        "date" => $inputJSON["date"]
+        "user_profile_id" => $inputJSON->user_profile_id,
+        "date" => $inputJSON->date
     ]);
     
     // store the data read from the json to their corresponding data base tables
@@ -56,11 +48,11 @@ try {
         $sanitationPreOpLog->saveItems([
             "log_info_id" => $id,
             "hardware_log_id" => $hardwareLogsTable->saveItems([
-                "time" => $inputJSON["time"],
-                "hardware_id" => $log["hardware_id"],
-                "status" => $log["status"],
-                "corrective_action_id" => $log["corrective_action_id"],
-                "comment" => $log["comment"]
+                "time" => $inputJSON->time,
+                "hardware_id" => $log->hardware_id,
+                "status" => $log->status,
+                "corrective_action_id" => $log->corrective_action_id,
+                "comment" => $log->comment
             ])
         ]);
     }
@@ -72,7 +64,7 @@ catch (Exception $e) {
 // return a success code just to let the client know
 echo json_encode([
     "error_code" => 0,
-    "error_message" => "Éxito",
+    "error_message" => "&Eacute;xito",
     "data" => []
 ]);
 

@@ -1,11 +1,6 @@
 <?php
 
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-    require_once dirname(__FILE__)."\\..\\dao\\users.php";
-}
-else {
-    require_once dirname(__FILE__)."/../dao/users.php";
-}
+require_once realpath(dirname(__FILE__)."/../dao/Users.php");
 
 // Data is sent to the server from the client in the form of a JSON with
 // the following format:
@@ -38,13 +33,12 @@ catch (Exception $e) {
 // initialize the output json with the proper data 
 $outputJSON = [];
 
-
 if (count($userInfoList) > 0)
 {
     // initialize the json that will be sent to the client
     $outputJSON = [
         "error_code" => 0,
-        "error_message" => "Éxito",
+        "error_message" => "&Eacute;xito",
         "data" => []
     ];
     
@@ -76,7 +70,8 @@ if (count($userInfoList) > 0)
             // if the zone that is being processed changed, we store all the
             // permissions that we saved so far in the user json
             if (count($finalUserInfoJSON) != 0) {
-                array_push($finalUserInfoJSON["zone_permissions"], $zoneInfoJSON);
+                array_push($finalUserInfoJSON["zone_permissions"], 
+                $zoneInfoJSON);
             }
             else {
                 // if the user json is empty, it means that this is the first 

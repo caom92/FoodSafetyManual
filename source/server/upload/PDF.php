@@ -8,13 +8,7 @@ or
 extension=php_fileinfo.so
 
 and restart the server */
-
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-    require_once dirname(__FILE__)."\\..\\dao\\certificationPrograms.php";
-}
-else {
-    require_once dirname(__FILE__)."/../dao/certificationPrograms.php";
-}
+require_once realpath(dirname(__FILE__)."/../dao/CertificationPrograms.php");
 
 // Data is sent to the server from the client in the form of a JSON with
 // the following format:
@@ -59,7 +53,7 @@ if ($MIMEType == "application/pdf") {
     // finally, let the client know that the upload was successfull
     $outputJSON = [
         "error_code" => 0,
-        "error_message" => "Éxito",
+        "error_message" => "&Eacute;xito",
         "data" => []
     ];
 }

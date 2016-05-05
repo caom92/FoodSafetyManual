@@ -1,11 +1,7 @@
 <?php
 
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-    require_once dirname(__FILE__)."\\..\\..\\dao\\ssopSanitationPreOpLog.php";
-}
-else {
-    require_once dirname(__FILE__)."/../../dao/ssopSanitationPreOpLog.php";
-}
+require_once realpath(dirname(__FILE__).
+    "/../../../dao/programs/ssop/SSOPSanitationPreOpLog.php");
 
 // array of data entries read from the data base table
 $logEntries = [];
@@ -18,7 +14,7 @@ $logEntries = [];
 //     end_date:[date]
 // }
 // we must decode it
-$inputJSON = json_decode($_GET);
+$inputJSON = $_POST;
 
 
 // attempt to connect to the data base and query the data from the sanitation

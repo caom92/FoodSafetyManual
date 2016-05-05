@@ -1,17 +1,10 @@
 <?php
 
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-    require_once dirname(__FILE__)."\\..\\..\\dao\\workplaceAreas.php";
-    require_once dirname(__FILE__)."\\..\\..\\dao\\workplaceAreaHardware.php";
-    require_once dirname(__FILE__).
-        "\\..\\..\\dao\\ssopSanitationPreOpCorrectiveActions.php";
-}
-else {
-    require_once dirname(__FILE__)."/../../dao/workplaceAreas.php";
-    require_once dirname(__FILE__)."/../../dao/workplaceAreaHardware.php";
-    require_once dirname(__FILE__).
-        "/../../dao/ssopSanitationPreOpCorrectiveActions.php";
-}
+require_once realpath(dirname(__FILE__)."/../../../dao/WorkplaceAreas.php");
+require_once realpath(dirname(__FILE__).
+    "/../../../dao/WorkplaceAreaHardware.php");
+require_once realpath(dirname(__FILE__).
+    "/../../../dao/programs/ssop/SSOPSanitationPreOpCorrectiveActions.php");
 
 // Data is sent to the server from the client in the form of a JSON with
 // the following format:
@@ -19,7 +12,7 @@ else {
 //     zone_id:[uint]
 // }
 // we must decode it
-$inputJSON = json_decode($_GET);
+$inputJSON = $_POST;
 
 // arrays of data entries read from the data base tables 
 $actionsList = [];

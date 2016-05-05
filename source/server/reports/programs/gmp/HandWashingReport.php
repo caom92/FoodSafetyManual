@@ -1,11 +1,7 @@
 <?php
 
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-    require_once dirname(__FILE__)."\\..\\..\\dao\\gmpHandWashingLog.php";
-}
-else {
-    require_once dirname(__FILE__)."/../../dao/gmpHandWashingLog.php";
-}
+require_once realpath(dirname(__FILE__).
+    "/../../../dao/programs/gmp/GMPHandWashingLog.php");
 
 // array of data entries read from the data base table
 $logEntries = [];

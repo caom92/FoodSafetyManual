@@ -1,13 +1,7 @@
 <?php
 
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-    require_once dirname(__FILE__)."\\..\\dao\\users.php";
-    require_once dirname(__FILE__)."\\..\\dao\\usersProfileInfo.php";
-}
-else {
-    require_once dirname(__FILE__)."/../dao/users.php";
-    require_once dirname(__FILE__)."/../dao/usersProfileInfo.php";
-}
+require_once realpath(dirname(__FILE__)."/../dao/Users.php");
+require_once realpath(dirname(__FILE__)."/../dao/UsersProfileInfo.php");
 
 // Data is sent to the server from the client in the form of a JSON with
 // the following format:
@@ -40,7 +34,7 @@ try {
         "full_name" => $inputJSON["full_name"],
         "email" => $inputJSON["email"],
         "login_name" => $inputJSON["login_name"],
-        "login_password" => $inputJSON["login_password"]
+        "login_password" => md5($inputJSON["login_password"])
     ]]);
     
     // now create the final array for storing the permissions in the
@@ -65,7 +59,7 @@ catch (Exception $e) {
 // return a success code just to let the client know
 echo json_encode([
     "error_code" => 0,
-    "error_message" => "Éxito",
+    "error_message" => "&Eacute;xito",
     "data" => []
 ]);
 

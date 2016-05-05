@@ -1,14 +1,9 @@
 <?php
 
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-    require_once dirname(__FILE__)."\\table.php";
-}
-else {
-    require_once dirname(__FILE__)."/table.php";
-}
+require_once realpath(dirname(__FILE__)."/DataBaseTable.php");
 
 // Data Access Object for the workplace_area_hardware table
-class WorkplaceAreaHardware extends Table
+class WorkplaceAreaHardware extends DataBaseTable
 {
     // Creates an interface for interacting with the workplace_area_hardware 
     // table in the specified data base
@@ -23,20 +18,21 @@ class WorkplaceAreaHardware extends Table
     function searchItemsByAreaID($areaID)
     {
         return parent::join([
-            "[><]workplace_areas" => [
-                "workplace_area_id" => "id"
+                "[><]workplace_areas" => [
+                    "workplace_area_id" => "id"
                 ],
-            "[><]company_zones" => [
-                "workplace_areas.company_zone_id" => "id"
+                "[><]company_zones" => [
+                    "workplace_areas.company_zone_id" => "id"
                 ]
-        ], [
-            "workplace_area_hardware.id",
-            "company_zones.zone_name",
-            "workplace_areas.area_name",
-            "workplace_area_hardware.hardware_name"
-        ], [
-            "workplace_area_id" => $areaID
-        ]);
+            ], [
+                "workplace_area_hardware.id",
+                "company_zones.zone_name",
+                "workplace_areas.area_name",
+                "workplace_area_hardware.hardware_name"
+            ], [
+                "workplace_area_id" => $areaID
+            ]
+        );
     }
 }
 

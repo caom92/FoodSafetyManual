@@ -1,14 +1,9 @@
 <?php
 
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-    require_once dirname(__FILE__)."\\table.php";
-}
-else {
-    require_once dirname(__FILE__)."/table.php";
-}
+require_once realpath(dirname(__FILE__)."/../../DataBaseTable.php");
 
 // Data Access Object for the gmp_hand_washing_daily_log table
-class GMPHandWashingDailyLog extends Table
+class GMPHandWashingDailyLog extends DataBaseTable
 {
     // Creates an interface for interacting with the gmp_hand_washing_daily_log 
     // table in the specified data base

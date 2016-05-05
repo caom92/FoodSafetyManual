@@ -1,15 +1,16 @@
 <?php
 
-require_once realpath(dirname(__FILE__)."/DataBaseTable.php");
+require_once realpath(dirname(__FILE__)."/../../DataBaseTable.php");
 
-// Data Access Object for the users_profile_info table
-class UsersProfileInfo extends DataBaseTable
+// Data Access Object for the ssop_sanitation_pre_op_logs_info table
+class SSOPSanitationPreOpLogsInfo extends DataBaseTable
 {
     // Creates an interface for interacting with the 
-    // users_profile_info table in the specified data base
+    // ssop_sanitation_pre_op_logs_info table in the specified data base
     function __construct($dataBaseConnection)
     {
-        parent::__construct($dataBaseConnection, "users_profile_info");
+        parent::__construct($dataBaseConnection, 
+            "ssop_sanitation_pre_op_logs_info");
     }
     
     
