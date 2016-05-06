@@ -1,10 +1,16 @@
 <?php
 
+// Import external classes
 require_once realpath(dirname(__FILE__)."/../../../dao/WorkplaceAreas.php");
 require_once realpath(dirname(__FILE__).
     "/../../../dao/WorkplaceAreaHardware.php");
 require_once realpath(dirname(__FILE__).
-    "/../../../dao/programs/ssop/SSOPSanitationPreOpCorrectiveActions.php");
+    "/../../../dao/programs/ssop/SanitationPreOpCorrectiveActions.php");
+    
+// Alias the namespaces for ease of writing
+use espresso as core;
+use espresso\dao as dao;
+use espresso\dao\ssop as ssop;
 
 // Data is sent to the server from the client in the form of a JSON with
 // the following format:
@@ -24,15 +30,16 @@ $hardwareTable = null;
 // attempt to connect to the data base and query the data from the workplace
 // areas and the corrective actions
 try {
-    $dataBaseConnection = connectToDataBase();
-    $areasTable = new WorkplaceAreas($dataBaseConnection);
-    $hardwareTable = new WorkplaceAreaHardware($dataBaseConnection);
-    $actionsTable = new SSOPSanitationPreOpCorrectiveActions($dataBaseConnection);
+    $dataBaseConnection = dao\connectToDataBase();
+    $areasTable = new dao\WorkplaceAreas($dataBaseConnection);
+    $hardwareTable = new dao\WorkplaceAreaHardware($dataBaseConnection);
+    $actionsTable = new ssop\SanitationPreOpCorrectiveActions(
+        $dataBaseConnection);
     $actionsList = $actionsTable->getAllItems();
     $areasList = $areasTable->searchItemsByZoneID($inputJSON["zone_id"]);
 }
 catch (Exception $e) {
-    displayErrorPageAndExit($e->getCode(), $e->getMessage());
+    core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
 }
 
 // Initialize the JSON to be sent to the client
@@ -68,7 +75,7 @@ foreach ($areasList as $area) {
         $hardwareList = $hardwareTable->searchItemsByAreaID($area["id"]);
     }
     catch (Exception $e) {
-        displayErrorPageAndExit($e->getCode(), $e->getMessage());
+        core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
     }
     
     // Finally, add every item to the array of the corresponding area

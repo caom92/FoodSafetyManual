@@ -1,11 +1,17 @@
 <?php
 
+// Import external classes
 require_once realpath(dirname(__FILE__).
-    "/../../../dao/programs/gmp/GMPHandWashingLog.php");
+    "/../../../dao/programs/gmp/HandWashingLog.php");
 require_once realpath(dirname(__FILE__).
-    "/../../../dao/programs/gmp/GMPHandWashingDailyLog.php");
+    "/../../../dao/programs/gmp/HandWashingDailyLog.php");
 require_once realpath(dirname(__FILE__).
-    "/../../../dao/programs/gmp/GMPHandWashingWorkdayPeriodLog.php");
+    "/../../../dao/programs/gmp/HandWashingWorkdayPeriodLog.php");
+    
+// Alias the namespaces for ease of writing
+use espresso as core;
+use espresso\dao as dao;
+use espresso\dao\gmp as gmp;
 
 // Data is sent to the server from the client in the form of a JSON with
 // the following format:
@@ -25,10 +31,10 @@ require_once realpath(dirname(__FILE__).
 
 try {
     // attempt to connect to the data base 
-    $dataBaseConnection = connectToDataBase();
-    $dailyLog = new GMPHandWashingDailyLog($dataBaseConnection);
-    $periodLog = new GMPHandWashingWorkdayPeriodLog($dataBaseConnection);
-    $finalLog = new GMPHandWashingLog($dataBaseConnection);
+    $dataBaseConnection = dao\connectToDataBase();
+    $dailyLog = new gmp\HandWashingDailyLog($dataBaseConnection);
+    $periodLog = new gmp\HandWashingWorkdayPeriodLog($dataBaseConnection);
+    $finalLog = new gmp\HandWashingLog($dataBaseConnection);
     
     // decode the input json
     $inputJSON = json_decode($_GET);
@@ -54,7 +60,7 @@ try {
     }
 }
 catch (Exception $e) {
-    displayErrorPageAndExit($e->getCode(), $e->getMessage());
+    core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
 }
 
 // return a success code just to let the client know

@@ -8,7 +8,13 @@ or
 extension=php_fileinfo.so
 
 and restart the server */
+
+// Import external classes
 require_once realpath(dirname(__FILE__)."/../dao/CertificationPrograms.php");
+
+// Alias the namespaces for ease of writing
+use espresso as core;
+use espresso\dao as dao;
 
 // Data is sent to the server from the client in the form of a JSON with
 // the following format:
@@ -38,8 +44,8 @@ if ($MIMEType == "application/pdf") {
     
     try {
         // attempt to connect to the database
-        $dataBaseConnection = connectToDataBase();
-        $programsTable = new CertificationPrograms($dataBaseConnection);
+        $dataBaseConnection = dao\connectToDataBase();
+        $programsTable = new dao\CertificationPrograms($dataBaseConnection);
         
         // we need to update the data base to show this file
         $programsTable->updateItemDataByID($inputJSON["program_id"], [
@@ -47,7 +53,7 @@ if ($MIMEType == "application/pdf") {
         ]);
     }
     catch (Exception $e) {
-        displayErrorPageAndExit($e->getCode(), $e->getMessage());
+        core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
     }
     
     // finally, let the client know that the upload was successfull

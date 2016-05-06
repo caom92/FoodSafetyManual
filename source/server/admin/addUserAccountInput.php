@@ -1,7 +1,12 @@
 <?php
 
+// Import external classes
 require_once realpath(dirname(__FILE__)."/../dao/Users.php");
 require_once realpath(dirname(__FILE__)."/../dao/UsersProfileInfo.php");
+
+// Alias the namespaces for ease of writing
+use espresso as core;
+use espresso\dao as dao;
 
 // Data is sent to the server from the client in the form of a JSON with
 // the following format:
@@ -20,13 +25,13 @@ require_once realpath(dirname(__FILE__)."/../dao/UsersProfileInfo.php");
 //     permission_id:[uint]
 // }
 // we must decode it
-$inputJSON = json_decode($_GET);
+//$inputJSON = json_decode($_GET);
 
 try {
     // attempt to connect to the data base
-    $dataBaseConnection = connectToDataBase();
-    $usersProfileInfoTable = new UsersProfileInfo($dataBaseConnection);
-    $usersTable = new Users($dataBaseConnection);
+    $dataBaseConnection = dao\connectToDataBase();
+    $usersProfileInfoTable = new dao\UsersProfileInfo($dataBaseConnection);
+    $usersTable = new dao\Users($dataBaseConnection);
     
     // save the new user profile data and store the resulting ID
     $userID = $usersProfileInfoTable->saveItems([[
@@ -53,7 +58,7 @@ try {
     $usersTable->saveItems($newPermissions);
 }
 catch (Exception $e) {
-    displayErrorPageAndExit($e->getCode(), $e->getMessage());
+    core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
 }
 
 // return a success code just to let the client know

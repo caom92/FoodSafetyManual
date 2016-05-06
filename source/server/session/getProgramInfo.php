@@ -1,6 +1,11 @@
 <?php
 
+// Import external classes
 require_once realpath(dirname(__FILE__)."/../dao/CertificationPrograms.php");
+
+// Alias the namespaces for ease of writing
+use espresso as core;
+use espresso\dao as dao;
 
 // Data is sent to the server from the client in the form of a JSON with
 // the following format:
@@ -15,14 +20,14 @@ $programsList = [];
 
 try {
     // attempt to connect to the data base
-    $dataBaseConnection = connectToDataBase();
-    $programsTable = new CertificationPrograms($dataBaseConnection);
+    $dataBaseConnection = dao\connectToDataBase();
+    $programsTable = new dao\CertificationPrograms($dataBaseConnection);
     
     // attempt to read the data from the data base 
     $programsList = $programsTable->searchItemsByID($inputJSON["program_id"]);
 }
 catch (Exception $e) {
-    displayErrorPageAndExit($e->getCode(), $e->getMessage());
+    core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
 }
 
 if (count($programsList) != 0) {

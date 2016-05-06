@@ -1,6 +1,11 @@
 <?php
 
+// Importing external classes
 require_once realpath(dirname(__FILE__)."/../dao/Users.php");
+
+// Alias the namespaces for ease of writing
+use espresso as core;
+use espresso\dao as dao;
 
 // Data is sent to the server from the client in the form of a JSON with
 // the following format:
@@ -16,8 +21,8 @@ $userInfoList = [];
 
 try {
     // attempt to connect to the database
-    $dataBaseConnection = connectToDataBase();
-    $usersTable = new Users($dataBaseConnection);
+    $dataBaseConnection = dao\connectToDataBase();
+    $usersTable = new dao\Users($dataBaseConnection);
 
     // we need to know if the requested user exists in the data base
     // so we simply look it up in the table and if nothing is returned
@@ -27,7 +32,7 @@ try {
     );
 }
 catch (Exception $e) {
-    displayErrorPageAndExit($e->getCode(), $e->getMessage());
+    core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
 }
 
 // initialize the output json with the proper data 

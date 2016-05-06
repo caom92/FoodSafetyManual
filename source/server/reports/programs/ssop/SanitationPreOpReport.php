@@ -1,7 +1,13 @@
 <?php
 
+// Importing external classes
 require_once realpath(dirname(__FILE__).
     "/../../../dao/programs/ssop/SSOPSanitationPreOpLog.php");
+    
+// Alias the namespaces for ease of writing
+use espresso as core;
+use espresso\dao as dao;
+use espresso\dao\ssop as ssop;
 
 // array of data entries read from the data base table
 $logEntries = [];
@@ -20,8 +26,8 @@ $inputJSON = $_POST;
 // attempt to connect to the data base and query the data from the sanitation
 // pre op log
 try {
-    $dataBaseConnection = connectToDataBase();
-    $logTable = new SSOPSanitationPreOpLog($dataBaseConnection);
+    $dataBaseConnection = dao\connectToDataBase();
+    $logTable = new ssop\SanitationPreOpLog($dataBaseConnection);
     $logEntries = $logTable->searchItemsByZoneIDAndDateInterval(
         $inputJSON["zone_id"], 
         $inputJSON["start_date"], 
@@ -29,7 +35,7 @@ try {
     );
 }
 catch (Exception $e) {
-    displayErrorPageAndExit($e->getCode(), $e->getMessage());
+    core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
 }
 
 // Initialize the JSON to be sent to the client

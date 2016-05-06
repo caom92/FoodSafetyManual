@@ -1,9 +1,14 @@
 <?php
 
+// Namespace for the GMP program's classes and functions
+namespace espresso\dao\gmp;
+
+// Importing required classes
 require_once realpath(dirname(__FILE__)."/../../DataBaseTable.php");
+use espresso\dao\DataBaseTable;
 
 // Data Access Object for the gmp_hand_washing_daily_log table
-class GMPHandWashingDailyLog extends DataBaseTable
+class HandWashingDailyLog extends DataBaseTable
 {
     // Creates an interface for interacting with the gmp_hand_washing_daily_log 
     // table in the specified data base

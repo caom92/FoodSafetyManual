@@ -1,7 +1,12 @@
 <?php
 
+// Import external classes
 require_once realpath(dirname(__FILE__)."/../../../dao/WorkplaceAreas.php");
 require_once realpath(dirname(__FILE__)."/../../../dao/WorkdayPeriods.php");
+
+// Alias the namespaces for ease of writing
+use espresso as core;
+use espresso\dao as dao;
 
 // Data is sent to the server from the client in the form of a JSON with
 // the following format:
@@ -17,16 +22,16 @@ $areasList = [];
 
 try {
     // attempt to connect to the data base
-    $dataBaseConnection = connectToDataBase();
-    $areasTable = new WorkplaceAreas($dataBaseConnection);
-    $periodsTable = new WorkdayPeriods($dataBaseConnection);
+    $dataBaseConnection = dao\connectToDataBase();
+    $areasTable = new dao\WorkplaceAreas($dataBaseConnection);
+    $periodsTable = new dao\WorkdayPeriods($dataBaseConnection);
     
     // attempt to read the data from the data base tables
     $periodsList = $periodsTable->searchItemsByZoneID($inputJSON["zone_id"]);
     $areasList = $areasTable->searchItemsByZoneID($inputJSON["zone_id"]);
 }
 catch (Exception $e) {
-    displayErrorPageAndExit($e->getCode(), $e->getMessage());
+    core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
 }
 
 // initialize the JSON to be sent to the client

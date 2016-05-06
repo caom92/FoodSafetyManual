@@ -1,5 +1,9 @@
 <?php
 
+// Namespace for the project's Data Access Objects
+namespace espresso\dao;
+
+// Importing required classes
 require_once realpath(dirname(__FILE__)."/../config.php");
 
 // Data Access Object for accessing the elements of a specific table in 

@@ -1,7 +1,13 @@
 <?php
 
+// Importing external classes
 require_once realpath(dirname(__FILE__).
-    "/../../../dao/programs/gmp/GMPHandWashingLog.php");
+    "/../../../dao/programs/gmp/HandWashingLog.php");
+    
+// Alias the namespaces for ease of writing
+use espresso as core;
+use espresso\dao as dao;
+use espresso\dao\gmp as gmp;
 
 // array of data entries read from the data base table
 $logEntries = [];
@@ -19,8 +25,8 @@ $inputJSON = json_decode($_GET);
 // attempt to connect to the data base and query the data from the hand washing
 // log
 try {
-    $dataBaseConnection = connectToDataBase();
-    $logTable = new GMPHandWashingLog($dataBaseConnection);
+    $dataBaseConnection = dao\connectToDataBase();
+    $logTable = new gmp\HandWashingLog($dataBaseConnection);
     $logEntries = $logTable->searchItemsByAreaIDAndDateInterval(
         $inputJSON["area_id"], 
         $inputJSON["start_date"], 
@@ -28,7 +34,7 @@ try {
     );
 }
 catch (Exception $e) {
-    displayErrorPageAndExit($e->getCode(), $e->getMessage());
+    core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
 }
 
 // Initialize the JSON to be sent to the client

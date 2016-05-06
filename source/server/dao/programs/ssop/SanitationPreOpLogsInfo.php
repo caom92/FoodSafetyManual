@@ -1,9 +1,14 @@
 <?php
 
+// Namespace for the SSOP program's classes and functions
+namespace espresso\dao\ssop;
+
+// Importing required classes
 require_once realpath(dirname(__FILE__)."/../../DataBaseTable.php");
+use espresso\dao\DataBaseTable;
 
 // Data Access Object for the ssop_sanitation_pre_op_logs_info table
-class SSOPSanitationPreOpLogsInfo extends DataBaseTable
+class SanitationPreOpLogsInfo extends DataBaseTable
 {
     // Creates an interface for interacting with the 
     // ssop_sanitation_pre_op_logs_info table in the specified data base

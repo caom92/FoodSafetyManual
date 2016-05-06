@@ -1,16 +1,21 @@
 <?php
 
-require_once realpath(dirname(__FILE__)."/../../DataBaseTable.php");
+// Namespace for the SSOP program's classes and functions
+namespace espresso\dao\ssop;
 
-// Data Access Object for the gmp_hand_washing_workday_period_log table
-class GMPHandWashingWorkdayPeriodLog extends DataBaseTable
+// Importing required classes
+require_once realpath(dirname(__FILE__)."/../../DataBaseTable.php");
+use espresso\dao\DataBaseTable;
+
+// Data Access Object for the ssop_sanitation_pre_op_hardware_logs table
+class SanitationPreOpHardwareLogs extends DataBaseTable
 {
     // Creates an interface for interacting with the 
-    // gmp_workday_period_hand_washing_log table in the specified data base
+    // ssop_sanitation_pre_op_hardware_logs table in the specified data base
     function __construct($dataBaseConnection)
     {
         parent::__construct($dataBaseConnection, 
-            "gmp_hand_washing_workday_period_log");
+            "ssop_sanitation_pre_op_hardware_logs");
     }
     
     
@@ -18,7 +23,7 @@ class GMPHandWashingWorkdayPeriodLog extends DataBaseTable
     // [in]    items: an array of associative arrays which define the rows to
     //         be inserted, where the key is the column name
     // [out]   return: the ID of the last inserted item
-    function saveItems($items) 
+    function saveItems($items)
     {
         return parent::insert($items);
     }

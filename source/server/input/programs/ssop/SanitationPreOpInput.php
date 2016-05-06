@@ -1,11 +1,17 @@
 <?php
 
+// Import external classes
 require_once realpath(dirname(__FILE__).
-    "/../../../dao/programs/ssop/SSOPSanitationPreOpLogsInfo.php");
+    "/../../../dao/programs/ssop/SanitationPreOpLogsInfo.php");
 require_once realpath(dirname(__FILE__).
-    "/../../../dao/programs/ssop/SSOPSanitationPreOpHardwareLogs.php");
+    "/../../../dao/programs/ssop/SanitationPreOpHardwareLogs.php");
 require_once realpath(dirname(__FILE__).
-    "/../../../dao/programs/ssop/SSOPSanitationPreOpLog.php");
+    "/../../../dao/programs/ssop/SanitationPreOpLog.php");
+    
+// Alias the namespaces for ease of writing
+use espresso as core;
+use espresso\dao as dao;
+use espresso\dao\ssop as ssop;
 
 // Data is sent to the server from the client in the form of a JSON with
 // the following format:
@@ -28,11 +34,11 @@ require_once realpath(dirname(__FILE__).
 
 try {
     // attempt to connect to the data base
-    $dataBaseConnection = connectToDataBase();
-    $logsInfoTable = new SSOPSanitationPreOpLogsInfo($dataBaseConnection);
+    $dataBaseConnection = dao\connectToDataBase();
+    $logsInfoTable = new ssop\SanitationPreOpLogsInfo($dataBaseConnection);
     $hardwareLogsTable = 
-        new SSOPSanitationPreOpHardwareLogs($dataBaseConnection);
-    $sanitationPreOpLog = new SSOPSanitationPreOpLog($dataBaseConnection);
+        new ssop\SanitationPreOpHardwareLogs($dataBaseConnection);
+    $sanitationPreOpLog = new ssop\SanitationPreOpLog($dataBaseConnection);
     
     // decode the input json
     $inputJSON = json_decode($_POST["data"]);
@@ -58,7 +64,7 @@ try {
     }
 }
 catch (Exception $e) {
-    displayErrorPageAndExit($e->getCode(), $e->getMessage());
+    core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
 }
 
 // return a success code just to let the client know
