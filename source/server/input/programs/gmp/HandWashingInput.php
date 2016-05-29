@@ -1,12 +1,12 @@
 <?php
 
 // Import external classes
-require_once realpath(dirname(__FILE__).
-    "/../../../dao/programs/gmp/HandWashingLog.php");
-require_once realpath(dirname(__FILE__).
-    "/../../../dao/programs/gmp/HandWashingDailyLog.php");
-require_once realpath(dirname(__FILE__).
-    "/../../../dao/programs/gmp/HandWashingWorkdayPeriodLog.php");
+require_once realpath(
+    "./../../../dao/programs/gmp/HandWashingLog.php");
+require_once realpath(
+    "./../../../dao/programs/gmp/HandWashingDailyLog.php");
+require_once realpath(
+    "./../../../dao/programs/gmp/HandWashingWorkdayPeriodLog.php");
     
 // Alias the namespaces for ease of writing
 use espresso as core;
@@ -59,9 +59,12 @@ try {
         ]);
     }
 }
-catch (Exception $e) {
-    core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
+catch (PDOException $e) {
+    core\displayErrorPageAndExit(1, $e->getMessage());
 }
+/*catch (Exception $e) {
+    core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
+}*/
 
 // return a success code just to let the client know
 echo json_encode([

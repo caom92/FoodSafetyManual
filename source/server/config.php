@@ -25,7 +25,7 @@ namespace espresso
 namespace espresso\dao   
 { 
     // Import Medoo library for interfacing with SQL
-    require_once realpath(dirname(__FILE__)."/../../external/medoo/medoo.php");
+    require_once realpath("./../../external/medoo/medoo.php");
     
     // Database connection information
     const HOST = "localhost";

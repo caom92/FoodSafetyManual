@@ -1,7 +1,7 @@
 <?php
 
 // Import external classes
-require_once realpath(dirname(__FILE__)."/../dao/CertificationPrograms.php");
+require_once realpath("./../dao/CertificationPrograms.php");
 
 // Alias the namespaces for ease of writing
 use espresso as core;
@@ -26,9 +26,12 @@ try {
     // attempt to read the data from the data base 
     $programsList = $programsTable->searchItemsByID($inputJSON["program_id"]);
 }
-catch (Exception $e) {
-    core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
+catch (PDOException $e) {
+    core\displayErrorPageAndExit(1, $e->getMessage());
 }
+/*catch (Exception $e) {
+    core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
+}*/
 
 if (count($programsList) != 0) {
     // if the element exists in the data base, we simply return the name of the 

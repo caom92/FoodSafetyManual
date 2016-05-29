@@ -1,0 +1,102 @@
+<div class="row"><div class="col s12 m12 l12">
+    <!-- Generic title -->
+    <h4><i class="material-icons md-48 field-icon error">error</i>
+        <div>Parece que hubo un problema.</div>
+    </h4>
+    
+    <!-- Accordion for organizing relevant info -->
+    <ul class="collapsible" data-collapsible="accordion">
+        <!-- This section explains what happened -->
+        <li>
+            <!-- Section title -->
+            <div class="collapsible-header active">
+                <i class="material-icons">help_circle</i>
+                &iquest;Qu&eacute; ocurri&oacute;?
+            </div>
+            
+            <!-- Section body -->
+            <div class="collapsible-body">
+                <p>Lo sentimos, pero hubo un problema al procesar una operación
+                en
+                la base de datos del servidor; el sistema intentó consultar o
+                modificar el contenido de la base de datos y no pudo completar
+                esta acción correctamente.</p>
+            </div>
+        </li>
+        
+        <!-- This section explains what caused the problem -->
+        <li>
+            <!-- Section title -->
+            <div class="collapsible-header">
+                <i class="material-icons">help_circle</i>
+                &iquest;Qu&eacute; lo caus&oacute;?
+            </div>
+            
+            <!-- Section body -->
+            <div class="collapsible-body">
+                <p>Este tipo de errores son poco comunes, pues normalmente 
+                    son ocasionados por defectos técnicos en el lado del 
+                    servidor y no por un descuido por parte del usuario. Las
+                    causas más comunes son:</p>
+                <ul class="list">
+                    <li>No se pudo establecer una conexión adecuada con la base 
+                        de datos del servidor, ya sea porque no hay conexión 
+                        a Internet o porque el servidor se encuentra apagado o
+                        deshabilitado.</li>
+                    <li>No se cuentan con los permisos adecuados para acceder
+                        a la base de datos del servidor. Esto se debe 
+                        normalmente a una mala configuración del servidor o
+                        de la base de datos.</li>
+                    <li>
+                        Se intentó consultar una tabla que no existe en la base
+                        de datos del servidor. Esto indica un error en la 
+                        programación del sistema o en la configuración
+                        de la base de datos.
+                    </li>
+                </ul>
+            </div>
+        </li>
+        
+        <!-- This section explains what can the user do to keep working -->
+        <li>
+            <!-- Section title -->
+            <div class="collapsible-header">
+                <i class="material-icons">help_circle</i>
+                &iquest;Qu&eacute; puedo hacer para resolverlo?
+            </div>
+            
+            <!-- Section body -->
+            <div class="collapsible-body">
+                <p>Como este tipo de problemas son causados por defectos 
+                    técnicos sobre los cuales el usuario normalmente no tiene
+                    control alguno, hay realmente muy poco que pueda hacer
+                    para resolverlo sin la ayuda de un técnico.</p>
+                <ul class="list">
+                    <li>Revise que su computadora esté conectada a Internet.
+                        Si no lo está, reinicie su módem o contacte a su
+                        proveedor.</li>
+                    <li>Antes de iniciar sesión, le sugerimos que revise 
+                        atentamente el ícono que indica el estado del servidor.
+                        Si está rojo, quiere decir que el servidor no
+                        está disponible y le sugerimos contactar al técnico 
+                        encargado.</li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+
+</div></div>
+
+<!-- Generic footer -->
+<div class="row"><div class="col s12 m12 l12 center">
+    <p style="font-weight:bold">
+        Si el problema persiste, no dude en contactarnos presionando el 
+        bot&oacute;n de abajo:
+    </p>
+    
+    <!-- Redirect to "Report Problem" -->
+    <a class="waves-effect waves-light btn green" href="report-problem">
+        <i class="material-icons left">report_problem</i>&iexcl;AYUDA!
+    </a>
+</div></div>
+<script src="/espresso/source/client/controllers/error.js"></script>

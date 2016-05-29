@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<translations>
+    <translation id="1">
+        <description>
+            <sp>
+                Lo sentimos, pero hubo un problema al procesar una operación en
+                la base de datos del servidor; el sistema intentó consultar o
+                modificar el contenido de la base de datos y no pudo completar
+                esta acción correctamente.
+            </sp>
+            <en>
+                Sorry, but we ran into a problem while processing an operation 
+                in the server's data base; the system tried to read the contents
+                of the data base or to write new data into it and it wasn't
+                able to complete the action successfully.
+            </en>
+        </description>
+        <causes>
+            <heading>
+                <sp>
+                    Este tipo de errores son poco comunes, pues normalmente 
+                    son ocasionados por defectos técnicos en el lado del 
+                    servidor y no por un descuido por parte del usuario. Las
+                    causas más comunes son:
+                </sp>
+                <en>
+                    This kind of errors are uncommon since they are usually 
+                    caused by technical defects on the server side and not
+                    by user mistakes. Common causes are:
+                </en>
+            </heading>
+            <ul>
+                <li>
+                    <sp>
+                        No se pudo establecer una conexión adecuada con la base 
+                        de datos del servidor, ya sea porque no hay conexión 
+                        a Internet o porque el servidor se encuentra apagado o
+                        deshabilitado.
+                    </sp>
+                    <en>
+                        A connection with the server's data base could not be
+                        successfully established, either because there is no
+                        Internet connection available, or because the 
+                        server is shut down or unavailable.
+                    <en>
+                </li>
+                <li>
+                    <sp>
+                        No se cuentan con los permisos adecuados para acceder
+                        a la base de datos del servidor. Esto se debe 
+                        normalmente a una mala configuración del servidor o
+                        de la base de datos.
+                    </sp>
+                    <en>
+                        The system does not have proper permissions for
+                        accessing to the server's data base. This might be
+                        due to a misconfiguration in the server or in the 
+                        data base.
+                    </en>
+                </li>
+                <li>
+                    <sp>
+                        Se intentó consultar una tabla que no existe en la base
+                        de datos del servidor. Esto indica un error en la 
+                        programación del sistema o en la configuración
+                        de la base de datos.
+                    </sp>
+                    <en>
+                        The system tried to access unexisting data in the 
+                        server's data base. This normally indicates a 
+                        programming error or a misconfigured data base.
+                    </en>
+                </li>
+            </ul>
+        </causes>
+        <suggestions>
+            <heading>
+                <sp>
+                    Como este tipo de problemas son causados por defectos 
+                    técnicos sobre los cuales el usuario normalmente no tiene
+                    control alguno, hay realmente muy poco que pueda hacer
+                    para resolverlo sin la ayuda de un técnico.
+                </sp>
+                <en>
+                    Since this kind of problems are caused by technical 
+                    defects over which the user doesn't normally has any 
+                    control, there is little you can do to solve them 
+                    without the help of a technician.
+                </en>
+            </heading>
+            <ul>
+                <li>
+                    <sp>
+                        Revise que su computadora esté conectada a Internet.
+                        Si no lo está, reinicie su módem o contacte a su
+                        proveedor.
+                    </sp>
+                    <en>
+                        Check that your computer is connected to the Internet.
+                        If it's not, restart your modem or contact your
+                        Internet Service Provider.
+                    <en>
+                </li>
+                <li>
+                    <sp>
+                        Antes de iniciar sesión, le sugerimos que revise 
+                        atentamente el ícono que indica el estado del servidor.
+                        Si está rojo, quiere decir que el servidor no
+                        está disponible y le sugerimos contactar al técnico 
+                        encargado.
+                    </sp>
+                    <en>
+                        Before logging in, we recommend that you check the 
+                        server status icon. If it's red, it means that the
+                        server is unavailable and we suggest you then
+                        contact the technician in charge. 
+                    </en>
+                </li>
+            </ul>
+        </suggestions>
+    </translation>
+    
+</translations>

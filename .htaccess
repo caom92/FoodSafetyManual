@@ -1,0 +1,8 @@
+RewriteEngine On
+RewriteBase /espresso/
+RewriteRule ^$ source/client/views/login.html [L,QSA]
+RewriteRule ^home$ source/client/views/main.html [L,QSA]
+RewriteRule ^report-problem$ source/client/views/main.html [L,QSA]
+RewriteRule ^error$ source/client/views/main.html [L,QSA]
+RewriteRule ^views/report-problem$ source/client/views/reportBug.html [L,QSA]
+RewriteRule ^views/error$ source/client/views/error.html [L,QSA]

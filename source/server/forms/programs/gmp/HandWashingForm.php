@@ -1,8 +1,8 @@
 <?php
 
 // Import external classes
-require_once realpath(dirname(__FILE__)."/../../../dao/WorkplaceAreas.php");
-require_once realpath(dirname(__FILE__)."/../../../dao/WorkdayPeriods.php");
+require_once realpath("./../../../dao/WorkplaceAreas.php");
+require_once realpath("./../../../dao/WorkdayPeriods.php");
 
 // Alias the namespaces for ease of writing
 use espresso as core;
@@ -30,9 +30,12 @@ try {
     $periodsList = $periodsTable->searchItemsByZoneID($inputJSON["zone_id"]);
     $areasList = $areasTable->searchItemsByZoneID($inputJSON["zone_id"]);
 }
-catch (Exception $e) {
-    core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
+catch (PDOException $e) {
+    core\displayErrorPageAndExit(1, $e->getMessage());
 }
+/*catch (Exception $e) {
+    core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
+}*/
 
 // initialize the JSON to be sent to the client
 $outputJSON = [

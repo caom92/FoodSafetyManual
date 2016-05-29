@@ -1,0 +1,194 @@
+<div class="row"><div class="col s12 m12 l12">
+
+    <div class="card-panel green">
+        <span class="white-text">
+            Si mientras trabajaba ocurri&oacute; un problema o cree haber 
+            encontrado un error en el sistema, por favor h&aacute;ganoslo saber 
+            llenando el siguiente reporte. Proporcione tanta informaci&oacute;n 
+            como sea posible y agregue capturas de pantalla. Nosotros lo 
+            resolveremos tan pronto como nos sea posible.
+        </span>
+    </div>
+
+</div></div>
+
+<!-- First row -->
+<div class="row"><div class="col s12 m12 l12">
+
+    <!-- Header for the first section of the form -->
+    <h4><i class="material-icons md-48 field-icon">info</i>
+        <div>Datos Generales</div>
+    </h4>
+    <div class="divider"></div>
+        
+</div></div>
+
+<!-- The report bug form -->
+<form action="" id="bug-report">
+    
+    <!-- Second row -->
+    <div class="row">
+        
+        <div class="col s12 m12 l12"> 
+            <p>Los campos marcados con * son obligatorios.</p>
+        </div>
+        
+        <!-- User name field -->
+        <div class="input-field col s12 m6 l6">
+            <input class="validate" type="text" value="vmiracle" 
+                id="user-name" disabled>
+            <label class="active" for="user-name">Nombre de Usuario</label>
+        </div>
+        
+        <!-- User ID number field -->
+        <div class="input-field col s12 m6 l6">
+            <input class="validate" type="number" value="123456" 
+                id="user-id" disabled>
+            <label class="active" for="user-id">ID de Empleado</label>
+        </div>    
+    </div>
+    
+    <!-- Third row -->
+    <div class="row">
+        
+        <!-- Zone selection -->
+        <div class="input-field col s12 m6 l3">
+            <select id="zone-selection">
+                <option value="" disabled selected>Selecciona una opci&oacute;n</option>
+                <option value="bcn">BCN</option>
+                <option value="law">LAW</option>
+            </select>
+            <label id="zone-selection__label">Zona Defectuosa*</label>
+        </div>
+        
+        <!-- Process selection -->
+        <div class="input-field col s12 m6 l3">
+            <select id="procedure-selection">
+                <option value="" disabled selected>Selecciona una opci&oacute;n</option>
+                <option value="gmp">GMP</option>
+                <option value="ssop">SSOP</option>
+            </select>
+            <label id="procedure-selection__label">
+                Procedimiento Defectuoso*
+            </label>
+        </div>
+        
+        <!-- Browser selection -->
+        <div class="input-field col s12 m6 l3">
+            <select id="browser-selection" multiple>
+                <option value="" disabled selected>Selecciona alguna opci&oacute;n</option>
+                <option value="ie">Internet Explorer</option>
+                <option value="ff">Firefox</option>
+                <option value="ch">Chrome</option>
+                <option value="op">Opera</option>
+                <option value="sf">Safari</option>
+                <option value="ot">Otro</option>
+            </select>
+            <label id="browser-selection__label">Navegador Web que usa*</label>
+        </div>
+        
+        <!-- Severity selection -->
+        <div class="input-field col s12 m6 l3">
+            <select id="severity-selection">
+                <option value="" disabled selected>Selecciona una opci&oacute;n</option>
+                <option value="blocker">Crash o bloqueo</option>
+                <option value="no-workaround">Sin soluci&oacute;n alternativa</option>
+                <option value="has-workaround">Con soluci&oacute;n alternativa</option>
+                <option value="doc-error">Error de documentaci&oacute;n</option>
+                <option vaue="trivial">Problema trivial</option>
+                <option value="ui-error">Defecto visual</option>
+                <option value="enhancement">Sugerencia de Mejora</option>
+            </select>
+            <label id="severity-selection__label">
+                Severidad del problema*
+            </label>
+        </div>
+        
+    </div>
+    
+    <!-- Fourth row -->
+    <div class="row"><div class="col s12 m12 l12">
+
+        <!-- Header for the second section of the form -->
+        <h4><i class="material-icons md-48 field-icon">edit</i>
+            <div>Descripci&oacute;n</div>
+        </h4>
+        <div class="divider"></div>
+        
+    </div></div>
+    
+    <!-- Fifth row -->
+    <div class="row"><div class="col s12 m12 l12">
+        
+        <!-- File Attachment field -->
+        <div class="file-field input-field">
+            <div class="green btn waves-effect waves-light">
+                <span>Adjuntar</span>
+                <input type="file" multiple>
+            </div>
+            
+            <div class="file-path-wrapper">
+                <input class="file-path validate" type="text" 
+                    placeholder="Adjunte una o m&aacute;s capturas de pantalla">
+            </div>
+        </div>
+    
+    </div></div>
+    
+    <!-- Sixth row -->
+    <div class="row"><div class="col s12 m12 l12">
+        
+        <!-- Summary field -->
+        <div class="input-field col s12 m6 l3">
+            <textarea class="materialize-textarea" id="summary" 
+                length="512"></textarea>
+            <label for="summary">Res&uacute;men del problema*</label>
+        </div>
+        
+        <!-- Steps field -->
+        <div class="input-field col s12 m6 l3">
+            <textarea class="materialize-textarea" id="steps" 
+                length="512"></textarea>
+            <label for="steps">Pasos para replicar el problema</label>
+        </div>
+        
+        <!-- Expected result field -->
+        <div class="input-field col s12 m6 l3">
+            <textarea class="materialize-textarea" id="expectation" 
+                length="256"></textarea>
+            <label for="expectation">
+                &iquest;Qu&eacute; resultado esperaba?
+            </label>
+        </div>
+        
+        <!-- Actual result field -->
+        <div class="input-field col s12 m6 l3">
+            <textarea class="materialize-textarea" id="reality" 
+                length="256"></textarea>
+            <label for="reality">
+                &iquest;Cu&aacute;l fue el resultado obtenido?
+            </label>
+        </div>
+        
+    </div></div>
+    
+    <!-- Seventh row -->
+    <div class="row"><div class="col s12 m12 l12 center">
+        
+        <p class="form-error center">
+            Por favor corrija los campos incorrectos
+        </p>
+        
+        <!-- Send button -->
+        <button class="green btn waves-effect waves-light" type="submit" 
+            name="action">
+            Enviar
+            <i class="material-icons right">send</i>
+        </button>
+        
+    </div></div>  
+    
+</form>
+
+<!-- Import the controller for this page -->
+<script src="/espresso/source/client/controllers/reportBug.js"></script>

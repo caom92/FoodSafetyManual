@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <!-- Tell the client we are using UTF-8 character encoding -->
+    <meta charset="UTF-8">
+    
+    <!-- Add this line for responsive web design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Add info about the company -->
+    <meta name="company" content="Jacobs Farm - Del Cabo">
+    
+    <!-- Import Normalize CSS -->
+    <link rel="stylesheet" href="/espresso/external/normalize/normalize.css">
+    
+    <!-- Import Material Design Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet">
+    <link href="/espresso/external/google/icons-extras.css" rel="stylesheet">
+
+    <!-- Import jQuery -->
+    <script src="/espresso/external/jquery/jquery-1.12.3.min.js"></script>
+
+    <!-- Import Materialize -->
+    <link rel="stylesheet" 
+        href="/espresso/external/materialize/css/materialize.min.css">
+    <script src="/espresso/external/materialize/js/materialize.min.js"></script>
+    
+    <!-- TO-DO: Add favicons -->
+    
+    <!-- Import the stylesheet of the application -->
+    <link rel="stylesheet" href="/espresso/data/stylesheets/espresso.css">
+    
+    <!-- Page title -->
+    <title>Jacobs Farm | Del Cabo | Log In</title>
+</head>
+        
+<body>
+    <!-- Page top bar -->
+    <header><div class="navbar-fixed"><nav><div class="nav-wrapper green">
+        
+        <!-- Language menu -->
+        <ul class="right">
+            <li>
+                <!-- Language menu icon -->
+                <a class="dropdown-button" 
+                    data-activates="language-menu" href="">
+                    <i class="material-icons">language</i>
+                </a>
+                
+                <!-- Language options -->
+                <ul id="language-menu" class="dropdown-content">
+                    <li><a class="green-text text-accent-4" href="">
+                        Espa&ntilde;ol
+                    </a></li>
+                    <li><a class="green-text text-accent-4" href="">
+                        English
+                    </a></li>
+                </ul>
+            </li>
+        </ul>
+    </div></nav></div></header>
+    
+    <!-- Page content -->
+    <main><div class="container">
+            <div class="row">
+                <div class="col s12 m10 l8 offset-m1 offset-l2">
+                    <div class="card">
+                        <!-- Logo area -->
+                        <div class="card-image">
+                            <img src="/espresso/data/images/logo.png">
+                        </div>
+                        
+                        <!-- Log in form -->
+                        <div class="card-content"><form action="">
+                            
+                            <!-- Username field -->
+                            <div class="input-field">
+                                <i class="material-icons prefix">
+                                    account_circle
+                                </i>
+                                <input class="validate" id="username" 
+                                    type="text">
+                                <label for="username">
+                                    Usuario, correo electr&oacute;nico o
+                                    ID de Empleado
+                                </label>
+                            </div>
+                            
+                            <!-- Password field -->
+                            <div class="input-field">
+                                <i class="material-icons prefix">
+                                    lock
+                                </i>
+                                <input class="validate" id="password" 
+                                    type="password">
+                                <label for="password">
+                                    Contrase&ntilde;a
+                                </label>
+                            </div>
+                            
+                            <!-- Forgot password button -->
+                            <div><a href="">
+                                Olvid&eacute; mi contrase&ntilde;a
+                            </a></div>
+                            
+                            <!-- Servidor status icon -->
+                            <div><div class="green-text">
+                                <i class="field-icon material-icons">
+                                    cloud_done
+                                </i>
+                                <div class="server-status">
+                                    Servidor disponible
+                                </div>
+                            </div></div>
+                            
+                            <div hidden><div class="red-text">
+                                <i class="field-icon material-icons">
+                                    cloud_offline
+                                </i>
+                                <div class="server-status">
+                                    Servidor no disponible
+                                </div>
+                            </div></div>
+                        </form></div>
+                        
+                        <!-- Log in button -->
+                        <div class="card-action text-green center">
+                            <a class="waves-effect waves-green btn-flat 
+                                black-text" href="home">
+                                INICIAR SESI&Oacute;N
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div></main>
+</body>
+</html>

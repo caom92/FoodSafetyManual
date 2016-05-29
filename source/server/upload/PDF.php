@@ -10,7 +10,7 @@ extension=php_fileinfo.so
 and restart the server */
 
 // Import external classes
-require_once realpath(dirname(__FILE__)."/../dao/CertificationPrograms.php");
+require_once realpath("./../dao/CertificationPrograms.php");
 
 // Alias the namespaces for ease of writing
 use espresso as core;
@@ -52,9 +52,12 @@ if ($MIMEType == "application/pdf") {
             "file_name" => $newFileName
         ]);
     }
-    catch (Exception $e) {
-        core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
+    catch (PDOException $e) {
+        core\displayErrorPageAndExit(1, $e->getMessage());
     }
+    /*catch (Exception $e) {
+        core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
+    }*/
     
     // finally, let the client know that the upload was successfull
     $outputJSON = [

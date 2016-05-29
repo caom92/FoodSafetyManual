@@ -1,8 +1,8 @@
 <?php
 
 // Import external classes
-require_once realpath(dirname(__FILE__)."/../dao/Users.php");
-require_once realpath(dirname(__FILE__)."/../dao/UsersProfileInfo.php");
+require_once realpath("./../dao/Users.php");
+require_once realpath("./../dao/UsersProfileInfo.php");
 
 // Alias the namespaces for ease of writing
 use espresso as core;
@@ -25,7 +25,7 @@ use espresso\dao as dao;
 //     permission_id:[uint]
 // }
 // we must decode it
-//$inputJSON = json_decode($_GET);
+$inputJSON = json_decode($_GET);
 
 try {
     // attempt to connect to the data base
@@ -57,9 +57,12 @@ try {
     // save the resulting set of permissions in the data base 
     $usersTable->saveItems($newPermissions);
 }
-catch (Exception $e) {
-    core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
+catch (PDOException $e) {
+    core\displayErrorPageAndExit(1, $e->getMessage());
 }
+/*catch (Exception $e) {
+    core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
+}*/
 
 // return a success code just to let the client know
 echo json_encode([

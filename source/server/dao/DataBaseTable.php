@@ -4,7 +4,7 @@
 namespace espresso\dao;
 
 // Importing required classes
-require_once realpath(dirname(__FILE__)."/../config.php");
+require_once realpath("./../config.php");
 
 // Data Access Object for accessing the elements of a specific table in 
 // the database. The interface of this class provides the basic SELECT, INSERT,

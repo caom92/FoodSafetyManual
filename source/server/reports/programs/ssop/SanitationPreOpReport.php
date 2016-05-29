@@ -1,8 +1,8 @@
 <?php
 
 // Importing external classes
-require_once realpath(dirname(__FILE__).
-    "/../../../dao/programs/ssop/SSOPSanitationPreOpLog.php");
+require_once realpath(
+    "./../../../dao/programs/ssop/SSOPSanitationPreOpLog.php");
     
 // Alias the namespaces for ease of writing
 use espresso as core;
@@ -34,9 +34,12 @@ try {
         $inputJSON["end_date"]
     );
 }
-catch (Exception $e) {
-    core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
+catch (PDOException $e) {
+    core\displayErrorPageAndExit(1, $e->getMessage());
 }
+/*catch (Exception $e) {
+    core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
+}*/
 
 // Initialize the JSON to be sent to the client
 $outputJSON = [
