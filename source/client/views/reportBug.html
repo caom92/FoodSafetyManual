@@ -36,14 +36,14 @@
         <!-- User name field -->
         <div class="input-field col s12 m6 l6">
             <input class="validate" type="text" value="vmiracle" 
-                id="user-name" disabled>
+                id="user-name" name="user-name" readonly>
             <label class="active" for="user-name">Nombre de Usuario</label>
         </div>
         
         <!-- User ID number field -->
         <div class="input-field col s12 m6 l6">
             <input class="validate" type="number" value="123456" 
-                id="user-id" disabled>
+                id="user-id" name="user-id" readonly>
             <label class="active" for="user-id">ID de Empleado</label>
         </div>    
     </div>
@@ -53,7 +53,7 @@
         
         <!-- Zone selection -->
         <div class="input-field col s12 m6 l3">
-            <select id="zone-selection">
+            <select id="zone-selection" name="zone-selection">
                 <option value="" disabled selected>Selecciona una opci&oacute;n</option>
                 <option value="bcn">BCN</option>
                 <option value="law">LAW</option>
@@ -63,7 +63,7 @@
         
         <!-- Process selection -->
         <div class="input-field col s12 m6 l3">
-            <select id="procedure-selection">
+            <select id="procedure-selection" name="procedure-selection">
                 <option value="" disabled selected>Selecciona una opci&oacute;n</option>
                 <option value="gmp">GMP</option>
                 <option value="ssop">SSOP</option>
@@ -75,21 +75,21 @@
         
         <!-- Browser selection -->
         <div class="input-field col s12 m6 l3">
-            <select id="browser-selection" multiple>
+            <select id="browser-selection" name="browser-selection[]" multiple>
                 <option value="" disabled selected>Selecciona alguna opci&oacute;n</option>
                 <option value="ie">Internet Explorer</option>
-                <option value="ff">Firefox</option>
-                <option value="ch">Chrome</option>
-                <option value="op">Opera</option>
-                <option value="sf">Safari</option>
-                <option value="ot">Otro</option>
+                <option value="firefox">Firefox</option>
+                <option value="chrome">Chrome</option>
+                <option value="opera">Opera</option>
+                <option value="safari">Safari</option>
+                <option value="other">Otro</option>
             </select>
             <label id="browser-selection__label">Navegador Web que usa*</label>
         </div>
         
         <!-- Severity selection -->
         <div class="input-field col s12 m6 l3">
-            <select id="severity-selection">
+            <select id="severity-selection" name="severity-selection">
                 <option value="" disabled selected>Selecciona una opci&oacute;n</option>
                 <option value="blocker">Crash o bloqueo</option>
                 <option value="no-workaround">Sin soluci&oacute;n alternativa</option>
@@ -124,7 +124,9 @@
         <div class="file-field input-field">
             <div class="green btn waves-effect waves-light">
                 <span>Adjuntar</span>
-                <input type="file" multiple>
+                <input id="screenshot-attachment" 
+                    name="screenshot-attachment[]" 
+                    type="file" multiple>
             </div>
             
             <div class="file-path-wrapper">
@@ -141,21 +143,21 @@
         <!-- Summary field -->
         <div class="input-field col s12 m6 l3">
             <textarea class="materialize-textarea" id="summary" 
-                length="512"></textarea>
+                name="summary" length="512"></textarea>
             <label for="summary">Res&uacute;men del problema*</label>
         </div>
         
         <!-- Steps field -->
         <div class="input-field col s12 m6 l3">
             <textarea class="materialize-textarea" id="steps" 
-                length="512"></textarea>
+                name="steps" length="512"></textarea>
             <label for="steps">Pasos para replicar el problema</label>
         </div>
         
         <!-- Expected result field -->
         <div class="input-field col s12 m6 l3">
             <textarea class="materialize-textarea" id="expectation" 
-                length="256"></textarea>
+                name="expectation" length="256"></textarea>
             <label for="expectation">
                 &iquest;Qu&eacute; resultado esperaba?
             </label>
@@ -164,7 +166,7 @@
         <!-- Actual result field -->
         <div class="input-field col s12 m6 l3">
             <textarea class="materialize-textarea" id="reality" 
-                length="256"></textarea>
+                name="reality" length="256"></textarea>
             <label for="reality">
                 &iquest;Cu&aacute;l fue el resultado obtenido?
             </label>
@@ -175,13 +177,13 @@
     <!-- Seventh row -->
     <div class="row"><div class="col s12 m12 l12 center">
         
-        <p class="form-error center">
-            Por favor corrija los campos incorrectos
-        </p>
+        <div class="progress">
+            <div class="indeterminate"></div>
+        </div>
         
         <!-- Send button -->
-        <button class="green btn waves-effect waves-light" type="submit" 
-            name="action">
+        <button class="green btn waves-effect waves-light" id="send"
+            name="send" type="submit">
             Enviar
             <i class="material-icons right">send</i>
         </button>
