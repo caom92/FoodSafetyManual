@@ -20,18 +20,20 @@ $(function() {
                 $("#server-online").show();
             } else {
                 $("#server-offline").show();
-                console.log("server says: " + response.error_message());
+                console.log("server says: " + response.error_message);
             }
         },
         
         // on error callback
         error: function(xhr, status, message) {
             // display the server result and the proper status icon
-            console.log("server says: " + status + ". " + message);
+            console.log("server says: " + status + ", " + message);
             $("#server-offline").show();
         }
     });
     
+    // Tell the input fields to turn back to valid when they were focused by
+    // the user when invalid
     $("input").click(function() {
         if ($(".prefix").hasClass("invalid")) {
             $(".prefix").removeClass("invalid")
@@ -66,8 +68,23 @@ $(function() {
                 
                 // check if the authentication succeeded
                 if (response.error_code == 0) {
+                    // store the user profile data in a session storage
+                    sessionStorage.id = response.data.id;
+                    sessionStorage.employee_id_num =  
+                        response.data.employee_id_num;
+                    sessionStorage.full_name = response.data.full_name;
+                    sessionStorage.email = response.data.email;
+                    sessionStorage.login_name = response.data.login_name;
+                    sessionStorage.login_password = 
+                        response.data.login_password;
+                    sessionStorage.key = response.data.key;
+                    
+                    // redirect to the home page
                     window.location.href = "/espresso/home";
-                } else {
+                } else if ($("#server-online").is(":visible")) {
+                    // if authentication failed with the server available,
+                    // it means that the credentials are wrong, o notify
+                    // the user visually
                     Materialize.toast(
                         "Las credenciales que ingres&oacute; son incorrectas", 
                         3500, "rounded"
@@ -75,7 +92,24 @@ $(function() {
                     $("#username").addClass("invalid");
                     $("#password").addClass("invalid");
                     $(".prefix").addClass("invalid");
+                    console.log("server says: " + response.error_message);
+                } else {
+                    // if the authentication failed with the server unavailable,
+                    // remind the user visually that the server is unavailable
+                    console.log("server says: " + response.error_message);
+                    Materialize.toast(
+                        "El servidor de la base de datos no esta disponible", 
+                        3500, "rounded"
+                    );
                 }
+            },
+            
+            // on error callback
+            error: function(xhr, status, message) {
+                // display the server result and the proper status icon
+                console.log("server says: " + status + ". " + message);
+                $("#server-online").hide();
+                $("#server-offline").show();
             }
         })
     });

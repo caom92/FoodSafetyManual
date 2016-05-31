@@ -5,6 +5,10 @@ require_once realpath(
     dirname(__FILE__)."/../../../../external/PHPMailer/vendor/autoload.php"
 );
 
+// For this script, the client does not send a json object, rather, it sends
+// the binary data using the default channels of POST and FILES for proper
+// form submition and translation into an email
+
 // Create the email body by pasting all the posted data into it
 $body = "Usuario: " . $_POST["user-name"] . "\n"
     . "ID de empleado: " . $_POST["user-id"] . "\n"
@@ -84,11 +88,32 @@ for ($i = 0; $i < $length; $i++) {
     $_FILES["screenshot-attachment"]["name"][$i]);
 }
 
+// the json object to be sent to the client in response
+$outputJSON;
+
 // send the file
 if ($mail->Send()) {
-    echo "bug report mailed successfully";
+    // notify the client if the file was mailed successfully
+    $outputJSON = [
+        "error_code" => 0,
+        "error_message" => "",
+        "data" => []
+    ];
 } else {
-    echo $mail->ErrorInfo;
+    // if the file was not mailed, notify the client
+    $outputJSON = [
+        "error_code" => 1,
+        "error_message" => $mail->ErrorInfo,
+        "data" => []
+    ];
 }
+
+// Send the data to the client as a JSON with the following format
+// {
+//     error_code:[int],
+//     error_message:[string],
+//     data:[]
+// }
+echo json_encode($outputJSON);
 
 ?>

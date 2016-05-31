@@ -24,7 +24,8 @@ function startSessionWithUserProfileData($userProfile)
         "full_name" => $userProfile["full_name"],
         "email" => $userProfile["email"],
         "login_name" => $userProfile["login_name"],
-        "login_password" => $userProfile["login_password"]
+        "login_password" => $userProfile["login_password"],
+        "key" => rand()
     ];
     
     // start a session and store this data
@@ -113,6 +114,7 @@ if (count($byLogin) > 0) {
 //     email:[string]
 //     login_name:[string]
 //     login_password:[string]
+//     key:[int]
 // }
 echo json_encode($outputJSON);
 

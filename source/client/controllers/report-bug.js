@@ -72,6 +72,11 @@ $(function() {
     // Hide the progress bar
     $(".progress").hide();
     
+    // set the user name and employee id
+    $("#user-name").val(sessionStorage.login_name);
+    $("#user-id").val(sessionStorage.employee_id_num);
+    
+    
     // change a previously invalid select field to valid when the user finally
     // selects a valid option
     requredSelectFieldChanged("#zone-selection");
@@ -174,12 +179,33 @@ $(function() {
                 "/espresso/source/server/services/others/mail-bug-report.php",
                 data: formData,
                 success: function(result) {
+                    // parse the server response into a json
+                    response = JSON.parse(result);
+                    
+                    // check that the result was successful
+                    if (response.error_code == 0) {
+                        Materialize.toast(
+                            "El reporte ha sido enviado con &eacute;xito", 
+                            3500, "rounded"
+                        );
+                    } else {
+                        console.log("server says: " + response.error_message);
+                        Materialize.toast(
+                            "&iexcl;ERROR! &iexcl;No se pudo enviar el "
+                            + "mensaje!", 
+                            3500, "rounded"
+                        );
+                    }
+                    $(".progress").hide();
+                },
+                // on error callback
+                error: function(xhr, status, message) {
+                    // display the server result and the proper status icon
+                    console.log("server says: " + status + ". " + message);
                     Materialize.toast(
-                        "El reporte ha sido enviado con &eacute;xito", 
+                        "&iexcl;ERROR! &iexcl;No se pudo enviar el mensaje!", 
                         3500, "rounded"
                     );
-                    console.log("server says: " + result);
-                    $(".progress").hide();
                 },
                 contentType: false,
                 processData: false
