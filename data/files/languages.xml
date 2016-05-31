@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<translations>
+    <!--Company Info-->
+    <translation id="company_name">
+        <english>Jacobs Farm - Del Cabo</english>
+        <spanish>Jacobs Farm - Del Cabo</spanish>
+    </translation>
+
+    <!--Credentials-->
+
+    <translation id="username_login">
+        <english>Username, e-mail or Employee ID</english>
+        <spanish>Usuario, correo electrónico o ID de Empleado</spanish>
+    </translation>
+
+    <translation id="password">
+        <english>Password</english>
+        <spanish>Contraseña</spanish>
+    </translation>
+
+    <translation id="password_forgotten">
+        <english>I forgot my password</english>
+        <spanish>Olvidé mi contraseña</spanish>
+    </translation>
+
+    <!--Sidenav-->
+
+    <translation id="home">
+        <english>Home</english>
+        <spanish>Inicio</spanish>
+    </translation>
+
+    <translation id="auth">
+        <english>Authorizations</english>
+        <spanish>Autorizaciones</spanish>
+    </translation>
+
+    <translation id="report_problem">
+        <english>Report problem</english>
+        <spanish>Reportar problema</spanish>
+    </translation>
+
+    <translation id="edit_profile">
+        <english>Edit Profile</english>
+        <spanish>Editar Perfil</spanish>
+    </translation>
+
+    <!--Interfaces-->
+
+    <translation id="login">
+        <english>Log in</english>
+        <spanish>Iniciar Sesión</spanish>
+    </translation>
+
+    <translation id="logout">
+        <english>Log out</english>
+        <spanish>Cerrar Sesión</spanish>
+    </translation>
+
+    <translation id="language_spanish">
+        <english>Español</english>
+        <spanish>Español</spanish>
+    </translation>
+
+    <translation id="language_english">
+        <english>English</english>
+        <spanish>English</spanish>
+    </translation>
+
+    <translation id="ok_button">
+        <english>Accept</english>
+        <spanish>Aceptar</spanish>
+    </translation>
+
+    <translation id="cancel_button">
+        <english>Cancel</english>
+        <spanish>Cancelar</spanish>
+    </translation>
+
+    <translation id="send_button">
+        <english>Send</english>
+        <spanish>Enviar</spanish>
+    </translation>
+
+    <translation id="attach_file">
+        <english>Attach</english>
+        <spanish>Adjuntar</spanish>
+    </translation>
+
+    <translation id="general_information">
+        <english>General Information</english>
+        <spanish>Datos generales</spanish>
+    </translation>
+
+    <translation id="mandatory_fields">
+        <english>The fields with a * are mandatory</english>
+        <spanish>Los campos marcados con * son obligatorios</spanish>
+    </translation>
+
+    <translation id="username">
+        <english>Username</english>
+        <spanish>Nombre de Usuario</spanish>
+    </translation>
+
+    <translation id="employee_id">
+        <english>Employee ID</english>
+        <spanish>ID de Empleado</spanish>
+    </translation>
+
+    <translation id="select_option">
+        <english>Choose an option</english>
+        <spanish>Selecciona una opción</spanish>
+    </translation>
+
+    <translation id="select_options">
+        <english>Choose some options</english>
+        <spanish>Selecciona alguna opcion</spanish>
+    </translation>
+
+    <translation id="description">
+        <english>Description</english>
+        <spanish>Descripción</spanish>
+    </translation>
+
+    <translation id="defective_zone">
+        <english>Defective Zone*</english>
+        <spanish>Zona Defectuosa*</spanish>
+    </translation>
+
+    <translation id="defective_process">
+        <english>Defective Process*</english>
+        <spanish>Procedimiento Defectuoso*</spanish>
+    </translation>
+
+    <translation id="web_browser">
+        <english>Web browser you use*</english>
+        <spanish>Navegador Web que usa*</spanish>
+    </translation>
+
+    <translation id="severity">
+        <english>Severity of the issue*</english>
+        <spanish>Severidad del problema*</spanish>
+    </translation>
+
+    <translation id="summary">
+        <english>Issue summary*</english>
+        <spanish>Resúmen del problema*</spanish>
+    </translation>
+
+    <translation id="steps">
+        <english>Steps to replicate the issue</english>
+        <spanish>Pasos para replicar el problema</spanish>
+    </translation>
+
+    <translation id="expectation">
+        <english>What was the expected result?</english>
+        <spanish>¿Qué resultado esperaba?</spanish>
+    </translation>
+
+    <translation id="reality">
+        <english>What was the obtained result?</english>
+        <spanish>¿Cuál fue el resultado obtenido?</spanish>
+    </translation>
+
+    <translation id="correction_request">
+        <english>Please fill the required fields</english>
+        <spanish>Por favor corrija los campos incorrectos</spanish>
+    </translation>
+
+    <!--Status messages-->
+
+    <translation id="server_online">
+        <english>Server available</english>
+        <spanish>Servidor disponible</spanish>
+    </translation>
+
+    <translation id="server_offline">
+        <english>Server unavailable</english>
+        <spanish>Servidor no disponible</spanish>
+    </translation>
+
+    <!--Information messages-->
+
+    <translation id="report_message">
+        <english>If you find an issue while working or you think there is an error in the system, please inform us by filling the form below. Provide us with as much information as possible and attach screenshots. We will solve it as soon as possible.</english>
+        <spanish>Si mientras trabajaba ocurrió un problema o cree haber encontrado un error en el sistema, por favor háganoslo saber llenando el siguiente reporte. Proporcione tanta información como sea posible y agregue capturas de pantalla. Nosotros lo resolveremos tan pronto como nos sea posible. </spanish>
+    </translation>
+
+    <!--Unsorted-->
+
+    <translation id="welcome_message">
+        <english>Welcome</english>
+        <spanish>Bienvenido</spanish>
+    </translation>    
+
+    <!--Template
+    <translation id="">
+        <english></english>
+        <spanish></spanish>
+    </translation>
+    -->
+</translations>

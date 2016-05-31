@@ -27,18 +27,6 @@
     <link rel="stylesheet" 
         href="/espresso/external/materialize/css/materialize.min.css">
     <script src="/espresso/external/materialize/js/materialize.min.js"></script>
-
-    <!-- Import language controller -->
-
-    <script src="/espresso/source/client/controllers/language.js"></script>
-
-    <!-- Initialize -->
-
-    <script type="text/javascript">
-        $(window).load(function(){
-            changeLanguage(localStorage.defaultLanguage);
-        });
-    </script>
     
     <!-- TO-DO: Add favicons -->
     
@@ -64,11 +52,11 @@
                 
                 <!-- Language options -->
                 <ul id="language-menu" class="dropdown-content">
-                    <li><a class="language_spanish green-text text-accent-4" href="" onclick="setLanguage('es');">
-                        
+                    <li><a class="green-text text-accent-4" href="">
+                        Espa&ntilde;ol
                     </a></li>
-                    <li><a class="language_english green-text text-accent-4" href="" onclick="setLanguage('en');">
-                        
+                    <li><a class="green-text text-accent-4" href="">
+                        English
                     </a></li>
                 </ul>
             </li>
@@ -95,8 +83,9 @@
                                 </i>
                                 <input class="validate" id="username" 
                                     type="text">
-                                <label for="username" class="username_login">
-                                    
+                                <label for="username">
+                                    Usuario, correo electr&oacute;nico o
+                                    ID de Empleado
                                 </label>
                             </div>
                             
@@ -107,14 +96,14 @@
                                 </i>
                                 <input class="validate" id="password" 
                                     type="password">
-                                <label for="password" class="password">
-                                    
+                                <label for="password">
+                                    Contrase&ntilde;a
                                 </label>
                             </div>
                             
                             <!-- Forgot password button -->
-                            <div><a href="" class="password_forgotten">
-                                
+                            <div><a href="">
+                                Olvid&eacute; mi contrase&ntilde;a
                             </a></div>
                             
                             <!-- Servidor status icon -->
@@ -122,8 +111,8 @@
                                 <i class="field-icon material-icons">
                                     cloud_done
                                 </i>
-                                <div class="server-status server_online">
-                                    
+                                <div class="server-status">
+                                    Servidor disponible
                                 </div>
                             </div></div>
                             
@@ -131,17 +120,17 @@
                                 <i class="field-icon material-icons">
                                     cloud_offline
                                 </i>
-                                <div class="server-status server_offline">
-                                    
+                                <div class="server-status">
+                                    Servidor no disponible
                                 </div>
                             </div></div>
                         </div>
                         
                         <!-- Log in button -->
                         <div class="card-action text-green center">
-                            <a class="login waves-effect waves-green btn-flat 
+                            <a class="waves-effect waves-green btn-flat 
                                 black-text" href="" id="form-submit">
-                                
+                                INICIAR SESI&Oacute;N
                             </a>
                         </div>
                     </div></form>

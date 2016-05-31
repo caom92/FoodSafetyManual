@@ -1,7 +1,7 @@
 <div class="row"><div class="col s12 m12 l12">
 
     <div class="card-panel green">
-        <span class="report_message white-text">
+        <span class="white-text">
             Si mientras trabajaba ocurri&oacute; un problema o cree haber 
             encontrado un error en el sistema, por favor h&aacute;ganoslo saber 
             llenando el siguiente reporte. Proporcione tanta informaci&oacute;n 
@@ -17,7 +17,7 @@
 
     <!-- Header for the first section of the form -->
     <h4><i class="material-icons md-48 field-icon">info</i>
-        <div class="general_information">Datos Generales</div>
+        <div>Datos Generales</div>
     </h4>
     <div class="divider"></div>
         
@@ -30,21 +30,21 @@
     <div class="row">
         
         <div class="col s12 m12 l12"> 
-            <p class="mandatory_fields">Los campos marcados con * son obligatorios.</p>
+            <p>Los campos marcados con * son obligatorios.</p>
         </div>
         
         <!-- User name field -->
         <div class="input-field col s12 m6 l6">
             <input class="validate" type="text" value="" 
                 id="user-name" name="user-name" readonly>
-            <label class="username active" for="user-name">Nombre de Usuario</label>
+            <label class="active" for="user-name">Nombre de Usuario</label>
         </div>
         
         <!-- User ID number field -->
         <div class="input-field col s12 m6 l6">
             <input class="validate" type="number" value="" 
                 id="user-id" name="user-id" readonly>
-            <label class="employee_id active" for="user-id">ID de Empleado</label>
+            <label class="active" for="user-id">ID de Empleado</label>
         </div>    
     </div>
     
@@ -54,21 +54,21 @@
         <!-- Zone selection -->
         <div class="input-field col s12 m6 l3">
             <select id="zone-selection" name="zone-selection">
-                <option value="" disabled selected class="select_option">Selecciona una opci&oacute;n</option>
+                <option value="" disabled selected>Selecciona una opci&oacute;n</option>
                 <option value="bcn">BCN</option>
                 <option value="law">LAW</option>
             </select>
-            <label id="zone-selection__label" class="defective_zone">Zona Defectuosa*</label>
+            <label id="zone-selection__label">Zona Defectuosa*</label>
         </div>
         
         <!-- Process selection -->
         <div class="input-field col s12 m6 l3">
             <select id="procedure-selection" name="procedure-selection">
-                <option value="" disabled selected class="select_option">Selecciona una opci&oacute;n</option>
+                <option value="" disabled selected>Selecciona una opci&oacute;n</option>
                 <option value="gmp">GMP</option>
                 <option value="ssop">SSOP</option>
             </select>
-            <label id="procedure-selection__label" class="defective_process">
+            <label id="procedure-selection__label">
                 Procedimiento Defectuoso*
             </label>
         </div>
@@ -76,7 +76,7 @@
         <!-- Browser selection -->
         <div class="input-field col s12 m6 l3">
             <select id="browser-selection" name="browser-selection[]" multiple>
-                <option value="" disabled selected class="select_options">Selecciona alguna opci&oacute;n</option>
+                <option value="" disabled selected>Selecciona alguna opci&oacute;n</option>
                 <option value="ie">Internet Explorer</option>
                 <option value="firefox">Firefox</option>
                 <option value="chrome">Chrome</option>
@@ -84,13 +84,13 @@
                 <option value="safari">Safari</option>
                 <option value="other">Otro</option>
             </select>
-            <label id="browser-selection__label" class="web_browser">Navegador Web que usa*</label>
+            <label id="browser-selection__label">Navegador Web que usa*</label>
         </div>
         
         <!-- Severity selection -->
         <div class="input-field col s12 m6 l3">
             <select id="severity-selection" name="severity-selection">
-                <option value="" disabled selected class="select_option">Selecciona una opci&oacute;n</option>
+                <option value="" disabled selected>Selecciona una opci&oacute;n</option>
                 <option value="blocker">Crash o bloqueo</option>
                 <option value="no-workaround">Sin soluci&oacute;n alternativa</option>
                 <option value="has-workaround">Con soluci&oacute;n alternativa</option>
@@ -99,7 +99,7 @@
                 <option value="ui-error">Defecto visual</option>
                 <option value="enhancement">Sugerencia de Mejora</option>
             </select>
-            <label id="severity-selection__label" class="severity">
+            <label id="severity-selection__label">
                 Severidad del problema*
             </label>
         </div>
@@ -111,7 +111,7 @@
 
         <!-- Header for the second section of the form -->
         <h4><i class="material-icons md-48 field-icon">edit</i>
-            <div class="description">Descripci&oacute;n</div>
+            <div>Descripci&oacute;n</div>
         </h4>
         <div class="divider"></div>
         
@@ -123,7 +123,7 @@
         <!-- File Attachment field -->
         <div class="file-field input-field">
             <div class="green btn waves-effect waves-light">
-                <span class="attach">Adjuntar</span>
+                <span>Adjuntar</span>
                 <input id="screenshot-attachment" 
                     name="screenshot-attachment[]" 
                     type="file" multiple>
@@ -144,21 +144,21 @@
         <div class="input-field col s12 m6 l3">
             <textarea class="materialize-textarea" id="summary" 
                 name="summary" length="512"></textarea>
-            <label for="summary" class="summary">Res&uacute;men del problema*</label>
+            <label for="summary">Res&uacute;men del problema*</label>
         </div>
         
         <!-- Steps field -->
         <div class="input-field col s12 m6 l3">
             <textarea class="materialize-textarea" id="steps" 
                 name="steps" length="512"></textarea>
-            <label for="steps" class="steps">Pasos para replicar el problema</label>
+            <label for="steps">Pasos para replicar el problema</label>
         </div>
         
         <!-- Expected result field -->
         <div class="input-field col s12 m6 l3">
             <textarea class="materialize-textarea" id="expectation" 
                 name="expectation" length="256"></textarea>
-            <label for="expectation" class="expectation">
+            <label for="expectation">
                 &iquest;Qu&eacute; resultado esperaba?
             </label>
         </div>
@@ -167,7 +167,7 @@
         <div class="input-field col s12 m6 l3">
             <textarea class="materialize-textarea" id="reality" 
                 name="reality" length="256"></textarea>
-            <label for="reality" class="reality">
+            <label for="reality">
                 &iquest;Cu&aacute;l fue el resultado obtenido?
             </label>
         </div>
@@ -182,7 +182,7 @@
         </div>
         
         <!-- Send button -->
-        <button class="send_button green btn waves-effect waves-light" id="send"
+        <button class="green btn waves-effect waves-light" id="send"
             name="send" type="submit">
             Enviar
             <i class="material-icons right">send</i>
@@ -194,4 +194,3 @@
 
 <!-- Import the controller for this page -->
 <script src="/espresso/source/client/controllers/report-bug.js"></script>
-<script src="/espresso/source/client/views/test.js"></script>
