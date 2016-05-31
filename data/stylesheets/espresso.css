@@ -125,7 +125,8 @@ main.with-side-menu, footer {
 .material-icons.field-icon.error, 
 textarea.materialize-textarea.invalid:focus:not([readonly]) + label, 
 textarea.materialize-textarea.invalid:not([readonly]) + label,
-.invalid-select, p.form-error {
+.invalid-select, p.form-error,
+.material-icons.prefix.active.invalid {
     color: red !important;
 }
 

@@ -169,8 +169,9 @@ $(function() {
             
             // if all form fields are valid, send the data to the server
             $.ajax({
-                type: "POST",
-                url: "/espresso/source/server/services/others/mail-bug-report.php",
+                method: "POST",
+                url: 
+                "/espresso/source/server/services/others/mail-bug-report.php",
                 data: formData,
                 success: function(result) {
                     Materialize.toast(
