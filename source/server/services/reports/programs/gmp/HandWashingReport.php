@@ -2,7 +2,7 @@
 
 // Importing external classes
 require_once realpath(
-    "./../../../dao/programs/gmp/HandWashingLog.php");
+    dirname(__FILE__)."/../../../dao/programs/gmp/HandWashingLog.php");
     
 // Alias the namespaces for ease of writing
 use espresso as core;

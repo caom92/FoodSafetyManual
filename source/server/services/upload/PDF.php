@@ -10,7 +10,7 @@ extension=php_fileinfo.so
 and restart the server */
 
 // Import external classes
-require_once realpath("./../dao/CertificationPrograms.php");
+require_once realpath(dirname(__FILE__)."/../dao/CertificationPrograms.php");
 
 // Alias the namespaces for ease of writing
 use espresso as core;

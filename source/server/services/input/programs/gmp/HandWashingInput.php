@@ -2,11 +2,12 @@
 
 // Import external classes
 require_once realpath(
-    "./../../../dao/programs/gmp/HandWashingLog.php");
+    dirname(__FILE__)."/../../../dao/programs/gmp/HandWashingLog.php");
 require_once realpath(
-    "./../../../dao/programs/gmp/HandWashingDailyLog.php");
+    dirname(__FILE__)."/../../../dao/programs/gmp/HandWashingDailyLog.php");
 require_once realpath(
-    "./../../../dao/programs/gmp/HandWashingWorkdayPeriodLog.php");
+    dirname(__FILE__).
+    "/../../../dao/programs/gmp/HandWashingWorkdayPeriodLog.php");
     
 // Alias the namespaces for ease of writing
 use espresso as core;

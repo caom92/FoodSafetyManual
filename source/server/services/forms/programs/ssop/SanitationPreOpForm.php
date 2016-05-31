@@ -1,10 +1,12 @@
 <?php
 
 // Import external classes
-require_once realpath("./../../../dao/WorkplaceAreas.php");
-require_once realpath("./../../../dao/WorkplaceAreaHardware.php");
+require_once realpath(dirname(__FILE__)."/../../../dao/WorkplaceAreas.php");
+require_once realpath(dirname(__FILE__).
+    "/../../../dao/WorkplaceAreaHardware.php");
 require_once realpath(
-    "./../../../dao/programs/ssop/SanitationPreOpCorrectiveActions.php");
+    dirname(__FILE__).
+    "/../../../dao/programs/ssop/SanitationPreOpCorrectiveActions.php");
     
 // Alias the namespaces for ease of writing
 use espresso as core;

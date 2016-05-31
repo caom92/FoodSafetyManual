@@ -4,7 +4,7 @@
 namespace espresso\dao;
 
 // Importing required classes
-require_once realpath("./DataBaseTable.php");
+require_once realpath(dirname(__FILE__)."/DataBaseTable.php");
 
 // Data Access Object for the workplace_areas table
 class WorkplaceAreas extends DataBaseTable

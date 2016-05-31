@@ -21,6 +21,7 @@
 
     <!-- Import jQuery -->
     <script src="/espresso/external/jquery/jquery-1.12.3.min.js"></script>
+    <script src="/espresso/external/md5/jquery.md5.js"></script>
 
     <!-- Import Materialize -->
     <link rel="stylesheet" 
@@ -66,14 +67,14 @@
     <main><div class="container">
             <div class="row">
                 <div class="col s12 m10 l8 offset-m1 offset-l2">
-                    <div class="card">
+                    <form action="" id="login-form"><div class="card">
                         <!-- Logo area -->
                         <div class="card-image">
                             <img src="/espresso/data/images/logo.png">
                         </div>
                         
                         <!-- Log in form -->
-                        <div class="card-content"><form action="">
+                        <div class="card-content">
                             
                             <!-- Username field -->
                             <div class="input-field">
@@ -106,7 +107,7 @@
                             </a></div>
                             
                             <!-- Servidor status icon -->
-                            <div><div class="green-text">
+                            <div><div class="green-text" id="server-online">
                                 <i class="field-icon material-icons">
                                     cloud_done
                                 </i>
@@ -115,7 +116,7 @@
                                 </div>
                             </div></div>
                             
-                            <div hidden><div class="red-text">
+                            <div><div class="red-text" id="server-offline">
                                 <i class="field-icon material-icons">
                                     cloud_offline
                                 </i>
@@ -123,18 +124,19 @@
                                     Servidor no disponible
                                 </div>
                             </div></div>
-                        </form></div>
+                        </div>
                         
                         <!-- Log in button -->
                         <div class="card-action text-green center">
                             <a class="waves-effect waves-green btn-flat 
-                                black-text" href="home">
+                                black-text" href="" id="form-submit">
                                 INICIAR SESI&Oacute;N
                             </a>
                         </div>
-                    </div>
+                    </div></form>
                 </div>
             </div>
     </div></main>
+    <script src="/espresso/source/client/controllers/login.js"></script>
 </body>
 </html>

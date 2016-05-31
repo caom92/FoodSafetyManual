@@ -1,8 +1,8 @@
 <?php
 
 // Import external classes
-require_once realpath("./../dao/Users.php");
-require_once realpath("./../dao/UsersProfileInfo.php");
+require_once realpath(dirname(__FILE__)."/../dao/Users.php");
+require_once realpath(dirname(__FILE__)."/../dao/UsersProfileInfo.php");
 
 // Alias the namespaces for ease of writing
 use espresso as core;

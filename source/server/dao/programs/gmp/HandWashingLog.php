@@ -4,7 +4,7 @@
 namespace espresso\dao\gmp;
 
 // Importing required classes
-require_once realpath("./../../DataBaseTable.php");
+require_once realpath(dirname(__FILE__)."/../../DataBaseTable.php");
 use espresso\dao\DataBaseTable;
 
 // Data Access Object for the gmp_hand_washing_log table

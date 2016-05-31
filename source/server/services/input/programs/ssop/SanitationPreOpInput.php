@@ -2,10 +2,13 @@
 
 // Import external classes
 require_once realpath(
-    "./../../../dao/programs/ssop/SanitationPreOpLogsInfo.php");
+    dirname(__FILE__).
+    "/../../../dao/programs/ssop/SanitationPreOpLogsInfo.php");
 require_once realpath(
+    dirname(__FILE__).
     "./../../../dao/programs/ssop/SanitationPreOpHardwareLogs.php");
 require_once realpath(
+    dirname(__FILE__).
     "./../../../dao/programs/ssop/SanitationPreOpLog.php");
     
 // Alias the namespaces for ease of writing

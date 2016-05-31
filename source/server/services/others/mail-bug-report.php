@@ -2,7 +2,7 @@
 
 // Import PHPMailer using the composer autoloader
 require_once realpath(
-    "./../../../../external/PHPMailer/vendor/autoload.php"
+    dirname(__FILE__)."/../../../../external/PHPMailer/vendor/autoload.php"
 );
 
 // Create the email body by pasting all the posted data into it
@@ -23,7 +23,6 @@ $body .= "\n" . "Severidad: " . $_POST["severity-selection"] . "\n"
     . "Pasos para reproducirlo: " . $_POST["steps"] . "\n"
     . "Salida esperada: " . $_POST["expectation"] . "\n"
     . "Salida obtenida: " . $_POST["reality"] . "\n";
-
 
 //Create a new PHPMailer instance
 $mail = new PHPMailerOAuth;
@@ -87,7 +86,7 @@ for ($i = 0; $i < $length; $i++) {
 
 // send the file
 if ($mail->Send()) {
-    echo "success";
+    echo "bug report mailed successfully";
 } else {
     echo $mail->ErrorInfo;
 }

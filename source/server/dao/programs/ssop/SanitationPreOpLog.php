@@ -4,7 +4,7 @@
 namespace espresso\dao\ssop;
 
 // Importing required classes
-require_once realpath("./../../DataBaseTable.php");
+require_once realpath(dirname(__FILE__)."/../../DataBaseTable.php");
 use espresso\dao\DataBaseTable;
 
 // Data Access Object for the ssop_sanitation_pre_op_log table
