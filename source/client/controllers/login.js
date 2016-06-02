@@ -10,9 +10,9 @@ $(function() {
         url: "/espresso/source/server/services/others/server-status.php",
         
         // on success callback
-        success: function(result) {
+        success: function(data, message, xhr) {
             // parse the server response into a json
-            response = JSON.parse(result);
+            response = JSON.parse(data);
             
             // depending if the server is available or not, show the proper
             // icon
@@ -62,9 +62,9 @@ $(function() {
             },
             
             // on success callback
-            success: function(result) {
+            success: function(data, message, xhr) {
                 // parse the server response into a json
-                response = JSON.parse(result);
+                response = JSON.parse(data);
                 
                 // check if the authentication succeeded
                 if (response.error_code == 0) {
@@ -83,7 +83,7 @@ $(function() {
                     window.location.href = "/espresso/home";
                 } else if ($("#server-online").is(":visible")) {
                     // if authentication failed with the server available,
-                    // it means that the credentials are wrong, o notify
+                    // it means that the credentials are wrong, so notify
                     // the user visually
                     Materialize.toast(
                         "Las credenciales que ingres&oacute; son incorrectas", 

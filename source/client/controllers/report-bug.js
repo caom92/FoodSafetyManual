@@ -4,7 +4,7 @@
 // and, if she did, remove the invalid mark left on it
 // [in]     id: the HTML tag ID for the select input field to which the 
 //          listener is going to be added 
-function requredSelectFieldChanged(id) {
+function setOnChangeListenerToRequiredSelectField(id) {
     $(id).change(function() {
         label = "#" + $(this).attr("id") + "__label";
         if ($(this).val() 
@@ -20,7 +20,7 @@ function requredSelectFieldChanged(id) {
 // [in]    id: the HTML tag ID of the input field which we want to 
 //         validate
 // [out]   return: true if the field was valid or false otherwise
-function requiredSelectFieldValidate(id) {
+function isRequiredSelectFieldValid(id) {
     // first check if the field is a multiple selection
     if (!$(id).attr("multiple")) {
         // if it is not, then just check if its value is empty
@@ -43,7 +43,7 @@ function requiredSelectFieldValidate(id) {
 // [in]    id: the HTML tag ID of the input field which we want to 
 //         validate
 // [out]   return: true if the field was valid or false otherwise
-function textAreaFieldValidate(id) {
+function isTextAreaLengthValid(id) {
     return !$(id).hasClass("invalid");
 }
 
@@ -53,7 +53,7 @@ function textAreaFieldValidate(id) {
 // [in]    id: the HTML tag ID of the input field which we want to 
 //         validate
 // [out]   return: true if the field has content of false otherwise
-function requiredTextAreaFieldValidate(id) {
+function isRequiredTextAreaValid(id) {
     if ($(id).val().length == 0) {
         $(id).addClass("invalid");
         return false;
@@ -72,17 +72,22 @@ $(function() {
     // Hide the progress bar
     $(".progress").hide();
     
-    // set the user name and employee id
+    // set the user name, employee id, email and preferred language
     $("#user-name").val(sessionStorage.login_name);
     $("#user-id").val(sessionStorage.employee_id_num);
+    $("#user-email").val(sessionStorage.email);
+    $("#lang").val(localStorage.defaultLanguage);
     
+    // hide the language and email fields
+    $("#user-email").hide();
+    $("#lang").hide();
     
     // change a previously invalid select field to valid when the user finally
     // selects a valid option
-    requredSelectFieldChanged("#zone-selection");
-    requredSelectFieldChanged("#procedure-selection");
-    requredSelectFieldChanged("#browser-selection");
-    requredSelectFieldChanged("#severity-selection");
+    setOnChangeListenerToRequiredSelectField("#zone-selection");
+    setOnChangeListenerToRequiredSelectField("#procedure-selection");
+    setOnChangeListenerToRequiredSelectField("#browser-selection");
+    setOnChangeListenerToRequiredSelectField("#severity-selection");
     
     // when the user uploads one or more screenshots, we must check the MIME 
     // type to make sure that the uploaded files are only images and not any
@@ -140,19 +145,19 @@ $(function() {
         
         // check if the required select inputs have a value selected;
         // if any of those is empty, mark it on the form
-        zoneIsValid = requiredSelectFieldValidate("#zone-selection");
-        procedureIsValid = requiredSelectFieldValidate("#procedure-selection")
-        browserIsValid = requiredSelectFieldValidate("#browser-selection");
-        severityIsValid = requiredSelectFieldValidate("#severity-selection");
+        zoneIsValid = isRequiredSelectFieldValid("#zone-selection");
+        procedureIsValid = isRequiredSelectFieldValid("#procedure-selection")
+        browserIsValid = isRequiredSelectFieldValid("#browser-selection");
+        severityIsValid = isRequiredSelectFieldValid("#severity-selection");
         
         // check if the required text area inputs have text inside
-        summaryIsValid = requiredTextAreaFieldValidate("#summary");
+        summaryIsValid = isRequiredTextAreaValid("#summary");
         
         // check that all area inputs have the proper length
-        summaryLengthIsValid = textAreaFieldValidate("#summary");
-        stepsLengthIsValid = textAreaFieldValidate("#steps");
-        expectationLengthIsValid = textAreaFieldValidate("#expectation");
-        realityLengthIsValid = textAreaFieldValidate("#reality");
+        summaryLengthIsValid = isTextAreaLengthValid("#summary");
+        stepsLengthIsValid = isTextAreaLengthValid("#steps");
+        expectationLengthIsValid = isTextAreaLengthValid("#expectation");
+        realityLengthIsValid = isTextAreaLengthValid("#reality");
         
         // check if the user is attaching valid image files
         attachmentIsValid = !$(".file-path").hasClass("invalid"); 
@@ -178,9 +183,9 @@ $(function() {
                 url: 
                 "/espresso/source/server/services/others/mail-bug-report.php",
                 data: formData,
-                success: function(result) {
+                success: function(data, message, xhr) {
                     // parse the server response into a json
-                    response = JSON.parse(result);
+                    response = JSON.parse(data);
                     
                     // check that the result was successful
                     if (response.error_code == 0) {

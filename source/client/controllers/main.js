@@ -11,9 +11,9 @@ $(function() {
         },
         
         // on success callback
-        success: function(result) {
+        success: function(data, message, xhr) {
             // parse the response from the server to a json 
-            response = JSON.parse(result);
+            response = JSON.parse(data);
             
             // check if the reponse was an error
             if (response.error_code == 0) {
