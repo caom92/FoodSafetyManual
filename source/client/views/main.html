@@ -28,11 +28,9 @@
     <script src="/espresso/external/materialize/js/materialize.min.js"></script>
 
     <!-- Import language controller -->
-
     <script src="/espresso/source/client/controllers/language.js"></script>
 
     <!-- Initialize -->
-
     <script type="text/javascript">
         $(window).load(function(){
             changeLanguage(localStorage.defaultLanguage);
@@ -92,8 +90,8 @@
                             <li><a class="edit_profile waves-effect waves-green" href="">
                                 
                             </a></li>
-                            <li><a class="logout waves-effect waves-green" href="" 
-                                id="logout">
+                            <li><a class="logout waves-effect waves-green" 
+                                href="" id="logout">
                                 
                             </a></li>
                         </ul></div>
@@ -158,6 +156,9 @@
     </div></main>
     
     <!-- Import our controllers -->
+    <script 
+        src="/espresso/source/client/controllers/report-problem.js"></script>
     <script src="/espresso/source/client/controllers/main.js"></script>
+
 </body>
 </html>

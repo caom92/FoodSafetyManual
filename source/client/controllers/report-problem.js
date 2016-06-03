@@ -1,4 +1,3 @@
-
 // This function adds an onchange listener to the especified select input field 
 // where we check if the user changed its value when it was previously missing 
 // and, if she did, remove the invalid mark left on it
@@ -61,8 +60,10 @@ function isRequiredTextAreaValid(id) {
     return true;
 }
 
-// Entry point for the program that controls the bug report form
-$(function() {
+
+// The main function which starts execution of this controller, call only
+// when its corresponding view is ready
+function onReportProblemViewReady() {
     // Initialize select inputs
     $("select").material_select();
     
@@ -217,4 +218,4 @@ $(function() {
             });
         }
     });
-});
+}
