@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<translations>
+    <!--Failed log in-->
+    <translation id="failed_login">
+        <english>The credentials used are not valid</english>
+        <spanish>Las credenciales que ingresó son incorrectas</spanish>
+    </translation>
+
+    <translation id="server_offline">
+        <english>The database server is not available</english>
+        <spanish>El servidor de la base de datos no esta disponible</spanish>
+    </translation>
+
+    <translation id="incorrect_fields">
+        <english>Please modify the incorrect fields</english>
+        <spanish>Por favor corrija los campos incorrectos</spanish>
+    </translation>
+
+    <translation id="report_sent">
+        <english>The report has been sent succesfully</english>
+        <spanish>El reporte ha sido enviado con éxito</spanish>
+    </translation>
+
+    <translation id="report_failed">
+        <english>ERROR!: The message could not be sent</english>
+        <spanish>¡ERROR!: No se pudo enviar el mensaje</spanish>
+    </translation>
+
+    <translation id="only_images">
+        <english>Only images are allowed as attached files</english>
+        <spanish>Sólo se permite adjuntar imágenes</spanish>
+    </translation>
+</translations>

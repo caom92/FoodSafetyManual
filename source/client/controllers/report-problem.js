@@ -127,8 +127,8 @@ function onReportProblemViewReady() {
                     // if the file is invalid, mark the field in the form
                     $(".file-path").removeClass("valid");
                     $(".file-path").addClass("invalid");
-                    Materialize.toast(
-                        "S&oacute;lo se permite adjuntar im&aacute;genes", 
+                    loadToast(
+                        "only_images",
                         3500, "rounded");
                 }
             }
@@ -169,7 +169,7 @@ function onReportProblemViewReady() {
             || !severityIsValid || !summaryIsValid || !summaryLengthIsValid 
             || !stepsLengthIsValid || !expectationLengthIsValid
             || !realityLengthIsValid || !attachmentIsValid) {
-            Materialize.toast("Por favor corrija los campos incorrectos", 
+            loadToast("incorrect_fields", 
                 3500, "rounded");
         } else {
             // retrieve the data from the form
@@ -190,15 +190,14 @@ function onReportProblemViewReady() {
                     
                     // check that the result was successful
                     if (response.error_code == 0) {
-                        Materialize.toast(
-                            "El reporte ha sido enviado con &eacute;xito", 
+                        loadToast(
+                            "report_sent", 
                             3500, "rounded"
                         );
                     } else {
                         console.log("server says: " + response.error_message);
-                        Materialize.toast(
-                            "&iexcl;ERROR! &iexcl;No se pudo enviar el "
-                            + "mensaje!", 
+                        loadToast(
+                            "report_failed",
                             3500, "rounded"
                         );
                     }
@@ -208,8 +207,8 @@ function onReportProblemViewReady() {
                 error: function(xhr, status, message) {
                     // display the server result and the proper status icon
                     console.log("server says: " + status + ". " + message);
-                    Materialize.toast(
-                        "&iexcl;ERROR! &iexcl;No se pudo enviar el mensaje!", 
+                    loadToast(
+                        "report_failed", 
                         3500, "rounded"
                     );
                 },

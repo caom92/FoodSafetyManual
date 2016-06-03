@@ -193,6 +193,11 @@
         <spanish>Bienvenido</spanish>
     </translation>    
 
+    <translation id="your_information">
+        <english>Your information</english>
+        <spanish>Su información</spanish>
+    </translation>
+
     <!--Template
     <translation id="">
         <english></english>

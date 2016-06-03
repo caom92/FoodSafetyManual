@@ -85,8 +85,8 @@ $(function() {
                     // if authentication failed with the server available,
                     // it means that the credentials are wrong, so notify
                     // the user visually
-                    Materialize.toast(
-                        "Las credenciales que ingres&oacute; son incorrectas", 
+                    loadToast(
+                        "failed_login", 
                         3500, "rounded"
                     );
                     $("#username").addClass("invalid");
@@ -97,8 +97,8 @@ $(function() {
                     // if the authentication failed with the server unavailable,
                     // remind the user visually that the server is unavailable
                     console.log("server says: " + response.error_message);
-                    Materialize.toast(
-                        "El servidor de la base de datos no esta disponible", 
+                    loadToast(
+                        "server_offline",
                         3500, "rounded"
                     );
                 }

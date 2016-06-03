@@ -5,6 +5,9 @@ function onViewReady(view) {
         case "report-problem":
             onReportProblemViewReady();
             break;
+        case "edit-profile":
+            onEditProfileViewReady();
+            break;
     }
     
     // update the view's language

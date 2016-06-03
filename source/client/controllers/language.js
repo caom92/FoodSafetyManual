@@ -28,6 +28,23 @@ function setLanguage(lang){
     }
 }
 
+function getLanguage(){
+    var supportedLanguages = ["es", "en"];
+    if(!(supportedLanguages.indexOf(localStorage.defaultLanguage) > -1)){
+        localStorage.defaultLanguage = defaultLanguage;
+    }
+    return localStorage.defaultLanguage;
+}
+
+function fromCodeToName(code){
+    var lang = "english";
+    switch(code){
+        case "es": lang = "spanish"; break;
+        case "en": lang = "english"; break;
+    }
+    return lang;
+}
+
 /*
 function changeLanguage(lang)
 
@@ -81,6 +98,22 @@ function changeLanguage(lang, callback){
 function loadDefaultLanguage(){
     changeLanguage(localStorage.defaultLanguage);
     console.log("Default language loaded: " +  localStorage.defaultLanguage);
+}
+
+function loadToast(id, time, style){
+    var lang = fromCodeToName(getLanguage());
+    var toast = "Undefined Toast Message";
+    $.ajax({
+        url: '/espresso/data/files/toasts.xml',
+        success: function(xml) {
+            $(xml).find('translation').each(function(){
+                if($(this).attr("id") == id){
+                    toast = $(this).find(lang).text();
+                }
+            });
+            Materialize.toast(toast, time, style);
+        }
+    });
 }
 
 /* Incomplete errorMessage function. Uncomment at your own risk
