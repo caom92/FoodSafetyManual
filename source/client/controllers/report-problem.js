@@ -173,7 +173,7 @@ function onReportProblemViewReady() {
                 3500, "rounded");
         } else {
             // retrieve the data from the form
-            formData = new FormData($(this)[0]);
+            formData = new FormData($("#bug-report")[0]);
             
             // show the progress bar
             $(".progress").show();
@@ -182,7 +182,7 @@ function onReportProblemViewReady() {
             $.ajax({
                 method: "POST",
                 url: 
-                "/espresso/source/server/services/others/mail-bug-report.php",
+                "/espresso/source/server/services/mail/mail-bug-report.php",
                 data: formData,
                 success: function(data, message, xhr) {
                     // parse the server response into a json
