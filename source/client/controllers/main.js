@@ -1,10 +1,14 @@
 // Launch the main function of the controller of the especified view
 function onViewReady(view) {
+    // lanch the controller
     switch (view) {
         case "report-problem":
             onReportProblemViewReady();
             break;
     }
+    
+    // update the view's language
+    changeLanguage(localStorage.defaultLanguage);
 }
 
 

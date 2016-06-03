@@ -140,7 +140,7 @@ function onReportProblemViewReady() {
     });
     
     // validate the form before submitting
-    $("#bug-report").submit(function(e) {
+    $("#send").click(function(e) {
         // prevent authomatic submission, we'll do it manually
         e.preventDefault();
         
