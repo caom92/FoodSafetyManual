@@ -2,11 +2,6 @@
 
     <div class="card-panel green">
         <span class="report_message white-text">
-            Si mientras trabajaba ocurri&oacute; un problema o cree haber 
-            encontrado un error en el sistema, por favor h&aacute;ganoslo saber 
-            llenando el siguiente reporte. Proporcione tanta informaci&oacute;n 
-            como sea posible y agregue capturas de pantalla. Nosotros lo 
-            resolveremos tan pronto como nos sea posible.
         </span>
     </div>
 
@@ -30,21 +25,21 @@
     <div class="row">
         
         <div class="col s12 m12 l12"> 
-            <p class="mandatory_fields">Los campos marcados con * son obligatorios.</p>
+            <p class="mandatory_fields"></p>
         </div>
         
         <!-- User name field -->
         <div class="input-field col s12 m6 l6">
             <input class="validate" type="text" value="" 
                 id="user-name" name="user-name" readonly>
-            <label class="username active" for="user-name">Nombre de Usuario</label>
+            <label class="username active" for="user-name"></label>
         </div>
         
         <!-- User ID number field -->
         <div class="input-field col s12 m6 l6">
             <input class="validate" type="number" value="" 
                 id="user-id" name="user-id" readonly>
-            <label class="employee_id active" for="user-id">ID de Empleado</label>
+            <label class="employee_id active" for="user-id"></label>
         </div>
         
         <input type="email" id="user-email" name="email">
@@ -115,7 +110,7 @@
 
         <!-- Header for the second section of the form -->
         <h4><i class="material-icons md-48 field-icon">edit</i>
-            <div class="description">Descripci&oacute;n</div>
+            <div class="description"></div>
         </h4>
         <div class="divider"></div>
         
@@ -148,14 +143,14 @@
         <div class="input-field col s12 m6 l3">
             <textarea class="materialize-textarea" id="summary" 
                 name="summary" length="512"></textarea>
-            <label for="summary" class="summary">Res&uacute;men del problema*</label>
+            <label for="summary" class="summary"></label>
         </div>
         
         <!-- Steps field -->
         <div class="input-field col s12 m6 l3">
             <textarea class="materialize-textarea" id="steps" 
                 name="steps" length="512"></textarea>
-            <label for="steps" class="steps">Pasos para replicar el problema</label>
+            <label for="steps" class="steps"></label>
         </div>
         
         <!-- Expected result field -->
@@ -163,7 +158,6 @@
             <textarea class="materialize-textarea" id="expectation" 
                 name="expectation" length="256"></textarea>
             <label for="expectation" class="expectation">
-                &iquest;Qu&eacute; resultado esperaba?
             </label>
         </div>
         
@@ -172,7 +166,6 @@
             <textarea class="materialize-textarea" id="reality" 
                 name="reality" length="256"></textarea>
             <label for="reality" class="reality">
-                &iquest;Cu&aacute;l fue el resultado obtenido?
             </label>
         </div>
         
@@ -186,15 +179,12 @@
         </div>
         
         <!-- Send button -->
-        <button class="send_button green btn waves-effect waves-light" id="send"
-            name="send" type="submit">
-            Enviar
+        <a class="green btn waves-effect waves-light" href="" 
+            id="send">
+            <span class="send_button"></span>
             <i class="material-icons right">send</i>
-        </button>
+        </a>
         
     </div></div>  
     
 </form>
-
-<!-- Import the controller for this page -->
-<script src="/espresso/source/client/controllers/report-bug.js"></script>

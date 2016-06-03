@@ -1,3 +1,17 @@
+// Launch the main function of the controller of the especified view
+function onViewReady(view) {
+    // lanch the controller
+    switch (view) {
+        case "report-problem":
+            onReportProblemViewReady();
+            break;
+    }
+    
+    // update the view's language
+    changeLanguage(localStorage.defaultLanguage);
+}
+
+
 // Entry point for the program that controls the main page layout
 $(function() {
     // first, check if the user is logged in
@@ -23,8 +37,16 @@ $(function() {
                 // Load the view of the queried page into the content holder,
                 // this will preserve backward and forward buttons' 
                 // functionality
-                $("#page-content").load("/espresso/views/" 
-                    + window.location.pathname.replace("/espresso/", ""));
+                resource = window.location.pathname.replace("/espresso/", "");
+                $("#page-content").load("/espresso/views/" + resource,
+                    function complete() {
+                        // after loading the view, execute the code of its
+                        // controller
+                        onViewReady(
+                            window.location.pathname.replace("/espresso/", "")
+                        );
+                    }
+                );
                 
                 // display the name of the user
                 names = sessionStorage.full_name.split(" ");
@@ -52,22 +74,21 @@ $(function() {
         // prevent default behavior of redirecting to another page
         e.preventDefault();
         
-        // clear the session variables in the client
-        sessionStorage.clear();
-        
         // tell the server to close the session as well
         $.ajax({
-            method: "POST",
             url: "/espresso/source/server/services/session/logout.php",
-            success: function(result) {
-                console.log("server says: " + result);
+            success: function(data, message, xhr) {
+                console.log("server says: " + data);
+                
+                // clear the session variables in the client
+                sessionStorage.clear();
+                
+                // finally redirect to the login page
+                window.location.href = "/espresso";
             },
             error: function(xhr, status, message) {
-                console.log("server says: " + status + ", " + result);
+                console.log("server says: " + status + ", " + message);
             }
         });
-        
-        // finally redirect to the login page
-        window.location.href = "/espresso";
     });
 });

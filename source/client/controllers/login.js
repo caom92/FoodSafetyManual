@@ -113,4 +113,7 @@ $(function() {
             }
         })
     });
+    
+    // change the language
+    changeLanguage(localStorage.defaultLanguage);
 });
