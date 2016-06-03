@@ -27,16 +27,6 @@
         href="/espresso/external/materialize/css/materialize.min.css">
     <script src="/espresso/external/materialize/js/materialize.min.js"></script>
 
-    <!-- Import language controller -->
-    <script src="/espresso/source/client/controllers/language.js"></script>
-
-    <!-- Initialize -->
-    <script type="text/javascript">
-        $(window).load(function(){
-            changeLanguage(localStorage.defaultLanguage);
-        });
-    </script>
-    
     <!-- TO-DO: Add favicons -->
     
     <!-- Import the stylesheet of the application -->
@@ -156,6 +146,7 @@
     </div></main>
     
     <!-- Import our controllers -->
+    <script src="/espresso/source/client/controllers/language.js"></script>
     <script 
         src="/espresso/source/client/controllers/report-problem.js"></script>
     <script src="/espresso/source/client/controllers/main.js"></script>
