@@ -61,15 +61,57 @@ function isRequiredTextAreaValid(id) {
 }
 
 
+// This function injects the proper messages to the select fields by brute force
+// depending on the language that the user selected, we do it this way since
+// Materialize takes the select fields and move them to different objects in
+// order to create the proper select input field, also the language method 
+// as for now cannot access the the option elements
+function changeLanguageForSelectFields(lang) {
+    switch (lang) {
+        case "es":
+            $("#zone-selection__label").text("Zona Defectuosa*");
+            $("#procedure-selection__label").text("Procedimiento Defectuoso*");
+            $("#browser-selection__label").text("Navegador Web que usa*");
+            $("#severity-selection__label").text("Severidad del problema*");
+            $("option:disabled").text("Selecciona una opción");
+            $("#browser-selection > option:disabled").text(
+                "Marca las opciones");
+            $("option[value='other']").text("Otro");
+            $("option[value='blocker']").text("Crash o bloqueo");
+            $("option[value='no-workaround']").text("Sin solución alternativa");
+            $("option[value='has-workaround']").text(
+                "Con solución alternativa");
+            $("option[value='doc-error']").text("Error de documentación");
+            $("option[value='trivial']").text("Problema trivial");
+            $("option[value='ui-error']").text("Defecto visual");
+            $("option[value='enhancement']").text("Sugerencia de Mejora");
+        break;
+            
+        case "en":
+            $("#zone-selection__label").text("Defective Zone*");
+            $("#procedure-selection__label").text("Defective Process*");
+            $("#browser-selection__label").text("Web browser you use*");
+            $("#severity-selection__label").text("Severity of the issue*");
+            $("option:disabled").text("Select an option");
+            $("#browser-selection > option:disabled").text(
+                "Indicate which options");
+            $("option[value='other']").text("Other");
+            $("option[value='blocker']").text("Crash");
+            $("option[value='no-workaround']").text("No workaround");
+            $("option[value='has-workaround']").text(
+                "Has workaround");
+            $("option[value='doc-error']").text("Documentation error");
+            $("option[value='trivial']").text("Trivial");
+            $("option[value='ui-error']").text("Visual defect");
+            $("option[value='enhancement']").text("Enhancement");
+        break;
+    }
+}
+
+
 // The main function which starts execution of this controller, call only
 // when its corresponding view is ready
 function onReportProblemViewReady() {
-    // Initialize select inputs
-    $("select").material_select();
-    
-    // Initialize text area character counters
-    $("textarea").characterCounter();
-    
     // Hide the progress bar
     $(".progress").hide();
     
@@ -89,6 +131,16 @@ function onReportProblemViewReady() {
     setOnChangeListenerToRequiredSelectField("#procedure-selection");
     setOnChangeListenerToRequiredSelectField("#browser-selection");
     setOnChangeListenerToRequiredSelectField("#severity-selection");
+    
+    // change the language of the select input fields and the option 
+    // elements before initializing materialize objects
+    changeLanguageForSelectFields(localStorage.defaultLanguage);
+    
+    // Initialize select inputs
+    $("select").material_select();
+    
+    // Initialize text area character counters
+    $("textarea").characterCounter();
     
     // when the user uploads one or more screenshots, we must check the MIME 
     // type to make sure that the uploaded files are only images and not any

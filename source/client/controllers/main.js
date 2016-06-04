@@ -4,10 +4,11 @@ function onViewReady(view) {
     switch (view) {
         case "report-problem":
             onReportProblemViewReady();
-            break;
+        break;
+        
         case "edit-profile":
             onEditProfileViewReady();
-            break;
+        break;
     }
     
     // update the view's language
