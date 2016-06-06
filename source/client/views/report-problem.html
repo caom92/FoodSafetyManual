@@ -1,188 +1,172 @@
-<div class="row"><div class="col s12 m12 l12">
+<section class="row"><div class="col s12 m12 l12">
 
     <div class="card-panel green">
         <span class="report_message white-text">
         </span>
     </div>
 
-</div></div>
-
-<!-- First row -->
-<div class="row"><div class="col s12 m12 l12">
-
-    <!-- Header for the first section of the form -->
-    <h4><i class="material-icons md-48 field-icon">info</i>
-        <div class="general_information"></div>
-    </h4>
-    <div class="divider"></div>
-        
-</div></div>
+</div></section>
 
 <!-- The report bug form -->
 <form action="" id="bug-report">
-    
-    <!-- Second row -->
-    <div class="row">
-        
-        <div class="col s12 m12 l12"> 
-            <p class="mandatory_fields"></p>
-        </div>
-        
-        <!-- User name field -->
-        <div class="input-field col s12 m6 l6">
-            <input class="validate" type="text" value="" 
-                id="user-name" name="user-name" readonly>
-            <label class="username active" for="user-name"></label>
-        </div>
-        
-        <!-- User ID number field -->
-        <div class="input-field col s12 m6 l6">
-            <input class="validate" type="number" value="" 
-                id="user-id" name="user-id" readonly>
-            <label class="employee_id active" for="user-id"></label>
-        </div>
-        
-        <input type="email" id="user-email" name="email">
-        <input type="text" id="lang" name="lang">
-    </div>
-    
-    <!-- Third row -->
-    <div class="row">
-        
-        <!-- Zone selection -->
-        <div class="input-field col s12 m6 l3">
-            <select id="zone-selection" name="zone-selection">
-                <option value="" disabled selected class="select_option"></option>
-                <option value="bcn">BCN</option>
-                <option value="law">LAW</option>
-            </select>
-            <label id="zone-selection__label" class="defective_zone"></label>
-        </div>
-        
-        <!-- Process selection -->
-        <div class="input-field col s12 m6 l3">
-            <select id="procedure-selection" name="procedure-selection">
-                <option value="" disabled selected class="select_option"></option>
-                <option value="gmp">GMP</option>
-                <option value="ssop">SSOP</option>
-            </select>
-            <label id="procedure-selection__label" class="defective_process">
-            </label>
-        </div>
-        
-        <!-- Browser selection -->
-        <div class="input-field col s12 m6 l3">
-            <select id="browser-selection" name="browser-selection[]" multiple>
-                <option value="" disabled selected class="select_options"></option>
-                <option value="ie">Internet Explorer</option>
-                <option value="firefox">Firefox</option>
-                <option value="chrome">Chrome</option>
-                <option value="opera">Opera</option>
-                <option value="safari">Safari</option>
-                <option value="other"></option>
-            </select>
-            <label id="browser-selection__label" class="web_browser"></label>
-        </div>
-        
-        <!-- Severity selection -->
-        <div class="input-field col s12 m6 l3">
-            <select id="severity-selection" name="severity-selection">
-                <option value="" disabled selected class="select_option"></option>
-                <option value="blocker"></option>
-                <option value="no-workaround"></option>
-                <option value="has-workaround"></option>
-                <option value="doc-error"></option>
-                <option value="trivial"></option>
-                <option value="ui-error"></option>
-                <option value="enhancement"></option>
-                <option value="other"></option>
-            </select>
-            <label id="severity-selection__label" class="severity">
-            </label>
-        </div>
-        
-    </div>
-    
-    <!-- Fourth row -->
-    <div class="row"><div class="col s12 m12 l12">
 
-        <!-- Header for the second section of the form -->
-        <h4><i class="material-icons md-48 field-icon">edit</i>
-            <div class="description"></div>
-        </h4>
-        <div class="divider"></div>
+<!-- section for general information of the report -->
+<section class="row">
+
+    <!-- Header for the first section of the form -->
+    <div class="col s12 m12 l12 section-title">
+    <h4><i class="material-icons md-48 field-icon">info</i>
+        <div class="general_information"></div>
+    </h4>
+    </div>
         
+    <div class="col s12 m12 l12"><p class="mandatory_fields">
+    </p></div>
+        
+    <!-- User name field -->
+    <div class="input-field col s12 m6 l6">
+        <input class="validate" type="text" value="" 
+            id="user-name" name="user-name" readonly>
+        <label class="username active" for="user-name"></label>
+    </div>
+        
+    <!-- User ID number field -->
+    <div class="input-field col s12 m6 l6">
+        <input class="validate" type="number" value="" 
+            id="user-id" name="user-id" readonly>
+        <label class="employee_id active" for="user-id"></label>
+    </div>
+        
+    <!-- Additional information not visible to the user -->
+    <input type="email" id="user-email" name="email">
+    <input type="text" id="lang" name="lang">
+        
+    <!-- Zone selection -->
+    <div class="input-field col s12 m6 l3">
+        <select id="zone-selection" name="zone-selection">
+            <option value="" disabled selected class="select_option"></option>
+            <option value="bcn">BCN</option>
+            <option value="law">LAW</option>
+        </select>
+        <label id="zone-selection__label" class="defective_zone"></label>
+    </div>
+        
+    <!-- Process selection -->
+    <div class="input-field col s12 m6 l3">
+        <select id="procedure-selection" name="procedure-selection">
+            <option value="" disabled selected class="select_option"></option>
+            <option value="gmp">GMP</option>
+            <option value="ssop">SSOP</option>
+        </select>
+        <label id="procedure-selection__label" class="defective_process">
+        </label>
+    </div>
+        
+    <!-- Browser selection -->
+    <div class="input-field col s12 m6 l3">
+        <select id="browser-selection" name="browser-selection[]" multiple>
+            <option value="" disabled selected class="select_options"></option>
+            <option value="ie">Internet Explorer</option>
+            <option value="firefox">Firefox</option>
+            <option value="chrome">Chrome</option>
+            <option value="opera">Opera</option>
+            <option value="safari">Safari</option>
+            <option value="other"></option>
+        </select>
+        <label id="browser-selection__label" class="web_browser"></label>
+    </div>
+        
+    <!-- Severity selection -->
+    <div class="input-field col s12 m6 l3">
+        <select id="severity-selection" name="severity-selection">
+            <option value="" disabled selected class="select_option"></option>
+            <option value="blocker"></option>
+            <option value="no-workaround"></option>
+            <option value="has-workaround"></option>
+            <option value="doc-error"></option>
+            <option value="trivial"></option>
+            <option value="ui-error"></option>
+            <option value="enhancement"></option>
+            <option value="other"></option>
+        </select>
+        <label id="severity-selection__label" class="severity">
+        </label>
+    </div>
+        
+</section>
+    
+<!-- Section for the detailed description of the problem -->
+<section class="row">
+    
+    <!-- Header for the second section of the form -->
+    <div class="col s12 m12 l12 section-title">
+    <h4><i class="material-icons md-48 field-icon">edit</i>
+        <div class="description"></div>
+    </h4>
+    </div>
+    
+    <!-- File Attachment field -->
+    <div class="file-field input-field col s12 m12 l12">
+        <div class="green btn waves-effect waves-light">
+            <span class="attach_file">Adjuntar</span>
+            <input id="screenshot-attachment" 
+                name="screenshot-attachment[]" 
+                type="file" multiple>
+        </div>
+        
+        <div class="file-path-wrapper">
+            <input class="file-path validate" type="text" 
+                placeholder="Adjunte una o m&aacute;s capturas de pantalla">
+        </div>
+    </div>
+    
+    <!-- Summary field -->
+    <div class="input-field col s12 m6 l3">
+        <textarea class="materialize-textarea" id="summary" 
+            name="summary" length="512"></textarea>
+        <label for="summary" class="summary"></label>
+    </div>
+    
+    <!-- Steps field -->
+    <div class="input-field col s12 m6 l3">
+        <textarea class="materialize-textarea" id="steps" 
+            name="steps" length="512"></textarea>
+        <label for="steps" class="steps"></label>
+    </div>
+    
+    <!-- Expected result field -->
+    <div class="input-field col s12 m6 l3">
+        <textarea class="materialize-textarea" id="expectation" 
+            name="expectation" length="256"></textarea>
+        <label for="expectation" class="expectation">
+        </label>
+    </div>
+    
+    <!-- Actual result field -->
+    <div class="input-field col s12 m6 l3">
+        <textarea class="materialize-textarea" id="reality" 
+            name="reality" length="256"></textarea>
+        <label for="reality" class="reality">
+        </label>
+    </div>
+</section>
+        
+<section class="row center">
+    
+    <!-- The progress bar -->
+    <div class="col s12 m12 l12"><div class="progress">
+        <div class="indeterminate"></div>
     </div></div>
-    
-    <!-- Fifth row -->
-    <div class="row"><div class="col s12 m12 l12">
         
-        <!-- File Attachment field -->
-        <div class="file-field input-field">
-            <div class="green btn waves-effect waves-light">
-                <span class="attach_file">Adjuntar</span>
-                <input id="screenshot-attachment" 
-                    name="screenshot-attachment[]" 
-                    type="file" multiple>
-            </div>
-            
-            <div class="file-path-wrapper">
-                <input class="file-path validate" type="text" 
-                    placeholder="Adjunte una o m&aacute;s capturas de pantalla">
-            </div>
-        </div>
-    
-    </div></div>
-    
-    <!-- Sixth row -->
-    <div class="row"><div class="col s12 m12 l12">
+    <!-- Send button -->
+    <div class="col s12 m12 l12 center">
+    <a class="green btn waves-effect waves-light" href="" 
+        id="send">
+        <span class="send_button"></span>
+        <i class="material-icons right">send</i>
+    </a>
+    </div>
         
-        <!-- Summary field -->
-        <div class="input-field col s12 m6 l3">
-            <textarea class="materialize-textarea" id="summary" 
-                name="summary" length="512"></textarea>
-            <label for="summary" class="summary"></label>
-        </div>
-        
-        <!-- Steps field -->
-        <div class="input-field col s12 m6 l3">
-            <textarea class="materialize-textarea" id="steps" 
-                name="steps" length="512"></textarea>
-            <label for="steps" class="steps"></label>
-        </div>
-        
-        <!-- Expected result field -->
-        <div class="input-field col s12 m6 l3">
-            <textarea class="materialize-textarea" id="expectation" 
-                name="expectation" length="256"></textarea>
-            <label for="expectation" class="expectation">
-            </label>
-        </div>
-        
-        <!-- Actual result field -->
-        <div class="input-field col s12 m6 l3">
-            <textarea class="materialize-textarea" id="reality" 
-                name="reality" length="256"></textarea>
-            <label for="reality" class="reality">
-            </label>
-        </div>
-        
-    </div></div>
-    
-    <!-- Seventh row -->
-    <div class="row"><div class="col s12 m12 l12 center">
-        
-        <div class="progress">
-            <div class="indeterminate"></div>
-        </div>
-        
-        <!-- Send button -->
-        <a class="green btn waves-effect waves-light" href="" 
-            id="send">
-            <span class="send_button"></span>
-            <i class="material-icons right">send</i>
-        </a>
-        
-    </div></div>  
+</section>  
     
 </form>

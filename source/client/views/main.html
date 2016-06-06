@@ -38,7 +38,7 @@
 
 <body>
     <!-- Page top bar -->
-    <header><div class="navbar-fixed"><nav><div class="nav-wrapper green">
+    <header class="navbar-fixed"><nav class="nav-wrapper green">
         
         <!-- Language menu -->
         <ul class="right">
@@ -62,7 +62,7 @@
         </ul>
         
         <!-- Drawer menu -->
-        <ul id="slide-out" class="side-nav fixed" 
+        <aside><ul id="slide-out" class="side-nav fixed" 
             data-collapsible="accordion">
             <li class="logo-area">
             </li>
@@ -130,7 +130,7 @@
                     
                 </span>
             </a></li>
-        </ul>
+        </ul></aside>
         
         <!-- Menu button -->
         <a href="" data-activates="slide-out" class="button-collapse">
@@ -139,11 +139,11 @@
             </i>
         </a>
         
-    </div></nav></div></header>
+    </nav></header>
     
     <!-- Page content -->
-    <main class="with-side-menu"><div class="container" id="page-content">
-    </div></main>
+    <main class="with-side-menu container" id="page-content">
+    </main>
     
     <!-- Import our controllers -->
     <script src="/espresso/source/client/controllers/language.js"></script>
