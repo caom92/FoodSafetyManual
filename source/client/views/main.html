@@ -142,8 +142,29 @@
     </nav></header>
     
     <!-- Page content -->
-    <main class="with-side-menu container" id="page-content">
+    <main class="container" id="page-content">
+        <!-- Page loading indicator -->
+        <div class="row center"><div class="col s12 m12 l12">
+            <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-green-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div></div>
     </main>
+
+    <script>
+        // hide the side bar 
+        $("#slide-out").hide();
+    </script>
     
     <!-- Import our controllers -->
     <script src="/espresso/source/client/controllers/language.js"></script>

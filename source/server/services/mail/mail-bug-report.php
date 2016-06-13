@@ -91,7 +91,8 @@ $confirmationMail->oauthClientSecret = "PJdHoakwXn2IQ4p0L52eu9NW";
 //Obtained By running get_oauth_token.php after setting up APP in Google 
 // Developer Console.
 $mail->oauthRefreshToken = "1/SQZQxNs4NhjJcAYN6JWHYvsKcWQL0XRsQAaHsfuH3iI";
-$confirmationMail->oauthRefreshToken = "1/SQZQxNs4NhjJcAYN6JWHYvsKcWQL0XRsQAaHsfuH3iI";
+$confirmationMail->oauthRefreshToken = 
+    "1/SQZQxNs4NhjJcAYN6JWHYvsKcWQL0XRsQAaHsfuH3iI";
 
 //Set who the message is to be sent from
 //For gmail, this generally needs to be the same as the user you logged in as
@@ -135,22 +136,31 @@ $outputJSON;
 if ($mail->Send()) {
     // notify the client if the file was mailed successfully
     $outputJSON = [
-        "error_code" => 0,
-        "error_message" => "",
+        "meta" => [
+            "return_code" => 0,
+            "message" => "Bug report mail sent successfully. "
+        ],
         "data" => []
     ];
 } else {
     // if the file was not mailed, notify the client
     $outputJSON = [
-        "error_code" => 1,
-        "error_message" => $mail->ErrorInfo,
+        "meta" => [
+            "return_code" => 1,
+            "message" => "Bug report mail: " . $mail->ErrorInfo . ". "
+        ],
         "data" => []
     ];
 }
 
 // send the confirmation email, it is not really important if this 
 // message does not make it to the recipient
-$confirmationMail->Send();
+if ($confirmationMail->Send()) {
+    $outputJSON["meta"]["message"] .= "Confirmation mail sent successfully.";
+} else {
+    $outputJSON["meta"]["message"] .= "Confirmation mail: " 
+        . $confirmationMail->ErrorInfo;
+}
 
 // Send the data to the client as a JSON with the following format
 // {
@@ -158,6 +168,7 @@ $confirmationMail->Send();
 //     error_message:[string],
 //     data:[]
 // }
+header("Content-Type: application/json");
 echo json_encode($outputJSON);
 
 ?>

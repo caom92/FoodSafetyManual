@@ -4,9 +4,8 @@
 // the following format:
 // {
 //     key:[int]
+//     password:[string]
 // }
-// we must decode it
-$inputJSON = $_POST;
 
 // start the session API
 session_start();
@@ -16,29 +15,40 @@ $outputJSON;
 
 // check if the key of the user is set and if it is the same that we
 // have stored for this session
-if (isset($_SESSION["key"]) && $_SESSION["key"] == $inputJSON["key"]) {
+if (isset($_SESSION["key"]) && $_SESSION["key"] == $_GET["key"]
+    && isset($_SESSION["login_password"])
+    && $_SESSION["login_password"] == $_GET["password"]) {
     // if the client's key is the same than ours, then the session
     // was properly initialized
     $outputJSON = [
-        "error_code" => 0,
-        "error_message" => "",
+        "meta" => [
+            "return_code" => 0,
+            "message" => "User is logged in."
+        ],
         "data" => []
     ];
 } else {
     // otherwise notify the client so that the user is redirected
     $outputJSON = [
-        "error_code" => 1,
-        "error_message" => "User has not logged in yet",
+        "meta" => [
+            "return_code" => 1,
+            "message" => "User has not logged in yet."
+        ],
         "data" => []
     ];
 }
 
 // Send the data to the client as a JSON with the following format
 // {
-//     error_code:[int],
-//     error_message:[string],
+//     meta:[meta]
 //     data:[]
 // }
+// where meta is:
+// {
+//     return_code:[int]
+//     message:[string]
+// }
+header("Content-Type: application/json");
 echo json_encode($outputJSON);
 
 ?>

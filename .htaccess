@@ -1,10 +1,40 @@
 RewriteEngine On
 RewriteBase /espresso/
+
+# Redirections for allowing Single-page navigation of the site
+# ------------------------------------------------------------------------------
+
+# If there's no petition, redirect to login screen
 RewriteRule ^$ source/client/views/login.html [L,QSA]
+
+# Redirect any page petition to the main page
 RewriteRule ^home$ source/client/views/main.html [L,QSA]
 RewriteRule ^report-problem$ source/client/views/main.html [L,QSA]
 RewriteRule ^error$ source/client/views/main.html [L,QSA]
 RewriteRule ^edit-profile$ source/client/views/main.html [L,QSA]
+
+# Map properly any petition for a page view to its corresponding file
 RewriteRule ^views/report-problem$ source/client/views/report-problem.html [L,QSA]
 RewriteRule ^views/error$ source/client/views/error.html [L,QSA]
 RewriteRule ^views/edit-profile$ source/client/views/edit-profile.html [L,QSA]
+
+# Redirections for providing REST interface to the server
+# ------------------------------------------------------------------------------
+
+# Checks if a connection to the data base server can be established 
+RewriteRule ^server-status$ source/server/services/others/server-status.php [L,QSA]
+
+# Log in the user and starts a session
+RewriteRule ^users/authenticate$ source/server/services/session/authentication.php [L,QSA]
+
+# Checks if a certain user has logged in
+RewriteRule ^users/check-session$ source/server/services/session/check.php [L,QSA]
+
+# Logs out the user and close her session
+RewriteRule ^users/logout$ source/server/services/session/logout.php [L,QSA]
+
+# Send a bug report to us by email
+RewriteRule ^bug-reports/send$ source/server/services/mail/mail-bug-report.php [L,QSA]
+
+# Prevent directory listing of the server files
+Options -Indexes 

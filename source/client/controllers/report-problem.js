@@ -232,22 +232,36 @@ function onReportProblemViewReady() {
             
             // if all form fields are valid, send the data to the server
             $.ajax({
+                // URL of the requested service
+                url: "/espresso/bug-reports/send",
+
+                // the HTTP method to use
                 method: "POST",
-                url: 
-                "/espresso/source/server/services/mail/mail-bug-report.php",
+
+                // the input data to be sent along with the request
                 data: formData,
-                success: function(data, message, xhr) {
-                    // parse the server response into a json
-                    response = JSON.parse(data);
-                    
+
+                // indicate that we expect to recieve a JSON as response
+                dataType: "json",
+
+                // indicate that we do not want the response to be stored in 
+                // cache
+                cache: false,
+
+                // magic options required for FormData to work
+                processData: false,
+                contentType: false,
+
+                // request successful callback
+                success: function(response, message, xhr) {
                     // check that the result was successful
-                    if (response.error_code == 0) {
+                    if (response.meta.return_code == 0) {
                         loadToast(
                             "report_sent", 
                             3500, "rounded"
                         );
                     } else {
-                        console.log("server says: " + response.error_message);
+                        console.log("server says: " + response.meta.message);
                         loadToast(
                             "report_failed",
                             3500, "rounded"
@@ -255,17 +269,17 @@ function onReportProblemViewReady() {
                     }
                     $(".progress").hide();
                 },
-                // on error callback
+
+                // request error callback
                 error: function(xhr, status, message) {
                     // display the server result and the proper status icon
-                    console.log("server says: " + status + ". " + message);
+                    console.log("server says: " + status + ", " + message);
                     loadToast(
                         "report_failed", 
                         3500, "rounded"
                     );
-                },
-                contentType: false,
-                processData: false
+                    $(".progress").hide();
+                }
             });
         }
     });

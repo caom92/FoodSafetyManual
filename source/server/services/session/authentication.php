@@ -25,7 +25,7 @@ function startSessionWithUserProfileData($userProfile)
         "email" => $userProfile["email"],
         "login_name" => $userProfile["login_name"],
         "login_password" => $userProfile["login_password"],
-        "key" => rand()
+        "key" => md5(rand())
     ];
     
     // start a session and store this data
@@ -34,8 +34,10 @@ function startSessionWithUserProfileData($userProfile)
     
     // return the json to be sent to the client
     return [
-        "error_code" => 0,
-        "error_message" => "",
+        "meta" => [
+            "return_code" => 0,
+            "message" => "User authentication succeeded"
+        ],
         "data" => $userData
     ];
 }
@@ -47,8 +49,6 @@ function startSessionWithUserProfileData($userProfile)
 //     username:[string]
 //     password:[string]
 // }
-// we must decode it
-$inputJSON = $_POST;
 
 // Temporal variables where to store the number of results returned by the 
 // data base queries
@@ -68,15 +68,15 @@ try {
     // name, email or employee ID, lets search in the table for all these
     // combinations and store it in a temporal variable
     $byLogin = $usersProfileTable->searchItemsByLogInNameAndPassword(
-        $inputJSON["username"], $inputJSON["password"]
+        $_POST["username"], $_POST["password"]
     );
     
     $byID = $usersProfileTable->searchItemsByEmployeeIDAndPassword(
-        $inputJSON["username"], $inputJSON["password"]
+        $_POST["username"], $_POST["password"]
     );
     
     $byEmail = $usersProfileTable->searchItemsByEmailAndPassword(
-        $inputJSON["username"], $inputJSON["password"]
+        $_POST["username"], $_POST["password"]
     );
 } catch (Exception $e) {
     core\displayErrorPageAndExit($e->getCode(), $e->getMessage());
@@ -94,17 +94,23 @@ if (count($byLogin) > 0) {
 } else {
     // otherwise, the authentication failed and we must notify the client
     $outputJSON = [
-        "error_code" => 1,
-        "error_message" => "User authentication failed",
+        "meta" => [
+            "return_code" => 1,
+            "message" => "User authentication failed"
+        ],
         "data" => []
     ];
 }
 
 // Send the data to the client as a JSON with the following format
 // {
-//     error_code:[int],
-//     error_message:[string],
+//     meta:[meta]
 //     data:[data]
+// }
+// where meta is:
+// {
+//     return_code:[int]
+//     message:[string]
 // }
 // where data is:
 // {
@@ -116,6 +122,7 @@ if (count($byLogin) > 0) {
 //     login_password:[string]
 //     key:[int]
 // }
+header("Content-Type: application/json");
 echo json_encode($outputJSON);
 
 ?>

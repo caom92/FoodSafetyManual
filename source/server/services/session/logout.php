@@ -4,6 +4,13 @@
 session_start();
 session_unset();
 session_destroy();
-echo "good bye";
+header("Content-Type: application/json");
+echo json_encode([
+    "meta" => [
+        "return_code" => 0,
+        "message" => "User has logged out. Good bye."
+    ],
+    "data" => []
+]);
 
 ?>

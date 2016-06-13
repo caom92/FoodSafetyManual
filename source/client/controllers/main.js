@@ -18,24 +18,28 @@ function onViewReady(view) {
 
 // Entry point for the program that controls the main page layout
 $(function() {
-    // first, check if the user is logged in
+    // check if the user is logged in
     $.ajax({
-        method: "POST",
-        url: "/espresso/source/server/services/session/check.php",
-        
-        // send the key that was given to us by the server when we logged in
-        data: {
-            key: sessionStorage.getItem("key")
-        },
+        // the URL of the service we are requesting
+        url: "/espresso/users/check-session?key=" 
+            + sessionStorage.getItem("key") + "&password=" + sessionStorage.getItem("login_password"),
+
+        // the HTTP method to use
+        method: "GET",
+
+        // indicate that we are expecting to recieve a JSON
+        dataType: "json",
+
+        // indicate that we don't want the response to be stored in cache
+        cache: false,
         
         // on success callback
-        success: function(data, message, xhr) {
-            // parse the response from the server to a json 
-            response = JSON.parse(data);
-            
+        success: function(response, message, xhr) {
             // check if the reponse was an error
-            if (response.error_code == 0) {
+            if (response.meta.return_code == 0) {
                 // Initialize the SideNav
+                $("#page-content").addClass("with-side-menu");
+                $("#slide-out").show();
                 $(".button-collapse").sideNav();
                 
                 // Load the view of the queried page into the content holder,
@@ -56,11 +60,10 @@ $(function() {
                 names = sessionStorage.full_name.split(" ");
                 accountName = names[0] + " " + names[1];
                 $("#account-name").text(accountName);
-                
             } else {
                 // if it was, redirect the user to the login page
                 window.location.href = "/espresso";
-                console.log("server says: " + response.error_message);
+                console.log("server says: " + response.meta.message);
             }
         }, 
         
@@ -80,15 +83,17 @@ $(function() {
         
         // tell the server to close the session as well
         $.ajax({
-            url: "/espresso/source/server/services/session/logout.php",
-            success: function(data, message, xhr) {
-                console.log("server says: " + data);
-                
+            //url: "/espresso/source/server/services/session/logout.php",
+            url: "/espresso/users/logout",
+            dataType: "json",
+            cache: false,
+            success: function(response, message, xhr) {
                 // clear the session variables in the client
                 sessionStorage.clear();
                 
                 // finally redirect to the login page
                 window.location.href = "/espresso";
+                console.log("server says: " + response.meta.message);
             },
             error: function(xhr, status, message) {
                 console.log("server says: " + status + ", " + message);

@@ -12,8 +12,10 @@ namespace espresso
     function displayErrorPageAndExit($code, $message)
     {
         echo json_encode([
-            "error_code" => ($code == 0) ? 1 : $code,
-            "error_message" => $message,
+            "meta" => [
+                "return_code" => ($code == 0) ? 1 : $code,
+                "message" => $message
+            ],
             "data" => []
         ]);
         exit;

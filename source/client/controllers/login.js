@@ -7,20 +7,26 @@ $(function() {
     // as soon as the page is loaded, query the server to check it's status
     $.ajax({
         // the service we are requesting
-        url: "/espresso/source/server/services/others/server-status.php",
+        url: "/espresso/server-status",
+
+        // the HTTP method to use
+        method: "GET",
+
+        // the type of data expected to be returned from the server
+        dataType: "json",
+
+        // indicate that we do not want to store the response in cache
+        cache: false,
         
         // on success callback
-        success: function(data, message, xhr) {
-            // parse the server response into a json
-            response = JSON.parse(data);
-            
+        success: function(response, message, xhr) {
             // depending if the server is available or not, show the proper
             // icon
-            if (response.error_code == 0) {
+            if (response.meta.return_code == 0) {
                 $("#server-online").show();
             } else {
                 $("#server-offline").show();
-                console.log("server says: " + response.error_message);
+                console.log("server says: " + response.meta.message);
             }
         },
         
@@ -46,28 +52,31 @@ $(function() {
         // prevent default behavior so that the page is not navigated to 
         // another site
         e.preventDefault();
-        
+
         // send the credentials to the server
         $.ajax({
+            // server service that we are requesting
+            url: "/espresso/users/authenticate",
+
             // HTTP method to send data
             method: "POST",
-            
-            // server service that we are requesting
-            url: "/espresso/source/server/services/session/authentication.php",
-            
+
+            // the type of data expected to be returned from the server
+            dataType: "json",
+
             // user credentials
             data: {
-                username : $("#username").val(),
+                username: $("#username").val(),
                 password: $.md5($("#password").val())
             },
+
+            // indicate that we do not want to store the response in cache
+            cache: false,
             
             // on success callback
-            success: function(data, message, xhr) {
-                // parse the server response into a json
-                response = JSON.parse(data);
-                
+            success: function(response, message, xhr) {
                 // check if the authentication succeeded
-                if (response.error_code == 0) {
+                if (response.meta.return_code == 0) {
                     // store the user profile data in a session storage
                     sessionStorage.id = response.data.id;
                     sessionStorage.employee_id_num =  
@@ -80,6 +89,7 @@ $(function() {
                     sessionStorage.key = response.data.key;
                     
                     // redirect to the home page
+                    
                     window.location.href = "/espresso/home";
                 } else if ($("#server-online").is(":visible")) {
                     // if authentication failed with the server available,
@@ -92,11 +102,11 @@ $(function() {
                     $("#username").addClass("invalid");
                     $("#password").addClass("invalid");
                     $(".prefix").addClass("invalid");
-                    console.log("server says: " + response.error_message);
+                    console.log("server says: " + response.meta.message);
                 } else {
                     // if the authentication failed with the server unavailable,
                     // remind the user visually that the server is unavailable
-                    console.log("server says: " + response.error_message);
+                    console.log("server says: " + response.meta.message);
                     loadToast(
                         "server_offline",
                         3500, "rounded"
@@ -107,7 +117,7 @@ $(function() {
             // on error callback
             error: function(xhr, status, message) {
                 // display the server result and the proper status icon
-                console.log("server says: " + status + ". " + message);
+                console.log("server says: " + status + ", " + message);
                 $("#server-online").hide();
                 $("#server-offline").show();
             }

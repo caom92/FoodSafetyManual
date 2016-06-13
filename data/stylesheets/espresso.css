@@ -141,3 +141,7 @@ textarea.materialize-textarea.invalid:not([readonly]) + label,
 .section-title {
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
+
+main.container > div.row.center {
+    padding-top: 150px;
+}
