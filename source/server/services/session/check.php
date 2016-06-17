@@ -15,9 +15,9 @@ $outputJSON;
 
 // check if the key of the user is set and if it is the same that we
 // have stored for this session
-if (isset($_SESSION["key"]) && $_SESSION["key"] == $_GET["key"]
+if (isset($_SESSION["key"]) && $_SESSION["key"] == $_POST["key"]
     && isset($_SESSION["login_password"])
-    && $_SESSION["login_password"] == $_GET["password"]) {
+    && $_SESSION["login_password"] == $_POST["password"]) {
     // if the client's key is the same than ours, then the session
     // was properly initialized
     $outputJSON = [

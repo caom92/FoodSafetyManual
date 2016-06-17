@@ -51,7 +51,8 @@ class Users extends DataBaseTable
             ], [
                 "AND" => [
                     "users_profile_info.login_name" => $userName,
-                    "users_profile_info.login_password" => md5($password)
+                    "users_profile_info.login_password" => 
+                        hash("sha256", $password)
                 ],
                 "ORDER" => "users.company_zone_id"
             ]

@@ -11,9 +11,10 @@ namespace espresso
     //         occurred 
     function displayErrorPageAndExit($code, $message)
     {
+        header("Content-Type: application/json");
         echo json_encode([
             "meta" => [
-                "return_code" => ($code == 0) ? 1 : $code,
+                "return_code" => ($code != 0) ? $code : 1,
                 "message" => $message
             ],
             "data" => []

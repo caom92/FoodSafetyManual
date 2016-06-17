@@ -25,7 +25,7 @@ function startSessionWithUserProfileData($userProfile)
         "email" => $userProfile["email"],
         "login_name" => $userProfile["login_name"],
         "login_password" => $userProfile["login_password"],
-        "key" => md5(rand())
+        "key" => hash("sha256", rand())
     ];
     
     // start a session and store this data
@@ -36,7 +36,7 @@ function startSessionWithUserProfileData($userProfile)
     return [
         "meta" => [
             "return_code" => 0,
-            "message" => "User authentication succeeded"
+            "message" => "User authentication succeeded."
         ],
         "data" => $userData
     ];
@@ -67,15 +67,15 @@ try {
     // since we do not know if the user is attempting to login with her user 
     // name, email or employee ID, lets search in the table for all these
     // combinations and store it in a temporal variable
-    $byLogin = $usersProfileTable->searchItemsByLogInNameAndPassword(
+    $byLogin = $usersProfileTable->searchItemsByLogInName(
         $_POST["username"], $_POST["password"]
     );
     
-    $byID = $usersProfileTable->searchItemsByEmployeeIDAndPassword(
+    $byID = $usersProfileTable->searchItemsByEmployeeID(
         $_POST["username"], $_POST["password"]
     );
     
-    $byEmail = $usersProfileTable->searchItemsByEmailAndPassword(
+    $byEmail = $usersProfileTable->searchItemsByEmail(
         $_POST["username"], $_POST["password"]
     );
 } catch (Exception $e) {

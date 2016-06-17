@@ -36,5 +36,17 @@ RewriteRule ^users/logout$ source/server/services/session/logout.php [L,QSA]
 # Send a bug report to us by email
 RewriteRule ^bug-reports/send$ source/server/services/mail/mail-bug-report.php [L,QSA]
 
+# Request password recovery for a user account
+RewriteRule ^users/request-password-recovery$ source/server/services/mail/mail-password-recovery-link.php [L,QSA]
+
+# Redirect the recovery link to the password recovery page
+RewriteRule ^users/recover-password$ source/client/views/recover-password.html [L,QSA]
+
+# Redirect the recovery petition to the proper server script
+RewriteRule ^users/use-recovery-token$ source/server/services/session/recover-password.php [L,QSA]
+
+# Redirect the change password petition to the proper server script
+RewriteRule ^users/change-password$ source/server/services/session/change-password.php
+
 # Prevent directory listing of the server files
 Options -Indexes 

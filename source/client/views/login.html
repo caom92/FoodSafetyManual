@@ -21,7 +21,7 @@
 
     <!-- Import jQuery -->
     <script src="/espresso/external/jquery/jquery-1.12.3.min.js"></script>
-    <script src="/espresso/external/md5/jquery.md5.js"></script>
+    <script src="/espresso/external/sha256/sha256.min.js"></script>
 
     <!-- Import Materialize -->
     <link rel="stylesheet" 
@@ -67,7 +67,7 @@
     <main class="container">
             <div class="row">
                 <div class="col s12 m10 l8 offset-m1 offset-l2">
-                    <form action="" id="login-form"><div class="card">
+                    <div class="card"><form action="" id="login-form">
                         <!-- Logo area -->
                         <div class="card-image">
                             <img src="/espresso/data/images/logo.png">
@@ -104,6 +104,12 @@
                             <div><a href="" class="password_forgotten">
                                 
                             </a></div>
+
+                            <!-- Waiting to send recovery password loader -->
+                            <div class="progress">
+                                <div class="indeterminate"></div>
+                            </div>
+        
                             
                             <!-- Servidor status icon -->
                             <div><div class="green-text" id="server-online">
@@ -129,10 +135,9 @@
                         <div class="card-action text-green center">
                             <a class="login waves-effect waves-green btn-flat 
                                 black-text" href="" id="form-submit">
-                                
                             </a>
                         </div>
-                    </div></form>
+                    </form></div>
                 </div>
             </div>
     </main>

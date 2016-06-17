@@ -156,10 +156,11 @@ function onReportProblemViewReady() {
             
             // set a callback function for checking the real mime type of the 
             // uploaded file
-            fileReader.onloadend = function(e) {
+            fileReader.onloadend = function(event) {
                 // read the first 4 bytes of the file, usually these contain the
                 // file format's magic number
-                headerBytes = (new Uint8Array(e.target.result)).subarray(0, 4);
+                headerBytes = 
+                    (new Uint8Array(event.target.result)).subarray(0, 4);
                 
                 // initialize a string where we can store the magic number in
                 // a readable format
@@ -192,9 +193,9 @@ function onReportProblemViewReady() {
     });
     
     // validate the form before submitting
-    $("#send").click(function(e) {
+    $("#send").click(function(event) {
         // prevent authomatic submission, we'll do it manually
-        e.preventDefault();
+        event.preventDefault();
         
         // check if the required select inputs have a value selected;
         // if any of those is empty, mark it on the form

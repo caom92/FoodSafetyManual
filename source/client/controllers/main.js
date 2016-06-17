@@ -21,11 +21,16 @@ $(function() {
     // check if the user is logged in
     $.ajax({
         // the URL of the service we are requesting
-        url: "/espresso/users/check-session?key=" 
-            + sessionStorage.getItem("key") + "&password=" + sessionStorage.getItem("login_password"),
+        url: "/espresso/users/check-session",
 
         // the HTTP method to use
-        method: "GET",
+        method: "POST",
+
+        // the data sent to the server
+        data: {
+            key: sessionStorage.getItem("key"),
+            password: sessionStorage.getItem("login_password")
+        },
 
         // indicate that we are expecting to recieve a JSON
         dataType: "json",
@@ -77,14 +82,14 @@ $(function() {
     
     // When the user clicks the logout button, close the session in both
     // the client and the server
-    $("#logout").click(function(e) {
+    $("#logout").click(function(event) {
         // prevent default behavior of redirecting to another page
-        e.preventDefault();
+        event.preventDefault();
         
         // tell the server to close the session as well
         $.ajax({
-            //url: "/espresso/source/server/services/session/logout.php",
             url: "/espresso/users/logout",
+            method: "GET",
             dataType: "json",
             cache: false,
             success: function(response, message, xhr) {
