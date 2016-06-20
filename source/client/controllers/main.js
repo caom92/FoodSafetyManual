@@ -28,8 +28,7 @@ $(function() {
 
         // the data sent to the server
         data: {
-            key: sessionStorage.getItem("key"),
-            password: sessionStorage.getItem("login_password")
+            key: ""
         },
 
         // indicate that we are expecting to recieve a JSON
@@ -55,16 +54,12 @@ $(function() {
                     function complete() {
                         // after loading the view, execute the code of its
                         // controller
-                        onViewReady(
-                            window.location.pathname.replace("/espresso/", "")
-                        );
+                        onViewReady(resource);
                     }
                 );
                 
                 // display the name of the user
-                names = sessionStorage.full_name.split(" ");
-                accountName = names[0] + " " + names[1];
-                $("#account-name").text(accountName);
+                $("#account-name").text(sessionStorage.first_name);
             } else {
                 // if it was, redirect the user to the login page
                 window.location.href = "/espresso";
@@ -82,16 +77,26 @@ $(function() {
     
     // When the user clicks the logout button, close the session in both
     // the client and the server
-    $("#logout").click(function(event) {
+    $("#logout").on("click", function(event) {
         // prevent default behavior of redirecting to another page
         event.preventDefault();
         
         // tell the server to close the session as well
         $.ajax({
+            // the URL of the service that we are requesting
             url: "/espresso/users/logout",
+
+            // the HTTP method that we will use for requesting the service
             method: "GET",
+
+            // indicate that we expect the server to return a JSON object
             dataType: "json",
+
+            // indicate that we do not want the response to be stored in cache
             cache: false,
+
+            // the callback to invoque when the communication with the server 
+            // succeeded
             success: function(response, message, xhr) {
                 // clear the session variables in the client
                 sessionStorage.clear();
@@ -100,6 +105,9 @@ $(function() {
                 window.location.href = "/espresso";
                 console.log("server says: " + response.meta.message);
             },
+
+            // the callback to invoque when the communication with the server 
+            // failed
             error: function(xhr, status, message) {
                 console.log("server says: " + status + ", " + message);
             }

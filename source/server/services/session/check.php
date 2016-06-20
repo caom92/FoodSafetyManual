@@ -3,8 +3,7 @@
 // Data is sent to the server from the client in the form of a JSON with
 // the following format:
 // {
-//     key:[int]
-//     password:[string]
+//     key:[string]
 // }
 
 // start the session API
@@ -13,13 +12,8 @@ session_start();
 // initialize the output json object to be sent back to the client
 $outputJSON;
 
-// check if the key of the user is set and if it is the same that we
-// have stored for this session
-if (isset($_SESSION["key"]) && $_SESSION["key"] == $_POST["key"]
-    && isset($_SESSION["login_password"])
-    && $_SESSION["login_password"] == $_POST["password"]) {
-    // if the client's key is the same than ours, then the session
-    // was properly initialized
+// check if the user has a session initiated in the server
+if (isset($_SESSION["id"])) {
     $outputJSON = [
         "meta" => [
             "return_code" => 0,

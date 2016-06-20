@@ -1,0 +1,96 @@
+// Converts data codified in a query string in the URL into a JSON object
+// [out]    return: the JSON object which contains the data codified in the
+//          URL query string
+function getURLQueryStringAsJSON()
+{
+    // get the URL query string
+    var query = window.location.href;
+    
+    // remove the site name and keep only the query data
+    query = query.substr(query.indexOf("?") + 1);
+    
+    // parse the query data into a JSON object 
+    // decodeURIComponent() requires that the input string follows the same
+    // valid syntaxis for JSON objects so that it can be converted 
+    // successfully 
+    return $.parseJSON('{"' + decodeURIComponent(query
+        .replace(/&/g, '","')   // replace & with ","
+        .replace(/=/g, '":"')   // replace = with ":"
+        .replace(/\+/g, " "))   // replace + with " "
+    + '"}');
+}
+
+
+// Checks both the file name extension and binary magic number of an uploaded
+// file before being sent to the server for further processing. 
+// [in]     files: array of the File objects that are going to be checked
+// [in]     formatsToCheck: JSON object which describes the file formats that
+//          are going to be validated; supported file formats are png, gif, 
+//          jpeg, bmp and pdf. To indicate which file formats to validate, just
+//          assign true to any of the supported file formats, for example: 
+//          { png: true, pdf: true }
+// [in]     onInvalidFile: the function callback to be invoqued when the file
+//          format is invalid; after invoquing this callback, the function will
+//          exit
+function validateFileFormats(files, formatsToValidate, onInvalid) 
+{
+    // iterate each file 
+    for (var file of files) {
+        // create a file reader to be able to read binary data from them
+        var fileReader = new FileReader();
+
+        // callback to invoque when the file reader finished reading the file
+        fileReader.onloadend = function(event) {
+            // temporal variable where to store the results of each format 
+            // validation
+            var validations = formatsToValidate;
+
+            // read the first 4 bytes of the file, usually these contain the
+            // file format's magic number
+            var buffer = new DataView(event.target.result.slice(0, 4));
+
+            // get the magic number from the file bytes, usually 4 bytes is enough
+            var magicnum = buffer.getUint32(0);
+
+            // check for PNG files
+            if (formatsToValidate.png) {
+                validations.png = (magicnum == 0x89504e47);
+            }
+
+            // check for 3 different versions of JPEG files
+            if (formatsToValidate.jpeg) {
+                validations.jpeg = (magicnum == 0xffd8ffe0 
+                    || magicnum == 0xffd8ffe1 
+                    || magicnum == 0xffd8ffe2);
+            }
+
+            // check for BMP files
+            if (formatsToValidate.bmp) {
+                // BMP magic number actually consists of only 2 bytes
+                var bmpBuffer = new DataView(event.target.result.slice(0, 2));
+                validations.bmp = (bmpBuffer.getUint16(0) == 0x424d);
+            }
+
+            // check for GIF files
+            if (formatsToValidate.gif) {
+                validations.gif = (magicnum == 0x47494638);
+            }
+
+            // check for PDF files
+            if (formatsToValidate.pdf) {
+                validations.pdf = (magicnum == 0x25504446);
+            }
+
+            // from all the available validations, if none of them passed, then
+            // invoque the user defined invalid callback
+            if (!validations.png && !validations.jpeg && !validations.bmp 
+                && !validations.gif && !validations.pdf) 
+            {
+                onInvalid();
+            }
+        }
+        // use the file reader that we created to read the data of the
+        // file
+        fileReader.readAsArrayBuffer(file);
+    }
+}

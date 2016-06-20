@@ -5,6 +5,12 @@ require_once realpath(
     dirname(__FILE__)."/../../../../external/PHPMailer/vendor/autoload.php"
 );
 
+// Import the email configuration file
+require_once realpath(dirname(__FILE__))."/../../config.php";
+
+// Alias the namespaces for ease of writing
+use espresso\mail as mail;
+
 // For this script, the client does not send a json object, rather, it sends
 // the binary data using the default channels of POST and FILES for proper
 // form submition and translation into an email
@@ -58,20 +64,20 @@ $mail = new PHPMailerOAuth;
 $confirmationMail = new PHPMailerOAuth;
 
 // Indicate we are using UTF-8 character encoding
-$mail->CharSet = "UTF-8";
-$confirmationMail->CharSet = "UTF-8";
+$mail->CharSet = mail\CHARSET;
+$confirmationMail->CharSet = mail\CHARSET;
 
 // Tell PHPMailer to use SMTP
 $mail->isSMTP();
 $confirmationMail->isSMTP();
 
 // Set the hostname of the mail server
-$mail->Host = "smtp.gmail.com";
-$confirmationMail->Host = "smtp.gmail.com";
+$mail->Host = mail\HOST;
+$confirmationMail->Host = mail\HOST;
 
 // Set the SMTP port number 
-$mail->Port = 587;
-$confirmationMail->Port = 587;
+$mail->Port = mail\PORT;
+$confirmationMail->Port = mail\PORT;
 
 // Set the encryption system to use 
 $mail->SMTPSecure = "tls";
@@ -87,29 +93,27 @@ $confirmationMail->AuthType = "XOAUTH2";
 
 // User Email to use for SMTP authentication
 // Use the same Email used in Google Developer Console
-$mail->oauthUserEmail = "caom92@gmail.com";
-$confirmationMail->oauthUserEmail = "caom92@gmail.com";
+$mail->oauthUserEmail = mail\OAUTH_USER_EMAIL["en"];
+$confirmationMail->oauthUserEmail = mail\OAUTH_USER_EMAIL;
 
 // Obtained From Google Developer Console
-$mail->oauthClientId = 
-"400565202453-2816cv5dbclt3s8l2u5p0qq8f713orrf.apps.googleusercontent.com";
-$confirmationMail->oauthClientId = 
-"400565202453-2816cv5dbclt3s8l2u5p0qq8f713orrf.apps.googleusercontent.com";
+$mail->oauthClientId = mail\OAUTH_CLIENT_ID;
+$confirmationMail->oauthClientId = mail\OAUTH_CLIENT_ID;
 
 // Obtained From Google Developer Console
-$mail->oauthClientSecret = "PJdHoakwXn2IQ4p0L52eu9NW";
-$confirmationMail->oauthClientSecret = "PJdHoakwXn2IQ4p0L52eu9NW";
+$mail->oauthClientSecret = mail\OAUTH_CLIENT_SECRET;
+$confirmationMail->oauthClientSecret = mail\OAUTH_CLIENT_SECRET;
 
 // Obtained By running get_oauth_token.php after setting up APP in Google 
 // Developer Console.
-$mail->oauthRefreshToken = "1/SQZQxNs4NhjJcAYN6JWHYvsKcWQL0XRsQAaHsfuH3iI";
+$mail->oauthRefreshToken = mail\OAUTH_REFRESH_TOKEN;
 $confirmationMail->oauthRefreshToken = 
-    "1/SQZQxNs4NhjJcAYN6JWHYvsKcWQL0XRsQAaHsfuH3iI";
+    mail\OAUTH_REFRESH_TOKEN;
 
 // Set who the message is to be sent from
 // For gmail, this generally needs to be the same as the user you logged in as
-$mail->setFrom("caom92@gmail.com", "Espresso mailing system");
-$confirmationMail->setFrom("caom92@gmail.com", $confirmationMailFrom);
+$mail->setFrom(mail\OAUTH_USER_EMAIL["en"], mail\USER_NAME);
+$confirmationMail->setFrom(mail\OAUTH_USER_EMAIL["en"], $confirmationMailFrom);
 
 // Set who the message is to be sent to
 $mail->addAddress("caom92@live.com", "Carlos Oliva");

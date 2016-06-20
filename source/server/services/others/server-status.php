@@ -1,7 +1,7 @@
 <?php
 
 // Import the data base config file
-require_once realpath(dirname(__FILE__)."/../../config.php");
+require_once realpath(dirname(__FILE__)."/../../espresso.php");
 
 // Alias the namespaces for ease of writing
 use espresso as core;

@@ -10,7 +10,7 @@ require_once realpath(dirname(__FILE__)."/DataBaseTable.php");
 class RecoveringPasswords extends DataBaseTable
 {
     // Creates an interface for interacting with the 
-    // users_profile_info table in the specified data base
+    // recovering_passwords table in the specified data base
     function __construct($dataBaseConnection)
     {
         parent::__construct($dataBaseConnection, "recovering_passwords");
@@ -26,7 +26,7 @@ class RecoveringPasswords extends DataBaseTable
     //             string in case none was found
     function searchItemsByRecoveryToken($recoveryToken)
     {
-        return parent::select("*", ["recovery_token" => $recoveryToken]);
+        return parent::select("*", ["token" => $recoveryToken]);
     }
 
 

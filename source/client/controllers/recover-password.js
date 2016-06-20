@@ -1,51 +1,28 @@
-// Converts data codified in a query string in the URL into a JSON object
-// [out]    return: the JSON object which contains the data codified in the
-//          URL query string
-function convertQueryStringToJSON()
-{
-    // get the URL query string
-    query = window.location.href;
-    
-    // remove the site name and keep only the query data
-    query = query.substr(query.indexOf("?") + 1);
-    
-    // parse the query data into a JSON object 
-    // decodeURIComponent() requires that the input string follows the same
-    // valid syntaxis for JSON objects so that it can be converted 
-    // successfully 
-    return $.parseJSON('{"' + decodeURIComponent(query
-        .replace(/&/g, '","')   // replace & with ","
-        .replace(/=/g, '":"')   // replace = with ":"
-        .replace(/\+/g, " "))   // replace + with " "
-    + '"}');
-}
-
-
 // Entry point for the program that controls the password recovery page layout
 $(function() {
     // get the token from the query string
-    query = convertQueryStringToJSON();
+    var query = getURLQueryStringAsJSON();
 
     // Tell the input fields to turn back to valid when they were focused by
     // the user when invalid
-    $("input").click(function() {
+    $("input").on("click", function() {
         if ($(this).hasClass("invalid")) {
             $(this).removeClass("invalid")
         }
     });
 
     // Validate the form entry when the user clicks on the form submit button
-    $("#form-submit").click(function(event) {
+    $("#form-submit").on("click", function(event) {
         // prevent navigation to another page
         event.preventDefault();
 
         // check if the fields are empty
         if (!$("#new-password").val() || !$("#confirm-password").val()) {
             // if they are, notify the user visually
-            Materialize.toast("Por favor, llene los campos indicados.", 3500);
             $("#new-password").addClass("invalid");
             $("#confirm-password").addClass("invalid");
             $(".prefix").addClass("invalid");
+            Materialize.toast("Por favor, llene los campos indicados.", 3500, "rounded");
         } else if ($("#new-password").val() == $("#confirm-password").val()) {
             // now check if both fields have the same password and if they do,
             // we change the password in the server data base
@@ -74,24 +51,21 @@ $(function() {
                     // check if the password change succeeded
                     if (response.meta.return_code == 0) {
                         // store the user profile data in a session storage
-                        sessionStorage.id = response.data.id;
-                        sessionStorage.employee_id_num =  
-                            response.data.employee_id_num;
-                        sessionStorage.full_name = response.data.full_name;
+                        sessionStorage.employee_num =  
+                            response.data.employee_num;
+                        sessionStorage.first_name = response.data.first_name;
+                        sessionStorage.last_name = response.data.last_name;
                         sessionStorage.email = response.data.email;
-                        sessionStorage.login_name = response.data.login_name;
+                        sessionStorage.account_nickname = 
+                            response.data.account_nickname;
                         sessionStorage.login_password = 
                             response.data.login_password;
-                        sessionStorage.key = response.data.key;
-
-                        // delete the user ID duplicate
-                        sessionStorage.removeItem("user_id");
 
                         // redirect to the home page
                         window.location.href = "/espresso/home";
                     } else {
                         // if not, notify the user
-                        Materialize.toast("&iexcl;Hubo un problema al cambiar la contrase&ntilde;a!", 3500);
+                        Materialize.toast("&iexcl;Hubo un problema al cambiar la contrase&ntilde;a!", 3500, "rounded");
                         console.log("server says: " + response.meta.message);
                     }
                 },
@@ -105,7 +79,7 @@ $(function() {
         } else {
             // if the password fields differ from one another, notify the user
             // visually
-            Materialize.toast("Los campos no coinciden.", 3500);
+            Materialize.toast("Los campos no coinciden.", 3500, "rounded");
             $("#new-password").addClass("invalid");
             $("#confirm-password").addClass("invalid");
             $(".prefix").addClass("invalid");

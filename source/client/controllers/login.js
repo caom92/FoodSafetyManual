@@ -7,7 +7,7 @@ $(function() {
 
     // Tell the input fields to turn back to valid when they were focused by
     // the user when invalid
-    $("input").click(function() {
+    $("input").on("click", function() {
         if ($(this).hasClass("invalid")) {
             $(this).removeClass("invalid")
         }
@@ -15,7 +15,7 @@ $(function() {
 
     // when the user inputs her credentials, we must authenticate them
     // with the server
-    $("#form-submit").click(function(event) {
+    $("#form-submit").on("click", function(event) {
         // prevent default behavior so that the page is not navigated to 
         // another site
         event.preventDefault();
@@ -46,14 +46,15 @@ $(function() {
                 if (response.meta.return_code == 0) {
                     // store the user profile data in a session storage
                     sessionStorage.id = response.data.id;
-                    sessionStorage.employee_id_num =  
-                        response.data.employee_id_num;
-                    sessionStorage.full_name = response.data.full_name;
+                    sessionStorage.employee_num =  
+                        response.data.employee_num;
+                    sessionStorage.first_name = response.data.first_name;
+                    sessionStorage.last_name = response.data.last_name;
                     sessionStorage.email = response.data.email;
-                    sessionStorage.login_name = response.data.login_name;
+                    sessionStorage.account_nickname = 
+                        response.data.account_nickname;
                     sessionStorage.login_password = 
                         response.data.login_password;
-                    sessionStorage.key = response.data.key;
                     
                     // redirect to the home page
                     window.location.href = "/espresso/home";
@@ -72,20 +73,20 @@ $(function() {
                 } else {
                     // if the authentication failed with the server unavailable,
                     // remind the user visually that the server is unavailable
-                    console.log("server says: " + response.meta.message);
                     loadToast(
                         "server_offline",
                         3500, "rounded"
                     );
+                    console.log("server says: " + response.meta.message);
                 }
             },
             
             // on error callback
             error: function(xhr, status, message) {
                 // display the server result and the proper status icon
-                console.log("server says: " + status + ", " + message);
                 $("#server-online").hide();
                 $("#server-offline").show();
+                console.log("server says: " + status + ", " + message);
             }
         })
     });
@@ -93,15 +94,15 @@ $(function() {
     // when the user clicks the option to recover his password, we must 
     // authenticate his user name first and if it is valid, send an email
     // to her with a password recovery link
-    $(".password_forgotten").click(function(event) {
+    $(".password_forgotten").on("click", function(event) {
         // prevent default navigation of the hyperlink
         event.preventDefault();
 
-        // show the preloader
-        $(".progress").show();
-
         // check if the user left the username empty
         if ($("#username").val().length != 0) {
+            // show the preloader
+            $(".progress").show();
+
             // if not, then send the petition to the data base server
             $.ajax({
                 // the url of the server service we are requesting
@@ -147,19 +148,19 @@ $(function() {
 
                 // the callback to invoke when server communication failed
                 error: function(xhr, status, message) {
-                    console.log("server says: " + status + ", " + message);
+                    $(".progress").hide();
                     Materialize.toast("El servidor no est&aacute; disponible", 
                         3500, "rounded");
-                    $(".progress").hide();
+                    console.log("server says: " + status + ", " + message);
                 }
             });
         } else {
             // if the username is empty, then tell the user that the field is 
             // required
-            Materialize.toast("Por favor ingrese el campo indicado.", 
-                3500, "rounded");
             $("#username").addClass("invalid");
             $("#username.prefix").addClass("invalid");
+            Materialize.toast("Por favor ingrese el campo indicado.", 
+                3500, "rounded");
         }
     });
     
@@ -192,8 +193,8 @@ $(function() {
         // on error callback
         error: function(xhr, status, message) {
             // display the server result and the proper status icon
-            console.log("server says: " + status + ", " + message);
             $("#server-offline").show();
+            console.log("server says: " + status + ", " + message);
         }
     });
 

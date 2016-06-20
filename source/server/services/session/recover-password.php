@@ -1,7 +1,7 @@
 <?php
 
 // Import external classes
-require_once realpath(dirname(__FILE__)."/../../dao/UsersProfileInfo.php");
+require_once realpath(dirname(__FILE__)."/../../dao/UserProfiles.php");
 
 require_once realpath(dirname(__FILE__)."/../../dao/RecoveringPasswords.php");
 
@@ -20,7 +20,7 @@ $outputJSON;
 try {
     // attempt to connect to the database
     $dataBaseConnection = dao\connectToDataBase();
-    $usersProfileTable = new dao\UsersProfileInfo($dataBaseConnection);
+    $userProfilesTable = new dao\UserProfiles($dataBaseConnection);
     $recoveringPasswordsTable = 
         new dao\RecoveringPasswords($dataBaseConnection);
 

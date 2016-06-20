@@ -39,7 +39,10 @@ try {
         "full_name" => $inputJSON["full_name"],
         "email" => $inputJSON["email"],
         "login_name" => $inputJSON["login_name"],
-        "login_password" => hash("sha256", $inputJSON["login_password"])
+        "login_password" => hash(
+            "sha256", 
+            $inputJSON["login_password"]
+        )
     ]]);
     
     // now create the final array for storing the permissions in the

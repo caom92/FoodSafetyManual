@@ -1,7 +1,7 @@
 <?php
 
 // Import external classes
-require_once realpath(dirname(__FILE__)."/../../dao/UsersProfileInfo.php");
+require_once realpath(dirname(__FILE__)."/../../dao/UserProfiles.php");
 
 // Alias the namespaces for ease of writing
 use espresso as core;
@@ -20,10 +20,10 @@ $outputJSON;
 try {
     // attempt to connect to the database
     $dataBaseConnection = dao\connectToDataBase();
-    $usersProfileTable = new dao\UsersProfileInfo($dataBaseConnection);
+    $userProfilesTable = new dao\UserProfiles($dataBaseConnection);
 
     // modify the password of the user in the data base
-    $result = $usersProfileTable->changeLogInPasswordOfUserWithID(
+    $result = $userProfilesTable->changeLogInPasswordOfUserWithID(
         $_POST["user_id"], 
         $_POST["new_password"]
     );  
@@ -31,19 +31,19 @@ try {
     // check if the password was changed successfully
     if ($result != 0) {
         // get the user profile data
-        $userProfile = $usersProfileTable->searchItemsByID(
+        $userProfile = $userProfilesTable->searchItemsByIdentifierAndPassword(
             $_POST["user_id"], 
             $_POST["new_password"]
         );
 
         $userData = [
             "id" => $userProfile[0]["id"],
-            "employee_id_num" => $userProfile[0]["employee_id_num"],
-            "full_name" => $userProfile[0]["full_name"],
+            "employee_num" => $userProfile[0]["employee_num"],
+            "first_name" => $userProfile[0]["first_name"],
+            "last_name" => $userProfile[0]["last_name"],
             "email" => $userProfile[0]["email"],
-            "login_name" => $userProfile[0]["login_name"],
-            "login_password" => $userProfile[0]["login_password"],
-            "key" => hash("sha256", rand())
+            "account_nickname" => $userProfile[0]["account_nickname"],
+            "login_password" => $userProfile[0]["login_password"]
         ]; 
 
         // start a session and store this data
@@ -85,12 +85,12 @@ try {
 // where data is:
 // {
 //     id:[uint],
-//     employee_id_num:[uint],
-//     full_name:[string]
+//     employee_num:[uint],
+//     first_name:[string],
+//     last_name:[string],
 //     email:[string]
-//     login_name:[string]
+//     account_nickname:[string]
 //     login_password:[string]
-//     key:[int]
 // }
 header("Content-Type: application/json");
 echo json_encode($outputJSON);

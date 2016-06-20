@@ -1,58 +1,36 @@
 <?php
 
-// Root namespace for the project's classes and functions
-namespace espresso
+// Namespace for the project's Data Access Objects
+namespace espresso\dao   
 {   
-    // Terminates the execution of the current script and generates an error 
-    // JSON packet for the client to interpret
-    // [in]    code: an integer value that identifies the kind of error that
-    //         occurred
-    // [in]    message: a user-friendly message that describes the error that
-    //         occurred 
-    function displayErrorPageAndExit($code, $message)
-    {
-        header("Content-Type: application/json");
-        echo json_encode([
-            "meta" => [
-                "return_code" => ($code != 0) ? $code : 1,
-                "message" => $message
-            ],
-            "data" => []
-        ]);
-        exit;
-    }
+    // Database connection information
+    const HOST = "localhost";
+    const DATA_BASE = "espresso_test";
+    const USER = "espresso";
+    const PASSWORD = "awesomesupersecretcode";
 }
 
 
-// Namespace for the project's Data Access Objects
-namespace espresso\dao   
-{ 
-    // Import Medoo library for interfacing with SQL
-    require_once realpath(dirname(__FILE__)."/../../external/medoo/medoo.php");
-    
-    // Database connection information
-    const HOST = "localhost";
-    const DATA_BASE = "del_cabo";
-    const USER = "super";
-    const PASSWORD = "awesomesupersecretcode";
+// Namespace for the project's mailing system
+namespace espresso\mail
+{
+    // Mail content information
+    const CHARSET = "UTF-8";
+    const USER_NAME = [
+        "en" => "Espresso mailing system",
+        "es" => "Sistema de mensajería de Espresso"
+    ];
 
-    // Attempts to connect to the database and returns the connection if
-    // succeeded
-    function connectToDataBase()
-    {
-        return new \medoo([
-            "database_type" => "mysql",
-            "database_name" => DATA_BASE,
-            "server" => HOST,
-            "username" => USER,
-            "password" => PASSWORD,
-            "charset" => "utf8",
-            "option" => [
-                \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-                \PDO::ATTR_EMULATE_PREPARES => false
-            ] 
-        ]);
-    }
+    // Email host information
+    const HOST = "smtp.gmail.com";
+    const PORT = 587;
+
+    // OAuth2 authentication information 
+    const OAUTH_USER_EMAIL = "caom92@gmail.com";
+    const OAUTH_CLIENT_ID = 
+    "400565202453-2816cv5dbclt3s8l2u5p0qq8f713orrf.apps.googleusercontent.com";
+    const OAUTH_CLIENT_SECRET = "PJdHoakwXn2IQ4p0L52eu9NW";
+    const OAUTH_REFRESH_TOKEN = "1/SQZQxNs4NhjJcAYN6JWHYvsKcWQL0XRsQAaHsfuH3iI";
 }
 
 ?>

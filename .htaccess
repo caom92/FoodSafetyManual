@@ -18,7 +18,7 @@ RewriteRule ^views/report-problem$ source/client/views/report-problem.html [L,QS
 RewriteRule ^views/error$ source/client/views/error.html [L,QSA]
 RewriteRule ^views/edit-profile$ source/client/views/edit-profile.html [L,QSA]
 
-# Redirections for providing REST interface to the server
+# Redirections for providing an interface to the server
 # ------------------------------------------------------------------------------
 
 # Checks if a connection to the data base server can be established 
@@ -47,6 +47,12 @@ RewriteRule ^users/use-recovery-token$ source/server/services/session/recover-pa
 
 # Redirect the change password petition to the proper server script
 RewriteRule ^users/change-password$ source/server/services/session/change-password.php
+
+# Request the list of all zones
+RewriteRule ^zones$ source/server/services/others/get-zones.php [L,QSA]
+
+# Request the list of all procedures
+RewriteRule ^procedures$ source/server/services/others/get-procedures.php [L,QSA]
 
 # Prevent directory listing of the server files
 Options -Indexes 
