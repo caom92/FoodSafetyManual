@@ -42,15 +42,16 @@ try {
 
     // check if any result was found
     if (count($userProfile) > 0) {
-        // get the current timestamp
-        $timestamp = time();
+        // get the current timestamp and add 1 day to get the 
+        // expiration date for the token
+        $expirationDate = strttotime("+1 day", time());
 
         // create the recovery token
         $recoveryToken = hash(
             "sha256", 
             $userProfile[0]["first_name"]
-            .$userProfile[0]["last_name"]
-            .$timestamp
+            . $userProfile[0]["last_name"]
+            . time()
         );
 
         // delete any previous token, valid or invalid, that is associated with
@@ -60,7 +61,7 @@ try {
         // store it in the data base
         $recoveringPasswordsTable->saveItems([
             "user_id" => $userProfile[0]["id"],
-            "timestamp" => date("Y-m-d H:i:s", $timestamp),
+            "expiration_date" => date("Y-m-d H:i:s", $expirationDate),
             "token" => $recoveryToken
         ]);
 

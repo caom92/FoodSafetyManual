@@ -30,15 +30,11 @@ try {
 
     // if the token was found, check if it has not expired yet
     if (count($result) > 0) {
-        // get the timestamp that was stored with the token and convert it to
-        // date
-        $tokenTimestamp = new DateTime($result[0]["timestamp"]);
-
-        // add one day to it to obtain the deadline
-        $deadline = $tokenTimestamp->modify("+1 day");  
+        // get the expiration date that was stored with the token
+        $tokenExpiration = new DateTime($result[0]["expiration_date"]);  
 
         // check if the token has not expired
-        if (new DateTime(date("Y-m-d H:i:s")) <= $deadline) {
+        if (new DateTime(date("Y-m-d H:i:s")) <= $tokenExpiration) {
             // the token is still valid
             $outputJSON = [
                 "meta" => [
