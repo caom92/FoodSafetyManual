@@ -8,6 +8,9 @@ function onViewReady(view) {
         case "edit-profile":
             onEditProfileViewReady();
             break;
+        case "view-users":
+            onViewUsersViewReady();
+            break;
     }
     
     // update the view's language

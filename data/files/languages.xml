@@ -248,6 +248,11 @@
         <spanish>Su información</spanish>
     </translation>
 
+    <translation id="user_list">
+        <english>List of users</english>
+        <spanish>Lista de usuarios</spanish>
+    </translation>
+
     <translation id="change_password">
         <english>Change your password</english>
         <spanish>Cambiar su contraseña</spanish>
