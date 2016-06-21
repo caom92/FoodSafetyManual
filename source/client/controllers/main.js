@@ -65,11 +65,6 @@ $(function() {
         // the HTTP method to use
         method: "POST",
 
-        // the data sent to the server
-        data: {
-            key: ""
-        },
-
         // indicate that we are expecting to recieve a JSON
         dataType: "json",
 
