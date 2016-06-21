@@ -18,6 +18,45 @@ function onViewReady(view) {
 
 // Entry point for the program that controls the main page layout
 $(function() {
+    // When the user clicks the logout button, close the session in both
+    // the client and the server
+    $("#logout").on("click", function(event) {
+        // prevent default behavior of redirecting to another page
+        event.preventDefault();
+        
+        // tell the server to close the session as well
+        $.ajax({
+            // the URL of the service that we are requesting
+            url: "/espresso/users/logout",
+
+            // the HTTP method that we will use for requesting the service
+            method: "GET",
+
+            // indicate that we expect the server to return a JSON object
+            dataType: "json",
+
+            // indicate that we do not want the response to be stored in cache
+            cache: false,
+
+            // the callback to invoque when the communication with the server 
+            // succeeded
+            success: function(response, message, xhr) {
+                // clear the session variables in the client
+                sessionStorage.clear();
+                
+                // finally redirect to the login page
+                window.location.href = "/espresso";
+                console.log("server says: " + response.meta.message);
+            },
+
+            // the callback to invoque when the communication with the server 
+            // failed
+            error: function(xhr, status, message) {
+                console.log("server says: " + status + ", " + message);
+            }
+        });
+    });
+    
     // check if the user is logged in
     $.ajax({
         // the URL of the service we are requesting
@@ -73,44 +112,5 @@ $(function() {
             window.location.href = "/espresso";
             console.log("server says: " + status + ", " + message);
         }
-    });
-    
-    // When the user clicks the logout button, close the session in both
-    // the client and the server
-    $("#logout").on("click", function(event) {
-        // prevent default behavior of redirecting to another page
-        event.preventDefault();
-        
-        // tell the server to close the session as well
-        $.ajax({
-            // the URL of the service that we are requesting
-            url: "/espresso/users/logout",
-
-            // the HTTP method that we will use for requesting the service
-            method: "GET",
-
-            // indicate that we expect the server to return a JSON object
-            dataType: "json",
-
-            // indicate that we do not want the response to be stored in cache
-            cache: false,
-
-            // the callback to invoque when the communication with the server 
-            // succeeded
-            success: function(response, message, xhr) {
-                // clear the session variables in the client
-                sessionStorage.clear();
-                
-                // finally redirect to the login page
-                window.location.href = "/espresso";
-                console.log("server says: " + response.meta.message);
-            },
-
-            // the callback to invoque when the communication with the server 
-            // failed
-            error: function(xhr, status, message) {
-                console.log("server says: " + status + ", " + message);
-            }
-        });
     });
 });
