@@ -5,15 +5,21 @@ require_once realpath(
     dirname(__FILE__)."/../../../../external/PHPMailer/vendor/autoload.php"
 );
 
+// Import the email configuration file
+require_once realpath(dirname(__FILE__))."/../../config.php";
+
+// Alias the namespaces for ease of writing
+use espresso\mail as mail;
+
 // For this script, the client does not send a json object, rather, it sends
 // the binary data using the default channels of POST and FILES for proper
 // form submition and translation into an email
 
 // Create the email body by pasting all the posted data into it
-$body = "Usuario: " . $_POST["user-name"] . "\n"
-    . "ID de empleado: " . $_POST["user-id"] . "\n"
-    . "Zona: " . $_POST["zone-selection"] . "\n"
-    . "Procedimiento: " . $_POST["procedure-selection"] . "\n"
+$body = "Usuario: " . $_POST["user-name"] . "<br>"
+    . "ID de empleado: " . $_POST["user-id"] . "<br>"
+    . "Zona: " . $_POST["zone-selection"] . "<br>"
+    . "Procedimiento: " . $_POST["procedure-selection"] . "<br>"
     . "Navegadores: ";
     
 // paste browsers
@@ -22,101 +28,106 @@ foreach ($_POST["browser-selection"] as $browser) {
 }
 
 // continue with the rest of the body
-$body .= "\n" . "Severidad: " . $_POST["severity-selection"] . "\n"
-    . "Resumen: " . $_POST["summary"] . "\n"
-    . "Pasos para reproducirlo: " . $_POST["steps"] . "\n"
-    . "Salida esperada: " . $_POST["expectation"] . "\n"
-    . "Salida obtenida: " . $_POST["reality"] . "\n";
+$body .= "\n" . "Severidad: " . $_POST["severity-selection"] . "<br>"
+    . "Resumen: " . $_POST["summary"] . "<br>"
+    . "Pasos para reproducirlo: " . $_POST["steps"] . "<br>"
+    . "Salida esperada: " . $_POST["expectation"] . "<br>"
+    . "Salida obtenida: " . $_POST["reality"] . "<br>";
     
 // create the body of the confirmation mail
 $confirmationBody = "";
+$confirmationMailSubject = "";
+$confirmationMainFrom = "";
 
 if ($_POST["lang"] == "en") {
-    $confirmationBody .= "This is an automated response to the bug report that"
+    $confirmationMailSubject = 
+        "Jacobs Farm : Bug report submission confirmation";
+    $confirmationMailFrom = "Espresso mailing system";
+    $confirmationBody = "This is an automated response to the bug report that"
         . " you submitted earlier. We'll start working on solving the problem "
         . "as soon as possible. You don't need to reply to this message. If "
         . "you did not submitted any bug report to us, please just disregard "
         . "this message. ";
-} else {
-    $confirmationBody .= "Esta es una respuesta automatizada al reporte de "
-        . "problema que nos envió hace unos momentos. Comenzaremos a trabajar"
-        . " en resolver el problema tan pronto como nos sea posible. No es "
-        . " necesario que conteste este mensaje. Si usted no nos envió ningún"
-        . " reporte, por favor sólo ignore este mensaje.";
+} else if ($_POST["lang"] == "es"){
+    $confirmationMailSubject = 
+        "Del Cabo : Confirmaci&oacute;n de env&iacute;o de reporte de problema";
+    $confirmationMailFrom = "Sistema de mensajer&iacute;a de Espresso.";
+    $confirmationBody = "Esta es una respuesta automatizada al reporte de "
+        . "problema que nos envi&oacute; hace unos momentos. Comenzaremos a " 
+        . "trabajar en resolver el problema tan pronto como nos sea posible. "
+        . "No es necesario que conteste este mensaje. Si usted no nos "
+        . "envi&oacute; ning&uacute;n reporte, por favor ignore este mensaje.";
 }
 
-//Create a new PHPMailer instance
+// Create a new PHPMailer instance
 $mail = new PHPMailerOAuth;
 $confirmationMail = new PHPMailerOAuth;
 
-//Tell PHPMailer to use SMTP
+// Indicate we are using UTF-8 character encoding
+$mail->CharSet = mail\CHARSET;
+$confirmationMail->CharSet = mail\CHARSET;
+
+// Tell PHPMailer to use SMTP
 $mail->isSMTP();
 $confirmationMail->isSMTP();
 
-//Set the hostname of the mail server
-$mail->Host = "smtp.gmail.com";
-$confirmationMail->Host = "smtp.gmail.com";
+// Set the hostname of the mail server
+$mail->Host = mail\HOST;
+$confirmationMail->Host = mail\HOST;
 
-//Set the SMTP port number 
-$mail->Port = 587;
-$confirmationMail->Port = 587;
+// Set the SMTP port number 
+$mail->Port = mail\PORT;
+$confirmationMail->Port = mail\PORT;
 
-//Set the encryption system to use 
+// Set the encryption system to use 
 $mail->SMTPSecure = "tls";
 $confirmationMail->SMTPSecure = "tls";
 
-//Whether to use SMTP authentication
+// Whether to use SMTP authentication
 $mail->SMTPAuth = true;
 $confirmationMail->SMTPAuth = true;
 
-//Set AuthType
+// Set AuthType
 $mail->AuthType = "XOAUTH2";
 $confirmationMail->AuthType = "XOAUTH2";
 
-//User Email to use for SMTP authentication
+// User Email to use for SMTP authentication
 // Use the same Email used in Google Developer Console
-$mail->oauthUserEmail = "caom92@gmail.com";
-$confirmationMail->oauthUserEmail = "caom92@gmail.com";
+$mail->oauthUserEmail = mail\OAUTH_USER_EMAIL["en"];
+$confirmationMail->oauthUserEmail = mail\OAUTH_USER_EMAIL;
 
-//Obtained From Google Developer Console
-$mail->oauthClientId = 
-"400565202453-2816cv5dbclt3s8l2u5p0qq8f713orrf.apps.googleusercontent.com";
-$confirmationMail->oauthClientId = 
-"400565202453-2816cv5dbclt3s8l2u5p0qq8f713orrf.apps.googleusercontent.com";
+// Obtained From Google Developer Console
+$mail->oauthClientId = mail\OAUTH_CLIENT_ID;
+$confirmationMail->oauthClientId = mail\OAUTH_CLIENT_ID;
 
-//Obtained From Google Developer Console
-$mail->oauthClientSecret = "PJdHoakwXn2IQ4p0L52eu9NW";
-$confirmationMail->oauthClientSecret = "PJdHoakwXn2IQ4p0L52eu9NW";
+// Obtained From Google Developer Console
+$mail->oauthClientSecret = mail\OAUTH_CLIENT_SECRET;
+$confirmationMail->oauthClientSecret = mail\OAUTH_CLIENT_SECRET;
 
-//Obtained By running get_oauth_token.php after setting up APP in Google 
+// Obtained By running get_oauth_token.php after setting up APP in Google 
 // Developer Console.
-$mail->oauthRefreshToken = "1/SQZQxNs4NhjJcAYN6JWHYvsKcWQL0XRsQAaHsfuH3iI";
-$confirmationMail->oauthRefreshToken = "1/SQZQxNs4NhjJcAYN6JWHYvsKcWQL0XRsQAaHsfuH3iI";
+$mail->oauthRefreshToken = mail\OAUTH_REFRESH_TOKEN;
+$confirmationMail->oauthRefreshToken = 
+    mail\OAUTH_REFRESH_TOKEN;
 
-//Set who the message is to be sent from
-//For gmail, this generally needs to be the same as the user you logged in as
-$mail->setFrom("caom92@gmail.com", "Espresso mailing system");
-$confirmationMail->setFrom("caom92@gmail.com", "Espresso mailing system");
+// Set who the message is to be sent from
+// For gmail, this generally needs to be the same as the user you logged in as
+$mail->setFrom(mail\OAUTH_USER_EMAIL["en"], mail\USER_NAME);
+$confirmationMail->setFrom(mail\OAUTH_USER_EMAIL["en"], $confirmationMailFrom);
 
-//Set who the message is to be sent to
+// Set who the message is to be sent to
 $mail->addAddress("caom92@live.com", "Carlos Oliva");
 $confirmationMail->addAddress($_POST["email"], "Carlos Oliva");
 
-//Set the subject line
+// Set the subject line
 $mail->Subject = "Jacobs Farm - Del Cabo: Bug Report";
-if ($_POST["lang"] == "en") {
-    $confirmationMail->Subject = 
-        "Jacobs Farm : Bug report submission confirmation";
-} else {
-    $confirmationMail->Subject = 
-        "Del Cabo : Confirmación de envío de reporte de problema";
-}
+$confirmationMail->Subject = $confirmationMailSubject;
 
-//Use plain text message
-$mail->isHTML(false);
-$confirmationMail->isHTML(false);
+// Use HTML message
+$mail->isHTML(true);
+$confirmationMail->isHTML(true);
 
-//Replace the plain text body with one created manually
+// Replace the plain text body with one created manually
 $mail->Body = $body;
 $confirmationMail->Body = $confirmationBody;
 
@@ -135,29 +146,43 @@ $outputJSON;
 if ($mail->Send()) {
     // notify the client if the file was mailed successfully
     $outputJSON = [
-        "error_code" => 0,
-        "error_message" => "",
+        "meta" => [
+            "return_code" => 0,
+            "message" => "Bug report mail sent successfully. "
+        ],
         "data" => []
     ];
 } else {
     // if the file was not mailed, notify the client
     $outputJSON = [
-        "error_code" => 1,
-        "error_message" => $mail->ErrorInfo,
+        "meta" => [
+            "return_code" => 1,
+            "message" => "Bug report mail: " . $mail->ErrorInfo . ". "
+        ],
         "data" => []
     ];
 }
 
 // send the confirmation email, it is not really important if this 
 // message does not make it to the recipient
-$confirmationMail->Send();
+if ($confirmationMail->Send()) {
+    $outputJSON["meta"]["message"] .= "Confirmation mail sent successfully.";
+} else {
+    $outputJSON["meta"]["message"] .= "Confirmation mail: " 
+        . $confirmationMail->ErrorInfo;
+}
 
 // Send the data to the client as a JSON with the following format
 // {
-//     error_code:[int],
-//     error_message:[string],
-//     data:[]
+//     meta:[meta]
+//     data:[data]
 // }
+// where meta is:
+// {
+//     return_code:[int]
+//     message:[string]
+// }
+header("Content-Type: application/json");
 echo json_encode($outputJSON);
 
 ?>

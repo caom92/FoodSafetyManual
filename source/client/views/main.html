@@ -15,9 +15,9 @@
     <link rel="stylesheet" href="/espresso/external/normalize/normalize.css">
     
     <!-- Import Material Design Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-        rel="stylesheet">
-    <link href="/espresso/external/google/icons-extras.css" rel="stylesheet">
+    <link rel="stylesheet" 
+        href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="/espresso/external/google/icons-extras.css">
 
     <!-- Import jQuery -->
     <script src="/espresso/external/jquery/jquery-1.12.3.min.js"></script>
@@ -38,7 +38,7 @@
 
 <body>
     <!-- Page top bar -->
-    <header><div class="navbar-fixed"><nav><div class="nav-wrapper green">
+    <header class="navbar-fixed"><nav class="nav-wrapper green">
         
         <!-- Language menu -->
         <ul class="right">
@@ -62,7 +62,7 @@
         </ul>
         
         <!-- Drawer menu -->
-        <ul id="slide-out" class="side-nav fixed" 
+        <aside><ul id="slide-out" class="side-nav fixed" 
             data-collapsible="accordion">
             <li class="logo-area">
             </li>
@@ -130,7 +130,7 @@
                     
                 </span>
             </a></li>
-        </ul>
+        </ul></aside>
         
         <!-- Menu button -->
         <a href="" data-activates="slide-out" class="button-collapse">
@@ -139,13 +139,35 @@
             </i>
         </a>
         
-    </div></nav></div></header>
+    </nav></header>
     
     <!-- Page content -->
-    <main class="with-side-menu"><div class="container" id="page-content">
-    </div></main>
+    <main class="container" id="page-content">
+        <!-- Page loading indicator -->
+        <div class="row center"><div class="col s12 m12 l12">
+            <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-green-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div></div>
+    </main>
+
+    <script>
+        // hide the side bar 
+        $("#slide-out").hide();
+    </script>
     
     <!-- Import our controllers -->
+    <script src="/espresso/source/client/controllers/functions.js"></script>
     <script src="/espresso/source/client/controllers/language.js"></script>
     <script 
         src="/espresso/source/client/controllers/report-problem.js"></script>

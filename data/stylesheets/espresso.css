@@ -136,3 +136,12 @@ textarea.materialize-textarea.invalid:not([readonly]) + label,
     border-right: 2px solid #00c853;
     border-bottom: 2px solid #00c853;
 }
+
+/* Allow a thin line to appear bellow titles of sections or articles */
+.section-title {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+main.container > div.row.center {
+    padding-top: 150px;
+}

@@ -1,7 +1,7 @@
 <?php
 
 // Import the data base config file
-require_once realpath(dirname(__FILE__)."/../../config.php");
+require_once realpath(dirname(__FILE__)."/../../espresso.php");
 
 // Alias the namespaces for ease of writing
 use espresso as core;
@@ -17,8 +17,10 @@ try {
     // if the connection was successful, let the client know
     dao\connectToDataBase();
     $outputJSON = [
-        "error_code" => 0,
-        "error_message" => "",
+        "meta" => [
+            "return_code" => 0,
+            "message" => "Data base server is available"
+        ],
         "data" => []
     ];
 } catch (Exception $e) {
@@ -28,10 +30,15 @@ try {
 
 // Send the data to the client as a JSON with the following format
 // {
-//     error_code:[int],
-//     error_message:[string],
-//     data:[]
+//     meta:[meta]
+//     response_data:[]
 // }
+// where meta is:
+// {
+//     return_code:[int]
+//     message:[string]
+// }
+header("Content-Type: application/json");
 echo json_encode($outputJSON);
 
 ?>
