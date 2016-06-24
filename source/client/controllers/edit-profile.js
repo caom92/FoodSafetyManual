@@ -40,10 +40,10 @@ function isRequiredTextAreaValid(id) {
 // when its corresponding view is ready
 function onEditProfileViewReady(){
     //Link sessionStorage value to the required fields
-    $("#user-name").val(sessionStorage.login_name);
-    $("#user-id").val(sessionStorage.employee_id_num);
+    $("#user-name").val(sessionStorage.account_nickname);
+    $("#user-id").val(sessionStorage.employee_num);
     $("#user-email").val(sessionStorage.email);
-    $("#real-name").val(sessionStorage.full_name);
+    $("#real-name").val(sessionStorage.first_name + " " + sessionStorage.last_name);
 
     //Hide the form fields that belong to changing account information
     $("#change_password_wrapper").hide();
@@ -120,7 +120,8 @@ function onEditProfileViewReady(){
         e.preventDefault();
         // check if the required select inputs have a value selected;
         // if any of those is empty, mark it on the form
-        oldPasswordIsValid = isRequiredTextAreaValid("#old-password");
+        oldPasswordIsValid = isRequiredTextAreaValid("#old-password") 
+            && sha256($("#old-password").val()) == sessionStorage.login_password;
         newPasswordIsValid = isRequiredTextAreaValid("#new-password");
         checkPasswordIsValid = isRequiredTextAreaValid("#check-password");
 
@@ -130,8 +131,29 @@ function onEditProfileViewReady(){
             if(passwordMatch()){
                 //Third check; validate the user with its old password before
                 //changing it on the database
-                Materialize.toast("Campos validos, pero la implementacion no está terminada",
-                    3500, "rounded");
+                hashedPassword = sha256($("#new-password").val());
+                $.ajax({
+                    url: "/espresso/users/change-password",
+                    method: "POST",
+                    data: {
+                        user_id: sessionStorage.id,
+                        new_password: hashedPassword
+                    },
+                    dataType: "json",
+                    cache: false,
+                    success: function(response, message, xhr) {
+                        if (response.meta.return_code == 0) {
+                            sessionStorage.login_password = response.data.login_password;
+                            Materialize.toast("La contraseña se cambió exitosamente", 3500, "rounded");
+                        } else {
+                            console.log(
+                                "server says: " + response.meta.message);
+                        }
+                    },
+                    error: function(xhr, status, message) {
+                        console.log("server says: " + status + ", " + message);
+                    }
+                })
             } else {
                 Materialize.toast("La contraseña y la verificación no coinciden",
                     3500, "rounded");
@@ -147,9 +169,33 @@ function onEditProfileViewReady(){
         e.preventDefault();
         // check if the required select inputs have a value selected;
         // if any of those is empty, mark it on the form
-
-        Materialize.toast("Por implementar: Modificación de correo", 
-            3500, "rounded");
+        hashedPassword = sha256($("#email-password").val());
+        if (hashedPassword == sessionStorage.login_password) {
+            $.ajax({
+                url: "/espresso/users/change-email",
+                method: "POST",
+                data: {
+                    user_id: sessionStorage.id,
+                    new_email: $("#new-email").val()
+                },
+                dataType: "json",
+                cache: false,
+                success: function(response, message, xhr) {
+                    if (response.meta.return_code == 0) {
+                        sessionStorage.email = $("#new-email").val();
+                        $("#user-email").val(sessionStorage.email);
+                        Materialize.toast("El correo electrónico se cambió exitosamente.", 3500, "rounded");
+                    } else {
+                        console.log("server says: " + response.meta.message);
+                    }
+                },
+                error: function(xhr, status, message) {
+                    console.log("server says: " + status + ", " + message);
+                }
+            });
+        } else {
+            Materialize.toast("La contraseña es incorrecta.", 3500, "rounded");
+        }
     });
 
     $("#update_username").click(function(e) {
@@ -157,8 +203,32 @@ function onEditProfileViewReady(){
         e.preventDefault();
         // check if the required select inputs have a value selected;
         // if any of those is empty, mark it on the form
-
-        Materialize.toast("Por implementar: Modificación de nombre de usuario", 
-            3500, "rounded");
+        hashedPassword = sha256($("#username-password").val());
+        if (hashedPassword == sessionStorage.login_password) {
+            $.ajax({
+                url: "/espresso/users/change-username",
+                method: "POST",
+                data: {
+                    user_id: sessionStorage.id,
+                    new_username: $("#new-username").val()
+                },
+                dataType: "json",
+                cache: false,
+                success: function(response, message, xhr) {
+                    if (response.meta.return_code == 0) {
+                        sessionStorage.account_nickname = $("#new-username").val();
+                        $("#user-name").val(sessionStorage.account_nickname);
+                        Materialize.toast("El nombre de usuario se cambió exitosamente.", 3500, "rounded");
+                    } else {
+                        console.log("server says: " + response.meta.message);
+                    }
+                },
+                error: function(xhr, status, message) {
+                    console.log("server says: " + status + ", " + message);
+                }
+            });
+        } else {
+            Materialize.toast("La contraseña es incorrecta.", 3500, "rounded");
+        }
     });
 }

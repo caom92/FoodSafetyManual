@@ -81,8 +81,26 @@ class UserProfiles extends DataBaseTable
     function changeLogInPasswordOfUserWithID($id, $newPassword)
     {
         return parent::update(
-            ["login_password" => $newPassword], 
-            ["id" => $id]
+            [ "login_password" => $newPassword ], 
+            [ "id" => $id ]
+        );
+    }
+
+
+    function changeEmailOfUserWithID($id, $newEmail)
+    {
+        return parent::update(
+            [ "email" => $newEmail ],
+            [ "id" => $id ]
+        );
+    }
+
+
+    function changeAccountNicknameOfUserWithID($id, $newNickname)
+    {
+        return parent::update(
+            [ "account_nickname" => $newNickname ],
+            [ "id" => $id ]
         );
     }
 }
