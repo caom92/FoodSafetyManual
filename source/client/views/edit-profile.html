@@ -3,8 +3,162 @@
     <div class="col s12 m12 l12">
     <!--Header-->
         <h4><i class="material-icons md-48 field-icon">info</i>
-            <div class="your_information">Su información</div>
+            <div class="your_information"></div>
         </h4>
         <div class="divider"></div>
     </div>
 </div>
+
+<!-- The edit profile form -->
+<form action="" id="edit-profile">
+    <!--First row-->
+    <div class="row">
+        <div class="input-field col s12 m6 l6">
+            <input class="validate" type="text" value="" 
+                id="user-name" name="user-name" readonly>
+            <label class="username active" for="user-name"></label>
+        </div>
+        <div class="input-field col s12 m6 l6">
+            <input class="validate" type="number" value="" 
+                id="user-id" name="user-id" readonly>
+            <label class="employee_id active" for="user-id"></label>
+        </div>
+    </div>
+    <!--Second row-->
+    <div class="row">
+        <div class="input-field col s12 m6 l6">
+            <input class="validate" type="text" value="" 
+                id="user-email" name="user-email" readonly>
+            <label class="email active" for="user-email"></label>
+        </div>
+        <div class="input-field col s12 m6 l6">
+            <input class="validate" type="text" value="" 
+                id="real-name" name="real-name" readonly>
+            <label class="real_name active" for="real-name"></label>
+        </div>
+    </div>
+
+    <!--Change password-->
+    <div class="row">
+        <div class="col s12 m12 l12">
+        <!--Header-->
+            <h5><i class="material-icons md-48 field-icon" id="password_icon">keyboard_arrow_down</i>
+                <div class="change_password" id="change_password"></div>
+            </h5>
+            <div class="divider"></div>
+        </div>
+    </div>
+    <!--Password form wrapper-->
+    <div id="change_password_wrapper">
+        <div class="row">
+            <div class="input-field col s12 m12 l12">
+                <input class="validate" type="password" value="" 
+                    id="old-password" name="old-password" >
+                <label class="old_password active" for="old-password"></label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12 m6 l6">
+                <input class="validate" type="password" value="" 
+                    id="new-password" name="new-password" >
+                <label class="new_password active" for="new-password"></label>
+            </div>
+            <div class="input-field col s12 m6 l6">
+                <input class="validate" type="password" value="" 
+                    id="check-password" name="check-password" >
+                <label class="check_password active" for="check-password"></label>
+            </div>
+        </div>
+
+        <!--Send button row-->
+        <div class="row">
+            <div class="col s12 m12 l12 center">
+                   
+            <!-- Update button -->
+            <a class="green btn waves-effect waves-light" href="" 
+                id="update_password">
+                <span class="update_button"></span>
+                <i class="material-icons right">send</i>
+            </a>        
+            </div>
+        </div> 
+    </div>
+
+    <!--Change email-->
+    <div class="row">
+        <div class="col s12 m12 l12">
+        <!--Header-->
+            <h5><i class="material-icons md-48 field-icon" id="email_icon">keyboard_arrow_down</i>
+                <div class="change_email" id="change_email"></div>
+            </h5>
+            <div class="divider"></div>
+        </div>
+    </div>
+
+    <div id="change_email_wrapper">
+        <div class="row">
+            <div class="input-field col s12 m6 l6">
+                <input class="validate" type="text" value="" 
+                    id="new-email" name="new-email" >
+                <label class="new_email active" for="new-email"></label>
+            </div>
+            <div class="input-field col s12 m6 l6">
+                <input class="validate" type="password" value="" 
+                    id="email-password" name="email-password" >
+                <label class="email_password active" for="email-password"></label>
+            </div>
+        </div>
+
+        <!--Send button row-->
+        <div class="row">
+            <div class="col s12 m12 l12 center">
+                   
+            <!-- Update button -->
+            <a class="green btn waves-effect waves-light" href="" 
+                id="update_email">
+                <span class="update_button"></span>
+                <i class="material-icons right">send</i>
+            </a>        
+            </div>
+        </div>
+    </div>
+
+    <!--Change username-->
+    <div class="row">
+        <div class="col s12 m12 l12">
+        <!--Header-->
+            <h5><i class="material-icons md-48 field-icon" id="username_icon">keyboard_arrow_down</i>
+                <div class="change_username" id="change_username"></div>
+            </h5>
+            <div class="divider"></div>
+        </div>
+    </div>
+
+    <div id="change_username_wrapper">
+        <div class="row">
+            <div class="input-field col s12 m6 l6">
+                <input class="validate" type="text" value="" 
+                    id="new-username" name="new-username" >
+                <label class="new_username active" for="new-username"></label>
+            </div>
+            <div class="input-field col s12 m6 l6">
+                <input class="validate" type="password" value="" 
+                    id="username-password" name="username-password" >
+                <label class="username_password active" for="username-password"></label>
+            </div>
+        </div>
+
+        <!--Send button row-->
+        <div class="row">
+            <div class="col s12 m12 l12 center">
+                   
+            <!-- Update button -->
+            <a class="green btn waves-effect waves-light" href="" 
+                id="update_username">
+                <span class="update_button"></span>
+                <i class="material-icons right">send</i>
+            </a>        
+            </div>
+        </div>
+    </div>
+</form>

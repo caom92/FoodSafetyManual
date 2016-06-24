@@ -30,4 +30,9 @@
         <english>Only images are allowed as attached files</english>
         <spanish>Sólo se permite adjuntar imágenes</spanish>
     </translation>
+
+    <translation id="invalid_password">
+        <english>The password is not valid</english>
+        <spanish>La contraseña ingresada no es válida</spanish>
+    </translation>
 </translations>
