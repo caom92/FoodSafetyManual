@@ -56,5 +56,11 @@ RewriteRule ^zones$ source/server/services/others/get-zones.php [L,QSA]
 # Request the list of all procedures
 RewriteRule ^procedures$ source/server/services/others/get-procedures.php [L,QSA]
 
+# Request email change
+RewriteRule ^users/change-email$ source/server/services/session/change-email.php [L,QSA]
+
+# Request username change
+RewriteRule ^users/change-username$ source/server/services/session/change-username.php [L,QSA]
+
 # Prevent directory listing of the server files
 Options -Indexes 
