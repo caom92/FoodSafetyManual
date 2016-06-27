@@ -9,7 +9,7 @@ require_once realpath(
 require_once realpath(dirname(__FILE__))."/../../config.php";
 
 // Alias the namespaces for ease of writing
-use espresso\mail as mail;
+use fsm\mail as mail;
 
 // For this script, the client does not send a json object, rather, it sends
 // the binary data using the default channels of POST and FILES for proper
@@ -50,13 +50,13 @@ if ($_POST["lang"] == "en") {
         . "this message. ";
 } else if ($_POST["lang"] == "es"){
     $confirmationMailSubject = 
-        "Del Cabo : Confirmaci&oacute;n de env&iacute;o de reporte de problema";
-    $confirmationMailFrom = "Sistema de mensajer&iacute;a de Espresso.";
+        "Del Cabo : Confirmación de envío de reporte de problema";
+    $confirmationMailFrom = "Sistema de mensajería de Espresso.";
     $confirmationBody = "Esta es una respuesta automatizada al reporte de "
-        . "problema que nos envi&oacute; hace unos momentos. Comenzaremos a " 
+        . "problema que nos envió hace unos momentos. Comenzaremos a " 
         . "trabajar en resolver el problema tan pronto como nos sea posible. "
         . "No es necesario que conteste este mensaje. Si usted no nos "
-        . "envi&oacute; ning&uacute;n reporte, por favor ignore este mensaje.";
+        . "envió ningún reporte, por favor ignore este mensaje.";
 }
 
 // Create a new PHPMailer instance

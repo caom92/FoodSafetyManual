@@ -13,8 +13,8 @@ and restart the server */
 require_once realpath(dirname(__FILE__)."/../dao/CertificationPrograms.php");
 
 // Alias the namespaces for ease of writing
-use espresso as core;
-use espresso\dao as dao;
+use fsm as core;
+use fsm\dao as dao;
 
 // Data is sent to the server from the client in the form of a JSON with
 // the following format:
@@ -62,7 +62,7 @@ if ($MIMEType == "application/pdf") {
     // finally, let the client know that the upload was successfull
     $outputJSON = [
         "error_code" => 0,
-        "error_message" => "&Eacute;xito",
+        "error_message" => "éxito",
         "data" => []
     ];
 }

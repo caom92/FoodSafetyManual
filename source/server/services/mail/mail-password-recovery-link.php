@@ -12,9 +12,9 @@ require_once realpath(dirname(__FILE__)."/../../dao/UserProfiles.php");
 require_once realpath(dirname(__FILE__)."/../../dao/RecoveringPasswords.php");
 
 // Alias the namespaces for ease of writing
-use espresso as core;
-use espresso\dao as dao;
-use espresso\mail as mail;
+use fsm as core;
+use fsm\dao as dao;
+use fsm\mail as mail;
 
 
 // For this script, the client sends only the username and we need to first
@@ -48,10 +48,13 @@ try {
 
         // create the recovery token
         $recoveryToken = hash(
-            "sha256", 
-            $userProfile[0]["first_name"]
-            . $userProfile[0]["last_name"]
-            . time()
+            "sha256",
+            hash(
+                'md5', 
+                $userProfile[0]["first_name"]
+                . $userProfile[0]["last_name"]
+                . time()
+            )
         );
 
         // delete any previous token, valid or invalid, that is associated with
@@ -66,7 +69,7 @@ try {
         ]);
 
         // create the password recovery link
-        $recoveryLink = "localhost/espresso/users/recover-password?token="
+        $recoveryLink = "localhost/fsm/users/recover-password?token="
             . $recoveryToken;
 
         // prepare the email to be sent to the user
@@ -83,14 +86,14 @@ try {
                 . "<a href='" . $recoveryLink . "'>Recover my password!</a>";
         } else if ($_POST["lang"] == "es") {
             $subject = "Del Cabo: Recuperación de contraseña.";
-            $body = "Esta es una respuesta automatizada a su petici&oacute;n"
-                . " de recuperar su contrase&ntilde;a. S&oacute;lo haga clic "
-                . "en el enlace que aparece a continuaci&oacute;n dentro de "
-                . "las siguientes 24 horas y lo llevar&aacute; a la "
-                . "p&aacute;gina de recuperaci&oacute;n de "
-                . "contrase&ntilde;a: <br>"
+            $body = "Esta es una respuesta automatizada a su petición"
+                . " de recuperar su contraseña. Sólo haga clic "
+                . "en el enlace que aparece a continuación dentro de "
+                . "las siguientes 24 horas y lo llevará a la "
+                . "página de recuperación de "
+                . "contraseña: <br>"
                 . "<a href='" . $recoveryLink . "'>"
-                . "&iexcl;Recuperar mi contrase&ntilde;a!</a>";
+                . "¡Recuperar mi contraseña!</a>";
         }
 
         //Create a new PHPMailer instance

@@ -6,8 +6,8 @@ require_once realpath(dirname(__FILE__)."/../../dao/UserProfiles.php");
 require_once realpath(dirname(__FILE__)."/../../dao/RecoveringPasswords.php");
 
 // Alias the namespaces for ease of writing
-use espresso as core;
-use espresso\dao as dao;
+use fsm as core;
+use fsm\dao as dao;
 
 
 // For this script, the client sends only the password recovery token and we 
