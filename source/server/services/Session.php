@@ -17,7 +17,7 @@ class Session
     // Constructor starts the session library
     function __construct()
     {
-        session_start();
+        @session_start();
     }
 
 
@@ -61,7 +61,7 @@ class Session
     // Returns the ID of the user which session is open
     function getID()
     {
-        return (isset($_SESSION['id'])) ? $_SESSION[' id'] : -1;
+        return (isset($_SESSION['id'])) ? $_SESSION['id'] : -1;
     }
 
 

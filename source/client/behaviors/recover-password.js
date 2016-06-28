@@ -23,10 +23,12 @@ $(function() {
         } else if ($("#new-password").val() == $("#confirm-password").val()) {
             // now check if both fields have the same password and if they do,
             // we change the password in the server data base
-            $server.request('change-password', false, 
+            //TODO
+            $server.request('change-password-by-recovery', false, 
                 {
                     user_id: localStorage.getItem("id"),
-                    new_password: sha256($.md5($("#new-password").val()))
+                    new_password: sha256($.md5($("#new-password").val())),
+                    token: query.token
                 },
                 function(response, message, xhr) {
                     // check if the password change succeeded
@@ -87,5 +89,5 @@ $(function() {
     );
 
     // change the language that is being displayed
-    changeLanguage(localStorage.defaultLanguage);
+    //changeLanguage(localStorage.defaultLanguage);
 });

@@ -112,6 +112,7 @@ $server = new Controller('/espresso/services/', [
     'token-validation',
     'change-username',
     'change-password',
+    'change-password-by-recovery',
     'change-email',
     'send-bug-report',
     'list-zones',

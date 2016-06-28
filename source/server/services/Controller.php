@@ -57,7 +57,7 @@ try {
 
         case 'token-validation':
             if (isset($_POST['token'])) {
-                Services::validateAndUseToken($_POST['token']);
+                Services::validateToken($_POST['token']);
                 respond(0, 'Token is valid.');
             } else {
                 throw new \Exception('Input arguments are not valid.');
@@ -91,6 +91,25 @@ try {
                 } else {
                     throw new \Exception('User is not logged in');
                 }
+            } else {
+                throw new \Exception('Input arguments are invalid');
+            }
+        break;
+
+        case 'change-password-by-recovery':
+        // TODO
+            $inputArgsAreValid = (
+                isset($_POST['user_id']) && 
+                isset($_POST['new_password']) && 
+                isset($_POST['token'])
+            );
+            if ($inputArgsAreValid) {
+                $passwdChanged = Services::changeUserPasswordByRecovery(
+                    $_POST['user_id'], 
+                    $_POST['new_password'],
+                    $_POST['token']
+                );
+                respond(0, 'User password was changed successfully');
             } else {
                 throw new \Exception('Input arguments are invalid');
             }

@@ -84,8 +84,8 @@ class Services
                 "sha256",
                 hash(
                     'md5', 
-                    $userProfile[0]["first_name"]
-                    . $userProfile[0]["last_name"]
+                    $userProfile[0]["login_name"]
+                    . $userProfile[0]["login_password"]
                     . time()
                 )
             );
@@ -102,7 +102,8 @@ class Services
             ]);
 
             // create the password recovery link
-            $recoveryLink = "localhost/espresso/users/recover-password?token="
+            $recoveryLink = 
+                "http://localhost/espresso/recover-password?token="
                 . $recoveryToken;
             
             // now prepare the email to be sent to the user
@@ -157,7 +158,7 @@ class Services
     static function validateAndUseToken($token)
     {
         // attempt to connect to the database
-        $tokens = new db\RecoveringPasswords(db\connectToDataBase());
+        $tokens = new db\RecoveryTokensDAO(db\connectToDataBase());
 
         // search the token in the data base
         $result = $tokens->selectByToken($token);
@@ -200,6 +201,7 @@ class Services
     // Change the password of the user with the provided ID
     static function changeUserPassword($userID, $newPasswd)
     {
+        // TODO
         $session = new serv\Session();
         if ($session->getID() == $userID) {
             $users = new db\UsersDAO(db\connectToDataBase());
@@ -211,6 +213,23 @@ class Services
             throw new \Exception("Cannot change other user's password");
         }
     }
+
+
+    // Change the password of the user with the provided ID
+    static function changeUserPasswordByRecovery($userID, $newPasswd)
+    {
+        $session = new serv\Session();
+        if ($session->getID() == $userID) {
+            $users = new db\UsersDAO(db\connectToDataBase());
+            $result = $users->updatePasswordByUserID($userID, $newPasswd);
+            if (count($result) <= 0) {
+                throw new \Exception('Password could not be changed.');
+            }
+        } else {
+            throw new \Exception("Cannot change other user's password");
+        }
+    }
+
 
 
     // Change the email of the user with the provided ID
