@@ -7,7 +7,7 @@ $(function() {
         event.preventDefault();
         
         // tell the server to close the session as well
-        $server.request('logout', false, {}, 
+        $server.request('logout', {}, 
             function(response, message, xhr) {
                 // clear the session variables in the client
                 localStorage.clear();
@@ -20,7 +20,7 @@ $(function() {
     });
         
     // check if the user is logged in
-    $server.request('check-session', false, {}, 
+    $server.request('check-session', {}, 
         function(response, message, xhr) {
             // check if the reponse was an error
             if (response.meta.return_code == 0) {
@@ -37,7 +37,12 @@ $(function() {
                 // buttons' functionality
                 var layout = 
                     window.location.pathname.replace("/espresso/", "");
-                $app.load(layout);
+                
+                if (layout != '') {
+                    $app.load(layout);
+                } else {
+                    $app.load('home');
+                }
             } else {
                 // if it was, display the login page
                 $app.load('login');

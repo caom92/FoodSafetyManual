@@ -23,26 +23,17 @@ $(function() {
         } else if ($("#new-password").val() == $("#confirm-password").val()) {
             // now check if both fields have the same password and if they do,
             // we change the password in the server data base
-            //TODO
-            $server.request('change-password-by-recovery', false, 
+            $server.request('change-password-by-recovery',
                 {
                     user_id: localStorage.getItem("id"),
-                    new_password: sha256($.md5($("#new-password").val())),
+                    new_password: hash($("#new-password").val()),
                     token: query.token
                 },
                 function(response, message, xhr) {
                     // check if the password change succeeded
                     if (response.meta.return_code == 0) {
                         // store the user profile data in a session storage
-                        localStorage.employee_num =  
-                            response.data.employee_num;
-                        localStorage.first_name = response.data.first_name;
-                        localStorage.last_name = response.data.last_name;
-                        localStorage.email = response.data.email;
-                        localStorage.account_nickname = 
-                            response.data.account_nickname;
-                        localStorage.login_password = 
-                            response.data.login_password;
+                        localStorage = response.data;
 
                         // redirect to the home page
                         window.location.href = '/espresso/home';
@@ -68,7 +59,7 @@ $(function() {
 
     // connect to the server in order to obtain check if the recovery
     // token is still valid
-    $server.request('token-validation', false, 
+    $server.request('token-validation',
         {
             token: query.token
         },
@@ -79,10 +70,10 @@ $(function() {
             // check if the response was successful
             if (response.meta.return_code == 0) {
                 $("#recovery-accepted").show();
-                localStorage.id = response.data.user_id;
+                localStorage.id = response.data;
             } else {
                 // otherwise, the token has expired or is not a valid token
-                $app.load('login');
+                window.location.href = '/espresso/';
                 console.log("server says: " + response.meta.message);
             }
         }

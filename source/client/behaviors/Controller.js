@@ -30,18 +30,14 @@ Controller.prototype.defaultErrorCallback = function(xhr, status, message)
 //          be delivered to the server
 // [in]     [isFormData]: flag that indicates if the data that was 
 //          appended to our request is an instance of FormData
-Controller.prototype.request = function(service, cache, data, success, 
+Controller.prototype.request = function(service, data, success, 
     error = this.defaultErrorCallback, isFormData = false)
 {
     // throw an exception if the requested service is not provided by
     // the server
     if (this.services.indexOf(service) == -1) {
-        throw 'The requested service ' + service + ' is undefined.';
+        throw 'The requested service ' + service + ' is not registered.';
     }
-
-    // decide on which method to use depending if data is going to be
-    // sent to the server or not
-    var method = (data) ? 'POST' : 'GET';
 
     // check if the data appended is an instance of FormData
     if (!isFormData) {
@@ -50,16 +46,13 @@ Controller.prototype.request = function(service, cache, data, success,
             url: this.host + service,
 
             // the HTTP method to use 
-            method: method,
+            method: 'POST',
 
             // the data to be sent to the server
             data: data,
 
             // indicates that we expect to recieve a JSON object as response
             dataType: 'json',
-
-            // indicates wether or not we want the response to be cached
-            cache: cache,
 
             // callback to invoque when the communication was successful
             success: success,
@@ -73,16 +66,13 @@ Controller.prototype.request = function(service, cache, data, success,
             url: this.host + service,
 
             // the HTTP method to use 
-            method: method,
+            method: 'POST',
 
             // the data to be sent to the server
             data: data,
 
             // indicates that we expect to recieve a JSON object as response
             dataType: 'json',
-
-            // indicates wether or not we want the response to be cached
-            cache: cache,
 
             // indicates that we don't want jQuery to transform the data into a 
             // URL query string

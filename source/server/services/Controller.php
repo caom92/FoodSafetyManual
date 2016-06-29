@@ -57,8 +57,8 @@ try {
 
         case 'token-validation':
             if (isset($_POST['token'])) {
-                Services::validateToken($_POST['token']);
-                respond(0, 'Token is valid.');
+                $result = Services::validateToken($_POST['token']);
+                respond(0, 'Token is valid.', $result);
             } else {
                 throw new \Exception('Input arguments are not valid.');
             }
@@ -97,19 +97,22 @@ try {
         break;
 
         case 'change-password-by-recovery':
-        // TODO
             $inputArgsAreValid = (
                 isset($_POST['user_id']) && 
                 isset($_POST['new_password']) && 
                 isset($_POST['token'])
             );
             if ($inputArgsAreValid) {
-                $passwdChanged = Services::changeUserPasswordByRecovery(
+                $username = Services::changeUserPasswordByRecovery(
                     $_POST['user_id'], 
                     $_POST['new_password'],
                     $_POST['token']
                 );
-                respond(0, 'User password was changed successfully');
+                $result = Services::LogIn(
+                    $username, 
+                    $_POST['new_password']
+                );
+                respond(0, 'User password was changed successfully', $result);
             } else {
                 throw new \Exception('Input arguments are invalid');
             }
@@ -218,7 +221,7 @@ try {
 //          a JSON and be sent back to the client
 function respond($code, $message, $data = [])
 {
-    header('Content-Type: application/json');
+    header('Content-Type: application/json; charset=utf-8');
     echo json_encode([
         'meta' => [
             'return_code' => $code,

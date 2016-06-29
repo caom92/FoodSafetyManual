@@ -155,7 +155,7 @@ class Services
 
     // Checks if the given token is valid and if it is, it consumes it and
     // then returns the corresponding user ID
-    static function validateAndUseToken($token)
+    static function validateToken($token)
     {
         // attempt to connect to the database
         $tokens = new db\RecoveryTokensDAO(db\connectToDataBase());
@@ -201,7 +201,6 @@ class Services
     // Change the password of the user with the provided ID
     static function changeUserPassword($userID, $newPasswd)
     {
-        // TODO
         $session = new serv\Session();
         if ($session->getID() == $userID) {
             $users = new db\UsersDAO(db\connectToDataBase());
@@ -216,14 +215,22 @@ class Services
 
 
     // Change the password of the user with the provided ID
-    static function changeUserPasswordByRecovery($userID, $newPasswd)
+    static function changeUserPasswordByRecovery($userID, $newPasswd, $token)
     {
-        $session = new serv\Session();
-        if ($session->getID() == $userID) {
-            $users = new db\UsersDAO(db\connectToDataBase());
+        $db = db\connectToDataBase();
+        $users = new db\UsersDAO($db);
+        $tokens = new db\RecoveryTokensDAO($db);
+        $tokenResult = Services::validateToken($token);
+
+        if ($tokenResult == $userID) {
             $result = $users->updatePasswordByUserID($userID, $newPasswd);
-            if (count($result) <= 0) {
+
+            if ($result <= 0) {
                 throw new \Exception('Password could not be changed.');
+            } else {
+                $tokens->deleteByUserID($userID);
+                $userProfile = $users->selectByIdentifier($userID, $newPasswd);
+                return $userProfile[0]['login_name'];
             }
         } else {
             throw new \Exception("Cannot change other user's password");

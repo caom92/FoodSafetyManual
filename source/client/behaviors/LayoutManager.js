@@ -4,7 +4,7 @@
 //          requested
 // [in]     container: the DOM container which the layour is going to be 
 //          loaded to
-Application = function(root, container)
+LayoutManager = function(root, container)
 {
     this.root = root;
     this.container = container;
@@ -18,7 +18,7 @@ Application = function(root, container)
 // Adds a new behavior to the behaviors list
 // [in]     layout: name of the layout the behavior belongs to
 // [in]     behavior: the behavior that will be stored
-Application.prototype.addBehavior = function(layout, behavior)
+LayoutManager.prototype.addBehavior = function(layout, behavior)
 {
     this.behavior[layout] = behavior;
 }
@@ -26,7 +26,7 @@ Application.prototype.addBehavior = function(layout, behavior)
 
 // Laods the especified layout and executes its corresponding behavior
 // [in]     layout: the name of the layout to load
-Application.prototype.load = function(layout)
+LayoutManager.prototype.load = function(layout)
 {
     // check if the layout behavior exists
     try {
@@ -46,13 +46,13 @@ Application.prototype.load = function(layout)
 
 
 // Catches an exception and process it properly
-Application.prototype.handleException = function(exception)
+LayoutManager.prototype.handleException = function(exception)
 {
     // for now, simply print to console
     console.log(exception);
 }
 
 
-// Instantiate the application clas that we just created as a global
+// Instantiate the LayoutManager clas that we just created as a global
 // variable
-$app = new Application('/espresso/layouts/', '#page-content');
+$app = new LayoutManager('/espresso/layouts/', '#page-content');

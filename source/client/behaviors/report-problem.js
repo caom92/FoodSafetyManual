@@ -202,60 +202,7 @@ $app.behaviors['report-problem'] = function() {
             $(".progress").show();
             
             // if all form fields are valid, send the data to the server
-            /*$.ajax({
-                // URL of the requested service
-                url: "/espresso/services/send-bug-report",
- 
-                // the HTTP method to use
-                method: "POST",
- 
-                // the input data to be sent along with the request
-                data: formData,
- 
-                // indicate that we expect to recieve a JSON as response
-                dataType: "json",
- 
-                // indicate that we do not want the response to be stored in
-                // cache
-                cache: false,
- 
-                // magic options required for FormData to work
-                processData: false,
-                contentType: false,
- 
-                // request successful callback
-                success: function(response, message, xhr) {
-                    // check that the result was successful
-                    if (response.meta.return_code == 0) {
-                        loadToast(
-                            "report_sent",
-                            3500, "rounded"
-                        );
-                    } else {
-                        loadToast(
-                            "report_failed",
-                            3500, "rounded"
-                        );
-                        console.log("server says: " + response.meta.message);
-                    }
-                    $(".progress").hide();
-                },
- 
-                // request error callback
-                error: function(xhr, status, message) {
-                    // display the server result and the proper status icon
-                    $(".progress").hide();
-                    loadToast(
-                        "report_failed",
-                        3500, "rounded"
-                    );
-                    console.log("server says: " + status + ", " + message);
-                }
-            });*/
-            $server.request('send-bug-report', false,
-                {
-                    formData
-                },
+            $server.request('send-bug-report', formData,
                 function(response, message, xhr) {
                     // check that the result was successful
                     if (response.meta.return_code == 0) {
@@ -287,7 +234,7 @@ $app.behaviors['report-problem'] = function() {
     });
 
     // Retrieve the zones from the server
-    $server.request('list-zones', true, {},
+    $server.request('list-zones', {},
         function(response, message, xhr) {
             // check if the response was positive
             if (response.meta.return_code == 0) {
@@ -316,7 +263,7 @@ $app.behaviors['report-problem'] = function() {
     );
 
     // Retrieve the programs from the server
-    $server.request('list-programs', true, {},
+    $server.request('list-programs', {},
         function(response, message, xhr) {
             // check if the response was positive
             if (response.meta.return_code == 0) {

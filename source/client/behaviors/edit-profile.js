@@ -121,7 +121,7 @@ $app.behaviors['edit-profile'] = function() {
         // check if the required select inputs have a value selected;
         // if any of those is empty, mark it on the form
         oldPasswordIsValid = isRequiredTextAreaValid("#old-password") 
-            && sha256($.md5($("#old-password").val())) == localStorage.login_password;
+            && hash($("#old-password").val()) == localStorage.login_password;
         newPasswordIsValid = isRequiredTextAreaValid("#new-password");
         checkPasswordIsValid = isRequiredTextAreaValid("#check-password");
 
@@ -131,8 +131,8 @@ $app.behaviors['edit-profile'] = function() {
             if(passwordMatch()){
                 //Third check; validate the user with its old password before
                 //changing it on the database
-                hashedPassword = sha256($.md5($("#new-password").val()));
-                $server.request('change-password', false,
+                hashedPassword = hash($("#new-password").val());
+                $server.request('change-password',
                     {
                         user_id: localStorage.id,
                         new_password: hashedPassword
@@ -162,9 +162,9 @@ $app.behaviors['edit-profile'] = function() {
         e.preventDefault();
         // check if the required select inputs have a value selected;
         // if any of those is empty, mark it on the form
-        hashedPassword = sha256($.md5($("#email-password").val()));
+        hashedPassword = hash($("#email-password").val());
         if (hashedPassword == localStorage.login_password) {
-            $server.request('change-email', false,
+            $server.request('change-email',
                 {
                     user_id: localStorage.id,
                     new_email: $("#new-email").val()
@@ -190,9 +190,9 @@ $app.behaviors['edit-profile'] = function() {
         
         // check if the required select inputs have a value selected;
         // if any of those is empty, mark it on the form
-        hashedPassword = sha256($.md5($("#username-password").val()));
+        hashedPassword = hash($("#username-password").val());
         if (hashedPassword == localStorage.login_password) {
-            $server.request('change-username', false,
+            $server.request('change-username',
                 {
                     user_id: localStorage.id,
                     new_username: $("#new-username").val()

@@ -21,8 +21,8 @@ $app.behaviors['login'] = function() {
         event.preventDefault();
 
         // send the credentials to the server
-        hashedPassword = sha256($.md5($("#password").val()));
-        $server.request('login', false, 
+        hashedPassword = hash($("#password").val());
+        $server.request('login',
             {
                 username: $("#username").val(),
                 password: hashedPassword
@@ -31,16 +31,7 @@ $app.behaviors['login'] = function() {
                 // check if the authentication succeeded
                 if (response.meta.return_code == 0) {
                     // store the user profile data in a session storage
-                    localStorage.id = response.data.id;
-                    localStorage.employee_num =  
-                        response.data.employee_num;
-                    localStorage.first_name = response.data.first_name;
-                    localStorage.last_name = response.data.last_name;
-                    localStorage.email = response.data.email;
-                    localStorage.login_name = 
-                        response.data.login_name;
-                    localStorage.login_password = 
-                        response.data.login_password;
+                    localStorage = response.data;
                     
                     // get the name of the layout that was requested
                     var layout = 
@@ -106,7 +97,7 @@ $app.behaviors['login'] = function() {
             $(".progress").show();
 
             // if not, then send the petition to the data base server
-            $server.request('password-recovery', false,
+            $server.request('password-recovery',
                 {
                     username: $("#username").val(),
                     lang: localStorage.defaultLanguage
@@ -151,7 +142,7 @@ $app.behaviors['login'] = function() {
     });
     
     // as soon as the page is loaded, query the server to check it's status
-    $server.request('status', false, {},
+    $server.request('status', false,
         function(response, message, xhr) {
             // depending if the server is available or not, show the proper
             // icon

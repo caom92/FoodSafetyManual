@@ -1,3 +1,13 @@
+// Applies a cryptographic hashing alogrithm to the given text
+// [in]     text: the text to hash
+// [out]    return: a string that contains the hex value of the resulting
+//          hash
+function hash(text)
+{
+    return sha256($.md5(text));
+}
+
+
 // Converts data codified in a query string in the URL into a JSON object
 // [out]    return: the JSON object which contains the data codified in the
 //          URL query string
