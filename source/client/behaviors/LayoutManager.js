@@ -30,7 +30,8 @@ LayoutManager.prototype.load = function(layout)
 {
     // check if the layout behavior exists
     try {
-        if (this.behaviors[layout]) {
+        isBehaviorDefined = typeof this.behaviors[layout] !== 'undefined'; 
+        if (isBehaviorDefined) {
             // if it does, load the layout to the container and then 
             // execute the behavior
             var behavior = this.behaviors[layout];
