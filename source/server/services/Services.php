@@ -84,7 +84,8 @@ class Services
                 "sha256",
                 hash(
                     'md5', 
-                    $userProfile[0]["login_name"]
+                    rand()
+                    . $userProfile[0]['login_name']
                     . $userProfile[0]["login_password"]
                     . time()
                 )
@@ -183,74 +184,62 @@ class Services
 
 
     // Change the account name of the user with the provided ID
-    static function changeUserAccountName($userID, $newName)
+    static function changeUserAccountName($newName)
     {
         $session = new serv\Session();
-        if ($session->getID() == $userID) {
-            $users = new db\UsersDAO(db\connectToDataBase());
-            $result = $users->updateLogInNameByUserID($userID, $newName);
-            if (count($result) <= 0) {
-                throw new \Exception("Log in name could not be changed.");
-            }
-        } else {
-            throw new \Exception("Cannot change other user's login name");
+        $users = new db\UsersDAO(db\connectToDataBase());
+        $userID = $session->getID();
+        $result = $users->updateLogInNameByUserID($userID, $newName);
+
+        if (count($result) <= 0) {
+            throw new \Exception("Log in name could not be changed.");
         }
     }
 
 
     // Change the password of the user with the provided ID
-    static function changeUserPassword($userID, $newPasswd)
+    static function changeUserPassword($newPasswd)
     {
         $session = new serv\Session();
-        if ($session->getID() == $userID) {
-            $users = new db\UsersDAO(db\connectToDataBase());
-            $result = $users->updatePasswordByUserID($userID, $newPasswd);
-            if (count($result) <= 0) {
-                throw new \Exception('Password could not be changed.');
-            }
-        } else {
-            throw new \Exception("Cannot change other user's password");
+        $users = new db\UsersDAO(db\connectToDataBase());
+        $userID = $session->getID();
+        $result = $users->updatePasswordByUserID($userID, $newPasswd);
+
+        if (count($result) <= 0) {
+            throw new \Exception('Password could not be changed.');
         }
     }
 
 
     // Change the password of the user with the provided ID
-    static function changeUserPasswordByRecovery($userID, $newPasswd, $token)
+    static function changeUserPasswordByRecovery($userID, $newPasswd)
     {
         $db = db\connectToDataBase();
         $users = new db\UsersDAO($db);
         $tokens = new db\RecoveryTokensDAO($db);
-        $tokenResult = Services::validateToken($token);
+        $result = $users->updatePasswordByUserID($userID, $newPasswd);
 
-        if ($tokenResult == $userID) {
-            $result = $users->updatePasswordByUserID($userID, $newPasswd);
-
-            if ($result <= 0) {
-                throw new \Exception('Password could not be changed.');
-            } else {
-                $tokens->deleteByUserID($userID);
-                $userProfile = $users->selectByIdentifier($userID, $newPasswd);
-                return $userProfile[0]['login_name'];
-            }
+        if ($result <= 0) {
+            throw new \Exception('Password could not be changed.');
         } else {
-            throw new \Exception("Cannot change other user's password");
+            $tokens->deleteByUserID($userID);
+            $userProfile = $users->selectByIdentifier($userID, $newPasswd);
+            return $userProfile[0]['login_name'];
         }
     }
 
 
 
     // Change the email of the user with the provided ID
-    static function changeUserEmail($userID, $newEmail)
+    static function changeUserEmail($newEmail)
     {
         $session = new serv\Session();
-        if ($session->getID() == $userID) {
-            $users = new db\UsersDAO(db\connectToDataBase());
-            $result = $users->updateEmailByUserID($userID, $newEmail);
-            if (count($result) <= 0) {
-                throw new \Exception('Email could not be changed.');
-            }
-        } else {
-            throw new \Exception("Cannot change other user's email");
+        $users = new db\UsersDAO(db\connectToDataBase());
+        $userID = $session->getID();
+        $result = $users->updateEmailByUserID($userID, $newEmail);
+
+        if (count($result) <= 0) {
+            throw new \Exception('Email could not be changed.');
         }
     }
 

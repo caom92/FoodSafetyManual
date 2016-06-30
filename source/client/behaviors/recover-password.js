@@ -25,7 +25,6 @@ $(function() {
             // we change the password in the server data base
             $server.request('change-password-by-recovery',
                 {
-                    user_id: localStorage.getItem("id"),
                     new_password: hash($("#new-password").val()),
                     token: query.token
                 },
@@ -70,7 +69,6 @@ $(function() {
             // check if the response was successful
             if (response.meta.return_code == 0) {
                 $("#recovery-accepted").show();
-                localStorage.id = response.data;
             } else {
                 // otherwise, the token has expired or is not a valid token
                 window.location.href = '/espresso/';

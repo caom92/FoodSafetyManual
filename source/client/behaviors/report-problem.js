@@ -227,8 +227,7 @@ $app.behaviors['report-problem'] = function() {
                         3500, "rounded"
                     );
                     console.log("server says: " + status + ", " + message);
-                },
-                true
+                }
             );
         }
     });

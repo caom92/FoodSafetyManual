@@ -134,7 +134,6 @@ $app.behaviors['edit-profile'] = function() {
                 hashedPassword = hash($("#new-password").val());
                 $server.request('change-password',
                     {
-                        user_id: localStorage.id,
                         new_password: hashedPassword
                     },
                     function(response, message, xhr) {
@@ -166,7 +165,6 @@ $app.behaviors['edit-profile'] = function() {
         if (hashedPassword == localStorage.login_password) {
             $server.request('change-email',
                 {
-                    user_id: localStorage.id,
                     new_email: $("#new-email").val()
                 },
                 function(response, message, xhr) {
@@ -194,7 +192,6 @@ $app.behaviors['edit-profile'] = function() {
         if (hashedPassword == localStorage.login_password) {
             $server.request('change-username',
                 {
-                    user_id: localStorage.id,
                     new_username: $("#new-username").val()
                 },
                 function(response, message, xhr) {

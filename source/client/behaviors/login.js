@@ -143,7 +143,7 @@ $app.behaviors['login'] = function() {
     });
     
     // as soon as the page is loaded, query the server to check it's status
-    $server.request('status', false,
+    $server.request('status', {},
         function(response, message, xhr) {
             // depending if the server is available or not, show the proper
             // icon

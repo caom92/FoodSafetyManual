@@ -60,18 +60,17 @@ try {
 
         case 'token-validation':
             if (isset($_POST['token'])) {
-                $result = Services::validateToken($_POST['token']);
-                respond(0, 'Token is valid.', $result);
+                Services::validateToken($_POST['token']);
+                respond(0, 'Token is valid.');
             } else {
                 throw new \Exception('Input arguments are not valid.');
             }
         break;
 
         case 'change-username':
-            if (isset($_POST['user_id']) && isset($_POST['new_username'])) {
+            if (isset($_POST['new_username'])) {
                 if (Services::isSessionOpen()) {
                     $usernameChanged = Services::changeUserAccountName(
-                        $_POST['user_id'], 
                         $_POST['new_username']
                     );
                     respond(0, 'User login name was changed successfully');
@@ -84,10 +83,9 @@ try {
         break;
 
         case 'change-password':
-            if (isset($_POST['user_id']) && isset($_POST['new_password'])) {
+            if (isset($_POST['new_password'])) {
                 if (Services::isSessionOpen()) {
                     $passwdChanged = Services::changeUserPassword(
-                        $_POST['user_id'], 
                         $_POST['new_password']
                     );
                     respond(0, 'User password was changed successfully');
@@ -101,15 +99,14 @@ try {
 
         case 'change-password-by-recovery':
             $inputArgsAreValid = (
-                isset($_POST['user_id']) && 
                 isset($_POST['new_password']) && 
                 isset($_POST['token'])
             );
             if ($inputArgsAreValid) {
+                $userID = Services::validateToken($_POST['token']);
                 $username = Services::changeUserPasswordByRecovery(
-                    $_POST['user_id'], 
-                    $_POST['new_password'],
-                    $_POST['token']
+                    $userID, 
+                    $_POST['new_password']
                 );
                 $result = Services::LogIn(
                     $username, 
@@ -122,10 +119,9 @@ try {
         break;
 
         case 'change-email':
-            if (isset($_POST['user_id']) && isset($_POST['new_email'])) {
+            if (isset($_POST['new_email'])) {
                 if (Services::isSessionOpen()) {
                     $emailChanged = Services::changeUserEmail(
-                        $_POST['user_id'], 
                         $_POST['new_email']
                     );
                     respond(0, 'User email was changed successfully');
