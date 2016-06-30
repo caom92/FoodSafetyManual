@@ -34,7 +34,7 @@ Controller.prototype.defaultErrorCallback = function(xhr, status, message)
 //          our request
 // [in]     success: the callback to invoque when the server answered to
 //          our request successfully
-// [in]     [error]: the callback to invoque when the request failed to 
+// [in]     error: the callback to invoque when the request failed to 
 //          be delivered to the server
 Controller.prototype.get = function(service, data, success, error)
 {
@@ -74,7 +74,7 @@ Controller.prototype.get = function(service, data, success, error)
 //          our request
 // [in]     success: the callback to invoque when the server answered to
 //          our request successfully
-// [in]     [error]: the callback to invoque when the request failed to 
+// [in]     error: the callback to invoque when the request failed to 
 //          be delivered to the server
 Controller.prototype.post = function(service, data, success, error)
 {
