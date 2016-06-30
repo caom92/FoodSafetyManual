@@ -21,7 +21,7 @@ $app.behaviors['login'] = function() {
         event.preventDefault();
 
         // send the credentials to the server
-        hashedPassword = hash($("#password").val());
+        var hashedPassword = hash($("#password").val());
         $server.request('login',
             {
                 username: $("#username").val(),
@@ -31,17 +31,18 @@ $app.behaviors['login'] = function() {
                 // check if the authentication succeeded
                 if (response.meta.return_code == 0) {
                     // store the user profile data in a session storage
-                    localStorage = response.data;
+                    storeUserDataInLocalStorage(response.data);
                     
                     // get the name of the layout that was requested
                     var layout = 
                         window.location.pathname.replace("/espresso/", "");
                     
                     // if it is not empty...
-                    if (layout != '') {
+                    if (layout.length > 0) {
                         // Initialize the SideNav
                         $("#page-content").addClass("with-side-menu");
                         $("#slide-out").show();
+                        $('.button-collapse').show();
                         $(".button-collapse").sideNav();
 
                         // display the name of the user

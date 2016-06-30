@@ -33,7 +33,7 @@ $(function() {
                     // check if the password change succeeded
                     if (response.meta.return_code == 0) {
                         // store the user profile data in a session storage
-                        localStorage = response.data;
+                        storeUserDataInLocalStorage(response.data);
 
                         // redirect to the home page
                         window.location.href = '/espresso/home';

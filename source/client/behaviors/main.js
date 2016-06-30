@@ -27,6 +27,7 @@ $(function() {
                 // Initialize the SideNav
                 $("#page-content").addClass("with-side-menu");
                 $("#slide-out").show();
+                $('.button-collapse').show();
                 $(".button-collapse").sideNav();
 
                 // display the name of the user
@@ -38,7 +39,7 @@ $(function() {
                 var layout = 
                     window.location.pathname.replace("/espresso/", "");
                 
-                if (layout != '') {
+                if (layout.length > 0) {
                     $app.load(layout);
                 } else {
                     $app.load('home');

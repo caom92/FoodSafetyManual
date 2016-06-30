@@ -65,7 +65,7 @@
         
         <!-- Drawer menu -->
         <aside><ul id="slide-out" class="side-nav fixed" 
-            data-collapsible="accordion">
+            data-collapsible="accordion" style='display:none;'>
             <li class="logo-area">
             </li>
             
@@ -135,7 +135,8 @@
         </ul></aside>
         
         <!-- Menu button -->
-        <a href="" data-activates="slide-out" class="button-collapse">
+        <a href="" data-activates="slide-out" class="button-collapse" 
+            style='display:none;'>
             <i class="material-icons mdi-navigation-menu">
                 menu
             </i>
@@ -162,11 +163,6 @@
             </div>
         </div></div>
     </main>
-
-    <script>
-        // hide the side bar 
-        $("#slide-out").hide();
-    </script>
     
     <script src="/espresso/source/client/behaviors/functions.js"></script>
     <script src="/espresso/source/client/behaviors/language.js"></script>

@@ -144,7 +144,7 @@ class Services
             $result = $mail->send();
 
             // if the email could not be sent, throw en exception
-            if ($result != '') {
+            if (strlen($result) > 0) {
                 throw new \Exception($result);
             }
         } else {
@@ -303,7 +303,7 @@ class Services
         $result = $bugReport->send();
 
         // if the email could not be sent, throw en exception
-        if ($result != '') {
+        if (strlen($result) > 0) {
             throw new \Exception($result);
         }
 
@@ -339,7 +339,7 @@ class Services
         $result = $confirmation->send();
 
         // if the email could not be sent, throw en exception
-        if ($result != '') {
+        if (strlen($result) > 0) {
             throw new \Exception($result);
         }
     }

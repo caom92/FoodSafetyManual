@@ -3,13 +3,16 @@
 // Namespace of the main module of the project
 namespace fsm;
 
+// Import the site configuration file
+require_once realpath(dirname(__FILE__).'/../config/site_config.php');
+
 // Import all the services
 require_once realpath(dirname(__FILE__).'/Services.php');
 
 
 try {
     // get the requested serivice
-    $service = str_replace('/espresso/services/', '', $_SERVER['REQUEST_URI']);
+    $service = str_replace(SERVICES_ROOT, '', $_SERVER['REQUEST_URI']);
 
     // get which was the requested service and provide it
     switch ($service) {
