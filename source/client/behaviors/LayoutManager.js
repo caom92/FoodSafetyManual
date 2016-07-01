@@ -11,16 +11,7 @@ LayoutManager = function(root, container)
 
     // asscociative array where the behaviors are stored; key indicates
     // the name of the layout and value is the behavior itself
-    this.behaviors = {};
-}
-
-
-// Adds a new behavior to the behaviors list
-// [in]     layout: name of the layout the behavior belongs to
-// [in]     behavior: the behavior that will be stored
-LayoutManager.prototype.addBehavior = function(layout, behavior)
-{
-    this.behavior[layout] = behavior;
+    this.behaviors = [];
 }
 
 
@@ -30,7 +21,7 @@ LayoutManager.prototype.load = function(layout)
 {
     // check if the layout behavior exists
     try {
-        isBehaviorDefined = typeof this.behaviors[layout] !== 'undefined'; 
+        isBehaviorDefined = isDefined(this.behaviors[layout]); 
         if (isBehaviorDefined) {
             // if it does, load the layout to the container and then 
             // execute the behavior
