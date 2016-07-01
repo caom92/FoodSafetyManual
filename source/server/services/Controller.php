@@ -11,8 +11,8 @@ require_once realpath(dirname(__FILE__).'/Services.php');
 
 
 try {
-    // get the requested serivice
-    $service = str_replace(SERVICES_ROOT, '', $_SERVER['REQUEST_URI']);
+    // get the requested service
+    $service = str_replace(SITE_ROOT.'/services/', '', $_SERVER['REQUEST_URI']);
 
     // get which was the requested service and provide it
     switch ($service) {

@@ -3,6 +3,9 @@
 // The namespace of the services of the project
 namespace fsm;
 
+// Import the site configuration file
+require_once realpath(dirname(__FILE__).'/../config/site_config.php');
+
 // Imports all the service files together
 require_once realpath(dirname(__FILE__).'/Session.php');
 require_once realpath(dirname(__FILE__).'/Email.php');
@@ -104,7 +107,8 @@ class Services
 
             // create the password recovery link
             $recoveryLink = 
-                "http://localhost/espresso/recover-password?token="
+                "http://".$_SERVER['HTTP_HOST'].SITE_ROOT
+                ."/recover-password?token="
                 . $recoveryToken;
             
             // now prepare the email to be sent to the user

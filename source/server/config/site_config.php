@@ -3,7 +3,7 @@
 // Namespace of the main module of the project
 namespace fsm;
 
-// The root URL after the site domain from where the services can be accessed
-const SERVICES_ROOT = '/espresso/services/';
+// The root URL after the domain name for accessing the site
+const SITE_ROOT = '/espresso';
 
 ?>

@@ -106,10 +106,10 @@ Controller.prototype.post = function(service, data, success, error)
 
             // indicates that we don't want jQuery to transform the data into a 
             // URL query string
-            processData,
+            processData: false,
 
             // indicates that we don't want jQuery to set a content-type header
-            contentType,
+            contentType: false,
 
             // callback to invoque when the communication was successful
             success: success,
