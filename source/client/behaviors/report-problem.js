@@ -202,8 +202,10 @@ $app.behaviors['report-problem'] = function() {
             $(".progress").show();
             
             // if all form fields are valid, send the data to the server
-            $server.request('send-bug-report', formData,
-                function(response, message, xhr) {
+            $server.request({
+                service: 'send-bug-report', 
+                data: formData,
+                success: function(response, message, xhr) {
                     // check that the result was successful
                     if (response.meta.return_code == 0) {
                         loadToast(
@@ -219,7 +221,7 @@ $app.behaviors['report-problem'] = function() {
                     }
                     $(".progress").hide();
                 },
-                function(xhr, status, message) {
+                error: function(xhr, status, message) {
                     // display the server result and the proper status icon
                     $(".progress").hide();
                     loadToast(
@@ -228,13 +230,15 @@ $app.behaviors['report-problem'] = function() {
                     );
                     console.log("server says: " + status + ", " + message);
                 }
-            );
+            });
         }
     });
 
     // Retrieve the zones from the server
-    $server.request('list-zones', {},
-        function(response, message, xhr) {
+    $server.request({
+        service: 'list-zones',
+        cache: true,
+        success: function(response, message, xhr) {
             // check if the response was positive
             if (response.meta.return_code == 0) {
                 // if it was, store the retrieve zones into a list of HTML
@@ -252,18 +256,20 @@ $app.behaviors['report-problem'] = function() {
             // finally, initialize the select field
             $("#zone-selection").material_select();
         },
-        function(xhr, status, message) {
+        error: function(xhr, status, message) {
             // print the message in the console
             console.log("server says: " + status + ", " + message);
 
             // finally, initialize the select field
             $("#zone-selection").material_select();
         }
-    );
+    });
 
     // Retrieve the programs from the server
-    $server.request('list-programs', {},
-        function(response, message, xhr) {
+    $server.request({
+        service: 'list-programs',
+        cache: true,
+        success: function(response, message, xhr) {
             // check if the response was positive
             if (response.meta.return_code == 0) {
                 // if it was, store the retrieve zones into a list of HTML
@@ -282,14 +288,14 @@ $app.behaviors['report-problem'] = function() {
             // finally, initialize the select field
             $("#procedure-selection").material_select();
         },
-        function(xhr, status, message) {
+        error: function(xhr, status, message) {
             // print the message in the console
             console.log("server says: " + status + ", " + message);
             
             // finally, initialize the select field
             $("#procedure-selection").material_select();
         }
-    ); 
+    }); 
 
     // change the language that is being displayed
     changeLanguage(localStorage.defaultLanguage);

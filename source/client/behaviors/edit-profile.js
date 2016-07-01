@@ -132,11 +132,12 @@ $app.behaviors['edit-profile'] = function() {
                 //Third check; validate the user with its old password before
                 //changing it on the database
                 hashedPassword = hash($("#new-password").val());
-                $server.request('change-password',
-                    {
+                $server.request({
+                    service: 'change-password',
+                    data: {
                         new_password: hashedPassword
                     },
-                    function(response, message, xhr) {
+                    success: function(response, message, xhr) {
                         if (response.meta.return_code == 0) {
                             localStorage.login_password = hashedPassword;
                             Materialize.toast("La contraseña se cambió exitosamente", 3500, "rounded");
@@ -145,7 +146,7 @@ $app.behaviors['edit-profile'] = function() {
                                 "server says: " + response.meta.message);
                         }
                     }
-                );
+                });
             } else {
                 Materialize.toast("La contraseña y la verificación no coinciden",
                     3500, "rounded");
@@ -163,11 +164,12 @@ $app.behaviors['edit-profile'] = function() {
         // if any of those is empty, mark it on the form
         hashedPassword = hash($("#email-password").val());
         if (hashedPassword == localStorage.login_password) {
-            $server.request('change-email',
-                {
+            $server.request({
+                service: 'change-email',
+                data: {
                     new_email: $("#new-email").val()
                 },
-                function(response, message, xhr) {
+                success: function(response, message, xhr) {
                     if (response.meta.return_code == 0) {
                         localStorage.email = $("#new-email").val();
                         $("#user-email").val(localStorage.email);
@@ -176,7 +178,7 @@ $app.behaviors['edit-profile'] = function() {
                         console.log("server says: " + response.meta.message);
                     }
                 }
-            );
+            });
         } else {
             Materialize.toast("La contraseña es incorrecta.", 3500, "rounded");
         }
@@ -190,11 +192,12 @@ $app.behaviors['edit-profile'] = function() {
         // if any of those is empty, mark it on the form
         hashedPassword = hash($("#username-password").val());
         if (hashedPassword == localStorage.login_password) {
-            $server.request('change-username',
-                {
+            $server.request({
+                service: 'change-username',
+                data: {
                     new_username: $("#new-username").val()
                 },
-                function(response, message, xhr) {
+                success: function(response, message, xhr) {
                     if (response.meta.return_code == 0) {
                         localStorage.login_name = $("#new-username").val();
                         $("#user-name").val(localStorage.login_name);
@@ -203,7 +206,7 @@ $app.behaviors['edit-profile'] = function() {
                         console.log("server says: " + response.meta.message);
                     }
                 }
-            );
+            });
         } else {
             Materialize.toast("La contraseña es incorrecta.", 3500, "rounded");
         }

@@ -22,12 +22,13 @@ $app.behaviors['login'] = function() {
 
         // send the credentials to the server
         var hashedPassword = hash($("#password").val());
-        $server.request('login',
-            {
+        $server.request({
+            service: 'login',
+            data: {
                 username: $("#username").val(),
                 password: hashedPassword
             },
-            function(response, message, xhr) {
+            success: function(response, message, xhr) {
                 // check if the authentication succeeded
                 if (response.meta.return_code == 0) {
                     // store the user profile data in a session storage
@@ -76,13 +77,13 @@ $app.behaviors['login'] = function() {
                     console.log("server says: " + response.meta.message);
                 }
             },
-            function(xhr, status, message) {
+            error: function(xhr, status, message) {
                 // display the server result and the proper status icon
                 $("#server-online").hide();
                 $("#server-offline").show();
                 console.log("server says: " + status + ", " + message);
             } 
-        );
+        });
     });
 
     // when the user clicks the option to recover his password, we must 
@@ -98,12 +99,13 @@ $app.behaviors['login'] = function() {
             $(".progress").show();
 
             // if not, then send the petition to the data base server
-            $server.request('password-recovery',
-                {
+            $server.request({
+                service: 'password-recovery',
+                data: {
                     username: $("#username").val(),
                     lang: localStorage.defaultLanguage
                 },
-                function(response, message, xhr) {
+                success: function(response, message, xhr) {
                     // check if the user validation succeeded
                     if (response.meta.return_code == 0) {
                         // if so, let the user know that an email has been sent 
@@ -125,13 +127,13 @@ $app.behaviors['login'] = function() {
                     // hide the preloader
                     $(".progress").hide();
                 },
-                function(xhr, status, message) {
+                error: function(xhr, status, message) {
                     $(".progress").hide();
                     Materialize.toast("El servidor no está disponible", 
                         3500, "rounded");
                     console.log("server says: " + status + ", " + message);
                 }
-            );
+            });
         } else {
             // if the username is empty, then tell the user that the field is 
             // required
@@ -143,8 +145,9 @@ $app.behaviors['login'] = function() {
     });
     
     // as soon as the page is loaded, query the server to check it's status
-    $server.request('status', {},
-        function(response, message, xhr) {
+    $server.request({
+        service: 'status', 
+        success: function(response, message, xhr) {
             // depending if the server is available or not, show the proper
             // icon
             if (response.meta.return_code == 0) {
@@ -154,12 +157,12 @@ $app.behaviors['login'] = function() {
                 console.log("server says: " + response.meta.message);
             }
         },
-        function(xhr, status, message) {
+        error: function(xhr, status, message) {
             // display the server result and the proper status icon
             $("#server-offline").show();
             console.log("server says: " + status + ", " + message);
         }
-    );
+    });
 
     // change the language that is being displayed
     changeLanguage(localStorage.defaultLanguage);

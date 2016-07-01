@@ -7,8 +7,9 @@ $(function() {
         event.preventDefault();
         
         // tell the server to close the session as well
-        $server.request('logout', {}, 
-            function(response, message, xhr) {
+        $server.request({
+            service: 'logout', 
+            success: function(response, message, xhr) {
                 // clear the session variables in the client
                 localStorage.clear();
                 
@@ -16,12 +17,13 @@ $(function() {
                 window.location.href = '/espresso/';
                 console.log("server says: " + response.meta.message);
             }
-        );
+        });
     });
         
     // check if the user is logged in
-    $server.request('check-session', {}, 
-        function(response, message, xhr) {
+    $server.request({
+        service: 'check-session', 
+        success: function(response, message, xhr) {
             // check if the reponse was an error
             if (response.meta.return_code == 0) {
                 // Initialize the SideNav
@@ -50,7 +52,7 @@ $(function() {
                 console.log("server says: " + response.meta.message);
             }
         }
-    );
+    });
 
     // change the language that is being displayed
     changeLanguage(localStorage.defaultLanguage);

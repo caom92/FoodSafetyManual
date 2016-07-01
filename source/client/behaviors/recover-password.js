@@ -23,12 +23,13 @@ $(function() {
         } else if ($("#new-password").val() == $("#confirm-password").val()) {
             // now check if both fields have the same password and if they do,
             // we change the password in the server data base
-            $server.request('change-password-by-recovery',
-                {
+            $server.request({
+                service: 'change-password-by-recovery',
+                data: {
                     new_password: hash($("#new-password").val()),
                     token: query.token
                 },
-                function(response, message, xhr) {
+                success: function(response, message, xhr) {
                     // check if the password change succeeded
                     if (response.meta.return_code == 0) {
                         // store the user profile data in a session storage
@@ -42,7 +43,7 @@ $(function() {
                         console.log("server says: " + response.meta.message);
                     }
                 }
-            );
+            });
         } else {
             // if the password fields differ from one another, notify the user
             // visually
@@ -58,11 +59,12 @@ $(function() {
 
     // connect to the server in order to obtain check if the recovery
     // token is still valid
-    $server.request('token-validation',
-        {
+    $server.request({
+        service: 'token-validation',
+        data: {
             token: query.token
         },
-        function(response, message, xhr) {
+        success: function(response, message, xhr) {
             // hide the preloader
 	        $("#preloader").hide();
 
@@ -75,7 +77,7 @@ $(function() {
                 console.log("server says: " + response.meta.message);
             }
         }
-    );
+    });
 
     // change the language that is being displayed
     //changeLanguage(localStorage.defaultLanguage);

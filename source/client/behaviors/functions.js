@@ -1,3 +1,11 @@
+// Checks if the provided varible is defined, returning true it this 
+// is the case or false otherwise
+function isDefined(variable)
+{
+    return typeof variable !== 'undefined';
+}
+
+
 // Stores in the local storage all the user profile data
 function storeUserDataInLocalStorage(userData)
 {
