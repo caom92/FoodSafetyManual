@@ -145,8 +145,9 @@ Controller.prototype.request = function(options)
 {
     // throw an exception if the requested service is not provided by
     // the server
-    if (!this.isServiceRegistered(service)) {
-        throw 'The requested service ' + service + ' is not registered.';
+    if (!this.isServiceRegistered(options.service)) {
+        throw 'The requested service ' + options.service 
+            + ' is not registered.';
     }
 
     // retrieve the values of the input parameters or fall back to the
