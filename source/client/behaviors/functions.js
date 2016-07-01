@@ -42,7 +42,7 @@ function getURLQueryStringAsJSON()
     
     // parse the query data into a JSON object 
     // decodeURIComponent() requires that the input string follows the same
-    // valid syntaxis for JSON objects so that it can be converted 
+    // valid syntax for JSON objects so that it can be converted 
     // successfully 
     return $.parseJSON('{"' + decodeURIComponent(query
         .replace(/&/g, '","')   // replace & with ","
