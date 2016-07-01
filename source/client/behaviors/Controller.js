@@ -11,14 +11,6 @@ Controller = function(host, services)
 }
 
 
-// Checks if the service provided is registered in the service list, returning
-// true if this is the case or false otherwise
-Controller.prototype.isServiceRegistered = function(service)
-{
-    return isDefined(this.services[service]);
-}
-
-
 // Sends a service request to the server using the HTTP GET method;
 // GET responses are always cached
 // [in]     service: the name of the service that we are requesting for
@@ -32,7 +24,7 @@ Controller.prototype.get = function(service, data, success, error)
 {
     // throw an exception if the requested service is not provided by
     // the server
-    if (!this.isServiceRegistered(service)) {
+    if (this.services.indexOf(service) == -1) {
         throw 'The requested service ' + service + ' is not registered.';
     }
 
@@ -72,7 +64,7 @@ Controller.prototype.post = function(service, data, success, error)
 {
     // throw an exception if the requested service is not provided by
     // the server
-    if (!this.isServiceRegistered(service)) {
+    if (this.services.indexOf(service) == -1) {
         throw 'The requested service ' + service + ' is not registered.';
     }
 
@@ -145,7 +137,7 @@ Controller.prototype.request = function(options)
 {
     // throw an exception if the requested service is not provided by
     // the server
-    if (!this.isServiceRegistered(options.service)) {
+    if (this.services.indexOf(options.service) == -1) {
         throw 'The requested service ' + options.service 
             + ' is not registered.';
     }
