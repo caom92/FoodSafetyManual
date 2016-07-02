@@ -14,6 +14,10 @@ function onViewReady(view) {
         case "view-users":
             onViewUsersViewReady();
         break;
+
+        case "add-user":
+            onAddUserViewReady();
+        break;
     }
     
     // update the view's language

@@ -13,12 +13,14 @@ RewriteRule ^report-problem$ source/client/views/main.html [L,QSA]
 RewriteRule ^error$ source/client/views/main.html [L,QSA]
 RewriteRule ^edit-profile$ source/client/views/main.html [L,QSA]
 RewriteRule ^view-users$ source/client/views/main.html [L,QSA]
+RewriteRule ^add-user$ source/client/views/main.html [L,QSA]
 
 # Map properly any petition for a page view to its corresponding file
 RewriteRule ^views/report-problem$ source/client/views/report-problem.html [L,QSA]
 RewriteRule ^views/error$ source/client/views/error.html [L,QSA]
 RewriteRule ^views/edit-profile$ source/client/views/edit-profile.html [L,QSA]
 RewriteRule ^views/view-users$ source/client/views/view-users.html [L,QSA]
+RewriteRule ^views/add-user$ source/client/views/add-user.html [L,QSA]
 
 # Redirections for providing an interface to the server
 # ------------------------------------------------------------------------------

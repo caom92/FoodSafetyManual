@@ -39,8 +39,8 @@
     </translation>
 
     <translation id="check_password">
-        <english>Check new password</english>
-        <spanish>Verificar contraseña nueva</spanish>
+        <english>Check password</english>
+        <spanish>Verificar contraseña</spanish>
     </translation>
 
     <translation id="email_password">
@@ -122,6 +122,11 @@
         <spanish>Actualizar</spanish>
     </translation>
 
+    <translation id="add_button">
+        <english>Add</english>
+        <spanish>Agregar</spanish>
+    </translation>
+
     <translation id="attach_file">
         <english>Attach</english>
         <spanish>Adjuntar</spanish>
@@ -145,6 +150,16 @@
     <translation id="real_name">
         <english>Name</english>
         <spanish>Nombre de Usuario</spanish>
+    </translation>
+
+    <translation id="first_name">
+        <english>First name</english>
+        <spanish>Nombre</spanish>
+    </translation>
+
+    <translation id="last_name">
+        <english>Last name</english>
+        <spanish>Apellido(s)</spanish>
     </translation>
 
     <translation id="email">
@@ -236,6 +251,23 @@
         <spanish>Si mientras trabajaba ocurrió un problema o cree haber encontrado un error en el sistema, por favor háganoslo saber llenando el siguiente reporte. Proporcione tanta información como sea posible y agregue capturas de pantalla. Nosotros lo resolveremos tan pronto como nos sea posible. </spanish>
     </translation>
 
+    <!--Privilege levels-->
+
+    <translation id="privilege_1">
+        <english>None</english>
+        <spanish>Ninguno</spanish>
+    </translation>
+
+    <translation id="privilege_2">
+        <english>Read</english>
+        <spanish>Lectura</spanish>
+    </translation>
+
+    <translation id="privilege_3">
+        <english>Write</english>
+        <spanish>Escritura</spanish>
+    </translation>
+
     <!--Unsorted-->
 
     <translation id="welcome_message">
@@ -246,6 +278,11 @@
     <translation id="your_information">
         <english>Your information</english>
         <spanish>Su información</spanish>
+    </translation>
+
+    <translation id="new_user">
+        <english>User information</english>
+        <spanish>Información del usuario</spanish>
     </translation>
 
     <translation id="user_list">
@@ -268,6 +305,10 @@
         <spanish>Cambiar su nombre de usuario</spanish>
     </translation>
 
+    <translation id="assign_privileges">
+        <english>Assign privileges</english>
+        <spanish>Asignar permisos</spanish>
+    </translation>
 
     <!--Template
     <translation id="">

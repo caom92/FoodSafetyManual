@@ -35,4 +35,29 @@
         <english>The password is not valid</english>
         <spanish>La contraseña ingresada no es válida</spanish>
     </translation>
+
+    <translation id="fill_fields">
+        <english>Please fill all fields</english>
+        <spanish>Por favor llene todos los campos</spanish>
+    </translation>
+
+    <translation id="check_password">
+        <english>The password and verification don't match</english>
+        <spanish>La contraseña y la verificación no coinciden</spanish>
+    </translation>
+
+    <translation id="password_changed">
+        <english>Your password has been succesfully changed</english>
+        <spanish>Su contraseña ha sido modificada exitosamente</spanish>
+    </translation>
+
+    <translation id="email_changed">
+        <english>Your email has been succesfully changed</english>
+        <spanish>Su correo electrónico ha sido modificado exitosamente</spanish>
+    </translation>
+
+     <translation id="username_changed">
+        <english>Your username has been succesfully changed</english>
+        <spanish>Su nombre de usuario ha sido modificado exitosamente</spanish>
+    </translation>
 </translations>
