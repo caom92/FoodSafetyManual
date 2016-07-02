@@ -68,7 +68,7 @@ function getProcedureNames(){
     });
 }
 
-function onAddUserViewReady(){
+$app.behaviors['add-user'] = function (){
     addPermisionTable();
     getProcedureNames();
 }
