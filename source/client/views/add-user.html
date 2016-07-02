@@ -1,0 +1,109 @@
+<div class="row">
+    <div class="col s12 m12 l12">
+    <!--Header-->
+        <h4><i class="material-icons md-48 field-icon">person</i>
+            <div class="new_user"></div>
+        </h4>
+        <div class="divider"></div>
+    </div>
+</div>
+
+<!-- The add user form -->
+<form action="" id="add-user">
+    <!--First row-->
+    <!--Account ID and Username-->
+    <div class="row">
+        <div class="input-field col s12 m6 l6">
+            <input class="validate" type="text" 
+                id="user-name" name="user-name">
+            <label class="username" for="user-name"></label>
+        </div>
+        <div class="input-field col s12 m6 l6">
+            <input class="validate" type="number" 
+                id="user-id" name="user-id">
+            <label class="employee_id" for="user-id"></label>
+        </div>
+    </div>
+    <!--Second row-->
+    <!--Name and Last Name-->
+    <div class="row">
+        <div class="input-field col s12 m6 l6">
+            <input class="validate" type="text" 
+                id="first-name" name="first-name">
+            <label class="first_name" for="first-name"></label>
+        </div>
+        <div class="input-field col s12 m6 l6">
+            <input class="validate" type="text" 
+                id="last-name" name="last-name">
+            <label class="last_name" for="last-name"></label>
+        </div>
+    </div>
+
+    <!--Third row-->
+    <!--Email-->
+    <div class="row">
+        <div class="input-field col s12 m12 l12">
+            <input class="validate" type="text" 
+                id="email" name="email" >
+            <label class="email" for="email"></label>
+        </div>
+    </div>
+
+    <!--Fourth row-->
+    <!--Password and password check-->
+    <div class="row">
+        <div class="input-field col s12 m6 l6">
+            <input class="validate" type="password" 
+                id="password" name="password" >
+            <label class="password" for="password"></label>
+        </div>
+        <div class="input-field col s12 m6 l6">
+            <input class="validate" type="password" 
+                id="check-password" name="check-password" >
+            <label class="check_password" for="check-password"></label>
+        </div>
+    </div>
+
+    <!--Fifth row-->
+    <!--Permissions wrapper-->
+    <div class="row">
+        <div class="col s12 m12 l12">
+        <!--Header-->
+            <h4><i class="material-icons md-48 field-icon">settings</i>
+                <div class="assign_privileges"></div>
+            </h4>
+            <div class="divider"></div>
+        </div>
+    </div>
+
+    <div id="permissions_wrapper">
+        <table class="striped bordered centered" id="permissions_table">
+            <thead id="permissions_header">
+                <tr>
+                    <th data-field="name">Programa</th>
+                    <th data-field="none">Ninguno</th>
+                    <th data-field="read">Lectura</th>
+                    <th data-field="write">Escritura</th>
+                </tr>
+            </thead>
+            <tbody id="permissions_body">
+                
+            </tbody>
+        </table>
+    </div>
+
+    <!--Sixth row-->
+    <!--Send button-->
+    <br>
+    <div class="row">
+        <div class="col s12 m12 l12 center">
+               
+        <!-- Update button -->
+        <a class="green btn waves-effect waves-light" href="" 
+            id="update_password">
+            <span class="add_button"></span>
+            <i class="material-icons right">send</i>
+        </a>        
+        </div>
+    </div> 
+</form>

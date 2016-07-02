@@ -1,21 +1,3 @@
-// This function makes a call to the server, validating credentials
-// before changing the old password to a new one
-
-function checkCurrentPassword(){
-    return false;
-}
-
-// Function that sends the http request to the PHP script that
-// updates the user's password
-
-function updatePassword(){
-    if(checkCurrentPassword()){
-        // Send HTTP request
-    } else {
-        loadToast("invalid_password", 3500, "rounded");
-    }
-}
-
 // This function checks the new password entered in both fields
 // to ensure the user knows its password
 
@@ -139,8 +121,13 @@ $app.behaviors['edit-profile'] = function() {
                     },
                     success: function(response, message, xhr) {
                         if (response.meta.return_code == 0) {
+<<<<<<< HEAD:source/client/behaviors/edit-profile.js
                             localStorage.login_password = hashedPassword;
                             Materialize.toast("La contraseña se cambió exitosamente", 3500, "rounded");
+=======
+                            sessionStorage.login_password = response.data.login_password;
+                            loadToast("password_changed", 3500, "rounded");
+>>>>>>> miracle:source/client/controllers/edit-profile.js
                         } else {
                             console.log(
                                 "server says: " + response.meta.message);
@@ -148,11 +135,11 @@ $app.behaviors['edit-profile'] = function() {
                     }
                 });
             } else {
-                Materialize.toast("La contraseña y la verificación no coinciden",
+                loadToast("check_password",
                     3500, "rounded");
             }
         } else {
-            Materialize.toast("Por favor llene todos los campos",
+            loadToast("fill_fields",
                 3500, "rounded");
         }
     });
@@ -173,14 +160,14 @@ $app.behaviors['edit-profile'] = function() {
                     if (response.meta.return_code == 0) {
                         localStorage.email = $("#new-email").val();
                         $("#user-email").val(localStorage.email);
-                        Materialize.toast("El correo electrónico se cambió exitosamente.", 3500, "rounded");
+                        loadToast("email_changed", 3500, "rounded");
                     } else {
                         console.log("server says: " + response.meta.message);
                     }
                 }
             });
         } else {
-            Materialize.toast("La contraseña es incorrecta.", 3500, "rounded");
+            loadToast("invalid_password", 3500, "rounded");
         }
     });
 
@@ -201,14 +188,14 @@ $app.behaviors['edit-profile'] = function() {
                     if (response.meta.return_code == 0) {
                         localStorage.login_name = $("#new-username").val();
                         $("#user-name").val(localStorage.login_name);
-                        Materialize.toast("El nombre de usuario se cambió exitosamente.", 3500, "rounded");
+                        loadToast("username_changed", 3500, "rounded");
                     } else {
                         console.log("server says: " + response.meta.message);
                     }
                 }
             });
         } else {
-            Materialize.toast("La contraseña es incorrecta.", 3500, "rounded");
+            loadToast("invalid_password", 3500, "rounded");
         }
     });
 
