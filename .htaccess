@@ -1,68 +1,23 @@
 RewriteEngine On
 RewriteBase /espresso/
 
-# Redirections for allowing Single-page navigation of the site
-# ------------------------------------------------------------------------------
+# Redirect any request for a layout to the proper HTML page
+RewriteRule ^layouts/(.+)$ source/client/layouts/$1.html [L,QSA]
 
-# If there's no petition, redirect to login screen
-RewriteRule ^$ source/client/views/login.html [L,QSA]
+# Redirect any service request to the controller script
+RewriteRule ^services/(.+)$ source/server/services/Controller.php [L,QSA]
 
-# Redirect any page petition to the main page
-RewriteRule ^home$ source/client/views/main.html [L,QSA]
-RewriteRule ^report-problem$ source/client/views/main.html [L,QSA]
-RewriteRule ^error$ source/client/views/main.html [L,QSA]
-RewriteRule ^edit-profile$ source/client/views/main.html [L,QSA]
-RewriteRule ^view-users$ source/client/views/main.html [L,QSA]
-RewriteRule ^add-user$ source/client/views/main.html [L,QSA]
+# Redirect the password recovery page to the proper page
+RewriteRule ^recover-password$ source/client/layouts/recover-password.html [L,QSA]
 
-# Map properly any petition for a page view to its corresponding file
-RewriteRule ^views/report-problem$ source/client/views/report-problem.html [L,QSA]
-RewriteRule ^views/error$ source/client/views/error.html [L,QSA]
-RewriteRule ^views/edit-profile$ source/client/views/edit-profile.html [L,QSA]
-RewriteRule ^views/view-users$ source/client/views/view-users.html [L,QSA]
-RewriteRule ^views/add-user$ source/client/views/add-user.html [L,QSA]
+# Redirect any petition that is not a directory, file or link to the main page
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule ^(.*)$ source/client/layouts/main.html [L,QSA]
 
-# Redirections for providing an interface to the server
-# ------------------------------------------------------------------------------
-
-# Checks if a connection to the data base server can be established 
-RewriteRule ^server-status$ source/server/services/others/server-status.php [L,QSA]
-
-# Log in the user and starts a session
-RewriteRule ^users/authenticate$ source/server/services/session/authentication.php [L,QSA]
-
-# Checks if a certain user has logged in
-RewriteRule ^users/check-session$ source/server/services/session/check.php [L,QSA]
-
-# Logs out the user and close her session
-RewriteRule ^users/logout$ source/server/services/session/logout.php [L,QSA]
-
-# Send a bug report to us by email
-RewriteRule ^bug-reports/send$ source/server/services/mail/mail-bug-report.php [L,QSA]
-
-# Request password recovery for a user account
-RewriteRule ^users/request-password-recovery$ source/server/services/mail/mail-password-recovery-link.php [L,QSA]
-
-# Redirect the recovery link to the password recovery page
-RewriteRule ^users/recover-password$ source/client/views/recover-password.html [L,QSA]
-
-# Redirect the recovery petition to the proper server script
-RewriteRule ^users/use-recovery-token$ source/server/services/session/recover-password.php [L,QSA]
-
-# Redirect the change password petition to the proper server script
-RewriteRule ^users/change-password$ source/server/services/session/change-password.php
-
-# Request the list of all zones
-RewriteRule ^zones$ source/server/services/others/get-zones.php [L,QSA]
-
-# Request the list of all procedures
-RewriteRule ^procedures$ source/server/services/others/get-procedures.php [L,QSA]
-
-# Request email change
-RewriteRule ^users/change-email$ source/server/services/session/change-email.php [L,QSA]
-
-# Request username change
-RewriteRule ^users/change-username$ source/server/services/session/change-username.php [L,QSA]
+# When no petition is specified, redirect it to the main page
+RewriteRule ^$ source/client/layouts/main.html [L,QSA]
 
 # Prevent directory listing of the server files
 Options -Indexes 
