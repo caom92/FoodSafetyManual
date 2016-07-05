@@ -121,13 +121,8 @@ $app.behaviors['edit-profile'] = function() {
                     },
                     success: function(response, message, xhr) {
                         if (response.meta.return_code == 0) {
-<<<<<<< HEAD:source/client/behaviors/edit-profile.js
                             localStorage.login_password = hashedPassword;
-                            Materialize.toast("La contraseña se cambió exitosamente", 3500, "rounded");
-=======
-                            sessionStorage.login_password = response.data.login_password;
                             loadToast("password_changed", 3500, "rounded");
->>>>>>> miracle:source/client/controllers/edit-profile.js
                         } else {
                             console.log(
                                 "server says: " + response.meta.message);
@@ -199,6 +194,6 @@ $app.behaviors['edit-profile'] = function() {
         }
     });
 
-    // change the language being displayed
+    // change the language that is being displayed
     changeLanguage(localStorage.defaultLanguage);
 }

@@ -163,8 +163,12 @@ try {
 
         case 'list-zones':
             if (Services::isSessionOpen()) {
-                respond(0, 'Listing zones', 
-                    [ 'zones' => Services::getAllZones() ]);
+                if (Services::isAdmin()) {
+                    respond(0, 'Listing zones.', 
+                        [ 'zones' => Services::getAllZones() ]);
+                } else {
+                    throw new \Exception("Permission denied.");
+                }
             } else {
                 throw new \Exception('User is not logged in.');
             }
@@ -172,8 +176,12 @@ try {
 
         case 'list-programs':
             if (Services::isSessionOpen()) {
-                respond(0, 'Listing programs', 
-                    [ 'programs' => Services::getAllPrograms() ]);
+                if (Services::isAdmin()) {
+                    respond(0, 'Listing programs', 
+                        [ 'programs' => Services::getAllPrograms() ]);
+                } else {
+                    throw new \Exception("Permission denied.");
+                }
             } else {
                 throw new \Exception('User is not logged in.');
             }
@@ -181,11 +189,47 @@ try {
 
         case 'list-modules':
             if (Services::isSessionOpen()) {
-                respond(0, 'Listing modules', [ 
-                    'modules' => Services::getAllModules() ]);
+                if (Services::isAdmin()) {
+                    respond(0, 'Listing modules', [ 
+                        'modules' => Services::getAllModules() ]);
+                } else {
+                    throw new \Exception("Permission denied.");
+                }
             } else {
                 throw new \Exception('User is not logged in.');
             }
+        break;
+
+        case 'list-users':
+            if (Services::isSessionOpen()) {
+                if (Services::isAdmin()) {
+                    respond(0, 'Listing users', [ 
+                        'users' => Services::getAllUsers() ]);
+                } else {
+                    throw new \Exception("Permission denied.");
+                }
+            } else {
+                throw new \Exception('User is not logged in.');
+            }
+        break;
+
+        case 'get-user-permissions':
+            /*$inputArgsAreValid = isset($_POST['name'])
+            
+            if ($inputArgsAreValid) {
+                if (Services::isSessionOpen()) {
+                    if (Services::isAdmin()) {
+                        respond(0, 'Listing users', [ 
+                            'users' => Services::getAllUsers() ]);
+                    } else {
+                        throw new \Exception("Permission denied.");
+                    }
+                } else {
+                    throw new \Exception('User is not logged in.');
+                }
+            } else {
+                throw new \Exception('Input arguments are invalid.');
+            }*/
         break;
 
         default:

@@ -338,6 +338,15 @@ class Services
     }
 
 
+    // Returns true if the logged in user is an admin or false otherwise
+    static function isAdmin() 
+    {
+        $session = new serv\Session();
+        $isAdmin = $session->getValue('role_name') == 'Admin';
+        return $isAdmin;
+    }
+
+
     // Gets a list of all the zones in the data base
     static function getAllZones()
     {
@@ -359,6 +368,15 @@ class Services
     {
         $modules = new db\ModulesDAO(db\connectToDataBase());
         return $modules->selectAll();
+    }
+
+
+    // Gets a list of all the users in the data base which are not
+    // administrators
+    static function getAllUsers()
+    {
+        $users = new db\UsersDAO(db\connectToDataBase());
+        return $users->selectAll();
     }
 }
 

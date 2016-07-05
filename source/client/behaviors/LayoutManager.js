@@ -17,6 +17,9 @@ LayoutManager = function(root, container)
 
 // Laods the especified layout and executes its corresponding behavior
 // [in]     layout: the name of the layout to load
+// [in]     [container]: the selector of the HTML tag where to load the
+//          especified layout; the default value is the container 
+//          especified in the layout manager's constructor
 LayoutManager.prototype.load = function(layout)
 {
     // check if the layout behavior exists

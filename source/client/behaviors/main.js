@@ -1,3 +1,26 @@
+// Adds items to the side menu depending on the user role and permissions
+function loadSideMenu()
+{
+    // Initialize the SideNav
+    $("#page-content").addClass("with-side-menu");
+    $("#slide-out").show();
+    $('.button-collapse').show();
+    $(".button-collapse").sideNav();
+
+    // display the name of the user
+    $("#account-name").text(localStorage.first_name + ' ' 
+        + localStorage.last_name);
+
+    // load the appropiate menu items depending on the role of the
+    // user
+    if (localStorage.isUser === 'true') {
+
+    } else {
+        $('#actions-list').load('/espresso/layouts/admin-menu');
+    }
+}
+
+
 // Entry point for the program that controls the main page layout
 $(function() {
     // When the user clicks the logout button, close the session in both
@@ -26,15 +49,9 @@ $(function() {
         success: function(response, message, xhr) {
             // check if the reponse was an error
             if (response.meta.return_code == 0) {
-                // Initialize the SideNav
-                $("#page-content").addClass("with-side-menu");
-                $("#slide-out").show();
-                $('.button-collapse').show();
-                $(".button-collapse").sideNav();
+                // load the side menu items
+                loadSideMenu();
 
-                // display the name of the user
-                $("#account-name").text(localStorage.first_name);
-                
                 // Load the layout of the queried page into the page 
                 // container this will preserve backward and forward 
                 // buttons' functionality
@@ -44,10 +61,22 @@ $(function() {
                 if (layout.length > 0) {
                     $app.load(layout);
                 } else {
-                    $app.load('home');
+                    $app.load('edit-profile');
                 }
             } else {
-                // if it was, display the login page
+                // if it was, check if there is user data stored from
+                // a previous session
+                var isSessionDefined = isDefined(localStorage.login_name)
+                    && isDefined(localStorage.login_password);
+
+                // and if there is, delete it
+                if (isSessionDefined) {
+                    var lang = localStorage.defaultLanguage;
+                    localStorage.clear();
+                    localStorage.defaultLanguage = lang;
+                }
+
+                // then redirect to the login page
                 $app.load('login');
                 console.log("server says: " + response.meta.message);
             }

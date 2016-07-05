@@ -71,4 +71,5 @@ function getProcedureNames(){
 $app.behaviors['add-user'] = function (){
     addPermisionTable();
     getProcedureNames();
+    changeLanguage(localStorage.defaultLanguage);
 }

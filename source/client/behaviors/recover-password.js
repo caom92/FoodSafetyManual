@@ -78,7 +78,4 @@ $(function() {
             }
         }
     });
-
-    // change the language that is being displayed
-    //changeLanguage(localStorage.defaultLanguage);
 });

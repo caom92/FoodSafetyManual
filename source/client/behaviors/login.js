@@ -53,7 +53,7 @@ $app.behaviors['login'] = function() {
                         $app.load(layout);
                     } else {
                         // if it's empty, then redirect to the home page
-                        window.location.href = '/espresso/home';
+                        window.location.href = '/espresso/edit-profile';
                     }
                 } else if ($("#server-online").is(":visible")) {
                     // if authentication failed with the server available,
