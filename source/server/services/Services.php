@@ -378,6 +378,14 @@ class Services
         $users = new db\UsersDAO(db\connectToDataBase());
         return $users->selectAll();
     }
+
+
+    // Gets a list of users and their corresponding privileges
+    static function getPrivilegesOfUser($userID)
+    {
+        $userPrivileges = new db\UsersPrivilegesDAO(db\connectToDataBase());
+        return $usersPrivileges->selectByUserID($userID);
+    }
 }
 
 ?>

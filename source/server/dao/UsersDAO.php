@@ -131,7 +131,8 @@ class UsersDAO extends DataAccessObject
     function selectAll()
     {
         return parent::select([
-                'employee_num', 'login_name', 'email', 'first_name', 'last_name'
+                'id', 'employee_num', 'login_name', 'email', 'first_name', 
+                'last_name'
             ], [
                 'role_id[!]' => '1'
             ]

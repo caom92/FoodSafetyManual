@@ -98,11 +98,11 @@ try {
         break;
 
         case 'change-password-by-recovery':
-            $inputArgsAreValid = (
+            $areInputArgsValid = (
                 isset($_POST['new_password']) && 
                 isset($_POST['token'])
             );
-            if ($inputArgsAreValid) {
+            if ($areInputArgsValid) {
                 $userID = Services::validateToken($_POST['token']);
                 $username = Services::changeUserPasswordByRecovery(
                     $userID, 
@@ -134,7 +134,7 @@ try {
         break;
 
         case 'send-bug-report':
-            $inputArgsAreValid = (
+            $areInputArgsValid = (
                 isset($_POST['user-name']) &&
                 isset($_POST['user-id']) &&
                 isset($_POST['zone-selection']) &&
@@ -145,7 +145,7 @@ try {
                 isset($_POST['lang']) &&
                 isset($_POST['email'])
             );
-            if ($inputArgsAreValid) {
+            if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
                     if (isset($_FILES['screenshot-attachment'])) {
                         Services::mailBugReport($_POST, $_FILES);
@@ -164,8 +164,7 @@ try {
         case 'list-zones':
             if (Services::isSessionOpen()) {
                 if (Services::isAdmin()) {
-                    respond(0, 'Listing zones.', 
-                        [ 'zones' => Services::getAllZones() ]);
+                    respond(0, 'Listing zones.', Services::getAllZones());
                 } else {
                     throw new \Exception("Permission denied.");
                 }
@@ -177,8 +176,7 @@ try {
         case 'list-programs':
             if (Services::isSessionOpen()) {
                 if (Services::isAdmin()) {
-                    respond(0, 'Listing programs', 
-                        [ 'programs' => Services::getAllPrograms() ]);
+                    respond(0, 'Listing programs', Services::getAllPrograms());
                 } else {
                     throw new \Exception("Permission denied.");
                 }
@@ -190,8 +188,7 @@ try {
         case 'list-modules':
             if (Services::isSessionOpen()) {
                 if (Services::isAdmin()) {
-                    respond(0, 'Listing modules', [ 
-                        'modules' => Services::getAllModules() ]);
+                    respond(0, 'Listing modules', Services::getAllModules());
                 } else {
                     throw new \Exception("Permission denied.");
                 }
@@ -203,8 +200,7 @@ try {
         case 'list-users':
             if (Services::isSessionOpen()) {
                 if (Services::isAdmin()) {
-                    respond(0, 'Listing users', [ 
-                        'users' => Services::getAllUsers() ]);
+                    respond(0, 'Listing users', Services::getAllUsers());
                 } else {
                     throw new \Exception("Permission denied.");
                 }
@@ -213,10 +209,22 @@ try {
             }
         break;
 
-        case 'get-user-permissions':
-            /*$inputArgsAreValid = isset($_POST['name'])
+        case 'get-user-privileges':
+            $areInputArgsValid = isset($_POST['user_id']);
+
+            if (Services::isSessionOpen()) {
+                if (Services::isAdmin()) {
+                    respond(0, 'Listing users', 
+                        Services::getPrivilegesOfUser($_POST['user_id']));
+                } else {
+                    throw new \Exception("Permission denied.");
+                }
+            } else {
+                throw new \Exception('User is not logged in.');
+            }
+            /*$areInputArgsValid = isset($_POST['name'])
             
-            if ($inputArgsAreValid) {
+            if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
                     if (Services::isAdmin()) {
                         respond(0, 'Listing users', [ 
