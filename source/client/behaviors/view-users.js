@@ -67,5 +67,5 @@ $app.behaviors['view-users'] = function (){
 }
 
 function testToast(){
-    Materialize.toast("Que tranza morro", 3500, "rounded");
+    Materialize.toast("Coming soon", 3500, "rounded");
 }

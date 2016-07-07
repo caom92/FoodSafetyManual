@@ -185,15 +185,26 @@ try {
             }
         break;
 
-        case 'list-modules':
-            if (Services::isSessionOpen()) {
-                if (Services::isAdmin()) {
-                    respond(0, 'Listing modules', Services::getAllModules());
+        case 'get-modules-of-program':
+            $areInputArgsValid = isset($_POST['program_id']);
+
+            if ($areInputArgsValid) {
+                if (Services::isSessionOpen()) {
+                    if (Services::isAdmin()) {
+                        respond(0, 'Listing modules', 
+                            Services::getModulesOfProgram
+                            (
+                                $_POST['program_id']
+                            )
+                        );
+                    } else {
+                        throw new \Exception("Permission denied.");
+                    }
                 } else {
-                    throw new \Exception("Permission denied.");
+                    throw new \Exception('User is not logged in.');
                 }
             } else {
-                throw new \Exception('User is not logged in.');
+                throw new \Exception('Input arguments are invalid');
             }
         break;
 
@@ -212,23 +223,11 @@ try {
         case 'get-user-privileges':
             $areInputArgsValid = isset($_POST['user_id']);
 
-            if (Services::isSessionOpen()) {
-                if (Services::isAdmin()) {
-                    respond(0, 'Listing users', 
-                        Services::getPrivilegesOfUser($_POST['user_id']));
-                } else {
-                    throw new \Exception("Permission denied.");
-                }
-            } else {
-                throw new \Exception('User is not logged in.');
-            }
-            /*$areInputArgsValid = isset($_POST['name'])
-            
-            if ($areInputArgsValid) {
+             if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
                     if (Services::isAdmin()) {
-                        respond(0, 'Listing users', [ 
-                            'users' => Services::getAllUsers() ]);
+                        respond(0, 'Listing user privileges.', 
+                            Services::getPrivilegesOfUser($_POST['user_id']));
                     } else {
                         throw new \Exception("Permission denied.");
                     }
@@ -237,9 +236,22 @@ try {
                 }
             } else {
                 throw new \Exception('Input arguments are invalid.');
-            }*/
+            }
         break;
 
+        case 'list-privileges':
+            if (Services::isSessionOpen()) {
+                if (Services::isAdmin()) {
+                    respond(0, 'Listing privileges.', 
+                        Services::getAllPrivileges());
+                } else {
+                    throw new \Exception("Permission denied.");
+                }
+            } else {
+                throw new \Exception('User is not logged in.');
+            }
+        break;
+            
         default:
             // the requested service is not available
             throw new \Exception(

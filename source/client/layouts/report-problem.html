@@ -42,16 +42,25 @@
     <input type="text" id="lang" name="lang">
         
     <!-- Zone selection -->
-    <div class="input-field col s12 m6 l3">
+    <div class="input-field col s12 m4 l4">
         <select id="zone-selection" name="zone-selection">
             <option value="" disabled selected class="select_option"></option>
         </select>
         <label id="zone-selection__label" class="defective_zone"></label>
     </div>
         
-    <!-- Process selection -->
-    <div class="input-field col s12 m6 l3">
+    <!-- Program selection -->
+    <div class="input-field col s12 m4 l4">
         <select id="procedure-selection" name="procedure-selection">
+            <option value="" disabled selected class="select_option"></option>
+        </select>
+        <label id="procedure-selection__label" class="defective_process">
+        </label>
+    </div>
+
+    <!-- Module selection -->
+    <div class="input-field col s12 m4 l4">
+        <select id="module-selection" name="module-selection">
             <option value="" disabled selected class="select_option"></option>
         </select>
         <label id="procedure-selection__label" class="defective_process">
@@ -59,7 +68,7 @@
     </div>
         
     <!-- Browser selection -->
-    <div class="input-field col s12 m6 l3">
+    <div class="input-field col s12 m6 l6">
         <select id="browser-selection" name="browser-selection[]" multiple>
             <option value="" disabled selected class="select_options"></option>
             <option value="ie">Internet Explorer</option>
@@ -73,7 +82,7 @@
     </div>
         
     <!-- Severity selection -->
-    <div class="input-field col s12 m6 l3">
+    <div class="input-field col s12 m6 l6">
         <select id="severity-selection" name="severity-selection">
             <option value="" disabled selected class="select_option"></option>
             <option value="blocker"></option>

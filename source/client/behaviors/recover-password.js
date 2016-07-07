@@ -36,7 +36,7 @@ $(function() {
                         storeUserDataInLocalStorage(response.data);
 
                         // redirect to the home page
-                        window.location.href = '/espresso/home';
+                        window.location.href = '/espresso/edit-profile';
                     } else {
                         // if not, notify the user
                         Materialize.toast("¡Hubo un problema al cambiar la contraseña!", 3500, "rounded");

@@ -34,9 +34,9 @@ class UsersDAO extends DataAccessObject
             return parent::join([
                     '[><]roles(r)' => [ 'role_id' => 'id' ]
                 ], [
-                    "$this->tableName.id", 'r.name(role_name)', 'employee_num', 
-                    'email', 'first_name', 'last_name', 'login_name', 
-                    'login_password'
+                    "$this->tableName.id(id)", 'r.name(role_name)', 
+                    'employee_num', 'email', 'first_name', 'last_name', 
+                    'login_name', 'login_password'
                 ], 
                 [ "AND"  => [
                     "OR" => [
@@ -52,9 +52,9 @@ class UsersDAO extends DataAccessObject
             return parent::join([
                     '[><]roles(r)' => [ 'role_id' => 'id' ]
                 ], [
-                     "$this->tableName.id", 'r.name(role_name)', 'employee_num',
-                     'email', 'first_name', 'last_name', 'login_name', 
-                     'login_password'
+                     "$this->tableName.id(id)", 'r.name(role_name)', 
+                     'employee_num', 'email', 'first_name', 'last_name', 
+                     'login_name', 'login_password'
                 ], 
                 [ "OR" => [
                         "$this->tableName.id" => $identifier,

@@ -16,6 +16,7 @@ function storeUserDataInLocalStorage(userData)
     localStorage.email = userData.email;
     localStorage.login_name = userData.login_name;
     localStorage.login_password = userData.login_password;
+    localStorage.privileges = JSON.stringify(userData.privileges);
 }
 
 

@@ -15,7 +15,10 @@ require_once realpath(dirname(__FILE__).'/../dao/ZonesDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/ProgramsDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/ModulesDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/UsersDAO.php');
+require_once realpath(dirname(__FILE__).'/../dao/PrivilegesDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/RecoveryTokensDAO.php');
+require_once realpath(dirname(__FILE__)
+    .'/../dao/UsersZonesModulesPrivilegesDAO.php');
 
 // Alias namespaces for ease of use
 use fsm\services as serv;
@@ -42,8 +45,10 @@ class Services
     {
         $session = new serv\Session();
         $result = $session->start($username, $password);
-
+        
         if (isset($result)) {
+            $result['privileges'] = 
+                Services::getPrivilegesOfUser($session->getValue('id')); 
             return $result;
         } else {
             throw new \Exception('Log in credentials where incorrect');
@@ -255,7 +260,8 @@ class Services
         $body = "Usuario: " . $formData["user-name"] . "<br>"
             . "ID de empleado: " . $formData["user-id"] . "<br>"
             . "Zona: " . $formData["zone-selection"] . "<br>"
-            . "Procedimiento: " . $formData["procedure-selection"] . "<br>"
+            . "Programa: " . $formData["procedure-selection"] . "<br>"
+            . "Modulo: " . $formData['module-selection'] . "<br>"
             . "Navegadores: ";
 
         // paste browsers
@@ -355,7 +361,7 @@ class Services
     }
 
 
-    // Gets a list of all the zones in the data base
+    // Gets a list of all the programs in the data base
     static function getAllPrograms()
     {
         $programs = new db\ProgramsDAO(db\connectToDataBase());
@@ -363,11 +369,11 @@ class Services
     }
 
 
-    // Gets a list of all the zones in the data base
-    static function getAllModules()
+    // Gets a list of all the modules of the given program
+    static function getModulesOfProgram($programID)
     {
         $modules = new db\ModulesDAO(db\connectToDataBase());
-        return $modules->selectAll();
+        return $modules->selectByProgramID($programID);
     }
 
 
@@ -383,8 +389,116 @@ class Services
     // Gets a list of users and their corresponding privileges
     static function getPrivilegesOfUser($userID)
     {
-        $userPrivileges = new db\UsersPrivilegesDAO(db\connectToDataBase());
-        return $usersPrivileges->selectByUserID($userID);
+        // first, connect to the data base   
+        $db = db\connectToDataBase();
+
+        // then instantiate all the tables that we'll need
+        $zonesTable = new db\ZonesDAO($db);
+        $programsTable = new db\ProgramsDAO($db);
+        $modulesTable = new db\ModulesDAO($db);
+        $userPrivilegesTable = new db\UsersZonesModulesPrivilegesDAO($db);
+        $privilegesTable = new db\PrivilegesDAO($db);
+
+        // now, get all the zones, programs
+        $zones = $zonesTable->selectAll();
+        $programs = $programsTable->selectAll(); 
+
+        // then, get the privileges of the user that was provided
+        $userPrivileges = $userPrivilegesTable->selectByUserID($userID);
+
+        // initialize the resulting json
+        $result = [
+            'zones' => []
+        ];
+
+        // initialize the default privilege
+        $defaultPrivilege = $privilegesTable->selectDefault();
+
+        // visit each zone that was retrieved
+        foreach ($zones as $zone) {
+            // create the zone json
+            $zoneJSON = [
+                'id' => $zone['id'],
+                'name' => $zone['name'],
+                'programs' => []
+            ];
+
+            // visit each program that was retrieved
+            foreach ($programs as $program) {
+                // create the program json
+                $programJSON = [
+                    'id' => $program['id'],
+                    'name' => $program['name'],
+                    'modules' => []
+                ];
+
+                // retrieve all the modules that correspond to this program
+                $modules = $modulesTable->selectByProgramID($program['id']);
+
+                // visit each module in the program
+                foreach ($modules as $module) {
+                    // create the module json
+                    $moduleJSON = [
+                        'id' => $module['id'],
+                        'name' => $module['name'],
+                        'privilege' => $defaultPrivilege
+                    ];
+
+                    // push the module json
+                    array_push($programJSON['modules'], $moduleJSON);
+                }
+
+                // push the program json
+                array_push($zoneJSON['programs'], $programJSON);
+            }
+
+            // push the zone json
+            array_push($result['zones'], $zoneJSON);
+        }
+
+        // finally, visit each user privilege
+        foreach ($userPrivileges as $privilege) {
+            // visit each zone
+            $z = 0;
+            foreach ($result['zones'] as $zone) {
+                // check if there are any privileges for this zone
+                if ($zone['id'] == $privilege['zone_id']) {
+                    // if they are, visit each program
+                    $p = 0;
+                    foreach ($zone['programs'] as $program) {
+                        // check if there are any privileges for this program
+                        if ($program['id'] == $privilege['program_id']) {
+                            // if they are, visit each module
+                            $m = 0;
+                            foreach ($program['modules'] as $module) {
+                                // check if there is a privilege for this module
+                                if ($module['id'] == $privilege['module_id']) {
+                                    // if there is, store it
+                                    $result['zones'][$z]['programs'][$p]['modules'][$m]['privilege']['id'] = 
+                                        $privilege['privilege_id'];
+
+                                    $result['zones'][$z]['programs'][$p]['modules'][$m]['privilege']['name'] = 
+                                        $privilege['privilege_name'];
+                                }
+                                $m++;
+                            }
+                        }
+                        $p++;
+                    }
+                }
+                $z++;
+            }
+        }
+
+        // return the resulting json
+        return $result;
+    }
+
+
+    static function getAllPrivileges()
+    {
+        $privileges = new db\PrivilegesDAO(db\connectToDataBase());
+        return $privileges->selectAll();
     }
 }
 
