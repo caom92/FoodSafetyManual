@@ -25,6 +25,31 @@ class ZonesDAO extends DataAccessObject
     {
         return parent::select("*");
     }
+
+
+    // Searches a zone with the given name and returns its data if it 
+    // found it or NULL otherwise
+    function selectByName($zoneName)
+    {
+        return parent::select('*', [
+            'name' => $zoneName
+        ]);
+    }
+
+
+    // Returns the ID of the zone with the given name if it exists in 
+    // the data base or NULL otherwise
+    function selectIDByName($zone)
+    {
+        return parent::select('id', [ 'name' => $zone ]);
+    }
+
+
+    // Inserts a new zone in the table with the given zone name
+    function insert($zoneName)
+    {
+        return parent::insert([ 'name' => $zoneName ]);
+    }
 }
 
 ?>

@@ -18,6 +18,16 @@ class UsersZonesModulesPrivilegesDAO extends DataAccessObject
     }
 
 
+    // Inserts the data to the data base
+    // [in]    items: an array of associative arrays which define the rows to
+    //         be inserted, where the key is the column name
+    // [out]   return: the ID of the last inserted item
+    function insert($items)
+    {
+        return parent::insert($items);
+    }
+
+
     // Returns the privilege data about every module of the user with the 
     // especified ID in the form of an associative array
     // [in]     userID: the ID of the user which privileges we want to 

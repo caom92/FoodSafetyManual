@@ -141,6 +141,7 @@ $app.behaviors['report-problem'] = function() {
     $("textarea").characterCounter();
     $("#browser-selection").material_select();
     $("#severity-selection").material_select();
+    $("#module-selection").material_select();
     
     // when the user uploads one or more screenshots, we must check the MIME 
     // type to make sure that the uploaded files are only images and not any

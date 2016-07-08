@@ -26,7 +26,15 @@ class PrivilegesDAO extends DataAccessObject
         return $result[0];
     }
 
-    
+
+    // Returns the ID of the privilege with the given name if it exists in 
+    // the data base or NULL otherwise
+    function selectIDByName($privilege)
+    {
+        return parent::select('id', [ 'name' => $privilege ]);
+    }
+
+
     // Returns an associative array containing all the data elements
     // of the table
     // [out]    return: an associative array with the data contained in

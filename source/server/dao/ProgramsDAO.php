@@ -15,8 +15,16 @@ class ProgramsDAO extends DataAccessObject
     {
         parent::__construct($dataBaseConnection, "programs");
     }
-    
-    
+
+
+    // Returns the ID of the program with the given name if it exists in 
+    // the data base or NULL otherwise
+    function selectIDByName($program)
+    {
+        return parent::select('id', [ 'name' => $program ]);
+    }
+
+
     // Returns an associative array containing all the data elements
     // of the table
     // [out]    return: an associative array with the data contained in

@@ -19,6 +19,7 @@ require_once realpath(dirname(__FILE__).'/../dao/PrivilegesDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/RecoveryTokensDAO.php');
 require_once realpath(dirname(__FILE__)
     .'/../dao/UsersZonesModulesPrivilegesDAO.php');
+require_once realpath(dirname(__FILE__).'/../dao/RolesDAO.php');
 
 // Alias namespaces for ease of use
 use fsm\services as serv;
@@ -495,10 +496,127 @@ class Services
     }
 
 
+    // Gets a list of all the privileges that exist in the data base
     static function getAllPrivileges()
     {
         $privileges = new db\PrivilegesDAO(db\connectToDataBase());
         return $privileges->selectAll();
+    }
+
+
+    // Registers a new zone in the data base
+    static function addNewZone($zoneName)
+    {
+        // first we connect to the database
+        $zones = new db\ZonesDAO(db\connectToDataBase());
+
+        // then we check if the name is duplicated
+        $duplicatedNames = $zones->selectByName($zoneName);
+        $isNameRepeated = count($duplicatedNames) > 0;
+
+        // if it is not, we store it in the database
+        if (!$isNameRepeated) {
+            $zones->insert($zoneName);
+        }
+    }
+
+
+    // Checks if the given zone name is duplicated in the database, returning
+    // true if this is the case, or false otherwise
+    static function checkZoneNameDuplicates($zoneName)
+    {
+        // first we connect to the database
+        $zones = new db\ZonesDAO(db\connectToDataBase());
+
+        // then we check if the name is duplicated
+        $duplicatedNames = $zones->selectByName($zoneName);
+        $isNameRepeated = count($duplicatedNames) > 0;
+        return $isNameRepeated;
+    }
+
+
+    // Checks if the given log in name is duplicated in the database, returning
+    // true if this is the case, or false otherwise
+    static function checkLogInNameDuplicates($username)
+    {
+        // first we connect to the database
+        $users = new db\UsersDAO(db\connectToDataBase());
+
+        // then we check if the name is duplicated
+        $duplicatedNames = $users->selectByIdentifier($username);
+        $isNameRepeated = count($duplicatedNames) > 0;
+        return $isNameRepeated; 
+    }
+
+
+    // Checks if the given email is duplicated in the database, returning
+    // true if this is the case, or false otherwise
+    static function checkUserEmailDuplicates($email)
+    {
+        // first we connect to the database
+        $users = new db\UsersDAO(db\connectToDataBase());
+
+        // then we check if the name is duplicated
+        $duplicatedNames = $users->selectByIdentifier($email);
+        $isNameRepeated = count($duplicatedNames) > 0;
+        return $isNameRepeated; 
+    }
+
+
+    // Checks if the given email is duplicated in the database, returning
+    // true if this is the case, or false otherwise
+    static function checkUserEmployeeNumDuplicates($employeeNum)
+    {
+        // first we connect to the database
+        $users = new db\UsersDAO(db\connectToDataBase());
+
+        // then we check if the name is duplicated
+        $duplicatedNames = $users->selectByIdentifier($employeeNum);
+        $isNameRepeated = count($duplicatedNames) > 0;
+        return $isNameRepeated; 
+    }
+
+
+    // Registers a new user in the data base
+    static function addNewUser($userData)
+    {
+        // first connect to the data base
+        $db = db\connectToDataBase();
+        $users = new db\UsersDAO($db);
+        $roles = new db\RolesDAO($db);
+        $zones = new db\ZonesDAO($db);
+        $programs = new db\ProgramsDAO($db);
+        $modules = new db\ModulesDAO($db);
+        $privileges = new db\PrivilegesDAO($db);
+        $usersPrivileges = new db\UsersZonesModulesPrivilegesDAO($db);
+
+        // insert the user to the data base
+        $userID = $users->insert([
+            'role_id' => $roles->selectIDByName('User'),
+            'employee_num' => $userData['employee_num'],
+            'first_name' => $userData['first_name'],
+            'last_name' => $userData['last_name'],
+            'email' => $userData['login_name'],
+            'login_name' => $userData['login_name'],
+            'login_password' => $userData['login_password']
+        ]);
+
+        // add the privileges to the data base
+        foreach ($userData['privileges']['zones'] as $zone) {
+            foreach ($zone['programs'] as $program) {
+                foreach ($program['modules'] as $module) {
+                    $usersPrivileges->insert([
+                        'user_id' => $userID,
+                        'zone_id' => $zones->selectIDByName($zone['name']),
+                        'module_id' => 
+                            $modules->selectIDByName($module['name']),
+                        'privilege_id' => $privileges->selectIDByName(
+                            $module['privilege']['name']
+                        )
+                    ]);
+                }
+            }
+        }
     }
 }
 

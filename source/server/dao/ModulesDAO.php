@@ -17,6 +17,14 @@ class ModulesDAO extends DataAccessObject
     }
     
     
+    // Returns the ID of the module with the given name if it exists in 
+    // the data base or NULL otherwise
+    function selectIDByName($module)
+    {
+        return parent::select('id', [ 'name' => $module ]);
+    }
+
+
     // Returns an associative array containing the data of the modules that 
     // belong to the program with the especified ID
     // [in]     programID: the ID of the program which programs is going to

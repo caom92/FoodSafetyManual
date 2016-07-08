@@ -251,6 +251,189 @@ try {
                 throw new \Exception('User is not logged in.');
             }
         break;
+
+        case 'add-zone':
+            $areInputArgsValid = isset($_POST['zone_name']);
+
+             if ($areInputArgsValid) {
+                if (Services::isSessionOpen()) {
+                    if (Services::isAdmin()) {
+                        Services::addNewZone($_POST['zone_name']);
+                        respond(0, 'Zone added successfully.');
+                    } else {
+                        throw new \Exception("Permission denied.");
+                    }
+                } else {
+                    throw new \Exception('User is not logged in.');
+                }
+            } else {
+                throw new \Exception('Input arguments are invalid.');
+            }
+        break;
+
+        case 'is-zone-name-duplicated':
+            $areInputArgsValid = isset($_POST['zone_name']);
+
+             if ($areInputArgsValid) {
+                if (Services::isSessionOpen()) {
+                    if (Services::isAdmin()) {
+                        $result = Services::checkZoneNameDuplicates(
+                            $_POST['zone_name']
+                        );
+                        respond(0, 'Zone name checked for duplicity.', $result);
+                    } else {
+                        throw new \Exception("Permission denied.");
+                    }
+                } else {
+                    throw new \Exception('User is not logged in.');
+                }
+            } else {
+                throw new \Exception('Input arguments are invalid.');
+            }
+        break;
+
+        case 'is-login-name-duplicated':
+            $areInputArgsValid = isset($_POST['login_name']);
+
+            if ($areInputArgsValid) {
+                if (Services::isSessionOpen()) {
+                    $result = Services::checkLogInNameDuplicates(
+                        $_POST['login_name']
+                    );
+                    respond(0, 'User log in name checked for duplicity.', 
+                        $result);
+                } else {
+                    throw new \Exception('User is not logged in.');
+                }
+            } else {
+                throw new \Exception('Input arguments are invalid.');
+            }
+        break;
+
+        case 'is-email-duplicated':
+            $areInputArgsValid = isset($_POST['email']);
+
+            if ($areInputArgsValid) {
+                if (Services::isSessionOpen()) {
+                    $result = Services::checkUserEmailDuplicates(
+                        $_POST['email']
+                    );
+                    respond(0, 'User email checked for duplicity.', 
+                        $result);
+                } else {
+                    throw new \Exception('User is not logged in.');
+                }
+            } else {
+                throw new \Exception('Input arguments are invalid.');
+            }
+        break;
+
+        case 'is-employee-num-duplicated':
+            $areInputArgsValid = isset($_POST['employee_num']);
+
+            if ($areInputArgsValid) {
+                if (Services::isSessionOpen()) {
+                    if (Services::isAdmin()) {
+                        $result = Services::checkUserEmployeeNumDuplicates(
+                            $_POST['employee_num']
+                        );
+                        respond
+                        (
+                            0, 'User employee number checked for duplicity.', 
+                            $result
+                        );
+                    } else {
+                        throw new \Exception("Permission denied.");
+                    }
+                } else {
+                    throw new \Exception('User is not logged in.');
+                }
+            } else {
+                throw new \Exception('Input arguments are invalid.');
+            }
+        break;
+
+        case 'add-user':
+            // for this service, the user sends a json encoded as a string
+            // so first we check if this json was sent to us
+            $userData;
+            $isPostSet = isset($_POST);
+            
+            if ($isPostSet) {
+                // if it was, decode it
+                $userData = json_decode($_POST);
+            } else {
+                // otherwise, send an error message
+                throw new \Exception('Input arguments are invalid.');
+            }
+
+            // now, check that every attribute in the json is set as expected
+            $areInputArgsValid = isset($userData['employee_num']) &&
+                isset($userData['first_name']) &&
+                isset($userData['last_name']) &&
+                isset($userData['email']) &&
+                isset($userData['login_name']) &&
+                isset($userData['login_password']) &&
+                isset($userData['privileges']);
+
+            // continue if all the attributes are set...
+            if ($areInputArgsValid) {
+                // if the user is logged in....
+                if (Services::isSessionOpen()) {
+                    // and if the user is an admin
+                    if (Services::isAdmin()) {
+                        // check if the log in name is duplicated
+                        $isLogInNameDuplicated = 
+                            Services::checkLogInNameDuplicates
+                            (
+                                $_POST['login_name']
+                            );
+                        if ($isLogInNameDuplicated) {
+                            // throw an exception if it was
+                            throw new \Exception(
+                                'User registration failed, log in name is '. 
+                                'already taken.'
+                            );
+                        }
+
+                        // check if the email is duplicated
+                        $isEmailDuplicated = 
+                            Services::checkUserEmailDuplicates($_POST['email']);
+                        if ($isEmailDuplicated) {
+                            // throw an exception if it was
+                            throw new \Exception(
+                                'User registration failed, email is already '. 
+                                'taken.'
+                            );
+                        }
+
+                        // check if the employee number is duplicated
+                        $isEmployeeNumDuplicated = 
+                            Services::checkUserEmployeeNumDuplicates
+                            (
+                                $_POST['employee_num']
+                            ); 
+                        if ($isEmployeeNumDuplicated) {
+                            // throw an exception if it was
+                            throw new \Exception(
+                                'User registration failed, employee number '.
+                                'is already taken.'
+                            );
+                        }
+
+                        // after many checks, finally add the user
+                        Services::addNewUser($userData);
+                        respond(0, 'User registered successfully.');
+                    } else {
+                        throw new \Exception("Permission denied.");
+                    }
+                } else {
+                    throw new \Exception('User is not logged in.');
+                }
+            } else {
+                throw new \Exception('Input arguments are invalid.');
+            }
+        break;
             
         default:
             // the requested service is not available
