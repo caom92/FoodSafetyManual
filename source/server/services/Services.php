@@ -537,7 +537,7 @@ class Services
 
     // Checks if the given log in name is duplicated in the database, returning
     // true if this is the case, or false otherwise
-    static function checkLogInNameDuplicates($username)
+    static function checkAccountNameDuplicates($username)
     {
         // first we connect to the database
         $users = new db\UsersDAO(db\connectToDataBase());

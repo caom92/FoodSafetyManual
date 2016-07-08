@@ -70,9 +70,17 @@ try {
         case 'change-username':
             if (isset($_POST['new_username'])) {
                 if (Services::isSessionOpen()) {
-                    $usernameChanged = Services::changeUserAccountName(
+                    $isDuplicated = Services::checkAccountNameDuplicates(
                         $_POST['new_username']
-                    );
+                    ); 
+                    if ($isDuplicated) {
+                        throw new \Exception(
+                            'Failed to update user info: log in name '.
+                            'already taken.'
+                        );
+                    }
+
+                    Services::changeUserAccountName($_POST['new_username']);
                     respond(0, 'User login name was changed successfully');
                 } else {
                     throw new \Exception('User is not logged in');
@@ -85,9 +93,7 @@ try {
         case 'change-password':
             if (isset($_POST['new_password'])) {
                 if (Services::isSessionOpen()) {
-                    $passwdChanged = Services::changeUserPassword(
-                        $_POST['new_password']
-                    );
+                    Services::changeUserPassword($_POST['new_password']);
                     respond(0, 'User password was changed successfully');
                 } else {
                     throw new \Exception('User is not logged in');
@@ -121,9 +127,15 @@ try {
         case 'change-email':
             if (isset($_POST['new_email'])) {
                 if (Services::isSessionOpen()) {
-                    $emailChanged = Services::changeUserEmail(
+                    $isDuplicated = Services::checkUserEmailDuplicates(
                         $_POST['new_email']
                     );
+                    if ($isDuplicated) {
+                        throw new \Exception(
+                            'Failed to update user info: email already taken.');
+                    }
+
+                    Services::changeUserEmail($_POST['new_email']);
                     respond(0, 'User email was changed successfully');
                 } else {
                     throw new \Exception('User is not logged in');
@@ -253,12 +265,20 @@ try {
         break;
 
         case 'add-zone':
-            $areInputArgsValid = isset($_POST['zone_name']);
+            $areInputArgsValid = isset($_POST['new_zone']);
 
              if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
                     if (Services::isAdmin()) {
-                        Services::addNewZone($_POST['zone_name']);
+                        $isDuplicated = Services::checkZoneNameDuplicates(
+                            $_POST['new_zone']
+                        );
+                        if ($isDuplicated) {
+                            throw new \Exception(
+                                'Failed to add new zone: name already taken.');
+                        }
+
+                        Services::addNewZone($_POST['new_zone']);
                         respond(0, 'Zone added successfully.');
                     } else {
                         throw new \Exception("Permission denied.");
@@ -297,7 +317,7 @@ try {
 
             if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
-                    $result = Services::checkLogInNameDuplicates(
+                    $result = Services::checkAccountNameDuplicates(
                         $_POST['login_name']
                     );
                     respond(0, 'User log in name checked for duplicity.', 
@@ -337,8 +357,7 @@ try {
                         $result = Services::checkUserEmployeeNumDuplicates(
                             $_POST['employee_num']
                         );
-                        respond
-                        (
+                        respond(
                             0, 'User employee number checked for duplicity.', 
                             $result
                         );
@@ -383,12 +402,11 @@ try {
                     // and if the user is an admin
                     if (Services::isAdmin()) {
                         // check if the log in name is duplicated
-                        $isLogInNameDuplicated = 
-                            Services::checkLogInNameDuplicates
-                            (
+                        $isAccountNameDuplicated = 
+                            Services::checkAccountNameDuplicates(
                                 $_POST['login_name']
                             );
-                        if ($isLogInNameDuplicated) {
+                        if ($isAccountNameDuplicated) {
                             // throw an exception if it was
                             throw new \Exception(
                                 'User registration failed, log in name is '. 
@@ -409,8 +427,7 @@ try {
 
                         // check if the employee number is duplicated
                         $isEmployeeNumDuplicated = 
-                            Services::checkUserEmployeeNumDuplicates
-                            (
+                            Services::checkUserEmployeeNumDuplicates(
                                 $_POST['employee_num']
                             ); 
                         if ($isEmployeeNumDuplicated) {
