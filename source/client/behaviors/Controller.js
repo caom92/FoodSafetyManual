@@ -124,9 +124,11 @@ Controller.prototype.request = function(options)
     var data = (isDefined(options.data)) ? options.data : {};
     var success = (isDefined(options.success)) ? 
         options.success : function() {};
-    var error = (isDefined(options.error)) ? options.error : function() {
-        console.log('server says: ' + status + ', ' + message);
-    };
+    var error = (isDefined(options.error)) ? 
+        options.error 
+        : function(xhr, status, message) {
+            console.log('server says: ' + status + ', ' + message);
+        };
 
     // checks if the response should be cached
     var cacheResponse = (isDefined(options.cache)) ? options.cache : false;
