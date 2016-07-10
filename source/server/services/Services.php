@@ -48,8 +48,6 @@ class Services
         $result = $session->start($username, $password);
         
         if (isset($result)) {
-            $result['privileges'] = 
-                Services::getPrivilegesOfUser($session->getValue('id')); 
             return $result;
         } else {
             throw new \Exception('Log in credentials where incorrect');
@@ -602,20 +600,13 @@ class Services
         ]);
 
         // add the privileges to the data base
-        foreach ($userData['privileges']['zones'] as $zone) {
-            foreach ($zone['programs'] as $program) {
-                foreach ($program['modules'] as $module) {
-                    $usersPrivileges->insert([
-                        'user_id' => $userID,
-                        'zone_id' => $zones->selectIDByName($zone['name']),
-                        'module_id' => 
-                            $modules->selectIDByName($module['name']),
-                        'privilege_id' => $privileges->selectIDByName(
-                            $module['privilege']['name']
-                        )
-                    ]);
-                }
-            }
+        foreach ($userData['privileges'] as $privilege) {
+            $usersPrivileges->insert([
+                'user_id' => $userID,
+                'zone_id' => $privilege['zone_id'],
+                'module_id' => $privilege['module_id'],
+                'privilege_id' => $privilege['privilege_id']
+            ]);
         }
     }
 }

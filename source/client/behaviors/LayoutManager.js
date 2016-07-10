@@ -28,8 +28,7 @@ LayoutManager.prototype.load = function(layout)
         if (isBehaviorDefined) {
             // if it does, load the layout to the container and then 
             // execute the behavior
-            var behavior = this.behaviors[layout];
-            $(this.container).load(this.root + layout, behavior);
+            $(this.container).load(this.root + layout, this.behaviors[layout]);
         } else {
             // if not, throw an error
             throw 'The requested behavior "' + layout + '" is undefined.';

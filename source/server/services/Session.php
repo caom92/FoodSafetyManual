@@ -39,24 +39,113 @@ class Session
         }
 
         // attempt to connect to the data base to retrieve the user information
-        $users = new db\UsersDAO(db\connectToDataBase());
-        $result = $users->selectByIdentifier($username, $password);
+        $db = db\connectToDataBase();
+        $users = new db\UsersDAO($db);
+        $privileges = new db\UsersZonesModulesPrivilegesDAO($db);
+        $userData = $users->selectByIdentifier($username, $password);
 
         // check if the query was successful
-        if (count($result) > 0) {
+        if (count($userData) > 0) {
             // if it was, there is the (very small) possibility that there might
             // be more than 1 entry in the DB with the given username and 
             // password combination, so if this is the case, we just return the
             // first hit
-            $_SESSION = $result[0];
+            $_SESSION = $userData[0];
+
+            // now, retrieve the user privileges
+            $userPrivileges = 
+                $privileges->selectSimplifiedByUserID($userData[0]['id']);
+            
+            // and organize it in a useful format
+
+            // initialize the final array where the priviliges are going to be
+            // stored
+            $programPrivileges = [];
+            
+            // initialize the temporal program holder
+            $program = [
+                'program_name' => '',
+                'modules' => []
+            ];
+
+            // initialize the temporal module holder
+            $module = [
+                'module_name' => '',
+                'privileges' => []
+            ];
+
+            // visit each row from the data base query result
+            foreach ($userPrivileges as $row) {
+                // check if this row has a different program than the last
+                $hasProgramChanged = 
+                    $row['program_name'] != $program['program_name'];
+                if ($hasProgramChanged) {
+                    // if it has, assert that the last row info is not empty
+                    if (strlen($program['program_name']) > 0) {
+                        // if it is not, store the info in the final structure
+                        array_push($program['modules'], $module);
+                        array_push($programPrivileges, $program);
+                    }
+
+                    // then fill the temporal holder with the information of 
+                    // this new program
+                    $module = [
+                        'module_name' => $row['module_name'], 
+                        'privileges' => [[
+                            'zone_name' => $row['zone_name'],
+                            'privilege' => $row['privilege']
+                        ]]
+                    ];
+                    $program = [
+                        'program_name' => $row['program_name'],
+                        'modules' => []
+                    ];
+                } else {
+                    // if the row has the same program than the last,
+                    // check if it has a different module
+                    $hasModuleChanged = 
+                        $row['module_name'] != $module['module_name'];
+                    if ($hasModuleChanged) {
+                        // if it has, store the info in the temporal program
+                        // holder
+                        array_push($program['modules'], $module);
+
+                        // and then fill the temporal holder with the
+                        // information of this new module
+                        $module = [
+                            'module_name' => $row['module_name'], 
+                            'privileges' => [[
+                                'zone_name' => $row['zone_name'],
+                                'privilege' => $row['privilege']
+                            ]]
+                        ];
+                    } else {
+                        // if the row has the same module than the last,
+                        // that means that it must have a different zone,
+                        // so we store the info of this new zone into the
+                        // temporal module holder
+                        array_push($module['privileges'], [
+                            'zone_name' => $row['zone_name'],
+                            'privilege' => $row['privilege']
+                        ]);
+                    }
+                }
+            }
+
+            // don't forget to add the last entry to the final structure
+            array_push($program['modules'], $module);
+            array_push($programPrivileges, $program);
+
+            // return the relevant info
             return [
-                'isUser' => ($result[0]['role_name'] == 'User'),
-                'employee_num' => $result[0]['employee_num'],
-                'first_name' => $result[0]['first_name'],
-                'last_name' => $result[0]['last_name'],
-                'email' => $result[0]['email'],
-                'login_name' => $result[0]['login_name'],
-                'login_password' => $result[0]['login_password']
+                'isUser' => ($userData[0]['role_name'] == 'User'),
+                'employee_num' => $userData[0]['employee_num'],
+                'first_name' => $userData[0]['first_name'],
+                'last_name' => $userData[0]['last_name'],
+                'email' => $userData[0]['email'],
+                'login_name' => $userData[0]['login_name'],
+                'login_password' => $userData[0]['login_password'],
+                'privileges' => $programPrivileges
             ];
         } else {
             // if the query failed, it may be because the given username and 
@@ -93,6 +182,14 @@ class Session
     function getValue($key)
     {
         return (isset($_SESSION[$key])) ? $_SESSION[$key] : NULL;
+    }
+
+
+    // Sets a new value to the session storage to the variable with the
+    // provided key
+    function setValue($key, $value)
+    {
+        $_SESSION[$key] = $value;
     }
 }
 

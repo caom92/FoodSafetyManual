@@ -134,7 +134,7 @@ class UsersDAO extends DataAccessObject
                 'id', 'employee_num', 'login_name', 'email', 'first_name', 
                 'last_name'
             ], [
-                'role_id[!]' => '1'
+                'role_id[!]' => 1
             ]
         );
     }

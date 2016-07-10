@@ -33,7 +33,8 @@ class UsersZonesModulesPrivilegesDAO extends DataAccessObject
     // [in]     userID: the ID of the user which privileges we want to 
     //          retrieve
     // [out]    return: an associative array if the user was found in the
-    //          database or NULL otherwise
+    //          database or NULL otherwise; information is organized in a
+    //          zone/program/module/privilege fashion
     function selectByUserID($userID)
     {
         return parent::join(
@@ -55,6 +56,40 @@ class UsersZonesModulesPrivilegesDAO extends DataAccessObject
             ],
             [
                 'user_id' => $userID
+            ]
+        );
+    }
+
+
+    // Returns the list of modules which the user with the especified ID has 
+    // access to only, ignoring all others, as an associative array
+    // [in]     userID: the ID of the user which privileges we want to 
+    //          retrieve
+    // [out]    return: an associative array if the user was found in the
+    //          database or NULL otherwise; information is organized in a
+    //          program/module/zone/privilege fashion
+    function selectSimplifiedByUserID($userID)
+    {
+        return parent::join(
+            [
+                '[><]modules(m)' => [ 'module_id' => 'id' ],
+                '[><]programs(p)' => [ 'm.program_id' => 'id'],
+                '[><]zones(z)' => [ 'zone_id' => 'id' ],
+                '[><]privileges(pr)' => [ 'privilege_id' => 'id' ]
+            ],
+            [
+                'p.name(program_name)',
+                'm.name(module_name)',
+                'z.name(zone_name)',
+                'pr.name(privilege)'
+            ],
+            [
+                'user_id' => $userID,
+                'ORDER' => [
+                    'p.id',
+                    'm.id',
+                    'z.id'
+                ]
             ]
         );
     }
