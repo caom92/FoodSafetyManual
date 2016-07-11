@@ -49,4 +49,4 @@ LayoutManager.prototype.handleException = function(exception)
 
 // Instantiate the LayoutManager clas that we just created as a global
 // variable
-$app = new LayoutManager('/espresso/layouts/', '#page-content');
+$app = new LayoutManager($root + '/layouts/', '#page-content');

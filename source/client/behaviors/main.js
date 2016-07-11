@@ -45,7 +45,7 @@ function loadSideMenu()
         $('#actions-list').html(localStorage.menu);
     } else {
         // if the user has an admin role, display the admin menu
-        $('#actions-list').load('/espresso/layouts/admin-menu');
+        $('#actions-list').load($root + '/layouts/admin-menu');
     }
 
     // Initialize the SideNav
@@ -73,7 +73,7 @@ $(function() {
                 localStorage.clear();
                 
                 // finally redirect to the login page
-                window.location.href = '/espresso/';
+                window.location.href = $root + '/';
                 console.log("server says: " + response.meta.message);
             }
         });
@@ -92,7 +92,7 @@ $(function() {
                 // container this will preserve backward and forward 
                 // buttons' functionality
                 var layout = 
-                    window.location.pathname.replace("/espresso/", "");
+                    window.location.pathname.replace($root + "/", "");
                 
                 if (layout.length > 0) {
                     $app.load(layout);
