@@ -3,7 +3,23 @@
 
 function addPermissionTable(){
     //First we request the information from the server
-    $.ajax({
+    $server.request({
+        service: 'list-zones-programs-modules-privileges',
+        success: function(response) {
+            if (response.meta.return_code == 0) {
+                for (var zone of response.data.zones) {
+                    addZone(zone);
+                }
+                $('ul.tabs').tabs();
+                $('.indicator').addClass("green");
+                $('.collapsible').collapsible();
+            } else {
+                throw response.meta.message;
+            }
+        }
+    });
+
+    /*$.ajax({
         url: '/espresso/privileges.json',
         success: function(xml) {
             for(var zone in xml.data.zones){
@@ -13,7 +29,7 @@ function addPermissionTable(){
             $('.indicator').addClass("green");
             $('.collapsible').collapsible();
         }
-    });
+    });*/
 }
 
 function addZone(zone){
@@ -189,7 +205,22 @@ id = Program id number
 */
 
 function getProcedureNames(){
-    $.ajax({
+    $server.request({
+        service: 'list-programs',
+        cache: true,
+        success: function(response){
+            if (response.meta.return_code == 0) {
+                for (var program of response.data) {
+                    var id = program.id;
+                    var text = program.name;
+                    $("#" + id).text(text);
+                }
+            } else {
+                throw response.meta.message;
+            }
+        }
+    });
+    /*$.ajax({
         url: '/espresso/data/files/procedures.xml',
         success: function(xml){
             var name = $(xml).find('procedure').each(function(){
@@ -198,7 +229,7 @@ function getProcedureNames(){
                 $("#" + id).text(text);
             });
         }
-    });
+    });*/
 }
 
 function showPrivileges(){
@@ -299,11 +330,28 @@ $app.behaviors['add-user'] = function (){
 
         // Temporarily, notify with an "lolmao" that this function has been
         // succesfully called
-        Materialize.toast(
+        /*Materialize.toast(
             "Lolmao", 3500, "rounded"
-        );
+        );*/
+        $server.request({
+            service: 'add-user',
+            data: userObject,
+            success: function(response) {
+                if (response.meta.return_code == 0) {
+                    Materialize.toast(
+                        'User resgistered successfully', 3500, 'rounded'
+                    );
+                    setTimeout(function() {
+                            window.location.href = '/espresso/view-users'
+                        }, 
+                    2500);
+                } else {
+                    console.log('server says: ' + response.meta.message);
+                }
+            }
+        });
 
-        console.log(JSON.stringify(userObject));
+        //console.log(JSON.stringify(userObject));
     });
 
     changeLanguage(localStorage.defaultLanguage);

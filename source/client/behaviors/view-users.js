@@ -11,30 +11,36 @@ function addHeader(){
 function addListElement(element){
     var row = $("<tr>");
     row.addClass("user_row");
-    row.append($("<td>").text(element.id));
-    row.append($("<td>").text(element.username));
-    row.append($("<td>").text(element.fullname));
+    row.append(
+        $("<td class='user_id' style='display:none;'>").text(element.id)
+    );
+    row.append($("<td>").text(element.employee_num));
+    row.append($("<td>").text(element.login_name));
+    row.append($("<td>").text(element.first_name + ' ' + element.last_name));
     return row;
 }
 
-function addList(){
-    var userList = getUserList().users;
+function addList(userList){
+    //var userList = getUserList().users;
     var list = $("<tbody>");
-    for(element in userList){
-        list.append(addListElement(userList[element]));
+    for (element of userList) {
+        list.append(addListElement(element));
     }
+    /*for(element in userList){
+        list.append(addListElement(userList[element]));
+    }*/
     return list;
 }
 
-function createTable(){
+function createTable(userList){
     var table = $("<table>");
     table.append(addHeader());
-    table.append(addList());
+    table.append(addList(userList));
     return table;
 }
 
 //This should get the list from the server
-function getUserList(){
+/*function getUserList(){
     var userList={
         "users":[
             {
@@ -55,14 +61,28 @@ function getUserList(){
         ]
     };
     return userList;
-}
+}*/
 
 $app.behaviors['view-users'] = function (){
-    $("#user_list").append(createTable());
-    $(".user_row").click(function(e){
+    $server.request({
+        service: 'list-users',
+        success: function(response) {
+            if (response.meta.return_code == 0) {
+                $("#user_list").append(createTable(response.data));
+                $('.user_row').on('click', function() {
+                    var userID = parseInt($(this).find('td.user_id').text());
+                    console.log(userID);
+                });
+            } else {
+                throw response.meta.message;
+            }
+        }
+    });
+    
+    /*$(".user_row").click(function(e){
         console.log(this);
         testToast();
-    });
+    });*/
     changeLanguage(localStorage.defaultLanguage);
 }
 

@@ -373,27 +373,19 @@ try {
         break;
 
         case 'add-user':
-            // for this service, the user sends a json encoded as a string
-            // so first we check if this json was sent to us
-            $userData;
             $isPostSet = isset($_POST);
-            
-            if ($isPostSet) {
-                // if it was, decode it
-                $userData = json_decode($_POST);
-            } else {
-                // otherwise, send an error message
+            if (!$isPostSet) {
                 throw new \Exception('Input arguments are invalid.');
             }
 
             // now, check that every attribute in the json is set as expected
-            $areInputArgsValid = isset($userData['employee_num']) &&
-                isset($userData['first_name']) &&
-                isset($userData['last_name']) &&
-                isset($userData['email']) &&
-                isset($userData['login_name']) &&
-                isset($userData['login_password']) &&
-                isset($userData['privileges']);
+            $areInputArgsValid = isset($_POST['employee_num']) &&
+                isset($_POST['first_name']) &&
+                isset($_POST['last_name']) &&
+                isset($_POST['email']) &&
+                isset($_POST['login_name']) &&
+                isset($_POST['login_password']) &&
+                isset($_POST['privileges']);
 
             // continue if all the attributes are set...
             if ($areInputArgsValid) {
