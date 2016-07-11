@@ -3,7 +3,7 @@
 
 function addPermissionTable(){
     //First we request the information from the server
-    $server.request({
+    /*$server.request({
         service: 'list-zones-programs-modules-privileges',
         success: function(response) {
             if (response.meta.return_code == 0) {
@@ -17,9 +17,9 @@ function addPermissionTable(){
                 throw response.meta.message;
             }
         }
-    });
+    });*/
 
-    /*$.ajax({
+    $.ajax({
         url: '/espresso/privileges.json',
         success: function(xml) {
             for(var zone in xml.data.zones){
@@ -29,7 +29,7 @@ function addPermissionTable(){
             $('.indicator').addClass("green");
             $('.collapsible').collapsible();
         }
-    });*/
+    });
 }
 
 function addZone(zone){
@@ -205,7 +205,7 @@ id = Program id number
 */
 
 function getProcedureNames(){
-    $server.request({
+    /*$server.request({
         service: 'list-programs',
         cache: true,
         success: function(response){
@@ -219,8 +219,8 @@ function getProcedureNames(){
                 throw response.meta.message;
             }
         }
-    });
-    /*$.ajax({
+    });*/
+    $.ajax({
         url: '/espresso/data/files/procedures.xml',
         success: function(xml){
             var name = $(xml).find('procedure').each(function(){
@@ -229,7 +229,7 @@ function getProcedureNames(){
                 $("#" + id).text(text);
             });
         }
-    });*/
+    });
 }
 
 function showPrivileges(){
@@ -242,6 +242,30 @@ function showPrivileges(){
         var radioGroup = $(this).attr("id");
         var privilege = $('input[name=' + radioGroup + ']:checked').val();
         console.log("Zona: " + zone + "\nPrograma: " + program + "\nModulo: " + module + "\nPrivilegio: " + privilege);
+    });
+}
+
+function checkDuplicate(valueToCheck, id, serv){
+    var objectData;
+    objectData = valueToCheck;
+    console.log(objectData);
+    $server.request({
+        service: serv,
+        data: objectData,
+        success: function(response, message, xhr) {
+            if (response.meta.return_code == 0) {
+                if(response.data){
+                    $(id).addClass("invalid");
+                    $(id).removeClass("valid");
+                    loadToast(
+                        serv,
+                        3500, "rounded"
+                    );
+                }
+            } else {
+                console.log("server says: " + response.meta.message);
+            }
+        }
     });
 }
 
@@ -261,7 +285,47 @@ $app.behaviors['add-user'] = function (){
         // Check for all the inputs to have a valid value entry. 
         // Otherwise, notify the user and mark the invalid inputs.
 
-        // TODO
+        // Since all fields are mandatory, we check if all of them have been 
+        // filled
+
+        var isUserValid = isRequiredTextAreaValid("#login-name");
+        var isIDValid = isRequiredTextAreaValid("#user-id");
+        var isNameValid = isRequiredTextAreaValid("#first-name");
+        var isLastNameValid = isRequiredTextAreaValid("#last-name");
+        var isEmailValid = isRequiredTextAreaValid("#email");
+        var isPasswordValid = isRequiredTextAreaValid("#password");
+        var isPasswordCheckValid = isRequiredTextAreaValid("#check-password");
+
+        // Check for invalid conditions
+        // First, we check that all fields have been selected
+        if (!isUserValid || !isIDValid || !isNameValid || !isLastNameValid
+            || !isEmailValid || !isPasswordValid || !isPasswordCheckValid) {
+            loadToast("incorrect_fields", 
+                3500, "rounded");
+        } else {
+            // Check for duplicate username, email or employee ID
+            checkDuplicate({login_name: $("#login-name").val()},
+                "#login-name",
+                "is-login-name-duplicated");
+            checkDuplicate({email: $("#email").val()},
+                "#email",
+                "is-email-duplicated");
+            checkDuplicate({employee_num: $("#user-id").val()},
+                "#user-id",
+                "is-employee-num-duplicated");
+
+            // We check for any invalid classes in the username, ID and email
+            // HTML elements. In such a case, we cannot proceed
+            var isNameDuplicate = $("#login-name").hasClass("invalid");;
+            var isEmailDuplicate = $("#email").hasClass("invalid");;
+            var isIDDuplicate = $("#user-id").hasClass("invalid");;
+            if(isNameDuplicate || isEmailDuplicate || isIDDuplicate){
+                Materialize.toast("Please correct the duplicate fields", 3500, "rounded");
+            } else {
+                // Proceed to send request
+                Materialize.toast("Ready to send", 3500, "rounded");
+            }
+        }
 
         // With the inputs checked, we proceed to create the JSON user Object,
         // following the structure presented below
@@ -328,12 +392,7 @@ $app.behaviors['add-user'] = function (){
             userObject.privileges.push(privilegeObject);
         });
 
-        // Temporarily, notify with an "lolmao" that this function has been
-        // succesfully called
-        /*Materialize.toast(
-            "Lolmao", 3500, "rounded"
-        );*/
-        $server.request({
+        /*$server.request({
             service: 'add-user',
             data: userObject,
             success: function(response) {
@@ -349,7 +408,7 @@ $app.behaviors['add-user'] = function (){
                     console.log('server says: ' + response.meta.message);
                 }
             }
-        });
+        });*/
 
         //console.log(JSON.stringify(userObject));
     });

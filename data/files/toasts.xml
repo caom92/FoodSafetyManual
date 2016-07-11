@@ -56,8 +56,23 @@
         <spanish>Su correo electrónico ha sido modificado exitosamente</spanish>
     </translation>
 
-     <translation id="username_changed">
+    <translation id="username_changed">
         <english>Your username has been succesfully changed</english>
         <spanish>Su nombre de usuario ha sido modificado exitosamente</spanish>
+    </translation>
+
+    <translation id="is-login-name-duplicated">
+        <english>The username is already in use</english>
+        <spanish>El nombre de usuario ya se encuentra registrado</spanish>
+    </translation>
+
+    <translation id="is-email-duplicated">
+        <english>The email is already in use</english>
+        <spanish>El correo electronico ya se encuentra registrado</spanish>
+    </translation>
+
+    <translation id="is-employee-num-duplicated">
+        <english>The employee ID is already in use</english>
+        <spanish>El numero de empleado ya se encuentra registrado</spanish>
     </translation>
 </translations>
