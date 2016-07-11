@@ -443,6 +443,32 @@ try {
                 throw new \Exception('Input arguments are invalid.');
             }
         break;
+
+        case 'list-user-roles':
+            if (Services::isSessionOpen()) {
+                if (Services::isAdmin()) {
+                    respond(0, 'User roles listed successfully.', 
+                        Services::getAllUserRoles());
+                } else {
+                    throw new \Exception("Permission denied.");
+                }
+            } else {
+                throw new \Exception('User is not logged in.');
+            }
+        break;
+
+        case 'list-zones-programs-modules-privileges':
+            if (Services::isSessionOpen()) {
+                if (Services::isAdmin()) {
+                    respond(0, 'User roles listed successfully.', 
+                        Services::getAllZonesProgramsModulesAndPivileges());
+                } else {
+                    throw new \Exception("Permission denied.");
+                }
+            } else {
+                throw new \Exception('User is not logged in.');
+            }
+        break;
             
         default:
             // the requested service is not available

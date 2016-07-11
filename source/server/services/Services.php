@@ -582,19 +582,14 @@ class Services
         $db = db\connectToDataBase();
         $users = new db\UsersDAO($db);
         $roles = new db\RolesDAO($db);
-        $zones = new db\ZonesDAO($db);
-        $programs = new db\ProgramsDAO($db);
-        $modules = new db\ModulesDAO($db);
-        $privileges = new db\PrivilegesDAO($db);
-        $usersPrivileges = new db\UsersZonesModulesPrivilegesDAO($db);
 
         // insert the user to the data base
         $userID = $users->insert([
-            'role_id' => $roles->selectIDByName('User'),
+            'role_id' => $userData['role_id'],
             'employee_num' => $userData['employee_num'],
             'first_name' => $userData['first_name'],
             'last_name' => $userData['last_name'],
-            'email' => $userData['login_name'],
+            'email' => $userData['email'],
             'login_name' => $userData['login_name'],
             'login_password' => $userData['login_password']
         ]);
@@ -608,6 +603,84 @@ class Services
                 'privilege_id' => $privilege['privilege_id']
             ]);
         }
+    }
+
+
+    // Returns all the user roles
+    static function getAllUserRoles()
+    {
+        $roles = new db\RolesDAO(db\connectToDataBase());
+        return $roles->selectAll();
+    }
+
+
+    // Returns an associative array containing all the modules with
+    // the default privilege grouped by programs grouped by zones 
+    static function getAllZonesProgramsModulesAndPrivileges()
+    {
+        // first, connect to the data base
+        $db = db\connectToDataBase();
+        $zonesTable = new db\ZonesDAO($db);
+        $programsTable = new db\ProgramsDAO($db);
+        $modules = new db\ModulesDAO($db);
+        $privilegesTable = new db\PrivilegesDAO();
+
+        // then list all zones and programs
+        $zones = $zonesTable->selectAll();
+        $programs = $programsTable->selectAll();
+
+        // get the default privilege 
+        $defaultPrivilege = $privilegeTable->selectDefault();
+        
+        // initialize the resulting associative array 
+        $finalObj = [
+            'zones' => []
+        ];
+        
+        // visit each zone...
+        foreach ($zones as $zone) {
+            // create a temporal zone holder with the current zone data
+            $zoneObj = [
+                'id' => $zone['id'],
+                'name' => $zone['name'],
+                'programs' => []
+            ];
+
+            // then visit each program...
+            foreach ($programs as $program) {
+                // create a temporal program holder with the current program 
+                // data 
+                $programObj = [
+                    'id' => $program['id'],
+                    'name' => $program['name'],
+                    'modules' => []
+                ];
+
+                // and finally visit each module of this program
+                foreach ($modules->selectByProgramID($progam['id']) as $module) 
+                {
+                    // and store in the temporal program holder the info of 
+                    // each module and the default privilege
+                    array_push($programObj['modules'], [
+                        'id' => $module['id'],
+                        'name' => $module['name'],
+                        'privileges' => [
+                            'id' => $defaultPrivilege['id'],
+                            'name' => $defaultPrivilege['name']
+                        ]
+                    ]);
+                }
+
+                // store the temporal program holder in the temporal zone holder
+                array_push($zoneObj['programs'], $programObj);
+            }
+
+            // store the temporal zone holder in the resulting associative array
+            array_push($finalObj['zones'], $zoneObj);
+        }
+
+        // return the resulting associative array
+        return $finalObj;
     }
 }
 
