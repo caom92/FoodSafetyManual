@@ -23,6 +23,13 @@ class RolesDAO extends DataAccessObject
     {
         return parent::select('id', [ 'name' => $role ]);
     }
+
+
+    // Returns an associative with the info of all the roles
+    function selectAll()
+    {
+        return parent::select('*');
+    }
 }
 
 ?>
