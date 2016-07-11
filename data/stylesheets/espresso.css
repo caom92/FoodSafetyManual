@@ -145,3 +145,7 @@ textarea.materialize-textarea.invalid:not([readonly]) + label,
 main.container > div.row.center {
     padding-top: 150px;
 }
+
+.program-button {
+    padding: 0 40px 0 20px !important;
+}

@@ -31,22 +31,38 @@ class UsersDAO extends DataAccessObject
     function selectByIdentifier($identifier, $password = NULL)
     {
         if (isset($password)) {
-            return parent::select("*", [ "AND"  => [
-                "OR" => [
-                    "id" => $identifier,
-                    "employee_num" => $identifier,
-                    "email" => $identifier,
-                    "login_name" => $identifier
-                ],
-                "login_password" => $password
-            ]]);
+            return parent::join([
+                    '[><]roles(r)' => [ 'role_id' => 'id' ]
+                ], [
+                    "$this->tableName.id(id)", 'r.name(role_name)', 
+                    'employee_num', 'email', 'first_name', 'last_name', 
+                    'login_name', 'login_password'
+                ], 
+                [ "AND"  => [
+                    "OR" => [
+                        "$this->tableName.id" => $identifier,
+                        "employee_num" => $identifier,
+                        "email" => $identifier,
+                        "login_name" => $identifier
+                    ],
+                    "login_password" => $password
+                ]]
+            );
         } else {
-            return parent::select("*", [ "OR" => [
-                "id" => $identifier,
-                "employee_num" => $identifier,
-                "email" => $identifier,
-                "login_name" => $identifier
-            ]]);
+            return parent::join([
+                    '[><]roles(r)' => [ 'role_id' => 'id' ]
+                ], [
+                     "$this->tableName.id(id)", 'r.name(role_name)', 
+                     'employee_num', 'email', 'first_name', 'last_name', 
+                     'login_name', 'login_password'
+                ], 
+                [ "OR" => [
+                        "$this->tableName.id" => $identifier,
+                        "employee_num" => $identifier,
+                        "email" => $identifier,
+                        "login_name" => $identifier
+                ]]
+            );
         }
     }
     
@@ -105,6 +121,21 @@ class UsersDAO extends DataAccessObject
         return parent::update(
             [ "login_name" => $newName ],
             [ "id" => $id ]
+        );
+    }
+
+
+    // Returns an associative with the basic information of every user in the 
+    // data base which is not an administrator, where the key is the field name
+    // and the value is the field value
+    function selectAll()
+    {
+        return parent::select([
+                'id', 'employee_num', 'login_name', 'email', 'first_name', 
+                'last_name'
+            ], [
+                'role_id[!]' => 1
+            ]
         );
     }
 }

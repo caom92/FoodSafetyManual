@@ -129,6 +129,7 @@ $app.behaviors['report-problem'] = function() {
     // selects a valid option
     setOnChangeListenerToRequiredSelectField("#zone-selection");
     setOnChangeListenerToRequiredSelectField("#procedure-selection");
+    setOnChangeListenerToRequiredSelectField("#module-selection");
     setOnChangeListenerToRequiredSelectField("#browser-selection");
     setOnChangeListenerToRequiredSelectField("#severity-selection");
     
@@ -140,6 +141,7 @@ $app.behaviors['report-problem'] = function() {
     $("textarea").characterCounter();
     $("#browser-selection").material_select();
     $("#severity-selection").material_select();
+    $("#module-selection").material_select();
     
     // when the user uploads one or more screenshots, we must check the MIME 
     // type to make sure that the uploaded files are only images and not any
@@ -171,6 +173,8 @@ $app.behaviors['report-problem'] = function() {
         var zoneIsValid = isRequiredSelectFieldValid("#zone-selection");
         var procedureIsValid = 
             isRequiredSelectFieldValid("#procedure-selection");
+        var moduleIsValid = 
+            isRequiredSelectFieldValid("#module-selection");
         var browserIsValid = isRequiredSelectFieldValid("#browser-selection");
         var severityIsValid = isRequiredSelectFieldValid("#severity-selection");
         
@@ -188,10 +192,11 @@ $app.behaviors['report-problem'] = function() {
         
         // if there is at least one invalid missing, prevent submition and 
         // display the error mesage
-        if (!zoneIsValid || !procedureIsValid || !browserIsValid 
-            || !severityIsValid || !summaryIsValid || !summaryLengthIsValid 
-            || !stepsLengthIsValid || !expectationLengthIsValid
-            || !realityLengthIsValid || !attachmentIsValid) {
+        if (!zoneIsValid || !procedureIsValid || !moduleIsValid 
+            || !browserIsValid || !severityIsValid || !summaryIsValid 
+            || !summaryLengthIsValid || !stepsLengthIsValid 
+            || !expectationLengthIsValid || !realityLengthIsValid 
+            || !attachmentIsValid) {
             loadToast("incorrect_fields", 
                 3500, "rounded");
         } else {
@@ -234,6 +239,35 @@ $app.behaviors['report-problem'] = function() {
         }
     });
 
+    $('#procedure-selection').on('change', function() {
+        $server.request({
+            service: 'get-modules-of-program',
+            data: {
+                program_id: $(this).val()
+            },
+            cache: false,
+            success: function(response, message, xhr) {
+                if (response.meta.return_code == 0) {
+                    var html = 
+                        '<option value="" disabled selected class="select_option"></option>';
+                    for (mod of response.data) {
+                        html += "<option value='" + mod.id + "'>"
+                            + mod.name + "</option>";
+                    }
+                    $('#module-selection').html(html);
+                    $("#module-selection").material_select();
+                }
+            },
+            error: function(xhr, status, message) {
+                // print the message in the console
+                console.log("server says: " + status + ", " + message);
+
+                // finally, initialize the select field
+                $("#zone-selection").material_select();
+            }
+        });
+    });
+
     // Retrieve the zones from the server
     $server.request({
         service: 'list-zones',
@@ -244,7 +278,7 @@ $app.behaviors['report-problem'] = function() {
                 // if it was, store the retrieve zones into a list of HTML
                 // option elements
                 var html = "";
-                for (zone of response.data.zones) {
+                for (zone of response.data) {
                     html += "<option value='" + zone.id + "'>"
                         + zone.name + "</option>";
                 }
@@ -275,7 +309,7 @@ $app.behaviors['report-problem'] = function() {
                 // if it was, store the retrieve zones into a list of HTML
                 // option elements
                 var html = "";
-                for (procedure of response.data.programs) {
+                for (procedure of response.data) {
                     html += "<option value='" + procedure.id + "'>"
                         + procedure.name + "</option>";
                 }

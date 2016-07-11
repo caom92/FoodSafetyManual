@@ -17,13 +17,23 @@ class ModulesDAO extends DataAccessObject
     }
     
     
-    // Returns an associative array containing all the data elements
-    // of the table
-    // [out]    return: an associative array with the data contained in
-    //          the data base table
-    function selectAll()
+    // Returns the ID of the module with the given name if it exists in 
+    // the data base or NULL otherwise
+    function selectIDByName($module)
     {
-        return parent::select("*");
+        return parent::select('id', [ 'name' => $module ]);
+    }
+
+
+    // Returns an associative array containing the data of the modules that 
+    // belong to the program with the especified ID
+    // [in]     programID: the ID of the program which programs is going to
+    //          be retrieve
+    // [out]    return: an associative array if the especified program has
+    //          any modules or NULL otherwise
+    function selectByProgramID($programID)
+    {
+        return parent::select(['id', 'name'], ['program_id' => $programID]);
     }
 }
 

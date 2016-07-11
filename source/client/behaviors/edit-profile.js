@@ -140,7 +140,7 @@ $app.behaviors['edit-profile'] = function() {
                     success: function(response, message, xhr) {
                         if (response.meta.return_code == 0) {
                             localStorage.login_password = hashedPassword;
-                            Materialize.toast("La contraseña se cambió exitosamente", 3500, "rounded");
+                            loadToast("password_changed", 3500, "rounded");
                         } else {
                             console.log(
                                 "server says: " + response.meta.message);
@@ -173,7 +173,7 @@ $app.behaviors['edit-profile'] = function() {
                     if (response.meta.return_code == 0) {
                         localStorage.email = $("#new-email").val();
                         $("#user-email").val(localStorage.email);
-                        Materialize.toast("El correo electrónico se cambió exitosamente.", 3500, "rounded");
+                        loadToast("email_changed", 3500, "rounded");
                     } else {
                         console.log("server says: " + response.meta.message);
                     }
@@ -201,7 +201,7 @@ $app.behaviors['edit-profile'] = function() {
                     if (response.meta.return_code == 0) {
                         localStorage.login_name = $("#new-username").val();
                         $("#user-name").val(localStorage.login_name);
-                        Materialize.toast("El nombre de usuario se cambió exitosamente.", 3500, "rounded");
+                        loadToast("username_changed", 3500, "rounded");
                     } else {
                         console.log("server says: " + response.meta.message);
                     }
@@ -212,6 +212,6 @@ $app.behaviors['edit-profile'] = function() {
         }
     });
 
-    // change the language being displayed
+    // change the language that is being displayed
     changeLanguage(localStorage.defaultLanguage);
 }

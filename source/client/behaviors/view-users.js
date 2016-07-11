@@ -57,14 +57,15 @@ function getUserList(){
     return userList;
 }
 
-function onViewUsersViewReady(){
+$app.behaviors['view-users'] = function (){
     $("#user_list").append(createTable());
     $(".user_row").click(function(e){
         console.log(this);
         testToast();
     });
+    changeLanguage(localStorage.defaultLanguage);
 }
 
 function testToast(){
-    Materialize.toast("Que tranza morro", 3500, "rounded");
+    Materialize.toast("Coming soon", 3500, "rounded");
 }
