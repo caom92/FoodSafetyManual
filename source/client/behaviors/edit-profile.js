@@ -1,3 +1,21 @@
+// This function makes a call to the server, validating credentials
+// before changing the old password to a new one
+
+function checkCurrentPassword(){
+    return false;
+}
+
+// Function that sends the http request to the PHP script that
+// updates the user's password
+
+function updatePassword(){
+    if(checkCurrentPassword()){
+        // Send HTTP request
+    } else {
+        loadToast("invalid_password", 3500, "rounded");
+    }
+}
+
 // This function checks the new password entered in both fields
 // to ensure the user knows its password
 
@@ -130,11 +148,11 @@ $app.behaviors['edit-profile'] = function() {
                     }
                 });
             } else {
-                loadToast("check_password",
+                Materialize.toast("La contraseña y la verificación no coinciden",
                     3500, "rounded");
             }
         } else {
-            loadToast("fill_fields",
+            Materialize.toast("Por favor llene todos los campos",
                 3500, "rounded");
         }
     });
@@ -162,7 +180,7 @@ $app.behaviors['edit-profile'] = function() {
                 }
             });
         } else {
-            loadToast("invalid_password", 3500, "rounded");
+            Materialize.toast("La contraseña es incorrecta.", 3500, "rounded");
         }
     });
 
@@ -190,7 +208,7 @@ $app.behaviors['edit-profile'] = function() {
                 }
             });
         } else {
-            loadToast("invalid_password", 3500, "rounded");
+            Materialize.toast("La contraseña es incorrecta.", 3500, "rounded");
         }
     });
 
