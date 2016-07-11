@@ -15,8 +15,8 @@
     <div class="row">
         <div class="input-field col s12 m6 l6">
             <input class="validate" type="text" 
-                id="user-name" name="user-name">
-            <label class="username" for="user-name"></label>
+                id="login-name" name="login-name">
+            <label class="username" for="login-name"></label>
         </div>
         <div class="input-field col s12 m6 l6">
             <input class="validate" type="number" 
@@ -76,20 +76,14 @@
         </div>
     </div>
 
-    <div id="permissions_wrapper">
-        <table class="striped bordered centered" id="permissions_table">
-            <thead id="permissions_header">
-                <tr>
-                    <th data-field="name">Programa</th>
-                    <th data-field="none">Ninguno</th>
-                    <th data-field="read">Lectura</th>
-                    <th data-field="write">Escritura</th>
-                </tr>
-            </thead>
-            <tbody id="permissions_body">
-                
-            </tbody>
-        </table>
+    <div id="permissions_wrapper" >
+        <div id="zones_wrapper" >
+            <!--<div class="col s12">-->
+                <ul id="tabs_wrapper" class="tabs">
+
+                </ul>
+            <!--</div>-->
+        </div>
     </div>
 
     <!--Sixth row-->
@@ -100,7 +94,7 @@
                
         <!-- Update button -->
         <a class="green btn waves-effect waves-light" href="" 
-            id="update_password">
+            id="add_user">
             <span class="add_button"></span>
             <i class="material-icons right">send</i>
         </a>        

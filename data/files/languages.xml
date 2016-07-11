@@ -253,17 +253,22 @@
 
     <!--Privilege levels-->
 
-    <translation id="privilege_1">
+    <translation id="name">
+        <english>Module</english>
+        <spanish>Módulo</spanish>
+    </translation>
+
+    <translation id="none">
         <english>None</english>
         <spanish>Ninguno</spanish>
     </translation>
 
-    <translation id="privilege_2">
+    <translation id="read">
         <english>Read</english>
         <spanish>Lectura</spanish>
     </translation>
 
-    <translation id="privilege_3">
+    <translation id="write">
         <english>Write</english>
         <spanish>Escritura</spanish>
     </translation>
