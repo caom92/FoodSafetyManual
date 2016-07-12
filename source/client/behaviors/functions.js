@@ -26,7 +26,7 @@ function storeUserDataInLocalStorage(userData)
 //          hash
 function hash(text)
 {
-    return sha256($.md5(text));
+    return sha512(text);
 }
 
 

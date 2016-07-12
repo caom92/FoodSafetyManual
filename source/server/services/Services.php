@@ -541,7 +541,7 @@ class Services
         $users = new db\UsersDAO(db\connectToDataBase());
 
         // then we check if the name is duplicated
-        $duplicatedNames = $users->selectByIdentifier($username);
+        $duplicatedNames = $users->selectByLogInName($username);
         $isNameRepeated = count($duplicatedNames) > 0;
         return $isNameRepeated; 
     }
@@ -555,7 +555,7 @@ class Services
         $users = new db\UsersDAO(db\connectToDataBase());
 
         // then we check if the name is duplicated
-        $duplicatedNames = $users->selectByIdentifier($email);
+        $duplicatedNames = $users->selectByEmail($email);
         $isNameRepeated = count($duplicatedNames) > 0;
         return $isNameRepeated; 
     }
@@ -569,7 +569,7 @@ class Services
         $users = new db\UsersDAO(db\connectToDataBase());
 
         // then we check if the name is duplicated
-        $duplicatedNames = $users->selectByIdentifier($employeeNum);
+        $duplicatedNames = $users->selectByEmployeeNum($employeeNum);
         $isNameRepeated = count($duplicatedNames) > 0;
         return $isNameRepeated; 
     }

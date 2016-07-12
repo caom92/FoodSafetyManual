@@ -22,8 +22,8 @@ function loadSideMenu()
                 localStorage.menu += 
                     '<li><ul class="collapsible collapsible-accordion">' +
                     '<li><a class="collapsible-header program-button">' + 
-                    '<i class="material-icons md-dark md-24 field-icon">' +
-                    'build</i><span>' + privilege.program_name + '</span></a>' +
+                    '<i class="mdi mdi-wrench md-dark md-24 field-icon">' +
+                    '</i><span>' + privilege.program_name + '</span></a>' +
                     '<div class="collapsible-body"><ul>';
 
                 // and for every module...

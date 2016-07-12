@@ -6,33 +6,35 @@
     <meta charset="UTF-8">
     
     <!-- Add this line for responsive web design -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Add info about the company -->
     <meta name="company" content="Jacobs Farm - Del Cabo">
     
     <!-- Import Normalize CSS -->
-    <link rel="stylesheet" href="/espresso/external/normalize/normalize.css">
+    <link rel="stylesheet" 
+        href="/espresso/external/normalize-css/normalize.css">
     
     <!-- Import Material Design Icons -->
     <link rel="stylesheet" 
-        href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="/espresso/external/google/icons-extras.css">
+        href="/espresso/external/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" 
+        href="/espresso/data/stylesheets/material-icons.css">
 
     <!-- Import jQuery -->
-    <script src="/espresso/external/jquery/jquery-1.12.3.min.js"></script>
-    <script src="/espresso/external/jquery/jquery.md5.js"></script>
-    <script src="/espresso/external/sha256/sha256.min.js"></script>
+    <script src="/espresso/external/jquery/dist/jquery.min.js"></script>
+    <script src="/espresso/external/js-sha512/build/sha512.min.js"></script>
 
     <!-- Import Materialize -->
     <link rel="stylesheet" 
-        href="/espresso/external/materialize/css/materialize.min.css">
-    <script src="/espresso/external/materialize/js/materialize.min.js"></script>
+        href="/espresso/external/Materialize/dist/css/materialize.min.css"
+        media="screen,projection">
+    <script src="/espresso/external/Materialize/dist/js/materialize.min.js"></script>
 
     <!-- TO-DO: Add favicons -->
     
     <!-- Import the stylesheet of the application -->
-    <link rel="stylesheet" href="/espresso/data/stylesheets/espresso.css">
+    <link rel="stylesheet" href="/espresso/data/stylesheets/app.css">
     
     <!-- Page title -->
     <title>Jacobs Farm | Del Cabo | Dashboard</title>
@@ -48,7 +50,7 @@
                 <!-- Language menu icon -->
                 <a class="dropdown-button" 
                     data-activates="language-menu" href="">
-                    <i class="material-icons">translate</i>
+                    <i class="mdi mdi-translate"></i>
                 </a>
                 
                 <!-- Language options -->
@@ -73,8 +75,7 @@
             <li>
                 <ul class="collapsible collapsible-accordion">
                     <li><a class="teal collapsible-header">
-                        <i class="material-icons md-light md-36 field-icon">
-                            account_circle
+                        <i class="mdi mdi-account-circle md-light md-36 field-icon">
                         </i>
                         <span id="account-name"></span>
                     </a>
@@ -93,8 +94,7 @@
             
             <!-- Basic actions -->
             <li><a class="waves-effect waves-green" href="">
-                <i class="material-icons md-dark md-24 field-icon">
-                    announcement
+                <i class="mdi mdi-message-alert md-dark md-24 field-icon">
                 </i>
                 <span class="auth">
                 </span>
@@ -106,8 +106,7 @@
             </div>
             
             <li><a class="waves-effect waves-green" href="report-problem">
-                <i class="material-icons md-dark md-24 field-icon">
-                    report_problem
+                <i class="mdi mdi-alert md-dark md-24 field-icon">
                 </i>
                 <span class="report_problem">
                     
@@ -118,8 +117,7 @@
         <!-- Menu button -->
         <a href="" data-activates="slide-out" class="button-collapse" 
             style='display:none;'>
-            <i class="material-icons mdi-navigation-menu">
-                menu
+            <i class="mdi mdi-menu mdi-navigation-menu">
             </i>
         </a>
         

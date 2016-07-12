@@ -138,6 +138,27 @@ class UsersDAO extends DataAccessObject
             ]
         );
     }
+
+
+    // Returns the data of every user that shares the given user name
+    function selectByLogInName($username)
+    {
+        return parent::select('*', [ 'login_name' => $username ]);
+    }
+
+
+    // Returns the data of every user that shares the given email
+    function selectByEmail($email)
+    {
+        return parent::select('*', [ 'email' => $email ]);
+    }
+
+
+    // Returns the data of every user that shares the given employee number
+    function selectByEmployeeNum($employeeNum)
+    {
+        return parent::select('*', [ 'employee_num' => $employeeNum ]);
+    }
 }
 
 ?>
