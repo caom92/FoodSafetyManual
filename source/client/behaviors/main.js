@@ -85,36 +85,39 @@ $(function() {
         success: function(response, message, xhr) {
             // check if the reponse was an error
             if (response.meta.return_code == 0) {
-                // load the side menu items
-                loadSideMenu();
+                if (response.data) {
+                    // load the side menu items
+                    loadSideMenu();
 
-                // Load the layout of the queried page into the page 
-                // container this will preserve backward and forward 
-                // buttons' functionality
-                var layout = 
-                    window.location.pathname.replace($root + "/", "");
-                
-                if (layout.length > 0) {
-                    $app.load(layout);
+                    // Load the layout of the queried page into the page 
+                    // container this will preserve backward and forward 
+                    // buttons' functionality
+                    var layout = 
+                        window.location.pathname.replace($root + "/", "");
+                    
+                    if (layout.length > 0) {
+                        $app.load(layout);
+                    } else {
+                        $app.load('edit-profile');
+                    }
                 } else {
-                    $app.load('edit-profile');
+                    // if it was, check if there is user data stored from
+                    // a previous session
+                    var isSessionDefined = isDefined(localStorage.login_name)
+                        && isDefined(localStorage.login_password);
+
+                    // and if there is, delete it
+                    if (isSessionDefined) {
+                        var lang = localStorage.defaultLanguage;
+                        localStorage.clear();
+                        localStorage.defaultLanguage = lang;
+                    }
+
+                    // then redirect to the login page
+                    $app.load('login');
                 }
             } else {
-                // if it was, check if there is user data stored from
-                // a previous session
-                var isSessionDefined = isDefined(localStorage.login_name)
-                    && isDefined(localStorage.login_password);
-
-                // and if there is, delete it
-                if (isSessionDefined) {
-                    var lang = localStorage.defaultLanguage;
-                    localStorage.clear();
-                    localStorage.defaultLanguage = lang;
-                }
-
-                // then redirect to the login page
-                $app.load('login');
-                console.log("server says: " + response.meta.message);
+                console.log('server says: ' + response.meta.message);
             }
         }
     });

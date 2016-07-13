@@ -10,6 +10,10 @@ require_once realpath(dirname(__FILE__).'/../config/site_config.php');
 require_once realpath(dirname(__FILE__).'/Services.php');
 
 
+// Configure PHP to write the errors to a log file
+ini_set("log_errors", true);
+ini_set("error_log", "../".ERROR_LOG_FILE);
+
 try {
     // get the requested service
     $service = str_replace(SITE_ROOT.'/services/', '', $_SERVER['REQUEST_URI']);
@@ -39,11 +43,7 @@ try {
         break;
 
         case 'check-session':
-            if (Services::isSessionOpen()) {
-                respond(0, 'A user is logged in.');
-            } else {
-                throw new \Exception('No user is logged in.');
-            }
+            respond(0, 'User session checked.', Services::isSessionOpen());
         break;
 
         case 'password-recovery':
