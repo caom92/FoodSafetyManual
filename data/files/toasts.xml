@@ -75,4 +75,14 @@
         <english>The employee ID is already in use</english>
         <spanish>El numero de empleado ya se encuentra registrado</spanish>
     </translation>
+
+    <translation id="duplicated_fields">
+        <english>Please correct the duplicate fields</english>
+        <spanish>Modifique los campos que ya se encuentran registrados</spanish>
+    </translation>
+
+    <translation id="user_registered">
+        <english>User registered succesfully</english>
+        <spanish>El usuario se ha registrado con éxito</spanish>
+    </translation>
 </translations>

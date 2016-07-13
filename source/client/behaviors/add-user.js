@@ -28,6 +28,7 @@ function addPermissionTable(){
             $('ul.tabs').tabs();
             $('.indicator').addClass("green");
             $('.collapsible').collapsible();
+            changeLanguage(localStorage.defaultLanguage);
         }
     });
 }
@@ -99,7 +100,7 @@ function addProcedure(procedureObject, zoneID, zoneName){
             zoneID,
             zoneName,
             procedureObject.modules[module].name,
-            1)
+            procedureObject.modules[module].privilege)
         );
     }
 
@@ -183,27 +184,6 @@ function addPrivilegeLabel(privilegeID, privilegeType){
     return label;
 }
 
-// Result
-
-/*
-id = Program id number
-<tr>
-    <td id="id"></td>
-    <td>
-        <input checked="checked" value="0" id="id_none" name="id" type="radio">
-        <label for="id_none"></label>
-    </td>
-    <td>
-        <input value="1" id="id_read" name="id" type="radio">
-        <label for="id_read"></label>
-    </td>
-    <td>
-        <input value="2" id="id_write" name="id" type="radio">
-        <label for="id_write"></label>
-    </td>
-</tr>
-*/
-
 function getProcedureNames(){
     /*$server.request({
         service: 'list-programs',
@@ -269,12 +249,77 @@ function checkDuplicate(valueToCheck, id, serv){
     });
 }
 
+function roleSelect() {
+    $server.request({
+        service: 'list-user-roles',
+        success: function(response, message, xhr) {
+            if(getLanguage() == "en") {
+                $(".user_role").text("Choose the account role");
+                $(".user_role_label").text("Account role");
+                for(var role in response.data){
+                    var option = $("<option>");
+                    option.attr("value", response.data[role].id);
+                    option.text(response.data[role].name);
+                    $("#user-role").append(option);
+                }
+            } else if (getLanguage() == "es") {
+                $(".user_role").text("Seleccione el tipo de cuenta");
+                $(".user_role_label").text("Tipo de cuenta");
+                for(var role in response.data){
+                    var option = $("<option>");
+                    option.attr("value", response.data[role].id);
+                    switch(response.data[role].name){
+                        case "User": option.text("Usuario"); break;
+                        case "Admin": option.text("Administrador"); break;
+                    }
+                    $("#user-role").append(option);
+                }
+            }
+            $('select').material_select();
+        }
+    });
+}
+
 $app.behaviors['add-user'] = function (){
     addPermissionTable();
     getProcedureNames();
+    roleSelect();
 
     $('ul.tabs').tabs();
     $('.collapsible').collapsible();
+
+    $("#login-name").focusout(function(e) {
+        console.log("Check Login");
+        checkDuplicate({login_name: $("#login-name").val()},
+            "#login-name",
+            "is-login-name-duplicated");
+    });
+
+    $("#email").focusout(function(e) {
+        console.log("Check Email");
+        checkDuplicate({email: $("#email").val()},
+            "#email",
+            "is-email-duplicated");
+    });
+
+    $("#user-id").focusout(function(e) {
+        console.log("Check ID");
+        checkDuplicate({employee_num: Number($("#user-id").val())},
+            "#user-id",
+            "is-employee-num-duplicated");
+    });
+
+    $("#login-name").keyup(function(e){
+        $("#login-name").focusout();
+    });
+
+    $("#email").keyup(function(e){
+        $("#email").focusout();
+    });
+
+    $("#user-id").keyup(function(e){
+        $("#user-id").focusout();
+    });
 
     // Send the new user information, privileges included, to the server
     $("#add_user").on('click', function(e){
@@ -303,27 +348,60 @@ $app.behaviors['add-user'] = function (){
             loadToast("incorrect_fields", 
                 3500, "rounded");
         } else {
-            // Check for duplicate username, email or employee ID
-            checkDuplicate({login_name: $("#login-name").val()},
-                "#login-name",
-                "is-login-name-duplicated");
-            checkDuplicate({email: $("#email").val()},
-                "#email",
-                "is-email-duplicated");
-            checkDuplicate({employee_num: $("#user-id").val()},
-                "#user-id",
-                "is-employee-num-duplicated");
-
             // We check for any invalid classes in the username, ID and email
             // HTML elements. In such a case, we cannot proceed
-            var isNameDuplicate = $("#login-name").hasClass("invalid");;
-            var isEmailDuplicate = $("#email").hasClass("invalid");;
-            var isIDDuplicate = $("#user-id").hasClass("invalid");;
+            var isNameDuplicate = $("#login-name").hasClass("invalid");
+            var isEmailDuplicate = $("#email").hasClass("invalid");
+            var isIDDuplicate = $("#user-id").hasClass("invalid");
+
             if(isNameDuplicate || isEmailDuplicate || isIDDuplicate){
-                Materialize.toast("Please correct the duplicate fields", 3500, "rounded");
+                loadToast("duplicated_fields", 3500, "rounded");
             } else {
                 // Proceed to send request
-                Materialize.toast("Ready to send", 3500, "rounded");
+
+                // Build the user object
+                userObject.employee_num = Number($("#user-id").val());
+                userObject.first_name = $("#first-name").val();
+                userObject.last_name = $("#last-name").val();
+                userObject.email = $("#email").val();
+                userObject.role_id = $("#user-role").val();
+                userObject.login_name = $("#login-name").val();
+                userObject.login_password = $("#password").val();
+                userObject.privileges = new Array();
+
+                // Read the privilege list
+                $(".privilege").each(function(e){
+                    var zone = $(this).data("zone");
+                    var module = $(this).data("module");
+                    var radioGroup = $(this).attr("id");
+                    var privilege = $('input[name=' + radioGroup + ']:checked').val();
+                    var privilegeObject = new Object();
+                    privilegeObject.zone_id = zone;
+                    privilegeObject.module_id = module;
+                    privilegeObject.privilege_id = privilege;
+                    userObject.privileges.push(privilegeObject);
+                });
+
+                var userObjectString = JSON.stringify(userObject);
+
+                // Send the user object to the server, requesting an user add
+                $server.request({
+                    service: 'add-user',
+                    data: userObjectString,
+                    success: function(response) {
+                        if (response.meta.return_code == 0) {
+                            Materialize.toast(
+                                'User resgistered successfully', 3500, 'rounded'
+                            );
+                            setTimeout(function() {
+                                    window.location.href = '/espresso/view-users'
+                                }, 
+                            2500);
+                        } else {
+                            console.log('server says: ' + response.meta.message);
+                        }
+                    }
+                });
             }
         }
 
@@ -371,46 +449,6 @@ $app.behaviors['add-user'] = function (){
             ]
         }
         */
-
-        userObject.employee_num = Number($("#user-id").val());
-        userObject.first_name = $("#first-name").val();
-        userObject.last_name = $("#last-name").val();
-        userObject.email = $("#email").val();
-        userObject.login_name = $("#login-name").val();
-        userObject.login_password = $("#password").val();
-        userObject.privileges = new Array();
-
-        $(".privilege").each(function(e){
-            var zone = $(this).data("zone");
-            var module = $(this).data("module");
-            var radioGroup = $(this).attr("id");
-            var privilege = $('input[name=' + radioGroup + ']:checked').val();
-            var privilegeObject = new Object();
-            privilegeObject.zone_id = zone;
-            privilegeObject.module_id = module;
-            privilegeObject.privilege_id = privilege;
-            userObject.privileges.push(privilegeObject);
-        });
-
-        /*$server.request({
-            service: 'add-user',
-            data: userObject,
-            success: function(response) {
-                if (response.meta.return_code == 0) {
-                    Materialize.toast(
-                        'User resgistered successfully', 3500, 'rounded'
-                    );
-                    setTimeout(function() {
-                            window.location.href = '/espresso/view-users'
-                        }, 
-                    2500);
-                } else {
-                    console.log('server says: ' + response.meta.message);
-                }
-            }
-        });*/
-
-        //console.log(JSON.stringify(userObject));
     });
 
     changeLanguage(localStorage.defaultLanguage);
