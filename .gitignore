@@ -4,3 +4,4 @@ data/documents
 *.*.bak
 permisos.json
 privileges.json
+composer.lock

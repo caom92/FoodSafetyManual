@@ -22,8 +22,8 @@ function loadSideMenu()
                 localStorage.menu += 
                     '<li><ul class="collapsible collapsible-accordion">' +
                     '<li><a class="collapsible-header program-button">' + 
-                    '<i class="material-icons md-dark md-24 field-icon">' +
-                    'build</i><span>' + privilege.program_name + '</span></a>' +
+                    '<i class="mdi mdi-wrench md-dark md-24 field-icon">' +
+                    '</i><span>' + privilege.program_name + '</span></a>' +
                     '<div class="collapsible-body"><ul>';
 
                 // and for every module...
@@ -45,7 +45,7 @@ function loadSideMenu()
         $('#actions-list').html(localStorage.menu);
     } else {
         // if the user has an admin role, display the admin menu
-        $('#actions-list').load('/espresso/layouts/admin-menu');
+        $('#actions-list').load($root + '/layouts/admin-menu');
     }
 
     // Initialize the SideNav
@@ -73,7 +73,7 @@ $(function() {
                 localStorage.clear();
                 
                 // finally redirect to the login page
-                window.location.href = '/espresso/';
+                window.location.href = $root + '/';
                 console.log("server says: " + response.meta.message);
             }
         });
@@ -85,36 +85,39 @@ $(function() {
         success: function(response, message, xhr) {
             // check if the reponse was an error
             if (response.meta.return_code == 0) {
-                // load the side menu items
-                loadSideMenu();
+                if (response.data) {
+                    // load the side menu items
+                    loadSideMenu();
 
-                // Load the layout of the queried page into the page 
-                // container this will preserve backward and forward 
-                // buttons' functionality
-                var layout = 
-                    window.location.pathname.replace("/espresso/", "");
-                
-                if (layout.length > 0) {
-                    $app.load(layout);
+                    // Load the layout of the queried page into the page 
+                    // container this will preserve backward and forward 
+                    // buttons' functionality
+                    var layout = 
+                        window.location.pathname.replace($root + "/", "");
+                    
+                    if (layout.length > 0) {
+                        $app.load(layout);
+                    } else {
+                        $app.load('edit-profile');
+                    }
                 } else {
-                    $app.load('edit-profile');
+                    // if it was, check if there is user data stored from
+                    // a previous session
+                    var isSessionDefined = isDefined(localStorage.login_name)
+                        && isDefined(localStorage.login_password);
+
+                    // and if there is, delete it
+                    if (isSessionDefined) {
+                        var lang = localStorage.defaultLanguage;
+                        localStorage.clear();
+                        localStorage.defaultLanguage = lang;
+                    }
+
+                    // then redirect to the login page
+                    $app.load('login');
                 }
             } else {
-                // if it was, check if there is user data stored from
-                // a previous session
-                var isSessionDefined = isDefined(localStorage.login_name)
-                    && isDefined(localStorage.login_password);
-
-                // and if there is, delete it
-                if (isSessionDefined) {
-                    var lang = localStorage.defaultLanguage;
-                    localStorage.clear();
-                    localStorage.defaultLanguage = lang;
-                }
-
-                // then redirect to the login page
-                $app.load('login');
-                console.log("server says: " + response.meta.message);
+                console.log('server says: ' + response.meta.message);
             }
         }
     });

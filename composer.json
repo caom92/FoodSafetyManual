@@ -1,0 +1,11 @@
+{
+    "config": {
+        "vendor-dir": "external"
+    },
+    "require": {
+        "catfan/Medoo": ">=1.1.2-stable",
+        "league/oauth2-client": ">=1.0-stable",
+        "league/oauth2-google": ">=1.0-stable",
+        "phpmailer/phpmailer": "~5.2-stable"
+    }
+}

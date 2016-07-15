@@ -7,7 +7,7 @@ namespace fsm\database;
 require_once realpath(dirname(__FILE__)."/../config/database_config.php");
 
 // Import Medoo library for interfacing with SQL
-require_once realpath(dirname(__FILE__)."/../../../external/medoo/medoo.php");
+require_once realpath(dirname(__FILE__)."/../../../external/autoload.php");
 
 
 // Attempts to connect to the database and returns an interface to it if 

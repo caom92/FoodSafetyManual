@@ -1,6 +1,9 @@
 RewriteEngine On
 RewriteBase /espresso/
 
+# When no petition is specified, redirect it to the main page
+RewriteRule ^$ source/client/layouts/main.html [L,QSA]
+
 # Redirect any request for a layout to the proper HTML page
 RewriteRule ^layouts/(.+)$ source/client/layouts/$1.html [L,QSA]
 
@@ -15,9 +18,6 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-l
 RewriteRule ^(.*)$ source/client/layouts/main.html [L,QSA]
-
-# When no petition is specified, redirect it to the main page
-RewriteRule ^$ source/client/layouts/main.html [L,QSA]
 
 # Prevent directory listing of the server files
 Options -Indexes 

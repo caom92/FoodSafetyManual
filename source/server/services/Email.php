@@ -8,7 +8,7 @@ require_once realpath(dirname(__FILE__).'/../config/mail_config.php');
 
 // Import PHPMailer using the composer autoloader
 require_once realpath(
-    dirname(__FILE__)."/../../../external/PHPMailer/vendor/autoload.php"
+    dirname(__FILE__)."/../../../external/autoload.php"
 );
 
 // Alias namespaces for ease of use
