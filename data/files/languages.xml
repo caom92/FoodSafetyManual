@@ -149,7 +149,7 @@
 
     <translation id="real_name">
         <english>Name</english>
-        <spanish>Nombre de Usuario</spanish>
+        <spanish>Nombre</spanish>
     </translation>
 
     <translation id="first_name">
@@ -313,6 +313,21 @@
     <translation id="assign_privileges">
         <english>Assign privileges</english>
         <spanish>Asignar permisos</spanish>
+    </translation>
+
+    <translation id="add_user">
+        <english>New user</english>
+        <spanish>Nuevo usuario</spanish>
+    </translation>
+
+    <translation id="edit_user">
+        <english>Edit user</english>
+        <spanish>Editar usuario</spanish>
+    </translation>
+
+    <translation id="zone_name">
+        <english>Zone</english>
+        <spanish>Zona</spanish>
     </translation>
 
     <!--Template
