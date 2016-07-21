@@ -3,7 +3,7 @@
 
 function addPermissionTable(){
     //First we request the information from the server
-    /*$server.request({
+    $server.request({
         service: 'list-zones-programs-modules-privileges',
         success: function(response) {
             if (response.meta.return_code == 0) {
@@ -17,9 +17,9 @@ function addPermissionTable(){
                 throw response.meta.message;
             }
         }
-    });*/
+    });
 
-    $.ajax({
+    /*$.ajax({
         url: '/espresso/privileges.json',
         success: function(xml) {
             for(var zone in xml.data.zones){
@@ -30,7 +30,7 @@ function addPermissionTable(){
             $('.collapsible').collapsible();
             changeLanguage(localStorage.defaultLanguage);
         }
-    });
+    });*/
 }
 
 function addZone(zone){
@@ -63,7 +63,7 @@ function addProcedure(procedureObject, zoneID, zoneName){
 
     header = $("<div class='collapsible-header'>");
     wrapper = $("<div>");
-    icon = $('<i class="material-icons md-16 field-icon" id="password_icon">keyboard_arrow_down</i>');
+    icon = $('<i class="mdi mdi-arrow-down-drop-circle md-16 field-icon" id="password_icon"></i>');
 
     wrapper.text(procedureObject.name);
     header.append(icon);
@@ -185,7 +185,7 @@ function addPrivilegeLabel(privilegeID, privilegeType){
 }
 
 function getProcedureNames(){
-    /*$server.request({
+    $server.request({
         service: 'list-programs',
         cache: true,
         success: function(response){
@@ -199,8 +199,8 @@ function getProcedureNames(){
                 throw response.meta.message;
             }
         }
-    });*/
-    $.ajax({
+    });
+    /*$.ajax({
         url: '/espresso/data/files/procedures.xml',
         success: function(xml){
             var name = $(xml).find('procedure').each(function(){
@@ -209,7 +209,7 @@ function getProcedureNames(){
                 $("#" + id).text(text);
             });
         }
-    });
+    });*/
 }
 
 function showPrivileges(){

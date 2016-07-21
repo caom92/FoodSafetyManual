@@ -461,7 +461,7 @@ try {
             if (Services::isSessionOpen()) {
                 if (Services::isAdmin()) {
                     respond(0, 'User roles listed successfully.', 
-                        Services::getAllZonesProgramsModulesAndPivileges());
+                        Services::getAllZonesProgramsModulesAndPrivileges());
                 } else {
                     throw new \Exception("Permission denied.");
                 }

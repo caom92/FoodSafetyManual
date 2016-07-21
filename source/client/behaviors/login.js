@@ -36,7 +36,7 @@ $app.behaviors['login'] = function() {
                     
                     // get the name of the layout that was requested
                     var layout = 
-                        window.location.pathname.replace($root + "/", "");
+                        window.location.pathname.replace($root, "");
                     
                     // if it is not empty...
                     if (layout.length > 0) {
@@ -53,7 +53,7 @@ $app.behaviors['login'] = function() {
                         $app.load(layout);
                     } else {
                         // if it's empty, then redirect to the home page
-                        window.location.href = $root + '/edit-profile';
+                        window.location.href = $root + 'edit-profile';
                     }
                 } else if ($("#server-online").is(":visible")) {
                     // if authentication failed with the server available,

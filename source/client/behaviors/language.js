@@ -62,7 +62,7 @@ function changeLanguage(lang, callback){
     setLanguage(lang);
     if(lang == "es") {
         $.ajax({
-        url: $root + '/data/files/languages.xml',
+        url: $root + 'data/files/languages.xml',
         success: function(xml) {
             $(xml).find('translation').each(function(){
                 var id = $(this).attr('id');
@@ -73,7 +73,7 @@ function changeLanguage(lang, callback){
     });
     } else if (lang == "en") {
         $.ajax({
-            url: $root + '/data/files/languages.xml',
+            url: $root + 'data/files/languages.xml',
             success: function(xml) {
                 $(xml).find('translation').each(function(){
                     var id = $(this).attr('id');
@@ -104,7 +104,7 @@ function loadToast(id, time, style){
     var lang = fromCodeToName(getLanguage());
     var toast = "Undefined Toast Message";
     $.ajax({
-        url: $root + '/data/files/toasts.xml',
+        url: $root + 'data/files/toasts.xml',
         success: function(xml) {
             $(xml).find('translation').each(function(){
                 if($(this).attr("id") == id){
@@ -125,7 +125,7 @@ function errorMessage(id){
     var suggestions;
     if(localStorage.defaultLanguage == "es") {
         $.ajax({
-        url: $root + '/data/files/errors.xml',
+        url: $root + 'data/files/errors.xml',
         success: function(xml) {
             $(xml).find('translation').each(function(){
                 if($(this).attr('id') = id){

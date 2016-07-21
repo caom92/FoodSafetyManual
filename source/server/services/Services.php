@@ -623,14 +623,14 @@ class Services
         $zonesTable = new db\ZonesDAO($db);
         $programsTable = new db\ProgramsDAO($db);
         $modules = new db\ModulesDAO($db);
-        $privilegesTable = new db\PrivilegesDAO();
+        $privilegesTable = new db\PrivilegesDAO($db);
 
         // then list all zones and programs
         $zones = $zonesTable->selectAll();
         $programs = $programsTable->selectAll();
 
         // get the default privilege 
-        $defaultPrivilege = $privilegeTable->selectDefault();
+        $defaultPrivilege = $privilegesTable->selectDefault();
         
         // initialize the resulting associative array 
         $finalObj = [
@@ -657,7 +657,7 @@ class Services
                 ];
 
                 // and finally visit each module of this program
-                foreach ($modules->selectByProgramID($progam['id']) as $module) 
+                foreach ($modules->selectByProgramID($program['id']) as $module)
                 {
                     // and store in the temporal program holder the info of 
                     // each module and the default privilege

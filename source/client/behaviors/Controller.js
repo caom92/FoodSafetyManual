@@ -145,4 +145,4 @@ Controller.prototype.request = function(options)
 
 // Instantiate the controller class that we have just created as a global 
 // variable
-$server = new Controller($root + '/services/');
+$server = new Controller($root + 'services/');

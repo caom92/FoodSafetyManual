@@ -36,7 +36,7 @@ $(function() {
                         storeUserDataInLocalStorage(response.data);
 
                         // redirect to the home page
-                        window.location.href = $root + '/edit-profile';
+                        window.location.href = $root + 'edit-profile';
                     } else {
                         // if not, notify the user
                         Materialize.toast("¡Hubo un problema al cambiar la contraseña!", 3500, "rounded");
@@ -73,7 +73,7 @@ $(function() {
                 $("#recovery-accepted").show();
             } else {
                 // otherwise, the token has expired or is not a valid token
-                window.location.href = $root + '/';
+                window.location.href = $root;
                 console.log("server says: " + response.meta.message);
             }
         }
