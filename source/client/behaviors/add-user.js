@@ -394,7 +394,7 @@ $app.behaviors['add-user'] = function (){
                                 'User resgistered successfully', 3500, 'rounded'
                             );
                             setTimeout(function() {
-                                    window.location.href = '/espresso/view-users'
+                                    window.location.href = $root + 'view-users'
                                 }, 
                             2500);
                         } else {

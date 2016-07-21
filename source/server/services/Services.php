@@ -591,16 +591,19 @@ class Services
             'last_name' => $userData['last_name'],
             'email' => $userData['email'],
             'login_name' => $userData['login_name'],
-            'login_password' => $userData['login_password']
+            'login_password' => hash('sha512', $userData['login_password'])
         ]);
 
         // add the privileges to the data base
         foreach ($userData['privileges'] as $privilege) {
+            $privilegeID = (isset($privilege['privilege_id'])) ? 
+                $privilege['privilege_id'] : 1;
+
             $usersPrivileges->insert([
                 'user_id' => $userID,
                 'zone_id' => $privilege['zone_id'],
                 'module_id' => $privilege['module_id'],
-                'privilege_id' => $privilege['privilege_id']
+                'privilege_id' => $privilegeID
             ]);
         }
     }
