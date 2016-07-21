@@ -581,7 +581,7 @@ class Services
         // first connect to the data base
         $db = db\connectToDataBase();
         $users = new db\UsersDAO($db);
-        $roles = new db\RolesDAO($db);
+        $usersPrivileges = new db\UsersZonesModulesPrivilegesDAO($db);
 
         // insert the user to the data base
         $userID = $users->insert([
