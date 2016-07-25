@@ -49,7 +49,7 @@ function addList(userList){
 }
 
 function createTable(userList){
-    var table = $("<table>");
+    var table = $("<table style='margin-top:40px;'>");
     table.addClass("bordered striped highlight responsive-table");
     table.append(addHeader());
     table.append(addList(userList));
