@@ -22,31 +22,28 @@ LayoutManager = function(root, container)
 //          especified in the layout manager's constructor
 LayoutManager.prototype.load = function(layout)
 {
-    // check if the layout behavior exists
-    try {
-        isBehaviorDefined = isDefined(this.behaviors[layout]); 
-        if (isBehaviorDefined) {
-            // if it does, load the layout to the container and then 
-            // execute the behavior
-            $(this.container).load(this.root + layout, this.behaviors[layout]);
-        } else {
-            // if not, throw an error
-            throw 'The requested behavior "' + layout + '" is undefined.';
+    // store the reference to this object for future use
+    var self = this;
+
+    // load the requested layout page
+    $(this.container).load(this.root + 'layouts/' + view,
+        function() {
+            // then load and execute the corresponding behavior script
+            $.ajax({
+                method: 'GET',
+                url: self.root + 'behaviors/' + view + '.js',
+                dataType: 'script',
+                cache: true,
+                error: function(xhr, status, message) {
+                    // if the script failed to load, display an error message
+                    console.log('server says: (' + status + ') ' + message);
+                }
+            });
         }
-    } catch (e) {
-        this.handleException(e);
-    }
-}
-
-
-// Catches an exception and process it properly
-LayoutManager.prototype.handleException = function(exception)
-{
-    // for now, simply print to console
-    console.log(exception);
+    );
 }
 
 
 // Instantiate the LayoutManager clas that we just created as a global
 // variable
-$app = new LayoutManager($root + 'layouts/', '#page-content');
+$app = new LayoutManager($root, '#page-content');
