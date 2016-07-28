@@ -137,8 +137,10 @@ class Session
             array_push($programPrivileges, $program);
 
             // return the relevant info
+            $isUser = $userData[0]['role_name'] == 'User';
             return [
-                'isUser' => ($userData[0]['role_name'] == 'User'),
+                'isUser' => $isUser,
+                'exclusiveAccess' => ($isUser) ? 'users/' : 'admin/',
                 'employee_num' => $userData[0]['employee_num'],
                 'first_name' => $userData[0]['first_name'],
                 'last_name' => $userData[0]['last_name'],

@@ -1,5 +1,5 @@
 // Entry point for the program that controls the login form view
-$app.behaviors['login'] = function() {
+$(function() {
     // hide the server status noticies
     $("#server-offline").hide();
     $("#server-online").hide();
@@ -166,4 +166,4 @@ $app.behaviors['login'] = function() {
 
     // change the language that is being displayed
     changeLanguage(localStorage.defaultLanguage);
-}
+});

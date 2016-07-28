@@ -74,7 +74,7 @@ function bindDynamicSearchToColumn(dynamicSearch, column) {
     });
 }
 
-$app.behaviors['view-users'] = function (){
+$(function (){
     $server.request({
         service: 'list-users',
         success: function(response) {
@@ -95,4 +95,4 @@ $app.behaviors['view-users'] = function (){
             changeLanguage(localStorage.defaultLanguage);
         }
     });
-}
+});

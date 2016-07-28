@@ -9,9 +9,13 @@ LayoutManager = function(root, container)
     this.root = root;
     this.container = container;
 
-    // asscociative array where the behaviors are stored; key indicates
-    // the name of the layout and value is the behavior itself
-    this.behaviors = [];
+    // indicate which layouts are common to any user role
+    this.common = [
+        '',
+        'edit-profile',
+        'login',
+        'report-problem'
+    ];
 }
 
 
@@ -20,22 +24,35 @@ LayoutManager = function(root, container)
 // [in]     [container]: the selector of the HTML tag where to load the
 //          especified layout; the default value is the container 
 //          especified in the layout manager's constructor
-LayoutManager.prototype.load = function(layout)
+LayoutManager.prototype.load = function(layout, container = this.container)
 {
-    // store the reference to this object for future use
-    var self = this;
+    // compute the base URL where the layout is going to be requested for
+    // depending if the layout is common or not
+    var baseURL = this.root;
+    baseURL += (this.common.indexOf(layout) != -1) ? 
+        'common/' : localStorage.exclusiveAccess;
+
+    var app = this;
 
     // load the requested layout page
-    $(this.container).load(this.root + 'layouts/' + view,
-        function() {
+    $(container).load(baseURL + 'layouts/' + layout,
+        function(response, status, xhr) {
             // then load and execute the corresponding behavior script
+            var error = status == 'error';
+            if (error) {
+                $(app.container).html(response);
+                baseURL = 'common/';
+                layout = 'error';
+            }
+
             $.ajax({
                 method: 'GET',
-                url: self.root + 'behaviors/' + view + '.js',
+                url: baseURL + 'behaviors/' + layout + '.js',
                 dataType: 'script',
                 cache: true,
                 error: function(xhr, status, message) {
-                    // if the script failed to load, display an error message
+                    // if the script failed to load, display an error 
+                    // message
                     console.log('server says: (' + status + ') ' + message);
                 }
             });
@@ -44,6 +61,6 @@ LayoutManager.prototype.load = function(layout)
 }
 
 
-// Instantiate the LayoutManager clas that we just created as a global
+// Instantiate the LayoutManager class that we just created as a global
 // variable
 $app = new LayoutManager($root, '#page-content');

@@ -1,6 +1,6 @@
-$app.behaviors['admin-menu'] = function()
+$(function()
 {
     $('#admin-users').on('click', function(event) {
         event.preventDefault();
     });
-}
+});

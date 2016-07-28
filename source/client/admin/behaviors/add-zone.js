@@ -30,7 +30,7 @@ function createZoneTable(zoneList) {
 
 
 // Entry point for the controller of the add-zone view
-$app.behaviors['add-zone'] = function (){
+$(function (){
     // indicate that we want the new zone text field to always display the text 
     // in uppercase
     $('input[name="new-zone"]').css('text-transform', 'uppercase');
@@ -115,4 +115,4 @@ $app.behaviors['add-zone'] = function (){
             changeLanguage(localStorage.defaultLanguage);
         }
     });
-}   
+});

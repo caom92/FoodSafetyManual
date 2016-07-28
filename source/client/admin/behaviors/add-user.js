@@ -280,7 +280,7 @@ function roleSelect() {
     });
 }
 
-$app.behaviors['add-user'] = function (){
+$(function (){
     addPermissionTable();
     getProcedureNames();
     roleSelect();
@@ -452,4 +452,4 @@ $app.behaviors['add-user'] = function (){
     });
 
     changeLanguage(localStorage.defaultLanguage);
-}
+});

@@ -111,7 +111,7 @@ function changeLanguageForSelectFields(lang) {
 
 // The main function which starts execution of this controller, call only
 // when its corresponding view is ready
-$app.behaviors['report-problem'] = function() {
+$(function() {
     // Hide the progress bar
     $(".progress").hide();
     
@@ -333,4 +333,4 @@ $app.behaviors['report-problem'] = function() {
 
     // change the language that is being displayed
     changeLanguage(localStorage.defaultLanguage);
-}
+});

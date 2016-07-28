@@ -38,7 +38,7 @@ function isRequiredTextAreaValid(id) {
 
 // The main function which starts execution of this controller, call only
 // when its corresponding view is ready
-$app.behaviors['edit-profile'] = function() {
+$(function() {
     //Link localStorage value to the required fields
     $("#user-name").val(localStorage.login_name);
     $("#user-id").val(localStorage.employee_num);
@@ -214,4 +214,4 @@ $app.behaviors['edit-profile'] = function() {
 
     // change the language that is being displayed
     changeLanguage(localStorage.defaultLanguage);
-}
+});

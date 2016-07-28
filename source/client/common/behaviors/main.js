@@ -45,7 +45,7 @@ function loadSideMenu()
         $('#actions-list').html(localStorage.menu);
     } else {
         // if the user has an admin role, display the admin menu
-        $('#actions-list').load($root + 'layouts/admin-menu');
+        $app.load('menu', '#actions-list');
     }
 
     // Initialize the SideNav
@@ -95,10 +95,28 @@ $(function() {
                     var layout = 
                         window.location.pathname.replace($root, "");
                     
-                    if (layout.length > 0) {
+                    // check if the layout is empty
+                    var isLayoutEmpty = layout.length == 0;
+
+                    // check if the layout is the log in page
+                    var isLayoutLogin = layout == 'login';
+
+                    // check if the layout is the password recovery page
+                    var isLayoutPasswordRecovery = 
+                        layout == 'password-recovery';
+
+                    if (!isLayoutEmpty 
+                        && !isLayoutLogin 
+                        && !isLayoutPasswordRecovery) {
+                        // if the layout is not empty, nor the log in page or 
+                        // the password recovery page, then load the requested
+                        // page 
                         $app.load(layout);
                     } else {
+                        // otherwise load the edit profile page
                         $app.load('edit-profile');
+                        Materialize.toast('La sesión ya está iniciada.', 3500, 
+                            'rounded');
                     }
                 } else {
                     // if it was, check if there is user data stored from

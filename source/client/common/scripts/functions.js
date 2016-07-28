@@ -10,6 +10,7 @@ function isDefined(variable)
 function storeUserDataInLocalStorage(userData)
 {
     localStorage.isUser = userData.isUser;
+    localStorage.exclusiveAccess = userData.exclusiveAccess;
     localStorage.employee_num = userData.employee_num;
     localStorage.first_name = userData.first_name;
     localStorage.last_name = userData.last_name;
