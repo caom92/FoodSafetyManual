@@ -84,7 +84,7 @@ class Services
         if (count($userProfile) > 0) {
             // get the current timestamp and add 1 day to get the 
             // expiration date for the token
-            $expirationDate = \strtotime("+1 day", time());
+            $expirationDate = \strtotime("+15 minutes", time());
 
             // create the recovery token
             $recoveryToken = hash(
@@ -112,7 +112,7 @@ class Services
             // create the password recovery link
             $recoveryLink = 
                 "http://".$_SERVER['HTTP_HOST'].SITE_ROOT
-                ."/recover-password?token="
+                ."/password-recovery?token="
                 . $recoveryToken;
             
             // now prepare the email to be sent to the user
@@ -123,8 +123,8 @@ class Services
                 $subject = "Jacobs Farm: Password Recovery.";
                 $body = "This is an automated response to your request to "
                     . "recover your password. Just click the following link" 
-                    . " within the next 24 hours and you will be taken to the "
-                    . " password recovery page:<br>"
+                    . " within the next 15 minutes and you will be taken to "
+                    . "the password recovery page:<br>"
                     . "<a href='".$recoveryLink."'>Recover my " 
                     . "password!</a>";
             } elseif ($lang == 'es') {
@@ -132,7 +132,7 @@ class Services
                 $body = "Esta es una respuesta automatizada a su petición"
                     . " de recuperar su contraseña. Sólo haga clic "
                     . "en el enlace que aparece a continuación dentro de "
-                    . "las siguientes 24 horas y lo llevará a la "
+                    . "los próximos 15 minutos y lo llevará a la "
                     . "página de recuperación de "
                     . "contraseña: <br>"
                     . "<a href='$recoveryLink'>"
@@ -157,7 +157,7 @@ class Services
                 throw new \Exception($result);
             }
         } else {
-            throw \Exception('User not found in data base');
+            throw new \Exception('User not found in data base');
         }
     }
 

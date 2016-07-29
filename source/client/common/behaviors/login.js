@@ -85,64 +85,6 @@ $(function() {
             } 
         });
     });
-
-    // when the user clicks the option to recover his password, we must 
-    // authenticate his user name first and if it is valid, send an email
-    // to her with a password recovery link
-    $(".password_forgotten").on("click", function(event) {
-        // prevent default navigation of the hyperlink
-        event.preventDefault();
-
-        // check if the user left the username empty
-        if ($("#username").val().length != 0) {
-            // show the preloader
-            $(".progress").show();
-
-            // if not, then send the petition to the data base server
-            $server.request({
-                service: 'password-recovery',
-                data: {
-                    username: $("#username").val(),
-                    lang: localStorage.defaultLanguage
-                },
-                success: function(response, message, xhr) {
-                    // check if the user validation succeeded
-                    if (response.meta.return_code == 0) {
-                        // if so, let the user know that an email has been sent 
-                        // to her account
-                        Materialize.toast(
-                            "Se envió un mensaje a su correo electrónico", 
-                            3500, "rounded"
-                        );
-                    } else {
-                        // if the validation failed, then let the user know 
-                        // that the user name is invalid 
-                        Materialize.toast("El nombre de usuario no es válido", 
-                            3500, "rounded");
-                        $("#username").addClass("invalid");
-                        $("#username.prefix").addClass("invalid");
-                        console.log("server says: " + response.meta.message);
-                    }
-
-                    // hide the preloader
-                    $(".progress").hide();
-                },
-                error: function(xhr, status, message) {
-                    $(".progress").hide();
-                    Materialize.toast("El servidor no está disponible", 
-                        3500, "rounded");
-                    console.log("server says: " + status + ", " + message);
-                }
-            });
-        } else {
-            // if the username is empty, then tell the user that the field is 
-            // required
-            $("#username").addClass("invalid");
-            $("#username.prefix").addClass("invalid");
-            Materialize.toast("Por favor ingrese el campo indicado.", 
-                3500, "rounded");
-        }
-    });
     
     // as soon as the page is loaded, query the server to check it's status
     $server.request({

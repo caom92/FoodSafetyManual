@@ -39,8 +39,16 @@ function getURLQueryStringAsJSON()
     // get the URL query string
     var query = window.location.href;
     
+    // check if there is a query string
+    var queryStartIdx = query.indexOf("?");
+    var isQueryEmpty = queryStartIdx == -1;
+    if (isQueryEmpty) {
+        // if there is not, return an empty string
+        return '';
+    }
+
     // remove the site name and keep only the query data
-    query = query.substr(query.indexOf("?") + 1);
+    query = query.substr(queryStartIdx + 1);
     
     // parse the query data into a JSON object 
     // decodeURIComponent() requires that the input string follows the same

@@ -46,10 +46,10 @@ try {
             respond(0, 'User session checked.', Services::isSessionOpen());
         break;
 
-        case 'password-recovery':
-            if (isset($_POST['username']) && isset($_POST['lang'])) {
+        case 'request-password-recovery':
+            if (isset($_POST['email']) && isset($_POST['lang'])) {
                 Services::mailRecoveryToken(
-                    $_POST['username'], 
+                    $_POST['email'], 
                     $_POST['lang']
                 );
                 respond(0, 'Recovery token mailed successfully.');

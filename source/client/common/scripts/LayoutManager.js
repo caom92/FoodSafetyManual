@@ -14,7 +14,8 @@ LayoutManager = function(root, container)
         '',
         'edit-profile',
         'login',
-        'report-problem'
+        'report-problem',
+        'password-recovery'
     ];
 }
 

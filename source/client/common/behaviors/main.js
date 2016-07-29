@@ -85,15 +85,15 @@ $(function() {
         success: function(response, message, xhr) {
             // check if the reponse was an error
             if (response.meta.return_code == 0) {
+                // Load the layout of the queried page into the page 
+                // container this will preserve backward and forward 
+                // buttons' functionality
+                var layout = 
+                    window.location.pathname.replace($root, "");
+
                 if (response.data) {
                     // load the side menu items
                     loadSideMenu();
-
-                    // Load the layout of the queried page into the page 
-                    // container this will preserve backward and forward 
-                    // buttons' functionality
-                    var layout = 
-                        window.location.pathname.replace($root, "");
                     
                     // check if the layout is empty
                     var isLayoutEmpty = layout.length == 0;
@@ -132,7 +132,14 @@ $(function() {
                     }
 
                     // then redirect to the login page
-                    $app.load('login');
+                    var isLayoutPasswordRecovery = 
+                        layout == 'password-recovery';
+
+                    if (isLayoutPasswordRecovery) {
+                        $app.load(layout);
+                    } else {
+                        $app.load('login');
+                    }
                 }
             } else {
                 console.log('server says: ' + response.meta.message);
