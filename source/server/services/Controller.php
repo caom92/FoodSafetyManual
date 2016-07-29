@@ -383,6 +383,7 @@ try {
                 isset($_POST['first_name']) &&
                 isset($_POST['last_name']) &&
                 isset($_POST['email']) &&
+                isset($_POST['role_id']) &&
                 isset($_POST['login_name']) &&
                 isset($_POST['login_password']) &&
                 isset($_POST['privileges']);
@@ -431,7 +432,7 @@ try {
                         }
 
                         // after many checks, finally add the user
-                        Services::addNewUser($userData);
+                        Services::addNewUser($_POST);
                         respond(0, 'User registered successfully.');
                     } else {
                         throw new \Exception("Permission denied.");
