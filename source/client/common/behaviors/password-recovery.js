@@ -112,7 +112,7 @@ function resetPassword(query)
             $server.request({
                 service: 'change-password-by-recovery',
                 data: {
-                    new_password: hash($("#new-password").val()),
+                    new_password: $("#new-password").val(),
                     token: query.token
                 },
                 success: function(response, message, xhr) {
