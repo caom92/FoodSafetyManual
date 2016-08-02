@@ -23,47 +23,25 @@ class UsersDAO extends DataAccessObject
     // [in]     identifier: the identifier of the element that we want 
     //          to look for; in this case, this can be either the ID, the
     //          user name, the employee number or the email
-    // [in]     [password]: sha256-md5 checksum of the password that we want to
-    //          search for in the table
     // [out]    return: an associative array with the data of the element
     //          that contained the especified identifier and password 
     //          combination, or an empty string in case none was found
-    function selectByIdentifier($identifier, $password = NULL)
+    function selectByIdentifier($identifier)
     {
-        if (isset($password)) {
-            return parent::join([
-                    '[><]roles(r)' => [ 'role_id' => 'id' ]
-                ], [
+        return parent::join([
+                '[><]roles(r)' => [ 'role_id' => 'id' ]
+            ], [
                     "$this->tableName.id(id)", 'r.name(role_name)', 
                     'employee_num', 'email', 'first_name', 'last_name', 
                     'login_name', 'login_password'
-                ], 
-                [ "AND"  => [
-                    "OR" => [
-                        "$this->tableName.id" => $identifier,
-                        "employee_num" => $identifier,
-                        "email" => $identifier,
-                        "login_name" => $identifier
-                    ],
-                    "login_password" => $password
-                ]]
-            );
-        } else {
-            return parent::join([
-                    '[><]roles(r)' => [ 'role_id' => 'id' ]
-                ], [
-                     "$this->tableName.id(id)", 'r.name(role_name)', 
-                     'employee_num', 'email', 'first_name', 'last_name', 
-                     'login_name', 'login_password'
-                ], 
-                [ "OR" => [
-                        "$this->tableName.id" => $identifier,
-                        "employee_num" => $identifier,
-                        "email" => $identifier,
-                        "login_name" => $identifier
-                ]]
-            );
-        }
+            ], 
+            [ "OR" => [
+                "$this->tableName.id" => $identifier,
+                "employee_num" => $identifier,
+                "email" => $identifier,
+                "login_name" => $identifier
+            ]]
+        );
     }
     
     

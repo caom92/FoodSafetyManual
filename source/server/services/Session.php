@@ -42,10 +42,21 @@ class Session
         $db = db\connectToDataBase();
         $users = new db\UsersDAO($db);
         $privileges = new db\UsersZonesModulesPrivilegesDAO($db);
-        $userData = $users->selectByIdentifier($username, $password);
+        $userData = $users->selectByIdentifier($username);
 
         // check if the query was successful
         if (count($userData) > 0) {
+            // check if the password is correct
+            $isPasswordValid = password_verify(
+                $password, 
+                $userData[0]['login_password']
+            );
+
+            // if it is not, notify the user
+            if (!$isPasswordValid) {
+                throw new \Exception('Log in credentials were incorrect.');
+            } 
+
             // if it was, there is the (very small) possibility that there might
             // be more than 1 entry in the DB with the given username and 
             // password combination, so if this is the case, we just return the
@@ -128,9 +139,9 @@ class Session
                             'zone_name' => $row['zone_name'],
                             'privilege' => $row['privilege']
                         ]);
-                    }
-                }
-            }
+                    }   // if (hasModuleChanged)
+                }   // if (hasProgramChanged)
+            }   // for (userPrivileges as row)
 
             // don't forget to add the last entry to the final structure
             array_push($program['modules'], $module);
@@ -146,7 +157,6 @@ class Session
                 'last_name' => $userData[0]['last_name'],
                 'email' => $userData[0]['email'],
                 'login_name' => $userData[0]['login_name'],
-                'login_password' => $userData[0]['login_password'],
                 'privileges' => $programPrivileges
             ];
         } else {

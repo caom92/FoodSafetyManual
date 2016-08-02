@@ -16,18 +16,7 @@ function storeUserDataInLocalStorage(userData)
     localStorage.last_name = userData.last_name;
     localStorage.email = userData.email;
     localStorage.login_name = userData.login_name;
-    localStorage.login_password = userData.login_password;
     localStorage.privileges = JSON.stringify(userData.privileges);
-}
-
-
-// Applies a cryptographic hashing alogrithm to the given text
-// [in]     text: the text to hash
-// [out]    return: a string that contains the hex value of the resulting
-//          hash
-function hash(text)
-{
-    return sha512(text);
 }
 
 

@@ -68,7 +68,7 @@ try {
         break;
 
         case 'change-username':
-            if (isset($_POST['new_username'])) {
+            if (isset($_POST['password']) && isset($_POST['new_username'])) {
                 if (Services::isSessionOpen()) {
                     $isDuplicated = Services::checkAccountNameDuplicates(
                         $_POST['new_username']
@@ -80,7 +80,10 @@ try {
                         );
                     }
 
-                    Services::changeUserAccountName($_POST['new_username']);
+                    Services::changeUserAccountName(
+                        $_POST['password'], 
+                        $_POST['new_username']
+                    );
                     respond(0, 'User login name was changed successfully');
                 } else {
                     throw new \Exception('User is not logged in');
@@ -91,9 +94,12 @@ try {
         break;
 
         case 'change-password':
-            if (isset($_POST['new_password'])) {
+            if (isset($_POST['password']) && isset($_POST['new_password'])) {
                 if (Services::isSessionOpen()) {
-                    Services::changeUserPassword($_POST['new_password']);
+                    Services::changeUserPassword(
+                        $_POST['password'], 
+                        $_POST['new_password']
+                    );
                     respond(0, 'User password was changed successfully');
                 } else {
                     throw new \Exception('User is not logged in');
@@ -125,7 +131,7 @@ try {
         break;
 
         case 'change-email':
-            if (isset($_POST['new_email'])) {
+            if (isset($_POST['password']) && isset($_POST['new_email'])) {
                 if (Services::isSessionOpen()) {
                     $isDuplicated = Services::checkUserEmailDuplicates(
                         $_POST['new_email']
@@ -135,7 +141,10 @@ try {
                             'Failed to update user info: email already taken.');
                     }
 
-                    Services::changeUserEmail($_POST['new_email']);
+                    Services::changeUserEmail(
+                        $_POST['password'], 
+                        $_POST['new_email']
+                    );
                     respond(0, 'User email was changed successfully');
                 } else {
                     throw new \Exception('User is not logged in');

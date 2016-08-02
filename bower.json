@@ -10,7 +10,6 @@
   ],
   "dependencies": {
     "jquery": "^3.1.0",
-    "js-sha512": "^0.2.2",
     "normalize-css": "normalize.css#^4.2.0",
     "Materialize": "materialize#^0.97.6",
     "mdi": "^1.6.50"

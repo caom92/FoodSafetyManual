@@ -21,12 +21,11 @@ $(function() {
         event.preventDefault();
 
         // send the credentials to the server
-        var hashedPassword = hash($("#password").val());
         $server.request({
             service: 'login',
             data: {
                 username: $("#username").val(),
-                password: hashedPassword
+                password: $("#password").val()
             },
             success: function(response, message, xhr) {
                 // check if the authentication succeeded

@@ -121,7 +121,6 @@ $(function() {
         // check if the required select inputs have a value selected;
         // if any of those is empty, mark it on the form
         oldPasswordIsValid = isRequiredTextAreaValid("#old-password") 
-            && hash($("#old-password").val()) == localStorage.login_password;
         newPasswordIsValid = isRequiredTextAreaValid("#new-password");
         checkPasswordIsValid = isRequiredTextAreaValid("#check-password");
 
@@ -131,15 +130,14 @@ $(function() {
             if(passwordMatch()){
                 //Third check; validate the user with its old password before
                 //changing it on the database
-                hashedPassword = hash($("#new-password").val());
                 $server.request({
                     service: 'change-password',
                     data: {
-                        new_password: hashedPassword
+                        password: $("#old-password").val(),
+                        new_password: $("#new-password").val()
                     },
                     success: function(response, message, xhr) {
                         if (response.meta.return_code == 0) {
-                            localStorage.login_password = hashedPassword;
                             loadToast("password_changed", 3500, "rounded");
                         } else {
                             console.log(
@@ -162,26 +160,22 @@ $(function() {
         e.preventDefault();
         // check if the required select inputs have a value selected;
         // if any of those is empty, mark it on the form
-        hashedPassword = hash($("#email-password").val());
-        if (hashedPassword == localStorage.login_password) {
-            $server.request({
-                service: 'change-email',
-                data: {
-                    new_email: $("#new-email").val()
-                },
-                success: function(response, message, xhr) {
-                    if (response.meta.return_code == 0) {
-                        localStorage.email = $("#new-email").val();
-                        $("#user-email").val(localStorage.email);
-                        loadToast("email_changed", 3500, "rounded");
-                    } else {
-                        console.log("server says: " + response.meta.message);
-                    }
+        $server.request({
+            service: 'change-email',
+            data: {
+                password: $("#email-password").val(),
+                new_email: $("#new-email").val()
+            },
+            success: function(response, message, xhr) {
+                if (response.meta.return_code == 0) {
+                    localStorage.email = $("#new-email").val();
+                    $("#user-email").val(localStorage.email);
+                    loadToast("email_changed", 3500, "rounded");
+                } else {
+                    console.log("server says: " + response.meta.message);
                 }
-            });
-        } else {
-            Materialize.toast("La contraseña es incorrecta.", 3500, "rounded");
-        }
+            }
+        });
     });
 
     $("#update_username").on('click', function(e) {
@@ -190,26 +184,22 @@ $(function() {
         
         // check if the required select inputs have a value selected;
         // if any of those is empty, mark it on the form
-        hashedPassword = hash($("#username-password").val());
-        if (hashedPassword == localStorage.login_password) {
-            $server.request({
-                service: 'change-username',
-                data: {
-                    new_username: $("#new-username").val()
-                },
-                success: function(response, message, xhr) {
-                    if (response.meta.return_code == 0) {
-                        localStorage.login_name = $("#new-username").val();
-                        $("#user-name").val(localStorage.login_name);
-                        loadToast("username_changed", 3500, "rounded");
-                    } else {
-                        console.log("server says: " + response.meta.message);
-                    }
+        $server.request({
+            service: 'change-username',
+            data: {
+                password: $("#username-password").val(),
+                new_username: $("#new-username").val()
+            },
+            success: function(response, message, xhr) {
+                if (response.meta.return_code == 0) {
+                    localStorage.login_name = $("#new-username").val();
+                    $("#user-name").val(localStorage.login_name);
+                    loadToast("username_changed", 3500, "rounded");
+                } else {
+                    console.log("server says: " + response.meta.message);
                 }
-            });
-        } else {
-            Materialize.toast("La contraseña es incorrecta.", 3500, "rounded");
-        }
+            }
+        });
     });
 
     // change the language that is being displayed

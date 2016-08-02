@@ -88,14 +88,11 @@ class Services
 
             // create the recovery token
             $recoveryToken = hash(
-                "sha256",
-                hash(
-                    'md5', 
-                    rand()
-                    . $userProfile[0]['login_name']
-                    . $userProfile[0]["login_password"]
-                    . time()
-                )
+                "sha512",
+                rand()
+                . $userProfile[0]['first_name']
+                . $userProfile[0]['last_name']
+                . time()
             );
 
             // delete any previous token, valid or invalid, that is associated 
@@ -192,12 +189,24 @@ class Services
 
 
     // Change the account name of the user with the provided ID
-    static function changeUserAccountName($newName)
+    static function changeUserAccountName($password, $newName)
     {
         $session = new serv\Session();
         $users = new db\UsersDAO(db\connectToDataBase());
         $userID = $session->getID();
         $result = $users->updateLogInNameByUserID($userID, $newName);
+
+        $isPasswordValid = password_verify(
+            $password,
+            $session->getValue('login_password')
+        );
+
+        if (!$isPasswordValid) {
+            throw new \Exception(
+                'Log in name could not be changed; authentication '. 
+                'credentials were incorrect.'
+            );
+        }
 
         if (count($result) <= 0) {
             throw new \Exception("Log in name could not be changed.");
@@ -206,12 +215,28 @@ class Services
 
 
     // Change the password of the user with the provided ID
-    static function changeUserPassword($newPasswd)
+    static function changeUserPassword($password, $newPasswd)
     {
         $session = new serv\Session();
         $users = new db\UsersDAO(db\connectToDataBase());
         $userID = $session->getID();
-        $result = $users->updatePasswordByUserID($userID, $newPasswd);
+
+        $isPasswordValid = password_verify(
+            $password, 
+            $session->getValue('login_password')
+        );
+
+        if (!$isPasswordValid) {
+            throw new \Exception(
+                'Password could not be changed; authentication credentials '. 
+                'where incorrect.'
+            );
+        }
+
+        $result = $users->updatePasswordByUserID(
+            $userID, 
+            password_hash($newPasswd, PASSWORD_BCRYPT)
+        );
 
         if (count($result) <= 0) {
             throw new \Exception('Password could not be changed.');
@@ -225,13 +250,16 @@ class Services
         $db = db\connectToDataBase();
         $users = new db\UsersDAO($db);
         $tokens = new db\RecoveryTokensDAO($db);
-        $result = $users->updatePasswordByUserID($userID, $newPasswd);
+        $result = $users->updatePasswordByUserID(
+            $userID, 
+            password_hash($newPasswd, PASSWORD_BCRYPT)
+        );
 
         if ($result <= 0) {
             throw new \Exception('Password could not be changed.');
         } else {
             $tokens->deleteByUserID($userID);
-            $userProfile = $users->selectByIdentifier($userID, $newPasswd);
+            $userProfile = $users->selectByIdentifier($userID);
             return $userProfile[0]['login_name'];
         }
     }
@@ -239,12 +267,24 @@ class Services
 
 
     // Change the email of the user with the provided ID
-    static function changeUserEmail($newEmail)
+    static function changeUserEmail($password, $newEmail)
     {
         $session = new serv\Session();
         $users = new db\UsersDAO(db\connectToDataBase());
         $userID = $session->getID();
         $result = $users->updateEmailByUserID($userID, $newEmail);
+
+        $isPasswordValid = password_verify(
+            $password, 
+            $session->getValue('login_password')
+        );
+
+        if (!$isPasswordValid) {
+            throw new \Exception(
+                'Email could not be changed; authentication credentials '.
+                'were incorrect.'
+            );
+        }
 
         if (count($result) <= 0) {
             throw new \Exception('Email could not be changed.');
@@ -591,7 +631,10 @@ class Services
             'last_name' => $userData['last_name'],
             'email' => $userData['email'],
             'login_name' => $userData['login_name'],
-            'login_password' => hash('sha512', $userData['login_password'])
+            'login_password' => password_hash(
+                $userData['login_password'], 
+                PASSWORD_BCRYPT
+            )
         ]);
 
         // add the privileges to the data base
