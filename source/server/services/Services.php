@@ -20,6 +20,7 @@ require_once realpath(dirname(__FILE__).'/../dao/RecoveryTokensDAO.php');
 require_once realpath(dirname(__FILE__)
     .'/../dao/UsersZonesModulesPrivilegesDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/RolesDAO.php');
+require_once realpath(dirname(__FILE__).'/../dao/InventoryDAO.php');
 
 // Alias namespaces for ease of use
 use fsm\services as serv;
@@ -727,6 +728,14 @@ class Services
 
         // return the resulting associative array
         return $finalObj;
+    }
+
+
+    // Returns the inventory items associated to the given zone and module
+    static function getInventoryOfProgram($zoneID, $moduleID)
+    {
+        $inventory = new InventoryDAO(db\connectToDataBase());
+        return $inventory->selectByZoneIDAndModuleID($zoneID, $moduleID);
     }
 }
 

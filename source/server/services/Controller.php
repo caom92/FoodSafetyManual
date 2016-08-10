@@ -479,6 +479,26 @@ try {
                 throw new \Exception('User is not logged in.');
             }
         break;
+
+        case 'get-inventory':
+            $areInputArgsValid = isset($_POST['zone_id']) &&
+                isset($_POST['module_id']);
+
+            if (Services::isSessionOpen()) {
+                if (Services::isAdmin()) {
+                    respond(0, 'Module inventory retrieved successfully.', 
+                        Services::getInventoryOfProgram(
+                            $_POST['zone_id'], 
+                            $_POST['module_id']
+                        )
+                    );
+                } else {
+                    throw new \Exception("Permission denied.");
+                }
+            } else {
+                throw new \Exception('User is not logged in.');
+            }
+        break;
             
         default:
             // the requested service is not available

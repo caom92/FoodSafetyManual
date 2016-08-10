@@ -5,4 +5,4 @@ data/documents
 permisos.json
 privileges.json
 composer.lock
-*.txt
+error_log.txt
