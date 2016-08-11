@@ -80,6 +80,16 @@
         <spanish>Editar Perfil</spanish>
     </translation>
 
+    <translation id="users_sidenav">
+        <english>Users</english>
+        <spanish>Usuarios</spanish>
+    </translation>
+
+    <translation id="zones_sidenav">
+        <english>Zones and Items</english>
+        <spanish>Zonas y elementos</spanish>
+    </translation>
+
     <!--Interfaces-->
 
     <translation id="login">
@@ -328,6 +338,51 @@
     <translation id="zone_name">
         <english>Zone</english>
         <spanish>Zona</spanish>
+    </translation>
+
+    <translation id="manage_inventory">
+        <english>Manage Inventory</english>
+        <spanish>Gestión de inventario</spanish>
+    </translation>
+
+    <translation id="inventory_id">
+        <english>ID</english>
+        <spanish>ID</spanish>
+    </translation>
+
+    <translation id="inventory_name">
+        <english>Element</english>
+        <spanish>Elemento</spanish>
+    </translation>
+
+    <translation id="inventory_dismiss">
+        <english>Status</english>
+        <spanish>Estado</spanish>
+    </translation>
+
+    <translation id="accept-button">
+        <english>Inactive</english>
+        <spanish>Inactivo</spanish>
+    </translation>
+
+    <translation id="dismiss-button">
+        <english>Active</english>
+        <spanish>Activo</spanish>
+    </translation>
+
+    <translation id="select_zone">
+        <english>Select a zone</english>
+        <spanish>Seleccione la zona</spanish>
+    </translation>
+
+    <translation id="select_program">
+        <english>Select a program</english>
+        <spanish>Seleccione el programa</spanish>
+    </translation>
+
+    <translation id="select_module">
+        <english>Select a module</english>
+        <spanish>Seleccione un módulo</spanish>
     </translation>
 
     <!--Template

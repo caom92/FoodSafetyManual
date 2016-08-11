@@ -69,6 +69,8 @@ function changeLanguage(lang, callback){
                 var text = $(this).find("spanish").text();
                 $("." + id).text(text);
             });
+            $('select').material_select('destroy');
+            $('select').material_select();
         }
     });
     } else if (lang == "en") {
@@ -80,6 +82,8 @@ function changeLanguage(lang, callback){
                     var text = $(this).find("english").text();
                     $("." + id).text(text);
                 });
+                $('select').material_select('destroy');
+                $('select').material_select();
             }
         });
     } else {
@@ -92,6 +96,32 @@ function changeLanguage(lang, callback){
         console.log("not defined");
     } else {
         console.log("not a function");
+    }
+}
+
+function loadSearchSuggestions(lang){
+    if(lang == "es") {
+        $.ajax({
+            url: $root + '/data/files/search-suggestions.xml',
+            success: function(xml) {
+                $(xml).find('translation').each(function(){
+                    var id = $(this).attr('id');
+                    var text = $(this).find("spanish").text();
+                    $("." + id).attr("placeholder", text);
+                });
+            }
+        });
+    } else if (lang == "en") {
+        $.ajax({
+            url: $root + '/data/files/search-suggestions.xml',
+            success: function(xml) {
+                $(xml).find('translation').each(function(){
+                    var id = $(this).attr('id');
+                    var text = $(this).find("english").text();
+                    $("." + id).attr("placeholder", text);
+                });
+            }
+        });
     }
 }
 
@@ -114,6 +144,15 @@ function loadToast(id, time, style){
             Materialize.toast(toast, time, style);
         }
     });
+}
+
+function embedTooltip(element, position, delay, tooltip){
+    $(element).attr("data-position", position);
+    $(element).attr("data-delay", delay);
+    $(element).attr("data-tooltip", tooltip);
+    $(element).addClass("tooltipped");
+
+    $('.tooltipped').tooltip({delay: delay})
 }
 
 /* Incomplete errorMessage function. Uncomment at your own risk

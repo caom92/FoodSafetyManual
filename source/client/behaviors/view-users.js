@@ -11,15 +11,15 @@ function addHeader(){
 
 function addDynamicSearchRow(){
     var row = $("<tr>");
-    row.append($("<td class='dynamic-search'>").html(textInput("id-search")));
-    row.append($("<td class='dynamic-search'>").html(textInput("login-search")));
-    row.append($("<td class='dynamic-search'>").html(textInput("name-search")));
+    row.append($("<td class='dynamic-search'>").html(textInput("id-search", "id_search")));
+    row.append($("<td class='dynamic-search'>").html(textInput("login-search", "user_search")));
+    row.append($("<td class='dynamic-search'>").html(textInput("name-search", "name_search")));
     console.log("Dynamic added");
     return row;
 }
 
-function textInput(id){
-    return '<input placeholder="..." id="' + id + '" type="text" class="validate">';
+function textInput(id, classes){
+    return '<input id="' + id + '" type="text" class="validate ' + classes + '">';
 }
 
 function addListElement(element){
@@ -31,7 +31,7 @@ function addListElement(element){
     row.append($("<td class='id-column search-column'>").text(element.employee_num));
     row.append($("<td class='login-column search-column'>").text(element.login_name));
     row.append($("<td class='name-column search-column'>").text(element.first_name + ' ' + element.last_name));
-    row.append($("<td>").html('<a class="green btn-floating waves-effect waves-light" href="edit-user?' + element.id + '"><i class="material-icons center">edit</i></a>'));
+    row.append($("<td>").html('<a class="green btn-floating waves-effect waves-light edit-user-button" href="edit-user?user_id=' + element.employee_num + '"><i class="mdi mdi-settings md-24 field-icon"></i></a>'));
     return row;
 }
 
@@ -92,7 +92,14 @@ $app.behaviors['view-users'] = function (){
             bindDynamicSearchToColumn("login-search", "login-column");
             bindDynamicSearchToColumn("name-search", "name-column");
 
+            /*$(".edit-user-button").on("click", function(e){
+                e.preventDefault();
+                var userID = $(this).parent().parent().children(".id-column").text();
+                addEditUserForm(userID);
+            });*/
+
             changeLanguage(localStorage.defaultLanguage);
+            loadSearchSuggestions(localStorage.defaultLanguage);
         }
     });
 }
