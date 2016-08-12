@@ -63,8 +63,7 @@ function addProcedure(procedureObject, zoneID, zoneName){
 
     header = $("<div class='collapsible-header'>");
     wrapper = $("<div>");
-    icon = $('<i class="mdi mdi-arrow-down-drop-circle md-16 field-icon" id="password_icon"></i>');
-
+    icon = $('<i class="mdi mdi-chevron-down md-32 field-icon"></i>');
     wrapper.text(procedureObject.name);
     header.append(icon);
     header.append(wrapper);
@@ -249,7 +248,7 @@ function checkDuplicate(valueToCheck, id, serv){
     });
 }
 
-function roleSelect() {
+function roleSelect(selected) {
     $server.request({
         service: 'list-user-roles',
         success: function(response, message, xhr) {
@@ -275,6 +274,10 @@ function roleSelect() {
                     $("#user-role").append(option);
                 }
             }
+            if(selected != null) {
+                $("#user-role").val(selected);
+            }
+            $('select.readonly option:not(:selected)').attr('disabled',true);
             $('select').material_select();
         }
     });
@@ -382,12 +385,14 @@ $(function (){
                     userObject.privileges.push(privilegeObject);
                 });
 
-                var userObjectString = JSON.stringify(userObject);
+                //var userObjectString = JSON.stringify(userObject);
+
+                console.log(userObject);
 
                 // Send the user object to the server, requesting an user add
                 $server.request({
                     service: 'add-user',
-                    data: userObjectString,
+                    data: userObject,
                     success: function(response) {
                         if (response.meta.return_code == 0) {
                             Materialize.toast(

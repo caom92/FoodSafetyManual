@@ -6,3 +6,4 @@ permisos.json
 privileges.json
 composer.lock
 error_log.txt
+source/server/error_log.txt
