@@ -39,6 +39,8 @@ function isRequiredTextAreaValid(id) {
 // The main function which starts execution of this controller, call only
 // when its corresponding view is ready
 $(function() {
+    $('#form-wrappers').collapsible();
+
     //Link localStorage value to the required fields
     $("#user-name").val(localStorage.login_name);
     $("#user-id").val(localStorage.employee_num);
@@ -49,69 +51,6 @@ $(function() {
     $("#change_password_wrapper").hide();
     $("#change_email_wrapper").hide();
     $("#change_username_wrapper").hide();
-
-    //Form show/hide logic
-    //Flags for show/hide status
-    var password_flag = false;
-    var email_flag = false;
-    var username_flag = false;
-
-    //For password form
-    $("#change_password").on('click', function(e){
-        if(password_flag){
-            $("#change_password_wrapper").hide(700);
-            $("#password_icon").addClass("mdi-arrow-down-drop-circle");
-            password_flag = !password_flag;
-        } else {
-            $("#change_password_wrapper").show(700);
-            $("#password_icon").addClass("mdi-arrow-up-drop-circle");
-            password_flag = !password_flag;
-            $("#change_email_wrapper").hide(700);
-            $("#email_icon").addClass("mdi-arrow-down-drop-circle");
-            email_flag = false;
-            $("#change_username_wrapper").hide(700);
-            $("#username_icon").addClass("mdi-arrow-down-drop-circle");
-            username_flag = false;
-        }        
-    });
-
-    //For email form
-    $("#change_email").on('click', function(e){
-        if(email_flag){
-            $("#change_email_wrapper").hide(700);
-            $("#email_icon").addClass("mdi-arrow-down-drop-circle");
-            email_flag = !email_flag;
-        } else {
-            $("#change_email_wrapper").show(700);
-            $("#email_icon").addClass("mdi-arrow-up-drop-circle");
-            email_flag = !email_flag;
-            $("#change_password_wrapper").hide(700);
-            $("#password_icon").addClass("mdi-arrow-down-drop-circle");
-            password_flag = false;
-            $("#change_username_wrapper").hide(700);
-            $("#username_icon").addClass("mdi-arrow-down-drop-circle");
-            username_flag = false;
-        }        
-    });
-
-    //For username form
-    $("#change_username").on('click', function(e){
-        if(username_flag){
-            $("#change_username_wrapper").hide(700);
-            $("#username_icon").addClass("mdi-arrow-down-drop-circle");
-            username_flag = !username_flag;
-        } else {
-            $("#change_username_wrapper").show(700);
-            $("#username_icon").addClass("mdi-arrow-up-drop-circle");
-            username_flag = !username_flag;
-            $("#change_email_wrapper").hide(700);
-            $("#email_icon").addClass("mdi-arrow-down-drop-circle");
-            email_flag = false;
-            $("#change_password_wrapper").hide(700);
-            $("#password_icon").addClass("mdi-arrow-down-drop-circle");
-            password_flag = false;
-        }        
-    });
 
 
     // Validate the password fields before changing it on the database

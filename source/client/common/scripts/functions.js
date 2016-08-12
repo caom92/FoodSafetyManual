@@ -125,3 +125,30 @@ function validateFileFormats(files, formatsToValidate, onInvalid)
         fileReader.readAsArrayBuffer(file);
     }
 }
+
+
+// Enables searching elements in a table dynamically hiding those elements that 
+// do not match the search item
+// [in]     input: name of the search text box element
+// [in]     column: table column class upon which the search will be performed
+function dynamicSearchBind(input, column) {
+    function isBound(input) {
+        return input.is('[class*="bound-by-"');
+    }
+
+    $("#" + input).keyup(function (e) {
+        $("." + column).each(function (e) {
+            if($(this).text().search($("#" + input).val()) != -1){
+                if(isBound($(this).parent())){
+                    $(this).parent().removeClass("bound-by-" + input);
+                    if(!isBound($(this).parent())){
+                        $(this).parent().attr("style", "");
+                    }
+                }
+            } else {
+                $(this).parent().attr("style", "display:none;");
+                $(this).parent().addClass("bound-by-" + input);
+            }
+        });
+    });
+}

@@ -174,3 +174,7 @@ main.container > div.row.center {
 .program-button {
     padding: 0 40px 0 20px !important;
 }
+
+ul#form-wrappers div.collapsible-body {
+    margin: 10px 20px 0 20px;
+}
