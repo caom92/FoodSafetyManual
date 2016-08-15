@@ -33,7 +33,8 @@ class UsersDAO extends DataAccessObject
             ], [
                     "$this->tableName.id(id)", 'r.name(role_name)', 
                     'employee_num', 'email', 'first_name', 'last_name', 
-                    'login_name', 'login_password'
+                    'login_name', 'login_password', 
+                    'recieve_email_notifications'
             ], 
             [ "OR" => [
                 "$this->tableName.id" => $identifier,
@@ -89,7 +90,7 @@ class UsersDAO extends DataAccessObject
 
     // Changes the login name field of the element in the table which has the 
     // especified user ID
-    // [in]     id: the user ID of the elemente which login name we 
+    // [in]     id: the user ID of the element which login name we 
     //          want to change
     // [in]     newName: the new login name value that is to be assigned
     //          to the element found
@@ -99,6 +100,24 @@ class UsersDAO extends DataAccessObject
         return parent::update(
             [ "login_name" => $newName ],
             [ "id" => $id ]
+        );
+    }
+
+
+    // Changes the configuration of the user which controls if she should 
+    // recieve emails every time a new notification created by an action
+    // performed by any of the users she was following arrives to her
+    // account
+    // [in]     id: the user ID of the element which email notifications' 
+    //          configuration will be changed
+    // [in]     enableNotifications: boolean value that will turn on or off the 
+    //          email notifications
+    // [out]    return: the number of rows affected
+    function updateEmailNotificationsByID($id, $enableNotifications)
+    {
+        return parent::update(
+            [ 'recieve_email_notifications' => $enableNotifications ],
+            [ 'id' => $id ]
         );
     }
 

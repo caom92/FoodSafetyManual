@@ -144,8 +144,12 @@ class Session
             }   // for (userPrivileges as row)
 
             // don't forget to add the last entry to the final structure
-            array_push($program['modules'], $module);
-            array_push($programPrivileges, $program);
+            if (strlen($module['module_name']) > 0) {
+                array_push($program['modules'], $module);
+            }
+            if (strlen($program['program_name']) > 0) {
+                array_push($programPrivileges, $program);
+            }
 
             // return the relevant info
             $isUser = $userData[0]['role_name'] == 'User';
@@ -157,7 +161,9 @@ class Session
                 'last_name' => $userData[0]['last_name'],
                 'email' => $userData[0]['email'],
                 'login_name' => $userData[0]['login_name'],
-                'privileges' => $programPrivileges
+                'privileges' => $programPrivileges,
+                'recieve_email_notifications' => 
+                    $userData[0]['recieve_email_notifications']
             ];
         } else {
             // if the query failed, it may be because the given username and 

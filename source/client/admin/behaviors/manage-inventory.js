@@ -247,8 +247,8 @@ function addInventoryButton(){
     return $('<a id="add_inventory" class="green btn-floating btn-small waves-effect waves-light"><i class="mdi mdi-plus mdi-24"></i></a>');
 }
 
-$app.behaviors['manage-inventory'] = function (){
+$(function (){
     addZoneSelect();
 
     changeLanguage(localStorage.defaultLanguage);
-}
+});

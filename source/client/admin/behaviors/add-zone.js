@@ -1,11 +1,22 @@
+function textInput(id, classes){
+    return '<input id="' + id + '" type="text" class="validate ' + classes + '" placeholder="Search by Name...">';
+}
+
+function addDynamicSearchRow(){
+    var row = $("<tr>");
+    row.append($("<td class='dynamic-search'>").html(textInput("zone-search", "zone-search")));
+    return row;
+}
+
 function addZoneListElement(element){
     var row = $("<tr>");
-    row.append($("<td>").text(element.name));
+    row.append($("<td class='search-column'>").text(element.name));
     return row;
 }
 
 function addZoneList(zoneList) {
     var list = $("<tbody>");
+    list.append(addDynamicSearchRow());
     for (element of zoneList) {
         list.append(addZoneListElement(element));
     }
@@ -24,6 +35,7 @@ function createZoneTable(zoneList) {
     var table = $("<table>");
     table.addClass("bordered striped highlight");
     table.append(addZoneHeader());
+    table.append();
     table.append(addZoneList(zoneList));
     return table;
 }
@@ -110,8 +122,9 @@ $(function (){
     $server.request({
         service: "list-zones",
         success: function(response, message, xhr) {
-            console.log(response.data);
+            // console.log(response.data);
             $("#zones_wrapper").append(createZoneTable(response.data));
+            dynamicSearchBind("zone-search", "search-column");
             changeLanguage(localStorage.defaultLanguage);
         }
     });

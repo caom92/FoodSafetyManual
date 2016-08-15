@@ -84,7 +84,10 @@ class UsersZonesModulesPrivilegesDAO extends DataAccessObject
                 'pr.name(privilege)'
             ],
             [
-                'user_id' => $userID,
+                'AND' => [
+                    'user_id' => $userID,
+                    'privilege_id[!]' => 1 
+                ],
                 'ORDER' => [
                     'p.id',
                     'm.id',

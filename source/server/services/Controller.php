@@ -484,19 +484,44 @@ try {
             $areInputArgsValid = isset($_POST['zone_id']) &&
                 isset($_POST['module_id']);
 
-            if (Services::isSessionOpen()) {
-                if (Services::isAdmin()) {
-                    respond(0, 'Module inventory retrieved successfully.', 
-                        Services::getInventoryOfProgram(
-                            $_POST['zone_id'], 
-                            $_POST['module_id']
-                        )
-                    );
+            if ($areInputArgsValid) {
+                if (Services::isSessionOpen()) {
+                    if (Services::isAdmin()) {
+                        respond(0, 'Module inventory retrieved successfully.', 
+                            Services::getInventoryOfProgram(
+                                $_POST['zone_id'], 
+                                $_POST['module_id']
+                            )
+                        );
+                    } else {
+                        throw new \Exception("Permission denied.");
+                    }
                 } else {
-                    throw new \Exception("Permission denied.");
+                    throw new \Exception('User is not logged in.');
                 }
             } else {
-                throw new \Exception('User is not logged in.');
+                throw new \Exception('Input arguments are invalid.');
+            }
+        break;
+
+        case 'toggle-email-notifications':
+            $areInputArgsValid = isset($_POST['enable_notifications']);
+
+            if ($areInputArgsValid) {
+                if (Services::isSessionOpen()) {
+                    Services::toggleUserEmailNotifications(
+                        $_POST['enable_notifications']
+                    );
+                    respond(
+                        0,
+                        "E-mail notifications' configuration changed". 
+                        " successfully"
+                    );
+                } else {
+                    throw new \Exception('User is not logged in.');
+                }
+            } else {
+                throw new \Exception('Input arguments are invalid.');
             }
         break;
             

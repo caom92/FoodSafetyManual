@@ -1,15 +1,3 @@
-function isRequiredTextAreaValid(id) {
-    if ($(id).val().length == 0) {
-        $(id).addClass("invalid");
-        return false;
-    }
-    return true;
-}
-/************************************** */
-
-// This function creates a table containing all the modules from all the
-// procedures for all the zones
-
 function addPermissionTable(){
     //First we request the information from the server
     $server.request({
@@ -39,6 +27,69 @@ function addPermissionTable(){
             $('.indicator').addClass("green");
             $('.collapsible').collapsible();
             changeLanguage(localStorage.defaultLanguage);
+        }
+    });*/
+}
+
+function roleSelect(selected) {
+    $server.request({
+        service: 'list-user-roles',
+        success: function(response, message, xhr) {
+            if(getLanguage() == "en") {
+                $(".user_role").text("Choose the account role");
+                $(".user_role_label").text("Account role");
+                for(var role in response.data){
+                    var option = $("<option>");
+                    option.attr("value", response.data[role].id);
+                    option.text(response.data[role].name);
+                    $("#user-role").append(option);
+                }
+            } else if (getLanguage() == "es") {
+                $(".user_role").text("Seleccione el tipo de cuenta");
+                $(".user_role_label").text("Tipo de cuenta");
+                for(var role in response.data){
+                    var option = $("<option>");
+                    option.attr("value", response.data[role].id);
+                    switch(response.data[role].name){
+                        case "User": option.text("Usuario"); break;
+                        case "Admin": option.text("Administrador"); break;
+                    }
+                    $("#user-role").append(option);
+                }
+            }
+            if(selected != null) {
+                $("#user-role").val(selected);
+            }
+            $('select.readonly option:not(:selected)').attr('disabled',true);
+            $('select').material_select();
+        }
+    });
+}
+
+function getProcedureNames(){
+    $server.request({
+        service: 'list-programs',
+        cache: true,
+        success: function(response){
+            if (response.meta.return_code == 0) {
+                for (var program of response.data) {
+                    var id = program.id;
+                    var text = program.name;
+                    $("#" + id).text(text);
+                }
+            } else {
+                throw response.meta.message;
+            }
+        }
+    });
+    /*$.ajax({
+        url: '/espresso/data/files/procedures.xml',
+        success: function(xml){
+            var name = $(xml).find('procedure').each(function(){
+                var id = $(this).attr('id');
+                var text = $(this).find('name').text();
+                $("#" + id).text(text);
+            });
         }
     });*/
 }
@@ -103,7 +154,6 @@ function addProcedure(procedureObject, zoneID, zoneName){
     tableHeadRow.append($("<th>").attr("class", "write"));
 
     for(var module in procedureObject.modules){
-        
         tableBody.append(addModule(
             procedureObject.modules[module].id,
             procedureObject.id,
@@ -173,7 +223,6 @@ function addPrivilegeInput(privilegeID, privilegeType, valueChecked){
     input.attr("id", privilegeID + "_" + privilegeType);
     input.attr("value", privilegeType);
 
-    console.log(valueChecked);
     if(privilegeType == valueChecked){
         input.attr("checked", "checked");
     }
@@ -236,145 +285,94 @@ function showPrivileges(){
     });
 }
 
-function checkDuplicate(valueToCheck, id, serv){
-    var objectData;
-    objectData = valueToCheck;
-    console.log(objectData);
+/************************************************************* */
+
+function getUserPrivileges(userID){
+    var data = new Object();
+    data.user_id = userID;
     $server.request({
-        service: serv,
-        data: objectData,
+        service: 'get-user-privileges',
+        data: data,
         success: function(response, message, xhr) {
-            if (response.meta.return_code == 0) {
-                if(response.data){
-                    $(id).addClass("invalid");
-                    $(id).removeClass("valid");
-                    loadToast(
-                        serv,
-                        3500, "rounded"
-                    );
-                }
-            } else {
-                console.log("server says: " + response.meta.message);
-            }
+            console.log(response);
         }
     });
 }
 
-function roleSelect(selected) {
+function fillUserInformation(userID){
+    /*
+    var data = new Object();
+    data.user_id = userID;
     $server.request({
-        service: 'list-user-roles',
+        service: 'service-name',
+        data: data,
         success: function(response, message, xhr) {
-            if(getLanguage() == "en") {
-                $(".user_role").text("Choose the account role");
-                $(".user_role_label").text("Account role");
-                for(var role in response.data){
-                    var option = $("<option>");
-                    option.attr("value", response.data[role].id);
-                    option.text(response.data[role].name);
-                    $("#user-role").append(option);
-                }
-            } else if (getLanguage() == "es") {
-                $(".user_role").text("Seleccione el tipo de cuenta");
-                $(".user_role_label").text("Tipo de cuenta");
-                for(var role in response.data){
-                    var option = $("<option>");
-                    option.attr("value", response.data[role].id);
-                    switch(response.data[role].name){
-                        case "User": option.text("Usuario"); break;
-                        case "Admin": option.text("Administrador"); break;
-                    }
-                    $("#user-role").append(option);
-                }
+            if (response.meta.return_code == 0) {
+                var user = response.data;
+                $("#login-name").val(user.login_name);
+                $("#user-id").val(user.employee_num);
+                $("#first-name").val(user.first_name);
+                $("#last-name").val(user.last_name);
+                $("#email").val(user.email);
+                $("label").addClass("active");
+                $(".user_role_label").removeClass("active");
+                roleSelect(user.role_id);
+            } else {
+                // Considering a non valid userID was entered, we go back to
+                // view users
+                window.location.href = '/espresso/view-users';
             }
-            if(selected != null) {
-                $("#user-role").val(selected);
-            }
-            $('select.readonly option:not(:selected)').attr('disabled',true);
-            $('select').material_select();
+        }
+    });
+    */
+    console.log("Entered");
+    $.ajax({
+        url: $root + '/user.json',
+        success: function(data) {
+            $("#login-name").val(data.login_name);
+            $("#user-id").val(data.employee_num);
+            $("#first-name").val(data.first_name);
+            $("#last-name").val(data.last_name);
+            $("#email").val(data.email);
+            $("label").addClass("active");
+            $(".user_role_label").removeClass("active");
+            roleSelect(data.role_id);
         }
     });
 }
 
 $(function (){
+    var get = getURLQueryStringAsJSON();
+
+    fillUserInformation(get.user_id);
     addPermissionTable();
     getProcedureNames();
-    roleSelect();
 
     $('ul.tabs').tabs();
     $('.collapsible').collapsible();
 
-    $("#login-name").focusout(function(e) {
-        console.log("Check Login");
-        checkDuplicate({login_name: $("#login-name").val()},
-            "#login-name",
-            "is-login-name-duplicated");
-    });
-
-    $("#email").focusout(function(e) {
-        console.log("Check Email");
-        checkDuplicate({email: $("#email").val()},
-            "#email",
-            "is-email-duplicated");
-    });
-
-    $("#user-id").focusout(function(e) {
-        console.log("Check ID");
-        checkDuplicate({employee_num: Number($("#user-id").val())},
-            "#user-id",
-            "is-employee-num-duplicated");
-    });
-
-    $("#login-name").keyup(function(e){
-        $("#login-name").focusout();
-    });
-
-    $("#email").keyup(function(e){
-        $("#email").focusout();
-    });
-
-    $("#user-id").keyup(function(e){
-        $("#user-id").focusout();
-    });
-
     // Send the new user information, privileges included, to the server
-    $("#add_user").on('click', function(e){
+    $("#edit_user").on('click', function(e){
         var userObject = new Object();
         // prevent authomatic submission, we'll do it manually
         e.preventDefault();
 
-        // Check for all the inputs to have a valid value entry. 
-        // Otherwise, notify the user and mark the invalid inputs.
-
-        // Since all fields are mandatory, we check if all of them have been 
-        // filled
-
-        var isUserValid = isRequiredTextAreaValid("#login-name");
-        var isIDValid = isRequiredTextAreaValid("#user-id");
-        var isNameValid = isRequiredTextAreaValid("#first-name");
-        var isLastNameValid = isRequiredTextAreaValid("#last-name");
-        var isEmailValid = isRequiredTextAreaValid("#email");
-        var isPasswordValid = isRequiredTextAreaValid("#password");
-        var isPasswordCheckValid = isRequiredTextAreaValid("#check-password");
-        var doPasswordsMatch = 
-            $('#password').val() == $('#check-password').val(); 
-
         // Check for invalid conditions
         // First, we check that all fields have been selected
-        if (!isUserValid || !isIDValid || !isNameValid || !isLastNameValid
-            || !isEmailValid || !isPasswordValid || !isPasswordCheckValid
-            || !doPasswordsMatch) {
-            loadToast("incorrect_fields", 
-                3500, "rounded");
-        } else {
+        // if (!isUserValid || !isIDValid || !isNameValid || !isLastNameValid
+        //     || !isEmailValid || !isPasswordValid || !isPasswordCheckValid) {
+        //     loadToast("incorrect_fields", 
+        //         3500, "rounded");
+        // } else {
             // We check for any invalid classes in the username, ID and email
             // HTML elements. In such a case, we cannot proceed
-            var isNameDuplicate = $("#login-name").hasClass("invalid");
-            var isEmailDuplicate = $("#email").hasClass("invalid");
-            var isIDDuplicate = $("#user-id").hasClass("invalid");
+            // var isNameDuplicate = $("#login-name").hasClass("invalid");
+            // var isEmailDuplicate = $("#email").hasClass("invalid");
+            // var isIDDuplicate = $("#user-id").hasClass("invalid");
 
-            if(isNameDuplicate || isEmailDuplicate || isIDDuplicate){
-                loadToast("duplicated_fields", 3500, "rounded");
-            } else {
+            // if(isNameDuplicate || isEmailDuplicate || isIDDuplicate){
+            //     loadToast("duplicated_fields", 3500, "rounded");
+            // } else {
                 // Proceed to send request
 
                 // Build the user object
@@ -405,71 +403,27 @@ $(function (){
                 console.log(userObject);
 
                 // Send the user object to the server, requesting an user add
-                $server.request({
-                    service: 'add-user',
-                    data: userObject,
-                    success: function(response) {
-                        if (response.meta.return_code == 0) {
-                            Materialize.toast(
-                                'User resgistered successfully', 3500, 'rounded'
-                            );
-                            setTimeout(function() {
-                                    window.location.href = $root + 'view-users'
-                                }, 
-                            2500);
-                        } else {
-                            console.log('server says: ' + response.meta.message);
-                        }
-                    }
-                });
-            }
-        }
-
-        // With the inputs checked, we proceed to create the JSON user Object,
-        // following the structure presented below
-        //JSON Object Structure:
-        /*
-        {
-            employee_num: int
-            first_name: string
-            last_name: string
-            email: string [Must be a valid email address]
-            login_name: string [must contain only letters a-z,
-            A-Z and numbers 0-9]
-            login_password: string
-            privileges: Array<Privilege>
-        }
-
-        Privilege:
-        {
-            zone_id: int
-            module_id: int
-            privilege_id: int [Limited to 0 - None, 1 - Read, 2 - Write]
-        }
-
-        Example JSON Object
-        {
-            "employee_num":123456,
-            "first_name":"John",
-            "last_name":"Doe",
-            "email":"john.doe@example.com",
-            "login_name":"jdoe",
-            "login_password":"pass1234",
-            "privileges":[
-                {
-                    "zone_id":1,
-                    "module_id":1,
-                    "privilege_id":2
-                },
-                {
-                    "zone_id":1,
-                    "module_id":2,
-                    "privilege_id":1
-                }
-            ]
-        }
-        */
+                Materialize.toast(
+                    'Coming Soon', 3500, 'rounded'
+                );
+                // $server.request({
+                //     service: 'add-user',
+                //     data: userObject,
+                //     success: function(response) {
+                //         if (response.meta.return_code == 0) {
+                //             Materialize.toast(
+                //                 'User resgistered successfully', 3500, 'rounded'
+                //             );
+                //             setTimeout(function() {
+                //                     window.location.href = '/espresso/view-users'
+                //                 }, 
+                //             2500);
+                //         } else {
+                //             console.log('server says: ' + response.meta.message);
+                //         }
+                //     }
+                // });
+            //}
+        //}
     });
-
-    changeLanguage(localStorage.defaultLanguage);
 });

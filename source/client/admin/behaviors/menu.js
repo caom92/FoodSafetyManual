@@ -4,5 +4,7 @@ $(function()
         event.preventDefault();
     });
 
+    $('.collapsible').collapsible();
+
     //changeLanguage(localStorage.defaultLanguage);
 });

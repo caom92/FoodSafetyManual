@@ -711,7 +711,7 @@ class Services
                     array_push($programObj['modules'], [
                         'id' => $module['id'],
                         'name' => $module['name'],
-                        'privileges' => [
+                        'privilege' => [
                             'id' => $defaultPrivilege['id'],
                             'name' => $defaultPrivilege['name']
                         ]
@@ -736,6 +736,18 @@ class Services
     {
         $inventory = new InventoryDAO(db\connectToDataBase());
         return $inventory->selectByZoneIDAndModuleID($zoneID, $moduleID);
+    }
+
+
+    // Changes the email notifications' configuration of the user
+    static function toggleUserEmailNotifications($enableNotifications)
+    {
+        $users = new db\UsersDAO(db\connectToDataBase());
+        $session = new serv\Session();
+        $users->updateEmailNotificationsByID(
+            $session->getID(), 
+            ($enableNotifications === 'true')
+        );
     }
 }
 
