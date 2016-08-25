@@ -72,7 +72,19 @@ class Email
         // Set who the message is to be sent from
         // For gmail, this generally needs to be the same as the user you 
         // logged in as
-        $this->mail->setFrom(mail\OAUTH_USER_EMAIL, mail\USER_NAME[$lang]);
+        switch ($lang) {
+            case 'en':
+                $this->mail->setFrom(mail\OAUTH_USER_EMAIL, mail\USER_NAME_EN);
+            break;
+
+            case 'es':
+                $this->mail->setFrom(mail\OAUTH_USER_EMAIL, mail\USER_NAME_ES);
+            break;
+
+            default:
+                $this->mail->setFrom(mail\OAUTH_USER_EMAIL, mail\USER_NAME_EN);
+            break;
+        }
 
         // Set who the message is to be sent to
         $this->mail->addAddress($receiver['email'], $receiver['name']);

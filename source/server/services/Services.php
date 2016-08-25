@@ -20,6 +20,7 @@ require_once realpath(dirname(__FILE__).'/../dao/RecoveryTokensDAO.php');
 require_once realpath(dirname(__FILE__)
     .'/../dao/UsersZonesModulesPrivilegesDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/RolesDAO.php');
+require_once realpath(dirname(__FILE__).'/../dao/InventoryDAO.php');
 
 // Alias namespaces for ease of use
 use fsm\services as serv;
@@ -84,18 +85,15 @@ class Services
         if (count($userProfile) > 0) {
             // get the current timestamp and add 1 day to get the 
             // expiration date for the token
-            $expirationDate = \strtotime("+1 day", time());
+            $expirationDate = \strtotime("+15 minutes", time());
 
             // create the recovery token
             $recoveryToken = hash(
-                "sha256",
-                hash(
-                    'md5', 
-                    rand()
-                    . $userProfile[0]['login_name']
-                    . $userProfile[0]["login_password"]
-                    . time()
-                )
+                "sha512",
+                rand()
+                . $userProfile[0]['first_name']
+                . $userProfile[0]['last_name']
+                . time()
             );
 
             // delete any previous token, valid or invalid, that is associated 
@@ -112,7 +110,7 @@ class Services
             // create the password recovery link
             $recoveryLink = 
                 "http://".$_SERVER['HTTP_HOST'].SITE_ROOT
-                ."/recover-password?token="
+                ."/password-recovery?token="
                 . $recoveryToken;
             
             // now prepare the email to be sent to the user
@@ -123,8 +121,8 @@ class Services
                 $subject = "Jacobs Farm: Password Recovery.";
                 $body = "This is an automated response to your request to "
                     . "recover your password. Just click the following link" 
-                    . " within the next 24 hours and you will be taken to the "
-                    . " password recovery page:<br>"
+                    . " within the next 15 minutes and you will be taken to "
+                    . "the password recovery page:<br>"
                     . "<a href='".$recoveryLink."'>Recover my " 
                     . "password!</a>";
             } elseif ($lang == 'es') {
@@ -132,7 +130,7 @@ class Services
                 $body = "Esta es una respuesta automatizada a su petición"
                     . " de recuperar su contraseña. Sólo haga clic "
                     . "en el enlace que aparece a continuación dentro de "
-                    . "las siguientes 24 horas y lo llevará a la "
+                    . "los próximos 15 minutos y lo llevará a la "
                     . "página de recuperación de "
                     . "contraseña: <br>"
                     . "<a href='$recoveryLink'>"
@@ -157,7 +155,7 @@ class Services
                 throw new \Exception($result);
             }
         } else {
-            throw \Exception('User not found in data base');
+            throw new \Exception('User not found in data base');
         }
     }
 
@@ -192,12 +190,24 @@ class Services
 
 
     // Change the account name of the user with the provided ID
-    static function changeUserAccountName($newName)
+    static function changeUserAccountName($password, $newName)
     {
         $session = new serv\Session();
         $users = new db\UsersDAO(db\connectToDataBase());
         $userID = $session->getID();
         $result = $users->updateLogInNameByUserID($userID, $newName);
+
+        $isPasswordValid = password_verify(
+            $password,
+            $session->getValue('login_password')
+        );
+
+        if (!$isPasswordValid) {
+            throw new \Exception(
+                'Log in name could not be changed; authentication '. 
+                'credentials were incorrect.'
+            );
+        }
 
         if (count($result) <= 0) {
             throw new \Exception("Log in name could not be changed.");
@@ -206,12 +216,28 @@ class Services
 
 
     // Change the password of the user with the provided ID
-    static function changeUserPassword($newPasswd)
+    static function changeUserPassword($password, $newPasswd)
     {
         $session = new serv\Session();
         $users = new db\UsersDAO(db\connectToDataBase());
         $userID = $session->getID();
-        $result = $users->updatePasswordByUserID($userID, $newPasswd);
+
+        $isPasswordValid = password_verify(
+            $password, 
+            $session->getValue('login_password')
+        );
+
+        if (!$isPasswordValid) {
+            throw new \Exception(
+                'Password could not be changed; authentication credentials '. 
+                'where incorrect.'
+            );
+        }
+
+        $result = $users->updatePasswordByUserID(
+            $userID, 
+            password_hash($newPasswd, PASSWORD_BCRYPT)
+        );
 
         if (count($result) <= 0) {
             throw new \Exception('Password could not be changed.');
@@ -225,13 +251,16 @@ class Services
         $db = db\connectToDataBase();
         $users = new db\UsersDAO($db);
         $tokens = new db\RecoveryTokensDAO($db);
-        $result = $users->updatePasswordByUserID($userID, $newPasswd);
+        $result = $users->updatePasswordByUserID(
+            $userID, 
+            password_hash($newPasswd, PASSWORD_BCRYPT)
+        );
 
         if ($result <= 0) {
             throw new \Exception('Password could not be changed.');
         } else {
             $tokens->deleteByUserID($userID);
-            $userProfile = $users->selectByIdentifier($userID, $newPasswd);
+            $userProfile = $users->selectByIdentifier($userID);
             return $userProfile[0]['login_name'];
         }
     }
@@ -239,12 +268,24 @@ class Services
 
 
     // Change the email of the user with the provided ID
-    static function changeUserEmail($newEmail)
+    static function changeUserEmail($password, $newEmail)
     {
         $session = new serv\Session();
         $users = new db\UsersDAO(db\connectToDataBase());
         $userID = $session->getID();
         $result = $users->updateEmailByUserID($userID, $newEmail);
+
+        $isPasswordValid = password_verify(
+            $password, 
+            $session->getValue('login_password')
+        );
+
+        if (!$isPasswordValid) {
+            throw new \Exception(
+                'Email could not be changed; authentication credentials '.
+                'were incorrect.'
+            );
+        }
 
         if (count($result) <= 0) {
             throw new \Exception('Email could not be changed.');
@@ -581,7 +622,7 @@ class Services
         // first connect to the data base
         $db = db\connectToDataBase();
         $users = new db\UsersDAO($db);
-        $roles = new db\RolesDAO($db);
+        $usersPrivileges = new db\UsersZonesModulesPrivilegesDAO($db);
 
         // insert the user to the data base
         $userID = $users->insert([
@@ -591,16 +632,22 @@ class Services
             'last_name' => $userData['last_name'],
             'email' => $userData['email'],
             'login_name' => $userData['login_name'],
-            'login_password' => $userData['login_password']
+            'login_password' => password_hash(
+                $userData['login_password'], 
+                PASSWORD_BCRYPT
+            )
         ]);
 
         // add the privileges to the data base
         foreach ($userData['privileges'] as $privilege) {
+            $privilegeID = (isset($privilege['privilege_id'])) ? 
+                $privilege['privilege_id'] : 1;
+
             $usersPrivileges->insert([
                 'user_id' => $userID,
                 'zone_id' => $privilege['zone_id'],
                 'module_id' => $privilege['module_id'],
-                'privilege_id' => $privilege['privilege_id']
+                'privilege_id' => $privilegeID
             ]);
         }
     }
@@ -623,14 +670,14 @@ class Services
         $zonesTable = new db\ZonesDAO($db);
         $programsTable = new db\ProgramsDAO($db);
         $modules = new db\ModulesDAO($db);
-        $privilegesTable = new db\PrivilegesDAO();
+        $privilegesTable = new db\PrivilegesDAO($db);
 
         // then list all zones and programs
         $zones = $zonesTable->selectAll();
         $programs = $programsTable->selectAll();
 
         // get the default privilege 
-        $defaultPrivilege = $privilegeTable->selectDefault();
+        $defaultPrivilege = $privilegesTable->selectDefault();
         
         // initialize the resulting associative array 
         $finalObj = [
@@ -657,14 +704,14 @@ class Services
                 ];
 
                 // and finally visit each module of this program
-                foreach ($modules->selectByProgramID($progam['id']) as $module) 
+                foreach ($modules->selectByProgramID($program['id']) as $module)
                 {
                     // and store in the temporal program holder the info of 
                     // each module and the default privilege
                     array_push($programObj['modules'], [
                         'id' => $module['id'],
                         'name' => $module['name'],
-                        'privileges' => [
+                        'privilege' => [
                             'id' => $defaultPrivilege['id'],
                             'name' => $defaultPrivilege['name']
                         ]
@@ -681,6 +728,26 @@ class Services
 
         // return the resulting associative array
         return $finalObj;
+    }
+
+
+    // Returns the inventory items associated to the given zone and module
+    static function getInventoryOfProgram($zoneID, $moduleID)
+    {
+        $inventory = new InventoryDAO(db\connectToDataBase());
+        return $inventory->selectByZoneIDAndModuleID($zoneID, $moduleID);
+    }
+
+
+    // Changes the email notifications' configuration of the user
+    static function toggleUserEmailNotifications($enableNotifications)
+    {
+        $users = new db\UsersDAO(db\connectToDataBase());
+        $session = new serv\Session();
+        $users->updateEmailNotificationsByID(
+            $session->getID(), 
+            ($enableNotifications === 'true')
+        );
     }
 }
 

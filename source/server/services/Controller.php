@@ -46,10 +46,10 @@ try {
             respond(0, 'User session checked.', Services::isSessionOpen());
         break;
 
-        case 'password-recovery':
-            if (isset($_POST['username']) && isset($_POST['lang'])) {
+        case 'request-password-recovery':
+            if (isset($_POST['email']) && isset($_POST['lang'])) {
                 Services::mailRecoveryToken(
-                    $_POST['username'], 
+                    $_POST['email'], 
                     $_POST['lang']
                 );
                 respond(0, 'Recovery token mailed successfully.');
@@ -68,7 +68,7 @@ try {
         break;
 
         case 'change-username':
-            if (isset($_POST['new_username'])) {
+            if (isset($_POST['password']) && isset($_POST['new_username'])) {
                 if (Services::isSessionOpen()) {
                     $isDuplicated = Services::checkAccountNameDuplicates(
                         $_POST['new_username']
@@ -80,7 +80,10 @@ try {
                         );
                     }
 
-                    Services::changeUserAccountName($_POST['new_username']);
+                    Services::changeUserAccountName(
+                        $_POST['password'], 
+                        $_POST['new_username']
+                    );
                     respond(0, 'User login name was changed successfully');
                 } else {
                     throw new \Exception('User is not logged in');
@@ -91,9 +94,12 @@ try {
         break;
 
         case 'change-password':
-            if (isset($_POST['new_password'])) {
+            if (isset($_POST['password']) && isset($_POST['new_password'])) {
                 if (Services::isSessionOpen()) {
-                    Services::changeUserPassword($_POST['new_password']);
+                    Services::changeUserPassword(
+                        $_POST['password'], 
+                        $_POST['new_password']
+                    );
                     respond(0, 'User password was changed successfully');
                 } else {
                     throw new \Exception('User is not logged in');
@@ -125,7 +131,7 @@ try {
         break;
 
         case 'change-email':
-            if (isset($_POST['new_email'])) {
+            if (isset($_POST['password']) && isset($_POST['new_email'])) {
                 if (Services::isSessionOpen()) {
                     $isDuplicated = Services::checkUserEmailDuplicates(
                         $_POST['new_email']
@@ -135,7 +141,10 @@ try {
                             'Failed to update user info: email already taken.');
                     }
 
-                    Services::changeUserEmail($_POST['new_email']);
+                    Services::changeUserEmail(
+                        $_POST['password'], 
+                        $_POST['new_email']
+                    );
                     respond(0, 'User email was changed successfully');
                 } else {
                     throw new \Exception('User is not logged in');
@@ -383,6 +392,7 @@ try {
                 isset($_POST['first_name']) &&
                 isset($_POST['last_name']) &&
                 isset($_POST['email']) &&
+                isset($_POST['role_id']) &&
                 isset($_POST['login_name']) &&
                 isset($_POST['login_password']) &&
                 isset($_POST['privileges']);
@@ -431,7 +441,7 @@ try {
                         }
 
                         // after many checks, finally add the user
-                        Services::addNewUser($userData);
+                        Services::addNewUser($_POST);
                         respond(0, 'User registered successfully.');
                     } else {
                         throw new \Exception("Permission denied.");
@@ -461,12 +471,57 @@ try {
             if (Services::isSessionOpen()) {
                 if (Services::isAdmin()) {
                     respond(0, 'User roles listed successfully.', 
-                        Services::getAllZonesProgramsModulesAndPivileges());
+                        Services::getAllZonesProgramsModulesAndPrivileges());
                 } else {
                     throw new \Exception("Permission denied.");
                 }
             } else {
                 throw new \Exception('User is not logged in.');
+            }
+        break;
+
+        case 'get-inventory':
+            $areInputArgsValid = isset($_POST['zone_id']) &&
+                isset($_POST['module_id']);
+
+            if ($areInputArgsValid) {
+                if (Services::isSessionOpen()) {
+                    if (Services::isAdmin()) {
+                        respond(0, 'Module inventory retrieved successfully.', 
+                            Services::getInventoryOfProgram(
+                                $_POST['zone_id'], 
+                                $_POST['module_id']
+                            )
+                        );
+                    } else {
+                        throw new \Exception("Permission denied.");
+                    }
+                } else {
+                    throw new \Exception('User is not logged in.');
+                }
+            } else {
+                throw new \Exception('Input arguments are invalid.');
+            }
+        break;
+
+        case 'toggle-email-notifications':
+            $areInputArgsValid = isset($_POST['enable_notifications']);
+
+            if ($areInputArgsValid) {
+                if (Services::isSessionOpen()) {
+                    Services::toggleUserEmailNotifications(
+                        $_POST['enable_notifications']
+                    );
+                    respond(
+                        0,
+                        "E-mail notifications' configuration changed". 
+                        " successfully"
+                    );
+                } else {
+                    throw new \Exception('User is not logged in.');
+                }
+            } else {
+                throw new \Exception('Input arguments are invalid.');
             }
         break;
             

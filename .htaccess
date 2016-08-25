@@ -1,23 +1,33 @@
+# Disable server signature
+ServerSignature Off
+
+# Configure custom error pages:
+# Not found
+ErrorDocument 404 /espresso/source/client/common/layouts/error.html
+
 RewriteEngine On
 RewriteBase /espresso/
 
 # When no petition is specified, redirect it to the main page
-RewriteRule ^$ source/client/layouts/main.html [L,QSA]
+RewriteRule ^$ source/client/common/layouts/main.html [L,QSA]
 
 # Redirect any request for a layout to the proper HTML page
-RewriteRule ^layouts/(.+)$ source/client/layouts/$1.html [L,QSA]
+RewriteRule ^(users|admin|common)/layouts/([a-zA-Z_-]+)$ source/client/$1/layouts/$2.html [L,QSA]
+
+# Redirect any request for a behavior to the proper JS file
+RewriteRule ^(users|admin|common)/behaviors/([a-zA-Z_-]+\.js)$ source/client/$1/behaviors/$2 [L,QSA]
 
 # Redirect any service request to the controller script
-RewriteRule ^services/(.+)$ source/server/services/Controller.php [L,QSA]
+RewriteRule ^services/([a-zA-Z_-]+)$ source/server/services/Controller.php [L,QSA]
 
-# Redirect the password recovery page to the proper page
-RewriteRule ^recover-password$ source/client/layouts/recover-password.html [L,QSA]
+# Redirect any request for any other client-side script to the proper file
+RewriteRule ^scripts/([a-zA-Z_\-\.]+\.js)$ source/client/common/scripts/$1 [L,QSA]
 
 # Redirect any petition that is not a directory, file or link to the main page
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-l
-RewriteRule ^(.*)$ source/client/layouts/main.html [L,QSA]
+RewriteRule ^[a-zA-Z0-9_-]+$ source/client/common/layouts/main.html [L,QSA]
 
 # Prevent directory listing of the server files
 Options -Indexes 

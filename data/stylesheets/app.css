@@ -1,5 +1,22 @@
 @charset "UTF-8";
 
+/* ========================================================================== */
+/* Material Icons' Extra Rules                                                */
+/* ========================================================================== */
+/* Rules for sizing the icon. */
+.mdi.md-18 { font-size: 18px; }
+.mdi.md-24 { font-size: 24px; }
+.mdi.md-36 { font-size: 36px; }
+.mdi.md-48 { font-size: 48px; }
+
+/* Rules for using icons as black on a light background. */
+.mdi.md-dark { color: rgba(0, 0, 0, 0.54); }
+.mdi.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+/* Rules for using icons as white on a dark background. */
+.mdi.md-light { color: rgba(255, 255, 255, 1); }
+.mdi.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+
 /* Background color for the page */
 body {
     background-color: rgb(245, 245, 245);
@@ -9,6 +26,7 @@ body {
 .input-field input[type=text]:focus + label, .input-field .prefix.active, 
 .input-field input[type=password]:focus + label, 
 .input-field input[type=number]:focus + label,
+.input-field input[type=email]:focus + label,
 textarea.materialize-textarea:focus:not([readonly]) + label,
 .dropdown-content li > span {
     color: #00c853;
@@ -20,6 +38,8 @@ textarea.materialize-textarea:focus:not([readonly]) + label,
 .input-field input[type=password].valid, 
 .input-field input[type=number]:focus, 
 .input-field input[type=number].valid, 
+.input-field input[type=email]:focus,
+.input-field input[type=emial].valid,
 textarea.materialize-textarea:focus:not([readonly]) {
     border-bottom: 1px solid #00c853;
     box-shadow: 0 1px 0 0 rgba(0, 0, 0, .2);
@@ -125,11 +145,12 @@ main.with-side-menu, footer {
 }
 
 /* Make the icon in the error message page become red */
-.material-icons.field-icon.error, 
+.field-icon.error, 
 textarea.materialize-textarea.invalid:focus:not([readonly]) + label, 
 textarea.materialize-textarea.invalid:not([readonly]) + label,
 .invalid-select, p.form-error,
-.material-icons.prefix.active.invalid {
+.prefix.active.invalid,
+.prefix.invalid {
     color: red !important;
 }
 
@@ -152,4 +173,8 @@ main.container > div.row.center {
 /* Adjust the padding of the program collapsible buttons in the side nav */
 .program-button {
     padding: 0 40px 0 20px !important;
+}
+
+ul#form-wrappers div.collapsible-body {
+    margin: 10px 20px 0 20px;
 }
