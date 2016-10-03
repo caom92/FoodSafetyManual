@@ -9,8 +9,8 @@ function isDefined(variable)
 // Stores in the local storage all the user profile data
 function storeUserDataInLocalStorage(userData)
 {
-    localStorage.isUser = userData.isUser;
-    localStorage.exclusiveAccess = userData.exclusiveAccess;
+    localStorage.role = userData.role;
+    localStorage.exclusive_access = userData.exclusive_access;
     localStorage.employee_num = userData.employee_num;
     localStorage.first_name = userData.first_name;
     localStorage.last_name = userData.last_name;

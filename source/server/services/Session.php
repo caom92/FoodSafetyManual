@@ -151,11 +151,27 @@ class Session
                 array_push($programPrivileges, $program);
             }
 
+            // we define the parts of the site that the different user roles
+            // may be able to access
+            $exclusiveAccess = '';
+            switch ($userData[0]['role_name']) {
+                case 'Administrator':
+                    $exclusiveAccess = 'admin/';
+                break;
+
+                case 'Supervisor':
+                    $exclusiveAccess = 'supervisors/';
+                break;
+
+                case 'Employee':
+                    $exclusiveAccess = 'users/';
+                break;
+            }
+
             // return the relevant info
-            $isUser = $userData[0]['role_name'] == 'User';
             return [
-                'isUser' => $isUser,
-                'exclusiveAccess' => ($isUser) ? 'users/' : 'admin/',
+                'role' => $userData[0]['role_name'],
+                'exclusive_access' => $exclusiveAccess,
                 'employee_num' => $userData[0]['employee_num'],
                 'first_name' => $userData[0]['first_name'],
                 'last_name' => $userData[0]['last_name'],
