@@ -216,6 +216,44 @@ function loadSideMenu()
 }
 
 $(function() {
+    // every time the user clicks a link to navigate to another page,
+    // we load the corresponding layout to the current view, preventing
+    // full-page reloading; we also make use of history API in order to preserve
+    // browser's forward and backward buttons' functionality 
+    $('a:not(.collapsible-header)').on('click', function(event) {
+        // prevent normal navigation
+        event.preventDefault();
+
+        // get the layout that is being requested 
+        var targetLayout = $(this).attr('href');
+
+        // push the state to the history stack
+        window.history.pushState({ layout: targetLayout }, '', targetLayout);
+
+        // load the requested layout
+        $app.load(targetLayout); 
+    });
+
+    // every time the forward or backward button is pressed to recover a 
+    // page state, we must manually load the requested layout to the current 
+    // view
+    window.onpopstate = function(event) {
+        // check that the page state is valid and not empty
+        var isStateObjNull = event.state == null;
+        if (!isStateObjNull) {
+            var isLayoutEmpty = event.state.layout.length == 0;
+            if (!isLayoutEmpty) {
+                // if the page state is valid, we load the layout that was 
+                // stored in it
+                $app.load(event.state.layout);
+                return;
+            } 
+        } 
+        
+        // otherwise, we default to the edit-profile layout
+        $app.load('edit-profile');
+    }
+
     // check if the user is logged in
     $server.request({
         service: 'check-session', 
