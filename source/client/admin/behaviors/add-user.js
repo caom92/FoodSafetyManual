@@ -280,8 +280,9 @@ function roleSelect(selected) {
                     var option = $("<option>");
                     option.attr("value", response.data[role].id);
                     switch(response.data[role].name){
-                        case "User": option.text("Usuario"); break;
-                        case "Admin": option.text("Administrador"); break;
+                        case "Employee": option.text("Empleado"); break;
+                        case "Administrator": option.text("Administrador"); break;
+                        case "Supervisor": option.text("Supervisor"); break;
                     }
                     $("#user-role").append(option);
                 }
