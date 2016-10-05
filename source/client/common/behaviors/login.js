@@ -13,6 +13,21 @@ $(function() {
         }
     });
 
+    // $('form#login-form').validate({
+    //     rules: {
+    //         username: {
+    //             required: true,
+    //             minlength: 6
+    //         },
+    //         password: {
+    //             required: true,
+    //             minlength: 6
+    //         }
+    //     },
+    //     errorClass: 'invalid'
+    // });
+
+
     // when the user inputs her credentials, we must authenticate them
     // with the server
     $("#form-submit").on("click", function(event) {

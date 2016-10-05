@@ -234,13 +234,14 @@ class Services
             );
         }
 
-        $result = $users->updatePasswordByUserID(
-            $userID, 
-            password_hash($newPasswd, PASSWORD_BCRYPT)
-        );
+        $newPasswd = password_hash($newPasswd, PASSWORD_BCRYPT); 
+        $result = $users->updatePasswordByUserID($userID, $newPasswd);
 
         if (count($result) <= 0) {
             throw new \Exception('Password could not be changed.');
+        } else {
+            // save the new password in the session storage
+            $session->setValue('login_password', $newPasswd);
         }
     }
 
@@ -388,7 +389,7 @@ class Services
     static function isAdmin() 
     {
         $session = new serv\Session();
-        $isAdmin = $session->getValue('role_name') == 'Admin';
+        $isAdmin = $session->getValue('role_name') != 'User';
         return $isAdmin;
     }
 
@@ -748,6 +749,49 @@ class Services
             $session->getID(), 
             ($enableNotifications === 'true')
         );
+    }
+
+
+    // Changes the status of an inventory item to 'discharged'
+    static function dischargeInventoryItem($itemID)
+    {
+        $inventory = new db\InventoryDAO(db\connectToDataBase());
+        $inventory->updateStatusByID($itemID, 0);
+    }
+
+
+    // Adds a new inventory item to the data base
+    static function addNewInventoryItem($zoneID, $moduleID, $name)
+    {
+        $inventory = new db\InventoryDAO(db\connectToDataBase());
+        $inventory->insert($zoneID, $moduleID, $name);
+    }
+
+
+    // Changes the privileges of the user with the especified ID to the ones
+    // provided for each module-zone combination
+    static function editUserPermissions($userID, $privileges)
+    {
+        $userPrivileges = 
+            new db\UsersZonesModulesPrivilegesDAO(db\connectToDataBase());
+
+        foreach ($privileges as $privilege) {
+            $usersPrivileges->updatePrivilegeByUserZoneModuleIDs(
+                $userID,
+                $privilege['zone_id'],
+                $privilege['module_id'],
+                $privilete['privilege_id']
+            );
+        }
+    }
+
+
+    // Retrieves the list of active inventory items that corresponds to the 
+    // especified zone-module combination 
+    static function getAvailableInventoryOfProgram($zoneID, $moduleID)
+    {   
+        $inventory = new InventoryDAO(db\connectToDataBase());
+        return $inventory->selectActiveByZoneIDAndModuleID($zoneID, $moduleID);
     }
 }
 

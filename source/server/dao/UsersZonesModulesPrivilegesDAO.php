@@ -96,6 +96,33 @@ class UsersZonesModulesPrivilegesDAO extends DataAccessObject
             ]
         );
     }
+
+
+    // Changes the privileges that the user with the especified ID has for the
+    // especified zone-module combination
+    // [in]     userID: the ID of the user which privileges are going to be 
+    //          updated
+    // [in]     zoneID: the ID of the zone which user's privilege will be 
+    //          updated
+    // [in]     moduleID: the ID of the module which user's privilege will be
+    //          updated
+    // [in]     privilegeID: the ID of the privilege that will be assigned to
+    //          the user
+    function updatePrivilegeByUserZoneModuleIDs(
+        $userID, 
+        $zoneID, 
+        $moduleID, 
+        $privilegeID
+    )
+    {
+        parent::update(['privilege_id' => $privilegeID], [
+            'AND' => [
+                'user_id' => $userID,
+                'zone_id' => $zoneID,
+                'module_id' => $moduleID
+            ]
+        ]);
+    }
 }
 
 ?>

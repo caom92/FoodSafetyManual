@@ -1,8 +1,0 @@
-{
-    "role_id" : 2,
-    "employee_num" : 1337,
-    "first_name" : "John",
-    "last_name" : "Doe",
-    "email" : "doe@espresso.com",
-    "login_name" : "JDoe"
-}

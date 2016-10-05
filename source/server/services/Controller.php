@@ -10,15 +10,42 @@ require_once realpath(dirname(__FILE__).'/../config/site_config.php');
 require_once realpath(dirname(__FILE__).'/Services.php');
 
 
+// This function sends back to the client the especified information in a 
+// JSON of the form:
+// {
+//      meta: {
+//          return_code:[int],
+//          message:[string]
+//      }
+//      data:[json]
+// }
+// [in]     code: the return code or error code to be sent back 
+// [in]     message: the message string providing more information about
+//          the code sent
+// [in]     [data]: associative array of data that is going to be parsed into
+//          a JSON and be sent back to the client
+function respond($code, $message, $data = [])
+{
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode([
+        'meta' => [
+            'return_code' => $code,
+            'message' => $message
+        ],
+        'data' => $data
+    ]);
+}
+
+
 // Configure PHP to write the errors to a log file
 ini_set("log_errors", true);
-ini_set("error_log", "../".ERROR_LOG_FILE);
+ini_set("error_log", "../".LOG_FILE);
 
 try {
     // get the requested service
     $service = str_replace(SITE_ROOT.'/services/', '', $_SERVER['REQUEST_URI']);
 
-    // get which was the requested service and provide it
+    // detect which was the requested service and provide it
     switch ($service) {
         case 'status':
             Services::canConnectToDataBase();
@@ -33,7 +60,7 @@ try {
                 );
                 respond(0, 'User logged in successfully.', $userData);
             } else {
-                throw new \Exception('Input arguments are invalid.');
+                throw new \Exception(ERROR_INVALID_ARGS);
             }
         break;
 
@@ -54,7 +81,7 @@ try {
                 );
                 respond(0, 'Recovery token mailed successfully.');
             } else {
-                throw new \Exception('Input arguments are invalid');
+                throw new \Exception(ERROR_INVALID_ARGS);
             }
         break;
 
@@ -86,10 +113,10 @@ try {
                     );
                     respond(0, 'User login name was changed successfully');
                 } else {
-                    throw new \Exception('User is not logged in');
+                    throw new \Exception(ERROR_NOT_LOGGED_IN);
                 }
             } else {
-                throw new \Exception('Input arguments are invalid');
+                throw new \Exception(ERROR_INVALID_ARGS);
             }
         break;
 
@@ -102,10 +129,10 @@ try {
                     );
                     respond(0, 'User password was changed successfully');
                 } else {
-                    throw new \Exception('User is not logged in');
+                    throw new \Exception(ERROR_NOT_LOGGED_IN);
                 }
             } else {
-                throw new \Exception('Input arguments are invalid');
+                throw new \Exception(ERROR_INVALID_ARGS);
             }
         break;
 
@@ -126,7 +153,7 @@ try {
                 );
                 respond(0, 'User password was changed successfully', $result);
             } else {
-                throw new \Exception('Input arguments are invalid');
+                throw new \Exception(ERROR_INVALID_ARGS);
             }
         break;
 
@@ -147,10 +174,10 @@ try {
                     );
                     respond(0, 'User email was changed successfully');
                 } else {
-                    throw new \Exception('User is not logged in');
+                    throw new \Exception(ERROR_NOT_LOGGED_IN);
                 }
             } else {
-                throw new \Exception('Input arguments are invalid');
+                throw new \Exception(ERROR_INVALID_ARGS);
             }
         break;
 
@@ -175,10 +202,10 @@ try {
                     }
                     respond(0, 'Bug report mailed successfully.');
                 } else {
-                    throw new \Exception('User is not logged in');
+                    throw new \Exception(ERROR_NOT_LOGGED_IN);
                 }
             } else {
-                throw new \Exception('Input arguments are invalid');
+                throw new \Exception(ERROR_INVALID_ARGS);
             }
         break;
 
@@ -187,10 +214,10 @@ try {
                 if (Services::isAdmin()) {
                     respond(0, 'Listing zones.', Services::getAllZones());
                 } else {
-                    throw new \Exception("Permission denied.");
+                    throw new \Exception(ERROR_NO_PERMISSIONS);
                 }
             } else {
-                throw new \Exception('User is not logged in.');
+                throw new \Exception(ERROR_NOT_LOGGED_IN);
             }
         break;
 
@@ -199,10 +226,10 @@ try {
                 if (Services::isAdmin()) {
                     respond(0, 'Listing programs', Services::getAllPrograms());
                 } else {
-                    throw new \Exception("Permission denied.");
+                    throw new \Exception(ERROR_NO_PERMISSIONS);
                 }
             } else {
-                throw new \Exception('User is not logged in.');
+                throw new \Exception(ERROR_NOT_LOGGED_IN);
             }
         break;
 
@@ -219,13 +246,13 @@ try {
                             )
                         );
                     } else {
-                        throw new \Exception("Permission denied.");
+                        throw new \Exception(ERROR_NO_PERMISSIONS);
                     }
                 } else {
-                    throw new \Exception('User is not logged in.');
+                    throw new \Exception(ERROR_NOT_LOGGED_IN);
                 }
             } else {
-                throw new \Exception('Input arguments are invalid');
+                throw new \Exception(ERROR_INVALID_ARGS);
             }
         break;
 
@@ -234,10 +261,10 @@ try {
                 if (Services::isAdmin()) {
                     respond(0, 'Listing users', Services::getAllUsers());
                 } else {
-                    throw new \Exception("Permission denied.");
+                    throw new \Exception(ERROR_NO_PERMISSIONS);
                 }
             } else {
-                throw new \Exception('User is not logged in.');
+                throw new \Exception(ERROR_NOT_LOGGED_IN);
             }
         break;
 
@@ -250,13 +277,13 @@ try {
                         respond(0, 'Listing user privileges.', 
                             Services::getPrivilegesOfUser($_POST['user_id']));
                     } else {
-                        throw new \Exception("Permission denied.");
+                        throw new \Exception(ERROR_NO_PERMISSIONS);
                     }
                 } else {
-                    throw new \Exception('User is not logged in.');
+                    throw new \Exception(ERROR_NOT_LOGGED_IN);
                 }
             } else {
-                throw new \Exception('Input arguments are invalid.');
+                throw new \Exception(ERROR_INVALID_ARGS);
             }
         break;
 
@@ -266,10 +293,10 @@ try {
                     respond(0, 'Listing privileges.', 
                         Services::getAllPrivileges());
                 } else {
-                    throw new \Exception("Permission denied.");
+                    throw new \Exception(ERROR_NO_PERMISSIONS);
                 }
             } else {
-                throw new \Exception('User is not logged in.');
+                throw new \Exception(ERROR_NOT_LOGGED_IN);
             }
         break;
 
@@ -290,13 +317,13 @@ try {
                         Services::addNewZone($_POST['new_zone']);
                         respond(0, 'Zone added successfully.');
                     } else {
-                        throw new \Exception("Permission denied.");
+                        throw new \Exception(ERROR_NO_PERMISSIONS);
                     }
                 } else {
-                    throw new \Exception('User is not logged in.');
+                    throw new \Exception(ERROR_NOT_LOGGED_IN);
                 }
             } else {
-                throw new \Exception('Input arguments are invalid.');
+                throw new \Exception(ERROR_INVALID_ARGS);
             }
         break;
 
@@ -311,13 +338,13 @@ try {
                         );
                         respond(0, 'Zone name checked for duplicity.', $result);
                     } else {
-                        throw new \Exception("Permission denied.");
+                        throw new \Exception(ERROR_NO_PERMISSIONS);
                     }
                 } else {
-                    throw new \Exception('User is not logged in.');
+                    throw new \Exception(ERROR_NOT_LOGGED_IN);
                 }
             } else {
-                throw new \Exception('Input arguments are invalid.');
+                throw new \Exception(ERROR_INVALID_ARGS);
             }
         break;
 
@@ -332,10 +359,10 @@ try {
                     respond(0, 'User log in name checked for duplicity.', 
                         $result);
                 } else {
-                    throw new \Exception('User is not logged in.');
+                    throw new \Exception(ERROR_NOT_LOGGED_IN);
                 }
             } else {
-                throw new \Exception('Input arguments are invalid.');
+                throw new \Exception(ERROR_INVALID_ARGS);
             }
         break;
 
@@ -350,10 +377,10 @@ try {
                     respond(0, 'User email checked for duplicity.', 
                         $result);
                 } else {
-                    throw new \Exception('User is not logged in.');
+                    throw new \Exception(ERROR_NOT_LOGGED_IN);
                 }
             } else {
-                throw new \Exception('Input arguments are invalid.');
+                throw new \Exception(ERROR_INVALID_ARGS);
             }
         break;
 
@@ -371,20 +398,20 @@ try {
                             $result
                         );
                     } else {
-                        throw new \Exception("Permission denied.");
+                        throw new \Exception(ERROR_NO_PERMISSIONS);
                     }
                 } else {
-                    throw new \Exception('User is not logged in.');
+                    throw new \Exception(ERROR_NOT_LOGGED_IN);
                 }
             } else {
-                throw new \Exception('Input arguments are invalid.');
+                throw new \Exception(ERROR_INVALID_ARGS);
             }
         break;
 
         case 'add-user':
             $isPostSet = isset($_POST);
             if (!$isPostSet) {
-                throw new \Exception('Input arguments are invalid.');
+                throw new \Exception(ERROR_INVALID_ARGS);
             }
 
             // now, check that every attribute in the json is set as expected
@@ -444,13 +471,13 @@ try {
                         Services::addNewUser($_POST);
                         respond(0, 'User registered successfully.');
                     } else {
-                        throw new \Exception("Permission denied.");
+                        throw new \Exception(ERROR_NO_PERMISSIONS);
                     }
                 } else {
-                    throw new \Exception('User is not logged in.');
+                    throw new \Exception(ERROR_NOT_LOGGED_IN);
                 }
             } else {
-                throw new \Exception('Input arguments are invalid.');
+                throw new \Exception(ERROR_INVALID_ARGS);
             }
         break;
 
@@ -460,10 +487,10 @@ try {
                     respond(0, 'User roles listed successfully.', 
                         Services::getAllUserRoles());
                 } else {
-                    throw new \Exception("Permission denied.");
+                    throw new \Exception(ERROR_NO_PERMISSIONS);
                 }
             } else {
-                throw new \Exception('User is not logged in.');
+                throw new \Exception(ERROR_NOT_LOGGED_IN);
             }
         break;
 
@@ -473,10 +500,10 @@ try {
                     respond(0, 'User roles listed successfully.', 
                         Services::getAllZonesProgramsModulesAndPrivileges());
                 } else {
-                    throw new \Exception("Permission denied.");
+                    throw new \Exception(ERROR_NO_PERMISSIONS);
                 }
             } else {
-                throw new \Exception('User is not logged in.');
+                throw new \Exception(ERROR_NOT_LOGGED_IN);
             }
         break;
 
@@ -494,13 +521,13 @@ try {
                             )
                         );
                     } else {
-                        throw new \Exception("Permission denied.");
+                        throw new \Exception(ERROR_NO_PERMISSIONS);
                     }
                 } else {
-                    throw new \Exception('User is not logged in.');
+                    throw new \Exception(ERROR_NOT_LOGGED_IN);
                 }
             } else {
-                throw new \Exception('Input arguments are invalid.');
+                throw new \Exception(ERROR_INVALID_ARGS);
             }
         break;
 
@@ -518,10 +545,102 @@ try {
                         " successfully"
                     );
                 } else {
-                    throw new \Exception('User is not logged in.');
+                    throw new \Exception(ERROR_NOT_LOGGED_IN);
                 }
             } else {
-                throw new \Exception('Input arguments are invalid.');
+                throw new \Exception(ERROR_INVALID_ARGS);
+            }
+        break;
+
+        case 'discharge-inventory-item':
+            $areInputArgsValid = isset($_POST['item_id']);
+
+            if ($areInputArgsValid) {
+                if (Services::isSessionOpen()) {
+                    if (Services::isAdmin()) {
+                        Services::dischargeInventoryItem($_POST['item_id']);
+                        respond(0, 
+                            'Inventory item was discharged successfully.'
+                        );
+                    } else {
+                        throw new \Exception(ERROR_NO_PERMISSIONS);
+                    }
+                } else {
+                    throw new \Exception(ERROR_NOT_LOGGED_IN);
+                }
+            } else {
+                throw new \Exception(ERROR_INVALID_ARGS);
+            }
+        break;
+
+        case 'add-inventory-item':
+            $areInputArgsValid = 
+                isset($_POST['zone_id']) &&
+                isset($_POST['module_id']) &&
+                isset($_POST['name']);
+
+            if ($areInputArgsValid) {
+                if (Services::isSessionOpen()) {
+                    if (Services::isAdmin()) {
+                        Services::addNewInventoryItem(
+                            $_POST['zone_id'],
+                            $_POST['module_id'],
+                            $_POST['name']
+                        );
+                        respond(0, 
+                            'Inventory item was added successfully.'
+                        );
+                    } else {
+                        throw new \Exception(ERROR_NO_PERMISSIONS);
+                    }
+                } else {
+                    throw new \Exception(ERROR_NOT_LOGGED_IN);
+                }
+            } else {
+                throw new \Exception(ERROR_INVALID_ARGS);
+            }
+        break;
+
+        case 'edit-user-permissions':
+            $areInputArgsValid = isset($_POST['user_id']) &&
+                isset($_POST['privileges']);
+
+            if ($areInputArgsValid) {
+                if (Services::isSessionOpen()) {
+                    if (Services::isAdmin()) {
+                        Services::editUserPermissions(
+                            $_POST['user_id'], 
+                            $_POST['privileges']
+                        );
+                        respond(0, 'User permissions changed successfully.');
+                    } else {
+                        throw new \Exception(ERROR_NO_PERMISSIONS);
+                    }
+                } else {
+                    throw new \Exception(ERROR_NOT_LOGGED_IN);
+                }
+            } else {
+                throw new \Exception(ERROR_INVALID_ARGS);
+            }
+        break;
+
+        case 'list-available-inventory-items':
+            $areInputArgsValid = isset($_POST['zone_id']) &&
+                isset($_POST['module_id']);
+
+            if ($areInputArgsValid) {
+                if (Services::isSessionOpen()) {
+                    respond(0, 'Module inventory retrieved successfully.', 
+                        Services::getAvailableInventoryOfProgram(
+                            $_POST['zone_id'], 
+                            $_POST['module_id']
+                        )
+                    );
+                } else {
+                    throw new \Exception(ERROR_NOT_LOGGED_IN);
+                }
+            } else {
+                throw new \Exception(ERROR_INVALID_ARGS);
             }
         break;
             
@@ -538,33 +657,6 @@ try {
         ($errorCode != 0) ? $errorCode : 1, 
         $e->getMessage()
     );
-}
-
-
-// This function sends back to the client the especified information in a 
-// JSON of the form:
-// {
-//      meta: {
-//          return_code:[int],
-//          message:[string]
-//      }
-//      data:[json]
-// }
-// [in]     code: the return code or error code to be sent back 
-// [in]     message: the message string providing more information about
-//          the code sent
-// [in]     [data]: associative array of data that is going to be parsed into
-//          a JSON and be sent back to the client
-function respond($code, $message, $data = [])
-{
-    header('Content-Type: application/json; charset=utf-8');
-    echo json_encode([
-        'meta' => [
-            'return_code' => $code,
-            'message' => $message
-        ],
-        'data' => $data
-    ]);
 }
 
 ?>
