@@ -62,14 +62,9 @@ class InventoryDAO extends DataAccessObject
     // [in]     moduleID: the ID of the module which the item belongs to
     // [in]     name: a string that defines the name of the item that is 
     //          going to be inserted
-    function insert($zoneID, $moduleID, $name)
+    function insert($rows)
     {
-        parent::insert([
-            'zone_id' => $zoneID,
-            'module_id' => $moduleID,
-            'is_active' => 1,
-            'name' => $name
-        ]);
+        parent::insert($rows);
     }
 }
 

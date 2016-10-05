@@ -764,7 +764,12 @@ class Services
     static function addNewInventoryItem($zoneID, $moduleID, $name)
     {
         $inventory = new db\InventoryDAO(db\connectToDataBase());
-        $inventory->insert($zoneID, $moduleID, $name);
+        $inventory->insert([
+            'zone_id' => $zoneID, 
+            'module_id' => $moduleID, 
+            'name' => $name,
+            'is_active' => 1
+        ]);
     }
 
 
