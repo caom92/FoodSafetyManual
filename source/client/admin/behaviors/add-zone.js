@@ -1,10 +1,10 @@
 function textInput(id, classes){
-    return '<input id="' + id + '" type="text" class="validate ' + classes + '" placeholder="Search by Name...">';
+    return '<input id="' + id + '" type="text" class="validate ' + classes + '" placeholder="">';
 }
 
 function addDynamicSearchRow(){
     var row = $("<tr>");
-    row.append($("<td class='dynamic-search'>").html(textInput("zone-search", "zone-search")));
+    row.append($("<td class='dynamic-search'>").html(textInput("zone-search", "zone-search name_search")));
     return row;
 }
 
@@ -71,12 +71,16 @@ $(function (){
                     + ')'
                 );
 
-            // check if the zone name was repeated 
+            // check if the zone name was repeated
             var isRepeated = coincidences.length > 0;
+            var newZone = $('input[name="new-zone"]').val().toUpperCase();
             if (isRepeated) {
                 // if it was, visually notify the user
                 $(this).addClass('invalid');
-                Materialize.toast('Zone name already in use.', 3500, 'rounded');
+                loadToast('is-zone-duplicated', 3500, 'rounded');
+            } else if (newZone == "" || isWhitespace(newZone)) {
+                // Check if the zone name is either empty or whitespace, if so, notify
+                loadToast('is-zone-empty', 3500, 'rounded');
             } else {
                 // store the zone in the data base
                 $server.request({
@@ -102,7 +106,7 @@ $(function (){
                             $('input[name="new-zone"]').val('');
 
                             // and notify the user of the successful addition
-                            Materialize.toast('Zone added successfully', 3500, 'rounded');
+                            loadToast('zone_registered', 3500, 'rounded');
                         } else {
                             // if something went wrong, display an error message
                             console.log('server says: ' 

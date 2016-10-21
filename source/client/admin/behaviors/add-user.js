@@ -173,7 +173,6 @@ function addPrivilegeInput(privilegeID, privilegeType, valueChecked){
     input.attr("id", privilegeID + "_" + privilegeType);
     input.attr("value", privilegeType);
 
-    console.log(valueChecked);
     if(privilegeType == valueChecked){
         input.attr("checked", "checked");
     }
@@ -411,8 +410,8 @@ $(function (){
                     data: userObject,
                     success: function(response) {
                         if (response.meta.return_code == 0) {
-                            Materialize.toast(
-                                'User resgistered successfully', 3500, 'rounded'
+                            loadToast(
+                                'user_registered', 3500, 'rounded'
                             );
                             setTimeout(function() {
                                     window.location.href = $root + 'view-users'

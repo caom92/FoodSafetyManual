@@ -90,6 +90,16 @@
         <spanish>Zonas e Inventario</spanish>
     </translation>
 
+    <translation id="zones">
+        <english>Zones</english>
+        <spanish>Zonas</spanish>
+    </translation>
+
+    <translation id="inventory">
+        <english>Inventory</english>
+        <spanish>Inventario</spanish>
+    </translation>
+
     <!--Interfaces-->
 
     <translation id="login">
@@ -145,6 +155,11 @@
     <translation id="general_information">
         <english>General Information</english>
         <spanish>Datos generales</spanish>
+    </translation>
+
+    <translation id="zone_catalog">
+        <english>Zone catalog</english>
+        <spanish>Catálogo de zonas</spanish>
     </translation>
 
     <translation id="mandatory_fields">
@@ -300,6 +315,11 @@
         <spanish>Información del usuario</spanish>
     </translation>
 
+    <translation id="new_zone">
+        <english>Zone name</english>
+        <spanish>Nombre de la zona</spanish>
+    </translation>
+
     <translation id="user_list">
         <english>List of users</english>
         <spanish>Lista de usuarios</spanish>
@@ -328,6 +348,11 @@
     <translation id="add_user">
         <english>New user</english>
         <spanish>Nuevo usuario</spanish>
+    </translation>
+
+    <translation id="add_zone">
+        <english>Add zone</english>
+        <spanish>Añadir zona</spanish>
     </translation>
 
     <translation id="edit_user">

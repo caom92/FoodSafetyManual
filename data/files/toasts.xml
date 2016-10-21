@@ -76,6 +76,16 @@
         <spanish>El numero de empleado ya se encuentra registrado</spanish>
     </translation>
 
+    <translation id="is-zone-duplicated">
+        <english>Zone name already in use</english>
+        <spanish>El nombre de zona ya se encuentra en uso</spanish>
+    </translation>
+
+    <translation id="is-zone-empty">
+        <english>Zone name can't be empty</english>
+        <spanish>El nombre de la zona no puede encontrarse vacío</spanish>
+    </translation>
+
     <translation id="duplicated_fields">
         <english>Please correct the duplicate fields</english>
         <spanish>Modifique los campos que ya se encuentran registrados</spanish>
@@ -84,5 +94,15 @@
     <translation id="user_registered">
         <english>User registered succesfully</english>
         <spanish>El usuario se ha registrado con éxito</spanish>
+    </translation>
+
+    <translation id="zone_registered">
+        <english>Zone registered successfully</english>
+        <spanish>La zona se ha registrado con éxito</spanish>
+    </translation>
+
+    <translation id="session_active">
+        <english>Your session was already active</english>
+        <spanish>La sesión ya está iniciada</spanish>
     </translation>
 </translations>

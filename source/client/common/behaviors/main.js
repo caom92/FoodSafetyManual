@@ -168,7 +168,7 @@ $(function() {
                     } else {
                         // otherwise load the edit profile page
                         $app.load('edit-profile');
-                        Materialize.toast('La sesión ya está iniciada.', 3500, 
+                        loadToast('session_active', 3500, 
                             'rounded');
                     }
                 } else {
