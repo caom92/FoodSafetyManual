@@ -105,4 +105,9 @@
         <english>Your session was already active</english>
         <spanish>La sesión ya está iniciada</spanish>
     </translation>
+
+    <translation id="is-item-empty">
+        <english>Item name can't be empty</english>
+        <spanish>El nombre del elemento no puede encontrarse vacío</spanish>
+    </translation>
 </translations>
