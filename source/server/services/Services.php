@@ -759,7 +759,7 @@ class Services
     // Returns the inventory items associated to the given zone and module
     static function getInventoryOfProgram($zoneID, $moduleID)
     {
-        $inventory = new InventoryDAO(db\connectToDataBase());
+        $inventory = new db\InventoryDAO(db\connectToDataBase());
         return $inventory->selectByZoneIDAndModuleID($zoneID, $moduleID);
     }
 

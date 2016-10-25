@@ -137,7 +137,7 @@ function loadInventory(moduleID, zoneID){
     console.log(data);
 
     $server.request({
-        service: 'get-modules-of-program',
+        service: 'get-inventory',
         data: data,
         success: function(response){
             console.log(response);
