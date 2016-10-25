@@ -31,7 +31,7 @@ function addListElement(element){
     row.append($("<td class='id-column search-column'>").text(element.employee_num));
     row.append($("<td class='login-column search-column'>").text(element.login_name));
     row.append($("<td class='name-column search-column'>").text(element.first_name + ' ' + element.last_name));
-    row.append($("<td>").html('<a class="green btn-floating waves-effect waves-light edit-user-button" href="edit-user?user_id=' + element.employee_num + '"><i class="mdi mdi-settings md-24 field-icon"></i></a>'));
+    row.append($("<td>").html('<a class="nav-link green btn-floating waves-effect waves-light edit-user-button" href="edit-user?user_id=' + element.employee_num + '"><i class="mdi mdi-settings md-24 field-icon"></i></a>'));
     return row;
 }
 

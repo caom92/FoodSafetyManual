@@ -213,10 +213,15 @@ $(function() {
                 success: function(response, message, xhr) {
                     // check that the result was successful
                     if (response.meta.return_code == 0) {
-                        loadToast(
-                            "report_sent", 
-                            3500, "rounded"
-                        );
+                        if (response.data.length > 0) {
+                            $('#bug-report-warning .modal-content span#invalid-images').text(response.data.join());
+                            $('#bug-report-warning').openModal();
+                        } else {
+                            loadToast(
+                                "report_sent", 
+                                3500, "rounded"
+                            );
+                        }
                     } else {
                         loadToast(
                             "report_failed",
