@@ -43,7 +43,6 @@ $(function() {
             }
         },
         highlight: function(element, errorClass, validClass) {
-            console.log('hi')
             $(element).addClass(errorClass).removeClass(validClass);
             $(element).parent()
                 .find('i.mdi.prefix')
@@ -51,7 +50,6 @@ $(function() {
                 .removeClass(validClass);
         },
         unhighlight: function(element, errorClass, validClass) {
-            console.log('unhi')
             $(element).addClass(validClass).removeClass(errorClass);
             $(element).parent()
                 .find('i.mdi.prefix')

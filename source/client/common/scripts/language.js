@@ -90,6 +90,8 @@ function changeLanguage(lang, callback){
         changeLanguage(defaultLanguage);
     }
 
+    loadSearchSuggestions(lang);
+
     if(typeof callback == "function"){
         callback();
     } else if (callback == undefined) {

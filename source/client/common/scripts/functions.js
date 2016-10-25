@@ -5,6 +5,14 @@ function isDefined(variable)
     return typeof variable !== 'undefined';
 }
 
+// Checks if a string is a Whitespace, useful for fields where you should enter
+// a name. True for whitespace or scape characters, false for anything else
+
+function isWhitespace(variable)
+{
+    var white = new RegExp(/^\s$/);
+    return white.test(variable.charAt(0));
+}
 
 // Stores in the local storage all the user profile data
 function storeUserDataInLocalStorage(userData)

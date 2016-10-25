@@ -131,10 +131,17 @@ function dynamicSearchBind(input, column){
 }
 
 function loadInventory(moduleID, zoneID){
-    $.ajax({
-        url: "inventory.json",
-        success: function(data){
-            $("#content_wrapper").append(inventoryTable(data));
+    var data = new Object();
+    data.zone_id = zoneID;
+    data.module_id = moduleID;
+    console.log(data);
+
+    $server.request({
+        service: 'get-modules-of-program',
+        data: data,
+        success: function(response){
+            console.log(response);
+            $("#content_wrapper").append(inventoryTable(response));
 
             dynamicSearchBind("id-search", "id-column");
             dynamicSearchBind("name-search", "name-column");
@@ -142,7 +149,7 @@ function loadInventory(moduleID, zoneID){
             changeLanguage(localStorage.defaultLanguage);
             loadSearchSuggestions(localStorage.defaultLanguage);
         }
-    }); 
+    });
 }
 
 function inventoryTable(inventory){
@@ -224,6 +231,7 @@ function inventoryAddRow(){
         // This part should be covered on a server service
         // We must append it to the current view; future views will load it on 
         // server request
+        /* Old function
         if($("#name_add").val() != ""){
             var element = new Object();
             element.id = 4;
@@ -233,6 +241,30 @@ function inventoryAddRow(){
             $("tbody").append(inventoryRow(element));
             $("tbody").append(inventoryAddRow());
             changeLanguage(localStorage.defaultLanguage);
+        }
+        */
+
+        if($("#name_add").val() == "" || isWhitespace($("#name_add").val())){
+            loadToast("is-item-empty", 3500, "rounded");
+        } else {
+            console.log("Zone: " + $("#zone-select").val());
+            console.log("Module: " + $("#module-select").val());
+            console.log("Name: " + $("#name_add").val());
+
+            var data = new Object();
+            data.zone_id = $("#zone-select").val();
+            data.module_id = $("#module-select").val();
+            data.name = $("#name_add").val();
+
+            $server.request({
+                service: 'add-inventory-item',
+                data: data,
+                success: function(response){
+                    // Here we must append the recently added item to the list,
+                    // with the id assigned by the server
+                    console.log(response);
+                }
+            });
         }
     });
 

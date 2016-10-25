@@ -1,8 +1,13 @@
 function addPermissionTable(){
     //First we request the information from the server
+    var get = getURLQueryStringAsJSON();
+    var data = new Object();
+    data.user_id = get.user_id;
     $server.request({
-        service: 'list-zones-programs-modules-privileges',
+        service: 'get-user-privileges',
+        data: data,
         success: function(response) {
+            console.log(response);
             if (response.meta.return_code == 0) {
                 for (var zone of response.data.zones) {
                     addZone(zone);
@@ -16,19 +21,6 @@ function addPermissionTable(){
             }
         }
     });
-
-    /*$.ajax({
-        url: '/espresso/privileges.json',
-        success: function(xml) {
-            for(var zone in xml.data.zones){
-                addZone(xml.data.zones[zone]);
-            }
-            $('ul.tabs').tabs();
-            $('.indicator').addClass("green");
-            $('.collapsible').collapsible();
-            changeLanguage(localStorage.defaultLanguage);
-        }
-    });*/
 }
 
 function roleSelect(selected) {
@@ -82,16 +74,6 @@ function getProcedureNames(){
             }
         }
     });
-    /*$.ajax({
-        url: '/espresso/data/files/procedures.xml',
-        success: function(xml){
-            var name = $(xml).find('procedure').each(function(){
-                var id = $(this).attr('id');
-                var text = $(this).find('name').text();
-                $("#" + id).text(text);
-            });
-        }
-    });*/
 }
 
 function addZone(zone){
@@ -260,16 +242,6 @@ function getProcedureNames(){
             }
         }
     });
-    /*$.ajax({
-        url: '/espresso/data/files/procedures.xml',
-        success: function(xml){
-            var name = $(xml).find('procedure').each(function(){
-                var id = $(this).attr('id');
-                var text = $(this).find('name').text();
-                $("#" + id).text(text);
-            });
-        }
-    });*/
 }
 
 function showPrivileges(){
@@ -326,7 +298,7 @@ function fillUserInformation(userID){
     });
     */
     console.log("Entered");
-    $.ajax({
+    /*$.ajax({
         url: $root + '/user.json',
         success: function(data) {
             $("#login-name").val(data.login_name);
@@ -338,7 +310,7 @@ function fillUserInformation(userID){
             $(".user_role_label").removeClass("active");
             roleSelect(data.role_id);
         }
-    });
+    });*/
 }
 
 $(function (){

@@ -4,6 +4,7 @@
 // case or false otherwise
 function validateInteger($number)
 {
+    $number = intval($number);
     $isSet = isset($number);
     $isInteger = is_int($number);
     return ($isSet && $isInteger);

@@ -89,11 +89,11 @@ $(function() {
                     }
                 });
             } else {
-                Materialize.toast("La contraseña y la verificación no coinciden",
+                loadToast("check_password",
                     3500, "rounded");
             }
         } else {
-            Materialize.toast("Por favor llene todos los campos",
+            loadToast("fill_fields",
                 3500, "rounded");
         }
     });
