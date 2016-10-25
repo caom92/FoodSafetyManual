@@ -141,7 +141,7 @@ function loadInventory(moduleID, zoneID){
         data: data,
         success: function(response){
             console.log(response);
-            $("#content_wrapper").append(inventoryTable(response));
+            $("#content_wrapper").append(inventoryTable(response.data));
 
             dynamicSearchBind("id-search", "id-column");
             dynamicSearchBind("name-search", "name-column");
@@ -158,9 +158,9 @@ function inventoryTable(inventory){
     table.addClass("striped");
     table.append(inventoryHeader());
     tableBody.append(inventorySearchRow());
-    for(var element in inventory.inventory){
-        console.log(inventory.inventory[element]);
-        tableBody.append(inventoryRow(inventory.inventory[element]));
+    for(var element in inventory){
+        //console.log(inventory[element]);
+        tableBody.append(inventoryRow(inventory[element]));
     }
     tableBody.append(inventoryAddRow());
     table.append(tableBody);
@@ -178,6 +178,40 @@ function inventoryHeader(){
 }
 
 function inventoryRow(element){
+    var row = $("<tr>");
+    var switchOpening = '<div class="switch"><label>';
+    var switchBox = '<input disabled type="checkbox">';
+    var switchClosing = '<span class="lever"></span></label></div>';
+    var buttonColumn = $("<td>");
+
+    row.addClass("");
+    row.append($("<td class='id-column search-column'>").text(element.id));
+    row.append($("<td class='name-column search-column'>").text(element.name));
+    if(element.status){
+        switchBox = '<input type="checkbox" checked="">';
+    }
+    switchInput = $(switchOpening + switchBox + switchClosing);
+    switchInput.find("input:checkbox").each(function(index){
+        $(this).click(function(e){
+            $(this).prop("disabled", true);
+            var itemToDischarge = $(this).parent().parent().parent().parent().children(".id-column").text();
+            var data = new Object();
+            data.item_id = itemToDischarge;
+            $server.request({
+                service: 'discharge-inventory-item',
+                data: data,
+                success: function(response, message, xhr) {
+                    console.log(response);
+                }
+            })
+        });
+    });
+    buttonColumn.append(switchInput);
+    row.append(buttonColumn);
+    return row;
+}
+
+/*function inventoryRow(element){
     console.log(element);
     var row = $("<tr>");
     var activeButton = $('<a class="green btn waves-effect waves-light dismiss-button"></a>');
@@ -215,7 +249,7 @@ function inventoryRow(element){
     buttonColumn.append(inactiveButton);
     row.append(buttonColumn);
     return row;
-}
+}*/
 
 function inventoryAddRow(){
     var row = $("<tr class='add-row'>");
@@ -263,6 +297,14 @@ function inventoryAddRow(){
                     // Here we must append the recently added item to the list,
                     // with the id assigned by the server
                     console.log(response);
+                    var element = new Object();
+                    element.id = response.data;
+                    element.name = $("#name_add").val();
+                    element.status = true;
+                    $(".add-row").remove();
+                    $("tbody").append(inventoryRow(element));
+                    $("tbody").append(inventoryAddRow());
+                    changeLanguage(localStorage.defaultLanguage);
                 }
             });
         }

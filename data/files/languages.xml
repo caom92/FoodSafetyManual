@@ -385,12 +385,12 @@
         <spanish>Estado</spanish>
     </translation>
 
-    <translation id="accept-button">
+    <translation id="inactive_tag">
         <english>Inactive</english>
         <spanish>Inactivo</spanish>
     </translation>
 
-    <translation id="dismiss-button">
+    <translation id="active_tag">
         <english>Active</english>
         <spanish>Activo</spanish>
     </translation>
