@@ -30,7 +30,8 @@ function loadSideMenu()
                     for (module of privilege.modules) {
                         // add an item to the program collapsible menu
                         localStorage.menu +=
-                            `<li><a class="waves-effect waves-green" href="#"> 
+                            `<li><a class="nav-link waves-effect waves-green" 
+                            href="#"> 
                             ${ module.module_name }
                             </a></li>`;
                     }
@@ -71,7 +72,7 @@ function initMaterialize(){
     // we load the corresponding layout to the current view, preventing
     // full-page reloading; we also make use of history API in order to preserve
     // browser's forward and backward buttons' functionality 
-    $('a:not(.collapsible-header):not(.dropdown-button):not(.language_english):not(.language_spanish)').on('click', function(event) {
+    $('a.nav-link').on('click', function(event) {
         // prevent normal navigation
         event.preventDefault();
 

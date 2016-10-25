@@ -9,6 +9,7 @@ require_once realpath(dirname(__FILE__).'/../config/site_config.php');
 // Imports all the service files together
 require_once realpath(dirname(__FILE__).'/Session.php');
 require_once realpath(dirname(__FILE__).'/Email.php');
+require_once realpath(dirname(__FILE__).'/data_validations.php');
 
 // load all the necessary DAOs
 require_once realpath(dirname(__FILE__).'/../dao/ZonesDAO.php');
@@ -43,7 +44,7 @@ class Services
 
 
     // Logs a user in with the credentials provided
-    static function LogIn($username, $password)
+    static function logIn($username, $password)
     {
         $session = new serv\Session();
         $result = $session->start($username, $password);
@@ -57,7 +58,7 @@ class Services
 
 
     // Logs a user out
-    static function LogOut()
+    static function logOut()
     {
         $session = new serv\Session();
         $session->close();
@@ -327,15 +328,35 @@ class Services
             $subject, $body, 'es'
         );
 
+        // array where the invalid bitmaps are going to be stored
+        $invalidImages = [];
+
         // attach the image files
         if (isset($files)) {
             $length = count($files["screenshot-attachment"]["tmp_name"]);
 
+            // for each file to be attached ...
             for ($i = 0; $i < $length; $i++) {
-                $bugReport->addAttachment(
-                    $files["screenshot-attachment"]["tmp_name"][$i], 
-                    $files["screenshot-attachment"]["name"][$i]
+                // check if the file type corresponds to a valid supported 
+                // bitmap file type
+                $isValid = Services::checkBitmapFileFormat(
+                    $files["screenshot-attachment"]["tmp_name"][$i]
                 );
+
+                // if the file type is valid ...
+                if ($isValid) {
+                    // attach it to the email
+                    $bugReport->addAttachment(
+                        $files["screenshot-attachment"]["tmp_name"][$i], 
+                        $files["screenshot-attachment"]["name"][$i]
+                    );
+                } else {
+                    // if it is invalid, store it in the invalid bitmaps array
+                    array_push(
+                        $invalidImages, 
+                        $files["screenshot-attachment"]["name"][$i]
+                    );
+                }
             }
         }
 
@@ -382,6 +403,9 @@ class Services
         if (strlen($result) > 0) {
             throw new \Exception($result);
         }
+        
+        // return the invalid bitmap images 
+        return $invalidImages;
     }
 
 
@@ -735,7 +759,7 @@ class Services
     // Returns the inventory items associated to the given zone and module
     static function getInventoryOfProgram($zoneID, $moduleID)
     {
-        $inventory = new InventoryDAO(db\connectToDataBase());
+        $inventory = new db\InventoryDAO(db\connectToDataBase());
         return $inventory->selectByZoneIDAndModuleID($zoneID, $moduleID);
     }
 

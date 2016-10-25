@@ -9,6 +9,10 @@ require_once realpath(dirname(__FILE__).'/../config/site_config.php');
 // Import all the services
 require_once realpath(dirname(__FILE__).'/Services.php');
 
+// Configure PHP to write the errors to a log file
+ini_set("log_errors", true);
+ini_set("error_log", "../".LOG_FILE);
+
 
 // This function sends back to the client the especified information in a 
 // JSON of the form:
@@ -36,11 +40,6 @@ function respond($code, $message, $data = [])
     ]);
 }
 
-
-// Configure PHP to write the errors to a log file
-ini_set("log_errors", true);
-ini_set("error_log", "../".LOG_FILE);
-
 try {
     // get the requested service
     $service = str_replace(SITE_ROOT.'/services/', '', $_SERVER['REQUEST_URI']);
@@ -53,8 +52,12 @@ try {
         break;
 
         case 'login':
-            if (isset($_POST['username']) && isset($_POST['password'])) {
-                $userData = Services::LogIn(
+            $areInputArgsValid =
+                validateString($_POST['username'], 5) &&
+                validateString($_POST['password'], 6);
+                
+            if ($areInputArgsValid) {
+                $userData = Services::logIn(
                     $_POST['username'], 
                     $_POST['password']
                 );
@@ -65,7 +68,7 @@ try {
         break;
 
         case 'logout':
-            Services::LogOut();
+            Services::logOut();
             respond(0, 'User logged out.');
         break;
 
@@ -74,7 +77,11 @@ try {
         break;
 
         case 'request-password-recovery':
-            if (isset($_POST['email']) && isset($_POST['lang'])) {
+            $areInputArgsValid =
+                validateEmail($_POST['email']) && 
+                validateLanguageCode($_POST['lang']);
+
+            if ($areInputArgsValid) {
                 Services::mailRecoveryToken(
                     $_POST['email'], 
                     $_POST['lang']
@@ -86,16 +93,23 @@ try {
         break;
 
         case 'token-validation':
-            if (isset($_POST['token'])) {
+            $areInputArgsValid =
+                validateStringToken($_POST['token']);
+
+            if ($areInputArgsValid) {
                 Services::validateToken($_POST['token']);
                 respond(0, 'Token is valid.');
             } else {
-                throw new \Exception('Input arguments are not valid.');
+                throw new \Exception(ERROR_INVALID_ARGS);
             }
         break;
 
         case 'change-username':
-            if (isset($_POST['password']) && isset($_POST['new_username'])) {
+            $areInputArgsValid = 
+                validateString($_POST['password'], 6) &&
+                validateString($_POST['new_username'], 5);
+
+            if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
                     $isDuplicated = Services::checkAccountNameDuplicates(
                         $_POST['new_username']
@@ -121,7 +135,11 @@ try {
         break;
 
         case 'change-password':
-            if (isset($_POST['password']) && isset($_POST['new_password'])) {
+            $areInputArgsValid =
+                validateString($_POST['password'], 6) &&
+                validateString($_POST['new_password'], 6);
+
+            if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
                     Services::changeUserPassword(
                         $_POST['password'], 
@@ -137,10 +155,10 @@ try {
         break;
 
         case 'change-password-by-recovery':
-            $areInputArgsValid = (
-                isset($_POST['new_password']) && 
-                isset($_POST['token'])
-            );
+            $areInputArgsValid = 
+                validateString($_POST['new_password'], 6) && 
+                validateStringToken($_POST['token']);
+
             if ($areInputArgsValid) {
                 $userID = Services::validateToken($_POST['token']);
                 $username = Services::changeUserPasswordByRecovery(
@@ -158,7 +176,11 @@ try {
         break;
 
         case 'change-email':
-            if (isset($_POST['password']) && isset($_POST['new_email'])) {
+            $areInputArgsValid =
+                validateString($_POST['password'], 6) &&
+                validateEmail($_POST['new_email']);
+
+            if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
                     $isDuplicated = Services::checkUserEmailDuplicates(
                         $_POST['new_email']
@@ -183,24 +205,25 @@ try {
 
         case 'send-bug-report':
             $areInputArgsValid = (
-                isset($_POST['user-name']) &&
-                isset($_POST['user-id']) &&
-                isset($_POST['zone-selection']) &&
-                isset($_POST['procedure-selection']) &&
-                isset($_POST["browser-selection"]) &&
-                isset($_POST['severity-selection']) &&
-                isset($_POST['summary']) &&
-                isset($_POST['lang']) &&
-                isset($_POST['email'])
+                validateString($_POST['user-name'], 5) &&
+                validateInteger($_POST['user-id']) &&
+                validateString($_POST['zone-selection']) &&
+                validateString($_POST['procedure-selection']) &&
+                validateString($_POST["browser-selection"]) &&
+                validateString($_POST['severity-selection']) &&
+                validateString($_POST['summary'], 1, 512) &&
+                validateLanguageCode($_POST['lang']) &&
+                validateEmail($_POST['email'])
             );
             if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
                     if (isset($_FILES['screenshot-attachment'])) {
-                        Services::mailBugReport($_POST, $_FILES);
+                        $result = Services::mailBugReport($_POST, $_FILES);
+                        respond(0, 'Bug report mailed successfully.', $result);
                     } else {
                         Services::mailBugReport($_POST);
+                        respond(0, 'Bug report mailed successfully.');
                     }
-                    respond(0, 'Bug report mailed successfully.');
                 } else {
                     throw new \Exception(ERROR_NOT_LOGGED_IN);
                 }
@@ -234,7 +257,7 @@ try {
         break;
 
         case 'get-modules-of-program':
-            $areInputArgsValid = isset($_POST['program_id']);
+            $areInputArgsValid = validateInteger($_POST['program_id']);
 
             if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
@@ -269,7 +292,7 @@ try {
         break;
 
         case 'get-user-privileges':
-            $areInputArgsValid = isset($_POST['user_id']);
+            $areInputArgsValid = validateInteger($_POST['user_id']);
 
              if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
@@ -301,7 +324,7 @@ try {
         break;
 
         case 'add-zone':
-            $areInputArgsValid = isset($_POST['new_zone']);
+            $areInputArgsValid = validateString($_POST['new_zone'], 3, 3);
 
              if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
@@ -328,7 +351,7 @@ try {
         break;
 
         case 'is-zone-name-duplicated':
-            $areInputArgsValid = isset($_POST['zone_name']);
+            $areInputArgsValid = validateString($_POST['zone_name'], 3, 3);
 
              if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
@@ -349,7 +372,7 @@ try {
         break;
 
         case 'is-login-name-duplicated':
-            $areInputArgsValid = isset($_POST['login_name']);
+            $areInputArgsValid = validateString($_POST['login_name'], 5);
 
             if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
@@ -367,7 +390,7 @@ try {
         break;
 
         case 'is-email-duplicated':
-            $areInputArgsValid = isset($_POST['email']);
+            $areInputArgsValid = validateEmail($_POST['email']);
 
             if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
@@ -385,7 +408,7 @@ try {
         break;
 
         case 'is-employee-num-duplicated':
-            $areInputArgsValid = isset($_POST['employee_num']);
+            $areInputArgsValid = validateInteger($_POST['employee_num']);
 
             if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
@@ -409,19 +432,15 @@ try {
         break;
 
         case 'add-user':
-            $isPostSet = isset($_POST);
-            if (!$isPostSet) {
-                throw new \Exception(ERROR_INVALID_ARGS);
-            }
-
             // now, check that every attribute in the json is set as expected
-            $areInputArgsValid = isset($_POST['employee_num']) &&
-                isset($_POST['first_name']) &&
-                isset($_POST['last_name']) &&
-                isset($_POST['email']) &&
-                isset($_POST['role_id']) &&
-                isset($_POST['login_name']) &&
-                isset($_POST['login_password']) &&
+            $areInputArgsValid = 
+                validateInteger($_POST['employee_num']) &&
+                validateString($_POST['first_name']) &&
+                validateString($_POST['last_name']) &&
+                validateEmail($_POST['email']) &&
+                validateInteger($_POST['role_id']) &&
+                validateString($_POST['login_name'], 5) &&
+                validateString($_POST['login_password'], 6) &&
                 isset($_POST['privileges']);
 
             // continue if all the attributes are set...
@@ -508,8 +527,9 @@ try {
         break;
 
         case 'get-inventory':
-            $areInputArgsValid = isset($_POST['zone_id']) &&
-                isset($_POST['module_id']);
+            $areInputArgsValid = 
+                validateInteger($_POST['zone_id']) &&
+                validateInteger($_POST['module_id']);
 
             if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
@@ -532,7 +552,7 @@ try {
         break;
 
         case 'toggle-email-notifications':
-            $areInputArgsValid = isset($_POST['enable_notifications']);
+            $areInputArgsValid = validateString($_POST['enable_notifications']);
 
             if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
@@ -553,7 +573,7 @@ try {
         break;
 
         case 'discharge-inventory-item':
-            $areInputArgsValid = isset($_POST['item_id']);
+            $areInputArgsValid = validateInteger($_POST['item_id']);
 
             if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
@@ -575,9 +595,9 @@ try {
 
         case 'add-inventory-item':
             $areInputArgsValid = 
-                isset($_POST['zone_id']) &&
-                isset($_POST['module_id']) &&
-                isset($_POST['name']);
+                validateInteger($_POST['zone_id']) &&
+                validateInteger($_POST['module_id']) &&
+                validateString($_POST['name']);
 
             if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
@@ -602,7 +622,8 @@ try {
         break;
 
         case 'edit-user-permissions':
-            $areInputArgsValid = isset($_POST['user_id']) &&
+            $areInputArgsValid = 
+                validateInteger($_POST['user_id']) &&
                 isset($_POST['privileges']);
 
             if ($areInputArgsValid) {
@@ -625,8 +646,9 @@ try {
         break;
 
         case 'list-available-inventory-items':
-            $areInputArgsValid = isset($_POST['zone_id']) &&
-                isset($_POST['module_id']);
+            $areInputArgsValid = 
+                validateInteger($_POST['zone_id']) &&
+                validateInteger($_POST['module_id']);
 
             if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {

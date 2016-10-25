@@ -5,7 +5,7 @@ namespace fsm\database;
 
 // Database connection information
 const HOST = "localhost";
-const DATA_BASE = "food_safety_manual_test";
+const DATA_BASE = "jfdcfsm_test";
 const USER = "root";
 const PASSWORD = "";
 
