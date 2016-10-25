@@ -53,7 +53,7 @@ try {
 
         case 'login':
             $areInputArgsValid =
-                validateString($_POST['username'], 6) &&
+                validateString($_POST['username'], 5) &&
                 validateString($_POST['password'], 6);
                 
             if ($areInputArgsValid) {
@@ -107,7 +107,7 @@ try {
         case 'change-username':
             $areInputArgsValid = 
                 validateString($_POST['password'], 6) &&
-                validateString($_POST['new_username'], 6);
+                validateString($_POST['new_username'], 5);
 
             if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
@@ -178,7 +178,7 @@ try {
         case 'change-email':
             $areInputArgsValid =
                 validateString($_POST['password'], 6) &&
-                validateString($_POST['new_email'], 6);
+                validateEmail($_POST['new_email']);
 
             if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
@@ -205,7 +205,7 @@ try {
 
         case 'send-bug-report':
             $areInputArgsValid = (
-                validateString($_POST['user-name'], 6) &&
+                validateString($_POST['user-name'], 5) &&
                 validateInteger($_POST['user-id']) &&
                 validateString($_POST['zone-selection']) &&
                 validateString($_POST['procedure-selection']) &&
@@ -372,7 +372,7 @@ try {
         break;
 
         case 'is-login-name-duplicated':
-            $areInputArgsValid = validateString($_POST['login_name'], 6);
+            $areInputArgsValid = validateString($_POST['login_name'], 5);
 
             if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
@@ -439,8 +439,8 @@ try {
                 validateString($_POST['last_name']) &&
                 validateEmail($_POST['email']) &&
                 validateInteger($_POST['role_id']) &&
-                validateString($_POST['login_name']) &&
-                validateString($_POST['login_password']) &&
+                validateString($_POST['login_name'], 5) &&
+                validateString($_POST['login_password'], 6) &&
                 isset($_POST['privileges']);
 
             // continue if all the attributes are set...
