@@ -452,7 +452,7 @@ class Services
 
 
     // Gets a list of users and their corresponding privileges
-    static function getPrivilegesOfUser($userID)
+    static function getPrivilegesOfUser($employeeNum)
     {
         // first, connect to the data base   
         $db = db\connectToDataBase();
@@ -469,7 +469,7 @@ class Services
         $programs = $programsTable->selectAll(); 
 
         // then, get the privileges of the user that was provided
-        $userPrivileges = $userPrivilegesTable->selectByUserID($userID);
+        $userPrivileges = $userPrivilegesTable->selectByEmployeeNum($employeeNum);
 
         // initialize the resulting json
         $result = [
@@ -788,7 +788,7 @@ class Services
     static function addNewInventoryItem($zoneID, $moduleID, $name)
     {
         $inventory = new db\InventoryDAO(db\connectToDataBase());
-        $inventory->insert([
+        return $inventory->insert([
             'zone_id' => $zoneID, 
             'module_id' => $moduleID, 
             'name' => $name,

@@ -2,7 +2,7 @@ function addPermissionTable(){
     //First we request the information from the server
     var get = getURLQueryStringAsJSON();
     var data = new Object();
-    data.user_id = get.user_id;
+    data.employee_num = get.user_id;
     $server.request({
         service: 'get-user-privileges',
         data: data,
