@@ -30,34 +30,62 @@ class UsersZonesModulesPrivilegesDAO extends DataAccessObject
 
     // Returns the privilege data about every module of the user with the 
     // especified ID in the form of an associative array
-    // [in]     userID: the ID of the user which privileges we want to 
-    //          retrieve
+    // [in]     employeeNum: the employee ID number of the user which privileges
+    //          we want to retrieve
     // [out]    return: an associative array if the user was found in the
     //          database or NULL otherwise; information is organized in a
     //          zone/program/module/privilege fashion
-    function selectByUserID($userID)
+    function selectByEmployeeNum($employeeNum)
     {
-        return parent::join(
-            [
-                '[><]zones(z)' => [ 'zone_id' => 'id' ],
-                '[><]modules(m)' => [ 'module_id' => 'id' ],
-                '[><]programs(p)' => [ 'm.program_id' => 'id' ],
-                '[><]privileges(pr)' => [ 'privilege_id' => 'id']
-            ],
-            [
-                'z.id(zone_id)',
-                'z.name(zone_name)',
-                'p.id(program_id)',
-                'p.name(program_name)',
-                'm.id(module_id)',
-                'm.name(module_name)',
-                'pr.id(privilege_id)',
-                'pr.name(privilege_name)'
-            ],
-            [
-                'user_id' => $userID
-            ]
+        return $this->dataBaseConnection->query(
+            "SELECT 
+                `z`.`id` AS `zone_id`,
+                `z`.`name` AS `zone_name`,
+                `p`.`id` AS `program_id`,
+                `p`.`name` AS `program_name`,
+                `m`.`id` AS `module_id`,
+                `m`.`name` AS `module_name`,
+                `pr`.`id` AS `privilege_id`,
+                `pr`.`name` AS `privilege_name` 
+            FROM `users_zones_modules_privileges` 
+                INNER JOIN `users` AS `u`
+                ON `u`.`employee_num` = $employeeNum
+                INNER JOIN `zones` AS `z` 
+                ON `users_zones_modules_privileges`.`zone_id` = `z`.`id` 
+                INNER JOIN `modules` AS `m` 
+                ON `users_zones_modules_privileges`.`module_id` = `m`.`id` 
+                INNER JOIN `programs` AS `p` 
+                ON `m`.`program_id` = `p`.`id` 
+                INNER JOIN `privileges` AS `pr` 
+                ON `users_zones_modules_privileges`.`privilege_id` = `pr`.`id` 
+            WHERE `user_id` = `u`.`id`"
         );
+        // we avoided the use of medoo here because its select method (used 
+        // inside parent::insert here) concatenates the name of the table to 
+        // the data inserted in the ON clause to create the final query; thus 
+        // we could not create the query we needed using the medoo interface 
+        // return parent::join(
+        //     [
+        //         '[><]users(u)' => [ $employeeNum => 'employee_num' ],
+        //         '[><]zones(z)' => [ 'zone_id' => 'id' ],
+        //         '[><]modules(m)' => [ 'module_id' => 'id' ],
+        //         '[><]programs(p)' => [ 'm.program_id' => 'id' ],
+        //         '[><]privileges(pr)' => [ 'privilege_id' => 'id']
+        //     ],
+        //     [
+        //         'z.id(zone_id)',
+        //         'z.name(zone_name)',
+        //         'p.id(program_id)',
+        //         'p.name(program_name)',
+        //         'm.id(module_id)',
+        //         'm.name(module_name)',
+        //         'pr.id(privilege_id)',
+        //         'pr.name(privilege_name)'
+        //     ],
+        //     [
+        //         'user_id' => 'u.id'
+        //     ]
+        // );
     }
 
 

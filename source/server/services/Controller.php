@@ -206,7 +206,7 @@ try {
         case 'send-bug-report':
             $areInputArgsValid = (
                 validateString($_POST['user-name'], 5) &&
-                validateInteger($_POST['user-id']) &&
+                validateNumeric($_POST['user-id']) &&
                 validateString($_POST['zone-selection']) &&
                 validateString($_POST['procedure-selection']) &&
                 validateString($_POST["browser-selection"]) &&
@@ -257,7 +257,7 @@ try {
         break;
 
         case 'get-modules-of-program':
-            $areInputArgsValid = validateInteger($_POST['program_id']);
+            $areInputArgsValid = validateNumeric($_POST['program_id']);
 
             if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
@@ -292,13 +292,13 @@ try {
         break;
 
         case 'get-user-privileges':
-            $areInputArgsValid = validateInteger($_POST['user_id']);
+            $areInputArgsValid = validateNumeric($_POST['employee_num']);
 
              if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
                     if (Services::isAdmin()) {
                         respond(0, 'Listing user privileges.', 
-                            Services::getPrivilegesOfUser($_POST['user_id']));
+                            Services::getPrivilegesOfUser($_POST['employee_num']));
                     } else {
                         throw new \Exception(ERROR_NO_PERMISSIONS);
                     }
@@ -408,7 +408,7 @@ try {
         break;
 
         case 'is-employee-num-duplicated':
-            $areInputArgsValid = validateInteger($_POST['employee_num']);
+            $areInputArgsValid = validateNumeric($_POST['employee_num']);
 
             if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
@@ -434,11 +434,11 @@ try {
         case 'add-user':
             // now, check that every attribute in the json is set as expected
             $areInputArgsValid = 
-                validateInteger($_POST['employee_num']) &&
+                validateNumeric($_POST['employee_num']) &&
                 validateString($_POST['first_name']) &&
                 validateString($_POST['last_name']) &&
                 validateEmail($_POST['email']) &&
-                validateInteger($_POST['role_id']) &&
+                validateNumeric($_POST['role_id']) &&
                 validateString($_POST['login_name'], 5) &&
                 validateString($_POST['login_password'], 6) &&
                 isset($_POST['privileges']);
@@ -528,8 +528,8 @@ try {
 
         case 'get-inventory':
             $areInputArgsValid = 
-                validateInteger($_POST['zone_id']) &&
-                validateInteger($_POST['module_id']);
+                validateNumeric($_POST['zone_id']) &&
+                validateNumeric($_POST['module_id']);
 
             if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
@@ -573,7 +573,7 @@ try {
         break;
 
         case 'discharge-inventory-item':
-            $areInputArgsValid = validateInteger($_POST['item_id']);
+            $areInputArgsValid = validateNumeric($_POST['item_id']);
 
             if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
@@ -595,20 +595,21 @@ try {
 
         case 'add-inventory-item':
             $areInputArgsValid = 
-                validateInteger($_POST['zone_id']) &&
-                validateInteger($_POST['module_id']) &&
+                validateNumeric($_POST['zone_id']) &&
+                validateNumeric($_POST['module_id']) &&
                 validateString($_POST['name']);
 
             if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {
                     if (Services::isAdmin()) {
-                        Services::addNewInventoryItem(
+                        $result = Services::addNewInventoryItem(
                             $_POST['zone_id'],
                             $_POST['module_id'],
                             $_POST['name']
                         );
                         respond(0, 
-                            'Inventory item was added successfully.'
+                            'Inventory item was added successfully.',
+                            $result
                         );
                     } else {
                         throw new \Exception(ERROR_NO_PERMISSIONS);
@@ -623,7 +624,7 @@ try {
 
         case 'edit-user-permissions':
             $areInputArgsValid = 
-                validateInteger($_POST['user_id']) &&
+                validateNumeric($_POST['user_id']) &&
                 isset($_POST['privileges']);
 
             if ($areInputArgsValid) {
@@ -647,8 +648,8 @@ try {
 
         case 'list-available-inventory-items':
             $areInputArgsValid = 
-                validateInteger($_POST['zone_id']) &&
-                validateInteger($_POST['module_id']);
+                validateNumeric($_POST['zone_id']) &&
+                validateNumeric($_POST['module_id']);
 
             if ($areInputArgsValid) {
                 if (Services::isSessionOpen()) {

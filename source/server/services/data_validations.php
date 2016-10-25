@@ -1,8 +1,8 @@
 <?php
 
-// Checks if the input argument is an integer, returning true if this is the 
+// Checks if the input argument is a number, returning true if this is the 
 // case or false otherwise
-function validateInteger($number)
+function validateNumeric($number)
 {
     $isSet = isset($number);
     $isInteger = is_numeric($number);
