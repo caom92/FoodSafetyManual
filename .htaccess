@@ -13,10 +13,10 @@ RewriteRule ^$ source/client/common/layouts/main.html [L,QSA]
 RewriteRule ^/$ source/client/common/layouts/main.html [L,QSA]
 
 # Redirect any request for a layout to the proper HTML page
-RewriteRule ^(users|admin|supervisor|common)/layouts/([a-zA-Z_-]+)$ source/client/$1/layouts/$2.html [L,QSA]
+RewriteRule ^(employee|administrator|supervisor|director|common)/layouts/([a-zA-Z_-]+)$ source/client/$1/layouts/$2.html [L,QSA]
 
 # Redirect any request for a behavior to the proper JS file
-RewriteRule ^(users|admin|supervisor|common)/behaviors/([a-zA-Z_-]+\.js)$ source/client/$1/behaviors/$2 [L,QSA]
+RewriteRule ^(employee|administrator|supervisor|director|common)/behaviors/([a-zA-Z_-]+\.js)$ source/client/$1/behaviors/$2 [L,QSA]
 
 # Redirect any service request to the controller script
 RewriteRule ^services/([a-zA-Z_-]+)$ source/server/services/Controller.php [L,QSA]

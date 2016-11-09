@@ -22,7 +22,7 @@ class Session
     function __construct()
     {
         ini_set('session.name', 'USST');
-        ini_set('session.hash_function', 'whirlpool');
+        ini_set('session.hash_function', 'sha512');
         ini_set('session.referer_check', $_SERVER['HTTP_HOST'].core\SITE_ROOT);
         @session_start();
     }
@@ -39,33 +39,29 @@ class Session
         }
 
         // attempt to connect to the data base to retrieve the user information
-        $db = db\connectToDataBase();
-        $users = new db\UsersDAO($db);
-        $privileges = new db\UsersZonesModulesPrivilegesDAO($db);
-        $userData = $users->selectByIdentifier($username);
+        $users = new db\UsersDAO();
+        $privileges = new db\UsersZonesModulesPrivilegesDAO();
+        $userData = $users->getByIdentifier($username);
 
         // check if the query was successful
         if (count($userData) > 0) {
             // check if the password is correct
             $isPasswordValid = password_verify(
                 $password, 
-                $userData[0]['login_password']
+                $userData['login_password']
             );
 
             // if it is not, notify the user
             if (!$isPasswordValid) {
-                throw new \Exception('Log in credentials were incorrect.');
+                throw new \Exception('Password is incorrect.');
             } 
 
-            // if it was, there is the (very small) possibility that there might
-            // be more than 1 entry in the DB with the given username and 
-            // password combination, so if this is the case, we just return the
-            // first hit
-            $_SESSION = $userData[0];
+            // store the user data in the session variable
+            $_SESSION = $userData;
 
             // now, retrieve the user privileges
             $userPrivileges = 
-                $privileges->selectSimplifiedByUserID($userData[0]['id']);
+                $privileges->selectByUserID($userData['id']);
             
             // and organize it in a useful format
 
@@ -151,35 +147,18 @@ class Session
                 array_push($programPrivileges, $program);
             }
 
-            // we define the parts of the site that the different user roles
-            // may be able to access
-            $exclusiveAccess = '';
-            switch ($userData[0]['role_name']) {
-                case 'Administrator':
-                    $exclusiveAccess = 'admin/';
-                break;
-
-                case 'Supervisor':
-                    $exclusiveAccess = 'supervisors/';
-                break;
-
-                case 'Employee':
-                    $exclusiveAccess = 'users/';
-                break;
-            }
-
             // return the relevant info
             return [
-                'role' => $userData[0]['role_name'],
-                'exclusive_access' => $exclusiveAccess,
-                'employee_num' => $userData[0]['employee_num'],
-                'first_name' => $userData[0]['first_name'],
-                'last_name' => $userData[0]['last_name'],
-                'email' => $userData[0]['email'],
-                'login_name' => $userData[0]['login_name'],
+                'role' => $userData['role_name'],
+                'exclusive_access' => strtolower($userData['role_name']).'/',
+                'employee_num' => $userData['employee_num'],
+                'first_name' => $userData['first_name'],
+                'last_name' => $userData['last_name'],
+                'email' => $userData['email'],
+                'login_name' => $userData['login_name'],
                 'privileges' => $programPrivileges,
                 'recieve_email_notifications' => 
-                    $userData[0]['recieve_email_notifications']
+                    $userData['recieve_email_notifications']
             ];
         } else {
             // if the query failed, it may be because the given username and 
@@ -196,13 +175,6 @@ class Session
     }
 
 
-    // Returns the ID of the user which session is open
-    function getID()
-    {
-        return (isset($_SESSION['id'])) ? $_SESSION['id'] : -1;
-    }
-
-
     // Closes the existing session 
     function close()
     {
@@ -213,7 +185,7 @@ class Session
 
     // Returns the value of the given key if it is stored in the
     // session storage or NULL if this does not exists
-    function getValue($key)
+    function get($key)
     {
         return (isset($_SESSION[$key])) ? $_SESSION[$key] : NULL;
     }
@@ -221,7 +193,7 @@ class Session
 
     // Sets a new value to the session storage to the variable with the
     // provided key
-    function setValue($key, $value)
+    function set($key, $value)
     {
         $_SESSION[$key] = $value;
     }

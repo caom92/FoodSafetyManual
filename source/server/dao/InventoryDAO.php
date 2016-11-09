@@ -11,9 +11,9 @@ class InventoryDAO extends DataAccessObject
 {
     // Creates an interface for interacting with the inventory 
     // table in the specified data base
-    function __construct($dataBaseConnection)
+    function __construct()
     {
-        parent::__construct($dataBaseConnection, "inventory");
+        parent::__construct("inventory");
     }
 
 
@@ -21,12 +21,15 @@ class InventoryDAO extends DataAccessObject
     // with the especified zone and module IDs
     function selectByZoneIDAndModuleID($zoneID, $moduleID)
     {
-        return parent::select(['id', 'name', 'is_active(status)'], [
-            'AND' => [
-                'zone_id' => $zoneID,
-                'module_id' => $moduleID
+        return parent::select(
+            [ 'id', 'name', 'is_active(status)' ], 
+            [
+                'AND' => [
+                    'zone_id' => $zoneID,
+                    'module_id' => $moduleID
+                ]
             ]
-        ]);
+        );
     }
 
 
@@ -35,28 +38,19 @@ class InventoryDAO extends DataAccessObject
     // set to 'true'
     function selectActiveByZoneIDAndModuleID($zoneID, $moduleID)
     {
-        return parent::select(['id', 'name', 'is_active(status)'], [
-            'AND' => [
-                'zone_id' => $zoneID,
-                'module_id' => $moduleID,
-                'is_active' => 1 
+        return parent::select(
+            ['id', 'name', 'is_active(status)'], 
+            [
+                'AND' => [
+                    'zone_id' => $zoneID,
+                    'module_id' => $moduleID,
+                    'is_active' => 1 
+                ]
             ]
-        ]);
+        );
     }
 
     
-    // Changes the status of the entry with the especified ID by the
-    // one provided
-    // [in]     id: the ID of the table entry which data is going to be
-    //          updated
-    // [in]     status: boolean value which indicates if the inventory 
-    //          item is available or unavailable
-    function updateStatusByID($id, $status)
-    {
-        parent::update(['is_active' => $status], ['id' => $id]);
-    }
-
-
     // Inserts a new inventory item to the table using the especified data 
     // [in]     zoneID: the ID of the zone which the item belongs to
     // [in]     moduleID: the ID of the module which the item belongs to
@@ -66,6 +60,18 @@ class InventoryDAO extends DataAccessObject
     function insert($rows)
     {
         return parent::insert($rows);
+    }
+
+
+    // Changes the status of the entry with the especified ID by the
+    // one provided
+    // [in]     id: the ID of the table entry which data is going to be
+    //          updated
+    // [in]     status: boolean value which indicates if the inventory 
+    //          item is available or unavailable
+    function updateStatusByID($id, $status)
+    {
+        parent::update(['is_active' => $status], ['id' => $id]);
     }
 }
 

@@ -11,9 +11,9 @@ class RecoveryTokensDAO extends DataAccessObject
 {
     // Creates an interface for interacting with the 
     // recovery_tokens table in the specified data base
-    function __construct($dataBaseConnection)
+    function __construct()
     {
-        parent::__construct($dataBaseConnection, "recovery_tokens");
+        parent::__construct("recovery_tokens");
     }
 
 
@@ -24,9 +24,9 @@ class RecoveryTokensDAO extends DataAccessObject
     // [out]       return: an associative array with the data of the element
     //             that contained the especified recovery token, or an empty 
     //             string in case none was found
-    function selectByToken($token)
+    function getByToken($token)
     {
-        return parent::select("*", ["token" => $token]);
+        return parent::get("*", ["token" => $token]);
     }
 
 

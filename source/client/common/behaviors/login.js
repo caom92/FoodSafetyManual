@@ -10,10 +10,12 @@ $(function() {
         errorClass: 'invalid',
         validClass: 'valid',
         focusInvalid: false,
+        onkeyup: false,
+        focusCleanup: true,
         rules: {
             username: {
                 required: true,
-                minlength: 6
+                minlength: 5
             },
             password: {
                 required: true,

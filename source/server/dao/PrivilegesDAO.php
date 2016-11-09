@@ -11,27 +11,26 @@ class PrivilegesDAO extends DataAccessObject
 {
     // Creates an interface for interacting with the 
     // privileges table in the specified data base
-    function __construct($dataBaseConnection)
+    function __construct()
     {
-        parent::__construct($dataBaseConnection, "privileges");
+        parent::__construct("privileges");
     }
 
 
     // Returns an associative array containing the name and ID of the 
     // privilege that is assigned to a user by default when no privilege
     // is especified for him for a certain module
-    function selectDefault()
+    function getDefault()
     {
-        $result = parent::select('*', ['name' => 'None']);
-        return $result[0];
+        return parent::get('*', ['name' => 'None']);
     }
 
 
     // Returns the ID of the privilege with the given name if it exists in 
     // the data base or NULL otherwise
-    function selectIDByName($privilege)
+    function getIDByName($privilege)
     {
-        return parent::select('id', [ 'name' => $privilege ]);
+        return parent::get('id', [ 'name' => $privilege ]);
     }
 
 

@@ -11,17 +11,17 @@ class ProgramsDAO extends DataAccessObject
 {
     // Creates an interface for interacting with the programs 
     // table in the specified data base
-    function __construct($dataBaseConnection)
+    function __construct()
     {
-        parent::__construct($dataBaseConnection, "programs");
+        parent::__construct("programs");
     }
 
 
     // Returns the ID of the program with the given name if it exists in 
     // the data base or NULL otherwise
-    function selectIDByName($program)
+    function getIDByName($program)
     {
-        return parent::select('id', [ 'name' => $program ]);
+        return parent::get('id', [ 'name' => $program ]);
     }
 
 

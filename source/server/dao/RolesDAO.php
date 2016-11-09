@@ -11,17 +11,17 @@ class RolesDAO extends DataAccessObject
 {
     // Creates an interface for interacting with the roles 
     // table in the specified data base
-    function __construct($dataBaseConnection)
+    function __construct()
     {
-        parent::__construct($dataBaseConnection, "roles");
+        parent::__construct("roles");
     }
     
     
     // Returns the ID of the role with the given name if it exists in 
     // the data base or NULL otherwise
-    function selectIDByName($role)
+    function getIDByName($role)
     {
-        return parent::select('id', [ 'name' => $role ]);
+        return parent::get('id', [ 'name' => $role ]);
     }
 
 

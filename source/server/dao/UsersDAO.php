@@ -11,9 +11,9 @@ class UsersDAO extends DataAccessObject
 {
     // Creates an interface for interacting with the 
     // users table in the specified data base
-    function __construct($dataBaseConnection)
+    function __construct()
     {
-        parent::__construct($dataBaseConnection, "users");
+        parent::__construct("users");
     }
     
 
@@ -26,22 +26,79 @@ class UsersDAO extends DataAccessObject
     // [out]    return: an associative array with the data of the element
     //          that contained the especified identifier and password 
     //          combination, or an empty string in case none was found
-    function selectByIdentifier($identifier)
+    function getByIdentifier($identifier)
     {
-        return parent::join([
-                '[><]roles(r)' => [ 'role_id' => 'id' ]
-            ], [
-                    "$this->tableName.id(id)", 'r.name(role_name)', 
-                    'employee_num', 'email', 'first_name', 'last_name', 
-                    'login_name', 'login_password', 
-                    'recieve_email_notifications'
+        $rows = parent::select(
+            [
+                "$this->table.id(id)", 'r.name(role_name)', 
+                'employee_num', 'email', 'first_name', 'last_name', 
+                'login_name', 'login_password', 
+                'recieve_email_notifications'
             ], 
-            [ "OR" => [
-                "$this->tableName.id" => $identifier,
-                "employee_num" => $identifier,
-                "email" => $identifier,
-                "login_name" => $identifier
-            ]]
+            [ 
+                'AND' => [
+                    "OR" => [
+                        "$this->table.id" => $identifier,
+                        "employee_num" => $identifier,
+                        "email" => $identifier,
+                        "login_name" => $identifier
+                    ],
+                    "$this->table.is_active" => 1    
+                ]
+            ],
+            [
+                '[><]roles(r)' => [ 'role_id' => 'id' ]
+            ]
+        );
+
+        $isEmpty = count($rows) == 0;
+        return (!$isEmpty) ? $rows[0] : NULL; 
+    }
+
+
+    // Returns true if there is data in the data base that shares the given 
+    // user name
+    function hasByLogInName($username)
+    {
+        return parent::has([ 'login_name' => $username ]);
+    }
+
+
+    // Returns the data of every user that shares the given email
+    function hasByEmail($email)
+    {
+        return parent::has([ 'email' => $email ]);
+    }
+
+
+    // Returns the data of every user that shares the given employee number
+    function hasByEmployeeNum($employeeNum)
+    {
+        return parent::has([ 'employee_num' => $employeeNum ]);
+    }
+
+
+    // Returns an associative with the basic information of every user in the 
+    // data base which is not an administrator, where the key is the field name
+    // and the value is the field value
+    function selectAll()
+    {
+        return parent::select(
+            [
+                "$this->table.id", 
+                'role_id',
+                'r.name(role_name)', 
+                'employee_num', 
+                'login_name', 
+                'email', 
+                'first_name', 
+                'last_name',
+                'is_active'
+            ],
+            [],
+            [
+                '[><]roles(r)' => [ 'role_id' => 'id']
+            ]
         );
     }
     
@@ -65,7 +122,7 @@ class UsersDAO extends DataAccessObject
     // [out]    return: the number of rows affected
     function updatePasswordByUserID($id, $newPassword)
     {
-        return parent::update(
+        parent::update(
             [ "login_password" => $newPassword ], 
             [ "id" => $id ]
         );
@@ -81,7 +138,7 @@ class UsersDAO extends DataAccessObject
     // [out]    return: the number of rows affected
     function updateEmailByUserID($id, $newEmail)
     {
-        return parent::update(
+        parent::update(
             [ "email" => $newEmail ],
             [ "id" => $id ]
         );
@@ -97,7 +154,7 @@ class UsersDAO extends DataAccessObject
     // [out]    return: the number of rows affected
     function updateLogInNameByUserID($id, $newName)
     {
-        return parent::update(
+        parent::update(
             [ "login_name" => $newName ],
             [ "id" => $id ]
         );
@@ -115,45 +172,22 @@ class UsersDAO extends DataAccessObject
     // [out]    return: the number of rows affected
     function updateEmailNotificationsByID($id, $enableNotifications)
     {
-        return parent::update(
+        parent::update(
             [ 'recieve_email_notifications' => $enableNotifications ],
             [ 'id' => $id ]
         );
     }
 
-
-    // Returns an associative with the basic information of every user in the 
-    // data base which is not an administrator, where the key is the field name
-    // and the value is the field value
-    function selectAll()
+    
+    // Inverts the activation status of the item with the specified ID
+    function toggleActivationByID($id)
     {
-        return parent::select([
-                'id', 'role_id', 'employee_num', 'login_name', 'email', 
-                'first_name', 
-                'last_name'
-            ]
-        );
-    }
-
-
-    // Returns the data of every user that shares the given user name
-    function selectByLogInName($username)
-    {
-        return parent::select('*', [ 'login_name' => $username ]);
-    }
-
-
-    // Returns the data of every user that shares the given email
-    function selectByEmail($email)
-    {
-        return parent::select('*', [ 'email' => $email ]);
-    }
-
-
-    // Returns the data of every user that shares the given employee number
-    function selectByEmployeeNum($employeeNum)
-    {
-        return parent::select('*', [ 'employee_num' => $employeeNum ]);
+        $query = parent::$dataBase->pdo->prepare("
+            UPDATE $this->table
+            SET is_active = !is_active
+            WHERE id = ?
+        ");
+        $query->execute([ $id ]);
     }
 }
 

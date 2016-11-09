@@ -53,9 +53,52 @@ function loadSideMenu()
 
         case 'Administrator':
             // if the user has an admin role, display the admin menu
-            $('#actions-list').load($root + 'source/client/admin/layouts/menu.html', function(){
+            $('#actions-list').load($root + 'source/client/administrator/layouts/menu.html', function(){
                 initMaterialize();
             });
+        break;
+
+        case 'Director':
+            // if the user is has a user role, we display the programs menu
+            // for this, we first check if the menu is already defined
+            if (!isDefined(localStorage.menu)) {
+                // if it is not, we must created
+                localStorage.menu = '';
+
+                $server.request({
+                    service: 'list-programs-and-modules',
+                    success: function(response) {
+                        if (response.meta.return_code == 0) {
+                            for (program of response.data) {
+                                localStorage.menu += 
+                                    `<li><ul class="collapsible collapsible-accordion">
+                                    <li><a class="collapsible-header program-button"> 
+                                    <i class="mdi mdi-wrench md-dark md-24 field-icon">
+                                    </i><span>${program.name}</span></a>
+                                    <div class="collapsible-body"><ul>`;
+
+                                for (module of program.modules) {
+                                    localStorage.menu +=
+                                        `<li><a class="nav-link waves-effect waves-green" 
+                                        href="#"> 
+                                        ${ module.name }
+                                        </a></li>`;
+                                }
+
+                                localStorage.menu += 
+                                    '</ul></div></li></ul></li>';
+                            }
+
+                            $('#actions-list').html(localStorage.menu);
+                            initMaterialize();
+                        } else {
+                            console.log(`server says: ${ response.meta.message }`);
+                        }
+                    }
+                });
+            } else {
+                initMaterialize();
+            }
         break;
     }
 }
