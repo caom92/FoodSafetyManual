@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<procedures>
+    <procedure id="SSOP">
+        <name>Programa SSOP</name>
+    </procedure>
+
+    <procedure id="GMP">
+        <name>Programa GMP</name>
+    </procedure>
+</procedures>

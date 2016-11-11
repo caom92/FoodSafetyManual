@@ -1,0 +1,193 @@
+<!--First row-->
+<div class="row">
+    <div class="col s12 m12 l12">
+    <!--Header-->
+        <h4><i class="mdi mdi-account-circle md-36 field-icon"></i>
+            <div class="your_information"></div>
+        </h4>
+        <div class="divider"></div>
+    </div>
+</div>
+
+<!-- The edit profile form -->
+<form action="" id="edit-profile">
+    <!--First row-->
+    <div class="row">
+        <div class="input-field col s12 m6 l6">
+            <input class="validate" type="text" value="" 
+                id="user-name" name="user-name" readonly>
+            <label class="username active" for="user-name"></label>
+        </div>
+        <div class="input-field col s12 m6 l6">
+            <input class="validate" type="number" value="" 
+                id="user-id" name="user-id" readonly>
+            <label class="employee_id active" for="user-id"></label>
+        </div>
+    </div>
+    <!--Second row-->
+    <div class="row">
+        <div class="input-field col s12 m6 l6">
+            <input class="validate" type="text" value="" 
+                id="user-email" name="user-email" readonly>
+            <label class="email active" for="user-email"></label>
+        </div>
+        <div class="input-field col s12 m6 l6">
+            <input class="validate" type="text" value="" 
+                id="real-name" name="real-name" readonly>
+            <label class="real_name active" for="real-name"></label>
+        </div>
+    </div>
+
+    <ul id='form-wrappers' class="collapsible" data-collapsible="accordion">
+        <!--Change password-->
+        <li><div class="collapsible-header">
+            <i class="mdi mdi-lock field-icon"></i>
+            <div class="change_password" id="change_password"></div>
+        </div>
+        <div class="collapsible-body">
+            <div class="row">
+                <div class="input-field col s12 m12 l12">
+                    <input class="validate" type="password" value="" 
+                        id="old-password" name="old-password" >
+                    <label class="old_password " for="old-password">
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m6 l6">
+                    <input class="validate" type="password" value="" 
+                        id="new-password" name="new-password" >
+                    <label class="new_password " for="new-password">
+                    </label>
+                </div>
+                <div class="input-field col s12 m6 l6">
+                    <input class="validate" type="password" value="" 
+                        id="check-password" name="check-password" >
+                    <label class="check_password " for="check-password">
+                    </label>
+                </div>
+                <!--Send button row-->
+                <div class="row">
+                    <div class="col s12 m12 l12 center">
+                        
+                    <!-- Update button -->
+                    <a class="green btn waves-effect waves-light" href="" 
+                        id="update_password">
+                        <span class="update_button"></span>
+                        <i class="mdi mdi-send right"></i>
+                    </a>        
+                    </div>
+                </div> 
+        </div></li>
+
+        <!-- Change email -->
+        <li><div class="collapsible-header">
+            <i class="mdi mdi-email field-icon" id="email_icon"></i>
+            <div class="change_email" id="change_email"></div>
+        </div>
+        <div class="collapsible-body">
+            <div class="row">
+                <div class="input-field col s12 m6 l6">
+                    <input class="validate" type="text" value="" 
+                        id="new-email" name="new-email" >
+                    <label class="new_email " for="new-email"></label>
+                </div>
+                <div class="input-field col s12 m6 l6">
+                    <input class="validate" type="password" value="" 
+                        id="email-password" name="email-password" >
+                    <label class="email_password " for="email-password">
+                    </label>
+                </div>
+            </div>
+
+            <!--Send button row-->
+            <div class="row">
+                <div class="col s12 m12 l12 center">
+                    
+                <!-- Update button -->
+                <a class="green btn waves-effect waves-light" href="" 
+                    id="update_email">
+                    <span class="update_button"></span>
+                    <i class="mdi mdi-send right"></i>
+                </a>        
+                </div>
+            </div>
+        </div></li>
+
+        <!--Change username-->
+        <li><div class="collapsible-header">
+            <i class="mdi mdi-account field-icon" id="username_icon"></i>
+            <div class="change_username" id="change_username"></div>
+        </div>
+        <div class="collapsible-body">
+            <div class="row">
+                <div class="input-field col s12 m6 l6">
+                    <input class="validate" type="text" value="" 
+                        id="new-username" name="new-username" >
+                    <label class="new_username " for="new-username">
+                    </label>
+                </div>
+                <div class="input-field col s12 m6 l6">
+                    <input class="validate" type="password" value="" 
+                        id="username-password" name="username-password" >
+                    <label class="username_password " 
+                        for="username-password">
+                    </label>
+                </div>
+            </div>
+
+            <!--Send button row-->
+            <div class="row">
+                <div class="col s12 m12 l12 center">
+                    
+                <!-- Update button -->
+                <a class="green btn waves-effect waves-light" href="" 
+                    id="update_username">
+                    <span class="update_button"></span>
+                    <i class="mdi mdi-send right"></i>
+                </a>        
+                </div>
+            </div>
+        </div></li>
+
+        <!--Change notifications -->
+        <li><div class="collapsible-header">
+            <i class="mdi mdi-comment-check field-icon"></i>
+            <div class="change_notifications" id="change_notifications">
+                Change your email notifications' configuration
+            </div>
+        </div>
+        <div class="collapsible-body">
+            <div class="row">
+                <p>
+                    Would you like to recieve email notifications about 
+                    actions performed by the users that you are supervising 
+                    (if any)
+                    ?
+                </p>
+                <div class="switch center">
+                    <label>
+                        No
+                        <input type="checkbox" id='enable-notifications'>
+                        <span class="lever"></span>
+                        Yes
+                    </label>
+                </div>
+            </div>
+
+            <!--Send button row-->
+            <div class="row">
+                <div class="col s12 m12 l12 center">
+                    
+                <!-- Update button -->
+                <a class="green btn waves-effect waves-light" href="" 
+                    id="update_notifications">
+                    <span class="update_button"></span>
+                    <i class="mdi mdi-send right"></i>
+                </a>        
+                </div>
+            </div>
+        </div></li>
+    </ul>
+
+</form>

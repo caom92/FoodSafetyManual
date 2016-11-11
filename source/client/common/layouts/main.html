@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <!-- Tell the client we are using UTF-8 character encoding -->
+    <meta charset="UTF-8">
+    
+    <!-- Add this line for responsive web design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Import Material Design Icons -->
+    <link rel="stylesheet" 
+        href="/espresso/external/mdi/css/materialdesignicons.min.css">
+
+    <!-- Import Materialize -->
+    <link rel="stylesheet" 
+        href="/espresso/external/Materialize/dist/css/materialize.min.css"
+        media="screen,projection">
+
+    <!-- TO-DO: Add favicons -->
+    
+    <!-- Import the stylesheet of the application -->
+    <link rel="stylesheet" href="/espresso/data/stylesheets/app.css">
+    
+    <!-- Page title -->
+    <title>JFDC | Food Safety Manual</title>
+</head>
+
+<body>
+    <!-- Page top bar -->
+    <header class="navbar-fixed"><nav class="nav-wrapper green z-depth-0">
+        
+        <!-- Language menu -->
+        <ul class="right">
+            <li>
+                <!-- Language menu icon -->
+                <a class="dropdown-button" 
+                    data-activates="language-menu" href="">
+                    <i class="mdi mdi-translate"></i>
+                </a>
+                
+                <!-- Language options -->
+                <ul id="language-menu" class="dropdown-content">
+                    <li><a class="language_spanish green-text text-accent-4" onclick="changeLanguage('es');">
+                        
+                    </a></li>
+                    <li><a class="language_english green-text text-accent-4" onclick="changeLanguage('en');">
+                        
+                    </a></li>
+                </ul>
+            </li>
+        </ul>
+        
+        <!-- Drawer menu -->
+        <aside><ul id="slide-out" class="side-nav fixed" 
+            data-collapsible="accordion" style='display:none;'>
+            <li class="logo-area">
+            </li>
+            
+            <!-- Account menu -->
+            <li>
+                <ul class="collapsible collapsible-accordion">
+                    <li><a class="teal collapsible-header">
+                        <i class="mdi mdi-account-circle md-light md-36 field-icon">
+                        </i>
+                        <span id="account-name"></span>
+                    </a>
+                    <div class="collapsible-body"><ul>
+                            <li><a class="edit_profile waves-effect waves-green" href="edit-profile">
+                                
+                            </a></li>
+                            <li><a class="logout waves-effect waves-green" 
+                                href="" id="logout">
+                                
+                            </a></li>
+                        </ul></div>
+                    </li>
+                </ul>
+            </li>
+            
+            <!-- Basic actions -->
+            <li><a class="nav-link waves-effect waves-green" href="">
+                <i class="mdi mdi-comment-check md-dark md-24 field-icon">
+                </i>
+                <span class="auth">
+                </span>
+                <span class="green accent-4 new badge">99</span>
+            </a></li>
+            
+            <!-- User actions navigation -->
+            <div id="actions-list">
+            </div>
+            
+            <li><a class="nav-link waves-effect waves-green" 
+                href="report-problem">
+                <i class="mdi mdi-alert md-dark md-24 field-icon">
+                </i>
+                <span class="report_problem">
+                </span>
+            </a></li>
+        </ul></aside>
+        
+        <!-- Menu button -->
+        <a href="" data-activates="slide-out" class="button-collapse" 
+            style='display:none;'>
+            <i class="mdi mdi-menu mdi-navigation-menu">
+            </i>
+        </a>
+        
+    </nav></header>
+    
+    <!-- Page content -->
+    <main class="container" id="page-content">
+        <!-- Page loading indicator -->
+        <div class="row center"><div class="col s12 m12 l12">
+            <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-green-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div></div>
+    </main>
+    
+    <!-- Import jQuery -->
+    <script src="/espresso/external/jquery/dist/jquery.min.js"></script>
+    <script src="/espresso/external/jquery-validation/dist/jquery.validate.min.js"></script>
+    <!-- Import Materialize -->
+    <script 
+        src="/espresso/external/Materialize/dist/js/materialize.min.js">
+    </script>
+    <!-- Import our scripts -->
+    <script src='/espresso/scripts/config.js'></script>
+    <script src="/espresso/scripts/functions.js"></script>
+    <script src="/espresso/scripts/language.js"></script>
+    <script src='/espresso/scripts/LayoutManager.js'></script>
+    <script src='/espresso/scripts/Controller.js'></script>
+    <script src="/espresso/common/behaviors/main.js"></script>
+</body>
+</html>

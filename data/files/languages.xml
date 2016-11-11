@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<translations>
+    <!--Company Info-->
+    <translation id="company_name">
+        <english>Jacobs Farm - Del Cabo</english>
+        <spanish>Jacobs Farm - Del Cabo</spanish>
+    </translation>
+
+    <!--Credentials-->
+
+    <translation id="username_login">
+        <english>Username, e-mail or Employee ID</english>
+        <spanish>Usuario, e-mail o ID de Empleado</spanish>
+    </translation>
+
+    <translation id="password">
+        <english>Password</english>
+        <spanish>Contraseña</spanish>
+    </translation>
+
+    <translation id="old_password">
+        <english>Old password</english>
+        <spanish>Contraseña anterior</spanish>
+    </translation>
+
+    <translation id="new_password">
+        <english>New password</english>
+        <spanish>Contraseña nueva</spanish>
+    </translation>
+
+    <translation id="new_email">
+        <english>New email address</english>
+        <spanish>Nueva dirección de correo electrónico</spanish>
+    </translation>
+
+    <translation id="new_username">
+        <english>New username</english>
+        <spanish>Nuevo nombre de usuario</spanish>
+    </translation>
+
+    <translation id="check_password">
+        <english>Check password</english>
+        <spanish>Verificar contraseña</spanish>
+    </translation>
+
+    <translation id="email_password">
+        <english>Password</english>
+        <spanish>Contraseña</spanish>
+    </translation>
+
+    <translation id="username_password">
+        <english>Password</english>
+        <spanish>Contraseña</spanish>
+    </translation>
+
+    <translation id="password_forgotten">
+        <english>I forgot my password</english>
+        <spanish>Olvidé mi contraseña</spanish>
+    </translation>
+
+    <!--Sidenav-->
+
+    <translation id="home">
+        <english>Home</english>
+        <spanish>Inicio</spanish>
+    </translation>
+
+    <translation id="auth">
+        <english>Authorizations</english>
+        <spanish>Autorizaciones</spanish>
+    </translation>
+
+    <translation id="report_problem">
+        <english>Report problem</english>
+        <spanish>Reportar problema</spanish>
+    </translation>
+
+    <translation id="edit_profile">
+        <english>Edit Profile</english>
+        <spanish>Editar Perfil</spanish>
+    </translation>
+
+    <translation id="users_sidenav">
+        <english>Users</english>
+        <spanish>Usuarios</spanish>
+    </translation>
+
+    <translation id="zones_sidenav">
+        <english>Zones and Inventory</english>
+        <spanish>Zonas e Inventario</spanish>
+    </translation>
+
+    <translation id="zones">
+        <english>Zones</english>
+        <spanish>Zonas</spanish>
+    </translation>
+
+    <translation id="inventory">
+        <english>Inventory</english>
+        <spanish>Inventario</spanish>
+    </translation>
+
+    <!--Interfaces-->
+
+    <translation id="login">
+        <english>Log in</english>
+        <spanish>Iniciar Sesión</spanish>
+    </translation>
+
+    <translation id="logout">
+        <english>Log out</english>
+        <spanish>Cerrar Sesión</spanish>
+    </translation>
+
+    <translation id="language_spanish">
+        <english>Español</english>
+        <spanish>Español</spanish>
+    </translation>
+
+    <translation id="language_english">
+        <english>English</english>
+        <spanish>English</spanish>
+    </translation>
+
+    <translation id="ok_button">
+        <english>Accept</english>
+        <spanish>Aceptar</spanish>
+    </translation>
+
+    <translation id="cancel_button">
+        <english>Cancel</english>
+        <spanish>Cancelar</spanish>
+    </translation>
+
+    <translation id="send_button">
+        <english>Send</english>
+        <spanish>Enviar</spanish>
+    </translation>
+
+    <translation id="update_button">
+        <english>Update</english>
+        <spanish>Actualizar</spanish>
+    </translation>
+
+    <translation id="add_button">
+        <english>Add</english>
+        <spanish>Agregar</spanish>
+    </translation>
+
+    <translation id="attach_file">
+        <english>Attach</english>
+        <spanish>Adjuntar</spanish>
+    </translation>
+
+    <translation id="general_information">
+        <english>General Information</english>
+        <spanish>Datos generales</spanish>
+    </translation>
+
+    <translation id="zone_catalog">
+        <english>Zone catalog</english>
+        <spanish>Catálogo de zonas</spanish>
+    </translation>
+
+    <translation id="mandatory_fields">
+        <english>The fields with a * are mandatory</english>
+        <spanish>Los campos marcados con * son obligatorios</spanish>
+    </translation>
+
+    <translation id="username">
+        <english>Username</english>
+        <spanish>Nombre de Usuario</spanish>
+    </translation>
+
+    <translation id="real_name">
+        <english>Name</english>
+        <spanish>Nombre</spanish>
+    </translation>
+
+    <translation id="first_name">
+        <english>First name</english>
+        <spanish>Nombre</spanish>
+    </translation>
+
+    <translation id="last_name">
+        <english>Last name</english>
+        <spanish>Apellido(s)</spanish>
+    </translation>
+
+    <translation id="email">
+        <english>E-Mail</english>
+        <spanish>Correo electrónico</spanish>
+    </translation>
+
+    <translation id="employee_id">
+        <english>Employee ID</english>
+        <spanish>ID de Empleado</spanish>
+    </translation>
+
+    <translation id="select_option">
+        <english>Choose an option</english>
+        <spanish>Selecciona una opción</spanish>
+    </translation>
+
+    <translation id="select_options">
+        <english>Choose some options</english>
+        <spanish>Selecciona alguna opcion</spanish>
+    </translation>
+
+    <translation id="description">
+        <english>Description</english>
+        <spanish>Descripción</spanish>
+    </translation>
+
+    <translation id="defective_zone">
+        <english>Defective Zone*</english>
+        <spanish>Zona Defectuosa*</spanish>
+    </translation>
+
+    <translation id="defective_process">
+        <english>Defective Process*</english>
+        <spanish>Procedimiento Defectuoso*</spanish>
+    </translation>
+
+    <translation id="web_browser">
+        <english>Web browser you use*</english>
+        <spanish>Navegador Web que usa*</spanish>
+    </translation>
+
+    <translation id="severity">
+        <english>Severity of the issue*</english>
+        <spanish>Severidad del problema*</spanish>
+    </translation>
+
+    <translation id="summary">
+        <english>Issue summary*</english>
+        <spanish>Resúmen del problema*</spanish>
+    </translation>
+
+    <translation id="steps">
+        <english>Steps to replicate the issue</english>
+        <spanish>Pasos para replicar el problema</spanish>
+    </translation>
+
+    <translation id="expectation">
+        <english>What was the expected result?</english>
+        <spanish>¿Qué resultado esperaba?</spanish>
+    </translation>
+
+    <translation id="reality">
+        <english>What was the obtained result?</english>
+        <spanish>¿Cuál fue el resultado obtenido?</spanish>
+    </translation>
+
+    <translation id="correction_request">
+        <english>Please fill the required fields</english>
+        <spanish>Por favor corrija los campos incorrectos</spanish>
+    </translation>
+
+    <!--Status messages-->
+
+    <translation id="server_online">
+        <english>Server available</english>
+        <spanish>Servidor disponible</spanish>
+    </translation>
+
+    <translation id="server_offline">
+        <english>Server unavailable</english>
+        <spanish>Servidor no disponible</spanish>
+    </translation>
+
+    <!--Information messages-->
+
+    <translation id="report_message">
+        <english>If you find an issue while working or you think there is an error in the system, please inform us by filling the form below. Provide us with as much information as possible and attach screenshots. We will solve it as soon as possible.</english>
+        <spanish>Si mientras trabajaba ocurrió un problema o cree haber encontrado un error en el sistema, por favor háganoslo saber llenando el siguiente reporte. Proporcione tanta información como sea posible y agregue capturas de pantalla. Nosotros lo resolveremos tan pronto como nos sea posible. </spanish>
+    </translation>
+
+    <!--Privilege levels-->
+
+    <translation id="name">
+        <english>Module</english>
+        <spanish>Módulo</spanish>
+    </translation>
+
+    <translation id="none">
+        <english>None</english>
+        <spanish>Ninguno</spanish>
+    </translation>
+
+    <translation id="read">
+        <english>Read</english>
+        <spanish>Lectura</spanish>
+    </translation>
+
+    <translation id="write">
+        <english>Write</english>
+        <spanish>Escritura</spanish>
+    </translation>
+
+    <!--Unsorted-->
+
+    <translation id="welcome_message">
+        <english>Welcome</english>
+        <spanish>Bienvenido</spanish>
+    </translation>    
+
+    <translation id="your_information">
+        <english>Your information</english>
+        <spanish>Su información</spanish>
+    </translation>
+
+    <translation id="new_user">
+        <english>User information</english>
+        <spanish>Información del usuario</spanish>
+    </translation>
+
+    <translation id="new_zone">
+        <english>Zone name</english>
+        <spanish>Nombre de la zona</spanish>
+    </translation>
+
+    <translation id="user_list">
+        <english>List of users</english>
+        <spanish>Lista de usuarios</spanish>
+    </translation>
+
+    <translation id="change_password">
+        <english>Change your password</english>
+        <spanish>Cambiar su contraseña</spanish>
+    </translation>
+
+    <translation id="change_email">
+        <english>Change your email</english>
+        <spanish>Cambiar su dirección de correo electrónico</spanish>
+    </translation>
+
+    <translation id="change_username">
+        <english>Change your username</english>
+        <spanish>Cambiar su nombre de usuario</spanish>
+    </translation>
+
+    <translation id="assign_privileges">
+        <english>Assign privileges</english>
+        <spanish>Asignar permisos</spanish>
+    </translation>
+
+    <translation id="add_user">
+        <english>New user</english>
+        <spanish>Nuevo usuario</spanish>
+    </translation>
+
+    <translation id="add_zone">
+        <english>Add zone</english>
+        <spanish>Añadir zona</spanish>
+    </translation>
+
+    <translation id="edit_user">
+        <english>Edit user</english>
+        <spanish>Editar usuario</spanish>
+    </translation>
+
+    <translation id="zone_name">
+        <english>Zone</english>
+        <spanish>Zona</spanish>
+    </translation>
+
+    <translation id="manage_inventory">
+        <english>Manage Inventory</english>
+        <spanish>Gestión de inventario</spanish>
+    </translation>
+
+    <translation id="inventory_id">
+        <english>ID</english>
+        <spanish>ID</spanish>
+    </translation>
+
+    <translation id="inventory_name">
+        <english>Element</english>
+        <spanish>Elemento</spanish>
+    </translation>
+
+    <translation id="inventory_dismiss">
+        <english>Status</english>
+        <spanish>Estado</spanish>
+    </translation>
+
+    <translation id="inactive_tag">
+        <english>Inactive</english>
+        <spanish>Inactivo</spanish>
+    </translation>
+
+    <translation id="active_tag">
+        <english>Active</english>
+        <spanish>Activo</spanish>
+    </translation>
+
+    <translation id="select_zone">
+        <english>Select a zone</english>
+        <spanish>Seleccione la zona</spanish>
+    </translation>
+
+    <translation id="select_program">
+        <english>Select a program</english>
+        <spanish>Seleccione el programa</spanish>
+    </translation>
+
+    <translation id="select_module">
+        <english>Select a module</english>
+        <spanish>Seleccione un módulo</spanish>
+    </translation>
+
+    <!--Template
+    <translation id="">
+        <english></english>
+        <spanish></spanish>
+    </translation>
+    -->
+</translations>

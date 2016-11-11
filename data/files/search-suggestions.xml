@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<translations>
+    <translation id="generic_search">
+        <english>Search...</english>
+        <spanish>Buscar...</spanish>
+    </translation>
+
+    <translation id="user_search">
+        <english>Search by user...</english>
+        <spanish>Buscar por usuario...</spanish>
+    </translation>
+
+    <translation id="name_search">
+        <english>Search by name...</english>
+        <spanish>Buscar por nombre...</spanish>
+    </translation>
+
+    <translation id="id_search">
+        <english>Search by ID...</english>
+        <spanish>Buscar por ID...</spanish>
+    </translation>
+</translations>
