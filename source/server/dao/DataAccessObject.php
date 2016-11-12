@@ -31,6 +31,25 @@ class DataAccessObject
     }
 
 
+    // Attempts to establish a connection to the data base and stores an 
+    // interface to this connection in a member variable for future use
+    static function connectToDataBase()
+    {
+        self::$dataBase = new \medoo([
+            "database_type" => "mysql",
+            "database_name" => DATA_BASE,
+            "server" => HOST,
+            "username" => USER,
+            "password" => PASSWORD,
+            "charset" => "utf8",
+            "option" => [
+                \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+                \PDO::ATTR_EMULATE_PREPARES => false
+            ] 
+        ]);
+    }
+
+
     // Returns the data of a single row element read from the table
     // [in]    columns: an array of strings where the name of the columns that 
     //         are going to be read from the table are defined
@@ -269,17 +288,6 @@ class DataAccessObject
 
 // Attempts to connect to the database and returns an interface to it if 
 // succeeded
-DataAccessObject::$dataBase = new \medoo([
-    "database_type" => "mysql",
-    "database_name" => DATA_BASE,
-    "server" => HOST,
-    "username" => USER,
-    "password" => PASSWORD,
-    "charset" => "utf8",
-    "option" => [
-        \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-        \PDO::ATTR_EMULATE_PREPARES => false
-    ] 
-]);
+DataAccessObject::connectToDataBase();
 
 ?>

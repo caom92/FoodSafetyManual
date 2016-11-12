@@ -8,6 +8,9 @@ require_once realpath(dirname(__FILE__).'/../config/site_config.php');
 
 // Import the required DAOs
 require_once realpath(dirname(__FILE__).'/../dao/UsersDAO.php');
+require_once realpath(dirname(__FILE__).'/../dao/ModulesDAO.php');
+require_once realpath(dirname(__FILE__).
+    '/../dao/UsersModulesPrivilegesDAO.php');
 
 // Alias the namespaces for ease of use
 use fsm as core;
@@ -28,6 +31,215 @@ class Session
     }
 
 
+    // Returns an associative array that describes the privileges that the user
+    // has for accessing the different programs and modules that exists in the 
+    // data base
+    // [in]     userPrivileges: an associative array that contains the rows 
+    //          returned from the data base after querying it for the user's 
+    //          privileges; in this array, the key represents the column name
+    // [out]    return: an associative array that organizes the user's 
+    //          privileges in a program/module/privilege fashion
+    private function getPrivilegesArray($userPrivileges)
+    {
+        // initialize the final array where the priviliges are going to be
+        // stored
+        $programPrivileges = [];
+        
+        // initialize the temporal program holder
+        $program = [
+            'id' => 0,
+            'name' => '',
+            'modules' => []
+        ];
+
+        // initialize the temporal module holder
+        $module = [
+            'id' => 0,
+            'name' => '',
+            'privilege' => [
+                'id' => 0,
+                'name' => ''
+            ]
+        ];
+
+        // visit each row from the data base query result
+        foreach ($userPrivileges as $row) {
+            // check if this row has a different program than the last
+            $hasProgramChanged = 
+                $row['program_name'] != $program['name'];
+            if ($hasProgramChanged) {
+                // if it has, assert that the last row info is not empty
+                if (strlen($program['name']) > 0) {
+                    // if it is not, store the info in the final structure
+                    array_push($program['modules'], $module);
+                    array_push($programPrivileges, $program);
+                }
+
+                // then fill the temporal holder with the information of 
+                // this new program
+                $module = [
+                    'id' => $row['module_id'],
+                    'name' => $row['module_name'], 
+                    'privilege' => [
+                        'id' => $row['privilege_id'],
+                        'name' => $row['privilege_name']
+                    ]
+                ];
+                $program = [
+                    'id' => $row['program_id'],
+                    'name' => $row['program_name'],
+                    'modules' => []
+                ];
+            } else {
+                // if the row has the same program than the last,
+                // then that means that the module is different
+                
+                // store the info in the temporal program
+                // holder
+                array_push($program['modules'], $module);
+
+                // and then fill the temporal holder with the
+                // information of this new module
+                $module = [
+                    'id' => $row['module_id'],
+                    'name' => $row['module_name'], 
+                    'privilege' => [
+                        'id' => $row['privilege_id'],
+                        'name' => $row['privilege_name']
+                    ]
+                ];
+            }   // if (hasProgramChanged)
+        }   // for (userPrivileges as row)
+
+        // don't forget to add the last entry to the final structure
+        if (strlen($module['name']) > 0) {
+            array_push($program['modules'], $module);
+        }
+        if (strlen($program['name']) > 0) {
+            array_push($programPrivileges, $program);
+        }
+
+        // return the resulting data structure
+        return $programPrivileges;
+    }
+
+
+    // Returns an associative array that contains all the relevant profile 
+    // information about the user according to her role; each role would
+    // have different profile info
+    // [in]     userData: general profile info that is common for all user 
+    //          roles in the form of an associative array
+    // [out]    return: an associative organizing all the relevant user info
+    private function constructUserProfile($userData)
+    {
+        // first, store the general user data in the session variable
+        $_SESSION = $userData;
+
+        // then, compute the user's profile data structure depending on the 
+        // user's role
+        switch ($userData['role_name']) {
+            case 'Director':
+                // attempt to connect to the data base
+                $modules = new db\ModulesDAO();
+
+                // get all the modules and assign them read privileges
+                $privileges = $modules->selectAllWithReadPrivilege();
+                $privileges = $this->getPrivilegesArray($privileges);
+
+                // store the privileges in the session variable
+                $_SESSION['privileges'] = $privileges;
+
+                // return the final user profile data structure
+                return [
+                    'role' => $userData['role_name'],
+                    'zone' => $userData['zone_name'],
+                    'employee_num' => $userData['employee_num'],
+                    'first_name' => $userData['first_name'],
+                    'last_name' => $userData['last_name'],
+                    'email' => $userData['email'],
+                    'login_name' => $userData['login_name'],
+                    'exclusive_access' => 
+                        strtolower($userData['role_name']).'/',
+                    'privileges' => $privileges
+                ];
+            break;
+
+            case 'Supervisor':
+                // attempt to connect to the data base
+                $privilegesTable = new db\UsersModulesPrivilegesDAO();
+
+                // get the modules associated with this user and assign them 
+                // read privileges
+                $privileges = $privilegesTable->selectByUserIDWithReadPrivilege(
+                    $userData['id']
+                );
+                $privileges = $this->getPrivilegesArray($privileges);
+
+                // store the privileges in the session variable
+                $_SESSION['privileges'] = $privileges;
+
+                // return the final user profile data structure
+                return [
+                    'role' => $userData['role_name'],
+                    'zone' => $userData['zone_name'],
+                    'employee_num' => $userData['employee_num'],
+                    'first_name' => $userData['first_name'],
+                    'last_name' => $userData['last_name'],
+                    'email' => $userData['email'],
+                    'login_name' => $userData['login_name'],
+                    'exclusive_access' => 
+                        strtolower($userData['role_name']).'/',
+                    'privileges' => $privileges
+                ];
+            break;
+
+            case 'Employee':
+                // attempt to connect to the data base
+                $privilegesTable = new db\UsersModulesPrivilegesDAO();
+
+                // get the modules associated with this user and assign them 
+                // read privileges
+                $privileges = 
+                    $privilegesTable->selectByUserID($userData['id']);
+                $privileges = $this->getPrivilegesArray($privileges);
+
+                // store the privileges in the session variable
+                $_SESSION['privileges'] = $privileges;
+
+                // return the final user profile data structure
+                return [
+                    'role' => $userData['role_name'],
+                    'zone' => $userData['zone_name'],
+                    'employee_num' => $userData['employee_num'],
+                    'first_name' => $userData['first_name'],
+                    'last_name' => $userData['last_name'],
+                    'email' => $userData['email'],
+                    'login_name' => $userData['login_name'],
+                    'exclusive_access' => 
+                        strtolower($userData['role_name']).'/',
+                    'privileges' => $privileges
+                ];
+            break;
+
+            // for any case, simply return the basic account info
+            case 'Administrator':
+            default:
+                return [
+                    'role' => $userData['role_name'],
+                    'zone' => $userData['zone_name'],
+                    'employee_num' => $userData['employee_num'],
+                    'first_name' => $userData['first_name'],
+                    'last_name' => $userData['last_name'],
+                    'email' => $userData['email'],
+                    'login_name' => $userData['login_name'],
+                    'exclusive_access' => 
+                        strtolower($userData['role_name']).'/',
+                ];
+            break;
+        }
+    }
+
+
     // Starts a new session for the user with the provided username and password
     // combination
     function start($username, $password)
@@ -40,11 +252,10 @@ class Session
 
         // attempt to connect to the data base to retrieve the user information
         $users = new db\UsersDAO();
-        $privileges = new db\UsersZonesModulesPrivilegesDAO();
         $userData = $users->getByIdentifier($username);
 
         // check if the query was successful
-        if (count($userData) > 0) {
+        if (isset($userData)) {
             // check if the password is correct
             $isPasswordValid = password_verify(
                 $password, 
@@ -53,117 +264,17 @@ class Session
 
             // if it is not, notify the user
             if (!$isPasswordValid) {
-                throw new \Exception('Password is incorrect.');
+                throw new \Exception('Log in credentials are incorrect.');
             } 
 
-            // store the user data in the session variable
-            $_SESSION = $userData;
-
-            // now, retrieve the user privileges
-            $userPrivileges = 
-                $privileges->selectByUserID($userData['id']);
-            
-            // and organize it in a useful format
-
-            // initialize the final array where the priviliges are going to be
-            // stored
-            $programPrivileges = [];
-            
-            // initialize the temporal program holder
-            $program = [
-                'program_name' => '',
-                'modules' => []
-            ];
-
-            // initialize the temporal module holder
-            $module = [
-                'module_name' => '',
-                'privileges' => []
-            ];
-
-            // visit each row from the data base query result
-            foreach ($userPrivileges as $row) {
-                // check if this row has a different program than the last
-                $hasProgramChanged = 
-                    $row['program_name'] != $program['program_name'];
-                if ($hasProgramChanged) {
-                    // if it has, assert that the last row info is not empty
-                    if (strlen($program['program_name']) > 0) {
-                        // if it is not, store the info in the final structure
-                        array_push($program['modules'], $module);
-                        array_push($programPrivileges, $program);
-                    }
-
-                    // then fill the temporal holder with the information of 
-                    // this new program
-                    $module = [
-                        'module_name' => $row['module_name'], 
-                        'privileges' => [[
-                            'zone_name' => $row['zone_name'],
-                            'privilege' => $row['privilege']
-                        ]]
-                    ];
-                    $program = [
-                        'program_name' => $row['program_name'],
-                        'modules' => []
-                    ];
-                } else {
-                    // if the row has the same program than the last,
-                    // check if it has a different module
-                    $hasModuleChanged = 
-                        $row['module_name'] != $module['module_name'];
-                    if ($hasModuleChanged) {
-                        // if it has, store the info in the temporal program
-                        // holder
-                        array_push($program['modules'], $module);
-
-                        // and then fill the temporal holder with the
-                        // information of this new module
-                        $module = [
-                            'module_name' => $row['module_name'], 
-                            'privileges' => [[
-                                'zone_name' => $row['zone_name'],
-                                'privilege' => $row['privilege']
-                            ]]
-                        ];
-                    } else {
-                        // if the row has the same module than the last,
-                        // that means that it must have a different zone,
-                        // so we store the info of this new zone into the
-                        // temporal module holder
-                        array_push($module['privileges'], [
-                            'zone_name' => $row['zone_name'],
-                            'privilege' => $row['privilege']
-                        ]);
-                    }   // if (hasModuleChanged)
-                }   // if (hasProgramChanged)
-            }   // for (userPrivileges as row)
-
-            // don't forget to add the last entry to the final structure
-            if (strlen($module['module_name']) > 0) {
-                array_push($program['modules'], $module);
-            }
-            if (strlen($program['program_name']) > 0) {
-                array_push($programPrivileges, $program);
-            }
-
-            // return the relevant info
-            return [
-                'role' => $userData['role_name'],
-                'exclusive_access' => strtolower($userData['role_name']).'/',
-                'employee_num' => $userData['employee_num'],
-                'first_name' => $userData['first_name'],
-                'last_name' => $userData['last_name'],
-                'email' => $userData['email'],
-                'login_name' => $userData['login_name'],
-                'privileges' => $programPrivileges,
-                'recieve_email_notifications' => 
-                    $userData['recieve_email_notifications']
-            ];
+            // now, retrieve the user privileges and any additional information 
+            // required depending on the role of the user and create the final 
+            // data structure the holds the user's profile information that 
+            // will be sent to the client
+            $clientProfile = $this->constructUserProfile($userData);
+            return $clientProfile;
         } else {
-            // if the query failed, it may be because the given username and 
-            // password combination does not exist in the data base
-            return NULL;
+            throw new \Exception('Log in credentials are incorrect.');
         }
     }
 

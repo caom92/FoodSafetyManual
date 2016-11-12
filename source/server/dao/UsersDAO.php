@@ -30,10 +30,10 @@ class UsersDAO extends DataAccessObject
     {
         $rows = parent::select(
             [
-                "$this->table.id(id)", 'r.name(role_name)', 
-                'employee_num', 'email', 'first_name', 'last_name', 
-                'login_name', 'login_password', 
-                'recieve_email_notifications'
+                "$this->table.id(id)", 'r.id(role_id)', 'r.name(role_name)', 
+                'z.id(zone_id)', 'z.name(zone_name)', 'employee_num', 
+                'first_name', 'last_name', 'email', 'login_name', 
+                'login_password'
             ], 
             [ 
                 'AND' => [
@@ -47,7 +47,8 @@ class UsersDAO extends DataAccessObject
                 ]
             ],
             [
-                '[><]roles(r)' => [ 'role_id' => 'id' ]
+                '[><]roles(r)' => [ 'role_id' => 'id' ],
+                '[><]zones(z)' => [ 'zone_id' => 'id' ]
             ]
         );
 
@@ -182,12 +183,11 @@ class UsersDAO extends DataAccessObject
     // Inverts the activation status of the item with the specified ID
     function toggleActivationByID($id)
     {
-        $query = parent::$dataBase->pdo->prepare("
-            UPDATE $this->table
+        return parent::$dataBase->query(
+            "UPDATE $this->table
             SET is_active = !is_active
-            WHERE id = ?
-        ");
-        $query->execute([ $id ]);
+            WHERE id = '$id'"
+        )->fetchAll();
     }
 }
 

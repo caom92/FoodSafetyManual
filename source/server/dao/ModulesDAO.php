@@ -35,6 +35,32 @@ class ModulesDAO extends DataAccessObject
     {
         return parent::select(['id', 'name'], ['program_id' => $programID]);
     }
+
+
+    // Returns an associative array containing a list of all the modules stored
+    // in the data base alongside the program they belong to and the 'read'
+    // privilege data
+    // [out]    return: an associative array if there are any modules or NULL
+    //          otherwise
+    function selectAllWithReadPrivilege()
+    {
+        return parent::$dataBase->query(
+            "SELECT 
+                p.id AS program_id,
+                p.name AS program_name,
+                m.id AS module_id,
+                m.name AS module_name,
+                r.id AS privilege_id,
+                r.name AS privilege_name
+            FROM modules AS m 
+                INNER JOIN programs AS p
+                    ON m.program_id = p.id
+                INNER JOIN `privileges` AS r
+                    ON r.name = 'Read'
+            WHERE 1
+            ORDER BY p.id, m.id"
+        )->fetchAll();
+    }
 }
 
 ?>

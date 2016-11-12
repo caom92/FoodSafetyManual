@@ -7,13 +7,13 @@ namespace fsm\database;
 require_once realpath(dirname(__FILE__)."/DataAccessObject.php");
 
 // Data Access Object for the users_zones_modules_privileges table
-class UsersZonesModulesPrivilegesDAO extends DataAccessObject
+class UsersModulesPrivilegesDAO extends DataAccessObject
 {
     // Creates an interface for interacting with the 
     // users table in the specified data base
     function __construct()
     {
-        parent::__construct("users_zones_modules_privileges");
+        parent::__construct("users_modules_privileges");
     }
 
 
@@ -26,7 +26,7 @@ class UsersZonesModulesPrivilegesDAO extends DataAccessObject
     //          zone/program/module/privilege fashion
     function selectByEmployeeNum($employeeNum)
     {
-        $query = parent::$dataBase->pdo->prepare(
+        return parent::$dataBase->query(
             "SELECT 
                 `z`.`id` AS `zone_id`,
                 `z`.`name` AS `zone_name`,
@@ -38,7 +38,7 @@ class UsersZonesModulesPrivilegesDAO extends DataAccessObject
                 `pr`.`name` AS `privilege_name` 
             FROM `users_zones_modules_privileges` 
                 INNER JOIN `users` AS `u`
-                    ON `u`.`employee_num` = ?
+                    ON `u`.`employee_num` = `$employeeNum`
                 INNER JOIN `zones` AS `z` 
                     ON `users_zones_modules_privileges`.`zone_id` = `z`.`id` 
                 INNER JOIN `modules` AS `m` 
@@ -49,9 +49,7 @@ class UsersZonesModulesPrivilegesDAO extends DataAccessObject
                     ON `users_zones_modules_privileges`.`privilege_id` = 
                        `pr`.`id` 
             WHERE `user_id` = `u`.`id`"
-        );
-
-        return $query->execute();
+        )->fetchAll();
     }
 
 
@@ -61,34 +59,62 @@ class UsersZonesModulesPrivilegesDAO extends DataAccessObject
     //          retrieve
     // [out]    return: an associative array if the user was found in the
     //          database or NULL otherwise; information is organized in a
-    //          program/module/zone/privilege fashion
+    //          program/module/privilege fashion
     function selectByUserID($userID)
     {
-        return parent::select(
-            [
-                'p.name(program_name)',
-                'm.name(module_name)',
-                'z.name(zone_name)',
-                'pr.name(privilege)'
-            ],
-            [
-                'AND' => [
-                    'user_id' => $userID,
-                    'privilege_id[!]' => 1 
-                ],
-                'ORDER' => [
-                    'p.id',
-                    'm.id',
-                    'z.id'
-                ]
-            ],
-            [
-                '[><]modules(m)' => [ 'module_id' => 'id' ],
-                '[><]programs(p)' => [ 'm.program_id' => 'id'],
-                '[><]zones(z)' => [ 'zone_id' => 'id' ],
-                '[><]privileges(pr)' => [ 'privilege_id' => 'id' ]
-            ]
-        );
+        return parent::$dataBase->query(
+            "SELECT 
+                p.id AS program_id,
+                p.name AS program_name,
+                m.id AS module_id,
+                m.name AS module_name,
+                r.id AS privilege_id,
+                r.name AS privilege_name
+            FROM users_modules_privileges AS t
+                INNER JOIN modules AS m
+                    ON m.id = t.module_id
+                INNER JOIN programs AS p
+                    ON p.id = m.program_id
+                INNER JOIN privileges AS r
+                    ON r.id = t.privilege_id
+            WHERE t.user_id = '$userID' AND t.privilege_id != (
+                SELECT id FROM privileges WHERE name = 'None'
+            )
+            ORDER BY p.id, m.id"
+        )->fetchAll();
+    }
+
+
+    // Returns the list of modules which the user with the especified ID has 
+    // access to only, ignoring all others, as an associative array and 
+    // assigns them read privilege, ignoring their actual privilege
+    // [in]     userID: the ID of the user which privileges we want to 
+    //          retrieve
+    // [out]    return: an associative array if the user was found in the
+    //          database or NULL otherwise; information is organized in a
+    //          program/module/privilege fashion
+    function selectByUserIDWithReadPrivilege($userID)
+    {
+        return parent::$dataBase->query(
+            "SELECT 
+                p.id AS program_id,
+                p.name AS program_name,
+                m.id AS module_id,
+                m.name AS module_name,
+                r.id AS privilege_id,
+                r.name AS privilege_name
+            FROM users_modules_privileges AS t
+                INNER JOIN modules AS m
+                    ON m.id = t.module_id
+                INNER JOIN programs AS p
+                    ON p.id = m.program_id
+                INNER JOIN privileges AS r
+                    ON r.name = 'Read'
+            WHERE t.user_id = '$userID' AND t.privilege_id != (
+                SELECT id FROM privileges WHERE name = 'None'
+            )
+            ORDER BY p.id, m.id"
+        )->fetchAll();
     }
 
 

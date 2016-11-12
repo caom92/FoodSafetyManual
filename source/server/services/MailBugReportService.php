@@ -4,6 +4,7 @@ namespace fsm\services;
 
 require_once realpath(dirname(__FILE__).'/Service.php');
 require_once realpath(dirname(__FILE__).'/Email.php');
+require_once realpath(dirname(__FILE__).'/DataValidator.php');
 
 
 // Service for mailing a bug report
@@ -91,7 +92,7 @@ class MailBugReportService implements Service
             for ($i = 0; $i < $length; $i++) {
                 // check if the file type corresponds to a valid supported 
                 // bitmap file type
-                $isValid = Services::checkBitmapFileFormat(
+                $isValid = DataValidator::isBitmapFile(
                     $_FILES["screenshot-attachment"]["tmp_name"][$i]
                 );
 

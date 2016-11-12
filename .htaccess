@@ -19,7 +19,7 @@ RewriteRule ^(employee|administrator|supervisor|director|common)/layouts/([a-zA-
 RewriteRule ^(employee|administrator|supervisor|director|common)/behaviors/([a-zA-Z_-]+\.js)$ source/client/$1/behaviors/$2 [L,QSA]
 
 # Redirect any service request to the controller script
-RewriteRule ^services/([a-zA-Z_-]+)$ source/server/services/Controller.php [L,QSA]
+RewriteRule ^services/([a-zA-Z_-]+)$ source/server/Controller.php [L,QSA]
 
 # Redirect any request for any other client-side script to the proper file
 RewriteRule ^scripts/([a-zA-Z_\-\.]+\.js)$ source/client/common/scripts/$1 [L,QSA]

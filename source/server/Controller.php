@@ -4,7 +4,7 @@
 namespace fsm;
 
 // Import the site configuration file
-require_once realpath(dirname(__FILE__).'/../config/site_config.php');
+require_once realpath(dirname(__FILE__).'/config/site_config.php');
 
 // Import the service factory
 require_once realpath(dirname(__FILE__).'/services/ServiceFactory.php');
@@ -41,8 +41,6 @@ class Controller
 
         // check if the message is that of success
         $isMessageSuccess = $message == 'Success.';
-        
-        $isCodeNull = $code == NULL;
 
         // return the resulting JSON object
         echo json_encode([
@@ -320,8 +318,7 @@ class Controller
             // if there was a problem, notify the client
             self::respond(
                 [], 
-                $e->getMessage(),
-                $e->getCode()
+                $e->getMessage()
             );
         }
     } // function execute

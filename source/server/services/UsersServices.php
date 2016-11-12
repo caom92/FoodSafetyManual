@@ -8,7 +8,8 @@ require_once realpath(dirname(__FILE__).'/../dao/ZonesDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/ProgramsDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/ModulesDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/PrivilegesDAO.php');
-require_once realpath(dirname(__FILE__).'/../dao/UsersZonesModulesPrivilegesDAO.php');
+require_once realpath(dirname(__FILE__).
+    '/../dao/UsersModulesPrivilegesDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/RolesDAO.php');
 
 use fsm\database as db;

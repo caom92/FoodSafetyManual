@@ -5,101 +5,51 @@ function loadSideMenu()
         `${localStorage.first_name}  ${localStorage.last_name}`
     );
 
-    switch (localStorage.role) {
-        case 'Employee':
-            // if the user is has a user role, we display the programs menu
-            // for this, we first check if the menu is already defined
-            if (!isDefined(localStorage.menu)) {
-                // if it is not, we must created
-                localStorage.menu = '';
+    if (localStorage.role === 'Administrator') {
+        // display the admin menu
+        $('#actions-list').load($root + 'source/client/administrator/layouts/menu.html', function(){
+            initMaterialize();
+        });
+    } else {
+        // if the user is has a user role, we display the programs menu
+        // for this, we first check if the menu is already defined
+        if (!isDefined(localStorage.menu)) {
+            // if it is not, we must created
+            localStorage.menu = '';
 
-                // first, we read the privilege JSON
-                var privileges = JSON.parse(localStorage.privileges);
+            // first, we read the privilege JSON
+            var privileges = JSON.parse(localStorage.privileges);
+            console.log(privileges)
 
-                // then, for every program...
-                for (privilege of privileges) {
-                    // create the navigation menu item
-                    localStorage.menu += 
-                        `<li><ul class="collapsible collapsible-accordion">
-                        <li><a class="collapsible-header program-button"> 
-                        <i class="mdi mdi-wrench md-dark md-24 field-icon">
-                        </i><span>${privilege.program_name}</span></a>
-                        <div class="collapsible-body"><ul>`;
+            // then, for every program...
+            for (privilege of privileges) {
+                // create the navigation menu item
+                localStorage.menu += 
+                    `<li><ul class="collapsible collapsible-accordion">
+                    <li><a class="collapsible-header program-button"> 
+                    <i class="mdi mdi-wrench md-dark md-24 field-icon">
+                    </i><span>${privilege.name}</span></a>
+                    <div class="collapsible-body"><ul>`;
 
-                    // and for every module...
-                    for (module of privilege.modules) {
-                        // add an item to the program collapsible menu
-                        localStorage.menu +=
-                            `<li><a class="nav-link waves-effect waves-green" 
-                            href="#"> 
-                            ${ module.module_name }
-                            </a></li>`;
-                    }
-
-                    // finally, we close this collapsible menu and repeat
-                    localStorage.menu += 
-                        '</ul></div></li></ul></li>';
+                // and for every module...
+                for (module of privilege.modules) {
+                    // add an item to the program collapsible menu
+                    localStorage.menu +=
+                        `<li><a class="nav-link waves-effect waves-green" 
+                        href="#"> 
+                        ${ module.name }
+                        </a></li>`;
                 }
 
-                // show the menu items 
-                $('#actions-list').html(localStorage.menu);
+                // finally, we close this collapsible menu and repeat
+                localStorage.menu += 
+                    '</ul></div></li></ul></li>';
             }
-            initMaterialize();
-        break;
 
-        case 'Supervisor':
-            initMaterialize();
-        break;
-
-        case 'Administrator':
-            // if the user has an admin role, display the admin menu
-            $('#actions-list').load($root + 'source/client/administrator/layouts/menu.html', function(){
-                initMaterialize();
-            });
-        break;
-
-        case 'Director':
-            // if the user is has a user role, we display the programs menu
-            // for this, we first check if the menu is already defined
-            if (!isDefined(localStorage.menu)) {
-                // if it is not, we must created
-                localStorage.menu = '';
-
-                $server.request({
-                    service: 'list-programs-and-modules',
-                    success: function(response) {
-                        if (response.meta.return_code == 0) {
-                            for (program of response.data) {
-                                localStorage.menu += 
-                                    `<li><ul class="collapsible collapsible-accordion">
-                                    <li><a class="collapsible-header program-button"> 
-                                    <i class="mdi mdi-wrench md-dark md-24 field-icon">
-                                    </i><span>${program.name}</span></a>
-                                    <div class="collapsible-body"><ul>`;
-
-                                for (module of program.modules) {
-                                    localStorage.menu +=
-                                        `<li><a class="nav-link waves-effect waves-green" 
-                                        href="#"> 
-                                        ${ module.name }
-                                        </a></li>`;
-                                }
-
-                                localStorage.menu += 
-                                    '</ul></div></li></ul></li>';
-                            }
-
-                            $('#actions-list').html(localStorage.menu);
-                            initMaterialize();
-                        } else {
-                            console.log(`server says: ${ response.meta.message }`);
-                        }
-                    }
-                });
-            } else {
-                initMaterialize();
-            }
-        break;
+            // show the menu items 
+            $('#actions-list').html(localStorage.menu);
+        }
+        initMaterialize();
     }
 }
 
