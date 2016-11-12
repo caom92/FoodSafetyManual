@@ -3,6 +3,7 @@
 namespace fsm\services;
 
 require_once realpath(dirname(__FILE__).'/Service.php');
+require_once realpath(dirname(__FILE__).'/Session.php');
 require_once realpath(dirname(__FILE__).'/Email.php');
 require_once realpath(dirname(__FILE__).'/DataValidator.php');
 
@@ -17,13 +18,6 @@ class MailBugReportService implements Service
     {
         return [
             'logged_in' => 'any',
-            'user-name' => [
-                'type' => 'string',
-                'min_length' => 5
-            ],
-            'user-id' => [
-                'type' => 'int'
-            ],
             'zone-selection' => [
                 'type' => 'string'
             ],
@@ -51,9 +45,12 @@ class MailBugReportService implements Service
     // Starts execution of the service
     function execute()
     {
+        // get the user session data
+        $session = new Session();
+        
         // Create the email body by pasting all the posted data into it
-        $body = "Usuario: " . $_POST["user-name"] . "<br>"
-            . "ID de empleado: " . $_POST["user-id"] . "<br>"
+        $body = "Usuario: " . $session->get("login-name") . "<br>"
+            . "ID de empleado: " . $session->get("id") . "<br>"
             . "Zona: " . $_POST["zone-selection"] . "<br>"
             . "Programa: " . $_POST["procedure-selection"] . "<br>"
             . "Modulo: " . $_POST['module-selection'] . "<br>"
@@ -143,8 +140,8 @@ class MailBugReportService implements Service
 
         // create the confirmation email
         $confirmation = new Email([
-                'email' => $_POST['email'],
-                'name' => $_POST['user-name']
+                'email' => $session->get('email'),
+                'name' => $session->get('login-name')
             ],
             $subject, $body, $_POST['lang']
         );

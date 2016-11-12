@@ -71,6 +71,7 @@ function changeLanguageForSelectFields(lang) {
         case "es":
             $("#zone-selection__label").text("Zona Defectuosa*");
             $("#procedure-selection__label").text("Procedimiento Defectuoso*");
+            $("#module-selection__label").text("Módulo Defectuoso*");
             $("#browser-selection__label").text("Navegador Web que usa*");
             $("#severity-selection__label").text("Severidad del problema*");
             $("option:disabled").text("Selecciona una opción");
@@ -90,6 +91,7 @@ function changeLanguageForSelectFields(lang) {
         case "en":
             $("#zone-selection__label").text("Defective Zone*");
             $("#procedure-selection__label").text("Defective Process*");
+            $("#module-selection__label").text("Defective Module*");
             $("#browser-selection__label").text("Web browser you use*");
             $("#severity-selection__label").text("Severity of the issue*");
             $("option:disabled").text("Select an option");
@@ -120,6 +122,7 @@ $(function() {
     $("#user-id").val(localStorage.employee_num);
     $("#user-email").val(localStorage.email);
     $("#lang").val(localStorage.defaultLanguage);
+    $('#zone-selection').val(localStorage.zone);
     
     // hide the language and email fields
     $("#user-email").hide();
@@ -127,7 +130,7 @@ $(function() {
     
     // change a previously invalid select field to valid when the user finally
     // selects a valid option
-    setOnChangeListenerToRequiredSelectField("#zone-selection");
+    // setOnChangeListenerToRequiredSelectField("#zone-selection");
     setOnChangeListenerToRequiredSelectField("#procedure-selection");
     setOnChangeListenerToRequiredSelectField("#module-selection");
     setOnChangeListenerToRequiredSelectField("#browser-selection");
@@ -170,7 +173,7 @@ $(function() {
         
         // check if the required select inputs have a value selected;
         // if any of those is empty, mark it on the form
-        var zoneIsValid = isRequiredSelectFieldValid("#zone-selection");
+        var zoneIsValid = isRequiredTextAreaValid("#zone-selection");
         var procedureIsValid = 
             isRequiredSelectFieldValid("#procedure-selection");
         var moduleIsValid = 
@@ -261,6 +264,19 @@ $(function() {
                     }
                     $('#module-selection').html(html);
                     $("#module-selection").material_select();
+                } else {
+                    var privileges = JSON.parse(localStorage.privileges);
+
+                    var html = 
+                        '<option value="" disabled selected class="select_option"></option>';
+                    for (program of privileges) {
+                        for (mod of program.modules) {
+                            html += "<option value='" + mod.id + "'>"
+                            + mod.name + "</option>";
+                        }
+                    }
+                    $('#module-selection').html(html);
+                    $("#module-selection").material_select();
                 }
             },
             error: function(xhr, status, message) {
@@ -274,35 +290,35 @@ $(function() {
     });
 
     // Retrieve the zones from the server
-    $server.request({
-        service: 'list-zones',
-        cache: true,
-        success: function(response, message, xhr) {
-            // check if the response was positive
-            if (response.meta.return_code == 0) {
-                // if it was, store the retrieve zones into a list of HTML
-                // option elements
-                var html = "";
-                for (zone of response.data) {
-                    html += "<option value='" + zone.id + "'>"
-                        + zone.name + "</option>";
-                }
+    // $server.request({
+    //     service: 'list-zones',
+    //     cache: true,
+    //     success: function(response, message, xhr) {
+    //         // check if the response was positive
+    //         if (response.meta.return_code == 0) {
+    //             // if it was, store the retrieve zones into a list of HTML
+    //             // option elements
+    //             var html = "";
+    //             for (zone of response.data) {
+    //                 html += "<option value='" + zone.id + "'>"
+    //                     + zone.name + "</option>";
+    //             }
 
-                // inject the list of options into the select field
-                $("#zone-selection").html($("#zone-selection").html() + html);
-            }
+    //             // inject the list of options into the select field
+    //             $("#zone-selection").html($("#zone-selection").html() + html);
+    //         }
 
-            // finally, initialize the select field
-            $("#zone-selection").material_select();
-        },
-        error: function(xhr, status, message) {
-            // print the message in the console
-            console.log("server says: " + status + ", " + message);
+    //         // finally, initialize the select field
+    //         $("#zone-selection").material_select();
+    //     },
+    //     error: function(xhr, status, message) {
+    //         // print the message in the console
+    //         console.log("server says: " + status + ", " + message);
 
-            // finally, initialize the select field
-            $("#zone-selection").material_select();
-        }
-    });
+    //         // finally, initialize the select field
+    //         $("#zone-selection").material_select();
+    //     }
+    // });
 
     // Retrieve the programs from the server
     $server.request({
@@ -315,6 +331,18 @@ $(function() {
                 // option elements
                 var html = "";
                 for (procedure of response.data) {
+                    html += "<option value='" + procedure.id + "'>"
+                        + procedure.name + "</option>";
+                }
+
+                // inject the list of options into the select field
+                $("#procedure-selection").html(
+                    $("#procedure-selection").html()+ html);
+            } else {
+                var privileges = JSON.parse(localStorage.privileges);
+
+                var html = "";
+                for (procedure of privileges) {
                     html += "<option value='" + procedure.id + "'>"
                         + procedure.name + "</option>";
                 }

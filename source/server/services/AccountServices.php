@@ -8,6 +8,7 @@ require_once realpath(dirname(__FILE__).'/Email.php');
 require_once realpath(dirname(__FILE__).'/../dao/UsersDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/RecoveryTokensDAO.php');
 
+use fsm;
 use fsm\database as db;
 
 
@@ -145,7 +146,7 @@ class RequestPasswordRecoveryService
 
             // create the password recovery link
             $recoveryLink = 
-                "http://".$_SERVER['HTTP_HOST'].SITE_ROOT
+                "http://".$_SERVER['HTTP_HOST'].fsm\SITE_ROOT
                 ."/password-recovery?token="
                 . $recoveryToken;
             
@@ -153,7 +154,7 @@ class RequestPasswordRecoveryService
             $body = '';
             $subject = '';
 
-            if ($lang == 'en') {
+            if ($_POST['lang'] == 'en') {
                 $subject = "Jacobs Farm: Password Recovery.";
                 $body = "This is an automated response to your request to "
                     . "recover your password. Just click the following link" 
@@ -161,7 +162,7 @@ class RequestPasswordRecoveryService
                     . "the password recovery page:<br>"
                     . "<a href='".$recoveryLink."'>Recover my " 
                     . "password!</a>";
-            } elseif ($lang == 'es') {
+            } elseif ($_POST['lang'] == 'es') {
                 $subject = "Del Cabo: Recuperación de contraseña.";
                 $body = "Esta es una respuesta automatizada a su petición"
                     . " de recuperar su contraseña. Sólo haga clic "
@@ -180,7 +181,7 @@ class RequestPasswordRecoveryService
                         $userProfile["first_name"].' '.
                         $userProfile["last_name"]
                 ],
-                $subject, $body, $lang
+                $subject, $body, $_POST['lang']
             );
 
             // send the email
@@ -220,13 +221,14 @@ class ValidateTokenService implements Service
     function execute()
     {
         // attempt to connect to the database
-        $tokens = new RecoveryTokensDAO();
+        $tokens = new db\RecoveryTokensDAO();
 
         // search the token in the data base
         $token = $tokens->getByToken($_POST['token']);
 
         // if the token was found, check if it has not expired yet
-        if (isset($token)) {
+        $exists = isset($token) && $token != FALSE;
+        if ($exists) {
             // get the expiration date that was stored with the token
             $tokenExpiration = new \DateTime($token["expiration_date"]);  
 
@@ -340,7 +342,7 @@ class ChangePasswordService implements Service
 
         // check if the password is valid
         $isPasswordValid = password_verify(
-            $password, 
+            $_POST['password'], 
             $session->get('login_password')
         );
 
@@ -361,7 +363,7 @@ class ChangePasswordService implements Service
         );
 
         // save the new password in the session storage
-        $session->setValue('login_password', $newPasswd);
+        $session->set('login_password', $newPasswd);
     }
 }
 
@@ -395,27 +397,31 @@ class ChangePasswordByRecoveryService implements Service
         $validateTokenService = new ValidateTokenService();
         $userID = $validateTokenService->execute();
 
-        // then connect to the data base
-        $users = new db\UsersDAO();
-        $tokens = new db\RecoveryTokensDAO();
+        if (isset($userID)) {
+            // then connect to the data base
+            $users = new db\UsersDAO();
+            $tokens = new db\RecoveryTokensDAO();
 
-        // change the user log in password in the data base
-        $users->updatePasswordByUserID(
-            $userID, 
-            password_hash($_POST['new_password'], PASSWORD_BCRYPT)
-        );
+            // change the user log in password in the data base
+            $users->updatePasswordByUserID(
+                $userID, 
+                password_hash($_POST['new_password'], PASSWORD_BCRYPT)
+            ); 
 
-        // delete the old token
-        $tokens->deleteByUserID($userID);
+            // delete the old token
+            $tokens->deleteByUserID($userID);
 
-        // obtain the log in name and the new password
-        $userProfile = $users->getByIdentifier($userID);
-        $_POST['username'] = $userProfile['login_name'];
-        $_POST['password'] = $userProfile['login_password']; 
+            // obtain the log in name and the new password
+            $userProfile = $users->getByIdentifier($userID);
+            $_POST['username'] = $userProfile['login_name'];
+            $_POST['password'] = $_POST['new_password'];
 
-        // use this info to log in the user
-        $logInService = new LogInService();
-        return $logInService->execute();
+            // use this info to log in the user
+            $logInService = new LogInService();
+            return $logInService->execute();
+        } else {
+            throw new \Exception('Recovery token is invalid.');
+        }
     }
 }
 
@@ -451,7 +457,7 @@ class ChangeEmailService implements Service
         // check if the new email is duplicated and if the password is valid
         $isEmailDuplicated = $users->hasByEmail($_POST['new_email']);
         $isPasswordValid = password_verify(
-            $password, 
+            $_POST['password'], 
             $session->get('login_password')
         );
 

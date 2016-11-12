@@ -94,11 +94,12 @@ class Controller
                             foreach ($requirement as $requiredRole) {
                                 if ($role === $requiredRole) {
                                     $hasProperRole = true;
+                                    break;
                                 }
                             }
 
                             if (!$hasProperRole) {
-                                throw new \Exception('User does not have the proper rule.');
+                                throw new \Exception('User does not have the proper role.');
                             }
                         }
                     } else {
@@ -126,7 +127,7 @@ class Controller
                         case 'int':
                             // check if the input argument is an integer value 
                             // or string 
-                            $isInt = serv\DataValidator::isInt($_POST[$key]);
+                            $isInt = serv\DataValidator::isInteger($_POST[$key]);
 
                             // now we check if this value must be within an 
                             // specified interval
@@ -248,7 +249,7 @@ class Controller
                             // check if the input argument is a string that 
                             // denotes a language code
                             $isLanguage = 
-                                serv\DataValidator::stringIsLanguage(
+                                serv\DataValidator::stringIsLanguageCode(
                                     $_POST[$key]
                                 );
 

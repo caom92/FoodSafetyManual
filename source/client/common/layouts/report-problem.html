@@ -43,10 +43,12 @@
         
     <!-- Zone selection -->
     <div class="input-field col s12 m4 l4">
-        <select id="zone-selection" name="zone-selection">
+        <!--<select id="zone-selection" name="zone-selection">
             <option value="" disabled selected class="select_option"></option>
-        </select>
-        <label id="zone-selection__label" class="defective_zone"></label>
+        </select>-->
+        <input class="validate" type="text" value="" 
+            id="zone-selection" name="zone-selection" readonly>
+        <label id="zone-selection__label" class="active"></label>
     </div>
         
     <!-- Program selection -->
@@ -63,7 +65,7 @@
         <select id="module-selection" name="module-selection">
             <option value="" disabled selected class="select_option"></option>
         </select>
-        <label id="procedure-selection__label" class="defective_process">
+        <label id="module-selection__label" class="defective_module">
         </label>
     </div>
         

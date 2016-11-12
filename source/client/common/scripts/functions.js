@@ -18,6 +18,7 @@ function isWhitespace(variable)
 function storeUserDataInLocalStorage(userData)
 {
     localStorage.role = userData.role;
+    localStorage.zone = userData.zone;
     localStorage.exclusive_access = userData.exclusive_access;
     localStorage.employee_num = userData.employee_num;
     localStorage.first_name = userData.first_name;

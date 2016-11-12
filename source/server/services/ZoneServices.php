@@ -56,7 +56,7 @@ class AddNewZoneService implements Service
         $zones = new db\ZonesDAO();
 
         // then we check if the name is duplicated
-        $isZoneNameDuplicated = $zone->hasByName($_POST['new_zone']);
+        $isZoneNameDuplicated = $zones->hasByName($_POST['new_zone']);
         if (!$isZoneNameDuplicated) {
             // if it's not, store it
             $zones->insert($_POST['new_zone']);
