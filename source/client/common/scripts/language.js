@@ -92,6 +92,12 @@ function changeLanguage(lang, callback){
 
     loadSearchSuggestions(lang);
 
+    if(typeof createDatePicker == "function"){
+        createDatePicker();
+    } else {
+        console.log("datePicker not present");
+    }
+
     if(typeof callback == "function"){
         callback();
     } else if (callback == undefined) {
@@ -100,6 +106,13 @@ function changeLanguage(lang, callback){
         console.log("not a function");
     }
 }
+
+/*function createDatePicker(){
+    $("#start_date").remove();
+    $("#start_date_label").remove();
+    $("#report_date").append('<input id="start_date" type="date" class="datepicker"><label id="start_date_label" class="select_date active" for="start_date"></label>');
+    $('.datepicker').pickadate(datePicker());
+}*/
 
 function loadSearchSuggestions(lang){
     if(lang == "es") {
@@ -155,6 +168,44 @@ function embedTooltip(element, position, delay, tooltip){
     $(element).addClass("tooltipped");
 
     $('.tooltipped').tooltip({delay: delay})
+}
+
+function datePicker(nameHidden, maxDate, minDate){
+    var lang = getLanguage();
+    var datePickerConfig;
+    switch (lang) {
+        case "es":
+            datePickerConfig = {
+                selectMonths: true, // Creates a dropdown to control month
+                selectYears: 1000,
+                monthsFull: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dec'],
+                weekdaysFull: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                weekdaysShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+                weekdaysLetter: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+                today: 'Hoy',
+                clear: 'Borrar',
+                close: 'Cerrar',
+                formatSubmit: "yyyy-mm-dd",
+                showMonthsShort: true,
+                hiddenSuffix: nameHidden,
+                max: maxDate,
+                min: minDate
+            };
+        break;
+        case "en":
+            datePickerConfig = {
+                selectMonths: true, // Creates a dropdown to control month
+                selectYears: 1000,
+                formatSubmit: "yyyy-mm-dd",
+                showMonthsShort: true,
+                hiddenSuffix: nameHidden,
+                max: maxDate,
+                min: minDate
+            };
+        break;
+    }
+    return datePickerConfig;
 }
 
 /* Incomplete errorMessage function. Uncomment at your own risk

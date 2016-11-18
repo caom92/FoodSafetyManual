@@ -31,7 +31,7 @@ function loadSideMenu()
                         // add an item to the program collapsible menu
                         localStorage.menu +=
                             `<li><a class="nav-link waves-effect waves-green" 
-                            href="#"> 
+                            href="logs?` + `module=` + `${ module.module_name }` + `"> 
                             ${ module.module_name }
                             </a></li>`;
                     }
@@ -42,8 +42,9 @@ function loadSideMenu()
                 }
 
                 // show the menu items 
-                $('#actions-list').html(localStorage.menu);
+                // $('#actions-list').html(localStorage.menu);
             }
+            $('#actions-list').html(localStorage.menu);
             initMaterialize();
         break;
 
