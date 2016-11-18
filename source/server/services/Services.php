@@ -15,6 +15,7 @@ require_once realpath(dirname(__FILE__).
 require_once realpath(dirname(__FILE__).'/../dao/WorkingAreasDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/ItemsDAO.php');
 
+use fsm;
 use fsm\database as db;
 
 
