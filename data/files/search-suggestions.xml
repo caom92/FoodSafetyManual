@@ -19,4 +19,9 @@
         <english>Search by ID...</english>
         <spanish>Buscar por ID...</spanish>
     </translation>
+
+    <translation id="add_item">
+        <english>Add item...</english>
+        <spanish>Añadir elemento...</spanish>
+    </translation>
 </translations>

@@ -189,6 +189,8 @@ function inventoryRow(element){
     row.append($("<td class='name-column search-column'>").text(element.name));
     if(element.status){
         switchBox = '<input type="checkbox" checked="">';
+    } else {
+        row.addClass("grey-text");
     }
     switchInput = $(switchOpening + switchBox + switchClosing);
     switchInput.find("input:checkbox").each(function(index){
@@ -203,7 +205,8 @@ function inventoryRow(element){
                 success: function(response, message, xhr) {
                     console.log(response);
                 }
-            })
+            });
+            $(this).parent().parent().parent().parent().addClass("grey-text");
         });
     });
     buttonColumn.append(switchInput);
@@ -257,7 +260,7 @@ function inventoryAddRow(){
     var nameInput = $("<td>");
     var addButton = $("<td>");
 
-    nameInput.append(textInput("name_add", ""));
+    nameInput.append(textInput("name_add", "add_item"));
     addButton.append(addInventoryButton());
 
     addButton.click(function(){
@@ -304,6 +307,9 @@ function inventoryAddRow(){
                     $(".add-row").remove();
                     $("tbody").append(inventoryRow(element));
                     $("tbody").append(inventoryAddRow());
+                    $("html, body").animate({
+                        scrollTop: $(document).height()
+                    }, 400);
                     changeLanguage(localStorage.defaultLanguage);
                 }
             });

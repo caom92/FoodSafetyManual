@@ -365,9 +365,39 @@
         <spanish>Zona</spanish>
     </translation>
 
+    <translation id="program_name">
+        <english>Program</english>
+        <spanish>Programa</spanish>
+    </translation>
+
+    <translation id="module_name">
+        <english>Module</english>
+        <spanish>Módulo</spanish>
+    </translation>
+
+    <translation id="date_name">
+        <english>Date</english>
+        <spanish>Fecha</spanish>
+    </translation>
+
+    <translation id="made_by">
+        <english>Made by</english>
+        <spanish>Elaborado por</spanish>
+    </translation>
+
+    <translation id="approved_by">
+        <english>Approved by</english>
+        <spanish>Aprobado por</spanish>
+    </translation>
+
     <translation id="manage_inventory">
         <english>Manage Inventory</english>
         <spanish>Gestión de inventario</spanish>
+    </translation>
+
+    <translation id="logs">
+        <english>Logs</english>
+        <spanish>Bitácoras</spanish>
     </translation>
 
     <translation id="inventory_id">
@@ -408,6 +438,16 @@
     <translation id="select_module">
         <english>Select a module</english>
         <spanish>Seleccione un módulo</spanish>
+    </translation>
+
+    <translation id="select_start_date">
+        <english>Select a start date</english>
+        <spanish>Seleccione un fecha de partida</spanish>
+    </translation>
+
+    <translation id="select_end_date">
+        <english>Select a end date</english>
+        <spanish>Seleccione un fecha de cierre</spanish>
     </translation>
 
     <!--Template
