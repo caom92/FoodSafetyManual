@@ -4,6 +4,7 @@ namespace fsm\services\inventory;
 
 require_once realpath(dirname(__FILE__).'/../dao/WorkingAreasDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/ItemsDAO.php');
+require_once realpath(dirname(__FILE__).'/../dao/ItemTypesDAO.php');
 
 use fsm\database as db;
 
@@ -21,6 +22,14 @@ function getItemsOfWorkingArea()
 {
     $items = new db\ItemsDAO();
     return $items->selectByAreaID($_POST['area_id']);
+}
+
+
+// List all the item types
+function getAllItemTypes()
+{
+    $types = new db\ItemTypesDAO();
+    return $types->selectAll();
 }
 
 
@@ -47,6 +56,7 @@ function addNewItem()
     // store the item in the data base 
     return $items->insert(
         $_POST['area_id'],
+        $_POST['type_id'],
         $numItemsInArea + 1,
         $_POST['name']
     );

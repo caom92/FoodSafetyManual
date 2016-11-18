@@ -4,6 +4,8 @@ namespace fsm\services\session;
 
 require_once realpath(dirname(__FILE__).'/../Session.php');
 
+use fsm;
+
 
 // Logs the user into her account and starts a session
 function logIn() 

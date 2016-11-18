@@ -12,7 +12,7 @@ require_once realpath(dirname(__FILE__)
 
 
 // The list of services that the server can provide
-core\Controller::$services = [
+fsm\Controller::$services = [
     'status' => [
         'requirements_desc' => [],
         'callback' => 'fsm\services\server\checkStatus'
@@ -249,6 +249,12 @@ core\Controller::$services = [
         ],
         'callback' => 'fsm\services\inventory\getItemsOfWorkingArea'
     ],
+    'list-item-types' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator']
+        ],
+        'callback' => 'fsm\services\inventory\getAllItemTypes'
+    ],
     'toggle-item-activation' => [
         'requirements_desc' => [
             'logged_in' => ['Administrator'],
@@ -262,6 +268,9 @@ core\Controller::$services = [
         'requirements_desc' => [
             'logged_in' => ['Administrator'],
             'area_id' => [
+                'type' => 'int'
+            ],
+            'type_id' => [
                 'type' => 'int'
             ],
             'name' => [

@@ -3,7 +3,7 @@
 namespace fsm\services\gmp\packing\preop;
 
 require_once realpath(dirname(__FILE__).
-    '/../../../../../dao/logs/gmp/packing/preop/CorrectiveActionsDAO.php');
+    '/../../../../dao/gmp/packing/preop/CorrectiveActionsDAO.php');
 
 use fsm\database\gmp\packing\preop as preop;
 
