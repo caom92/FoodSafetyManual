@@ -1,14 +1,14 @@
 <?php
 
 // The namespace of the services of the project
-namespace fsm\services;
+namespace fsm;
 
 // Import the configuration file
-require_once realpath(dirname(__FILE__).'/../config/mail_config.php');
+require_once realpath(dirname(__FILE__).'/config/mail_config.php');
 
 // Import PHPMailer using the composer autoloader
 require_once realpath(
-    dirname(__FILE__)."/../../../external/autoload.php"
+    dirname(__FILE__)."/../../external/autoload.php"
 );
 
 // Alias namespaces for ease of use

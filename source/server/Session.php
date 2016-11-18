@@ -1,16 +1,16 @@
 <?php
 
 // The namespace of the services of the project
-namespace fsm\services;
+namespace fsm;
 
 // Import the site configuration file
-require_once realpath(dirname(__FILE__).'/../config/site_config.php');
+require_once realpath(dirname(__FILE__).'/config/site_config.php');
 
 // Import the required DAOs
-require_once realpath(dirname(__FILE__).'/../dao/UsersDAO.php');
-require_once realpath(dirname(__FILE__).'/../dao/LogsDAO.php');
+require_once realpath(dirname(__FILE__).'/dao/UsersDAO.php');
+require_once realpath(dirname(__FILE__).'/dao/LogsDAO.php');
 require_once realpath(dirname(__FILE__).
-    '/../dao/UsersLogsPrivilegesDAO.php');
+    '/dao/UsersLogsPrivilegesDAO.php');
 
 // Alias the namespaces for ease of use
 use fsm as core;

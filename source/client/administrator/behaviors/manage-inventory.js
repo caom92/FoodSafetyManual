@@ -15,12 +15,12 @@ function addZoneSelect(){
                 }
                 $("#content_wrapper").append(select);
                 $("#zone-select").change(function (e) {
-                    $("#program-select").material_select('destroy');
-                    $("#program-select").remove();
+                    $("#area-select").material_select('destroy');
+                    $("#area-select").remove();
                     $("#module-select").material_select('destroy');
                     $("#module-select").remove();
                     $("table").remove();
-                    addProgramSelect($(this).val());
+                    addAreaSelect($(this).val());
                 });
                 changeLanguage(localStorage.defaultLanguage);
                 $('select').material_select();
@@ -31,14 +31,18 @@ function addZoneSelect(){
     });
 }
 
-function addProgramSelect(zoneID){
+function addAreaSelect(zoneID){
+    var data = new Object();
+    data.zone_id = zoneID;
+
     $server.request({
-        service: 'list-programs',
+        service: 'get-areas-of-zone',
+        data: data,
         success: function(response) {
             if (response.meta.return_code == 0) {
                 console.log(response.data);
                 var select = $("<select>");
-                select.attr("id", "program-select");
+                select.attr("id", "area-select");
                 select.append('<option value="" disabled selected class="select_program"></option>');
                 for(var zone in response.data){
                     var option = $("<option>");
@@ -47,7 +51,7 @@ function addProgramSelect(zoneID){
                     select.append(option);
                 }
                 $("#content_wrapper").append(select);
-                $("#program-select").change(function (e) {
+                $("#area-select").change(function (e) {
                     $("#module-select").material_select('destroy');
                     $("#module-select").remove();
                     $("table").remove();
