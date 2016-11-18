@@ -830,7 +830,7 @@ fsm\Controller::$services = [
             ],
             'name' => [
                 'type' => 'string',
-                'max' => 64
+                'max_length' => 64
             ]
         ],
         'callback' => function() {
