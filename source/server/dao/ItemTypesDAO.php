@@ -23,9 +23,7 @@ class ItemTypesDAO extends DataAccessObject
     // item types
     function selectAll()
     {
-        return parent::select([
-            'id', 'name'
-        ]);
+        return parent::select('*');
     }
 }
 

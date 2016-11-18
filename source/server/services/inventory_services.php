@@ -54,12 +54,13 @@ function addNewItem()
     $numItemsInArea = $items->countByAreaID($_POST['area_id']);
 
     // store the item in the data base 
-    return $items->insert(
-        $_POST['area_id'],
-        $_POST['type_id'],
-        $numItemsInArea + 1,
-        $_POST['name']
-    );
+    return $items->insert([
+        'area_id' => $_POST['area_id'],
+        'type_id' => $_POST['type_id'],
+        'is_active' => TRUE,
+        'position' => $numItemsInArea + 1,
+        'name' => $_POST['name']
+    ]);
 }
 
 ?>
