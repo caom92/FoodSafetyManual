@@ -3,16 +3,11 @@
 // Namespace of the main module of the project
 namespace fsm;
 
-// Import the site configuration file
 require_once realpath(dirname(__FILE__).'/config/site_config.php');
+require_once realpath(dirname(__FILE__).'/Session.php');
+require_once realpath(dirname(__FILE__).'/data_validations.php');
 
-// Import the service factory
-require_once realpath(dirname(__FILE__).'/services/Session.php');
-
-// Import the data validator
-require_once realpath(dirname(__FILE__).'/services/DataValidator.php');
-
-use fsm\services as serv;
+use fsm\validations as val;
 
 
 // The communication bridge between the frontend and the backend
@@ -128,7 +123,7 @@ class Controller
                 // check if the service expects the user to be logged in
                 case 'logged_in':
                     // if it does, check if the user is logged in
-                    $session = new serv\Session();
+                    $session = new Session();
                     $isLoggedIn = $session->isOpen();
 
                     if ($isLoggedIn) {
@@ -166,7 +161,7 @@ class Controller
                             // check if the input argument is a numeric value 
                             // or string
                             $isNumeric = 
-                                serv\DataValidator::isNumeric($_POST[$key]); 
+                                val\isNumeric($_POST[$key]); 
 
                             if (!$isNumeric) {
                                 throw new \Exception(
@@ -178,7 +173,7 @@ class Controller
                         case 'int':
                             // check if the input argument is an integer value 
                             // or string 
-                            $isInt = serv\DataValidator::isInteger($_POST[$key]);
+                            $isInt = val\isInteger($_POST[$key]);
 
                             // now we check if this value must be within an 
                             // specified interval
@@ -201,7 +196,7 @@ class Controller
 
                                     // check if the value is within the 
                                     // intervals
-                                    $isWithinInterval = serv\DataValidator::integerIsBetweenValues(
+                                    $isWithinInterval = val\integerIsBetweenValues(
                                         $_POST[$key], 
                                         $min, 
                                         $max
@@ -224,7 +219,7 @@ class Controller
                             // check if the input argument is a floating point 
                             // value or string
                             $isFloat =
-                                serv\DataValidator::isFloat($_POST[$key]);
+                                val\isFloat($_POST[$key]);
 
                             if (!$isFloat) {
                                 throw new \Exception(
@@ -236,7 +231,7 @@ class Controller
                         case 'string':
                             // check if the input argument is a string value
                             $isString = 
-                                serv\DataValidator::isString($_POST[$key]);
+                                val\isString($_POST[$key]);
 
                             // check if the input argument must be an specific 
                             // number of characters long
@@ -257,7 +252,7 @@ class Controller
                                 if ($hasLengthRule) {
                                     // check if the string has the specified 
                                     // length
-                                    $hasProperLength = serv\DataValidator::stringHasLength(
+                                    $hasProperLength = val\stringHasLength(
                                         $_POST[$key], 
                                         $requirement['length']
                                     );
@@ -277,7 +272,7 @@ class Controller
                                         $requirement['max_length'] :
                                         \PHP_INT_MAX;
 
-                                    $isLengthWithinInterval = serv\DataValidator::stringHasLengthInterval(
+                                    $isLengthWithinInterval = val\stringHasLengthInterval(
                                         $_POST[$key], 
                                         $min, 
                                         $max
@@ -300,7 +295,7 @@ class Controller
                             // check if the input argument is a string that 
                             // denotes a language code
                             $isLanguage = 
-                                serv\DataValidator::stringIsLanguageCode(
+                                val\stringIsLanguageCode(
                                     $_POST[$key]
                                 );
 
@@ -315,7 +310,7 @@ class Controller
                             // check if the input argument is a string that 
                             // denotes an email address
                             $isEmail = 
-                                serv\DataValidator::stringIsEmail($_POST[$key]);
+                                val\stringIsEmail($_POST[$key]);
 
                             if (!$isEmail) {
                                 throw new \Exception(
@@ -327,7 +322,7 @@ class Controller
                         case 'files':
                             // check if the input argument is an uploaded file
                             $isDefined = 
-                                serv\DataValidator::isDefined($_FILES[$key]);
+                                val\isDefined($_FILES[$key]);
 
                             if (!$isDefined) {
                                 throw new \Exception(
