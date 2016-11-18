@@ -11,18 +11,18 @@ class ModulesDAO extends DataAccessObject
 {
     // Creates an interface for interacting with the modules 
     // table in the specified data base
-    function __construct($dataBaseConnection)
+    function __construct()
     {
-        parent::__construct($dataBaseConnection, "modules");
+        parent::__construct("modules");
     }
     
     
     // Returns the ID of the module with the given name if it exists in 
     // the data base or NULL otherwise
-    function selectIDByName($module)
-    {
-        return parent::select('id', [ 'name' => $module ]);
-    }
+    // function getIDByName($module)
+    // {
+    //     return parent::get('id', [ 'name' => $module ]);
+    // }
 
 
     // Returns an associative array containing the data of the modules that 

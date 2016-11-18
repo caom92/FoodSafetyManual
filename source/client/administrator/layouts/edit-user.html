@@ -14,12 +14,12 @@
     <!--Account ID and Username-->
     <div class="row">
         <div class="input-field col s12 m6 l6">
-            <input class="validate" type="text" 
+            <input class="validate" readonly="" type="text" 
                 id="login-name" name="login-name">
             <label class="username" for="login-name"></label>
         </div>
         <div class="input-field col s12 m6 l6">
-            <input class="validate" type="number" 
+            <input class="validate" readonly="" type="number" 
                 id="user-id" name="user-id">
             <label class="employee_id" for="user-id"></label>
         </div>
@@ -28,12 +28,12 @@
     <!--Name and Last Name-->
     <div class="row">
         <div class="input-field col s12 m6 l6">
-            <input class="validate" type="text" 
+            <input class="validate" readonly="" type="text" 
                 id="first-name" name="first-name">
             <label class="first_name" for="first-name"></label>
         </div>
         <div class="input-field col s12 m6 l6">
-            <input class="validate" type="text" 
+            <input class="validate" readonly="" type="text" 
                 id="last-name" name="last-name">
             <label class="last_name" for="last-name"></label>
         </div>
@@ -43,38 +43,23 @@
     <!--Email-->
     <div class="row">
         <div class="input-field col s12 m6 l6">
-            <input class="validate" type="text" 
+            <input class="validate" readonly="" type="text" 
                 id="email" name="email" >
             <label class="email" for="email"></label>
         </div>
         <div class="input-field col s12 m6 l6">
-            <select id="user-role">
+            <select disabled id="user-role">
                 <option value="" class="user_role" disabled selected></option>
             </select>
             <label class="user_role_label"></label>
         </div>
     </div>
 
-    <!--Fourth row-->
-    <!--Password and password check-->
-    <div class="row">
-        <div class="input-field col s12 m6 l6">
-            <input class="validate" type="password" 
-                id="password" name="password" >
-            <label class="password" for="password"></label>
-        </div>
-        <div class="input-field col s12 m6 l6">
-            <input class="validate" type="password" 
-                id="check-password" name="check-password" >
-            <label class="check_password" for="check-password"></label>
-        </div>
-    </div>
-
-    <!--Fifth row-->
-    <!--Permissions wrapper-->
+    <!--Fourth row
+    <!--Permissions wrapper
     <div class="row">
         <div class="col s12 m12 l12">
-        <!--Header-->
+        <!--Header
             <h4><i class="mdi mdi-settings md-36 field-icon"></i>
                 <div class="assign_privileges"></div>
             </h4>
@@ -84,15 +69,15 @@
 
     <div id="permissions_wrapper" >
         <div id="zones_wrapper" >
-            <!--<div class="col s12">-->
+            <!--<div class="col s12">
                 <ul id="tabs_wrapper" class="tabs">
 
                 </ul>
-            <!--</div>-->
+            <!--</div>
         </div>
     </div>
 
-    <!--Sixth row-->
+    <!--Fifth row-->
     <!--Send button-->
     <br>
     <div class="row">
@@ -100,9 +85,9 @@
                
         <!-- Update button -->
         <a class="green btn waves-effect waves-light" href="" 
-            id="add_user">
-            <span class="add_button"></span>
-            <i class="mdi mdi-send right"></i>
+            id="edit_user">
+            <span class="update_button"></span>
+            <i class="mdi mdi-send md-16 right"></i>
         </a>        
         </div>
     </div> 

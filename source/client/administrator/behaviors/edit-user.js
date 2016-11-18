@@ -27,31 +27,66 @@ function roleSelect(selected) {
     $server.request({
         service: 'list-user-roles',
         success: function(response, message, xhr) {
-            if(getLanguage() == "en") {
-                $(".user_role").text("Choose the account role");
-                $(".user_role_label").text("Account role");
-                for(var role in response.data){
-                    var option = $("<option>");
-                    option.attr("value", response.data[role].id);
-                    option.text(response.data[role].name);
-                    $("#user-role").append(option);
-                }
-            } else if (getLanguage() == "es") {
+            var isSpanish = getLanguage() == 'es';
+
+            if (isSpanish) {
                 $(".user_role").text("Seleccione el tipo de cuenta");
                 $(".user_role_label").text("Tipo de cuenta");
-                for(var role in response.data){
-                    var option = $("<option>");
-                    option.attr("value", response.data[role].id);
-                    switch(response.data[role].name){
-                        case "User": option.text("Usuario"); break;
-                        case "Admin": option.text("Administrador"); break;
+            } else {
+                $(".user_role").text("Choose the account role");
+                $(".user_role_label").text("Account role");
+            }
+
+            for(var role in response.data) {
+                var option = $("<option>");
+                option.attr("value", response.data[role].id);
+                if (isSpanish) {
+                    switch(response.data[role].name) {
+                        case "Emplyee": 
+                            option.text("Empleado"); 
+                        break;
+
+                        case "Administrator": 
+                            option.text("Administrador"); 
+                        break;
+
+                        default:
+                            option.text(response.data[role].name);
+                        break;
                     }
-                    $("#user-role").append(option);
+                } else {
+                    option.text(response.data[role].name);
                 }
+                if (selected == response.data[role].name) {
+                    option.attr('selected', true);
+                }
+                $("#user-role").append(option);
             }
-            if(selected != null) {
-                $("#user-role").val(selected);
-            }
+            // if(getLanguage() == "en") {
+            //     $(".user_role").text("Choose the account role");
+            //     $(".user_role_label").text("Account role");
+            //     for(var role in response.data){
+            //         var option = $("<option>");
+            //         option.attr("value", response.data[role].id);
+            //         option.text(response.data[role].name);
+            //         $("#user-role").append(option);
+            //     }
+            // } else if (getLanguage() == "es") {
+            //     $(".user_role").text("Seleccione el tipo de cuenta");
+            //     $(".user_role_label").text("Tipo de cuenta");
+            //     for(var role in response.data){
+            //         var option = $("<option>");
+            //         option.attr("value", response.data[role].id);
+            //         switch(response.data[role].name){
+            //             case "Emplyee": option.text("Empleado"); break;
+            //             case "Administrator": option.text("Administrador"); break;
+            //         }
+            //         $("#user-role").append(option);
+            //     }
+            // }
+            // if(selected != null) {
+            //     $("#user-role").val(selected);
+            // }
             $('select.readonly option:not(:selected)').attr('disabled',true);
             $('select').material_select();
         }
@@ -272,11 +307,10 @@ function getUserPrivileges(userID){
 }
 
 function fillUserInformation(userID){
-    /*
     var data = new Object();
-    data.user_id = userID;
+    data.employee_num = userID;
     $server.request({
-        service: 'service-name',
+        service: 'get-employee-info',
         data: data,
         success: function(response, message, xhr) {
             if (response.meta.return_code == 0) {
@@ -288,7 +322,7 @@ function fillUserInformation(userID){
                 $("#email").val(user.email);
                 $("label").addClass("active");
                 $(".user_role_label").removeClass("active");
-                roleSelect(user.role_id);
+                roleSelect(user.role_name);
             } else {
                 // Considering a non valid userID was entered, we go back to
                 // view users
@@ -296,7 +330,6 @@ function fillUserInformation(userID){
             }
         }
     });
-    */
     console.log("Entered");
     /*$.ajax({
         url: $root + '/user.json',
@@ -317,8 +350,9 @@ $(function (){
     var get = getURLQueryStringAsJSON();
 
     fillUserInformation(get.user_id);
-    addPermissionTable();
-    getProcedureNames();
+    //addPermissionTable();
+    //getProcedureNames();
+    changeLanguage(localStorage.defaultLanguage);
 
     $('ul.tabs').tabs();
     $('.collapsible').collapsible();

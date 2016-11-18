@@ -46,6 +46,11 @@ LayoutManager.prototype.load = function(layout, container = this.container)
                 layout = 'error';
             }
 
+            var hasQueryString = layout.indexOf('?') != -1;
+            if (hasQueryString) {
+                layout = layout.split('?')[0];
+            }
+
             $.ajax({
                 method: 'GET',
                 url: baseURL + 'behaviors/' + layout + '.js',

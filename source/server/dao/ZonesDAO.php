@@ -11,10 +11,18 @@ class ZonesDAO extends DataAccessObject
 {
     // Creates an interface for interacting with the 
     // zones table in the specified data base
-    function __construct($dataBaseConnection)
+    function __construct()
     {
-        parent::__construct($dataBaseConnection, "zones");
+        parent::__construct("zones");
     }
+
+
+    // Returns the ID of the zone with the given name if it exists in 
+    // the data base or NULL otherwise
+    // function getIDByName($zone)
+    // {
+    //     return parent::get('id', [ 'name' => $zone ]);
+    // }
 
 
     // Returns an associative array containing all the data elements
@@ -29,19 +37,11 @@ class ZonesDAO extends DataAccessObject
 
     // Searches a zone with the given name and returns its data if it 
     // found it or NULL otherwise
-    function selectByName($zoneName)
+    function hasByName($zoneName)
     {
-        return parent::select('*', [
+        return parent::has([
             'name' => $zoneName
         ]);
-    }
-
-
-    // Returns the ID of the zone with the given name if it exists in 
-    // the data base or NULL otherwise
-    function selectIDByName($zone)
-    {
-        return parent::select('id', [ 'name' => $zone ]);
     }
 
 

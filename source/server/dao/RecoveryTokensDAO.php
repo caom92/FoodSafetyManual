@@ -11,9 +11,9 @@ class RecoveryTokensDAO extends DataAccessObject
 {
     // Creates an interface for interacting with the 
     // recovery_tokens table in the specified data base
-    function __construct($dataBaseConnection)
+    function __construct()
     {
-        parent::__construct($dataBaseConnection, "recovery_tokens");
+        parent::__construct("recovery_tokens");
     }
 
 
@@ -24,9 +24,9 @@ class RecoveryTokensDAO extends DataAccessObject
     // [out]       return: an associative array with the data of the element
     //             that contained the especified recovery token, or an empty 
     //             string in case none was found
-    function selectByToken($token)
+    function getByToken($token)
     {
-        return parent::select("*", ["token" => $token]);
+        return parent::get("*", ["token" => $token]);
     }
 
 
@@ -38,16 +38,7 @@ class RecoveryTokensDAO extends DataAccessObject
     {
         return parent::insert($items);
     }
-
-
-    // Deletes from the table the items that have the especified ID
-    // [in]    id: the ID of the item that we want to delete 
-    // [out]   return: the number of rows that where deleted
-    function deleteByID($id)
-    {
-        return parent::delete(["id" => $id]);
-    }
-
+    
 
     // Deletes from the table the items that are associated with the especified
     // user ID
