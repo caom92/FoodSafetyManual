@@ -8,14 +8,13 @@ require_once realpath(dirname(__FILE__).'/../dao/ZonesDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/ProgramsDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/ModulesDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/PrivilegesDAO.php');
-require_once realpath(dirname(__FILE__).
-    '/../dao/UsersModulesPrivilegesDAO.php');
+
 require_once realpath(dirname(__FILE__).'/../dao/RolesDAO.php');
 
 use fsm\database as db;
 
 
-// Service that returns a list of all the active users
+
 class ListAllUsersService implements Service
 {
     // Returns an associative array of associative arrays which describe the 
@@ -24,7 +23,7 @@ class ListAllUsersService implements Service
     function getRequirementsDescriptor()
     {
         return [
-            'logged_in' => [ 'Administrator' ]
+            
         ];
     }
 
@@ -32,8 +31,7 @@ class ListAllUsersService implements Service
     // Starts execution of the service
     function execute()
     {
-        $users = new db\UsersDAO();
-        return $users->selectAll();
+        
     }
 }
 
@@ -63,7 +61,7 @@ class ListUserPrivilegesService implements Service
         $zonesTable = new db\ZonesDAO();
         $programsTable = new db\ProgramsDAO();
         $modulesTable = new db\ModulesDAO();
-        $userPrivilegesTable = new db\UsersZonesModulesPrivilegesDAO();
+        $userPrivilegesTable = new db\UsersLogsPrivilegesDAO();
         $privilegesTable = new db\PrivilegesDAO();
 
         // now, get all the zones, programs
@@ -71,7 +69,7 @@ class ListUserPrivilegesService implements Service
         $programs = $programsTable->selectAll(); 
 
         // then, get the privileges of the user that was provided
-        $userPrivileges = $userPrivilegesTable->selectByEmployeeNum($employeeNum);
+        $userPrivileges = $userPrivilegesTable->selectByEmployeeNum($_POST['employee_num']);
 
         // initialize the resulting json
         $result = [
@@ -237,7 +235,7 @@ class AddNewUserService implements Service
 
         // then, connect to the data base
         $users = new db\UsersDAO();
-        $usersPrivileges = new db\UsersZonesModulesPrivilegesDAO();
+        $usersPrivileges = new db\UsersLogsPrivilegesDAO();
 
         // check if there is no duplication with log in name, email or 
         // employee number
@@ -432,7 +430,7 @@ class EditUserPrivilegesService
         }
 
         $userPrivileges = 
-            new db\UsersZonesModulesPrivilegesDAO();
+            new db\UsersLogsPrivilegesDAO();
 
         foreach ($_POST['privileges'] as $privilege) {
             $usersPrivileges->updatePrivilegeByUserZoneModuleIDs(
@@ -448,7 +446,7 @@ class EditUserPrivilegesService
 }
 
 
-// Service that returns the profile info of the specified user
+
 class GetUserInfoService implements Service 
 {
     // Returns an associative array of associative arrays which describe the 
@@ -457,10 +455,7 @@ class GetUserInfoService implements Service
     function getRequirementsDescriptor()
     {
         return [
-            'logged_in' => ['Administrator'],
-            'employee_num' => [
-                'type' => 'int'
-            ]
+            
         ];
     }
 
@@ -468,9 +463,7 @@ class GetUserInfoService implements Service
     // Starts execution of the service
     function execute()
     {
-        $users = new db\UsersDAO();
-        $userInfo = $users->getByIdentifier($employeeNum);
-        return $userInfo;
+        
     }
 }
 

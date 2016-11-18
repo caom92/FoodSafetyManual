@@ -47,10 +47,6 @@ $(function() {
     $("#user-email").val(localStorage.email);
     $("#real-name").val(localStorage.first_name + " " + localStorage.last_name);
 
-    if (localStorage.recieve_email_notifications == '1') {
-        $('#enable-notifications').prop("checked", true);
-    }
-
     //Hide the form fields that belong to changing account information
     $("#change_password_wrapper").hide();
     $("#change_email_wrapper").hide();
@@ -143,31 +139,6 @@ $(function() {
                 }
             }
         });
-    });
-
-    $('#update_notifications').on('click', function(event) {
-        // prevent automatic submission, we'll do it manually
-        event.preventDefault();
-
-        $server.request({
-            service: 'toggle-email-notifications',
-            data: {
-                enable_notifications: $('#enable-notifications').is(':checked')
-            },
-            success: function(response, message, xhr) {
-                if (response.meta.return_code == 0) {
-                    localStorage.recieve_email_notifications =
-                        $('#enable-notifications').is(':checked');
-                    Materialize.toast(
-                        "Email notifications updated", 
-                        3500, 
-                        'rounded'
-                    );
-                } else {
-                    console.log('server says: ' + response.meta.message);
-                }
-            }
-        })
     });
 
     // change the language that is being displayed

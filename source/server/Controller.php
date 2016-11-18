@@ -7,15 +7,66 @@ namespace fsm;
 require_once realpath(dirname(__FILE__).'/config/site_config.php');
 
 // Import the service factory
-require_once realpath(dirname(__FILE__).'/services/ServiceFactory.php');
+require_once realpath(dirname(__FILE__).'/services/Session.php');
 
 // Import the data validator
 require_once realpath(dirname(__FILE__).'/services/DataValidator.php');
 
 use fsm\services as serv;
 
+
+// The communication bridge between the frontend and the backend
 class Controller 
 {
+    // Starts execution of the controller
+    static function execute()
+    {
+        try {
+            // get the requested service
+            $service = str_replace(
+                SITE_ROOT.'/services/', 
+                '', 
+                $_SERVER['REQUEST_URI']
+            );
+            $service = self::$services[$service];
+
+            // checks if the service exits
+            if (isset($service)) {
+                // if it does, retrieve the input requirements descriptor and 
+                // the execution callback
+                $emptyDesc = [];
+                $emptyCallback = function() {
+                    return [];
+                };
+
+                $inputRequirements = (isset($service['requirements_desc'])) ?
+                    $service['requirements_desc'] : $emptyDesc;
+
+                $callback = (isset($service['callback'])) ?
+                    $service['callback'] : $emptyCallback;
+
+                // check that the input arguments are valid and that the user 
+                // has the proper permissions to use the service
+                self::validateServiceRequirements(
+                    $inputRequirements
+                );
+
+                // execute the service
+                $result = $callback();
+                self::respond($result);
+            } else {
+                throw new \Exception('The requested service does not exists.');
+            }
+        } catch (\Exception $e) {
+            // if there was a problem, notify the client
+            self::respond(
+                [], 
+                $e->getMessage()
+            );
+        }
+    } // function execute
+
+
     // This function sends back to the client the especified information in a 
     // JSON of the form:
     // {
@@ -151,9 +202,9 @@ class Controller
                                     // check if the value is within the 
                                     // intervals
                                     $isWithinInterval = serv\DataValidator::integerIsBetweenValues(
-                                            $_POST[$key], 
-                                            $min, 
-                                            $max
+                                        $_POST[$key], 
+                                        $min, 
+                                        $max
                                     );
 
                                     if (!$isWithinInterval) {
@@ -291,46 +342,11 @@ class Controller
     } // function validateServiceRequirements
 
 
-    // Starts execution of the controller
-    static function execute()
-    {
-        try {
-            // get the requested service
-            $service = str_replace(
-                SITE_ROOT.'/services/', 
-                '', 
-                $_SERVER['REQUEST_URI']
-            );
-
-            // create an instance of the service factory
-            $factory = new serv\ServiceFactory($service);
-            $service = $factory->createService();
-
-            // check that the input arguments are valid and that the user has 
-            // the proper permissions to use the service
-            self::validateServiceRequirements(
-                $service->getRequirementsDescriptor()
-            );
-
-            // execute the service
-            $result = $service->execute();
-            self::respond($result);
-        } catch (\Exception $e) {
-            // if there was a problem, notify the client
-            self::respond(
-                [], 
-                $e->getMessage()
-            );
-        }
-    } // function execute
+    // The list of services that the server can provide
+    static $services;
 } // class Controller
 
-
-// Configure PHP to write the errors to a log file
-ini_set("log_errors", true);
-ini_set("error_log", "../".LOG_FILE);
-
-// Execute the controller
-Controller::execute();
+// Import the services list
+require_once realpath(dirname(__FILE__).'/services/Services.php');
 
 ?>

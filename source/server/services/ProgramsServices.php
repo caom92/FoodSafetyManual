@@ -3,12 +3,12 @@
 namespace fsm\services;
 
 require_once realpath(dirname(__FILE__).'/Service.php');
-require_once realpath(dirname(__FILE__).'/../dao/ProgramsDAO.php');
+
 
 use fsm\database as db;
 
 
-// Service that returns a list of all programs
+
 class ListAllProgramsService implements Service
 {
     // Returns an associative array of associative arrays which describe the 
@@ -17,7 +17,7 @@ class ListAllProgramsService implements Service
     function getRequirementsDescriptor()
     {
         return [
-            'logged_in' => [ 'Administrator' ]
+            
         ];
     }
 
@@ -25,8 +25,7 @@ class ListAllProgramsService implements Service
     // Starts execution of the service
     function execute()
     {
-        $programs = new db\ProgramsDAO();
-        return $programs->selectAll();
+        
     }
 }
 

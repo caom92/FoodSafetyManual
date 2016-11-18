@@ -84,23 +84,22 @@ class UsersDAO extends DataAccessObject
     // and the value is the field value
     function selectAll()
     {
-        return parent::select(
-            [
-                "$this->table.id", 
-                'role_id',
-                'r.name(role_name)', 
-                'employee_num', 
-                'login_name', 
-                'email', 
-                'first_name', 
-                'last_name',
-                'is_active'
-            ],
-            [],
-            [
-                '[><]roles(r)' => [ 'role_id' => 'id']
-            ]
-        );
+        return parent::$dataBase->query(
+            "SELECT 
+                $this->table.id,
+                role_id,
+                r.name AS role_name,
+                employee_num,
+                login_name,
+                email,
+                first_name,
+                last_name,
+                is_active
+            FROM $this->table 
+            INNER JOIN roles AS r
+                ON role_id = r.id
+            WHERE $this->table.id != {$_SESSION['id']}"
+        )->fetchAll();
     }
     
     
@@ -108,10 +107,10 @@ class UsersDAO extends DataAccessObject
     // [in]    items: an array of associative arrays which define the rows to
     //         be inserted, where the key is the column name
     // [out]   return: the ID of the last inserted item
-    function insert($items)
-    {
-        return parent::insert($items);
-    }
+    // function insert($items)
+    // {
+    //     return parent::insert($items);
+    // }
 
 
     // Changes the login password field of the element in the table which has 
@@ -158,24 +157,6 @@ class UsersDAO extends DataAccessObject
         parent::update(
             [ "login_name" => $newName ],
             [ "id" => $id ]
-        );
-    }
-
-
-    // Changes the configuration of the user which controls if she should 
-    // recieve emails every time a new notification created by an action
-    // performed by any of the users she was following arrives to her
-    // account
-    // [in]     id: the user ID of the element which email notifications' 
-    //          configuration will be changed
-    // [in]     enableNotifications: boolean value that will turn on or off the 
-    //          email notifications
-    // [out]    return: the number of rows affected
-    function updateEmailNotificationsByID($id, $enableNotifications)
-    {
-        parent::update(
-            [ 'recieve_email_notifications' => $enableNotifications ],
-            [ 'id' => $id ]
         );
     }
 

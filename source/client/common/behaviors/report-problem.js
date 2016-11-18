@@ -122,7 +122,12 @@ $(function() {
     $("#user-id").val(localStorage.employee_num);
     $("#user-email").val(localStorage.email);
     $("#lang").val(localStorage.defaultLanguage);
-    $('#zone-selection').val(localStorage.zone);
+
+    if (isDefined(localStorage.zone)) {
+        $('#zone-selection').val(localStorage.zone);
+    } else {
+        $('#zone-selection').val('N/A');
+    }
     
     // hide the language and email fields
     $("#user-email").hide();

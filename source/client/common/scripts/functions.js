@@ -18,14 +18,20 @@ function isWhitespace(variable)
 function storeUserDataInLocalStorage(userData)
 {
     localStorage.role = userData.role;
-    localStorage.zone = userData.zone;
     localStorage.exclusive_access = userData.exclusive_access;
     localStorage.employee_num = userData.employee_num;
     localStorage.first_name = userData.first_name;
     localStorage.last_name = userData.last_name;
     localStorage.email = userData.email;
     localStorage.login_name = userData.login_name;
-    localStorage.privileges = JSON.stringify(userData.privileges);
+
+    if (isDefined(userData.zone)) {
+        localStorage.zone = userData.zone;
+    }
+
+    if (isDefined(userData.privileges)) {
+        localStorage.privileges = JSON.stringify(userData.privileges);
+    }
 }
 
 

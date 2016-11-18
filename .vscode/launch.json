@@ -11,8 +11,8 @@
       "name": "Launch currently open script",
       "type": "php",
       "request": "launch",
-      "program": "${file}",
-      "cwd": "${fileDirname}",
+      "program": "C:\\xampp2\\htdocs\\Espresso\\source\\server\\Controller.php",
+      "cwd": "C:\\xampp2\\htdocs\\Espresso\\source\\server\\",
       "port": 9000
     }
   ]

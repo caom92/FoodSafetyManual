@@ -19,10 +19,10 @@ class ZonesDAO extends DataAccessObject
 
     // Returns the ID of the zone with the given name if it exists in 
     // the data base or NULL otherwise
-    function getIDByName($zone)
-    {
-        return parent::get('id', [ 'name' => $zone ]);
-    }
+    // function getIDByName($zone)
+    // {
+    //     return parent::get('id', [ 'name' => $zone ]);
+    // }
 
 
     // Returns an associative array containing all the data elements

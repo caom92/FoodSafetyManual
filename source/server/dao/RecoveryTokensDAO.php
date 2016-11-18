@@ -38,16 +38,7 @@ class RecoveryTokensDAO extends DataAccessObject
     {
         return parent::insert($items);
     }
-
-
-    // Deletes from the table the items that have the especified ID
-    // [in]    id: the ID of the item that we want to delete 
-    // [out]   return: the number of rows that where deleted
-    function deleteByID($id)
-    {
-        return parent::delete(["id" => $id]);
-    }
-
+    
 
     // Deletes from the table the items that are associated with the especified
     // user ID

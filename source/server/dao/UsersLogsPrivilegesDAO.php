@@ -6,14 +6,14 @@ namespace fsm\database;
 // Importing required classes
 require_once realpath(dirname(__FILE__)."/DataAccessObject.php");
 
-// Data Access Object for the users_zones_modules_privileges table
-class UsersModulesPrivilegesDAO extends DataAccessObject
+// Data Access Object for the users_logs_privileges table
+class UsersLogsPrivilegesDAO extends DataAccessObject
 {
     // Creates an interface for interacting with the 
     // users table in the specified data base
     function __construct()
     {
-        parent::__construct("users_modules_privileges");
+        parent::__construct("users_logs_privileges");
     }
 
 
@@ -24,7 +24,7 @@ class UsersModulesPrivilegesDAO extends DataAccessObject
     // [out]    return: an associative array if the user was found in the
     //          database or NULL otherwise; information is organized in a
     //          zone/program/module/privilege fashion
-    function selectByEmployeeNum($employeeNum)
+    /*function selectByEmployeeNum($employeeNum)
     {
         return parent::$dataBase->query(
             "SELECT 
@@ -36,21 +36,21 @@ class UsersModulesPrivilegesDAO extends DataAccessObject
                 `m`.`name` AS `module_name`,
                 `pr`.`id` AS `privilege_id`,
                 `pr`.`name` AS `privilege_name` 
-            FROM `users_zones_modules_privileges` 
+            FROM `$this->table` 
                 INNER JOIN `users` AS `u`
                     ON `u`.`employee_num` = `$employeeNum`
                 INNER JOIN `zones` AS `z` 
-                    ON `users_zones_modules_privileges`.`zone_id` = `z`.`id` 
+                    ON `$this->table`.`zone_id` = `z`.`id` 
                 INNER JOIN `modules` AS `m` 
-                    ON `users_zones_modules_privileges`.`module_id` = `m`.`id` 
+                    ON `$this->table`.`module_id` = `m`.`id` 
                 INNER JOIN `programs` AS `p` 
                     ON `m`.`program_id` = `p`.`id` 
                 INNER JOIN `privileges` AS `pr` 
-                    ON `users_zones_modules_privileges`.`privilege_id` = 
+                    ON `$this->table`.`privilege_id` = 
                        `pr`.`id` 
             WHERE `user_id` = `u`.`id`"
         )->fetchAll();
-    }
+    }*/
 
 
     // Returns the list of modules which the user with the especified ID has 
@@ -66,13 +66,17 @@ class UsersModulesPrivilegesDAO extends DataAccessObject
             "SELECT 
                 p.id AS program_id,
                 p.name AS program_name,
+                l.id AS log_id,
+                l.name AS log_name,
                 m.id AS module_id,
                 m.name AS module_name,
                 r.id AS privilege_id,
                 r.name AS privilege_name
-            FROM users_modules_privileges AS t
+            FROM $this->table AS t
+                INNER JOIN log AS l
+                    ON l.id = t.log_id,
                 INNER JOIN modules AS m
-                    ON m.id = t.module_id
+                    ON m.id = l.module_id
                 INNER JOIN programs AS p
                     ON p.id = m.program_id
                 INNER JOIN privileges AS r
@@ -80,7 +84,7 @@ class UsersModulesPrivilegesDAO extends DataAccessObject
             WHERE t.user_id = '$userID' AND t.privilege_id != (
                 SELECT id FROM privileges WHERE name = 'None'
             )
-            ORDER BY p.id, m.id"
+            ORDER BY p.id, m.id, l.id"
         )->fetchAll();
     }
 
@@ -101,11 +105,15 @@ class UsersModulesPrivilegesDAO extends DataAccessObject
                 p.name AS program_name,
                 m.id AS module_id,
                 m.name AS module_name,
+                l.id AS log_id,
+                l.name AS log_name,
                 r.id AS privilege_id,
                 r.name AS privilege_name
-            FROM users_modules_privileges AS t
+            FROM $this->table AS t
+                INNER JOIN logs AS l
+                    ON l.id = t.log_id
                 INNER JOIN modules AS m
-                    ON m.id = t.module_id
+                    ON m.id = l.module_id
                 INNER JOIN programs AS p
                     ON p.id = m.program_id
                 INNER JOIN privileges AS r
@@ -113,49 +121,49 @@ class UsersModulesPrivilegesDAO extends DataAccessObject
             WHERE t.user_id = '$userID' AND t.privilege_id != (
                 SELECT id FROM privileges WHERE name = 'None'
             )
-            ORDER BY p.id, m.id"
+            ORDER BY p.id, m.id, l.id"
         )->fetchAll();
     }
 
 
-    // Inserts the data to the data base
-    // [in]    items: an array of associative arrays which define the rows to
-    //         be inserted, where the key is the column name
-    // [out]   return: the ID of the last inserted item
-    function insert($items)
-    {
-        return parent::insert($items);
-    }
+    // // Inserts the data to the data base
+    // // [in]    items: an array of associative arrays which define the rows to
+    // //         be inserted, where the key is the column name
+    // // [out]   return: the ID of the last inserted item
+    // function insert($items)
+    // {
+    //     return parent::insert($items);
+    // }
 
 
-    // Changes the privileges that the user with the especified ID has for the
-    // especified zone-module combination
-    // [in]     userID: the ID of the user which privileges are going to be 
-    //          updated
-    // [in]     zoneID: the ID of the zone which user's privilege will be 
-    //          updated
-    // [in]     moduleID: the ID of the module which user's privilege will be
-    //          updated
-    // [in]     privilegeID: the ID of the privilege that will be assigned to
-    //          the user
-    function updatePrivilegeByUserZoneModuleIDs(
-        $userID, 
-        $zoneID, 
-        $moduleID, 
-        $privilegeID
-    )
-    {
-        parent::update(
-            ['privilege_id' => $privilegeID], 
-            [
-                'AND' => [
-                    'user_id' => $userID,
-                    'zone_id' => $zoneID,
-                    'module_id' => $moduleID
-                ]
-            ]
-        );
-    }
+    // // Changes the privileges that the user with the especified ID has for the
+    // // especified zone-module combination
+    // // [in]     userID: the ID of the user which privileges are going to be 
+    // //          updated
+    // // [in]     zoneID: the ID of the zone which user's privilege will be 
+    // //          updated
+    // // [in]     moduleID: the ID of the module which user's privilege will be
+    // //          updated
+    // // [in]     privilegeID: the ID of the privilege that will be assigned to
+    // //          the user
+    // function updatePrivilegeByUserZoneModuleIDs(
+    //     $userID, 
+    //     $zoneID, 
+    //     $moduleID, 
+    //     $privilegeID
+    // )
+    // {
+    //     parent::update(
+    //         ['privilege_id' => $privilegeID], 
+    //         [
+    //             'AND' => [
+    //                 'user_id' => $userID,
+    //                 'zone_id' => $zoneID,
+    //                 'module_id' => $moduleID
+    //             ]
+    //         ]
+    //     );
+    // }
 }
 
 ?>

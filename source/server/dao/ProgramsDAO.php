@@ -19,10 +19,10 @@ class ProgramsDAO extends DataAccessObject
 
     // Returns the ID of the program with the given name if it exists in 
     // the data base or NULL otherwise
-    function getIDByName($program)
-    {
-        return parent::get('id', [ 'name' => $program ]);
-    }
+    // function getIDByName($program)
+    // {
+    //     return parent::get('id', [ 'name' => $program ]);
+    // }
 
 
     // Returns an associative array containing all the data elements

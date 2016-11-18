@@ -350,8 +350,9 @@ $(function (){
     var get = getURLQueryStringAsJSON();
 
     fillUserInformation(get.user_id);
-    addPermissionTable();
-    getProcedureNames();
+    //addPermissionTable();
+    //getProcedureNames();
+    changeLanguage(localStorage.defaultLanguage);
 
     $('ul.tabs').tabs();
     $('.collapsible').collapsible();

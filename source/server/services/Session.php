@@ -8,9 +8,9 @@ require_once realpath(dirname(__FILE__).'/../config/site_config.php');
 
 // Import the required DAOs
 require_once realpath(dirname(__FILE__).'/../dao/UsersDAO.php');
-require_once realpath(dirname(__FILE__).'/../dao/ModulesDAO.php');
+require_once realpath(dirname(__FILE__).'/../dao/LogsDAO.php');
 require_once realpath(dirname(__FILE__).
-    '/../dao/UsersModulesPrivilegesDAO.php');
+    '/../dao/UsersLogsPrivilegesDAO.php');
 
 // Alias the namespaces for ease of use
 use fsm as core;
@@ -56,17 +56,13 @@ class Session
         $module = [
             'id' => 0,
             'name' => '',
-            'privilege' => [
-                'id' => 0,
-                'name' => ''
-            ]
+            'logs' => []
         ];
 
         // visit each row from the data base query result
         foreach ($userPrivileges as $row) {
             // check if this row has a different program than the last
-            $hasProgramChanged = 
-                $row['program_name'] != $program['name'];
+            $hasProgramChanged = $row['program_name'] != $program['name'];
             if ($hasProgramChanged) {
                 // if it has, assert that the last row info is not empty
                 if (strlen($program['name']) > 0) {
@@ -75,15 +71,20 @@ class Session
                     array_push($programPrivileges, $program);
                 }
 
-                // then fill the temporal holder with the information of 
+                // then fill the temporal holders with the information of 
                 // this new program
-                $module = [
-                    'id' => $row['module_id'],
-                    'name' => $row['module_name'], 
+                $log = [
+                    'id' => $row['log_id'],
+                    'name' => $row['log_name'],
                     'privilege' => [
                         'id' => $row['privilege_id'],
                         'name' => $row['privilege_name']
                     ]
+                ];
+                $module = [
+                    'id' => $row['module_id'],
+                    'name' => $row['module_name'], 
+                    'logs' => [ $log ]
                 ];
                 $program = [
                     'id' => $row['program_id'],
@@ -92,24 +93,43 @@ class Session
                 ];
             } else {
                 // if the row has the same program than the last,
-                // then that means that the module is different
-                
-                // store the info in the temporal program
-                // holder
-                array_push($program['modules'], $module);
+                // then check if the module has changed
+                $hasModuleChanged = $row['module_name'] != $module['name'];
+                if ($hasModuleChanged) {
+                    // if it has, store the info in the temporal program
+                    // holder
+                    array_push($program['modules'], $module);
 
-                // and then fill the temporal holder with the
-                // information of this new module
-                $module = [
-                    'id' => $row['module_id'],
-                    'name' => $row['module_name'], 
-                    'privilege' => [
-                        'id' => $row['privilege_id'],
-                        'name' => $row['privilege_name']
-                    ]
-                ];
-            }   // if (hasProgramChanged)
-        }   // for (userPrivileges as row)
+                    // and then fill the temporal module holder with the
+                    // information of this new module
+                    $log = [
+                        'id' => $row['log_id'],
+                        'name' => $row['log_name'],
+                        'privilege' => [
+                            'id' => $row['privilege_id'],
+                            'name' => $row['privilege_name']
+                        ]
+                    ];
+                    $module = [
+                        'id' => $row['module_id'],
+                        'name' => $row['module_name'],
+                        'logs' => [ $log ]
+                    ];
+                } else {
+                    // if the program nor the module have changed, it means 
+                    // that the log has changed; store the info of this new
+                    // log in the temporal module holder
+                    array_push($module['logs'], [
+                        'id' => $row['log_id'],
+                        'name' => $row['log_name'],
+                        'privilege' => [
+                            'id' => $row['privilege_id'],
+                            'name' => $row['privilege_name']
+                        ]
+                    ]);
+                }   // if ($hasModuleChanged)
+            } // if ($hasProgramChanged)
+        } // foreach ($userPrivileges as $row)
 
         // don't forget to add the last entry to the final structure
         if (strlen($module['name']) > 0) {
@@ -140,10 +160,10 @@ class Session
         switch ($userData['role_name']) {
             case 'Director':
                 // attempt to connect to the data base
-                $modules = new db\ModulesDAO();
+                $logs = new db\LogsDAO();
 
                 // get all the modules and assign them read privileges
-                $privileges = $modules->selectAllWithReadPrivilege();
+                $privileges = $logs->selectAllWithReadPrivilege();
                 $privileges = $this->getPrivilegesArray($privileges);
 
                 // store the privileges in the session variable
@@ -152,7 +172,6 @@ class Session
                 // return the final user profile data structure
                 return [
                     'role' => $userData['role_name'],
-                    'zone' => $userData['zone_name'],
                     'employee_num' => $userData['employee_num'],
                     'first_name' => $userData['first_name'],
                     'last_name' => $userData['last_name'],
@@ -166,7 +185,7 @@ class Session
 
             case 'Supervisor':
                 // attempt to connect to the data base
-                $privilegesTable = new db\UsersModulesPrivilegesDAO();
+                $privilegesTable = new db\UsersLogsPrivilegesDAO();
 
                 // get the modules associated with this user and assign them 
                 // read privileges
@@ -195,7 +214,7 @@ class Session
 
             case 'Employee':
                 // attempt to connect to the data base
-                $privilegesTable = new db\UsersModulesPrivilegesDAO();
+                $privilegesTable = new db\UsersLogsPrivilegesDAO();
 
                 // get the modules associated with this user and assign them 
                 // read privileges
@@ -221,12 +240,10 @@ class Session
                 ];
             break;
 
-            // for any case, simply return the basic account info
+            // for the admin, we don't need the zone
             case 'Administrator':
-            default:
                 return [
                     'role' => $userData['role_name'],
-                    'zone' => $userData['zone_name'],
                     'employee_num' => $userData['employee_num'],
                     'first_name' => $userData['first_name'],
                     'last_name' => $userData['last_name'],
@@ -234,6 +251,18 @@ class Session
                     'login_name' => $userData['login_name'],
                     'exclusive_access' => 
                         strtolower($userData['role_name']).'/',
+                ];
+            break;
+
+            // for any case, simply return the basic account info
+            default:
+                return [
+                    'role' => $userData['role_name'],
+                    'employee_num' => $userData['employee_num'],
+                    'first_name' => $userData['first_name'],
+                    'last_name' => $userData['last_name'],
+                    'email' => $userData['email'],
+                    'login_name' => $userData['login_name']
                 ];
             break;
         }
