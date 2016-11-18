@@ -59,23 +59,11 @@ class ItemsDAO extends DataAccessObject
     }
 
 
-    // Creates a new inventory item in the specified area
-    // [in]     areaID: the ID of the working area which the item will be 
-    //          associated to
-    // [in]     typeID: the ID of the type of the item to be inserted
-    // [in]     position: the ordinal position to which the item will be 
-    //          placed relative to the other items in the same working area
-    // [in]     name: the name of the item
-    // [out]    return: the ID of the newly added item
-    function insert($areaID, $typeID, $position, $name)
+    // Creates a new inventory item in the specified area and returns
+    // the ID of the inserted element
+    function insert($rows)
     {
-        return parent::insert([
-            'area_id' => $areaID,
-            'type_id' => $typeID,
-            'is_active' => TRUE,
-            'position' => $position,
-            'name' => $name
-        ]);
+        return parent::insert($rows);
     }
 
 
