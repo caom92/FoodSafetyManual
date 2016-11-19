@@ -6,7 +6,7 @@ namespace fsm;
 require_once realpath(dirname(__FILE__).'/config/site_config.php');
 require_once realpath(dirname(__FILE__).'/Session.php');
 require_once realpath(dirname(__FILE__).'/data_validations.php');
-require_once realpath(dirname(__FILE__).'/dao/UsersLogPrivilegesDAO.php');
+require_once realpath(dirname(__FILE__).'/dao/UsersLogsPrivilegesDAO.php');
 
 use fsm\validations as val;
 use fsm\database as db;
