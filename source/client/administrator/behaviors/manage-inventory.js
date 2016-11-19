@@ -88,7 +88,7 @@ function addModuleSelect(programID){
                 $("#content_wrapper").append(select);
                 $("#module-select").change(function (e) {
                     $("table").remove();
-                    loadInventory($(this).val(), $("#zone-select").val());
+                    loadInventory($(this).val());
                 });
                 changeLanguage(localStorage.defaultLanguage);
                 $('select').material_select();
@@ -134,14 +134,13 @@ function dynamicSearchBind(input, column){
     });
 }
 
-function loadInventory(moduleID, zoneID){
+function loadInventory(areaID){
     var data = new Object();
-    data.zone_id = zoneID;
-    data.module_id = moduleID;
+    data.area_id = areaID;
     console.log(data);
 
     $server.request({
-        service: 'get-inventory',
+        service: 'get-items-of-area',
         data: data,
         success: function(response){
             console.log(response);
@@ -163,7 +162,6 @@ function inventoryTable(inventory){
     table.append(inventoryHeader());
     tableBody.append(inventorySearchRow());
     for(var element in inventory){
-        //console.log(inventory[element]);
         tableBody.append(inventoryRow(inventory[element]));
     }
     tableBody.append(inventoryAddRow());
@@ -191,7 +189,7 @@ function inventoryRow(element){
     row.addClass("");
     row.append($("<td class='id-column search-column'>").text(element.id));
     row.append($("<td class='name-column search-column'>").text(element.name));
-    if(element.status){
+    if(element.is_active){
         switchBox = '<input type="checkbox" checked="">';
     } else {
         row.addClass("grey-text");
