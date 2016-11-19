@@ -28,7 +28,7 @@ class ItemsDAO extends DataAccessObject
                 "$this->table.id",
                 'is_active', 
                 'position', 
-                'name',
+                "$this->table.name",
                 'type' => [
                     't.id', 
                     't.name'
