@@ -30,8 +30,8 @@ class ItemsDAO extends DataAccessObject
                 'position', 
                 "$this->table.name",
                 'type' => [
-                    'item_types.id', 
-                    'item_types.name'
+                    't.id(type_id)', 
+                    't.name(type_name)'
                 ]  
             ],
             [ 
