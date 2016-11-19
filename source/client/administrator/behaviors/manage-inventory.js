@@ -102,14 +102,36 @@ function addModuleSelect(programID){
 
 function inventorySearchRow(){
     var row = $("<tr>");
-    row.append($("<td class='dynamic-search'>").html(textInput("id-search", "id_search")));
-    row.append($("<td class='dynamic-search'>").html(textInput("name-search", "name_search")));
+    row.append($("<td class='dynamic-search'>").append(textInput("id-search", "id_search")));
+    row.append($("<td class='dynamic-search'>").append(textInput("name-search", "name_search")));
+    row.append($("<td class='dynamic-search'>").append(selectInput("type-search", "type_search", "any_type", false, [{"value": "Food Contact - Daily", "text": "Food Contact - Daily"}, {"value": "Non Food Contact - Daily", "text": "Non Food Contact - Daily"}])));
     row.append($("<td>"));
     return row;
 }
 
 function textInput(id, classes){
     return '<input id="' + id + '" type="text" class="validate ' + classes + '">';
+}
+
+function selectInput(id, classes, defaultOption, defaultDisabled, contents){
+    var select = $("<select>");
+    var options = "";
+
+    if(id)
+        select.attr("id", id);
+
+    select.addClass(classes);
+
+    if(defaultDisabled)
+        options = "disabled selected"
+
+    select.append('<option value="" class="' + defaultOption + '" ' + options + '></option>');
+
+    contents.forEach(function(index){
+        select.append('<option value="' + index.value + '">' + index.text + '</option>');
+    });
+
+    return select;
 }
 
 function dynamicSearchBind(input, column){
@@ -120,6 +142,22 @@ function dynamicSearchBind(input, column){
     $("#" + input).keyup(function (e) {
         $("." + column).each(function (e) {
             if($(this).text().search($("#" + input).val()) != -1){
+                if(isBound($(this).parent())){
+                    $(this).parent().removeClass("bound-by-" + input);
+                    if(!isBound($(this).parent())){
+                        $(this).parent().attr("style", "");
+                    }
+                }
+            } else {
+                $(this).parent().attr("style", "display:none;");
+                $(this).parent().addClass("bound-by-" + input);
+            }
+        });
+    });
+
+    $("#" + input).change(function (e) {
+        $("." + column).each(function (e) {
+            if($(this).text().search($("#" + input).val()) == 0){
                 if(isBound($(this).parent())){
                     $(this).parent().removeClass("bound-by-" + input);
                     if(!isBound($(this).parent())){
@@ -148,6 +186,7 @@ function loadInventory(areaID){
 
             dynamicSearchBind("id-search", "id-column");
             dynamicSearchBind("name-search", "name-column");
+            dynamicSearchBind("type-search", "type-column");
 
             changeLanguage(localStorage.defaultLanguage);
             loadSearchSuggestions(localStorage.defaultLanguage);
@@ -174,6 +213,7 @@ function inventoryHeader(){
     var headerRow = $("<tr>");
     headerRow.append($('<th data-field="id" class="inventory_id"></th>'));
     headerRow.append($('<th data-field="name" class="inventory_name"></th>'));
+    headerRow.append($('<th data-field="edit" class="inventory_type"></th>'));
     headerRow.append($('<th data-field="edit" class="inventory_dismiss"></th>'));
     header.append(headerRow);
     return header;
@@ -189,6 +229,7 @@ function inventoryRow(element){
     row.addClass("");
     row.append($("<td class='id-column search-column'>").text(element.id));
     row.append($("<td class='name-column search-column'>").text(element.name));
+    row.append($("<td class='type-column search-column'>").text(element.type.type_name));
     if(element.is_active){
         switchBox = '<input type="checkbox" checked="">';
     } else {
@@ -216,53 +257,15 @@ function inventoryRow(element){
     return row;
 }
 
-/*function inventoryRow(element){
-    console.log(element);
-    var row = $("<tr>");
-    var activeButton = $('<a class="green btn waves-effect waves-light dismiss-button"></a>');
-    var inactiveButton = $('<a class="grey btn accept-button"></a>');
-    var buttonColumn = $("<td>");
-
-    activeButton.click(function(e){
-        e.preventDefault();
-        var userID = $(this).parent().parent().children(".id-column").text();
-        $(this).parent().parent().addClass("grey-text");
-        $(this).parent().children('.accept-button').show();
-        $(this).parent().children('.dismiss-button').hide();
-        console.log(userID);
-    });
-
-    inactiveButton.click(function(e){
-        e.preventDefault();
-        var userID = $(this).parent().parent().children(".id-column").text();
-        $(this).parent().parent().removeClass("grey-text");
-        $(this).parent().children('.accept-button').hide();
-        $(this).parent().children('.dismiss-button').show();
-        console.log(userID);
-    });
-
-    row.addClass("");
-    row.append($("<td class='id-column search-column'>").text(element.id));
-    row.append($("<td class='name-column search-column'>").text(element.name));
-    if(element.status){
-        inactiveButton.hide();
-    } else {
-        row.addClass("grey-text");
-        activeButton.hide();
-    }
-    buttonColumn.append(activeButton);
-    buttonColumn.append(inactiveButton);
-    row.append(buttonColumn);
-    return row;
-}*/
-
 function inventoryAddRow(){
     var row = $("<tr class='add-row'>");
     var idInput = $("<td>");
     var nameInput = $("<td>");
+    var typeInput = $("<td>");
     var addButton = $("<td>");
 
     nameInput.append(textInput("name_add", "add_item"));
+    typeInput.append(selectInput("type_add", "add_item", "select_option", true, [{"value": "Food Contact - Daily", "text": "Food Contact - Daily"}, {"value": "Non Food Contact - Daily", "text": "Non Food Contact - Daily"}]));
     addButton.append(addInventoryButton());
 
     addButton.click(function(){
@@ -270,20 +273,8 @@ function inventoryAddRow(){
         // This part should be covered on a server service
         // We must append it to the current view; future views will load it on 
         // server request
-        /* Old function
-        if($("#name_add").val() != ""){
-            var element = new Object();
-            element.id = 4;
-            element.name = $("#name_add").val();
-            element.status = true;
-            $(".add-row").remove();
-            $("tbody").append(inventoryRow(element));
-            $("tbody").append(inventoryAddRow());
-            changeLanguage(localStorage.defaultLanguage);
-        }
-        */
 
-        if($("#name_add").val() == "" || isWhitespace($("#name_add").val())){
+        if($("#name_add").val() == "" || isWhitespace($("#name_add").val()) || $("#type_add").val() == null){
             loadToast("is-item-empty", 3500, "rounded");
         } else {
             console.log("Zone: " + $("#zone-select").val());
@@ -295,7 +286,9 @@ function inventoryAddRow(){
             data.module_id = $("#module-select").val();
             data.name = $("#name_add").val();
 
-            $server.request({
+            Materialize.toast("Objeto añadido valido", 3500, "rounded");
+
+            /*$server.request({
                 service: 'add-inventory-item',
                 data: data,
                 success: function(response){
@@ -314,12 +307,13 @@ function inventoryAddRow(){
                     }, 400);
                     changeLanguage(localStorage.defaultLanguage);
                 }
-            });
+            });*/
         }
     });
 
     row.append(idInput);
     row.append(nameInput);
+    row.append(typeInput);
     row.append(addButton);
 
     return row;

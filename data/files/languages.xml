@@ -410,6 +410,11 @@
         <spanish>Elemento</spanish>
     </translation>
 
+    <translation id="inventory_type">
+        <english>Type</english>
+        <spanish>Tipo</spanish>
+    </translation>
+
     <translation id="inventory_dismiss">
         <english>Status</english>
         <spanish>Estado</spanish>
@@ -448,6 +453,11 @@
     <translation id="select_end_date">
         <english>Select a end date</english>
         <spanish>Seleccione un fecha de cierre</spanish>
+    </translation>
+
+    <translation id="any_type">
+        <english>Any type</english>
+        <spanish>Cualquier tipo</spanish>
     </translation>
 
     <!--Template

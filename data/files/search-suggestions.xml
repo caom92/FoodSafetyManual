@@ -15,6 +15,11 @@
         <spanish>Buscar por nombre...</spanish>
     </translation>
 
+    <translation id="type_search">
+        <english>Search by type...</english>
+        <spanish>Buscar por tipo...</spanish>
+    </translation>
+
     <translation id="id_search">
         <english>Search by ID...</english>
         <spanish>Buscar por ID...</spanish>

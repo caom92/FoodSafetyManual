@@ -107,7 +107,7 @@
     </translation>
 
     <translation id="is-item-empty">
-        <english>Item name can't be empty</english>
-        <spanish>El nombre del elemento no puede encontrarse vacío</spanish>
+        <english>You must provide an item name and type</english>
+        <spanish>Debe ingresar un nombre y tipo para el objeto</spanish>
     </translation>
 </translations>
