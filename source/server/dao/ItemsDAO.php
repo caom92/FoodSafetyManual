@@ -23,7 +23,11 @@ class ItemsDAO extends DataAccessObject
     //          retrieved
     function selectByAreaID($areaID)
     {
-        return parent::select(
+        return parent::$dataBase->debug()->select(
+            $this->table, 
+            [
+                '[><]item_types(t)' => [ 'type_id' => 'id' ]
+            ],
             [ 
                 "$this->table.id",
                 'is_active', 
@@ -40,11 +44,30 @@ class ItemsDAO extends DataAccessObject
                     'area_id',
                     'position'
                 ]
-            ],
-            [
-                '[><]item_types(t)' => [ 'type_id' => 'id' ]
             ]
         );
+        // return parent::select(
+        //     [ 
+        //         "$this->table.id",
+        //         'is_active', 
+        //         'position', 
+        //         "$this->table.name",
+        //         'type' => [
+        //             't.id', 
+        //             't.name'
+        //         ]  
+        //     ],
+        //     [ 
+        //         'area_id' => $areaID,
+        //         'ORDER' => [
+        //             'area_id',
+        //             'position'
+        //         ]
+        //     ],
+        //     [
+        //         '[><]item_types(t)' => [ 'type_id' => 'id' ]
+        //     ]
+        // );
     }
 
 
