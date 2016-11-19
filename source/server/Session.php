@@ -155,6 +155,21 @@ class Session
         // first, store the general user data in the session variable
         $_SESSION = $userData;
 
+        // temporal storage for holding the user data to send to the client
+        $userDataToSend = [
+            'user_id' => $userData['id'],
+            'role_id' => $userData['role_id'],
+            'role_name' => $userData['role_name'],
+            'employee_num' => $userData['employee_num'],
+            'first_name' => $userData['first_name'],
+            'last_name' => $userData['last_name'],
+            'email' => $userData['email'],
+            'login_name' => $userData['login_name']
+        ];
+
+        // temporal storage for holding the user privileges
+        $privileges = NULL;
+
         // then, compute the user's profile data structure depending on the 
         // user's role
         switch ($userData['role_name']) {
@@ -164,23 +179,6 @@ class Session
 
                 // get all the modules and assign them read privileges
                 $privileges = $logs->selectAllWithReadPrivilege();
-                $privileges = $this->getPrivilegesArray($privileges);
-
-                // store the privileges in the session variable
-                $_SESSION['privileges'] = $privileges;
-
-                // return the final user profile data structure
-                return [
-                    'role' => $userData['role_name'],
-                    'employee_num' => $userData['employee_num'],
-                    'first_name' => $userData['first_name'],
-                    'last_name' => $userData['last_name'],
-                    'email' => $userData['email'],
-                    'login_name' => $userData['login_name'],
-                    'exclusive_access' => 
-                        strtolower($userData['role_name']).'/',
-                    'privileges' => $privileges
-                ];
             break;
 
             case 'Supervisor':
@@ -192,24 +190,6 @@ class Session
                 $privileges = $privilegesTable->selectByUserIDWithReadPrivilege(
                     $userData['id']
                 );
-                $privileges = $this->getPrivilegesArray($privileges);
-
-                // store the privileges in the session variable
-                $_SESSION['privileges'] = $privileges;
-
-                // return the final user profile data structure
-                return [
-                    'role' => $userData['role_name'],
-                    'zone' => $userData['zone_name'],
-                    'employee_num' => $userData['employee_num'],
-                    'first_name' => $userData['first_name'],
-                    'last_name' => $userData['last_name'],
-                    'email' => $userData['email'],
-                    'login_name' => $userData['login_name'],
-                    'exclusive_access' => 
-                        strtolower($userData['role_name']).'/',
-                    'privileges' => $privileges
-                ];
             break;
 
             case 'Employee':
@@ -220,52 +200,29 @@ class Session
                 // read privileges
                 $privileges = 
                     $privilegesTable->selectByUserID($userData['id']);
-                $privileges = $this->getPrivilegesArray($privileges);
-
-                // store the privileges in the session variable
-                $_SESSION['privileges'] = $privileges;
-
-                // return the final user profile data structure
-                return [
-                    'role' => $userData['role_name'],
-                    'zone' => $userData['zone_name'],
-                    'employee_num' => $userData['employee_num'],
-                    'first_name' => $userData['first_name'],
-                    'last_name' => $userData['last_name'],
-                    'email' => $userData['email'],
-                    'login_name' => $userData['login_name'],
-                    'exclusive_access' => 
-                        strtolower($userData['role_name']).'/',
-                    'privileges' => $privileges
-                ];
             break;
 
             // for the admin, we don't need the zone
             case 'Administrator':
-                return [
-                    'role' => $userData['role_name'],
-                    'employee_num' => $userData['employee_num'],
-                    'first_name' => $userData['first_name'],
-                    'last_name' => $userData['last_name'],
-                    'email' => $userData['email'],
-                    'login_name' => $userData['login_name'],
-                    'exclusive_access' => 
-                        strtolower($userData['role_name']).'/',
-                ];
-            break;
-
-            // for any case, simply return the basic account info
-            default:
-                return [
-                    'role' => $userData['role_name'],
-                    'employee_num' => $userData['employee_num'],
-                    'first_name' => $userData['first_name'],
-                    'last_name' => $userData['last_name'],
-                    'email' => $userData['email'],
-                    'login_name' => $userData['login_name']
-                ];
+                $userDataToSend['exclusive_access'] =
+                    strtolower($userData['role_name']).'/';
+                return $userDataToSend;
             break;
         }
+
+        // give the proper format to the privileges array
+        $privileges = $this->getPrivilegesArray($privileges);
+
+        // store the privileges in the session variable
+        $_SESSION['privileges'] = $privileges;
+
+        // return the final user profile data structure
+        $userDataToSend['zone_id'] = $userData['zone_id'];
+        $userDataToSend['zone_name'] = $userData['zone_name']; 
+        $userDataToSend['exclusive_access'] =
+            strtolower($userData['role_name']).'/';
+        $userDataToSend['privileges'] = $privileges;
+        return $userDataToSend;
     }
 
 

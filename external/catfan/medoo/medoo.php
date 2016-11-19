@@ -996,7 +996,7 @@ class medoo
 
 		if ($query)
 		{
-			return $query->fetchColumn() === '1';
+			return $query->fetchColumn() == '1';
 		}
 		else
 		{

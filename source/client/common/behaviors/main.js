@@ -5,7 +5,7 @@ function loadSideMenu()
         `${localStorage.first_name}  ${localStorage.last_name}`
     );
 
-    if (localStorage.role === 'Administrator') {
+    if (localStorage.role_name === 'Administrator') {
         // display the admin menu
         $('#actions-list').load($root + 'source/client/administrator/layouts/menu.html', function(){
             initMaterialize();

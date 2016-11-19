@@ -148,9 +148,51 @@ class Controller
                     }
                 break;
 
+                // check if the service expects the user to has access 
+                // permission to it
                 case 'has_privilege':
+                    // first, connect to the data base
                     $session = new Session();
-                    $privilegesTable = new db\UsersLogsPrivileges();
+                    $privilegesTable = new db\UsersLogsPrivilegesDAO();
+
+                    // check if a single or multiple permissions are required
+                    $isSingle = count($requirement['privilege']) == 1;
+
+                    // then check if the user has the given privilege in the 
+                    // specified log
+                    $hasPrivilege = false;
+
+                    if ($isSingle) {
+                        $hasPrivilege = 
+                            $privilegesTable->hasPrivilegeForLogByUserID(
+                                $session->get('id'),
+                                $requirement['log'],
+                                $requirement['module'],
+                                $requirement['program'],
+                                $requirement['privilege']
+                            );
+                    } else {
+                        foreach ($requirement['privilege'] as $privilege) {
+                            $hasPrivilege = 
+                                $privilegesTable->hasPrivilegeForLogByUserID(
+                                    $session->get('id'),
+                                    $requirement['log'],
+                                    $requirement['module'],
+                                    $requirement['program'],
+                                    $privilege
+                                );
+
+                            if ($hasPrivilege) {
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!$hasPrivilege) {
+                        throw new \Exception(
+                            'User is not allowed to use this service.'
+                        );
+                    }
                 break;
 
                 default:
@@ -327,6 +369,32 @@ class Controller
                             if (!$isDefined) {
                                 throw new \Exception(
                                     "Input argument '$key' is not a file."
+                                );
+                            }
+                        break;
+
+                        case 'array':
+                            // check if the input argument is an array
+                            $isDefined = 
+                                val\isDefined($_POST[$key]);
+                            $isEmpty = count($_POST[$key]) == 0;
+
+                            if (!$isDefined || $isEmpty) {
+                                throw new \Exception(
+                                    "Input argument '$key' is not an array."
+                                );
+                            }
+                        break;
+
+                        case 'datetime':
+                            // check if the input argument is a date or time 
+                            // string literal with the especified format
+                            $format = $requirement['format'];
+                            $isDateTime = val\isDateTime($_POST[$key], $format);
+
+                            if (!$isDateTime) {
+                                throw new \Exception(
+                                    "Input argument '$key' is not a date and/or time literal of the format '$format'"
                                 );
                             }
                         break;
