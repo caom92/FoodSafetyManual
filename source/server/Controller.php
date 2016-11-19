@@ -23,21 +23,28 @@ class Controller
                 '', 
                 $_SERVER['REQUEST_URI']
             );
-            $service = self::$services[$service];
 
             // checks if the service exits
-            if (isset($service)) {
+            if (isset(self::$services[$service]) 
+                && array_key_exists($service, self::$services)) {
                 // if it does, retrieve the input requirements descriptor and 
                 // the execution callback
+                $service = self::$services[$service];
                 $emptyDesc = [];
                 $emptyCallback = function() {
                     return [];
                 };
 
-                $inputRequirements = (isset($service['requirements_desc'])) ?
+                $isKeyValid = 
+                    isset($service['requirements_desc']) && 
+                    array_key_exists('requirements_desc', $service); 
+                $inputRequirements = ($isKeyValid) ?
                     $service['requirements_desc'] : $emptyDesc;
 
-                $callback = (isset($service['callback'])) ?
+                $isKeyValid = 
+                    isset($service['callback']) && 
+                    array_key_exists('callback', $service);
+                $callback = ($isKeyValid) ?
                     $service['callback'] : $emptyCallback;
 
                 // check that the input arguments are valid and that the user 
