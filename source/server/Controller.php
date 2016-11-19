@@ -6,8 +6,10 @@ namespace fsm;
 require_once realpath(dirname(__FILE__).'/config/site_config.php');
 require_once realpath(dirname(__FILE__).'/Session.php');
 require_once realpath(dirname(__FILE__).'/data_validations.php');
+require_once realpath(dirname(__FILE__).'/dao/UsersLogPrivileges.php');
 
 use fsm\validations as val;
+use fsm\database as db;
 
 
 // The communication bridge between the frontend and the backend
@@ -30,22 +32,8 @@ class Controller
                 // if it does, retrieve the input requirements descriptor and 
                 // the execution callback
                 $service = self::$services[$service];
-                $emptyDesc = [];
-                $emptyCallback = function() {
-                    return [];
-                };
-
-                $isKeyValid = 
-                    isset($service['requirements_desc']) && 
-                    array_key_exists('requirements_desc', $service); 
-                $inputRequirements = ($isKeyValid) ?
-                    $service['requirements_desc'] : $emptyDesc;
-
-                $isKeyValid = 
-                    isset($service['callback']) && 
-                    array_key_exists('callback', $service);
-                $callback = ($isKeyValid) ?
-                    $service['callback'] : $emptyCallback;
+                $inputRequirements = $service['requirements_desc'];
+                $callback = $service['callback'];
 
                 // check that the input arguments are valid and that the user 
                 // has the proper permissions to use the service
@@ -158,6 +146,11 @@ class Controller
                     } else {
                         throw new \Exception('User is not logged in.');
                     }
+                break;
+
+                case 'has_privilege':
+                    $session = new Session();
+                    $privilegesTable = new db\UsersLogsPrivileges();
                 break;
 
                 default:

@@ -288,7 +288,13 @@ fsm\Controller::$services = [
     ],
     'capture-gmp-packing-preop' => [
         'requirements_desc' => [
-            'logged_in' => ['Employee']
+            'logged_in' => ['Employee'],
+            'has_privilege' => [
+                'privilege' => 'Write',
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Pre-Operational Inspection'
+            ]
         ],
         'callback' => 'fsm\services\gmp\packing\preop\registerLogEntry'
     ]
