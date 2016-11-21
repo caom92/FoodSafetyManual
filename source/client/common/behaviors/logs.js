@@ -47,7 +47,6 @@ function SSOPPreOperative(data){
     for(area of data.areas)
         wrapper.append(SSOPPreOperativeArea(area));
 
-
     wrapper.append(sendButton("sendSSOP"));
 
     $("#logs_tab").append(wrapper);
@@ -80,23 +79,58 @@ function SSOPPreOperative(data){
 }
 
 function SSOPPreOperativeArea(area){
-    var areaCard = divWrapper("area_report_" + area.area_id, "card-panel white" + area.area_id);
+    var areaCard = divWrapper("area_report_" + area.area_id, "card-panel white");
     var title = cardTitle(null, "card-title", area.area_name);
+    var notesRow = divWrapper(null, "row");
+    var sanitationRow = divWrapper(null, "row");
 
     areaCard.append(title);
 
     for (var item of area.items){
         areaCard.append(SSOPPreoperativeItem(item, area.area_id));
     }
+    
+    notesRow.append(logTextField("note_wrapper_" + area.area_id, logTextInput("area_notes_" + area.area_id, "validate", "text", null), logLabel(null, null, null, "Notas"), "input-field col s12"));
+    sanitationRow.append(logTextField("sanitation_wrapper_" + area.area_id, logTextInput("area_sanitation_" + area.area_id, "validate", "text", null), logLabel(null, null, null, "Persona a cargo de la sanitizacion"), "input-field col s12"));
+
+    areaCard.append(notesRow);
+    areaCard.append(sanitationRow);
 
     return areaCard;
+}
+
+function loadSSOPReport(startDate){
+    var wrapper = divWrapper(null, null);
+    var reportWrapper = divWrapper(null, "card-panel white");
+
+    wrapper.append(reportHeader("LAW", "Introduction", "SSOP", "PRE-OPERATIONAL LOG"));
+
+    $("#report_tab").append(wrapper);
+
+    var report = divWrapper(null, null);
+    var reportTable = table(null, "striped");
+    var headers = ["ID", "Nombre", "Condiciones", "Acción Correctiva", "Comentarios"];
+    var testContent = [["1", "Mesas", "Aceptable", "N/A", "Comentarios"],["2", "Pisos", "Inceptable", "WSR", "Comentarios"]];
+
+    reportTable.append(tableHeader(null, null, headers));
+
+    testContent.forEach(function(index){
+        reportTable.append(tableRow(null, null, index));
+    });
+
+    reportWrapper.append(reportTable);
+
+    wrapper.append(reportWrapper);
+
+    changeLanguage(localStorage.defaultLanguage);
 }
 
 function sendSSOPReport(){
     var report = new Object();
     var hardware_log = new Array();
     var area_log = new Array();
-    report.capture_date = getISODate(new Date());
+    report.user_id = localStorage.user_id;
+    report.date = getISODate(new Date());
     
     var idArray = new Array();
     var areaArray = new Array();
@@ -114,7 +148,7 @@ function sendSSOPReport(){
 
         area.time = getISOTime(new Date());
         area.area_id = areaID;
-        area.items = new Array();
+        area.item_logs = new Array();
 
         idArray = new Array();
         hardware_log = new Array();
@@ -128,8 +162,8 @@ function sendSSOPReport(){
                 var hardware = new Object();
 
                 hardware.item_id = Number(id[0]);
-                hardware.acceptable = getBool($("input:radio[name='radio_" + id[0] +"_" + id[1] +"']:checked").val());
-                if(!hardware.acceptable)
+                hardware.is_acceptable = getBool($("input:radio[name='radio_" + id[0] +"_" + id[1] +"']:checked").val());
+                if(!hardware.is_acceptable)
                     hardware.corrective_action_id = Number($("#select_" + id[0] + "_" + id[1]).val());
                 else
                     hardware.corrective_action_id = 3;
@@ -139,13 +173,17 @@ function sendSSOPReport(){
             }
         });
 
-        area.items = hardware_log;
+        area.item_logs = hardware_log;
+
+        area.notes = $("#area_notes_" + areaID).val();
+        area.person_performing_sanitation = $("#area_sanitation_" + areaID).val();
 
         area_log.push(area);
     });
 
-    report.log = area_log;
+    report.area_log = area_log;
 
+    console.log(report);
     console.log(JSON.stringify(report));
 }
 
@@ -158,9 +196,10 @@ function SSOPPreoperativeItem(item, areaID){
     var unacceptable = logRadioButtonInput("unacceptable_" + item.item_id + "_" + areaID, null, logLabel(null, "col s4", "unacceptable_" + item.item_id + "_" + areaID, '<i class="mdi mdi-close-circle mdi-18px red-text"></i>'), "radio_" + item.item_id + "_" + areaID, false);
     var status = logRadioButtonGroup("radio_" + item.item_id + "_" + areaID, "col s4", [acceptable, unacceptable]);
     var actionEmpty = logSelectOption(null, null, "", true, true, "Seleccione la acción correctiva");
-    var actionWSR = logSelectOption(null, null, "1", false, false, "W/S/R - Wash/Rinse/Sanitize");
-    var actionRC = logSelectOption(null, null, "2", false, false, "RC - Reclean");;
-    var actionsSelect = logSelectInput("select_" + item.item_id + "_" + areaID, "input-field col s4", [actionEmpty, actionWSR, actionRC], logLabel(null, null, "select_" + item.item_id + "_" + areaID, 'Acción correctiva'));
+    var actionNone = logSelectOption(null, null, "1", false, false, "None HARDCODE");
+    var actionRC = logSelectOption(null, null, "2", false, false, "Re-cleaned HARDCODE");
+    var actionWSR = logSelectOption(null, null, "3", false, false, "Wash/Rinse/Sanitize HARDCODE");;
+    var actionsSelect = logSelectInput("select_" + item.item_id + "_" + areaID, "input-field col s4", [actionEmpty, actionNone, actionRC, actionWSR], logLabel(null, null, "select_" + item.item_id + "_" + areaID, 'Acción correctiva'));
     var comments = logTextField("comment_wrapper_" + item.item_id + "_" + areaID, logTextInput("comment_" + item.item_id + "_" + areaID, "validate", "text", null), logLabel(null, null, "comment_" + item.item_id + "_" + areaID, "Comentarios"), "input-field col s12");
 
     // console.log("Ay lmao" + item["item_name"]);
@@ -483,25 +522,40 @@ function tableRow(id, classes, contents){
     if(id)
         row.attr("id", id);
 
-    row.append(contents);
+    contents.forEach(function(index){
+        row.append(rowColumn(null, null, index));
+    });
 
     return row;
 }
 
 function rowColumn(id, classes, contents){
-    var col = $("<tr>");
+    var row = $("<td>");
 
-    col.addClass(classes);
+    row.addClass(classes);
 
     if(id)
-        col.attr("id", id);
+        row.attr("id", id);
 
-    col.append(contents);
+    row.append(contents);
 
-    return col;
+    return row;
 }
 
 function headerColumn(id, classes, contents){
+    var row = $("<th>");
+
+    row.addClass(classes);
+
+    if(id)
+        row.attr("id", id);
+
+    row.append(contents);
+
+    return row;
+}
+
+function tableHeader(id, classes, contents){
     var col = $("<tr>");
 
     col.addClass(classes);
@@ -509,7 +563,9 @@ function headerColumn(id, classes, contents){
     if(id)
         col.attr("id", id);
 
-    col.append(contents);
+    contents.forEach(function(index){
+        col.append(headerColumn(null, null, index));
+    });
 
     return col;
 }

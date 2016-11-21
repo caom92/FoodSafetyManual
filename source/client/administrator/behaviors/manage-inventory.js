@@ -293,7 +293,7 @@ function inventoryAddRow(){
     var addButton = $("<td>");
 
     nameInput.append(textInput("name_add", "add_item"));
-    typeInput.append(selectInput("type_add", "add_item", "select_option", true, [{"value": "Food Contact - Daily", "text": "Food Contact - Daily"}, {"value": "Non Food Contact - Daily", "text": "Non Food Contact - Daily"}]));
+    typeInput.append(selectInput("type_add", "add_item", "select_option", true, [{"value": "1", "text": "Food Contact - Daily"}, {"value": "2", "text": "Non Food Contact - Daily"}]));
     addButton.append(addInventoryButton());
 
     addButton.click(function(){
@@ -310,14 +310,12 @@ function inventoryAddRow(){
             console.log("Name: " + $("#name_add").val());
 
             var data = new Object();
-            data.zone_id = $("#zone-select").val();
-            data.module_id = $("#module-select").val();
             data.name = $("#name_add").val();
+            data.area_id = $("#area-select").val();
+            data.type_id = $("#type_add").val();
 
-            Materialize.toast("Objeto añadido valido", 3500, "rounded");
-
-            /*$server.request({
-                service: 'add-inventory-item',
+            $server.request({
+                service: 'add-new-inventory-item',
                 data: data,
                 success: function(response){
                     // Here we must append the recently added item to the list,
@@ -326,16 +324,18 @@ function inventoryAddRow(){
                     var element = new Object();
                     element.id = response.data;
                     element.name = $("#name_add").val();
-                    element.status = true;
-                    $(".add-row").remove();
+                    element.is_active = true;
+                    element.type = new Object();
+                    element.type.type_name = $("#type_add option:selected").text();
+                    element.position = Number($($("tbody tr").last().children()[0]).text()) + 1;
+                    console.log(element);
                     $("tbody").append(inventoryRow(element));
-                    $("tfoot").append(inventoryAddRow());
                     $("html, body").animate({
                         scrollTop: $(document).height()
                     }, 400);
                     changeLanguage(localStorage.defaultLanguage);
                 }
-            });*/
+            });
         }
     });
 
