@@ -157,4 +157,14 @@ function isBitmapFile($file)
     return false;
 }
 
+
+// Checks if the input argument is a date and/or time string literal 
+// with the specified format, returning true if this is the case or false 
+// otherwise
+function isDateTime($string, $format)
+{
+    $dateTime = \DateTime::createFromFormat($format, $string);
+    return $dateTime !== FALSE;
+}
+
 ?>

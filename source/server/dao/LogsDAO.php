@@ -45,6 +45,36 @@ class LogsDAO extends DataAccessObject
             ORDER BY p.id, m.id, l.id"
         )->fetchAll();
     }
+
+
+    // Returns the ID of the log which has the specified program, module and 
+    // log names
+    // [in]     program: the name of the program which log we want to look for
+    // [in]     module: the name of the module which log we want to look for
+    // [in]     log: the name of the module that we want to look for
+    function getIDByNames($program, $module, $log)
+    {
+        $rows = parent::select(
+            "$this->table.id", 
+            [
+                'AND' => [
+                    "$this->table.name" => $log,
+                    'm.name' => $module,
+                    'p.name' => $program
+                ]
+            ],
+            [
+                '[><]modules(m)' => [
+                    "$this->table.module_id" => 'id'
+                ],
+                '[><]programs(p)' => [
+                    'm.program_id' => 'id'
+                ]
+            ]
+        );
+
+        return $rows[0]['id'];
+    }
 }
 
 ?>

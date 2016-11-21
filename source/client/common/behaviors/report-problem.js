@@ -123,8 +123,8 @@ $(function() {
     $("#user-email").val(localStorage.email);
     $("#lang").val(localStorage.defaultLanguage);
 
-    if (isDefined(localStorage.zone)) {
-        $('#zone-selection').val(localStorage.zone);
+    if (isDefined(localStorage.zone_name)) {
+        $('#zone-selection').val(localStorage.zone_name);
     } else {
         $('#zone-selection').val('N/A');
     }

@@ -294,9 +294,35 @@ fsm\Controller::$services = [
                 'program' => 'GMP',
                 'module' => 'Packing',
                 'log' => 'Pre-Operational Inspection'
+            ],
+            'user_id' => [
+                'type' => 'int'
+            ],
+            'date' => [
+                'type' => 'datetime',
+                'format' => 'YY-MM-DD'
+            ],
+            'area_logs' => [
+                'type' => 'array'
             ]
         ],
         'callback' => 'fsm\services\gmp\packing\preop\registerLogEntry'
+    ],
+    'report-gmp-packing-preop' => [
+        'requirements_desc' => [
+            'logged_in' => ['Director', 'Supervisor', 'Employee'],
+            'has_privilege' => [
+                'privilege' => ['Read', 'Write'],
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Pre-Operational Inspection'
+            ],
+            'date' => [
+                'type' => 'datetime',
+                'format' => 'YY-MM-DD'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\preop\getReportData'
     ]
 
     // case 'get-user-privileges':
