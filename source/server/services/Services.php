@@ -323,6 +323,18 @@ fsm\Controller::$services = [
             ]
         ],
         'callback' => 'fsm\services\gmp\packing\preop\getReportData'
+    ],
+    'get-items-of-zone' => [
+        'requirements_desc' => [
+            'logged_in' => ['Director', 'Supervisor', 'Employee'],
+            'has_privilege' => [
+                'privilege' => ['Read', 'Write'],
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Pre-Operational Inspection'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\preop\getItemsList'
     ]
 
     // case 'get-user-privileges':

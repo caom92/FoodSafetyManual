@@ -31,6 +31,7 @@ class Session
     }
 
 
+    // [***]
     // Returns an associative array that describes the privileges that the user
     // has for accessing the different programs and modules that exists in the 
     // data base
@@ -62,10 +63,10 @@ class Session
         // visit each row from the data base query result
         foreach ($userPrivileges as $row) {
             // check if this row has a different program than the last
-            $hasProgramChanged = $row['program_name'] != $program['name'];
+            $hasProgramChanged = $row['program_id'] != $program['id'];
             if ($hasProgramChanged) {
                 // if it has, assert that the last row info is not empty
-                if (strlen($program['name']) > 0) {
+                if ($program['id'] != 0) {
                     // if it is not, store the info in the final structure
                     array_push($program['modules'], $module);
                     array_push($programPrivileges, $program);
@@ -94,7 +95,7 @@ class Session
             } else {
                 // if the row has the same program than the last,
                 // then check if the module has changed
-                $hasModuleChanged = $row['module_name'] != $module['name'];
+                $hasModuleChanged = $row['module_id'] != $module['id'];
                 if ($hasModuleChanged) {
                     // if it has, store the info in the temporal program
                     // holder
@@ -132,10 +133,10 @@ class Session
         } // foreach ($userPrivileges as $row)
 
         // don't forget to add the last entry to the final structure
-        if (strlen($module['name']) > 0) {
+        if ($module['id'] != 0) {
             array_push($program['modules'], $module);
         }
-        if (strlen($program['name']) > 0) {
+        if ($program['name'] != 0) {
             array_push($programPrivileges, $program);
         }
 
