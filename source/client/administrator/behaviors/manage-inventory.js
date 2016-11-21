@@ -102,6 +102,7 @@ function addModuleSelect(programID){
 
 function inventorySearchRow(){
     var row = $("<tr>");
+    row.append($("<td>"));
     row.append($("<td class='dynamic-search'>").append(textInput("id-search", "id_search")));
     row.append($("<td class='dynamic-search'>").append(textInput("name-search", "name_search")));
     row.append($("<td class='dynamic-search'>").append(selectInput("type-search", "type_search", "any_type", false, [{"value": "Food Contact - Daily", "text": "Food Contact - Daily"}, {"value": "Non Food Contact - Daily", "text": "Non Food Contact - Daily"}])));
@@ -187,6 +188,26 @@ function loadInventory(areaID){
             dynamicSearchBind("id-search", "id-column");
             dynamicSearchBind("name-search", "name-column");
             dynamicSearchBind("type-search", "type-column");
+            $("#sort tbody").sortable({
+                helper: fixHelper,
+                stop: function(event, ui) {
+                    //console.log($($(ui.item[0]).children()[0]).text());
+                    $("tbody tr").each(function(index){
+                        console.log($($(this).children()[0]).text());
+                        $($(this).children()[0]).text(index + 1);
+                    });
+                }
+            });
+
+            var fixHelper = function(e, tr) {
+                var $originals = tr.children();
+                var $helper = tr.clone();
+                $helper.children().each(function(index)
+                {
+                  $(this).width($originals.eq(index).width())
+                });
+                return $helper;
+            };
 
             changeLanguage(localStorage.defaultLanguage);
             loadSearchSuggestions(localStorage.defaultLanguage);
@@ -197,20 +218,25 @@ function loadInventory(areaID){
 function inventoryTable(inventory){
     var table = $("<table>");
     var tableBody = $("<tbody>");
+    var tableFoot = $("<tfoot>");
+    var tableHeader = inventoryHeader();
     table.addClass("striped");
-    table.append(inventoryHeader());
-    tableBody.append(inventorySearchRow());
+    table.attr("id", "sort");
+    tableHeader.append(inventorySearchRow());
+    table.append(tableHeader);
     for(var element in inventory){
         tableBody.append(inventoryRow(inventory[element]));
     }
-    tableBody.append(inventoryAddRow());
+    tableFoot.append(inventoryAddRow());
     table.append(tableBody);
+    table.append(tableFoot);
     return table;
 }
 
 function inventoryHeader(){
     var header = $("<thead>");
     var headerRow = $("<tr>");
+    headerRow.append($('<th data-field="id" class="inventory_position"></th>'));
     headerRow.append($('<th data-field="id" class="inventory_id"></th>'));
     headerRow.append($('<th data-field="name" class="inventory_name"></th>'));
     headerRow.append($('<th data-field="edit" class="inventory_type"></th>'));
@@ -227,6 +253,7 @@ function inventoryRow(element){
     var buttonColumn = $("<td>");
 
     row.addClass("");
+    row.append($("<td class='position-column'>").text(element.position));
     row.append($("<td class='id-column search-column'>").text(element.id));
     row.append($("<td class='name-column search-column'>").text(element.name));
     row.append($("<td class='type-column search-column'>").text(element.type.type_name));
@@ -259,6 +286,7 @@ function inventoryRow(element){
 
 function inventoryAddRow(){
     var row = $("<tr class='add-row'>");
+    var positionInput = $("<td>");
     var idInput = $("<td>");
     var nameInput = $("<td>");
     var typeInput = $("<td>");
@@ -301,7 +329,7 @@ function inventoryAddRow(){
                     element.status = true;
                     $(".add-row").remove();
                     $("tbody").append(inventoryRow(element));
-                    $("tbody").append(inventoryAddRow());
+                    $("tfoot").append(inventoryAddRow());
                     $("html, body").animate({
                         scrollTop: $(document).height()
                     }, 400);
@@ -311,6 +339,7 @@ function inventoryAddRow(){
         }
     });
 
+    row.append(positionInput);
     row.append(idInput);
     row.append(nameInput);
     row.append(typeInput);

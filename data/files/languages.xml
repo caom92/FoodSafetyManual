@@ -400,6 +400,11 @@
         <spanish>Bitácoras</spanish>
     </translation>
 
+    <translation id="inventory_position">
+        <english>Position</english>
+        <spanish>Posición</spanish>
+    </translation>
+
     <translation id="inventory_id">
         <english>ID</english>
         <spanish>ID</spanish>
