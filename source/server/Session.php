@@ -24,10 +24,11 @@ class Session
     // Constructor starts the session library
     function __construct()
     {
-        ini_set('session.name', 'USST');
-        ini_set('session.hash_function', 'sha512');
-        ini_set('session.referer_check', $_SERVER['HTTP_HOST'].core\SITE_ROOT);
-        @session_start();
+        @session_start([
+            'name' => 'SessionCookie',
+            'hash_function' => 'sha512',
+            'referer_check' => $_SERVER['HTTP_HOST'].SITE_ROOT
+        ]);
     }
 
 
@@ -151,7 +152,7 @@ class Session
     // [in]     userData: general profile info that is common for all user 
     //          roles in the form of an associative array
     // [out]    return: an associative organizing all the relevant user info
-    private function constructUserProfile($userData)
+    private function constructUserProfileArray($userData)
     {
         // first, store the general user data in the session variable
         $_SESSION = $userData;
@@ -258,7 +259,7 @@ class Session
             // required depending on the role of the user and create the final 
             // data structure the holds the user's profile information that 
             // will be sent to the client
-            $clientProfile = $this->constructUserProfile($userData);
+            $clientProfile = $this->constructUserProfileArray($userData);
             return $clientProfile;
         } else {
             throw new \Exception('Log in credentials are incorrect.');
@@ -269,31 +270,27 @@ class Session
     // Returns true if a session is already open or false otherwise
     function isOpen()
     {
-        return isset($_SESSION['id']);
+        return session_status() === \PHP_SESSION_ACTIVE;
     }
 
 
     // Closes the existing session 
     function close()
     {
-        session_unset();
+        // unset the session variables
+        $_SESSION = [];
+
+        // destroy the session cookie
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+
+        // finally, kill the session
         session_destroy();
-    }
-
-
-    // Returns the value of the given key if it is stored in the
-    // session storage or NULL if this does not exists
-    function get($key)
-    {
-        return (isset($_SESSION[$key])) ? $_SESSION[$key] : NULL;
-    }
-
-
-    // Sets a new value to the session storage to the variable with the
-    // provided key
-    function set($key, $value)
-    {
-        $_SESSION[$key] = $value;
     }
 }
 

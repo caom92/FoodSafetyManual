@@ -4,7 +4,6 @@ namespace fsm\services\server;
 
 require_once realpath(dirname(__FILE__).'/../dao/DataAccessObject.php');
 require_once realpath(dirname(__FILE__).'/../Email.php');
-require_once realpath(dirname(__FILE__).'/../Session.php');
 
 use fsm\database as db;
 
@@ -18,13 +17,10 @@ function checkStatus()
 
 // Sends a bug report by email
 function mailBugReport() 
-{
-    // get the user session data
-    $session = new fsm\Session();
-    
+{   
     // Create the email body by pasting all the posted data into it
-    $body = "Usuario: " . $session->get("login-name") . "<br>"
-        . "ID de empleado: " . $session->get("id") . "<br>"
+    $body = "Usuario: " . $_SESSION["login-name"] . "<br>"
+        . "ID de empleado: " . $_SESSION["user_id"] . "<br>"
         . "Zona: " . $_POST["zone-selection"] . "<br>"
         . "Programa: " . $_POST["procedure-selection"] . "<br>"
         . "Modulo: " . $_POST['module-selection'] . "<br>"
@@ -114,8 +110,8 @@ function mailBugReport()
 
     // create the confirmation email
     $confirmation = new fsm\Email([
-            'email' => $session->get('email'),
-            'name' => $session->get('login-name')
+            'email' => $_SESSION['email'],
+            'name' => $_SESSION['login-name']
         ],
         $subject, $body, $_POST['lang']
     );

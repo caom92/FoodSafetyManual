@@ -5,8 +5,6 @@ namespace fsm\services\gmp\packing\preop;
 require_once realpath(dirname(__FILE__).
     '/../../../../data_validations.php');
 require_once realpath(dirname(__FILE__).
-    '/../../../../Session.php');
-require_once realpath(dirname(__FILE__).
     '/../../../../dao/gmp/packing/preop/CorrectiveActionsDAO.php');
 require_once realpath(dirname(__FILE__).
     '/../../../../dao/gmp/packing/preop/AreasLogDAO.php');
@@ -117,7 +115,6 @@ function registerLogEntry()
     }
 
     // if all validations where passed, connect to the data base
-    $session = new fsm\Session();
     $log = new db\LogCaptureDatesDAO();
     $areasLog = new preop\AreasLogDAO();
     $itemsLog = new preop\ItemsLogDAO();
@@ -125,7 +122,7 @@ function registerLogEntry()
 
     // and first insert the capture date and the ID of the reportee user
     $logID = $log->insert([
-        'user_id' => $session->get('id'),
+        'user_id' => $_SESSION['user_id'],
         'log_id' => $logs->getIDByNames(
             'GMP', 'Packing', 'Pre-Operational Inspection'
         ),
@@ -173,7 +170,6 @@ function registerLogEntry()
 // presentation in a report
 function getReportData()
 {
-    $session = new fsm\Session();
     $log = new db\LogCaptureDatesDAO();
     $areasLog = new preop\AreasLogDAO();
     $itemsLog = new preop\ItemsLogDAO();
@@ -184,7 +180,7 @@ function getReportData()
         $logs->getIDByNames(
             'GMP', 'Packing', 'Pre-Operational Inspection'
         ),
-        $session->get('zone_id')
+        $_SESSION['zone_id']
     );
 
     $areasLogEntries = [];
@@ -215,11 +211,11 @@ function getReportData()
 
     return [
         'created_by' => 
-            $session->get('first_name').' '.$session->get('last_name'),
+            $_SESSION['first_name'].' '.$_SESSION['last_name'],
         'approved_by' => 'God',
         'creation_date' => $logData['date'],
         'approval_date' => '1985-10-26',
-        'zone_name' => $session->get('zone_name'),
+        'zone_name' => $_SESSION['zone_name'],
         'program_name' => 'GMP',
         'module_name' => 'Packing',
         'log_name' => 'Pre-Operational Inspection',
