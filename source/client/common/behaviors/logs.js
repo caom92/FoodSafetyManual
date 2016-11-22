@@ -13,7 +13,6 @@ function isDateValid(startDate, endDate){
 
 $(function (){
     // First we change the title to that of the current 
-    $(".log_title").html("Module name");
     $('ul.tabs').tabs();
     $('.indicator').addClass("green");
     createDatePicker();
@@ -24,6 +23,8 @@ $(function (){
             if (response.meta.return_code == 0) {
                 console.log(response.data);
                 loadLogForm("SSOP", response.data);
+                changeLanguage(localStorage.defaultLanguage);
+                $('select').material_select();
             } else {
                 throw response.meta.message;
             }
@@ -33,7 +34,6 @@ $(function (){
     // We load the tabs; we have 2 or 3 depending on the privileges of the user
     // Read means we can load the PDF manual and see past logs
     // Write means we can read and also submit a new log with the current date
-    changeLanguage(localStorage.defaultLanguage);
 });
 
 
@@ -52,8 +52,8 @@ functionArray["SSOP"] = SSOPPreOperative;
 
 function SSOPPreOperative(data){
     var wrapper = $("<div>");
-
-    wrapper.append(reportHeader("LAW", "Introduction", "SSOP", "PRE-OPERATIONAL LOG"));
+    $(".log_title").html(data.log_name);
+    wrapper.append(reportHeader(data.zone_name, data.program_name, data.module_name, data.log_name));
 
     for(area of data.areas)
         wrapper.append(SSOPPreOperativeArea(area));
@@ -85,24 +85,75 @@ function SSOPPreOperative(data){
     });
 
     $("#sendSSOP").click(function(){
-        sendSSOPReport();
+        if(isSSOPReportValid()){
+            sendSSOPReport();
+        } else {
+            Materialize.toast("Por favor rellene todos los campos", 3000, "rounded");
+        }
     });
 }
 
+function isSSOPReportValid(){
+    // Check for the next things for the report to be considered valid:
+    // 1. All radio buttons must have a value
+    // 2. If radio buttons are selected to unnaceptable, both corrective action and
+    //    comment should be filled
+    // 3. If radio buttons are selected to acceptable, corrective action defaults to 1
+    //    and comment will be empty
+
+    // First condition, we make sure that the total number of radio button elements is
+    // Equal to two times those selected (two times because we can only select one radio)
+    // button at a time
+
+    var errors = 0;
+
+    if($("input[name^='radio_']").length == (($("input[id^='acceptable_']:checked").length + $("input[id^='unacceptable_']:checked").length)*2)){
+        $("input[id^='acceptable_']").each(function(index){
+            // Basically, for each ID in index
+            if($("input[name^='radio_" + index + "_']:checked").val() == "false"){
+                // If unacceptable is selected we must verify if a corrective action and comment are selected
+
+                // Corrective action selected means there is a value other than null
+                if($("select[id^='select_" + index + "_']").val() === null){
+                    errors++;
+                }
+
+                // Comment must have a length other than zero
+                if($("input[id^='comment_" + index + "_']").val().length == 0){
+                    errors++;
+                }
+            }
+        });
+    } else {
+        errors++;
+    }
+
+    if(errors == 0) {
+        console.log("true part achieved");
+        return true;
+    } else {
+        console.log("Errors: " + errors);
+        return false;
+    }
+
+}
+
 function SSOPPreOperativeArea(area){
-    var areaCard = divWrapper("area_report_" + area.area_id, "card-panel white");
-    var title = cardTitle(null, "card-title", area.area_name);
+    var areaCard = divWrapper("area_report_" + area.id, "card-panel white");
+    var title = cardTitle(null, "card-title", area.name);
     var notesRow = divWrapper(null, "row");
     var sanitationRow = divWrapper(null, "row");
 
     areaCard.append(title);
 
-    for (var item of area.items){
-        areaCard.append(SSOPPreoperativeItem(item, area.area_id));
+    for (var type of area.types){
+        for (var item of type.items){
+            areaCard.append(SSOPPreoperativeItem(item, area.id));
+        }
     }
     
-    notesRow.append(logTextField("note_wrapper_" + area.area_id, logTextInput("area_notes_" + area.area_id, "validate", "text", null), logLabel(null, null, null, "Notas"), "input-field col s12"));
-    sanitationRow.append(logTextField("sanitation_wrapper_" + area.area_id, logTextInput("area_sanitation_" + area.area_id, "validate", "text", null), logLabel(null, null, null, "Persona a cargo de la sanitizacion"), "input-field col s12"));
+    notesRow.append(logTextField("note_wrapper_" + area.id, logTextInput("area_notes_" + area.id, "validate", "text", null), logLabel(null, null, null, "Notas"), "input-field col s12"));
+    sanitationRow.append(logTextField("sanitation_wrapper_" + area.id, logTextInput("area_sanitation_" + area.id, "validate", "text", null), logLabel(null, null, null, "Persona a cargo de la sanitizacion"), "input-field col s12"));
 
     areaCard.append(notesRow);
     areaCard.append(sanitationRow);
@@ -174,10 +225,13 @@ function sendSSOPReport(){
 
                 hardware.item_id = Number(id[0]);
                 hardware.is_acceptable = getBool($("input:radio[name='radio_" + id[0] +"_" + id[1] +"']:checked").val());
-                if(!hardware.is_acceptable)
+                if(hardware.is_acceptable === false) {
+                    console.log("lmao inaceptable");
                     hardware.corrective_action_id = Number($("#select_" + id[0] + "_" + id[1]).val());
-                else
-                    hardware.corrective_action_id = 3;
+                } else {
+                    console.log("lmao aceptable");
+                    hardware.corrective_action_id = 1;
+                }
                 hardware.comment = $("#comment_" + id[0] + "_" + id[1]).val();
 
                 hardware_log.push(hardware);
@@ -194,6 +248,19 @@ function sendSSOPReport(){
 
     report.area_log = area_log;
 
+    $server.request({
+        service: 'capture-gmp-packing-preop',
+        data: report,
+        success: function(response) {
+            if (response.meta.return_code == 0) {
+                Materialize.toast("Reporte enviado con exito", 3000, "rounded");
+            } else {
+                Materialize.toast("Reporte no enviado, verifique la red", 3000, "rounded");
+                throw response.meta.message;
+            }
+        }
+    });
+
     console.log(report);
     console.log(JSON.stringify(report));
 }
@@ -202,16 +269,16 @@ function SSOPPreoperativeItem(item, areaID){
     var itemCard = divWrapper(null, "card-panel white");
     var firstRow = divWrapper(null, "row");
     var secondRow = divWrapper(null, "row");
-    var title = cardTitle(null, "card-title col s4", item.item_name);
-    var acceptable = logRadioButtonInput("acceptable_" + item.item_id + "_" + areaID, null, logLabel(null, "col s4", "acceptable_" + item.item_id + "_" + areaID, '<i class="mdi mdi-checkbox-marked-circle mdi-18px green-text"></i>'), "radio_" + item.item_id + "_" + areaID, true);
-    var unacceptable = logRadioButtonInput("unacceptable_" + item.item_id + "_" + areaID, null, logLabel(null, "col s4", "unacceptable_" + item.item_id + "_" + areaID, '<i class="mdi mdi-close-circle mdi-18px red-text"></i>'), "radio_" + item.item_id + "_" + areaID, false);
-    var status = logRadioButtonGroup("radio_" + item.item_id + "_" + areaID, "col s4", [acceptable, unacceptable]);
+    var title = cardTitle(null, "card-title col s4", item.name);
+    var acceptable = logRadioButtonInput("acceptable_" + item.id + "_" + areaID, null, logLabel(null, "col s4", "acceptable_" + item.id + "_" + areaID, '<i class="mdi mdi-checkbox-marked-circle mdi-18px green-text"></i>'), "radio_" + item.id + "_" + areaID, true);
+    var unacceptable = logRadioButtonInput("unacceptable_" + item.id + "_" + areaID, null, logLabel(null, "col s4", "unacceptable_" + item.id + "_" + areaID, '<i class="mdi mdi-close-circle mdi-18px red-text"></i>'), "radio_" + item.id + "_" + areaID, false);
+    var status = logRadioButtonGroup("radio_" + item.id + "_" + areaID, "col s4", [acceptable, unacceptable]);
     var actionEmpty = logSelectOption(null, null, "", true, true, "Seleccione la acción correctiva");
     var actionNone = logSelectOption(null, null, "1", false, false, "None HARDCODE");
     var actionRC = logSelectOption(null, null, "2", false, false, "Re-cleaned HARDCODE");
     var actionWSR = logSelectOption(null, null, "3", false, false, "Wash/Rinse/Sanitize HARDCODE");;
-    var actionsSelect = logSelectInput("select_" + item.item_id + "_" + areaID, "input-field col s4", [actionEmpty, actionNone, actionRC, actionWSR], logLabel(null, null, "select_" + item.item_id + "_" + areaID, 'Acción correctiva'));
-    var comments = logTextField("comment_wrapper_" + item.item_id + "_" + areaID, logTextInput("comment_" + item.item_id + "_" + areaID, "validate", "text", null), logLabel(null, null, "comment_" + item.item_id + "_" + areaID, "Comentarios"), "input-field col s12");
+    var actionsSelect = logSelectInput("select_" + item.id + "_" + areaID, "input-field col s4", [actionEmpty, actionNone, actionRC, actionWSR], logLabel(null, null, "select_" + item.id + "_" + areaID, 'Acción correctiva'));
+    var comments = logTextField("comment_wrapper_" + item.id + "_" + areaID, logTextInput("comment_" + item.id + "_" + areaID, "validate", "text", null), logLabel(null, null, "comment_" + item.id + "_" + areaID, "Comentarios"), "input-field col s12");
 
     // console.log("Ay lmao" + item["item_name"]);
     comments.hide();
@@ -227,39 +294,6 @@ function SSOPPreoperativeItem(item, areaID){
     itemCard.append(secondRow);
 
     return itemCard;
-}
-
-function testData(){
-    return {"areas":[
-    {
-        "area_id": 1,
-        "area_name": "Area #1 Congeladores",
-        "items": [
-            {
-                "item_id": 1,
-                "item_name": "Cuarto frío"
-            },
-            {
-                "item_id": 2,
-                "item_name": "Termómetros"
-            }
-        ]
-    },
-    {
-        "area_id": 2,
-        "area_name": "Area #2 Empaque",
-        "items": [
-            {
-                "item_id": 3,
-                "item_name": "Mesas"
-            },
-            {
-                "item_id": 4,
-                "item_name": "Pisos"
-            }
-        ]
-    }
-]};
 }
 
 // General functions for date/time formatting
@@ -298,12 +332,12 @@ function getISOTime(date){
     } else {
         ISOTime += date.getMinutes() + ":";
     }
-
+/*
     if(date.getSeconds()<10){
         ISOTime += "0" + date.getSeconds();
     } else {
         ISOTime += date.getSeconds();
-    }
+    }*/
 
     return ISOTime;
 }
