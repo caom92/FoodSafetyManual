@@ -280,6 +280,30 @@ fsm\Controller::$services = [
         ],
         'callback' => 'fsm\services\inventory\addNewItem'
     ],
+    'get-items-of-zone' => [
+        'requirements_desc' => [
+            'logged_in' => ['Director', 'Supervisor', 'Employee'],
+            'has_privilege' => [
+                'privilege' => ['Read', 'Write'],
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Pre-Operational Inspection'
+            ]
+        ],
+        'callback' => 'fsm\services\inventory\getItemsOfZone'
+    ],
+    'change-order-of-item' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator'],
+            'item_id' => [
+                'type' => 'int'
+            ],
+            'position' => [
+                'type' => 'int'
+            ]
+        ],
+        'callback' => 'fsm\services\inventory\changeItemPosition'
+    ],
     'list-corrective-actions' => [
         'requirements_desc' => [
             'logged_in' => 'any'

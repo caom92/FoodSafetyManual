@@ -24,13 +24,15 @@ class Session
     // Constructor starts the session library
     function __construct()
     {
-        ini_set('session.name', 'USST');
-        ini_set('session.hash_function', 'sha512');
-        ini_set('session.referer_check', $_SERVER['HTTP_HOST'].core\SITE_ROOT);
-        @session_start();
+        @session_start([
+            'name' => 'SessionCookie',
+            'hash_function' => 'sha512',
+            'referer_check' => $_SERVER['HTTP_HOST'].SITE_ROOT
+        ]);
     }
 
 
+    // [***]
     // Returns an associative array that describes the privileges that the user
     // has for accessing the different programs and modules that exists in the 
     // data base
@@ -62,10 +64,10 @@ class Session
         // visit each row from the data base query result
         foreach ($userPrivileges as $row) {
             // check if this row has a different program than the last
-            $hasProgramChanged = $row['program_name'] != $program['name'];
+            $hasProgramChanged = $row['program_id'] != $program['id'];
             if ($hasProgramChanged) {
                 // if it has, assert that the last row info is not empty
-                if (strlen($program['name']) > 0) {
+                if ($program['id'] != 0) {
                     // if it is not, store the info in the final structure
                     array_push($program['modules'], $module);
                     array_push($programPrivileges, $program);
@@ -94,7 +96,7 @@ class Session
             } else {
                 // if the row has the same program than the last,
                 // then check if the module has changed
-                $hasModuleChanged = $row['module_name'] != $module['name'];
+                $hasModuleChanged = $row['module_id'] != $module['id'];
                 if ($hasModuleChanged) {
                     // if it has, store the info in the temporal program
                     // holder
@@ -132,10 +134,10 @@ class Session
         } // foreach ($userPrivileges as $row)
 
         // don't forget to add the last entry to the final structure
-        if (strlen($module['name']) > 0) {
+        if ($module['id'] != 0) {
             array_push($program['modules'], $module);
         }
-        if (strlen($program['name']) > 0) {
+        if ($program['name'] != 0) {
             array_push($programPrivileges, $program);
         }
 
@@ -150,7 +152,7 @@ class Session
     // [in]     userData: general profile info that is common for all user 
     //          roles in the form of an associative array
     // [out]    return: an associative organizing all the relevant user info
-    private function constructUserProfile($userData)
+    private function constructUserProfileArray($userData)
     {
         // first, store the general user data in the session variable
         $_SESSION = $userData;
@@ -257,7 +259,7 @@ class Session
             // required depending on the role of the user and create the final 
             // data structure the holds the user's profile information that 
             // will be sent to the client
-            $clientProfile = $this->constructUserProfile($userData);
+            $clientProfile = $this->constructUserProfileArray($userData);
             return $clientProfile;
         } else {
             throw new \Exception('Log in credentials are incorrect.');
@@ -268,31 +270,27 @@ class Session
     // Returns true if a session is already open or false otherwise
     function isOpen()
     {
-        return isset($_SESSION['id']);
+        return session_status() === \PHP_SESSION_ACTIVE;
     }
 
 
     // Closes the existing session 
     function close()
     {
-        session_unset();
+        // unset the session variables
+        $_SESSION = [];
+
+        // destroy the session cookie
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+
+        // finally, kill the session
         session_destroy();
-    }
-
-
-    // Returns the value of the given key if it is stored in the
-    // session storage or NULL if this does not exists
-    function get($key)
-    {
-        return (isset($_SESSION[$key])) ? $_SESSION[$key] : NULL;
-    }
-
-
-    // Sets a new value to the session storage to the variable with the
-    // provided key
-    function set($key, $value)
-    {
-        $_SESSION[$key] = $value;
     }
 }
 

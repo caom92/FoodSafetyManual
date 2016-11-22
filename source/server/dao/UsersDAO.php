@@ -30,7 +30,7 @@ class UsersDAO extends DataAccessObject
     {
         $rows = parent::select(
             [
-                "$this->table.id(id)", 'r.id(role_id)', 'r.name(role_name)', 
+                "$this->table.id(user_id)", 'r.id(role_id)', 'r.name(role_name)', 
                 'z.id(zone_id)', 'z.name(zone_name)', 'employee_num', 
                 'first_name', 'last_name', 'email', 'login_name', 
                 'login_password'
@@ -98,7 +98,7 @@ class UsersDAO extends DataAccessObject
             FROM $this->table 
             INNER JOIN roles AS r
                 ON role_id = r.id
-            WHERE $this->table.id != {$_SESSION['id']}"
+            WHERE $this->table.id != {$_SESSION['user_id']}"
         )->fetchAll();
     }
     

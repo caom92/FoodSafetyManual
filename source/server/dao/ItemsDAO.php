@@ -72,6 +72,46 @@ class ItemsDAO extends DataAccessObject
     {
         return parent::count([ 'area_id' => $areaID ]);
     }
+
+
+    // Returns an associative which contains a list of items within the 
+    // working areas of the specified zone grouped by area and item type
+    function selectByZoneID($zoneID)
+    {
+        return parent::select(
+            [
+                'a.id(area_id)',
+                'a.name(area_name)',
+                't.id(type_id)',
+                't.name(type_name)',
+                "$this->table.id(item_id)",
+                "$this->table.name(item_name)",
+                "$this->table.position(item_order)"
+            ],
+            [
+                'a.zone_id' => $zoneID,
+                'ORDER' => [
+                    'a.id',
+                    't.id',
+                    "$this->table.position"
+                ]
+            ],
+            [
+                '[><]working_areas(a)' => ['area_id' => 'id'],
+                '[><]item_types(t)' => ['type_id' => 'id']
+            ]
+        );
+    }
+
+
+    // Updates the position of the specified item
+    function updatePositionByID($id, $position)
+    {
+        return parent::update(
+            [ 'position' => $position ], 
+            [ 'id' => $id ]
+        );
+    }
 }
 
 ?>

@@ -37,7 +37,7 @@ class Controller
 
                 // check that the input arguments are valid and that the user 
                 // has the proper permissions to use the service
-                self::validateServiceRequirements(
+                self::validateServiceInputRequirements(
                     $inputRequirements
                 );
 
@@ -102,7 +102,7 @@ class Controller
     //          service is expecting to recieve
     // [out]    throw: if any of the requirements specified in the requirements 
     //          descriptor is not complied to, then an exception will be thrown
-    static private function validateServiceRequirements($requirementsDesc)
+    static private function validateServiceInputRequirements($requirementsDesc)
     {
         // first, we retrieve the name of the input arguments that the service 
         // is expecting to recieve
@@ -127,7 +127,7 @@ class Controller
                         $mustCheckRoles = $requirement != 'any';
                         if ($mustCheckRoles) {
                             // retrieve the current role of the user
-                            $role = $session->get('role_name');
+                            $role = $_SESSION['role_name'];
                             $hasProperRole = false;
 
                             // check if the user's role correspond to any of 
@@ -165,7 +165,7 @@ class Controller
                     if ($isSingle) {
                         $hasPrivilege = 
                             $privilegesTable->hasPrivilegeForLogByUserID(
-                                $session->get('id'),
+                                $_SESSION['user_id'],
                                 $requirement['log'],
                                 $requirement['module'],
                                 $requirement['program'],
@@ -175,7 +175,7 @@ class Controller
                         foreach ($requirement['privilege'] as $privilege) {
                             $hasPrivilege = 
                                 $privilegesTable->hasPrivilegeForLogByUserID(
-                                    $session->get('id'),
+                                    $_SESSION['user_id'],
                                     $requirement['log'],
                                     $requirement['module'],
                                     $requirement['program'],

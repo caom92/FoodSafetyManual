@@ -3,7 +3,6 @@
 namespace fsm\services\account;
 
 require_once realpath(dirname(__FILE__).'/../dao/UsersDAO.php');
-require_once realpath(dirname(__FILE__).'/../Session.php');
 
 use fsm\database as db;
 
@@ -91,13 +90,12 @@ function editLogInName()
 {
     // first we connect to the database
     $users = new db\UsersDAO();
-    $session = new fsm\Session();
 
     // then we check if the name is duplicated and if the password is valid
     $isNameDuplicated = $users->hasByLogInName($_POST['new_username']);
     $isPasswordValid = password_verify(
         $_POST['password'],
-        $session->get('login_password')
+        $_SESSION['login_password']
     );
     
     if ($isNameDuplicated) {
@@ -115,7 +113,7 @@ function editLogInName()
     // if the password is not duplicated and the password is valid, then
     // update the user name
     $users->updateLogInNameByUserID(
-        $session->get('id'),
+        $_SESSION['user_id'],
         $_POST['new_username']
     );
 
@@ -127,14 +125,13 @@ function editLogInName()
 function editEmail() 
 {
     // connect to the data base
-    $session = new fsm\Session();
     $users = new db\UsersDAO();
 
     // check if the new email is duplicated and if the password is valid
     $isEmailDuplicated = $users->hasByEmail($_POST['new_email']);
     $isPasswordValid = password_verify(
         $_POST['password'], 
-        $session->get('login_password')
+        $_SESSION['login_password']
     );
 
     if ($isEmailDuplicated) {
@@ -150,7 +147,7 @@ function editEmail()
     }
 
     // update the email address in the data base
-    $users->updateEmailByUserID($session->get('id'), $_POST['new_email']);
+    $users->updateEmailByUserID($_SESSION['user_id'], $_POST['new_email']);
 
     return [];
 }
@@ -160,13 +157,12 @@ function editEmail()
 function editPassword() 
 {
     // first, connect to the data base
-    $session = new fsm\Session();
     $users = new db\UsersDAO();
 
     // check if the password is valid
     $isPasswordValid = password_verify(
         $_POST['password'], 
-        $session->get('login_password')
+        $_SESSION['login_password']
     );
 
     if (!$isPasswordValid) {
@@ -181,12 +177,12 @@ function editPassword()
 
     // store the new password in the data base 
     $users->updatePasswordByUserID(
-        $session->get('id'), 
+        $_SESSION['user_id'], 
         $newPasswd
     );
 
     // save the new password in the session storage
-    $session->set('login_password', $newPasswd);
+    $_SESSION['login_password'] = $newPasswd;
 }
 
 
