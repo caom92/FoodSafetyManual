@@ -24,11 +24,10 @@ class Session
     // Constructor starts the session library
     function __construct()
     {
-        @session_start([
-            'name' => 'SessionCookie',
-            'hash_function' => 'sha512',
-            'referer_check' => $_SERVER['HTTP_HOST'].SITE_ROOT
-        ]);
+        ini_set('session.name', 'SessionCookie');
+        ini_set('hash_function', 'sha512');
+        ini_set('referer_check', $_SERVER['HTTP_HOST'].SITE_ROOT);
+        @session_start();
     }
 
 
@@ -270,7 +269,7 @@ class Session
     // Returns true if a session is already open or false otherwise
     function isOpen()
     {
-        return session_status() === \PHP_SESSION_ACTIVE;
+        return isset($_SESSION['user_id']);
     }
 
 
