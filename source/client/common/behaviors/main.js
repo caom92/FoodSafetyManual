@@ -19,26 +19,28 @@ function loadSideMenu()
 
             // first, we read the privilege JSON
             var privileges = JSON.parse(localStorage.privileges);
-            console.log(privileges)
 
             // then, for every program...
             $.each(privileges, function(i, program) {
+                console.log(program)
                 // create the navigation menu item
                 localStorage.menu += 
-                    `<li><ul class="collapsible collapsible-accordion">
-                    <li><a class="collapsible-header program-button"> 
-                    <i class="mdi mdi-wrench md-dark md-24 field-icon">
-                    </i><span>${program.name}</span></a>
-                    <div class="collapsible-body"><ul>`;
+                    '<li><ul class="collapsible collapsible-accordion">' +
+                    '<li><a class="collapsible-header program-button">' + 
+                    '<i class="mdi mdi-wrench md-dark md-24 field-icon">' +
+                    '</i><span>' + program.name + '</span></a>' +
+                    '<div class="collapsible-body"><ul>';
 
                 // and for every module...
-                $.each(value.modules, function(j, module) {
+                $.each(program, function(j, module) {
                     // add an item to the program collapsible menu
-                    localStorage.menu +=
-                        `<li><a class="nav-link waves-effect waves-green" 
-                        href="#"> 
-                        ${ module.name }
-                        </a></li>`;
+                    if (isDefined(module.name)) {
+                        localStorage.menu +=
+                            `<li><a class="nav-link waves-effect waves-green" 
+                            href="logs"> 
+                            ${ module.name }
+                            </a></li>`;
+                    }
                 });
 
                 // finally, we close this collapsible menu and repeat
