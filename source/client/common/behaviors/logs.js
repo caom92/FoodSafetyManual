@@ -17,7 +17,18 @@ $(function (){
     $('ul.tabs').tabs();
     $('.indicator').addClass("green");
     createDatePicker();
-    loadLogForm("SSOP", testData());
+
+    $server.request({
+        service: 'get-items-of-zone',
+        success: function(response) {
+            if (response.meta.return_code == 0) {
+                console.log(response.data);
+                loadLogForm("SSOP", response.data);
+            } else {
+                throw response.meta.message;
+            }
+        }
+    });
 
     // We load the tabs; we have 2 or 3 depending on the privileges of the user
     // Read means we can load the PDF manual and see past logs
