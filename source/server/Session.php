@@ -67,8 +67,8 @@ class Session
                 // if it has, assert that the last row info is not empty
                 if ($program['id'] != 0) {
                     // if it is not, store the info in the final structure
-                    array_push($program['modules'], $module);
-                    array_push($programPrivileges, $program);
+                    $program[$program['name']][$module['name']] = $module;
+                    $programPrivileges[$program['name']] = $program;
                 }
 
                 // then fill the temporal holders with the information of 
@@ -84,12 +84,11 @@ class Session
                 $module = [
                     'id' => $row['module_id'],
                     'name' => $row['module_name'], 
-                    'logs' => [ $log ]
+                    $log['name'] => $log
                 ];
                 $program = [
                     'id' => $row['program_id'],
-                    'name' => $row['program_name'],
-                    'modules' => []
+                    'name' => $row['program_name']
                 ];
             } else {
                 // if the row has the same program than the last,
@@ -98,7 +97,7 @@ class Session
                 if ($hasModuleChanged) {
                     // if it has, store the info in the temporal program
                     // holder
-                    array_push($program['modules'], $module);
+                    $program[$program['name']][$module['name']] = $module;
 
                     // and then fill the temporal module holder with the
                     // information of this new module
@@ -113,30 +112,30 @@ class Session
                     $module = [
                         'id' => $row['module_id'],
                         'name' => $row['module_name'],
-                        'logs' => [ $log ]
+                        $log['name'] => $log
                     ];
                 } else {
                     // if the program nor the module have changed, it means 
                     // that the log has changed; store the info of this new
                     // log in the temporal module holder
-                    array_push($module['logs'], [
+                    $module[$log['name']] = [
                         'id' => $row['log_id'],
                         'name' => $row['log_name'],
                         'privilege' => [
                             'id' => $row['privilege_id'],
                             'name' => $row['privilege_name']
                         ]
-                    ]);
+                    ];
                 }   // if ($hasModuleChanged)
             } // if ($hasProgramChanged)
         } // foreach ($userPrivileges as $row)
 
         // don't forget to add the last entry to the final structure
         if ($module['id'] != 0) {
-            array_push($program['modules'], $module);
+            $program[$module['name']] = $module;
         }
-        if ($program['name'] != 0) {
-            array_push($programPrivileges, $program);
+        if ($program['id'] != 0) {
+            $programPrivileges[$program['name']] = $program;
         }
 
         // return the resulting data structure

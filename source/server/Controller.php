@@ -162,25 +162,26 @@ class Controller
                     // specified log
                     $hasPrivilege = false;
 
+                    // temporal storage of the input data 
+                    $p = $requirement['program'];
+                    $m = $requirement['module'];
+                    $l = $requirement['log'];
+                    $r = $requirement['privilege'];
+
+                    // temporal storage of the user privileges array
+                    $userPrivileges = $_SESSION['privileges'];
+
                     if ($isSingle) {
-                        $hasPrivilege = 
-                            $privilegesTable->hasPrivilegeForLogByUserID(
-                                $_SESSION['user_id'],
-                                $requirement['log'],
-                                $requirement['module'],
-                                $requirement['program'],
-                                $requirement['privilege']
-                            );
+                        $hasPrivilege =
+                            isset($userPrivileges[$p][$m][$l]) &&
+                            $userProvileges[$p][$m][$l]['privilege']['name'] == 
+                            $r;
                     } else {
-                        foreach ($requirement['privilege'] as $privilege) {
+                        foreach ($r as $privilege) {
                             $hasPrivilege = 
-                                $privilegesTable->hasPrivilegeForLogByUserID(
-                                    $_SESSION['user_id'],
-                                    $requirement['log'],
-                                    $requirement['module'],
-                                    $requirement['program'],
-                                    $privilege
-                                );
+                                isset($userPrivileges[$p][$m][$l]) &&
+                                $userPrivileges[$p][$m][$l]['privilege']['name']
+                                == $privilege;
 
                             if ($hasPrivilege) {
                                 break;

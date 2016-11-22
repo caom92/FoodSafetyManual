@@ -184,40 +184,40 @@ class UsersLogsPrivilegesDAO extends DataAccessObject
     // [in]     privilege: the name of the privilege that we are looking for
     // [out]    return: true of the user has the specified privilege for the 
     //          specified log or false otherwise
-    function hasPrivilegeForLogByUserID(
-        $userID, 
-        $log,
-        $module, 
-        $program, 
-        $privilege
-    )
-    {
-        return parent::has(
-            [
-                'AND' => [
-                    "$this->table.user_id" => $userID,
-                    'l.name' => $log,
-                    'm.name' => $module,
-                    'p.name' => $program,
-                    'r.name' => $privilege
-                ]
-            ],
-            [
-                '[><]logs(l)' => [
-                    'log_id' => 'id'
-                ],
-                '[><]modules(m)' => [
-                    'l.module_id' => 'id'
-                ],
-                '[><]programs(p)' => [
-                    'm.program_id' => 'id'
-                ],
-                '[><]privileges(r)' => [
-                    "$this->table.privilege_id" => 'id'
-                ]
-            ]
-        );
-    }
+    // function hasPrivilegeForLogByUserID(
+    //     $userID, 
+    //     $log,
+    //     $module, 
+    //     $program, 
+    //     $privilege
+    // )
+    // {
+    //     return parent::has(
+    //         [
+    //             'AND' => [
+    //                 "$this->table.user_id" => $userID,
+    //                 'l.name' => $log,
+    //                 'm.name' => $module,
+    //                 'p.name' => $program,
+    //                 'r.name' => $privilege
+    //             ]
+    //         ],
+    //         [
+    //             '[><]logs(l)' => [
+    //                 'log_id' => 'id'
+    //             ],
+    //             '[><]modules(m)' => [
+    //                 'l.module_id' => 'id'
+    //             ],
+    //             '[><]programs(p)' => [
+    //                 'm.program_id' => 'id'
+    //             ],
+    //             '[><]privileges(r)' => [
+    //                 "$this->table.privilege_id" => 'id'
+    //             ]
+    //         ]
+    //     );
+    // }
 }
 
 ?>
