@@ -188,7 +188,7 @@ class Session
                 // get the modules associated with this user and assign them 
                 // read privileges
                 $privileges = $privilegesTable->selectByUserIDWithReadPrivilege(
-                    $userData['id']
+                    $userData['user_id']
                 );
             break;
 
@@ -199,7 +199,7 @@ class Session
                 // get the modules associated with this user and assign them 
                 // read privileges
                 $privileges = 
-                    $privilegesTable->selectByUserID($userData['id']);
+                    $privilegesTable->selectByUserID($userData['user_id']);
             break;
 
             // for the admin, we don't need the zone
