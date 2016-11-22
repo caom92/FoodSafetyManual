@@ -8,14 +8,14 @@ require_once realpath(dirname(__FILE__)."/../../../DataAccessObject.php");
 
 use fsm\database as db;
 
-// Data Access Object for the gmp_packing_preop_corrective_areas_log table
+// Data Access Object for the gmp_packing_preop_areas_log table
 class AreasLogDAO extends db\DataAccessObject
 {
     // Creates an interface for interacting with the 
-    // gmp_packing_preop_corrective_areas_log table in the specified data base
+    // gmp_packing_preop_areas_log table in the specified data base
     function __construct()
     {
-        parent::__construct("gmp_packing_preop_corrective_areas_log");
+        parent::__construct("gmp_packing_preop_areas_log");
     }
 
 

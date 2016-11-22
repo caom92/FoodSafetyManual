@@ -174,7 +174,7 @@ class Controller
                     if ($isSingle) {
                         $hasPrivilege =
                             isset($userPrivileges[$p][$m][$l]) &&
-                            $userProvileges[$p][$m][$l]['privilege']['name'] == 
+                            $userPrivileges[$p][$m][$l]['privilege']['name'] == 
                             $r;
                     } else {
                         foreach ($r as $privilege) {

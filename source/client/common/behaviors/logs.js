@@ -328,9 +328,9 @@ function getISOTime(date){
     }
 
     if(date.getMinutes()<10){
-        ISOTime += "0" + date.getMinutes() + ":";
+        ISOTime += "0" + date.getMinutes();
     } else {
-        ISOTime += date.getMinutes() + ":";
+        ISOTime += date.getMinutes();
     }
 /*
     if(date.getSeconds()<10){
@@ -338,7 +338,7 @@ function getISOTime(date){
     } else {
         ISOTime += date.getSeconds();
     }*/
-
+    
     return ISOTime;
 }
 

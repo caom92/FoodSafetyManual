@@ -73,7 +73,7 @@ class LogsDAO extends DataAccessObject
             ]
         );
 
-        return $rows[0]['id'];
+        return $rows[0];
     }
 }
 

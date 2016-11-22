@@ -324,9 +324,9 @@ fsm\Controller::$services = [
             ],
             'date' => [
                 'type' => 'datetime',
-                'format' => 'YY-MM-DD'
+                'format' => 'Y-m-d'
             ],
-            'area_logs' => [
+            'area_log' => [
                 'type' => 'array'
             ]
         ],

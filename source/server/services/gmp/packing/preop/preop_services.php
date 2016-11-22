@@ -34,15 +34,15 @@ function registerLogEntry()
     // first, let's check if the client sent the values to be inserted 
     // in the proper array format
     $isSet = 
-        isset($_POST['area_logs']) && array_key_exists($_POST['area_logs']);
+        isset($_POST['area_log']) && array_key_exists('area_log', $_POST);
 
     if (!$isSet) {
-        throw new \Exception("Input argument 'area_logs' is missing");
+        throw new \Exception("Input argument 'area_log' is missing");
     }
 
     // check each per area log entry
-    foreach ($_POST['area_logs'] as $areaLogEntry) {
-        $isDateTime = val\isDateTime($areaLogEntry['time'], 'HH:MM');
+    foreach ($_POST['area_log'] as $areaLogEntry) {
+        $isDateTime = val\isDateTime($areaLogEntry['time'], 'G:i');
 
         if (!$isDateTime) {
             throw new \Exception(
@@ -82,9 +82,8 @@ function registerLogEntry()
                 );
             }
 
-            $isBool = val\integerIsBetweenValues(
-                $itemsLogEntry['is_acceptable'], 0, \PHP_INT_MAX
-            );
+            $isBool = $itemsLogEntry['is_acceptable'] == 'true' ||
+                $itemsLogEntry['is_acceptable'] == 'false';
 
             if (!$isBool) {
                 throw new \Exception(
@@ -103,7 +102,7 @@ function registerLogEntry()
             }
 
             $isString = val\stringHasLengthInterval(
-                $itemsLogEntry['comments'], 0, 80
+                $itemsLogEntry['comment'], 0, 80
             );
 
             if (!$isString) {
@@ -134,7 +133,7 @@ function registerLogEntry()
     $itemsLogEntries = [];
 
     // insert each per area log entry one at the time...
-    foreach ($_POST['area_logs'] as $areaLogEntry) {
+    foreach ($_POST['area_log'] as $areaLogEntry) {
         // save the resulting ID for later use
         $areaID = $areasLog->insert([
             'capture_date_id' => $logID,
@@ -145,7 +144,7 @@ function registerLogEntry()
         ]);
 
         // then store each per item log entry in the temporal storage
-        foreach ($areaLogEntry['items'] as $itemsLogEntry) {
+        foreach ($areaLogEntry['item_logs'] as $itemsLogEntry) {
             array_push($itemsLogEntries, [
                 'area_log_id' => $areaID,
                 'item_id' => $itemsLogEntry['item_id'],
