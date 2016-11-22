@@ -62,6 +62,11 @@ class UsersLogsPrivilegesDAO extends DataAccessObject
     //          program/module/privilege fashion
     function selectByUserID($userID)
     {
+        return parent::$dataBase->get(
+            'privileges',
+            'id',
+            ['name[!]' => 'None']
+        );
         return parent::$dataBase->query(
             "SELECT 
                 p.id AS program_id,

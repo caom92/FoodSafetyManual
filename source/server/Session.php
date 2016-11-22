@@ -13,7 +13,6 @@ require_once realpath(dirname(__FILE__).
     '/dao/UsersLogsPrivilegesDAO.php');
 
 // Alias the namespaces for ease of use
-use fsm as core;
 use fsm\database as db;
 
 
@@ -25,8 +24,8 @@ class Session
     function __construct()
     {
         ini_set('session.name', 'SessionCookie');
-        ini_set('hash_function', 'sha512');
-        ini_set('referer_check', $_SERVER['HTTP_HOST'].SITE_ROOT);
+        ini_set('session.hash_function', 'sha512');
+        ini_set('session.referer_check', $_SERVER['HTTP_HOST'].SITE_ROOT);
         @session_start();
     }
 
@@ -158,7 +157,7 @@ class Session
 
         // temporal storage for holding the user data to send to the client
         $userDataToSend = [
-            'user_id' => $userData['id'],
+            'user_id' => $userData['user_id'],
             'role_id' => $userData['role_id'],
             'role_name' => $userData['role_name'],
             'employee_num' => $userData['employee_num'],
