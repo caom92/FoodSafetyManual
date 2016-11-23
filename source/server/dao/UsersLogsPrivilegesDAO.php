@@ -136,83 +136,27 @@ class UsersLogsPrivilegesDAO extends DataAccessObject
     }
 
 
-    // // Changes the privileges that the user with the especified ID has for the
-    // // especified zone-module combination
-    // // [in]     userID: the ID of the user which privileges are going to be 
-    // //          updated
-    // // [in]     zoneID: the ID of the zone which user's privilege will be 
-    // //          updated
-    // // [in]     moduleID: the ID of the module which user's privilege will be
-    // //          updated
-    // // [in]     privilegeID: the ID of the privilege that will be assigned to
-    // //          the user
-    // function updatePrivilegeByUserZoneModuleIDs(
-    //     $userID, 
-    //     $zoneID, 
-    //     $moduleID, 
-    //     $privilegeID
-    // )
-    // {
-    //     parent::update(
-    //         ['privilege_id' => $privilegeID], 
-    //         [
-    //             'AND' => [
-    //                 'user_id' => $userID,
-    //                 'zone_id' => $zoneID,
-    //                 'module_id' => $moduleID
-    //             ]
-    //         ]
-    //     );
-    // }
-
-
-    // Checks if the user has the specified privilege for the given log, 
-    // returning true if this is the case or false otherwise
+    // Changes the privileges of the specified user for the specified log to 
+    // the one specified
     // [in]     userID: the ID of the user which privileges are going to be 
-    //          checked
-    // [in]     log: the name of the log against which the privileges are going 
-    //          to be filtered to
-    // [in]     module: the name of the module against which the privileges are 
-    //          going to be filtered to
-    // [in]     program: the name of the program against which the privileges 
-    //          are going to be filtered to
-    // [in]     privilege: the name of the privilege that we are looking for
-    // [out]    return: true of the user has the specified privilege for the 
-    //          specified log or false otherwise
-    // function hasPrivilegeForLogByUserID(
-    //     $userID, 
-    //     $log,
-    //     $module, 
-    //     $program, 
-    //     $privilege
-    // )
-    // {
-    //     return parent::has(
-    //         [
-    //             'AND' => [
-    //                 "$this->table.user_id" => $userID,
-    //                 'l.name' => $log,
-    //                 'm.name' => $module,
-    //                 'p.name' => $program,
-    //                 'r.name' => $privilege
-    //             ]
-    //         ],
-    //         [
-    //             '[><]logs(l)' => [
-    //                 'log_id' => 'id'
-    //             ],
-    //             '[><]modules(m)' => [
-    //                 'l.module_id' => 'id'
-    //             ],
-    //             '[><]programs(p)' => [
-    //                 'm.program_id' => 'id'
-    //             ],
-    //             '[><]privileges(r)' => [
-    //                 "$this->table.privilege_id" => 'id'
-    //             ]
-    //         ]
-    //     );
-    // }
+    //          edited
+    // [in]     logID: the ID of the log which privilege will be edited
+    // [in]     privilegeID: the ID of the new privilege to be assigned
+    // [out]    return: the number of affected rows
+    function updatePrivilegeByUserAndLogID($userID, $logID, $privilegeID)
+    {
+        return parent::update(
+            [
+                'privilege_id' => $privilegeID
+            ],
+            [
+                'AND' => [
+                    'user_id' => $userID,
+                    'log_id' => $logID
+                ]
+            ]
+        );
+    }
 }
 
 ?>

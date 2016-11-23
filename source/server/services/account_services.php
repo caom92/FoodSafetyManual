@@ -6,8 +6,10 @@ require_once realpath(dirname(__FILE__).'/../dao/UsersDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/PrivilegesDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/RolesDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/UsersLogsPrivilegesDAO.php');
+require_once realpath(dirname(__FILE__).'/../data_validations.php');
 
 use fsm\database as db;
+use fsm\validations as val;
 
 
 // Returns a list of all the active users
@@ -217,6 +219,19 @@ function getAllUserRoles()
 // Creates a new user account
 function addNewUserAccount()
 {
+    // before we start, check that the data in the array is of the proper type
+    foreach ($_POST['privileges'] as $privilege) {
+        $isInteger = val\isInteger($privilege['log_id']);
+        if (!$isInteger) {
+            throw new \Exception('A log ID provided is not an integer');
+        }
+
+        $isInteger = val\isInteger($privilege['privilege_id']);
+        if (!$isInteger) {
+            throw new \Exception('A privilege ID provided is not an integer');
+        }
+    }
+
     // first, connect to the data base
     $users = new db\UsersDAO();
     $userPrivileges = new db\UserLogsPrivilegesDAO();
@@ -242,16 +257,48 @@ function addNewUserAccount()
 
     // create a privileges array with the proper format that medoo is expecting
     $privileges = [];
-    foreach ($_POST['privileges'] as $log) {
+    foreach ($_POST['privileges'] as $privilege) {
         array_push($privileges, [
             'user_id' => $userID,
-            'log_id' => $log['log_id'],
-            'privilege_id' => $log['privilege_id']
+            'log_id' => $privilege['log_id'],
+            'privilege_id' => $privilege['privilege_id']
         ]);
     }
 
     // store the user privileges in the data base 
     $userPrivileges->insert($privileges);
+
+    return [];
+}
+
+
+// Changes the log privileges of an specified user
+function editPrivileges()
+{
+    // before we start, check that the data in the array is of the proper type
+    foreach ($_POST['privileges'] as $privilege) {
+        $isInteger = val\isInteger($privilege['log_id']);
+        if (!$isInteger) {
+            throw new \Exception('A log ID provided is not an integer');
+        }
+
+        $isInteger = val\isInteger($privilege['privilege_id']);
+        if (!$isInteger) {
+            throw new \Exception('A privilege ID provided is not an integer');
+        }
+    }
+
+    // then, connect to the data base
+    $userPrivileges = new db\UserLogsPrivilegesDAO();
+
+    // update the log privileges of the user
+    foreach ($_POST['privileges'] as $privilege) {
+        $userPrivileges->updatePrivilegeByUserAndLogID(
+            $_POST['user_id'],
+            $privilege['log_id'],
+            $privilege['privilege_id']
+        );
+    }
 
     return [];
 }
