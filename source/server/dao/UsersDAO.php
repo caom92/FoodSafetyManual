@@ -107,10 +107,10 @@ class UsersDAO extends DataAccessObject
     // [in]    items: an array of associative arrays which define the rows to
     //         be inserted, where the key is the column name
     // [out]   return: the ID of the last inserted item
-    // function insert($items)
-    // {
-    //     return parent::insert($items);
-    // }
+    function insert($items)
+    {
+        return parent::insert($items);
+    }
 
 
     // Changes the login password field of the element in the table which has 

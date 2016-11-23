@@ -43,6 +43,12 @@ fsm\Controller::$services = [
         ],
         'callback' => 'fsm\services\server\mailBugReport'
     ],
+    'list-programs-modules-logs' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator']
+        ],
+        'callback' => 'fsm\services\server\getAllProgramsModulesAndLogs'
+    ],
     'login' => [
         'requirements_desc' => [
             'username' => [
@@ -189,6 +195,65 @@ fsm\Controller::$services = [
             ]
         ],
         'callback' => 'fsm\services\account\toggleAccountActivation'
+    ],
+    'list-privileges' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator']
+        ],
+        'callback' => 'fsm\services\account\getAllUserPrivileges'
+    ],
+    'list-roles' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator']
+        ],
+        'callback' => 'fsm\services\account\getAllUserRoles'
+    ],
+    'add-user' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator'],
+            'username' => [
+                'type' => 'string',
+                'min_length' => 5,
+            ],
+            'employee_num' => [
+                'type' => 'int'
+            ],
+            'first_name' => [
+                'type' => 'string'
+            ],
+            'last_name' => [
+                'type' => 'string'
+            ],
+            'email' => [
+                'type' => 'email'
+            ],
+            'password' => [
+                'type' => 'string',
+                'min_length' => 6
+            ],
+            'zone_id' => [
+                'type' => 'int'
+            ],
+            'role_id' => [
+                'type' => 'int'
+            ],
+            'privileges' => [
+                'type' => 'array'
+            ]
+        ],
+        'callback' => 'fsm\services\account\addNewUserAccount'
+    ],
+    'edit-user-privileges' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator'],
+            'user_id' => [
+                'type' => 'int'
+            ],
+            'privileges' => [
+                'type' => 'array'
+            ]
+        ],
+        'callback' => 'fsm\services\account\editPrivileges'
     ],
     'list-zones' => [
         'requirements_desc' => [
@@ -348,51 +413,6 @@ fsm\Controller::$services = [
         ],
         'callback' => 'fsm\services\gmp\packing\preop\getReportData'
     ]
-
-    // case 'get-user-privileges':
-    //     $this->service = new ListUserPrivilegesService();
-    // break;
-
-    // case 'list-privileges':
-    //     $this->service = new ListAllPrivilegesService();
-    // break;
-
-    // case 'add-user':
-    //     $this->service = new AddNewUserService();
-    // break;
-
-    // case 'list-user-roles':
-    //     $this->service = new ListAllUserRolesService();
-    // break;
-
-    // case 'list-zones-programs-modules-privileges':
-    //     $this->service = 
-    //         new ListAllZonesProgramsModulesAndPrivilegesService();
-    // break;
-
-    // case 'get-inventory':
-    //     $this->service = new ListInventoryItemsService();
-    // break;
-
-    // case 'toggle-email-notifications':
-    //     $this->service = new ToggleEmailNotificationsService();
-    // break;
-
-    // case 'discharge_inventory_item':
-    //     $this->service = new DischargeInventoryItemService();
-    // break;
-
-    // case 'add-inventory-item':
-    //     $this->service = new AddNewInventoryItemService();
-    // break;
-
-    // case 'edit-user-permissions':
-    //     $this->service = new EditUserPrivilegesService();
-    // break;
-
-    // case 'list-avaliable-inventory-items':
-    //     $this->service = new ListAvailableInventoryItemsService();
-    // break;
 ];
 
 ?>
