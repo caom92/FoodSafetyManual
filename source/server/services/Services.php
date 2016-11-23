@@ -43,6 +43,12 @@ fsm\Controller::$services = [
         ],
         'callback' => 'fsm\services\server\mailBugReport'
     ],
+    'list-programs-modules-logs' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator']
+        ],
+        'callback' => 'fsm\services\server\getAllProgramsModulesAndLogs'
+    ],
     'login' => [
         'requirements_desc' => [
             'username' => [
@@ -189,6 +195,53 @@ fsm\Controller::$services = [
             ]
         ],
         'callback' => 'fsm\services\account\toggleAccountActivation'
+    ],
+    'list-privileges' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator']
+        ],
+        'callback' => 'fsm\services\account\getAllUserPrivileges'
+    ],
+    'list-roles' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator']
+        ],
+        'callback' => 'fsm\services\account\getAllUserRoles'
+    ],
+    'add-user' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator'],
+            'username' => [
+                'type' => 'string',
+                'min_length' => 5,
+            ],
+            'employee_num' => [
+                'type' => 'int'
+            ],
+            'first_name' => [
+                'type' => 'string'
+            ],
+            'last_name' => [
+                'type' => 'string'
+            ],
+            'email' => [
+                'type' => 'email'
+            ],
+            'password' => [
+                'type' => 'string',
+                'min_length' => 6
+            ],
+            'zone_id' => [
+                'type' => 'int'
+            ],
+            'role_id' => [
+                'type' => 'int'
+            ],
+            'privileges' => [
+                'type' => 'array'
+            ]
+        ],
+        'callback' => 'fsm\services\account\addNewUserAccount'
     ],
     'list-zones' => [
         'requirements_desc' => [

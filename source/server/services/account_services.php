@@ -3,6 +3,9 @@
 namespace fsm\services\account;
 
 require_once realpath(dirname(__FILE__).'/../dao/UsersDAO.php');
+require_once realpath(dirname(__FILE__).'/../dao/PrivilegesDAO.php');
+require_once realpath(dirname(__FILE__).'/../dao/RolesDAO.php');
+require_once realpath(dirname(__FILE__).'/../dao/UsersLogsPrivilegesDAO.php');
 
 use fsm\database as db;
 
@@ -191,6 +194,65 @@ function toggleAccountActivation()
 {
     $users = new db\UsersDAO();
     $users->toggleActivationByID($_POST['user_id']);
+    return [];
+}
+
+
+// Returns a list of all the user privileges
+function getAllUserPrivileges()
+{
+    $privileges = new db\PrivilegesDAO();
+    return $privileges->selectAll();
+}
+
+
+// Returns a list of all the user roles
+function getAllUserRoles()
+{
+    $roles = new db\RolesDAO();
+    return $roles->selectAll();
+}
+
+
+// Creates a new user account
+function addNewUserAccount()
+{
+    // first, connect to the data base
+    $users = new db\UsersDAO();
+    $userPrivileges = new db\UserLogsPrivilegesDAO();
+
+    // then, hash the password
+    $hashedPassword = password_hash(
+        $_POST['password'],
+        \PASSWORD_BCRYPT
+    );
+
+    // insert the profile data to the data base 
+    $userID = $users->insert([
+        'is_active' => TRUE,
+        'role_id' => $_POST['role_id'],
+        'zone_id' => $_POST['zone_id'],
+        'employee_num' => $_POST['employee_num'],
+        'first_name' => $_POST['first_name'],
+        'last_name' => $_POST['last_name'],
+        'email' => $_POST['email'],
+        'login_name' => $_POST['username'],
+        'login_password' => $hashedPassword
+    ]);
+
+    // create a privileges array with the proper format that medoo is expecting
+    $privileges = [];
+    foreach ($_POST['privileges'] as $log) {
+        array_push($privileges, [
+            'user_id' => $userID,
+            'log_id' => $log['log_id'],
+            'privilege_id' => $log['privilege_id']
+        ]);
+    }
+
+    // store the user privileges in the data base 
+    $userPrivileges->insert($privileges);
+
     return [];
 }
 

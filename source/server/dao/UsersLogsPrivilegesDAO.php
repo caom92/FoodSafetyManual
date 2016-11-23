@@ -126,14 +126,14 @@ class UsersLogsPrivilegesDAO extends DataAccessObject
     }
 
 
-    // // Inserts the data to the data base
-    // // [in]    items: an array of associative arrays which define the rows to
-    // //         be inserted, where the key is the column name
-    // // [out]   return: the ID of the last inserted item
-    // function insert($items)
-    // {
-    //     return parent::insert($items);
-    // }
+    // Inserts the data to the data base
+    // [in]    items: an array of associative arrays which define the rows to
+    //         be inserted, where the key is the column name
+    // [out]   return: the ID of the last inserted item
+    function insert($items)
+    {
+        return parent::insert($items);
+    }
 
 
     // // Changes the privileges that the user with the especified ID has for the

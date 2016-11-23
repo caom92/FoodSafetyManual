@@ -75,6 +75,32 @@ class LogsDAO extends DataAccessObject
 
         return $rows[0];
     }
+
+
+    // Returns an associative array which contains the info of all the logs 
+    // in their respective module in their respective program
+    function selectAll()
+    {
+        return parent::select(
+            [
+                'p.id(program_id)',
+                'p.name(program_name)',
+                'm.id(module_id)',
+                'm.name(module_name)',
+                "$this->table.id(log_id)",
+                "$this->table.name(log_name)"
+            ],
+            [
+                'ORDER' => [
+                    'p.id', 'm.id', "$this->table.id"
+                ]
+            ],
+            [
+                '[><]modules(m)' => ['module_id' => 'id'],
+                '[><]programs(p)' => ['m.program_id' => 'id']
+            ]
+        );
+    }
 }
 
 ?>
