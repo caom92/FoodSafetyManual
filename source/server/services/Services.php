@@ -202,7 +202,7 @@ fsm\Controller::$services = [
         ],
         'callback' => 'fsm\services\account\getAllUserPrivileges'
     ],
-    'list-roles' => [
+    'list-user-roles' => [
         'requirements_desc' => [
             'logged_in' => ['Administrator']
         ],
@@ -254,6 +254,15 @@ fsm\Controller::$services = [
             ]
         ],
         'callback' => 'fsm\services\account\editPrivileges'
+    ],
+    'get-privileges-of-employee' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator'],
+            'employee_num' => [
+                'type' => 'int'
+            ]
+        ],
+        'callback' => 'fsm\services\account\getPrivilegesOfUser'
     ],
     'list-zones' => [
         'requirements_desc' => [

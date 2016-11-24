@@ -56,6 +56,18 @@ class LogCaptureDatesDAO extends DataAccessObject
 
         return $rows[0]['id'];
     }
+
+
+    // Checks if there is an entry that was registered on the specified date 
+    // for the specified log, returning true if this is the case or false 
+    // otherwise
+    function hasByDateAndLogID($date, $logID)
+    {
+        return parent::has([
+            'date' => $date,
+            'log_id' => $logID
+        ]);
+    }
 }
 
 ?>

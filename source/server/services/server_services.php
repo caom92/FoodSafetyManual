@@ -130,6 +130,7 @@ function mailBugReport()
 }
 
 
+// [***]
 // Lists all the programs, their modules and their logs
 function getAllProgramsModulesAndLogs()
 {

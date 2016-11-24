@@ -4,7 +4,7 @@ function addPermissionTable(){
     var data = new Object();
     data.employee_num = get.user_id;
     $server.request({
-        service: 'get-user-privileges',
+        service: 'get-privileges-of-employee',
         data: data,
         success: function(response) {
             console.log(response);
@@ -350,7 +350,7 @@ $(function (){
     var get = getURLQueryStringAsJSON();
 
     fillUserInformation(get.user_id);
-    //addPermissionTable();
+    addPermissionTable();
     //getProcedureNames();
     changeLanguage(localStorage.defaultLanguage);
 

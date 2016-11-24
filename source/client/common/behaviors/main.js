@@ -47,10 +47,9 @@ function loadSideMenu()
                 localStorage.menu += 
                     '</ul></div></li></ul></li>';
             });
-
-            // show the menu items 
-            $('#actions-list').html(localStorage.menu);
         }
+        // show the menu items 
+        $('#actions-list').html(localStorage.menu);
         initMaterialize();
     }
 }

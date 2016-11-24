@@ -44,7 +44,7 @@ function getUserAccountInfo()
         ];
     } else {
         return [
-            'id' => $userInfo['id'],
+            'id' => $userInfo['user_id'],
             'role_id' => $userInfo['role_id'],
             'role_name' => $userInfo['role_name'],
             'employee_num' => $userInfo['employee_num'],
@@ -234,7 +234,7 @@ function addNewUserAccount()
 
     // first, connect to the data base
     $users = new db\UsersDAO();
-    $userPrivileges = new db\UserLogsPrivilegesDAO();
+    $userPrivileges = new db\UsersLogsPrivilegesDAO();
 
     // then, hash the password
     $hashedPassword = password_hash(
@@ -289,7 +289,7 @@ function editPrivileges()
     }
 
     // then, connect to the data base
-    $userPrivileges = new db\UserLogsPrivilegesDAO();
+    $userPrivileges = new db\UsersLogsPrivilegesDAO();
 
     // update the log privileges of the user
     foreach ($_POST['privileges'] as $privilege) {
@@ -301,6 +301,91 @@ function editPrivileges()
     }
 
     return [];
+}
+
+
+// [***]
+function getPrivilegesOfUser()
+{
+    $userPrivileges = new db\UsersLogsPrivilegesDAO();
+    $rows = $userPrivileges->selectByEmployeeNum($_POST['employee_num']);
+
+    $privileges = [];
+    $program = [
+        'id' => 0,
+        'name' => '',
+        'modules' => []
+    ];
+    $module = [
+        'id' => 0,
+        'name' => '',
+        'logs' => []
+    ];
+
+    foreach ($rows as $row) {
+        $hasProgramChanged = $row['program_id'] != $program['id'];
+        if ($hasProgramChanged) {
+            if ($program['id'] != 0) {
+                array_push($program['modules'], $module);
+                array_push($privileges, $program);
+            }
+            $log = [
+                'id' => $row['log_id'],
+                'name' => $row['log_name'],
+                'privilege' => [
+                    'id' => $row['id'],
+                    'name' => $row['name']
+                ]
+            ];
+            $module = [
+                'id' => $row['module_id'],
+                'name' => $row['module_name'],
+                'logs' => [ $log ]
+            ];
+            $program = [
+                'id' => $row['program_id'],
+                'name' => $row['program_name'],
+                'modules' => []
+            ];
+        } else {
+            $hasModuleChanged = $row['module_id'] != $module['id'];
+            if ($hasModuleChanged) {
+                array_push($program['modules'], $module);
+                $log = [
+                    'id' => $row['log_id'],
+                    'name' => $row['log_name'],
+                    'privilege' => [
+                        'id' => $row['id'],
+                        'name' => $row['name']
+                    ]
+                ];
+                $module = [
+                    'id' => $row['module_id'],
+                    'name' => $row['module_name'],
+                    'logs' => [ $log ]
+                ];
+            } else {
+                array_push($module['logs'], [
+                    'id' => $row['id'],
+                    'name' => $row['name'],
+                    'privilege' => [
+                        'id' => $row['privilege_id'],
+                        'name' => $row['privilege_name']
+                    ]
+                ]);
+            }
+        }
+    }
+
+    if ($module['id'] != 0) {
+        array_push($program['modules'], $module);
+    }
+
+    if ($program['id'] != 0) {
+        array_push($privileges, $program);
+    }
+
+    return $privileges;
 }
 
 ?>
