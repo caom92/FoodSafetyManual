@@ -24,33 +24,34 @@ class UsersLogsPrivilegesDAO extends DataAccessObject
     // [out]    return: an associative array if the user was found in the
     //          database or NULL otherwise; information is organized in a
     //          zone/program/module/privilege fashion
-    /*function selectByEmployeeNum($employeeNum)
+    function selectByEmployeeNum($employeeNum)
     {
         return parent::$dataBase->query(
             "SELECT 
-                `z`.`id` AS `zone_id`,
-                `z`.`name` AS `zone_name`,
-                `p`.`id` AS `program_id`,
-                `p`.`name` AS `program_name`,
-                `m`.`id` AS `module_id`,
-                `m`.`name` AS `module_name`,
-                `pr`.`id` AS `privilege_id`,
-                `pr`.`name` AS `privilege_name` 
-            FROM `$this->table` 
-                INNER JOIN `users` AS `u`
-                    ON `u`.`employee_num` = `$employeeNum`
-                INNER JOIN `zones` AS `z` 
-                    ON `$this->table`.`zone_id` = `z`.`id` 
-                INNER JOIN `modules` AS `m` 
-                    ON `$this->table`.`module_id` = `m`.`id` 
-                INNER JOIN `programs` AS `p` 
-                    ON `m`.`program_id` = `p`.`id` 
-                INNER JOIN `privileges` AS `pr` 
-                    ON `$this->table`.`privilege_id` = 
-                       `pr`.`id` 
-            WHERE `user_id` = `u`.`id`"
+                p.id AS program_id,
+                p.name AS program_name,
+                m.id AS module_id,
+                m.name AS module_name,
+                l.id AS log_id,
+                l.name AS log_name,
+                pr.id AS privilege_id,
+                pr.name AS privilege_name 
+            FROM $this->table 
+                INNER JOIN users AS u
+                    ON u.employee_num = $employeeNum
+                INNER JOIN logs AS l 
+                    ON $this->table.log_id = l.id 
+                INNER JOIN modules AS m 
+                    ON l.module_id = m.id 
+                INNER JOIN programs AS p 
+                    ON m.program_id = p.id 
+                INNER JOIN privileges AS pr 
+                    ON $this->table.privilege_id = 
+                       pr.id 
+            WHERE user_id = u.id
+            ORDER BY p.id, m.id, l.id"
         )->fetchAll();
-    }*/
+    }
 
 
     // Returns the list of modules which the user with the especified ID has 

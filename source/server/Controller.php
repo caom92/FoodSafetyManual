@@ -45,13 +45,14 @@ class Controller
                 $result = $callback();
                 self::respond($result);
             } else {
-                throw new \Exception('The requested service does not exists.');
+                throw new \Exception('The requested service does not exists.', 1);
             }
         } catch (\Exception $e) {
             // if there was a problem, notify the client
             self::respond(
                 [], 
-                $e->getMessage()
+                $e->getMessage(),
+                $e->getCode()
             );
         }
     } // function execute
@@ -74,7 +75,7 @@ class Controller
     static private function respond(
         $data = [], 
         $message = 'Success.', 
-        $code = 1
+        $code = 0
     )
     {
         // indicate in the HTTP headers that we are returning a JSON 
@@ -82,11 +83,14 @@ class Controller
 
         // check if the message is that of success
         $isMessageSuccess = $message == 'Success.';
+        $isCodeSuccess = $code == 0;
 
         // return the resulting JSON object
         echo json_encode([
             'meta' => [
-                'return_code' => ($isMessageSuccess) ? 0 : $code,
+                'return_code' => ($isMessageSuccess && $isCodeSuccess) ?
+                    0 :
+                    ($isCodeSuccess) ? 1 : $code,
                 'message' => $message
             ],
             'data' => $data

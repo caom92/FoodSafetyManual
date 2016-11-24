@@ -114,17 +114,27 @@ function registerLogEntry()
     }
 
     // if all validations where passed, connect to the data base
-    $log = new db\LogCaptureDatesDAO();
+    $logDate = new db\LogCaptureDatesDAO();
     $areasLog = new preop\AreasLogDAO();
     $itemsLog = new preop\ItemsLogDAO();
     $logs = new db\LogsDAO();
 
-    // and first insert the capture date and the ID of the reportee user
-    $logID = $log->insert([
+    // get the ID of the log that we are working with
+    $logID = $logs->getIDByNames(
+        'GMP', 'Packing', 'Pre-Operational Inspection'
+    );
+
+    // before inserting into the data base, check that there is no entry of 
+    // this log already
+    $isLogEntryDuplicated = $logDate->hasByDateAndLogID($_POST['date'], $logID);
+    if ($isLogEntryDuplicated) {
+        throw new \Exception('A log entry was already registered today.', 2);
+    }
+
+    // insert the capture date and the ID of the reportee user
+    $logID = $logDate->insert([
         'user_id' => $_SESSION['user_id'],
-        'log_id' => $logs->getIDByNames(
-            'GMP', 'Packing', 'Pre-Operational Inspection'
-        ),
+        'log_id' => $logID,
         'date' => $_POST['date']
     ]);
 
@@ -169,12 +179,12 @@ function registerLogEntry()
 // presentation in a report
 function getReportData()
 {
-    $log = new db\LogCaptureDatesDAO();
+    $logDate = new db\LogCaptureDatesDAO();
     $areasLog = new preop\AreasLogDAO();
     $itemsLog = new preop\ItemsLogDAO();
     $logs = new db\LogsDAO();
 
-    $logID = $log->getIDByDateLogIDAndZoneID(
+    $logID = $logDate->getIDByDateLogIDAndZoneID(
         $_POST['date'], 
         $logs->getIDByNames(
             'GMP', 'Packing', 'Pre-Operational Inspection'
@@ -187,7 +197,6 @@ function getReportData()
 
     foreach ($areas as $areaData) {
         $items = $itemsLog->selectByAreaLogID($areaData['id']);
-
         $tempAreaLogEntry = [
             'area_id' => $items[0]['area_id'],
             'area_name' => $items[0]['area_name'],
@@ -212,7 +221,7 @@ function getReportData()
         'created_by' => 
             $_SESSION['first_name'].' '.$_SESSION['last_name'],
         'approved_by' => 'God',
-        'creation_date' => $logData['date'],
+        'creation_date' => $_POST['date'],
         'approval_date' => '1985-10-26',
         'zone_name' => $_SESSION['zone_name'],
         'program_name' => 'GMP',
