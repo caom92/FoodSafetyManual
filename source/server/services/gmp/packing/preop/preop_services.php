@@ -192,6 +192,10 @@ function getReportData()
         $_SESSION['zone_id']
     );
 
+    if (!isset($logID)) {
+        throw new \Exception('No logs where captured at that date.', 2);
+    }
+
     $areasLogEntries = [];
     $areas = $areasLog->selectByLogID($logID);
 
