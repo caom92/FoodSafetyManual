@@ -75,7 +75,7 @@ class Controller
     static private function respond(
         $data = [], 
         $message = 'Success.', 
-        $code = 1
+        $code = 0
     )
     {
         // indicate in the HTTP headers that we are returning a JSON 

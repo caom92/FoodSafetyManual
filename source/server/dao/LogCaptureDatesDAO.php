@@ -54,7 +54,7 @@ class LogCaptureDatesDAO extends DataAccessObject
             ]
         );
 
-        return $rows[0]['id'];
+        return (count($rows) > 0) ? $rows[0] : NULL;
     }
 
 
@@ -63,10 +63,14 @@ class LogCaptureDatesDAO extends DataAccessObject
     // otherwise
     function hasByDateAndLogID($date, $logID)
     {
-        return parent::has([
-            'date' => $date,
-            'log_id' => $logID
-        ]);
+        return parent::has(
+            [
+                'AND' => [
+                    'date' => $date,
+                    'log_id' => $logID
+                ]
+            ]
+        );
     }
 }
 

@@ -417,7 +417,7 @@ fsm\Controller::$services = [
             ],
             'date' => [
                 'type' => 'datetime',
-                'format' => 'YY-MM-DD'
+                'format' => 'Y-m-d'
             ]
         ],
         'callback' => 'fsm\services\gmp\packing\preop\getReportData'

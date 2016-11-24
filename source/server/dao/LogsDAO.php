@@ -73,7 +73,7 @@ class LogsDAO extends DataAccessObject
             ]
         );
 
-        return $rows[0];
+        return (count($rows) > 0) ? $rows[0] : NULL;
     }
 
 

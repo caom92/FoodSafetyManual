@@ -197,7 +197,6 @@ function getReportData()
 
     foreach ($areas as $areaData) {
         $items = $itemsLog->selectByAreaLogID($areaData['id']);
-
         $tempAreaLogEntry = [
             'area_id' => $items[0]['area_id'],
             'area_name' => $items[0]['area_name'],
@@ -222,7 +221,7 @@ function getReportData()
         'created_by' => 
             $_SESSION['first_name'].' '.$_SESSION['last_name'],
         'approved_by' => 'God',
-        'creation_date' => $logData['date'],
+        'creation_date' => $_POST['date'],
         'approval_date' => '1985-10-26',
         'zone_name' => $_SESSION['zone_name'],
         'program_name' => 'GMP',
