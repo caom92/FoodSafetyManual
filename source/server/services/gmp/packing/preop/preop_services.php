@@ -215,7 +215,7 @@ function getReportData()
             array_push($tempAreaLogEntry['items'], [
                 'item_order' => $item['position'],
                 'item_name' => $item['item_name'],
-                'item_status' => $item['is_active'],
+                'item_status' => $item['is_acceptable'],
                 'item_corrective_action' => $item['corrective_action'],
                 'item_comments' => $item['comment']
             ]);
