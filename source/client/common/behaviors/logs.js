@@ -1,10 +1,10 @@
 function createDatePicker(){
     $("#report_date_start").html("");
-    $("#report_date_end").html("");
+    //$("#report_date_end").html("");
     $("#report_date_start").append('<input id="start_date" type="date" class="datepicker"><label id="start_date_label" class="select_start_date active" for="start_date"></label>');
     $("#start_date").pickadate(datePicker("start_hidden", new Date(), new Date("2016-10-01T00:00:00")));
-    $("#report_date_end").append('<input id="end_date" type="date" class="datepicker"><label id="end_date_label" class="select_end_date active" for="end_date"></label>');
-    $("#end_date").pickadate(datePicker("end_hidden", new Date(), new Date("2016-10-01T00:00:00")));
+    //$("#report_date_end").append('<input id="end_date" type="date" class="datepicker"><label id="end_date_label" class="select_end_date active" for="end_date"></label>');
+    //$("#end_date").pickadate(datePicker("end_hidden", new Date(), new Date("2016-10-01T00:00:00")));
 }
 
 function isDateValid(startDate, endDate){
@@ -16,6 +16,10 @@ $(function (){
     $('ul.tabs').tabs();
     $('.indicator').addClass("green");
     createDatePicker();
+
+    $("#request_report").click(function(){
+        loadSSOPReport($("input[name='start_hidden']").val());
+    });
 
     $server.request({
         service: 'get-items-of-zone',
@@ -53,7 +57,7 @@ functionArray["SSOP"] = SSOPPreOperative;
 function SSOPPreOperative(data){
     var wrapper = $("<div>");
     $(".log_title").html(data.log_name);
-    wrapper.append(reportHeader(data.zone_name, data.program_name, data.module_name, data.log_name));
+    wrapper.append(logHeader(data.zone_name, data.program_name, data.module_name, data.log_name, getISODate(new Date), localStorage.first_name + " " + localStorage.last_name));
 
     for(area of data.areas)
         wrapper.append(SSOPPreOperativeArea(area));
@@ -161,30 +165,286 @@ function SSOPPreOperativeArea(area){
     return areaCard;
 }
 
-function loadSSOPReport(startDate){
-    var wrapper = divWrapper(null, null);
-    var reportWrapper = divWrapper(null, "card-panel white");
+function reportTable(id, classes, header, body, footer){
+    var table = $("<table>");
 
-    wrapper.append(reportHeader("LAW", "Introduction", "SSOP", "PRE-OPERATIONAL LOG"));
+    table.addClass(classes);
 
-    $("#report_tab").append(wrapper);
+    if(id)
+        table.attr("id", id);
 
-    var report = divWrapper(null, null);
-    var reportTable = table(null, "striped");
-    var headers = ["ID", "Nombre", "Condiciones", "Acción Correctiva", "Comentarios"];
-    var testContent = [["1", "Mesas", "Aceptable", "N/A", "Comentarios"],["2", "Pisos", "Inceptable", "WSR", "Comentarios"]];
+    table.append(header);
+    table.append(body);
+    // table.append(footer);
 
-    reportTable.append(tableHeader(null, null, headers));
+    return table;
+}
 
-    testContent.forEach(function(index){
-        reportTable.append(tableRow(null, null, index));
+function reportBody(id, classes, rowsArray){
+
+    var body = $("<tbody>");
+
+    body.addClass(classes);
+
+    if(id)
+        body.attr("id", id);
+
+    rowsArray.forEach(function(index){
+        body.append(reportRow(id, classes, index));
     });
 
-    reportWrapper.append(reportTable);
+    return body;
+}
 
-    wrapper.append(reportWrapper);
+function reportFooter(){
 
-    changeLanguage(localStorage.defaultLanguage);
+}
+
+function reportTitle(id, classes, titleArray){
+    // Title Array must be as follows
+    // An array of objects with attributes classes and colspan
+    // Classes will be the classes added to the <th>
+    // colspan will be the number of columns the <th> will span
+    // {classes: "class", colspan: 2}
+
+    var header = $("<thead>");
+    var headerRow = $("<tr>");
+
+    headerRow.addClass(classes);
+
+    if(id)
+        headerRow.attr("id", id);
+
+    titleArray.forEach(function(index){
+        var th = $("<th>");
+        th.addClass(index.classes);
+
+        if(index.colspan){
+            th.attr("colspan", index.colspan);
+        }
+
+        headerRow.append(th);
+    });
+
+    header.append(headerRow);
+
+    return header;
+}
+
+function reportRow(id, classes, columnArray){
+    // Column Array must be as follows
+    // An array of objects with attributes classes, rowspan and contents
+    // Classes will be the classes added to the <td>
+    // rowspan will be the rows the <td> will span
+    // contents will be the contents to be shown on the <td>
+    // {classes: "class", rowspan: 2, contents: "Hello World"}
+
+    var row = $("<tr>");
+
+    row.addClass(classes);
+
+    if(id)
+        row.attr("id", id);
+
+    columnArray.forEach(function(column){
+        row.append(reportRowColumn(column));
+    });
+
+    return row;
+}
+
+function reportRowColumn(columnObject){
+    // Column Array must be as follows
+    // A singlem object with attributes
+    // Classes will be the classes added to the <td>
+    // rowspan will be the rows the <td> will span
+    // contents will be the contents to be shown on the <td>
+    // {classes: "class", rowspan: 2, contents: "Hello World"}
+
+    var column = $("<td>");
+
+    column.addClass(columnObject.classes);
+
+    if(columnObject.rowspan)
+        column.attr("rowspan", columnObject.rowspan);
+
+    column.append(columnObject.contents);
+
+    return column;
+}
+
+function loadSSOPReport(startDate){
+    var report = new Object();
+    report.date = startDate;
+
+    $server.request({
+        service: 'report-gmp-packing-preop',
+        data: report,
+        success: function(response) {
+            if (response.meta.return_code == 0) {
+                var wrapper = divWrapper(null, null);
+                var reportWrapper = divWrapper(null, "card-panel white");
+
+                var reportData = response.data;
+
+                wrapper.append(reportHeader(reportData.zone_name, reportData.module_name, reportData.program_name, reportData.log_name, reportData.creation_date, reportData.created_by, reportData.approval_date, reportData.approved_by));
+
+                $("#report_tab").append(wrapper);
+
+                var report = divWrapper(null, null);
+                
+                var headers = [
+                    {"classes":"area_title"},
+                    {"classes":"time_title"},
+                    {"classes":"number_title"},
+                    {"classes":"name_title"},
+                    {"classes":"status_title"},
+                    {"classes":"action_title"},
+                    {"classes":"comment_title"}
+                ];
+
+                var reportContents = new Array(); // Type Row Array
+
+                response.data.areas.forEach(function(index){
+                    // We must convert accordingly
+                    /* 
+                    Column {classes: "something", rowspan: 1, contents: "Anything"}
+                    Row [{classes: "something", rowspan: 1, contents: "Anything"}, {classes: "something", rowspan: 1, contents: "Anything"}, {classes: "something", rowspan: 1, contents: "Anything"}]
+                    Row Array 
+                    [
+                        [{classes: "something", rowspan: 1, contents: "Anything"}, {classes: "something", rowspan: 1, contents: "Anything"}, {classes: "something", rowspan: 1, contents: "Anything"}],
+                        [{classes: "something", rowspan: 1, contents: "Anything"}, {classes: "something", rowspan: 1, contents: "Anything"}, {classes: "something", rowspan: 1, contents: "Anything"}],
+                        [{classes: "something", rowspan: 1, contents: "Anything"}, {classes: "something", rowspan: 1, contents: "Anything"}, {classes: "something", rowspan: 1, contents: "Anything"}]
+                    ]
+                    */
+
+                    var isFirst = true;
+
+                    var firstRow = new Array(); // Type Row
+
+                    firstRow.push({rowspan: index.items.length, contents: index.area_name});
+                    firstRow.push({rowspan: index.items.length, contents: index.time});
+
+                    index.items.forEach(function(item){
+                        if (isFirst) {
+                            firstRow.push({contents: item.item_order});
+                            firstRow.push({contents: item.item_name});
+
+                            if(item.status == 1){
+                                firstRow.push({classes: "green-text acceptable_tag"});
+                            } else {
+                                firstRow.push({classes: "red-text unacceptable_tag"});
+                            }
+
+                            firstRow.push({contents: item.item_corrective_action});
+                            firstRow.push({contents: item.item_comments});
+                            reportContents.push(firstRow);
+                            isFirst = false;
+                        } else {
+                            var tempRow = new Array();
+
+                            tempRow.push({contents: item.item_order});
+                            tempRow.push({contents: item.item_name});
+
+                            if(item.status == 1){
+                                tempRow.push({classes: "green-text acceptable_tag"});
+                            } else {
+                                tempRow.push({classes: "red-text unacceptable_tag"});
+                            }
+
+                            tempRow.push({contents: item.item_corrective_action});
+                            tempRow.push({contents: item.item_comments});
+
+                            reportContents.push(tempRow);
+                        }
+                    });
+                });
+
+                console.log(reportContents);
+                console.log(JSON.stringify(reportContents));
+
+                // Append everything
+
+                var repTable = reportTable(null, "bordered", reportTitle(null, null, headers), reportBody(null, null, reportContents), null);
+
+                reportWrapper.append(repTable);
+
+                wrapper.append(reportWrapper);
+
+                changeLanguage(localStorage.defaultLanguage);
+            } else {
+                Materialize.toast("No se encuentra un reporte para esa fecha", 3000, "rounded");
+                throw response.meta.message;
+            }
+        }
+    });
+}
+
+/*function loadSSOPReport(startDate){
+    var report = new Object();
+    report.date = startDate;
+
+    $server.request({
+        service: 'report-gmp-packing-preop',
+        data: report,
+        success: function(response) {
+            if (response.meta.return_code == 0) {
+                var wrapper = divWrapper(null, null);
+                var reportWrapper = divWrapper(null, "card-panel white");
+
+                var reportData = response.data;
+
+                wrapper.append(reportHeader(reportData.zone_name, reportData.module_name, reportData.program_name, reportData.log_name, reportData.creation_date, reportData.created_by, reportData.approval_date, reportData.approved_by));
+
+                $("#report_tab").append(wrapper);
+
+                var report = divWrapper(null, null);
+                var reportTable = table(null, "bordered");
+                var headers = ["Area", "Tiempo", "Numero", "Nombre", "Condiciones", "Acción Correctiva", "Comentarios"];
+                //var testContent = [["1", "Mesas", "Aceptable", "N/A", "Comentarios"],["2", "Pisos", "Inceptable", "WSR", "Comentarios"]];
+
+                testContent = response.data.areas[0].items;
+
+                reportTable.append(tableHeader(null, null, headers));
+
+                response.data.areas.forEach(function(index){
+                    testContent = index.items;
+                    testContent.forEach(function(index){
+                        var display = ["", "", index.item_order, index.item_name, "Aceptable", index.item_status, index.item_comments];
+                        reportTable.append(tableRow(null, null, display));
+                    });
+                });
+
+                reportWrapper.append(reportTable);
+
+                wrapper.append(reportWrapper);
+
+                changeLanguage(localStorage.defaultLanguage);
+            } else {
+                Materialize.toast("No se encuentra un reporte para esa fecha", 3000, "rounded");
+                throw response.meta.message;
+            }
+        }
+    });
+}*/
+
+function testReportService(){
+    var report = new Object();
+    report.date = "2016-11-24";
+    console.log(report);
+    $server.request({
+        service: 'report-gmp-packing-preop',
+        data: report,
+        success: function(response) {
+            if (response.meta.return_code == 0) {
+                console.log(response.data);
+                console.log(JSON.stringify(response.data));
+            } else {
+                Materialize.toast("Reporte no enviado, verifique la red", 3000, "rounded");
+                throw response.meta.message;
+            }
+        }
+    });
 }
 
 function sendSSOPReport(){
@@ -209,7 +469,7 @@ function sendSSOPReport(){
         var area = new Object();
 
         area.time = getISOTime(new Date());
-        area.area_id = areaID;
+        area.area_id = Number(areaID);
         area.item_logs = new Array();
 
         idArray = new Array();
@@ -227,9 +487,11 @@ function sendSSOPReport(){
                 hardware.is_acceptable = getBool($("input:radio[name='radio_" + id[0] +"_" + id[1] +"']:checked").val());
                 if(hardware.is_acceptable === false) {
                     console.log("lmao inaceptable");
+                    hardware.is_acceptable = 0;
                     hardware.corrective_action_id = Number($("#select_" + id[0] + "_" + id[1]).val());
                 } else {
                     console.log("lmao aceptable");
+                    hardware.is_acceptable = 1;
                     hardware.corrective_action_id = 1;
                 }
                 hardware.comment = $("#comment_" + id[0] + "_" + id[1]).val();
@@ -352,7 +614,7 @@ function getBool(val) {
 // A header containing the information of the current report, including who made it, the date,
 // Zone and program
 
-function reportHeader(zone, program, module, log){
+function logHeader(zone, program, module, log, date, employeeName){
     var reportCard = divWrapper(null, "card-panel white");
     var titleRow = divWrapper(null, "row");
     var infoRow = divWrapper(null, "row");
@@ -361,8 +623,8 @@ function reportHeader(zone, program, module, log){
     var zoneTitle = cardTitle(null, "col s4", "<span class='zone_name'></span>: " + zone);
     var programTitle = cardTitle(null, "col s4", "<span class='program_name'></span>: " + program);
     var moduleTitle = cardTitle(null, "col s4", "<span class='module_name'></span>: " + module);
-    var date = cardTitle(null, "col s4", "<span class='date_name'></span>: " + new Date().getDate() + "-" + new Date().getMonth() + "-" + new Date().getFullYear());
-    var employeeName = cardTitle(null, "col s4", "<span class='made_by'></span>: " + localStorage.first_name + " " + localStorage.last_name);
+    var date = cardTitle(null, "col s4", "<span class='date_name'></span>: " + date);
+    var employeeName = cardTitle(null, "col s4", "<span class='made_by'></span>: " + employeeName);
 
     titleRow.append(logTitle);
     moduleRow.append(zoneTitle);
@@ -546,7 +808,39 @@ function sendButton(id){
     return $('<div class="center-align"><a id="' + id + '" class="waves-effect waves-light btn"><span class="send_button"></span>  <i class="mdi mdi-send mdi-18px"></i></a><div>');
 }
 
-// Functions for report generation
+// General Functions for report generation
+
+function reportHeader(zone, program, module, log, elaborationDate, employeeName, approvalDate, supervisorName){
+    var reportCard = divWrapper(null, "card-panel white");
+    var titleRow = divWrapper(null, "row");
+    var employeeRow = divWrapper(null, "row");
+    var supervisorRow = divWrapper(null, "row");
+    var moduleRow = divWrapper(null, "row");
+    var logTitle = cardTitle(null, "col s12", log);
+    var zoneTitle = cardTitle(null, "col s4", "<span class='zone_name'></span>: " + zone);
+    var programTitle = cardTitle(null, "col s4", "<span class='program_name'></span>: " + program);
+    var moduleTitle = cardTitle(null, "col s4", "<span class='module_name'></span>: " + module);
+    var elaborationTitle = cardTitle(null, "col s6", "<span class='elaborated_name'></span>: " + elaborationDate);
+    var employeeTitle = cardTitle(null, "col s6", "<span class='made_by'></span>: " + employeeName);
+    var approvalTitle = cardTitle(null, "col s6", "<span class='approved_name'></span>: " + approvalDate);
+    var supervisorTitle = cardTitle(null, "col s6", "<span class='approved_by'></span>: " + supervisorName);
+
+    titleRow.append(logTitle);
+    moduleRow.append(zoneTitle);
+    moduleRow.append(programTitle);
+    moduleRow.append(moduleTitle);
+    employeeRow.append(elaborationTitle);
+    employeeRow.append(employeeTitle);
+    supervisorRow.append(approvalTitle);
+    supervisorRow.append(supervisorTitle);
+
+    reportCard.append(titleRow);
+    reportCard.append(moduleRow);
+    reportCard.append(employeeRow);
+    reportCard.append(supervisorRow);
+
+    return reportCard;
+}
 
 function table(id, classes){
     var table = $("<table>");
