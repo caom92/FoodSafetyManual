@@ -17,10 +17,6 @@ $(function (){
     $('.indicator').addClass("green");
     createDatePicker();
 
-    $("#request_report").click(function(){
-        loadSSOPReport($("input[name='start_hidden']").val());
-    });
-
     $server.request({
         service: 'get-items-of-zone',
         success: function(response) {
@@ -33,6 +29,10 @@ $(function (){
                 throw response.meta.message;
             }
         }
+    });
+
+    $("#request_report").click(function(){
+        loadSSOPReport($("input[name='start_hidden']").val());
     });
 
     // We load the tabs; we have 2 or 3 depending on the privileges of the user
@@ -330,7 +330,7 @@ function loadSSOPReport(startDate){
                             firstRow.push({contents: item.item_order});
                             firstRow.push({contents: item.item_name});
 
-                            if(item.status == 1){
+                            if(item.item_status == 1){
                                 firstRow.push({classes: "green-text acceptable_tag"});
                             } else {
                                 firstRow.push({classes: "red-text unacceptable_tag"});
@@ -346,7 +346,7 @@ function loadSSOPReport(startDate){
                             tempRow.push({contents: item.item_order});
                             tempRow.push({contents: item.item_name});
 
-                            if(item.status == 1){
+                            if(item.item_status == 1){
                                 tempRow.push({classes: "green-text acceptable_tag"});
                             } else {
                                 tempRow.push({classes: "red-text unacceptable_tag"});
