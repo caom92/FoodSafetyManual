@@ -12,6 +12,9 @@
     "jquery": "^3.1.0",
     "Materialize": "materialize#^0.97.6",
     "mdi": "^1.6.50",
-    "jquery-validation": "^1.15.1"
+    "jquery-validation": "^1.15.1",
+    "angular": "latest",
+    "angular-route": "latest",
+    "jquery-ui": "^1.12.1"
   }
 }

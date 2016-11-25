@@ -192,6 +192,10 @@ function getReportData()
         $_SESSION['zone_id']
     );
 
+    if (!isset($logID)) {
+        throw new \Exception('No logs where captured at that date.', 2);
+    }
+
     $areasLogEntries = [];
     $areas = $areasLog->selectByLogID($logID);
 
@@ -200,7 +204,9 @@ function getReportData()
         $tempAreaLogEntry = [
             'area_id' => $items[0]['area_id'],
             'area_name' => $items[0]['area_name'],
-            'notes' => $areaData['person_performing_sanitation'],
+            'person_performing_sanitation' => 
+                $areaData['person_performing_sanitation'],
+            'notes' => $areaData['notes'],
             'time' => $areaData['time'],
             'items' => []
         ];
@@ -209,7 +215,8 @@ function getReportData()
             array_push($tempAreaLogEntry['items'], [
                 'item_order' => $item['position'],
                 'item_name' => $item['item_name'],
-                'item_status' => $item['corrective_action'],
+                'item_status' => $item['is_active'],
+                'item_corrective_action' => $item['corrective_action'],
                 'item_comments' => $item['comment']
             ]);
         }
