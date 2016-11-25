@@ -204,7 +204,9 @@ function getReportData()
         $tempAreaLogEntry = [
             'area_id' => $items[0]['area_id'],
             'area_name' => $items[0]['area_name'],
-            'notes' => $areaData['person_performing_sanitation'],
+            'person_performing_sanitation' => 
+                $areaData['person_performing_sanitation'],
+            'notes' => $areaData['notes'],
             'time' => $areaData['time'],
             'items' => []
         ];
