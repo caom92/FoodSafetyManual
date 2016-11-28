@@ -147,6 +147,11 @@
         <spanish>Agregar</spanish>
     </translation>
 
+    <translation id="open_report_button">
+        <english>Open report</english>
+        <spanish>Abrir reporte</spanish>
+    </translation>
+
     <translation id="attach_file">
         <english>Attach</english>
         <spanish>Adjuntar</spanish>
@@ -385,6 +390,16 @@
         <spanish>Elaborado por</spanish>
     </translation>
 
+    <translation id="elaborated_name">
+        <english>Made on</english>
+        <spanish>Elaborado el</spanish>
+    </translation>
+
+    <translation id="approved_name">
+        <english>Approved on</english>
+        <spanish>Aprobado el</spanish>
+    </translation>
+
     <translation id="approved_by">
         <english>Approved by</english>
         <spanish>Aprobado por</spanish>
@@ -465,10 +480,70 @@
         <spanish>Cualquier tipo</spanish>
     </translation>
 
+    <translation id="manual_tab">
+        <english>View manual</english>
+        <spanish>Ver manual</spanish>
+    </translation>
+
+    <translation id="report_tab">
+        <english>View report</english>
+        <spanish>Consultar reporte</spanish>
+    </translation>
+
+    <translation id="logs_tab">
+        <english>Capture log</english>
+        <spanish>Capturar bitácora</spanish>
+    </translation>
+
     <!--Template
     <translation id="">
         <english></english>
         <spanish></spanish>
     </translation>
     -->
+
+    <translation id="area_title">
+        <english>Area</english>
+        <spanish>Área</spanish>
+    </translation>
+
+    <translation id="time_title">
+        <english>Time</english>
+        <spanish>Hora</spanish>
+    </translation>
+
+    <translation id="number_title">
+        <english>Number</english>
+        <spanish>Número</spanish>
+    </translation>
+
+    <translation id="name_title">
+        <english>Name</english>
+        <spanish>Nombre</spanish>
+    </translation>
+
+    <translation id="status_title">
+        <english>Conditions</english>
+        <spanish>Condiciones</spanish>
+    </translation>
+
+    <translation id="action_title">
+        <english>Corrective action</english>
+        <spanish>Acción correctiva</spanish>
+    </translation>
+
+    <translation id="comment_title">
+        <english>Comments</english>
+        <spanish>Comentarios</spanish>
+    </translation>
+
+    <translation id="acceptable_tag">
+        <english>Acceptable</english>
+        <spanish>Aceptable</spanish>
+    </translation>
+
+    <translation id="unacceptable_tag">
+        <english>Unacceptable</english>
+        <spanish>Inaceptable</spanish>
+    </translation>
 </translations>

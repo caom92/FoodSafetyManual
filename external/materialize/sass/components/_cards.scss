@@ -80,7 +80,6 @@
     .card-image {
       max-width: 50%;
       img {
-        border-radius: 2px 0 0 2px;
         max-width: 100%;
         width: auto;
       }
@@ -173,7 +172,6 @@
     background-color: $card-bg-color;
     width: 100%;
     overflow-y: auto;
-    left: 0;
     top: 100%;
     height: 100%;
     z-index: 3;
