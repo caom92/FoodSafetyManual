@@ -43,7 +43,7 @@ function addAreaSelect(zoneID){
                 console.log(response.data);
                 var select = $("<select>");
                 select.attr("id", "area-select");
-                select.append('<option value="" disabled selected class="select_program"></option>');
+                select.append('<option value="" disabled selected class="select_area"></option>');
                 for(var zone in response.data){
                     var option = $("<option>");
                     option.attr("value", response.data[zone].id);
@@ -52,10 +52,11 @@ function addAreaSelect(zoneID){
                 }
                 $("#content_wrapper").append(select);
                 $("#area-select").change(function (e) {
-                    $("#module-select").material_select('destroy');
-                    $("#module-select").remove();
+                    //$("#module-select").material_select('destroy');
+                    //$("#module-select").remove();
                     $("table").remove();
-                    addModuleSelect($(this).val());
+                    loadInventory($(this).val());
+                    //addModuleSelect($(this).val());
                 });
                 changeLanguage(localStorage.defaultLanguage);
                 $('select').material_select();
