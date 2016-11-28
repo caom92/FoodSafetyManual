@@ -465,6 +465,11 @@
         <spanish>Seleccione un módulo</spanish>
     </translation>
 
+    <translation id="select_area">
+        <english>Select an area</english>
+        <spanish>Seleccione un área</spanish>
+    </translation>
+
     <translation id="select_start_date">
         <english>Select a start date</english>
         <spanish>Seleccione un fecha de partida</spanish>
