@@ -1,0 +1,40 @@
+# Disable server signature
+ServerSignature Off
+
+# Configure custom error pages:
+# Not found
+ErrorDocument 404 /espresso/source/client/common/layouts/error.html
+
+RewriteEngine On
+RewriteBase /espresso/
+
+# When no petition is specified, redirect it to the main page
+#RewriteRule ^$ source/client/common/layouts/main.html [L,QSA]
+RewriteRule ^$ source/client2/common/views/main.html [L,QSA]
+#RewriteRule ^/$ source/client/common/layouts/main.html [L,QSA]
+RewriteRule ^/$ source/client2/common/views/main.html [L,QSA]
+
+# Redirect any request for a layout to the proper HTML page
+#RewriteRule ^(employee|administrator|supervisor|director|common)/layouts/([a-zA-Z_-]+)$ source/client/$1/layouts/$2.html [L,QSA]
+RewriteRule ^(employee|administrator|supervisor|director|common)/views/([a-zA-Z_-]+)$ source/client2/$1/views/$2.html [L,QSA]
+
+# Redirect any request for a behavior to the proper JS file
+#RewriteRule ^(employee|administrator|supervisor|director|common)/behaviors/([a-zA-Z_-]+\.js)$ source/client/$1/behaviors/$2 [L,QSA]
+RewriteRule ^(employee|administrator|supervisor|director|common)/controllers/([a-zA-Z_-]+\.js)$ source/client2/$1/controllers/$2 [L,QSA]
+
+# Redirect any service request to the main backend script
+RewriteRule ^services/([a-zA-Z_-]+)$ source/server/main.php [L,QSA]
+
+# Redirect any request for any other client-side script to the proper file
+#RewriteRule ^scripts/([a-zA-Z_\-\.]+\.js)$ source/client/common/scripts/$1 [L,QSA]
+RewriteRule ^scripts/([a-zA-Z_\-\.]+\.js)$ source/client2/common/scripts/$1 [L,QSA]
+
+# Redirect any petition that is not a directory, file or link to the main page
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-l
+#RewriteRule ^[a-zA-Z0-9_-]+$ source/client/common/layouts/main.html [L,QSA]
+RewriteRule ^[a-zA-Z0-9_-]+$ source/client2/common/views/main.html [L,QSA]
+
+# Prevent directory listing of the server files
+Options -Indexes 
