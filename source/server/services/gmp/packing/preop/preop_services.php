@@ -82,8 +82,11 @@ function registerLogEntry()
                 );
             }
 
-            $isBool = $itemsLogEntry['is_acceptable'] == 'true' ||
-                $itemsLogEntry['is_acceptable'] == 'false';
+            $isBool = val\integerIsBetweenValues(
+                $itemsLogEntry['is_acceptable'], 
+                0, 
+                \PHP_MAX_INT
+            );
 
             if (!$isBool) {
                 throw new \Exception(
