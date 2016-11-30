@@ -13,7 +13,7 @@ use fsm\database as db;
 
 
 // The communication bridge between the frontend and the backend
-class Controller 
+class Controller
 {
     // Starts execution of the controller
     static function execute()
@@ -21,21 +21,21 @@ class Controller
         try {
             // get the requested service
             $service = str_replace(
-                SITE_ROOT.'/services/', 
-                '', 
+                SITE_ROOT.'/services/',
+                '',
                 $_SERVER['REQUEST_URI']
             );
 
             // checks if the service exits
-            if (isset(self::$services[$service]) 
+            if (isset(self::$services[$service])
                 && array_key_exists($service, self::$services)) {
-                // if it does, retrieve the input requirements descriptor and 
+                // if it does, retrieve the input requirements descriptor and
                 // the execution callback
                 $service = self::$services[$service];
                 $inputRequirements = $service['requirements_desc'];
                 $callback = $service['callback'];
 
-                // check that the input arguments are valid and that the user 
+                // check that the input arguments are valid and that the user
                 // has the proper permissions to use the service
                 self::validateServiceInputRequirements(
                     $inputRequirements
@@ -50,7 +50,7 @@ class Controller
         } catch (\Exception $e) {
             // if there was a problem, notify the client
             self::respond(
-                [], 
+                [],
                 $e->getMessage(),
                 $e->getCode()
             );
@@ -58,7 +58,7 @@ class Controller
     } // function execute
 
 
-    // This function sends back to the client the especified information in a 
+    // This function sends back to the client the especified information in a
     // JSON of the form:
     // {
     //      meta: {
@@ -67,18 +67,18 @@ class Controller
     //      }
     //      data:[json]
     // }
-    // [in]     [data]: associative array of data that is going to be parsed 
+    // [in]     [data]: associative array of data that is going to be parsed
     //          into a JSON and be sent back to the client
     // [in]     [message]: the message string providing more information about
     //          the code sent
-    // [in]     [code]: the return code or error code to be sent back 
+    // [in]     [code]: the return code or error code to be sent back
     static private function respond(
-        $data = [], 
-        $message = 'Success.', 
+        $data = [],
+        $message = 'Success.',
         $code = 0
     )
     {
-        // indicate in the HTTP headers that we are returning a JSON 
+        // indicate in the HTTP headers that we are returning a JSON
         header('Content-Type: application/json; charset=utf-8');
 
         // check if the message is that of success
@@ -98,21 +98,21 @@ class Controller
     }
 
 
-    // Checks that the user has the proper permissions to us the service and 
+    // Checks that the user has the proper permissions to us the service and
     // that the input arguments have the proper values and format
-    // [in]     requirementsDesc: an associative array of associative 
-    //          arrays which describe the 
-    //          user permission and input arguments values and formats that the 
+    // [in]     requirementsDesc: an associative array of associative
+    //          arrays which describe the
+    //          user permission and input arguments values and formats that the
     //          service is expecting to recieve
-    // [out]    throw: if any of the requirements specified in the requirements 
+    // [out]    throw: if any of the requirements specified in the requirements
     //          descriptor is not complied to, then an exception will be thrown
     static private function validateServiceInputRequirements($requirementsDesc)
     {
-        // first, we retrieve the name of the input arguments that the service 
+        // first, we retrieve the name of the input arguments that the service
         // is expecting to recieve
         $keys = array_keys($requirementsDesc);
 
-        // then, we visit each input argument to check if it complies to the 
+        // then, we visit each input argument to check if it complies to the
         // specified validation rules
         foreach ($keys as $key) {
             // the required validation rule of the current input argument
@@ -126,7 +126,7 @@ class Controller
                     $isLoggedIn = $session->isOpen();
 
                     if ($isLoggedIn) {
-                        // if she is, then check if the service is expecting 
+                        // if she is, then check if the service is expecting
                         // the user to have an specific role
                         $mustCheckRoles = $requirement != 'any';
                         if ($mustCheckRoles) {
@@ -134,7 +134,7 @@ class Controller
                             $role = $_SESSION['role_name'];
                             $hasProperRole = false;
 
-                            // check if the user's role correspond to any of 
+                            // check if the user's role correspond to any of
                             // the roles that the service is expecting
                             foreach ($requirement as $requiredRole) {
                                 if ($role === $requiredRole) {
@@ -152,7 +152,7 @@ class Controller
                     }
                 break;
 
-                // check if the service expects the user to has access 
+                // check if the service expects the user to has access
                 // permission to it
                 case 'has_privilege':
                     // first, connect to the data base
@@ -162,11 +162,11 @@ class Controller
                     // check if a single or multiple permissions are required
                     $isSingle = count($requirement['privilege']) == 1;
 
-                    // then check if the user has the given privilege in the 
+                    // then check if the user has the given privilege in the
                     // specified log
                     $hasPrivilege = false;
 
-                    // temporal storage of the input data 
+                    // temporal storage of the input data
                     $p = $requirement['program'];
                     $m = $requirement['module'];
                     $l = $requirement['log'];
@@ -178,11 +178,11 @@ class Controller
                     if ($isSingle) {
                         $hasPrivilege =
                             isset($userPrivileges[$p][$m][$l]) &&
-                            $userPrivileges[$p][$m][$l]['privilege']['name'] == 
+                            $userPrivileges[$p][$m][$l]['privilege']['name'] ==
                             $r;
                     } else {
                         foreach ($r as $privilege) {
-                            $hasPrivilege = 
+                            $hasPrivilege =
                                 isset($userPrivileges[$p][$m][$l]) &&
                                 $userPrivileges[$p][$m][$l]['privilege']['name']
                                 == $privilege;
@@ -201,14 +201,14 @@ class Controller
                 break;
 
                 default:
-                    // check the type of the input argument that the service is 
+                    // check the type of the input argument that the service is
                     // expecting it to have
                     switch ($requirement['type']) {
                         case 'number':
-                            // check if the input argument is a numeric value 
+                            // check if the input argument is a numeric value
                             // or string
-                            $isNumeric = 
-                                val\isNumeric($_POST[$key]); 
+                            $isNumeric =
+                                val\isNumeric($_POST[$key]);
 
                             if (!$isNumeric) {
                                 throw new \Exception(
@@ -218,11 +218,11 @@ class Controller
                         break;
 
                         case 'int':
-                            // check if the input argument is an integer value 
-                            // or string 
+                            // check if the input argument is an integer value
+                            // or string
                             $isInt = val\isInteger($_POST[$key]);
 
-                            // now we check if this value must be within an 
+                            // now we check if this value must be within an
                             // specified interval
                             $hasMinRule = isset($requirement['min']);
                             $hasMaxRule = isset($requirement['max']);
@@ -241,11 +241,11 @@ class Controller
                                         $requirement['max'] :
                                         \PHP_INT_MAX;
 
-                                    // check if the value is within the 
+                                    // check if the value is within the
                                     // intervals
                                     $isWithinInterval = val\integerIsBetweenValues(
-                                        $_POST[$key], 
-                                        $min, 
+                                        $_POST[$key],
+                                        $min,
                                         $max
                                     );
 
@@ -263,7 +263,7 @@ class Controller
                         break;
 
                         case 'float':
-                            // check if the input argument is a floating point 
+                            // check if the input argument is a floating point
                             // value or string
                             $isFloat =
                                 val\isFloat($_POST[$key]);
@@ -277,18 +277,18 @@ class Controller
 
                         case 'string':
                             // check if the input argument is a string value
-                            $isString = 
+                            $isString =
                                 val\isString($_POST[$key]);
 
-                            // check if the input argument must be an specific 
+                            // check if the input argument must be an specific
                             // number of characters long
-                            $hasLengthRule = 
+                            $hasLengthRule =
                                 isset($requirement['length']);
 
-                            // check if the input argument must have a number 
-                            // of characters that is within an specified 
+                            // check if the input argument must have a number
+                            // of characters that is within an specified
                             // interval
-                            $hasMinLengthRule = 
+                            $hasMinLengthRule =
                                 isset($requirement['min_length']);
                             $hasMaxLengthRule =
                                 isset($requirement['max_length']);
@@ -297,10 +297,10 @@ class Controller
                             if ($isString) {
                                 // and must have an specific length
                                 if ($hasLengthRule) {
-                                    // check if the string has the specified 
+                                    // check if the string has the specified
                                     // length
                                     $hasProperLength = val\stringHasLength(
-                                        $_POST[$key], 
+                                        $_POST[$key],
                                         $requirement['length']
                                     );
 
@@ -310,9 +310,9 @@ class Controller
                                         );
                                     }
                                 } else {
-                                    // check if the string has a length that is 
+                                    // check if the string has a length that is
                                     // within a certain interval
-                                    $min = ($hasMinLengthRule) ? 
+                                    $min = ($hasMinLengthRule) ?
                                         $requirement['min_length'] :
                                         0;
                                     $max = ($hasMaxLengthRule) ?
@@ -320,8 +320,8 @@ class Controller
                                         \PHP_INT_MAX;
 
                                     $isLengthWithinInterval = val\stringHasLengthInterval(
-                                        $_POST[$key], 
-                                        $min, 
+                                        $_POST[$key],
+                                        $min,
                                         $max
                                     );
 
@@ -339,9 +339,9 @@ class Controller
                         break;
 
                         case 'lang':
-                            // check if the input argument is a string that 
+                            // check if the input argument is a string that
                             // denotes a language code
-                            $isLanguage = 
+                            $isLanguage =
                                 val\stringIsLanguageCode(
                                     $_POST[$key]
                                 );
@@ -354,9 +354,9 @@ class Controller
                         break;
 
                         case 'email':
-                            // check if the input argument is a string that 
+                            // check if the input argument is a string that
                             // denotes an email address
-                            $isEmail = 
+                            $isEmail =
                                 val\stringIsEmail($_POST[$key]);
 
                             if (!$isEmail) {
@@ -368,7 +368,7 @@ class Controller
 
                         case 'files':
                             // check if the input argument is an uploaded file
-                            $isDefined = 
+                            $isDefined =
                                 val\isDefined($_FILES[$key]);
 
                             if (!$isDefined) {
@@ -380,7 +380,7 @@ class Controller
 
                         case 'array':
                             // check if the input argument is an array
-                            $isDefined = 
+                            $isDefined =
                                 val\isDefined($_POST[$key]);
                             $isEmpty = count($_POST[$key]) == 0;
 
@@ -392,7 +392,7 @@ class Controller
                         break;
 
                         case 'datetime':
-                            // check if the input argument is a date or time 
+                            // check if the input argument is a date or time
                             // string literal with the especified format
                             $format = $requirement['format'];
                             $isDateTime = val\isDateTime($_POST[$key], $format);
