@@ -44,9 +44,11 @@ class Controller
 
                 // execute the service
                 $result = $callback();
-                self::respond($result);
+                self::respondToRemoteClient($result);
             } else {
-                throw new \Exception('The requested service does not exists.', 1);
+                throw new \Exception(
+                  'The requested service does not exists.', 1
+                );
             }
         } catch (\Exception $e) {
             // if there was a problem, notify the client
