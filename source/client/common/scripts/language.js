@@ -117,7 +117,7 @@ function changeLanguage(lang, callback){
 function loadSearchSuggestions(lang){
     if(lang == "es") {
         $.ajax({
-            url: $root + '/data/files/search-suggestions.xml',
+            url: $root + 'data/files/search-suggestions.xml',
             success: function(xml) {
                 $(xml).find('translation').each(function(){
                     var id = $(this).attr('id');
@@ -128,7 +128,7 @@ function loadSearchSuggestions(lang){
         });
     } else if (lang == "en") {
         $.ajax({
-            url: $root + '/data/files/search-suggestions.xml',
+            url: $root + 'data/files/search-suggestions.xml',
             success: function(xml) {
                 $(xml).find('translation').each(function(){
                     var id = $(this).attr('id');

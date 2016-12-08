@@ -172,7 +172,7 @@ class Session
         // then, compute the user's profile data structure depending on the 
         // user's role
         switch ($userData['role_name']) {
-            case 'Director':
+            case 'Manager':
                 // attempt to connect to the data base
                 $logs = new db\LogsDAO();
 
