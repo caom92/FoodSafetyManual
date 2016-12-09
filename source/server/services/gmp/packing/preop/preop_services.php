@@ -207,19 +207,38 @@ function getReportData()
                 $areaData['person_performing_sanitation'],
             'notes' => $areaData['notes'],
             'time' => $areaData['time'],
+            'types' => []
+        ];
+
+        $currentType = $items[0]['type_id'];
+        $tempItems = [
+            'id' => $items[0]['type_id'],
+            'name' => $items[0]['type_name'],
             'items' => []
         ];
 
         foreach ($items as $item) {
-            array_push($tempAreaLogEntry['items'], [
-                'item_order' => $item['position'],
-                'item_name' => $item['item_name'],
-                'item_status' => $item['is_acceptable'],
-                'item_corrective_action' => $item['corrective_action'],
-                'item_comments' => $item['comment']
-            ]);
+            $hasTypeChanged = $tempItems['type_id'] != $item['type_id'];
+
+            if (!$hasTypeChanged) {
+                array_push($tempItems['items'], [
+                    'item_order' => $item['position'],
+                    'item_name' => $item['item_name'],
+                    'item_status' => $item['is_acceptable'],
+                    'item_corrective_action' => $item['corrective_action'],
+                    'item_comments' => $item['comment']
+                ]);
+            } else {
+                array_push($tempAreaLogEntry['item_types'], $tempItems);
+                $tempItems = [
+                    'id' => $item['type_id'],
+                    'name' => $item['type_name'],
+                    'items' => []
+                ];
+            }
         }
 
+        array_push($tempAreaLogEntry['item_types'], $tempItems);
         array_push($areasLogEntries, $tempAreaLogEntry);
     }
 

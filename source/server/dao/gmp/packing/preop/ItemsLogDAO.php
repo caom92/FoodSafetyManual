@@ -40,12 +40,17 @@ class ItemsLogDAO extends db\DataAccessObject
                 'a.name(area_name)',
                 'i.position', 
                 'i.name(item_name)',
+                'i.type_id(type_id)',
+                'it.name(type_name)',
                 'is_acceptable',
                 'ca.code(corrective_action)',
                 'comment'  
             ],
             [
-                'area_log_id' => $areaLogID
+                'area_log_id' => $areaLogID,
+                'ORDER' => [
+                    'type_id', 'position'
+                ]
             ],
             [
                 '[><]gmp_packing_preop_corrective_actions(ca)' => [
@@ -56,7 +61,11 @@ class ItemsLogDAO extends db\DataAccessObject
                 ],
                 '[><]working_areas(a)' => [
                     'i.area_id' => 'id'
+                ],
+                '[><]item_types(it)' => [
+                    'i.type_id' => 'id'
                 ]
+                
             ]
         );
     }
