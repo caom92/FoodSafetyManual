@@ -421,6 +421,21 @@ fsm\Controller::$services = [
             ]
         ],
         'callback' => 'fsm\services\gmp\packing\preop\getReportData'
+    ],
+    'upload-manual-gmp-packing-preop' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'has_privilege' => [
+                'privilege' => ['Read', 'Write'],
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Pre-Operational Inspection'
+            ],
+            'manual_file' => [
+                'type' => 'files'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\preop\uploadManualFile'
     ]
 ];
 
