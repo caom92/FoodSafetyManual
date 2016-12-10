@@ -15,8 +15,9 @@ use fsm\database as db;
 // The communication bridge between the frontend and the backend
 class Controller
 {
-    // Starts execution of the controller
-    static function execute()
+    // Provides the service requested by the remote client and sends back the
+    // result of such service as response
+    static function serveRemoteClient()
     {
         try {
             // get the requested service
@@ -43,13 +44,15 @@ class Controller
 
                 // execute the service
                 $result = $callback();
-                self::respond($result);
+                self::respondToRemoteClient($result);
             } else {
-                throw new \Exception('The requested service does not exists.', 1);
+                throw new \Exception(
+                  'The requested service does not exists.', 1
+                );
             }
         } catch (\Exception $e) {
             // if there was a problem, notify the client
-            self::respond(
+            self::respondToRemoteClient(
                 [],
                 $e->getMessage(),
                 $e->getCode()
@@ -72,7 +75,7 @@ class Controller
     // [in]     [message]: the message string providing more information about
     //          the code sent
     // [in]     [code]: the return code or error code to be sent back
-    static private function respond(
+    static private function respondToRemoteClient(
         $data = [],
         $message = 'Success.',
         $code = 0

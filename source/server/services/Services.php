@@ -356,7 +356,7 @@ fsm\Controller::$services = [
     ],
     'get-items-of-zone' => [
         'requirements_desc' => [
-            'logged_in' => ['Director', 'Supervisor', 'Employee'],
+            'logged_in' => ['Manager', 'Supervisor', 'Employee'],
             'has_privilege' => [
                 'privilege' => ['Read', 'Write'],
                 'program' => 'GMP',
@@ -408,7 +408,7 @@ fsm\Controller::$services = [
     ],
     'report-gmp-packing-preop' => [
         'requirements_desc' => [
-            'logged_in' => ['Director', 'Supervisor', 'Employee'],
+            'logged_in' => ['Manager', 'Supervisor', 'Employee'],
             'has_privilege' => [
                 'privilege' => ['Read', 'Write'],
                 'program' => 'GMP',

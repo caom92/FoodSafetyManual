@@ -8,6 +8,6 @@ ini_set("log_errors", true);
 ini_set("error_log", fsm\LOG_FILE);
 
 // Execute the controller
-fsm\Controller::execute();
+fsm\Controller::serveRemoteClient();
 
 ?>

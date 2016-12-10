@@ -167,4 +167,34 @@ function isDateTime($string, $format)
     return $dateTime !== FALSE;
 }
 
+
+// Checks if the input argument is a boolean value, returning true if this is 
+// the case or false otherwise
+function isBoolean($value)
+{
+    // check if the value is a string or an integer
+    $isInteger = isInteger($value);
+    $isString = isString($value);
+
+    // if it's an integer, check if its value is 0 or greater
+    if ($isInteger) {
+        $value = intval($value);
+        return integerIsBetweenValues($value, 0, \PHP_MAX_INT);
+    }
+
+    // if it's a string, check if it resembles a boolean value
+    if ($isString) {
+        return 
+            $value == 'true'  || 
+            $value == 'false' ||
+            $value == 'TRUE'  ||
+            $value == 'FALSE' ||
+            $value == '0'     ||
+            $value == '1';
+    }
+
+    // for anything else, return false
+    return false;
+}
+
 ?>

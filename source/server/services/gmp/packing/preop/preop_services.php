@@ -21,7 +21,7 @@ use fsm\database as db;
 
 
 // Lists all the corrective actions
-function getAllCorrectiveActions() 
+function getAllCorrectiveActions()
 {
     $correctiveActions = new preop\CorrectiveActionsDAO();
     return $correctiveActions->selectAll();
@@ -31,9 +31,9 @@ function getAllCorrectiveActions()
 // Adds a new entry to the pre-op log
 function registerLogEntry()
 {
-    // first, let's check if the client sent the values to be inserted 
+    // first, let's check if the client sent the values to be inserted
     // in the proper array format
-    $isSet = 
+    $isSet =
         isset($_POST['area_log']) && array_key_exists('area_log', $_POST);
 
     if (!$isSet) {
@@ -50,7 +50,7 @@ function registerLogEntry()
             );
         }
 
-        $isString = 
+        $isString =
             val\stringHasLengthInterval($areaLogEntry['notes'], 0, 64);
 
         if (!$isString) {
@@ -59,7 +59,7 @@ function registerLogEntry()
             );
         }
 
-        $isString = 
+        $isString =
             val\stringHasLengthInterval(
                 $areaLogEntry['person_performing_sanitation'], 0, 64
             );
@@ -81,12 +81,8 @@ function registerLogEntry()
                     'An item ID is not valid'
                 );
             }
-
-            $isBool = val\integerIsBetweenValues(
-                $itemsLogEntry['is_acceptable'], 
-                0, 
-                \PHP_MAX_INT
-            );
+            
+            $isBool = val\isBoolean($itemsLogEntry['is_acceptable']);
 
             if (!$isBool) {
                 throw new \Exception(
@@ -127,7 +123,7 @@ function registerLogEntry()
         'GMP', 'Packing', 'Pre-Operational Inspection'
     );
 
-    // before inserting into the data base, check that there is no entry of 
+    // before inserting into the data base, check that there is no entry of
     // this log already
     $isLogEntryDuplicated = $logDate->hasByDateAndLogID($_POST['date'], $logID);
     if ($isLogEntryDuplicated) {
@@ -141,7 +137,7 @@ function registerLogEntry()
         'date' => $_POST['date']
     ]);
 
-    // create a temporal storage for the many entries to be inserted in 
+    // create a temporal storage for the many entries to be inserted in
     // the per item log
     $itemsLogEntries = [];
 
@@ -152,7 +148,7 @@ function registerLogEntry()
             'capture_date_id' => $logID,
             'time' => $areaLogEntry['time'],
             'notes' => $areaLogEntry['notes'],
-            'person_performing_sanitation' => 
+            'person_performing_sanitation' =>
                 $areaLogEntry['person_performing_sanitation']
         ]);
 
@@ -162,22 +158,22 @@ function registerLogEntry()
                 'area_log_id' => $areaID,
                 'item_id' => $itemsLogEntry['item_id'],
                 'is_acceptable' => $itemsLogEntry['is_acceptable'],
-                'corrective_action_id' => 
+                'corrective_action_id' =>
                     $itemsLogEntry['corrective_action_id'],
                 'comment' => $itemsLogEntry['comment']
             ]);
         }
     }
 
-    // finally, store all the per item log entries in the data base in a 
+    // finally, store all the per item log entries in the data base in a
     // single query
     $itemsLog->insert($itemsLogEntries);
-    
+
     return [];
 }
 
 
-// Returns the pre-operational log entries of the working areas and their 
+// Returns the pre-operational log entries of the working areas and their
 // items in a determined zone that where captured in the given date for
 // presentation in a report
 function getReportData()
@@ -188,7 +184,7 @@ function getReportData()
     $logs = new db\LogsDAO();
 
     $logID = $logDate->getIDByDateLogIDAndZoneID(
-        $_POST['date'], 
+        $_POST['date'],
         $logs->getIDByNames(
             'GMP', 'Packing', 'Pre-Operational Inspection'
         ),
@@ -207,28 +203,47 @@ function getReportData()
         $tempAreaLogEntry = [
             'area_id' => $items[0]['area_id'],
             'area_name' => $items[0]['area_name'],
-            'person_performing_sanitation' => 
+            'person_performing_sanitation' =>
                 $areaData['person_performing_sanitation'],
             'notes' => $areaData['notes'],
             'time' => $areaData['time'],
+            'types' => []
+        ];
+
+        $currentType = $items[0]['type_id'];
+        $tempItems = [
+            'id' => $items[0]['type_id'],
+            'name' => $items[0]['type_name'],
             'items' => []
         ];
 
         foreach ($items as $item) {
-            array_push($tempAreaLogEntry['items'], [
-                'item_order' => $item['position'],
-                'item_name' => $item['item_name'],
-                'item_status' => $item['is_acceptable'],
-                'item_corrective_action' => $item['corrective_action'],
-                'item_comments' => $item['comment']
-            ]);
+            $hasTypeChanged = $tempItems['type_id'] != $item['type_id'];
+
+            if (!$hasTypeChanged) {
+                array_push($tempItems['items'], [
+                    'item_order' => $item['position'],
+                    'item_name' => $item['item_name'],
+                    'item_status' => $item['is_acceptable'],
+                    'item_corrective_action' => $item['corrective_action'],
+                    'item_comments' => $item['comment']
+                ]);
+            } else {
+                array_push($tempAreaLogEntry['item_types'], $tempItems);
+                $tempItems = [
+                    'id' => $item['type_id'],
+                    'name' => $item['type_name'],
+                    'items' => []
+                ];
+            }
         }
 
+        array_push($tempAreaLogEntry['item_types'], $tempItems);
         array_push($areasLogEntries, $tempAreaLogEntry);
     }
 
     return [
-        'created_by' => 
+        'created_by' =>
             $_SESSION['first_name'].' '.$_SESSION['last_name'],
         'approved_by' => 'God',
         'creation_date' => $_POST['date'],
