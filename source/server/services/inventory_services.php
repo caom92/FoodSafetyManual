@@ -51,7 +51,10 @@ function addNewItem()
     // count the number of items in this area
     // so we can compute the position of this item and add it
     // in the last position
-    $numItemsInArea = $items->countByAreaID($_POST['area_id']);
+    $numItemsInArea = $items->countByAreaAndTypeIDs(
+        $_POST['area_id'],
+        $_POST['type_id']
+    );
 
     // store the item in the data base 
     return $items->insert([

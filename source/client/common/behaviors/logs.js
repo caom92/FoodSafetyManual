@@ -38,6 +38,108 @@ $(function (){
     // We load the tabs; we have 2 or 3 depending on the privileges of the user
     // Read means we can load the PDF manual and see past logs
     // Write means we can read and also submit a new log with the current date
+
+    // add functionality to the file input so that the mime type of the file to 
+    // be uploaded is checked so that only PDF files are accepted
+    $('#manual_file').on('change', function() {
+        var isInvalid = $('.file-path').hasClass('invalid');
+        if (isInvalid) {
+            $('.file-path').removeClass('invalid');
+            $('.file-path').addClass('valid');
+        }
+
+        validateFileFormats(
+            document.getElementById('manual_file').files,
+            { pdf: true },
+            function() {
+                Materialize.toast(
+                    'Only PDF files are accepted for upload',
+                    3500, 'rounded'
+                );
+                $('.file-path').removeClass('valid');
+                $('.file-path').addClass('invalid');
+            }
+        );
+    })
+
+    // check if the user is of the appropiate role
+    var isAdminRole = 
+        localStorage.role_name == 'Supervisor';
+
+    if (isAdminRole) {
+        // if she is, then display the upload file button
+        $('#upload-manual-section-trigger').show();
+
+        // and configure its behavior when the button is clicked
+        $('#upload-manual').on('click', function(event) {
+            // stop default button behavior
+            event.preventDefault();
+
+            // check if the upload manual section is being displayed
+            var uploadManualSection = $('#upload-manual-section'); 
+            var isFormVisible = uploadManualSection.is(':visible');
+            var file = $('#manual_file').val();
+
+            if (isFormVisible) {
+                // if it is, check if the file filed is empty
+                var isEmpty = file === '' || file  === null;
+
+                if (isEmpty) {
+                    // if it is, mark it as invalid
+                    $('.file-path').removeClass('valid');
+                    $('.file-path').addClass('invalid');
+                }
+                
+                // if it's not, check if it has the invalid class
+                var isInvalid = $('.file-path').hasClass('invalid');
+
+                if (isInvalid) {
+                    // if it does, notify the user
+                    Materialize.toast(
+                        'A PDF file must be provided',
+                        3500,
+                        'rounded'
+                    );
+                } else {
+                    var formData = new FormData($('#upload-manual-form')[0]);
+                    $('#progress-bar').show();
+                    // if it doesn't, send the file to the server
+                    $server.request({
+                        service: 'upload-manual-gmp-packing-preop',
+                        data: formData,
+                        success: function(response) {
+                            // check if the server responded successfully
+                            if (response.meta.return_code == 0) {
+                                // if it did, notify the user
+                                Materialize.toast(
+                                    'The file was uploaded successfully',
+                                    3500,
+                                    'rounded'
+                                );
+
+                                // and hide the file upload form
+                                uploadManualSection.hide();
+
+                                // and hide the progress bar
+                                $('#progress-bar').hide();
+                            } else {
+                                // if not, notify the user
+                                Materialize.toast(
+                                    'There was an error and the file could ' +
+                                    'not be uploaded',
+                                    3500,
+                                    'rounded'
+                                );
+                            }
+                        }
+                    });
+                }
+            } else {
+                // if the upload manual section is hidden, display it
+                uploadManualSection.show();
+            }
+        });
+    }
 });
 
 

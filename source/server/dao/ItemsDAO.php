@@ -38,6 +38,7 @@ class ItemsDAO extends DataAccessObject
                 'area_id' => $areaID,
                 'ORDER' => [
                     'area_id',
+                    'type_id',
                     'position'
                 ]
             ],
@@ -68,9 +69,12 @@ class ItemsDAO extends DataAccessObject
 
 
     // Returns the number of items associated to the specified working area
-    function countByAreaID($areaID)
+    function countByAreaAndTypeIDs($areaID, $typeID)
     {
-        return parent::count([ 'area_id' => $areaID ]);
+        return parent::count([ 
+            'area_id' => $areaID,
+            'type_id' => $typeID 
+        ]);
     }
 
 
