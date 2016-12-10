@@ -551,4 +551,14 @@
         <english>Unacceptable</english>
         <spanish>Inaceptable</spanish>
     </translation>
+
+    <translation id="notes_title">
+        <english>Notes</english>
+        <spanish>Notas</spanish>
+    </translation>
+
+    <translation id="person_performing_sanitation_title">
+        <english>Person performing sanitation</english>
+        <spanish>Persona a cargo de la sanitización</spanish>
+    </translation>
 </translations>

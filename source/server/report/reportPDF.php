@@ -14,6 +14,7 @@
         "zone" => "Zona",
         "program" => "Programa",
         "module" => "Módulo",
+        "log" => "Bitácora",
         "page" => "Página",
         "of" => "de",
         "date" => "Fecha",
@@ -25,6 +26,7 @@
         "zone" => "Zone",
         "program" => "Program",
         "module" => "Module",
+        "log" => "Log",
         "page" => "Page",
         "of" => "of",
         "date" => "Date",
@@ -89,6 +91,7 @@
             $zone = $reportHeader->zone;
             $program = $reportHeader->program;
             $module = $reportHeader->module;
+            $log = $reportHeader->log;
             $date = $reportHeader->date;
             $elaboration = $reportHeader->elaboration;
             $approval = $reportHeader->approval;
@@ -108,7 +111,8 @@
             <div style="text-align:justify;">
                 '.$zone.'<br>
                 '.$program.'<br>
-                '.$module.'
+                '.$module.'<br>
+                '.$log.'
             </div>
             ';
             $reportInfo = '
@@ -119,7 +123,7 @@
             </div>
             ';
             $this->writeHTMLCell(null, null, null, 25, $moduleInfo, 1, 0, false, true);
-            $this->writeHTMLCell(null, null, null, 38.5, $reportInfo, 1, 0, false, true);
+            $this->writeHTMLCell(null, null, null, 43, $reportInfo, 1, 0, false, true);
         }
 
         public function getReportHeader($zone, $module, $date){
@@ -128,12 +132,13 @@
 
             //Build the object
             $data = new stdClass();
-            $data->{"zone"} = $this->stringArray[$this->lang]["zone"].": "."BCN";
-            $data->{"program"} = $this->stringArray[$this->lang]["program"].": "."SSOP";
-            $data->{"module"} = $this->stringArray[$this->lang]["module"].": "."Sanitation Preop";
-            $data->{"date"} = $this->stringArray[$this->lang]["date"].": "."01/01/2016";
+            $data->{"zone"} = $this->stringArray[$this->lang]["zone"].": "."LAW";
+            $data->{"program"} = $this->stringArray[$this->lang]["program"].": "."Packing";
+            $data->{"module"} = $this->stringArray[$this->lang]["module"].": "."GMP";
+            $data->{"log"} = $this->stringArray[$this->lang]["log"].": "."Pre-Operational Inspection";
+            $data->{"date"} = $this->stringArray[$this->lang]["date"].": "."24/11/2016";
             $data->{"elaboration"} = $this->stringArray[$this->lang]["elaboration"].": "."Victor Miracle";
-            $data->{"approval"} = $this->stringArray[$this->lang]["approval"].": "."Carlos Oliva";
+            $data->{"approval"} = $this->stringArray[$this->lang]["approval"].": "."God";
 
             return $data;
         }
@@ -142,6 +147,176 @@
 
         }
     }
+
+    class HTMLElement {
+        private $tag;
+        private $classes = "";
+        private $attributes = array();
+        private $content = array();
+
+        public function addClass($classes){
+            if($this->classes=="")
+                $this->classes .= $classes;
+            else
+                $this->classes .= " ".$classes;
+        }
+
+        public function attr($attribute, $value){
+            $this->attributes[$attribute] = $value;
+        }
+
+        public function append($content){
+            array_push($this->content, $content);
+        }
+
+        public function __construct($tag){
+            $this->tag = $tag;
+        }
+
+        public function __toString(){
+            $text = "";
+
+            // Opening tag without a >, we must first append classes and attributes
+
+            $text .= "&lt";
+            $text .= $this->tag;
+
+            // Append classes
+
+            $text .= " class=\"".$this->classes."\"";
+
+            // Add attributes
+
+            foreach ($this->attributes as $key => $value) {
+                $text .= " ".$key."=\"".$value."\"";
+                // $text .= $key."lmao";
+            }
+
+            // Close opening tag
+
+            $text .= "&gt";
+
+            // Append contents
+
+            foreach ($this->content as $value) {
+                $text .= $value;
+            }
+
+            // Add closing tag
+
+            $text .= "&lt/".$this->tag."&gt";
+
+            return $text;
+        }
+    }
+/*
+    function reportTable(id, classes, header, body, footer){
+        var table = new HTMLElement("table");
+
+        table->addClass(classes);
+
+        if(id)
+            table->attr("id", id);
+
+        table->append(header);
+        table->append(body);
+        // table->append(footer);
+
+        return table;
+    }
+
+    function reportBody(id, classes, rowsArray){
+
+        var body = new HTMLElement("tbody");
+
+        body->addClass(classes);
+
+        if(id)
+            body->attr("id", id);
+
+        rowsArray.forEach(function(index){
+            body->append(reportRow(id, classes, index));
+        });
+
+        return body;
+    }
+
+    function reportFooter(){
+
+    }
+
+    function reportTitle(id, classes, titleArray){
+        // Title Array must be as follows
+        // An array of objects with attributes classes and colspan
+        // Classes will be the classes added to the <th>
+        // colspan will be the number of columns the <th> will span
+        // {classes: "class", colspan: 2}
+
+        var header = new HTMLElement("thead");
+        var headerRow = new HTMLElement("tr");
+
+        headerRow->addClass(classes);
+
+        if(id)
+            headerRow->attr("id", id);
+
+        titleArray.forEach(function(index){
+            var th = new HTMLElement("th");
+            th->addClass(index.classes);
+
+            if(index.colspan){
+                th->attr("colspan", index.colspan);
+            }
+
+            headerRow->append(th);
+        });
+
+        header->append(headerRow);
+
+        return header;
+    }
+
+    function reportRow(id, classes, columnArray){
+        // Column Array must be as follows
+        // An array of objects with attributes classes, rowspan and contents
+        // Classes will be the classes added to the <td>
+        // rowspan will be the rows the <td> will span
+        // contents will be the contents to be shown on the <td>
+        // {classes: "class", rowspan: 2, contents: "Hello World"}
+
+        var row = new HTMLElement("tr");
+
+        row->addClass(classes);
+
+        if(id)
+            row->attr("id", id);
+
+        columnArray.forEach(function(column){
+            row->append(reportRowColumn(column));
+        });
+
+        return row;
+    }
+
+    function reportRowColumn(columnObject){
+        // Column Array must be as follows
+        // A singlem object with attributes
+        // Classes will be the classes added to the <td>
+        // rowspan will be the rows the <td> will span
+        // contents will be the contents to be shown on the <td>
+        // {classes: "class", rowspan: 2, contents: "Hello World"}
+
+        var column = new HTMLElement("td");
+
+        column->addClass(columnObject.classes);
+
+        if(columnObject.rowspan)
+            column->attr("rowspan", columnObject.rowspan);
+
+        column->append(columnObject.contents);
+
+        return column;
+    }*/
 
     // create new PDF document
     $pdf = new SSOPReport(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -154,7 +329,7 @@
     // $pdf->AddPage();
 
     // set margins
-    $pdf->SetMargins(PDF_MARGIN_LEFT, 55, PDF_MARGIN_RIGHT);
+    $pdf->SetMargins(PDF_MARGIN_LEFT, 60, PDF_MARGIN_RIGHT);
     $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
     $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
@@ -179,7 +354,7 @@
     // dejavusans is a UTF-8 Unicode font, if you only need to
     // print standard ASCII chars, you can use core fonts like
     // helvetica or times to reduce file size.
-    $pdf->SetFont('helvetica', '', 12, '', true);
+    $pdf->SetFont('helvetica', '', 10, '', true);
 
     // Add a page
     // This method has several options, check the source code documentation for more information.
@@ -210,42 +385,41 @@ th {
     background-color: #b8e0b9;
 }
 
-.approved {
-    color: green;
+.verticaltext{
+    writing-mode:tb-rl;
+    transform: rotate(90deg);
+    white-space:nowrap;
+    word-break:break-word;
+    bottom:0;
 }
 
-.notApproved {
-    color: red;
+.nameColumn{
+    width:116px;
 }
+
+.numberColumn{
+    width:30px;
+}
+
+.timeColumn{
+    width:40px;
+}
+
+.statusColumn{
+    width:85px;
+}
+
+.actionColumn{
+    width:70px;
+}
+
+.commentColumn{
+    width:200px;
+}
+
 </style>
 
-<table>
-  <tr>
-    <th>Elemento</th>
-    <th>Estado</th>
-    <th>Comentarios</th>
-  </tr>
-  <tr>
-    <td>Mesas de trabajo</td>
-    <td class="approved">Aprobado</td>
-    <td>Se encontraba limpia y libre de polvo</td>
-  </tr>
-  <tr class="even">
-    <td>Cajas</td>
-    <td class="approved">Aprobado</td>
-    <td>Estaban acomodadas en su lugar y no se notó ninguna anomalía</td>
-  </tr>
-  <tr>
-    <td>Pisos</td>
-    <td class="notApproved">No aprobado</td>
-    <td>El suelo se encontraba húmedo. Inmediatamente se limpio antes de comenzar con el trabajo del dia</td>
-  </tr>
-  <tr class="even">
-    <td>Montacargas</td>
-    <td class="approved">Aprobado</td>
-    <td>El tanque de gasolina estaba lleno hasta la mitad, se encomendó rellenarlo al terminar la jornada.</td>
-  </tr>
-</table>
+<table class="lmao" id="testTable"><thead class=""><tr class="whatever"><th class="area_title areaColumn">Área</th><th class="time_title timeColumn">Hora</th><th class="number_title numberColumn">#</th><th class="name_title nameColumn">Nombre</th><th class="status_title statusColumn">Condiciones</th><th class="action_title actionColumn">Acción correctiva</th><th class="comment_title commentColumn">Comentarios</th></tr></thead><tbody class="whatever"><tr class="whatever"><td class="areaColumn" rowspan="7">Warehouse</td><td class="timeColumn" rowspan="7">12:09</td><td class="numberColumn">1</td><td class="nameColumn">Floors</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">2</td><td class="nameColumn">Ceiling Lights</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">3</td><td class="nameColumn">Trash Recepticales</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">4</td><td class="nameColumn">Equipment Tomatoes</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">5</td><td class="nameColumn">Stainless Table (5)</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">6</td><td class="nameColumn">Roll Up Loading Doors</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">7</td><td class="nameColumn">Forklift/Palletjack/Wave</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="areaColumn" rowspan="7">Cooler #1</td><td class="timeColumn" rowspan="7">12:09</td><td class="numberColumn">1</td><td class="nameColumn">Floors</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">2</td><td class="nameColumn">Cool Care Fans</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">3</td><td class="nameColumn">Ceiling Lights</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">4</td><td class="nameColumn">Trash Recepticales</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">5</td><td class="nameColumn">Walls</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">6</td><td class="nameColumn">Plastic Curtains</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">7</td><td class="nameColumn">Cooling Units</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="areaColumn" rowspan="6">Cooler #2</td><td class="timeColumn" rowspan="6">12:09</td><td class="numberColumn">1</td><td class="nameColumn">Floors</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">2</td><td class="nameColumn">Ceiling Lights</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">3</td><td class="nameColumn">Trash Recepticales</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">4</td><td class="nameColumn">Walls</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">5</td><td class="nameColumn">Plastic Curtains</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">6</td><td class="nameColumn">Cooling Units</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr></tbody></table>
 ';
 
     // Print text using writeHTMLCell()

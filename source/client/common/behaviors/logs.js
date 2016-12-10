@@ -149,8 +149,11 @@ function SSOPPreOperativeArea(area){
     var sanitationRow = divWrapper(null, "row");
 
     areaCard.append(title);
+    areaCard.append("<br>");
+    areaCard.append("<br>");
 
     for (var type of area.types){
+        areaCard.append(SSOPTypeTitle(type.name));
         for (var item of type.items){
             areaCard.append(SSOPPreoperativeItem(item, area.id));
         }
@@ -268,6 +271,9 @@ function reportRowColumn(columnObject){
     if(columnObject.rowspan)
         column.attr("rowspan", columnObject.rowspan);
 
+    if(columnObject.colspan)
+        column.attr("colspan", columnObject.colspan);
+
     column.append(columnObject.contents);
 
     return column;
@@ -287,6 +293,8 @@ function loadSSOPReport(startDate){
 
                 var reportData = response.data;
 
+                console.log(reportData);
+
                 wrapper.append(reportHeader(reportData.zone_name, reportData.module_name, reportData.program_name, reportData.log_name, reportData.creation_date, reportData.created_by, reportData.approval_date, reportData.approved_by));
 
                 $("#report_tab").append(wrapper);
@@ -294,18 +302,18 @@ function loadSSOPReport(startDate){
                 var report = divWrapper(null, null);
                 
                 var headers = [
-                    {"classes":"area_title"},
-                    {"classes":"time_title"},
-                    {"classes":"number_title"},
-                    {"classes":"name_title"},
-                    {"classes":"status_title"},
-                    {"classes":"action_title"},
-                    {"classes":"comment_title"}
+                    {"classes":"area_title areaColumn"},
+                    {"classes":"time_title timeColumn"},
+                    {"classes":"number_title numberColumn"},
+                    {"classes":"name_title nameColumn"},
+                    {"classes":"status_title statusColumn"},
+                    {"classes":"action_title actionColumn"},
+                    {"classes":"comment_title commentColumn"}
                 ];
 
                 var reportContents = new Array(); // Type Row Array
 
-                response.data.areas.forEach(function(index){
+                reportData.areas.forEach(function(index){
                     // We must convert accordingly
                     /* 
                     Column {classes: "something", rowspan: 1, contents: "Anything"}
@@ -322,42 +330,51 @@ function loadSSOPReport(startDate){
 
                     var firstRow = new Array(); // Type Row
 
-                    firstRow.push({rowspan: index.items.length, contents: index.area_name});
-                    firstRow.push({rowspan: index.items.length, contents: index.time});
+                    firstRow.push({rowspan: index.items.length + 2, contents: index.area_name, classes: "areaColumn"});
+                    firstRow.push({rowspan: index.items.length + 2, contents: index.time, classes: "timeColumn"});
 
                     index.items.forEach(function(item){
                         if (isFirst) {
-                            firstRow.push({contents: item.item_order});
-                            firstRow.push({contents: item.item_name});
+                            firstRow.push({contents: item.item_order, classes: "numberColumn"});
+                            firstRow.push({contents: item.item_name, classes: "nameColumn"});
 
                             if(item.item_status == 1){
-                                firstRow.push({classes: "green-text acceptable_tag"});
+                                firstRow.push({classes: "acceptable_tag statusColumn"});
                             } else {
-                                firstRow.push({classes: "red-text unacceptable_tag"});
+                                firstRow.push({classes: "unacceptable_tag statusColumn"});
                             }
 
-                            firstRow.push({contents: item.item_corrective_action});
-                            firstRow.push({contents: item.item_comments});
+                            firstRow.push({contents: item.item_corrective_action, classes: "actionColumn"});
+                            firstRow.push({contents: item.item_comments, classes: "commentColumn"});
                             reportContents.push(firstRow);
                             isFirst = false;
                         } else {
                             var tempRow = new Array();
 
-                            tempRow.push({contents: item.item_order});
-                            tempRow.push({contents: item.item_name});
+                            tempRow.push({contents: item.item_order, classes: "numberColumn"});
+                            tempRow.push({contents: item.item_name, classes: "nameColumn"});
 
                             if(item.item_status == 1){
-                                tempRow.push({classes: "green-text acceptable_tag"});
+                                tempRow.push({classes: "acceptable_tag statusColumn"});
                             } else {
-                                tempRow.push({classes: "red-text unacceptable_tag"});
+                                tempRow.push({classes: "unacceptable_tag statusColumn"});
                             }
 
-                            tempRow.push({contents: item.item_corrective_action});
-                            tempRow.push({contents: item.item_comments});
+                            tempRow.push({contents: item.item_corrective_action, classes: "actionColumn"});
+                            tempRow.push({contents: item.item_comments, classes: "commentColumn"});
 
                             reportContents.push(tempRow);
                         }
                     });
+
+                    var notesRow = new Array();
+                    var personRow = new Array();
+
+                    notesRow.push({colspan: headers.length - 1, contents: "<span class='bold notes_title'></span>: " + index.notes, classes: "fullColumn"});
+                    personRow.push({colspan: headers.length - 1, contents: "<span class='bold person_performing_sanitation_title'></span>: " + index.person_performing_sanitation, classes: "fullColumn"});
+
+                    reportContents.push(notesRow);
+                    reportContents.push(personRow);
                 });
 
                 console.log(reportContents);
@@ -487,11 +504,11 @@ function sendSSOPReport(){
                 hardware.is_acceptable = getBool($("input:radio[name='radio_" + id[0] +"_" + id[1] +"']:checked").val());
                 if(hardware.is_acceptable === false) {
                     console.log("lmao inaceptable");
-                    hardware.is_acceptable = 0;
+                    hardware.is_acceptable = false;
                     hardware.corrective_action_id = Number($("#select_" + id[0] + "_" + id[1]).val());
                 } else {
                     console.log("lmao aceptable");
-                    hardware.is_acceptable = 1;
+                    hardware.is_acceptable = true;
                     hardware.corrective_action_id = 1;
                 }
                 hardware.comment = $("#comment_" + id[0] + "_" + id[1]).val();
@@ -525,6 +542,13 @@ function sendSSOPReport(){
 
     console.log(report);
     console.log(JSON.stringify(report));
+}
+
+function SSOPTypeTitle(type){
+    var title = $("<div>");
+    title.attr("style", "font-weight: bold;");
+    title.append(type);
+    return title;
 }
 
 function SSOPPreoperativeItem(item, areaID){
