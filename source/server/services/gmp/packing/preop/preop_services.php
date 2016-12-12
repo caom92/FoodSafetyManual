@@ -229,7 +229,7 @@ function getReportData()
                     'item_comments' => $item['comment']
                 ]);
             } else {
-                array_push($tempAreaLogEntry['item_types'], $tempItems);
+                array_push($tempAreaLogEntry['types'], $tempItems);
                 $tempItems = [
                     'id' => $item['type_id'],
                     'name' => $item['type_name'],

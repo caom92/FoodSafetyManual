@@ -152,6 +152,11 @@
         <spanish>Abrir reporte</spanish>
     </translation>
 
+    <translation id="view_pdf">
+        <english>View in PDF</english>
+        <spanish>Ver en PDF</spanish>
+    </translation>
+
     <translation id="attach_file">
         <english>Attach</english>
         <spanish>Adjuntar</spanish>
@@ -210,6 +215,11 @@
     <translation id="select_options">
         <english>Choose some options</english>
         <spanish>Selecciona alguna opcion</spanish>
+    </translation>
+
+    <translation id="select_corrective_action">
+        <english>Select the corrective action</english>
+        <spanish>Seleccione la acción correctiva</spanish>
     </translation>
 
     <translation id="description">

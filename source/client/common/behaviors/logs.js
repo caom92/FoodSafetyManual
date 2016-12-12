@@ -18,6 +18,20 @@ $(function (){
     createDatePicker();
 
     $server.request({
+        service: 'list-corrective-actions',
+        success: function(response) {
+            if (response.meta.return_code == 0) {
+                localStorage.correctiveActionsSSOP = JSON.stringify(response.data);
+                console.log(response.data);
+                console.log(JSON.stringify(response.data));
+            } else {
+                Materialize.toast("Some error", 3000, "rounded");
+                throw response.meta.message;
+            }
+        }
+    });
+
+    $server.request({
         service: 'get-items-of-zone',
         success: function(response) {
             if (response.meta.return_code == 0) {
@@ -176,7 +190,6 @@ function SSOPPreOperative(data){
             var id = tag.match(/[0-9]+_[0-9]+/g);
             $("#wrapper_select_" + id[0]).hide(500);
             $("#comment_wrapper_" + id[0]).hide(500);
-            console.log("POSSITIVE CHECKED");
         }
     });
 
@@ -186,8 +199,13 @@ function SSOPPreOperative(data){
             var id = tag.match(/[0-9]+_[0-9]+/g);
             $("#wrapper_select_" + id[0]).show(500);
             $("#comment_wrapper_" + id[0]).show(500);
-            console.log("NEGATIVE CHECKED");
         }
+    });
+
+    $("#logs_tab input, #logs_tab select").change(function(){
+        var tag = $(this).attr("id");
+        var id = tag.match(/[0-9]+/g);
+        $("#area_time_" + id[id.length-1]).val(getISOTime(new Date()));
     });
 
     $("#sendSSOP").click(function(){
@@ -247,10 +265,15 @@ function isSSOPReportValid(){
 function SSOPPreOperativeArea(area){
     var areaCard = divWrapper("area_report_" + area.id, "card-panel white");
     var title = cardTitle(null, "card-title", area.name);
+    var timeWrapper = divWrapper(null, "row");
+    var areaTime = logTextField("area_time_wrapper" +  area.id, logTextInput("area_time_" + area.id, "validate", "text", null), null, "input-field col s12");
     var notesRow = divWrapper(null, "row");
     var sanitationRow = divWrapper(null, "row");
 
+    timeWrapper.append(areaTime);
+
     areaCard.append(title);
+    areaCard.append(timeWrapper);
     areaCard.append("<br>");
     areaCard.append("<br>");
 
@@ -415,42 +438,32 @@ function loadSSOPReport(startDate){
 
                 var reportContents = new Array(); // Type Row Array
 
-                reportData.areas.forEach(function(index){
-                    // We must convert accordingly
-                    /* 
-                    Column {classes: "something", rowspan: 1, contents: "Anything"}
-                    Row [{classes: "something", rowspan: 1, contents: "Anything"}, {classes: "something", rowspan: 1, contents: "Anything"}, {classes: "something", rowspan: 1, contents: "Anything"}]
-                    Row Array 
-                    [
-                        [{classes: "something", rowspan: 1, contents: "Anything"}, {classes: "something", rowspan: 1, contents: "Anything"}, {classes: "something", rowspan: 1, contents: "Anything"}],
-                        [{classes: "something", rowspan: 1, contents: "Anything"}, {classes: "something", rowspan: 1, contents: "Anything"}, {classes: "something", rowspan: 1, contents: "Anything"}],
-                        [{classes: "something", rowspan: 1, contents: "Anything"}, {classes: "something", rowspan: 1, contents: "Anything"}, {classes: "something", rowspan: 1, contents: "Anything"}]
-                    ]
-                    */
-
+                reportData.areas.forEach(function(area) {
                     var isFirst = true;
-
                     var firstRow = new Array(); // Type Row
 
-                    firstRow.push({rowspan: index.items.length + 2, contents: index.area_name, classes: "areaColumn"});
-                    firstRow.push({rowspan: index.items.length + 2, contents: index.time, classes: "timeColumn"});
+                    var areaRows = 0;
 
-                    index.items.forEach(function(item){
+                    area.types.forEach(function(type) {
+                        areaRows += type.items.length + 1;
+                    });
+
+                    console.log(areaRows);
+
+                    firstRow.push({rowspan: areaRows, contents: area.area_name, classes: "areaColumn"});
+                    firstRow.push({rowspan: areaRows, contents: area.time, classes: "timeColumn"});
+
+                    console.log(area.area_name);
+                    area.types.forEach(function(type) {
                         if (isFirst) {
-                            firstRow.push({contents: item.item_order, classes: "numberColumn"});
-                            firstRow.push({contents: item.item_name, classes: "nameColumn"});
-
-                            if(item.item_status == 1){
-                                firstRow.push({classes: "acceptable_tag statusColumn"});
-                            } else {
-                                firstRow.push({classes: "unacceptable_tag statusColumn"});
-                            }
-
-                            firstRow.push({contents: item.item_corrective_action, classes: "actionColumn"});
-                            firstRow.push({contents: item.item_comments, classes: "commentColumn"});
+                            firstRow.push({colspan: headers.length - 2,  contents: type.name, classes: "typeTitle"});
                             reportContents.push(firstRow);
                             isFirst = false;
                         } else {
+                            reportContents.push([{colspan: headers.length - 2, contents: type.name, classes: "typeTitle"}]);
+                        }
+                        console.log(type.name);
+                        type.items.forEach(function(item){
                             var tempRow = new Array();
 
                             tempRow.push({contents: item.item_order, classes: "numberColumn"});
@@ -466,19 +479,20 @@ function loadSSOPReport(startDate){
                             tempRow.push({contents: item.item_comments, classes: "commentColumn"});
 
                             reportContents.push(tempRow);
-                        }
+                            console.log(item.item_name);
+                        });
                     });
-
                     var notesRow = new Array();
                     var personRow = new Array();
 
-                    notesRow.push({colspan: headers.length - 1, contents: "<span class='bold notes_title'></span>: " + index.notes, classes: "fullColumn"});
-                    personRow.push({colspan: headers.length - 1, contents: "<span class='bold person_performing_sanitation_title'></span>: " + index.person_performing_sanitation, classes: "fullColumn"});
+                    notesRow.push({colspan: headers.length - 2, contents: "<span class='bold notes_title'></span>: " + area.notes, classes: "fullColumn"});
+                    personRow.push({colspan: headers.length - 2, contents: "<span class='bold person_performing_sanitation_title'></span>: " + area.person_performing_sanitation, classes: "fullColumn"});
 
                     reportContents.push(notesRow);
                     reportContents.push(personRow);
                 });
-
+                
+                console.log("IMPRIMIR CONTENIDOS");
                 console.log(reportContents);
                 console.log(JSON.stringify(reportContents));
 
@@ -487,8 +501,10 @@ function loadSSOPReport(startDate){
                 var repTable = reportTable(null, "bordered", reportTitle(null, null, headers), reportBody(null, null, reportContents), null);
 
                 reportWrapper.append(repTable);
-
+                var reportLink = divWrapper(null, null);
+                reportLink.append($('<div class="center-align"><a target="_blank" href="source/server/report/reportPDF.php?date=' + startDate + '" class="waves-effect waves-light btn"><span class="view_pdf"></span>  <i class="mdi mdi-file-pdf mdi-18px"></i></a><div>'));
                 wrapper.append(reportWrapper);
+                wrapper.append(reportLink);
 
                 changeLanguage(localStorage.defaultLanguage);
             } else {
@@ -498,54 +514,6 @@ function loadSSOPReport(startDate){
         }
     });
 }
-
-/*function loadSSOPReport(startDate){
-    var report = new Object();
-    report.date = startDate;
-
-    $server.request({
-        service: 'report-gmp-packing-preop',
-        data: report,
-        success: function(response) {
-            if (response.meta.return_code == 0) {
-                var wrapper = divWrapper(null, null);
-                var reportWrapper = divWrapper(null, "card-panel white");
-
-                var reportData = response.data;
-
-                wrapper.append(reportHeader(reportData.zone_name, reportData.module_name, reportData.program_name, reportData.log_name, reportData.creation_date, reportData.created_by, reportData.approval_date, reportData.approved_by));
-
-                $("#report_tab").append(wrapper);
-
-                var report = divWrapper(null, null);
-                var reportTable = table(null, "bordered");
-                var headers = ["Area", "Tiempo", "Numero", "Nombre", "Condiciones", "Acción Correctiva", "Comentarios"];
-                //var testContent = [["1", "Mesas", "Aceptable", "N/A", "Comentarios"],["2", "Pisos", "Inceptable", "WSR", "Comentarios"]];
-
-                testContent = response.data.areas[0].items;
-
-                reportTable.append(tableHeader(null, null, headers));
-
-                response.data.areas.forEach(function(index){
-                    testContent = index.items;
-                    testContent.forEach(function(index){
-                        var display = ["", "", index.item_order, index.item_name, "Aceptable", index.item_status, index.item_comments];
-                        reportTable.append(tableRow(null, null, display));
-                    });
-                });
-
-                reportWrapper.append(reportTable);
-
-                wrapper.append(reportWrapper);
-
-                changeLanguage(localStorage.defaultLanguage);
-            } else {
-                Materialize.toast("No se encuentra un reporte para esa fecha", 3000, "rounded");
-                throw response.meta.message;
-            }
-        }
-    });
-}*/
 
 function testReportService(){
     var report = new Object();
@@ -587,7 +555,7 @@ function sendSSOPReport(){
     areaArray.forEach(function(areaID){
         var area = new Object();
 
-        area.time = getISOTime(new Date());
+        area.time = $("#area_time_" + areaID).val();
         area.area_id = Number(areaID);
         area.item_logs = new Array();
 
@@ -599,17 +567,14 @@ function sendSSOPReport(){
             var tag = $(this).attr("id");
             var id = tag.match(/[0-9]+/g);
             if(areaID == id[1]){
-                console.log("entrado");
                 var hardware = new Object();
 
                 hardware.item_id = Number(id[0]);
                 hardware.is_acceptable = getBool($("input:radio[name='radio_" + id[0] +"_" + id[1] +"']:checked").val());
                 if(hardware.is_acceptable === false) {
-                    console.log("lmao inaceptable");
                     hardware.is_acceptable = false;
                     hardware.corrective_action_id = Number($("#select_" + id[0] + "_" + id[1]).val());
                 } else {
-                    console.log("lmao aceptable");
                     hardware.is_acceptable = true;
                     hardware.corrective_action_id = 1;
                 }
@@ -654,6 +619,8 @@ function SSOPTypeTitle(type){
 }
 
 function SSOPPreoperativeItem(item, areaID){
+    var cActions = JSON.parse(localStorage.correctiveActionsSSOP);
+
     var itemCard = divWrapper(null, "card-panel white");
     var firstRow = divWrapper(null, "row");
     var secondRow = divWrapper(null, "row");
@@ -661,11 +628,17 @@ function SSOPPreoperativeItem(item, areaID){
     var acceptable = logRadioButtonInput("acceptable_" + item.id + "_" + areaID, null, logLabel(null, "col s4", "acceptable_" + item.id + "_" + areaID, '<i class="mdi mdi-checkbox-marked-circle mdi-18px green-text"></i>'), "radio_" + item.id + "_" + areaID, true);
     var unacceptable = logRadioButtonInput("unacceptable_" + item.id + "_" + areaID, null, logLabel(null, "col s4", "unacceptable_" + item.id + "_" + areaID, '<i class="mdi mdi-close-circle mdi-18px red-text"></i>'), "radio_" + item.id + "_" + areaID, false);
     var status = logRadioButtonGroup("radio_" + item.id + "_" + areaID, "col s4", [acceptable, unacceptable]);
-    var actionEmpty = logSelectOption(null, null, "", true, true, "Seleccione la acción correctiva");
-    var actionNone = logSelectOption(null, null, "1", false, false, "None HARDCODE");
-    var actionRC = logSelectOption(null, null, "2", false, false, "Re-cleaned HARDCODE");
-    var actionWSR = logSelectOption(null, null, "3", false, false, "Wash/Rinse/Sanitize HARDCODE");;
-    var actionsSelect = logSelectInput("select_" + item.id + "_" + areaID, "input-field col s4", [actionEmpty, actionNone, actionRC, actionWSR], logLabel(null, null, "select_" + item.id + "_" + areaID, 'Acción correctiva'));
+    var actionOptions = new Array();
+    var actionEmpty = logSelectOption(null, "select_corrective_action", "", true, true, null);
+    actionOptions.push(actionEmpty);
+    cActions.forEach(function(option){
+        var tempAction = logSelectOption(null, null, String(option.id), false, false, option.name);
+        actionOptions.push(tempAction);
+    });
+    //var actionNone = logSelectOption(null, null, cActions[0].id, false, false, cActions[0].name);
+    //var actionRC = logSelectOption(null, null, cActions[1].id, false, false, cActions[1].name);
+    //var actionWSR = logSelectOption(null, null, cActions[2].id, false, false, cActions[2].name);
+    var actionsSelect = logSelectInput("select_" + item.id + "_" + areaID, "input-field col s4", actionOptions, logLabel(null, "action_title", "select_" + item.id + "_" + areaID, 'Acción correctiva'));
     var comments = logTextField("comment_wrapper_" + item.id + "_" + areaID, logTextInput("comment_" + item.id + "_" + areaID, "validate", "text", null), logLabel(null, null, "comment_" + item.id + "_" + areaID, "Comentarios"), "input-field col s12");
 
     // console.log("Ay lmao" + item["item_name"]);

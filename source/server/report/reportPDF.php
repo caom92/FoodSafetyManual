@@ -1,5 +1,18 @@
 <?php
+
     require_once realpath(dirname(__FILE__)."/../../../external/tcpdf/tcpdf.php");
+    require_once realpath(dirname(__FILE__)."/../services/gmp/packing/preop/preop_services.php");
+    require_once realpath(dirname(__FILE__).'/../Session.php');
+    require_once realpath(dirname(__FILE__).'/htmlManager.php');
+
+    use fsm as session;
+    use fsm\validations as val;
+    use fsm\database\gmp\packing\preop as preop;
+    use fsm\database as db;
+    use fsm\services\gmp\packing\preop as preopService;
+    use fsm\report\html as html;
+
+    $_POST['date'] = $_GET['date'];
 
     if(isset($_GET["lang"])){
         if($_GET["lang"] == "es" || $_GET["lang"] == "en")
@@ -77,9 +90,15 @@
             $this->Cell(0, 10, $this->stringArray[$this->lang]["page"]." ".$this->getAliasNumPage()." ".$this->stringArray[$this->lang]["of"]." ".$this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
             $this->Line(15,$this->y,200,$this->y);
         }
+
+        // Prototype for CSS Stylesheet
+
+        public function getCSS() {
+            return '';
+        }
     }
 
-    class SSOPReport extends Report{
+    class SSOPPreopReport extends Report{
         public function Header(){
             // assign company data to variables
             $company = $this->getCompanyInfo(null);
@@ -130,196 +149,93 @@
             // Sending the zone, module and date to the DAO we obtain the data
             // about the program, who made the report and who approved it
 
+            $report = $this->getReportData();
+
             //Build the object
             $data = new stdClass();
-            $data->{"zone"} = $this->stringArray[$this->lang]["zone"].": "."LAW";
-            $data->{"program"} = $this->stringArray[$this->lang]["program"].": "."Packing";
-            $data->{"module"} = $this->stringArray[$this->lang]["module"].": "."GMP";
-            $data->{"log"} = $this->stringArray[$this->lang]["log"].": "."Pre-Operational Inspection";
-            $data->{"date"} = $this->stringArray[$this->lang]["date"].": "."24/11/2016";
-            $data->{"elaboration"} = $this->stringArray[$this->lang]["elaboration"].": "."Victor Miracle";
-            $data->{"approval"} = $this->stringArray[$this->lang]["approval"].": "."God";
+            $data->{"zone"} = $this->stringArray[$this->lang]["zone"].": ".$report['zone_name'];
+            $data->{"program"} = $this->stringArray[$this->lang]["program"].": ".$report['program_name'];
+            $data->{"module"} = $this->stringArray[$this->lang]["module"].": ".$report['module_name'];
+            $data->{"log"} = $this->stringArray[$this->lang]["log"].": ".$report['log_name'];
+            $data->{"date"} = $this->stringArray[$this->lang]["date"].": ".$report['creation_date'];
+            $data->{"elaboration"} = $this->stringArray[$this->lang]["elaboration"].": ".$report['created_by'];
+            $data->{"approval"} = $this->stringArray[$this->lang]["approval"].": ".$report['approved_by'];
 
             return $data;
         }
 
-        public function getReportData($zone, $module, $date){
-
-        }
-    }
-
-    class HTMLElement {
-        private $tag;
-        private $classes = "";
-        private $attributes = array();
-        private $content = array();
-
-        public function addClass($classes){
-            if($this->classes=="")
-                $this->classes .= $classes;
-            else
-                $this->classes .= " ".$classes;
+        public function getCSS() {
+            return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}td { border: 1px solid #000000; text-align: left;}th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50;}.even { background-color: #b8e0b9;}.verticaltext{ writing-mode:tb-rl; transform: rotate(90deg); white-space:nowrap; word-break:break-word; bottom:0;}.typeTitle{ background-color: yellow; width:501px;}.fullColumn{ background-color: #D3D3D3;width:501px;}.nameColumn{ width:116px;}.numberColumn{ width:30px;}.timeColumn{ width:40px;}.statusColumn{ width:85px;}.actionColumn{ width:70px;}.commentColumn{ width:200px;}</style>';
         }
 
-        public function attr($attribute, $value){
-            $this->attributes[$attribute] = $value;
+        public function getReportData(){
+            return preopService\getReportData();
         }
 
-        public function append($content){
-            array_push($this->content, $content);
-        }
+        public function tableArray(){
+            $report = $this->getReportData();
+            $reportContents = [];
 
-        public function __construct($tag){
-            $this->tag = $tag;
-        }
+            foreach ($report['areas'] as $area) {
+                $isFirst = true;
+                $firstRow = [];
 
-        public function __toString(){
-            $text = "";
+                $areaRows = 2;
 
-            // Opening tag without a >, we must first append classes and attributes
+                foreach ($area['types'] as $type) {
+                    $areaRows += count($type['items']) + 1;
+                }
 
-            $text .= "&lt";
-            $text .= $this->tag;
+                array_push($firstRow, (object) array("rowspan" => $areaRows, "contents" => $area['area_name'], "classes" => "areaColumn"));
+                array_push($firstRow, (object) array("rowspan" => $areaRows, "contents" => substr($area['time'], 0, -3), "classes" => "timeColumn"));
 
-            // Append classes
+                foreach ($area['types'] as $type) {
+                    if($isFirst){
+                        array_push($firstRow, (object) array("colspan" => 5, "contents" => $type["name"], "classes" => "typeTitle"));
+                        array_push($reportContents, $firstRow);
+                        $isFirst = false;
+                    } else {
+                        $temp = [];
+                        array_push($temp, (object) array("colspan" => 5, "contents" => $type["name"], "classes" => "typeTitle"));
+                        array_push($reportContents, $temp);
+                    }
+                    foreach ($type['items'] as $item) {
+                        $temp = [];
+                        array_push($temp, (object) array("contents" => $item["item_order"], "classes" => "numberColumn"));
+                        array_push($temp, (object) array("contents" => $item["item_name"], "classes" => "nameColumn"));
 
-            $text .= " class=\"".$this->classes."\"";
+                        if($item["item_status"] == 1) {
+                            array_push($temp, (object) array("contents" => "Aceptable", "classes" => "acceptable_tag statusColumn"));
+                        } else {
+                            array_push($temp, (object) array("contents" => "Aceptable", "classes" => "unacceptable_tag statusColumn"));
+                        }
 
-            // Add attributes
+                        array_push($temp, (object) array("contents" => $item["item_corrective_action"], "classes" => "actionColumn"));
+                        array_push($temp, (object) array("contents" => $item["item_comments"], "classes" => "commentColumn"));
 
-            foreach ($this->attributes as $key => $value) {
-                $text .= " ".$key."=\"".$value."\"";
-                // $text .= $key."lmao";
+                        array_push($reportContents, $temp);
+                    }
+                }
+                $notesRow = [];
+                $personRow = [];
+
+                array_push($notesRow, (object) array("colspan" => 5, "contents" => "Notas: ".$area["notes"], "classes" => "fullColumn"));
+                array_push($personRow, (object) array("colspan" => 5, "contents" => $area["person_performing_sanitation"], "classes" => "fullColumn"));
+
+                array_push($reportContents, $notesRow);
+                array_push($reportContents, $personRow);
             }
 
-            // Close opening tag
-
-            $text .= "&gt";
-
-            // Append contents
-
-            foreach ($this->content as $value) {
-                $text .= $value;
-            }
-
-            // Add closing tag
-
-            $text .= "&lt/".$this->tag."&gt";
-
-            return $text;
+            return $reportContents;
         }
     }
-/*
-    function reportTable(id, classes, header, body, footer){
-        var table = new HTMLElement("table");
 
-        table->addClass(classes);
+    // Start session
 
-        if(id)
-            table->attr("id", id);
-
-        table->append(header);
-        table->append(body);
-        // table->append(footer);
-
-        return table;
-    }
-
-    function reportBody(id, classes, rowsArray){
-
-        var body = new HTMLElement("tbody");
-
-        body->addClass(classes);
-
-        if(id)
-            body->attr("id", id);
-
-        rowsArray.forEach(function(index){
-            body->append(reportRow(id, classes, index));
-        });
-
-        return body;
-    }
-
-    function reportFooter(){
-
-    }
-
-    function reportTitle(id, classes, titleArray){
-        // Title Array must be as follows
-        // An array of objects with attributes classes and colspan
-        // Classes will be the classes added to the <th>
-        // colspan will be the number of columns the <th> will span
-        // {classes: "class", colspan: 2}
-
-        var header = new HTMLElement("thead");
-        var headerRow = new HTMLElement("tr");
-
-        headerRow->addClass(classes);
-
-        if(id)
-            headerRow->attr("id", id);
-
-        titleArray.forEach(function(index){
-            var th = new HTMLElement("th");
-            th->addClass(index.classes);
-
-            if(index.colspan){
-                th->attr("colspan", index.colspan);
-            }
-
-            headerRow->append(th);
-        });
-
-        header->append(headerRow);
-
-        return header;
-    }
-
-    function reportRow(id, classes, columnArray){
-        // Column Array must be as follows
-        // An array of objects with attributes classes, rowspan and contents
-        // Classes will be the classes added to the <td>
-        // rowspan will be the rows the <td> will span
-        // contents will be the contents to be shown on the <td>
-        // {classes: "class", rowspan: 2, contents: "Hello World"}
-
-        var row = new HTMLElement("tr");
-
-        row->addClass(classes);
-
-        if(id)
-            row->attr("id", id);
-
-        columnArray.forEach(function(column){
-            row->append(reportRowColumn(column));
-        });
-
-        return row;
-    }
-
-    function reportRowColumn(columnObject){
-        // Column Array must be as follows
-        // A singlem object with attributes
-        // Classes will be the classes added to the <td>
-        // rowspan will be the rows the <td> will span
-        // contents will be the contents to be shown on the <td>
-        // {classes: "class", rowspan: 2, contents: "Hello World"}
-
-        var column = new HTMLElement("td");
-
-        column->addClass(columnObject.classes);
-
-        if(columnObject.rowspan)
-            column->attr("rowspan", columnObject.rowspan);
-
-        column->append(columnObject.contents);
-
-        return column;
-    }*/
+    $session = new session\Session();
 
     // create new PDF document
-    $pdf = new SSOPReport(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+    $pdf = new SSOPPreopReport(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
     $pdf->initialize();
 
@@ -360,67 +276,11 @@
     // This method has several options, check the source code documentation for more information.
     $pdf->AddPage();
 
-// Set some content to print
-    $html = '
-<style>
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
+    // Call the proper functions to get both the style and the data
 
-td {
-    border: 1px solid #000000;
-    text-align: left;
-}
-
-th {
-    border: 1px solid #000000;
-    text-align: left;
-    font-weight: bold;
-    background-color: #4CAF50;
-}
-
-.even {
-    background-color: #b8e0b9;
-}
-
-.verticaltext{
-    writing-mode:tb-rl;
-    transform: rotate(90deg);
-    white-space:nowrap;
-    word-break:break-word;
-    bottom:0;
-}
-
-.nameColumn{
-    width:116px;
-}
-
-.numberColumn{
-    width:30px;
-}
-
-.timeColumn{
-    width:40px;
-}
-
-.statusColumn{
-    width:85px;
-}
-
-.actionColumn{
-    width:70px;
-}
-
-.commentColumn{
-    width:200px;
-}
-
-</style>
-
-<table class="lmao" id="testTable"><thead class=""><tr class="whatever"><th class="area_title areaColumn">Área</th><th class="time_title timeColumn">Hora</th><th class="number_title numberColumn">#</th><th class="name_title nameColumn">Nombre</th><th class="status_title statusColumn">Condiciones</th><th class="action_title actionColumn">Acción correctiva</th><th class="comment_title commentColumn">Comentarios</th></tr></thead><tbody class="whatever"><tr class="whatever"><td class="areaColumn" rowspan="7">Warehouse</td><td class="timeColumn" rowspan="7">12:09</td><td class="numberColumn">1</td><td class="nameColumn">Floors</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">2</td><td class="nameColumn">Ceiling Lights</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">3</td><td class="nameColumn">Trash Recepticales</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">4</td><td class="nameColumn">Equipment Tomatoes</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">5</td><td class="nameColumn">Stainless Table (5)</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">6</td><td class="nameColumn">Roll Up Loading Doors</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">7</td><td class="nameColumn">Forklift/Palletjack/Wave</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="areaColumn" rowspan="7">Cooler #1</td><td class="timeColumn" rowspan="7">12:09</td><td class="numberColumn">1</td><td class="nameColumn">Floors</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">2</td><td class="nameColumn">Cool Care Fans</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">3</td><td class="nameColumn">Ceiling Lights</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">4</td><td class="nameColumn">Trash Recepticales</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">5</td><td class="nameColumn">Walls</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">6</td><td class="nameColumn">Plastic Curtains</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">7</td><td class="nameColumn">Cooling Units</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="areaColumn" rowspan="6">Cooler #2</td><td class="timeColumn" rowspan="6">12:09</td><td class="numberColumn">1</td><td class="nameColumn">Floors</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">2</td><td class="nameColumn">Ceiling Lights</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">3</td><td class="nameColumn">Trash Recepticales</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">4</td><td class="nameColumn">Walls</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">5</td><td class="nameColumn">Plastic Curtains</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr><tr class="whatever"><td class="numberColumn">6</td><td class="nameColumn">Cooling Units</td><td class="green-text acceptable_tag statusColumn">Aceptable</td><td class="actionColumn">N/A</td><td class="commentColumn"></td></tr></tbody></table>
-';
+    $html = $pdf->getCSS().html\reportTable("testTable", "lmao", html\reportTitle(null, "whatever", html\headerTestData()), html\reportBody(null, "whatever", $pdf->tableArray()), null);
+    //$html = $pdf->getCSS().json_encode($pdf->getReportData()).json_encode($pdf->tableArray());
+    //$html = json_encode($pdf->tableArray());
 
     // Print text using writeHTMLCell()
     $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
