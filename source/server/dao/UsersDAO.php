@@ -51,7 +51,7 @@ class UsersDAO extends DataAccessObject
                 '[><]zones(z)' => [ 'zone_id' => 'id' ]
             ]
         );
-
+        
         $isEmpty = count($rows) == 0;
         return (!$isEmpty) ? $rows[0] : NULL; 
     }
@@ -169,6 +169,13 @@ class UsersDAO extends DataAccessObject
             SET is_active = !is_active
             WHERE id = '$id'"
         )->fetchAll();
+    }
+
+
+    // Deletes the user which has the specified ID
+    function deleteByID($id)
+    {
+        return parent::delete(['id' => $id]);
     }
 }
 

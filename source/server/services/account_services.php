@@ -26,34 +26,16 @@ function getUserAccountInfo()
     $users = new db\UsersDAO();
     $userInfo = $users->getByIdentifier($_POST['employee_num']);
 
-    $isSupervisor = $userInfo['role_name'] === 'Supervisor';
-    $isEmployee = $userInfo['role_name'] === 'Employee';
-    
-    if ($isSupervisor || $isEmployee) {
-        return [
-            'id' => $userInfo['id'],
-            'role_id' => $userInfo['role_id'],
-            'role_name' => $userInfo['role_name'],
-            'zone_id' => $userInfo['zone_id'],
-            'zone_name' => $userInfo['zone_name'],
-            'employee_num' => $userInfo['employee_num'],
-            'first_name' => $userInfo['first_name'],
-            'last_name' => $userInfo['last_name'],
-            'email' => $userInfo['email'],
-            'login_name' => $userInfo['login_name']
-        ];
-    } else {
-        return [
-            'id' => $userInfo['user_id'],
-            'role_id' => $userInfo['role_id'],
-            'role_name' => $userInfo['role_name'],
-            'employee_num' => $userInfo['employee_num'],
-            'first_name' => $userInfo['first_name'],
-            'last_name' => $userInfo['last_name'],
-            'email' => $userInfo['email'],
-            'login_name' => $userInfo['login_name']
-        ];
-    }
+    return [
+        'id' => $userInfo['user_id'],
+        'role_id' => $userInfo['role_id'],
+        'role_name' => $userInfo['role_name'],
+        'employee_num' => $userInfo['employee_num'],
+        'first_name' => $userInfo['first_name'],
+        'last_name' => $userInfo['last_name'],
+        'email' => $userInfo['email'],
+        'login_name' => $userInfo['login_name']
+    ];
 }
 
 
@@ -219,21 +201,9 @@ function getAllUserRoles()
 // Creates a new user account
 function addNewUserAccount()
 {
-    // before we start, check that the data in the array is of the proper type
-    foreach ($_POST['privileges'] as $privilege) {
-        $isInteger = val\isInteger($privilege['log_id']);
-        if (!$isInteger) {
-            throw new \Exception('A log ID provided is not an integer');
-        }
-
-        $isInteger = val\isInteger($privilege['privilege_id']);
-        if (!$isInteger) {
-            throw new \Exception('A privilege ID provided is not an integer');
-        }
-    }
-
     // first, connect to the data base
     $users = new db\UsersDAO();
+    $roles = new db\RolesDAO();
     $userPrivileges = new db\UsersLogsPrivilegesDAO();
 
     // then, hash the password
@@ -242,31 +212,100 @@ function addNewUserAccount()
         \PASSWORD_BCRYPT
     );
 
-    // insert the profile data to the data base 
-    $userID = $users->insert([
+    // get the role name
+    $roleName = $roles->getNameByID($_POST['role_id']);
+
+    // user data to store in the data base
+    $userData = [
         'is_active' => TRUE,
         'role_id' => $_POST['role_id'],
-        'zone_id' => $_POST['zone_id'],
         'employee_num' => $_POST['employee_num'],
         'first_name' => $_POST['first_name'],
         'last_name' => $_POST['last_name'],
         'email' => $_POST['email'],
-        'login_name' => $_POST['username'],
+        'login_name' => $_POST['login_name'],
         'login_password' => $hashedPassword
-    ]);
+    ];
 
-    // create a privileges array with the proper format that medoo is expecting
-    $privileges = [];
-    foreach ($_POST['privileges'] as $privilege) {
-        array_push($privileges, [
-            'user_id' => $userID,
-            'log_id' => $privilege['log_id'],
-            'privilege_id' => $privilege['privilege_id']
-        ]);
+    // check the user role
+    $isManager = $roleName == 'Manager';
+    $isSupervisor = $roleName == 'Supervisor';
+    $isEmployee = $roleName == 'Employee';
+
+    // check if the user role requires a zone to be specified
+    $isZoneRequired = 
+        $isManager ||
+        $isSupervisor ||
+        $isEmployee;
+        
+
+    if ($isZoneRequired) {
+        // check if the zone ID was provided
+        if (val\isInteger($_POST['zone_id'])) {
+            // if it was, store it in the user data
+            $userData['zone_id'] = $_POST['zone_id'];
+        } else {
+            // if not, notiy the user
+            throw new \Exception('The Zone ID was not provided.');
+        }
+    } else {
+        // if the role does not require a zone ID, set a default one
+        $userData['zone_id'] = 1;
     }
 
-    // store the user privileges in the data base 
-    $userPrivileges->insert($privileges);
+    // insert the profile data to the data base 
+    $userID = $users->insert($userData);
+
+    // check if the user role requires privileges to be specified
+    $arePrivilegesRequired = $isSupervisor || $isEmployee;
+
+    if ($arePrivilegesRequired) {
+        // check that the data in the privileges array exists and is 
+        // of the proper type
+        if (isset($_POST['privileges'])) {
+            foreach ($_POST['privileges'] as $privilege) {
+                $isInteger = val\isInteger($privilege['log_id']);
+                if (!$isInteger) {
+                    throw new \Exception(
+                        'A log ID provided is not an integer'
+                    );
+                }
+
+                $isInteger = val\isInteger($privilege['privilege_id']);
+                if (!$isInteger) {
+                    throw new \Exception(
+                        'A privilege ID provided is not an integer'
+                    );
+                }
+            }
+        } else {
+            // if it was not provided, throw an exception
+            throw new \Exception('privileges array was not provided.');
+        }
+
+        // supervisor and employees get their permissions assigned by the 
+        // administrator for a single zone only
+
+        // get the ID of the read privilege
+        $privilegesTable = new db\PrivilegesDAO();
+        $privilegeID = $privilegesTable->getIDByName('Read');
+
+        // create a privileges array with the proper format that medoo is 
+        // expecting
+        $privileges = [];
+        foreach ($_POST['privileges'] as $privilege) {
+            array_push($privileges, [
+                'user_id' => $userID,
+                'log_id' => $privilege['log_id'],
+                'privilege_id' => ($isSupervisor) ?
+                    $privilegeID :
+                    $privilege['privilege_id']
+            ]);
+        }
+
+        // store the user privileges in the data base 
+        $userPrivileges->insert($privileges);
+    }
 
     return [];
 }

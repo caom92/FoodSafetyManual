@@ -296,8 +296,8 @@ function roleSelect(selected) {
 }
 
 $(function (){
-    addPermissionTable();
-    getProcedureNames();
+    //addPermissionTable();
+    //getProcedureNames();
     roleSelect();
 
     $('ul.tabs').tabs();

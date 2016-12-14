@@ -9,6 +9,7 @@ require_once realpath(dirname(__FILE__).'/config/site_config.php');
 // Import the required DAOs
 require_once realpath(dirname(__FILE__).'/dao/UsersDAO.php');
 require_once realpath(dirname(__FILE__).'/dao/LogsDAO.php');
+require_once realpath(dirname(__FILE__).'/dao/ZonesDAO.php');
 require_once realpath(dirname(__FILE__).
     '/dao/UsersLogsPrivilegesDAO.php');
 
@@ -44,31 +45,36 @@ class Session
         // initialize the final array where the priviliges are going to be
         // stored
         $programPrivileges = [];
+
+        // initialize the temporal zone holder
+        $zone = [
+            'id' => 0,
+            'name' => ''
+        ];
         
         // initialize the temporal program holder
         $program = [
             'id' => 0,
-            'name' => '',
-            'modules' => []
+            'name' => ''
         ];
 
         // initialize the temporal module holder
         $module = [
             'id' => 0,
-            'name' => '',
-            'logs' => []
+            'name' => ''
         ];
 
         // visit each row from the data base query result
         foreach ($userPrivileges as $row) {
-            // check if this row has a different program than the last
-            $hasProgramChanged = $row['program_id'] != $program['id'];
-            if ($hasProgramChanged) {
-                // if it has, assert that the last row info is not empty
-                if ($program['id'] != 0) {
-                    // if it is not, store the info in the final structure
-                    $program[$program['name']][$module['name']] = $module;
-                    $programPrivileges[$program['name']] = $program;
+            // check if the zone has changed
+            $hasZoneChanged = $row['zone_id'] != $zone['id'];
+            if ($hasZoneChanged) {
+                // if it has, check if the zone is not empty
+                if ($zone['id'] != 0) {
+                    // if it is not, save the current module to the final array
+                    $program[$module['name']] = $module;
+                    $zone[$program['name']] = $program;
+                    $programPrivileges[$zone['name']] = $zone;
                 }
 
                 // then fill the temporal holders with the information of 
@@ -90,17 +96,20 @@ class Session
                     'id' => $row['program_id'],
                     'name' => $row['program_name']
                 ];
+                $zone = [
+                    'id' => $row['zone_id'],
+                    'name' => $row['zone_name']
+                ];
             } else {
-                // if the row has the same program than the last,
-                // then check if the module has changed
-                $hasModuleChanged = $row['module_id'] != $module['id'];
-                if ($hasModuleChanged) {
-                    // if it has, store the info in the temporal program
-                    // holder
-                    $program[$program['name']][$module['name']] = $module;
-
-                    // and then fill the temporal module holder with the
-                    // information of this new module
+                // if the zone has not changed, check if the program has
+                $hasProgramChanged = $row['program_id'] != $program['id'];
+                if ($hasProgramChanged) {
+                    // if it has, store the current module and program to the 
+                    // zone holder
+                    $program[$module['name']] = $module;
+                    $zone[$program['name']] = $program;
+                    
+                    // fill the temporal holders with the new data
                     $log = [
                         'id' => $row['log_id'],
                         'name' => $row['log_name'],
@@ -114,20 +123,49 @@ class Session
                         'name' => $row['module_name'],
                         $log['name'] => $log
                     ];
+                    $program = [
+                        'id' => $row['program_id'],
+                        'name' => $row['program_name']
+                    ]; 
                 } else {
-                    // if the program nor the module have changed, it means 
-                    // that the log has changed; store the info of this new
-                    // log in the temporal module holder
-                    $module[$log['name']] = [
-                        'id' => $row['log_id'],
-                        'name' => $row['log_name'],
-                        'privilege' => [
-                            'id' => $row['privilege_id'],
-                            'name' => $row['privilege_name']
-                        ]
-                    ];
-                }   // if ($hasModuleChanged)
-            } // if ($hasProgramChanged)
+                    // if the row has the same program than the last,
+                    // then check if the module has changed
+                    $hasModuleChanged = $row['module_id'] != $module['id'];
+                    if ($hasModuleChanged) {
+                        // if it has, store the info in the temporal program
+                        // holder
+                        $program[$module['name']] = $module;
+
+                        // and then fill the temporal module holder with the
+                        // information of this new module
+                        $log = [
+                            'id' => $row['log_id'],
+                            'name' => $row['log_name'],
+                            'privilege' => [
+                                'id' => $row['privilege_id'],
+                                'name' => $row['privilege_name']
+                            ]
+                        ];
+                        $module = [
+                            'id' => $row['module_id'],
+                            'name' => $row['module_name'],
+                            $log['name'] => $log
+                        ];
+                    } else {
+                        // if the program, zone nor the module have changed, it 
+                        // means that the log has changed; store the info of 
+                        // this new log in the temporal module holder
+                        $module[$row['log_name']] = [
+                            'id' => $row['log_id'],
+                            'name' => $row['log_name'],
+                            'privilege' => [
+                                'id' => $row['privilege_id'],
+                                'name' => $row['privilege_name']
+                            ]
+                        ];
+                    }
+                }
+            }
         } // foreach ($userPrivileges as $row)
 
         // don't forget to add the last entry to the final structure
@@ -135,7 +173,10 @@ class Session
             $program[$module['name']] = $module;
         }
         if ($program['id'] != 0) {
-            $programPrivileges[$program['name']] = $program;
+            $zone[$program['name']] = $program;
+        }
+        if ($zone['id'] != 0) {
+            $programPrivileges[$zone['name']] = $zone;
         }
 
         // return the resulting data structure
@@ -172,12 +213,62 @@ class Session
         // then, compute the user's profile data structure depending on the 
         // user's role
         switch ($userData['role_name']) {
-            case 'Manager':
-                // attempt to connect to the data base
-                $logs = new db\LogsDAO();
+            case 'Director':
+                // connect to the data base
+                $zonesTable = new db\ZonesDAO();
+                $logsTable = new db\LogsDAO();
 
-                // get all the modules and assign them read privileges
-                $privileges = $logs->selectAllWithReadPrivilege();
+                // get all the zones and logs 
+                $zones = $zonesTable->selectAll();
+                $logs = $logsTable->selectAllWithReadPrivilege();
+
+                // the rows that hold the privileges data
+                $privileges = [];
+
+                // the director has read privileges to all logs in all zones
+                foreach ($zones as $zone) {
+                    foreach ($logs as $log) {
+                        array_push($privileges, [
+                            'zone_id' => $zone['id'],
+                            'zone_name' => $zone['name'],
+                            'program_id' => $log['program_id'],
+                            'program_name' => $log['program_name'],
+                            'module_id' => $log['module_id'],
+                            'module_name' => $log['module_name'],
+                            'log_id' => $log['log_id'],
+                            'log_name' => $log['log_name'],
+                            'privilege_id' => $log['privilege_id'],
+                            'privilege_name' => $log['privilege_name']
+                        ]);
+                    }
+                }
+            break;
+
+            case 'Manager':
+                // connect to the data base
+                $logsTable = new db\LogsDAO();
+
+                // get all the logs 
+                $logs = $logsTable->selectAllWithReadPrivilege();
+
+                // the rows that hold the privileges data
+                $privileges = [];
+
+                // the manager has read privileges to all logs in a single zone
+                foreach ($logs as $log) {
+                    array_push($privileges, [
+                        'zone_id' => $userData['zone_id'],
+                        'zone_name' => $userData['zone_name'],
+                        'program_id' => $log['program_id'],
+                        'program_name' => $log['program_name'],
+                        'module_id' => $log['module_id'],
+                        'module_name' => $log['module_name'],
+                        'log_id' => $log['log_id'],
+                        'log_name' => $log['log_name'],
+                        'privilege_id' => $log['privilege_id'],
+                        'privilege_name' => $log['privilege_name']
+                    ]);
+                }
             break;
 
             case 'Supervisor':
@@ -186,22 +277,61 @@ class Session
 
                 // get the modules associated with this user and assign them 
                 // read privileges
-                $privileges = $privilegesTable->selectByUserIDWithReadPrivilege(
+                $logs = $privilegesTable->selectByUserIDWithReadPrivilege(
                     $userData['user_id']
                 );
+
+                // the rows that hold the privileges data
+                $privileges = [];
+
+                // the supervisor has read privileges to some logs in a single 
+                // zone
+                foreach ($logs as $log) {
+                    array_push($privileges, [
+                        'zone_id' => $userData['zone_id'],
+                        'zone_name' => $userData['zone_name'],
+                        'program_id' => $log['program_id'],
+                        'program_name' => $log['program_name'],
+                        'module_id' => $log['module_id'],
+                        'module_name' => $log['module_name'],
+                        'log_id' => $log['log_id'],
+                        'log_name' => $log['log_name'],
+                        'privilege_id' => $log['privilege_id'],
+                        'privilege_name' => $log['privilege_name']
+                    ]);
+                }
             break;
 
             case 'Employee':
                 // attempt to connect to the data base
                 $privilegesTable = new db\UsersLogsPrivilegesDAO();
 
-                // get the modules associated with this user and assign them 
-                // read privileges
-                $privileges = 
+                // get the modules associated with this user
+                $logs = 
                     $privilegesTable->selectByUserID($userData['user_id']);
+                
+                // the rows that hold the privileges data
+                $privileges = [];
+
+                // the employee has read or write privileges on some logs on a 
+                // single zone
+                foreach ($logs as $log) {
+                    array_push($privileges, [
+                        'zone_id' => $userData['zone_id'],
+                        'zone_name' => $userData['zone_name'],
+                        'program_id' => $log['program_id'],
+                        'program_name' => $log['program_name'],
+                        'module_id' => $log['module_id'],
+                        'module_name' => $log['module_name'],
+                        'log_id' => $log['log_id'],
+                        'log_name' => $log['log_name'],
+                        'privilege_id' => $log['privilege_id'],
+                        'privilege_name' => $log['privilege_name']
+                    ]);
+                }
             break;
 
-            // for the admin, we don't need the zone
+            // for the admin, we don't need the zone, nor has any privileges
             case 'Administrator':
                 $userDataToSend['exclusive_access'] =
                     strtolower($userData['role_name']).'/';
@@ -216,8 +346,10 @@ class Session
         $_SESSION['privileges'] = $privileges;
 
         // return the final user profile data structure
-        $userDataToSend['zone_id'] = $userData['zone_id'];
-        $userDataToSend['zone_name'] = $userData['zone_name']; 
+        if ($userData['role_name'] != 'Director') {
+            $userDataToSend['zone_id'] = $userData['zone_id'];
+            $userDataToSend['zone_name'] = $userData['zone_name'];
+        }
         $userDataToSend['exclusive_access'] =
             strtolower($userData['role_name']).'/';
         $userDataToSend['privileges'] = $privileges;

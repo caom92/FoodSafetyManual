@@ -6,7 +6,6 @@ namespace fsm;
 require_once realpath(dirname(__FILE__).'/config/site_config.php');
 require_once realpath(dirname(__FILE__).'/Session.php');
 require_once realpath(dirname(__FILE__).'/data_validations.php');
-require_once realpath(dirname(__FILE__).'/dao/UsersLogsPrivilegesDAO.php');
 
 use fsm\validations as val;
 use fsm\database as db;
@@ -160,7 +159,6 @@ class Controller
                 case 'has_privilege':
                     // first, connect to the data base
                     $session = new Session();
-                    $privilegesTable = new db\UsersLogsPrivilegesDAO();
 
                     // check if a single or multiple permissions are required
                     $isSingle = count($requirement['privilege']) == 1;
@@ -180,14 +178,14 @@ class Controller
 
                     if ($isSingle) {
                         $hasPrivilege =
-                            isset($userPrivileges[$p][$m][$l]) &&
-                            $userPrivileges[$p][$m][$l]['privilege']['name'] ==
+                            isset($userPrivileges[0][$p][$m][$l]) &&
+                            $userPrivileges[0][$p][$m][$l]['privilege']['name'] ==
                             $r;
                     } else {
                         foreach ($r as $privilege) {
                             $hasPrivilege =
-                                isset($userPrivileges[$p][$m][$l]) &&
-                                $userPrivileges[$p][$m][$l]['privilege']['name']
+                                isset($userPrivileges[0][$p][$m][$l]) &&
+                                $userPrivileges[0][$p][$m][$l]['privilege']['name']
                                 == $privilege;
 
                             if ($hasPrivilege) {

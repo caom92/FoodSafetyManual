@@ -25,6 +25,13 @@ class RolesDAO extends DataAccessObject
     {
         return parent::select('*');
     }
+
+
+    // Returns the name of the role that has the specified ID
+    function getNameByID($id)
+    {
+        return parent::get('name', ['id' => $id]);
+    }
 }
 
 ?>
