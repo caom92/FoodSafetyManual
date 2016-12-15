@@ -31,7 +31,7 @@ class ZonesDAO extends DataAccessObject
     //          the data base table
     function selectAll()
     {
-        return parent::select("*");
+        return parent::select("*", [ 'ORDER' => 'id' ]);
     }
 
 

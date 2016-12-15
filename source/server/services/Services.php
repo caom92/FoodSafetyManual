@@ -227,18 +227,16 @@ fsm\Controller::$services = [
             'email' => [
                 'type' => 'email'
             ],
-            'password' => [
-                'type' => 'string',
-                'min_length' => 6
-            ],
-            'zone_id' => [
-                'type' => 'int'
-            ],
             'role_id' => [
                 'type' => 'int'
             ],
-            'privileges' => [
-                'type' => 'array'
+            'login_name' => [
+                'type' => 'string',
+                'min_length' => 5
+            ],  
+            'login_password' => [
+                'type' => 'string',
+                'min_length' => 6
             ]
         ],
         'callback' => 'fsm\services\account\addNewUserAccount'
@@ -424,9 +422,9 @@ fsm\Controller::$services = [
     ],
     'upload-manual-gmp-packing-preop' => [
         'requirements_desc' => [
-            'logged_in' => ['Supervisor'],
+            'logged_in' => ['Director', 'Manager', 'Supervisor'],
             'has_privilege' => [
-                'privilege' => ['Read', 'Write'],
+                'privilege' => ['Read'],
                 'program' => 'GMP',
                 'module' => 'Packing',
                 'log' => 'Pre-Operational Inspection'
