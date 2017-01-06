@@ -28,22 +28,32 @@ class LogCaptureDatesDAO extends DataAccessObject
     }
 
 
-    // Returns the ID of the log of the specified type and with entries of the
-    // specified zone, was captured at the specified date
+    // Returns the IDs of all the logs of the specified type and with entries 
+    // of the specified zone, and that where captured in the specified date 
+    // interval
     // [in]     date: the date that the log that we are looking for was 
     //          captured
     // [in]     logID: the ID of the log type that we are looking for
     // [in]     zoneID: the ID of the zone which the log we are looking 
     //          for had entries to
     // [out]    return: the ID of the log
-    function getIDByDateLogIDAndZoneID($date, $logID, $zoneID)
+    function selectDateAndIDByDateIntervalLogIDAndZoneID(
+        $startDate, 
+        $endDate, 
+        $logID, 
+        $zoneID
+    )
     {
-        $rows = parent::select(
-            "$this->table.id", 
+        return parent::select(
+            [
+                "$this->table.id",
+                'date'
+            ], 
             [
                 'AND' => [
                     'log_id' => $logID, 
-                    'date' => $date,
+                    'date[>=]' => $startDate,
+                    'date[<=]' => $endDate,
                     'u.zone_id' => $zoneID
                 ]
             ],
@@ -53,8 +63,6 @@ class LogCaptureDatesDAO extends DataAccessObject
                 ]
             ]
         );
-
-        return (count($rows) > 0) ? $rows[0] : NULL;
     }
 
 

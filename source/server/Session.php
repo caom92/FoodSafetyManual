@@ -44,24 +44,29 @@ class Session
     {
         // initialize the final array where the priviliges are going to be
         // stored
-        $programPrivileges = [];
+        $programPrivileges = [
+            'zones' => []
+        ];
 
         // initialize the temporal zone holder
         $zone = [
             'id' => 0,
-            'name' => ''
+            'name' => '',
+            'programs' => []
         ];
         
         // initialize the temporal program holder
         $program = [
             'id' => 0,
-            'name' => ''
+            'name' => '',
+            'modules' => []
         ];
 
         // initialize the temporal module holder
         $module = [
             'id' => 0,
-            'name' => ''
+            'name' => '',
+            'logs' => []
         ];
 
         // visit each row from the data base query result
@@ -75,6 +80,9 @@ class Session
                     $program[$module['name']] = $module;
                     $zone[$program['name']] = $program;
                     $programPrivileges[$zone['name']] = $zone;
+                    array_push($program['modules'], $module);
+                    array_push($zone['programs'], $program);
+                    array_push($programPrivileges['zones'], $zone);
                 }
 
                 // then fill the temporal holders with the information of 
@@ -90,15 +98,18 @@ class Session
                 $module = [
                     'id' => $row['module_id'],
                     'name' => $row['module_name'], 
+                    'logs' => [$log],
                     $log['name'] => $log
                 ];
                 $program = [
                     'id' => $row['program_id'],
-                    'name' => $row['program_name']
+                    'name' => $row['program_name'],
+                    'modules' => []
                 ];
                 $zone = [
                     'id' => $row['zone_id'],
-                    'name' => $row['zone_name']
+                    'name' => $row['zone_name'],
+                    'programs' => []
                 ];
             } else {
                 // if the zone has not changed, check if the program has
@@ -108,6 +119,8 @@ class Session
                     // zone holder
                     $program[$module['name']] = $module;
                     $zone[$program['name']] = $program;
+                    array_push($program['modules'], $module);
+                    array_push($zone['programs'], $zone);
                     
                     // fill the temporal holders with the new data
                     $log = [
@@ -121,11 +134,13 @@ class Session
                     $module = [
                         'id' => $row['module_id'],
                         'name' => $row['module_name'],
+                        'logs' => [$log],
                         $log['name'] => $log
                     ];
                     $program = [
                         'id' => $row['program_id'],
-                        'name' => $row['program_name']
+                        'name' => $row['program_name'],
+                        'modules' => []
                     ]; 
                 } else {
                     // if the row has the same program than the last,
@@ -135,6 +150,7 @@ class Session
                         // if it has, store the info in the temporal program
                         // holder
                         $program[$module['name']] = $module;
+                        array_push($program['modules'], $module);
 
                         // and then fill the temporal module holder with the
                         // information of this new module
@@ -149,13 +165,14 @@ class Session
                         $module = [
                             'id' => $row['module_id'],
                             'name' => $row['module_name'],
+                            'logs' => [ $log ],
                             $log['name'] => $log
                         ];
                     } else {
                         // if the program, zone nor the module have changed, it 
                         // means that the log has changed; store the info of 
                         // this new log in the temporal module holder
-                        $module[$row['log_name']] = [
+                        $log = [
                             'id' => $row['log_id'],
                             'name' => $row['log_name'],
                             'privilege' => [
@@ -163,6 +180,8 @@ class Session
                                 'name' => $row['privilege_name']
                             ]
                         ];
+                        $module[$log['name']] = $log;
+                        array_push($module['logs'], $log);
                     }
                 }
             }
@@ -171,12 +190,15 @@ class Session
         // don't forget to add the last entry to the final structure
         if ($module['id'] != 0) {
             $program[$module['name']] = $module;
+            array_push($program['modules'], $module);
         }
         if ($program['id'] != 0) {
             $zone[$program['name']] = $program;
+            array_push($zone['programs'], $program);
         }
         if ($zone['id'] != 0) {
             $programPrivileges[$zone['name']] = $zone;
+            array_push($programPrivileges['zones'], $zone);
         }
 
         // return the resulting data structure

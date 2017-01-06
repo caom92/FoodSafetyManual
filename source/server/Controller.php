@@ -176,16 +176,20 @@ class Controller
                     // temporal storage of the user privileges array
                     $userPrivileges = $_SESSION['privileges'];
 
+                    // temporal storage for array keys
+                    $k = array_keys($userPrivileges);
+                    $k = $k[1];
+
                     if ($isSingle) {
                         $hasPrivilege =
-                            isset($userPrivileges[0][$p][$m][$l]) &&
-                            $userPrivileges[0][$p][$m][$l]['privilege']['name'] ==
+                            isset($userPrivileges[$k][$p][$m][$l]) &&
+                            $userPrivileges[$k][$p][$m][$l]['privilege']['name'] ==
                             $r;
                     } else {
                         foreach ($r as $privilege) {
                             $hasPrivilege =
-                                isset($userPrivileges[0][$p][$m][$l]) &&
-                                $userPrivileges[0][$p][$m][$l]['privilege']['name']
+                                isset($userPrivileges[$k][$p][$m][$l]) &&
+                                $userPrivileges[$k][$p][$m][$l]['privilege']['name']
                                 == $privilege;
 
                             if ($hasPrivilege) {

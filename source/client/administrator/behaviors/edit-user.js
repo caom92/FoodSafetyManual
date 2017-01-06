@@ -326,7 +326,7 @@ function fillUserInformation(userID){
             } else {
                 // Considering a non valid userID was entered, we go back to
                 // view users
-                window.location.href = '/espresso/view-users';
+                window.location.href = $root + 'view-users';
             }
         }
     });

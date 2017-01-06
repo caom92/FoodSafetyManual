@@ -183,77 +183,84 @@ function getReportData()
     $itemsLog = new preop\ItemsLogDAO();
     $logs = new db\LogsDAO();
 
-    $logID = $logDate->getIDByDateLogIDAndZoneID(
-        $_POST['date'],
+    $logDates = $logDate->selectDateAndIDByDateIntervalLogIDAndZoneID(
+        $_POST['start_date'],
+        $_POST['end_date'],
         $logs->getIDByNames(
             'GMP', 'Packing', 'Pre-Operational Inspection'
         ),
         $_SESSION['zone_id']
     );
 
-    if (!isset($logID)) {
+    if (!isset($logDates)) {
         throw new \Exception('No logs where captured at that date.', 2);
     }
 
-    $areasLogEntries = [];
-    $areas = $areasLog->selectByLogID($logID);
+    $reports = [];
 
-    foreach ($areas as $areaData) {
-        $items = $itemsLog->selectByAreaLogID($areaData['id']);
-        $tempAreaLogEntry = [
-            'area_id' => $items[0]['area_id'],
-            'area_name' => $items[0]['area_name'],
-            'person_performing_sanitation' =>
-                $areaData['person_performing_sanitation'],
-            'notes' => $areaData['notes'],
-            'time' => $areaData['time'],
-            'types' => []
-        ];
+    foreach ($logDates as $logDate) {
+        $areasLogEntries = [];
+        $areas = $areasLog->selectByLogID($logDate['id']);
 
-        $currentType = $items[0]['type_id'];
-        $tempItems = [
-            'id' => $items[0]['type_id'],
-            'name' => $items[0]['type_name'],
-            'items' => []
-        ];
+        foreach ($areas as $areaData) {
+            $items = $itemsLog->selectByAreaLogID($areaData['id']);
+            $tempAreaLogEntry = [
+                'area_id' => $items[0]['area_id'],
+                'area_name' => $items[0]['area_name'],
+                'person_performing_sanitation' =>
+                    $areaData['person_performing_sanitation'],
+                'notes' => $areaData['notes'],
+                'time' => $areaData['time'],
+                'types' => []
+            ];
 
-        foreach ($items as $item) {
-            $hasTypeChanged = $tempItems['id'] != $item['type_id'];
+            $currentType = $items[0]['type_id'];
+            $tempItems = [
+                'id' => $items[0]['type_id'],
+                'name' => $items[0]['type_name'],
+                'items' => []
+            ];
 
-            if (!$hasTypeChanged) {
-                array_push($tempItems['items'], [
-                    'item_order' => $item['position'],
-                    'item_name' => $item['item_name'],
-                    'item_status' => $item['is_acceptable'],
-                    'item_corrective_action' => $item['corrective_action'],
-                    'item_comments' => $item['comment']
-                ]);
-            } else {
-                array_push($tempAreaLogEntry['types'], $tempItems);
-                $tempItems = [
-                    'id' => $item['type_id'],
-                    'name' => $item['type_name'],
-                    'items' => []
-                ];
+            foreach ($items as $item) {
+                $hasTypeChanged = $tempItems['id'] != $item['type_id'];
+
+                if (!$hasTypeChanged) {
+                    array_push($tempItems['items'], [
+                        'item_order' => $item['position'],
+                        'item_name' => $item['item_name'],
+                        'item_status' => $item['is_acceptable'],
+                        'item_corrective_action' => $item['corrective_action'],
+                        'item_comments' => $item['comment']
+                    ]);
+                } else {
+                    array_push($tempAreaLogEntry['types'], $tempItems);
+                    $tempItems = [
+                        'id' => $item['type_id'],
+                        'name' => $item['type_name'],
+                        'items' => []
+                    ];
+                }
             }
+
+            array_push($tempAreaLogEntry['types'], $tempItems);
+            array_push($areasLogEntries, $tempAreaLogEntry);
         }
 
-        array_push($tempAreaLogEntry['types'], $tempItems);
-        array_push($areasLogEntries, $tempAreaLogEntry);
+        array_push($reports, [
+            'created_by' =>
+                $_SESSION['first_name'].' '.$_SESSION['last_name'],
+            'approved_by' => 'God',
+            'creation_date' => $logDate['date'],
+            'approval_date' => '1985-10-26',
+            'zone_name' => $_SESSION['zone_name'],
+            'program_name' => 'GMP',
+            'module_name' => 'Packing',
+            'log_name' => 'Pre-Operational Inspection',
+            'areas' => $areasLogEntries
+        ]);
     }
 
-    return [
-        'created_by' =>
-            $_SESSION['first_name'].' '.$_SESSION['last_name'],
-        'approved_by' => 'God',
-        'creation_date' => $_POST['date'],
-        'approval_date' => '1985-10-26',
-        'zone_name' => $_SESSION['zone_name'],
-        'program_name' => 'GMP',
-        'module_name' => 'Packing',
-        'log_name' => 'Pre-Operational Inspection',
-        'areas' => $areasLogEntries
-    ];
+    return $reports;
 }
 
 

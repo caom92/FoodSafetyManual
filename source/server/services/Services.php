@@ -305,16 +305,13 @@ fsm\Controller::$services = [
     ],
     'get-areas-of-zone' => [
         'requirements_desc' => [
-            'logged_in' => ['Administrator'],
-            'zone_id' => [
-                'type' => 'int'
-            ]
+            'logged_in' => ['Supervisor']
         ],
         'callback' => 'fsm\services\inventory\getWorkingAreasOfZone'
     ], 
     'get-items-of-area' => [
         'requirements_desc' => [
-            'logged_in' => ['Administrator'],
+            'logged_in' => ['Supervisor'],
             'area_id' => [
                 'type' => 'int'
             ]
@@ -323,13 +320,13 @@ fsm\Controller::$services = [
     ],
     'list-item-types' => [
         'requirements_desc' => [
-            'logged_in' => ['Administrator']
+            'logged_in' => ['Supervisor']
         ],
         'callback' => 'fsm\services\inventory\getAllItemTypes'
     ],
     'toggle-item-activation' => [
         'requirements_desc' => [
-            'logged_in' => ['Administrator'],
+            'logged_in' => ['Supervisor'],
             'item_id' => [
                 'type' => 'int'
             ]
@@ -338,7 +335,7 @@ fsm\Controller::$services = [
     ],
     'add-new-inventory-item' => [
         'requirements_desc' => [
-            'logged_in' => ['Administrator'],
+            'logged_in' => ['Supervisor'],
             'area_id' => [
                 'type' => 'int'
             ],
@@ -366,7 +363,7 @@ fsm\Controller::$services = [
     ],
     'change-order-of-item' => [
         'requirements_desc' => [
-            'logged_in' => ['Administrator'],
+            'logged_in' => ['Supervisor'],
             'item_id' => [
                 'type' => 'int'
             ],
@@ -413,7 +410,11 @@ fsm\Controller::$services = [
                 'module' => 'Packing',
                 'log' => 'Pre-Operational Inspection'
             ],
-            'date' => [
+            'start_date' => [
+                'type' => 'datetime',
+                'format' => 'Y-m-d'
+            ],
+            'end_date' => [
                 'type' => 'datetime',
                 'format' => 'Y-m-d'
             ]

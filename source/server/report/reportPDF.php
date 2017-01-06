@@ -12,7 +12,8 @@
     use fsm\services\gmp\packing\preop as preopService;
     use fsm\report\html as html;
 
-    $_POST['date'] = $_GET['date'];
+    $_POST['start_date'] = $_GET['start_date'];
+    $_POST['end_date'] = $_GET['end_date'];
 
     if(isset($_GET["lang"])){
         if($_GET["lang"] == "es" || $_GET["lang"] == "en")
@@ -99,6 +100,12 @@
     }
 
     class SSOPPreopReport extends Report{
+        private $report;
+
+        public function setReportData($reportData) {
+            $this->report = $reportData;
+        }
+
         public function Header(){
             // assign company data to variables
             $company = $this->getCompanyInfo(null);
@@ -149,7 +156,8 @@
             // Sending the zone, module and date to the DAO we obtain the data
             // about the program, who made the report and who approved it
 
-            $report = $this->getReportData();
+            //$report = $this->getReportData();
+            $report = $this->report;
 
             //Build the object
             $data = new stdClass();
@@ -173,7 +181,8 @@
         }
 
         public function tableArray(){
-            $report = $this->getReportData();
+            //$report = $this->getReportData();
+            $report = $this->report;
             $reportContents = [];
 
             foreach ($report['areas'] as $area) {
@@ -272,18 +281,20 @@
     // helvetica or times to reduce file size.
     $pdf->SetFont('helvetica', '', 10, '', true);
 
-    // Add a page
-    // This method has several options, check the source code documentation for more information.
-    $pdf->AddPage();
+    $reportData = $pdf->getReportData();
+    foreach ($reportData as $report) {
+        // Add a page
+        // This method has several options, check the source code documentation for more information.
+        $pdf->setReportData($report);
+        $pdf->AddPage();
+        // Call the proper functions to get both the style and the data
+        $html = $pdf->getCSS().html\reportTable("testTable", "lmao", html\reportTitle(null, "whatever", html\headerTestData()), html\reportBody(null, "whatever", $pdf->tableArray()), null);
+        //$html = $pdf->getCSS().json_encode($pdf->getReportData()).json_encode($pdf->tableArray());
+        //$html = json_encode($pdf->tableArray());
 
-    // Call the proper functions to get both the style and the data
-
-    $html = $pdf->getCSS().html\reportTable("testTable", "lmao", html\reportTitle(null, "whatever", html\headerTestData()), html\reportBody(null, "whatever", $pdf->tableArray()), null);
-    //$html = $pdf->getCSS().json_encode($pdf->getReportData()).json_encode($pdf->tableArray());
-    //$html = json_encode($pdf->tableArray());
-
-    // Print text using writeHTMLCell()
-    $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+        // Print text using writeHTMLCell()
+        $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+    }
 
     // ---------------------------------------------------------
 

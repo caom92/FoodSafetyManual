@@ -1,10 +1,10 @@
 function createDatePicker(){
     $("#report_date_start").html("");
-    //$("#report_date_end").html("");
+    $("#report_date_end").html("");
     $("#report_date_start").append('<input id="start_date" type="date" class="datepicker"><label id="start_date_label" class="select_start_date active" for="start_date"></label>');
     $("#start_date").pickadate(datePicker("start_hidden", new Date(), new Date("2016-10-01T00:00:00")));
-    //$("#report_date_end").append('<input id="end_date" type="date" class="datepicker"><label id="end_date_label" class="select_end_date active" for="end_date"></label>');
-    //$("#end_date").pickadate(datePicker("end_hidden", new Date(), new Date("2016-10-01T00:00:00")));
+    $("#report_date_end").append('<input id="end_date" type="date" class="datepicker"><label id="end_date_label" class="select_end_date active" for="end_date"></label>');
+    $("#end_date").pickadate(datePicker("end_hidden", new Date(), new Date("2016-10-01T00:00:00")));
 }
 
 function isDateValid(startDate, endDate){
@@ -46,7 +46,10 @@ $(function (){
     });
 
     $("#request_report").click(function(){
-        loadSSOPReport($("input[name='start_hidden']").val());
+        loadSSOPReport(
+            $("input[name='start_hidden']").val(),
+            $("input[name='end_hidden']").val()
+        );
     });
 
     // We load the tabs; we have 2 or 3 depending on the privileges of the user
@@ -404,109 +407,119 @@ function reportRowColumn(columnObject){
     return column;
 }
 
-function loadSSOPReport(startDate){
+function loadSSOPReport(startDate, endDate){
     var report = new Object();
-    report.date = startDate;
+    report.start_date = startDate;
+    report.end_date = endDate;
 
     $server.request({
         service: 'report-gmp-packing-preop',
         data: report,
         success: function(response) {
             if (response.meta.return_code == 0) {
-                var wrapper = divWrapper(null, null);
-                var reportWrapper = divWrapper(null, "card-panel white");
+                for (reportData of response.data) {
+                    var wrapper = divWrapper(null, null);
+                    var reportWrapper = divWrapper(null, "card-panel white");
 
-                var reportData = response.data;
+                    //var reportData = response.data;
 
-                console.log(reportData);
+                    console.log(reportData);
 
-                wrapper.append(reportHeader(reportData.zone_name, reportData.module_name, reportData.program_name, reportData.log_name, reportData.creation_date, reportData.created_by, reportData.approval_date, reportData.approved_by));
+                    wrapper.append(reportHeader(reportData.zone_name, reportData.module_name, reportData.program_name, reportData.log_name, reportData.creation_date, reportData.created_by, reportData.approval_date, reportData.approved_by));
 
-                $("#report_tab").append(wrapper);
+                    $("#report_tab").append(wrapper);
 
-                var report = divWrapper(null, null);
-                
-                var headers = [
-                    {"classes":"area_title areaColumn"},
-                    {"classes":"time_title timeColumn"},
-                    {"classes":"number_title numberColumn"},
-                    {"classes":"name_title nameColumn"},
-                    {"classes":"status_title statusColumn"},
-                    {"classes":"action_title actionColumn"},
-                    {"classes":"comment_title commentColumn"}
-                ];
+                    var report = divWrapper(null, null);
+                    
+                    var headers = [
+                        {"classes":"area_title areaColumn"},
+                        {"classes":"time_title timeColumn"},
+                        {"classes":"number_title numberColumn"},
+                        {"classes":"name_title nameColumn"},
+                        {"classes":"status_title statusColumn"},
+                        {"classes":"action_title actionColumn"},
+                        {"classes":"comment_title commentColumn"}
+                    ];
 
-                var reportContents = new Array(); // Type Row Array
+                    var reportContents = new Array(); // Type Row Array
 
-                reportData.areas.forEach(function(area) {
-                    var isFirst = true;
-                    var firstRow = new Array(); // Type Row
+                    reportData.areas.forEach(function(area) {
+                        var isFirst = true;
+                        var firstRow = new Array(); // Type Row
 
-                    var areaRows = 0;
+                        var areaRows = 0;
 
-                    area.types.forEach(function(type) {
-                        areaRows += type.items.length + 1;
-                    });
-
-                    console.log(areaRows);
-
-                    firstRow.push({rowspan: areaRows, contents: area.area_name, classes: "areaColumn"});
-                    firstRow.push({rowspan: areaRows, contents: area.time, classes: "timeColumn"});
-
-                    console.log(area.area_name);
-                    area.types.forEach(function(type) {
-                        if (isFirst) {
-                            firstRow.push({colspan: headers.length - 2,  contents: type.name, classes: "typeTitle"});
-                            reportContents.push(firstRow);
-                            isFirst = false;
-                        } else {
-                            reportContents.push([{colspan: headers.length - 2, contents: type.name, classes: "typeTitle"}]);
-                        }
-                        console.log(type.name);
-                        type.items.forEach(function(item){
-                            var tempRow = new Array();
-
-                            tempRow.push({contents: item.item_order, classes: "numberColumn"});
-                            tempRow.push({contents: item.item_name, classes: "nameColumn"});
-
-                            if(item.item_status == 1){
-                                tempRow.push({classes: "acceptable_tag statusColumn"});
-                            } else {
-                                tempRow.push({classes: "unacceptable_tag statusColumn"});
-                            }
-
-                            tempRow.push({contents: item.item_corrective_action, classes: "actionColumn"});
-                            tempRow.push({contents: item.item_comments, classes: "commentColumn"});
-
-                            reportContents.push(tempRow);
-                            console.log(item.item_name);
+                        area.types.forEach(function(type) {
+                            areaRows += type.items.length + 1;
                         });
+
+                        console.log(areaRows);
+
+                        firstRow.push({rowspan: areaRows, contents: area.area_name, classes: "areaColumn"});
+                        firstRow.push({rowspan: areaRows, contents: area.time, classes: "timeColumn"});
+
+                        console.log(area.area_name);
+                        area.types.forEach(function(type) {
+                            if (isFirst) {
+                                firstRow.push({colspan: headers.length - 2,  contents: type.name, classes: "typeTitle"});
+                                reportContents.push(firstRow);
+                                isFirst = false;
+                            } else {
+                                reportContents.push([{colspan: headers.length - 2, contents: type.name, classes: "typeTitle"}]);
+                            }
+                            console.log(type.name);
+                            type.items.forEach(function(item){
+                                var tempRow = new Array();
+
+                                tempRow.push({contents: item.item_order, classes: "numberColumn"});
+                                tempRow.push({contents: item.item_name, classes: "nameColumn"});
+
+                                if(item.item_status == 1){
+                                    tempRow.push({classes: "acceptable_tag statusColumn"});
+                                } else {
+                                    tempRow.push({classes: "unacceptable_tag statusColumn"});
+                                }
+
+                                tempRow.push({contents: item.item_corrective_action, classes: "actionColumn"});
+                                tempRow.push({contents: item.item_comments, classes: "commentColumn"});
+
+                                reportContents.push(tempRow);
+                                console.log(item.item_name);
+                            });
+                        });
+                        var notesRow = new Array();
+                        var personRow = new Array();
+
+                        notesRow.push({colspan: headers.length - 2, contents: "<span class='bold notes_title'></span>: " + area.notes, classes: "fullColumn"});
+                        personRow.push({colspan: headers.length - 2, contents: "<span class='bold person_performing_sanitation_title'></span>: " + area.person_performing_sanitation, classes: "fullColumn"});
+
+                        reportContents.push(notesRow);
+                        reportContents.push(personRow);
                     });
-                    var notesRow = new Array();
-                    var personRow = new Array();
+                    
+                    console.log("IMPRIMIR CONTENIDOS");
+                    console.log(reportContents);
+                    console.log(JSON.stringify(reportContents));
 
-                    notesRow.push({colspan: headers.length - 2, contents: "<span class='bold notes_title'></span>: " + area.notes, classes: "fullColumn"});
-                    personRow.push({colspan: headers.length - 2, contents: "<span class='bold person_performing_sanitation_title'></span>: " + area.person_performing_sanitation, classes: "fullColumn"});
+                    // Append everything
 
-                    reportContents.push(notesRow);
-                    reportContents.push(personRow);
-                });
-                
-                console.log("IMPRIMIR CONTENIDOS");
-                console.log(reportContents);
-                console.log(JSON.stringify(reportContents));
+                    var repTable = reportTable(null, "bordered", reportTitle(null, null, headers), reportBody(null, null, reportContents), null);
 
-                // Append everything
+                    reportWrapper.append(repTable);
+                    var reportLink = divWrapper(null, null);
+                    //reportLink.append($('<div class="center-align"><a target="_blank" href="source/server/report/reportPDF.php?start_date=' + startDate + '&end_date=' + endDate + '" class="waves-effect waves-light btn"><span class="view_pdf"></span>  <i class="mdi mdi-file-pdf mdi-18px"></i></a><div>'));
+                    wrapper.append(reportWrapper);
+                    wrapper.append(reportLink);
 
-                var repTable = reportTable(null, "bordered", reportTitle(null, null, headers), reportBody(null, null, reportContents), null);
-
-                reportWrapper.append(repTable);
-                var reportLink = divWrapper(null, null);
-                reportLink.append($('<div class="center-align"><a target="_blank" href="source/server/report/reportPDF.php?date=' + startDate + '" class="waves-effect waves-light btn"><span class="view_pdf"></span>  <i class="mdi mdi-file-pdf mdi-18px"></i></a><div>'));
-                wrapper.append(reportWrapper);
-                wrapper.append(reportLink);
-
-                changeLanguage(localStorage.defaultLanguage);
+                    $('#request_pdf').attr(
+                        'href', 
+                        'source/server/report/reportPDF.php?' + 
+                        'start_date=' + startDate +
+                        '&end_date=' + endDate
+                    );
+                    $('#request_pdf').show();
+                    changeLanguage(localStorage.defaultLanguage);
+                }
             } else {
                 Materialize.toast("No se encuentra un reporte para esa fecha", 3000, "rounded");
                 throw response.meta.message;

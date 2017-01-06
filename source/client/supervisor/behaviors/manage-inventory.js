@@ -1,43 +1,44 @@
 function addZoneSelect(){
-    $server.request({
-        service: 'list-zones',
-        success: function(response) {
-            if (response.meta.return_code == 0) {
-                console.log(response.data);
-                var select = $("<select>");
-                select.attr("id", "zone-select");
-                select.append('<option value="" disabled selected class="select_zone"></option>');
-                for(var zone in response.data){
-                    var option = $("<option>");
-                    option.attr("value", response.data[zone].id);
-                    option.html(response.data[zone].name);
-                    select.append(option);
-                }
-                $("#content_wrapper").append(select);
-                $("#zone-select").change(function (e) {
-                    $("#area-select").material_select('destroy');
-                    $("#area-select").remove();
-                    $("#module-select").material_select('destroy');
-                    $("#module-select").remove();
-                    $("table").remove();
-                    addAreaSelect($(this).val());
-                });
-                changeLanguage(localStorage.defaultLanguage);
-                $('select').material_select();
-            } else {
-                throw response.meta.message;
-            }
-        }
-    });
+    // $server.request({
+    //     service: 'list-zones',
+    //     success: function(response) {
+    //         if (response.meta.return_code == 0) {
+    //             console.log(response.data);
+    //             var select = $("<select>");
+    //             select.attr("id", "zone-select");
+    //             select.append('<option value="" disabled selected class="select_zone"></option>');
+    //             for(var zone in response.data){
+    //                 var option = $("<option>");
+    //                 option.attr("value", response.data[zone].id);
+    //                 option.html(response.data[zone].name);
+    //                 select.append(option);
+    //             }
+    //             $("#content_wrapper").append(select);
+    //             $("#zone-select").change(function (e) {
+    //                 $("#area-select").material_select('destroy');
+    //                 $("#area-select").remove();
+    //                 $("#module-select").material_select('destroy');
+    //                 $("#module-select").remove();
+    //                 $("table").remove();
+    //                 addAreaSelect($(this).val());
+    //             });
+    //             changeLanguage(localStorage.defaultLanguage);
+    //             $('select').material_select();
+    //         } else {
+    //             throw response.meta.message;
+    //         }
+    //     }
+    // });
+    addAreaSelect();
 }
 
-function addAreaSelect(zoneID){
+function addAreaSelect(){
     var data = new Object();
-    data.zone_id = zoneID;
+    //data.zone_id = zoneID;
 
     $server.request({
         service: 'get-areas-of-zone',
-        data: data,
+        //data: data,
         success: function(response) {
             if (response.meta.return_code == 0) {
                 console.log(response.data);

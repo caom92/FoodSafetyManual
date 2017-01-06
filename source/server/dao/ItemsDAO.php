@@ -72,8 +72,10 @@ class ItemsDAO extends DataAccessObject
     function countByAreaAndTypeIDs($areaID, $typeID)
     {
         return parent::count([ 
-            'area_id' => $areaID,
-            'type_id' => $typeID 
+            'AND' => [
+                'area_id' => $areaID,
+                'type_id' => $typeID 
+            ]
         ]);
     }
 

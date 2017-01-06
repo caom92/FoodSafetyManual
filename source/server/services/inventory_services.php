@@ -13,7 +13,7 @@ use fsm\database as db;
 function getWorkingAreasOfZone() 
 {
     $areas = new db\WorkingAreasDAO();
-    return $areas->selectByZoneID($_POST['zone_id']);
+    return $areas->selectByZoneID($_SESSION['zone_id']);
 }
 
 

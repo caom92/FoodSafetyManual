@@ -5,52 +5,84 @@ function loadSideMenu()
         `${localStorage.first_name}  ${localStorage.last_name}`
     );
 
-    if (localStorage.role_name === 'Administrator') {
-        // display the admin menu
-        $('#actions-list').load($root + 'source/client/administrator/layouts/menu.html', function(){
-            initMaterialize();
-        });
-    } else {
-        // if the user is has a user role, we display the programs menu
-        // for this, we first check if the menu is already defined
-        if (!isDefined(localStorage.menu)) {
-            // if it is not, we must created
-            localStorage.menu = '';
-
-            // first, we read the privilege JSON
-            var privileges = JSON.parse(localStorage.privileges);
-
-            // then, for every program...
-            $.each(privileges, function(i, program) {
-                console.log(program)
-                // create the navigation menu item
-                localStorage.menu += 
-                    '<li><ul class="collapsible collapsible-accordion">' +
-                    '<li><a class="collapsible-header program-button">' + 
-                    '<i class="mdi mdi-wrench md-dark md-24 field-icon">' +
-                    '</i><span>' + program.name + '</span></a>' +
-                    '<div class="collapsible-body"><ul>';
-
-                // and for every module...
-                $.each(program, function(j, module) {
-                    // add an item to the program collapsible menu
-                    if (isDefined(module.name)) {
-                        localStorage.menu +=
-                            `<li><a class="nav-link waves-effect waves-green" 
-                            href="logs"> 
-                            ${ module.name }
-                            </a></li>`;
-                    }
-                });
-
-                // finally, we close this collapsible menu and repeat
-                localStorage.menu += 
-                    '</ul></div></li></ul></li>';
+    switch (localStorage.role_name) {
+        case 'Administrator':
+            // display the admin menu
+            $('#actions-list').load($root + 'source/client/administrator/layouts/menu.html', function(){
+                initMaterialize();
             });
-        }
-        // show the menu items 
-        $('#actions-list').html(localStorage.menu);
-        initMaterialize();
+        break;
+
+        default:
+            // if the user is has a user role, we display the programs menu
+            // for this, we first check if the menu is already defined
+            if (!isDefined(localStorage.menu)) {
+                // if it is not, we must created
+                localStorage.menu = '';
+
+                // first, we read the privilege JSON
+                var privileges = JSON.parse(localStorage.privileges);
+
+                // and check if the user has any privileges associated
+                var hasPrivileges = privileges.zones.length > 0;
+
+                if (hasPrivileges) {
+                    if (localStorage.role_name === 'Supervisor') {
+                        console.log(privileges);
+                        var isPrivilegeDefined = 
+                            typeof privileges[localStorage.zone_name] !== 'undefined' &&
+                            typeof privileges[localStorage.zone_name] !== 'undefined' &&
+                            typeof privileges[localStorage.zone_name]['GMP'] !==
+                            'undefined' &&
+                            typeof privileges[localStorage.zone_name]['GMP']['Packing'] !== 'undefined' &&
+                            typeof privileges[localStorage.zone_name]['GMP']['Packing']['Pre-Operational Inspection'] !== 'undefined';
+
+                        if (isPrivilegeDefined) {
+                            hasPrivilege = privileges[localStorage.zone_name]['GMP']['Packing']['Pre-Operational Inspection']['privilege']['name'] === 'Read';
+
+                            if (hasPrivilege) {
+                                localStorage.menu += 
+                                    '<li"><a class="nav-link waves-effect ' +
+                                    'waves-green" href="manage-inventory"><i ' +
+                                    'class="mdi mdi-briefcase md-dark md-24 ' + 
+                                    'field-icon"></i><span class="inventory">' +
+                                    '</span></a></li>';
+                            }
+                        }
+                    }
+
+                    // then, for every program...
+                    for (var program of privileges.zones[0].programs) {
+                        // create the navigation menu item
+                        localStorage.menu += 
+                            '<li><ul class="collapsible collapsible-accordion">' +
+                            '<li><a class="collapsible-header program-button">' + 
+                            '<i class="mdi mdi-wrench md-dark md-24 field-icon">' +
+                            '</i><span>' + program.name + '</span></a>' +
+                            '<div class="collapsible-body"><ul>';
+
+                        // and for every module...
+                        for (var module of program.modules) {
+                            // add an item to the program collapsible menu
+                            if (isDefined(module.name)) {
+                                localStorage.menu +=
+                                    `<li><a class="nav-link waves-effect waves-green" 
+                                    href="logs"> 
+                                    ${ module.name }
+                                    </a></li>`;
+                            }
+                        }
+
+                        // finally, we close this collapsible menu and repeat
+                        localStorage.menu += 
+                            '</ul></div></li></ul></li>';
+                    }
+                }
+            }
+            // show the menu items 
+            $('#actions-list').html(localStorage.menu);
+            initMaterialize();
+        break;
     }
 }
 
