@@ -7,6 +7,214 @@ function isRequiredTextAreaValid(id) {
 }
 /************************************** */
 
+// New permission generator
+
+function addZoneSelect() {
+    var select = $("<select>");
+    var label = $("<label>");
+
+    select.attr("id", "zone_select");
+    label.addClass("select_zone");
+    label.attr("for", "zone_select");
+
+    $server.request({
+        service: 'list-zones',
+        success: function (response) {
+            if (response.meta.return_code == 0) {
+                for (var zone of response.data) {
+                    var option = $("<option>");
+                    option.attr("value", zone.id);
+                    option.append(zone.name);
+                    select.append(option);
+                }
+                $("#zone_select_wrapper").append(select);
+                $("#zone_select_wrapper").append(label);
+                changeLanguage(localStorage.defaultLanguage);
+            } else {
+                throw response.meta.message;
+            }
+        }
+    });
+}
+
+function addProgramSelect() {
+    var select = $("<select>");
+    var label = $("<label>");
+
+    select.attr("id", "program_select");
+    label.addClass("select_program");
+    label.attr("for", "program_select");
+
+    $server.request({
+        service: 'list-programs',
+        success: function (response) {
+            if (response.meta.return_code == 0) {
+                for (var program of response.data) {
+                    var option = $("<option>");
+                    option.attr("value", program.id);
+                    option.append(program.name);
+                    select.append(option);
+                }
+                $("#program_select_wrapper").append(select);
+                $("#program_select_wrapper").append(label);
+                changeLanguage(localStorage.defaultLanguage);
+            } else {
+                throw response.meta.message;
+            }
+        }
+    });
+}
+
+// This functions add a collapsible for a collection of 
+
+function addModulesCollapsible(headerArray, bodyArray){
+    /*var wrapper = $("<ul>");
+
+    wrapper.addClass("collapsible");
+    wrapper.attr("data-collapsible", "accordion");*/
+}
+
+function addModuleWrapper(id, classes, header, body){
+    var wrapper = $("<li>");
+
+    if(id)
+        wrapper.attr("id", id);
+
+    wrapper.addClass(classes);
+
+    var cHeader = $("<div>");
+    var cBody = $("<div>");
+
+    cHeader.addClass("collapsible-header");
+    cBody.addClass("collapsible-body");
+
+    cHeader.append(header);
+    cBody.append(body);
+
+    wrapper.append(cHeader);
+    wrapper.append(cBody);
+
+    // return wrapper;
+
+    $("#program_collapsible").append(wrapper);
+}
+
+function addModuleHeader(id, classes, programName){
+    var header = $("<div>");
+    var icon = $('<i class="mdi mdi-wrench md-18"></i>');
+    var title = programName;
+
+    if(id)
+        header.attr("id", id);
+
+    header.addClass(classes);
+
+    header.append(icon);
+    header.append(programName);
+
+    return header;
+}
+
+// Logs is a collection of log
+
+function addModuleBody(id, classes, logs){
+    var moduleTable = $("<table>");
+
+    if(id)
+        moduleTable.attr("id", id);
+
+    moduleTable.addClass("centered striped");
+    moduleTable.addClass(classes);
+
+    moduleTableHeader = $("<thead>");
+
+    header = $("<tr>");
+
+    headName = $("<th>");
+    headName.addClass("name");
+    headNone = $("<th>");
+    headNone.addClass("none");
+    headRead = $("<th>");
+    headRead.addClass("read");
+    headWrite = $("<th>");
+    headWrite.addClass("write");
+
+    header.append(headName, headNone, headRead, headWrite);
+    moduleTableHeader.append(header);
+
+    moduleTableBody = $("<tbody>");
+
+    for (var log of logs) {
+        moduleTableBody.append(addLogEntry(log.id, log.name, 0));
+    }
+
+    moduleTable.append(moduleTableHeader);
+    moduleTable.append(moduleTableBody);
+
+    return moduleTable;
+}
+
+function addLogEntry(logID, logName, valueChecked){
+    var row;
+
+    row = $("<tr>");
+    log = $("<td>");
+
+    log.text(logName);
+    log.addClass("privilege");
+    log.data("log", logID);
+
+    privilegeNone = addPrivilege(logID, 1, valueChecked);
+    privilegeRead = addPrivilege(logID, 2, valueChecked);
+    privilegeWrite = addPrivilege(logID, 3, valueChecked);
+
+    row.append(log);
+    row.append(privilegeNone);
+    row.append(privilegeRead);
+    row.append(privilegeWrite);
+
+    return row;
+}
+
+function addPrivilege(privilegeID, privilegeType, valueChecked){
+    var privilege;
+
+    privilege = $("<td>");
+    privilege.append(addPrivilegeInput(privilegeID, privilegeType, valueChecked));
+    privilege.append(addPrivilegeLabel(privilegeID, privilegeType));
+
+    return privilege;
+}
+
+function addPrivilegeInput(privilegeID, privilegeType, valueChecked){
+    var input = $("<input>");
+
+    input.attr("name", privilegeID);
+    input.attr("type", "radio");
+    input.attr("id", privilegeID + "_" + privilegeType);
+    input.attr("value", privilegeType);
+
+    if(privilegeType == valueChecked){
+        input.attr("checked", "checked");
+    }
+
+    // Result input
+    // <input value="0" id="privilegeID_0" name="privilegeID" type="radio">
+
+    return input;
+}
+
+function addPrivilegeLabel(privilegeID, privilegeType){
+    var label = $("<label>");
+
+    label.attr("for", privilegeID + "_" + privilegeType);
+
+    // Result label
+    // <label for="privilegeID"></label>
+
+    return label;
+}
+
 // This function creates a table containing all the modules from all the
 // procedures for all the zones
 
@@ -155,7 +363,7 @@ function addModule(moduleID, procedureID, zoneID, zoneName, moduleName, valueChe
     return row;
 }
 
-function addPrivilege(privilegeID, privilegeType, valueChecked){
+/*function addPrivilege(privilegeID, privilegeType, valueChecked){
     var privilege;
 
     privilege = $("<td>");
@@ -192,7 +400,7 @@ function addPrivilegeLabel(privilegeID, privilegeType){
     // <label for="privilegeID"></label>
 
     return label;
-}
+}*/
 
 function getProcedureNames(){
     $server.request({
@@ -299,6 +507,8 @@ $(function (){
     //addPermissionTable();
     //getProcedureNames();
     roleSelect();
+    addZoneSelect();
+    addProgramSelect();
 
     $('ul.tabs').tabs();
     $('.collapsible').collapsible();
