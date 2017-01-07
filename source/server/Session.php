@@ -368,10 +368,11 @@ class Session
         $_SESSION['privileges'] = $privileges;
 
         // return the final user profile data structure
-        if ($userData['role_name'] != 'Director') {
-            $userDataToSend['zone_id'] = $userData['zone_id'];
-            $userDataToSend['zone_name'] = $userData['zone_name'];
-        }
+        $isDirector = $userData['role_name'] != 'Director';
+        $userDataToSend['zone_id'] = ($isDirector) ? 
+            1 : $userData['zone_id'];
+        $userDataToSend['zone_name'] = ($isDirector) ?
+            'AVA' : $userData['zone_name'];
         $userDataToSend['exclusive_access'] =
             strtolower($userData['role_name']).'/';
         $userDataToSend['privileges'] = $privileges;

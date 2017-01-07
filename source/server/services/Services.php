@@ -264,7 +264,7 @@ fsm\Controller::$services = [
     ],
     'list-zones' => [
         'requirements_desc' => [
-            'logged_in' => ['Administrator']
+            'logged_in' => ['Administrator', 'Director']
         ],
         'callback' => 'fsm\services\zone\getAllZones'
     ],
@@ -435,6 +435,15 @@ fsm\Controller::$services = [
             ]
         ],
         'callback' => 'fsm\services\gmp\packing\preop\uploadManualFile'
+    ],
+    'director-change-zones' => [
+        'requirements_desc' => [
+            'logged_in' => ['Director'],
+            'zone_id' => [
+                'type' => 'int'
+            ]
+        ],
+        'callback' => 'fsm\services\account\changeZoneOfDirector'
     ]
 ];
 

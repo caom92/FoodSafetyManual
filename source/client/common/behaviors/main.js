@@ -5,84 +5,134 @@ function loadSideMenu()
         `${localStorage.first_name}  ${localStorage.last_name}`
     );
 
-    switch (localStorage.role_name) {
-        case 'Administrator':
+    if (localStorage.role_name === 'Administrator') {
             // display the admin menu
             $('#actions-list').load($root + 'source/client/administrator/layouts/menu.html', function(){
                 initMaterialize();
             });
-        break;
+    } else {
+        // if the user is has a user role, we display the programs menu
+        // for this, we first check if the menu is already defined
+        if (!isDefined(localStorage.menu)) {
+            // if it is not, we must created
+            localStorage.menu = '';
 
-        default:
-            // if the user is has a user role, we display the programs menu
-            // for this, we first check if the menu is already defined
-            if (!isDefined(localStorage.menu)) {
-                // if it is not, we must created
-                localStorage.menu = '';
+            // first, we read the privilege JSON
+            var privileges = JSON.parse(localStorage.privileges);
 
-                // first, we read the privilege JSON
-                var privileges = JSON.parse(localStorage.privileges);
+            // and check if the user has any privileges associated
+            var hasPrivileges = privileges.zones.length > 0;
 
-                // and check if the user has any privileges associated
-                var hasPrivileges = privileges.zones.length > 0;
+            if (hasPrivileges) {
+                if (localStorage.role_name === 'Supervisor') {
+                    console.log(privileges);
+                    var isPrivilegeDefined = 
+                        typeof privileges[localStorage.zone_name] !== 'undefined' &&
+                        typeof privileges[localStorage.zone_name] !== 'undefined' &&
+                        typeof privileges[localStorage.zone_name]['GMP'] !==
+                        'undefined' &&
+                        typeof privileges[localStorage.zone_name]['GMP']['Packing'] !== 'undefined' &&
+                        typeof privileges[localStorage.zone_name]['GMP']['Packing']['Pre-Operational Inspection'] !== 'undefined';
 
-                if (hasPrivileges) {
-                    if (localStorage.role_name === 'Supervisor') {
-                        console.log(privileges);
-                        var isPrivilegeDefined = 
-                            typeof privileges[localStorage.zone_name] !== 'undefined' &&
-                            typeof privileges[localStorage.zone_name] !== 'undefined' &&
-                            typeof privileges[localStorage.zone_name]['GMP'] !==
-                            'undefined' &&
-                            typeof privileges[localStorage.zone_name]['GMP']['Packing'] !== 'undefined' &&
-                            typeof privileges[localStorage.zone_name]['GMP']['Packing']['Pre-Operational Inspection'] !== 'undefined';
+                    if (isPrivilegeDefined) {
+                        hasPrivilege = privileges[localStorage.zone_name]['GMP']['Packing']['Pre-Operational Inspection']['privilege']['name'] === 'Read';
 
-                        if (isPrivilegeDefined) {
-                            hasPrivilege = privileges[localStorage.zone_name]['GMP']['Packing']['Pre-Operational Inspection']['privilege']['name'] === 'Read';
-
-                            if (hasPrivilege) {
-                                localStorage.menu += 
-                                    '<li"><a class="nav-link waves-effect ' +
-                                    'waves-green" href="manage-inventory"><i ' +
-                                    'class="mdi mdi-briefcase md-dark md-24 ' + 
-                                    'field-icon"></i><span class="inventory">' +
-                                    '</span></a></li>';
+                        if (hasPrivilege) {
+                            localStorage.menu += 
+                                '<li"><a class="nav-link waves-effect ' +
+                                'waves-green" href="manage-inventory"><i ' +
+                                'class="mdi mdi-briefcase md-dark md-24 ' + 
+                                'field-icon"></i><span class="inventory">' +
+                                '</span></a></li>';
+                        }
+                    }
+                } else if (localStorage.role_name === 'Director') {
+                    $server.request({
+                        service: 'list-zones',
+                        success: function(response) {
+                            if (response.meta.return_code == 0) {
+                                var zonesHTML = 
+                                    '<select id="zone-selection" class="black-text browser-default">';
+                                for (zone of response.data) {
+                                    zonesHTML += 
+                                        '<option value="' + zone.id + 
+                                        '">' + zone.name + '</option>';
+                                }
+                                zonesHTML += '</select>';
+                                $('#zone-menu').append(zonesHTML);
+                                var successCallback = function(response) {
+                                    if (response.meta.return_code == 0) {
+                                        localStorage.zone_id = response.data.id;
+                                        localStorage.zone_name = 
+                                            response.data.name;
+                                    } else {
+                                        Materialize.toast(
+                                            'Error changing zones', 
+                                            4000, 
+                                            'rounded'
+                                        );
+                                        console.log(
+                                            'server says: ' + 
+                                            response.meta.message
+                                        );
+                                    }
+                                };
+                                $('select#zone-selection').on('change', 
+                                    function(event) {
+                                        $server.request({
+                                            service: 'director-change-zones',
+                                            data: {
+                                                zone_id: $(this).val()
+                                            },
+                                            success: successCallback
+                                        })
+                                    }
+                                );
+                            } else {
+                                Materialize.toast(
+                                    'Error retrieving zones', 
+                                    4000, 
+                                    'rounded'
+                                );
+                                console.log(
+                                    'server says: ' + response.meta.message
+                                );
                             }
+                        }
+                    });
+                }
+
+                // then, for every program...
+                for (var program of privileges.zones[0].programs) {
+                    // create the navigation menu item
+                    localStorage.menu += 
+                        '<li><ul class="collapsible collapsible-accordion">' +
+                        '<li><a class="collapsible-header program-button">' + 
+                        '<i class="mdi mdi-wrench md-dark md-24 field-icon">' +
+                        '</i><span>' + program.name + '</span></a>' +
+                        '<div class="collapsible-body"><ul>';
+
+                    // and for every module...
+                    for (var module of program.modules) {
+                        // add an item to the program collapsible menu
+                        if (isDefined(module.name)) {
+                            localStorage.menu +=
+                                `<li><a class="nav-link waves-effect waves-green" 
+                                href="logs"> 
+                                ${ module.name }
+                                </a></li>`;
                         }
                     }
 
-                    // then, for every program...
-                    for (var program of privileges.zones[0].programs) {
-                        // create the navigation menu item
-                        localStorage.menu += 
-                            '<li><ul class="collapsible collapsible-accordion">' +
-                            '<li><a class="collapsible-header program-button">' + 
-                            '<i class="mdi mdi-wrench md-dark md-24 field-icon">' +
-                            '</i><span>' + program.name + '</span></a>' +
-                            '<div class="collapsible-body"><ul>';
-
-                        // and for every module...
-                        for (var module of program.modules) {
-                            // add an item to the program collapsible menu
-                            if (isDefined(module.name)) {
-                                localStorage.menu +=
-                                    `<li><a class="nav-link waves-effect waves-green" 
-                                    href="logs"> 
-                                    ${ module.name }
-                                    </a></li>`;
-                            }
-                        }
-
-                        // finally, we close this collapsible menu and repeat
-                        localStorage.menu += 
-                            '</ul></div></li></ul></li>';
-                    }
+                    // finally, we close this collapsible menu and repeat
+                    localStorage.menu += 
+                        '</ul></div></li></ul></li>';
                 }
             }
-            // show the menu items 
-            $('#actions-list').html(localStorage.menu);
-            initMaterialize();
-        break;
+        }
+        // show the menu items 
+        $('#actions-list').html(localStorage.menu);
+        initMaterialize();
     }
 }
 
@@ -93,6 +143,8 @@ function initMaterialize(){
     $('.button-collapse').show();
     $(".button-collapse").sideNav();
     $('.collapsible').collapsible();
+    //$('.dropdown-button').dropdown();
+    //$('select').material_select();
 
     // every time the user clicks a link to navigate to another page,
     // we load the corresponding layout to the current view, preventing

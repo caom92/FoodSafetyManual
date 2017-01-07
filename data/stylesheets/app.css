@@ -181,3 +181,7 @@ main.container > div.row.center {
 ul#form-wrappers div.collapsible-body {
     margin: 10px 20px 0 20px;
 }
+
+li#zone-menu {
+    padding-top: 10px;
+}

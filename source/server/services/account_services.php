@@ -3,6 +3,7 @@
 namespace fsm\services\account;
 
 require_once realpath(dirname(__FILE__).'/../dao/UsersDAO.php');
+require_once realpath(dirname(__FILE__).'/../dao/ZonesDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/PrivilegesDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/RolesDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/UsersLogsPrivilegesDAO.php');
@@ -425,6 +426,31 @@ function getPrivilegesOfUser()
     }
 
     return $privileges;
+}
+
+
+// Changes the zone upon which the user is acting to the one with the 
+// especified ID
+function changeZoneOfDirector()
+{
+    // get the info of the zone using the ID
+    $zones = new db\ZonesDAO();
+    $zone = $zones->getByID($_POST['zone_id']);
+    
+    // check if the zone exists
+    if (!isset($zone)) {
+        // if not, notify the user
+        throw new \Exception(
+            "No zone with ID ".$_POST['zone_id']." could be find"
+        );
+    }
+
+    // update the zone info associated with the account's session
+    $_SESSION['zone_id'] = $zone['id'];
+    $_SESSION['zone_name'] = $zone['name'];
+
+    // return the info of the new zone
+    return $zone;
 }
 
 ?>
