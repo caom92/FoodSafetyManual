@@ -9,6 +9,14 @@ function isRequiredTextAreaValid(id) {
 
 // New permission generator
 
+function hidePermissionForms(){
+    $("#privilege_header").hide();
+    $("#zone_select_wrapper").html("");
+    $("#zone_select_wrapper").parent().hide();
+    $("#program_select_wrapper").html("");
+    $("#program_select_wrapper").parent().hide();
+}
+
 function addZoneSelect() {
     var select = $("<select>");
     var label = $("<label>");
@@ -29,6 +37,8 @@ function addZoneSelect() {
                 }
                 $("#zone_select_wrapper").append(select);
                 $("#zone_select_wrapper").append(label);
+                $("#zone_select_wrapper").parent().show();
+                $("#privilege_header").show();
                 changeLanguage(localStorage.defaultLanguage);
             } else {
                 throw response.meta.message;
@@ -57,6 +67,8 @@ function addProgramSelect() {
                 }
                 $("#program_select_wrapper").append(select);
                 $("#program_select_wrapper").append(label);
+                $("#program_select_wrapper").parent().show();
+                $("#privilege_header").show();
                 changeLanguage(localStorage.defaultLanguage);
             } else {
                 throw response.meta.message;
@@ -67,7 +79,17 @@ function addProgramSelect() {
 
 // This functions add a collapsible for a collection of 
 
-function addModulesCollapsible(headerArray, bodyArray){
+function addModulesCollapsible(){
+    $server.request({
+        service: 'list-programs-modules-logs',
+        success: function(response) {
+            if (response.meta.return_code == 0) {
+                console.log(response.data);
+            } else {
+                throw response.meta.message;
+            }
+        }
+    });
     /*var wrapper = $("<ul>");
 
     wrapper.addClass("collapsible");
@@ -145,7 +167,7 @@ function addModuleBody(id, classes, logs){
     moduleTableBody = $("<tbody>");
 
     for (var log of logs) {
-        moduleTableBody.append(addLogEntry(log.id, log.name, 0));
+        moduleTableBody.append(addLogEntry(log.id, log.name, 1));
     }
 
     moduleTable.append(moduleTableHeader);
@@ -507,8 +529,8 @@ $(function (){
     //addPermissionTable();
     //getProcedureNames();
     roleSelect();
-    addZoneSelect();
-    addProgramSelect();
+    //addZoneSelect();
+    //addProgramSelect();
 
     $('ul.tabs').tabs();
     $('.collapsible').collapsible();
@@ -544,6 +566,23 @@ $(function (){
 
     $("#user-id").keyup(function(e){
         $("#user-id").focusout();
+    });
+
+    // In this part we append the form necessary for the admin to add a new user
+    // Only displaying the options that the user role needs
+    $("#user-role").change(function(e) {
+        hidePermissionForms();
+        if($(this).val() == 3){
+            addZoneSelect();
+            addProgramSelect();
+        }
+        if($(this).val() == 4){
+            addZoneSelect();
+        }
+        if($(this).val() == 5){
+            addZoneSelect();
+            addProgramSelect();
+        }
     });
 
     // Send the new user information, privileges included, to the server

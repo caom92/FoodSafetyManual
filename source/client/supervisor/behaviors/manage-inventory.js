@@ -141,40 +141,47 @@ function dynamicSearchBind(input, column){
     function isBound(input){
         return input.is('[class*="bound-by-"');
     }
-    
-    $("#" + input).keyup(function (e) {
-        $("." + column).each(function (e) {
-            if($(this).text().search($("#" + input).val()) != -1){
-                if(isBound($(this).parent())){
-                    $(this).parent().removeClass("bound-by-" + input);
-                    if(!isBound($(this).parent())){
-                        $(this).parent().attr("style", "");
-                    }
-                }
-            } else {
-                $(this).parent().attr("style", "display:none;");
-                $(this).parent().addClass("bound-by-" + input);
-            }
-        });
-        checkSortability();
-    });
 
-    $("#" + input).change(function (e) {
-        $("." + column).each(function (e) {
-            if($(this).text().search($("#" + input).val()) == 0){
-                if(isBound($(this).parent())){
-                    $(this).parent().removeClass("bound-by-" + input);
-                    if(!isBound($(this).parent())){
-                        $(this).parent().attr("style", "");
+    if($("#" + input).is("input")){
+        $("#" + input).keyup(function (e) {
+            //console.log($(this));
+            $("." + column).each(function (e) {
+                if($(this).text().search($("#" + input).val()) != -1){
+                    if(isBound($(this).parent())){
+                        $(this).parent().removeClass("bound-by-" + input);
+                        if(!isBound($(this).parent())){
+                            $(this).parent().attr("style", "");
+                        }
                     }
+                } else {
+                    console.log("Hidden by keyup");
+                    $(this).parent().attr("style", "display:none;");
+                    $(this).parent().addClass("bound-by-" + input);
                 }
-            } else {
-                $(this).parent().attr("style", "display:none;");
-                $(this).parent().addClass("bound-by-" + input);
-            }
+            });
+            checkSortability();
         });
-        checkSortability();
-    });
+    } else {
+        $("#" + input).change(function (e) {
+            console.log($(this));
+            $("." + column).each(function (e) {
+                if($(this).text().search($("#" + input).val()) == 0){
+                    if(isBound($(this).parent())){
+                        $(this).parent().removeClass("bound-by-" + input);
+                        if(!isBound($(this).parent())){
+                            $(this).parent().attr("style", "");
+                        }
+                    }
+                } else {
+                    console.log($(this));
+                    console.log("Hidden by change");
+                    $(this).parent().attr("style", "display:none;");
+                    $(this).parent().addClass("bound-by-" + input);
+                }
+            });
+            checkSortability();
+        });
+    }
 }
 
 function checkSortability(){
