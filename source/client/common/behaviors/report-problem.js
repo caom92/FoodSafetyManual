@@ -274,7 +274,7 @@ $(function() {
 
                     var html = 
                         '<option value="" disabled selected class="select_option"></option>';
-                    for (program of privileges) {
+                    for (program of privileges.zones[0].programs) {
                         for (mod of program.modules) {
                             html += "<option value='" + mod.id + "'>"
                             + mod.name + "</option>";
@@ -347,7 +347,7 @@ $(function() {
                 var privileges = JSON.parse(localStorage.privileges);
 
                 var html = "";
-                for (procedure of privileges) {
+                for (procedure of privileges.zones[0].programs) {
                     html += "<option value='" + procedure.id + "'>"
                         + procedure.name + "</option>";
                 }

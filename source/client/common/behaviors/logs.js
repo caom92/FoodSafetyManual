@@ -417,17 +417,48 @@ function loadSSOPReport(startDate, endDate){
         data: report,
         success: function(response) {
             if (response.meta.return_code == 0) {
+                $('#request_pdf').attr(
+                    'href', 
+                    'source/server/report/reportPDF.php?' + 
+                    'start_date=' + startDate +
+                    '&end_date=' + endDate
+                );
+                $('#request_pdf').show();
+
+                var wrapper = $('#report-tab-index');
+                wrapper.html('');
+                wrapper.append('<ul>');
+                sessionStorage.reportData = JSON.stringify(response.data);
                 for (reportData of response.data) {
+                    wrapper.append(
+                        '<li><a href="#!" class="log-button">' + 
+                        reportData.creation_date + 
+                        '</a></li>'
+                    );
+                }
+                wrapper.append('</ul>');
+                $("#report_tab").append(wrapper);
+                $('a.log-button').on('click', function(event) {
+                    event.preventDefault();
                     var wrapper = divWrapper(null, null);
                     var reportWrapper = divWrapper(null, "card-panel white");
 
-                    //var reportData = response.data;
+                    var date = $(this).text();
+                    var reportData = null;
+                    var reports = JSON.parse(sessionStorage.reportData);
+                    for (report of reports) {
+                        if (report.creation_date == date) {
+                            reportData = report;
+                            break;
+                        }
+                    }
 
                     console.log(reportData);
 
                     wrapper.append(reportHeader(reportData.zone_name, reportData.module_name, reportData.program_name, reportData.log_name, reportData.creation_date, reportData.created_by, reportData.approval_date, reportData.approved_by));
 
-                    $("#report_tab").append(wrapper);
+                    $('#report-tab-index').hide();
+                    $("#report-tab-content").html(wrapper);
 
                     var report = divWrapper(null, null);
                     
@@ -510,16 +541,26 @@ function loadSSOPReport(startDate, endDate){
                     //reportLink.append($('<div class="center-align"><a target="_blank" href="source/server/report/reportPDF.php?start_date=' + startDate + '&end_date=' + endDate + '" class="waves-effect waves-light btn"><span class="view_pdf"></span>  <i class="mdi mdi-file-pdf mdi-18px"></i></a><div>'));
                     wrapper.append(reportWrapper);
                     wrapper.append(reportLink);
+                    wrapper.append(
+                        '<a id="log-return" href="#!" class="waves-effect ' +
+                        'waves-light btn">' +
+                        '<i class="mdi mdi-arrow-left"></i>Go Back' +
+                        '</a>'
+                    );
+                    $('a#log-return').on('click', function(event) {
+                        event.preventDefault();
+                        $('#report-tab-index').show();
+                        $('#report-tab-content').html('');
+                    });
 
                     $('#request_pdf').attr(
                         'href', 
                         'source/server/report/reportPDF.php?' + 
-                        'start_date=' + startDate +
-                        '&end_date=' + endDate
+                        'start_date=' + date +
+                        '&end_date=' + date
                     );
-                    $('#request_pdf').show();
                     changeLanguage(localStorage.defaultLanguage);
-                }
+                });
             } else {
                 Materialize.toast("No se encuentra un reporte para esa fecha", 3000, "rounded");
                 throw response.meta.message;

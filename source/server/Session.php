@@ -368,7 +368,7 @@ class Session
         $_SESSION['privileges'] = $privileges;
 
         // return the final user profile data structure
-        $isDirector = $userData['role_name'] != 'Director';
+        $isDirector = $userData['role_name'] === 'Director';
         $userDataToSend['zone_id'] = ($isDirector) ? 
             1 : $userData['zone_id'];
         $userDataToSend['zone_name'] = ($isDirector) ?
