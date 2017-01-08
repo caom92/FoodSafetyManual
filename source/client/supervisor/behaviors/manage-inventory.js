@@ -156,6 +156,7 @@ function dynamicSearchBind(input, column){
                 $(this).parent().addClass("bound-by-" + input);
             }
         });
+        checkSortability();
     });
 
     $("#" + input).change(function (e) {
@@ -172,6 +173,19 @@ function dynamicSearchBind(input, column){
                 $(this).parent().addClass("bound-by-" + input);
             }
         });
+        checkSortability();
+    });
+}
+
+function checkSortability(){
+    $("tbody").each(function(index){
+        if($(this).children().length != $(this).children().filter(":visible").length) {
+            console.log("Sortable disabled");
+            $(this).sortable("disable");
+        } else {
+            console.log("Sortable enabled");
+            $(this).sortable("enable");
+        }
     });
 }
 
