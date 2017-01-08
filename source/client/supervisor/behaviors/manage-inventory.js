@@ -195,7 +195,19 @@ function loadInventory(areaID){
                 stop: function(event, ui) {
                     //console.log($($(ui.item[0]).children()[0]).text());
                     $("tbody tr").each(function(index){
-                        console.log($($(this).children()[0]).text());
+                        var order = $($(this).children()[0]).text();
+                        var itemID = $($(this).children()[1]).text();
+                        var data = new Object();
+                        data.item_id = parseInt(itemID);
+                        data.position = parseInt(order);
+                        console.log(data);
+                        $server.request({
+                            service: "change-order-of-item",
+                            data: data
+                        });
+                        //console.log($($(this).children()[0]).text());
+                        //console.log($($(this).children()[1]).text());
+                        console.log($(this));
                         $($(this).children()[0]).text(index + 1);
                     });
                 }
@@ -218,18 +230,29 @@ function loadInventory(areaID){
 }
 
 function inventoryTable(inventory){
+    console.log("INVENTARIO");
+    console.log(inventory);
     var table = $("<table>");
     var tableBody = $("<tbody>");
+    //var tableBodyOne = $("<tbody>");
     var tableFoot = $("<tfoot>");
     var tableHeader = inventoryHeader();
     table.addClass("striped");
     table.attr("id", "sort");
     tableHeader.append(inventorySearchRow());
     table.append(tableHeader);
+    //var flag = 0;
     for(var element in inventory){
+        /*if(flag < 3){
+            tableBodyOne.append(inventoryRow(inventory[element]));
+            flag++;
+        } else {
+            tableBody.append(inventoryRow(inventory[element]));
+        }*/
         tableBody.append(inventoryRow(inventory[element]));
     }
     tableFoot.append(inventoryAddRow());
+    //table.append(tableBodyOne);
     table.append(tableBody);
     table.append(tableFoot);
     return table;
