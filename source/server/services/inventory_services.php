@@ -57,7 +57,7 @@ function getItemsOfWorkingArea()
             // and create a new storage for the items of the new type pushing 
             // the current item to its inventory
             $type = [
-                'id' => $item['type']['id'],
+                'id' => $item['type']['type_id'],
                 'name' => $item['type']['type_name'],
                 'inventory' => [
                     $inventoryItem
