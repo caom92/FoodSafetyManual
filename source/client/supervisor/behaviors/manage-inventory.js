@@ -192,9 +192,9 @@ function loadInventory(areaID){
             dynamicSearchBind("type-search", "type-column");
             $("#sort tbody").sortable({
                 helper: fixHelper,
-                stop: function(event, ui) {
-                    //console.log($($(ui.item[0]).children()[0]).text());
+                update: function(event, ui) {
                     $("tbody tr").each(function(index){
+                        $($(this).children()[0]).text(index + 1 - $(this).data("offset"));
                         var order = $($(this).children()[0]).text();
                         var itemID = $($(this).children()[1]).text();
                         var data = new Object();
@@ -205,10 +205,6 @@ function loadInventory(areaID){
                             service: "change-order-of-item",
                             data: data
                         });
-                        //console.log($($(this).children()[0]).text());
-                        //console.log($($(this).children()[1]).text());
-                        console.log($(this));
-                        $($(this).children()[0]).text(index + 1);
                     });
                 }
             });
@@ -233,27 +229,31 @@ function inventoryTable(inventory){
     console.log("INVENTARIO");
     console.log(inventory);
     var table = $("<table>");
-    var tableBody = $("<tbody>");
-    //var tableBodyOne = $("<tbody>");
     var tableFoot = $("<tfoot>");
     var tableHeader = inventoryHeader();
+    var offset = [];
     table.addClass("striped");
     table.attr("id", "sort");
     tableHeader.append(inventorySearchRow());
     table.append(tableHeader);
-    //var flag = 0;
-    for(var element in inventory){
-        /*if(flag < 3){
-            tableBodyOne.append(inventoryRow(inventory[element]));
-            flag++;
-        } else {
-            tableBody.append(inventoryRow(inventory[element]));
-        }*/
-        tableBody.append(inventoryRow(inventory[element]));
+    for(var type in inventory){
+        if(type > 0)
+            offset.push(inventory[type-1].inventory.length);
+        else
+            offset.push(0);
+    }
+    for(var type in inventory){
+        var tableBody = $("<tbody>");
+        tableBody.addClass("type_" + inventory[type].id);
+        for(var element in inventory[type].inventory){
+            inventory[type].inventory[element].type = inventory[type].name;
+            inventory[type].inventory[element].offset = offset[type];
+            console.log(inventory[type].inventory[element]);
+            tableBody.append(inventoryRow(inventory[type].inventory[element]));
+        }
+        table.append(tableBody);
     }
     tableFoot.append(inventoryAddRow());
-    //table.append(tableBodyOne);
-    table.append(tableBody);
     table.append(tableFoot);
     return table;
 }
@@ -281,7 +281,7 @@ function inventoryRow(element){
     row.append($("<td class='position-column'>").text(element.position));
     row.append($("<td class='id-column search-column'>").text(element.id));
     row.append($("<td class='name-column search-column'>").text(element.name));
-    row.append($("<td class='type-column search-column'>").text(element.type.type_name));
+    row.append($("<td class='type-column search-column'>").text(element.type));
     if(element.is_active){
         switchBox = '<input type="checkbox" checked="">';
     } else {
@@ -306,6 +306,7 @@ function inventoryRow(element){
     });
     buttonColumn.append(switchInput);
     row.append(buttonColumn);
+    row.data("offset", element.offset);
     return row;
 }
 
@@ -350,11 +351,10 @@ function inventoryAddRow(){
                     element.id = response.data;
                     element.name = $("#name_add").val();
                     element.is_active = true;
-                    element.type = new Object();
-                    element.type.type_name = $("#type_add option:selected").text();
-                    element.position = Number($($("tbody tr").last().children()[0]).text()) + 1;
+                    element.type = $("#type_add option:selected").text();
+                    element.position = Number($($("tbody.type_" + $("#type_add").val() + " tr").last().children()[0]).text()) + 1;
                     console.log(element);
-                    $("tbody").append(inventoryRow(element));
+                    $("tbody.type_" + $("#type_add").val()).append(inventoryRow(element));
                     $("html, body").animate({
                         scrollTop: $(document).height()
                     }, 400);
