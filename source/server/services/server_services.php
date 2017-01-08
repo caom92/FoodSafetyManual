@@ -209,7 +209,7 @@ function getAllProgramsModulesAndLogs()
 
     // push the last entries of an array into the final array
     if ($module['id'] != 0) {
-        array_push($program['modules'], $module);
+        array_push($programs['modules'], $module);
     }
 
     if ($program['id'] != 0) {
