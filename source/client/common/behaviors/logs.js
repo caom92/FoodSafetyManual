@@ -427,6 +427,7 @@ function loadSSOPReport(startDate, endDate){
 
                 var wrapper = $('#report-tab-index');
                 wrapper.html('');
+                wrapper.append('<div class="card"><div class="card-content>"')
                 wrapper.append('<ul>');
                 sessionStorage.reportData = JSON.stringify(response.data);
                 for (reportData of response.data) {
@@ -436,7 +437,7 @@ function loadSSOPReport(startDate, endDate){
                         '</a></li>'
                     );
                 }
-                wrapper.append('</ul>');
+                wrapper.append('</div></div></ul>');
                 $("#report_tab").append(wrapper);
                 $('a.log-button').on('click', function(event) {
                     event.preventDefault();

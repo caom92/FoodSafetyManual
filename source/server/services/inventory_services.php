@@ -32,12 +32,12 @@ function getItemsOfWorkingArea()
         'id' => 0,
         'name' => '',
         'inventory' => []
-    ];
+    ]; 
 
     // visit each row obtained from the data base
     foreach ($rows as $item) {
         // check if this item belongs to a new type
-        $hasTypeChanged = $type['id'] != $item['type']['id'];
+        $hasTypeChanged = $type['id'] != $item['type']['type_id'];
         if ($hasTypeChanged) {
             // if it does, check if the current accumulated items inventory is 
             // not empty
@@ -58,7 +58,7 @@ function getItemsOfWorkingArea()
             // the current item to its inventory
             $type = [
                 'id' => $item['type']['id'],
-                'name' => $item['type']['name'],
+                'name' => $item['type']['type_name'],
                 'inventory' => [
                     $inventoryItem
                 ]
