@@ -31,6 +31,7 @@ $(function (){
         }
     });
 
+    if(localStorage.role_id == 3 || localStorage.role_id == 4 || localStorage.role_id == 3){
     $server.request({
         service: 'get-items-of-zone',
         success: function(response) {
@@ -56,6 +57,7 @@ $(function (){
             }
         }
     });
+    }
 
     $("#request_report").click(function(){
         loadSSOPReport(
