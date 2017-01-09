@@ -15,6 +15,9 @@ function hidePermissionForms(){
     $("#zone_select_wrapper").parent().hide();
     $("#program_select_wrapper").html("");
     $("#program_select_wrapper").parent().hide();
+    $("#program_collapsible").html("");
+    $("#program_collapsible").parent().hide();
+    $("#log_select_wrapper").parent().hide();
 }
 
 function addZoneSelect() {
@@ -56,7 +59,7 @@ function addProgramSelect() {
     label.attr("for", "program_select");
 
     $server.request({
-        service: 'list-programs',
+        service: 'list-programs-modules-logs',
         success: function (response) {
             if (response.meta.return_code == 0) {
                 for (var program of response.data) {
@@ -65,6 +68,7 @@ function addProgramSelect() {
                     option.append(program.name);
                     select.append(option);
                 }
+                addModulesCollapsible(response.data);
                 $("#program_select_wrapper").append(select);
                 $("#program_select_wrapper").append(label);
                 $("#program_select_wrapper").parent().show();
@@ -79,17 +83,19 @@ function addProgramSelect() {
 
 // This functions add a collapsible for a collection of 
 
-function addModulesCollapsible(){
-    $server.request({
-        service: 'list-programs-modules-logs',
-        success: function(response) {
-            if (response.meta.return_code == 0) {
-                console.log(response.data);
-            } else {
-                throw response.meta.message;
+function addModulesCollapsible(programs){
+    for(var program of programs){
+        for(var module of program.modules){
+            var logsArray = [];
+            for(var log of module.logs){
+                logsArray.push(log);
             }
+            $("#program_collapsible").append(addModuleWrapper(null, null, addModuleHeader(null, null, module.name),
+             addModuleBody(null, null, logsArray)));
         }
-    });
+    }
+    $("#log_select_wrapper").parent().show();
+    $("#program_collapsible").parent().show();
     /*var wrapper = $("<ul>");
 
     wrapper.addClass("collapsible");
@@ -116,9 +122,9 @@ function addModuleWrapper(id, classes, header, body){
     wrapper.append(cHeader);
     wrapper.append(cBody);
 
-    // return wrapper;
+    return wrapper;
 
-    $("#program_collapsible").append(wrapper);
+    //$("#program_collapsible").append(wrapper);
 }
 
 function addModuleHeader(id, classes, programName){
