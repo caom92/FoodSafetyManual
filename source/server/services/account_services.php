@@ -254,9 +254,6 @@ function addNewUserAccount()
         $userData['zone_id'] = 1;
     }
 
-    // insert the profile data to the data base 
-    $userID = $users->insert($userData);
-
     // check if the user role requires privileges to be specified
     $arePrivilegesRequired = $isSupervisor || $isEmployee;
 
@@ -290,6 +287,10 @@ function addNewUserAccount()
         // get the ID of the read privilege
         $privilegesTable = new db\PrivilegesDAO();
         $privilegeID = $privilegesTable->getIDByName('Read');
+        $privilegeID = $privilegeID['id'];
+
+        // insert the profile data to the data base 
+        $userID = $users->insert($userData);
 
         // create a privileges array with the proper format that medoo is 
         // expecting
