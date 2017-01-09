@@ -37,9 +37,21 @@ $(function (){
             if (response.meta.return_code == 0) {
                 console.log(response.data);
                 loadLogForm("SSOP", response.data);
+                var r = response.data;
+                var userPriv = JSON.parse(localStorage.privileges);
+                if(userPriv[r.zone_name][r.program_name][r.module_name][r.log_name]['privilege']['name'] == "Read"){
+                    $("#logs_tab").remove();
+                    $(".logs_tab").parent().remove();
+                    $('ul.tabs').tabs();
+                    $('.indicator').addClass("green");
+                }
                 changeLanguage(localStorage.defaultLanguage);
                 $('select').material_select();
             } else {
+                $("#logs_tab").remove();
+                $(".logs_tab").parent().remove();
+                $('ul.tabs').tabs();
+                $('.indicator').addClass("green");
                 throw response.meta.message;
             }
         }
