@@ -31,7 +31,7 @@ $(function (){
         }
     });
 
-    if(localStorage.role_id == 3 || localStorage.role_id == 4 || localStorage.role_id == 3){
+    if(localStorage.role_id == "3" || localStorage.role_id == "4" || localStorage.role_id == "5"){
     $server.request({
         service: 'get-items-of-zone',
         success: function(response) {
@@ -58,6 +58,11 @@ $(function (){
         }
     });
     } else {
+        $("#logs_tab").remove();
+        $(".logs_tab").parent().remove();
+        $('ul.tabs').tabs();
+        $('.indicator').addClass("green");
+        $(".log_title").html("Pre-Operational Inspection");
         changeLanguage(localStorage.defaultLanguage);
     }
 
