@@ -649,18 +649,28 @@ $(function (){
                 userObject.role_id = $("#user-role").val();
                 userObject.login_name = $("#login-name").val();
                 userObject.login_password = $("#password").val();
+
+                if (typeof $("#zone_select option:selected") != 'undefined') {
+                    userObject.zone_id = 
+                        $("#zone_select option:selected").val();
+                }
+
                 userObject.privileges = new Array();
 
                 // Read the privilege list
                 $(".privilege").each(function(e){
-                    var zone = $(this).data("zone");
-                    var module = $(this).data("module");
-                    var radioGroup = $(this).attr("id");
-                    var privilege = $('input[name=' + radioGroup + ']:checked').val();
+                    // var zone = $(this).data("zone");
+                    // var module = $(this).data("module");
+                    // var radioGroup = $(this).attr("id");
+                    // var privilege = $('input[name=' + radioGroup + ']:checked').val();
                     var privilegeObject = new Object();
-                    privilegeObject.zone_id = zone;
-                    privilegeObject.module_id = module;
+                    // privilegeObject.zone_id = zone;
+                    // privilegeObject.module_id = module;
+                    // privilegeObject.privilege_id = privilege;
+                    var log = $(this).data("log");
+                    var privilege = $('input[name=' + log + ']:checked').val();
                     privilegeObject.privilege_id = privilege;
+                    privilegeObject.log_id = log;
                     userObject.privileges.push(privilegeObject);
                 });
 

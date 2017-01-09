@@ -209,7 +209,7 @@ function addNewUserAccount()
 
     // then, hash the password
     $hashedPassword = password_hash(
-        $_POST['password'],
+        $_POST['login_password'],
         \PASSWORD_BCRYPT
     );
 

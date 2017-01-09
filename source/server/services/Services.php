@@ -211,10 +211,6 @@ fsm\Controller::$services = [
     'add-user' => [
         'requirements_desc' => [
             'logged_in' => ['Administrator'],
-            'username' => [
-                'type' => 'string',
-                'min_length' => 5,
-            ],
             'employee_num' => [
                 'type' => 'int'
             ],
