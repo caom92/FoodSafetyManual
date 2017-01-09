@@ -57,6 +57,8 @@ $(function (){
             }
         }
     });
+    } else {
+        changeLanguage(localStorage.defaultLanguage);
     }
 
     $("#request_report").click(function(){
