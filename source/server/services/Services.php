@@ -230,7 +230,7 @@ fsm\Controller::$services = [
             ],
             'login_name' => [
                 'type' => 'string',
-                'min_length' => 5
+                'min_length' => 3
             ],  
             'login_password' => [
                 'type' => 'string',
