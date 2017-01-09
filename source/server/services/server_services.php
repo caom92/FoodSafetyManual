@@ -152,6 +152,11 @@ function getAllProgramsModulesAndLogs()
         'name' => '',
         'logs' => []
     ];
+    $module = [
+        'id' => 0,
+        'name' => '',
+        'logs' => []
+    ];
 
     // then visit each row obtained from the data base ...
     foreach ($rows as $row) {
@@ -159,7 +164,7 @@ function getAllProgramsModulesAndLogs()
         $hasProgramChanged = $row['program_id'] != $program['id'];
         if ($hasProgramChanged) {
             // if it has, check if the program info is empty
-            if ($row['program_id'] != 0) {
+            if ($program['id'] != 0) {
                 // if it's not, store the current program info in the program 
                 // info and this last one is stored in the final array
                 array_push($program['modules'], $module);
@@ -178,7 +183,8 @@ function getAllProgramsModulesAndLogs()
             ];
             $program = [
                 'id' => $row['program_id'],
-                'name' => $row['program_name']
+                'name' => $row['program_name'],
+                'modules' => []
             ];
         } else {
             // if the program haven't changed, check if the module has changed
@@ -209,7 +215,7 @@ function getAllProgramsModulesAndLogs()
 
     // push the last entries of an array into the final array
     if ($module['id'] != 0) {
-        array_push($programs['modules'], $module);
+        array_push($program['modules'], $module);
     }
 
     if ($program['id'] != 0) {
