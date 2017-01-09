@@ -50,7 +50,7 @@ function addZoneSelect() {
     });
 }
 
-function addProgramSelect() {
+function addProgramSelect(maxPrivilege) {
     var select = $("<select>");
     var label = $("<label>");
 
@@ -68,7 +68,7 @@ function addProgramSelect() {
                     option.append(program.name);
                     select.append(option);
                 }
-                addModulesCollapsible(response.data);
+                addModulesCollapsible(response.data, maxPrivilege);
                 $("#program_select_wrapper").append(select);
                 $("#program_select_wrapper").append(label);
                 $("#program_select_wrapper").parent().show();
@@ -83,7 +83,7 @@ function addProgramSelect() {
 
 // This functions add a collapsible for a collection of 
 
-function addModulesCollapsible(programs){
+function addModulesCollapsible(programs, maxPrivilege){
     for(var program of programs){
         for(var module of program.modules){
             var logsArray = [];
@@ -91,7 +91,7 @@ function addModulesCollapsible(programs){
                 logsArray.push(log);
             }
             $("#program_collapsible").append(addModuleWrapper(null, null, addModuleHeader(null, null, module.name),
-             addModuleBody(null, null, logsArray)));
+             addModuleBody(null, null, logsArray, maxPrivilege)));
         }
     }
     $("#log_select_wrapper").parent().show();
@@ -145,7 +145,7 @@ function addModuleHeader(id, classes, programName){
 
 // Logs is a collection of log
 
-function addModuleBody(id, classes, logs){
+function addModuleBody(id, classes, logs, maxPrivilege){
     var moduleTable = $("<table>");
 
     if(id)
@@ -164,16 +164,19 @@ function addModuleBody(id, classes, logs){
     headNone.addClass("none");
     headRead = $("<th>");
     headRead.addClass("read");
-    headWrite = $("<th>");
-    headWrite.addClass("write");
+    header.append(headName, headNone, headRead);
+    if(maxPrivilege != 2){
+        headWrite = $("<th>");
+        headWrite.addClass("write");
+        header.append(headWrite);
+    }
 
-    header.append(headName, headNone, headRead, headWrite);
     moduleTableHeader.append(header);
 
     moduleTableBody = $("<tbody>");
 
     for (var log of logs) {
-        moduleTableBody.append(addLogEntry(log.id, log.name, 1));
+        moduleTableBody.append(addLogEntry(log.id, log.name, 1, maxPrivilege));
     }
 
     moduleTable.append(moduleTableHeader);
@@ -182,7 +185,7 @@ function addModuleBody(id, classes, logs){
     return moduleTable;
 }
 
-function addLogEntry(logID, logName, valueChecked){
+function addLogEntry(logID, logName, valueChecked, maxPrivilege){
     var row;
 
     row = $("<tr>");
@@ -197,10 +200,14 @@ function addLogEntry(logID, logName, valueChecked){
     privilegeWrite = addPrivilege(logID, 3, valueChecked);
 
     row.append(log);
+
     row.append(privilegeNone);
     row.append(privilegeRead);
-    row.append(privilegeWrite);
 
+    if(maxPrivilege != 2){
+        row.append(privilegeWrite);
+    }
+    
     return row;
 }
 
@@ -518,6 +525,8 @@ function roleSelect(selected) {
                         case "Employee": option.text("Empleado"); break;
                         case "Administrator": option.text("Administrador"); break;
                         case "Supervisor": option.text("Supervisor"); break;
+                        case "Manager": option.text("Gerente"); break;
+                        case "Director": option.text("Director"); break;
                     }
                     $("#user-role").append(option);
                 }
@@ -580,14 +589,14 @@ $(function (){
         hidePermissionForms();
         if($(this).val() == 3){
             addZoneSelect();
-            addProgramSelect();
+            addProgramSelect(2);
         }
         if($(this).val() == 4){
             addZoneSelect();
         }
         if($(this).val() == 5){
             addZoneSelect();
-            addProgramSelect();
+            addProgramSelect(3);
         }
     });
 

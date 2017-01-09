@@ -213,6 +213,7 @@ function loadInventory(areaID){
             dynamicSearchBind("type-search", "type-column");
             $("#sort tbody").sortable({
                 helper: fixHelper,
+                cursor: "move",
                 update: function(event, ui) {
                     $("tbody tr").each(function(index){
                         $($(this).children()[0]).text(index + 1 - $(this).data("offset"));
@@ -235,7 +236,7 @@ function loadInventory(areaID){
                 var $helper = tr.clone();
                 $helper.children().each(function(index)
                 {
-                  $(this).width($originals.eq(index).width())
+                  $(this).width($originals.eq(index).width());
                 });
                 return $helper;
             };
