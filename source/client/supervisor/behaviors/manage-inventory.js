@@ -42,7 +42,18 @@ function addAreaSelect(){
         success: function(response) {
             if (response.meta.return_code == 0) {
                 console.log(response.data);
+                var row = $('<div class="row">');
+                console.log(row);
+                var col1 = $('<div class="input-field">');
+                col1.addClass('col');
+                col1.addClass('s6');
+                console.log(col1);
+                var col2 = $('<div class="input-field">');
+                col2.addClass('col');
+                col2.addClass('s5');
+                console.log(col2);
                 var select = $("<select>");
+                console.log(select);
                 select.attr("id", "area-select");
                 select.append('<option value="" disabled selected class="select_area"></option>');
                 for(var zone in response.data){
@@ -51,7 +62,21 @@ function addAreaSelect(){
                     option.html(response.data[zone].name);
                     select.append(option);
                 }
-                $("#content_wrapper").append(select);
+                col1.append(select);
+                row.append(col1);
+                col2.append(
+                    '<input id="area_name" type="text" class="validate" ' + 
+                    'placeholder="Workplace Area Name">'
+                );
+                row.append(col2);
+                row.append(
+                    '<div class="input-field col s1">' +
+                    '<a id="add_workplace_area" class="btn-floating ' + 
+                    'waves-effect waves-light green right"' +
+                    '><i class="mdi mdi-plus"></i></a>' +
+                    '</div>'
+                );
+                $('#content_wrapper').append(row);
                 $("#area-select").change(function (e) {
                     //$("#module-select").material_select('destroy');
                     //$("#module-select").remove();
@@ -59,8 +84,60 @@ function addAreaSelect(){
                     loadInventory($(this).val());
                     //addModuleSelect($(this).val());
                 });
-                changeLanguage(localStorage.defaultLanguage);
                 $('select').material_select();
+                $('input#area_name').on('blur', function() {
+                    var isEmpty = $(this).val() == '';
+                    if (isEmpty) {
+                        Materialize.toast(
+                            'El campo de nombre de area no puede estar vacío',
+                            4000, 'rounded'
+                        );
+                        $(this).addClass('invalid');
+                    }
+                });
+                $('input#area_name').on('focus', function() {
+                    $(this).removeClass('invalid');
+                })
+                $('#add_workplace_area').on('click', function(event) {
+                    event.preventDefault();
+                    var input = $('input#area_name');
+                    var isNameEmpty = input.val() == '';
+                    if (isNameEmpty) {
+                        Materialize.toast(
+                            'El campo de nombre de area no puede estar vacío',
+                            4000, 'rounded'
+                        );
+                        input.addClass('invalid');
+                    } else {
+                        console.log(input.val());
+                        $server.request({
+                            service: 'add-workplace-area',
+                            data: {
+                                area_name: input.val()
+                            },
+                            success: function(response) {
+                                if (response.meta.return_code == 0) {
+                                    var option = $("<option>");
+                                    option.attr("value", response.data.id);
+                                    option.html(response.data.name);
+                                    $('select#area-select').append(option);
+                                    $('select#area-select').material_select();
+                                    $('input#area_name').val('');
+                                    Materialize.toast(
+                                        'Area de trabajo agregada exitosamente',
+                                        4000, 'rounded'
+                                    );
+                                } else {
+                                    Materialize.toast(
+                                        'Error al intentar agregar el area',
+                                        4000, 'rounded'
+                                    );
+                                }
+                            }
+                        });
+                    }
+                });
+                changeLanguage(localStorage.defaultLanguage);
             } else {
                 throw response.meta.message;
             }

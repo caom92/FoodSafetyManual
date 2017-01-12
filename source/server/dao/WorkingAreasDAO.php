@@ -28,6 +28,14 @@ class WorkingAreasDAO extends DataAccessObject
             [ 'zone_id' => $zoneID ]
         );
     }
+
+
+    // Inserts the especified data to this table and return the ID of the last 
+    // inserted item
+    function insert($rows)
+    {
+        return parent::insert($rows);
+    }
 }
 
 ?>

@@ -1,0 +1,11 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    "editor.rulers": [
+        80
+    ],
+    "editor.renderIndentGuides": true,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+    "editor.fontSize": 12,
+    "editor.wrappingColumn": 80
+}

@@ -9,6 +9,24 @@ require_once realpath(dirname(__FILE__).'/../dao/ItemTypesDAO.php');
 use fsm\database as db;
 
 
+function addWorkingAreaToZone()
+{
+    // first connect to the database
+    $areas = new db\WorkingAreasDAO();
+    
+    // insert the new area
+    $id = $areas->insert([
+        'zone_id' => $_SESSION['zone_id'],
+        'name' => $_POST['area_name']
+    ]);
+
+    return [
+        'id' => $id,
+        'name' => $_POST['area_name']
+    ];
+}
+
+
 // Lists the areas of the specified zone
 function getWorkingAreasOfZone() 
 {

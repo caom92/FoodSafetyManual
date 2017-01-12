@@ -401,7 +401,7 @@ fsm\Controller::$services = [
     ],
     'report-gmp-packing-preop' => [
         'requirements_desc' => [
-            'logged_in' => ['Manager', 'Supervisor', 'Employee'],
+            'logged_in' => ['Director', 'Manager', 'Supervisor', 'Employee'],
             'has_privilege' => [
                 'privilege' => ['Read', 'Write'],
                 'program' => 'GMP',
@@ -442,6 +442,21 @@ fsm\Controller::$services = [
             ]
         ],
         'callback' => 'fsm\services\account\changeZoneOfDirector'
+    ],
+    'add-workplace-area' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'has_privilege' => [
+                'privilege' => ['Read', 'Write'],
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Pre-Operational Inspection'
+            ],
+            'area_name' => [
+                'type' => 'string'
+            ]
+        ],
+        'callback' => 'fsm\services\inventory\addWorkingAreaToZone'
     ]
 ];
 
