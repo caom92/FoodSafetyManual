@@ -110,4 +110,24 @@
         <english>You must provide an item name and type</english>
         <spanish>Debe ingresar un nombre y tipo para el objeto</spanish>
     </translation>
+
+    <translation id="min_length">
+        <english>The field must have a minimal length of </english>
+        <spanish>El campo debe tener una longitud mínima de </spanish>
+    </translation>
+
+    <translation id="item_add_success">
+        <english>The item was succesfully added</english>
+        <spanish>El elemento se añadió correctamente</spanish>
+    </translation>
+
+    <translation id="toggle_item_on_success">
+        <english>The item was discharged</english>
+        <spanish>El elemento fue dado de alta</spanish>
+    </translation>
+
+    <translation id="toggle_item_off_success">
+        <english>The item was discharged</english>
+        <spanish>El elemento fue dado de baja</spanish>
+    </translation>
 </translations>

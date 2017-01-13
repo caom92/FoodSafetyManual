@@ -1,10 +1,29 @@
-function isRequiredTextAreaValid(id) {
-    if ($(id).val().length == 0) {
-        $(id).addClass("invalid");
-        return false;
+function isRequiredTextAreaValid(id, length) {
+    if(Math.floor(length) == length && $.isNumeric(length) && Number(length) > 0){
+        if ($(id).val().length < Number(length)) {
+            $(id).addClass("invalid");
+            loadToast("min_length", 3500, "rounded", null, length);
+            return false;
+        }
+    } else {
+        if ($(id).val().length == 0) {
+            $(id).addClass("invalid");
+            loadToast("min_length", 3500, "rounded", null , 1);
+            return false;
+        }
     }
     return true;
 }
+
+function passwordMatch(password, passwordCheck){
+    if($(password).val() === $(passwordCheck).val()){
+        return true;
+    } else {
+        $(passwordCheck).addClass("invalid");
+        return false;
+    }
+}
+
 /************************************** */
 
 // New permission generator
@@ -271,19 +290,6 @@ function addPermissionTable(){
             }
         }
     });
-
-    /*$.ajax({
-        url: '/espresso/privileges.json',
-        success: function(xml) {
-            for(var zone in xml.data.zones){
-                addZone(xml.data.zones[zone]);
-            }
-            $('ul.tabs').tabs();
-            $('.indicator').addClass("green");
-            $('.collapsible').collapsible();
-            changeLanguage(localStorage.defaultLanguage);
-        }
-    });*/
 }
 
 function addZone(zone){
@@ -527,6 +533,7 @@ function roleSelect(selected) {
                         case "Supervisor": option.text("Supervisor"); break;
                         case "Manager": option.text("Gerente"); break;
                         case "Director": option.text("Director"); break;
+                        default: option.text(response.data[role].name);
                     }
                     $("#user-role").append(option);
                 }
@@ -549,28 +556,6 @@ $(function (){
 
     $('ul.tabs').tabs();
     $('.collapsible').collapsible();
-
-    $("#login-name").focusout(function(e) {
-        console.log("Check Login");
-        checkDuplicate({login_name: $("#login-name").val()},
-            "#login-name",
-            "is-login-name-duplicated");
-    });
-
-    $("#user-id").focusout(function(e) {
-        console.log("Check ID");
-        checkDuplicate({employee_num: Number($("#user-id").val())},
-            "#user-id",
-            "is-employee-num-duplicated");
-    });
-
-    $("#login-name").keyup(function(e){
-        $("#login-name").focusout();
-    });
-
-    $("#user-id").keyup(function(e){
-        $("#user-id").focusout();
-    });
 
     // In this part we append the form necessary for the admin to add a new user
     // Only displaying the options that the user role needs
@@ -601,88 +586,86 @@ $(function (){
         // Since all fields are mandatory, we check if all of them have been 
         // filled
 
-        var isUserValid = isRequiredTextAreaValid("#login-name");
+        var isUserValid = isRequiredTextAreaValid("#login-name", 3);
         var isIDValid = isRequiredTextAreaValid("#user-id");
-        var isNameValid = isRequiredTextAreaValid("#first-name");
-        var isLastNameValid = isRequiredTextAreaValid("#last-name");
-        var isPasswordValid = isRequiredTextAreaValid("#password");
-        var isPasswordCheckValid = isRequiredTextAreaValid("#check-password");
-        var doPasswordsMatch = 
-            $('#password').val() == $('#check-password').val(); 
+        var isNameValid = isRequiredTextAreaValid("#first-name", 3);
+        var isLastNameValid = isRequiredTextAreaValid("#last-name", 3);
+        var isPasswordValid = isRequiredTextAreaValid("#password", 6);
+        var isPasswordCheckValid = isRequiredTextAreaValid("#check-password", 6);
+        /*var doPasswordsMatch = 
+            $('#password').val() == $('#check-password').val();*/
+        var doPasswordsMatch = passwordMatch('#password', '#check-password');
 
         // Check for invalid conditions
         // First, we check that all fields have been selected
         if (!isUserValid || !isIDValid || !isNameValid || !isLastNameValid
             || !isPasswordValid || !isPasswordCheckValid
-            || !doPasswordsMatch) {
+            ) {
             loadToast("incorrect_fields", 
                 3500, "rounded");
+        } else if(!doPasswordsMatch){
+            loadToast("check_password", 
+                3500, "rounded");
         } else {
-            // We check for any invalid classes in the username, ID 
-            // HTML elements. In such a case, we cannot proceed
-            var isNameDuplicate = $("#login-name").hasClass("invalid");
-            var isIDDuplicate = $("#user-id").hasClass("invalid");
+            // Proceed to send request
 
-            if(isNameDuplicate || isIDDuplicate){
-                loadToast("duplicated_fields", 3500, "rounded");
-            } else {
-                // Proceed to send request
+            // Build the user object
+            userObject.employee_num = Number($("#user-id").val());
+            userObject.first_name = $("#first-name").val();
+            userObject.last_name = $("#last-name").val();
+            userObject.role_id = $("#user-role").val();
+            userObject.login_name = $("#login-name").val();
+            userObject.login_password = $("#password").val();
 
-                // Build the user object
-                userObject.employee_num = Number($("#user-id").val());
-                userObject.first_name = $("#first-name").val();
-                userObject.last_name = $("#last-name").val();
-                userObject.role_id = $("#user-role").val();
-                userObject.login_name = $("#login-name").val();
-                userObject.login_password = $("#password").val();
-
-                if (typeof $("#zone_select option:selected") != 'undefined') {
-                    userObject.zone_id = 
-                        $("#zone_select option:selected").val();
-                }
-
-                userObject.privileges = new Array();
-
-                // Read the privilege list
-                $(".privilege").each(function(e){
-                    // var zone = $(this).data("zone");
-                    // var module = $(this).data("module");
-                    // var radioGroup = $(this).attr("id");
-                    // var privilege = $('input[name=' + radioGroup + ']:checked').val();
-                    var privilegeObject = new Object();
-                    // privilegeObject.zone_id = zone;
-                    // privilegeObject.module_id = module;
-                    // privilegeObject.privilege_id = privilege;
-                    var log = $(this).data("log");
-                    var privilege = $('input[name=' + log + ']:checked').val();
-                    privilegeObject.privilege_id = privilege;
-                    privilegeObject.log_id = log;
-                    userObject.privileges.push(privilegeObject);
-                });
-
-                //var userObjectString = JSON.stringify(userObject);
-
-                console.log(userObject);
-
-                // Send the user object to the server, requesting an user add
-                $server.request({
-                    service: 'add-user',
-                    data: userObject,
-                    success: function(response) {
-                        if (response.meta.return_code == 0) {
-                            loadToast(
-                                'user_registered', 3500, 'rounded'
-                            );
-                            setTimeout(function() {
-                                    window.location.href = $root + 'view-users'
-                                }, 
-                            2500);
-                        } else {
-                            console.log('server says: ' + response.meta.message);
-                        }
-                    }
-                });
+            if (typeof $("#zone_select option:selected") != 'undefined') {
+                userObject.zone_id = 
+                    $("#zone_select option:selected").val();
             }
+
+            userObject.privileges = new Array();
+
+            // Read the privilege list
+            $(".privilege").each(function(e){
+                // var zone = $(this).data("zone");
+                // var module = $(this).data("module");
+                // var radioGroup = $(this).attr("id");
+                // var privilege = $('input[name=' + radioGroup + ']:checked').val();
+                var privilegeObject = new Object();
+                // privilegeObject.zone_id = zone;
+                // privilegeObject.module_id = module;
+                // privilegeObject.privilege_id = privilege;
+                var log = $(this).data("log");
+                var privilege = $('input[name=' + log + ']:checked').val();
+                privilegeObject.privilege_id = privilege;
+                privilegeObject.log_id = log;
+                userObject.privileges.push(privilegeObject);
+            });
+
+            //var userObjectString = JSON.stringify(userObject);
+
+            console.log(userObject);
+
+            // Send the user object to the server, requesting an user add
+            $server.request({
+                service: 'add-user',
+                data: userObject,
+                success: function(response) {
+                    if (response.meta.return_code == 0) {
+                        loadToast(
+                            'user_registered', 3500, 'rounded'
+                        );
+                        setTimeout(function() {
+                                window.location.href = $root + 'view-users'
+                            }, 
+                        2500);
+                    } else {
+                        checkDuplicate({employee_num: Number($("#user-id").val())}, "#user-id", "is-employee-num-duplicated");
+                        checkDuplicate({email: $("#email").val()}, "#email", "is-email-duplicated");
+                        checkDuplicate({login_name: $("#login-name").val()}, "#login-name", "is-login-name-duplicated");
+                        console.log('server says: ' + response.meta.message);
+                    }
+                }
+            });
         }
 
         // With the inputs checked, we proceed to create the JSON user Object,
