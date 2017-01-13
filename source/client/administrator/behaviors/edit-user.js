@@ -686,6 +686,7 @@ function fillUserInformation(userID){
                 var user = response.data;
                 $("#login-name").val(user.login_name);
                 $("#user-id").val(user.employee_num);
+                $("#user-id").data("user_id", user.id);
                 $("#first-name").val(user.first_name);
                 $("#last-name").val(user.last_name);
                 $("label").addClass("active");
@@ -765,7 +766,7 @@ $(function (){
                 var data = new Object();
                 data.password = $("#admin-password").val();
                 data.new_password = $("#new-password").val();
-                data.user_id = get.user_id;
+                data.user_id = $("#user-id").data("user_id");
                 console.log(data);
                 $server.request({
                     service: 'change-password',
