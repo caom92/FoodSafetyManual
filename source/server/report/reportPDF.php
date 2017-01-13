@@ -229,7 +229,7 @@
                 $personRow = [];
 
                 array_push($notesRow, (object) array("colspan" => 5, "contents" => "Notas: ".$area["notes"], "classes" => "fullColumn"));
-                array_push($personRow, (object) array("colspan" => 5, "contents" => $area["person_performing_sanitation"], "classes" => "fullColumn"));
+                array_push($personRow, (object) array("colspan" => 5, "contents" => "Persona a cargo de la sanitizacion: ".$area["person_performing_sanitation"], "classes" => "fullColumn"));
 
                 array_push($reportContents, $notesRow);
                 array_push($reportContents, $personRow);

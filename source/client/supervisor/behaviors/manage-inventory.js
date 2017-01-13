@@ -196,6 +196,38 @@ function checkSortability(){
     });
 }
 
+function initSortability(){
+    $("#sort tbody").sortable({
+        helper: fixHelper,
+        cursor: "move",
+        update: function(event, ui) {
+            $("tbody tr").each(function(index){
+                $($(this).children()[0]).text(index + 1 - $(this).data("offset"));
+                var order = $($(this).children()[0]).text();
+                var itemID = $($(this).children()[1]).text();
+                var data = new Object();
+                data.item_id = parseInt(itemID);
+                data.position = parseInt(order);
+                console.log(data);
+                $server.request({
+                    service: "change-order-of-item",
+                    data: data
+                });
+            });
+        }
+    });
+
+    var fixHelper = function(e, tr) {
+        var $originals = tr.children();
+        var $helper = tr.clone();
+        $helper.children().each(function(index)
+        {
+          $(this).width($originals.eq(index).width());
+        });
+        return $helper;
+    };
+}
+
 function loadInventory(areaID){
     var data = new Object();
     data.area_id = areaID;
@@ -211,35 +243,7 @@ function loadInventory(areaID){
             dynamicSearchBind("id-search", "id-column");
             dynamicSearchBind("name-search", "name-column");
             dynamicSearchBind("type-search", "type-column");
-            $("#sort tbody").sortable({
-                helper: fixHelper,
-                cursor: "move",
-                update: function(event, ui) {
-                    $("tbody tr").each(function(index){
-                        $($(this).children()[0]).text(index + 1 - $(this).data("offset"));
-                        var order = $($(this).children()[0]).text();
-                        var itemID = $($(this).children()[1]).text();
-                        var data = new Object();
-                        data.item_id = parseInt(itemID);
-                        data.position = parseInt(order);
-                        console.log(data);
-                        $server.request({
-                            service: "change-order-of-item",
-                            data: data
-                        });
-                    });
-                }
-            });
-
-            var fixHelper = function(e, tr) {
-                var $originals = tr.children();
-                var $helper = tr.clone();
-                $helper.children().each(function(index)
-                {
-                  $(this).width($originals.eq(index).width());
-                });
-                return $helper;
-            };
+            initSortability();
 
             changeLanguage(localStorage.defaultLanguage);
             loadSearchSuggestions(localStorage.defaultLanguage);
@@ -293,9 +297,9 @@ function inventoryHeader(){
 }
 
 function inventoryRow(element){
-    var row = $("<tr>");
+    var row = $('<tr class="ui-sortable-handle">');
     var switchOpening = '<div class="switch"><label>';
-    var switchBox = '<input disabled type="checkbox">';
+    var switchBox = '<input type="checkbox">';
     var switchClosing = '<span class="lever"></span></label></div>';
     var buttonColumn = $("<td>");
 
@@ -312,18 +316,27 @@ function inventoryRow(element){
     switchInput = $(switchOpening + switchBox + switchClosing);
     switchInput.find("input:checkbox").each(function(index){
         $(this).click(function(e){
-            $(this).prop("disabled", true);
+            //$(this).prop("disabled", true);
             var itemToDischarge = $(this).parent().parent().parent().parent().children(".id-column").text();
             var data = new Object();
+            var itemRow = $(this).parent().parent().parent().parent();
             data.item_id = itemToDischarge;
             $server.request({
-                service: 'discharge-inventory-item',
+                service: 'toggle-item-activation',
                 data: data,
                 success: function(response, message, xhr) {
+                    if(itemRow.hasClass("grey-text")){
+                        console.log("item_row");
+                        loadToast("toggle_item_on_success", 3500, "rounded");
+                        itemRow.removeClass("grey-text");
+                    } else {
+                        console.log("item_row");
+                        loadToast("toggle_item_off_success", 3500, "rounded");
+                        itemRow.addClass("grey-text");
+                    }
                     console.log(response);
                 }
             });
-            $(this).parent().parent().parent().parent().addClass("grey-text");
         });
     });
     buttonColumn.append(switchInput);
@@ -375,11 +388,18 @@ function inventoryAddRow(){
                     element.is_active = true;
                     element.type = $("#type_add option:selected").text();
                     element.position = Number($($("tbody.type_" + $("#type_add").val() + " tr").last().children()[0]).text()) + 1;
+                    element.offset = $("tbody.type_" + $("#type_add").val()).children().first().data("offset");
                     console.log(element);
                     $("tbody.type_" + $("#type_add").val()).append(inventoryRow(element));
+                    initSortability();
                     $("html, body").animate({
                         scrollTop: $(document).height()
                     }, 400);
+                    $("#name_add").val("");
+                    $("#type_add").val("");
+                    $("#type_add").material_select("destroy");
+                    $("#type_add").material_select();
+                    loadToast("item_add_success", 3500, "rounded");
                     changeLanguage(localStorage.defaultLanguage);
                 }
             });

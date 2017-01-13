@@ -145,7 +145,7 @@ function loadDefaultLanguage(){
     console.log("Default language loaded: " +  localStorage.defaultLanguage);
 }
 
-function loadToast(id, time, style){
+function loadToast(id, time, style, prepend, append){
     var lang = fromCodeToName(getLanguage());
     var toast = "Undefined Toast Message";
     $.ajax({
@@ -156,6 +156,10 @@ function loadToast(id, time, style){
                     toast = $(this).find(lang).text();
                 }
             });
+            if(prepend)
+                toast = prepend + toast;
+            if(append)
+                toast += append;
             Materialize.toast(toast, time, style);
         }
     });
