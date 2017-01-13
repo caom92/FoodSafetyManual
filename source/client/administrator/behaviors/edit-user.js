@@ -1,27 +1,28 @@
-/*function addPermissionTable(){
-    //First we request the information from the server
-    var get = getURLQueryStringAsJSON();
-    var data = new Object();
-    data.employee_num = get.user_id;
-    $server.request({
-        service: 'get-privileges-of-employee',
-        data: data,
-        success: function(response) {
-            console.log(response);
-            if (response.meta.return_code == 0) {
-                for (var zone of response.data.zones) {
-                    addZone(zone);
-                }
-                $('ul.tabs').tabs();
-                $('.indicator').addClass("green");
-                $('.collapsible').collapsible();
-                changeLanguage(localStorage.defaultLanguage);
-            } else {
-                throw response.meta.message;
-            }
+function isRequiredTextAreaValid(id, length) {
+    if(Math.floor(length) == length && $.isNumeric(length) && Number(length) > 0){
+        if ($(id).val().length < Number(length)) {
+            $(id).addClass("invalid");
+            loadToast("min_length", 3500, "rounded", null, length);
+            return false;
         }
-    });
-}*/
+    } else {
+        if ($(id).val().length == 0) {
+            $(id).addClass("invalid");
+            loadToast("min_length", 3500, "rounded", null , 1);
+            return false;
+        }
+    }
+    return true;
+}
+
+function passwordMatch(password, passwordCheck){
+    if($(password).val() === $(passwordCheck).val()){
+        return true;
+    } else {
+        $(passwordCheck).addClass("invalid");
+        return false;
+    }
+}
 
 function hidePermissionForms(){
     $("#privilege_header").hide();
@@ -727,6 +728,18 @@ $(function (){
 
     //To change the permissions related to user's role
     $("#user-role").change(function(e) {
+        var data = new Object();
+        data.user_id = get.user_id;
+        data.role_id = parseInt($("#user-role").val());
+        $server.request({
+            service: 'edit-user-role',
+            data: data,
+            success: function(response){
+                if (response.meta.return_code == 0){
+                    Materialize.toast("El rol del usuario ha sido modificado", 3500, "rounded");
+                }
+            }
+        });
         hidePermissionForms();
         if($(this).val() == 3){
             addZoneSelect();
@@ -738,6 +751,39 @@ $(function (){
         if($(this).val() == 5){
             addZoneSelect();
             addProgramSelect(3);
+        }
+    });
+
+    $("#update_password").on('click', function(e) {
+        e.preventDefault();
+        var adminPasswordIsValid = isRequiredTextAreaValid("#admin-password") 
+        var newPasswordIsValid = isRequiredTextAreaValid("#new-password");
+        var checkPasswordIsValid = isRequiredTextAreaValid("#check-password");
+
+        if(adminPasswordIsValid && newPasswordIsValid && checkPasswordIsValid){
+            if(passwordMatch("#new-password", "#check-password")){
+                var data = new Object();
+                data.password = $("#admin-password").val();
+                data.new_password = $("#new-password").val();
+                data.user_id = get.user_id;
+                console.log(data);
+                $server.request({
+                    service: 'change-password',
+                    data: data,
+                    success: function(response, message, xhr) {
+                        if (response.meta.return_code == 0) {
+                            loadToast("password_changed", 3500, "rounded");
+                        } else {
+                            console.log(
+                                "server says: " + response.meta.message);
+                        }
+                    }
+                });
+            } else {
+                loadToast("check_password", 3500, "rounded");
+            }
+        } else {
+            loadToast("fill_fields", 3500, "rounded");
         }
     });
 

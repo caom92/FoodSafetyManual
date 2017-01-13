@@ -28,6 +28,16 @@
         <spanish>Contraseña nueva</spanish>
     </translation>
 
+    <translation id="new_user_password">
+        <english>New user's password</english>
+        <spanish>Contraseña nueva del usuario</spanish>
+    </translation>
+
+    <translation id="admin_password">
+        <english>Admin password</english>
+        <spanish>Contraseña del administrador</spanish>
+    </translation>
+
     <translation id="new_email">
         <english>New email address</english>
         <spanish>Nueva dirección de correo electrónico</spanish>
@@ -41,6 +51,11 @@
     <translation id="check_password">
         <english>Check password</english>
         <spanish>Verificar contraseña</spanish>
+    </translation>
+
+    <translation id="check_user_password">
+        <english>Check user's password</english>
+        <spanish>Verificar contraseña del usuario</spanish>
     </translation>
 
     <translation id="email_password">
@@ -339,6 +354,12 @@
         <english>Change your password</english>
         <spanish>Cambiar su contraseña</spanish>
     </translation>
+
+    <translation id="change_user_password">
+        <english>Change user's password</english>
+        <spanish>Cambiar contraseña del usuario</spanish>
+    </translation>
+
 
     <translation id="change_email">
         <english>Change your email</english>
