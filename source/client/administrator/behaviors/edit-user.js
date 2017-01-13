@@ -687,7 +687,6 @@ function fillUserInformation(userID){
                 $("#user-id").val(user.employee_num);
                 $("#first-name").val(user.first_name);
                 $("#last-name").val(user.last_name);
-                $("#email").val(user.email);
                 $("label").addClass("active");
                 $(".password").removeClass("active");
                 $(".user_role_label").removeClass("active");
@@ -770,7 +769,6 @@ $(function (){
                 userObject.employee_num = Number($("#user-id").val());
                 userObject.first_name = $("#first-name").val();
                 userObject.last_name = $("#last-name").val();
-                userObject.email = $("#email").val();
                 userObject.role_id = $("#user-role").val();
                 userObject.login_name = $("#login-name").val();
                 userObject.login_password = $("#password").val();

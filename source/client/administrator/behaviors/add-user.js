@@ -590,7 +590,6 @@ $(function (){
         var isIDValid = isRequiredTextAreaValid("#user-id");
         var isNameValid = isRequiredTextAreaValid("#first-name", 3);
         var isLastNameValid = isRequiredTextAreaValid("#last-name", 3);
-        var isEmailValid = isRequiredTextAreaValid("#email", 3);
         var isPasswordValid = isRequiredTextAreaValid("#password", 6);
         var isPasswordCheckValid = isRequiredTextAreaValid("#check-password", 6);
         /*var doPasswordsMatch = 
@@ -600,7 +599,7 @@ $(function (){
         // Check for invalid conditions
         // First, we check that all fields have been selected
         if (!isUserValid || !isIDValid || !isNameValid || !isLastNameValid
-            || !isEmailValid || !isPasswordValid || !isPasswordCheckValid
+            || !isPasswordValid || !isPasswordCheckValid
             ) {
             loadToast("incorrect_fields", 
                 3500, "rounded");
@@ -614,7 +613,6 @@ $(function (){
             userObject.employee_num = Number($("#user-id").val());
             userObject.first_name = $("#first-name").val();
             userObject.last_name = $("#last-name").val();
-            userObject.email = $("#email").val();
             userObject.role_id = $("#user-role").val();
             userObject.login_name = $("#login-name").val();
             userObject.login_password = $("#password").val();

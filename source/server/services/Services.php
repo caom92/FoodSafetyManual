@@ -2,7 +2,6 @@
 
 require_once realpath(dirname(__FILE__).'/server_services.php');
 require_once realpath(dirname(__FILE__).'/session_services.php');
-require_once realpath(dirname(__FILE__).'/password_recovery_services.php');
 require_once realpath(dirname(__FILE__).'/account_services.php');
 require_once realpath(dirname(__FILE__).'/zone_services.php');
 require_once realpath(dirname(__FILE__).'/programs_services.php');
@@ -37,9 +36,6 @@ fsm\Controller::$services = [
             'lang' => [
                 'type' => 'lang'
             ],
-            'email' => [
-                'type' => 'email'
-            ]
         ],
         'callback' => 'fsm\services\server\mailBugReport'
     ],
@@ -70,39 +66,6 @@ fsm\Controller::$services = [
         'requirements_desc' => [],
         'callback' => 'fsm\services\session\isLoggedIn'
     ],
-    'request-password-recovery' => [
-        'requirements_desc' => [
-            'email' => [
-                'type' => 'email'
-            ],
-            'lang' => [
-                'type' => 'lang'
-            ]
-        ],
-        'callback' => 'fsm\services\recovery\requestPasswordRecovery'
-    ],
-    'token-validation' => [
-        'requirements_desc' => [
-            'token' => [
-                'type' => 'string',
-                'length' => 128
-            ]
-        ],
-        'callback' => 'fsm\services\recovery\validateToken'
-    ],
-    'change-password-by-recovery' => [
-        'requirements_desc' => [
-            'new_password' => [
-                'type' => 'string',
-                'min_length' => 6
-            ],
-            'token' => [
-                'type' => 'string',
-                'length' => 128
-            ]
-        ],
-        'callback' => 'fsm\services\recovery\resetPassword'
-    ],
     'list-users' => [
         'requirements_desc' => [
             'logged_in' => [ 'Administrator' ]
@@ -128,15 +91,6 @@ fsm\Controller::$services = [
         ],
         'callback' => 'fsm\services\account\isLogInNameDuplicated'
     ],
-    'is-email-duplicated' => [
-        'requirements_desc' => [
-            'logged_in' => 'any',
-            'email' => [
-                'type' => 'email'
-            ]
-        ],
-        'callback' => 'fsm\services\account\isEmailDuplicated'
-    ],
     'is-employee-num-duplicated' => [
         'requirements_desc' => [
             'logged_in' => ['Administrator'],
@@ -159,19 +113,6 @@ fsm\Controller::$services = [
             ]
         ],
         'callback' => 'fsm\services\account\editLogInName'
-    ],
-    'change-email' => [
-        'requirements_desc' => [
-            'logged_in' => 'any',
-            'password' => [
-                'type' => 'string',
-                'min_length' => 6
-            ],
-            'new_email' => [
-                'type' => 'email'
-            ]
-        ],
-        'callback' => 'fsm\services\account\editEmail'
     ],
     'change-password' => [
         'requirements_desc' => [
@@ -222,15 +163,12 @@ fsm\Controller::$services = [
                 'type' => 'string',
                 'min_length' => 3
             ],
-            'email' => [
-                'type' => 'email'
-            ],
             'role_id' => [
                 'type' => 'int'
             ],
             'login_name' => [
                 'type' => 'string',
-                'min_length' => 5
+                'min_length' => 3
             ],  
             'login_password' => [
                 'type' => 'string',
@@ -401,7 +339,7 @@ fsm\Controller::$services = [
     ],
     'report-gmp-packing-preop' => [
         'requirements_desc' => [
-            'logged_in' => ['Manager', 'Supervisor', 'Employee'],
+            'logged_in' => ['Director', 'Manager', 'Supervisor', 'Employee'],
             'has_privilege' => [
                 'privilege' => ['Read', 'Write'],
                 'program' => 'GMP',
@@ -442,6 +380,33 @@ fsm\Controller::$services = [
             ]
         ],
         'callback' => 'fsm\services\account\changeZoneOfDirector'
+    ],
+    'add-workplace-area' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'has_privilege' => [
+                'privilege' => ['Read', 'Write'],
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Pre-Operational Inspection'
+            ],
+            'area_name' => [
+                'type' => 'string'
+            ]
+        ],
+        'callback' => 'fsm\services\inventory\addWorkingAreaToZone'
+    ],
+    'edit-user-role' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator'],
+            'user_id' => [
+                'type' => 'int'
+            ],
+            'role_id' => [
+                'type' => 'int'
+            ]
+        ],
+        'callback' => 'fsm\services\account\editUserRole'
     ]
 ];
 

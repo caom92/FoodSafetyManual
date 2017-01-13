@@ -1,3 +1,94 @@
+function loadZoneSelectionMenu()
+{
+    // if the user is a director, we need to display a zone 
+    // selection menu
+
+    // check if the menu already exists in the local session data
+    if (typeof localStorage.zoneSelectionMenu != 'undefined') {
+        // if it does, simply load it
+        $('#zone-menu').append(localStorage.zoneSelectionMenu);
+        $('select#zone-selection').val(localStorage.zone_id);
+    } else {
+        // if it does not, we need to create it from the server 
+        $server.request({
+            service: 'list-zones',
+            success: function(response) {
+                // check if the server responded successfully
+                if (response.meta.return_code == 0) {
+                    // if it did, create the zone selection menu
+                    var zonesHTML = 
+                        '<select id="zone-selection" class="black-text browser-default">';
+                    // for each zone retrieved from the server
+                    for (zone of response.data) {
+                        // add it to the selection menu
+                        zonesHTML += 
+                            '<option value="' + zone.id + 
+                            '">' + zone.name + '</option>';
+                    }
+                    // add the menu to the DOM
+                    zonesHTML += '</select>';
+                    $('#zone-menu').append(zonesHTML);
+
+                    // add the menu to the local session storage
+                    localStorage.zoneSelectionMenu = zonesHTML;
+                } else {
+                    // if the server responded with error, notify 
+                    // the user with a message
+                    Materialize.toast(
+                        'Error retrieving zones', 
+                        4000, 
+                        'rounded'
+                    );
+                    console.log(
+                        'server says: ' + response.meta.message
+                    );
+                }
+            }
+        });
+    }
+
+    // create the callback function to execute when
+    // the user changed zones successfully
+    var successCallback = function(response) {
+        // check if the server answered successfully
+        if (response.meta.return_code == 0) {
+            // if the operation was successfull,
+            // update the local session data
+            localStorage.zone_id = response.data.id;
+            localStorage.zone_name = 
+                response.data.name;
+        } else {
+            // if the server answered with error,
+            // notify the user with a message
+            Materialize.toast(
+                'Error changing zones', 
+                4000, 
+                'rounded'
+            );
+            console.log(
+                'server says: ' + 
+                response.meta.message
+            );
+        }
+    };
+
+    // add a callback for when the user changes 
+    // zones
+    $('select#zone-selection').on('change', 
+        function(event) {
+            // notify the server of the zone change
+            $server.request({
+                service: 'director-change-zones',
+                data: {
+                    zone_id: $(this).val()
+                },
+                success: successCallback
+            })
+        }
+    );
+}
+
+
 function loadSideMenu()
 {
     // display the name of the user
@@ -6,10 +97,10 @@ function loadSideMenu()
     );
 
     if (localStorage.role_name === 'Administrator') {
-            // display the admin menu
-            $('#actions-list').load($root + 'source/client/administrator/layouts/menu.html', function(){
-                initMaterialize();
-            });
+        // display the admin menu
+        $('#actions-list').load($root + 'source/client/administrator/layouts/menu.html', function(){
+            initMaterialize();
+        });
     } else {
         // if the user is has a user role, we display the programs menu
         // for this, we first check if the menu is already defined
@@ -46,60 +137,6 @@ function loadSideMenu()
                                 '</span></a></li>';
                         }
                     }
-                } else if (localStorage.role_name === 'Director') {
-                    $server.request({
-                        service: 'list-zones',
-                        success: function(response) {
-                            if (response.meta.return_code == 0) {
-                                var zonesHTML = 
-                                    '<select id="zone-selection" class="black-text browser-default">';
-                                for (zone of response.data) {
-                                    zonesHTML += 
-                                        '<option value="' + zone.id + 
-                                        '">' + zone.name + '</option>';
-                                }
-                                zonesHTML += '</select>';
-                                $('#zone-menu').append(zonesHTML);
-                                var successCallback = function(response) {
-                                    if (response.meta.return_code == 0) {
-                                        localStorage.zone_id = response.data.id;
-                                        localStorage.zone_name = 
-                                            response.data.name;
-                                    } else {
-                                        Materialize.toast(
-                                            'Error changing zones', 
-                                            4000, 
-                                            'rounded'
-                                        );
-                                        console.log(
-                                            'server says: ' + 
-                                            response.meta.message
-                                        );
-                                    }
-                                };
-                                $('select#zone-selection').on('change', 
-                                    function(event) {
-                                        $server.request({
-                                            service: 'director-change-zones',
-                                            data: {
-                                                zone_id: $(this).val()
-                                            },
-                                            success: successCallback
-                                        })
-                                    }
-                                );
-                            } else {
-                                Materialize.toast(
-                                    'Error retrieving zones', 
-                                    4000, 
-                                    'rounded'
-                                );
-                                console.log(
-                                    'server says: ' + response.meta.message
-                                );
-                            }
-                        }
-                    });
                 }
 
                 // then, for every program...
@@ -130,6 +167,13 @@ function loadSideMenu()
                 }
             }
         }
+
+        // check if the user is a director
+        if (localStorage.role_name === 'Director') {
+            // if it is, load the zone selection menu
+            loadZoneSelectionMenu();
+        }
+
         // show the menu items 
         $('#actions-list').html(localStorage.menu);
         initMaterialize();
@@ -181,8 +225,6 @@ $(function() {
                 if (response.data) {
                     // load the side menu items
                     loadSideMenu();
-
-                    
 
                     // every time the forward or backward button is pressed to recover a 
                     // page state, we must manually load the requested layout to the current 

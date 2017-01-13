@@ -1,4 +1,3 @@
-.vscode/settings.json
 data/documents
 *.bak
 *.*.bak
@@ -7,3 +6,4 @@ privileges.json
 composer.lock
 error_log.txt
 source/server/error_log.txt
+~/.vscode-root
