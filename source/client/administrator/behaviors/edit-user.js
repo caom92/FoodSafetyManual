@@ -689,6 +689,7 @@ function fillUserInformation(userID){
                 $("#last-name").val(user.last_name);
                 $("#email").val(user.email);
                 $("label").addClass("active");
+                $(".password").removeClass("active");
                 $(".user_role_label").removeClass("active");
                 roleSelect(user.role_name);
             } else {

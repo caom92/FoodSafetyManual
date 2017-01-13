@@ -55,6 +55,50 @@
         </div>
     </div>
 
+     <ul id='form-wrappers' class="collapsible" data-collapsible="accordion">
+        <!--Change password-->
+        <li><div class="collapsible-header">
+            <i class="mdi mdi-lock field-icon"></i>
+            <div class="change_password" id="change_password"></div>
+        </div>
+        <div class="collapsible-body">
+            <div class="row">
+                <div class="input-field col s12 m12 l12">
+                    <input class="validate" type="password" value="" 
+                        id="old-password" name="old-password" >
+                    <label class="old_password password" for="old-password">
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m6 l6">
+                    <input class="validate" type="password" value="" 
+                        id="new-password" name="new-password" >
+                    <label class="new_password password" for="new-password">
+                    </label>
+                </div>
+                <div class="input-field col s12 m6 l6">
+                    <input class="validate" type="password" value="" 
+                        id="check-password" name="check-password" >
+                    <label class="check_password password" for="check-password">
+                    </label>
+                </div>
+                <!--Send button row-->
+                <div class="row">
+                    <div class="col s12 m12 l12 center">
+                        
+                    <!-- Update button -->
+                    <a class="green btn waves-effect waves-light" href="" 
+                        id="update_password">
+                        <span class="update_button"></span>
+                        <i class="mdi mdi-send right"></i>
+                    </a>        
+                    </div>
+                </div>
+            </div>
+        </div></li>
+    </ul>
+
 <!--Permissions for employees, must select Zone, Program, Modules and Logs-->
 
     <div id="privilege_header" class="row" style="display: none;">
