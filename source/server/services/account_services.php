@@ -122,8 +122,8 @@ function editPassword()
     // check if the user is intending to update the password of another user
     $isUpdatingOtherPassword = 
         isset($_POST['user_id'])
-        && array_key_exists($_POST['user_id']
-        && $_SESSION['role_name'] === 'Administrator');
+        && array_key_exists('user_id', $_POST)
+        && $_SESSION['role_name'] === 'Administrator';
 
     // if the user is intending to update another's password, make sure the
     // provided ID is a valid value
