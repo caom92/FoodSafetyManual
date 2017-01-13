@@ -225,7 +225,6 @@ class Session
             'employee_num' => $userData['employee_num'],
             'first_name' => $userData['first_name'],
             'last_name' => $userData['last_name'],
-            'email' => $userData['email'],
             'login_name' => $userData['login_name']
         ];
 

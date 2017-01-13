@@ -34,7 +34,6 @@ function getUserAccountInfo()
         'employee_num' => $userInfo['employee_num'],
         'first_name' => $userInfo['first_name'],
         'last_name' => $userInfo['last_name'],
-        'email' => $userInfo['email'],
         'login_name' => $userInfo['login_name']
     ];
 }
@@ -48,17 +47,6 @@ function isLogInNameDuplicated()
 
     // then we check if the name is duplicated
     return $users->hasByLogInName($_POST['login_name']);
-}
-
-
-// Checks if the email is duplicated
-function isEmailDuplicated() 
-{
-    // first we connect to the database
-    $users = new db\UsersDAO();
-
-    // then we check if the name is duplicated
-    return $users->hasByEmail($_POST['email']);
 }
 
 
@@ -109,38 +97,6 @@ function editLogInName()
 }
 
 
-// Changes the user's email address
-function editEmail() 
-{
-    // connect to the data base
-    $users = new db\UsersDAO();
-
-    // check if the new email is duplicated and if the password is valid
-    $isEmailDuplicated = $users->hasByEmail($_POST['new_email']);
-    $isPasswordValid = password_verify(
-        $_POST['password'], 
-        $_SESSION['login_password']
-    );
-
-    if ($isEmailDuplicated) {
-        throw new \Exception(
-            'Failed to update user email; address is already taken.'
-        );
-    }
-
-    if (!$isPasswordValid) {
-        throw new \Exception(
-            'Failed to update user email; the password is incorrect.'
-        );
-    }
-
-    // update the email address in the data base
-    $users->updateEmailByUserID($_SESSION['user_id'], $_POST['new_email']);
-
-    return [];
-}
-
-
 // Changes the user log in password
 function editPassword() 
 {
@@ -163,14 +119,30 @@ function editPassword()
     // obtain the hash of the new password
     $newPasswd = password_hash($_POST['new_password'], \PASSWORD_BCRYPT);
 
+    // check if the user is intending to update the password of another user
+    $isUpdatingOtherPassword = 
+        isset($_POST['user_id'])
+        && array_key_exists($_POST['user_id']
+        && $_SESSION['role_name'] === 'Administrator');
+
+    // if the user is intending to update another's password, make sure the
+    // provided ID is a valid value
+    if ($isUpdatingOtherPassword && !val\isInteger($_POST['user_id'])) {
+        throw new \Exception(
+            'User ID is not an integer value.'
+        );
+    }
+
     // store the new password in the data base 
     $users->updatePasswordByUserID(
-        $_SESSION['user_id'], 
+        ($isUpdatingOtherPassword) ? $_POST['user_id'] : $_SESSION['user_id'], 
         $newPasswd
     );
 
     // save the new password in the session storage
-    $_SESSION['login_password'] = $newPasswd;
+    if ($isUpdatingOtherPassword) {
+        $_SESSION['login_password'] = $newPasswd;
+    }
 }
 
 
@@ -222,8 +194,6 @@ function addNewUserAccount()
         'role_id' => $_POST['role_id'],
         'employee_num' => $_POST['employee_num'],
         'first_name' => $_POST['first_name'],
-        'last_name' => $_POST['last_name'],
-        'email' => $_POST['email'],
         'login_name' => $_POST['login_name'],
         'login_password' => $hashedPassword
     ];
@@ -257,6 +227,9 @@ function addNewUserAccount()
     // check if the user role requires privileges to be specified
     $arePrivilegesRequired = $isSupervisor || $isEmployee;
 
+    // insert the profile data to the data base 
+    $userID = $users->insert($userData);
+
     if ($arePrivilegesRequired) {
         // check that the data in the privileges array exists and is 
         // of the proper type
@@ -288,9 +261,6 @@ function addNewUserAccount()
         $privilegesTable = new db\PrivilegesDAO();
         $privilegeID = $privilegesTable->getIDByName('Read');
         $privilegeID = $privilegeID['id'];
-
-        // insert the profile data to the data base 
-        $userID = $users->insert($userData);
 
         // create a privileges array with the proper format that medoo is 
         // expecting
@@ -452,6 +422,14 @@ function changeZoneOfDirector()
 
     // return the info of the new zone
     return $zone;
+}
+
+
+// Changes the role of a user to another
+function editUserRole()
+{
+    $users = new db\UsersDAO();
+    $users->updateRoleByID($_POST['user_id'], $_POST['role_id']);
 }
 
 ?>

@@ -89,37 +89,6 @@ function mailBugReport()
         throw new \Exception($result);
     }
 
-    // now, let's send a confirmation email
-    if ($_POST["lang"] == "en") {
-        $subject = 
-            "Jacobs Farm : Bug report submission confirmation";
-        $body = "This is an automated response to the bug report that"
-            . " you submitted earlier. We'll start working on solving the" 
-            . " problem as soon as possible. You don't need to reply to"
-            . " this message. If you did not submitted any bug report to "
-            . "us, please just disregard this message. ";
-    } elseif ($_POST["lang"] == "es") {
-        $subject = 
-            "Del Cabo : Confirmación de envío de reporte de problema";
-        $body = "Esta es una respuesta automatizada al reporte de "
-            . "problema que nos envió hace unos momentos. Comenzaremos a " 
-            . "trabajar en resolver el problema tan pronto como nos sea "
-            . "posible. No es necesario que conteste este mensaje. Si "
-            . "usted no nos envió ningún reporte, por favor ignore este" 
-            . "mensaje.";
-    }
-
-    // create the confirmation email
-    $confirmation = new fsm\Email([
-            'email' => $_SESSION['email'],
-            'name' => $_SESSION['login-name']
-        ],
-        $subject, $body, $_POST['lang']
-    );
-
-    // send the email
-    $result = $confirmation->send();
-
     // if the email could not be sent, throw en exception
     if (strlen($result) > 0) {
         throw new \Exception($result);

@@ -51,7 +51,7 @@ function registerLogEntry()
         }
 
         $isString =
-            val\stringHasLengthInterval($areaLogEntry['notes'], 0, 64);
+            val\stringHasLengthInterval($areaLogEntry['notes'], 0, 256);
 
         if (!$isString) {
             throw new \Exception(

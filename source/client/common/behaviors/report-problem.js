@@ -117,10 +117,9 @@ $(function() {
     // Hide the progress bar
     $(".progress").hide();
     
-    // set the user name, employee id, email and preferred language
+    // set the user name, employee id and preferred language
     $("#user-name").val(localStorage.login_name);
     $("#user-id").val(localStorage.employee_num);
-    $("#user-email").val(localStorage.email);
     $("#lang").val(localStorage.defaultLanguage);
 
     if (isDefined(localStorage.zone_name)) {
@@ -129,8 +128,7 @@ $(function() {
         $('#zone-selection').val('N/A');
     }
     
-    // hide the language and email fields
-    $("#user-email").hide();
+    // hide the language and fields
     $("#lang").hide();
     
     // change a previously invalid select field to valid when the user finally

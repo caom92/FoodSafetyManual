@@ -44,12 +44,10 @@ $(function() {
     //Link localStorage value to the required fields
     $("#user-name").val(localStorage.login_name);
     $("#user-id").val(localStorage.employee_num);
-    $("#user-email").val(localStorage.email);
     $("#real-name").val(localStorage.first_name + " " + localStorage.last_name);
 
     //Hide the form fields that belong to changing account information
     $("#change_password_wrapper").hide();
-    $("#change_email_wrapper").hide();
     $("#change_username_wrapper").hide();
 
 
@@ -92,29 +90,6 @@ $(function() {
             loadToast("fill_fields",
                 3500, "rounded");
         }
-    });
-
-    $("#update_email").on('click', function(e) {
-        // prevent authomatic submission, we'll do it manually
-        e.preventDefault();
-        // check if the required select inputs have a value selected;
-        // if any of those is empty, mark it on the form
-        $server.request({
-            service: 'change-email',
-            data: {
-                password: $("#email-password").val(),
-                new_email: $("#new-email").val()
-            },
-            success: function(response, message, xhr) {
-                if (response.meta.return_code == 0) {
-                    localStorage.email = $("#new-email").val();
-                    $("#user-email").val(localStorage.email);
-                    loadToast("email_changed", 3500, "rounded");
-                } else {
-                    console.log("server says: " + response.meta.message);
-                }
-            }
-        });
     });
 
     $("#update_username").on('click', function(e) {

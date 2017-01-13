@@ -22,7 +22,7 @@ class UsersDAO extends DataAccessObject
     // identifier and password combination
     // [in]     identifier: the identifier of the element that we want 
     //          to look for; in this case, this can be either the ID, the
-    //          user name, the employee number or the email
+    //          user name, the employee number
     // [out]    return: an associative array with the data of the element
     //          that contained the especified identifier and password 
     //          combination, or an empty string in case none was found
@@ -32,7 +32,7 @@ class UsersDAO extends DataAccessObject
             [
                 "$this->table.id(user_id)", 'r.id(role_id)', 'r.name(role_name)', 
                 'z.id(zone_id)', 'z.name(zone_name)', 'employee_num', 
-                'first_name', 'last_name', 'email', 'login_name', 
+                'first_name', 'last_name', 'login_name', 
                 'login_password'
             ], 
             [ 
@@ -40,7 +40,6 @@ class UsersDAO extends DataAccessObject
                     "OR" => [
                         "$this->table.id" => $identifier,
                         "employee_num" => $identifier,
-                        "email" => $identifier,
                         "login_name" => $identifier
                     ],
                     "$this->table.is_active" => 1    
@@ -65,13 +64,6 @@ class UsersDAO extends DataAccessObject
     }
 
 
-    // Returns the data of every user that shares the given email
-    function hasByEmail($email)
-    {
-        return parent::has([ 'email' => $email ]);
-    }
-
-
     // Returns the data of every user that shares the given employee number
     function hasByEmployeeNum($employeeNum)
     {
@@ -91,7 +83,6 @@ class UsersDAO extends DataAccessObject
                 r.name AS role_name,
                 employee_num,
                 login_name,
-                email,
                 first_name,
                 last_name,
                 is_active
@@ -129,22 +120,6 @@ class UsersDAO extends DataAccessObject
     }
 
 
-    // Changes the email field of the element in the table which has the 
-    // especified user ID
-    // [in]     id: the user ID of the elemente which email we 
-    //          want to change
-    // [in]     newEmail: the new email value that is to be assigned
-    //          to the element found
-    // [out]    return: the number of rows affected
-    function updateEmailByUserID($id, $newEmail)
-    {
-        parent::update(
-            [ "email" => $newEmail ],
-            [ "id" => $id ]
-        );
-    }
-
-
     // Changes the login name field of the element in the table which has the 
     // especified user ID
     // [in]     id: the user ID of the element which login name we 
@@ -176,6 +151,17 @@ class UsersDAO extends DataAccessObject
     function deleteByID($id)
     {
         return parent::delete(['id' => $id]);
+    }
+
+
+    // Edits the role of the user with the especified ID to the one with the
+    // specified ID
+    function updateRoleByID($userID, $roleID)
+    {
+        return parent::update(
+            ['role_id' => $roleID],
+            ['id' => $userID]
+        );
     }
 }
 

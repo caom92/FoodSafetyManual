@@ -557,13 +557,6 @@ $(function (){
             "is-login-name-duplicated");
     });
 
-    $("#email").focusout(function(e) {
-        console.log("Check Email");
-        checkDuplicate({email: $("#email").val()},
-            "#email",
-            "is-email-duplicated");
-    });
-
     $("#user-id").focusout(function(e) {
         console.log("Check ID");
         checkDuplicate({employee_num: Number($("#user-id").val())},
@@ -573,10 +566,6 @@ $(function (){
 
     $("#login-name").keyup(function(e){
         $("#login-name").focusout();
-    });
-
-    $("#email").keyup(function(e){
-        $("#email").focusout();
     });
 
     $("#user-id").keyup(function(e){
@@ -616,7 +605,6 @@ $(function (){
         var isIDValid = isRequiredTextAreaValid("#user-id");
         var isNameValid = isRequiredTextAreaValid("#first-name");
         var isLastNameValid = isRequiredTextAreaValid("#last-name");
-        var isEmailValid = isRequiredTextAreaValid("#email");
         var isPasswordValid = isRequiredTextAreaValid("#password");
         var isPasswordCheckValid = isRequiredTextAreaValid("#check-password");
         var doPasswordsMatch = 
@@ -625,18 +613,17 @@ $(function (){
         // Check for invalid conditions
         // First, we check that all fields have been selected
         if (!isUserValid || !isIDValid || !isNameValid || !isLastNameValid
-            || !isEmailValid || !isPasswordValid || !isPasswordCheckValid
+            || !isPasswordValid || !isPasswordCheckValid
             || !doPasswordsMatch) {
             loadToast("incorrect_fields", 
                 3500, "rounded");
         } else {
-            // We check for any invalid classes in the username, ID and email
+            // We check for any invalid classes in the username, ID 
             // HTML elements. In such a case, we cannot proceed
             var isNameDuplicate = $("#login-name").hasClass("invalid");
-            var isEmailDuplicate = $("#email").hasClass("invalid");
             var isIDDuplicate = $("#user-id").hasClass("invalid");
 
-            if(isNameDuplicate || isEmailDuplicate || isIDDuplicate){
+            if(isNameDuplicate || isIDDuplicate){
                 loadToast("duplicated_fields", 3500, "rounded");
             } else {
                 // Proceed to send request
@@ -645,7 +632,6 @@ $(function (){
                 userObject.employee_num = Number($("#user-id").val());
                 userObject.first_name = $("#first-name").val();
                 userObject.last_name = $("#last-name").val();
-                userObject.email = $("#email").val();
                 userObject.role_id = $("#user-role").val();
                 userObject.login_name = $("#login-name").val();
                 userObject.login_password = $("#password").val();
