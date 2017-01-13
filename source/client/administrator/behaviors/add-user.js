@@ -533,6 +533,7 @@ function roleSelect(selected) {
                         case "Supervisor": option.text("Supervisor"); break;
                         case "Manager": option.text("Gerente"); break;
                         case "Director": option.text("Director"); break;
+                        default: option.text(response.data[role].name);
                     }
                     $("#user-role").append(option);
                 }
