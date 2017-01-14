@@ -425,8 +425,8 @@ function getPrivilegesOfUser()
                     // if the program, nor the module have changed, simply store
                     // the log info in the current module storage
                     array_push($module['logs'], [
-                        'id' => $row['id'],
-                        'name' => $row['name'],
+                        'id' => $row['log_id'],
+                        'name' => $row['log_name'],
                         'privilege_id' => ($isSupervisor) ?
                             $privilegeID :
                             $row['privilege_id']
