@@ -139,19 +139,18 @@ class UsersLogsPrivilegesDAO extends DataAccessObject
 
     // Changes the privileges of the specified user for the specified log to 
     // the one specified
-    // [in]     userID: the ID of the user which privileges are going to be 
-    //          edited
-    // [in]     logID: the ID of the log which privilege will be edited
+    // [in]     id: the ID of the database row to edit
     // [in]     privilegeID: the ID of the new privilege to be assigned
     // [out]    return: the number of affected rows
-    function updatePrivilegeByUserAndLogID($userID, $logID, $privilegeID)
+    function updatePrivilegeByID($id, $privilegeID)
     {
-        return parent::$dataBase->query(
-            "INSERT INTO $this->table (privilege_id) 
-            VALUES('$privilegeID') 
-            ON DUPLICATE KEY UPDATE    
-                privilege_id = '$privilegeID'
-            WHERE user_id = '$userID' AND log_id = '$logID'"
+        return parent::update(
+            [
+                'privilege_id' => $privilegeID
+            ],
+            [
+                'id' => $id
+            ]
         );
     }
 }
