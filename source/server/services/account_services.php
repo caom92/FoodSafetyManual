@@ -305,11 +305,23 @@ function editPrivileges()
 
     // update the log privileges of the user
     foreach ($_POST['privileges'] as $privilege) {
-        $userPrivileges->updatePrivilegeByUserAndLogID(
+        $id = $userPrivileges->getIDByUserAndLogID(
             $_POST['user_id'],
-            $privilege['log_id'],
-            $privilege['privilege_id']
+            $privilege['log_id']
         );
+
+        if (isset($id)) {
+            $userPrivileges->updatePrivilegeByID(
+                $id,
+                $privilege['privilege_id']
+            );
+        } else {
+            $userPrivileges->insert([
+                'user_id' => $_POST['user_id'],
+                'log_id' => $privilege['log_id'],
+                'privilege_id' => $privilege['privilege_id']
+            ]);
+        }
     }
 
     return [];
