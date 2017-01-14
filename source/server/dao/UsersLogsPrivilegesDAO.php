@@ -164,7 +164,7 @@ class UsersLogsPrivilegesDAO extends DataAccessObject
                 'log_id' => $logID]
             ]
         );
-        return (count($row) > 0) ? $rows['id'] : NULL;
+        return (count($row) > 0) ? $row['id'] : NULL;
     }
 }
 
