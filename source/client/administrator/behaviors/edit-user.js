@@ -816,7 +816,7 @@ $(function (){
                 // Proceed to send request
 
                 // Build the user object
-                userObject.employee_num = Number($("#user-id").val());
+                userObject.user_id = Number($("#user-id").data("user_id"));
                 userObject.privileges = new Array();
 
                 // Read the privilege list
@@ -836,9 +836,21 @@ $(function (){
                 console.log(userObject);
 
                 // Send the user object to the server, requesting an user add
-                Materialize.toast(
-                    'Coming Soon', 3500, 'rounded'
-                );
+                if(userObject.privileges.length == 0){
+                    Materialize.toast("No ha realizado cambios en los permisos", 3500, "rounded");
+                } else {
+                    $server.request({
+                        service: 'edit-user-privileges',
+                        data: userObject,
+                        success: function (response) {
+                            if (response.meta.return_code == 0) {
+                                Materialize.toast("Privilegios actualizados", 3500, "rounded");
+                            } else {
+                                Materialize.toast("Error en la red", 3500, "rounded");
+                            }
+                        }
+                    });
+                }
                 // $server.request({
                 //     service: 'add-user',
                 //     data: userObject,
