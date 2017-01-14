@@ -226,6 +226,8 @@ function addLogEntry(logID, logName, valueChecked, maxPrivilege){
     if(maxPrivilege != 2){
         row.append(privilegeWrite);
     }
+
+    row.data("original_privilege", valueChecked);
     
     return row;
 }
@@ -453,14 +455,14 @@ function roleSelect(selected) {
             hidePermissionForms();
             if(role == 3){
                 addZoneSelect();
-                addProgramSelect(2, $("#user-id").data("user_id"));
+                addProgramSelect(2, parseInt($("#user-id").val()));
             }
             if(role == 4){
                 addZoneSelect();
             }
             if(role == 5){
                 addZoneSelect();
-                addProgramSelect(3, $("#user-id").data("user_id"));
+                addProgramSelect(3, parseInt($("#user-id").val()));
             }
         }
     });
@@ -722,10 +724,7 @@ function fillUserInformation(userID){
 
 $(function (){
     var get = getURLQueryStringAsJSON();
-
     fillUserInformation(get.user_id);
-    //addPermissionTable();
-    //getProcedureNames();
     changeLanguage(localStorage.defaultLanguage);
 
     $('ul.tabs').tabs();
@@ -748,14 +747,14 @@ $(function (){
         hidePermissionForms();
         if($(this).val() == 3){
             addZoneSelect();
-            addProgramSelect(2);
+            addProgramSelect(2, parseInt($("#user-id").val()));
         }
         if($(this).val() == 4){
             addZoneSelect();
         }
         if($(this).val() == 5){
             addZoneSelect();
-            addProgramSelect(3);
+            addProgramSelect(3, parseInt($("#user-id").val()));
         }
     });
 
@@ -817,25 +816,19 @@ $(function (){
                 // Proceed to send request
 
                 // Build the user object
-                userObject.employee_num = Number($("#user-id").val());
-                userObject.first_name = $("#first-name").val();
-                userObject.last_name = $("#last-name").val();
-                userObject.role_id = $("#user-role").val();
-                userObject.login_name = $("#login-name").val();
-                userObject.login_password = $("#password").val();
+                userObject.user_id = Number($("#user-id").data("user_id"));
                 userObject.privileges = new Array();
 
                 // Read the privilege list
                 $(".privilege").each(function(e){
-                    var zone = $(this).data("zone");
-                    var module = $(this).data("module");
-                    var radioGroup = $(this).attr("id");
-                    var privilege = $('input[name=' + radioGroup + ']:checked').val();
-                    var privilegeObject = new Object();
-                    privilegeObject.zone_id = zone;
-                    privilegeObject.module_id = module;
-                    privilegeObject.privilege_id = privilege;
-                    userObject.privileges.push(privilegeObject);
+                    var log = $(this).data("log");
+                    var privilege = $('input[name=' + log + ']:checked').val();
+                    if($(this).parent().data("original_privilege") != parseInt(privilege)){
+                        var privilegeObject = new Object();
+                        privilegeObject.privilege_id = privilege;
+                        privilegeObject.log_id = log;
+                        userObject.privileges.push(privilegeObject);
+                    }
                 });
 
                 //var userObjectString = JSON.stringify(userObject);
@@ -843,9 +836,21 @@ $(function (){
                 console.log(userObject);
 
                 // Send the user object to the server, requesting an user add
-                Materialize.toast(
-                    'Coming Soon', 3500, 'rounded'
-                );
+                if(userObject.privileges.length == 0){
+                    Materialize.toast("No ha realizado cambios en los permisos", 3500, "rounded");
+                } else {
+                    $server.request({
+                        service: 'edit-user-privileges',
+                        data: userObject,
+                        success: function (response) {
+                            if (response.meta.return_code == 0) {
+                                Materialize.toast("Privilegios actualizados", 3500, "rounded");
+                            } else {
+                                Materialize.toast("Error en la red", 3500, "rounded");
+                            }
+                        }
+                    });
+                }
                 // $server.request({
                 //     service: 'add-user',
                 //     data: userObject,
