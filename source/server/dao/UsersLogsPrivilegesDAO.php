@@ -155,16 +155,16 @@ class UsersLogsPrivilegesDAO extends DataAccessObject
     }
 
 
+    // Returns the ID of the entry with the especified user and log ID
     function getIDByUserAndLogID($userID, $logID)
     {
-        $row = parent::get(
+        return parent::get(
             'id', 
             ['AND' => [ 
                 'user_id' => $userID, 
                 'log_id' => $logID]
             ]
         );
-        return (count($row) > 0) ? $row['id'] : NULL;
     }
 }
 

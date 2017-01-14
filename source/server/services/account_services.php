@@ -309,6 +309,7 @@ function editPrivileges()
             $_POST['user_id'],
             $privilege['log_id']
         );
+        //echo var_dump($id);
 
         if (isset($id)) {
             $userPrivileges->updatePrivilegeByID(
