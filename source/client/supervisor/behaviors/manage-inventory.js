@@ -278,17 +278,19 @@ function initSortability(){
         helper: fixHelper,
         cursor: "move",
         update: function(event, ui) {
-            $("tbody tr").each(function(index){
-                $($(this).children()[0]).text(index + 1 - $(this).data("offset"));
-                var order = $($(this).children()[0]).text();
-                var itemID = $($(this).children()[1]).text();
-                var data = new Object();
-                data.item_id = parseInt(itemID);
-                data.position = parseInt(order);
-                console.log(data);
-                $server.request({
-                    service: "change-order-of-item",
-                    data: data
+            $("tbody").each(function(bodyIndex) {
+                $(this).children().each(function(rowIndex) {
+                    $($(this).children()[0]).text(rowIndex + 1);
+                    var order = $($(this).children()[0]).text();
+                    var itemID = $($(this).children()[1]).text();
+                    var data = new Object();
+                    data.item_id = parseInt(itemID);
+                    data.position = parseInt(order);
+                    console.log(data);
+                    $server.request({
+                        service: "change-order-of-item",
+                        data: data
+                    });
                 });
             });
         }
