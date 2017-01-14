@@ -146,16 +146,12 @@ class UsersLogsPrivilegesDAO extends DataAccessObject
     // [out]    return: the number of affected rows
     function updatePrivilegeByUserAndLogID($userID, $logID, $privilegeID)
     {
-        return parent::update(
-            [
-                'privilege_id' => $privilegeID
-            ],
-            [
-                'AND' => [
-                    'user_id' => $userID,
-                    'log_id' => $logID
-                ]
-            ]
+        return parent::$dataBase->query(
+            "INSERT INTO $this->table (privilege_id) 
+            VALUES('$privilegeID') 
+            ON DUPLICATE KEY UPDATE    
+                privilege_id = '$privilegeID'
+            WHERE user_id = '$userID' AND log_id = '$logID'"
         );
     }
 }
