@@ -153,6 +153,19 @@ class UsersLogsPrivilegesDAO extends DataAccessObject
             ]
         );
     }
+
+
+    function getIDByUserAndLogID($userID, $logID)
+    {
+        $row = parent::get(
+            'id', 
+            ['AND' => [ 
+                'user_id' => $userID, 
+                'log_id' => $logID]
+            ]
+        );
+        return (count($row) > 0) ? $rows['id'] : NULL;
+    }
 }
 
 ?>
