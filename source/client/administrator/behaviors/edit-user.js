@@ -226,6 +226,8 @@ function addLogEntry(logID, logName, valueChecked, maxPrivilege){
     if(maxPrivilege != 2){
         row.append(privilegeWrite);
     }
+
+    row.data("original_privilege", valueChecked);
     
     return row;
 }
@@ -722,10 +724,7 @@ function fillUserInformation(userID){
 
 $(function (){
     var get = getURLQueryStringAsJSON();
-
     fillUserInformation(get.user_id);
-    //addPermissionTable();
-    //getProcedureNames();
     changeLanguage(localStorage.defaultLanguage);
 
     $('ul.tabs').tabs();
@@ -818,24 +817,18 @@ $(function (){
 
                 // Build the user object
                 userObject.employee_num = Number($("#user-id").val());
-                userObject.first_name = $("#first-name").val();
-                userObject.last_name = $("#last-name").val();
-                userObject.role_id = $("#user-role").val();
-                userObject.login_name = $("#login-name").val();
-                userObject.login_password = $("#password").val();
                 userObject.privileges = new Array();
 
                 // Read the privilege list
                 $(".privilege").each(function(e){
-                    var zone = $(this).data("zone");
-                    var module = $(this).data("module");
-                    var radioGroup = $(this).attr("id");
-                    var privilege = $('input[name=' + radioGroup + ']:checked').val();
-                    var privilegeObject = new Object();
-                    privilegeObject.zone_id = zone;
-                    privilegeObject.module_id = module;
-                    privilegeObject.privilege_id = privilege;
-                    userObject.privileges.push(privilegeObject);
+                    var log = $(this).data("log");
+                    var privilege = $('input[name=' + log + ']:checked').val();
+                    if($(this).parent().data("original_privilege") != parseInt(privilege)){
+                        var privilegeObject = new Object();
+                        privilegeObject.privilege_id = privilege;
+                        privilegeObject.log_id = log;
+                        userObject.privileges.push(privilegeObject);
+                    }
                 });
 
                 //var userObjectString = JSON.stringify(userObject);
