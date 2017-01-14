@@ -65,7 +65,7 @@ function addZoneSelect() {
     });
 }
 
-function addProgramSelect(maxPrivilege) {
+function addProgramSelect(maxPrivilege, employeeNum) {
     var select = $("<select>");
     var label = $("<label>");
 
@@ -73,8 +73,12 @@ function addProgramSelect(maxPrivilege) {
     label.addClass("select_program");
     label.attr("for", "program_select");
 
+    var data = new Object();
+    data.employee_num = employeeNum;
+
     $server.request({
-        service: 'list-programs-modules-logs',
+        service: 'get-privileges-of-employee',
+        data: data,
         success: function (response) {
             if (response.meta.return_code == 0) {
                 for (var program of response.data) {
@@ -191,7 +195,7 @@ function addModuleBody(id, classes, logs, maxPrivilege){
     moduleTableBody = $("<tbody>");
 
     for (var log of logs) {
-        moduleTableBody.append(addLogEntry(log.id, log.name, 1, maxPrivilege));
+        moduleTableBody.append(addLogEntry(log.id, log.name, log.privilege_id, maxPrivilege));
     }
 
     moduleTable.append(moduleTableHeader);
@@ -445,18 +449,18 @@ function roleSelect(selected) {
             }
             $('select.readonly option:not(:selected)').attr('disabled',true);
             $('select').material_select();
-            var role = $("#user-role").val();
+            var role = parseInt($("#user-role").val());
             hidePermissionForms();
             if(role == 3){
                 addZoneSelect();
-                addProgramSelect(2);
+                addProgramSelect(2, $("#user-id").data("user_id"));
             }
             if(role == 4){
                 addZoneSelect();
             }
             if(role == 5){
                 addZoneSelect();
-                addProgramSelect(3);
+                addProgramSelect(3, $("#user-id").data("user_id"));
             }
         }
     });
@@ -667,7 +671,7 @@ function getUserPrivileges(userID){
     var data = new Object();
     data.user_id = userID;
     $server.request({
-        service: 'get-user-privileges',
+        service: 'get-privileges-of-employee',
         data: data,
         success: function(response, message, xhr) {
             console.log(response);
