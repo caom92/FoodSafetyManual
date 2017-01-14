@@ -31,6 +31,8 @@ function getUserAccountInfo()
         'id' => $userInfo['user_id'],
         'role_id' => $userInfo['role_id'],
         'role_name' => $userInfo['role_name'],
+        'zone_id' => $userInfo['zone_id'],
+        'zone_name' => $userInfo['zone_name'],
         'employee_num' => $userInfo['employee_num'],
         'first_name' => $userInfo['first_name'],
         'last_name' => $userInfo['last_name'],
@@ -260,7 +262,6 @@ function addNewUserAccount()
         // get the ID of the read privilege
         $privilegesTable = new db\PrivilegesDAO();
         $privilegeID = $privilegesTable->getIDByName('Read');
-        $privilegeID = $privilegeID['id'];
 
         // create a privileges array with the proper format that medoo is 
         // expecting
@@ -316,87 +317,128 @@ function editPrivileges()
 
 
 // [***]
+// Returns a list of the privileges that a given user identified by its 
+// employee number has organized by log
 function getPrivilegesOfUser()
 {
-    $userPrivileges = new db\UsersLogsPrivilegesDAO();
-    $rows = $userPrivileges->selectByEmployeeNum($_POST['employee_num']);
+    // first, connect to the data base and get the role of the user
+    $users = new db\UsersDAO();
+    $role = $users->getRoleByEmployeeNum($_POST['employee_num']);
 
-    $privileges = [];
-    $program = [
-        'id' => 0,
-        'name' => '',
-        'modules' => []
-    ];
-    $module = [
-        'id' => 0,
-        'name' => '',
-        'logs' => []
-    ];
+    // check if the role of this user requires privileges to be read from the db
+    $requiresPrivileges = $role === 'Supervisor' || $role === 'Employee';
+    if ($requiresPrivileges) {
+        // if the user requires its privileges to be read from the db
+        // connect to the db to get them
+        $userPrivileges = new db\UsersLogsPrivilegesDAO();
+        $rows = $userPrivileges->selectByEmployeeNum($_POST['employee_num']);
 
-    foreach ($rows as $row) {
-        $hasProgramChanged = $row['program_id'] != $program['id'];
-        if ($hasProgramChanged) {
-            if ($program['id'] != 0) {
-                array_push($program['modules'], $module);
-                array_push($privileges, $program);
-            }
-            $log = [
-                'id' => $row['log_id'],
-                'name' => $row['log_name'],
-                'privilege' => [
-                    'id' => $row['id'],
-                    'name' => $row['name']
-                ]
-            ];
-            $module = [
-                'id' => $row['module_id'],
-                'name' => $row['module_name'],
-                'logs' => [ $log ]
-            ];
-            $program = [
-                'id' => $row['program_id'],
-                'name' => $row['program_name'],
-                'modules' => []
-            ];
-        } else {
-            $hasModuleChanged = $row['module_id'] != $module['id'];
-            if ($hasModuleChanged) {
-                array_push($program['modules'], $module);
+        // also get the ID of the privilege that corresponds to the Read
+        // privilege from the db
+        $privilegesTable = new db\PrivilegesDAO();
+        $privilegeID = $privilegesTable->getIDByName('Read');
+
+        // finally check if the user is a supervisor
+        $isSupervisor = $role === 'Supervisor';
+
+        // now prepare the temporal storage for the array that will contain
+        // the privileges of the user
+        $privileges = [];
+        $program = [
+            'id' => 0,
+            'name' => '',
+            'modules' => []
+        ];
+        $module = [
+            'id' => 0,
+            'name' => '',
+            'logs' => []
+        ];
+
+        // for each row read from the db
+        foreach ($rows as $row) {
+            // check if the program has changed
+            $hasProgramChanged = $row['program_id'] != $program['id'];
+            if ($hasProgramChanged) {
+                // if it has, check that the current program is not empty
+                if ($program['id'] != 0) {
+                    // if its not, save the current modules to it
+                    array_push($program['modules'], $module);
+
+                    // and save the current program to the final array
+                    array_push($privileges, $program);
+                }
+
+                // then read the log privilege of the new program
                 $log = [
                     'id' => $row['log_id'],
                     'name' => $row['log_name'],
-                    'privilege' => [
-                        'id' => $row['id'],
-                        'name' => $row['name']
-                    ]
+                    'privilege_id' => ($isSupervisor) ?
+                        $privilegeID :
+                        $row['privilege_id']
                 ];
+
+                // and fill the temporal storage of the new module and program
                 $module = [
                     'id' => $row['module_id'],
                     'name' => $row['module_name'],
                     'logs' => [ $log ]
                 ];
+                $program = [
+                    'id' => $row['program_id'],
+                    'name' => $row['program_name'],
+                    'modules' => []
+                ];
             } else {
-                array_push($module['logs'], [
-                    'id' => $row['id'],
-                    'name' => $row['name'],
-                    'privilege' => [
-                        'id' => $row['privilege_id'],
-                        'name' => $row['privilege_name']
-                    ]
-                ]);
+                // if the module has changed
+                $hasModuleChanged = $row['module_id'] != $module['id'];
+                if ($hasModuleChanged) {
+                    // store the current module to the current program
+                    array_push($program['modules'], $module);
+
+                    // and start saving the info of the log and the new module
+                    $log = [
+                        'id' => $row['log_id'],
+                        'name' => $row['log_name'],
+                        'privilege_id' => ($isSupervisor) ?
+                            $privilegeID :
+                            $row['privilege_id']
+                    ];
+                    $module = [
+                        'id' => $row['module_id'],
+                        'name' => $row['module_name'],
+                        'logs' => [ $log ]
+                    ];
+                } else {
+                    // if the program, nor the module have changed, simply store
+                    // the log info in the current module storage
+                    array_push($module['logs'], [
+                        'id' => $row['id'],
+                        'name' => $row['name'],
+                        'privilege_id' => ($isSupervisor) ?
+                            $privilegeID :
+                            $row['privilege_id']
+                    ]);
+                }
             }
         }
-    }
 
-    if ($module['id'] != 0) {
-        array_push($program['modules'], $module);
-    }
+        // don't forget to store the last module and program
+        if ($module['id'] != 0) {
+            array_push($program['modules'], $module);
+        }
 
-    if ($program['id'] != 0) {
-        array_push($privileges, $program);
-    }
+        if ($program['id'] != 0) {
+            array_push($privileges, $program);
+        }
 
-    return $privileges;
+        // and return the resulting array
+        return $privileges;
+    } else {
+        // if the user role does not requires her to have privileges, don't
+        // even bother with computer the array
+        return [];
+    }
 }
 
 

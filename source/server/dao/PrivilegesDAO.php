@@ -30,7 +30,8 @@ class PrivilegesDAO extends DataAccessObject
     // Returns the ID of the privilege with the specified name
     function getIDByName($name)
     {
-        return parent::get(['id'], ['name' => $name]);
+        $row = parent::get(['id'], ['name' => $name]);
+        return (count($row) > 0) ? $row['id'] : NULL;
     }
 }
 

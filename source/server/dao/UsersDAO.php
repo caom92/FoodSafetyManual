@@ -163,6 +163,19 @@ class UsersDAO extends DataAccessObject
             ['id' => $userID]
         );
     }
+
+
+    // Returns the name of the role of the user which has the especified 
+    // employee number
+    function getRoleByEmployeeNum($employeeNum)
+    {
+        $rows = parent::select(
+            ['r.name(role_name)'], 
+            ['employee_num' => $employeeNum],
+            ['[><]roles(r)' => ['role_id' => "id"]]
+        );
+        return (count($rows) > 0) ? $rows[0]['role_name'] : NULL;
+    }
 }
 
 ?>
