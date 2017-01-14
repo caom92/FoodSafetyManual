@@ -453,14 +453,14 @@ function roleSelect(selected) {
             hidePermissionForms();
             if(role == 3){
                 addZoneSelect();
-                addProgramSelect(2, $("#user-id").data("user_id"));
+                addProgramSelect(2, parseInt($("#user-id").val()));
             }
             if(role == 4){
                 addZoneSelect();
             }
             if(role == 5){
                 addZoneSelect();
-                addProgramSelect(3, $("#user-id").data("user_id"));
+                addProgramSelect(3, parseInt($("#user-id").val()));
             }
         }
     });
@@ -748,14 +748,14 @@ $(function (){
         hidePermissionForms();
         if($(this).val() == 3){
             addZoneSelect();
-            addProgramSelect(2);
+            addProgramSelect(2, parseInt($("#user-id").val()));
         }
         if($(this).val() == 4){
             addZoneSelect();
         }
         if($(this).val() == 5){
             addZoneSelect();
-            addProgramSelect(3);
+            addProgramSelect(3, parseInt($("#user-id").val()));
         }
     });
 
