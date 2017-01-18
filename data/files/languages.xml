@@ -110,6 +110,12 @@
         <spanish>Inventario</spanish>
     </translation>
 
+    <translation id="supervisors">
+        <english>Supervisors</english>
+        <spanish>Supervisores</spanish>
+    </translation>
+
+
     <!--Interfaces-->
 
     <translation id="login">
@@ -506,6 +512,11 @@
         <spanish>Seleccione un área</spanish>
     </translation>
 
+    <translation id="select_supervisor">
+        <english>Select a supervisor</english>
+        <spanish>Seleccione un supervisor</spanish>
+    </translation>
+
     <translation id="select_start_date">
         <english>Select a start date</english>
         <spanish>Seleccione un fecha de partida</spanish>
@@ -596,5 +607,15 @@
     <translation id="person_performing_sanitation_title">
         <english>Person performing sanitation</english>
         <spanish>Persona a cargo de la sanitización</spanish>
+    </translation>
+
+    <translation id="no_supervisors">
+        <english>There are no supervisors in this zone</english>
+        <spanish>No hay supervisores en esta zona</spanish>
+    </translation>
+
+    <translation id="no_employees">
+        <english>There are no employees for this supervisor</english>
+        <spanish>No hay empleados asignados a este supervisor</spanish>
     </translation>
 </translations>
