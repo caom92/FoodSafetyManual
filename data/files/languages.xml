@@ -350,6 +350,11 @@
         <spanish>Lista de usuarios</spanish>
     </translation>
 
+    <translation id="supervisor_list">
+        <english>Supervisors</english>
+        <spanish>Supervisores</spanish>
+    </translation>
+
     <translation id="change_password">
         <english>Change your password</english>
         <spanish>Cambiar su contraseña</spanish>
