@@ -6,6 +6,7 @@ namespace fsm\services\authorizations;
 
 // Import the required files
 require_once realpath(dirname(__FILE__).'/../dao/UsersDAO.php');
+require_once realpath(dirname(__FILE__).'/../dao/SupervisorsEmployeesDAO.php');
 
 // Use the database namespace
 use fsm\database as db;
@@ -31,6 +32,17 @@ function getSupervisorsOfZone()
 
     // return it to the user
     return $supervisors;
+}
+
+
+// Returns a list of employee users that are assigned to the supervisor user 
+// with the especified ID
+function getEmployeesOfSupervisor()
+{
+    $assignments = new db\SupervisorsEmployeesDAO();
+    return $assignments->selectEmployeesBySupervisorID(
+        $_POST['supervisor_id']
+    );
 }
 
 ?>

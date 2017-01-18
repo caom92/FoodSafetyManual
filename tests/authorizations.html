@@ -9,13 +9,16 @@
             <h1>List Supervisors By Zone</h1>
             <pre class='output'></pre>
         </div>
+        <div id='list-employees-of-supervisor'>
+            <h1>List Employees Of Supervisor</h1>
+            <pre class='output'></pre>
     </body>
     <script src="/espresso/external/jquery/dist/jquery.min.js"></script>
     <script src='/espresso/scripts/config.js'></script>
     <script src="/espresso/scripts/functions.js"></script>
     <script src='/espresso/scripts/Controller.js'></script>
     <script>
-        function login() {
+        function test1() {
             $server.request({
                 service: 'login',
                 data: {
@@ -24,7 +27,7 @@
                 },
                 success: function(response) {
                     if (response.meta.return_code == 0) {
-                        test();
+                        listSupervisorsByZone();
                     } else {
                         alert(response.meta.message);
                     }
@@ -43,7 +46,7 @@
             })
         }
 
-        function test() {
+        function listSupervisorsByZone() {
             $server.request({
                 service: 'list-supervisors-by-zone',
                 data: {
@@ -58,6 +61,39 @@
             });
         }
 
-        login();
+        function listEmployeesOfSupervisor() {
+            $server.request({
+                service: 'list-employees-of-supervisor',
+                data: {
+                    supervisor_id: 1
+                },
+                success: function(response) {
+                    $('#list-employees-of-supervisor pre.output').append(
+                        JSON.stringify(response, null, 4)
+                    );
+                    logout();
+                }
+            })
+        }
+
+        function test2() {
+            $server.request({
+                service: 'login',
+                data: {
+                    username: 'administrador',
+                    password: 'password'
+                },
+                success: function(response) {
+                    if (response.meta.return_code == 0) {
+                        listEmployeesOfSupervisor();
+                    } else {
+                        alert(response.meta.message);
+                    }
+                }
+            });
+        }
+
+        test1();
+        test2();
     </script>
 </html>

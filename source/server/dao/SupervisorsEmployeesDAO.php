@@ -17,6 +17,25 @@ class SupervisorsEmployeesDAO extends DataAccessObject
     {
         parent::__construct("supervisors_employees");
     }
+
+
+    // Returns a list of employee users that are assigned to the user with the 
+    // especified ID
+    function selectEmployeesBySupervisorID($supervisorID)
+    {
+        return parent::select(
+            ['u.employee_num', 'u.first_name', 'u.last_name'],
+            [
+                'AND' => [
+                    'supervisor_id' => $supervisorID,
+                    'u.is_active[!]' => FALSE
+                ]
+            ],
+            ['[><]users(u)' => [
+                'employee_id' => 'id'
+            ]]
+        );
+    }
 }
 
 ?>

@@ -417,6 +417,15 @@ fsm\Controller::$services = [
             ]
         ],
         'callback' => 'fsm\services\authorizations\getSupervisorsOfZone'
+    ],
+    'list-employees-of-supervisor' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator'],
+            'supervisor_id' => [
+                'type' => 'int'
+            ]
+        ],
+        'callback' => 'fsm\services\authorizations\getEmployeesOfSupervisor'
     ]
 ];
 
