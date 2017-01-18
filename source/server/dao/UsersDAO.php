@@ -176,6 +176,24 @@ class UsersDAO extends DataAccessObject
         );
         return (count($rows) > 0) ? $rows[0]['role_name'] : NULL;
     }
+
+    
+    // Returns a list of all the users that are supervisors and belong to the
+    // especified zone
+    function selectSupervisorsNameByZoneID($zoneID)
+    {
+        return parent::select(
+            ["$this->table.id(id)", 'first_name', 'last_name'],
+            ['AND' => [
+                'zone_id' => $zoneID,
+                'r.name' => 'Supervisor',
+                'is_active[!]' => FALSE
+            ]],
+            ['[><]roles(r)' => [
+                'role_id' => 'id'
+            ]]
+        );
+    }
 }
 
 ?>

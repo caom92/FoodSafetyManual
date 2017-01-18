@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Authorization Tests</title>
+    </head>
+    <body>
+        <div id='list-supervisors-by-zone'>
+            <h1>List Supervisors By Zone</h1>
+            <pre class='output'></pre>
+        </div>
+    </body>
+    <script src="/espresso/external/jquery/dist/jquery.min.js"></script>
+    <script src='/espresso/scripts/config.js'></script>
+    <script src="/espresso/scripts/functions.js"></script>
+    <script src='/espresso/scripts/Controller.js'></script>
+    <script>
+        function login() {
+            $server.request({
+                service: 'login',
+                data: {
+                    username: 'administrador',
+                    password: 'password'
+                },
+                success: function(response) {
+                    if (response.meta.return_code == 0) {
+                        test();
+                    } else {
+                        alert(response.meta.message);
+                    }
+                }
+            });
+        }
+
+        function logout() {
+            $server.request({
+                service: 'logout',
+                success: function(response) {
+                    if (response.meta.return_code != 0) {
+                        alert(response.meta.message);
+                    }
+                }
+            })
+        }
+
+        function test() {
+            $server.request({
+                service: 'list-supervisors-by-zone',
+                data: {
+                    zone_id: 5
+                },
+                success: function(response) {
+                    $('#list-supervisors-by-zone pre.output').append(
+                        JSON.stringify(response, null, 4)
+                    );
+                    logout();
+                }
+            });
+        }
+
+        login();
+    </script>
+</html>
