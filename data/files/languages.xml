@@ -618,4 +618,9 @@
         <english>There are no employees for this supervisor</english>
         <spanish>No hay empleados asignados a este supervisor</spanish>
     </translation>
+
+    <translation id="change_supervisor">
+        <english>Change</english>
+        <spanish>Cambiar</spanish>
+    </translation>
 </translations>

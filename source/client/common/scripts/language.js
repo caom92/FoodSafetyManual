@@ -95,15 +95,15 @@ function changeLanguage(lang, callback){
     if(typeof createDatePicker == "function"){
         createDatePicker();
     } else {
-        console.log("datePicker not present");
+        // console.log("datePicker not present");
     }
 
     if(typeof callback == "function"){
         callback();
     } else if (callback == undefined) {
-        console.log("not defined");
+        // console.log("not defined");
     } else {
-        console.log("not a function");
+        // console.log("not a function");
     }
 }
 

@@ -24,7 +24,7 @@ class SupervisorsEmployeesDAO extends DataAccessObject
     function selectEmployeesBySupervisorID($supervisorID)
     {
         return parent::select(
-            ['u.employee_num', 'u.login_name' ,'u.first_name', 'u.last_name'],
+            ['u.id', 'u.employee_num', 'u.login_name' ,'u.first_name', 'u.last_name'],
             [
                 'AND' => [
                     'supervisor_id' => $supervisorID,

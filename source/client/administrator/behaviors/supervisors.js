@@ -75,6 +75,43 @@ function addSupervisorSelect(zoneID){
     });
 }
 
+function addSupervisorChangeForm(){
+    var select = $("<select>");
+    var label = $("<label>");
+
+    select.attr("id", "supervisor_change");
+    label.addClass("select_supervisor");
+    label.attr("for", "supervisor_change");
+
+    var data = new Object();
+
+    data.zone_id = parseInt($("#zone_select").val());
+
+    $("#supervisor_change_wrapper").html("");
+    $("#change_button").html("");
+
+    $server.request({
+        service: 'list-supervisors-by-zone',
+        data: data,
+        success: function (response) {
+            if (response.meta.return_code == 0) {
+                for (var supervisor of response.data) {
+                    var option = $("<option>");
+                    option.attr("value", supervisor.id);
+                    option.append(supervisor.full_name);
+                    select.append(option);
+                }
+                $("#supervisor_change_wrapper").append(select);
+                $("#supervisor_change_wrapper").append(label);
+                $("#change_button").append('<a id="change_supervisor" class="waves-effect waves-light btn change_supervisor" disabled></a>');
+                changeLanguage(localStorage.defaultLanguage);
+            } else {
+                throw response.meta.message;
+            }
+        }
+    });
+}
+
 function addSupervisorEmployeeList(supervisorID){
     var data = new Object();
 
@@ -90,6 +127,17 @@ function addSupervisorEmployeeList(supervisorID){
                     console.log(response.data);
                     hideSigns();
                     $("#employee_table_wrapper").append(addSupervisedTable(response.data));
+                    $("input[type='checkbox']").click(function(index){
+                        console.log($(this).val());
+                        if($('input:checkbox:checked').length > 0){
+                            console.log("activar boton");
+                            $("#change_supervisor").removeAttr('disabled');
+                        } else {
+                            console.log("desactivar boton");
+                            $("#change_supervisor").attr('disabled', true);
+                        }
+                    });
+                    addSupervisorChangeForm();
                 } else {
                     showNoEmployeesSign();
                 }
@@ -117,6 +165,7 @@ function addSupervisedHeader(){
     var header = $("<thead>");
     var headerRow = $("<tr>");
 
+    headerRow.append($('<th data-field="box"></th>'));
     headerRow.append($('<th data-field="user_id" class="employee_id"></th>'));
     headerRow.append($('<th data-field="username" class="username"></th>'));
     headerRow.append($('<th data-field="fullname" class="real_name"></th>'));
@@ -129,9 +178,12 @@ function addSupervisedHeader(){
 function addSupervisedRow(employee){
     var row = $("<tr>");
 
+    row.append($("<td class='box-column'>").html('<input type="checkbox" class="filled-in" id="check_' + employee.employee_num + '" value="' + employee.employee_num + '" /> <label for="check_' + employee.employee_num + '"></label>'));
     row.append($("<td class='id-column search-column'>").text(employee.employee_num));
     row.append($("<td class='login-column search-column'>").text(employee.login_name));
     row.append($("<td class='name-column search-column'>").text(employee.first_name + ' ' + employee.last_name));
+
+    row.data("id", employee.id);
 
     return row;
 }
@@ -143,12 +195,16 @@ function hideSigns(){
 function showNoSupervisorSign(){
     $(".no_sign").hide();
     $("#employee_table_wrapper").html("");
+    $("#supervisor_change_wrapper").html("");
+    $("#change_button").html("");
     $("#no_supervisors").show();
 }
 
 function showNoEmployeesSign(){
     $(".no_sign").hide();
     $("#employee_table_wrapper").html("");
+    $("#supervisor_change_wrapper").html("");
+    $("#change_button").html("");
     $("#no_employees").show();
 }
 
