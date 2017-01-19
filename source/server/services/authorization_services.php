@@ -69,8 +69,8 @@ function assignEmployeesToSupervisors()
             );
         } else {
             // if the user sent the data, check that it is of the proper type
-            $isSupervisorIDValid = val\isInteger($_POST['supervisor_id']);
-            $isEmployeeIDValid = val\isInteger($_POST['employee_id']);
+            $isSupervisorIDValid = val\isInteger($assignment['supervisor_id']);
+            $isEmployeeIDValid = val\isInteger($assignment['employee_id']);
 
             // if not, notify the user
             if (!$isEmployeeIDValid || !$isSupervisorIDValid) {
