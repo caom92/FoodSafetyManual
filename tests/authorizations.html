@@ -17,6 +17,10 @@
             <h1>Assign Employees</h1>
             <pre class='output'></pre>
         </div>
+        <div id='list-unapproved-logs'>
+            <h1>List Unnaproved Logs</h1>
+            <pre class='output'></pre>
+        </div>
     </body>
     <script src="/espresso/external/jquery/dist/jquery.min.js"></script>
     <script src='/espresso/scripts/config.js'></script>
@@ -105,7 +109,7 @@
                 data: {
                     assignments: [
                         {
-                            supervisor_id: 4,
+                            supervisor_id: 3,
                             employee_id: 5
                         },
                         {
@@ -140,8 +144,41 @@
             });
         }
 
+        function getUnnaprovedLogs() {
+            $server.request({
+                service: 'list-unapproved-logs',
+                data: {
+                    supervisor_id: 3
+                },
+                success: function(response) {
+                    $('#list-unapproved-logs pre.output').append(
+                        JSON.stringify(response, null, 4)
+                    );
+                    logout();
+                }
+            })
+        }
+
+        function test4() {
+            $server.request({
+                service: 'login',
+                data: {
+                    username: 'supervisor1',
+                    password: 'password'
+                },
+                success: function(response) {
+                    if (response.meta.return_code == 0) {
+                        getUnnaprovedLogs();
+                    } else {
+                        alert(response.meta.message);
+                    }
+                }
+            });
+        }
+
         test1();
         test2();
         test3();
+        test4();
     </script>
 </html>

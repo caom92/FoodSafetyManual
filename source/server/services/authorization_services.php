@@ -8,6 +8,7 @@ namespace fsm\services\authorizations;
 require_once realpath(dirname(__FILE__).'/../data_validations.php');
 require_once realpath(dirname(__FILE__).'/../dao/UsersDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/SupervisorsEmployeesDAO.php');
+require_once realpath(dirname(__FILE__).'/../dao/CapturedLogsDAO.php');
 
 // Shorthands for the namespaces
 use fsm\database as db;
@@ -122,6 +123,49 @@ function assignEmployeesToSupervisors()
     }
 
     return [];
+}
+
+
+// Returns a list of all the unapproved logs that the supervisor with the 
+// especified ID has
+function getUnapprovedLogsOfSupervisor()
+{
+    // first, connect to the data base
+    $capturedLogs = new db\CapturedLogsDAO();
+    $assignments = new db\SupervisorsEmployeesDAO();
+
+    // then, get the list of employees that the supervisor has assigned
+    $employees = 
+        $assignments->selectEmployeesBySupervisorID($_POST['supervisor_id']);
+
+    // perpare the final storage where the unapproved logs will be stored
+    $supervisorLogs = [];
+
+    // for each employee assigned to the supervisor...
+    foreach ($employees as $employee) {
+        // get the unapproved logs that where captured by the employee
+        $employeeLogs =    
+            $capturedLogs->selectUnapprovedLogsByUserID($employee['id']);
+        
+        // push every unapproved log to the final storage
+        foreach ($employeeLogs as $log) {
+            array_push($supervisorLogs, [
+                'captured_log_id' => $log['captured_log_id'],
+                'program_name' => $log['program_name'],
+                'module_name' => $log['module_name'],
+                'log_name' => $log['log_name'],
+                'employee_id' => $log['employee_id'],
+                'employee_num' => $log['employee_num'],
+                'first_name' => $log['first_name'],
+                'last_name' => $log['last_name'],
+                'capture_date' => $log['capture_date'],
+                'service_name' => $log['service_name']
+            ]);
+        }
+    }
+
+    // return the list of unapproved logs of the supervisor
+    return $logs;
 }
 
 ?>

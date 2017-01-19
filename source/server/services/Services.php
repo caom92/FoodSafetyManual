@@ -435,6 +435,16 @@ fsm\Controller::$services = [
             ]
         ],
         'callback' => 'fsm\services\authorizations\assignEmployeesToSupervisors'
+    ],
+    'list-unapproved-logs' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor', 'Employee'],
+            'supervisor_id' => [
+                'type' => 'int'
+            ]
+        ],
+        'callback' => 
+            'fsm\services\authorizations\getUnapprovedLogsOfSupervisor'
     ]
 ];
 
