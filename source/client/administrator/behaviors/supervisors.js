@@ -104,6 +104,14 @@ function addSupervisorChangeForm(){
                 $("#supervisor_change_wrapper").append(select);
                 $("#supervisor_change_wrapper").append(label);
                 $("#change_button").append('<a id="change_supervisor" class="waves-effect waves-light btn change_supervisor" disabled></a>');
+                $("#change_supervisor").click(function(index){
+                    console.log("ID de supervisor nuevo");
+                    console.log($("#supervisor_change").val());
+                    $('input:checkbox:checked').each(function(checkedVal){
+                        console.log("ID de empleado");
+                        console.log($(this).val());
+                    });
+                });
                 changeLanguage(localStorage.defaultLanguage);
             } else {
                 throw response.meta.message;
@@ -128,12 +136,9 @@ function addSupervisorEmployeeList(supervisorID){
                     hideSigns();
                     $("#employee_table_wrapper").append(addSupervisedTable(response.data));
                     $("input[type='checkbox']").click(function(index){
-                        console.log($(this).val());
                         if($('input:checkbox:checked').length > 0){
-                            console.log("activar boton");
                             $("#change_supervisor").removeAttr('disabled');
                         } else {
-                            console.log("desactivar boton");
                             $("#change_supervisor").attr('disabled', true);
                         }
                     });
