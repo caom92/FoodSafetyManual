@@ -151,6 +151,8 @@ function getUnapprovedLogsOfSupervisor()
         foreach ($employeeLogs as $log) {
             array_push($supervisorLogs, [
                 'captured_log_id' => $log['captured_log_id'],
+                'status_id' => $log['status_id'],
+                'status_name' => $log['status_name'],
                 'program_name' => $log['program_name'],
                 'module_name' => $log['module_name'],
                 'log_name' => $log['log_name'],
@@ -165,7 +167,33 @@ function getUnapprovedLogsOfSupervisor()
     }
 
     // return the list of unapproved logs of the supervisor
-    return $logs;
+    return $supervisorLogs;
+}
+
+
+function getUnapprovedLogsOfEmployee()
+{
+    $capturedLogs = new db\CapturedLogsDAO();
+    
+    $employeeLogs = [];
+
+    $unapprovedLogs = 
+        $capturedLogs->selectUnapprovedLogsByUserID($_POST['employee_id']);
+
+    foreach ($unapprovedLogs as $log) {
+        array_push($employeeLogs, [
+            'captured_log_id' => $log['captured_log_id'],
+            'status_id' => $log['status_id'],
+            'status_name' => $log['status_name'],
+            'program_name' => $log['program_name'],
+            'module_name' => $log['module_name'],
+            'log_name' => $log['log_name'],
+            'capture_date' => $log['capture_date'],
+            'service_name' => $log['service_name']
+        ]);
+    }
+
+    return $employeeLogs;
 }
 
 ?>

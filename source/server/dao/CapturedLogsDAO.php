@@ -88,6 +88,8 @@ class CapturedLogsDAO extends DataAccessObject
         return parent::$dataBase->query(
             "SELECT 
                 t.id AS captured_log_id,
+                s.id AS status_id,
+                s.name AS status_name,
                 p.name AS program_name,
                 m.name AS module_name,
                 l.name AS log_name,
@@ -99,6 +101,9 @@ class CapturedLogsDAO extends DataAccessObject
                 l.name_suffix AS service_name
             FROM 
                 $this->table AS t
+            INNER JOIN
+                log_status AS s
+                    ON t.status_id = s.id
             INNER JOIN 
                 logs AS l
                     ON t.log_id = l.id
@@ -113,7 +118,10 @@ class CapturedLogsDAO extends DataAccessObject
                     ON t.user_id = u.id
             WHERE
                 t.user_id = $userID AND
-                t.is_approved = 0"
+                t.status_id != (
+                    SELECT id FROM log_status WHERE name = ".
+                    parent::$dataBase->quote('Approved')."
+                )"
         )->fetchAll();
     }
 }
