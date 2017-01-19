@@ -426,6 +426,15 @@ fsm\Controller::$services = [
             ]
         ],
         'callback' => 'fsm\services\authorizations\getEmployeesOfSupervisor'
+    ],
+    'assign-employees-to-supervisors' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator'],
+            'assignments' => [
+                'type' => 'array'
+            ]
+        ],
+        'callback' => 'fsm\services\authorizations\assignEmployeesToSupervisors'
     ]
 ];
 

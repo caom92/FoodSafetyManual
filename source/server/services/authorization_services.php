@@ -5,11 +5,13 @@
 namespace fsm\services\authorizations;
 
 // Import the required files
+require_once realpath(dirname(__FILE__).'/../data_validations.php');
 require_once realpath(dirname(__FILE__).'/../dao/UsersDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/SupervisorsEmployeesDAO.php');
 
-// Use the database namespace
+// Shorthands for the namespaces
 use fsm\database as db;
+use fsm\validations as val;
 
 
 // Returns a list of all the supervisors in the especified zone
@@ -43,6 +45,83 @@ function getEmployeesOfSupervisor()
     return $assignments->selectEmployeesBySupervisorID(
         $_POST['supervisor_id']
     );
+}
+
+
+// Assigns employees to their corresponding supervisors
+function assignEmployeesToSupervisors()
+{
+    // first, we need to check the input data
+    foreach ($_POST['assignments'] as $assignment) {
+        // check if the user sent the appropiate data
+        $isEmployeeIDValid = 
+            isset($assignment['employee_id'])
+            && array_key_exists('employee_id', $assignment);
+
+        $isSupervisorIDValid = 
+            isset($assignment['supervisor_id'])
+            && array_key_exists('supervisor_id', $assignment);
+
+        // if not, notify the user
+        if (!$isEmployeeIDValid || !$isSupervisorIDValid) {
+            throw new \Exception(
+                'Assignments array does not have the proper keys'
+            );
+        } else {
+            // if the user sent the data, check that it is of the proper type
+            $isSupervisorIDValid = val\isInteger($_POST['supervisor_id']);
+            $isEmployeeIDValid = val\isInteger($_POST['employee_id']);
+
+            // if not, notify the user
+            if (!$isEmployeeIDValid || !$isSupervisorIDValid) {
+                throw new \Exception(
+                    'A user ID is not an integer in one of the assignments'
+                );
+            }
+        }
+
+        // connect to the users table in the data base
+        $users = new db\UsersDAO();
+
+        // check if the supervisor has the proper role
+        $isSupervisorRole = 
+            $users->getRoleByID($assignment['supervisor_id']) == 'Supervisor';
+
+        // check if the employee has the proper role
+        $isEmployeeRole =
+            $users->getRoleByID($assignment['employee_id']) == 'Employee';
+
+        // if the users do not have the proper role, notify the user
+        if (!$isSupervisorRole || !$isEmployeeRole) {
+            throw new \Exception(
+                'The users do not have the proper roles for one of the '.
+                'assignments'
+            );
+        }
+
+        // check if the users share the same zone
+        $haveSameZone = 
+            $users->getZoneIDByID($assignment['supervisor_id']) ==
+            $users->getZoneIDByID($assignment['employee_id']);
+
+        // if the users are not in the same zone, notify the user
+        if (!$haveSameZone) {
+            throw new \Exception(
+                'The users do not share the same zone for one of the '.
+                'assignments'
+            );
+        }
+    }
+
+    // if the data is correct, connect to the data base
+    $assignments = new db\SupervisorsEmployeesDAO();
+
+    // insert each assignment
+    foreach ($_POST['assignments'] as $assignment) {
+        $assignments->insert($assignment);
+    }
+
+    return [];
 }
 
 ?>

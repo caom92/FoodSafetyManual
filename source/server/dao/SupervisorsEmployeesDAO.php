@@ -36,6 +36,17 @@ class SupervisorsEmployeesDAO extends DataAccessObject
             ]]
         );
     }
+
+
+    function insert($row)
+    {
+        return parent::$dataBase->query(
+            "INSERT INTO $this->table (supervisor_id, employee_id)
+            VALUES ({$row['supervisor_id']}, {$row['employee_id']})
+            ON DUPLICATE KEY UPDATE 
+            supervisor_id = {$row['supervisor_id']}"
+        );
+    }
 }
 
 ?>
