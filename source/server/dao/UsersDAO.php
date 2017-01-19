@@ -177,6 +177,30 @@ class UsersDAO extends DataAccessObject
         return (count($rows) > 0) ? $rows[0]['role_name'] : NULL;
     }
 
+
+    // Returns the name of the role of the user which has the especified 
+    // employee number
+    function getRoleByID($userID)
+    {
+        $rows = parent::select(
+            ['r.name(role_name)'], 
+            ["$this->table.id" => $userID],
+            ['[><]roles(r)' => ['role_id' => "id"]]
+        );
+        return (count($rows) > 0) ? $rows[0]['role_name'] : NULL;
+    }
+
+
+    // Returns the zone ID of the user with the especified ID
+    function getZoneIDByID($userID)
+    {
+        $rows = parent::get(
+            ['zone_id'], 
+            ['id' => $userID]
+        );
+        return (count($rows) > 0) ? $rows['zone_id'] : NULL;
+    }
+
     
     // Returns a list of all the users that are supervisors and belong to the
     // especified zone

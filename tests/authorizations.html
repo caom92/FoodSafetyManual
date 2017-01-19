@@ -12,6 +12,11 @@
         <div id='list-employees-of-supervisor'>
             <h1>List Employees Of Supervisor</h1>
             <pre class='output'></pre>
+        </div>
+        <div id='assign-employees-to-supervisors'>
+            <h1>Assign Employees</h1>
+            <pre class='output'></pre>
+        </div>
     </body>
     <script src="/espresso/external/jquery/dist/jquery.min.js"></script>
     <script src='/espresso/scripts/config.js'></script>
@@ -93,7 +98,50 @@
             });
         }
 
+        function assignEmployess()
+        {
+            $server.request({
+                service: 'assign-employees-to-supervisors',
+                data: {
+                    assignments: [
+                        {
+                            supervisor_id: 4,
+                            employee_id: 5
+                        },
+                        {
+                            supervisor_id: 3,
+                            employee_id: 6
+                        }
+                    ]
+                },
+                success: function(response) {
+                    $('#assign-employees-to-supervisors pre.output').append(
+                        JSON.stringify(response, null, 4)
+                    );
+                    logout();
+                }
+            })
+        }
+
+        function test3() {
+            $server.request({
+                service: 'login',
+                data: {
+                    username: 'administrador',
+                    password: 'password'
+                },
+                success: function(response) {
+                    if (response.meta.return_code == 0) {
+                        assignEmployess();
+                    } else {
+                        alert(response.meta.message);
+                    }
+                }
+            });
+        }
+
         test1();
         test2();
+        test3();
     </script>
 </html>
