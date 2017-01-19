@@ -105,14 +105,35 @@ function addSupervisorChangeForm(){
                 $("#supervisor_change_wrapper").append(label);
                 $("#change_button").append('<a id="change_supervisor" class="waves-effect waves-light btn change_supervisor" disabled></a>');
                 $("#change_supervisor").click(function(index){
+                    var employeeArray = new Array();
+                    var supervisorID = parseInt($("#supervisor_change").val());
                     console.log("ID de supervisor nuevo");
                     console.log($("#supervisor_change").val());
                     $('input:checkbox:checked').each(function(checkedVal){
-                        console.log("ID de empleado");
-                        console.log($(this).val());
+                        var employee = new Object();
+                        employee.employee_id = parseInt($(this).val());
+                        employee.supervisor_id = supervisorID;
+                        employeeArray.push(employee);
                     });
+                    assignEmployeesToSupervisor(employeeArray);
                 });
                 changeLanguage(localStorage.defaultLanguage);
+            } else {
+                throw response.meta.message;
+            }
+        }
+    });
+}
+
+function assignEmployeesToSupervisor(employeeArray){
+    var data = new Object();
+    data.assignments = employeeArray;
+    $server.request({
+        service: 'assign-employees-to-supervisors',
+        data: data,
+        success: function (response) {
+            if (response.meta.return_code == 0) {
+                loadToast("supervisor_changed", 2500, "rounded");
             } else {
                 throw response.meta.message;
             }
