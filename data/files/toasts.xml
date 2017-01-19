@@ -66,6 +66,11 @@
         <spanish>Los empleados han sido reasignados</spanish>
     </translation>
 
+    <translation id="duplicated_supervisor">
+        <english>You must select different supervisors reassign an employee</english>
+        <spanish>Debe escoger supervisores distintos para reasignar empleados</spanish>
+    </translation>
+
     <translation id="is-login-name-duplicated">
         <english>The username is already in use</english>
         <spanish>El nombre de usuario ya se encuentra registrado</spanish>
