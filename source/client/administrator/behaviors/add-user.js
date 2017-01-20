@@ -35,11 +35,12 @@ function hidePermissionForms(){
     $("#program_select_wrapper").html("");
     $("#program_select_wrapper").parent().hide();
     $("#program_collapsible").html("");
+    $("#supervisor_select_wrapper").html("");
     $("#program_collapsible").parent().hide();
     $("#log_select_wrapper").parent().hide();
 }
 
-function addZoneSelect() {
+function addZoneSelect(supervisorFlag) {
     var select = $("<select>");
     var label = $("<label>");
 
@@ -61,6 +62,16 @@ function addZoneSelect() {
                 $("#zone_select_wrapper").append(label);
                 $("#zone_select_wrapper").parent().show();
                 $("#privilege_header").show();
+                if(supervisorFlag === true){
+                    addSupervisorSelect(response.data[0].id);
+                    $("#zone_select").change(function(e) {
+                        console.log("Cambio de zona");
+                        if($("#user-role").val() == 5){
+                            $("#supervisor_select_wrapper").html("");
+                            addSupervisorSelect(parseInt($("#zone_select").val()));
+                        }
+                    });
+                }
                 changeLanguage(localStorage.defaultLanguage);
             } else {
                 throw response.meta.message;
@@ -92,6 +103,48 @@ function addProgramSelect(maxPrivilege) {
                 $("#program_select_wrapper").append(label);
                 $("#program_select_wrapper").parent().show();
                 $("#privilege_header").show();
+                changeLanguage(localStorage.defaultLanguage);
+            } else {
+                throw response.meta.message;
+            }
+        }
+    });
+}
+
+function addSupervisorSelect(zoneID){
+    var select = $("<select>");
+    var label = $("<label>");
+
+    select.attr("id", "supervisor_select");
+    label.addClass("select_supervisor");
+    label.attr("for", "supervisor_select");
+
+    var data = new Object();
+
+    data.zone_id = parseInt(zoneID);
+
+    $server.request({
+        service: 'list-supervisors-by-zone',
+        data: data,
+        success: function (response) {
+            if (response.meta.return_code == 0) {
+                if(response.data.length != 0){
+                    var emptyOption = $("<option>");
+                    emptyOption.addClass("select_supervisor");
+                    emptyOption.attr("disabled", true);
+                    emptyOption.attr("selected", true);
+                    select.append(emptyOption);
+                    for (var supervisor of response.data) {
+                        var option = $("<option>");
+                        option.attr("value", supervisor.id);
+                        option.append(supervisor.full_name);
+                        select.append(option);
+                    }
+                    $("#supervisor_select_wrapper").append(select);
+                    $("#supervisor_select_wrapper").append(label);
+                } else {
+                    $("#supervisor_select_wrapper").append($("<i class='mdi mdi-alert-octagon md-36 field-icon red-text'></i><h5 class='no_supervisors'></h5>"));
+                }
                 changeLanguage(localStorage.defaultLanguage);
             } else {
                 throw response.meta.message;
@@ -569,7 +622,7 @@ $(function (){
             addZoneSelect();
         }
         if($(this).val() == 5){
-            addZoneSelect();
+            addZoneSelect(true);
             addProgramSelect(3);
         }
     });
@@ -592,8 +645,6 @@ $(function (){
         var isLastNameValid = isRequiredTextAreaValid("#last-name", 3);
         var isPasswordValid = isRequiredTextAreaValid("#password", 6);
         var isPasswordCheckValid = isRequiredTextAreaValid("#check-password", 6);
-        /*var doPasswordsMatch = 
-            $('#password').val() == $('#check-password').val();*/
         var doPasswordsMatch = passwordMatch('#password', '#check-password');
 
         // Check for invalid conditions
@@ -616,24 +667,20 @@ $(function (){
             userObject.role_id = $("#user-role").val();
             userObject.login_name = $("#login-name").val();
             userObject.login_password = $("#password").val();
+            
+            if ($("#supervisor_select").val() != undefined) {
+                userObject.supervisor_id = $("#supervisor_select").val();
+            }
 
-            if (typeof $("#zone_select option:selected") != 'undefined') {
-                userObject.zone_id = 
-                    $("#zone_select option:selected").val();
+            if ($("#zone_select").val() != undefined) {
+                userObject.zone_id = $("#zone_select").val();
             }
 
             userObject.privileges = new Array();
 
             // Read the privilege list
             $(".privilege").each(function(e){
-                // var zone = $(this).data("zone");
-                // var module = $(this).data("module");
-                // var radioGroup = $(this).attr("id");
-                // var privilege = $('input[name=' + radioGroup + ']:checked').val();
                 var privilegeObject = new Object();
-                // privilegeObject.zone_id = zone;
-                // privilegeObject.module_id = module;
-                // privilegeObject.privilege_id = privilege;
                 var log = $(this).data("log");
                 var privilege = $('input[name=' + log + ']:checked').val();
                 privilegeObject.privilege_id = privilege;
@@ -645,27 +692,31 @@ $(function (){
 
             console.log(userObject);
 
-            // Send the user object to the server, requesting an user add
-            $server.request({
-                service: 'add-user',
-                data: userObject,
-                success: function(response) {
-                    if (response.meta.return_code == 0) {
-                        loadToast(
-                            'user_registered', 3500, 'rounded'
-                        );
-                        setTimeout(function() {
-                                window.location.href = $root + 'view-users'
-                            }, 
-                        2500);
-                    } else {
-                        checkDuplicate({employee_num: Number($("#user-id").val())}, "#user-id", "is-employee-num-duplicated");
-                        checkDuplicate({email: $("#email").val()}, "#email", "is-email-duplicated");
-                        checkDuplicate({login_name: $("#login-name").val()}, "#login-name", "is-login-name-duplicated");
-                        console.log('server says: ' + response.meta.message);
+            if (parseInt($("#user-role").val()) == 5 && $("#supervisor_select").val() != undefined) {
+                // Send the user object to the server, requesting an user add
+                $server.request({
+                    service: 'add-user',
+                    data: userObject,
+                    success: function(response) {
+                        if (response.meta.return_code == 0) {
+                            loadToast(
+                                'user_registered', 3500, 'rounded'
+                            );
+                            setTimeout(function() {
+                                    window.location.href = $root + 'view-users'
+                                }, 
+                            2500);
+                        } else {
+                            checkDuplicate({employee_num: Number($("#user-id").val())}, "#user-id", "is-employee-num-duplicated");
+                            checkDuplicate({email: $("#email").val()}, "#email", "is-email-duplicated");
+                            checkDuplicate({login_name: $("#login-name").val()}, "#login-name", "is-login-name-duplicated");
+                            console.log('server says: ' + response.meta.message);
+                        }
                     }
-                }
-            });
+                });
+            } else {
+                loadToast("no_supervisor_assigned", 2500, "rounded");
+            }
         }
 
         // With the inputs checked, we proceed to create the JSON user Object,

@@ -31,11 +31,12 @@ function hidePermissionForms(){
     $("#program_select_wrapper").html("");
     $("#program_select_wrapper").parent().hide();
     $("#program_collapsible").html("");
+    $("#supervisor_select_wrapper").html("");
     $("#program_collapsible").parent().hide();
     $("#log_select_wrapper").parent().hide();
 }
 
-function addZoneSelect() {
+function addZoneSelect(supervisorFlag, selectedOption) {
     var select = $("<select>");
     var label = $("<label>");
 
@@ -57,6 +58,17 @@ function addZoneSelect() {
                 $("#zone_select_wrapper").append(label);
                 $("#zone_select_wrapper").parent().show();
                 $("#privilege_header").show();
+                $("#zone_select").val(selectedOption);
+                if(supervisorFlag === true){
+                    addSupervisorSelect($("#zone_select").val(), $("#user-id").data("supervisor_id"));
+                    $("#zone_select").change(function(e) {
+                        console.log("Cambio de zona");
+                        if($("#user-role").val() == 5){
+                            $("#supervisor_select_wrapper").html("");
+                            addSupervisorSelect(parseInt($("#zone_select").val()), $("#user-id").data("supervisor_id"));
+                        }
+                    });
+                }
                 changeLanguage(localStorage.defaultLanguage);
             } else {
                 throw response.meta.message;
@@ -65,7 +77,7 @@ function addZoneSelect() {
     });
 }
 
-function addProgramSelect(maxPrivilege, employeeNum) {
+function addProgramSelect(maxPrivilege, employeeNum, selectedOption) {
     var select = $("<select>");
     var label = $("<label>");
 
@@ -92,6 +104,49 @@ function addProgramSelect(maxPrivilege, employeeNum) {
                 $("#program_select_wrapper").append(label);
                 $("#program_select_wrapper").parent().show();
                 $("#privilege_header").show();
+                changeLanguage(localStorage.defaultLanguage);
+            } else {
+                throw response.meta.message;
+            }
+        }
+    });
+}
+
+function addSupervisorSelect(zoneID, selectedOption){
+    var select = $("<select>");
+    var label = $("<label>");
+
+    select.attr("id", "supervisor_select");
+    label.addClass("select_supervisor");
+    label.attr("for", "supervisor_select");
+
+    var data = new Object();
+
+    data.zone_id = parseInt(zoneID);
+
+    $server.request({
+        service: 'list-supervisors-by-zone',
+        data: data,
+        success: function (response) {
+            if (response.meta.return_code == 0) {
+                if(response.data.length != 0){
+                    var emptyOption = $("<option>");
+                    emptyOption.addClass("select_supervisor");
+                    emptyOption.attr("disabled", true);
+                    emptyOption.attr("selected", true);
+                    select.append(emptyOption);
+                    for (var supervisor of response.data) {
+                        var option = $("<option>");
+                        option.attr("value", supervisor.id);
+                        option.append(supervisor.full_name);
+                        select.append(option);
+                    }
+                    $("#supervisor_select").val(selectedOption);
+                    $("#supervisor_select_wrapper").append(select);
+                    $("#supervisor_select_wrapper").append(label);
+                } else {
+                    $("#supervisor_select_wrapper").append($("<i class='mdi mdi-alert-octagon md-36 field-icon red-text'></i><h5 class='no_supervisors'></h5>"));
+                }
                 changeLanguage(localStorage.defaultLanguage);
             } else {
                 throw response.meta.message;
@@ -454,14 +509,14 @@ function roleSelect(selected) {
             var role = parseInt($("#user-role").val());
             hidePermissionForms();
             if(role == 3){
-                addZoneSelect();
+                addZoneSelect(false, $("#user-id").data("zone_id"));
                 addProgramSelect(2, parseInt($("#user-id").val()));
             }
             if(role == 4){
-                addZoneSelect();
+                addZoneSelect(false, $("#user-id").data("zone_id"));
             }
             if(role == 5){
-                addZoneSelect();
+                addZoneSelect(true, $("#user-id").data("zone_id"));
                 addProgramSelect(3, parseInt($("#user-id").val()));
             }
         }
@@ -693,6 +748,8 @@ function fillUserInformation(userID){
                 $("#login-name").val(user.login_name);
                 $("#user-id").val(user.employee_num);
                 $("#user-id").data("user_id", user.id);
+                $("#user-id").data("zone_id", user.zone_id);
+                $("#user-id").data("supervisor_id", user.supervisor_id);
                 $("#first-name").val(user.first_name);
                 $("#last-name").val(user.last_name);
                 $("label").addClass("active");
@@ -707,19 +764,6 @@ function fillUserInformation(userID){
         }
     });
     console.log("Entered");
-    /*$.ajax({
-        url: $root + '/user.json',
-        success: function(data) {
-            $("#login-name").val(data.login_name);
-            $("#user-id").val(data.employee_num);
-            $("#first-name").val(data.first_name);
-            $("#last-name").val(data.last_name);
-            $("#email").val(data.email);
-            $("label").addClass("active");
-            $(".user_role_label").removeClass("active");
-            roleSelect(data.role_id);
-        }
-    });*/
 }
 
 $(function (){
@@ -746,14 +790,14 @@ $(function (){
         });
         hidePermissionForms();
         if($(this).val() == 3){
-            addZoneSelect();
+            addZoneSelect(false, $("#user-id").data("zone_id"));
             addProgramSelect(2, parseInt($("#user-id").val()));
         }
         if($(this).val() == 4){
-            addZoneSelect();
+            addZoneSelect(false, $("#user-id").data("zone_id"));
         }
         if($(this).val() == 5){
-            addZoneSelect();
+            addZoneSelect(true, $("#user-id").data("zone_id"));
             addProgramSelect(3, parseInt($("#user-id").val()));
         }
     });
@@ -851,23 +895,6 @@ $(function (){
                         }
                     });
                 }
-                // $server.request({
-                //     service: 'add-user',
-                //     data: userObject,
-                //     success: function(response) {
-                //         if (response.meta.return_code == 0) {
-                //             Materialize.toast(
-                //                 'User resgistered successfully', 3500, 'rounded'
-                //             );
-                //             setTimeout(function() {
-                //                     window.location.href = '/espresso/view-users'
-                //                 }, 
-                //             2500);
-                //         } else {
-                //             console.log('server says: ' + response.meta.message);
-                //         }
-                //     }
-                // });
             //}
         //}
     });
