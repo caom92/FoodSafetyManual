@@ -455,6 +455,15 @@ fsm\Controller::$services = [
         ],
         'callback' => 
             'fsm\services\authorizations\getUnapprovedLogsOfEmployee'
+    ],
+    'get-supervisor-num-of-employees' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator'],
+            'supervisor_id' => [
+                'type' => 'int'
+            ]
+        ],
+        'callback' => 'fsm\services\authorizations\getNumEmployeesOfSupervisor'
     ]
 ];
 
