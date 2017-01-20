@@ -584,6 +584,15 @@ function editUserRole()
     $assignments = new db\SupervisorsEmployeesDAO();
     $roles = new db\RolesDAO();
 
+    // check if the user is already a supervisor so that we check the number of
+    // employees she has assigned
+    // $currentRole = $users->getRoleByID($_POST['user_id']);
+    // $isCurrentlySupervisor = $currentRole === 'Supervisor';
+
+    // if ($isCurrentlySupervisor) {
+    //     $assignments->getNumEmployeesBySupervisorID();
+    // }
+
     // check if the user will be assigned an employee role, and if that is the 
     // case, then that means that a supervisor ID must be provided so that the
     // user gets assigned to that supervisor
