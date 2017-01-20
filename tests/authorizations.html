@@ -29,6 +29,10 @@
             <h1>Count number of employees</h1>
             <pre class='output'></pre>
         </div>
+        <div id='edit-user-zone'>
+            <h1>Edit user zone</h1>
+            <pre class='output'></pre>
+        </div>
     </body>
     <script src="/espresso/external/jquery/dist/jquery.min.js"></script>
     <script src='/espresso/scripts/config.js'></script>
@@ -248,11 +252,45 @@
             });
         }
 
+        function editZone() {
+            $server.request({
+                service: 'edit-user-zone',
+                data: {
+                    user_id: 3,
+                    zone_id: 2
+                },
+                success: function(response) {
+                    $('#edit-user-zone pre.output').append(
+                        JSON.stringify(response, null, 4)
+                    );
+                    logout();
+                }
+            })
+        }
+
+        function test7() {
+            $server.request({
+                service: 'login',
+                data: {
+                    username: 'administrador',
+                    password: 'password'
+                },
+                success: function(response) {
+                    if (response.meta.return_code == 0) {
+                        editZone();
+                    } else {
+                        alert(response.meta.message);
+                    }
+                }
+            });
+        }
+
         test1();
         test2();
         test3();
         test4();
         test5();
-        test6();
+        //test6();
+        test7();
     </script>
 </html>

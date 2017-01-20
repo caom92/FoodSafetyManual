@@ -464,6 +464,18 @@ fsm\Controller::$services = [
             ]
         ],
         'callback' => 'fsm\services\authorizations\getNumEmployeesOfSupervisor'
+    ],
+    'edit-user-zone' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator'],
+            'user_id' => [
+                'type' => 'int'
+            ],
+            'zone_id' => [
+                'type' => 'int'
+            ]
+        ],
+        'callback' => 'fsm\services\account\editZoneOfUser'
     ]
 ];
 
