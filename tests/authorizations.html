@@ -25,6 +25,10 @@
             <h1>List Unnaproved Logs of Employee</h1>
             <pre class='output'></pre>
         </div>
+        <div id='get-supervisor-num-of-employees'>
+            <h1>Count number of employees</h1>
+            <pre class='output'></pre>
+        </div>
     </body>
     <script src="/espresso/external/jquery/dist/jquery.min.js"></script>
     <script src='/espresso/scripts/config.js'></script>
@@ -212,10 +216,43 @@
             });
         }
 
+        function getNumEmployees() {
+            $server.request({
+                service: 'get-supervisor-num-of-employees',
+                data: {
+                    supervisor_id: 3
+                },
+                success: function(response) {
+                    $('#get-supervisor-num-of-employees pre.output').append(
+                        JSON.stringify(response, null, 4)
+                    );
+                    logout();
+                }
+            })
+        }
+
+        function test6() {
+            $server.request({
+                service: 'login',
+                data: {
+                    username: 'administrador',
+                    password: 'password'
+                },
+                success: function(response) {
+                    if (response.meta.return_code == 0) {
+                        getNumEmployees();
+                    } else {
+                        alert(response.meta.message);
+                    }
+                }
+            });
+        }
+
         test1();
         test2();
         test3();
         test4();
         test5();
+        test6();
     </script>
 </html>

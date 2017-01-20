@@ -60,6 +60,13 @@ class SupervisorsEmployeesDAO extends DataAccessObject
             supervisor_id = {$row['supervisor_id']}"
         );
     }
+
+
+    // Returns the number of rows that comply to the especified where query
+    function count($where)
+    {
+        return parent::count($where);
+    }
 }
 
 ?>

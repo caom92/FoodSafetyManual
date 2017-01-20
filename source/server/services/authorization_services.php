@@ -171,15 +171,20 @@ function getUnapprovedLogsOfSupervisor()
 }
 
 
+// Returns a list of all the unapproved logs that an employee has
 function getUnapprovedLogsOfEmployee()
 {
+    // first, connect to the data base
     $capturedLogs = new db\CapturedLogsDAO();
     
+    // prepare the temporal storage for the final logs array
     $employeeLogs = [];
 
+    // retrieve from the database the unapproved logs
     $unapprovedLogs = 
         $capturedLogs->selectUnapprovedLogsByUserID($_POST['employee_id']);
 
+    // store each one of them in the final storage
     foreach ($unapprovedLogs as $log) {
         array_push($employeeLogs, [
             'captured_log_id' => $log['captured_log_id'],
@@ -193,7 +198,17 @@ function getUnapprovedLogsOfEmployee()
         ]);
     }
 
+    // return the resulting array
     return $employeeLogs;
+}
+
+
+// Returns the number of employees that the supervisor with the especified ID 
+// has assigned
+function getNumEmployeesOfSupervisor()
+{
+    $assignments = new db\SupervisorsEmployeesDAO();
+    return $assignments->count(['supervisor_id' => $_POST['supervisor_id']]);
 }
 
 ?>
