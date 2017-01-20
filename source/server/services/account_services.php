@@ -7,6 +7,7 @@ require_once realpath(dirname(__FILE__).'/../dao/ZonesDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/PrivilegesDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/RolesDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/UsersLogsPrivilegesDAO.php');
+require_once realpath(dirname(__FILE__).'/../dao/SupervisorsEmployeesDAO.php');
 require_once realpath(dirname(__FILE__).'/../data_validations.php');
 
 use fsm\database as db;
@@ -180,6 +181,7 @@ function addNewUserAccount()
     $users = new db\UsersDAO();
     $roles = new db\RolesDAO();
     $userPrivileges = new db\UsersLogsPrivilegesDAO();
+    $assignments = new db\SupervisorEmployeesDAO();
 
     // then, hash the password
     $hashedPassword = password_hash(
@@ -210,27 +212,115 @@ function addNewUserAccount()
         $isManager ||
         $isSupervisor ||
         $isEmployee;
-        
 
+    // check if the user role requires a supervisor to be specified
+    $isSupervisorRequired = $isEmployee;
+
+    // check if the user role requires privileges to be specified
+    $arePrivilegesRequired = $isSupervisor || $isEmployee;
+
+    // if a zone is required ...
     if ($isZoneRequired) {
-        // check if the zone ID was provided
-        if (val\isInteger($_POST['zone_id'])) {
-            // if it was, store it in the user data
-            $userData['zone_id'] = $_POST['zone_id'];
+        // check if the zone ID was sent by the user
+        $isZoneIDValid = 
+            isset($_POST['zone_id'])
+            && array_key_exists('zone_id', $_POST);
+        
+        // if it was ...
+        if ($isZoneIDValid) {
+            // check if the zone ID is a valid integer
+            if (val\isInteger($_POST['zone_id'])) {
+                // if it was, store it in the user data
+                $userData['zone_id'] = $_POST['zone_id'];
+            } else {
+                // if not, notiy the user
+                throw new \Exception('The Zone ID is not a valid integer.');
+            }
         } else {
-            // if not, notiy the user
-            throw new \Exception('The Zone ID was not provided.');
+            // if the zone ID was not provided, notify the user
+            throw new \Exception(
+                'The zone ID was not provided.'
+            );
         }
     } else {
         // if the role does not require a zone ID, set a default one
         $userData['zone_id'] = 1;
     }
 
-    // check if the user role requires privileges to be specified
-    $arePrivilegesRequired = $isSupervisor || $isEmployee;
-
     // insert the profile data to the data base 
     $userID = $users->insert($userData);
+
+    // if a supervisor is required ...
+    if ($isSupervisorRequired) {
+        // check that the supervisor ID was provided
+        $isSupervisorIDValid = 
+            isset($_POST['supervisor_id'])
+            && array_key_exists('supervisor_id', $_POST);
+
+        // if it was provided...
+        if ($isSupervisorIDValid) {
+            // check that it is a valid integer
+            if (val\isInteger($_POST['supervisor_id'])) {
+                // if the supervisor ID is valid, assert that the ID provided 
+                // corresponds to a supervisor and that both the 
+                // supervisor and the employee share the same zone
+
+                // get the supervisor's zone and role
+                $supervisorZone = 
+                    $users->getZoneIDByID($_POST['supervisor_id']);
+
+                $supervisorRole =
+                    $users->getRoleByID($_POST['supervisor_id']);
+
+                // check if the supervisor has the same zone as the employee
+                $haveSameZone = 
+                    $supervisorZone === $userData['zone_id'];
+
+                // check if the supervisor has a supervisor role
+                $hasSupervisorRole = 
+                    $supervisorRole === 'Supervisor';
+
+                // if the zone is not the same, notify the user
+                if (!$haveSameZone) {
+                    $users->deleteByID($userID);
+                    throw new \Exception(
+                        'The employee is in a different zone than the '.
+                        'supervisor'
+                    );
+                }
+
+                // if the supervisor does not have the proper role, notify the 
+                // user
+                if (!$hasSupervisorRole) {
+                    $users->deleteByID($userID);
+                    throw new \Exception(
+                        'The provided supervisor ID does not correspond to a '.
+                        'user with supervisor role'
+                    );
+                }
+
+                // if the supervisor ID is valid and can be assigned, do the 
+                // actual assignment
+                $assignments->insert([
+                    'supervisor_id' => $_POST['supervisor_id'],
+                    'employee_id' => $userID
+                ]);
+            } else {
+                // if it's not, notify the user
+                $users->deleteByID($userID);
+                throw new \Exception(
+                    'Supervisor ID is not a valid integer.'
+                );
+            }
+        } else {
+            // if the supervisor ID was not provided, notify the user
+            $users->deleteByID($userID);
+            throw new \Exception(
+                'Employees must be assigned to a supervisor; no supervisor ID '.
+                'was provided.'
+            );
+        }
+    }
 
     if ($arePrivilegesRequired) {
         // check that the data in the privileges array exists and is 
@@ -239,6 +329,7 @@ function addNewUserAccount()
             foreach ($_POST['privileges'] as $privilege) {
                 $isInteger = val\isInteger($privilege['log_id']);
                 if (!$isInteger) {
+                    $users->deleteByID($userID);
                     throw new \Exception(
                         'A log ID provided is not an integer'
                     );
@@ -246,6 +337,7 @@ function addNewUserAccount()
 
                 $isInteger = val\isInteger($privilege['privilege_id']);
                 if (!$isInteger) {
+                    $users->deleteByID($userID);
                     throw new \Exception(
                         'A privilege ID provided is not an integer'
                     );
@@ -253,6 +345,7 @@ function addNewUserAccount()
             }
         } else {
             // if it was not provided, throw an exception
+            $users->deleteByID($userID);
             throw new \Exception('privileges array was not provided.');
         }
 
@@ -309,7 +402,6 @@ function editPrivileges()
             $_POST['user_id'],
             $privilege['log_id']
         );
-        //echo var_dump($id);
 
         if (isset($id)) {
             $userPrivileges->updatePrivilegeByID(
@@ -483,7 +575,87 @@ function changeZoneOfDirector()
 // Changes the role of a user to another
 function editUserRole()
 {
+    // first, connect to the database
     $users = new db\UsersDAO();
+    $assignments = new db\SupervisorsEmployeesDAO();
+    $roles = new db\RolesDAO();
+
+    // check if the user will be assigned an employee role, and if that is the 
+    // case, then that means that a supervisor ID must be provided so that the
+    // user gets assigned to that supervisor
+    $roleName = $roles->getNameByID($_POST['role_id']);
+    $isSupervisorRequired = $roleName === 'Employee';
+    
+    // if a supervisor is required ...
+    if ($isSupervisorRequired) {
+        // check that the supervisor ID was provided
+        $isSupervisorIDValid = 
+            isset($_POST['supervisor_id'])
+            && array_key_exists('supervisor_id', $_POST);
+
+        // if it was provided...
+        if ($isSupervisorIDValid) {
+            // check that it is a valid integer
+            if (val\isInteger($_POST['supervisor_id'])) {
+                // if the supervisor ID is valid, assert that the ID provided 
+                // corresponds to a supervisor and that both the 
+                // supervisor and the employee share the same zone
+
+                // get the supervisor's zone and role
+                $supervisorZone = 
+                    $users->getZoneIDByID($_POST['supervisor_id']);
+
+                $supervisorRole =
+                    $users->getRoleByID($_POST['supervisor_id']);
+
+                // check if the supervisor has the same zone as the employee
+                $haveSameZone = 
+                    $supervisorZone === $userData['zone_id'];
+
+                // check if the supervisor has a supervisor role
+                $hasSupervisorRole = 
+                    $supervisorRole === 'Supervisor';
+
+                // if the zone is not the same, notify the user
+                if (!$haveSameZone) {
+                    throw new \Exception(
+                        'The employee is in a different zone than the '.
+                        'supervisor'
+                    );
+                }
+
+                // if the supervisor does not have the proper role, notify the 
+                // user
+                if (!$hasSupervisorRole) {
+                    throw new \Exception(
+                        'The provided supervisor ID does not correspond to a '.
+                        'user with supervisor role'
+                    );
+                }
+
+                // if the supervisor ID is valid and can be assigned, do the 
+                // actual assignment
+                $assignments->insert([
+                    'supervisor_id' => $_POST['supervisor_id'],
+                    'employee_id' => $userID
+                ]);
+            } else {
+                // if it's not, notify the user
+                $users->deleteByID($userID);
+                throw new \Exception(
+                    'Supervisor ID is not a valid integer.'
+                );
+            }
+        } else {
+            // if the supervisor ID was not provided, notify the user
+            throw new \Exception(
+                'Employees must be assigned to a supervisor; no supervisor ID '.
+                'was provided.'
+            );
+        }
+    }
+
+    // finally, change the user role
     $users->updateRoleByID($_POST['user_id'], $_POST['role_id']);
 }
 
