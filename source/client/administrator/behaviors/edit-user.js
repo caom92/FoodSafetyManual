@@ -36,6 +36,22 @@ function hidePermissionForms(){
     $("#log_select_wrapper").parent().hide();
 }
 
+function getUserNumberOfEmployees(userID){
+    var data = new Object();
+
+    data.supervisor_id = userID;
+
+    $server.request({
+        service: 'get-supervisor-num-of-employees',
+        data: data,
+        success: function(response){
+            if (response.meta.return_code == 0) {
+                console.log(response.data);
+            }
+        }
+    });
+}
+
 function addZoneSelect(supervisorFlag, selectedOption) {
     var select = $("<select>");
     var label = $("<label>");
