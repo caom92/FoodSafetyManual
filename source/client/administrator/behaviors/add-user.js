@@ -692,8 +692,10 @@ $(function (){
 
             console.log(userObject);
 
-            if (parseInt($("#user-role").val()) == 5 && $("#supervisor_select").val() != undefined) {
+            if (parseInt($("#user-role").val()) == 5 && $("#supervisor_select").val() == undefined) {
                 // Send the user object to the server, requesting an user add
+                loadToast("no_supervisor_assigned", 2500, "rounded");
+            } else {
                 $server.request({
                     service: 'add-user',
                     data: userObject,
@@ -714,8 +716,6 @@ $(function (){
                         }
                     }
                 });
-            } else {
-                loadToast("no_supervisor_assigned", 2500, "rounded");
             }
         }
 

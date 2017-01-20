@@ -181,7 +181,7 @@ function addNewUserAccount()
     $users = new db\UsersDAO();
     $roles = new db\RolesDAO();
     $userPrivileges = new db\UsersLogsPrivilegesDAO();
-    $assignments = new db\SupervisorEmployeesDAO();
+    $assignments = new db\SupervisorsEmployeesDAO();
 
     // then, hash the password
     $hashedPassword = password_hash(
@@ -198,6 +198,7 @@ function addNewUserAccount()
         'role_id' => $_POST['role_id'],
         'employee_num' => $_POST['employee_num'],
         'first_name' => $_POST['first_name'],
+        'last_name' => $_POST['last_name'],
         'login_name' => $_POST['login_name'],
         'login_password' => $hashedPassword
     ];
@@ -274,11 +275,11 @@ function addNewUserAccount()
 
                 // check if the supervisor has the same zone as the employee
                 $haveSameZone = 
-                    $supervisorZone === $userData['zone_id'];
+                    $supervisorZone == $userData['zone_id'];
 
                 // check if the supervisor has a supervisor role
                 $hasSupervisorRole = 
-                    $supervisorRole === 'Supervisor';
+                    $supervisorRole == 'Supervisor';
 
                 // if the zone is not the same, notify the user
                 if (!$haveSameZone) {
