@@ -112,14 +112,13 @@ function addSupervisorChangeForm(){
                         var supervisorID = parseInt($("#supervisor_change").val());
                         console.log("ID de supervisor nuevo");
                         console.log($("#supervisor_change").val());
-                        $('input:checkbox:checked').each(function(checkedVal){
+                        $('.employee_checkbox:checked').each(function(checkedVal){
                             var employee = new Object();
                             employee.employee_id = parseInt($(this).val());
                             employee.supervisor_id = supervisorID;
                             employeeArray.push(employee);
                         });
                         assignEmployeesToSupervisor(employeeArray);
-                        addSupervisorEmployeeList($("#supervisor_select").val());
                     }
                 });
                 changeLanguage(localStorage.defaultLanguage);
@@ -139,6 +138,7 @@ function assignEmployeesToSupervisor(employeeArray){
         success: function (response) {
             if (response.meta.return_code == 0) {
                 loadToast("supervisor_changed", 2500, "rounded");
+                addSupervisorEmployeeList($("#supervisor_select").val());
             } else {
                 throw response.meta.message;
             }
@@ -162,10 +162,24 @@ function addSupervisorEmployeeList(supervisorID){
                     hideSigns();
                     $("#employee_table_wrapper").append(addSupervisedTable(response.data));
                     $("input[type='checkbox']").click(function(index){
-                        if($('input:checkbox:checked').length > 0){
-                            $("#change_supervisor").removeAttr('disabled');
+                        if($(this).attr("id") != "check"){
+                            if($('input:checkbox:checked').length > 0){
+                                $("#change_supervisor").removeAttr('disabled');
+                            } else {
+                                $("#change_supervisor").attr('disabled', true);
+                            }
+                            $('#check').prop("checked", false);
                         } else {
-                            $("#change_supervisor").attr('disabled', true);
+                            if($('#check').prop("checked") == true){
+                                $('input:checkbox').prop("checked", true);
+                                $("#change_supervisor").removeAttr('disabled');
+                            } else {
+                                $('input:checkbox').prop("checked", false);
+                                $("#change_supervisor").attr('disabled', true);
+                            }
+                        }
+                        if($('input:checkbox:checked').length == $('input:checkbox').length -1){
+                            $('input:checkbox').prop("checked", true);
                         }
                     });
                     addSupervisorChangeForm();
@@ -196,7 +210,7 @@ function addSupervisedHeader(){
     var header = $("<thead>");
     var headerRow = $("<tr>");
 
-    headerRow.append($('<th data-field="box"></th>'));
+    headerRow.append($('<th data-field="box"><input type="checkbox" class="filled-in" id="check" /><label for="check"></label></th>'));
     headerRow.append($('<th data-field="user_id" class="employee_id"></th>'));
     headerRow.append($('<th data-field="username" class="username"></th>'));
     headerRow.append($('<th data-field="fullname" class="real_name"></th>'));
@@ -209,7 +223,7 @@ function addSupervisedHeader(){
 function addSupervisedRow(employee){
     var row = $("<tr>");
 
-    row.append($("<td class='box-column'>").html('<input type="checkbox" class="filled-in" id="check_' + employee.employee_num + '" value="' + employee.id + '" /> <label for="check_' + employee.employee_num + '"></label>'));
+    row.append($("<td class='box-column'>").html('<input type="checkbox" class="filled-in employee_checkbox" id="check_' + employee.employee_num + '" value="' + employee.id + '" /> <label for="check_' + employee.employee_num + '"></label>'));
     row.append($("<td class='id-column search-column'>").text(employee.employee_num));
     row.append($("<td class='login-column search-column'>").text(employee.login_name));
     row.append($("<td class='name-column search-column'>").text(employee.first_name + ' ' + employee.last_name));
