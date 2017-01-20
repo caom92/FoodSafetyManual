@@ -77,14 +77,34 @@ function addZoneSelect(supervisorFlag, selectedOption) {
                 $("#zone_select").val(selectedOption);
                 if(supervisorFlag === true){
                     addSupervisorSelect($("#zone_select").val(), $("#user-id").data("supervisor_id"));
-                    $("#zone_select").change(function(e) {
+                }
+                $("#zone_select").change(function(e) {
+                    if(localStorage.employeesOfSupervisor === "0") {
                         console.log("Cambio de zona");
+                        var data = new Object();
+                        data.user_id = parseInt($("#user-id").data("user_id"));
+                        data.zone_id = parseInt($(this).val());
+                        $server.request({
+                            service: 'edit-user-zone',
+                            data: data,
+                            success: function (index){
+                                if (response.meta.return_code == 0) {
+                                    Materialize.toast("La zona del usuario ha sido modificada", 2500, "rounded");
+                                }
+                            }
+                        });
                         if($("#user-role").val() == 5){
                             $("#supervisor_select_wrapper").html("");
                             addSupervisorSelect(parseInt($("#zone_select").val()), $("#user-id").data("supervisor_id"));
                         }
-                    });
-                }
+                    } else {
+                        console.log("No cambio de zona");
+                        $("#zone_select").val($("#user-id").data("zone_id"));
+                        $("select").material_select("destroy");
+                        $("select").material_select();
+                        Materialize.toast("El supervisor no puede cambiar su rol mientras tenga empleados asignados", 3500, "rounded");
+                    }                        
+                });
                 changeLanguage(localStorage.defaultLanguage);
             } else {
                 throw response.meta.message;
