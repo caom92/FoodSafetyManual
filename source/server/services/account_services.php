@@ -26,7 +26,9 @@ function getAllUsersAccountInfo()
 function getUserAccountInfo() 
 {
     $users = new db\UsersDAO();
+    $assignments = new db\SupervisorsEmployeesDAO();
     $userInfo = $users->getByIdentifier($_POST['employee_num']);
+    $supervisorID = $assignments->getSupervisorIDByUserID($userInfo['user_id']);
 
     return [
         'id' => $userInfo['user_id'],
@@ -37,7 +39,8 @@ function getUserAccountInfo()
         'employee_num' => $userInfo['employee_num'],
         'first_name' => $userInfo['first_name'],
         'last_name' => $userInfo['last_name'],
-        'login_name' => $userInfo['login_name']
+        'login_name' => $userInfo['login_name'],
+        'supervisor_id' => $supervisorID
     ];
 }
 
