@@ -623,4 +623,14 @@
         <english>Change</english>
         <spanish>Cambiar</spanish>
     </translation>
+
+    <translation id="authorization_list">
+        <english>Logs awaiting approval</english>
+        <spanish>Bitácoras en espera de revisión</spanish>
+    </translation>
+
+    <translation id="pending_list">
+        <english>Logs awaiting employee's corrections</english>
+        <spanish>Bitácoras en espera de correcciones del empleado</spanish>
+    </translation>
 </translations>

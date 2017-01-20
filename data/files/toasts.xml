@@ -71,6 +71,11 @@
         <spanish>Debe escoger supervisores distintos para reasignar empleados</spanish>
     </translation>
 
+    <translation id="no_supervisor_assigned">
+        <english>You must assign a supervisor to the employee</english>
+        <spanish>Debe asignar un supervisor al empleado</spanish>
+    </translation>
+
     <translation id="is-login-name-duplicated">
         <english>The username is already in use</english>
         <spanish>El nombre de usuario ya se encuentra registrado</spanish>
