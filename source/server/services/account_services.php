@@ -156,6 +156,26 @@ function editPassword()
 function toggleAccountActivation() 
 {
     $users = new db\UsersDAO();
+    $assignments = new db\SupervisorsEmployeesDAO();
+
+    // check if the user is already a supervisor so that we check the number of
+    // employees she has assigned
+    $currentRole = $users->getRoleByID($_POST['user_id']);
+    $isCurrentlySupervisor = $currentRole === 'Supervisor';
+
+    if ($isCurrentlySupervisor) {
+        // if the current role is supervisor, retrieve the number of employees 
+        // that she has assigned
+        $numEmployees = 
+            $assignments->getNumEmployeesBySupervisorID($_POST['user_id']);
+
+        // if she does, prevent the role change
+        $hasEmployeesAssigned = $numEmployees > 0;
+        if ($hasEmployeesAssigned) {
+            throw new \Exception('Supervisor has employees assigned.');
+        }
+    }
+
     $users->toggleActivationByID($_POST['user_id']);
     return [];
 }
@@ -586,12 +606,21 @@ function editUserRole()
 
     // check if the user is already a supervisor so that we check the number of
     // employees she has assigned
-    // $currentRole = $users->getRoleByID($_POST['user_id']);
-    // $isCurrentlySupervisor = $currentRole === 'Supervisor';
+    $currentRole = $users->getRoleByID($_POST['user_id']);
+    $isCurrentlySupervisor = $currentRole === 'Supervisor';
 
-    // if ($isCurrentlySupervisor) {
-    //     $assignments->getNumEmployeesBySupervisorID();
-    // }
+    if ($isCurrentlySupervisor) {
+        // if the current role is supervisor, retrieve the number of employees 
+        // that she has assigned
+        $numEmployees = 
+            $assignments->getNumEmployeesBySupervisorID();
+
+        // if she does, prevent the role change
+        $hasEmployeesAssigned = $numEmployees > 0;
+        if ($hasEmployeesAssigned) {
+            throw new \Exception('Supervisor has employees assigned.');
+        }
+    }
 
     // check if the user will be assigned an employee role, and if that is the 
     // case, then that means that a supervisor ID must be provided so that the
@@ -670,6 +699,35 @@ function editUserRole()
 
     // finally, change the user role
     $users->updateRoleByID($_POST['user_id'], $_POST['role_id']);
+}
+
+
+// Edits the zone of the especified user to the one provided
+function editZoneOfUser()
+{
+    // first, connect to the data base
+    $users = new db\UsersDAO();
+    $assignments = new db\SupervisorsEmployeesDAO();
+
+    // check if the user is already a supervisor so that we check the number of
+    // employees she has assigned
+    $currentRole = $users->getRoleByID($_POST['user_id']);
+    $isCurrentlySupervisor = $currentRole === 'Supervisor';
+
+    if ($isCurrentlySupervisor) {
+        // if the current role is supervisor, retrieve the number of employees 
+        // that she has assigned
+        $numEmployees = 
+            $assignments->getNumEmployeesBySupervisorID($_POST['user_id']);
+
+        // if she does, prevent the role change
+        $hasEmployeesAssigned = $numEmployees > 0;
+        if ($hasEmployeesAssigned) {
+            throw new \Exception('Supervisor has employees assigned.');
+        }
+    }
+
+    $users->updateZoneIDByID($_POST['user_id'], $_POST['zone_id']);
 }
 
 ?>

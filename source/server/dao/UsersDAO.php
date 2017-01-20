@@ -218,6 +218,17 @@ class UsersDAO extends DataAccessObject
             ]]
         );
     }
+
+
+    // Updates the zone ID of the user with the especified ID to the provided 
+    // zone ID
+    function updateZoneIDByID($userID, $zoneID)
+    {
+        return parent::update(
+            ['zone_id' => $zoneID],
+            ['id' => $userID]
+        );
+    }
 }
 
 ?>
