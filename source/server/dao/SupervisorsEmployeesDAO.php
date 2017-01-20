@@ -69,6 +69,8 @@ class SupervisorsEmployeesDAO extends DataAccessObject
     }
 
 
+    // Checks if there is an entry in the table with the especified supervisor 
+    // and employee IDs, returning true if this is the case or false otherwise
     function hasSupervisorAndEmployeeID($supervisorID, $employeeID)
     {
         return parent::has(['AND' => [

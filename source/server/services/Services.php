@@ -506,6 +506,16 @@ fsm\Controller::$services = [
             ]
         ],
         'callback' => 'fsm\services\authorizations\approveLog'
+    ],
+    'reject-log' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'captured_log_id' => [
+                'type' => 'int',
+                'min' => 1
+            ]
+        ],
+        'callback' => 'fsm\services\authorizations\rejectLog'
     ]
 ];
 

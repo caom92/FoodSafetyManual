@@ -153,6 +153,35 @@ class CapturedLogsDAO extends DataAccessObject
                     id = $logID"
         );
     }
+
+
+    // Updates the status of the log with the especified ID to 'Rejected'
+    function updateStatusToRejectedByID($logID)
+    {
+        return parent::$dataBase->query(
+            "UPDATE 
+                $this->table 
+                SET 
+                    status_id = (
+                        SELECT id FROM log_status WHERE name = ".
+                        parent::$dataBase->quote('Rejected')."
+                    )
+                WHERE 
+                    id = $logID"
+        );
+    }
+
+
+    // Returns the status name that the log with the especified ID has
+    function getStatusByID($logID)
+    {
+        $rows = parent::select(
+            ['s.name(status)'], 
+            ["$this->table.id" => $logID],
+            ['[><]log_status(s)' => ['status_id' => "id"]]
+        );
+        return (count($rows) > 0) ? $rows[0]['status'] : NULL;
+    }
 }
 
 ?>
