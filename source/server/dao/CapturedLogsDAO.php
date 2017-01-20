@@ -124,6 +124,35 @@ class CapturedLogsDAO extends DataAccessObject
                 )"
         )->fetchAll();
     }
+
+
+    // Returns the ID of the user that captured the log of the entry with the 
+    // especified user
+    function selectUserIDByID($logID)
+    {
+        $rows = parent::get(
+            ['user_id'], 
+            ['id' => $logID]
+        );
+        return (count($rows) > 0) ? $rows['user_id'] : NULL;
+    }
+
+
+    // Updates the status of the log with the especified ID to 'Approved'
+    function updateStatusToApprovedByID($logID)
+    {
+        return parent::$dataBase->query(
+            "UPDATE 
+                $this->table 
+                SET 
+                    status_id = (
+                        SELECT id FROM log_status WHERE name = ".
+                        parent::$dataBase->quote('Approved')."
+                    )
+                WHERE 
+                    id = $logID"
+        );
+    }
 }
 
 ?>

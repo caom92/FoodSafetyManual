@@ -133,7 +133,8 @@ fsm\Controller::$services = [
         'requirements_desc' => [
             'logged_in' => [ 'Administrator'],
             'user_id' => [
-                'type' => 'int'
+                'type' => 'int',
+                'min' => 1
             ]
         ],
         'callback' => 'fsm\services\account\toggleAccountActivation'
@@ -165,7 +166,8 @@ fsm\Controller::$services = [
                 'min_length' => 3
             ],
             'role_id' => [
-                'type' => 'int'
+                'type' => 'int',
+                'min' => 1
             ],
             'login_name' => [
                 'type' => 'string',
@@ -182,7 +184,8 @@ fsm\Controller::$services = [
         'requirements_desc' => [
             'logged_in' => ['Administrator'],
             'user_id' => [
-                'type' => 'int'
+                'type' => 'int',
+                'min' => 1
             ],
             'privileges' => [
                 'type' => 'array'
@@ -235,7 +238,8 @@ fsm\Controller::$services = [
         'requirements_desc' => [
             'logged_in' => [ 'Administrator' ],
             'program_id' => [
-                'type' => 'int'
+                'type' => 'int',
+                'min' => 1
             ]
         ],
         'callback' => 'fsm\services\program\getAllModulesOfProgram'
@@ -250,7 +254,8 @@ fsm\Controller::$services = [
         'requirements_desc' => [
             'logged_in' => ['Supervisor'],
             'area_id' => [
-                'type' => 'int'
+                'type' => 'int',
+                'min' => 1
             ]
         ],
         'callback' => 'fsm\services\inventory\getItemsOfWorkingArea'
@@ -265,7 +270,8 @@ fsm\Controller::$services = [
         'requirements_desc' => [
             'logged_in' => ['Supervisor'],
             'item_id' => [
-                'type' => 'int'
+                'type' => 'int',
+                'min' => 1
             ]
         ],
         'callback' => 'fsm\services\inventory\toggleActivationOfItem'
@@ -274,10 +280,12 @@ fsm\Controller::$services = [
         'requirements_desc' => [
             'logged_in' => ['Supervisor'],
             'area_id' => [
-                'type' => 'int'
+                'type' => 'int',
+                'min' => 1
             ],
             'type_id' => [
-                'type' => 'int'
+                'type' => 'int',
+                'min' => 1
             ],
             'name' => [
                 'type' => 'string',
@@ -302,7 +310,8 @@ fsm\Controller::$services = [
         'requirements_desc' => [
             'logged_in' => ['Supervisor'],
             'item_id' => [
-                'type' => 'int'
+                'type' => 'int',
+                'min' => 1
             ],
             'position' => [
                 'type' => 'int'
@@ -326,7 +335,8 @@ fsm\Controller::$services = [
                 'log' => 'Pre-Operational Inspection'
             ],
             'user_id' => [
-                'type' => 'int'
+                'type' => 'int',
+                'min' => 1
             ],
             'date' => [
                 'type' => 'datetime',
@@ -377,7 +387,8 @@ fsm\Controller::$services = [
         'requirements_desc' => [
             'logged_in' => ['Director'],
             'zone_id' => [
-                'type' => 'int'
+                'type' => 'int',
+                'min' => 1
             ]
         ],
         'callback' => 'fsm\services\account\changeZoneOfDirector'
@@ -401,10 +412,12 @@ fsm\Controller::$services = [
         'requirements_desc' => [
             'logged_in' => ['Administrator'],
             'user_id' => [
-                'type' => 'int'
+                'type' => 'int',
+                'min' => 1
             ],
             'role_id' => [
-                'type' => 'int'
+                'type' => 'int',
+                'min' => 1
             ]
         ],
         'callback' => 'fsm\services\account\editUserRole'
@@ -413,7 +426,8 @@ fsm\Controller::$services = [
         'requirements_desc' => [
             'logged_in' => ['Administrator'],
             'zone_id' => [
-                'type' => 'int'
+                'type' => 'int',
+                'min' => 1
             ]
         ],
         'callback' => 'fsm\services\authorizations\getSupervisorsOfZone'
@@ -422,7 +436,8 @@ fsm\Controller::$services = [
         'requirements_desc' => [
             'logged_in' => ['Administrator'],
             'supervisor_id' => [
-                'type' => 'int'
+                'type' => 'int',
+                'min' => 1
             ]
         ],
         'callback' => 'fsm\services\authorizations\getEmployeesOfSupervisor'
@@ -440,7 +455,8 @@ fsm\Controller::$services = [
         'requirements_desc' => [
             'logged_in' => ['Supervisor'],
             'supervisor_id' => [
-                'type' => 'int'
+                'type' => 'int',
+                'min' => 1
             ]
         ],
         'callback' => 
@@ -450,7 +466,8 @@ fsm\Controller::$services = [
         'requirements_desc' => [
             'logged_in' => ['Employee'],
             'employee_id' => [
-                'type' => 'int'
+                'type' => 'int',
+                'min' => 1
             ]
         ],
         'callback' => 
@@ -460,7 +477,8 @@ fsm\Controller::$services = [
         'requirements_desc' => [
             'logged_in' => ['Administrator'],
             'supervisor_id' => [
-                'type' => 'int'
+                'type' => 'int',
+                'min' => 1
             ]
         ],
         'callback' => 'fsm\services\authorizations\getNumEmployeesOfSupervisor'
@@ -469,13 +487,25 @@ fsm\Controller::$services = [
         'requirements_desc' => [
             'logged_in' => ['Administrator'],
             'user_id' => [
-                'type' => 'int'
+                'type' => 'int',
+                'min' => 1
             ],
             'zone_id' => [
-                'type' => 'int'
+                'type' => 'int',
+                'min' => 1
             ]
         ],
         'callback' => 'fsm\services\account\editZoneOfUser'
+    ],
+    'approve-log' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'captured_log_id' => [
+                'type' => 'int',
+                'min' => 1
+            ]
+        ],
+        'callback' => 'fsm\services\authorizations\approveLog'
     ]
 ];
 

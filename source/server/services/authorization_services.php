@@ -211,4 +211,31 @@ function getNumEmployeesOfSupervisor()
     return $assignments->getNumEmployeesOfSupervisor($_POST['supervisor_id']);
 }
 
+
+// Marks the status of the especified log as 'Approved'
+function approveLog()
+{
+    // first, connect to the data base
+    $capturedLogs = new db\CapturedLogsDAO();
+    $assignments = new db\SupervisorsEmployeesDAO();
+
+    // check if the user that captured the log is assigned to the supervisor
+    $employeeID = $capturedLogs->selectUserIDByID($_POST['captured_log_id']);
+    $hasEmployeeAssigned = 
+        $assignments->hasSupervisorAndEmployeeID($_SESSION['id'], $employeeID);
+    
+    // if the user is not assigned to the supervisor, prevent the update and
+    // notify the user
+    if (!$hasEmployeeAssigned) {
+        throw new \Exception(
+            'This supervisor is not allowed to authorize this log; the '.
+            'employee that captured the log is not assigned to her.'
+        );
+    }
+
+    // if the supervisor is authorized to approve this log, update the log 
+    // status
+    $capturedLogs->updateStatusToApprovedByID($_POST['captured_log_id']);
+}
+
 ?>
