@@ -141,9 +141,9 @@ function addSupervisorSelect(zoneID, selectedOption){
                         option.append(supervisor.full_name);
                         select.append(option);
                     }
-                    $("#supervisor_select").val(selectedOption);
                     $("#supervisor_select_wrapper").append(select);
                     $("#supervisor_select_wrapper").append(label);
+                    $("#supervisor_select").val($("#user-id").data("supervisor_id"));
                 } else {
                     $("#supervisor_select_wrapper").append($("<i class='mdi mdi-alert-octagon md-36 field-icon red-text'></i><h5 class='no_supervisors'></h5>"));
                 }

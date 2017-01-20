@@ -44,7 +44,7 @@ class SupervisorsEmployeesDAO extends DataAccessObject
     {
         $rows = parent::get(
             ['supervisor_id'], 
-            ['user_id' => $userID]
+            ['employee_id' => $userID]
         );
         return (count($rows) > 0) ? $rows['supervisor_id'] : NULL;
     }
