@@ -63,9 +63,9 @@ class SupervisorsEmployeesDAO extends DataAccessObject
 
 
     // Returns the number of rows that comply to the especified where query
-    function count($where)
+    function getNumEmployeesBySupervisorID($supervisorID)
     {
-        return parent::count($where);
+        return parent::count(['supervisor_id' => $supervisorID]);
     }
 }
 

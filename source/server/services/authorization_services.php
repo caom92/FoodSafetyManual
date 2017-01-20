@@ -208,7 +208,7 @@ function getUnapprovedLogsOfEmployee()
 function getNumEmployeesOfSupervisor()
 {
     $assignments = new db\SupervisorsEmployeesDAO();
-    return $assignments->count(['supervisor_id' => $_POST['supervisor_id']]);
+    return $assignments->getNumEmployeesOfSupervisor($_POST['supervisor_id']);
 }
 
 ?>
