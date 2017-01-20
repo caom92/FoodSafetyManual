@@ -38,6 +38,18 @@ class SupervisorsEmployeesDAO extends DataAccessObject
     }
 
 
+    // Returns the ID of the supervisor assigned to the user with the 
+    // especified user ID
+    function getSupervisorIDByUserID($userID)
+    {
+        $rows = parent::get(
+            ['supervisor_id'], 
+            ['user_id' => $userID]
+        );
+        return (count($rows) > 0) ? $rows['supervisor_id'] : NULL;
+    }
+
+
     // Inserts the especified data to the table in the database
     function insert($row)
     {
