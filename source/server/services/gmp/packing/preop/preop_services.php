@@ -11,7 +11,7 @@ require_once realpath(dirname(__FILE__).
 require_once realpath(dirname(__FILE__).
     '/../../../../dao/gmp/packing/preop/ItemsLogDAO.php');
 require_once realpath(dirname(__FILE__).
-    '/../../../../dao/LogCaptureDatesDAO.php');
+    '/../../../../dao/CapturedLogsDAO.php');
 require_once realpath(dirname(__FILE__).
     '/../../../../dao/LogsDAO.php');
 
@@ -113,7 +113,7 @@ function registerLogEntry()
     }
 
     // if all validations where passed, connect to the data base
-    $logDate = new db\LogCaptureDatesDAO();
+    $logDate = new db\CapturedLogsDAO();
     $areasLog = new preop\AreasLogDAO();
     $itemsLog = new preop\ItemsLogDAO();
     $logs = new db\LogsDAO();
@@ -178,7 +178,7 @@ function registerLogEntry()
 // presentation in a report
 function getReportData()
 {
-    $logDate = new db\LogCaptureDatesDAO();
+    $logDate = new db\CapturedLogsDAO();
     $areasLog = new preop\AreasLogDAO();
     $itemsLog = new preop\ItemsLogDAO();
     $logs = new db\LogsDAO();
@@ -300,7 +300,8 @@ function uploadManualFile()
 
             // and notify the user of the error
             throw new \Exception(
-                'The file '.$_FILES['manual_file']['name'].' could not be uploaded.'
+                'The file '.$_FILES['manual_file']['name'].' could not be '.
+                'uploaded.'
             );
         }
     } else {

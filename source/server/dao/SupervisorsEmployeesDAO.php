@@ -38,6 +38,7 @@ class SupervisorsEmployeesDAO extends DataAccessObject
     }
 
 
+    // Inserts the especified data to the table in the database
     function insert($row)
     {
         return parent::$dataBase->query(

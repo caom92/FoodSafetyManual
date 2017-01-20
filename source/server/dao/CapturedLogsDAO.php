@@ -6,14 +6,14 @@ namespace fsm\database;
 // Importing required classes
 require_once realpath(dirname(__FILE__)."/DataAccessObject.php");
 
-// Data Access Object for the log_capture_dates table
-class LogCaptureDatesDAO extends DataAccessObject
+// Data Access Object for the captured_logs table
+class CapturedLogsDAO extends DataAccessObject
 {
     // Creates an interface for interacting with the 
-    // log_capture_dates table in the specified data base
+    // captured_logs table in the specified data base
     function __construct()
     {
-        parent::__construct("log_capture_dates");
+        parent::__construct("captured_logs");
     }
 
 
@@ -47,13 +47,13 @@ class LogCaptureDatesDAO extends DataAccessObject
         return parent::select(
             [
                 "$this->table.id",
-                'date'
+                'capture_date(date)'
             ], 
             [
                 'AND' => [
                     'log_id' => $logID, 
-                    'date[>=]' => $startDate,
-                    'date[<=]' => $endDate,
+                    'capture_date[>=]' => $startDate,
+                    'capture_date[<=]' => $endDate,
                     'u.zone_id' => $zoneID
                 ]
             ],
@@ -74,11 +74,55 @@ class LogCaptureDatesDAO extends DataAccessObject
         return parent::has(
             [
                 'AND' => [
-                    'date' => $date,
+                    'capture_date' => $date,
                     'log_id' => $logID
                 ]
             ]
         );
+    }
+
+
+    // Returns a list of all the unapproved logs captured by the especified user
+    function selectUnapprovedLogsByUserID($userID)
+    {
+        return parent::$dataBase->query(
+            "SELECT 
+                t.id AS captured_log_id,
+                s.id AS status_id,
+                s.name AS status_name,
+                p.name AS program_name,
+                m.name AS module_name,
+                l.name AS log_name,
+                t.user_id AS employee_id,
+                u.employee_num AS employee_num,
+                u.first_name,
+                u.last_name,
+                t.capture_date AS capture_date,
+                l.name_suffix AS service_name
+            FROM 
+                $this->table AS t
+            INNER JOIN
+                log_status AS s
+                    ON t.status_id = s.id
+            INNER JOIN 
+                logs AS l
+                    ON t.log_id = l.id
+            INNER JOIN 
+                modules AS m
+                    ON l.module_id = m.id
+            INNER JOIN
+                programs AS p
+                    ON m.program_id = p.id
+            INNER JOIN
+                users AS u
+                    ON t.user_id = u.id
+            WHERE
+                t.user_id = $userID AND
+                t.status_id != (
+                    SELECT id FROM log_status WHERE name = ".
+                    parent::$dataBase->quote('Approved')."
+                )"
+        )->fetchAll();
     }
 }
 
