@@ -156,6 +156,26 @@ function editPassword()
 function toggleAccountActivation() 
 {
     $users = new db\UsersDAO();
+    $assignments = new db\SupervisorsEmployeesDAO();
+
+    // check if the user is already a supervisor so that we check the number of
+    // employees she has assigned
+    $currentRole = $users->getRoleByID($_POST['user_id']);
+    $isCurrentlySupervisor = $currentRole === 'Supervisor';
+
+    if ($isCurrentlySupervisor) {
+        // if the current role is supervisor, retrieve the number of employees 
+        // that she has assigned
+        $numEmployees = 
+            $assignments->getNumEmployeesBySupervisorID($_POST['user_id']);
+
+        // if she does, prevent the role change
+        $hasEmployeesAssigned = $numEmployees > 0;
+        if ($hasEmployeesAssigned) {
+            throw new \Exception('Supervisor has employees assigned.');
+        }
+    }
+
     $users->toggleActivationByID($_POST['user_id']);
     return [];
 }
