@@ -139,7 +139,18 @@ function getUnapprovedLogsOfSupervisor()
         $assignments->selectEmployeesBySupervisorID($_POST['supervisor_id']);
 
     // perpare the final storage where the unapproved logs will be stored
-    $supervisorLogs = [];
+    $supervisorLogs = [
+        'waiting' => [
+            'id' => 0,
+            'name' => 'Waiting',
+            'logs' => []
+        ],
+        'rejeted' => [
+            'id' => 0,
+            'name' => 'Rejected',
+            'logs' => []
+        ]
+    ];
 
     // for each employee assigned to the supervisor...
     foreach ($employees as $employee) {
@@ -149,20 +160,47 @@ function getUnapprovedLogsOfSupervisor()
         
         // push every unapproved log to the final storage
         foreach ($employeeLogs as $log) {
-            array_push($supervisorLogs, [
-                'captured_log_id' => $log['captured_log_id'],
-                'status_id' => $log['status_id'],
-                'status_name' => $log['status_name'],
-                'program_name' => $log['program_name'],
-                'module_name' => $log['module_name'],
-                'log_name' => $log['log_name'],
-                'employee_id' => $log['employee_id'],
-                'employee_num' => $log['employee_num'],
-                'first_name' => $log['first_name'],
-                'last_name' => $log['last_name'],
-                'capture_date' => $log['capture_date'],
-                'service_name' => $log['service_name']
-            ]);
+            // check if the status of the log is waiting
+            if ($log['status_name'] == 'Waiting') {
+                // if the status ID is not stored yet, store it
+                if ($supervisorLogs['waiting']['id'] == 0) {
+                    $supervisorLogs['waiting']['id'] = $log['status_id'];
+                }
+
+                // push the log to the waiting array
+                array_push($supervisorLogs['waiting']['logs'], [
+                    'captured_log_id' => $log['captured_log_id'],
+                    'program_name' => $log['program_name'],
+                    'module_name' => $log['module_name'],
+                    'log_name' => $log['log_name'],
+                    'employee_id' => $log['employee_id'],
+                    'employee_num' => $log['employee_num'],
+                    'first_name' => $log['first_name'],
+                    'last_name' => $log['last_name'],
+                    'capture_date' => $log['capture_date'],
+                    'service_name' => $log['service_name']
+                ]);
+            } else {
+                // if the status is Rejected, store the ID if it is not stored 
+                // yet
+                if ($supervisorLogs['rejected']['id'] == 0) {
+                    $supervisorLogs['rejected']['id'] = $log['status_id'];
+                }
+
+                // push the log to the rejected array
+                array_push($supervisorLogs['rejected']['logs'], [
+                    'captured_log_id' => $log['captured_log_id'],
+                    'program_name' => $log['program_name'],
+                    'module_name' => $log['module_name'],
+                    'log_name' => $log['log_name'],
+                    'employee_id' => $log['employee_id'],
+                    'employee_num' => $log['employee_num'],
+                    'first_name' => $log['first_name'],
+                    'last_name' => $log['last_name'],
+                    'capture_date' => $log['capture_date'],
+                    'service_name' => $log['service_name']
+                ]);
+            }
         }
     }
 
@@ -178,7 +216,18 @@ function getUnapprovedLogsOfEmployee()
     $capturedLogs = new db\CapturedLogsDAO();
     
     // prepare the temporal storage for the final logs array
-    $employeeLogs = [];
+    $employeeLogs = [
+        'waiting' => [
+            'id' => 0,
+            'name' => 'Waiting',
+            'logs' => []
+        ],
+        'rejeted' => [
+            'id' => 0,
+            'name' => 'Rejected',
+            'logs' => []
+        ]
+    ];
 
     // retrieve from the database the unapproved logs
     $unapprovedLogs = 
@@ -186,16 +235,39 @@ function getUnapprovedLogsOfEmployee()
 
     // store each one of them in the final storage
     foreach ($unapprovedLogs as $log) {
-        array_push($employeeLogs, [
-            'captured_log_id' => $log['captured_log_id'],
-            'status_id' => $log['status_id'],
-            'status_name' => $log['status_name'],
-            'program_name' => $log['program_name'],
-            'module_name' => $log['module_name'],
-            'log_name' => $log['log_name'],
-            'capture_date' => $log['capture_date'],
-            'service_name' => $log['service_name']
-        ]);
+        // check if the status of the log is waiting
+        if ($log['status_name'] == 'Waiting') {
+            // if the status ID is not stored yet, store it
+            if ($supervisorLogs['waiting']['id'] == 0) {
+                $supervisorLogs['waiting']['id'] = $log['status_id'];
+            }
+
+            // push the log to the waiting array
+            array_push($supervisorLogs['waiting']['logs'], [
+                'captured_log_id' => $log['captured_log_id'],
+                'program_name' => $log['program_name'],
+                'module_name' => $log['module_name'],
+                'log_name' => $log['log_name'],
+                'capture_date' => $log['capture_date'],
+                'service_name' => $log['service_name']
+            ]);
+        } else {
+            // if the status is Rejected, store the ID if it is not stored 
+            // yet
+            if ($supervisorLogs['rejected']['id'] == 0) {
+                $supervisorLogs['rejected']['id'] = $log['status_id'];
+            }
+
+            // push the log to the rejected array
+            array_push($supervisorLogs['rejected']['logs'], [
+                'captured_log_id' => $log['captured_log_id'],
+                'program_name' => $log['program_name'],
+                'module_name' => $log['module_name'],
+                'log_name' => $log['log_name'],
+                'capture_date' => $log['capture_date'],
+                'service_name' => $log['service_name']
+            ]);
+        }
     }
 
     // return the resulting array

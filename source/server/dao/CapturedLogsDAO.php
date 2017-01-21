@@ -121,7 +121,8 @@ class CapturedLogsDAO extends DataAccessObject
                 t.status_id != (
                     SELECT id FROM log_status WHERE name = ".
                     parent::$dataBase->quote('Approved')."
-                )"
+                )
+            ORDER BY t.status_id, t.capture_date"
         )->fetchAll();
     }
 
