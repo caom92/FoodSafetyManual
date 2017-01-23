@@ -14,6 +14,8 @@ require_once realpath(dirname(__FILE__).
     '/../../../../dao/CapturedLogsDAO.php');
 require_once realpath(dirname(__FILE__).
     '/../../../../dao/LogsDAO.php');
+require_once realpath(dirname(__FILE__).
+    '/../../../../dao/UsersDAO.php');
 
 use fsm\validations as val;
 use fsm\database\gmp\packing\preop as preop;
@@ -178,12 +180,13 @@ function registerLogEntry()
 // presentation in a report
 function getReportData()
 {
-    $logDate = new db\CapturedLogsDAO();
+    $capturedlogs = new db\CapturedLogsDAO();
     $areasLog = new preop\AreasLogDAO();
     $itemsLog = new preop\ItemsLogDAO();
     $logs = new db\LogsDAO();
+    $users = new db\UsersDAO();
 
-    $logDates = $logDate->selectDateAndIDByDateIntervalLogIDAndZoneID(
+    $logDates = $capturedLogs->selectByDateIntervalLogIDAndZoneID(
         $_POST['start_date'],
         $_POST['end_date'],
         $logs->getIDByNames(
@@ -246,12 +249,18 @@ function getReportData()
             array_push($areasLogEntries, $tempAreaLogEntry);
         }
 
+        $supervisor = $users->getNameByID($logDate['supervisor_id']);
+
         array_push($reports, [
             'created_by' =>
                 $_SESSION['first_name'].' '.$_SESSION['last_name'],
-            'approved_by' => 'God',
+            'approved_by' => (isset($supervisor)) ?
+                $supervisor['first_name'].' '.$supervisor['last_name'] :
+                'N/A',
             'creation_date' => $logDate['date'],
-            'approval_date' => '1985-10-26',
+            'approval_date' => (isset($logDate['approval_date'])) ?
+                $supervisor['approval_date'] :
+                'N/A',
             'zone_name' => $_SESSION['zone_name'],
             'program_name' => 'GMP',
             'module_name' => 'Packing',

@@ -229,6 +229,16 @@ class UsersDAO extends DataAccessObject
             ['id' => $userID]
         );
     }
+
+
+    // Returns the name of the user with the especified ID
+    function getNameByID($userID)
+    {
+        return parent::get(
+            ['first_name', 'last_name'],
+            ['id' => $userID]
+        );
+    }
 }
 
 ?>
