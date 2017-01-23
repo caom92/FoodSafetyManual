@@ -238,12 +238,12 @@ function getUnapprovedLogsOfEmployee()
         // check if the status of the log is waiting
         if ($log['status_name'] == 'Waiting') {
             // if the status ID is not stored yet, store it
-            if ($supervisorLogs['waiting']['id'] == 0) {
-                $supervisorLogs['waiting']['id'] = $log['status_id'];
+            if ($employeeLogs['waiting']['id'] == 0) {
+                $employeeLogs['waiting']['id'] = $log['status_id'];
             }
 
             // push the log to the waiting array
-            array_push($supervisorLogs['waiting']['logs'], [
+            array_push($employeeLogs['waiting']['logs'], [
                 'captured_log_id' => $log['captured_log_id'],
                 'program_name' => $log['program_name'],
                 'module_name' => $log['module_name'],
@@ -254,12 +254,12 @@ function getUnapprovedLogsOfEmployee()
         } else {
             // if the status is Rejected, store the ID if it is not stored 
             // yet
-            if ($supervisorLogs['rejected']['id'] == 0) {
-                $supervisorLogs['rejected']['id'] = $log['status_id'];
+            if ($employeeLogs['rejected']['id'] == 0) {
+                $employeeLogs['rejected']['id'] = $log['status_id'];
             }
 
             // push the log to the rejected array
-            array_push($supervisorLogs['rejected']['logs'], [
+            array_push($employeeLogs['rejected']['logs'], [
                 'captured_log_id' => $log['captured_log_id'],
                 'program_name' => $log['program_name'],
                 'module_name' => $log['module_name'],
