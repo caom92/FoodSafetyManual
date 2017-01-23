@@ -505,7 +505,8 @@ fsm\Controller::$services = [
                 'min' => 1
             ],
             'date' => [
-                'type' => 'datetime'
+                'type' => 'datetime',
+                'format' => 'Y-m-d'
             ]
         ],
         'callback' => 'fsm\services\authorizations\approveLog'

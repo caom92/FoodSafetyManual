@@ -148,8 +148,8 @@ class CapturedLogsDAO extends DataAccessObject
             "UPDATE 
                 $this->table 
                 SET 
-                    supervisor_id = {$_SESSION['id']}
-                    approval_date = ".parent::$dataBase->quote($date)."
+                    supervisor_id = {$_SESSION['user_id']},
+                    approval_date = ".parent::$dataBase->quote($date).",
                     status_id = (
                         SELECT id FROM log_status WHERE name = ".
                         parent::$dataBase->quote('Approved')."

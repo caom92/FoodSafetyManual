@@ -36,6 +36,22 @@ function hidePermissionForms(){
     $("#log_select_wrapper").parent().hide();
 }
 
+function getUserNumberOfEmployees(userID){
+    var data = new Object();
+
+    data.supervisor_id = userID;
+
+    $server.request({
+        service: 'get-supervisor-num-of-employees',
+        data: data,
+        success: function(response){
+            if (response.meta.return_code == 0) {
+                localStorage.employeesOfSupervisor = response.data;
+            }
+        }
+    });
+}
+
 function addZoneSelect(supervisorFlag, selectedOption) {
     var select = $("<select>");
     var label = $("<label>");
@@ -61,14 +77,34 @@ function addZoneSelect(supervisorFlag, selectedOption) {
                 $("#zone_select").val(selectedOption);
                 if(supervisorFlag === true){
                     addSupervisorSelect($("#zone_select").val(), $("#user-id").data("supervisor_id"));
-                    $("#zone_select").change(function(e) {
+                }
+                $("#zone_select").change(function(e) {
+                    if(localStorage.employeesOfSupervisor === "0") {
                         console.log("Cambio de zona");
+                        var data = new Object();
+                        data.user_id = parseInt($("#user-id").data("user_id"));
+                        data.zone_id = parseInt($(this).val());
+                        $server.request({
+                            service: 'edit-user-zone',
+                            data: data,
+                            success: function (index){
+                                if (response.meta.return_code == 0) {
+                                    Materialize.toast("La zona del usuario ha sido modificada", 2500, "rounded");
+                                }
+                            }
+                        });
                         if($("#user-role").val() == 5){
                             $("#supervisor_select_wrapper").html("");
                             addSupervisorSelect(parseInt($("#zone_select").val()), $("#user-id").data("supervisor_id"));
                         }
-                    });
-                }
+                    } else {
+                        console.log("No cambio de zona");
+                        $("#zone_select").val($("#user-id").data("zone_id"));
+                        $("select").material_select("destroy");
+                        $("select").material_select();
+                        Materialize.toast("El supervisor no puede cambiar su rol mientras tenga empleados asignados", 3500, "rounded");
+                    }                        
+                });
                 changeLanguage(localStorage.defaultLanguage);
             } else {
                 throw response.meta.message;
@@ -731,7 +767,7 @@ function getUserPrivileges(userID){
         service: 'get-privileges-of-employee',
         data: data,
         success: function(response, message, xhr) {
-            console.log(response);
+            localStorage.employeesNumSupervisor = response.data;
         }
     });
 }
@@ -755,6 +791,7 @@ function fillUserInformation(userID){
                 $("label").addClass("active");
                 $(".password").removeClass("active");
                 $(".user_role_label").removeClass("active");
+                getUserNumberOfEmployees(user.id);
                 roleSelect(user.role_name);
             } else {
                 // Considering a non valid userID was entered, we go back to
@@ -779,26 +816,33 @@ $(function (){
         var data = new Object();
         data.user_id = get.user_id;
         data.role_id = parseInt($("#user-role").val());
-        $server.request({
-            service: 'edit-user-role',
-            data: data,
-            success: function(response){
-                if (response.meta.return_code == 0){
-                    Materialize.toast("El rol del usuario ha sido modificado", 3500, "rounded");
+        if(localStorage.employeesOfSupervisor == "0"){
+            $server.request({
+                service: 'edit-user-role',
+                data: data,
+                success: function(response){
+                    if (response.meta.return_code == 0){
+                        Materialize.toast("El rol del usuario ha sido modificado", 3500, "rounded");
+                    }
                 }
+            });
+            hidePermissionForms();
+            if($(this).val() == 3){
+                addZoneSelect(false, $("#user-id").data("zone_id"));
+                addProgramSelect(2, parseInt($("#user-id").val()));
             }
-        });
-        hidePermissionForms();
-        if($(this).val() == 3){
-            addZoneSelect(false, $("#user-id").data("zone_id"));
-            addProgramSelect(2, parseInt($("#user-id").val()));
-        }
-        if($(this).val() == 4){
-            addZoneSelect(false, $("#user-id").data("zone_id"));
-        }
-        if($(this).val() == 5){
-            addZoneSelect(true, $("#user-id").data("zone_id"));
-            addProgramSelect(3, parseInt($("#user-id").val()));
+            if($(this).val() == 4){
+                addZoneSelect(false, $("#user-id").data("zone_id"));
+            }
+            if($(this).val() == 5){
+                addZoneSelect(true, $("#user-id").data("zone_id"));
+                addProgramSelect(3, parseInt($("#user-id").val()));
+            }
+        } else {
+            $("#user-role").val(3);
+            $("select").material_select("destroy");
+            $("select").material_select();
+            Materialize.toast("El supervisor no puede cambiar su rol mientras tenga empleados asignados", 3500, "rounded");
         }
     });
 

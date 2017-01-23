@@ -115,6 +115,10 @@
         <spanish>Supervisores</spanish>
     </translation>
 
+    <translation id="employee">
+        <english>Employee</english>
+        <spanish>Empleado</spanish>
+    </translation>
 
     <!--Interfaces-->
 
@@ -447,6 +451,16 @@
         <spanish>Aprobado por</spanish>
     </translation>
 
+    <translation id="approve">
+        <english>Approve</english>
+        <spanish>Aprobar</spanish>
+    </translation>
+
+    <translation id="reject">
+        <english>Reject</english>
+        <spanish>Rechazar</spanish>
+    </translation>
+
     <translation id="manage_inventory">
         <english>Manage Inventory</english>
         <spanish>Gestión de inventario</spanish>
@@ -632,5 +646,15 @@
     <translation id="pending_list">
         <english>Logs awaiting employee's corrections</english>
         <spanish>Bitácoras en espera de correcciones del empleado</spanish>
+    </translation>
+
+    <translation id="no_waiting_reports">
+        <english>You don't have logs pending your approval</english>
+        <spanish>No tiene bitácoras en espera de aprobación</spanish>
+    </translation>
+
+    <translation id="no_rejected_reports">
+        <english>You don't have logs pending corrections</english>
+        <spanish>No tiene bitácoras en espera de correcciones</spanish>
     </translation>
 </translations>

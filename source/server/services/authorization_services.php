@@ -145,7 +145,7 @@ function getUnapprovedLogsOfSupervisor()
             'name' => 'Waiting',
             'logs' => []
         ],
-        'rejeted' => [
+        'rejected' => [
             'id' => 0,
             'name' => 'Rejected',
             'logs' => []
@@ -294,7 +294,7 @@ function approveLog()
     // check if the user that captured the log is assigned to the supervisor
     $employeeID = $capturedLogs->selectUserIDByID($_POST['captured_log_id']);
     $hasEmployeeAssigned = 
-        $assignments->hasSupervisorAndEmployeeID($_SESSION['id'], $employeeID);
+        $assignments->hasSupervisorAndEmployeeID($_SESSION['user_id'], $employeeID);
     
     // if the user is not assigned to the supervisor, prevent the update and
     // notify the user
@@ -324,7 +324,7 @@ function rejectLog()
     // check if the user that captured the log is assigned to the supervisor
     $employeeID = $capturedLogs->selectUserIDByID($_POST['captured_log_id']);
     $hasEmployeeAssigned = 
-        $assignments->hasSupervisorAndEmployeeID($_SESSION['id'], $employeeID);
+        $assignments->hasSupervisorAndEmployeeID($_SESSION['user_id'], $employeeID);
     
     // if the user is not assigned to the supervisor, prevent the update and
     // notify the user
