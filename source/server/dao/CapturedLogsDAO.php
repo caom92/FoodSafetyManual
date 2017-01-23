@@ -37,7 +37,7 @@ class CapturedLogsDAO extends DataAccessObject
     // [in]     zoneID: the ID of the zone which the log we are looking 
     //          for had entries to
     // [out]    return: the ID of the log
-    function selectDateAndIDByDateIntervalLogIDAndZoneID(
+    function selectByDateIntervalLogIDAndZoneID(
         $startDate, 
         $endDate, 
         $logID, 
@@ -47,7 +47,9 @@ class CapturedLogsDAO extends DataAccessObject
         return parent::select(
             [
                 "$this->table.id",
-                'capture_date(date)'
+                'capture_date',
+                'approval_date',
+                'supervisor_id'
             ], 
             [
                 'AND' => [
@@ -59,8 +61,8 @@ class CapturedLogsDAO extends DataAccessObject
             ],
             [
                 '[><]users(u)' => [
-                    'user_id' => 'id'
-                ]
+                    'employee_id' => 'id'
+                ],
             ]
         );
     }
@@ -93,7 +95,7 @@ class CapturedLogsDAO extends DataAccessObject
                 p.name AS program_name,
                 m.name AS module_name,
                 l.name AS log_name,
-                t.user_id AS employee_id,
+                t.employee_id AS employee_id,
                 u.employee_num AS employee_num,
                 u.first_name,
                 u.last_name,
@@ -115,13 +117,14 @@ class CapturedLogsDAO extends DataAccessObject
                     ON m.program_id = p.id
             INNER JOIN
                 users AS u
-                    ON t.user_id = u.id
+                    ON t.employee_id = u.id
             WHERE
-                t.user_id = $userID AND
+                t.employee_id = $userID AND
                 t.status_id != (
                     SELECT id FROM log_status WHERE name = ".
                     parent::$dataBase->quote('Approved')."
-                )"
+                )
+            ORDER BY t.status_id, t.capture_date"
         )->fetchAll();
     }
 
@@ -131,20 +134,22 @@ class CapturedLogsDAO extends DataAccessObject
     function selectUserIDByID($logID)
     {
         $rows = parent::get(
-            ['user_id'], 
+            ['employee_id'], 
             ['id' => $logID]
         );
-        return (count($rows) > 0) ? $rows['user_id'] : NULL;
+        return (count($rows) > 0) ? $rows['employee_id'] : NULL;
     }
 
 
     // Updates the status of the log with the especified ID to 'Approved'
     function updateStatusToApprovedByID($logID)
     {
+        $now = date('Y-m-d');
         return parent::$dataBase->query(
             "UPDATE 
                 $this->table 
                 SET 
+                    approval_date = ".parent::$dataBase->quote($now)."
                     status_id = (
                         SELECT id FROM log_status WHERE name = ".
                         parent::$dataBase->quote('Approved')."
