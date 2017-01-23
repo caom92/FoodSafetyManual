@@ -67,6 +67,17 @@ class SupervisorsEmployeesDAO extends DataAccessObject
     {
         return parent::count(['supervisor_id' => $supervisorID]);
     }
+
+
+    // Checks if there is an entry in the table with the especified supervisor 
+    // and employee IDs, returning true if this is the case or false otherwise
+    function hasSupervisorAndEmployeeID($supervisorID, $employeeID)
+    {
+        return parent::has(['AND' => [
+            'supervisor_id' => $supervisorID,
+            'employee_id' => $employeeID
+        ]]);
+    }
 }
 
 ?>
