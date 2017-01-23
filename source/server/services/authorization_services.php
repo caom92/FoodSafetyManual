@@ -145,7 +145,7 @@ function getUnapprovedLogsOfSupervisor()
             'name' => 'Waiting',
             'logs' => []
         ],
-        'rejeted' => [
+        'rejected' => [
             'id' => 0,
             'name' => 'Rejected',
             'logs' => []

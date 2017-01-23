@@ -1,4 +1,4 @@
-function waitingReportCard(logName, employeeName, date){
+function waitingReportCard(report){
     var reportCard = $("<div>");
     var employeeInfoRow = $("<div>");
     var buttonRow = $("<div>");
@@ -7,7 +7,7 @@ function waitingReportCard(logName, employeeName, date){
     employeeInfoRow.addClass("row");
     buttonRow.addClass("row center-align");
 
-    employeeInfoRow.append(employeeInfo(logName, employeeName, date));
+    employeeInfoRow.append(employeeInfo(report.log_name, report.first_name + " " + report.last_name, report.capture_date));
     buttonRow.append(reportCardButton(null, null, null, null, "check-circle"));
     buttonRow.append(reportCardButton(null, null, null, null, "close-circle"));
     buttonRow.append(reportCardButton(null, null, null, null, "file"));
@@ -18,7 +18,7 @@ function waitingReportCard(logName, employeeName, date){
     return reportCard;
 }
 
-function rejectedReportCard(logName, employeeName, date){
+function rejectedReportCard(report){
     var reportCard = $("<div>");
     var employeeInfoRow = $("<div>");
     var buttonRow = $("<div>");
@@ -27,7 +27,7 @@ function rejectedReportCard(logName, employeeName, date){
     employeeInfoRow.addClass("row");
     buttonRow.addClass("row center-align");
 
-    employeeInfoRow.append(employeeInfo(logName, employeeName, date));
+    employeeInfoRow.append(employeeInfo(report.log_name, report.first_name + " " + report.last_name, report.capture_date));
     buttonRow.append(reportCardButton(null, null, "8", null, "file"));
 
     reportCard.append(employeeInfoRow);
@@ -86,6 +86,30 @@ function reportCardButton(id, buttonClass, offset, textClass, icon){
     return buttonWrapper;
 }
 
+function fillPendingAuthorizations(){
+    var data = new Object();
+    data.supervisor_id = parseInt(localStorage.user_id);
+
+    $server.request({
+        service: 'list-unapproved-logs-of-supervisor',
+        data: data,
+        success: function(response){
+            if(response.meta.return_code == 0){
+                console.log(response.data);
+                for(var waiting of response.data.waiting.logs){
+                    $("#waiting_reports").append(waitingReportCard(waiting));
+                }
+
+                for(var rejected of response.data.rejected.logs){
+                    $("#rejected_reports").append(rejectedReportCard(rejected));
+                }
+                changeLanguage(localStorage.defaultLanguage);
+            }
+        }
+    });
+}
+
 $(function (){
+    fillPendingAuthorizations();
     changeLanguage(localStorage.defaultLanguage);
 });
