@@ -145,4 +145,14 @@
         <english>The item was discharged</english>
         <spanish>El elemento fue dado de baja</spanish>
     </translation>
+
+    <translation id="approve_report">
+        <english>The log has been approved</english>
+        <spanish>La bitácora ha sido aprobada</spanish>
+    </translation>
+
+    <translation id="reject_report">
+        <english>The log has been sent to revision</english>
+        <spanish>La bitácora ha sido enviada a revisión</spanish>
+    </translation>
 </translations>

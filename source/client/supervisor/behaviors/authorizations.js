@@ -8,9 +8,23 @@ function waitingReportCard(report){
     buttonRow.addClass("row center-align");
 
     employeeInfoRow.append(employeeInfo(report.log_name, report.first_name + " " + report.last_name, report.capture_date));
-    buttonRow.append(reportCardButton(null, null, null, null, "check-circle"));
-    buttonRow.append(reportCardButton(null, null, null, null, "close-circle"));
-    buttonRow.append(reportCardButton(null, null, null, null, "file"));
+    var approveButton = reportCardButton(null, "green", null, null, "check-circle");
+    var rejectButton = reportCardButton(null, "red", null, null, "close-circle");
+    var reportButton = reportCardButton(null, "blue", null, null, "file");
+
+    approveButton.click(function(index){
+        approveReport(report.captured_log_id);
+        reportCard.remove();
+    });
+
+    rejectButton.click(function(index){
+        rejectReport(report.captured_log_id, report);
+        reportCard.remove();
+    });
+
+    buttonRow.append(approveButton);
+    buttonRow.append(rejectButton);
+    buttonRow.append(reportButton);
 
     reportCard.append(employeeInfoRow);
     reportCard.append(buttonRow);
@@ -71,7 +85,7 @@ function reportCardButton(id, buttonClass, offset, textClass, icon){
     var icon = $('<i class="mdi mdi-' + icon + ' mdi-20px"></i>');
 
     buttonWrapper.addClass("col s4 m4 l4");
-    buttonWrapper.addClass(buttonClass);
+    button.addClass(buttonClass);
     if(offset)
         buttonWrapper.addClass("offset-s" + offset +  " offset-m" + offset +  " offset-l" + offset);
 
@@ -103,13 +117,86 @@ function fillPendingAuthorizations(){
                 for(var rejected of response.data.rejected.logs){
                     $("#rejected_reports").append(rejectedReportCard(rejected));
                 }
+                updateSigns();
                 changeLanguage(localStorage.defaultLanguage);
             }
         }
     });
 }
 
+function getISODate(date){
+    var ISODate = "";
+
+    ISODate += date.getFullYear() + "-";
+
+    if((date.getMonth() + 1) < 9){
+        ISODate += "0" + (date.getMonth() + 1)+ "-";
+    } else {
+        ISODate += (date.getMonth() + 1) + "-";
+    }
+
+    if(date.getDate()<9){
+        ISODate += "0" + date.getDate();
+    } else {
+        ISODate += date.getDate();
+    }
+
+    return ISODate;
+}
+
+function approveReport(logID){
+    var data = new Object();
+
+    data.captured_log_id = logID;
+    data.date = getISODate(new Date());
+
+    console.log(data);
+
+    $server.request({
+        service: 'approve-log',
+        data: data,
+        success: function(response){
+            if(response.meta.return_code == 0){
+                loadToast("approve_report", 2500, "rounded");
+                updateSigns();
+            }
+        }
+    });
+}
+
+function rejectReport(logID, report){
+    var data = new Object();
+
+    data.captured_log_id = logID;
+
+    $server.request({
+        service: 'reject-log',
+        data: data,
+        success: function(response){
+            if(response.meta.return_code == 0){
+                loadToast("reject_report", 2500, "rounded");
+                $("#rejected_reports").append(rejectedReportCard(report));
+                updateSigns();
+                changeLanguage(localStorage.defaultLanguage);
+            }
+        }
+    });
+}
+
+function updateSigns(){
+    if($("#rejected_reports").children().length == 1){
+        $("#no_rejected_reports").show();
+    } else {
+        $("#no_rejected_reports").hide();
+    }
+
+    if($("#waiting_reports").children().length == 1){
+        $("#no_waiting_reports").show();
+    } else {
+        $("#no_waiting_reports").hide();
+    }
+}
+
 $(function (){
     fillPendingAuthorizations();
-    changeLanguage(localStorage.defaultLanguage);
 });

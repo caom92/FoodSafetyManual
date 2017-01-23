@@ -647,4 +647,14 @@
         <english>Logs awaiting employee's corrections</english>
         <spanish>Bitácoras en espera de correcciones del empleado</spanish>
     </translation>
+
+    <translation id="no_waiting_reports">
+        <english>You don't have logs pending your approval</english>
+        <spanish>No tiene bitácoras en espera de aprobación</spanish>
+    </translation>
+
+    <translation id="no_rejected_reports">
+        <english>You don't have logs pending corrections</english>
+        <spanish>No tiene bitácoras en espera de correcciones</spanish>
+    </translation>
 </translations>
