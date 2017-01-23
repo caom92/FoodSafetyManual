@@ -142,14 +142,14 @@ class CapturedLogsDAO extends DataAccessObject
 
 
     // Updates the status of the log with the especified ID to 'Approved'
-    function updateStatusToApprovedByID($logID)
+    function updateStatusToApprovedByID($logID, $date)
     {
-        $now = date('Y-m-d');
         return parent::$dataBase->query(
             "UPDATE 
                 $this->table 
                 SET 
-                    approval_date = ".parent::$dataBase->quote($now)."
+                    supervisor_id = {$_SESSION['id']}
+                    approval_date = ".parent::$dataBase->quote($date)."
                     status_id = (
                         SELECT id FROM log_status WHERE name = ".
                         parent::$dataBase->quote('Approved')."

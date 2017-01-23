@@ -307,7 +307,10 @@ function approveLog()
 
     // if the supervisor is authorized to approve this log, update the log 
     // status
-    $capturedLogs->updateStatusToApprovedByID($_POST['captured_log_id']);
+    $capturedLogs->updateStatusToApprovedByID(
+        $_POST['captured_log_id'],
+        $_POST['date']
+    );
 }
 
 
