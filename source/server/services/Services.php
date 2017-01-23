@@ -503,6 +503,9 @@ fsm\Controller::$services = [
             'captured_log_id' => [
                 'type' => 'int',
                 'min' => 1
+            ],
+            'date' => [
+                'type' => 'datetime'
             ]
         ],
         'callback' => 'fsm\services\authorizations\approveLog'
