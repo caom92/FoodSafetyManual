@@ -8,9 +8,9 @@ function waitingReportCard(logName, employeeName, date){
     buttonRow.addClass("row center-align");
 
     employeeInfoRow.append(employeeInfo(logName, employeeName, date));
-    buttonRow.append(reportCardButton(null, null, null, "approve", "check-circle"));
-    buttonRow.append(reportCardButton(null, null, null, "reject", "close-circle"));
-    buttonRow.append(reportCardButton(null, null, null, "open_report_button", "file"));
+    buttonRow.append(reportCardButton(null, null, null, null, "check-circle"));
+    buttonRow.append(reportCardButton(null, null, null, null, "close-circle"));
+    buttonRow.append(reportCardButton(null, null, null, null, "file"));
 
     reportCard.append(employeeInfoRow);
     reportCard.append(buttonRow);
@@ -28,7 +28,7 @@ function rejectedReportCard(logName, employeeName, date){
     buttonRow.addClass("row center-align");
 
     employeeInfoRow.append(employeeInfo(logName, employeeName, date));
-    buttonRow.append(reportCardButton(null, null, "8", "open_report_button", "file"));
+    buttonRow.append(reportCardButton(null, null, "8", null, "file"));
 
     reportCard.append(employeeInfoRow);
     reportCard.append(buttonRow);
