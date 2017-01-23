@@ -115,6 +115,10 @@
         <spanish>Supervisores</spanish>
     </translation>
 
+    <translation id="employee">
+        <english>Employee</english>
+        <spanish>Empleado</spanish>
+    </translation>
 
     <!--Interfaces-->
 
@@ -445,6 +449,16 @@
     <translation id="approved_by">
         <english>Approved by</english>
         <spanish>Aprobado por</spanish>
+    </translation>
+
+    <translation id="approve">
+        <english>Approve</english>
+        <spanish>Aprobar</spanish>
+    </translation>
+
+    <translation id="reject">
+        <english>Reject</english>
+        <spanish>Rechazar</spanish>
     </translation>
 
     <translation id="manage_inventory">
