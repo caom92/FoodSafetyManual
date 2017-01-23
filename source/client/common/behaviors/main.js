@@ -1,3 +1,8 @@
+function getNumPendingAuthorizations()
+{
+}
+
+
 function loadZoneSelectionMenu()
 {
     // if the user is a director, we need to display a zone 
@@ -108,6 +113,21 @@ function loadSideMenu()
             // if it is not, we must created
             localStorage.menu = '';
 
+            // check if the user is a supervisor or an employee
+            if (localStorage.role_name === 'Supervisor' 
+                || localStorage.role_name === 'Supervisor') {
+                localStorage.menu += `
+                    <li><a class="nav-link waves-effect waves-green" 
+                        href="authorizations">
+                    <i class="mdi mdi-comment-check md-dark md-24 field-icon">
+                    </i>
+                    <span class="auth">
+                    </span>
+                    <span class="green accent-4 new badge"></span>
+                    </a></li>
+                `;
+            }
+
             // first, we read the privilege JSON
             var privileges = JSON.parse(localStorage.privileges);
 
@@ -116,7 +136,6 @@ function loadSideMenu()
 
             if (hasPrivileges) {
                 if (localStorage.role_name === 'Supervisor') {
-                    console.log(privileges);
                     var isPrivilegeDefined = 
                         typeof privileges[localStorage.zone_name] !== 'undefined' &&
                         typeof privileges[localStorage.zone_name] !== 'undefined' &&
@@ -176,6 +195,7 @@ function loadSideMenu()
 
         // show the menu items 
         $('#actions-list').html(localStorage.menu);
+        getNumPendingAuthorizations();
         initMaterialize();
     }
 }
