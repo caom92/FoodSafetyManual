@@ -102,11 +102,9 @@ function reportCardButton(id, buttonClass, offset, textClass, icon){
 
 function fillPendingAuthorizations(){
     var data = new Object();
-    data.supervisor_id = parseInt(localStorage.user_id);
 
     $server.request({
-        service: 'list-unapproved-logs-of-supervisor',
-        data: data,
+        service: 'list-unapproved-logs-of-user',
         success: function(response){
             if(response.meta.return_code == 0){
                 console.log(response.data);

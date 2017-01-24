@@ -187,6 +187,27 @@ class CapturedLogsDAO extends DataAccessObject
         );
         return (count($rows) > 0) ? $rows[0]['status'] : NULL;
     }
+
+
+    // Returns the number of logs that are unapproved and registered to the user
+    // with the especified ID
+    function countUnapprovedLogsByUserID($userID)
+    {
+        $num = parent::$dataBase->query(
+            "SELECT 
+                COUNT(*)
+            FROM 
+                $this->table
+            WHERE
+                employee_id = $userID AND
+                status_id != (
+                    SELECT id FROM log_status WHERE name = ".
+                    parent::$dataBase->quote('Approved')."
+                )"
+        )->fetchAll();
+
+        return $num[0][0];
+    }
 }
 
 ?>

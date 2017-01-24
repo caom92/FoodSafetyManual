@@ -126,20 +126,15 @@ function assignEmployeesToSupervisors()
 }
 
 
-// Returns a list of all the unapproved logs that the supervisor with the 
-// especified ID has
-function getUnapprovedLogsOfSupervisor()
+// Returns a list of all the unapproved logs that a user has
+function getUnapprovedLogsOfUser()
 {
     // first, connect to the data base
     $capturedLogs = new db\CapturedLogsDAO();
     $assignments = new db\SupervisorsEmployeesDAO();
 
-    // then, get the list of employees that the supervisor has assigned
-    $employees = 
-        $assignments->selectEmployeesBySupervisorID($_POST['supervisor_id']);
-
-    // perpare the final storage where the unapproved logs will be stored
-    $supervisorLogs = [
+    // prepare the temporal storage for the final logs array
+    $userLogs = [
         'waiting' => [
             'id' => 0,
             'name' => 'Waiting',
@@ -152,51 +147,101 @@ function getUnapprovedLogsOfSupervisor()
         ]
     ];
 
-    // for each employee assigned to the supervisor...
-    foreach ($employees as $employee) {
-        // get the unapproved logs that where captured by the employee
-        $employeeLogs =    
-            $capturedLogs->selectUnapprovedLogsByUserID($employee['id']);
-        
-        // push every unapproved log to the final storage
-        foreach ($employeeLogs as $log) {
+    // check if the user is an administrator
+    if ($_SESSION['role_name'] === 'Supervisor') {
+        // then, get the list of employees that the supervisor has assigned
+        $employees = 
+            $assignments->selectEmployeesBySupervisorID($_SESSION['user_id']);
+
+        // for each employee assigned to the supervisor...
+        foreach ($employees as $employee) {
+            // get the unapproved logs that where captured by the employee
+            $employeeLogs =    
+                $capturedLogs->selectUnapprovedLogsByUserID($employee['id']);
+            
+            // push every unapproved log to the final storage
+            foreach ($employeeLogs as $log) {
+                // check if the status of the log is waiting
+                if ($log['status_name'] == 'Waiting') {
+                    // if the status ID is not stored yet, store it
+                    if ($userLogs['waiting']['id'] == 0) {
+                        $userLogs['waiting']['id'] = $log['status_id'];
+                    }
+
+                    // push the log to the waiting array
+                    array_push($userLogs['waiting']['logs'], [
+                        'captured_log_id' => $log['captured_log_id'],
+                        'program_name' => $log['program_name'],
+                        'module_name' => $log['module_name'],
+                        'log_name' => $log['log_name'],
+                        'employee_id' => $log['employee_id'],
+                        'employee_num' => $log['employee_num'],
+                        'first_name' => $log['first_name'],
+                        'last_name' => $log['last_name'],
+                        'capture_date' => $log['capture_date'],
+                        'service_name' => $log['service_name']
+                    ]);
+                } else {
+                    // if the status is Rejected, store the ID if it is not 
+                    // stored yet
+                    if ($userLogs['rejected']['id'] == 0) {
+                        $userLogs['rejected']['id'] = $log['status_id'];
+                    }
+
+                    // push the log to the rejected array
+                    array_push($userLogs['rejected']['logs'], [
+                        'captured_log_id' => $log['captured_log_id'],
+                        'program_name' => $log['program_name'],
+                        'module_name' => $log['module_name'],
+                        'log_name' => $log['log_name'],
+                        'employee_id' => $log['employee_id'],
+                        'employee_num' => $log['employee_num'],
+                        'first_name' => $log['first_name'],
+                        'last_name' => $log['last_name'],
+                        'capture_date' => $log['capture_date'],
+                        'service_name' => $log['service_name']
+                    ]);
+                }
+            }
+        }
+    } else {
+        // if the user is not a supervisor, it means it is an employee
+
+        // retrieve from the database the unapproved logs
+        $unapprovedLogs = 
+            $capturedLogs->selectUnapprovedLogsByUserID($_SESSION['user_id']);
+
+        // store each one of them in the final storage
+        foreach ($unapprovedLogs as $log) {
             // check if the status of the log is waiting
             if ($log['status_name'] == 'Waiting') {
                 // if the status ID is not stored yet, store it
-                if ($supervisorLogs['waiting']['id'] == 0) {
-                    $supervisorLogs['waiting']['id'] = $log['status_id'];
+                if ($userLogs['waiting']['id'] == 0) {
+                    $userLogs['waiting']['id'] = $log['status_id'];
                 }
 
                 // push the log to the waiting array
-                array_push($supervisorLogs['waiting']['logs'], [
+                array_push($userLogs['waiting']['logs'], [
                     'captured_log_id' => $log['captured_log_id'],
                     'program_name' => $log['program_name'],
                     'module_name' => $log['module_name'],
                     'log_name' => $log['log_name'],
-                    'employee_id' => $log['employee_id'],
-                    'employee_num' => $log['employee_num'],
-                    'first_name' => $log['first_name'],
-                    'last_name' => $log['last_name'],
                     'capture_date' => $log['capture_date'],
                     'service_name' => $log['service_name']
                 ]);
             } else {
                 // if the status is Rejected, store the ID if it is not stored 
                 // yet
-                if ($supervisorLogs['rejected']['id'] == 0) {
-                    $supervisorLogs['rejected']['id'] = $log['status_id'];
+                if ($userLogs['rejected']['id'] == 0) {
+                    $userLogs['rejected']['id'] = $log['status_id'];
                 }
 
                 // push the log to the rejected array
-                array_push($supervisorLogs['rejected']['logs'], [
+                array_push($userLogs['rejected']['logs'], [
                     'captured_log_id' => $log['captured_log_id'],
                     'program_name' => $log['program_name'],
                     'module_name' => $log['module_name'],
                     'log_name' => $log['log_name'],
-                    'employee_id' => $log['employee_id'],
-                    'employee_num' => $log['employee_num'],
-                    'first_name' => $log['first_name'],
-                    'last_name' => $log['last_name'],
                     'capture_date' => $log['capture_date'],
                     'service_name' => $log['service_name']
                 ]);
@@ -204,74 +249,8 @@ function getUnapprovedLogsOfSupervisor()
         }
     }
 
-    // return the list of unapproved logs of the supervisor
-    return $supervisorLogs;
-}
-
-
-// Returns a list of all the unapproved logs that an employee has
-function getUnapprovedLogsOfEmployee()
-{
-    // first, connect to the data base
-    $capturedLogs = new db\CapturedLogsDAO();
-    
-    // prepare the temporal storage for the final logs array
-    $employeeLogs = [
-        'waiting' => [
-            'id' => 0,
-            'name' => 'Waiting',
-            'logs' => []
-        ],
-        'rejeted' => [
-            'id' => 0,
-            'name' => 'Rejected',
-            'logs' => []
-        ]
-    ];
-
-    // retrieve from the database the unapproved logs
-    $unapprovedLogs = 
-        $capturedLogs->selectUnapprovedLogsByUserID($_POST['employee_id']);
-
-    // store each one of them in the final storage
-    foreach ($unapprovedLogs as $log) {
-        // check if the status of the log is waiting
-        if ($log['status_name'] == 'Waiting') {
-            // if the status ID is not stored yet, store it
-            if ($employeeLogs['waiting']['id'] == 0) {
-                $employeeLogs['waiting']['id'] = $log['status_id'];
-            }
-
-            // push the log to the waiting array
-            array_push($employeeLogs['waiting']['logs'], [
-                'captured_log_id' => $log['captured_log_id'],
-                'program_name' => $log['program_name'],
-                'module_name' => $log['module_name'],
-                'log_name' => $log['log_name'],
-                'capture_date' => $log['capture_date'],
-                'service_name' => $log['service_name']
-            ]);
-        } else {
-            // if the status is Rejected, store the ID if it is not stored 
-            // yet
-            if ($employeeLogs['rejected']['id'] == 0) {
-                $employeeLogs['rejected']['id'] = $log['status_id'];
-            }
-
-            // push the log to the rejected array
-            array_push($employeeLogs['rejected']['logs'], [
-                'captured_log_id' => $log['captured_log_id'],
-                'program_name' => $log['program_name'],
-                'module_name' => $log['module_name'],
-                'log_name' => $log['log_name'],
-                'capture_date' => $log['capture_date'],
-                'service_name' => $log['service_name']
-            ]);
-        }
-    }
-
-    // return the resulting array
-    return $employeeLogs;
+    // return the resulting array of logs to the user
+    return $userLogs;
 }
 
 
@@ -293,8 +272,10 @@ function approveLog()
 
     // check if the user that captured the log is assigned to the supervisor
     $employeeID = $capturedLogs->selectUserIDByID($_POST['captured_log_id']);
-    $hasEmployeeAssigned = 
-        $assignments->hasSupervisorAndEmployeeID($_SESSION['user_id'], $employeeID);
+    $hasEmployeeAssigned = $assignments->hasSupervisorAndEmployeeID(
+        $_SESSION['user_id'], 
+        $employeeID
+    );
     
     // if the user is not assigned to the supervisor, prevent the update and
     // notify the user
@@ -323,8 +304,10 @@ function rejectLog()
 
     // check if the user that captured the log is assigned to the supervisor
     $employeeID = $capturedLogs->selectUserIDByID($_POST['captured_log_id']);
-    $hasEmployeeAssigned = 
-        $assignments->hasSupervisorAndEmployeeID($_SESSION['user_id'], $employeeID);
+    $hasEmployeeAssigned = $assignments->hasSupervisorAndEmployeeID(
+        $_SESSION['user_id'], 
+        $employeeID
+    );
     
     // if the user is not assigned to the supervisor, prevent the update and
     // notify the user
@@ -348,6 +331,40 @@ function rejectLog()
     // if the supervisor is authorized to approve this log, update the log 
     // status
     $capturedLogs->updateStatusToRejectedByID($_POST['captured_log_id']);
+}
+
+
+// Returns the number of logs that the user has with pending authorization
+function countPendingLogs()
+{
+    // first, connect to the data base
+    $capturedLogs = new db\CapturedLogsDAO();
+    $assignments = new db\SupervisorsEmployeesDAO();
+
+    // temporal storage for the number of pending logs
+    $numPendingLogs = 0;
+
+    // check if the user is a supervisor
+    if ($_SESSION['role_name'] === 'Supervisor') {
+        // then, get the list of employees that the supervisor has assigned
+        $employees = 
+            $assignments->selectEmployeesBySupervisorID($_SESSION['user_id']);
+
+        // for each employee assigned to the supervisor...
+        foreach ($employees as $employee) {
+            $numPendingLogs += $capturedLogs->countUnapprovedLogsByUserID(
+                $employee['id']
+            );
+        }
+    } else {
+        // if the user is not a supervisor, it means she's an employee
+        $numPendingLogs += $capturedLogs->countUnapprovedLogsByUserID(
+            $employee['id']
+        );
+    }
+
+    // return the resulting number
+    return $numPendingLogs;
 }
 
 ?>

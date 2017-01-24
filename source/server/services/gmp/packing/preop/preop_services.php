@@ -180,7 +180,7 @@ function registerLogEntry()
 // presentation in a report
 function getReportData()
 {
-    $capturedlogs = new db\CapturedLogsDAO();
+    $capturedLogs = new db\CapturedLogsDAO();
     $areasLog = new preop\AreasLogDAO();
     $itemsLog = new preop\ItemsLogDAO();
     $logs = new db\LogsDAO();
@@ -254,10 +254,10 @@ function getReportData()
         array_push($reports, [
             'created_by' =>
                 $_SESSION['first_name'].' '.$_SESSION['last_name'],
-            'approved_by' => (isset($supervisor)) ?
+            'approved_by' => (isset($supervisorp['first_name'])) ?
                 $supervisor['first_name'].' '.$supervisor['last_name'] :
                 'N/A',
-            'creation_date' => $logDate['date'],
+            'creation_date' => $logDate['capture_date'],
             'approval_date' => (isset($logDate['approval_date'])) ?
                 $supervisor['approval_date'] :
                 'N/A',

@@ -451,27 +451,12 @@ fsm\Controller::$services = [
         ],
         'callback' => 'fsm\services\authorizations\assignEmployeesToSupervisors'
     ],
-    'list-unapproved-logs-of-supervisor' => [
+    'list-unapproved-logs-of-user' => [
         'requirements_desc' => [
-            'logged_in' => ['Supervisor'],
-            'supervisor_id' => [
-                'type' => 'int',
-                'min' => 1
-            ]
+            'logged_in' => ['Supervisor', 'Employee']
         ],
         'callback' => 
-            'fsm\services\authorizations\getUnapprovedLogsOfSupervisor'
-    ],
-    'list-unapproved-logs-of-employee' => [
-        'requirements_desc' => [
-            'logged_in' => ['Employee'],
-            'employee_id' => [
-                'type' => 'int',
-                'min' => 1
-            ]
-        ],
-        'callback' => 
-            'fsm\services\authorizations\getUnapprovedLogsOfEmployee'
+            'fsm\services\authorizations\getUnapprovedLogsOfUser'
     ],
     'get-supervisor-num-of-employees' => [
         'requirements_desc' => [
@@ -520,6 +505,12 @@ fsm\Controller::$services = [
             ]
         ],
         'callback' => 'fsm\services\authorizations\rejectLog'
+    ],
+    'get-num-pending-logs' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor', 'Employee']
+        ],
+        'callback' => 'fsm\services\authorizations\countPendingLogs'
     ]
 ];
 

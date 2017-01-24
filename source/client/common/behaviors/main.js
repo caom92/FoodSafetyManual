@@ -36,6 +36,22 @@ function loadZoneSelectionMenu()
 
                     // add the menu to the local session storage
                     localStorage.zoneSelectionMenu = zonesHTML;
+
+                    // add a callback for when the user changes 
+                    // zones
+                    console.log($('select#zone-selection'))
+                    $('select#zone-selection').on('change', 
+                        function(event) {
+                            // notify the server of the zone change
+                            $server.request({
+                                service: 'director-change-zones',
+                                data: {
+                                    zone_id: $(this).val()
+                                },
+                                success: successCallback
+                            })
+                        }
+                    );
                 } else {
                     // if the server responded with error, notify 
                     // the user with a message
@@ -76,21 +92,6 @@ function loadZoneSelectionMenu()
             );
         }
     };
-
-    // add a callback for when the user changes 
-    // zones
-    $('select#zone-selection').on('change', 
-        function(event) {
-            // notify the server of the zone change
-            $server.request({
-                service: 'director-change-zones',
-                data: {
-                    zone_id: $(this).val()
-                },
-                success: successCallback
-            })
-        }
-    );
 }
 
 

@@ -33,6 +33,10 @@
             <h1>Edit user zone</h1>
             <pre class='output'></pre>
         </div>
+        <div id='get-num-pending-logs'>
+            <h1>Num Pending Logs</h1>
+            <pre class='output'></pre>
+        </div>
     </body>
     <script src="/espresso/external/jquery/dist/jquery.min.js"></script>
     <script src='/espresso/scripts/config.js'></script>
@@ -285,12 +289,42 @@
             });
         }
 
+        function getNumPending() {
+            $server.request({
+                service: 'get-num-pending-logs',
+                success: function(response) {
+                    $('#get-num-pending-logs pre.output').append(
+                        JSON.stringify(response, null, 4)
+                    );
+                    logout();
+                }
+            })
+        }
+
+        function test8() {
+            $server.request({
+                service: 'login',
+                data: {
+                    username: 'supervisor1',
+                    password: 'password'
+                },
+                success: function(response) {
+                    if (response.meta.return_code == 0) {
+                        getNumPending();
+                    } else {
+                        alert(response.meta.message);
+                    }
+                }
+            });
+        }
+
         test1();
         test2();
         test3();
-        test4();
-        test5();
+        //test4();
+        //test5();
         test6();
         test7();
+        test8();
     </script>
 </html>
