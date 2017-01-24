@@ -48,6 +48,7 @@ class CapturedLogsDAO extends DataAccessObject
             [
                 "$this->table.id",
                 'capture_date',
+                'employee_id',
                 'approval_date',
                 'supervisor_id'
             ], 

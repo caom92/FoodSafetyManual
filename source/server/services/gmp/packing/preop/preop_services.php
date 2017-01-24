@@ -250,16 +250,17 @@ function getReportData()
         }
 
         $supervisor = $users->getNameByID($logDate['supervisor_id']);
+        $employee = $users->getNameByID($logDate['employee_id']);
 
         array_push($reports, [
-            'created_by' =>
-                $_SESSION['first_name'].' '.$_SESSION['last_name'],
-            'approved_by' => (isset($supervisorp['first_name'])) ?
+            'created_by' => 
+                $employee['first_name'].' '.$employee['last_name'],
+            'approved_by' => (isset($supervisor['first_name'])) ?
                 $supervisor['first_name'].' '.$supervisor['last_name'] :
                 'N/A',
             'creation_date' => $logDate['capture_date'],
             'approval_date' => (isset($logDate['approval_date'])) ?
-                $supervisor['approval_date'] :
+                $logDate['approval_date'] :
                 'N/A',
             'zone_name' => $_SESSION['zone_name'],
             'program_name' => 'GMP',
