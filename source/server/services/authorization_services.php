@@ -359,7 +359,7 @@ function countPendingLogs()
     } else {
         // if the user is not a supervisor, it means she's an employee
         $numPendingLogs += $capturedLogs->countUnapprovedLogsByUserID(
-            $employee['id']
+            $_SESSION['user_id']
         );
     }
 
