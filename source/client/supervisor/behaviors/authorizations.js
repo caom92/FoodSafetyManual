@@ -157,6 +157,7 @@ function approveReport(logID){
             if(response.meta.return_code == 0){
                 loadToast("approve_report", 2500, "rounded");
                 updateSigns();
+                getNumPendingAuthorizations();
             }
         }
     });

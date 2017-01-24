@@ -155,4 +155,9 @@
         <english>The log has been sent to revision</english>
         <spanish>La bitácora ha sido enviada a revisión</spanish>
     </translation>
+
+    <translation id="pending_alert">
+        <english> new pending authorizations</english>
+        <spanish> nuevas autorizaciones pendientes</spanish>
+    </translation>
 </translations>

@@ -677,8 +677,13 @@ function sendSSOPReport(){
             if (response.meta.return_code == 0) {
                 Materialize.toast("Reporte enviado con exito", 3000, "rounded");
             } else {
-                Materialize.toast("Reporte no enviado, verifique la red", 3000, "rounded");
-                throw response.meta.message;
+                Materialize.toast(
+                    response.meta.message,
+                    //"Reporte no enviado, verifique la red", 
+                    3000, 
+                    "rounded"
+                );
+                //throw response.meta.message;
             }
         }
     });
