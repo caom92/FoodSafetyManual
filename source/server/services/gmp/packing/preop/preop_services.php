@@ -114,7 +114,7 @@ function registerLogEntry()
         }
     }
 
-    // if all validations where passed, connect to the data base
+    // if all validations passed, connect to the data base
     $logDate = new db\CapturedLogsDAO();
     $areasLog = new preop\AreasLogDAO();
     $itemsLog = new preop\ItemsLogDAO();
@@ -134,9 +134,9 @@ function registerLogEntry()
 
     // insert the capture date and the ID of the reportee user
     $logID = $logDate->insert([
-        'user_id' => $_SESSION['user_id'],
+        'employee_id' => $_SESSION['user_id'],
         'log_id' => $logID,
-        'date' => $_POST['date']
+        'capture_date' => $_POST['date']
     ]);
 
     // create a temporal storage for the many entries to be inserted in
@@ -159,7 +159,7 @@ function registerLogEntry()
             array_push($itemsLogEntries, [
                 'area_log_id' => $areaID,
                 'item_id' => $itemsLogEntry['item_id'],
-                'is_acceptable' => $itemsLogEntry['is_acceptable'],
+                'is_acceptable' => $itemsLogEntry['is_acceptable'] === 'true',
                 'corrective_action_id' =>
                     $itemsLogEntry['corrective_action_id'],
                 'comment' => $itemsLogEntry['comment']
@@ -226,7 +226,6 @@ function getReportData()
 
             foreach ($items as $item) {
                 $hasTypeChanged = $tempItems['id'] != $item['type_id'];
-
                 if (!$hasTypeChanged) {
                     array_push($tempItems['items'], [
                         'item_order' => $item['position'],
