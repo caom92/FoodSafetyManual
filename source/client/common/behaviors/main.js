@@ -173,10 +173,11 @@ function loadSideMenu()
 
             // check if the user is a supervisor or an employee
             if (localStorage.role_name === 'Supervisor' 
-                || localStorage.role_name === 'Supervisor') {
+                || localStorage.role_name === 'Employee') {
                 localStorage.menu += `
                     <li><a class="nav-link waves-effect waves-green" 
-                        href="authorizations">
+                        href="${(localStorage.role_name === 'Supervisor')?
+                        'authorizations' : '#!'}">
                     <i class="mdi mdi-comment-check md-dark md-24 field-icon">
                     </i>
                     <span class="auth">
