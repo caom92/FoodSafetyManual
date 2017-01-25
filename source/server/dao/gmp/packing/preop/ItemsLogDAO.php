@@ -39,6 +39,7 @@ class ItemsLogDAO extends db\DataAccessObject
                 'a.id(area_id)',
                 'a.name(area_name)',
                 'i.position', 
+                'i.id(item_id)',
                 'i.name(item_name)',
                 'i.type_id(type_id)',
                 'it.name(type_name)',

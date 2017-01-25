@@ -228,6 +228,7 @@ function getReportData()
                 $hasTypeChanged = $tempItems['id'] != $item['type_id'];
                 if (!$hasTypeChanged) {
                     array_push($tempItems['items'], [
+                        'id' => $item['item_id'],
                         'item_order' => $item['position'],
                         'item_name' => $item['item_name'],
                         'item_status' => $item['is_acceptable'],
