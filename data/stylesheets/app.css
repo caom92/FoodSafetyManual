@@ -185,3 +185,8 @@ ul#form-wrappers div.collapsible-body {
 li#zone-menu {
     padding-top: 10px;
 }
+
+/* Override bottom margin for compact layouts */
+.no-margin-bottom{
+    margin-bottom: 0px !important;
+}
