@@ -10,16 +10,34 @@ function waitingReportCard(report){
     employeeInfoRow.append(employeeInfo(report.log_name, report.first_name + " " + report.last_name, report.capture_date));
     var approveButton = reportCardButton(null, "green", null, null, "check-circle");
     var rejectButton = reportCardButton(null, "red", null, null, "close-circle");
-    var reportButton = reportCardButton(null, "blue", null, null, "file");
+    var reportButton = reportCardButton(null, "blue", null, null, "file", {"service_name":report.service_name});
 
-    approveButton.click(function(index){
+    approveButton.children("a").click(function(index){
         approveReport(report.captured_log_id);
         reportCard.remove();
     });
 
-    rejectButton.click(function(index){
+    rejectButton.children("a").click(function(index){
         rejectReport(report.captured_log_id, report);
         reportCard.remove();
+    });
+
+    reportButton.children("a").click(function(index) {
+        console.log("source/client/supervisor/behaviors/" + $(this).data("service_name") + ".js");
+        $.getScript( "source/client/supervisor/behaviors/" + $(this).data("service_name") + ".js", function( data, textStatus, jqxhr ) {
+            var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":"Pre-operational Log"}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":"LAW"},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":"GMP"},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":"Packing"}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":"2017-01-23"},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":"Empleado I"}]}]};
+            $("#authorizations_wrapper").hide();
+            $("#content_wrapper").show();
+            $("#content_wrapper").append(logHeader(header));
+            loadLogForm(null, "#content_wrapper");
+            loadFunctionality();
+            changeLanguage(localStorage.defaultLanguage);
+            $("#content_wrapper").click(function(){
+                $("#content_wrapper").hide();
+                $("#content_wrapper").html("");
+                $("#authorizations_wrapper").show();
+            });
+        });
     });
 
     buttonRow.append(approveButton);
@@ -78,7 +96,7 @@ function infoRow(type, info){
     return row;
 }
 
-function reportCardButton(id, buttonClass, offset, textClass, icon){
+function reportCardButton(id, buttonClass, offset, textClass, icon, data){
     var buttonWrapper = $("<div>");
     var button = $('<a class="waves-effect waves-light btn">');
     var text = $('<span>');
@@ -94,6 +112,10 @@ function reportCardButton(id, buttonClass, offset, textClass, icon){
     text.addClass(textClass);
 
     button.append(text, " ", icon);
+
+    if(data){
+        button.data(data);
+    }
 
     buttonWrapper.append(button);
 
@@ -198,5 +220,8 @@ function updateSigns(){
 }
 
 $(function (){
+    $.getScript( "source/client/supervisor/behaviors/form-creator.js", function( data, textStatus, jqxhr ) {
+        console.log( "Load of form-creator.js was performed." );
+    });
     fillPendingAuthorizations();
 });

@@ -115,7 +115,7 @@ function loadSideMenu()
 
             // check if the user is a supervisor or an employee
             if (localStorage.role_name === 'Supervisor' 
-                || localStorage.role_name === 'Supervisor') {
+                || localStorage.role_name === 'Employee') {
                 localStorage.menu += `
                     <li><a class="nav-link waves-effect waves-green" 
                         href="authorizations">
