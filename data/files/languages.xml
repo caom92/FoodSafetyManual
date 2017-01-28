@@ -623,6 +623,16 @@
         <spanish>Persona a cargo de la sanitización</spanish>
     </translation>
 
+    <translation id="url_title">
+        <english>Link to Picasa Album</english>
+        <spanish>Dirección del Album de Picasa</spanish>
+    </translation>
+
+    <translation id="report_additional_info">
+        <english>Additional Report Information</english>
+        <spanish>Información complementaria del reporte</spanish>
+    </translation>
+
     <translation id="no_supervisors">
         <english>There are no supervisors in this zone</english>
         <spanish>No hay supervisores en esta zona</spanish>
