@@ -33,6 +33,7 @@ are going to divide them into full log, area log and individual item log.
 
 function gmpPackingPreop(data, htmlElement){
     var log = $("<div>");
+    var additionalData = $("<div>");
 
     var response = {"meta":{"return_code":0,"message":"Success."},"data":{"zone_name":"LAW","program_name":"GMP","module_name":"Packing","log_name":"Pre-Operational Inspection","areas":[{"id":1,"name":"Warehouse","types":[{"id":1,"name":"Food Contact - Daily","items":[{"id":21,"name":"Elemento con Food Contact","order":11}]},{"id":2,"name":"Non Food Contact - Daily","items":[{"id":4,"name":"Equipment Tomatoes","order":2},{"id":3,"name":"Trash Recepticales","order":2},{"id":1,"name":"Floors","order":5},{"id":5,"name":"Stainless Table (5)","order":8},{"id":7,"name":"Forklift\/Palletjack\/Wave","order":9},{"id":2,"name":"Ceiling Lights","order":10},{"id":6,"name":"Roll Up Loading Doors","order":11}]}]},{"id":2,"name":"Cooler #1","types":[{"id":2,"name":"Non Food Contact - Daily","items":[{"id":8,"name":"Floors","order":1},{"id":9,"name":"Cool Care Fans","order":2},{"id":10,"name":"Ceiling Lights","order":3},{"id":11,"name":"Trash Recepticales","order":4},{"id":12,"name":"Walls","order":5},{"id":13,"name":"Plastic Curtains","order":6},{"id":14,"name":"Cooling Units","order":7}]}]},{"id":3,"name":"Cooler #2","types":[{"id":2,"name":"Non Food Contact - Daily","items":[{"id":18,"name":"Walls","order":1},{"id":15,"name":"Floors","order":2},{"id":20,"name":"Cooling Units","order":3},{"id":16,"name":"Ceiling Lights","order":4},{"id":19,"name":"Plastic Curtains","order":5},{"id":17,"name":"Trash Recepticales","order":6}]}]}]}};
     console.log(response);
@@ -42,7 +43,40 @@ function gmpPackingPreop(data, htmlElement){
         log.append(gmpPackingPreopArea(area));
     }
 
+    additionalData.addClass("card-panel white");
+
+    console.log(gmpPackingPreopComment());
+    additionalData.append(createText({"type":"text","classes":"report_additional_info"}));
+    additionalData.append(createInputRow({"columns":[gmpPackingPreopComment()]}));
+    additionalData.append(createInputRow({"columns":[gmpPackingPreopAlbumURL()]}));
+
+    log.append(additionalData);
+    log.append($("<div class='row'>").append(createButton(gmpPackingPreopSendButton())));
+
     $(htmlElement).append(log);
+}
+
+function gmpPackingPreopComment(){
+    var commentLabel = {"type":"label","contents":{"type":"text","classes":"comment_title"}};
+    var commentInput = {"type":"input","id": "report_comment", "classes": "validate", "fieldType":"text"};
+    var commentFullInput = {"id":"reportCommentWrapper","classes":"input-field col s12 m12 l12","field":commentInput,"label":commentLabel};
+
+    return commentFullInput;
+}
+
+function gmpPackingPreopAlbumURL(){
+    var urlLabel = {"type":"label","contents":{"type":"text","classes":"url_title"}};
+    var urlInput = {"type":"input","id": "report_url", "classes": "validate", "fieldType":"text"};
+    var urlFullInput = {"id":"reportUrlWrapper","classes":"input-field col s12 m12 l12","field":urlInput,"label":urlLabel};
+
+    return urlFullInput;
+}
+
+function gmpPackingPreopSendButton(){
+    var button = {"type":"button","id":"send_report","icon":{"type":"icon","icon":"mdi-send","size":"mdi-18px", "text":{"type":"text","classes":"send_button"}}};
+
+    return button;
+
 }
 
 function gmpPackingPreopArea(area){
@@ -102,8 +136,8 @@ function gmpPackingPreopItem(item, areaID){
     var itemRow = new Object();
     var commentRow = new Object();
 
-    itemRow.columns = [gmpPackingPreopTitle(item, areaID), gmpPackingPreopStatus(item, areaID), gmpPackingPreopCorrectiveAction(item, areaID)];
-    commentRow.columns = [gmpPackingPreopComment(item, areaID)];
+    itemRow.columns = [gmpPackingPreopItemTitle(item, areaID), gmpPackingPreopItemStatus(item, areaID), gmpPackingPreopItemCorrectiveAction(item, areaID)];
+    commentRow.columns = [gmpPackingPreopItemComment(item, areaID)];
 
     itemCard.append(createInputRow(itemRow));
     itemCard.append(createInputRow(commentRow));
@@ -112,14 +146,14 @@ function gmpPackingPreopItem(item, areaID){
     return itemCard;
 }
 
-function gmpPackingPreopTitle(item, areaID){
+function gmpPackingPreopItemTitle(item, areaID){
     var itemTitle = {"type":"text","id":"title_" + item.id, "text":item.name};
     var titleInput = {"id":"titleWrapper_" + item.id,"classes":"card-title col s4 m4 l4","field": itemTitle};
 
     return titleInput;
 }
 
-function gmpPackingPreopStatus(item, areaID){
+function gmpPackingPreopItemStatus(item, areaID){
     var acceptableIcon = {"type":"icon","icon":"mdi-check-circle","size":"mdi-18px","color":"green-text", "text":{"type":"text","classes":"acceptable_tag green-text"}};
     var unacceptableIcon = {"type":"icon","icon":"mdi-close-circle","size":"mdi-18px","color":"red-text", "text":{"type":"text","classes":"unacceptable_tag red-text"}};    
     var radioAcceptable = {"type":"radio","id":"acceptable_" + item.id,"classes":"timeChanger","value":"true","label":{"type":"label","for":"acceptable_" + item.id,"contents": acceptableIcon},"data":{"area_id":areaID,"item_id":item.id}};
@@ -130,7 +164,7 @@ function gmpPackingPreopStatus(item, areaID){
     return groupInput;
 }
 
-function gmpPackingPreopCorrectiveAction(item, areaID){
+function gmpPackingPreopItemCorrectiveAction(item, areaID){
     var actionOptions = new Array();
 
     for(var action of JSON.parse(localStorage.correctiveActionsSSOP))
@@ -143,7 +177,7 @@ function gmpPackingPreopCorrectiveAction(item, areaID){
     return actionSelectInput;
 }
 
-function gmpPackingPreopComment(item, areaID){
+function gmpPackingPreopItemComment(item, areaID){
     var commentLabel = {"type":"label","contents":{"type":"text","classes":"comment_title"}};
     var commentInput = {"type":"input","id": "comment_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"area_id":areaID,"item_id":item.id}};
     var commentFullInput = {"id":"commentWrapper_" + item.id,"classes":"input-field col s12 m12 l12","hidden": true,"field":commentInput,"label":commentLabel};

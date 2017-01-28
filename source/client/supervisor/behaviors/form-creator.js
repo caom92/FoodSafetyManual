@@ -307,7 +307,7 @@ Label Object
     "id": "id",
     "classes": "classes",
     "for": 
-    "contents": Icon Object, Text Object, 
+    "contents": Icon Object, Text Object, text
 }
 */
 
@@ -408,6 +408,38 @@ function createText(textObject){
         text.append(textObject.text);
 
     return text;
+}
+
+/*
+Button Object
+
+{
+    "type":"button",
+    "id": ,
+    "classes": ,
+    "icon": iconObject
+}
+*/
+
+function createButton(buttonObject){
+    var buttonWrapper = $("<div>");
+    var button = $("<a>");
+
+    buttonWrapper.addClass("center-align");
+    button.addClass("waves-effect waves-light btn");
+
+    if(buttonObject.id)
+        button.attr("id", buttonObject.id);
+
+    if(buttonObject.classes)
+        buttonWrapper.addClass(classes);
+
+    if(buttonObject.icon)
+        button.append(createIcon(buttonObject.icon));
+
+    buttonWrapper.append(button);
+
+    return buttonWrapper;
 }
 
 function getISOTime(date){
