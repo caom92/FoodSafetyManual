@@ -114,7 +114,7 @@ function registerLogEntry()
         }
     }
 
-    // if all validations where passed, connect to the data base
+    // if all validations passed, connect to the data base
     $logDate = new db\CapturedLogsDAO();
     $areasLog = new preop\AreasLogDAO();
     $itemsLog = new preop\ItemsLogDAO();
@@ -134,9 +134,9 @@ function registerLogEntry()
 
     // insert the capture date and the ID of the reportee user
     $logID = $logDate->insert([
-        'user_id' => $_SESSION['user_id'],
+        'employee_id' => $_SESSION['user_id'],
         'log_id' => $logID,
-        'date' => $_POST['date']
+        'capture_date' => $_POST['date']
     ]);
 
     // create a temporal storage for the many entries to be inserted in
@@ -159,7 +159,7 @@ function registerLogEntry()
             array_push($itemsLogEntries, [
                 'area_log_id' => $areaID,
                 'item_id' => $itemsLogEntry['item_id'],
-                'is_acceptable' => $itemsLogEntry['is_acceptable'],
+                'is_acceptable' => $itemsLogEntry['is_acceptable'] === 'true',
                 'corrective_action_id' =>
                     $itemsLogEntry['corrective_action_id'],
                 'comment' => $itemsLogEntry['comment']
@@ -180,7 +180,7 @@ function registerLogEntry()
 // presentation in a report
 function getReportData()
 {
-    $capturedlogs = new db\CapturedLogsDAO();
+    $capturedLogs = new db\CapturedLogsDAO();
     $areasLog = new preop\AreasLogDAO();
     $itemsLog = new preop\ItemsLogDAO();
     $logs = new db\LogsDAO();
@@ -226,9 +226,9 @@ function getReportData()
 
             foreach ($items as $item) {
                 $hasTypeChanged = $tempItems['id'] != $item['type_id'];
-
                 if (!$hasTypeChanged) {
                     array_push($tempItems['items'], [
+                        'id' => $item['item_id'],
                         'item_order' => $item['position'],
                         'item_name' => $item['item_name'],
                         'item_status' => $item['is_acceptable'],
@@ -250,16 +250,18 @@ function getReportData()
         }
 
         $supervisor = $users->getNameByID($logDate['supervisor_id']);
+        $employee = $users->getNameByID($logDate['employee_id']);
 
         array_push($reports, [
-            'created_by' =>
-                $_SESSION['first_name'].' '.$_SESSION['last_name'],
-            'approved_by' => (isset($supervisor)) ?
+            'report_id' => $logDate['id'],
+            'created_by' => 
+                $employee['first_name'].' '.$employee['last_name'],
+            'approved_by' => (isset($supervisor['first_name'])) ?
                 $supervisor['first_name'].' '.$supervisor['last_name'] :
                 'N/A',
-            'creation_date' => $logDate['date'],
+            'creation_date' => $logDate['capture_date'],
             'approval_date' => (isset($logDate['approval_date'])) ?
-                $supervisor['approval_date'] :
+                $logDate['approval_date'] :
                 'N/A',
             'zone_name' => $_SESSION['zone_name'],
             'program_name' => 'GMP',
@@ -321,6 +323,109 @@ function uploadManualFile()
     }
 
     return [];
+}
+
+
+function editLogEntry()
+{
+    // first, let's check if the client sent the values to be inserted
+    // in the proper array format
+    $isSet =
+        isset($_POST['area_log']) && array_key_exists('area_log', $_POST);
+
+    if (!$isSet) {
+        throw new \Exception("Input argument 'area_log' is missing");
+    }
+
+    // check each per area log entry
+    foreach ($_POST['area_log'] as $areaLogEntry) {
+        $isString =
+            val\stringHasLengthInterval($areaLogEntry['notes'], 0, 256);
+
+        if (!$isString) {
+            throw new \Exception(
+                'A notes argument is not a string of the proper length'
+            );
+        }
+
+        $isString =
+            val\stringHasLengthInterval(
+                $areaLogEntry['person_performing_sanitation'], 0, 64
+            );
+
+        if (!$isString) {
+            throw new \Exception(
+                'The name of the person performing sanitation is not of the proper length'
+            );
+        }
+
+        // check each per item log entry
+        foreach ($areaLogEntry['item_logs'] as $itemsLogEntry) {
+            $isInt = val\integerIsBetweenValues(
+                $itemsLogEntry['item_id'], 1, \PHP_INT_MAX
+            );
+
+            if (!$isInt) {
+                throw new \Exception(
+                    'An item ID is not valid'
+                );
+            }
+            
+            // $isBool = val\isBoolean($itemsLogEntry['is_acceptable']);
+
+            // if (!$isBool) {
+            //     throw new \Exception(
+            //         'An is_acceptable flag is not a boolean'
+            //     );
+            // }
+
+            $isInt = val\integerIsBetweenValues(
+                $itemsLogEntry['corrective_action_id'], 1, \PHP_INT_MAX
+            );
+
+            if (!$isInt) {
+                throw new \Exception(
+                    'A corrective action ID is not valid'
+                );
+            }
+
+            $isString = val\stringHasLengthInterval(
+                $itemsLogEntry['comment'], 0, 80
+            );
+
+            if (!$isString) {
+                throw new \Exception(
+                    'The comments section is not a string of the proper length'
+                );
+            }
+        }
+    }
+
+    // connect to the database
+    $areasLog = new preop\AreasLogDAO();
+    $itemsLog = new preop\ItemsLogDAO();
+
+    $areaLogUpdates = [];
+    foreach ($_POST['area_log'] as $area) {
+        array_push($areaLogUpdates, [
+            'notes' => $area['notes'],
+            'person_performing_sanitation' => 
+                $area['person_performing_sanitaiton']
+        ]);
+
+        foreach ($area['item_logs'] as $item) {
+            $itemsLog->updateByCapturedLogIDAndItemID(
+                [
+                    'corrective_action_id' => $item['corrective_action_id'],
+                    'comment' => $item['comment']
+                ],
+                $_POST['report_id'],
+                $item['item_id']
+            );
+        }
+    }
+
+    $areasLog->updateByCapturedLogID($areaLogUpdates, $_POST['report_id']);
 }
 
 ?>

@@ -95,7 +95,10 @@ class ItemsDAO extends DataAccessObject
                 "$this->table.position(item_order)"
             ],
             [
-                'a.zone_id' => $zoneID,
+                'AND' => [
+                    'a.zone_id' => $zoneID,
+                    'is_active' => TRUE
+                ],
                 'ORDER' => [
                     'a.id',
                     't.id',

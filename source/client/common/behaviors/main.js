@@ -1,5 +1,62 @@
+// Gets the number of pending notifications for the user 
 function getNumPendingAuthorizations()
 {
+    // request the service to the server
+    $server.request({
+        service: 'get-num-pending-logs',
+        success: function(response) {
+            // if the server responded successfully to the client ...
+            if (response.meta.return_code == 0) {
+                // get the current number of pendings that the user has
+                var currentPendings = parseInt(
+                    $('span#notifications').text()
+                ) || 0;
+
+                // check if the current number of pendings differs from the 
+                // number of pendings retrieved from the server
+                if (response.data != currentPendings) {
+                    // if they are different
+                    // compute the difference between the two
+                    var newPendings = 0;
+                    newPendings = response.data - currentPendings;
+
+                    if (newPendings > 0) {
+                        // if the user has additional pendings incoming
+                        // notify the user
+                        loadToast(
+                            'pending_alert', 
+                            4000, 
+                            'rounded', 
+                            newPendings
+                        );
+
+                        if (currentPendings == 0) {
+                            // if the user originally had no pendings, add the 
+                            // proper classes
+                            $('span#notifications').addClass('green accent-4 badge');
+                        }
+
+                        // update the number of pendings for the client
+                        $('span#notifications').text(response.data);
+                    } else {
+                        // if the user has less pendings incoming
+                        if (response.data != 0) {
+                            // and the incoming number of pendings is not 0
+                            // update the number of pendings for the client
+                            $('span#notifications').text(response.data);
+                        } else {
+                            // if the incoming number of pendings is 0
+                            // remove the proper classes
+                            $('span#notifications').removeClass('green accent-4 badge');
+
+                            // and any text available in the UI
+                            $('span#notifications').text('');
+                        }
+                    }
+                }
+            }
+        }
+    });
 }
 
 
@@ -36,6 +93,22 @@ function loadZoneSelectionMenu()
 
                     // add the menu to the local session storage
                     localStorage.zoneSelectionMenu = zonesHTML;
+
+                    // add a callback for when the user changes 
+                    // zones
+                    console.log($('select#zone-selection'))
+                    $('select#zone-selection').on('change', 
+                        function(event) {
+                            // notify the server of the zone change
+                            $server.request({
+                                service: 'director-change-zones',
+                                data: {
+                                    zone_id: $(this).val()
+                                },
+                                success: successCallback
+                            })
+                        }
+                    );
                 } else {
                     // if the server responded with error, notify 
                     // the user with a message
@@ -76,21 +149,6 @@ function loadZoneSelectionMenu()
             );
         }
     };
-
-    // add a callback for when the user changes 
-    // zones
-    $('select#zone-selection').on('change', 
-        function(event) {
-            // notify the server of the zone change
-            $server.request({
-                service: 'director-change-zones',
-                data: {
-                    zone_id: $(this).val()
-                },
-                success: successCallback
-            })
-        }
-    );
 }
 
 
@@ -118,12 +176,13 @@ function loadSideMenu()
                 || localStorage.role_name === 'Employee') {
                 localStorage.menu += `
                     <li><a class="nav-link waves-effect waves-green" 
-                        href="authorizations">
+                        href="${(localStorage.role_name === 'Supervisor')?
+                        'authorizations' : '#!'}">
                     <i class="mdi mdi-comment-check md-dark md-24 field-icon">
                     </i>
                     <span class="auth">
                     </span>
-                    <span class="green accent-4 new badge"></span>
+                    <span id='notifications' class="white-text"></span>
                     </a></li>
                 `;
             }
@@ -245,6 +304,11 @@ $(function() {
                 if (response.data) {
                     // load the side menu items
                     loadSideMenu();
+
+                    if (localStorage.role_name == 'Supervisor'
+                        || localStorage.role_name == 'Employee') {
+                        setInterval(getNumPendingAuthorizations, 60000);
+                    }
 
                     // every time the forward or backward button is pressed to recover a 
                     // page state, we must manually load the requested layout to the current 

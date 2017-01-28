@@ -39,6 +39,7 @@ class ItemsLogDAO extends db\DataAccessObject
                 'a.id(area_id)',
                 'a.name(area_name)',
                 'i.position', 
+                'i.id(item_id)',
                 'i.name(item_name)',
                 'i.type_id(type_id)',
                 'it.name(type_name)',
@@ -67,6 +68,22 @@ class ItemsLogDAO extends db\DataAccessObject
                 ]
                 
             ]
+        );
+    }
+
+    function updateByCapturedLogIDAndItemID($changes, $logID, $itemID)
+    {
+        return parent::$dataBase->query(
+            "UPDATE 
+                $this->table
+            INNER JOIN gmp_packing_preop_areas_log AS a
+                ON area_log_id = a.id
+            INNER JOIN captured_logs AS cl
+                ON a.capture_date_id = cl.id
+            SET 
+                corrective_action_id = {$changes['corrective_action_id']},
+                comment = {$changes['comment']}
+            WHERE cl.id = $logID AND item_id = $itemID"
         );
     }
 }

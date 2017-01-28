@@ -244,7 +244,7 @@ fsm\Controller::$services = [
         ],
         'callback' => 'fsm\services\program\getAllModulesOfProgram'
     ],
-    'get-areas-of-zone' => [
+    'log-gmp-packing-preop' => [
         'requirements_desc' => [
             'logged_in' => ['Supervisor']
         ],
@@ -451,27 +451,12 @@ fsm\Controller::$services = [
         ],
         'callback' => 'fsm\services\authorizations\assignEmployeesToSupervisors'
     ],
-    'list-unapproved-logs-of-supervisor' => [
+    'list-unapproved-logs-of-user' => [
         'requirements_desc' => [
-            'logged_in' => ['Supervisor'],
-            'supervisor_id' => [
-                'type' => 'int',
-                'min' => 1
-            ]
+            'logged_in' => ['Supervisor', 'Employee']
         ],
         'callback' => 
-            'fsm\services\authorizations\getUnapprovedLogsOfSupervisor'
-    ],
-    'list-unapproved-logs-of-employee' => [
-        'requirements_desc' => [
-            'logged_in' => ['Employee'],
-            'employee_id' => [
-                'type' => 'int',
-                'min' => 1
-            ]
-        ],
-        'callback' => 
-            'fsm\services\authorizations\getUnapprovedLogsOfEmployee'
+            'fsm\services\authorizations\getUnapprovedLogsOfUser'
     ],
     'get-supervisor-num-of-employees' => [
         'requirements_desc' => [
@@ -520,6 +505,31 @@ fsm\Controller::$services = [
             ]
         ],
         'callback' => 'fsm\services\authorizations\rejectLog'
+    ],
+    'get-num-pending-logs' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor', 'Employee']
+        ],
+        'callback' => 'fsm\services\authorizations\countPendingLogs'
+    ],
+    'update-gmp-packing-preop' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor', 'Employee'],
+            'has_privilege' => [
+                'privilege' => ['Read','Write'],
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Pre-Operational Inspection'
+            ],
+            'report_id' => [
+                'type' => 'int',
+                'min' => 1
+            ],
+            'area_log' => [
+                'type' => 'array'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\preop\editLogEntry'
     ]
 ];
 
