@@ -244,7 +244,7 @@ fsm\Controller::$services = [
         ],
         'callback' => 'fsm\services\program\getAllModulesOfProgram'
     ],
-    'get-areas-of-zone' => [
+    'log-gmp-packing-preop' => [
         'requirements_desc' => [
             'logged_in' => ['Supervisor']
         ],
@@ -511,6 +511,25 @@ fsm\Controller::$services = [
             'logged_in' => ['Supervisor', 'Employee']
         ],
         'callback' => 'fsm\services\authorizations\countPendingLogs'
+    ],
+    'update-gmp-packing-preop' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor', 'Employee'],
+            'has_privilege' => [
+                'privilege' => ['Read','Write'],
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Pre-Operational Inspection'
+            ],
+            'report_id' => [
+                'type' => 'int',
+                'min' => 1
+            ],
+            'area_log' => [
+                'type' => 'array'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\preop\editLogEntry'
     ]
 ];
 

@@ -46,7 +46,7 @@ class CapturedLogsDAO extends DataAccessObject
     {
         return parent::select(
             [
-                "$this->table.id",
+                "$this->table.id(id)",
                 'capture_date',
                 'employee_id',
                 'approval_date',

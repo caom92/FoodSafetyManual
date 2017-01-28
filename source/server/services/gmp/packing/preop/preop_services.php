@@ -253,6 +253,7 @@ function getReportData()
         $employee = $users->getNameByID($logDate['employee_id']);
 
         array_push($reports, [
+            'report_id' => $logDate['id'],
             'created_by' => 
                 $employee['first_name'].' '.$employee['last_name'],
             'approved_by' => (isset($supervisor['first_name'])) ?
@@ -322,6 +323,109 @@ function uploadManualFile()
     }
 
     return [];
+}
+
+
+function editLogEntry()
+{
+    // first, let's check if the client sent the values to be inserted
+    // in the proper array format
+    $isSet =
+        isset($_POST['area_log']) && array_key_exists('area_log', $_POST);
+
+    if (!$isSet) {
+        throw new \Exception("Input argument 'area_log' is missing");
+    }
+
+    // check each per area log entry
+    foreach ($_POST['area_log'] as $areaLogEntry) {
+        $isString =
+            val\stringHasLengthInterval($areaLogEntry['notes'], 0, 256);
+
+        if (!$isString) {
+            throw new \Exception(
+                'A notes argument is not a string of the proper length'
+            );
+        }
+
+        $isString =
+            val\stringHasLengthInterval(
+                $areaLogEntry['person_performing_sanitation'], 0, 64
+            );
+
+        if (!$isString) {
+            throw new \Exception(
+                'The name of the person performing sanitation is not of the proper length'
+            );
+        }
+
+        // check each per item log entry
+        foreach ($areaLogEntry['item_logs'] as $itemsLogEntry) {
+            $isInt = val\integerIsBetweenValues(
+                $itemsLogEntry['item_id'], 1, \PHP_INT_MAX
+            );
+
+            if (!$isInt) {
+                throw new \Exception(
+                    'An item ID is not valid'
+                );
+            }
+            
+            // $isBool = val\isBoolean($itemsLogEntry['is_acceptable']);
+
+            // if (!$isBool) {
+            //     throw new \Exception(
+            //         'An is_acceptable flag is not a boolean'
+            //     );
+            // }
+
+            $isInt = val\integerIsBetweenValues(
+                $itemsLogEntry['corrective_action_id'], 1, \PHP_INT_MAX
+            );
+
+            if (!$isInt) {
+                throw new \Exception(
+                    'A corrective action ID is not valid'
+                );
+            }
+
+            $isString = val\stringHasLengthInterval(
+                $itemsLogEntry['comment'], 0, 80
+            );
+
+            if (!$isString) {
+                throw new \Exception(
+                    'The comments section is not a string of the proper length'
+                );
+            }
+        }
+    }
+
+    // connect to the database
+    $areasLog = new preop\AreasLogDAO();
+    $itemsLog = new preop\ItemsLogDAO();
+
+    $areaLogUpdates = [];
+    foreach ($_POST['area_log'] as $area) {
+        array_push($areaLogUpdates, [
+            'notes' => $area['notes'],
+            'person_performing_sanitation' => 
+                $area['person_performing_sanitaiton']
+        ]);
+
+        foreach ($area['item_logs'] as $item) {
+            $itemsLog->updateByCapturedLogIDAndItemID(
+                [
+                    'corrective_action_id' => $item['corrective_action_id'],
+                    'comment' => $item['comment']
+                ],
+                $_POST['report_id'],
+                $item['item_id']
+            );
+        }
+    }
+
+    $areasLog->updateByCapturedLogID($areaLogUpdates, $_POST['report_id']);
 }
 
 ?>
