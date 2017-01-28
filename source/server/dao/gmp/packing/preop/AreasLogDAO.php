@@ -38,9 +38,11 @@ class AreasLogDAO extends db\DataAccessObject
         return parent::select('*', ['capture_date_id' => $logID]);
     }
 
+
+    // Updates the entry in the table which has the especified captured log ID
     function updateByCapturedLogID($changes, $logID)
     {
-        return parent::update($changes, ['capture_date_id']);
+        return parent::update($changes, ['capture_date_id' => $logID]);
     }
 }
 

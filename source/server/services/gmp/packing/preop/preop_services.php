@@ -326,6 +326,8 @@ function uploadManualFile()
 }
 
 
+// This function updates the info in the database of the log with the especified
+// ID
 function editLogEntry()
 {
     // first, let's check if the client sent the values to be inserted
@@ -405,15 +407,21 @@ function editLogEntry()
     $areasLog = new preop\AreasLogDAO();
     $itemsLog = new preop\ItemsLogDAO();
 
-    $areaLogUpdates = [];
+    // for each area in the input array...
     foreach ($_POST['area_log'] as $area) {
-        array_push($areaLogUpdates, [
-            'notes' => $area['notes'],
-            'person_performing_sanitation' => 
-                $area['person_performing_sanitaiton']
-        ]);
+        // update the area log 
+        $areasLog->updateByCapturedLogID(
+            [
+                'notes' => $area['notes'],
+                'person_performing_sanitation' => 
+                    $area['person_performing_sanitaiton']
+            ],
+            $_POST['report_id']
+        );
 
+        // the for each item in the area
         foreach ($area['item_logs'] as $item) {
+            // update the item log
             $itemsLog->updateByCapturedLogIDAndItemID(
                 [
                     'corrective_action_id' => $item['corrective_action_id'],
@@ -424,8 +432,6 @@ function editLogEntry()
             );
         }
     }
-
-    $areasLog->updateByCapturedLogID($areaLogUpdates, $_POST['report_id']);
 }
 
 ?>

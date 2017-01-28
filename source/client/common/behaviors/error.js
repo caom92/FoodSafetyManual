@@ -4,4 +4,5 @@ $(function() {
     $(".collapsible").collapsible({
         accordion : true    // only 1 panel may be active at any given time
     });
+    changeLanguage(localStorage.defaultLanguage);
 });
