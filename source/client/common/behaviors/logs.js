@@ -593,7 +593,8 @@ function loadSSOPReport(startDate, endDate){
 
 function testReportService(){
     var report = new Object();
-    report.date = "2016-11-24";
+    report.start_date = "2016-11-24";
+    report.end_date = "2016-11-24";
     console.log(report);
     $server.request({
         service: 'report-gmp-packing-preop',
