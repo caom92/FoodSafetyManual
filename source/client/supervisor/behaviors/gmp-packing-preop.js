@@ -10,12 +10,26 @@ function createDatePicker(){
 
 function loadLogForm(data, htmlElement){
     console.log("Wrapper was called to load log form");
-    gmpPackingPreop(data, htmlElement);
+    $server.request({
+        service: 'get-items-of-zone',
+        success: function(response) {
+            if (response.meta.return_code == 0) {
+                console.log("SUPER GMP A HUEVO");
+                console.log(response);
+                gmpPackingPreop(response.data, htmlElement);
+                changeLanguage(localStorage.defaultLanguage);
+                Materialize.toast("Informacion cargada del server", 3000, "rounded");
+            } else {
+                Materialize.toast("Some error", 3000, "rounded");
+                throw response.meta.message;
+            }
+        }
+    });
 }
 
-function loadFunctionality(){
+function loadFunctionality(data){
     console.log("Wrapper was called to trigger functionality");
-    gmpPackingPreopFunctionality();
+    gmpPackingPreopFunctionality(data);
 }
 
 // Wrapper for showing a HTML report. For convenience's sake, this name will
@@ -35,11 +49,13 @@ function gmpPackingPreop(data, htmlElement){
     var log = $("<div>");
     var additionalData = $("<div>");
 
-    var response = {"meta":{"return_code":0,"message":"Success."},"data":{"zone_name":"LAW","program_name":"GMP","module_name":"Packing","log_name":"Pre-Operational Inspection","areas":[{"id":1,"name":"Warehouse","types":[{"id":1,"name":"Food Contact - Daily","items":[{"id":21,"name":"Elemento con Food Contact","order":11}]},{"id":2,"name":"Non Food Contact - Daily","items":[{"id":4,"name":"Equipment Tomatoes","order":2},{"id":3,"name":"Trash Recepticales","order":2},{"id":1,"name":"Floors","order":5},{"id":5,"name":"Stainless Table (5)","order":8},{"id":7,"name":"Forklift\/Palletjack\/Wave","order":9},{"id":2,"name":"Ceiling Lights","order":10},{"id":6,"name":"Roll Up Loading Doors","order":11}]}]},{"id":2,"name":"Cooler #1","types":[{"id":2,"name":"Non Food Contact - Daily","items":[{"id":8,"name":"Floors","order":1},{"id":9,"name":"Cool Care Fans","order":2},{"id":10,"name":"Ceiling Lights","order":3},{"id":11,"name":"Trash Recepticales","order":4},{"id":12,"name":"Walls","order":5},{"id":13,"name":"Plastic Curtains","order":6},{"id":14,"name":"Cooling Units","order":7}]}]},{"id":3,"name":"Cooler #2","types":[{"id":2,"name":"Non Food Contact - Daily","items":[{"id":18,"name":"Walls","order":1},{"id":15,"name":"Floors","order":2},{"id":20,"name":"Cooling Units","order":3},{"id":16,"name":"Ceiling Lights","order":4},{"id":19,"name":"Plastic Curtains","order":5},{"id":17,"name":"Trash Recepticales","order":6}]}]}]}};
+    /*var response = {"meta":{"return_code":0,"message":"Success."},"data":{"zone_name":"LAW","program_name":"GMP","module_name":"Packing","log_name":"Pre-Operational Inspection","areas":[{"id":1,"name":"Warehouse","types":[{"id":1,"name":"Food Contact - Daily","items":[{"id":21,"name":"Elemento con Food Contact","order":11}]},{"id":2,"name":"Non Food Contact - Daily","items":[{"id":4,"name":"Equipment Tomatoes","order":2},{"id":3,"name":"Trash Recepticales","order":2},{"id":1,"name":"Floors","order":5},{"id":5,"name":"Stainless Table (5)","order":8},{"id":7,"name":"Forklift\/Palletjack\/Wave","order":9},{"id":2,"name":"Ceiling Lights","order":10},{"id":6,"name":"Roll Up Loading Doors","order":11}]}]},{"id":2,"name":"Cooler #1","types":[{"id":2,"name":"Non Food Contact - Daily","items":[{"id":8,"name":"Floors","order":1},{"id":9,"name":"Cool Care Fans","order":2},{"id":10,"name":"Ceiling Lights","order":3},{"id":11,"name":"Trash Recepticales","order":4},{"id":12,"name":"Walls","order":5},{"id":13,"name":"Plastic Curtains","order":6},{"id":14,"name":"Cooling Units","order":7}]}]},{"id":3,"name":"Cooler #2","types":[{"id":2,"name":"Non Food Contact - Daily","items":[{"id":18,"name":"Walls","order":1},{"id":15,"name":"Floors","order":2},{"id":20,"name":"Cooling Units","order":3},{"id":16,"name":"Ceiling Lights","order":4},{"id":19,"name":"Plastic Curtains","order":5},{"id":17,"name":"Trash Recepticales","order":6}]}]}]}};
     console.log(response);
-    console.log(response.data);
+    console.log(response.data);*/
 
-    for(var area of response.data.areas){
+    console.log("BASE DE DATOS");
+    console.log(data);
+    for(var area of data.areas){
         log.append(gmpPackingPreopArea(area));
     }
 
@@ -88,7 +104,7 @@ function gmpPackingPreopArea(area){
     title.append(createIcon({"type":"icon","icon":"mdi-cube-outline","size":"mdi-18px","color":"blue-text", "text":{"type":"text","classes":"blue-text","text":area.name}}));
     areaCard.append(title);
 
-    areaCard.append(createInputRow({"columns":[gmpPackingPreopAreaTime(area.id)]}));
+    areaCard.append(createInputRow({"columns":[gmpPackingPreopAreaTime(area.id, area.time)]}));
 
     for(var type of area.types){
         var typeTitle = $("<div>");
@@ -101,32 +117,46 @@ function gmpPackingPreopArea(area){
         }
     }
 
-    areaCard.append(createInputRow({"columns":[gmpPackingPreopAreaNotes(area.id)]}));
-    areaCard.append(createInputRow({"columns":[gmpPackingPreopAreaSanitation(area.id)]}));
+    areaCard.append(createInputRow({"columns":[gmpPackingPreopAreaNotes(area.id, area.notes)]}));
+    areaCard.append(createInputRow({"columns":[gmpPackingPreopAreaSanitation(area.id, area.person_performing_sanitation)]}));
 
     return areaCard;
 }
 
-function gmpPackingPreopAreaTime(areaID){
+function gmpPackingPreopAreaTime(areaID, time){
     var timeLabel = {"type":"label","contents":{"type":"text","classes":"time_title"},"for":"time_" + areaID,"classes":"active"};
     var timeInput = {"type":"input","id": "time_" + areaID, "classes": "validate", "fieldType":"text","disabled":true,"data":{"area_id":areaID},"value":getISOTime(new Date())};
     var timeFullInput = {"id":"timeWrapper_" + areaID,"classes":"input-field col s12 m12 l12","field":timeInput,"label":timeLabel};
 
+    if(time){
+        timeInput.value = time;
+    }
+
     return timeFullInput;
 }
 
-function gmpPackingPreopAreaNotes(areaID){
+function gmpPackingPreopAreaNotes(areaID, notes){
     var notesLabel = {"type":"label","contents":{"type":"text","classes":"notes_title"},"for":"notes_" + areaID};
     var notesInput = {"type":"input","id": "notes_" + areaID, "classes": "timeChanger validate", "fieldType":"text","data":{"area_id":areaID}};
     var notesFullInput = {"id":"notesWrapper_" + areaID,"classes":"input-field col s12 m12 l12","field":notesInput,"label":notesLabel};
 
+    if(notes){
+        notesInput.value = notes;
+        notesLabel.classes = "active";
+    }
+
     return notesFullInput;
 }
 
-function gmpPackingPreopAreaSanitation(areaID){
+function gmpPackingPreopAreaSanitation(areaID, person){
     var sanitationLabel = {"type":"label","contents":{"type":"text","classes":"person_performing_sanitation_title"},"for":"sanitation_" + areaID};
     var sanitationInput = {"type":"input","id": "sanitation_" + areaID, "classes": "timeChanger validate", "fieldType":"text","data":{"area_id":areaID}};
     var sanitationFullInput = {"id":"sanitationWrapper_" + areaID,"classes":"input-field col s12 m12 l12","field":sanitationInput,"label":sanitationLabel};
+
+    if(person){
+        sanitationInput.value = person;
+        sanitationLabel.classes = "active";
+    }
 
     return sanitationFullInput;
 }
@@ -161,6 +191,12 @@ function gmpPackingPreopItemStatus(item, areaID){
     var itemRadioGroup = {"type": "radioGroup", "id":"radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"radio_" + item.id,"radioArray":[radioAcceptable, radioUnacceptable]};
     var groupInput = {"id":"radioWrapper_" + item.id,"classes":"col s8 m8 l4","field":itemRadioGroup};
 
+    if(item.status == 1){
+        radioAcceptable.checked = true;
+    } else if (item.status == 0){
+        radioUnacceptable.checked = true;
+    }
+
     return groupInput;
 }
 
@@ -182,10 +218,22 @@ function gmpPackingPreopItemComment(item, areaID){
     var commentInput = {"type":"input","id": "comment_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"area_id":areaID,"item_id":item.id}};
     var commentFullInput = {"id":"commentWrapper_" + item.id,"classes":"input-field col s12 m12 l12","hidden": true,"field":commentInput,"label":commentLabel};
 
+    if(item.comments){
+        commentInput.value = item.comments;
+        commentLabel.classes = "active";
+    }
+
     return commentFullInput;
 }
 
-function gmpPackingPreopFunctionality(){
+function gmpPackingPreopFunctionality(data){
+    $("input[id^='unacceptable_']:checked").each(function(){
+        var tag = $(this).attr("id");
+        var id = tag.match(/[0-9]+/g);
+        $("#correctiveActionWrapper_" + id[0]).show(500);
+        $("#commentWrapper_" + id[0]).show(500);
+    });
+
     $("input[id^='acceptable_']").change(function(){
         if($(this).is(":checked")){
             var tag = $(this).attr("id");
@@ -204,11 +252,20 @@ function gmpPackingPreopFunctionality(){
         }
     });
 
-    $(".timeChanger").change(function(){
-        console.log($(this).data());
-        if($(this).data().area_id)
-            $("#time_" + $(this).data().area_id).val(getISOTime(new Date()));
-    });
+    if(data.isPrefilled){
+        $("input[id^='unacceptable_']:checked").each(function(){
+            var tag = $(this).attr("id");
+            var id = tag.match(/[0-9]+/g);
+            $("#correctiveActionWrapper_" + id[0]).show(500);
+            $("#commentWrapper_" + id[0]).show(500);
+        });
+    } else {
+        $(".timeChanger").change(function(){
+            console.log($(this).data());
+            if($(this).data().area_id)
+                $("#time_" + $(this).data().area_id).val(getISOTime(new Date()));
+        });
+    }
 }
 
 /*$(function (){

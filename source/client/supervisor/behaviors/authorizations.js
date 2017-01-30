@@ -30,9 +30,8 @@ function waitingReportCard(report){
             $("#content_wrapper").show();
             $("#content_wrapper").append(logHeader(header));
             loadLogForm(null, "#content_wrapper");
-            loadFunctionality();
-            changeLanguage(localStorage.defaultLanguage);
-            $("#content_wrapper").click(function(){
+            loadFunctionality({"isPrefilled":false});
+            $("#send_report").click(function(){
                 $("#content_wrapper").hide();
                 $("#content_wrapper").html("");
                 $("#authorizations_wrapper").show();
