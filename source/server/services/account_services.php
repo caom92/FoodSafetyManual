@@ -387,7 +387,7 @@ function addNewUserAccount()
             array_push($privileges, [
                 'user_id' => $userID,
                 'log_id' => $privilege['log_id'],
-                'privilege_id' => ($isSupervisor) ?
+                'privilege_id' => (isset($isSupervisor)) ?
                     $privilegeID :
                     $privilege['privilege_id']
             ]);
