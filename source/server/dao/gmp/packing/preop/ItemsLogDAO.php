@@ -71,6 +71,9 @@ class ItemsLogDAO extends db\DataAccessObject
         );
     }
 
+
+    // Updates the entry in the table which has the especified captured log ID
+    // and item ID
     function updateByCapturedLogIDAndItemID($changes, $logID, $itemID)
     {
         return parent::$dataBase->query(
