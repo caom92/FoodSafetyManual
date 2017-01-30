@@ -44,6 +44,7 @@ class ItemsLogDAO extends db\DataAccessObject
                 'i.type_id(type_id)',
                 'it.name(type_name)',
                 'is_acceptable',
+                'ca.id(corrective_action_id)',
                 'ca.code(corrective_action)',
                 'comment'  
             ],

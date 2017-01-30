@@ -232,6 +232,8 @@ function getReportData()
                         'item_order' => $item['position'],
                         'item_name' => $item['item_name'],
                         'item_status' => $item['is_acceptable'],
+                        'item_corrective_action_id' => 
+                            $item['corrective_action_id'],
                         'item_corrective_action' => $item['corrective_action'],
                         'item_comments' => $item['comment']
                     ]);

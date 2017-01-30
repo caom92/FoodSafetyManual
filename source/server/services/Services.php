@@ -244,7 +244,7 @@ fsm\Controller::$services = [
         ],
         'callback' => 'fsm\services\program\getAllModulesOfProgram'
     ],
-    'log-gmp-packing-preop' => [
+    'get-areas-of-zone' => [
         'requirements_desc' => [
             'logged_in' => ['Supervisor']
         ],
@@ -294,7 +294,7 @@ fsm\Controller::$services = [
         ],
         'callback' => 'fsm\services\inventory\addNewItem'
     ],
-    'get-items-of-zone' => [
+    'log-gmp-packing-preop' => [
         'requirements_desc' => [
             'logged_in' => ['Manager', 'Supervisor', 'Employee'],
             'has_privilege' => [
