@@ -121,6 +121,8 @@ function updateGmpPackingPreopReport(){
     var report = new Object();
 
     report.report_id = 18;
+    report.notes = $("#report_comment").val();
+    report.album_url = $("#report_url").val();
     report.areas = new Array();
 
     $(".area-card").each(function(){
