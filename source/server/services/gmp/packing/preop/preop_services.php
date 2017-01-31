@@ -420,7 +420,7 @@ function editLogEntry()
     }
 
     // connect to the database
-    $capturedLogs = new db\CapturedLogDAO();
+    $capturedLogs = new db\CapturedLogsDAO();
     $areasLog = new preop\AreasLogDAO();
     $itemsLog = new preop\ItemsLogDAO();
 
