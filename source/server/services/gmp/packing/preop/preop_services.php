@@ -177,6 +177,7 @@ function registerLogEntry()
 }
 
 
+// [***]
 // Returns the pre-operational log entries of the working areas and their
 // items in a determined zone that where captured in the given date for
 // presentation in a report
