@@ -50,7 +50,7 @@ fsm\Controller::$services = [
         'requirements_desc' => [
             'username' => [
                 'type' => 'string',
-                'min_length' => 5
+                'min_length' => 3
             ],
             'password' => [
                 'type' => 'string',
