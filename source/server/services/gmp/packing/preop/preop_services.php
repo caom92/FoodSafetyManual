@@ -138,7 +138,7 @@ function registerLogEntry()
         'log_id' => $logID,
         'capture_date' => $_POST['date'],
         'extra_info1' => $_POST['notes'],
-        'extra_info2' => $_POST['notes']
+        'extra_info2' => $_POST['album_url']
     ]);
 
     // create a temporal storage for the many entries to be inserted in
@@ -177,6 +177,7 @@ function registerLogEntry()
 }
 
 
+// [***]
 // Returns the pre-operational log entries of the working areas and their
 // items in a determined zone that where captured in the given date for
 // presentation in a report
@@ -244,7 +245,16 @@ function getReportData()
                     $tempItems = [
                         'id' => $item['type_id'],
                         'name' => $item['type_name'],
-                        'items' => []
+                        'items' => [
+                            'id' => $item['item_id'],
+                            'order' => $item['position'],
+                            'name' => $item['item_name'],
+                            'status' => $item['is_acceptable'],
+                            'corrective_action_id' => 
+                                $item['corrective_action_id'],
+                            'corrective_action' => $item['corrective_action'],
+                            'comment' => $item['comment']
+                        ]
                     ];
                 }
             }
@@ -339,14 +349,14 @@ function editLogEntry()
     // first, let's check if the client sent the values to be inserted
     // in the proper array format
     $isSet =
-        isset($_POST['area_log']) && array_key_exists('area_log', $_POST);
+        isset($_POST['areas']) && array_key_exists('areas', $_POST);
 
     if (!$isSet) {
-        throw new \Exception("Input argument 'area_log' is missing");
+        throw new \Exception("Input argument 'areas' is missing");
     }
 
     // check each per area log entry
-    foreach ($_POST['area_log'] as $areaLogEntry) {
+    foreach ($_POST['areas'] as $areaLogEntry) {
         $isString =
             val\stringHasLengthInterval($areaLogEntry['notes'], 0, 256);
 
@@ -368,9 +378,9 @@ function editLogEntry()
         }
 
         // check each per item log entry
-        foreach ($areaLogEntry['item_logs'] as $itemsLogEntry) {
+        foreach ($areaLogEntry['items'] as $itemsLogEntry) {
             $isInt = val\integerIsBetweenValues(
-                $itemsLogEntry['item_id'], 1, \PHP_INT_MAX
+                $itemsLogEntry['id'], 1, \PHP_INT_MAX
             );
 
             if (!$isInt) {
@@ -426,7 +436,7 @@ function editLogEntry()
         );
 
         // the for each item in the area
-        foreach ($area['item_logs'] as $item) {
+        foreach ($area['items'] as $item) {
             // update the item log
             $itemsLog->updateByCapturedLogIDAndItemID(
                 [
@@ -434,7 +444,7 @@ function editLogEntry()
                     'comment' => $item['comment']
                 ],
                 $_POST['report_id'],
-                $item['item_id']
+                $item['id']
             );
         }
     }

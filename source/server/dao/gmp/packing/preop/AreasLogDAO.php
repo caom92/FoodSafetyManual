@@ -35,7 +35,17 @@ class AreasLogDAO extends db\DataAccessObject
     // date ID
     function selectByLogID($logID)
     {
-        return parent::select('*', ['capture_date_id' => $logID]);
+        return parent::$dataBase->query(
+            "SELECT 
+                id, 
+                capture_date_id, 
+                DATE_FORMAT(time, '%H:%i'), 
+                notes, 
+                person_performing_sanitation
+            FROM
+                $this->table
+            WHERE capture_date_id = $logID"
+        );
     }
 
 
