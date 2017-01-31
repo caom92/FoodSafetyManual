@@ -36,14 +36,14 @@ function registerLogEntry()
     // first, let's check if the client sent the values to be inserted
     // in the proper array format
     $isSet =
-        isset($_POST['area_log']) && array_key_exists('area_log', $_POST);
+        isset($_POST['areas']) && array_key_exists('areas', $_POST);
 
     if (!$isSet) {
-        throw new \Exception("Input argument 'area_log' is missing");
+        throw new \Exception("Input argument 'areas' is missing");
     }
 
     // check each per area log entry
-    foreach ($_POST['area_log'] as $areaLogEntry) {
+    foreach ($_POST['areas'] as $areaLogEntry) {
         $isDateTime = val\isDateTime($areaLogEntry['time'], 'G:i');
 
         if (!$isDateTime) {
@@ -73,9 +73,9 @@ function registerLogEntry()
         }
 
         // check each per item log entry
-        foreach ($areaLogEntry['item_logs'] as $itemsLogEntry) {
+        foreach ($areaLogEntry['items'] as $itemsLogEntry) {
             $isInt = val\integerIsBetweenValues(
-                $itemsLogEntry['item_id'], 1, \PHP_INT_MAX
+                $itemsLogEntry['id'], 1, \PHP_INT_MAX
             );
 
             if (!$isInt) {
@@ -144,7 +144,7 @@ function registerLogEntry()
     $itemsLogEntries = [];
 
     // insert each per area log entry one at the time...
-    foreach ($_POST['area_log'] as $areaLogEntry) {
+    foreach ($_POST['areas'] as $areaLogEntry) {
         // save the resulting ID for later use
         $areaID = $areasLog->insert([
             'capture_date_id' => $logID,
@@ -155,10 +155,10 @@ function registerLogEntry()
         ]);
 
         // then store each per item log entry in the temporal storage
-        foreach ($areaLogEntry['item_logs'] as $itemsLogEntry) {
+        foreach ($areaLogEntry['items'] as $itemsLogEntry) {
             array_push($itemsLogEntries, [
                 'area_log_id' => $areaID,
-                'item_id' => $itemsLogEntry['item_id'],
+                'item_id' => $itemsLogEntry['id'],
                 'is_acceptable' => $itemsLogEntry['is_acceptable'] === 'true',
                 'corrective_action_id' =>
                     $itemsLogEntry['corrective_action_id'],

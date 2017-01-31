@@ -342,6 +342,14 @@ fsm\Controller::$services = [
                 'type' => 'datetime',
                 'format' => 'Y-m-d'
             ],
+            'notes' => [
+                'type' => 'string',
+                'max_length' => 80
+            ],
+            'album_url' => [
+                'type' => 'string',
+                'max_length' => 256
+            ],
             'area_log' => [
                 'type' => 'array'
             ]
