@@ -138,7 +138,7 @@ function registerLogEntry()
         'log_id' => $logID,
         'capture_date' => $_POST['date'],
         'extra_info1' => $_POST['notes'],
-        'extra_info2' => $_POST['notes']
+        'extra_info2' => $_POST['album_url']
     ]);
 
     // create a temporal storage for the many entries to be inserted in
@@ -244,7 +244,16 @@ function getReportData()
                     $tempItems = [
                         'id' => $item['type_id'],
                         'name' => $item['type_name'],
-                        'items' => []
+                        'items' => [
+                            'id' => $item['item_id'],
+                            'order' => $item['position'],
+                            'name' => $item['item_name'],
+                            'status' => $item['is_acceptable'],
+                            'corrective_action_id' => 
+                                $item['corrective_action_id'],
+                            'corrective_action' => $item['corrective_action'],
+                            'comment' => $item['comment']
+                        ]
                     ];
                 }
             }
