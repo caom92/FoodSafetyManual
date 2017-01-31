@@ -28,7 +28,7 @@ function waitingReportCard(report){
             $("#authorizations_wrapper").hide();
             $("#content_wrapper").show();
             $("#content_wrapper").append(logHeader(header));
-            loadLogForm(null, "#content_wrapper");
+            loadPrefilledLogForm("#content_wrapper");
             $("#send_report").click(function(){
                 sendGmpPackingPreopReport();
                 /*$("#content_wrapper").hide();
