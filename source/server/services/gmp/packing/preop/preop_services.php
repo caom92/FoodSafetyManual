@@ -242,7 +242,7 @@ function getReportData()
                     ]);
                 } else {
                     array_push($tempAreaLogEntry['types'], $tempItems);
-                    $tempItems = [
+                    $tempItems = [[
                         'id' => $item['type_id'],
                         'name' => $item['type_name'],
                         'items' => [
@@ -255,7 +255,7 @@ function getReportData()
                             'corrective_action' => $item['corrective_action'],
                             'comment' => $item['comment']
                         ]
-                    ];
+                    ]];
                 }
             }
 
