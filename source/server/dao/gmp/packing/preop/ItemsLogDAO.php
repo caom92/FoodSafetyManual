@@ -86,7 +86,7 @@ class ItemsLogDAO extends db\DataAccessObject
                 ON a.capture_date_id = cl.id
             SET 
                 corrective_action_id = {$changes['corrective_action_id']},
-                comment = {$changes['comment']}
+                comment = '{$changes['comment']}'
             WHERE cl.id = $logID AND item_id = $itemID"
         );
     }

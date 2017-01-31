@@ -389,13 +389,13 @@ function editLogEntry()
                 );
             }
             
-            // $isBool = val\isBoolean($itemsLogEntry['is_acceptable']);
+            $isBool = val\isBoolean($itemsLogEntry['is_acceptable']);
 
-            // if (!$isBool) {
-            //     throw new \Exception(
-            //         'An is_acceptable flag is not a boolean'
-            //     );
-            // }
+            if (!$isBool) {
+                throw new \Exception(
+                    'An is_acceptable flag is not a boolean'
+                );
+            }
 
             $isInt = val\integerIsBetweenValues(
                 $itemsLogEntry['corrective_action_id'], 1, \PHP_INT_MAX
@@ -440,6 +440,7 @@ function editLogEntry()
             // update the item log
             $itemsLog->updateByCapturedLogIDAndItemID(
                 [
+                    'is_acceptable' => $item['is_acceptable'],
                     'corrective_action_id' => $item['corrective_action_id'],
                     'comment' => $item['comment']
                 ],
