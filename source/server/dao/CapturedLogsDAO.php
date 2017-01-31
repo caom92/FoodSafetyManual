@@ -211,6 +211,13 @@ class CapturedLogsDAO extends DataAccessObject
 
         return $num[0][0];
     }
+
+
+    // Updates the data of an entry in the table which has the especified ID
+    function updateByID($changes, $id) 
+    {
+        return parent::update($changes, ['id' => $id]);
+    }
 }
 
 ?>

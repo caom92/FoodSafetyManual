@@ -533,6 +533,14 @@ fsm\Controller::$services = [
                 'type' => 'int',
                 'min' => 1
             ],
+            'notes' => [
+                'type' => 'string',
+                'max_length' => 80
+            ],
+            'album_url' => [
+                'type' => 'string',
+                'max_length' => 256
+            ],
             'areas' => [
                 'type' => 'array'
             ]

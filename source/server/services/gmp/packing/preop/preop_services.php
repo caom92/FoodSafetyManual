@@ -420,8 +420,18 @@ function editLogEntry()
     }
 
     // connect to the database
+    $capturedLogs = new db\CapturedLogDAO();
     $areasLog = new preop\AreasLogDAO();
     $itemsLog = new preop\ItemsLogDAO();
+
+    // update the captured log info
+    $capturedLogs->updateByID(
+        [
+            'extra_info1' => $_POST['notes'],
+            'extra_info2' => $_POST['album_url']
+        ], 
+        $_POST['report_id']
+    );
 
     // for each area in the input array...
     foreach ($_POST['areas'] as $area) {
