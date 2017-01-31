@@ -36,14 +36,14 @@ function registerLogEntry()
     // first, let's check if the client sent the values to be inserted
     // in the proper array format
     $isSet =
-        isset($_POST['area_log']) && array_key_exists('area_log', $_POST);
+        isset($_POST['areas']) && array_key_exists('areas', $_POST);
 
     if (!$isSet) {
-        throw new \Exception("Input argument 'area_log' is missing");
+        throw new \Exception("Input argument 'areas' is missing");
     }
 
     // check each per area log entry
-    foreach ($_POST['area_log'] as $areaLogEntry) {
+    foreach ($_POST['areas'] as $areaLogEntry) {
         $isDateTime = val\isDateTime($areaLogEntry['time'], 'G:i');
 
         if (!$isDateTime) {
@@ -73,9 +73,9 @@ function registerLogEntry()
         }
 
         // check each per item log entry
-        foreach ($areaLogEntry['item_logs'] as $itemsLogEntry) {
+        foreach ($areaLogEntry['items'] as $itemsLogEntry) {
             $isInt = val\integerIsBetweenValues(
-                $itemsLogEntry['item_id'], 1, \PHP_INT_MAX
+                $itemsLogEntry['id'], 1, \PHP_INT_MAX
             );
 
             if (!$isInt) {
@@ -136,7 +136,9 @@ function registerLogEntry()
     $logID = $logDate->insert([
         'employee_id' => $_SESSION['user_id'],
         'log_id' => $logID,
-        'capture_date' => $_POST['date']
+        'capture_date' => $_POST['date'],
+        'extra_info1' => $_POST['notes'],
+        'extra_info2' => $_POST['notes']
     ]);
 
     // create a temporal storage for the many entries to be inserted in
@@ -144,7 +146,7 @@ function registerLogEntry()
     $itemsLogEntries = [];
 
     // insert each per area log entry one at the time...
-    foreach ($_POST['area_log'] as $areaLogEntry) {
+    foreach ($_POST['areas'] as $areaLogEntry) {
         // save the resulting ID for later use
         $areaID = $areasLog->insert([
             'capture_date_id' => $logID,
@@ -155,10 +157,10 @@ function registerLogEntry()
         ]);
 
         // then store each per item log entry in the temporal storage
-        foreach ($areaLogEntry['item_logs'] as $itemsLogEntry) {
+        foreach ($areaLogEntry['items'] as $itemsLogEntry) {
             array_push($itemsLogEntries, [
                 'area_log_id' => $areaID,
-                'item_id' => $itemsLogEntry['item_id'],
+                'item_id' => $itemsLogEntry['id'],
                 'is_acceptable' => $itemsLogEntry['is_acceptable'] === 'true',
                 'corrective_action_id' =>
                     $itemsLogEntry['corrective_action_id'],
@@ -208,8 +210,8 @@ function getReportData()
         foreach ($areas as $areaData) {
             $items = $itemsLog->selectByAreaLogID($areaData['id']);
             $tempAreaLogEntry = [
-                'area_id' => $items[0]['area_id'],
-                'area_name' => $items[0]['area_name'],
+                'id' => $items[0]['area_id'],
+                'name' => $items[0]['area_name'],
                 'person_performing_sanitation' =>
                     $areaData['person_performing_sanitation'],
                 'notes' => $areaData['notes'],
@@ -229,13 +231,13 @@ function getReportData()
                 if (!$hasTypeChanged) {
                     array_push($tempItems['items'], [
                         'id' => $item['item_id'],
-                        'item_order' => $item['position'],
-                        'item_name' => $item['item_name'],
-                        'item_status' => $item['is_acceptable'],
-                        'item_corrective_action_id' => 
+                        'order' => $item['position'],
+                        'name' => $item['item_name'],
+                        'status' => $item['is_acceptable'],
+                        'corrective_action_id' => 
                             $item['corrective_action_id'],
-                        'item_corrective_action' => $item['corrective_action'],
-                        'item_comments' => $item['comment']
+                        'corrective_action' => $item['corrective_action'],
+                        'comment' => $item['comment']
                     ]);
                 } else {
                     array_push($tempAreaLogEntry['types'], $tempItems);
@@ -269,6 +271,8 @@ function getReportData()
             'program_name' => 'GMP',
             'module_name' => 'Packing',
             'log_name' => 'Pre-Operational Inspection',
+            'notes' => $logDate['extra_info1'],
+            'album_url' => $logDate['extra_info2'],
             'areas' => $areasLogEntries
         ]);
     }
