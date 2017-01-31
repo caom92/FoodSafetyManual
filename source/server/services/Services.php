@@ -533,7 +533,7 @@ fsm\Controller::$services = [
                 'type' => 'int',
                 'min' => 1
             ],
-            'area_log' => [
+            'areas' => [
                 'type' => 'array'
             ]
         ],
