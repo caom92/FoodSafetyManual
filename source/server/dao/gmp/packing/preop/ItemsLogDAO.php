@@ -85,6 +85,7 @@ class ItemsLogDAO extends db\DataAccessObject
             INNER JOIN captured_logs AS cl
                 ON a.capture_date_id = cl.id
             SET 
+                is_acceptable = {$changes['is_acceptable']},
                 corrective_action_id = {$changes['corrective_action_id']},
                 comment = '{$changes['comment']}'
             WHERE cl.id = $logID AND item_id = $itemID"
