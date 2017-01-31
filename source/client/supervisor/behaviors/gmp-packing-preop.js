@@ -8,7 +8,7 @@ function createDatePicker(){
 // Wrapper for loading a Log Form. For convenience's sake, this name will
 // be shared among all log types
 
-function loadLogForm(data, htmlElement){
+function loadLogForm(htmlElement){
     console.log("Wrapper was called to load log form");
     $server.request({
         service: 'log-gmp-packing-preop',
@@ -16,6 +16,26 @@ function loadLogForm(data, htmlElement){
             if (response.meta.return_code == 0) {
                 gmpPackingPreop(response.data, htmlElement);
                 loadFunctionality({"isPrefilled":false});
+                changeLanguage(localStorage.defaultLanguage);
+                Materialize.toast("Informacion cargada del server", 3000, "rounded");
+            } else {
+                Materialize.toast("Some error", 3000, "rounded");
+                throw response.meta.message;
+            }
+        }
+    });
+}
+
+function loadPrefilledLogForm(htmlElement, data){
+    console.log("Wrapper was called for a prefilled log form");
+    data = {"start_date":"2017-01-31","end_date":"2017-01-31"};
+    $server.request({
+        service: 'report-gmp-packing-preop',
+        data: data,
+        success: function(response) {
+            if (response.meta.return_code == 0) {
+                gmpPackingPreop(response.data[0], htmlElement);
+                loadFunctionality({"isPrefilled":true});
                 changeLanguage(localStorage.defaultLanguage);
                 Materialize.toast("Informacion cargada del server", 3000, "rounded");
             } else {
@@ -84,7 +104,7 @@ function sendGmpPackingPreopReport(){
 
     console.log(report);
 
-    $server.request({
+    /*$server.request({
         service: 'capture-gmp-packing-preop',
         data: report,
         success: function(response){
@@ -94,7 +114,11 @@ function sendGmpPackingPreopReport(){
                 Materialize.toast(response.meta.message, 3000, "rounded");
             }
         }
-    });
+    });*/
+}
+
+function updateGmpPackingPreopReport(){
+    
 }
 
 function gmpPackingPreop(data, htmlElement){
@@ -109,8 +133,8 @@ function gmpPackingPreop(data, htmlElement){
     additionalData.addClass("card-panel white");
 
     additionalData.append(createText({"type":"text","classes":"report_additional_info"}));
-    additionalData.append(createInputRow({"columns":[gmpPackingPreopComment()]}));
-    additionalData.append(createInputRow({"columns":[gmpPackingPreopAlbumURL()]}));
+    additionalData.append(createInputRow({"columns":[gmpPackingPreopComment(data.notes)]}));
+    additionalData.append(createInputRow({"columns":[gmpPackingPreopAlbumURL(data.album_url)]}));
 
     log.append(additionalData);
     log.append($("<div class='row'>").append(createButton(gmpPackingPreopSendButton())));
@@ -118,18 +142,28 @@ function gmpPackingPreop(data, htmlElement){
     $(htmlElement).append(log);
 }
 
-function gmpPackingPreopComment(){
+function gmpPackingPreopComment(reportComment){
     var commentLabel = {"type":"label","contents":{"type":"text","classes":"comment_title"}};
     var commentInput = {"type":"input","id": "report_comment", "classes": "validate", "fieldType":"text"};
     var commentFullInput = {"id":"reportCommentWrapper","classes":"input-field col s12 m12 l12","field":commentInput,"label":commentLabel};
 
+    if(reportComment){
+        commentInput.value = reportComment;
+        commentLabel.classes = "active";
+    }
+
     return commentFullInput;
 }
 
-function gmpPackingPreopAlbumURL(){
+function gmpPackingPreopAlbumURL(reportUrl){
     var urlLabel = {"type":"label","contents":{"type":"text","classes":"url_title"}};
     var urlInput = {"type":"input","id": "report_url", "classes": "validate", "fieldType":"text"};
     var urlFullInput = {"id":"reportUrlWrapper","classes":"input-field col s12 m12 l12","field":urlInput,"label":urlLabel};
+
+    if(reportUrl){
+        urlInput.value = reportUrl;
+        urlLabel.classes = "active";
+    }
 
     return urlFullInput;
 }
@@ -150,7 +184,12 @@ function gmpPackingPreopArea(area){
     title.append(createIcon({"type":"icon","icon":"mdi-cube-outline","size":"mdi-18px","color":"blue-text", "text":{"type":"text","classes":"blue-text","text":area.name}}));
     areaCard.append(title);
 
-    areaCard.append(createInputRow({"columns":[gmpPackingPreopAreaTime(area.id, area.time)]}));
+    var areaTime = "";
+    if(area.time){
+        areaTime = area.time;
+    }
+
+    areaCard.append(createInputRow({"columns":[gmpPackingPreopAreaTime(area.id, areaTime.substr(0, 5))]}));
 
     for(var type of area.types){
         var typeTitle = $("<div>");
@@ -265,8 +304,8 @@ function gmpPackingPreopItemComment(item, areaID){
     var commentInput = {"type":"input","id": "comment_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"area_id":areaID,"item_id":item.id}};
     var commentFullInput = {"id":"commentWrapper_" + item.id,"classes":"input-field col s12 m12 l12","hidden": true,"field":commentInput,"label":commentLabel};
 
-    if(item.comments){
-        commentInput.value = item.comments;
+    if(item.comment){
+        commentInput.value = item.comment;
         commentLabel.classes = "active";
     }
 
