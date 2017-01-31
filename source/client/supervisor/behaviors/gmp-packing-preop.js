@@ -118,7 +118,49 @@ function sendGmpPackingPreopReport(){
 }
 
 function updateGmpPackingPreopReport(){
-    
+    var report = new Object();
+
+    report.report_id = 18;
+    report.areas = new Array();
+
+    $(".area-card").each(function(){
+        var area = new Object();
+        var areaID = $(this).data("id");
+        area.id = areaID;
+        area.time = $("#time_" + areaID).val();
+        area.notes = $("#notes_" + areaID).val();
+        area.person_performing_sanitation = $("#sanitation_" + areaID).val();
+        area.items = new Array();
+        $(this).children(".item-card").each(function(){
+            var item = new Object();
+            var itemID = $(this).data("id");
+            item.id = itemID;
+            item.is_acceptable = getBool($("input:radio[name='radio_" + itemID + "']:checked").val());
+            if(item.is_acceptable){
+                item.corrective_action_id = 1;
+                item.comment = "";
+            } else {
+                item.corrective_action_id = parseInt($("#correctiveAction_" + itemID).val());
+                item.comment = $("#comment_" + itemID).val();
+            }
+            area.items.push(item);
+        });
+        report.areas.push(area);
+    });
+
+    console.log(report);
+
+    $server.request({
+        service: 'update-gmp-packing-preop',
+        data: report,
+        success: function(response){
+            if (response.meta.return_code == 0) {
+                Materialize.toast("Reporte enviado con exito", 3000, "rounded");
+            } else {
+                Materialize.toast(response.meta.message, 3000, "rounded");
+            }
+        }
+    });
 }
 
 function gmpPackingPreop(data, htmlElement){
@@ -184,12 +226,7 @@ function gmpPackingPreopArea(area){
     title.append(createIcon({"type":"icon","icon":"mdi-cube-outline","size":"mdi-18px","color":"blue-text", "text":{"type":"text","classes":"blue-text","text":area.name}}));
     areaCard.append(title);
 
-    var areaTime = "";
-    if(area.time){
-        areaTime = area.time;
-    }
-
-    areaCard.append(createInputRow({"columns":[gmpPackingPreopAreaTime(area.id, areaTime.substr(0, 5))]}));
+    areaCard.append(createInputRow({"columns":[gmpPackingPreopAreaTime(area.id, area.time)]}));
 
     for(var type of area.types){
         var typeTitle = $("<div>");
@@ -289,8 +326,13 @@ function gmpPackingPreopItemStatus(item, areaID){
 function gmpPackingPreopItemCorrectiveAction(item, areaID){
     var actionOptions = new Array();
 
-    for(var action of JSON.parse(localStorage.correctiveActionsSSOP))
-        actionOptions.push({"value":action.id,"text":action.name,"classes":"timeChanger","data":{"area_id":areaID,"item_id":item.id}});
+    for(var action of JSON.parse(localStorage.correctiveActionsSSOP)){
+        var tempOption = {"value":action.id,"text":action.name,"classes":"timeChanger","data":{"area_id":areaID,"item_id":item.id}};
+        if(item.corrective_action_id == action.id){
+            tempOption.selected = true;
+        }
+        actionOptions.push(tempOption);
+    }
 
     var selectLabel = {"type":"label","contents":{"type":"text","classes":"action_title"}};
     var actionSelect =  {"type": "select", "id": "correctiveAction_" + item.id,"classes":"timeChanger", "options": actionOptions,"data":{"area_id":areaID,"item_id":item.id}};

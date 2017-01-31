@@ -424,13 +424,13 @@ function editLogEntry()
     $itemsLog = new preop\ItemsLogDAO();
 
     // for each area in the input array...
-    foreach ($_POST['area_log'] as $area) {
+    foreach ($_POST['areas'] as $area) {
         // update the area log 
         $areasLog->updateByCapturedLogID(
             [
                 'notes' => $area['notes'],
                 'person_performing_sanitation' => 
-                    $area['person_performing_sanitaiton']
+                    $area['person_performing_sanitation']
             ],
             $_POST['report_id']
         );
