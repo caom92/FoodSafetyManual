@@ -39,7 +39,7 @@ class AreasLogDAO extends db\DataAccessObject
             "SELECT 
                 id, 
                 capture_date_id, 
-                DATE_FORMAT(time, '%H:%i'), 
+                DATE_FORMAT(time, '%H:%i') AS time, 
                 notes, 
                 person_performing_sanitation
             FROM
