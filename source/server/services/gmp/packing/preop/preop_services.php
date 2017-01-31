@@ -430,7 +430,7 @@ function editLogEntry()
             [
                 'notes' => $area['notes'],
                 'person_performing_sanitation' => 
-                    $area['person_performing_sanitaiton']
+                    $area['person_performing_sanitaition']
             ],
             $_POST['report_id']
         );
