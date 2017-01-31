@@ -33,7 +33,7 @@ $(function (){
 
     if(localStorage.role_id == "3" || localStorage.role_id == "4" || localStorage.role_id == "5"){
     $server.request({
-        service: 'get-items-of-zone',
+        service: 'log-gmp-packing-preop',
         success: function(response) {
             if (response.meta.return_code == 0) {
                 console.log(response.data);

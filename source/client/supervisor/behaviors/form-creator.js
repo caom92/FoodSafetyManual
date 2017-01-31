@@ -442,6 +442,26 @@ function createButton(buttonObject){
     return buttonWrapper;
 }
 
+function getISODate(date){
+    var ISODate = "";
+
+    ISODate += date.getFullYear() + "-";
+
+    if((date.getMonth() + 1) < 9){
+        ISODate += "0" + (date.getMonth() + 1)+ "-";
+    } else {
+        ISODate += (date.getMonth() + 1) + "-";
+    }
+
+    if(date.getDate()<9){
+        ISODate += "0" + date.getDate();
+    } else {
+        ISODate += date.getDate();
+    }
+
+    return ISODate;
+}
+
 function getISOTime(date){
     var ISOTime = "";
 
@@ -465,6 +485,12 @@ function getISOTime(date){
     
     return ISOTime;
 }
+
+function getBool(val) {
+    var num;
+    return val != null && (!isNaN(num = +val) ? !!num : !!String(val).toLowerCase().replace(!!0, ''));
+}
+
 
 // Generic Log Form functions
 
