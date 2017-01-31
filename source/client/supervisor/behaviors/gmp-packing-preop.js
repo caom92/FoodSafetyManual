@@ -11,12 +11,11 @@ function createDatePicker(){
 function loadLogForm(data, htmlElement){
     console.log("Wrapper was called to load log form");
     $server.request({
-        service: 'get-items-of-zone',
+        service: 'log-gmp-packing-preop',
         success: function(response) {
             if (response.meta.return_code == 0) {
-                console.log("SUPER GMP A HUEVO");
-                console.log(response);
                 gmpPackingPreop(response.data, htmlElement);
+                loadFunctionality({"isPrefilled":false});
                 changeLanguage(localStorage.defaultLanguage);
                 Materialize.toast("Informacion cargada del server", 3000, "rounded");
             } else {
@@ -39,21 +38,69 @@ function loadReport(){
 
 }
 
+function sendReport(){
+
+}
+
 /******************************************************************************
 A collection of functions to display the Log Form. This will be related to the
 name of the log, located in the name_suffix field on the database. Usually, we
 are going to divide them into full log, area log and individual item log.
 ******************************************************************************/
 
+function sendGmpPackingPreopReport(){
+    var report = new Object();
+
+    report.user_id = localStorage.user_id;
+    report.date = getISODate(new Date());
+    report.notes = $("#report_comment").val();
+    report.album_url = $("#report_url").val();
+    report.areas = new Array();
+
+    $(".area-card").each(function(){
+        var area = new Object();
+        var areaID = $(this).data("id");
+        area.id = areaID;
+        area.time = $("#time_" + areaID).val();
+        area.notes = $("#notes_" + areaID).val();
+        area.person_performing_sanitation = $("#sanitation_" + areaID).val();
+        area.items = new Array();
+        $(this).children(".item-card").each(function(){
+            var item = new Object();
+            var itemID = $(this).data("id");
+            item.id = itemID;
+            item.is_acceptable = getBool($("input:radio[name='radio_" + itemID + "']:checked").val());
+            if(item.is_acceptable){
+                item.corrective_action_id = 1;
+                item.comment = "";
+            } else {
+                item.corrective_action_id = parseInt($("#correctiveAction_" + itemID).val());
+                item.comment = $("#comment_" + itemID).val();
+            }
+            area.items.push(item);
+        });
+        report.areas.push(area);
+    });
+
+    console.log(report);
+
+    $server.request({
+        service: 'capture-gmp-packing-preop',
+        data: report,
+        success: function(response){
+            if (response.meta.return_code == 0) {
+                Materialize.toast("Reporte enviado con exito", 3000, "rounded");
+            } else {
+                Materialize.toast(response.meta.message, 3000, "rounded");
+            }
+        }
+    });
+}
+
 function gmpPackingPreop(data, htmlElement){
     var log = $("<div>");
     var additionalData = $("<div>");
 
-    /*var response = {"meta":{"return_code":0,"message":"Success."},"data":{"zone_name":"LAW","program_name":"GMP","module_name":"Packing","log_name":"Pre-Operational Inspection","areas":[{"id":1,"name":"Warehouse","types":[{"id":1,"name":"Food Contact - Daily","items":[{"id":21,"name":"Elemento con Food Contact","order":11}]},{"id":2,"name":"Non Food Contact - Daily","items":[{"id":4,"name":"Equipment Tomatoes","order":2},{"id":3,"name":"Trash Recepticales","order":2},{"id":1,"name":"Floors","order":5},{"id":5,"name":"Stainless Table (5)","order":8},{"id":7,"name":"Forklift\/Palletjack\/Wave","order":9},{"id":2,"name":"Ceiling Lights","order":10},{"id":6,"name":"Roll Up Loading Doors","order":11}]}]},{"id":2,"name":"Cooler #1","types":[{"id":2,"name":"Non Food Contact - Daily","items":[{"id":8,"name":"Floors","order":1},{"id":9,"name":"Cool Care Fans","order":2},{"id":10,"name":"Ceiling Lights","order":3},{"id":11,"name":"Trash Recepticales","order":4},{"id":12,"name":"Walls","order":5},{"id":13,"name":"Plastic Curtains","order":6},{"id":14,"name":"Cooling Units","order":7}]}]},{"id":3,"name":"Cooler #2","types":[{"id":2,"name":"Non Food Contact - Daily","items":[{"id":18,"name":"Walls","order":1},{"id":15,"name":"Floors","order":2},{"id":20,"name":"Cooling Units","order":3},{"id":16,"name":"Ceiling Lights","order":4},{"id":19,"name":"Plastic Curtains","order":5},{"id":17,"name":"Trash Recepticales","order":6}]}]}]}};
-    console.log(response);
-    console.log(response.data);*/
-
-    console.log("BASE DE DATOS");
     console.log(data);
     for(var area of data.areas){
         log.append(gmpPackingPreopArea(area));
@@ -61,7 +108,6 @@ function gmpPackingPreop(data, htmlElement){
 
     additionalData.addClass("card-panel white");
 
-    console.log(gmpPackingPreopComment());
     additionalData.append(createText({"type":"text","classes":"report_additional_info"}));
     additionalData.append(createInputRow({"columns":[gmpPackingPreopComment()]}));
     additionalData.append(createInputRow({"columns":[gmpPackingPreopAlbumURL()]}));
@@ -92,14 +138,14 @@ function gmpPackingPreopSendButton(){
     var button = {"type":"button","id":"send_report","icon":{"type":"icon","icon":"mdi-send","size":"mdi-18px", "text":{"type":"text","classes":"send_button"}}};
 
     return button;
-
 }
 
 function gmpPackingPreopArea(area){
     var areaCard = $("<div>");
     var title = $("<div>");
 
-    areaCard.addClass("card-panel white");
+    areaCard.addClass("card-panel white area-card");
+    areaCard.data("id", area.id);
     title.addClass("card-title");
     title.append(createIcon({"type":"icon","icon":"mdi-cube-outline","size":"mdi-18px","color":"blue-text", "text":{"type":"text","classes":"blue-text","text":area.name}}));
     areaCard.append(title);
@@ -171,7 +217,8 @@ function gmpPackingPreopItem(item, areaID){
 
     itemCard.append(createInputRow(itemRow));
     itemCard.append(createInputRow(commentRow));
-    itemCard.addClass("card-panel white");
+    itemCard.addClass("card-panel white item-card");
+    itemCard.data("id", item.id);
 
     return itemCard;
 }
@@ -187,7 +234,7 @@ function gmpPackingPreopItemStatus(item, areaID){
     var acceptableIcon = {"type":"icon","icon":"mdi-check-circle","size":"mdi-18px","color":"green-text", "text":{"type":"text","classes":"acceptable_tag green-text"}};
     var unacceptableIcon = {"type":"icon","icon":"mdi-close-circle","size":"mdi-18px","color":"red-text", "text":{"type":"text","classes":"unacceptable_tag red-text"}};    
     var radioAcceptable = {"type":"radio","id":"acceptable_" + item.id,"classes":"timeChanger","value":"true","label":{"type":"label","for":"acceptable_" + item.id,"contents": acceptableIcon},"data":{"area_id":areaID,"item_id":item.id}};
-    var radioUnacceptable = {"type":"radio","id":"unacceptable_" + item.id,"classes":"timeChanger","value":"true","label":{"type":"label","for":"unacceptable_" + item.id,"contents": unacceptableIcon},"data":{"area_id":areaID,"item_id":item.id}};
+    var radioUnacceptable = {"type":"radio","id":"unacceptable_" + item.id,"classes":"timeChanger","value":"false","label":{"type":"label","for":"unacceptable_" + item.id,"contents": unacceptableIcon},"data":{"area_id":areaID,"item_id":item.id}};
     var itemRadioGroup = {"type": "radioGroup", "id":"radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"radio_" + item.id,"radioArray":[radioAcceptable, radioUnacceptable]};
     var groupInput = {"id":"radioWrapper_" + item.id,"classes":"col s8 m8 l4","field":itemRadioGroup};
 
@@ -261,7 +308,6 @@ function gmpPackingPreopFunctionality(data){
         });
     } else {
         $(".timeChanger").change(function(){
-            console.log($(this).data());
             if($(this).data().area_id)
                 $("#time_" + $(this).data().area_id).val(getISOTime(new Date()));
         });
