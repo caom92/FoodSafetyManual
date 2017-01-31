@@ -50,7 +50,9 @@ class CapturedLogsDAO extends DataAccessObject
                 'capture_date',
                 'employee_id',
                 'approval_date',
-                'supervisor_id'
+                'supervisor_id',
+                'extra_info1',
+                'extra_info2'
             ], 
             [
                 'AND' => [

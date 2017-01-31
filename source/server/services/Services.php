@@ -350,7 +350,7 @@ fsm\Controller::$services = [
                 'type' => 'string',
                 'max_length' => 256
             ],
-            'area_log' => [
+            'area_s' => [
                 'type' => 'array'
             ]
         ],
