@@ -1,10 +1,6 @@
 // DatePicker is common to all reports. It's used to select a range of dates
 // to display in report form
 
-function createDatePicker(){
-
-}
-
 // Wrapper for loading a Log Form. For convenience's sake, this name will
 // be shared among all log types
 
@@ -14,9 +10,17 @@ function loadLogForm(htmlElement){
         service: 'log-gmp-packing-preop',
         success: function(response) {
             if (response.meta.return_code == 0) {
-                gmpPackingPreop(response.data, htmlElement);
+                var report = response.data;
+                console.log(report);
+                var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name, "id":"log_name"}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":getISODate(new Date())},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":localStorage.first_name + " " + localStorage.last_name}]}]};
+                $(htmlElement).append(logHeader(header));
+                gmpPackingPreop(report, htmlElement);
                 loadFunctionality({"isPrefilled":false});
                 changeLanguage(localStorage.defaultLanguage);
+                $("#send_report").click(function(){
+                    sendGmpPackingPreopReport();
+                });
+                $('.log_title').html($("#log_name").text());
                 Materialize.toast("Informacion cargada del server", 3000, "rounded");
             } else {
                 Materialize.toast("Some error", 3000, "rounded");
@@ -33,10 +37,10 @@ function loadPrefilledLogForm(htmlElement, data){
         data: data,
         success: function(response) {
             if (response.meta.return_code == 0) {
-                $("#content_wrapper").html("");
+                $(htmlElement).html("");
                 var report = response.data[0];
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":report.creation_date},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":report.created_by}]}]};
-                $("#content_wrapper").append(logHeader(header));
+                $(htmlElement).append(logHeader(header));
                 gmpPackingPreop(report, htmlElement);
                 loadFunctionality({"isPrefilled":true});
                 $("#send_report").click(function(){

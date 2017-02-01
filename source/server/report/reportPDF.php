@@ -195,7 +195,7 @@
                     $areaRows += count($type['items']) + 1;
                 }
 
-                array_push($firstRow, (object) array("rowspan" => $areaRows, "contents" => $area['area_name'], "classes" => "areaColumn"));
+                array_push($firstRow, (object) array("rowspan" => $areaRows, "contents" => $area['name'], "classes" => "areaColumn"));
                 array_push($firstRow, (object) array("rowspan" => $areaRows, "contents" => substr($area['time'], 0, -3), "classes" => "timeColumn"));
 
                 foreach ($area['types'] as $type) {
@@ -210,17 +210,17 @@
                     }
                     foreach ($type['items'] as $item) {
                         $temp = [];
-                        array_push($temp, (object) array("contents" => $item["item_order"], "classes" => "numberColumn"));
-                        array_push($temp, (object) array("contents" => $item["item_name"], "classes" => "nameColumn"));
+                        array_push($temp, (object) array("contents" => $item["order"], "classes" => "numberColumn"));
+                        array_push($temp, (object) array("contents" => $item["name"], "classes" => "nameColumn"));
 
-                        if($item["item_status"] == 1) {
+                        if($item["status"] == 1) {
                             array_push($temp, (object) array("contents" => "Aceptable", "classes" => "acceptable_tag statusColumn"));
                         } else {
                             array_push($temp, (object) array("contents" => "Aceptable", "classes" => "unacceptable_tag statusColumn"));
                         }
 
-                        array_push($temp, (object) array("contents" => $item["item_corrective_action"], "classes" => "actionColumn"));
-                        array_push($temp, (object) array("contents" => $item["item_comments"], "classes" => "commentColumn"));
+                        array_push($temp, (object) array("contents" => $item["corrective_action"], "classes" => "actionColumn"));
+                        array_push($temp, (object) array("contents" => $item["comment"], "classes" => "commentColumn"));
 
                         array_push($reportContents, $temp);
                     }

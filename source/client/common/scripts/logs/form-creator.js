@@ -536,6 +536,10 @@ function logHeaderColumn(column){
         headerColumn.append(": ");
     }
 
+    if(column.id){
+        contents.attr("id", column.id);
+    }
+
     if(column.columnText){
         contents.append(column.columnText);
         headerColumn.append(contents);
