@@ -546,6 +546,22 @@ fsm\Controller::$services = [
             ]
         ],
         'callback' => 'fsm\services\gmp\packing\preop\editLogEntry'
+    ],
+    'check-log-for-date' => [
+        'requirements_desc' => [
+            'logged_in' => ['Employee', 'Supervisor', 'Manager', 'Director'],
+            'log_id' => [
+                'type' => 'int',
+                'min' => 1
+            ],
+            'capture_date' => [
+                'type' => [
+                    'type' => 'datetime',
+                    'format' => 'Y-m-d'
+                ]
+            ]
+        ],
+        'callback' => 'fsm\services\server_services\checkIfLogExistsByDate'
     ]
 ];
 
