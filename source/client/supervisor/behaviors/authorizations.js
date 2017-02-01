@@ -25,10 +25,8 @@ function waitingReportCard(report){
     reportButton.children("a").click(function(index) {
         var reportID = $(this).data("report_id");
         $.getScript( "source/client/supervisor/behaviors/" + $(this).data("service_name") + ".js", function( data, textStatus, jqxhr ) {
-            var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":"Pre-operational Log"}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":"LAW"},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":"GMP"},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":"Packing"}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":"2017-01-23"},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":"Empleado I"}]}]};
             $("#authorizations_wrapper").hide();
             $("#content_wrapper").show();
-            $("#content_wrapper").append(logHeader(header));
             var data = {"start_date":report.capture_date,"end_date":report.capture_date,"report_id":reportID};
             loadPrefilledLogForm("#content_wrapper", data);
         });
