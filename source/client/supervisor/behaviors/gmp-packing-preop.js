@@ -28,14 +28,17 @@ function loadLogForm(htmlElement){
 
 function loadPrefilledLogForm(htmlElement, data){
     console.log("Wrapper was called for a prefilled log form");
-    data = {"start_date":"2017-01-31","end_date":"2017-01-31"};
     $server.request({
         service: 'report-gmp-packing-preop',
         data: data,
         success: function(response) {
             if (response.meta.return_code == 0) {
+                $("#content_wrapper").html("");
                 gmpPackingPreop(response.data[0], htmlElement);
                 loadFunctionality({"isPrefilled":true});
+                $("#send_report").click(function(){
+                    updateGmpPackingPreopReport(parseInt(data.report_id));
+                });
                 changeLanguage(localStorage.defaultLanguage);
                 Materialize.toast("Informacion cargada del server", 3000, "rounded");
             } else {
@@ -117,10 +120,10 @@ function sendGmpPackingPreopReport(){
     });*/
 }
 
-function updateGmpPackingPreopReport(){
+function updateGmpPackingPreopReport(reportID){
     var report = new Object();
 
-    report.report_id = 18;
+    report.report_id = reportID;
     report.notes = $("#report_comment").val();
     report.album_url = $("#report_url").val();
     report.areas = new Array();
@@ -158,6 +161,8 @@ function updateGmpPackingPreopReport(){
         success: function(response){
             if (response.meta.return_code == 0) {
                 Materialize.toast("Reporte enviado con exito", 3000, "rounded");
+                $("#content_wrapper").hide();
+                $("#authorizations_wrapper").show();
             } else {
                 Materialize.toast(response.meta.message, 3000, "rounded");
             }
