@@ -24,7 +24,9 @@ function waitingReportCard(report){
 
     reportButton.children("a").click(function(index) {
         var reportID = $(this).data("report_id");
-        $.getScript( "source/client/supervisor/behaviors/" + $(this).data("service_name") + ".js", function( data, textStatus, jqxhr ) {
+        var logScript = $(this).data("service_name");
+        $.getScript( "source/client/common/scripts/logs/" + logScript + ".js", function( data, textStatus, jqxhr ) {
+            console.log("Load of " +  logScript);
             $("#authorizations_wrapper").hide();
             $("#content_wrapper").show();
             var data = {"start_date":report.capture_date,"end_date":report.capture_date,"report_id":reportID};
@@ -208,7 +210,7 @@ function updateSigns(){
 }
 
 $(function (){
-    $.getScript( "source/client/supervisor/behaviors/form-creator.js", function( data, textStatus, jqxhr ) {
+    $.getScript( "source/client/common/scripts/logs/form-creator.js", function( data, textStatus, jqxhr ) {
         console.log( "Load of form-creator.js was performed." );
     });
     fillPendingAuthorizations();
