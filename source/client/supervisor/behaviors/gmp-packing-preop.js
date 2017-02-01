@@ -34,7 +34,10 @@ function loadPrefilledLogForm(htmlElement, data){
         success: function(response) {
             if (response.meta.return_code == 0) {
                 $("#content_wrapper").html("");
-                gmpPackingPreop(response.data[0], htmlElement);
+                var report = response.data[0];
+                var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":report.creation_date},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":report.created_by}]}]};
+                $("#content_wrapper").append(logHeader(header));
+                gmpPackingPreop(report, htmlElement);
                 loadFunctionality({"isPrefilled":true});
                 $("#send_report").click(function(){
                     updateGmpPackingPreopReport(parseInt(data.report_id));
@@ -107,7 +110,7 @@ function sendGmpPackingPreopReport(){
 
     console.log(report);
 
-    /*$server.request({
+    $server.request({
         service: 'capture-gmp-packing-preop',
         data: report,
         success: function(response){
@@ -117,7 +120,7 @@ function sendGmpPackingPreopReport(){
                 Materialize.toast(response.meta.message, 3000, "rounded");
             }
         }
-    });*/
+    });
 }
 
 function updateGmpPackingPreopReport(reportID){
@@ -401,14 +404,3 @@ function gmpPackingPreopFunctionality(data){
         });
     }
 }
-
-/*$(function (){
-    $.getScript( "source/client/supervisor/behaviors/form-creator.js", function( data, textStatus, jqxhr ) {
-        console.log( "Load was performed." );
-        var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":"Pre-operational Log"}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":"LAW"},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":"GMP"},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":"Packing"}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":"2017-01-23"},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":"Empleado I"}]}]};
-        $("#content_wrapper").append(logHeader(header));
-        gmpPackingPreop(null, "#content_wrapper");
-        gmpPackingPreopFunctionality();
-        changeLanguage(localStorage.defaultLanguage);
-    });
-});*/
