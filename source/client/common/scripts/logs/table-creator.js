@@ -170,7 +170,7 @@ function tableFooter(footerData){
     Output:
 
     <tr id="id" class="class" colspan="1" rowspan="1">
-        Output of tableColumn(column) for each column in columns
+        Output of tableColumn(column) for each column in columns OR Output of headerColumn(column) for each column in columns
     </tr>
 */
 
