@@ -7,12 +7,17 @@ function createDatePicker(){
     $("#end_date").pickadate(datePicker("end_hidden", new Date(), new Date("2016-10-01T00:00:00")));
 }
 
-function isDateValid(startDate, endDate){
-
-}
-
 $(function (){
-    // First we change the title to that of the current 
+    // First we change the title to that of the current
+
+    var getParams = getURLQueryStringAsJSON();
+    $.getScript( "source/client/common/scripts/logs/form-creator.js", function( data, textStatus, jqxhr ) {
+        $.getScript( "source/client/common/scripts/logs/" + getParams._ + ".js", function( data, textStatus, jqxhr ) {
+            console.log("Load of " +  getParams._);
+            loadLogForm("#logs_tab");
+        });
+    });    
+
     $('ul.tabs').tabs();
     $('.indicator').addClass("green");
     createDatePicker();
@@ -32,31 +37,7 @@ $(function (){
     });
 
     if(localStorage.role_id == "3" || localStorage.role_id == "4" || localStorage.role_id == "5"){
-    $server.request({
-        service: 'log-gmp-packing-preop',
-        success: function(response) {
-            if (response.meta.return_code == 0) {
-                console.log(response.data);
-                loadLogForm("SSOP", response.data);
-                var r = response.data;
-                var userPriv = JSON.parse(localStorage.privileges);
-                if(userPriv[r.zone_name][r.program_name][r.module_name][r.log_name]['privilege']['name'] == "Read"){
-                    $("#logs_tab").remove();
-                    $(".logs_tab").parent().remove();
-                    $('ul.tabs').tabs();
-                    $('.indicator').addClass("green");
-                }
-                changeLanguage(localStorage.defaultLanguage);
-                $('select').material_select();
-            } else {
-                $("#logs_tab").remove();
-                $(".logs_tab").parent().remove();
-                $('ul.tabs').tabs();
-                $('.indicator').addClass("green");
-                throw response.meta.message;
-            }
-        }
-    });
+        changeLanguage(localStorage.defaultLanguage);
     } else {
         $("#logs_tab").remove();
         $(".logs_tab").parent().remove();
@@ -180,142 +161,7 @@ $(function (){
     }
 });
 
-
-function loadLogForm(type, data){
-    // With type we will know which functions to call, with data we will know what to display
-    functionArray[type](data);
-}
-
 // Function array
-
-var functionArray = [];
-
-functionArray["SSOP"] = SSOPPreOperative;
-
-// SSOP Pre Operation Functions
-
-function SSOPPreOperative(data){
-    var wrapper = $("<div>");
-    $(".log_title").html(data.log_name);
-    wrapper.append(logHeader(data.zone_name, data.program_name, data.module_name, data.log_name, getISODate(new Date), localStorage.first_name + " " + localStorage.last_name));
-
-    for(area of data.areas)
-        wrapper.append(SSOPPreOperativeArea(area));
-
-    wrapper.append(sendButton("sendSSOP"));
-
-    $("#logs_tab").append(wrapper);
-
-    // Bind functionality
-
-    $("input[id^='acceptable_']").change(function(){
-        if($(this).is(":checked")){
-            var tag = $(this).attr("id");
-            var id = tag.match(/[0-9]+_[0-9]+/g);
-            $("#wrapper_select_" + id[0]).hide(500);
-            $("#comment_wrapper_" + id[0]).hide(500);
-        }
-    });
-
-    $("input[id^='unacceptable_']").change(function(){
-        if($(this).is(":checked")){
-            var tag = $(this).attr("id");
-            var id = tag.match(/[0-9]+_[0-9]+/g);
-            $("#wrapper_select_" + id[0]).show(500);
-            $("#comment_wrapper_" + id[0]).show(500);
-        }
-    });
-
-    $("#logs_tab input, #logs_tab select").change(function(){
-        var tag = $(this).attr("id");
-        var id = tag.match(/[0-9]+/g);
-        $("#area_time_" + id[id.length-1]).val(getISOTime(new Date()));
-    });
-
-    $("#sendSSOP").click(function(){
-        if(isSSOPReportValid()){
-            sendSSOPReport();
-        } else {
-            Materialize.toast("Por favor rellene todos los campos", 3000, "rounded");
-        }
-    });
-}
-
-function isSSOPReportValid(){
-    // Check for the next things for the report to be considered valid:
-    // 1. All radio buttons must have a value
-    // 2. If radio buttons are selected to unnaceptable, both corrective action and
-    //    comment should be filled
-    // 3. If radio buttons are selected to acceptable, corrective action defaults to 1
-    //    and comment will be empty
-
-    // First condition, we make sure that the total number of radio button elements is
-    // Equal to two times those selected (two times because we can only select one radio)
-    // button at a time
-
-    var errors = 0;
-
-    if($("input[name^='radio_']").length == (($("input[id^='acceptable_']:checked").length + $("input[id^='unacceptable_']:checked").length)*2)){
-        $("input[id^='acceptable_']").each(function(index){
-            // Basically, for each ID in index
-            if($("input[name^='radio_" + index + "_']:checked").val() == "false"){
-                // If unacceptable is selected we must verify if a corrective action and comment are selected
-
-                // Corrective action selected means there is a value other than null
-                if($("select[id^='select_" + index + "_']").val() === null){
-                    errors++;
-                }
-
-                // Comment must have a length other than zero
-                if($("input[id^='comment_" + index + "_']").val().length == 0){
-                    errors++;
-                }
-            }
-        });
-    } else {
-        errors++;
-    }
-
-    if(errors == 0) {
-        console.log("true part achieved");
-        return true;
-    } else {
-        console.log("Errors: " + errors);
-        return false;
-    }
-
-}
-
-function SSOPPreOperativeArea(area){
-    var areaCard = divWrapper("area_report_" + area.id, "card-panel white");
-    var title = cardTitle(null, "card-title", area.name);
-    var timeWrapper = divWrapper(null, "row");
-    var areaTime = logTextField("area_time_wrapper" +  area.id, logTextInput("area_time_" + area.id, "validate", "text", null), null, "input-field col s12");
-    var notesRow = divWrapper(null, "row");
-    var sanitationRow = divWrapper(null, "row");
-
-    timeWrapper.append(areaTime);
-
-    areaCard.append(title);
-    areaCard.append(timeWrapper);
-    areaCard.append("<br>");
-    areaCard.append("<br>");
-
-    for (var type of area.types){
-        areaCard.append(SSOPTypeTitle(type.name));
-        for (var item of type.items){
-            areaCard.append(SSOPPreoperativeItem(item, area.id));
-        }
-    }
-    
-    notesRow.append(logTextField("note_wrapper_" + area.id, logTextInput("area_notes_" + area.id, "validate", "text", null), logLabel(null, null, null, "Notas"), "input-field col s12"));
-    sanitationRow.append(logTextField("sanitation_wrapper_" + area.id, logTextInput("area_sanitation_" + area.id, "validate", "text", null), logLabel(null, null, null, "Persona a cargo de la sanitizacion"), "input-field col s12"));
-
-    areaCard.append(notesRow);
-    areaCard.append(sanitationRow);
-
-    return areaCard;
-}
 
 function reportTable(id, classes, header, body, footer){
     var table = $("<table>");
@@ -508,7 +354,7 @@ function loadSSOPReport(startDate, endDate){
 
                         console.log(areaRows);
 
-                        firstRow.push({rowspan: areaRows, contents: area.area_name, classes: "areaColumn"});
+                        firstRow.push({rowspan: areaRows, contents: area.name, classes: "areaColumn"});
                         firstRow.push({rowspan: areaRows, contents: area.time, classes: "timeColumn"});
 
                         console.log(area.area_name);
@@ -524,27 +370,27 @@ function loadSSOPReport(startDate, endDate){
                             type.items.forEach(function(item){
                                 var tempRow = new Array();
 
-                                tempRow.push({contents: item.item_order, classes: "numberColumn"});
-                                tempRow.push({contents: item.item_name, classes: "nameColumn"});
+                                tempRow.push({contents: item.order, classes: "numberColumn"});
+                                tempRow.push({contents: item.name, classes: "nameColumn"});
 
-                                if(item.item_status == 1){
+                                if(item.status == 1){
                                     tempRow.push({classes: "acceptable_tag statusColumn"});
                                 } else {
                                     tempRow.push({classes: "unacceptable_tag statusColumn"});
                                 }
 
-                                tempRow.push({contents: item.item_corrective_action, classes: "actionColumn"});
-                                tempRow.push({contents: item.item_comments, classes: "commentColumn"});
+                                tempRow.push({contents: item.corrective_action, classes: "actionColumn"});
+                                tempRow.push({contents: item.comment, classes: "commentColumn"});
 
                                 reportContents.push(tempRow);
-                                console.log(item.item_name);
+                                console.log(item.name);
                             });
                         });
                         var notesRow = new Array();
                         var personRow = new Array();
 
-                        notesRow.push({colspan: headers.length - 2, contents: "<span class='bold notes_title'></span>: " + area.notes, classes: "fullColumn"});
-                        personRow.push({colspan: headers.length - 2, contents: "<span class='bold person_performing_sanitation_title'></span>: " + area.person_performing_sanitation, classes: "fullColumn"});
+                        notesRow.push({colspan: headers.length, contents: "<span class='bold notes_title'></span>: " + area.notes, classes: "fullColumn"});
+                        personRow.push({colspan: headers.length, contents: "<span class='bold person_performing_sanitation_title'></span>: " + area.person_performing_sanitation, classes: "fullColumn"});
 
                         reportContents.push(notesRow);
                         reportContents.push(personRow);
@@ -591,6 +437,7 @@ function loadSSOPReport(startDate, endDate){
     });
 }
 
+<<<<<<< HEAD
 function testReportService(){
     var report = new Object();
     report.start_date = "2016-11-24";
@@ -821,6 +668,8 @@ function logHeader(zone, program, module, log, date, employeeName){
     return reportCard;
 }
 
+=======
+>>>>>>> miracle
 // A generic div wrapper
 
 function divWrapper(id, classes){
@@ -845,142 +694,6 @@ function cardTitle(id, classes, contents){
     title.append(contents);
 
     return title;
-}
-
-// A text input/label pair, used very often
-
-function logTextField(id, textInput, label, classes){
-    var textField = $("<div>");
-
-    if(id)
-        textField.attr("id", id);
-
-    textField.addClass(classes);
-    textField.append(textInput);
-    textField.append(label);
-
-    return textField;
-}
-
-// A text input with the desired id, classes and disabled status
-// if necessary
-
-function logTextInput(id, classes, type, isDisabled){
-    var disabled = "";
-    (typeof id == "string") ? id = 'id="' + id + '"' : id = '';
-    (typeof classes == "string") ? classes = 'class="' + classes + '"' : classes = '';
-    (typeof type == "string") ? type = 'type="' + type + '"' : type = '';
-    isDisabled ? disabled = "disabled" : disabled = ""; 
-
-    var input = '<input ' + disabled + ' ' + id + ' ' + classes + ' ' + type + '>';
-
-    input = $(input);
-
-    return input;
-}
-
-// A label, usable for text inputs, text areas, radio buttons and pretty
-// much everything
-
-function logLabel(id, classes, labelFor, contents){
-    (typeof id == "string") ? id = 'id="' + id + '"' : id = '';
-    (typeof classes == "string") ? classes = 'class="' + classes + '"' : classes = '';
-    (typeof labelFor == "string") ? labelFor = 'for="' + labelFor + '"' : labelFor = '';
-
-    var label = '<label ' + id + ' ' + classes + ' ' + labelFor + '></label>';
-
-    label = $(label);
-
-    if (contents)
-        label.append(contents);
-
-    return label;
-}
-
-// Icon wrapper. 
-
-function logIcon(classes){
-    var icon = $("<i>");
-
-    icon.addClass(classes);
-
-    return icon;
-}
-
-// A way to group radio buttons; buttons must be an array of buttons
-// created with logRadioButtonInput
-
-function logRadioButtonGroup(id, classes, buttons){
-    var wrapper = $("<div>");
-
-    wrapper.addClass(classes);
-
-    if(id)
-        wrapper.attr("id", id);
-
-    for(var button of buttons){
-        wrapper.append(button);
-    }
-
-    return wrapper;
-}
-
-// An individual radio button with all of its elements
-
-function logRadioButtonInput(id, classes, label, groupName, value){
-    var wrapper = $("<div>");
-
-    (typeof id == "string") ? id = 'id="' + id + '"' : id = '';
-    (typeof classes == "string") ? classes = 'class="' + classes + '"' : classes = '';
-    (typeof groupName == "string") ? groupName = 'name="' + groupName + '"' : groupName = '';
-    (typeof value != "undefined") ? value = 'value="' + value + '"' : value = '';
-
-    var radioButton = '<input ' + groupName + ' ' + id + ' ' + classes + ' ' + value + ' type="radio" />';
-
-    radioButton = $(radioButton);
-
-    wrapper.append(radioButton);
-    wrapper.append(label);
-
-    return wrapper;
-}
-
-// A way to group select options; options must be an array of options
-// created with logSelectOption
-
-function logSelectInput(id, classes, options, label){
-    var wrapper = $("<div>");
-    var selectInput = $("<select>");
-
-    wrapper.addClass(classes);
-    wrapper.attr("id", "wrapper_" + id);
-    selectInput.attr("id", id);
-
-    for(var option of options){
-        selectInput.append(option);
-    }
-
-    wrapper.append(selectInput);
-    wrapper.append(label);
-
-    return wrapper;
-}
-
-// An individual select option with all of its elements
-
-function logSelectOption(id, classes, value, isDisabled, isSelected, contents){
-    var disabled = "";
-    var selected = "";
-
-    (typeof id == "string") ? id = 'id="' + id + '"' : id = '';
-    (typeof classes == "string") ? classes = 'class="' + classes + '"' : classes = '';
-    (typeof value == "string") ? value = 'value="' + value + '"' : value = '';
-    isDisabled ? disabled = "disabled" : disabled = ""; 
-    isSelected ? selected = "selected" : selected = ""; 
-
-    var option = '<option ' + id + ' ' + classes + ' ' + value + ' ' + disabled + ' ' + selected + '>' + contents + '</option>';
-
-    return option;
 }
 
 // A generic send button. This function only returns 
