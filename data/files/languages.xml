@@ -623,6 +623,11 @@
         <spanish>Persona a cargo de la sanitización</spanish>
     </translation>
 
+    <translation id="report_notes_title">
+        <english>Report Notes</english>
+        <spanish>Notas del Reporte</spanish>
+    </translation>
+
     <translation id="url_title">
         <english>Link to Picasa Album</english>
         <spanish>Dirección del Album de Picasa</spanish>

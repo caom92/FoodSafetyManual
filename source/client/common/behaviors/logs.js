@@ -12,9 +12,11 @@ $(function (){
 
     var getParams = getURLQueryStringAsJSON();
     $.getScript( "source/client/common/scripts/logs/form-creator.js", function( data, textStatus, jqxhr ) {
-        $.getScript( "source/client/common/scripts/logs/" + getParams._ + ".js", function( data, textStatus, jqxhr ) {
-            console.log("Load of " +  getParams._);
-            loadLogForm("#logs_tab");
+        $.getScript( "source/client/common/scripts/logs/table-creator.js", function( data, textStatus, jqxhr ) {
+            $.getScript( "source/client/common/scripts/logs/" + getParams._ + ".js", function( data, textStatus, jqxhr ) {
+                console.log("Load of " +  getParams._);
+                loadLogForm("#logs_tab");
+            });
         });
     });    
 

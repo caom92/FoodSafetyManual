@@ -14,7 +14,7 @@ function loadLogForm(htmlElement){
                 console.log(report);
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name, "id":"log_name"}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":getISODate(new Date())},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":localStorage.first_name + " " + localStorage.last_name}]}]};
                 $(htmlElement).append(logHeader(header));
-                gmpPackingPreop(report, htmlElement);
+                gmpPackingPreopLog(report, htmlElement);
                 loadFunctionality({"isPrefilled":false});
                 changeLanguage(localStorage.defaultLanguage);
                 $("#send_report").click(function(){
@@ -41,7 +41,7 @@ function loadPrefilledLogForm(htmlElement, data){
                 var report = response.data[0];
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":report.creation_date},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":report.created_by}]}]};
                 $(htmlElement).append(logHeader(header));
-                gmpPackingPreop(report, htmlElement);
+                gmpPackingPreopLog(report, htmlElement);
                 loadFunctionality({"isPrefilled":true});
                 $("#send_report").click(function(){
                     updateGmpPackingPreopReport(parseInt(data.report_id));
@@ -177,7 +177,7 @@ function updateGmpPackingPreopReport(reportID){
     });
 }
 
-function gmpPackingPreop(data, htmlElement){
+function gmpPackingPreopLog(data, htmlElement){
     var log = $("<div>");
     var additionalData = $("<div>");
 
@@ -407,4 +407,173 @@ function gmpPackingPreopFunctionality(data){
                 $("#time_" + $(this).data().area_id).val(getISOTime(new Date()));
         });
     }
+}
+
+// Full report
+
+function gmpPackingPreopReport(data, htmlElement){
+    var report = new Object();
+
+    report.type = "table";
+    report.classes = "bordered highlight";
+    report.id = "report_" + data.report_id;
+
+    report.thead = gmpPackingPreopReportHeader();
+    report.tbody = gmpPackingPreopReportBody(data);
+    report.tfoot = gmpPackingPreopReportFooter(data);
+
+    console.log(JSON.stringify(report));
+    console.log(report);
+
+    return report;
+}
+
+// Header containing Area, Time, Number, Name, Conditions, Corrective Actions
+// and Comment. This header contain the classes to borrow the text from
+// languages.xml, not strings
+
+function gmpPackingPreopReportHeader(){
+    var header = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"area_title"},{"type":"th","classes":"time_title"},{"type":"th","classes":"number_title"},{"type":"th","classes":"name_title"},{"type":"th","classes":"status_title"},{"type":"th","classes":"action_title"},{"type":"th","classes":"comment_title"}]}]};
+
+    return header;
+}
+
+// Body containing all the information, except for the report notes and album
+// URL
+
+function gmpPackingPreopReportBody(data){
+    var body = {"type":"tbody"};
+
+    body.rows = new Array();
+
+    for(var area of data.areas){
+        var firstRowFlag = true;
+        for(var type of area.types){
+            console.log(type);
+            var row = {"type":"tr"};
+            row.columns = new Array();
+            if(firstRowFlag){
+                var rowspan = area.types.length;
+                for(var count of area.types){
+                    rowspan += count.items.length;
+                }
+                row.columns.push(gmpPackingPreopReportAreaName(area.name, rowspan));
+                row.columns.push(gmpPackingPreopReportAreaTime(area.time, rowspan));
+                row.columns.push(gmpPackingPreopReportTypeTitle(type.name, 5));
+                firstRowFlag = false;
+            } else {
+                row.columns.push(gmpPackingPreopReportTypeTitle(type.name, 5));
+            }
+            body.rows.push(row);
+            for(var item of type.items){
+                var itemRow = {"type":"tr"};
+                itemRow.columns = gmpPackingPreopReportItem(item);
+                body.rows.push(itemRow);
+            }
+        }
+        var notesRow = {"type":"tr"};
+        var sanitationRow = {"type":"tr"};
+        notesRow.columns = [gmpPackingPreopReportAreaNotes(area.notes, 7)];
+        sanitationRow.columns = [gmpPackingPreopReportAreaSanitation(area.person_performing_sanitation, 7)];
+        body.rows.push(notesRow);
+        body.rows.push(sanitationRow);
+    }
+
+    var reportNotesRow = {"type":"tr"};
+    var reportAlbumURL = {"type":"tr"};
+    reportNotesRow.columns = [gmpPackingPreopReportNotes(data.notes, 7)];
+    reportAlbumURL.columns = [gmpPackingPreopReportAlbumURL(data.album_url, 7)];
+
+    body.rows.push(reportNotesRow);
+    body.rows.push(reportAlbumURL);
+
+    return body;
+}
+
+// Type title, colspan 5
+// Example: Food Contact - Daily and Non Food Contact - Daily
+
+function gmpPackingPreopReportTypeTitle(title, colspan){
+    var typeTitle = {"type":"td","colspan":colspan,"contents":title};
+
+    return typeTitle;
+}
+
+// A row with five 'td' elements, including the number, name, status,
+// corrective action text and comment
+
+function gmpPackingPreopReportItem(itemData){
+    var item = new Array();
+
+    item.push({"type":"td","contents":itemData.order});
+    item.push({"type":"td","contents":itemData.name});
+    if(itemData.status){
+        item.push({"type":"td","classes":"acceptable_tag"});
+    } else {
+        item.push({"type":"td","classes":"unacceptable_tag"});
+    }    
+    item.push({"type":"td","contents":itemData.corrective_action});
+    item.push({"type":"td","contents":itemData.comment});
+
+    console.log(item);
+
+    return item;
+}
+
+// Area name. It will have a rowspan equal to the number of items + the
+// number of types
+
+function gmpPackingPreopReportAreaName(name, rowspan){
+    var areaName = {"type":"td","rowspan":rowspan,"contents":name};
+
+    return areaName;
+}
+
+// Area time. It will have a rowspan equal to the number of items + the
+// number of types
+
+function gmpPackingPreopReportAreaTime(time, rowspan){
+    var areaTime = {"type":"td","rowspan":rowspan,"contents":time};
+
+    return areaTime;
+}
+
+// Area notes. It will have a colspan equal to the number of columns
+
+function gmpPackingPreopReportAreaNotes(notes, colspan){
+    var areaNotes = {"type":"td","colspan":colspan,"contents":"<span class='notes_title'></span>: " + notes};
+
+    return areaNotes;
+}
+
+// Area sanitation. It will have a colspan equal to the number of columns
+
+function gmpPackingPreopReportAreaSanitation(sanitation, colspan){
+    var areaSanitation = {"type":"td","colspan":colspan,"contents":"<span class='person_performing_sanitation_title'></span>: " + sanitation};
+
+    return areaSanitation;
+}
+
+// Footer
+
+function gmpPackingPreopReportFooter(data){
+
+}
+
+// Notes for the report. They will go in the footer. Colspan equal to the
+// number of columns
+
+function gmpPackingPreopReportNotes(notes, colspan){
+    var reportNotes = {"type":"td","colspan":colspan,"contents":"<span class='report_notes_title'></span>: " + notes};
+
+    return reportNotes;
+}
+
+// Album URL. It will go in the footer. Colspan equal to the
+// number of columns
+
+function gmpPackingPreopReportAlbumURL(albumURL, colspan){
+    var reportURL = {"type":"td","colspan":colspan,"contents":"<span class='url_title'></span>: <a href='" + albumURL + "' >" + albumURL + "</a>"};
+
+    return reportURL;
 }
