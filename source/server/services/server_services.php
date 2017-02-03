@@ -5,6 +5,8 @@ namespace fsm\services\server;
 require_once realpath(dirname(__FILE__).'/../dao/DataAccessObject.php');
 require_once realpath(dirname(__FILE__).'/../Email.php');
 require_once realpath(dirname(__FILE__).'/../dao/LogsDAO.php');
+require_once realpath(dirname(__FILE__).'/../dao/CapturedLogsDAO.php');
+
 
 use fsm\database as db;
 
@@ -192,6 +194,18 @@ function getAllProgramsModulesAndLogs()
     }
 
     return $programs;
+}
+
+
+// Returns true if a log of the especified ID was captured in the especified 
+// date
+function checkIfLogExistsByDate()
+{
+    $capturedLogs = new  db\CapturedLogsDAO();
+    return $capturedLogs->hasByDateAndLogID(
+        $_POST['log_id'], 
+        $_POST['capture_date']
+    );
 }
 
 ?>
