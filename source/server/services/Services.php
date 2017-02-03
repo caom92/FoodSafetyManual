@@ -159,11 +159,11 @@ fsm\Controller::$services = [
             ],
             'first_name' => [
                 'type' => 'string',
-                'min_length' => 3
+                'min_length' => 2
             ],
             'last_name' => [
                 'type' => 'string',
-                'min_length' => 3
+                'min_length' => 2
             ],
             'role_id' => [
                 'type' => 'int',
@@ -380,7 +380,7 @@ fsm\Controller::$services = [
         'requirements_desc' => [
             'logged_in' => ['Director', 'Manager', 'Supervisor'],
             'has_privilege' => [
-                'privilege' => ['Read'],
+                'privilege' => 'Read',
                 'program' => 'GMP',
                 'module' => 'Packing',
                 'log' => 'Pre-Operational Inspection'

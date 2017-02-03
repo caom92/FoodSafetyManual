@@ -26,7 +26,7 @@ use fsm\database as db;
 function getAllCorrectiveActions()
 {
     $correctiveActions = new preop\CorrectiveActionsDAO();
-    return $correctiveActions->selectAll();
+    return $correctiveActions->selectAllButNone();
 }
 
 
@@ -127,10 +127,10 @@ function registerLogEntry()
 
     // before inserting into the data base, check that there is no entry of
     // this log already
-    $isLogEntryDuplicated = $logDate->hasByDateAndLogID($_POST['date'], $logID);
-    if ($isLogEntryDuplicated) {
-        throw new \Exception('A log entry was already registered today.', 2);
-    }
+    // $isLogEntryDuplicated = $logDate->hasByDateAndLogID($_POST['date'], $logID);
+    // if ($isLogEntryDuplicated) {
+    //     throw new \Exception('A log entry was already registered today.', 2);
+    // }
 
     // insert the capture date and the ID of the reportee user
     $logID = $logDate->insert([

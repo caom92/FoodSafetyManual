@@ -127,9 +127,9 @@ function fillPendingAuthorizations(){
                     $("#waiting_reports").append(waitingReportCard(waiting));
                 }
 
-                for(var rejected of response.data.rejected.logs){
-                    $("#rejected_reports").append(rejectedReportCard(rejected));
-                }
+                // for(var rejected of response.data.rejected.logs){
+                //     $("#rejected_reports").append(rejectedReportCard(rejected));
+                // }
                 updateSigns();
                 changeLanguage(localStorage.defaultLanguage);
             }

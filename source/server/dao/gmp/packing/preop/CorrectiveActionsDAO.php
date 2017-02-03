@@ -23,7 +23,7 @@ class CorrectiveActionsDAO extends db\DataAccessObject
     // actions
     function selectAll()
     {
-        return parent::select('*');
+        return parent::select('*', ['name[!]' => 'Other']);
     }
 }
 
