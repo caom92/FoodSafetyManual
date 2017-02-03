@@ -196,16 +196,4 @@ function getAllProgramsModulesAndLogs()
     return $programs;
 }
 
-
-// Returns true if a log of the especified ID was captured in the especified 
-// date
-function checkIfLogExistsByDate()
-{
-    $capturedLogs = new  db\CapturedLogsDAO();
-    return $capturedLogs->hasByDateAndLogID(
-        $_POST['log_id'], 
-        $_POST['capture_date']
-    );
-}
-
 ?>

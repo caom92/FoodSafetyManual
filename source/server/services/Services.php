@@ -504,19 +504,19 @@ fsm\Controller::$services = [
         ],
         'callback' => 'fsm\services\authorizations\approveLog'
     ],
-    'reject-log' => [
-        'requirements_desc' => [
-            'logged_in' => ['Supervisor'],
-            'captured_log_id' => [
-                'type' => 'int',
-                'min' => 1
-            ]
-        ],
-        'callback' => 'fsm\services\authorizations\rejectLog'
-    ],
+    // 'reject-log' => [
+    //     'requirements_desc' => [
+    //         'logged_in' => ['Supervisor'],
+    //         'captured_log_id' => [
+    //             'type' => 'int',
+    //             'min' => 1
+    //         ]
+    //     ],
+    //     'callback' => 'fsm\services\authorizations\rejectLog'
+    // ],
     'get-num-pending-logs' => [
         'requirements_desc' => [
-            'logged_in' => ['Supervisor', 'Employee']
+            'logged_in' => ['Supervisor']
         ],
         'callback' => 'fsm\services\authorizations\countPendingLogs'
     ],
@@ -546,22 +546,6 @@ fsm\Controller::$services = [
             ]
         ],
         'callback' => 'fsm\services\gmp\packing\preop\editLogEntry'
-    ],
-    'check-log-for-date' => [
-        'requirements_desc' => [
-            'logged_in' => ['Employee', 'Supervisor', 'Manager', 'Director'],
-            'log_id' => [
-                'type' => 'int',
-                'min' => 1
-            ],
-            'capture_date' => [
-                'type' => [
-                    'type' => 'datetime',
-                    'format' => 'Y-m-d'
-                ]
-            ]
-        ],
-        'callback' => 'fsm\services\server_services\checkIfLogExistsByDate'
     ]
 ];
 
