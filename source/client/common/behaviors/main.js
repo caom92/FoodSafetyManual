@@ -172,8 +172,7 @@ function loadSideMenu()
             localStorage.menu = '';
 
             // check if the user is a supervisor or an employee
-            if (localStorage.role_name === 'Supervisor' 
-                || localStorage.role_name === 'Employee') {
+            if (localStorage.role_name === 'Supervisor') {
                 localStorage.menu += `
                     <li><a class="nav-link waves-effect waves-green" 
                         href="${(localStorage.role_name === 'Supervisor')?
@@ -185,6 +184,8 @@ function loadSideMenu()
                     <span id='notifications' class="white-text"></span>
                     </a></li>
                 `;
+
+                getNumPendingAuthorizations();
             }
 
             // first, we read the privilege JSON
@@ -254,7 +255,6 @@ function loadSideMenu()
 
         // show the menu items 
         $('#actions-list').html(localStorage.menu);
-        getNumPendingAuthorizations();
         initMaterialize();
     }
 }

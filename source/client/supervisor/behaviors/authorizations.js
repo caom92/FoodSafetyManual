@@ -9,7 +9,7 @@ function waitingReportCard(report){
 
     employeeInfoRow.append(employeeInfo(report.log_name, report.first_name + " " + report.last_name, report.capture_date));
     var approveButton = reportCardButton(null, "green", null, null, "check-circle");
-    var rejectButton = reportCardButton(null, "red", null, null, "close-circle");
+    //var rejectButton = reportCardButton(null, "red", null, null, "close-circle");
     var reportButton = reportCardButton(null, "blue", null, null, "file", {"service_name":report.service_name,"report_id":report.captured_log_id});
 
     approveButton.children("a").click(function(index){
@@ -17,10 +17,10 @@ function waitingReportCard(report){
         reportCard.remove();
     });
 
-    rejectButton.children("a").click(function(index){
-        rejectReport(report.captured_log_id, report);
-        reportCard.remove();
-    });
+    // rejectButton.children("a").click(function(index){
+    //     rejectReport(report.captured_log_id, report);
+    //     reportCard.remove();
+    // });
 
     reportButton.children("a").click(function(index) {
         var reportID = $(this).data("report_id");
@@ -35,7 +35,7 @@ function waitingReportCard(report){
     });
 
     buttonRow.append(approveButton);
-    buttonRow.append(rejectButton);
+    //buttonRow.append(rejectButton);
     buttonRow.append(reportButton);
 
     reportCard.append(employeeInfoRow);
@@ -127,9 +127,9 @@ function fillPendingAuthorizations(){
                     $("#waiting_reports").append(waitingReportCard(waiting));
                 }
 
-                for(var rejected of response.data.rejected.logs){
-                    $("#rejected_reports").append(rejectedReportCard(rejected));
-                }
+                // for(var rejected of response.data.rejected.logs){
+                //     $("#rejected_reports").append(rejectedReportCard(rejected));
+                // }
                 updateSigns();
                 changeLanguage(localStorage.defaultLanguage);
             }
