@@ -64,12 +64,8 @@ function loadFunctionality(data){
 // Wrapper for showing a HTML report. For convenience's sake, this name will
 // be shared among all log types
 
-function loadReport(){
-
-}
-
-function sendReport(){
-
+function loadReport(data){
+    return gmpPackingPreopReport(data);
 }
 
 /******************************************************************************
@@ -411,7 +407,7 @@ function gmpPackingPreopFunctionality(data){
 
 // Full report
 
-function gmpPackingPreopReport(data, htmlElement){
+function gmpPackingPreopReport(data){
     var report = new Object();
 
     report.type = "table";

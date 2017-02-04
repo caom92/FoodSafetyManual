@@ -93,7 +93,7 @@ function changeLanguage(lang, callback){
     loadSearchSuggestions(lang);
 
     if(typeof createDatePicker == "function"){
-        createDatePicker();
+        //createDatePicker();
     } else {
         // console.log("datePicker not present");
     }

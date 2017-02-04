@@ -7,38 +7,31 @@ function createDatePicker(){
     $("#end_date").pickadate(datePicker("end_hidden", new Date(), new Date("2016-10-01T00:00:00")));
 }
 
-$(function (){
-    // First we change the title to that of the current
+// On load function, it executes the following:
+// 1.- Load external scripts
+// 2.- Adjust the tabs to the user role
+// 2.- Init tabs
+// 3.- Init datePicker
+// 4.- If they don't exist, obtain corrective actions from server
 
+$(function() {
     var getParams = getURLQueryStringAsJSON();
-    $.getScript( "source/client/common/scripts/logs/form-creator.js", function( data, textStatus, jqxhr ) {
-        $.getScript( "source/client/common/scripts/logs/table-creator.js", function( data, textStatus, jqxhr ) {
-            $.getScript( "source/client/common/scripts/logs/" + getParams._ + ".js", function( data, textStatus, jqxhr ) {
-                console.log("Load of " +  getParams._);
-                loadLogForm("#logs_tab");
-            });
-        });
-    });    
 
-    $('ul.tabs').tabs();
-    $('.indicator').addClass("green");
-    createDatePicker();
-
-    $server.request({
-        service: 'list-corrective-actions',
-        success: function(response) {
-            if (response.meta.return_code == 0) {
-                localStorage.correctiveActionsSSOP = JSON.stringify(response.data);
-                console.log(response.data);
-                console.log(JSON.stringify(response.data));
-            } else {
-                Materialize.toast("Some error", 3000, "rounded");
-                throw response.meta.message;
+    if(!localStorage.correctiveActionsSSOP){
+        $server.request({
+            service: 'list-corrective-actions',
+            success: function(response) {
+                if (response.meta.return_code == 0) {
+                    localStorage.correctiveActionsSSOP = JSON.stringify(response.data);
+                } else {
+                    Materialize.toast("Some error", 3000, "rounded");
+                    throw response.meta.message;
+                }
             }
-        }
-    });
+        });
+    }
 
-    if(localStorage.role_id == "3" || localStorage.role_id == "4" || localStorage.role_id == "5"){
+    if(localStorage.role_id == "5"){
         changeLanguage(localStorage.defaultLanguage);
     } else {
         $("#logs_tab").remove();
@@ -49,17 +42,41 @@ $(function (){
         changeLanguage(localStorage.defaultLanguage);
     }
 
+    $.getScript( "source/client/common/scripts/logs/form-creator.js", function( data, textStatus, jqxhr ) {
+        $.getScript( "source/client/common/scripts/logs/table-creator.js", function( data, textStatus, jqxhr ) {
+            $.getScript( "source/client/common/scripts/logs/" + getParams._ + ".js", function( data, textStatus, jqxhr ) {
+                console.log("Load of " +  getParams._);
+                if(localStorage.role_id == "5"){
+                    loadLogForm("#logs_tab");
+                } else {
+                    $("#logs_tab").remove();
+                    $(".logs_tab").parent().remove();
+                    $('ul.tabs').tabs();
+                    $('.indicator').addClass("green");
+                }
+            });
+        });
+    });
+
     $("#request_report").click(function(){
-        loadSSOPReport(
+        loadReports(
             $("input[name='start_hidden']").val(),
             $("input[name='end_hidden']").val()
         );
     });
 
+    changeLanguage(localStorage.defaultLanguage);
+
+    $('ul.tabs').tabs();
+    $('.indicator').addClass("green");
+    createDatePicker();
+    pdfUploader();
+});
+
+function pdfUploader() {
     // We load the tabs; we have 2 or 3 depending on the privileges of the user
     // Read means we can load the PDF manual and see past logs
     // Write means we can read and also submit a new log with the current date
-
     // add functionality to the file input so that the mime type of the file to 
     // be uploaded is checked so that only PDF files are accepted
     $('#manual_file').on('change', function() {
@@ -161,276 +178,60 @@ $(function (){
             }
         });
     }
-});
-
-// Function array
-
-function reportTable(id, classes, header, body, footer){
-    var table = $("<table>");
-
-    table.addClass(classes);
-
-    if(id)
-        table.attr("id", id);
-
-    table.append(header);
-    table.append(body);
-    // table.append(footer);
-
-    return table;
 }
 
-function reportBody(id, classes, rowsArray){
+function reportLoaderCard(data){
+    var reportCard = $("<div>");
 
-    var body = $("<tbody>");
+    reportCard.addClass("card-panel white reportCard");
 
-    body.addClass(classes);
+    reportCard.append($("<div>").append(data.creation_date));
 
-    if(id)
-        body.attr("id", id);
+    reportCard.data("report", table(loadReport(data)));
+    reportCard.data("header", reportHeader(data.zone_name, data.module_name, data.program_name, data.log_name, data.creation_date, data.created_by, data.approval_date, data.approved_by));
 
-    rowsArray.forEach(function(index){
-        body.append(reportRow(id, classes, index));
+    reportCard.on("click", function(argument) {
+        $(".reportCard").removeClass("green");
+        $(".reportCard").removeClass("accent-1");
+        $(".reportCard").addClass("white");
+        $(this).addClass("green accent-1");
+        var tempCard = $("<div>");
+        tempCard.addClass("card-panel white");
+        $("#report-tab-content").hide();
+        $("#report-tab-content").html("");
+        tempCard.append($(this).data("report"));
+        $("#report-tab-content").append($(this).data("header"));
+        $("#report-tab-content").append(tempCard);
+        changeLanguage(localStorage.defaultLanguage);
+        $("#report-tab-content").show(600);
     });
 
-    return body;
+    return reportCard;
 }
 
-function reportFooter(){
-
-}
-
-function reportTitle(id, classes, titleArray){
-    // Title Array must be as follows
-    // An array of objects with attributes classes and colspan
-    // Classes will be the classes added to the <th>
-    // colspan will be the number of columns the <th> will span
-    // {classes: "class", colspan: 2}
-
-    var header = $("<thead>");
-    var headerRow = $("<tr>");
-
-    headerRow.addClass(classes);
-
-    if(id)
-        headerRow.attr("id", id);
-
-    titleArray.forEach(function(index){
-        var th = $("<th>");
-        th.addClass(index.classes);
-
-        if(index.colspan){
-            th.attr("colspan", index.colspan);
-        }
-
-        headerRow.append(th);
-    });
-
-    header.append(headerRow);
-
-    return header;
-}
-
-function reportRow(id, classes, columnArray){
-    // Column Array must be as follows
-    // An array of objects with attributes classes, rowspan and contents
-    // Classes will be the classes added to the <td>
-    // rowspan will be the rows the <td> will span
-    // contents will be the contents to be shown on the <td>
-    // {classes: "class", rowspan: 2, contents: "Hello World"}
-
-    var row = $("<tr>");
-
-    row.addClass(classes);
-
-    if(id)
-        row.attr("id", id);
-
-    columnArray.forEach(function(column){
-        row.append(reportRowColumn(column));
-    });
-
-    return row;
-}
-
-function reportRowColumn(columnObject){
-    // Column Array must be as follows
-    // A singlem object with attributes
-    // Classes will be the classes added to the <td>
-    // rowspan will be the rows the <td> will span
-    // contents will be the contents to be shown on the <td>
-    // {classes: "class", rowspan: 2, contents: "Hello World"}
-
-    var column = $("<td>");
-
-    column.addClass(columnObject.classes);
-
-    if(columnObject.rowspan)
-        column.attr("rowspan", columnObject.rowspan);
-
-    if(columnObject.colspan)
-        column.attr("colspan", columnObject.colspan);
-
-    column.append(columnObject.contents);
-
-    return column;
-}
-
-function loadSSOPReport(startDate, endDate){
-    var report = new Object();
-    report.start_date = startDate;
-    report.end_date = endDate;
+function loadReports(startDate, endDate){
+    var data = new Object();
+    data.start_date = startDate;
+    data.end_date = endDate;
 
     $server.request({
         service: 'report-gmp-packing-preop',
-        data: report,
+        data: data,
         success: function(response) {
             if (response.meta.return_code == 0) {
-                $('#request_pdf').attr(
-                    'href', 
-                    'source/server/report/reportPDF.php?' + 
-                    'start_date=' + startDate +
-                    '&end_date=' + endDate
-                );
+                var pdfReportURL = "source/server/report/reportPDF.php";
+                var pdfParams = "?start_date=" + startDate + "&end_date=" + endDate;
+                $("#request_pdf").attr("href", pdfReportURL + pdfParams);
                 $('#request_pdf').show();
 
-                var wrapper = $('#report-tab-index');
+                var wrapper = $("#report-tab-index");
                 wrapper.html('');
-                wrapper.append('<div class="card"><div class="card-content>"')
-                wrapper.append('<ul>');
-                sessionStorage.reportData = JSON.stringify(response.data);
+
                 for (reportData of response.data) {
-                    wrapper.append(
-                        '<li><a href="#!" class="log-button">' + 
-                        reportData.creation_date + 
-                        '</a></li>'
-                    );
+                    wrapper.append(reportLoaderCard(reportData));
                 }
-                wrapper.append('</div></div></ul>');
-                $("#report_tab").append(wrapper);
-                $('a.log-button').on('click', function(event) {
-                    event.preventDefault();
-                    var wrapper = divWrapper(null, null);
-                    var reportWrapper = divWrapper(null, "card-panel white");
 
-                    var date = $(this).text();
-                    var reportData = null;
-                    var reports = JSON.parse(sessionStorage.reportData);
-                    for (report of reports) {
-                        if (report.creation_date == date) {
-                            reportData = report;
-                            break;
-                        }
-                    }
-
-                    console.log(reportData);
-
-                    wrapper.append(reportHeader(reportData.zone_name, reportData.module_name, reportData.program_name, reportData.log_name, reportData.creation_date, reportData.created_by, reportData.approval_date, reportData.approved_by));
-
-                    $('#report-tab-index').hide();
-                    $("#report-tab-content").html(wrapper);
-
-                    var report = divWrapper(null, null);
-                    
-                    var headers = [
-                        {"classes":"area_title areaColumn"},
-                        {"classes":"time_title timeColumn"},
-                        {"classes":"number_title numberColumn"},
-                        {"classes":"name_title nameColumn"},
-                        {"classes":"status_title statusColumn"},
-                        {"classes":"action_title actionColumn"},
-                        {"classes":"comment_title commentColumn"}
-                    ];
-
-                    var reportContents = new Array(); // Type Row Array
-
-                    reportData.areas.forEach(function(area) {
-                        var isFirst = true;
-                        var firstRow = new Array(); // Type Row
-
-                        var areaRows = 0;
-
-                        area.types.forEach(function(type) {
-                            areaRows += type.items.length + 1;
-                        });
-
-                        console.log(areaRows);
-
-                        firstRow.push({rowspan: areaRows, contents: area.name, classes: "areaColumn"});
-                        firstRow.push({rowspan: areaRows, contents: area.time, classes: "timeColumn"});
-
-                        console.log(area.area_name);
-                        area.types.forEach(function(type) {
-                            if (isFirst) {
-                                firstRow.push({colspan: headers.length - 2,  contents: type.name, classes: "typeTitle"});
-                                reportContents.push(firstRow);
-                                isFirst = false;
-                            } else {
-                                reportContents.push([{colspan: headers.length - 2, contents: type.name, classes: "typeTitle"}]);
-                            }
-                            console.log(type.name);
-                            type.items.forEach(function(item){
-                                var tempRow = new Array();
-
-                                tempRow.push({contents: item.order, classes: "numberColumn"});
-                                tempRow.push({contents: item.name, classes: "nameColumn"});
-
-                                if(item.status == 1){
-                                    tempRow.push({classes: "acceptable_tag statusColumn"});
-                                } else {
-                                    tempRow.push({classes: "unacceptable_tag statusColumn"});
-                                }
-
-                                tempRow.push({contents: item.corrective_action, classes: "actionColumn"});
-                                tempRow.push({contents: item.comment, classes: "commentColumn"});
-
-                                reportContents.push(tempRow);
-                                console.log(item.name);
-                            });
-                        });
-                        var notesRow = new Array();
-                        var personRow = new Array();
-
-                        notesRow.push({colspan: headers.length, contents: "<span class='bold notes_title'></span>: " + area.notes, classes: "fullColumn"});
-                        personRow.push({colspan: headers.length, contents: "<span class='bold person_performing_sanitation_title'></span>: " + area.person_performing_sanitation, classes: "fullColumn"});
-
-                        reportContents.push(notesRow);
-                        reportContents.push(personRow);
-                    });
-                    
-                    console.log("IMPRIMIR CONTENIDOS");
-                    console.log(reportContents);
-                    console.log(JSON.stringify(reportContents));
-
-                    // Append everything
-
-                    var repTable = reportTable(null, "bordered", reportTitle(null, null, headers), reportBody(null, null, reportContents), null);
-
-                    reportWrapper.append(repTable);
-                    var reportLink = divWrapper(null, null);
-                    //reportLink.append($('<div class="center-align"><a target="_blank" href="source/server/report/reportPDF.php?start_date=' + startDate + '&end_date=' + endDate + '" class="waves-effect waves-light btn"><span class="view_pdf"></span>  <i class="mdi mdi-file-pdf mdi-18px"></i></a><div>'));
-                    wrapper.append(reportWrapper);
-                    wrapper.append(reportLink);
-                    wrapper.append(
-                        '<a id="log-return" href="#!" class="waves-effect ' +
-                        'waves-light btn">' +
-                        '<i class="mdi mdi-arrow-left"></i>Go Back' +
-                        '</a>'
-                    );
-                    $('a#log-return').on('click', function(event) {
-                        event.preventDefault();
-                        $('#report-tab-index').show();
-                        $('#report-tab-content').html('');
-                    });
-
-                    $('#request_pdf').attr(
-                        'href', 
-                        'source/server/report/reportPDF.php?' + 
-                        'start_date=' + date +
-                        '&end_date=' + date
-                    );
-                    changeLanguage(localStorage.defaultLanguage);
-                });
+                $("#report-tab-index").append('<div class="divider"></div>');
             } else {
                 Materialize.toast("No se encuentra un reporte para esa fecha", 3000, "rounded");
                 throw response.meta.message;
@@ -445,6 +246,7 @@ function divWrapper(id, classes){
     var div = $("<div>");
 
     div.addClass(classes);
+    
     if(id)
         div.attr("id", id);
 
@@ -463,13 +265,7 @@ function cardTitle(id, classes, contents){
     title.append(contents);
 
     return title;
-}
-
-// A generic send button. This function only returns 
-
-function sendButton(id){
-    return $('<div class="center-align"><a id="' + id + '" class="waves-effect waves-light btn"><span class="send_button"></span>  <i class="mdi mdi-send mdi-18px"></i></a><div>');
-}
+} 
 
 // General Functions for report generation
 
@@ -503,71 +299,4 @@ function reportHeader(zone, program, module, log, elaborationDate, employeeName,
     reportCard.append(supervisorRow);
 
     return reportCard;
-}
-
-function table(id, classes){
-    var table = $("<table>");
-
-    table.addClass(classes);
-
-    if(id)
-        table.attr("id", id);
-
-    return table;
-}
-
-function tableRow(id, classes, contents){
-    var row = $("<tr>");
-
-    row.addClass(classes);
-
-    if(id)
-        row.attr("id", id);
-
-    contents.forEach(function(index){
-        row.append(rowColumn(null, null, index));
-    });
-
-    return row;
-}
-
-function rowColumn(id, classes, contents){
-    var row = $("<td>");
-
-    row.addClass(classes);
-
-    if(id)
-        row.attr("id", id);
-
-    row.append(contents);
-
-    return row;
-}
-
-function headerColumn(id, classes, contents){
-    var row = $("<th>");
-
-    row.addClass(classes);
-
-    if(id)
-        row.attr("id", id);
-
-    row.append(contents);
-
-    return row;
-}
-
-function tableHeader(id, classes, contents){
-    var col = $("<tr>");
-
-    col.addClass(classes);
-
-    if(id)
-        col.attr("id", id);
-
-    contents.forEach(function(index){
-        col.append(headerColumn(null, null, index));
-    });
-
-    return col;
 }
