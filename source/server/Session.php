@@ -90,6 +90,7 @@ class Session
                 $log = [
                     'id' => $row['log_id'],
                     'name' => $row['log_name'],
+                    'suffix' => $row['log_suffix'],
                     'privilege' => [
                         'id' => $row['privilege_id'],
                         'name' => $row['privilege_name']
@@ -126,6 +127,7 @@ class Session
                     $log = [
                         'id' => $row['log_id'],
                         'name' => $row['log_name'],
+                        'suffix' => $row['log_suffix'],
                         'privilege' => [
                             'id' => $row['privilege_id'],
                             'name' => $row['privilege_name']
@@ -157,6 +159,7 @@ class Session
                         $log = [
                             'id' => $row['log_id'],
                             'name' => $row['log_name'],
+                            'suffix' => $row['log_suffix'],
                             'privilege' => [
                                 'id' => $row['privilege_id'],
                                 'name' => $row['privilege_name']
@@ -175,6 +178,7 @@ class Session
                         $log = [
                             'id' => $row['log_id'],
                             'name' => $row['log_name'],
+                            'suffix' => $row['log_suffix'],
                             'privilege' => [
                                 'id' => $row['privilege_id'],
                                 'name' => $row['privilege_name']
@@ -346,6 +350,7 @@ class Session
                         'module_name' => $log['module_name'],
                         'log_id' => $log['log_id'],
                         'log_name' => $log['log_name'],
+                        'log_suffix' => $log['log_suffix'],
                         'privilege_id' => $log['privilege_id'],
                         'privilege_name' => $log['privilege_name']
                     ]);

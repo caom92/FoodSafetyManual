@@ -69,6 +69,7 @@ class UsersLogsPrivilegesDAO extends DataAccessObject
                 p.name AS program_name,
                 l.id AS log_id,
                 l.name AS log_name,
+                l.name_suffix AS log_suffix,
                 m.id AS module_id,
                 m.name AS module_name,
                 r.id AS privilege_id,
