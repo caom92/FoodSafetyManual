@@ -194,6 +194,8 @@ function loadSideMenu()
             // and check if the user has any privileges associated
             var hasPrivileges = privileges.zones.length > 0;
 
+            // add the link to the PreOp inventory if the user is a supervisor
+            // and has read privileges to that log
             if (hasPrivileges) {
                 if (localStorage.role_name === 'Supervisor') {
                     var isPrivilegeDefined = 
@@ -234,7 +236,7 @@ function loadSideMenu()
                         if (isDefined(module.name)) {
                             localStorage.menu +=
                                 `<li><a class="nav-link waves-effect waves-green" 
-                                href="logs"> 
+                                href="logs?_=${module.logs[0].suffix}"> 
                                 ${ module.name }
                                 </a></li>`;
                         }

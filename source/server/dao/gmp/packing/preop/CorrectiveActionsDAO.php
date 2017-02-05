@@ -19,9 +19,9 @@ class CorrectiveActionsDAO extends db\DataAccessObject
     }
 
 
-    // Returns an associative array that contains the info of all the corrective 
-    // actions
-    function selectAll()
+    // Returns an associative array that contains the info of all the 
+    // corrective actions
+    function selectAllButNone()
     {
         return parent::select('*', ['name[!]' => 'Other']);
     }

@@ -31,7 +31,8 @@ LayoutManager.prototype.load = function(layout, container = this.container)
     // compute the base URL where the layout is going to be requested for
     // depending if the layout is common or not
     var baseURL = this.root;
-    baseURL += (this.common.indexOf(layout) != -1) ? 
+    var layoutParts = layout.split('?');
+    baseURL += (this.common.indexOf(layoutParts[0]) != -1) ? 
         'common/' : localStorage.exclusive_access;
     var app = this;
 
