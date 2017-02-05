@@ -34,6 +34,7 @@ class UsersLogsPrivilegesDAO extends DataAccessObject
                 m.name AS module_name,
                 l.id AS log_id,
                 l.name AS log_name,
+                l.name_suffix AS log_suffix,
                 pr.id AS privilege_id,
                 pr.name AS privilege_name 
             FROM $this->table 
@@ -109,6 +110,7 @@ class UsersLogsPrivilegesDAO extends DataAccessObject
                 m.name AS module_name,
                 l.id AS log_id,
                 l.name AS log_name,
+                l.name_suffix AS log_suffix,
                 r.id AS privilege_id,
                 r.name AS privilege_name
             FROM $this->table AS t
