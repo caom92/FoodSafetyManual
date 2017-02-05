@@ -262,6 +262,7 @@ class Session
                             'module_name' => $log['module_name'],
                             'log_id' => $log['log_id'],
                             'log_name' => $log['log_name'],
+                            'log_suffix' => $log['log_suffix'],
                             'privilege_id' => $log['privilege_id'],
                             'privilege_name' => $log['privilege_name']
                         ]);
@@ -290,6 +291,7 @@ class Session
                         'module_name' => $log['module_name'],
                         'log_id' => $log['log_id'],
                         'log_name' => $log['log_name'],
+                        'log_suffix' => $log['log_suffix'],
                         'privilege_id' => $log['privilege_id'],
                         'privilege_name' => $log['privilege_name']
                     ]);
@@ -321,6 +323,7 @@ class Session
                         'module_name' => $log['module_name'],
                         'log_id' => $log['log_id'],
                         'log_name' => $log['log_name'],
+                        'log_suffix' => $log['log_suffix'],
                         'privilege_id' => $log['privilege_id'],
                         'privilege_name' => $log['privilege_name']
                     ]);
