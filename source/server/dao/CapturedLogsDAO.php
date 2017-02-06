@@ -74,16 +74,24 @@ class CapturedLogsDAO extends DataAccessObject
     // Checks if there is an entry that was registered on the specified date 
     // for the specified log, returning true if this is the case or false 
     // otherwise
-    function hasByDateAndLogID($date, $logID)
+    function hasByDateAndLogID($date, $logID, $zoneID)
     {
-        return parent::has(
+        $rows = parent::select(
+            '*',
             [
                 'AND' => [
                     'capture_date' => $date,
-                    'log_id' => $logID
+                    'log_id' => $logID,
+                    'u.zone_id' => $zoneID
+                ],
+                [
+                    '[><]users(u)' => [
+                        'employee_id' => 'id'
+                    ]
                 ]
             ]
         );
+        return count($rows) > 0;
     }
 
 

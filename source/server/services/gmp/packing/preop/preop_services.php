@@ -127,7 +127,8 @@ function registerLogEntry()
 
     // before inserting into the data base, check that there is no entry of
     // this log already
-    // $isLogEntryDuplicated = $logDate->hasByDateAndLogID($_POST['date'], $logID);
+    // $isLogEntryDuplicated = $logDate->hasByDateAndLogID(
+    //     $_POST['date'], $logID, $_SESSION['zone_id']);
     // if ($isLogEntryDuplicated) {
     //     throw new \Exception('A log entry was already registered today.', 2);
     // }
