@@ -61,20 +61,64 @@ It also changes the user language (in local storage) to the selected language.
 function changeLanguage(lang, callback){
     setLanguage(lang);
     if(lang == "es") {
-        $.ajax({
-        url: $root + 'data/files/languages.xml',
-        success: function(xml) {
-            $(xml).find('translation').each(function(){
-                var id = $(this).attr('id');
-                var text = $(this).find("spanish").text();
-                $("." + id).text(text);
+        if(localStorage.spanish == undefined){
+            $.ajax({
+                url: $root + 'data/files/languages.xml',
+                success: function(xml) {
+                    var spanishData = [];
+                    $(xml).find('translation').each(function(){
+                        var tempObject = {};
+                        var id = $(this).attr('id');
+                        var text = $(this).find("spanish").text();
+                        $("." + id).text(text);
+                        tempObject.className = id;
+                        tempObject.content = text;
+                        spanishData.push(tempObject);
+                    });
+                    localStorage.spanish = JSON.stringify(spanishData);
+                    $('select').material_select('destroy');
+                    $('select').material_select();
+                }
             });
+        } else {
+            console.log("idioma cambiado desde localStorage");
+            var spanishData = JSON.parse(localStorage.spanish);
+            for(var langField of spanishData){
+                $("." + langField.className).text(langField.content);
+            }
             $('select').material_select('destroy');
             $('select').material_select();
         }
-    });
     } else if (lang == "en") {
-        $.ajax({
+        if(localStorage.english == undefined){
+            $.ajax({
+                url: $root + 'data/files/languages.xml',
+                success: function(xml) {
+                    var englishData = [];
+                    $(xml).find('translation').each(function(){
+                        var tempObject = {};
+                        var id = $(this).attr('id');
+                        var text = $(this).find("english").text();
+                        $("." + id).text(text);
+                        tempObject.className = id;
+                        tempObject.content = text;
+                        englishData.push(tempObject);
+                    });
+                    localStorage.english = JSON.stringify(englishData);
+                    $('select').material_select('destroy');
+                    $('select').material_select();
+                }
+            });
+        } else {
+            console.log("idioma cambiado desde localStorage");
+            var englishData = JSON.parse(localStorage.english);
+            for(var langField of englishData){
+                $("." + langField.className).text(langField.content);
+            }
+            $('select').material_select('destroy');
+            $('select').material_select();
+        }
+        /*$.ajax({
             url: $root + 'data/files/languages.xml',
             success: function(xml) {
                 $(xml).find('translation').each(function(){
@@ -85,7 +129,7 @@ function changeLanguage(lang, callback){
                 $('select').material_select('destroy');
                 $('select').material_select();
             }
-        });
+        });*/
     } else {
         changeLanguage(defaultLanguage);
     }

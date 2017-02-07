@@ -429,7 +429,7 @@ function gmpPackingPreopReport(data){
 // languages.xml, not strings
 
 function gmpPackingPreopReportHeader(){
-    var header = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"area_title"},{"type":"th","classes":"time_title"},{"type":"th","classes":"number_title"},{"type":"th","classes":"name_title"},{"type":"th","classes":"status_title"},{"type":"th","classes":"action_title"},{"type":"th","classes":"comment_title"}]}]};
+    var header = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"area_title areaColumn"},{"type":"th","classes":"time_title timeColumn"},{"type":"th","classes":"number_title numberColumn"},{"type":"th","classes":"name_title nameColumn"},{"type":"th","classes":"status_title statusColumn"},{"type":"th","classes":"action_title actionColumn"},{"type":"th","classes":"comment_title commentColumn"}]}]};
 
     return header;
 }
@@ -490,7 +490,7 @@ function gmpPackingPreopReportBody(data){
 // Example: Food Contact - Daily and Non Food Contact - Daily
 
 function gmpPackingPreopReportTypeTitle(title, colspan){
-    var typeTitle = {"type":"td","colspan":colspan,"contents":title};
+    var typeTitle = {"type":"td","classes":"typeTitle","colspan":colspan,"contents":title};
 
     return typeTitle;
 }
@@ -501,15 +501,15 @@ function gmpPackingPreopReportTypeTitle(title, colspan){
 function gmpPackingPreopReportItem(itemData){
     var item = new Array();
 
-    item.push({"type":"td","contents":itemData.order});
-    item.push({"type":"td","contents":itemData.name});
+    item.push({"type":"td","classes":"numberColumn","contents":itemData.order});
+    item.push({"type":"td","classes":"nameColumn","contents":itemData.name});
     if(itemData.status){
-        item.push({"type":"td","classes":"acceptable_tag"});
+        item.push({"type":"td","classes":"statusColumn acceptable_tag"});
     } else {
-        item.push({"type":"td","classes":"unacceptable_tag"});
+        item.push({"type":"td","classes":"statusColumn unacceptable_tag"});
     }    
-    item.push({"type":"td","contents":itemData.corrective_action});
-    item.push({"type":"td","contents":itemData.comment});
+    item.push({"type":"td","classes":"actionColumn","contents":itemData.corrective_action});
+    item.push({"type":"td","classes":"commentColumn","contents":itemData.comment});
 
     console.log(item);
 
@@ -520,7 +520,7 @@ function gmpPackingPreopReportItem(itemData){
 // number of types
 
 function gmpPackingPreopReportAreaName(name, rowspan){
-    var areaName = {"type":"td","rowspan":rowspan,"contents":name};
+    var areaName = {"type":"td","classes":"areaColumn","rowspan":rowspan,"contents":name};
 
     return areaName;
 }
@@ -529,7 +529,7 @@ function gmpPackingPreopReportAreaName(name, rowspan){
 // number of types
 
 function gmpPackingPreopReportAreaTime(time, rowspan){
-    var areaTime = {"type":"td","rowspan":rowspan,"contents":time};
+    var areaTime = {"type":"td","classes":"timeColumn","rowspan":rowspan,"contents":time};
 
     return areaTime;
 }
@@ -537,7 +537,7 @@ function gmpPackingPreopReportAreaTime(time, rowspan){
 // Area notes. It will have a colspan equal to the number of columns
 
 function gmpPackingPreopReportAreaNotes(notes, colspan){
-    var areaNotes = {"type":"td","colspan":colspan,"contents":"<span class='notes_title'></span>: " + notes};
+    var areaNotes = {"type":"td","classes":"fullColumn","colspan":colspan,"contents":"<span class='notes_title'></span>: " + notes};
 
     return areaNotes;
 }
@@ -545,7 +545,7 @@ function gmpPackingPreopReportAreaNotes(notes, colspan){
 // Area sanitation. It will have a colspan equal to the number of columns
 
 function gmpPackingPreopReportAreaSanitation(sanitation, colspan){
-    var areaSanitation = {"type":"td","colspan":colspan,"contents":"<span class='person_performing_sanitation_title'></span>: " + sanitation};
+    var areaSanitation = {"type":"td","classes":"fullColumn","colspan":colspan,"contents":"<span class='person_performing_sanitation_title'></span>: " + sanitation};
 
     return areaSanitation;
 }
@@ -560,7 +560,7 @@ function gmpPackingPreopReportFooter(data){
 // number of columns
 
 function gmpPackingPreopReportNotes(notes, colspan){
-    var reportNotes = {"type":"td","colspan":colspan,"contents":"<span class='report_notes_title'></span>: " + notes};
+    var reportNotes = {"type":"td","classes":"fullColumn","colspan":colspan,"contents":"<span class='report_notes_title'></span>: " + notes};
 
     return reportNotes;
 }
@@ -569,7 +569,11 @@ function gmpPackingPreopReportNotes(notes, colspan){
 // number of columns
 
 function gmpPackingPreopReportAlbumURL(albumURL, colspan){
-    var reportURL = {"type":"td","colspan":colspan,"contents":"<span class='url_title'></span>: <a href='" + albumURL + "' >" + albumURL + "</a>"};
+    var reportURL = {"type":"td","classes":"fullColumn","colspan":colspan,"contents":"<span class='url_title'></span>: <a href='" + albumURL + "' >" + albumURL + "</a>"};
 
     return reportURL;
+}
+
+function getCSS(){
+    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}td { border: 1px solid #000000; text-align: left;}th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50;}.even { background-color: #b8e0b9;}.verticaltext{ writing-mode:tb-rl; transform: rotate(90deg); white-space:nowrap; word-break:break-word; bottom:0;}.typeTitle{ background-color: yellow; width:501px;}.fullColumn{ background-color: #D3D3D3;width:631px;}.nameColumn{ width:116px;}.numberColumn{ width:30px;}.timeColumn{ width:40px;}.areaColumn{ width:90px;}.statusColumn{ width:85px;}.actionColumn{ width:70px;}.commentColumn{ width:200px;}</style>';
 }
