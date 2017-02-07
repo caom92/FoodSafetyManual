@@ -129,22 +129,49 @@ $pdf = new PDFCreator($_POST['lang']);
 
 // set the style of the content and the report data display in the page body
 $style = $_POST['style'];
-$reportData = json_decode($_POST['content']);
 
-// for each report to display in the document ...
-foreach ($reportData as $report) {
-    // add a new page 
-    $pdf->AddPage();
+try {
+    // check if the client sent the content to print to the PDF file
+    $hasContent = 
+        isset($_POST['content']) && array_key_exists('content', $_POST);
 
-    // prepare the HTML to display in the body
-    $html = $style.$report['header'].$report['body'].$report['footer'];
+    // throw an exception if no content is available
+    if (!$hasContent) {
+        throw new Exception();
+    }
 
-    // print the result to the document
+    // parse the content sent from the client
+    $reportData = json_decode($_POST['content']);
+
+    // check that every report to print has a body
+    foreach ($reportData as $report) {
+        // if not, throw an exception
+        if (!isset($report->body)) {
+            throw new Exception();
+        }
+    }
+
+    // for each report to display in the document ...
+    foreach ($reportData as $report) {
+        // add a new page 
+        $pdf->AddPage();
+
+        // prepare the HTML to display in the body
+        $html = $style. 
+            (isset($report->header)) ? $report->header : ''. 
+            $report->body. 
+            (isset($report->footer)) ? $report->footer : '';
+
+        // print the result to the document
+        $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+    }
+} catch (Exception $e) {
+    // if an exception was thrown, print an error PDF file
+    $html = '<h1>:v</h1>';
     $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+} finally {
+    // close and output PDF document
+    $pdf->Output('report.pdf', 'I');
 }
-
-// close and output PDF document
-$pdf->Output('report.pdf', 'I');
-
 
 ?>
