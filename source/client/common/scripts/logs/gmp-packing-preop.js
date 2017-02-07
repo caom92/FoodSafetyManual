@@ -365,42 +365,49 @@ function gmpPackingPreopItemComment(item, areaID){
 }
 
 function gmpPackingPreopFunctionality(data){
-    $("input[id^='unacceptable_']:checked").each(function(){
+    /*$("input[id^='unacceptable_']:checked").each(function(){
         var tag = $(this).attr("id");
         var id = tag.match(/[0-9]+/g);
         $("#correctiveActionWrapper_" + id[0]).show(500);
         $("#commentWrapper_" + id[0]).show(500);
-    });
-
-    $("input[id^='acceptable_']").change(function(){
-        if($(this).is(":checked")){
-            var tag = $(this).attr("id");
-            var id = tag.match(/[0-9]+/g);
-            $("#correctiveActionWrapper_" + id[0]).hide(500);
-            $("#commentWrapper_" + id[0]).hide(500);
-        }
-    });
-
-    $("input[id^='unacceptable_']").change(function(){
-        if($(this).is(":checked")){
-            var tag = $(this).attr("id");
-            var id = tag.match(/[0-9]+/g);
-            $("#correctiveActionWrapper_" + id[0]).show(500);
-            $("#commentWrapper_" + id[0]).show(500);
-        }
-    });
+    });*/
 
     if(data.isPrefilled){
-        $("input[id^='unacceptable_']:checked").each(function(){
+        /*$("input[id^='unacceptable_']:checked").each(function(){
             var tag = $(this).attr("id");
             var id = tag.match(/[0-9]+/g);
             $("#correctiveActionWrapper_" + id[0]).show(500);
             $("#commentWrapper_" + id[0]).show(500);
+        });*/
+
+        $("input[id^='unacceptable_']").each(function(){
+            $(this).attr("disabled", true);
         });
+
+        $("div[id^='commentWrapper_']").show();
+        $("div[id^='correctiveActionWrapper_']").show();
     } else {
         $(".timeChanger").change(function(){
             if($(this).data().area_id)
                 $("#time_" + $(this).data().area_id).val(getISOTime(new Date()));
+        });
+
+        $("input[id^='acceptable_']").change(function(){
+            if($(this).is(":checked")){
+                var tag = $(this).attr("id");
+                var id = tag.match(/[0-9]+/g);
+                $("#correctiveActionWrapper_" + id[0]).hide(500);
+                $("#commentWrapper_" + id[0]).hide(500);
+            }
+        });
+
+        $("input[id^='unacceptable_']").change(function(){
+            if($(this).is(":checked")){
+                var tag = $(this).attr("id");
+                var id = tag.match(/[0-9]+/g);
+                $("#correctiveActionWrapper_" + id[0]).show(500);
+                $("#commentWrapper_" + id[0]).show(500);
+            }
         });
     }
 }

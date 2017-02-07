@@ -193,8 +193,10 @@ function reportLoaderCard(data){
     cardRow.addClass("row no-margin-bottom");
 
     var secretForm = $('<form id="secretForm_' + data.report_id + '" action="source/server/report/sandbox.php" target="_blank" method="post" hidden>' +
-  '<input id="html_' +data.report_id + '"type="text" name="html" hidden>' + 
-'</form>');
+            '<input id="contents_' +data.report_id + '"type="text" name="contents" hidden>' + 
+            '<input id="css_' +data.report_id + '"type="text" name="css" hidden>' + 
+            '<input id="lang_' +data.report_id + '"type="text" name="lang" hidden>' + 
+        '</form>');
     reportCard.append(secretForm);
 
     cardRow.append($("<div class='col s6 m6 l6' style='font-size: 24px;'>").append(data.creation_date));
@@ -245,7 +247,7 @@ function reportLoaderCard(data){
     });
 
     reportIcon.on("click", function(argument){
-        $("#html_" + data.report_id).val(JSON.stringify([$("#sandboxWrapper_" + data.report_id).html()]));
+        $("#contents_" + data.report_id).val(JSON.stringify([$("#sandboxWrapper_" + data.report_id).html()]));
         $("#secretForm_" + data.report_id).submit();
     });
 
@@ -255,6 +257,7 @@ function reportLoaderCard(data){
         var htmlContent = [];
         $("#report-tab-content").html("");
         $(".pdfReport").each(function(argument){
+            var contentObject = {};
             var tempCard = $("<div>");
             tempCard.addClass("card-panel white");
             tempCard.attr("id", "sandboxWrapper_" + $(this).data("raw_report").report_id);
@@ -262,9 +265,13 @@ function reportLoaderCard(data){
             tempCard.append($(this).data("report"));
             $("#report-tab-content").append(tempCard);
             changeLanguage(localStorage.defaultLanguage);
-            htmlContent.push(/*$("#headerWrapper_" + $(this).data("raw_report").report_id).html() + */$("#sandboxWrapper_" + $(this).data("raw_report").report_id).html());
+            contentObject.body = $("#sandboxWrapper_" + $(this).data("raw_report").report_id).html();
+            //htmlContent.push(/*$("#headerWrapper_" + $(this).data("raw_report").report_id).html() + */$("#sandboxWrapper_" + $(this).data("raw_report").report_id).html());
+            htmlContent.push(contentObject);
         });
-        $("#html_" + data.report_id).val(JSON.stringify(htmlContent));
+        $("#contents_" + data.report_id).val(JSON.stringify(htmlContent));
+        $("#css_" + data.report_id).val(getCSS());
+        $("#lang_" + data.report_id).val(localStorage.defaultLanguage);
         $("#secretForm_" + data.report_id).submit();
         $("#report-tab-content").html(currentHTML);
     });

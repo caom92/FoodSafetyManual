@@ -31,6 +31,7 @@ function waitingReportCard(report){
             $("#content_wrapper").show();
             var data = {"start_date":report.capture_date,"end_date":report.capture_date,"report_id":reportID};
             loadPrefilledLogForm("#content_wrapper", data);
+            //$("#content_wrapper").append($("<div class='card-panel white'>"));
         });
     });
 
@@ -210,6 +211,19 @@ function updateSigns(){
 }
 
 $(function (){
+    if(!localStorage.correctiveActionsSSOP){
+        $server.request({
+            service: 'list-corrective-actions',
+            success: function(response) {
+                if (response.meta.return_code == 0) {
+                    localStorage.correctiveActionsSSOP = JSON.stringify(response.data);
+                } else {
+                    Materialize.toast("Some error", 3000, "rounded");
+                    throw response.meta.message;
+                }
+            }
+        });
+    }
     $.getScript( "source/client/common/scripts/logs/form-creator.js", function( data, textStatus, jqxhr ) {
         console.log( "Load of form-creator.js was performed." );
     });
