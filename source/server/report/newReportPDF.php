@@ -127,6 +127,9 @@ class PDFCreator extends TCPDF
 // create new PDF document
 $pdf = new PDFCreator($_POST['lang']);
 
+// initialize the storage for the final HTML code to parse to PDF
+$html = '';
+
 // set the style of the content and the report data display in the page body
 $style = $_POST['style'];
 
@@ -161,15 +164,14 @@ try {
             (isset($report->header)) ? $report->header : ''. 
             $report->body. 
             (isset($report->footer)) ? $report->footer : '';
-
-        // print the result to the document
-        $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
     }
 } catch (Exception $e) {
     // if an exception was thrown, print an error PDF file
     $html = '<h1>:v</h1>';
-    $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 } finally {
+    // print the result to the document
+    $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+
     // close and output PDF document
     $pdf->Output('report.pdf', 'I');
 }
