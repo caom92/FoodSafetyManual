@@ -9,26 +9,26 @@ RewriteEngine On
 RewriteBase /espresso/
 
 # When no petition is specified, redirect it to the main page
-RewriteRule ^$ source/client/common/layouts/main.html [L,QSA]
-RewriteRule ^/$ source/client/common/layouts/main.html [L,QSA]
+RewriteRule ^$ source/client/common/layouts/main.html [NC,L,QSA]
+RewriteRule ^/$ source/client/common/layouts/main.html [NC,L,QSA]
 
 # Redirect any request for a layout to the proper HTML page
-RewriteRule ^(employee|administrator|supervisor|director|common)/layouts/([a-zA-Z_-]+)$ source/client/$1/layouts/$2.html [L,QSA]
+RewriteRule ^(employee|administrator|supervisor|director|common)/layouts/([a-zA-Z_-]+)$ source/client/$1/layouts/$2.html [NC,L,QSA]
 
 # Redirect any request for a behavior to the proper JS file
-RewriteRule ^(employee|administrator|supervisor|director|common)/behaviors/([a-zA-Z_-]+\.js)$ source/client/$1/behaviors/$2 [L,QSA]
+RewriteRule ^(employee|administrator|supervisor|director|common)/behaviors/([a-zA-Z_-]+\.js)$ source/client/$1/behaviors/$2 [NC,L,QSA]
 
 # Redirect any service request to the main backend script
-RewriteRule ^services/([a-zA-Z_-]+)$ source/server/main.php [L,QSA]
+RewriteRule ^services/([a-zA-Z_-]+)$ source/server/main.php [NC,L,QSA]
 
 # Redirect any request for any other client-side script to the proper file
-RewriteRule ^scripts/([a-zA-Z_\-\.]+\.js)$ source/client/common/scripts/$1 [L,QSA]
+RewriteRule ^scripts/([a-zA-Z_\-\.]+\.js)$ source/client/common/scripts/$1 [NC,L,QSA]
 
 # Redirect any petition that is not a directory, file or link to the main page
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-l
-RewriteRule ^[a-zA-Z0-9_-]+$ source/client/common/layouts/main.html [L,QSA]
+RewriteRule ^[a-zA-Z0-9_-]+$ source/client/common/layouts/main.html [NC,L,QSA]
 
 # Redirect any test request to the proper test site
 RewriteRule ^tests/([a-zA-Z_-]+)$ tests/$1.html
