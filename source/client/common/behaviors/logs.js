@@ -182,28 +182,91 @@ function pdfUploader() {
 
 function reportLoaderCard(data){
     var reportCard = $("<div>");
+    var cardRow = $("<div>");
+    var openIconWrapper = $("<div class='iconContainer col s1 m1 l1'>");
+    var reportIconWrapper = $("<div class='iconContainer col offset-s4 offset-m4 offset-l4 s1 m1 l1'>");
+    var openIcon = $('<i class="mdi mdi-file-document-box mdi-36px green-text"></i>');
+    var reportIcon = $('<i class="mdi mdi-file-pdf-box mdi-36px red-text text-darken-4"></i>');
+    reportIcon.hide();
 
-    reportCard.addClass("card-panel white reportCard");
+    reportCard.addClass("card-panel white reportCard pdfReport");
+    cardRow.addClass("row no-margin-bottom");
 
-    reportCard.append($("<div>").append(data.creation_date));
+    var secretForm = $('<form id="secretForm_' + data.report_id + '" action="source/server/report/sandbox.php" target="_blank" method="post" hidden>' +
+  '<input id="html_' +data.report_id + '"type="text" name="html" hidden>' + 
+'</form>');
+    reportCard.append(secretForm);
+
+    cardRow.append($("<div class='col s6 m6 l6' style='font-size: 24px;'>").append(data.creation_date));
+    reportIconWrapper.append(reportIcon);
+    openIconWrapper.append(openIcon);
+    cardRow.append(reportIconWrapper);
+    cardRow.append(openIconWrapper);
+
+    reportCard.append(cardRow);
 
     reportCard.data("report", table(loadReport(data)));
+    reportCard.data("raw_report", data);
     reportCard.data("header", reportHeader(data.zone_name, data.module_name, data.program_name, data.log_name, data.creation_date, data.created_by, data.approval_date, data.approved_by));
 
-    reportCard.on("click", function(argument) {
-        $(".reportCard").removeClass("green");
-        $(".reportCard").removeClass("accent-1");
-        $(".reportCard").addClass("white");
-        $(this).addClass("green accent-1");
-        var tempCard = $("<div>");
-        tempCard.addClass("card-panel white");
-        $("#report-tab-content").hide();
+    openIcon.css( 'cursor', 'pointer' );
+    reportIcon.css( 'cursor', 'pointer' );
+
+    openIcon.on("click", function(argument) {
+        var iconParent = $(this).parent().parent().parent();
+        if(iconParent.hasClass("reportCard")){
+            console.log("Has report card");
+            iconParent.removeClass("reportCard");
+            $(this).removeClass("mdi-file-document-box green-text");
+            $(this).addClass("mdi-close-box red-text");
+            $(".reportCard").hide(300);
+            var tempCard = $("<div>");
+            tempCard.addClass("card-panel white");
+            tempCard.attr("id", "sandboxWrapper_" + data.report_id);
+            //$("#report-tab-content").hide();
+            $("#report-tab-content").html("");
+            tempCard.append(iconParent.data("report"));
+            $("#report-tab-content").append(iconParent.data("header"));
+            $("#report-tab-content").append(tempCard);
+            changeLanguage(localStorage.defaultLanguage, function(){
+                reportIcon.show(200);
+            });
+            //$("#report-tab-content").show(600);
+        } else {
+            console.log("No report card");
+            iconParent.addClass("reportCard");
+            $(this).removeClass("mdi-close-box red-text");
+            $(this).addClass("mdi-file-document-box green-text");
+            $(".reportCard").show(300);
+            $("#report-tab-content").html("");
+            reportIcon.hide(200);
+        }
+        console.log("lmao");
+    });
+
+    reportIcon.on("click", function(argument){
+        $("#html_" + data.report_id).val(JSON.stringify([$("#sandboxWrapper_" + data.report_id).html()]));
+        $("#secretForm_" + data.report_id).submit();
+    });
+
+    $("#request_pdf").off("click");
+    $("#request_pdf").on("click", function(argument){
+        var currentHTML = $("#report-tab-content").html();
+        var htmlContent = [];
         $("#report-tab-content").html("");
-        tempCard.append($(this).data("report"));
-        $("#report-tab-content").append($(this).data("header"));
-        $("#report-tab-content").append(tempCard);
-        changeLanguage(localStorage.defaultLanguage);
-        $("#report-tab-content").show(600);
+        $(".pdfReport").each(function(argument){
+            var tempCard = $("<div>");
+            tempCard.addClass("card-panel white");
+            tempCard.attr("id", "sandboxWrapper_" + $(this).data("raw_report").report_id);
+            $("#report-tab-content").append($(this).data("header"));
+            tempCard.append($(this).data("report"));
+            $("#report-tab-content").append(tempCard);
+            changeLanguage(localStorage.defaultLanguage);
+            htmlContent.push(/*$("#headerWrapper_" + $(this).data("raw_report").report_id).html() + */$("#sandboxWrapper_" + $(this).data("raw_report").report_id).html());
+        });
+        $("#html_" + data.report_id).val(JSON.stringify(htmlContent));
+        $("#secretForm_" + data.report_id).submit();
+        $("#report-tab-content").html(currentHTML);
     });
 
     return reportCard;
@@ -221,7 +284,7 @@ function loadReports(startDate, endDate){
             if (response.meta.return_code == 0) {
                 var pdfReportURL = "source/server/report/reportPDF.php";
                 var pdfParams = "?start_date=" + startDate + "&end_date=" + endDate;
-                $("#request_pdf").attr("href", pdfReportURL + pdfParams);
+                //$("#request_pdf").attr("href", pdfReportURL + pdfParams);
                 $('#request_pdf').show();
 
                 var wrapper = $("#report-tab-index");
