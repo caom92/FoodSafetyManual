@@ -317,8 +317,8 @@ function gmpPackingPreopItemTitle(item, areaID){
 }
 
 function gmpPackingPreopItemStatus(item, areaID){
-    var acceptableIcon = {"type":"icon","icon":"mdi-check-circle","size":"mdi-18px","color":"green-text", "text":{"type":"text","classes":"acceptable_tag green-text"}};
-    var unacceptableIcon = {"type":"icon","icon":"mdi-close-circle","size":"mdi-18px","color":"red-text", "text":{"type":"text","classes":"unacceptable_tag red-text"}};    
+    var acceptableIcon = {"type":"text","classes":"acceptable_tag green-text big"};
+    var unacceptableIcon = {"type":"text","classes":"unacceptable_tag red-text big"};
     var radioAcceptable = {"type":"radio","id":"acceptable_" + item.id,"classes":"timeChanger","value":"true","label":{"type":"label","for":"acceptable_" + item.id,"contents": acceptableIcon},"data":{"area_id":areaID,"item_id":item.id}};
     var radioUnacceptable = {"type":"radio","id":"unacceptable_" + item.id,"classes":"timeChanger","value":"false","label":{"type":"label","for":"unacceptable_" + item.id,"contents": unacceptableIcon},"data":{"area_id":areaID,"item_id":item.id}};
     var itemRadioGroup = {"type": "radioGroup", "id":"radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"radio_" + item.id,"radioArray":[radioAcceptable, radioUnacceptable]};
