@@ -95,6 +95,7 @@ function stringHasLengthInterval($string, $min, $max)
         $currentLength = strlen($string);
         return $min <= $currentLength && $currentLength <= $max;
     }
+    return false;
 }
 
 
