@@ -1,303 +1,194 @@
 <?php
 
-    require_once realpath(dirname(__FILE__)."/../../../external/tcpdf/tcpdf.php");
-    require_once realpath(dirname(__FILE__)."/../services/gmp/packing/preop/preop_services.php");
-    require_once realpath(dirname(__FILE__).'/../Session.php');
-    require_once realpath(dirname(__FILE__).'/htmlManager.php');
+require_once realpath(dirname(__FILE__)."/../../../external/tcpdf/tcpdf.php");
 
-    use fsm as session;
-    use fsm\validations as val;
-    use fsm\database\gmp\packing\preop as preop;
-    use fsm\database as db;
-    use fsm\services\gmp\packing\preop as preopService;
-    use fsm\report\html as html;
 
-    $_POST['start_date'] = $_GET['start_date'];
-    $_POST['end_date'] = $_GET['end_date'];
+// {
+//     lang:string
+//     style:string
+//     content [
+//         {
+//             header:string
+//             body:string
+//             footer:string
+//         }
+//     ]
+// }
 
-    if(isset($_GET["lang"])){
-        if($_GET["lang"] == "es" || $_GET["lang"] == "en")
-            $lang = $_GET["lang"];
-        else
-            $lang = "es";
-    } else {
-        $lang = "es";
+
+// This class defines the necessary functions to create a PDF file
+// report data in it from a log
+class PDFCreator extends TCPDF
+{
+    // The translated texts to be used in the file
+    private $texts;
+
+
+    // Create an instance of the PDF file creator
+    // [in]     lang: a string that contains the code of the language that we 
+    //          going to use to display the text
+    function __construct($lang) {
+        // first, initialize a TCPDF instance
+        parent::__construct(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, 
+            true, 'UTF-8', false);
+
+        // then, create the translated text depending on the language that is
+        // going to be used
+        switch ($lang) {
+            case 'es':
+                $this->texts = [
+                    'page' => 'Página',
+                    'of' => 'de'
+                ];
+            break;
+
+            default:
+                $this->texts = [
+                    'page' => 'Page',
+                    'of' => 'of'
+                ];
+            break;
+        }
+
+        // sets the metadata for the generated PDF file
+        $this->SetCreator(PDF_CREATOR);
+        $this->SetAuthor("Jacobs Farm, Del Cabo");
+        $this->SetTitle("PDF Report");
+        $this->SetSubject("PDF Report");
+        $this->SetKeywords("Jacobs, Farm, Del, Cabo, Report, PDF");
+
+        // set default monospaced font
+        $this->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+        // set margins
+        $this->SetMargins(PDF_MARGIN_LEFT, 26, PDF_MARGIN_RIGHT);
+        $this->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $this->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+        // set auto page breaks
+        $this->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+        // set image scale factor
+        $this->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+        // set default font subsetting mode
+        $this->setFontSubsetting(true);
+
+        // Set font
+        // dejavusans is a UTF-8 Unicode font, if you only need to
+        // print standard ASCII chars, you can use core fonts like
+        // helvetica or times to reduce file size.
+        $this->SetFont('helvetica', '', 10, '', true);
     }
 
-    $esArray = array(
-        "zone" => "Zona",
-        "program" => "Programa",
-        "module" => "Módulo",
-        "log" => "Bitácora",
-        "page" => "Página",
-        "of" => "de",
-        "date" => "Fecha",
-        "elaboration" => "Elaboró",
-        "approval" => "Aprobó",
-    );
 
-    $enArray = array(
-        "zone" => "Zone",
-        "program" => "Program",
-        "module" => "Module",
-        "log" => "Log",
-        "page" => "Page",
-        "of" => "of",
-        "date" => "Date",
-        "elaboration" => "Made by",
-        "approval" => "Approved by",
-    );
+    // Creates the page header of the PDF file
+    public function Header() {
+        // define the company info
+        $logo = realpath(dirname(__FILE__)."/../../../data/images/logo.png");
+        $companyName = "Jacobs Farm, Del Cabo";
+        $companyAddress = "P.O. Box 508 Pescadero, CA. 94060";
 
-    $stringArray = array(
-        "es" => $esArray,
-        "en" => $enArray,
-    );
-
-    class Report extends TCPDF {
-        // Sets the metadata for the generated PDF file
-        public function initialize(){
-            $author = "Jacobs Farm, Del Cabo";
-            $title = "PDF Report";
-            $subject = "PDF Report";
-            $keywords = "Jacobs, Farm, Del, Cabo, Report, PDF";
-
-            $this->SetCreator(PDF_CREATOR);
-            $this->SetAuthor($author);
-            $this->SetTitle($title);
-            $this->SetSubject($subject);
-            $this->SetKeywords($keywords);
-
-            $this->stringArray = $GLOBALS["stringArray"];
-            $this->lang = $GLOBALS["lang"];
-        }
-
-        // Logo, name and address of the company
-        public function getCompanyInfo(){
-            $data = new stdClass();
-            $data->{"logo"} = realpath(dirname(__FILE__).
-                "/../../../data/images/logo.png");
-            $data->{"companyName"} = "Jacobs Farm, Del Cabo";
-            $data->{"companyAddress"} = "P.O. Box 508 Pescadero, CA. 94060";
-            return $data;
-        }
-
-        // Page footer
-        public function Footer() {
-            // Position at 15 mm from bottom
-            $this->SetY(-15);
-            // Set font
-            $this->SetFont('helvetica', 'I', 8);
-            // Page number
-            $this->Cell(0, 10, $this->stringArray[$this->lang]["page"]." ".$this->getAliasNumPage()." ".$this->stringArray[$this->lang]["of"]." ".$this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
-            $this->Line(15,$this->y,200,$this->y);
-        }
-
-        // Prototype for CSS Stylesheet
-
-        public function getCSS() {
-            return '';
-        }
+        // sets the logo and the company info in the PDF file
+        $this->Image($logo, 5, 5, 40, '', 'PNG', '', 'T', false, 300, '', 
+            false, false, 0, false, false, false);
+        $this->ln(0);
+        $this->SetFont('helvetica', 'B', 15);
+        $this->Cell(0, 12, $companyName, 0, false, 'C', 0, '', 0, false, 
+            'T', 'M');
+        $this->ln(5);
+        $this->SetFont('helvetica', 'B', 10);
+        $this->Cell(0, 12, $companyAddress, 0, false, 'C', 0, '', 0, false, 
+            'T', 'M');
+        $this->ln(9);
     }
 
-    class SSOPPreopReport extends Report{
-        private $report;
 
-        public function setReportData($reportData) {
-            $this->report = $reportData;
-        }
+    // Creates the page footer of the PDF file
+    public function Footer() {
+        // position at 15 mm from bottom
+        $this->SetY(-15);
 
-        public function Header(){
-            // assign company data to variables
-            $company = $this->getCompanyInfo(null);
-            $reportHeader = $this->getReportHeader(1, 1, null);
+        // set font
+        $this->SetFont('helvetica', 'I', 8);
 
-            $logo = $company->logo;
-            $companyName = $company->companyName;
-            $companyAddress = $company->companyAddress;
-            $zone = $reportHeader->zone;
-            $program = $reportHeader->program;
-            $module = $reportHeader->module;
-            $log = $reportHeader->log;
-            $date = $reportHeader->date;
-            $elaboration = $reportHeader->elaboration;
-            $approval = $reportHeader->approval;
+        // set the page number
+        $this->Cell(
+            0, 10, 
+            $this->texts["page"]." ".$this->getAliasNumPage()." ".
+            $this->texts["of"]." ".$this->getAliasNbPages(), 
+            0, false, 'C', 0, '', 0, false, 'T', 'M'
+        );
+        $this->Line(15,$this->y,200,$this->y);
+    }
+}
 
-            $this->Image($logo, 5, 5, 40, '', 'PNG', '', 'T', false, 300, '', 
-                false, false, 0, false, false, false);
-            $this->ln(0);
-            $this->SetFont('helvetica', 'B', 15);
-            $this->Cell(0, 12, $companyName, 0, false, 'C', 0, '', 0, false, 
-                'T', 'M');
-            $this->ln(5);
-            $this->SetFont('helvetica', 'B', 10);
-            $this->Cell(0, 12, $companyAddress, 0, false, 'C', 0, '', 0, false, 
-                'T', 'M');
-            $this->ln(9);
-            $moduleInfo = '
-            <div style="text-align:justify;">
-                '.$zone.'<br>
-                '.$program.'<br>
-                '.$module.'<br>
-                '.$log.'
-            </div>
-            ';
-            $reportInfo = '
-            <div style="text-align:justify;">
-                '.$date.'<br>
-                '.$elaboration.'<br>
-                '.$approval.'
-            </div>
-            ';
-            $this->writeHTMLCell(null, null, null, 25, $moduleInfo, 1, 0, false, true);
-            $this->writeHTMLCell(null, null, null, 43, $reportInfo, 1, 0, false, true);
-        }
 
-        public function getReportHeader($zone, $module, $date){
-            // Sending the zone, module and date to the DAO we obtain the data
-            // about the program, who made the report and who approved it
+// get the language that is going to be used to print the PDF file
+$lang = (isset($_POST['lang']) && array_key_exists('lang', $_POST)) ?
+    $_POST['lang'] : 'en';
 
-            //$report = $this->getReportData();
-            $report = $this->report;
+// create new PDF document
+$pdf = new PDFCreator($lang);
 
-            //Build the object
-            $data = new stdClass();
-            $data->{"zone"} = $this->stringArray[$this->lang]["zone"].": ".$report['zone_name'];
-            $data->{"program"} = $this->stringArray[$this->lang]["program"].": ".$report['program_name'];
-            $data->{"module"} = $this->stringArray[$this->lang]["module"].": ".$report['module_name'];
-            $data->{"log"} = $this->stringArray[$this->lang]["log"].": ".$report['log_name'];
-            $data->{"date"} = $this->stringArray[$this->lang]["date"].": ".$report['creation_date'];
-            $data->{"elaboration"} = $this->stringArray[$this->lang]["elaboration"].": ".$report['created_by'];
-            $data->{"approval"} = $this->stringArray[$this->lang]["approval"].": ".$report['approved_by'];
+// initialize the storage for the HTML that will be displayed in the PDF file
+$html = '';
 
-            return $data;
-        }
+// set the style of the content and the report data display in the page body
+$style = (isset($_POST['style']) && array_key_exists('style', $_POST)) ?
+    $_POST['style'] : '';
 
-        public function getCSS() {
-            return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}td { border: 1px solid #000000; text-align: left;}th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50;}.even { background-color: #b8e0b9;}.verticaltext{ writing-mode:tb-rl; transform: rotate(90deg); white-space:nowrap; word-break:break-word; bottom:0;}.typeTitle{ background-color: yellow; width:501px;}.fullColumn{ background-color: #D3D3D3;width:501px;}.nameColumn{ width:116px;}.numberColumn{ width:30px;}.timeColumn{ width:40px;}.statusColumn{ width:85px;}.actionColumn{ width:70px;}.commentColumn{ width:200px;}</style>';
-        }
+try {
+    // check if the client sent the content to print to the PDF file
+    $hasContent = 
+        isset($_POST['content']) && array_key_exists('content', $_POST);
 
-        public function getReportData(){
-            return preopService\getReportData();
-        }
-
-        public function tableArray(){
-            //$report = $this->getReportData();
-            $report = $this->report;
-            $reportContents = [];
-
-            foreach ($report['areas'] as $area) {
-                $isFirst = true;
-                $firstRow = [];
-
-                $areaRows = 2;
-
-                foreach ($area['types'] as $type) {
-                    $areaRows += count($type['items']) + 1;
-                }
-
-                array_push($firstRow, (object) array("rowspan" => $areaRows, "contents" => $area['name'], "classes" => "areaColumn"));
-                array_push($firstRow, (object) array("rowspan" => $areaRows, "contents" => substr($area['time'], 0, -3), "classes" => "timeColumn"));
-
-                foreach ($area['types'] as $type) {
-                    if($isFirst){
-                        array_push($firstRow, (object) array("colspan" => 5, "contents" => $type["name"], "classes" => "typeTitle"));
-                        array_push($reportContents, $firstRow);
-                        $isFirst = false;
-                    } else {
-                        $temp = [];
-                        array_push($temp, (object) array("colspan" => 5, "contents" => $type["name"], "classes" => "typeTitle"));
-                        array_push($reportContents, $temp);
-                    }
-                    foreach ($type['items'] as $item) {
-                        $temp = [];
-                        array_push($temp, (object) array("contents" => $item["order"], "classes" => "numberColumn"));
-                        array_push($temp, (object) array("contents" => $item["name"], "classes" => "nameColumn"));
-
-                        if($item["status"] == 1) {
-                            array_push($temp, (object) array("contents" => "Aceptable", "classes" => "acceptable_tag statusColumn"));
-                        } else {
-                            array_push($temp, (object) array("contents" => "Aceptable", "classes" => "unacceptable_tag statusColumn"));
-                        }
-
-                        array_push($temp, (object) array("contents" => $item["corrective_action"], "classes" => "actionColumn"));
-                        array_push($temp, (object) array("contents" => $item["comment"], "classes" => "commentColumn"));
-
-                        array_push($reportContents, $temp);
-                    }
-                }
-                $notesRow = [];
-                $personRow = [];
-
-                array_push($notesRow, (object) array("colspan" => 5, "contents" => "Notas: ".$area["notes"], "classes" => "fullColumn"));
-                array_push($personRow, (object) array("colspan" => 5, "contents" => "Persona a cargo de la sanitizacion: ".$area["person_performing_sanitation"], "classes" => "fullColumn"));
-
-                array_push($reportContents, $notesRow);
-                array_push($reportContents, $personRow);
-            }
-
-            return $reportContents;
-        }
+    // throw an exception if no content is available
+    if (!$hasContent) {
+        throw new Exception();
     }
 
-    // Start session
+    // parse the content sent from the client
+    $reportData = json_decode($_POST['content']);
 
-    $session = new session\Session();
-
-    // create new PDF document
-    $pdf = new SSOPPreopReport(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-
-    $pdf->initialize();
-
-    // set default monospaced font
-    $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-    // $pdf->AddPage();
-
-    // set margins
-    $pdf->SetMargins(PDF_MARGIN_LEFT, 60, PDF_MARGIN_RIGHT);
-    $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-    $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-
-    // set auto page breaks
-    $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-
-    // set image scale factor
-    $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-
-    // set some language-dependent strings (optional)
-    if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
-        require_once(dirname(__FILE__).'/lang/eng.php');
-        $pdf->setLanguageArray($l);
-    }
-
-    // ---------------------------------------------------------
-
-    // set default font subsetting mode
-    $pdf->setFontSubsetting(true);
-
-    // Set font
-    // dejavusans is a UTF-8 Unicode font, if you only need to
-    // print standard ASCII chars, you can use core fonts like
-    // helvetica or times to reduce file size.
-    $pdf->SetFont('helvetica', '', 10, '', true);
-
-    $reportData = $pdf->getReportData();
+    // for every report to print...
     foreach ($reportData as $report) {
-        // Add a page
-        // This method has several options, check the source code documentation for more information.
-        $pdf->setReportData($report);
-        $pdf->AddPage();
-        // Call the proper functions to get both the style and the data
-        $html = $pdf->getCSS().html\reportTable("testTable", "lmao", html\reportTitle(null, "whatever", html\headerTestData()), html\reportBody(null, "whatever", $pdf->tableArray()), null);
-        //$html = $pdf->getCSS().json_encode($pdf->getReportData()).json_encode($pdf->tableArray());
-        //$html = json_encode($pdf->tableArray());
+        // check that it has a page body
+        $hasBody = isset($report->body) && strlen($report->body) > 0;
 
-        // Print text using writeHTMLCell()
+        // if not, throw an exception
+        if (!$hasBody) {
+            throw new Exception();
+        }
+    }
+
+    // for each report to display in the document ...
+    foreach ($reportData as $report) {
+        // add a new page 
+        $pdf->AddPage();
+
+        // check if the header and the footer are set
+        $header = (isset($report->header)) ? $report->header.'<br>' : '';
+        $footer = (isset($report->footer)) ? '<br>'.$report->footer : '';
+
+        // prepare the HTML to display in the body
+        $html = $style.$header.$report->body.$footer;
+
+        // print the result to the document
         $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
     }
+} catch (Exception $e) {
+    // if an exception was thrown, print an error PDF file
+    $html = '<h1>:v</h1>';
 
-    // ---------------------------------------------------------
+    // add a new page 
+    $pdf->AddPage();
 
-    // Close and output PDF document
+    // print the result to the document
+    $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+} finally {
+    // close and output PDF document
     $pdf->Output('report.pdf', 'I');
+}
+
 ?>
