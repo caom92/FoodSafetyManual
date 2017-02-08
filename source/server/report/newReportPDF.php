@@ -146,10 +146,13 @@ try {
     // parse the content sent from the client
     $reportData = json_decode($_POST['content']);
 
-    // check that every report to print has a body
+    // for every report to print...
     foreach ($reportData as $report) {
+        // check that it has a page body
+        $hasBody = isset($report->body) && strlen($report->body) > 0;
+
         // if not, throw an exception
-        if (!isset($report->body)) {
+        if (!$hasBody) {
             throw new Exception();
         }
     }
