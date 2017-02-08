@@ -124,14 +124,16 @@ class PDFCreator extends TCPDF
 }
 
 
-// create new PDF document
-$pdf = new PDFCreator($_POST['lang']);
+// get the language that is going to be used to print the PDF file
+$lang = (isset($_POST['lang']) && array_key_exists('lang', $_POST)) ?
+    $_POST['lang'] : 'en';
 
-// initialize the storage for the final HTML code to parse to PDF
-$html = '';
+// create new PDF document
+$pdf = new PDFCreator($lang);
 
 // set the style of the content and the report data display in the page body
-$style = $_POST['style'];
+$html = (isset($_POST['style']) && array_key_exists('syle', $_POST)) ?
+    $_POST['style'] : '';
 
 try {
     // check if the client sent the content to print to the PDF file
@@ -162,15 +164,19 @@ try {
         // add a new page 
         $pdf->AddPage();
 
+        // check if the header and the footer are set
+        $header = (isset($report->header)) ? $report->header : '';
+        $footer = (isset($report->footer)) ? $report->footer : '';
+
         // prepare the HTML to display in the body
-        $html = $style. 
-            (isset($report->header)) ? $report->header : ''. 
-            $report->body. 
-            (isset($report->footer)) ? $report->footer : '';
+        $html .= $header.$report->body.$footer;
     }
 } catch (Exception $e) {
     // if an exception was thrown, print an error PDF file
     $html = '<h1>:v</h1>';
+
+    // add a new page 
+    $pdf->AddPage();
 } finally {
     // print the result to the document
     $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
