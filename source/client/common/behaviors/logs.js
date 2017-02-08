@@ -63,6 +63,7 @@ $(function() {
             $("input[name='start_hidden']").val(),
             $("input[name='end_hidden']").val()
         );
+        $("#report-tab-content").html("");
     });
 
     changeLanguage(localStorage.defaultLanguage);
@@ -210,6 +211,7 @@ function reportLoaderCard(data){
     reportCard.data("report", table(loadReport(data)));
     reportCard.data("raw_report", data);
     reportCard.data("header", reportHeader(data.zone_name, data.module_name, data.program_name, data.log_name, data.creation_date, data.created_by, data.approval_date, data.approved_by));
+    reportCard.data("headerPDF", reportHeaderPDF(data.zone_name, data.module_name, data.program_name, data.log_name, data.creation_date, data.created_by, data.approval_date, data.approved_by));
 
     openIcon.css( 'cursor', 'pointer' );
     reportIcon.css( 'cursor', 'pointer' );
@@ -230,7 +232,11 @@ function reportLoaderCard(data){
             tempCard.append(iconParent.data("report"));
             var tempHeader = iconParent.data("header");
             tempHeader.attr("id", "headerWrapper_" + data.report_id);
+            var tempPDFHeader = iconParent.data("headerPDF");
+            tempPDFHeader.attr("id", "headerPDFWrapper_" + data.report_id);
+            tempPDFHeader.hide();
             $("#report-tab-content").append(tempHeader);
+            $("#report-tab-content").append(tempPDFHeader);
             $("#report-tab-content").append(tempCard);
             changeLanguage(localStorage.defaultLanguage, function(){
                 reportIcon.show(200);
@@ -249,8 +255,9 @@ function reportLoaderCard(data){
     });
 
     reportIcon.on("click", function(argument){
+        var iconParent = $(this).parent().parent().parent();
         var contentObject = {};
-        contentObject.header = $("#headerWrapper_" + data.report_id).html();;
+        contentObject.header = $("#headerPDFWrapper_" + data.report_id).html();
         contentObject.body = $("#sandboxWrapper_" + data.report_id).html();
         contentObject.footer = "";
         $("#contents_" + data.report_id).val(JSON.stringify([contentObject]));
@@ -271,12 +278,16 @@ function reportLoaderCard(data){
             tempCard.attr("id", "sandboxWrapper_" + $(this).data("raw_report").report_id);
             $("#report-tab-content").append($(this).data("header"));
             tempCard.append($(this).data("report"));
-            var tempHeader = $(this).data("header");
+            var tempHeader = $(this).data("headerPDF");
             tempHeader.attr("id", "headerWrapper_" + $(this).data("raw_report").report_id);
+            var tempPDFHeader = $(this).data("headerPDF");
+            tempPDFHeader.attr("id", "headerPDFWrapper_" + $(this).data("raw_report").report_id);
+            tempPDFHeader.hide();
             $("#report-tab-content").append(tempHeader);
+            $("#report-tab-content").append(tempPDFHeader);
             $("#report-tab-content").append(tempCard);
             changeLanguage(localStorage.defaultLanguage);
-            contentObject.header = $("#headerWrapper_" + $(this).data("raw_report").report_id).html();;
+            contentObject.header = $("#headerPDFWrapper_" + $(this).data("raw_report").report_id).html();;
             contentObject.body = $("#sandboxWrapper_" + $(this).data("raw_report").report_id).html();
             contentObject.footer = "";
             console.log(contentObject);
@@ -384,4 +395,8 @@ function reportHeader(zone, program, module, log, elaborationDate, employeeName,
     reportCard.append(supervisorRow);
 
     return reportCard;
+}
+
+function reportHeaderPDF(zone, program, module, log, elaborationDate, employeeName, approvalDate, supervisorName){
+    return $("<div><table><tr><td><span class='zone_name'></span>: " + zone + "<br><span class='program_name'></span>: " + program + "<br><span class='module_name'></span>: " + module + "<br><span class='name'></span>: " + log + "</td></tr><tr><td><span class='elaborated_name'></span>: " + elaborationDate + "<br><span class='made_by'></span>: " + employeeName + "<br><span class='approved_name'></span>: " + approvalDate + "<br><span class='approved_by'></span>: " + supervisorName + "</td></tr></table></div><br>");
 }
