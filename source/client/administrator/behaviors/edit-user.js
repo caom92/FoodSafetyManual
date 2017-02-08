@@ -180,6 +180,25 @@ function addSupervisorSelect(zoneID, selectedOption){
                     $("#supervisor_select_wrapper").append(select);
                     $("#supervisor_select_wrapper").append(label);
                     $("#supervisor_select").val($("#user-id").data("supervisor_id"));
+                    $("#supervisor_select").on("change", function(){
+                        var assignment = {};
+                        assignment.employee_id = parseInt($("#user-id").data("user_id"));
+                        assignment.supervisor_id = parseInt($(this).val());
+                        assignment = {"assignments":[assignment]};
+                        $server.request({
+                            service: 'assign-employees-to-supervisors',
+                            data: assignment,
+                            success: function(response){
+                                if (response.meta.return_code == 0) {
+                                    loadToast("supervisor_assign_success", 3500, "rounded", null, ": " + $("#supervisor_select option:selected").text());
+                                    $("#user-id").data("supervisor_id", $("#supervisor_select").val());
+                                    console.log("Cambio supervisor");
+                                } else {
+                                    loadToast("supervisor_assign_fail", 3500, "rounded");
+                                }
+                            }
+                        });
+                    });
                 } else {
                     $("#supervisor_select_wrapper").append($("<i class='mdi mdi-alert-octagon md-36 field-icon red-text'></i><h5 class='no_supervisors'></h5>"));
                 }

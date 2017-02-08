@@ -66,6 +66,16 @@
         <spanish>Los empleados han sido reasignados</spanish>
     </translation>
 
+    <translation id="supervisor_assign_success">
+        <english>The employee has been assigned a new supervisor</english>
+        <spanish>El empleado ha sido asignado a un nuevo supervisor</spanish>
+    </translation>
+
+    <translation id="supervisor_assign_fail">
+        <english>There was an error during the reassignment, retry</english>
+        <spanish>Hubo un error durante la reasignación, intente nuevamente</spanish>
+    </translation>
+
     <translation id="duplicated_supervisor">
         <english>You must select different supervisors reassign an employee</english>
         <spanish>Debe escoger supervisores distintos para reasignar empleados</spanish>
