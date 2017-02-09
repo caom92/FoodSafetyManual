@@ -630,70 +630,77 @@ function editUserRole()
     
     // if a supervisor is required ...
     if ($isSupervisorRequired) {
-        // check that the supervisor ID was provided
-        $isSupervisorIDValid = 
-            isset($_POST['supervisor_id'])
-            && array_key_exists('supervisor_id', $_POST);
+        // first, check if the user already has a supervisor assigned
+        $hasSupervisor = $assignments->hasEmployeeID($_POST['user_id']);
 
-        // if it was provided...
-        if ($isSupervisorIDValid) {
-            // check that it is a valid integer
-            if (val\isInteger($_POST['supervisor_id'])) {
-                // if the supervisor ID is valid, assert that the ID provided 
-                // corresponds to a supervisor and that both the 
-                // supervisor and the employee share the same zone
+        // if the user does not have a supervisor assigned, we need to assign
+        // her the one that was provided
+        if (!$hasSupervisor) {
+            // check that the supervisor ID was provided
+            $isSupervisorIDValid = 
+                isset($_POST['supervisor_id'])
+                && array_key_exists('supervisor_id', $_POST);
 
-                // get the supervisor's zone and role
-                $supervisorZone = 
-                    $users->getZoneIDByID($_POST['supervisor_id']);
+            // if it was provided...
+            if ($isSupervisorIDValid) {
+                // check that it is a valid integer
+                if (val\isInteger($_POST['supervisor_id'])) {
+                    // if the supervisor ID is valid, assert that the ID 
+                    // provided corresponds to a supervisor and that both the 
+                    // supervisor and the employee share the same zone
 
-                $supervisorRole =
-                    $users->getRoleByID($_POST['supervisor_id']);
+                    // get the supervisor's zone and role
+                    $supervisorZone = 
+                        $users->getZoneIDByID($_POST['supervisor_id']);
 
-                // check if the supervisor has the same zone as the employee
-                $haveSameZone = 
-                    $supervisorZone === $userData['zone_id'];
+                    $supervisorRole =
+                        $users->getRoleByID($_POST['supervisor_id']);
 
-                // check if the supervisor has a supervisor role
-                $hasSupervisorRole = 
-                    $supervisorRole === 'Supervisor';
+                    // check if the supervisor has the same zone as the employee
+                    $haveSameZone = 
+                        $supervisorZone === $userData['zone_id'];
 
-                // if the zone is not the same, notify the user
-                if (!$haveSameZone) {
+                    // check if the supervisor has a supervisor role
+                    $hasSupervisorRole = 
+                        $supervisorRole === 'Supervisor';
+
+                    // if the zone is not the same, notify the user
+                    if (!$haveSameZone) {
+                        throw new \Exception(
+                            'The employee is in a different zone than the '.
+                            'supervisor'
+                        );
+                    }
+
+                    // if the supervisor does not have the proper role, notify 
+                    // the user
+                    if (!$hasSupervisorRole) {
+                        throw new \Exception(
+                            'The provided supervisor ID does not correspond to'.
+                            ' a user with supervisor role'
+                        );
+                    }
+
+                    // if the supervisor ID is valid and can be assigned, do 
+                    // the actual assignment
+                    $assignments->insert([
+                        'supervisor_id' => $_POST['supervisor_id'],
+                        'employee_id' => $userID
+                    ]);
+                } else {
+                    // if it's not, notify the user
+                    $users->deleteByID($userID);
                     throw new \Exception(
-                        'The employee is in a different zone than the '.
-                        'supervisor'
+                        'Supervisor ID is not a valid integer.'
                     );
                 }
-
-                // if the supervisor does not have the proper role, notify the 
-                // user
-                if (!$hasSupervisorRole) {
-                    throw new \Exception(
-                        'The provided supervisor ID does not correspond to a '.
-                        'user with supervisor role'
-                    );
-                }
-
-                // if the supervisor ID is valid and can be assigned, do the 
-                // actual assignment
-                $assignments->insert([
-                    'supervisor_id' => $_POST['supervisor_id'],
-                    'employee_id' => $userID
-                ]);
             } else {
-                // if it's not, notify the user
-                $users->deleteByID($userID);
+                // if the supervisor ID was not provided, notify the user
                 throw new \Exception(
-                    'Supervisor ID is not a valid integer.'
+                    'Employees must be assigned to a supervisor; no supervisor'.
+                    ' ID was provided.'
                 );
             }
-        } else {
-            // if the supervisor ID was not provided, notify the user
-            throw new \Exception(
-                'Employees must be assigned to a supervisor; no supervisor ID '.
-                'was provided.'
-            );
         }
     }
 
