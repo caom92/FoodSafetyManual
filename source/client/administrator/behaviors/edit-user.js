@@ -89,7 +89,7 @@ function addZoneSelect(supervisorFlag, selectedOption) {
                             data: data,
                             success: function (index){
                                 if (response.meta.return_code == 0) {
-                                    Materialize.toast("La zona del usuario ha sido modificada", 2500, "rounded");
+                                    loadToast("user_zone_modified", 2500, "rounded", null, $("#zone_select option:selected").text());
                                 }
                             }
                         });
@@ -102,7 +102,7 @@ function addZoneSelect(supervisorFlag, selectedOption) {
                         $("#zone_select").val($("#user-id").data("zone_id"));
                         $("select").material_select("destroy");
                         $("select").material_select();
-                        Materialize.toast("El supervisor no puede cambiar su rol mientras tenga empleados asignados", 3500, "rounded");
+                        loadToast("supervisor_has_employees_zone", 3500, "rounded");
                     }                        
                 });
                 changeLanguage(localStorage.defaultLanguage);
@@ -841,7 +841,9 @@ $(function (){
                 data: data,
                 success: function(response){
                     if (response.meta.return_code == 0){
-                        Materialize.toast("El rol del usuario ha sido modificado", 3500, "rounded");
+                        loadToast("role_modified", 3500, "rounded", null, $("#user-role option:selected").text());
+                    } else {
+                        loadToast("generic_error", 3500, "rounded");
                     }
                 }
             });
@@ -861,7 +863,7 @@ $(function (){
             $("#user-role").val(3);
             $("select").material_select("destroy");
             $("select").material_select();
-            Materialize.toast("El supervisor no puede cambiar su rol mientras tenga empleados asignados", 3500, "rounded");
+            loadToast("supervisor_has_employees_role", 3500, "rounded");
         }
     });
 
@@ -944,16 +946,16 @@ $(function (){
 
                 // Send the user object to the server, requesting an user add
                 if(userObject.privileges.length == 0){
-                    Materialize.toast("No ha realizado cambios en los permisos", 3500, "rounded");
+                    loadToast("privileges_unchanged", 3500, "rounded");
                 } else {
                     $server.request({
                         service: 'edit-user-privileges',
                         data: userObject,
                         success: function (response) {
                             if (response.meta.return_code == 0) {
-                                Materialize.toast("Privilegios actualizados", 3500, "rounded");
+                                loadToast("privileges_updated", 3500, "rounded");
                             } else {
-                                Materialize.toast("Error en la red", 3500, "rounded");
+                                loadToast("generic_error", 3500, "rounded");
                             }
                         }
                     });

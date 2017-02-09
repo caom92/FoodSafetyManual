@@ -59,7 +59,9 @@ It also changes the user language (in local storage) to the selected language.
 */
 
 function changeLanguage(lang, callback){
-    setLanguage(lang);
+    if(lang == undefined){
+        lang = getLanguage();
+    }
     if(lang == "es") {
         if(localStorage.spanish == undefined){
             $.ajax({
@@ -110,7 +112,6 @@ function changeLanguage(lang, callback){
                 }
             });
         } else {
-            console.log("idioma cambiado desde localStorage");
             var englishData = JSON.parse(localStorage.english);
             for(var langField of englishData){
                 $("." + langField.className).text(langField.content);
@@ -118,18 +119,6 @@ function changeLanguage(lang, callback){
             $('select').material_select('destroy');
             $('select').material_select();
         }
-        /*$.ajax({
-            url: $root + 'data/files/languages.xml',
-            success: function(xml) {
-                $(xml).find('translation').each(function(){
-                    var id = $(this).attr('id');
-                    var text = $(this).find("english").text();
-                    $("." + id).text(text);
-                });
-                $('select').material_select('destroy');
-                $('select').material_select();
-            }
-        });*/
     } else {
         changeLanguage(defaultLanguage);
     }
@@ -137,7 +126,7 @@ function changeLanguage(lang, callback){
     loadSearchSuggestions(lang);
 
     if(typeof createDatePicker == "function"){
-        //createDatePicker();
+        // createDatePicker();
     } else {
         // console.log("datePicker not present");
     }
@@ -150,13 +139,6 @@ function changeLanguage(lang, callback){
         // console.log("not a function");
     }
 }
-
-/*function createDatePicker(){
-    $("#start_date").remove();
-    $("#start_date_label").remove();
-    $("#report_date").append('<input id="start_date" type="date" class="datepicker"><label id="start_date_label" class="select_date active" for="start_date"></label>');
-    $('.datepicker').pickadate(datePicker());
-}*/
 
 function loadSearchSuggestions(lang){
     if(lang == "es") {
@@ -192,21 +174,39 @@ function loadDefaultLanguage(){
 function loadToast(id, time, style, prepend, append){
     var lang = fromCodeToName(getLanguage());
     var toast = "Undefined Toast Message";
-    $.ajax({
-        url: $root + 'data/files/toasts.xml',
-        success: function(xml) {
-            $(xml).find('translation').each(function(){
-                if($(this).attr("id") == id){
-                    toast = $(this).find(lang).text();
-                }
-            });
-            if(prepend)
-                toast = prepend + toast;
-            if(append)
-                toast += append;
-            Materialize.toast(toast, time, style);
-        }
-    });
+    if(localStorage.toasts == undefined){
+        console.log("toast sent from xml");
+        $.ajax({
+            url: $root + 'data/files/toasts.xml',
+            success: function(xml) {
+                var toastMessages = {};
+                $(xml).find('translation').each(function(){
+                    toastMessages[$(this).attr("id")] = {
+                        "en": $(this).find("english").text(),
+                        "es": $(this).find("spanish").text()
+                    };
+                    if($(this).attr("id") == id){
+                        toast = $(this).find(lang).text();
+                    }
+                });
+                if(prepend)
+                    toast = prepend + toast;
+                if(append)
+                    toast += append;
+                Materialize.toast(toast, time, style);
+                localStorage.toasts = JSON.stringify(toastMessages);
+            }
+        });
+    } else {
+        console.log("toast sent from localStorage");
+        var toastMessages = JSON.parse(localStorage.toasts);
+        var toast = toastMessages[id][getLanguage()];
+        if(prepend)
+            toast = prepend + toast;
+        if(append)
+            toast += append;
+        Materialize.toast(toast, time, style);
+    }
 }
 
 function embedTooltip(element, position, delay, tooltip){
@@ -255,37 +255,3 @@ function datePicker(nameHidden, maxDate, minDate){
     }
     return datePickerConfig;
 }
-
-/* Incomplete errorMessage function. Uncomment at your own risk
-function errorMessage(id){
-    var description;
-    var causes_heading;
-    var causes;
-    var suggestions_heading;
-    var suggestions;
-    if(localStorage.defaultLanguage == "es") {
-        $.ajax({
-        url: $root + 'data/files/errors.xml',
-        success: function(xml) {
-            $(xml).find('translation').each(function(){
-                if($(this).attr('id') = id){
-                    description = $(this).find("description").find("sp").text();
-                    causes_heading = $(this).find("causes").find("heading").find("sp").text();
-                    causes = $(this).find("causes").find("ul");
-                    suggestions_heading = $(this).find("suggestions").find("heading").find("sp").text();
-                    suggestions = $(this).find("causes").find("ul");
-                }
-                var id = $(this).attr('id');
-                var text = $(this).find("spanish").text();
-                $("." + id).text(text);
-            });
-        }
-    });
-    } else if(localStorage.defaultLanguage == "en") {
-
-    } else {
-        setLanguage(defaultLanguage);
-        errorMessage(id);
-    }
-}
-*/

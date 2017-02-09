@@ -317,10 +317,10 @@ function gmpPackingPreopItemTitle(item, areaID){
 }
 
 function gmpPackingPreopItemStatus(item, areaID){
-    var acceptableIcon = {"type":"text","classes":"acceptable_tag green-text big"};
-    var unacceptableIcon = {"type":"text","classes":"unacceptable_tag red-text big"};
-    var radioAcceptable = {"type":"radio","id":"acceptable_" + item.id,"classes":"timeChanger","value":"true","label":{"type":"label","for":"acceptable_" + item.id,"contents": acceptableIcon},"data":{"area_id":areaID,"item_id":item.id}};
-    var radioUnacceptable = {"type":"radio","id":"unacceptable_" + item.id,"classes":"timeChanger","value":"false","label":{"type":"label","for":"unacceptable_" + item.id,"contents": unacceptableIcon},"data":{"area_id":areaID,"item_id":item.id}};
+    var acceptableIcon = {"type":"text","classes":"acceptable_tag big"};
+    var unacceptableIcon = {"type":"text","classes":"unacceptable_tag big"};
+    var radioAcceptable = {"type":"radio","id":"acceptable_" + item.id,"classes":"timeChanger","value":"true","label":{"type":"label","classes":"black-text","for":"acceptable_" + item.id,"contents": acceptableIcon},"data":{"area_id":areaID,"item_id":item.id}};
+    var radioUnacceptable = {"type":"radio","id":"unacceptable_" + item.id,"classes":"timeChanger","value":"false","label":{"type":"label","classes":"black-text","for":"unacceptable_" + item.id,"contents": unacceptableIcon},"data":{"area_id":areaID,"item_id":item.id}};
     var itemRadioGroup = {"type": "radioGroup", "id":"radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"radio_" + item.id,"radioArray":[radioAcceptable, radioUnacceptable]};
     var groupInput = {"id":"radioWrapper_" + item.id,"classes":"col s8 m8 l4","field":itemRadioGroup};
 
@@ -396,6 +396,10 @@ function gmpPackingPreopFunctionality(data){
             if($(this).is(":checked")){
                 var tag = $(this).attr("id");
                 var id = tag.match(/[0-9]+/g);
+                $('label[for="acceptable_'+id[0]+'"]').removeClass("black-text");
+                $('label[for="acceptable_'+id[0]+'"]').addClass("green-text text-darken-2");
+                $('label[for="unacceptable_'+id[0]+'"]').removeClass("red-text");
+                $('label[for="unacceptable_'+id[0]+'"]').addClass("black-text");
                 $("#correctiveActionWrapper_" + id[0]).hide(500);
                 $("#commentWrapper_" + id[0]).hide(500);
             }
@@ -405,6 +409,10 @@ function gmpPackingPreopFunctionality(data){
             if($(this).is(":checked")){
                 var tag = $(this).attr("id");
                 var id = tag.match(/[0-9]+/g);
+                $('label[for="acceptable_'+id[0]+'"]').addClass("black-text");
+                $('label[for="acceptable_'+id[0]+'"]').removeClass("green-text text-darken-2");
+                $('label[for="unacceptable_'+id[0]+'"]').addClass("red-text");
+                $('label[for="unacceptable_'+id[0]+'"]').removeClass("black-text");
                 $("#correctiveActionWrapper_" + id[0]).show(500);
                 $("#commentWrapper_" + id[0]).show(500);
             }
