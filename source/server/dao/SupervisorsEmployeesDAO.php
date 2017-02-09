@@ -78,6 +78,14 @@ class SupervisorsEmployeesDAO extends DataAccessObject
             'employee_id' => $employeeID
         ]]);
     }
+
+
+    // Checks if there is an entry in the table that has the especified employee
+    // ID, indicating that that employee has a supervisor assigend
+    function hasEmployeeID($userID) 
+    {
+        return parent::has(['employee_id' => $userID]);
+    }
 }
 
 ?>
