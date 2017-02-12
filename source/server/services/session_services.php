@@ -7,6 +7,30 @@ require_once realpath(dirname(__FILE__).'/../Session.php');
 use fsm;
 
 
+$sessionServices = [
+    'login' => [
+        'requirements_desc' => [
+            'username' => [
+                'type' => 'string',
+                'min_length' => 3
+            ],
+            'password' => [
+                'type' => 'string',
+                'min_length' => 6
+            ]
+        ],
+        'callback' => 'fsm\services\session\logIn'
+    ],
+    'logout' => [
+        'requirements_desc' => [],
+        'callback' => 'fsm\services\session\logOut'
+    ],
+    'check-session' => [
+        'requirements_desc' => [],
+        'callback' => 'fsm\services\session\isLoggedIn'
+    ]
+];
+
 // Logs the user into her account and starts a session
 function logIn() 
 {

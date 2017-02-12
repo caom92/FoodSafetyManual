@@ -22,6 +22,108 @@ use fsm\database\gmp\packing\preop as preop;
 use fsm\database as db;
 
 
+$gmpPackingPreopServices = [
+    'list-corrective-actions' => [
+        'requirements_desc' => [
+            'logged_in' => 'any'
+        ],
+        'callback' => 'fsm\services\gmp\packing\preop\getAllCorrectiveActions'
+    ],
+    'capture-gmp-packing-preop' => [
+        'requirements_desc' => [
+            'logged_in' => ['Employee'],
+            'has_privilege' => [
+                'privilege' => 'Write',
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Pre-Operational Inspection'
+            ],
+            'user_id' => [
+                'type' => 'int',
+                'min' => 1
+            ],
+            'date' => [
+                'type' => 'datetime',
+                'format' => 'Y-m-d'
+            ],
+            'notes' => [
+                'type' => 'string',
+                'max_length' => 80
+            ],
+            'album_url' => [
+                'type' => 'string',
+                'max_length' => 256
+            ],
+            'areas' => [
+                'type' => 'array'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\preop\registerLogEntry'
+    ],
+    'report-gmp-packing-preop' => [
+        'requirements_desc' => [
+            'logged_in' => ['Director', 'Manager', 'Supervisor', 'Employee'],
+            'has_privilege' => [
+                'privilege' => ['Read', 'Write'],
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Pre-Operational Inspection'
+            ],
+            'start_date' => [
+                'type' => 'datetime',
+                'format' => 'Y-m-d'
+            ],
+            'end_date' => [
+                'type' => 'datetime',
+                'format' => 'Y-m-d'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\preop\getReportData'
+    ],
+    'upload-manual-gmp-packing-preop' => [
+        'requirements_desc' => [
+            'logged_in' => ['Director', 'Manager', 'Supervisor'],
+            'has_privilege' => [
+                'privilege' => 'Read',
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Pre-Operational Inspection'
+            ],
+            'manual_file' => [
+                'type' => 'files'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\preop\uploadManualFile'
+    ],
+    'update-gmp-packing-preop' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor', 'Employee'],
+            'has_privilege' => [
+                'privilege' => ['Read','Write'],
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Pre-Operational Inspection'
+            ],
+            'report_id' => [
+                'type' => 'int',
+                'min' => 1
+            ],
+            'notes' => [
+                'type' => 'string',
+                'max_length' => 80
+            ],
+            'album_url' => [
+                'type' => 'string',
+                'max_length' => 256
+            ],
+            'areas' => [
+                'type' => 'array'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\preop\editLogEntry'
+    ]
+];
+
 // Lists all the corrective actions
 function getAllCorrectiveActions()
 {

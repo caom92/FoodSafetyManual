@@ -9,6 +9,100 @@ require_once realpath(dirname(__FILE__).'/../dao/ItemTypesDAO.php');
 use fsm\database as db;
 
 
+$inventoryServices = [
+    'get-areas-of-zone' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor']
+        ],
+        'callback' => 'fsm\services\inventory\getWorkingAreasOfZone'
+    ], 
+    'get-items-of-area' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'area_id' => [
+                'type' => 'int',
+                'min' => 1
+            ]
+        ],
+        'callback' => 'fsm\services\inventory\getItemsOfWorkingArea'
+    ],
+    'list-item-types' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor']
+        ],
+        'callback' => 'fsm\services\inventory\getAllItemTypes'
+    ],
+    'toggle-item-activation' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'item_id' => [
+                'type' => 'int',
+                'min' => 1
+            ]
+        ],
+        'callback' => 'fsm\services\inventory\toggleActivationOfItem'
+    ],
+    'add-new-inventory-item' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'area_id' => [
+                'type' => 'int',
+                'min' => 1
+            ],
+            'type_id' => [
+                'type' => 'int',
+                'min' => 1
+            ],
+            'name' => [
+                'type' => 'string',
+                'max_length' => 64
+            ]
+        ],
+        'callback' => 'fsm\services\inventory\addNewItem'
+    ],
+    'log-gmp-packing-preop' => [
+        'requirements_desc' => [
+            'logged_in' => ['Manager', 'Supervisor', 'Employee'],
+            'has_privilege' => [
+                'privilege' => ['Read', 'Write'],
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Pre-Operational Inspection'
+            ]
+        ],
+        'callback' => 'fsm\services\inventory\getItemsOfZone'
+    ],
+    'change-order-of-item' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'item_id' => [
+                'type' => 'int',
+                'min' => 1
+            ],
+            'position' => [
+                'type' => 'int'
+            ]
+        ],
+        'callback' => 'fsm\services\inventory\changeItemPosition'
+    ],
+    'add-workplace-area' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'has_privilege' => [
+                'privilege' => ['Read', 'Write'],
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Pre-Operational Inspection'
+            ],
+            'area_name' => [
+                'type' => 'string'
+            ]
+        ],
+        'callback' => 'fsm\services\inventory\addWorkingAreaToZone'
+    ]
+];
+
+
 function addWorkingAreaToZone()
 {
     // first connect to the database

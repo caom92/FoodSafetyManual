@@ -14,6 +14,182 @@ use fsm\database as db;
 use fsm\validations as val;
 
 
+$accountServices = [
+    'list-users' => [
+        'requirements_desc' => [
+            'logged_in' => [ 'Administrator' ]
+        ],
+        'callback' => 'fsm\services\account\getAllUsersAccountInfo'
+    ],
+    'get-employee-info' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator'],
+            'employee_num' => [
+                'type' => 'int'
+            ]
+        ],
+        'callback' => 'fsm\services\account\getUserAccountInfo'
+    ],
+    'is-login-name-duplicated' => [
+        'requirements_desc' => [
+            'logged_in' => 'any',
+            'login_name' => [
+                'type' => 'string',
+                'min_length' => 5
+            ]
+        ],
+        'callback' => 'fsm\services\account\isLogInNameDuplicated'
+    ],
+    'is-employee-num-duplicated' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator'],
+            'employee_num' => [
+                'type' => 'int'
+            ]
+        ],
+        'callback' => 'fsm\services\account\isEmployeeNumDuplicated'
+    ],
+    'change-username' => [
+        'requirements_desc' => [
+            'logged_in' => 'any',
+            'password' => [
+                'type' => 'string',
+                'min_length' => 6
+            ],
+            'new_username' => [
+                'type' => 'string',
+                'min_length' => 5
+            ]
+        ],
+        'callback' => 'fsm\services\account\editLogInName'
+    ],
+    'change-password' => [
+        'requirements_desc' => [
+            'logged_in' => 'any',
+            'password' => [
+                'type' => 'string',
+                'min_length' => 6
+            ],
+            'new_password' => [
+                'type' => 'string',
+                'min_length' => 6
+            ]
+        ],
+        'callback' => 'fsm\services\account\editPassword'
+    ],
+    'toggle-account-activation' => [
+        'requirements_desc' => [
+            'logged_in' => [ 'Administrator'],
+            'user_id' => [
+                'type' => 'int',
+                'min' => 1
+            ]
+        ],
+        'callback' => 'fsm\services\account\toggleAccountActivation'
+    ],
+    'list-privileges' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator']
+        ],
+        'callback' => 'fsm\services\account\getAllUserPrivileges'
+    ],
+    'list-user-roles' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator']
+        ],
+        'callback' => 'fsm\services\account\getAllUserRoles'
+    ],
+    'add-user' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator'],
+            'employee_num' => [
+                'type' => 'int'
+            ],
+            'first_name' => [
+                'type' => 'string',
+                'min_length' => 2
+            ],
+            'last_name' => [
+                'type' => 'string',
+                'min_length' => 2
+            ],
+            'role_id' => [
+                'type' => 'int',
+                'min' => 1
+            ],
+            'login_name' => [
+                'type' => 'string',
+                'min_length' => 3
+            ],  
+            'login_password' => [
+                'type' => 'string',
+                'min_length' => 6
+            ]
+        ],
+        'callback' => 'fsm\services\account\addNewUserAccount'
+    ],
+    'edit-user-privileges' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator'],
+            'user_id' => [
+                'type' => 'int',
+                'min' => 1
+            ],
+            'privileges' => [
+                'type' => 'array'
+            ]
+        ],
+        'callback' => 'fsm\services\account\editPrivileges'
+    ],
+    'get-privileges-of-employee' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator'],
+            'employee_num' => [
+                'type' => 'int'
+            ]
+        ],
+        'callback' => 'fsm\services\account\getPrivilegesOfUser'
+    ],
+    'director-change-zones' => [
+        'requirements_desc' => [
+            'logged_in' => ['Director'],
+            'zone_id' => [
+                'type' => 'int',
+                'min' => 1
+            ]
+        ],
+        'callback' => 'fsm\services\account\changeZoneOfDirector'
+    ],
+    'edit-user-role' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator'],
+            'user_id' => [
+                'type' => 'int',
+                'min' => 1
+            ],
+            'role_id' => [
+                'type' => 'int',
+                'min' => 1
+            ]
+        ],
+        'callback' => 'fsm\services\account\editUserRole'
+    ],
+    'edit-user-zone' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator'],
+            'user_id' => [
+                'type' => 'int',
+                'min' => 1
+            ],
+            'zone_id' => [
+                'type' => 'int',
+                'min' => 1
+            ]
+        ],
+        'callback' => 'fsm\services\account\editZoneOfUser'
+    ]
+];
+
 // Returns a list of all the active users
 function getAllUsersAccountInfo() 
 {

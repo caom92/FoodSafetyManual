@@ -11,6 +11,42 @@ require_once realpath(dirname(__FILE__).'/../dao/CapturedLogsDAO.php');
 use fsm\database as db;
 
 
+$serverServices = [
+    'status' => [
+        'requirements_desc' => [],
+        'callback' => 'fsm\services\server\checkStatus'
+    ],
+    'send-bug-report' => [
+        'requirements_desc' => [
+            'logged_in' => 'any',
+            'zone-selection' => [
+                'type' => 'string'
+            ],
+            'procedure-selection' => [
+                'type' => 'string'
+            ],
+            'severity-selection' => [
+                'type' => 'string'
+            ],
+            'summary' => [
+                'type' => 'string',
+                'min_length' => 3,
+                'max_length' => 512
+            ],
+            'lang' => [
+                'type' => 'lang'
+            ],
+        ],
+        'callback' => 'fsm\services\server\mailBugReport'
+    ],
+    'list-programs-modules-logs' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator']
+        ],
+        'callback' => 'fsm\services\server\getAllProgramsModulesAndLogs'
+    ]
+];
+
 // Checks if the data base server is available for use
 function checkStatus() 
 {

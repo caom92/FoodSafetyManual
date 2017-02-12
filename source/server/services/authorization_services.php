@@ -15,6 +15,85 @@ use fsm\database as db;
 use fsm\validations as val;
 
 
+$authorizationServices = [
+    'list-supervisors-by-zone' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator'],
+            'zone_id' => [
+                'type' => 'int',
+                'min' => 1
+            ]
+        ],
+        'callback' => 'fsm\services\authorizations\getSupervisorsOfZone'
+    ],
+    'list-employees-of-supervisor' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator'],
+            'supervisor_id' => [
+                'type' => 'int',
+                'min' => 1
+            ]
+        ],
+        'callback' => 'fsm\services\authorizations\getEmployeesOfSupervisor'
+    ],
+    'assign-employees-to-supervisors' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator'],
+            'assignments' => [
+                'type' => 'array'
+            ]
+        ],
+        'callback' => 'fsm\services\authorizations\assignEmployeesToSupervisors'
+    ],
+    'list-unapproved-logs-of-user' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor', 'Employee']
+        ],
+        'callback' => 
+            'fsm\services\authorizations\getUnapprovedLogsOfUser'
+    ],
+    'get-supervisor-num-of-employees' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator'],
+            'supervisor_id' => [
+                'type' => 'int',
+                'min' => 1
+            ]
+        ],
+        'callback' => 'fsm\services\authorizations\getNumEmployeesOfSupervisor'
+    ],
+    'approve-log' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'captured_log_id' => [
+                'type' => 'int',
+                'min' => 1
+            ],
+            'date' => [
+                'type' => 'datetime',
+                'format' => 'Y-m-d'
+            ]
+        ],
+        'callback' => 'fsm\services\authorizations\approveLog'
+    ],
+    // 'reject-log' => [
+    //     'requirements_desc' => [
+    //         'logged_in' => ['Supervisor'],
+    //         'captured_log_id' => [
+    //             'type' => 'int',
+    //             'min' => 1
+    //         ]
+    //     ],
+    //     'callback' => 'fsm\services\authorizations\rejectLog'
+    // ],
+    'get-num-pending-logs' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor']
+        ],
+        'callback' => 'fsm\services\authorizations\countPendingLogs'
+    ]
+];
+
 // Returns a list of all the supervisors in the especified zone
 function getSupervisorsOfZone()
 {

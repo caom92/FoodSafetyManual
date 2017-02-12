@@ -7,6 +7,35 @@ require_once realpath(dirname(__FILE__).'/../dao/ZonesDAO.php');
 use fsm\database as db;
 
 
+$zoneServices = [
+    'list-zones' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator', 'Director']
+        ],
+        'callback' => 'fsm\services\zone\getAllZones'
+    ],
+    'is-zone-name-duplicated' => [
+        'requirements_desc' => [
+            'logged_in' => [ 'Administrator' ],
+            'zone_name' => [
+                'type'=> 'string',
+                'length' => 3
+            ]
+        ],
+        'callback' => 'fsm\services\zone\isZoneNameDuplicated'
+    ],
+    'add-zone' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator'],
+            'new_zone' => [
+                'type' => 'string',
+                'length' => 3
+            ]
+        ],
+        'callback' => 'fsm\services\zone\addNewZone'
+    ]
+];
+
 // Returns a list of all zones
 function getAllZones() 
 {
