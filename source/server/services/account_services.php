@@ -191,7 +191,7 @@ $accountServices = [
 ];
 
 // Returns a list of all the active users
-function getAllUsersAccountInfo() 
+function getAllUsersAccountInfo($request) 
 {
     $users = new db\UsersDAO();
     return $users->selectAll();
@@ -199,11 +199,11 @@ function getAllUsersAccountInfo()
 
 
 // Returns the profile info of the specified user
-function getUserAccountInfo() 
+function getUserAccountInfo($request) 
 {
     $users = new db\UsersDAO();
     $assignments = new db\SupervisorsEmployeesDAO();
-    $userInfo = $users->getByIdentifier($_POST['employee_num']);
+    $userInfo = $users->getByIdentifier($request['employee_num']);
     $supervisorID = $assignments->getSupervisorIDByUserID($userInfo['user_id']);
 
     return [
@@ -222,37 +222,37 @@ function getUserAccountInfo()
 
 
 // Checks if the log in name is duplicated
-function isLogInNameDuplicated() 
+function isLogInNameDuplicated($request) 
 {
     // first we connect to the database
     $users = new db\UsersDAO();
 
     // then we check if the name is duplicated
-    return $users->hasByLogInName($_POST['login_name']);
+    return $users->hasByLogInName($request['login_name']);
 }
 
 
 // Checks if the employee ID number is duplicated
-function isEmployeeNumDuplicated() 
+function isEmployeeNumDuplicated($request) 
 {
     // first we connect to the database
     $users = new db\UsersDAO();
 
     // then we check if the name is duplicated
-    return $users->hasByEmployeeNum($_POST['employee_num']);
+    return $users->hasByEmployeeNum($request['employee_num']);
 }
 
 
 // Changes the log in name of the user
-function editLogInName() 
+function editLogInName($request) 
 {
     // first we connect to the database
     $users = new db\UsersDAO();
 
     // then we check if the name is duplicated and if the password is valid
-    $isNameDuplicated = $users->hasByLogInName($_POST['new_username']);
+    $isNameDuplicated = $users->hasByLogInName($request['new_username']);
     $isPasswordValid = password_verify(
-        $_POST['password'],
+        $request['password'],
         $_SESSION['login_password']
     );
     
@@ -272,7 +272,7 @@ function editLogInName()
     // update the user name
     $users->updateLogInNameByUserID(
         $_SESSION['user_id'],
-        $_POST['new_username']
+        $request['new_username']
     );
 
     return [];
@@ -280,14 +280,14 @@ function editLogInName()
 
 
 // Changes the user log in password
-function editPassword() 
+function editPassword($request) 
 {
     // first, connect to the data base
     $users = new db\UsersDAO();
 
     // check if the password is valid
     $isPasswordValid = password_verify(
-        $_POST['password'], 
+        $request['password'], 
         $_SESSION['login_password']
     );
 
@@ -299,17 +299,17 @@ function editPassword()
     }
 
     // obtain the hash of the new password
-    $newPasswd = password_hash($_POST['new_password'], \PASSWORD_BCRYPT);
+    $newPasswd = password_hash($request['new_password'], \PASSWORD_BCRYPT);
 
     // check if the user is intending to update the password of another user
     $isUpdatingOtherPassword = 
-        isset($_POST['user_id'])
-        && array_key_exists('user_id', $_POST)
+        isset($request['user_id'])
+        && array_key_exists('user_id', $request)
         && $_SESSION['role_name'] === 'Administrator';
 
     // if the user is intending to update another's password, make sure the
     // provided ID is a valid value
-    if ($isUpdatingOtherPassword && !val\isInteger($_POST['user_id'])) {
+    if ($isUpdatingOtherPassword && !val\isInteger($request['user_id'])) {
         throw new \Exception(
             'User ID is not an integer value.'
         );
@@ -317,7 +317,7 @@ function editPassword()
 
     // store the new password in the data base 
     $users->updatePasswordByUserID(
-        ($isUpdatingOtherPassword) ? $_POST['user_id'] : $_SESSION['user_id'], 
+        ($isUpdatingOtherPassword) ? $request['user_id'] : $_SESSION['user_id'], 
         $newPasswd
     );
 
@@ -329,21 +329,21 @@ function editPassword()
 
 
 // Toggles the activation of the specified account
-function toggleAccountActivation() 
+function toggleAccountActivation($request) 
 {
     $users = new db\UsersDAO();
     $assignments = new db\SupervisorsEmployeesDAO();
 
     // check if the user is already a supervisor so that we check the number of
     // employees she has assigned
-    $currentRole = $users->getRoleByID($_POST['user_id']);
+    $currentRole = $users->getRoleByID($request['user_id']);
     $isCurrentlySupervisor = $currentRole === 'Supervisor';
 
     if ($isCurrentlySupervisor) {
         // if the current role is supervisor, retrieve the number of employees 
         // that she has assigned
         $numEmployees = 
-            $assignments->getNumEmployeesBySupervisorID($_POST['user_id']);
+            $assignments->getNumEmployeesBySupervisorID($request['user_id']);
 
         // if she does, prevent the role change
         $hasEmployeesAssigned = $numEmployees > 0;
@@ -352,13 +352,13 @@ function toggleAccountActivation()
         }
     }
 
-    $users->toggleActivationByID($_POST['user_id']);
+    $users->toggleActivationByID($request['user_id']);
     return [];
 }
 
 
 // Returns a list of all the user privileges
-function getAllUserPrivileges()
+function getAllUserPrivileges($request)
 {
     $privileges = new db\PrivilegesDAO();
     return $privileges->selectAll();
@@ -366,7 +366,7 @@ function getAllUserPrivileges()
 
 
 // Returns a list of all the user roles
-function getAllUserRoles()
+function getAllUserRoles($request)
 {
     $roles = new db\RolesDAO();
     return $roles->selectAll();
@@ -374,7 +374,7 @@ function getAllUserRoles()
 
 
 // Creates a new user account
-function addNewUserAccount()
+function addNewUserAccount($request)
 {
     // first, connect to the data base
     $users = new db\UsersDAO();
@@ -384,21 +384,21 @@ function addNewUserAccount()
 
     // then, hash the password
     $hashedPassword = password_hash(
-        $_POST['login_password'],
+        $request['login_password'],
         \PASSWORD_BCRYPT
     );
 
     // get the role name
-    $roleName = $roles->getNameByID($_POST['role_id']);
+    $roleName = $roles->getNameByID($request['role_id']);
 
     // user data to store in the data base
     $userData = [
         'is_active' => TRUE,
-        'role_id' => $_POST['role_id'],
-        'employee_num' => $_POST['employee_num'],
-        'first_name' => $_POST['first_name'],
-        'last_name' => $_POST['last_name'],
-        'login_name' => $_POST['login_name'],
+        'role_id' => $request['role_id'],
+        'employee_num' => $request['employee_num'],
+        'first_name' => $request['first_name'],
+        'last_name' => $request['last_name'],
+        'login_name' => $request['login_name'],
         'login_password' => $hashedPassword
     ];
 
@@ -423,15 +423,15 @@ function addNewUserAccount()
     if ($isZoneRequired) {
         // check if the zone ID was sent by the user
         $isZoneIDValid = 
-            isset($_POST['zone_id'])
-            && array_key_exists('zone_id', $_POST);
+            isset($request['zone_id'])
+            && array_key_exists('zone_id', $request);
         
         // if it was ...
         if ($isZoneIDValid) {
             // check if the zone ID is a valid integer
-            if (val\isInteger($_POST['zone_id'])) {
+            if (val\isInteger($request['zone_id'])) {
                 // if it was, store it in the user data
-                $userData['zone_id'] = $_POST['zone_id'];
+                $userData['zone_id'] = $request['zone_id'];
             } else {
                 // if not, notiy the user
                 throw new \Exception('The Zone ID is not a valid integer.');
@@ -454,23 +454,23 @@ function addNewUserAccount()
     if ($isSupervisorRequired) {
         // check that the supervisor ID was provided
         $isSupervisorIDValid = 
-            isset($_POST['supervisor_id'])
-            && array_key_exists('supervisor_id', $_POST);
+            isset($request['supervisor_id'])
+            && array_key_exists('supervisor_id', $request);
 
         // if it was provided...
         if ($isSupervisorIDValid) {
             // check that it is a valid integer
-            if (val\isInteger($_POST['supervisor_id'])) {
+            if (val\isInteger($request['supervisor_id'])) {
                 // if the supervisor ID is valid, assert that the ID provided 
                 // corresponds to a supervisor and that both the 
                 // supervisor and the employee share the same zone
 
                 // get the supervisor's zone and role
                 $supervisorZone = 
-                    $users->getZoneIDByID($_POST['supervisor_id']);
+                    $users->getZoneIDByID($request['supervisor_id']);
 
                 $supervisorRole =
-                    $users->getRoleByID($_POST['supervisor_id']);
+                    $users->getRoleByID($request['supervisor_id']);
 
                 // check if the supervisor has the same zone as the employee
                 $haveSameZone = 
@@ -502,7 +502,7 @@ function addNewUserAccount()
                 // if the supervisor ID is valid and can be assigned, do the 
                 // actual assignment
                 $assignments->insert([
-                    'supervisor_id' => $_POST['supervisor_id'],
+                    'supervisor_id' => $request['supervisor_id'],
                     'employee_id' => $userID
                 ]);
             } else {
@@ -525,8 +525,8 @@ function addNewUserAccount()
     if ($arePrivilegesRequired) {
         // check that the data in the privileges array exists and is 
         // of the proper type
-        if (isset($_POST['privileges'])) {
-            foreach ($_POST['privileges'] as $privilege) {
+        if (isset($request['privileges'])) {
+            foreach ($request['privileges'] as $privilege) {
                 $isInteger = val\isInteger($privilege['log_id']);
                 if (!$isInteger) {
                     $users->deleteByID($userID);
@@ -559,7 +559,7 @@ function addNewUserAccount()
         // create a privileges array with the proper format that medoo is 
         // expecting
         $privileges = [];
-        foreach ($_POST['privileges'] as $privilege) {
+        foreach ($request['privileges'] as $privilege) {
             array_push($privileges, [
                 'user_id' => $userID,
                 'log_id' => $privilege['log_id'],
@@ -578,10 +578,10 @@ function addNewUserAccount()
 
 
 // Changes the log privileges of an specified user
-function editPrivileges()
+function editPrivileges($request)
 {
     // before we start, check that the data in the array is of the proper type
-    foreach ($_POST['privileges'] as $privilege) {
+    foreach ($request['privileges'] as $privilege) {
         $isInteger = val\isInteger($privilege['log_id']);
         if (!$isInteger) {
             throw new \Exception('A log ID provided is not an integer');
@@ -597,9 +597,9 @@ function editPrivileges()
     $userPrivileges = new db\UsersLogsPrivilegesDAO();
 
     // update the log privileges of the user
-    foreach ($_POST['privileges'] as $privilege) {
+    foreach ($request['privileges'] as $privilege) {
         $id = $userPrivileges->getIDByUserAndLogID(
-            $_POST['user_id'],
+            $request['user_id'],
             $privilege['log_id']
         );
 
@@ -610,7 +610,7 @@ function editPrivileges()
             );
         } else {
             $userPrivileges->insert([
-                'user_id' => $_POST['user_id'],
+                'user_id' => $request['user_id'],
                 'log_id' => $privilege['log_id'],
                 'privilege_id' => $privilege['privilege_id']
             ]);
@@ -624,11 +624,11 @@ function editPrivileges()
 // [***]
 // Returns a list of the privileges that a given user identified by its 
 // employee number has organized by log
-function getPrivilegesOfUser()
+function getPrivilegesOfUser($request)
 {
     // first, connect to the data base and get the role of the user
     $users = new db\UsersDAO();
-    $role = $users->getRoleByEmployeeNum($_POST['employee_num']);
+    $role = $users->getRoleByEmployeeNum($request['employee_num']);
 
     // check if the role of this user requires privileges to be read from the db
     $requiresPrivileges = $role === 'Supervisor' || $role === 'Employee';
@@ -636,7 +636,7 @@ function getPrivilegesOfUser()
         // if the user requires its privileges to be read from the db
         // connect to the db to get them
         $userPrivileges = new db\UsersLogsPrivilegesDAO();
-        $rows = $userPrivileges->selectByEmployeeNum($_POST['employee_num']);
+        $rows = $userPrivileges->selectByEmployeeNum($request['employee_num']);
 
         // also get the ID of the privilege that corresponds to the Read
         // privilege from the db
@@ -749,17 +749,17 @@ function getPrivilegesOfUser()
 
 // Changes the zone upon which the user is acting to the one with the 
 // especified ID
-function changeZoneOfDirector()
+function changeZoneOfDirector($request)
 {
     // get the info of the zone using the ID
     $zones = new db\ZonesDAO();
-    $zone = $zones->getByID($_POST['zone_id']);
+    $zone = $zones->getByID($request['zone_id']);
     
     // check if the zone exists
     if (!isset($zone)) {
         // if not, notify the user
         throw new \Exception(
-            "No zone with ID ".$_POST['zone_id']." could be find"
+            "No zone with ID ".$request['zone_id']." could be find"
         );
     }
 
@@ -773,7 +773,7 @@ function changeZoneOfDirector()
 
 
 // Changes the role of a user to another
-function editUserRole()
+function editUserRole($request)
 {
     // first, connect to the database
     $users = new db\UsersDAO();
@@ -782,7 +782,7 @@ function editUserRole()
 
     // check if the user is already a supervisor so that we check the number of
     // employees she has assigned
-    $currentRole = $users->getRoleByID($_POST['user_id']);
+    $currentRole = $users->getRoleByID($request['user_id']);
     $isCurrentlySupervisor = $currentRole === 'Supervisor';
 
     if ($isCurrentlySupervisor) {
@@ -801,36 +801,36 @@ function editUserRole()
     // check if the user will be assigned an employee role, and if that is the 
     // case, then that means that a supervisor ID must be provided so that the
     // user gets assigned to that supervisor
-    $roleName = $roles->getNameByID($_POST['role_id']);
+    $roleName = $roles->getNameByID($request['role_id']);
     $isSupervisorRequired = $roleName === 'Employee';
     
     // if a supervisor is required ...
     if ($isSupervisorRequired) {
         // first, check if the user already has a supervisor assigned
-        $hasSupervisor = $assignments->hasEmployeeID($_POST['user_id']);
+        $hasSupervisor = $assignments->hasEmployeeID($request['user_id']);
 
         // if the user does not have a supervisor assigned, we need to assign
         // her the one that was provided
         if (!$hasSupervisor) {
             // check that the supervisor ID was provided
             $isSupervisorIDValid = 
-                isset($_POST['supervisor_id'])
-                && array_key_exists('supervisor_id', $_POST);
+                isset($request['supervisor_id'])
+                && array_key_exists('supervisor_id', $request);
 
             // if it was provided...
             if ($isSupervisorIDValid) {
                 // check that it is a valid integer
-                if (val\isInteger($_POST['supervisor_id'])) {
+                if (val\isInteger($request['supervisor_id'])) {
                     // if the supervisor ID is valid, assert that the ID 
                     // provided corresponds to a supervisor and that both the 
                     // supervisor and the employee share the same zone
 
                     // get the supervisor's zone and role
                     $supervisorZone = 
-                        $users->getZoneIDByID($_POST['supervisor_id']);
+                        $users->getZoneIDByID($request['supervisor_id']);
 
                     $supervisorRole =
-                        $users->getRoleByID($_POST['supervisor_id']);
+                        $users->getRoleByID($request['supervisor_id']);
 
                     // check if the supervisor has the same zone as the employee
                     $haveSameZone = 
@@ -860,7 +860,7 @@ function editUserRole()
                     // if the supervisor ID is valid and can be assigned, do 
                     // the actual assignment
                     $assignments->insert([
-                        'supervisor_id' => $_POST['supervisor_id'],
+                        'supervisor_id' => $request['supervisor_id'],
                         'employee_id' => $userID
                     ]);
                 } else {
@@ -881,12 +881,12 @@ function editUserRole()
     }
 
     // finally, change the user role
-    $users->updateRoleByID($_POST['user_id'], $_POST['role_id']);
+    $users->updateRoleByID($request['user_id'], $request['role_id']);
 }
 
 
 // Edits the zone of the especified user to the one provided
-function editZoneOfUser()
+function editZoneOfUser($request)
 {
     // first, connect to the data base
     $users = new db\UsersDAO();
@@ -894,14 +894,14 @@ function editZoneOfUser()
 
     // check if the user is already a supervisor so that we check the number of
     // employees she has assigned
-    $currentRole = $users->getRoleByID($_POST['user_id']);
+    $currentRole = $users->getRoleByID($request['user_id']);
     $isCurrentlySupervisor = $currentRole === 'Supervisor';
 
     if ($isCurrentlySupervisor) {
         // if the current role is supervisor, retrieve the number of employees 
         // that she has assigned
         $numEmployees = 
-            $assignments->getNumEmployeesBySupervisorID($_POST['user_id']);
+            $assignments->getNumEmployeesBySupervisorID($request['user_id']);
 
         // if she does, prevent the role change
         $hasEmployeesAssigned = $numEmployees > 0;
@@ -910,7 +910,7 @@ function editZoneOfUser()
         }
     }
 
-    $users->updateZoneIDByID($_POST['user_id'], $_POST['zone_id']);
+    $users->updateZoneIDByID($request['user_id'], $request['zone_id']);
 }
 
 ?>

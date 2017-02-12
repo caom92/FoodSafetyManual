@@ -28,7 +28,7 @@ $programServices = [
 ];
 
 // Returns a list of all programs
-function getAllPrograms() 
+function getAllPrograms($request) 
 {
     $programs = new db\ProgramsDAO();
     return $programs->selectAll();
@@ -36,10 +36,10 @@ function getAllPrograms()
 
 
 // Returns a list of all the modules of the specified program
-function getAllModulesOfProgram() 
+function getAllModulesOfProgram($request) 
 {
     $modules = new db\ModulesDAO();
-    return $modules->selectByProgramID($_POST['program_id']);
+    return $modules->selectByProgramID($request['program_id']);
 }
 
 ?>

@@ -314,7 +314,7 @@ class Controller
                 );
 
                 // execute the service
-                $result = $callback();
+                $result = $callback($request);
                 $this->respondToRemoteClient($result);
             } else {
                 throw new \Exception(

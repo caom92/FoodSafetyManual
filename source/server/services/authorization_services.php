@@ -95,11 +95,11 @@ $authorizationServices = [
 ];
 
 // Returns a list of all the supervisors in the especified zone
-function getSupervisorsOfZone()
+function getSupervisorsOfZone($request)
 {
     // first connect to the database and retrieve the supervisor list
     $users = new db\UsersDAO();
-    $rows = $users->selectSupervisorsNameByZoneID($_POST['zone_id']);
+    $rows = $users->selectSupervisorsNameByZoneID($request['zone_id']);
 
     // temporal storage for the list of supervisors to return to the user
     $supervisors = [];
@@ -119,20 +119,20 @@ function getSupervisorsOfZone()
 
 // Returns a list of employee users that are assigned to the supervisor user 
 // with the especified ID
-function getEmployeesOfSupervisor()
+function getEmployeesOfSupervisor($request)
 {
     $assignments = new db\SupervisorsEmployeesDAO();
     return $assignments->selectEmployeesBySupervisorID(
-        $_POST['supervisor_id']
+        $request['supervisor_id']
     );
 }
 
 
 // Assigns employees to their corresponding supervisors
-function assignEmployeesToSupervisors()
+function assignEmployeesToSupervisors($request)
 {
     // first, we need to check the input data
-    foreach ($_POST['assignments'] as $assignment) {
+    foreach ($request['assignments'] as $assignment) {
         // check if the user sent the appropiate data
         $isEmployeeIDValid = 
             isset($assignment['employee_id'])
@@ -197,7 +197,7 @@ function assignEmployeesToSupervisors()
     $assignments = new db\SupervisorsEmployeesDAO();
 
     // insert each assignment
-    foreach ($_POST['assignments'] as $assignment) {
+    foreach ($request['assignments'] as $assignment) {
         $assignments->insert($assignment);
     }
 
@@ -206,7 +206,7 @@ function assignEmployeesToSupervisors()
 
 
 // Returns a list of all the unapproved logs that a user has
-function getUnapprovedLogsOfUser()
+function getUnapprovedLogsOfUser($request)
 {
     // first, connect to the data base
     $capturedLogs = new db\CapturedLogsDAO();
@@ -335,22 +335,22 @@ function getUnapprovedLogsOfUser()
 
 // Returns the number of employees that the supervisor with the especified ID 
 // has assigned
-function getNumEmployeesOfSupervisor()
+function getNumEmployeesOfSupervisor($request)
 {
     $assignments = new db\SupervisorsEmployeesDAO();
-    return $assignments->getNumEmployeesBySupervisorID($_POST['supervisor_id']);
+    return $assignments->getNumEmployeesBySupervisorID($request['supervisor_id']);
 }
 
 
 // Marks the status of the especified log as 'Approved'
-function approveLog()
+function approveLog($request)
 {
     // first, connect to the data base
     $capturedLogs = new db\CapturedLogsDAO();
     $assignments = new db\SupervisorsEmployeesDAO();
 
     // check if the user that captured the log is assigned to the supervisor
-    $employeeID = $capturedLogs->selectUserIDByID($_POST['captured_log_id']);
+    $employeeID = $capturedLogs->selectUserIDByID($request['captured_log_id']);
     $hasEmployeeAssigned = $assignments->hasSupervisorAndEmployeeID(
         $_SESSION['user_id'], 
         $employeeID
@@ -368,21 +368,21 @@ function approveLog()
     // if the supervisor is authorized to approve this log, update the log 
     // status
     $capturedLogs->updateStatusToApprovedByID(
-        $_POST['captured_log_id'],
-        $_POST['date']
+        $request['captured_log_id'],
+        $request['date']
     );
 }
 
 
 // Marks the status of the especified log as 'Rejected'
-function rejectLog()
+function rejectLog($request)
 {
     // first, connect to the data base
     $capturedLogs = new db\CapturedLogsDAO();
     $assignments = new db\SupervisorsEmployeesDAO();
 
     // check if the user that captured the log is assigned to the supervisor
-    $employeeID = $capturedLogs->selectUserIDByID($_POST['captured_log_id']);
+    $employeeID = $capturedLogs->selectUserIDByID($request['captured_log_id']);
     $hasEmployeeAssigned = $assignments->hasSupervisorAndEmployeeID(
         $_SESSION['user_id'], 
         $employeeID
@@ -399,7 +399,7 @@ function rejectLog()
 
     // check if the log is already approved
     $isApproved = 
-        $capturedLogs->getStatusByID($_POST['captured_log_id']) == 'Approved';
+        $capturedLogs->getStatusByID($request['captured_log_id']) == 'Approved';
     if ($isApproved) {
         // if it is, prevent the status change and notify the user
         throw new \Exception(
@@ -409,12 +409,12 @@ function rejectLog()
 
     // if the supervisor is authorized to approve this log, update the log 
     // status
-    $capturedLogs->updateStatusToRejectedByID($_POST['captured_log_id']);
+    $capturedLogs->updateStatusToRejectedByID($request['captured_log_id']);
 }
 
 
 // Returns the number of logs that the user has with pending authorization
-function countPendingLogs()
+function countPendingLogs($request)
 {
     // first, connect to the data base
     $capturedLogs = new db\CapturedLogsDAO();
