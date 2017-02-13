@@ -25,13 +25,47 @@ $serverServices = [
             'procedure-selection' => [
                 'type' => 'string'
             ],
+            'browser-selection' => [
+                'type' => 'array',
+                'optional' => true,
+                'values' => [
+                    'type' => 'string'
+                ]
+            ],
             'severity-selection' => [
                 'type' => 'string'
+            ],
+            'module-selection' => [
+                'type' => 'string',
+                'optional' => true
             ],
             'summary' => [
                 'type' => 'string',
                 'min_length' => 3,
                 'max_length' => 512
+            ],
+            'steps' => [
+                'type' => 'string',
+                'min_length' => 3,
+                'max_length' => 512,
+                'optional' => true
+            ],
+            'expectation' => [
+                'type' => 'string',
+                'min_length' => 3,
+                'max_length' => 512,
+                'optional' => true
+            ],
+            'reality' => [
+                'type' => 'string',
+                'min_length' => 3,
+                'max_length' => 512,
+                'optional' => true
+            ],
+            'files' => [
+                'name' => 'screenshot-attachment',
+                'optional' => true,
+                'format' => 'bitmap'
             ],
             'lang' => [
                 'type' => 'lang'
@@ -96,26 +130,11 @@ function mailBugReport($request)
 
         // for each file to be attached ...
         for ($i = 0; $i < $length; $i++) {
-            // check if the file type corresponds to a valid supported 
-            // bitmap file type
-            $isValid = fsm\DataValidatorisBitmapFile(
-                $_FILES["screenshot-attachment"]["tmp_name"][$i]
+            // attach it to the email
+            $bugReport->addAttachment(
+                $_FILES["screenshot-attachment"]["tmp_name"][$i], 
+                $_FILES["screenshot-attachment"]["name"][$i]
             );
-
-            // if the file type is valid ...
-            if ($isValid) {
-                // attach it to the email
-                $bugReport->addAttachment(
-                    $_FILES["screenshot-attachment"]["tmp_name"][$i], 
-                    $_FILES["screenshot-attachment"]["name"][$i]
-                );
-            } else {
-                // if it is invalid, store it in the invalid bitmaps array
-                array_push(
-                    $invalidImages, 
-                    $_FILES["screenshot-attachment"]["name"][$i]
-                );
-            }
         }
     }
 

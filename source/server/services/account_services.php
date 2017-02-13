@@ -8,10 +8,8 @@ require_once realpath(dirname(__FILE__).'/../dao/PrivilegesDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/RolesDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/UsersLogsPrivilegesDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/SupervisorsEmployeesDAO.php');
-require_once realpath(dirname(__FILE__).'/../data_validations.php');
 
 use fsm\database as db;
-use fsm\validations as val;
 
 
 $accountServices = [
@@ -73,6 +71,10 @@ $accountServices = [
             'new_password' => [
                 'type' => 'string',
                 'min_length' => 6
+            ],
+            'user_id' => [
+                'type' => 'int',
+                'min' => 1
             ]
         ],
         'callback' => 'fsm\services\account\editPassword'
@@ -124,6 +126,30 @@ $accountServices = [
             'login_password' => [
                 'type' => 'string',
                 'min_length' => 6
+            ],
+            'zone_id' => [
+                'type' => 'int',
+                'min' => 1,
+                'optional' => true
+            ],
+            'supervisor_id' => [
+                'type' => 'int',
+                'min' => 1,
+                'optional' => true
+            ],
+            'privileges' => [
+                'type' => 'array',
+                'optional' => true,
+                'values' => [
+                    'log_id' => [
+                        'type' => 'int',
+                        'min' => 1
+                    ],
+                    'privilege_id' => [
+                        'type' => 'int',
+                        'min' => 1
+                    ]
+                ]
             ]
         ],
         'callback' => 'fsm\services\account\addNewUserAccount'
@@ -136,7 +162,17 @@ $accountServices = [
                 'min' => 1
             ],
             'privileges' => [
-                'type' => 'array'
+                'type' => 'array',
+                'values' => [
+                    'log_id' => [
+                        'type' => 'int',
+                        'min' => 1
+                    ],
+                    'privilege_id' => [
+                        'type' => 'int',
+                        'min' => 1
+                    ]
+                ]
             ]
         ],
         'callback' => 'fsm\services\account\editPrivileges'
@@ -168,6 +204,10 @@ $accountServices = [
                 'min' => 1
             ],
             'role_id' => [
+                'type' => 'int',
+                'min' => 1
+            ],
+            'supervisor_id' => [
                 'type' => 'int',
                 'min' => 1
             ]
@@ -309,7 +349,7 @@ function editPassword($request)
 
     // if the user is intending to update another's password, make sure the
     // provided ID is a valid value
-    if ($isUpdatingOtherPassword && !val\isInteger($request['user_id'])) {
+    if ($isUpdatingOtherPassword) {
         throw new \Exception(
             'User ID is not an integer value.'
         );
@@ -317,7 +357,7 @@ function editPassword($request)
 
     // store the new password in the data base 
     $users->updatePasswordByUserID(
-        ($isUpdatingOtherPassword) ? $request['user_id'] : $_SESSION['user_id'], 
+        ($isUpdatingOtherPassword) ? $request['user_id'] : $_SESSION['user_id'],
         $newPasswd
     );
 
@@ -428,14 +468,8 @@ function addNewUserAccount($request)
         
         // if it was ...
         if ($isZoneIDValid) {
-            // check if the zone ID is a valid integer
-            if (val\isInteger($request['zone_id'])) {
-                // if it was, store it in the user data
-                $userData['zone_id'] = $request['zone_id'];
-            } else {
-                // if not, notiy the user
-                throw new \Exception('The Zone ID is not a valid integer.');
-            }
+            // store it in the user data
+            $userData['zone_id'] = $request['zone_id'];
         } else {
             // if the zone ID was not provided, notify the user
             throw new \Exception(
@@ -459,59 +493,50 @@ function addNewUserAccount($request)
 
         // if it was provided...
         if ($isSupervisorIDValid) {
-            // check that it is a valid integer
-            if (val\isInteger($request['supervisor_id'])) {
-                // if the supervisor ID is valid, assert that the ID provided 
-                // corresponds to a supervisor and that both the 
-                // supervisor and the employee share the same zone
+            // if the supervisor ID is valid, assert that the ID provided 
+            // corresponds to a supervisor and that both the 
+            // supervisor and the employee share the same zone
 
-                // get the supervisor's zone and role
-                $supervisorZone = 
-                    $users->getZoneIDByID($request['supervisor_id']);
+            // get the supervisor's zone and role
+            $supervisorZone = 
+                $users->getZoneIDByID($request['supervisor_id']);
 
-                $supervisorRole =
-                    $users->getRoleByID($request['supervisor_id']);
+            $supervisorRole =
+                $users->getRoleByID($request['supervisor_id']);
 
-                // check if the supervisor has the same zone as the employee
-                $haveSameZone = 
-                    $supervisorZone == $userData['zone_id'];
+            // check if the supervisor has the same zone as the employee
+            $haveSameZone = 
+                $supervisorZone == $userData['zone_id'];
 
-                // check if the supervisor has a supervisor role
-                $hasSupervisorRole = 
-                    $supervisorRole == 'Supervisor';
+            // check if the supervisor has a supervisor role
+            $hasSupervisorRole = 
+                $supervisorRole == 'Supervisor';
 
-                // if the zone is not the same, notify the user
-                if (!$haveSameZone) {
-                    $users->deleteByID($userID);
-                    throw new \Exception(
-                        'The employee is in a different zone than the '.
-                        'supervisor'
-                    );
-                }
-
-                // if the supervisor does not have the proper role, notify the 
-                // user
-                if (!$hasSupervisorRole) {
-                    $users->deleteByID($userID);
-                    throw new \Exception(
-                        'The provided supervisor ID does not correspond to a '.
-                        'user with supervisor role'
-                    );
-                }
-
-                // if the supervisor ID is valid and can be assigned, do the 
-                // actual assignment
-                $assignments->insert([
-                    'supervisor_id' => $request['supervisor_id'],
-                    'employee_id' => $userID
-                ]);
-            } else {
-                // if it's not, notify the user
+            // if the zone is not the same, notify the user
+            if (!$haveSameZone) {
                 $users->deleteByID($userID);
                 throw new \Exception(
-                    'Supervisor ID is not a valid integer.'
+                    'The employee is in a different zone than the '.
+                    'supervisor'
                 );
             }
+
+            // if the supervisor does not have the proper role, notify the 
+            // user
+            if (!$hasSupervisorRole) {
+                $users->deleteByID($userID);
+                throw new \Exception(
+                    'The provided supervisor ID does not correspond to a '.
+                    'user with supervisor role'
+                );
+            }
+
+            // if the supervisor ID is valid and can be assigned, do the 
+            // actual assignment
+            $assignments->insert([
+                'supervisor_id' => $request['supervisor_id'],
+                'employee_id' => $userID
+            ]);
         } else {
             // if the supervisor ID was not provided, notify the user
             $users->deleteByID($userID);
@@ -525,25 +550,9 @@ function addNewUserAccount($request)
     if ($arePrivilegesRequired) {
         // check that the data in the privileges array exists and is 
         // of the proper type
-        if (isset($request['privileges'])) {
-            foreach ($request['privileges'] as $privilege) {
-                $isInteger = val\isInteger($privilege['log_id']);
-                if (!$isInteger) {
-                    $users->deleteByID($userID);
-                    throw new \Exception(
-                        'A log ID provided is not an integer'
-                    );
-                }
-
-                $isInteger = val\isInteger($privilege['privilege_id']);
-                if (!$isInteger) {
-                    $users->deleteByID($userID);
-                    throw new \Exception(
-                        'A privilege ID provided is not an integer'
-                    );
-                }
-            }
-        } else {
+        $hasPrivileges = isset($request['privileges']) 
+            && array_key_exists('privileges', $request);
+        if (!$hasPrivileges) {
             // if it was not provided, throw an exception
             $users->deleteByID($userID);
             throw new \Exception('privileges array was not provided.');
@@ -563,7 +572,7 @@ function addNewUserAccount($request)
             array_push($privileges, [
                 'user_id' => $userID,
                 'log_id' => $privilege['log_id'],
-                'privilege_id' => (isset($isSupervisor)) ?
+                'privilege_id' => ($isSupervisor) ?
                     $privilegeID :
                     $privilege['privilege_id']
             ]);
@@ -580,19 +589,6 @@ function addNewUserAccount($request)
 // Changes the log privileges of an specified user
 function editPrivileges($request)
 {
-    // before we start, check that the data in the array is of the proper type
-    foreach ($request['privileges'] as $privilege) {
-        $isInteger = val\isInteger($privilege['log_id']);
-        if (!$isInteger) {
-            throw new \Exception('A log ID provided is not an integer');
-        }
-
-        $isInteger = val\isInteger($privilege['privilege_id']);
-        if (!$isInteger) {
-            throw new \Exception('A privilege ID provided is not an integer');
-        }
-    }
-
     // then, connect to the data base
     $userPrivileges = new db\UsersLogsPrivilegesDAO();
 
@@ -819,57 +815,48 @@ function editUserRole($request)
 
             // if it was provided...
             if ($isSupervisorIDValid) {
-                // check that it is a valid integer
-                if (val\isInteger($request['supervisor_id'])) {
-                    // if the supervisor ID is valid, assert that the ID 
-                    // provided corresponds to a supervisor and that both the 
-                    // supervisor and the employee share the same zone
+                // if the supervisor ID is valid, assert that the ID 
+                // provided corresponds to a supervisor and that both the 
+                // supervisor and the employee share the same zone
 
-                    // get the supervisor's zone and role
-                    $supervisorZone = 
-                        $users->getZoneIDByID($request['supervisor_id']);
+                // get the supervisor's zone and role
+                $supervisorZone = 
+                    $users->getZoneIDByID($request['supervisor_id']);
 
-                    $supervisorRole =
-                        $users->getRoleByID($request['supervisor_id']);
+                $supervisorRole =
+                    $users->getRoleByID($request['supervisor_id']);
 
-                    // check if the supervisor has the same zone as the employee
-                    $haveSameZone = 
-                        $supervisorZone === $userData['zone_id'];
+                // check if the supervisor has the same zone as the employee
+                $haveSameZone = 
+                    $supervisorZone === $userData['zone_id'];
 
-                    // check if the supervisor has a supervisor role
-                    $hasSupervisorRole = 
-                        $supervisorRole === 'Supervisor';
+                // check if the supervisor has a supervisor role
+                $hasSupervisorRole = 
+                    $supervisorRole === 'Supervisor';
 
-                    // if the zone is not the same, notify the user
-                    if (!$haveSameZone) {
-                        throw new \Exception(
-                            'The employee is in a different zone than the '.
-                            'supervisor'
-                        );
-                    }
-
-                    // if the supervisor does not have the proper role, notify 
-                    // the user
-                    if (!$hasSupervisorRole) {
-                        throw new \Exception(
-                            'The provided supervisor ID does not correspond to'.
-                            ' a user with supervisor role'
-                        );
-                    }
-
-                    // if the supervisor ID is valid and can be assigned, do 
-                    // the actual assignment
-                    $assignments->insert([
-                        'supervisor_id' => $request['supervisor_id'],
-                        'employee_id' => $userID
-                    ]);
-                } else {
-                    // if it's not, notify the user
-                    $users->deleteByID($userID);
+                // if the zone is not the same, notify the user
+                if (!$haveSameZone) {
                     throw new \Exception(
-                        'Supervisor ID is not a valid integer.'
+                        'The employee is in a different zone than the '.
+                        'supervisor'
                     );
                 }
+
+                // if the supervisor does not have the proper role, notify 
+                // the user
+                if (!$hasSupervisorRole) {
+                    throw new \Exception(
+                        'The provided supervisor ID does not correspond to'.
+                        ' a user with supervisor role'
+                    );
+                }
+
+                // if the supervisor ID is valid and can be assigned, do 
+                // the actual assignment
+                $assignments->insert([
+                    'supervisor_id' => $request['supervisor_id'],
+                    'employee_id' => $userID
+                ]);
             } else {
                 // if the supervisor ID was not provided, notify the user
                 throw new \Exception(
