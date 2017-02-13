@@ -9,7 +9,101 @@ require_once realpath(dirname(__FILE__).'/../dao/ItemTypesDAO.php');
 use fsm\database as db;
 
 
-function addWorkingAreaToZone()
+$inventoryServices = [
+    'get-areas-of-zone' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor']
+        ],
+        'callback' => 'fsm\services\inventory\getWorkingAreasOfZone'
+    ], 
+    'get-items-of-area' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'area_id' => [
+                'type' => 'int',
+                'min' => 1
+            ]
+        ],
+        'callback' => 'fsm\services\inventory\getItemsOfWorkingArea'
+    ],
+    'list-item-types' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor']
+        ],
+        'callback' => 'fsm\services\inventory\getAllItemTypes'
+    ],
+    'toggle-item-activation' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'item_id' => [
+                'type' => 'int',
+                'min' => 1
+            ]
+        ],
+        'callback' => 'fsm\services\inventory\toggleActivationOfItem'
+    ],
+    'add-new-inventory-item' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'area_id' => [
+                'type' => 'int',
+                'min' => 1
+            ],
+            'type_id' => [
+                'type' => 'int',
+                'min' => 1
+            ],
+            'name' => [
+                'type' => 'string',
+                'max_length' => 64
+            ]
+        ],
+        'callback' => 'fsm\services\inventory\addNewItem'
+    ],
+    'log-gmp-packing-preop' => [
+        'requirements_desc' => [
+            'logged_in' => ['Manager', 'Supervisor', 'Employee'],
+            'has_privilege' => [
+                'privilege' => ['Read', 'Write'],
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Pre-Operational Inspection'
+            ]
+        ],
+        'callback' => 'fsm\services\inventory\getItemsOfZone'
+    ],
+    'change-order-of-item' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'item_id' => [
+                'type' => 'int',
+                'min' => 1
+            ],
+            'position' => [
+                'type' => 'int'
+            ]
+        ],
+        'callback' => 'fsm\services\inventory\changeItemPosition'
+    ],
+    'add-workplace-area' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'has_privilege' => [
+                'privilege' => ['Read', 'Write'],
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Pre-Operational Inspection'
+            ],
+            'area_name' => [
+                'type' => 'string'
+            ]
+        ],
+        'callback' => 'fsm\services\inventory\addWorkingAreaToZone'
+    ]
+];
+
+
+function addWorkingAreaToZone($request)
 {
     // first connect to the database
     $areas = new db\WorkingAreasDAO();
@@ -17,18 +111,18 @@ function addWorkingAreaToZone()
     // insert the new area
     $id = $areas->insert([
         'zone_id' => $_SESSION['zone_id'],
-        'name' => $_POST['area_name']
+        'name' => $request['area_name']
     ]);
 
     return [
         'id' => $id,
-        'name' => $_POST['area_name']
+        'name' => $request['area_name']
     ];
 }
 
 
 // Lists the areas of the specified zone
-function getWorkingAreasOfZone() 
+function getWorkingAreasOfZone($request) 
 {
     $areas = new db\WorkingAreasDAO();
     return $areas->selectByZoneID($_SESSION['zone_id']);
@@ -36,11 +130,11 @@ function getWorkingAreasOfZone()
 
 
 // Lists the items in the specified area
-function getItemsOfWorkingArea() 
+function getItemsOfWorkingArea($request) 
 {
     // first, get the items from the data base
     $items = new db\ItemsDAO();
-    $rows = $items->selectByAreaID($_POST['area_id']);
+    $rows = $items->selectByAreaID($request['area_id']);
 
     // temporal storage for the items organized by type
     $types = [];
@@ -103,7 +197,7 @@ function getItemsOfWorkingArea()
 
 
 // List all the item types
-function getAllItemTypes()
+function getAllItemTypes($request)
 {
     $types = new db\ItemTypesDAO();
     return $types->selectAll();
@@ -111,10 +205,10 @@ function getAllItemTypes()
 
 
 // Toggles the activation of the specified item
-function toggleActivationOfItem() 
+function toggleActivationOfItem($request) 
 {
     $items = new db\ItemsDAO();
-    $items->toggleActivationByID($_POST['item_id']);
+    $items->toggleActivationByID($request['item_id']);
     return [];
 }
 
@@ -129,26 +223,26 @@ function addNewItem()
     // so we can compute the position of this item and add it
     // in the last position
     $numItemsInArea = $items->countByAreaAndTypeIDs(
-        $_POST['area_id'],
-        $_POST['type_id']
+        $request['area_id'],
+        $request['type_id']
     );
 
     // store the item in the data base 
     return $items->insert([
-        'area_id' => $_POST['area_id'],
-        'type_id' => $_POST['type_id'],
+        'area_id' => $request['area_id'],
+        'type_id' => $request['type_id'],
         'is_active' => TRUE,
         'position' => $numItemsInArea + 1,
-        'name' => $_POST['name']
+        'name' => $request['name']
     ]);
 }
 
 
 // Changes the position of the specified item
-function changeItemPosition()
+function changeItemPosition($request)
 {
     $items = new db\ItemsDAO();
-    $items->updatePositionByID($_POST['item_id'], $_POST['position']);
+    $items->updatePositionByID($request['item_id'], $request['position']);
     return [];
 }
 
@@ -156,7 +250,7 @@ function changeItemPosition()
 // [***]
 // Returns a list of all the items in a zone grouped by working areas and item 
 // type
-function getItemsOfZone()
+function getItemsOfZone($request)
 {
     // first, connect to the data base and get all the items by zone
     $itemsTable = new db\ItemsDAO();

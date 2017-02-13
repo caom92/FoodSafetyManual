@@ -7,11 +7,35 @@ require_once realpath(dirname(__FILE__).'/../Session.php');
 use fsm;
 
 
+$sessionServices = [
+    'login' => [
+        'requirements_desc' => [
+            'username' => [
+                'type' => 'string',
+                'min_length' => 3
+            ],
+            'password' => [
+                'type' => 'string',
+                'min_length' => 6
+            ]
+        ],
+        'callback' => 'fsm\services\session\logIn'
+    ],
+    'logout' => [
+        'requirements_desc' => [],
+        'callback' => 'fsm\services\session\logOut'
+    ],
+    'check-session' => [
+        'requirements_desc' => [],
+        'callback' => 'fsm\services\session\isLoggedIn'
+    ]
+];
+
 // Logs the user into her account and starts a session
-function logIn() 
+function logIn($request) 
 {
     $session = new fsm\Session();
-    $userInfo = $session->start($_POST['username'], $_POST['password']);
+    $userInfo = $session->start($request['username'], $request['password']);
     
     if (isset($userInfo)) {
         return $userInfo;
@@ -22,7 +46,7 @@ function logIn()
 
 
 // Logs the user out from her account and ends the session
-function logOut() 
+function logOut($request) 
 {
     $session = new fsm\Session();
     $session->close();
@@ -31,7 +55,7 @@ function logOut()
 
 
 // Checks if the user is logged in
-function isLoggedIn() 
+function isLoggedIn($request) 
 {
     $session = new fsm\Session();
     return $session->isOpen();

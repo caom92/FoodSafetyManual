@@ -11,35 +11,71 @@ require_once realpath(dirname(__FILE__).'/../dao/CapturedLogsDAO.php');
 use fsm\database as db;
 
 
+$serverServices = [
+    'status' => [
+        'requirements_desc' => [],
+        'callback' => 'fsm\services\server\checkStatus'
+    ],
+    'send-bug-report' => [
+        'requirements_desc' => [
+            'logged_in' => 'any',
+            'zone-selection' => [
+                'type' => 'string'
+            ],
+            'procedure-selection' => [
+                'type' => 'string'
+            ],
+            'severity-selection' => [
+                'type' => 'string'
+            ],
+            'summary' => [
+                'type' => 'string',
+                'min_length' => 3,
+                'max_length' => 512
+            ],
+            'lang' => [
+                'type' => 'lang'
+            ],
+        ],
+        'callback' => 'fsm\services\server\mailBugReport'
+    ],
+    'list-programs-modules-logs' => [
+        'requirements_desc' => [
+            'logged_in' => ['Administrator']
+        ],
+        'callback' => 'fsm\services\server\getAllProgramsModulesAndLogs'
+    ]
+];
+
 // Checks if the data base server is available for use
-function checkStatus() 
+function checkStatus($request) 
 {
     return isset(db\DataAccessObject::$dataBase);
 }
 
 
 // Sends a bug report by email
-function mailBugReport() 
+function mailBugReport($request) 
 {   
     // Create the email body by pasting all the posted data into it
     $body = "Usuario: " . $_SESSION["login-name"] . "<br>"
         . "ID de empleado: " . $_SESSION["user_id"] . "<br>"
-        . "Zona: " . $_POST["zone-selection"] . "<br>"
-        . "Programa: " . $_POST["procedure-selection"] . "<br>"
-        . "Modulo: " . $_POST['module-selection'] . "<br>"
+        . "Zona: " . $request["zone-selection"] . "<br>"
+        . "Programa: " . $request["procedure-selection"] . "<br>"
+        . "Modulo: " . $request['module-selection'] . "<br>"
         . "Navegadores: ";
 
     // paste browsers
-    foreach ($_POST["browser-selection"] as $browser) {
+    foreach ($request["browser-selection"] as $browser) {
         $body .= $browser . " ";
     }
 
     // continue with the rest of the body
-    $body .= "\n" . "Severidad: " . $_POST["severity-selection"] . "<br>"
-        . "Resumen: " . $_POST["summary"] . "<br>"
-        . "Pasos para reproducirlo: " . $_POST["steps"] . "<br>"
-        . "Salida esperada: " . $_POST["expectation"] . "<br>"
-        . "Salida obtenida: " . $_POST["reality"] . "<br>";
+    $body .= "\n" . "Severidad: " . $request["severity-selection"] . "<br>"
+        . "Resumen: " . $request["summary"] . "<br>"
+        . "Pasos para reproducirlo: " . $request["steps"] . "<br>"
+        . "Salida esperada: " . $request["expectation"] . "<br>"
+        . "Salida obtenida: " . $request["reality"] . "<br>";
 
     $subject = 'Jacobs Farm - Del Cabo: Bug report';
 
@@ -103,7 +139,7 @@ function mailBugReport()
 
 // [***]
 // Lists all the programs, their modules and their logs
-function getAllProgramsModulesAndLogs()
+function getAllProgramsModulesAndLogs($request)
 {
     // first, connect to the data base and get the logs data
     $logs = new db\LogsDAO();

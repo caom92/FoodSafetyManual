@@ -22,8 +22,110 @@ use fsm\database\gmp\packing\preop as preop;
 use fsm\database as db;
 
 
+$gmpPackingPreopServices = [
+    'list-corrective-actions' => [
+        'requirements_desc' => [
+            'logged_in' => 'any'
+        ],
+        'callback' => 'fsm\services\gmp\packing\preop\getAllCorrectiveActions'
+    ],
+    'capture-gmp-packing-preop' => [
+        'requirements_desc' => [
+            'logged_in' => ['Employee'],
+            'has_privilege' => [
+                'privilege' => 'Write',
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Pre-Operational Inspection'
+            ],
+            'user_id' => [
+                'type' => 'int',
+                'min' => 1
+            ],
+            'date' => [
+                'type' => 'datetime',
+                'format' => 'Y-m-d'
+            ],
+            'notes' => [
+                'type' => 'string',
+                'max_length' => 80
+            ],
+            'album_url' => [
+                'type' => 'string',
+                'max_length' => 256
+            ],
+            'areas' => [
+                'type' => 'array'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\preop\registerLogEntry'
+    ],
+    'report-gmp-packing-preop' => [
+        'requirements_desc' => [
+            'logged_in' => ['Director', 'Manager', 'Supervisor', 'Employee'],
+            'has_privilege' => [
+                'privilege' => ['Read', 'Write'],
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Pre-Operational Inspection'
+            ],
+            'start_date' => [
+                'type' => 'datetime',
+                'format' => 'Y-m-d'
+            ],
+            'end_date' => [
+                'type' => 'datetime',
+                'format' => 'Y-m-d'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\preop\getReportData'
+    ],
+    'upload-manual-gmp-packing-preop' => [
+        'requirements_desc' => [
+            'logged_in' => ['Director', 'Manager', 'Supervisor'],
+            'has_privilege' => [
+                'privilege' => 'Read',
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Pre-Operational Inspection'
+            ],
+            'manual_file' => [
+                'type' => 'files'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\preop\uploadManualFile'
+    ],
+    'update-gmp-packing-preop' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor', 'Employee'],
+            'has_privilege' => [
+                'privilege' => ['Read','Write'],
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Pre-Operational Inspection'
+            ],
+            'report_id' => [
+                'type' => 'int',
+                'min' => 1
+            ],
+            'notes' => [
+                'type' => 'string',
+                'max_length' => 80
+            ],
+            'album_url' => [
+                'type' => 'string',
+                'max_length' => 256
+            ],
+            'areas' => [
+                'type' => 'array'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\preop\editLogEntry'
+    ]
+];
+
 // Lists all the corrective actions
-function getAllCorrectiveActions()
+function getAllCorrectiveActions($request)
 {
     $correctiveActions = new preop\CorrectiveActionsDAO();
     return $correctiveActions->selectAllButNone();
@@ -31,19 +133,19 @@ function getAllCorrectiveActions()
 
 
 // Adds a new entry to the pre-op log
-function registerLogEntry()
+function registerLogEntry($request)
 {
     // first, let's check if the client sent the values to be inserted
     // in the proper array format
     $isSet =
-        isset($_POST['areas']) && array_key_exists('areas', $_POST);
+        isset($request['areas']) && array_key_exists('areas', $request);
 
     if (!$isSet) {
         throw new \Exception("Input argument 'areas' is missing");
     }
 
     // check each per area log entry
-    foreach ($_POST['areas'] as $areaLogEntry) {
+    foreach ($request['areas'] as $areaLogEntry) {
         $isDateTime = val\isDateTime($areaLogEntry['time'], 'G:i');
 
         if (!$isDateTime) {
@@ -128,7 +230,7 @@ function registerLogEntry()
     // before inserting into the data base, check that there is no entry of
     // this log already
     // $isLogEntryDuplicated = $logDate->hasByDateAndLogID(
-    //     $_POST['date'], $logID, $_SESSION['zone_id']);
+    //     $request['date'], $logID, $_SESSION['zone_id']);
     // if ($isLogEntryDuplicated) {
     //     throw new \Exception('A log entry was already registered today.', 2);
     // }
@@ -137,9 +239,9 @@ function registerLogEntry()
     $logID = $logDate->insert([
         'employee_id' => $_SESSION['user_id'],
         'log_id' => $logID,
-        'capture_date' => $_POST['date'],
-        'extra_info1' => $_POST['notes'],
-        'extra_info2' => $_POST['album_url']
+        'capture_date' => $request['date'],
+        'extra_info1' => $request['notes'],
+        'extra_info2' => $request['album_url']
     ]);
 
     // create a temporal storage for the many entries to be inserted in
@@ -147,7 +249,7 @@ function registerLogEntry()
     $itemsLogEntries = [];
 
     // insert each per area log entry one at the time...
-    foreach ($_POST['areas'] as $areaLogEntry) {
+    foreach ($request['areas'] as $areaLogEntry) {
         // save the resulting ID for later use
         $areaID = $areasLog->insert([
             'capture_date_id' => $logID,
@@ -182,7 +284,7 @@ function registerLogEntry()
 // Returns the pre-operational log entries of the working areas and their
 // items in a determined zone that where captured in the given date for
 // presentation in a report
-function getReportData()
+function getReportData($request)
 {
     $capturedLogs = new db\CapturedLogsDAO();
     $areasLog = new preop\AreasLogDAO();
@@ -191,8 +293,8 @@ function getReportData()
     $users = new db\UsersDAO();
 
     $logDates = $capturedLogs->selectByDateIntervalLogIDAndZoneID(
-        $_POST['start_date'],
-        $_POST['end_date'],
+        $request['start_date'],
+        $request['end_date'],
         $logs->getIDByNames(
             'GMP', 'Packing', 'Pre-Operational Inspection'
         ),
@@ -293,7 +395,7 @@ function getReportData()
 
 
 // Recieves a PDF file and stores it as the new manual for the Pre-Op log
-function uploadManualFile()
+function uploadManualFile($request)
 {
     // first, check if the uploaded file is a PDF
     $isDocument = val\isDocumentFile($_FILES['manual_file']['tmp_name']);
@@ -345,19 +447,19 @@ function uploadManualFile()
 
 // This function updates the info in the database of the log with the especified
 // ID
-function editLogEntry()
+function editLogEntry($request)
 {
     // first, let's check if the client sent the values to be inserted
     // in the proper array format
     $isSet =
-        isset($_POST['areas']) && array_key_exists('areas', $_POST);
+        isset($request['areas']) && array_key_exists('areas', $request);
 
     if (!$isSet) {
         throw new \Exception("Input argument 'areas' is missing");
     }
 
     // check each per area log entry
-    foreach ($_POST['areas'] as $areaLogEntry) {
+    foreach ($request['areas'] as $areaLogEntry) {
         $isString =
             val\stringHasLengthInterval($areaLogEntry['notes'], 0, 256);
 
@@ -428,14 +530,14 @@ function editLogEntry()
     // update the captured log info
     $capturedLogs->updateByID(
         [
-            'extra_info1' => $_POST['notes'],
-            'extra_info2' => $_POST['album_url']
+            'extra_info1' => $request['notes'],
+            'extra_info2' => $request['album_url']
         ], 
-        $_POST['report_id']
+        $request['report_id']
     );
 
     // for each area in the input array...
-    foreach ($_POST['areas'] as $area) {
+    foreach ($request['areas'] as $area) {
         // update the area log 
         $areasLog->updateByCapturedLogID(
             [
@@ -443,7 +545,7 @@ function editLogEntry()
                 'person_performing_sanitation' => 
                     $area['person_performing_sanitation']
             ],
-            $_POST['report_id']
+            $request['report_id']
         );
 
         // the for each item in the area
@@ -455,7 +557,7 @@ function editLogEntry()
                     'corrective_action_id' => $item['corrective_action_id'],
                     'comment' => $item['comment']
                 ],
-                $_POST['report_id'],
+                $request['report_id'],
                 $item['id']
             );
         }

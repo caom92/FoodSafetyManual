@@ -14,9 +14,281 @@ use fsm\database as db;
 // The communication bridge between the frontend and the backend
 class Controller
 {
+    // The list of services that the server can provide
+    private $services;
+
+    // The list of validation functions that can be used to validate the input
+    // arguments of the services
+    private $validationRules;
+
+
+    // Creates an instance of the controller
+    function __construct($services) {
+        $this->services = $services;
+        $this->validationRules = [
+            'number' => function($name, $value, $options) {
+                // check if the input argument is a numeric value
+                // or string
+                $isNumeric = val\isNumeric($value);
+
+                if (!$isNumeric) {
+                    throw new \Exception(
+                        "Input argument '$name' is not a numeric value."
+                    );
+                }
+            },
+            'int' => function($name, $value, $options) {
+                // check if the input argument is an integer value
+                // or string
+                $isInt = val\isInteger($value);
+
+                // now we check if this value must be within an
+                // specified interval
+                $hasMinRule = isset($options['min']);
+                $hasMaxRule = isset($options['max']);
+                $hasRules = $hasMinRule || $hasMaxRule;
+
+                // if the input argument is an integer...
+                if ($isInt) {
+                    // and if are additional validation rules...
+                    if ($hasRules) {
+                        // retrieve the interval limits
+                        $min = ($hasMinRule) ?
+                            $options['min'] : \PHP_INT_MIN;
+
+                        $max = ($hasMaxRule) ?
+                            $options['max'] : \PHP_INT_MAX;
+
+                        // check if the value is within the
+                        // intervals
+                        $isWithinInterval = val\integerIsBetweenValues(
+                            $value, $min, $max
+                        );
+
+                        if (!$isWithinInterval) {
+                            throw new \Exception(
+                                "Input argument '$name' is not within ".
+                                "[$min, $max]"
+                            );
+                        }
+                    }
+                } else {
+                    throw new \Exception(
+                        "Input argument '$name' is not an integer value."
+                    );
+                }
+            },
+            'float' => function($name, $value, $options) {
+                // check if the input argument is a floating point
+                // value or string
+                $isFloat = val\isFloat($value);
+
+                if (!$isFloat) {
+                    throw new \Exception(
+                        "Input argument '$name' is not a floating-point value."
+                    );
+                }
+            },
+            'string' => function($name, $value, $options) {
+                // check if the input argument is a string value
+                $isString = val\isString($value);
+
+                // check if the input argument must be an specific
+                // number of characters long
+                $hasLengthRule = isset($options['length']);
+
+                // check if the input argument must have a number
+                // of characters that is within an specified
+                // interval
+                $hasMinLengthRule = isset($options['min_length']);
+                $hasMaxLengthRule = isset($options['max_length']);
+
+                // if the input argument is a string...
+                if ($isString) {
+                    // and must have an specific length
+                    if ($hasLengthRule) {
+                        // check if the string has the specified
+                        // length
+                        $hasProperLength = val\stringHasLength(
+                            $value,
+                            $options['length']
+                        );
+
+                        if (!$hasProperLength) {
+                            throw new \Exception(
+                                "Input argument '$name' is not ". 
+                                "{$options['length']} characters long."
+                            );
+                        }
+                    } else {
+                        // check if the string has a length that is
+                        // within a certain interval
+                        $min = ($hasMinLengthRule) ?
+                            $options['min_length'] : 0;
+                        $max = ($hasMaxLengthRule) ?
+                            $options['max_length'] : \PHP_INT_MAX;
+
+                        $isLengthWithinInterval = val\stringHasLengthInterval(
+                            $value,
+                            $min,
+                            $max
+                        );
+
+                        if (!$isLengthWithinInterval) {
+                            throw new \Exception(
+                                "Input argument '$name' does not have a length".
+                                " that is within [$min, $max]."
+                            );
+                        }
+                    }
+                } else {
+                    throw new \Exception(
+                        "Input argument '$name' is not a string value."
+                    );
+                }
+            },
+            'lang' => function($name, $value, $options) {
+                // check if the input argument is a string that
+                // denotes a language code
+                $isLanguage =
+                    val\stringIsLanguageCode($value);
+
+                if (!$isLanguage) {
+                    throw new \Exception(
+                        "Input argument '$name' is not language string."
+                    );
+                }
+            },
+            'email' => function($name, $value, $options) {
+                // check if the input argument is a string that
+                // denotes an email address
+                $isEmail = val\stringIsEmail($value);
+
+                if (!$isEmail) {
+                    throw new \Exception(
+                        "Input argument '$name' is not an email string."
+                    );
+                }
+            },
+            'files' => function($name, $value, $options) {
+                // check if the input argument is an uploaded file
+                $isDefined = val\isDefined($_FILES[$name]);
+
+                if (!$isDefined) {
+                    throw new \Exception(
+                        "Input argument '$name' is not a file."
+                    );
+                }
+            },
+            'array' => function($name, $value, $options) {
+                // check if the input argument is an array
+                $isDefined = val\isDefined($value);
+                $isEmpty = count($value) == 0;
+
+                if (!$isDefined || $isEmpty) {
+                    throw new \Exception(
+                        "Input argument '$name' is not an array."
+                    );
+                }
+            },
+            'datetime' => function($name, $value, $options) {
+                // check if the input argument is a date or time
+                // string literal with the especified format
+                $format = $options['format'];
+                $isDateTime = val\isDateTime($value, $format);
+
+                if (!$isDateTime) {
+                    throw new \Exception(
+                        "Input argument '$name' is not a date and/or time literal of the format '$format'"
+                    );
+                }
+            },
+            'logged_in' => function($name, $value, $options) {
+                // if it does, check if the user is logged in
+                $session = new Session();
+                $isLoggedIn = $session->isOpen();
+
+                if ($isLoggedIn) {
+                    // if she is, then check if the service is expecting
+                    // the user to have an specific role
+                    $mustCheckRoles = $options !== 'any';
+                    if ($mustCheckRoles) {
+                        // retrieve the current role of the user
+                        $role = $_SESSION['role_name'];
+                        $hasProperRole = false;
+
+                        // check if the user's role correspond to any of
+                        // the roles that the service is expecting
+                        foreach ($options as $requiredRole) {
+                            if ($role === $requiredRole) {
+                                $hasProperRole = true;
+                                break;
+                            }
+                        }
+
+                        if (!$hasProperRole) {
+                            throw new \Exception('User does not have the proper role.');
+                        }
+                    }
+                } else {
+                    throw new \Exception('User is not logged in.');
+                }
+            },
+            'has_privilege' => function($name, $value, $options) {
+                // first, connect to the data base
+                $session = new Session();
+
+                // check if a single or multiple permissions are required
+                $isSingle = count($options['privilege']) == 1;
+
+                // then check if the user has the given privilege in the
+                // specified log
+                $hasPrivilege = false;
+
+                // temporal storage of the input data
+                $p = $options['program'];
+                $m = $options['module'];
+                $l = $options['log'];
+                $r = $options['privilege'];
+
+                // temporal storage of the user privileges array
+                $userPrivileges = $_SESSION['privileges'];
+
+                // temporal storage for array keys
+                $k = array_keys($userPrivileges);
+                $k = $k[1];
+
+                if ($isSingle) {
+                    $hasPrivilege =
+                        isset($userPrivileges[$k][$p][$m][$l]) &&
+                        $userPrivileges[$k][$p][$m][$l]['privilege']['name'] ==
+                        $r;
+                } else {
+                    foreach ($r as $privilege) {
+                        $hasPrivilege =
+                            isset($userPrivileges[$k][$p][$m][$l]) &&
+                            $userPrivileges[$k][$p][$m][$l]['privilege']['name']
+                            == $privilege;
+
+                        if ($hasPrivilege) {
+                            break;
+                        }
+                    }
+                }
+
+                if (!$hasPrivilege) {
+                    throw new \Exception(
+                        'User is not allowed to use this service.'
+                    );
+                }
+            }
+        ];
+    }
+
+
     // Provides the service requested by the remote client and sends back the
     // result of such service as response
-    static function serveRemoteClient()
+    function serveRemoteClient($request)
     {
         try {
             // get the requested service
@@ -27,23 +299,23 @@ class Controller
             );
 
             // checks if the service exits
-            if (isset(self::$services[$service])
-                && array_key_exists($service, self::$services)) {
+            if (isset($this->services[$service])
+                && array_key_exists($service, $this->services)) {
                 // if it does, retrieve the input requirements descriptor and
                 // the execution callback
-                $service = self::$services[$service];
+                $service = $this->services[$service];
                 $inputRequirements = $service['requirements_desc'];
                 $callback = $service['callback'];
 
                 // check that the input arguments are valid and that the user
                 // has the proper permissions to use the service
-                self::validateServiceInputRequirements(
-                    $inputRequirements
+                $this->validateServiceInputRequirements(
+                    $request, $inputRequirements
                 );
 
                 // execute the service
-                $result = $callback();
-                self::respondToRemoteClient($result);
+                $result = $callback($request);
+                $this->respondToRemoteClient($result);
             } else {
                 throw new \Exception(
                   'The requested service does not exists.', 1
@@ -51,7 +323,7 @@ class Controller
             }
         } catch (\Exception $e) {
             // if there was a problem, notify the client
-            self::respondToRemoteClient(
+            $this->respondToRemoteClient(
                 [],
                 $e->getMessage(),
                 $e->getCode()
@@ -102,324 +374,65 @@ class Controller
 
     // Checks that the user has the proper permissions to us the service and
     // that the input arguments have the proper values and format
+    // [in]     request: the data sent from the client alongside the service
+    //          request
     // [in]     requirementsDesc: an associative array of associative
     //          arrays which describe the
     //          user permission and input arguments values and formats that the
     //          service is expecting to recieve
     // [out]    throw: if any of the requirements specified in the requirements
     //          descriptor is not complied to, then an exception will be thrown
-    static private function validateServiceInputRequirements($requirementsDesc)
+    private function validateServiceInputRequirements($request, 
+        $requirementsDesc)
     {
-        // first, we retrieve the name of the input arguments that the service
-        // is expecting to recieve
-        $keys = array_keys($requirementsDesc);
+        // we visit each input argument sent alongside the request with their
+        // corresponding validation rule
+        foreach ($requirementsDesc as $attribute => $options) {
+            // we first check if the argument was declared as optional
+            $hasOptionalFlag = isset($options['optional']) 
+                && array_key_exists('optional', $options);
 
-        // then, we visit each input argument to check if it complies to the
-        // specified validation rules
-        foreach ($keys as $key) {
-            // the required validation rule of the current input argument
-            $requirement = $requirementsDesc[$key];
+            $isOptional = ($hasOptionalFlag) ? $options['optional'] : false;
 
-            switch ($key) {
-                // check if the service expects the user to be logged in
-                case 'logged_in':
-                    // if it does, check if the user is logged in
-                    $session = new Session();
-                    $isLoggedIn = $session->isOpen();
+            // then check if the client actually sent the argument
+            $hasAttribute = isset($request[$attribute]) 
+                && array_key_exists($attribute, $request);
 
-                    if ($isLoggedIn) {
-                        // if she is, then check if the service is expecting
-                        // the user to have an specific role
-                        $mustCheckRoles = $requirement != 'any';
-                        if ($mustCheckRoles) {
-                            // retrieve the current role of the user
-                            $role = $_SESSION['role_name'];
-                            $hasProperRole = false;
+            // after that, we check if the rule to be evaluated is going to be
+            // decided by the type option or by the attribute name
+            $isTypedRule = isset($options['type']) 
+                && array_key_exists('type', $options);
 
-                            // check if the user's role correspond to any of
-                            // the roles that the service is expecting
-                            foreach ($requirement as $requiredRole) {
-                                if ($role === $requiredRole) {
-                                    $hasProperRole = true;
-                                    break;
-                                }
-                            }
+            // initialize temporal variables for the validator name and the 
+            // value to validate
+            $rule = NULL;
+            $value = NULL;
 
-                            if (!$hasProperRole) {
-                                throw new \Exception('User does not have the proper role.');
-                            }
-                        }
-                    } else {
-                        throw new \Exception('User is not logged in.');
-                    }
-                break;
+            // if the rule is to be decided by the type attribute...
+            if ($isTypedRule) {
+                // check that the argument to evaluate was provided by the 
+                // client
+                if ($hasAttribute) {
+                    // get the validator rule and value to evaluate
+                    $rule = $options['type'];
+                    $value = $request[$attribute];
+                } else if (!$isOptional) {
+                    // if the argument was not send by the client and it was not
+                    // optional, we throw an exception
+                    throw new \Exception("Input argument $attribute is undefined");
+                }
+            } else {
+                // if the rule is to be decided by the attribute name, get the
+                // validator rule and value to evaluate
+                $rule = $attribute;
+                $value = NULL;
+            }
 
-                // check if the service expects the user to has access
-                // permission to it
-                case 'has_privilege':
-                    // first, connect to the data base
-                    $session = new Session();
-
-                    // check if a single or multiple permissions are required
-                    $isSingle = count($requirement['privilege']) == 1;
-
-                    // then check if the user has the given privilege in the
-                    // specified log
-                    $hasPrivilege = false;
-
-                    // temporal storage of the input data
-                    $p = $requirement['program'];
-                    $m = $requirement['module'];
-                    $l = $requirement['log'];
-                    $r = $requirement['privilege'];
-
-                    // temporal storage of the user privileges array
-                    $userPrivileges = $_SESSION['privileges'];
-
-                    // temporal storage for array keys
-                    $k = array_keys($userPrivileges);
-                    $k = $k[1];
-
-                    if ($isSingle) {
-                        $hasPrivilege =
-                            isset($userPrivileges[$k][$p][$m][$l]) &&
-                            $userPrivileges[$k][$p][$m][$l]['privilege']['name'] ==
-                            $r;
-                    } else {
-                        foreach ($r as $privilege) {
-                            $hasPrivilege =
-                                isset($userPrivileges[$k][$p][$m][$l]) &&
-                                $userPrivileges[$k][$p][$m][$l]['privilege']['name']
-                                == $privilege;
-
-                            if ($hasPrivilege) {
-                                break;
-                            }
-                        }
-                    }
-
-                    if (!$hasPrivilege) {
-                        throw new \Exception(
-                            'User is not allowed to use this service.'
-                        );
-                    }
-                break;
-
-                default:
-                    // check the type of the input argument that the service is
-                    // expecting it to have
-                    switch ($requirement['type']) {
-                        case 'number':
-                            // check if the input argument is a numeric value
-                            // or string
-                            $isNumeric =
-                                val\isNumeric($_POST[$key]);
-
-                            if (!$isNumeric) {
-                                throw new \Exception(
-                                    "Input argument '$key' is not a numeric value."
-                                );
-                            }
-                        break;
-
-                        case 'int':
-                            // check if the input argument is an integer value
-                            // or string
-                            $isInt = val\isInteger($_POST[$key]);
-
-                            // now we check if this value must be within an
-                            // specified interval
-                            $hasMinRule = isset($requirement['min']);
-                            $hasMaxRule = isset($requirement['max']);
-                            $hasRules = $hasMinRule || $hasMaxRule;
-
-                            // if the input argument is an integer...
-                            if ($isInt) {
-                                // and if are additional validation rules...
-                                if ($hasRules) {
-                                    // retrieve the interval limits
-                                    $min = ($hasMinRule) ?
-                                        $requirement['min'] :
-                                        \PHP_INT_MIN;
-
-                                    $max = ($hasMaxRule) ?
-                                        $requirement['max'] :
-                                        \PHP_INT_MAX;
-
-                                    // check if the value is within the
-                                    // intervals
-                                    $isWithinInterval = val\integerIsBetweenValues(
-                                        $_POST[$key],
-                                        $min,
-                                        $max
-                                    );
-
-                                    if (!$isWithinInterval) {
-                                        throw new \Exception(
-                                            "Input argument '$key' is not within [$min, $max]"
-                                        );
-                                    }
-                                }
-                            } else {
-                                throw new \Exception(
-                                    "Input argument '$key' is not an integer value."
-                                );
-                            }
-                        break;
-
-                        case 'float':
-                            // check if the input argument is a floating point
-                            // value or string
-                            $isFloat =
-                                val\isFloat($_POST[$key]);
-
-                            if (!$isFloat) {
-                                throw new \Exception(
-                                    "Input argument '$key' is not a floating-point value."
-                                );
-                            }
-                        break;
-
-                        case 'string':
-                            // check if the input argument is a string value
-                            $isString =
-                                val\isString($_POST[$key]);
-
-                            // check if the input argument must be an specific
-                            // number of characters long
-                            $hasLengthRule =
-                                isset($requirement['length']);
-
-                            // check if the input argument must have a number
-                            // of characters that is within an specified
-                            // interval
-                            $hasMinLengthRule =
-                                isset($requirement['min_length']);
-                            $hasMaxLengthRule =
-                                isset($requirement['max_length']);
-
-                            // if the input argument is a string...
-                            if ($isString) {
-                                // and must have an specific length
-                                if ($hasLengthRule) {
-                                    // check if the string has the specified
-                                    // length
-                                    $hasProperLength = val\stringHasLength(
-                                        $_POST[$key],
-                                        $requirement['length']
-                                    );
-
-                                    if (!$hasProperLength) {
-                                        throw new \Exception(
-                                            "Input argument '$key' does not have the proper length."
-                                        );
-                                    }
-                                } else {
-                                    // check if the string has a length that is
-                                    // within a certain interval
-                                    $min = ($hasMinLengthRule) ?
-                                        $requirement['min_length'] :
-                                        0;
-                                    $max = ($hasMaxLengthRule) ?
-                                        $requirement['max_length'] :
-                                        \PHP_INT_MAX;
-
-                                    $isLengthWithinInterval = val\stringHasLengthInterval(
-                                        $_POST[$key],
-                                        $min,
-                                        $max
-                                    );
-
-                                    if (!$isLengthWithinInterval) {
-                                        throw new \Exception(
-                                            "Input argument '$key' does not have a length that is within a set interval."
-                                        );
-                                    }
-                                }
-                            } else {
-                                throw new \Exception(
-                                    "Input argument '$key' is not a string value."
-                                );
-                            }
-                        break;
-
-                        case 'lang':
-                            // check if the input argument is a string that
-                            // denotes a language code
-                            $isLanguage =
-                                val\stringIsLanguageCode(
-                                    $_POST[$key]
-                                );
-
-                            if (!$isLanguage) {
-                                throw new \Exception(
-                                    "Input argument '$key' is not language string."
-                                );
-                            }
-                        break;
-
-                        case 'email':
-                            // check if the input argument is a string that
-                            // denotes an email address
-                            $isEmail =
-                                val\stringIsEmail($_POST[$key]);
-
-                            if (!$isEmail) {
-                                throw new \Exception(
-                                    "Input argument '$key' is not an email string."
-                                );
-                            }
-                        break;
-
-                        case 'files':
-                            // check if the input argument is an uploaded file
-                            $isDefined =
-                                val\isDefined($_FILES[$key]);
-
-                            if (!$isDefined) {
-                                throw new \Exception(
-                                    "Input argument '$key' is not a file."
-                                );
-                            }
-                        break;
-
-                        case 'array':
-                            // check if the input argument is an array
-                            $isDefined =
-                                val\isDefined($_POST[$key]);
-                            $isEmpty = count($_POST[$key]) == 0;
-
-                            if (!$isDefined || $isEmpty) {
-                                throw new \Exception(
-                                    "Input argument '$key' is not an array."
-                                );
-                            }
-                        break;
-
-                        case 'datetime':
-                            // check if the input argument is a date or time
-                            // string literal with the especified format
-                            $format = $requirement['format'];
-                            $isDateTime = val\isDateTime($_POST[$key], $format);
-
-                            if (!$isDateTime) {
-                                throw new \Exception(
-                                    "Input argument '$key' is not a date and/or time literal of the format '$format'"
-                                );
-                            }
-                        break;
-                    } // switch ($requirement['type'])
-                break; // default
-            } // switch ($key)
-        } // foreach ($key as $keys)
+            // finally get the validator and use it to evaluate the value
+            $callback = $this->validationRules[$rule];
+            $callback($attribute, $value, $options);
+        }
     } // function validateServiceRequirements
-
-
-    // The list of services that the server can provide
-    static $services;
 } // class Controller
-
-// Import the services list
-require_once realpath(dirname(__FILE__).'/services/Services.php');
 
 ?>
