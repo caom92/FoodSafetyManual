@@ -5,14 +5,12 @@
 namespace fsm\services\authorizations;
 
 // Import the required files
-require_once realpath(dirname(__FILE__).'/../data_validations.php');
 require_once realpath(dirname(__FILE__).'/../dao/UsersDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/SupervisorsEmployeesDAO.php');
 require_once realpath(dirname(__FILE__).'/../dao/CapturedLogsDAO.php');
 
 // Shorthands for the namespaces
 use fsm\database as db;
-use fsm\validations as val;
 
 
 $authorizationServices = [
@@ -40,7 +38,17 @@ $authorizationServices = [
         'requirements_desc' => [
             'logged_in' => ['Administrator'],
             'assignments' => [
-                'type' => 'array'
+                'type' => 'array',
+                'values' => [
+                    'employee_id' => [
+                        'type' => 'int',
+                        'min' => 1
+                    ],
+                    'supervisor_id' => [
+                        'type' => 'int',
+                        'min' => 1
+                    ]
+                ]
             ]
         ],
         'callback' => 'fsm\services\authorizations\assignEmployeesToSupervisors'
@@ -131,38 +139,11 @@ function getEmployeesOfSupervisor($request)
 // Assigns employees to their corresponding supervisors
 function assignEmployeesToSupervisors($request)
 {
+    // connect to the users table in the data base
+    $users = new db\UsersDAO();
+
     // first, we need to check the input data
     foreach ($request['assignments'] as $assignment) {
-        // check if the user sent the appropiate data
-        $isEmployeeIDValid = 
-            isset($assignment['employee_id'])
-            && array_key_exists('employee_id', $assignment);
-
-        $isSupervisorIDValid = 
-            isset($assignment['supervisor_id'])
-            && array_key_exists('supervisor_id', $assignment);
-
-        // if not, notify the user
-        if (!$isEmployeeIDValid || !$isSupervisorIDValid) {
-            throw new \Exception(
-                'Assignments array does not have the proper keys'
-            );
-        } else {
-            // if the user sent the data, check that it is of the proper type
-            $isSupervisorIDValid = val\isInteger($assignment['supervisor_id']);
-            $isEmployeeIDValid = val\isInteger($assignment['employee_id']);
-
-            // if not, notify the user
-            if (!$isEmployeeIDValid || !$isSupervisorIDValid) {
-                throw new \Exception(
-                    'A user ID is not an integer in one of the assignments'
-                );
-            }
-        }
-
-        // connect to the users table in the data base
-        $users = new db\UsersDAO();
-
         // check if the supervisor has the proper role
         $isSupervisorRole = 
             $users->getRoleByID($assignment['supervisor_id']) == 'Supervisor';

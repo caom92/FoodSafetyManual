@@ -3,8 +3,6 @@
 namespace fsm\services\gmp\packing\preop;
 
 require_once realpath(dirname(__FILE__).
-    '/../../../../data_validations.php');
-require_once realpath(dirname(__FILE__).
     '/../../../../dao/gmp/packing/preop/CorrectiveActionsDAO.php');
 require_once realpath(dirname(__FILE__).
     '/../../../../dao/gmp/packing/preop/AreasLogDAO.php');
@@ -17,7 +15,6 @@ require_once realpath(dirname(__FILE__).
 require_once realpath(dirname(__FILE__).
     '/../../../../dao/UsersDAO.php');
 
-use fsm\validations as val;
 use fsm\database\gmp\packing\preop as preop;
 use fsm\database as db;
 
@@ -55,7 +52,44 @@ $gmpPackingPreopServices = [
                 'max_length' => 256
             ],
             'areas' => [
-                'type' => 'array'
+                'type' => 'array',
+                'values' => [
+                    'time' => [
+                        'type' => 'datetime',
+                        'format' => 'G:i'
+                    ],
+                    'notes' => [
+                        'type' => 'string',
+                        'optional' => true,
+                        'max_length' => 256
+                    ],
+                    'person_performing_sanitation' => [
+                        'type' => 'string',
+                        'optional' => true,
+                        'max_length' => 64
+                    ],
+                    'items' => [
+                        'type' => 'array',
+                        'values' => [
+                            'id' => [
+                                'type' => 'int',
+                                'min' => 1
+                            ],
+                            'is_acceptable' => [
+                                'type' => 'bool'
+                            ],
+                            'corrective_action_id' => [
+                                'type' => 'int',
+                                'min' => 1
+                            ],
+                            'comment' => [
+                                'type' => 'string',
+                                'optional' => true,
+                                'max_length' => 80
+                            ]
+                        ]
+                    ]
+                ]
             ]
         ],
         'callback' => 'fsm\services\gmp\packing\preop\registerLogEntry'
@@ -89,8 +123,9 @@ $gmpPackingPreopServices = [
                 'module' => 'Packing',
                 'log' => 'Pre-Operational Inspection'
             ],
-            'manual_file' => [
-                'type' => 'files'
+            'files' => [
+                'name' => 'manual_files',
+                'format' => 'document'
             ]
         ],
         'callback' => 'fsm\services\gmp\packing\preop\uploadManualFile'
@@ -117,7 +152,40 @@ $gmpPackingPreopServices = [
                 'max_length' => 256
             ],
             'areas' => [
-                'type' => 'array'
+                'type' => 'array',
+                'values' => [
+                    'notes' => [
+                        'type' => 'string',
+                        'optional' => true,
+                        'max_length' => 256
+                    ],
+                    'person_performing_sanitation' => [
+                        'type' => 'string',
+                        'optional' => true,
+                        'max_length' => 64
+                    ],
+                    'items' => [
+                        'type' => 'array',
+                        'values' => [
+                            'id' => [
+                                'type' => 'int',
+                                'min' => 1
+                            ],
+                            'is_acceptable' => [
+                                'type' => 'bool'
+                            ],
+                            'corrective_action_id' => [
+                                'type' => 'int',
+                                'min' => 1
+                            ],
+                            'comment' => [
+                                'type' => 'string',
+                                'optional' => true,
+                                'max_length' => 80
+                            ]
+                        ]
+                    ]
+                ]
             ]
         ],
         'callback' => 'fsm\services\gmp\packing\preop\editLogEntry'
@@ -135,87 +203,6 @@ function getAllCorrectiveActions($request)
 // Adds a new entry to the pre-op log
 function registerLogEntry($request)
 {
-    // first, let's check if the client sent the values to be inserted
-    // in the proper array format
-    $isSet =
-        isset($request['areas']) && array_key_exists('areas', $request);
-
-    if (!$isSet) {
-        throw new \Exception("Input argument 'areas' is missing");
-    }
-
-    // check each per area log entry
-    foreach ($request['areas'] as $areaLogEntry) {
-        $isDateTime = val\isDateTime($areaLogEntry['time'], 'G:i');
-
-        if (!$isDateTime) {
-            throw new \Exception(
-                'A time literal does not have the proper value'
-            );
-        }
-
-        $isString =
-            val\stringHasLengthInterval($areaLogEntry['notes'], 0, 256);
-
-        if (!$isString) {
-            throw new \Exception(
-                'A notes argument is not a string of the proper length'
-            );
-        }
-
-        $isString =
-            val\stringHasLengthInterval(
-                $areaLogEntry['person_performing_sanitation'], 0, 64
-            );
-
-        if (!$isString) {
-            throw new \Exception(
-                'The name of the person performing sanitation is not of the proper length'
-            );
-        }
-
-        // check each per item log entry
-        foreach ($areaLogEntry['items'] as $itemsLogEntry) {
-            $isInt = val\integerIsBetweenValues(
-                $itemsLogEntry['id'], 1, \PHP_INT_MAX
-            );
-
-            if (!$isInt) {
-                throw new \Exception(
-                    'An item ID is not valid'
-                );
-            }
-            
-            $isBool = val\isBoolean($itemsLogEntry['is_acceptable']);
-
-            if (!$isBool) {
-                throw new \Exception(
-                    'An is_acceptable flag is not a boolean'
-                );
-            }
-
-            $isInt = val\integerIsBetweenValues(
-                $itemsLogEntry['corrective_action_id'], 1, \PHP_INT_MAX
-            );
-
-            if (!$isInt) {
-                throw new \Exception(
-                    'A corrective action ID is not valid'
-                );
-            }
-
-            $isString = val\stringHasLengthInterval(
-                $itemsLogEntry['comment'], 0, 80
-            );
-
-            if (!$isString) {
-                throw new \Exception(
-                    'The comments section is not a string of the proper length'
-                );
-            }
-        }
-    }
-
     // if all validations passed, connect to the data base
     $logDate = new db\CapturedLogsDAO();
     $areasLog = new preop\AreasLogDAO();
@@ -397,47 +384,37 @@ function getReportData($request)
 // Recieves a PDF file and stores it as the new manual for the Pre-Op log
 function uploadManualFile($request)
 {
-    // first, check if the uploaded file is a PDF
-    $isDocument = val\isDocumentFile($_FILES['manual_file']['tmp_name']);
+    // if it was, compute the full directory path where the file will be 
+    // stored
+    $uploadDir = realpath(
+        dirname(__FILE__).'/../../../../../../'.
+        'data/documents/manuals/gmp/packing/actual_manual.pdf'
+    );
 
-    if ($isDocument) {
-        // if it was, compute the full directory path where the file will be 
-        // stored
-        $uploadDir = realpath(
-            dirname(__FILE__).'/../../../../../../'.
-            'data/documents/manuals/gmp/packing/actual_manual.pdf'
-        );
+    // then, compute the name that will be assigned to the current manual 
+    // file so that we keep a backup copy of it
+    $backupFile = date('Y-m-d_H-i-s').'.pdf';
 
-        // then, compute the name that will be assigned to the current manual 
-        // file so that we keep a backup copy of it
-        $backupFile = date('Y-m-d_H-i-s').'.pdf';
+    // rename the current manual file to keep a backup copy
+    $backupFile = str_replace('actual_manual.pdf', $backupFile, $uploadDir);
+    rename($uploadDir, $backupFile);
 
-        // rename the current manual file to keep a backup copy
-        $backupFile = str_replace('actual_manual.pdf', $backupFile, $uploadDir);
-        rename($uploadDir, $backupFile);
+    // finally save the uploaded file as the current manual file
+    $wasMoveSuccessful = move_uploaded_file(
+        $_FILES['manual_file']['tmp_name'], 
+        $uploadDir
+    );
 
-        // finally save the uploaded file as the current manual file
-        $wasMoveSuccessful = move_uploaded_file(
-            $_FILES['manual_file']['tmp_name'], 
-            $uploadDir
-        );
+    // and check if the file was saved successfully
+    if (!$wasMoveSuccessful) {
+        // if it wasn't, restore the last backup copy as the current manual 
+        // file
+        rename($backupFile, $uploadDir);
 
-        // and check if the file was saved successfully
-        if (!$wasMoveSuccessful) {
-            // if it wasn't, restore the last backup copy as the current manual 
-            // file
-            rename($backupFile, $uploadDir);
-
-            // and notify the user of the error
-            throw new \Exception(
-                'The file '.$_FILES['manual_file']['name'].' could not be '.
-                'uploaded.'
-            );
-        }
-    } else {
-        // if the uploaded file was not a PDF, notify the user
+        // and notify the user of the error
         throw new \Exception(
-            'The file '.$_FILES['manual_file']['name'].' is not a PDF file.'
+            'The file '.$_FILES['manual_file']['name'].' could not be '.
+            'uploaded.'
         );
     }
 
@@ -449,79 +426,6 @@ function uploadManualFile($request)
 // ID
 function editLogEntry($request)
 {
-    // first, let's check if the client sent the values to be inserted
-    // in the proper array format
-    $isSet =
-        isset($request['areas']) && array_key_exists('areas', $request);
-
-    if (!$isSet) {
-        throw new \Exception("Input argument 'areas' is missing");
-    }
-
-    // check each per area log entry
-    foreach ($request['areas'] as $areaLogEntry) {
-        $isString =
-            val\stringHasLengthInterval($areaLogEntry['notes'], 0, 256);
-
-        if (!$isString) {
-            throw new \Exception(
-                'A notes argument is not a string of the proper length'
-            );
-        }
-
-        $isString =
-            val\stringHasLengthInterval(
-                $areaLogEntry['person_performing_sanitation'], 0, 64
-            );
-
-        if (!$isString) {
-            throw new \Exception(
-                'The name of the person performing sanitation is not of the proper length'
-            );
-        }
-
-        // check each per item log entry
-        foreach ($areaLogEntry['items'] as $itemsLogEntry) {
-            $isInt = val\integerIsBetweenValues(
-                $itemsLogEntry['id'], 1, \PHP_INT_MAX
-            );
-
-            if (!$isInt) {
-                throw new \Exception(
-                    'An item ID is not valid'
-                );
-            }
-            
-            $isBool = val\isBoolean($itemsLogEntry['is_acceptable']);
-
-            if (!$isBool) {
-                throw new \Exception(
-                    'An is_acceptable flag is not a boolean'
-                );
-            }
-
-            $isInt = val\integerIsBetweenValues(
-                $itemsLogEntry['corrective_action_id'], 1, \PHP_INT_MAX
-            );
-
-            if (!$isInt) {
-                throw new \Exception(
-                    'A corrective action ID is not valid'
-                );
-            }
-
-            $isString = val\stringHasLengthInterval(
-                $itemsLogEntry['comment'], 0, 80
-            );
-
-            if (!$isString) {
-                throw new \Exception(
-                    'The comments section is not a string of the proper length'
-                );
-            }
-        }
-    }
-
     // connect to the database
     $capturedLogs = new db\CapturedLogsDAO();
     $areasLog = new preop\AreasLogDAO();

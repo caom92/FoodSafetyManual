@@ -170,25 +170,105 @@ class Controller
                     );
                 }
             },
-            'files' => function($name, $value, $options) {
-                // check if the input argument is an uploaded file
-                $isDefined = val\isDefined($_FILES[$name]);
+            'bool' => function($name, $value, $options) {
+                // check if the input argument is a boolean value
+                $isBoolean = val\isBoolean($value);
 
-                if (!$isDefined) {
+                if (!$isBoolean) {
                     throw new \Exception(
-                        "Input argument '$name' is not a file."
+                        "Input argument '$name' is not a boolean value"
                     );
                 }
             },
-            'array' => function($name, $value, $options) {
-                // check if the input argument is an array
-                $isDefined = val\isDefined($value);
-                $isEmpty = count($value) == 0;
+            'files' => function($name, $value, $options) {
+                // first, check if any file was send
+                $isFilesSet = isset($_FILES[$name]) 
+                    && array_key_exists($name, $_FILES);
 
-                if (!$isDefined || $isEmpty) {
-                    throw new \Exception(
-                        "Input argument '$name' is not an array."
-                    );
+                // then, check if a file format was especified
+                $isFileFormatSet = isset($options['format'])
+                    && array_key_exists('format', $options);
+
+                // and check if the file was declared as optional
+                $isOptional = isset($options['optional'])
+                    && array_key_exists('optional', $options);
+
+                // if any file was send ...
+                if ($isFilesSet) {
+                    // and a file format was especified...
+                    if ($isFileFormatSet) {
+                        // check that each sent file is of the especified file 
+                        // format, throwing an exception if this is not the case
+                        switch ($options['format']) {
+                            case 'document':
+                                foreach ($_FILES[$name]['tmp_name'] as $file) {
+                                    if (!val\isDocumentFile($file)) {
+                                        throw new \Exception(
+                                            "A file in '$name' is not a ".
+                                            "document file");
+                                        break;
+                                    }
+                                }
+                            break;
+
+                            case 'bitmap':
+                                foreach ($_FILES[$name]['tmp_name'] as $file) {
+                                    if ($options['format'] == 'bitmap') {
+                                        throw new \Exception(
+                                            "A file '$name' is not a bitmap ".
+                                            "file");
+                                        break;
+                                    }
+                                }
+                            break;
+                        }
+                    }
+                } else {
+                    // if no file was send and the file was not declared as
+                    // optional, throw an exception
+                    if (!$isOptional) {
+                        throw new \Exception("File '$name' is undefined");
+                    }
+                }
+            },
+            'array' => function($name, $value, $options) {
+                // first, check if the array was declared as optional
+                $hasOptionalFlag = isset($options['optional']) 
+                    && array_key_exists('optional', $options);
+                $isOptional = ($hasOptionalFlag) ? $options['optional'] : false;
+
+                // then, check if the array is expected to be simple or 
+                // associative
+                $isSimpleArray = isset($options['values']['type'])
+                    && array_key_exists('type', $options['values']);
+                
+                // then validate the content of the array if it's not empty
+                if (count($value) > 0) {
+                    // if the array is expected to be a simple one... 
+                    if ($isSimpleArray) {
+                        // get the validator that correspond to data type
+                        // that each element is expected to have
+                        $rule = $options['type'];
+                        $validator = $this->validationRules[$rule];
+
+                        // and validate each element
+                        for ($i = 0; $i < count($value); $i++) {
+                            $validator("$name[$i]", $value[$i], 
+                                $options['values']);
+                        }
+                    } else {
+                        // if the array is actually an associative array,
+                        // recursively call this function 
+                        foreach ($value as $element) {
+                            $this->validateServiceInputRequirements(
+                                $element, $options['values']);
+                        }
+                    }
+                } else if (!$isOptional) {
+                    // if the array is empty and it was not declared as
+                    // optional, throw an exception
+                    throw new Exception(
+                        "Input argument $name is an empty array");
                 }
             },
             'datetime' => function($name, $value, $options) {
