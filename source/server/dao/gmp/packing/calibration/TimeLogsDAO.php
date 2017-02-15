@@ -28,6 +28,7 @@ class TimeLogsDAO extends db\DataAccessObject
                 'time',
                 's.type_id(type_id)',
                 'st.name(type_name)',
+                's.position(order)',
                 's.serial_num(scale_name)',
                 's.test(test)',
                 'sl.was_test_passed(status)',

@@ -60,6 +60,9 @@ class CapturedLogsDAO extends DataAccessObject
                     'capture_date[>=]' => $startDate,
                     'capture_date[<=]' => $endDate,
                     'u.zone_id' => $zoneID
+                ],
+                'ORDER' => [
+                    'capture_date'
                 ]
             ],
             [

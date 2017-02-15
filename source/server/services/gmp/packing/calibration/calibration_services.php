@@ -7,6 +7,8 @@ require_once realpath(dirname(__FILE__).'/../../../../dao/CapturedLogsDAO.php');
 require_once realpath(dirname(__FILE__).'/../../../../dao/LogsDAO.php');
 require_once realpath(dirname(__FILE__).
     '/../../../../dao/gmp/packing/calibration/TimeLogsDAO.php');
+require_once realpath(dirname(__FILE__).
+    '/../../../../dao/gmp/packing/calibration/ScalesDAO.php');
 require_once realpath(dirname(__FILE__).'/../../../../dao/UsersDAO.php');
 
 use fsm\database\gmp\packing\calibration as cal;
@@ -48,6 +50,18 @@ $gmpPackingCalServices = [
             ]
         ],
         'callback' => 'fsm\services\gmp\packing\calibration\getReportData'
+    ],
+    'log-gmp-packing-calibration' => [
+        'requirements_desc' => [
+            'logged_in' => ['Manager', 'Supervisor', 'Employee'],
+            'has_privilege' => [
+                'privilege' => ['Read', 'Write'],
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Daily Scale Calibration'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\calibration\getSaclesOfZone'
     ]
 ];
 
@@ -107,7 +121,7 @@ function getReportData($request)
             if ($hasTypeChanged) {
                 // if the scale type changed, check if we already have log info.
                 // waiting to be stored 
-                if ($scaleLogs['type_id'] != 0) {
+                if ($scaleLogs['id'] != 0) {
                     // if we do, store it in the final array
                     array_push($scaleTypeLogs, $scaleLogs);
                 } 
@@ -119,6 +133,7 @@ function getReportData($request)
                     'name' => $log['type_name'],
                     'time' => $log['time'],
                     'items' => [[
+                        'order' => $log['order'],
                         'name' => $log['scale_name'],
                         'test' => $log['status'],
                         'status' => $log['status'],
@@ -129,6 +144,7 @@ function getReportData($request)
                 // if the scale type has not change, push the current log
                 // data to the array of logs for the current scale type
                 array_push($scaleLogs['items'], [
+                    'order' => $log['order'],
                     'name' => $log['scale_name'],
                     'test' => $log['status'],
                     'status' => $log['status'],
@@ -160,6 +176,73 @@ function getReportData($request)
             'types' => $scaleTypeLogs
         ]);
     }
+}
+
+
+// Returns an associative array that contains the list of scales that are 
+// registered in the especified zone
+function getScalesOfZone($request)
+{
+    // first, connect to the data base
+    $scales = new cal\ScalesDAO();
+
+    // then get the data from the table
+    $rows = $scales->selectActiveByZoneID($_SESSION['zone_id']);
+
+    // initialize the temporal storage for the list of scales 
+    $scaleList = [];
+
+    // initialize the temporal storage for the data of each scale
+    $scaleData = [
+        'id' => 0
+    ];
+
+    // visit each row that was read from the table
+    foreach ($rows as $row) {
+        // check if the scale type changed
+        $hasTypeChanged = $scaleData['id'] != $row['type_id'];
+        if ($hasTypeChanged) {
+            // if the scale type changed, check if we already have scale info.
+            // waiting to be stored 
+            if ($scale['type_id'] != 0) {
+                // if we do, store it in the final array
+                array_push($scaleList, $scaleData);
+            } 
+
+            // create a new temporal storage for the logs of the current 
+            // scale type
+            $scaleData = [
+                'id' => $log['type_id'],
+                'name' => $log['type_name'],
+                'items' => [[
+                    'id' => $log['id'],
+                    'name' => $log['scale_name'],
+                    'order' => $log['order']
+                ]]
+            ];
+        } else {
+            // if the scale type has not change, push the current scale
+            // data to the list of scales for the current scale type
+            array_push($scaleData['items'], [
+                'id' => $log['id'],
+                'name' => $log['scale_name'],
+                'order' => $log['order']
+            ]);
+        }
+    }
+
+    // push the last elements to the list of scales
+    if ($scale['type_id'] != 0) {
+        array_push($scaleList, $scaleData);
+    }    
+
+    return [
+        'zone_name' => $_SESSION['zone_name'],
+        'program_name' => 'GMP',
+        'module_name' => 'Packing',
+        'log_name' => 'Daily Scale Calibration',
+        'types' => $scaleList
+    ];
 }
 
 ?>
