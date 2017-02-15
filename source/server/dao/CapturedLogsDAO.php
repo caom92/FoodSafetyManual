@@ -65,7 +65,7 @@ class CapturedLogsDAO extends DataAccessObject
             [
                 '[><]users(u)' => [
                     'employee_id' => 'id'
-                ],
+                ]
             ]
         );
     }
