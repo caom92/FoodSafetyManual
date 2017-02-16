@@ -348,6 +348,7 @@ function registerLogEntry($request)
 
         // then visit each per scale log data
         foreach ($log['items'] as $scaleLog) {
+            echo var_dump($scaleLog);
             // push the log data to the temporal storage
             array_push($scaleLogEntries, [
                 'time_log_id' => $timeID,
