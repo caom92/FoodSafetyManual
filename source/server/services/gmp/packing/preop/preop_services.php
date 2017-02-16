@@ -18,6 +18,7 @@ require_once realpath(dirname(__FILE__).
     '/../../../globals.php');
 
 
+use fsm;
 use fsm\database\gmp\packing\preop as preop;
 use fsm\database as db;
 
@@ -123,7 +124,7 @@ $gmpPackingPreopServices = [
                 'log' => 'Pre-Operational Inspection'
             ],
             'files' => [
-                'name' => 'manual_files',
+                'name' => 'manual_file',
                 'format' => 'document'
             ]
         ],
@@ -383,7 +384,7 @@ function getReportData($request)
 // Recieves a PDF file and stores it as the new manual for the Pre-Op log
 function uploadManualFile($request)
 {
-    fsm\upoloadManualFile('gmp', 'packing', 'preop');
+    fsm\uploadManualFile('gmp', 'packing', 'preop');
     return [];
 }
 
