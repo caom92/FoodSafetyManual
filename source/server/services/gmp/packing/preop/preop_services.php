@@ -276,6 +276,7 @@ function getReportData($request)
     $areasLog = new preop\AreasLogDAO();
     $itemsLog = new preop\ItemsLogDAO();
     $users = new db\UsersDAO();
+    $logs = new db\LogsDAO();
 
     $logDates = $capturedLogs->selectByDateIntervalLogIDAndZoneID(
         $request['start_date'],

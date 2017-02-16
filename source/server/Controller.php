@@ -181,7 +181,10 @@ class Controller
                 }
             },
             'files' => function($name, $value, $options) {
-                // first, check if any file was send
+                // first, get the name of the file
+                $name = $options['name'];
+
+                // then, check if any file was send
                 $isFilesSet = isset($_FILES[$name]) 
                     && array_key_exists($name, $_FILES);
 
