@@ -9,7 +9,7 @@ function uploadManualFile($program, $module, $log)
     // if it was, compute the full directory path where the file will be 
     // stored
     $uploadDir = realpath(
-        dirname(__FILE__).'/../../../'.
+        dirname(__FILE__)."/../../../".
         "data/documents/manuals/$program/$module/$log/actual_manual.pdf"
     );
 
