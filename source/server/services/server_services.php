@@ -265,16 +265,10 @@ function getAllProgramsModulesAndLogs($request)
 // especified suffix
 function getManualURL($request) 
 {
-    $url = 'data/documents/manuals/';
-    switch ($request['suffix']) {
-        case 'gmp-packing-preop': $url .= 'gmp/preop/'; break;
-        case 'gmp-packing-scale-calibration': $url .= 'gmp/calibration/'; break;
-        default: 
-            throw new \Exception(
-                'The especified suffix does not correspond to any log'
-            );
-        break;
-    }
+    $logs = new db\LogsDAO();
+    $row = $logs->getManualURLBySuffix($request['log-suffix']);
+    $row['manual_location'] = 'data/documents/'.$row['manual_location'];
+    return $row;
 }
 
 ?>
