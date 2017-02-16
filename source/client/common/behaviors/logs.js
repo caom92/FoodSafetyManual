@@ -316,7 +316,6 @@ function loadReports(startDate, endDate, suffix){
             if (response.meta.return_code == 0) {
                 var pdfReportURL = "source/server/report/reportPDF.php";
                 var pdfParams = "?start_date=" + startDate + "&end_date=" + endDate;
-                //$("#request_pdf").attr("href", pdfReportURL + pdfParams);
                 $('#request_pdf').show();
 
                 var wrapper = $("#report-tab-index");

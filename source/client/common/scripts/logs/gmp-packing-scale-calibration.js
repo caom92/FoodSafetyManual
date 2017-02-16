@@ -17,9 +17,9 @@ function loadLogForm(htmlElement){
                 scaleCalibrationLog(report, htmlElement);
                 loadFunctionality({"isPrefilled":false});
                 changeLanguage(localStorage.defaultLanguage);
-                /*$("#send_report").click(function(){
-                    sendGmpPackingPreopReport();
-                });*/
+                $("#send_report").click(function(){
+                    sendScaleCalibrationReport();
+                });
                 $('.log_title').html(report.log_name);
                 Materialize.toast("Informacion cargada del server", 3000, "rounded");
             } else {
@@ -42,9 +42,9 @@ function loadFunctionality(data){
 // be shared among all log types
 
 function loadReport(data){
-    var testData = {"report_id":1,"created_by":"Victor Miracle","approved_by":"God","creation_date":"12/12/2012","approval_date":"12/12/2012","zone_name":"LAW","program_name":"GMP","module_name":"Packing","log_name":"Scale Calibration","notes":"Notas del reporte","corrective_action":"Ni idea si es texto y opciones","types":[{"id":1,"name":"Digital Scales","time":"23:59","items":[{"order":1,"name":"5545","test":453,"status":true,"is_sanitized":true},{"order":2,"name":"1337","test":452,"status":true,"is_sanitized":true},{"order":3,"name":"9001","test":451,"status":true,"is_sanitized":true}]},{"id":2,"name":"Heavy Analog Scales","time":"23:58","items":[{"order":1,"name":"#1","test":10,"status":true,"is_sanitized":true},{"order":2,"name":"#2","test":10,"status":true,"is_sanitized":true},{"order":3,"name":"#3","test":10,"status":true,"is_sanitized":true}]}]};
-    return scaleCalibrationReport(testData);
-    //return scaleCalibrationReport(data);
+    /*var testData = {"report_id":1,"created_by":"Victor Miracle","approved_by":"God","creation_date":"12/12/2012","approval_date":"12/12/2012","zone_name":"LAW","program_name":"GMP","module_name":"Packing","log_name":"Scale Calibration","notes":"Notas del reporte","corrective_action":"Ni idea si es texto y opciones","types":[{"id":1,"name":"Digital Scales","time":"23:59","items":[{"order":1,"name":"5545","test":453,"status":true,"is_sanitized":true},{"order":2,"name":"1337","test":452,"status":true,"is_sanitized":true},{"order":3,"name":"9001","test":451,"status":true,"is_sanitized":true}]},{"id":2,"name":"Heavy Analog Scales","time":"23:58","items":[{"order":1,"name":"#1","test":10,"status":true,"is_sanitized":true},{"order":2,"name":"#2","test":10,"status":true,"is_sanitized":true},{"order":3,"name":"#3","test":10,"status":true,"is_sanitized":true}]}]};
+    return scaleCalibrationReport(testData);*/
+    return scaleCalibrationReport(data);
 }
 
 /******************************************************************************
@@ -54,7 +54,55 @@ are going to divide them into full log, area log and individual item log.
 ******************************************************************************/
 
 function sendScaleCalibrationReport(){
-    
+    var report = new Object();
+
+    report.date = getISODate(new Date());
+    report.notes = $("#report_comment").val();
+    report.corrective_action = $("#report_action").val();
+    report.types = new Array();
+
+    console.log(JSON.stringify(report));
+    console.log(report);
+
+    $(".type-card").each(function(){
+        console.log("TYPE CARD " + $(this).data("id"));
+        var type = new Object();
+        var typeID = $(this).data("id");
+
+        type.id = typeID;
+        type.time = $("#time_" + typeID).val();
+        type.items = new Array();
+
+        $(this).children(".item-card").each(function(){
+            var item = new Object();
+            var itemID = $(this).data("id");
+            item.id = itemID;
+            item.test = $("#test_" + itemID).val();
+            item.status = getBool($("input:radio[name='radio_" + itemID + "']:checked").val());
+            if($("input[id='sanitation_" + itemID + "']:checked").length == 1){
+                item.is_sanitized = true;
+            } else {
+                item.is_sanitized = false;
+            }
+            type.items.push(item);
+        });
+
+        report.types.push(type);
+    });
+
+    console.log(report);
+
+    $server.request({
+        service: 'capture-gmp-packing-scale-calibration',
+        data: report,
+        success: function(response){
+            if (response.meta.return_code == 0) {
+                Materialize.toast("Reporte enviado con exito", 3000, "rounded");
+            } else {
+                Materialize.toast(response.meta.message, 3000, "rounded");
+            }
+        }
+    });
 }
 
 function updateScaleCalibrationReport(reportID){
@@ -118,7 +166,7 @@ function scaleCalibrationType(type){
     var typeCard = $("<div>");
     var title = $("<div>");
 
-    typeCard.addClass("card-panel white area-card");
+    typeCard.addClass("card-panel white type-card");
     typeCard.data("id", type.id);
     title.addClass("card-title");
     title.append(createText({"type":"text","classes":"blue-text","text":type.name}));
@@ -157,7 +205,7 @@ function scaleCalibrationItem(item, typeID){
 
     console.log(createInputRow(itemRow));
     itemCard.append(createInputRow(itemRow).attr("style", "margin-top:15px;"));
-    //itemCard.addClass("card-panel white item-card");
+    itemCard.addClass("item-card");
     itemCard.data("id", item.id);
     itemCard.append($("<div class='divider'>"));
 

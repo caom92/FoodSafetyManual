@@ -30,7 +30,7 @@ class TimeLogsDAO extends db\DataAccessObject
                 'st.name(type_name)',
                 's.position(order)',
                 's.serial_num(scale_name)',
-                's.test(test)',
+                'sl.test(test)',
                 'sl.was_test_passed(status)',
                 'sl.was_scale_sanitized(is_sanitized)'
             ],
