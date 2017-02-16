@@ -266,7 +266,9 @@ function getAllProgramsModulesAndLogs($request)
 function getManualURL($request) 
 {
     $logs = new db\LogsDAO();
-    return $logs->getManualURLBySuffix($request['log-suffix']);
+    $row = $logs->getManualURLBySuffix($request['log-suffix']);
+    $row['manual_location'] = 'data/documents/'.$row['manual_location'];
+    return $row;
 }
 
 ?>
