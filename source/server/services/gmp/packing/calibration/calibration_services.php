@@ -27,7 +27,7 @@ $gmpPackingCalServices = [
                 'log' => 'Daily Scale Calibration Check'
             ],
             'files' => [
-                'name' => 'manual_files',
+                'name' => 'manual_file',
                 'format' => 'document'
             ]
         ],

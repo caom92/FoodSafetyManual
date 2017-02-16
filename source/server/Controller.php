@@ -204,24 +204,36 @@ class Controller
                         // format, throwing an exception if this is not the case
                         switch ($options['format']) {
                             case 'document':
-                                foreach ($_FILES[$name]['tmp_name'] as $file) {
-                                    if (!val\isDocumentFile($file)) {
-                                        throw new \Exception(
-                                            "A file in '$name' is not a ".
-                                            "document file");
-                                        break;
+                                if (is_array($_FILES[$name]['tmp_name'])) {
+                                    foreach ($_FILES[$name]['tmp_name'] as $file) {
+                                        if (!val\isDocumentFile($file)) {
+                                            throw new \Exception(
+                                                "A file in '$name' ".
+                                                "is not a document file");
+                                            break;
+                                        }
                                     }
+                                } else if (!val\isDocumentFile($_FILES[$name]['tmp_name'])) {
+                                    throw new \Exception(
+                                        "The file '{$_FILES[$name]['name']}' ".
+                                        "is not a document file");
                                 }
                             break;
 
                             case 'bitmap':
-                                foreach ($_FILES[$name]['tmp_name'] as $file) {
-                                    if ($options['format'] == 'bitmap') {
-                                        throw new \Exception(
-                                            "A file '$name' is not a bitmap ".
-                                            "file");
-                                        break;
+                                if (is_array($_FILES[$name]['tmp_name'])) {
+                                    foreach ($_FILES[$name]['tmp_name'] as $file) {
+                                        if (!val\isBitmapFile($file)) {
+                                            throw new \Exception(
+                                                "A file in '$name' ".
+                                                "is not a bitmap file");
+                                            break;
+                                        }
                                     }
+                                } else if (!val\isBitmapFile($_FILES[$name]['tmp_name'])) {
+                                    throw new \Exception(
+                                        "The file '{$_FILES[$name]['name']}' ".
+                                        "is not a bitmap file");
                                 }
                             break;
                         }
