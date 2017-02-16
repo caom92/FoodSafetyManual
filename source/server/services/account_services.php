@@ -624,6 +624,10 @@ function getPrivilegesOfUser($request)
 {
     // first, connect to the data base and get the role of the user
     $users = new db\UsersDAO();
+    $privilegesTable = new db\PrivilegesDAO();
+    $userPrivileges = new db\UsersLogsPrivilegesDAO();
+    $logs = new db\LogsDAO();
+
     $role = $users->getRoleByEmployeeNum($request['employee_num']);
 
     // check if the role of this user requires privileges to be read from the db
@@ -631,12 +635,43 @@ function getPrivilegesOfUser($request)
     if ($requiresPrivileges) {
         // if the user requires its privileges to be read from the db
         // connect to the db to get them
-        $userPrivileges = new db\UsersLogsPrivilegesDAO();
         $rows = $userPrivileges->selectByEmployeeNum($request['employee_num']);
+
+        // before we start, we must check if the user has privileges assigned to
+        // ALL logs in the database
+        $missingLogs = 
+            $logs->selectThoseTheUserIsMissing($request['employee_num']);
+        $isUserMissingLogs = count($missingLogs) > 0;
+
+        // if the user is missing logs in its privileges array...
+        if ($isUserMissingLogs) {
+            // get the ID of the user and for the None privilege
+            $userID = $users->getIDByEmployeeNum($request['employee_num']);
+            $privilegeID = $privilegesTable->getIDByName('None');
+
+            // create temporal storage for all the new privileges that will be 
+            // stored in the data base
+            $newPrivileges = [];
+
+            // each of the missing log is pushed to the list of new privileges
+            foreach ($missingLogs as $log) {
+                array_push($newPrivileges, [
+                    'user_id' => $userID,
+                    'log_id' => $log['log_id'],
+                    'privilege_id' => $privilegeID
+                ]);
+            }
+
+            // insert the new privileges to the data base
+            $userPrivileges->insert($newPrivileges);
+
+            // get the updated list of privileges
+            $rows = $userPrivileges->selectByEmployeeNum(
+                $request['employee_num']);
+        }
 
         // also get the ID of the privilege that corresponds to the Read
         // privilege from the db
-        $privilegesTable = new db\PrivilegesDAO();
         $privilegeID = $privilegesTable->getIDByName('Read');
 
         // finally check if the user is a supervisor
