@@ -9,9 +9,17 @@ ini_set("log_errors", true);
 ini_set("error_log", fsm\LOG_FILE);
 
 // Execute the controller
-$controller = new fsm\Controller($serverServices + $sessionServices
-    + $accountServices + $zoneServices + $programServices + $inventoryServices 
-    + $authorizationServices + $gmpPackingPreopServices);
+$controller = new fsm\Controller(
+    $serverServices 
+    + $sessionServices
+    + $accountServices 
+    + $zoneServices 
+    + $programServices 
+    + $inventoryServices 
+    + $authorizationServices 
+    + $gmpPackingPreopServices 
+    + $gmpPackingCalServices);
+    
 $controller->serveRemoteClient($_POST);
 
 ?>
