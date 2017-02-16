@@ -38,10 +38,6 @@ $gmpPackingPreopServices = [
                 'module' => 'Packing',
                 'log' => 'Pre-Operational Inspection'
             ],
-            'user_id' => [
-                'type' => 'int',
-                'min' => 1
-            ],
             'date' => [
                 'type' => 'datetime',
                 'format' => 'Y-m-d'

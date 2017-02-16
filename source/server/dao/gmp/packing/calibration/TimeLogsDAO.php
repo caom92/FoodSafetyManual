@@ -54,6 +54,13 @@ class TimeLogsDAO extends db\DataAccessObject
             ]
         );
     }
+
+
+    // Insert new rows with a capture date ID and a time to the table
+    function insert($rows)
+    {
+        return parent::insert($rows);
+    }
 }
 
 ?>

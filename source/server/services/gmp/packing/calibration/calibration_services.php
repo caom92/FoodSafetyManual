@@ -9,6 +9,8 @@ require_once realpath(dirname(__FILE__).
     '/../../../../dao/gmp/packing/calibration/TimeLogsDAO.php');
 require_once realpath(dirname(__FILE__).
     '/../../../../dao/gmp/packing/calibration/ScalesDAO.php');
+require_once realpath(dirname(__FILE__).
+    '/../../../../dao/gmp/packing/calibration/ScaleLogsDAO.php');
 require_once realpath(dirname(__FILE__).'/../../../../dao/UsersDAO.php');
 
 use fsm\database\gmp\packing\calibration as cal;
@@ -62,6 +64,61 @@ $gmpPackingCalServices = [
             ]
         ],
         'callback' => 'fsm\services\gmp\packing\calibration\getSaclesOfZone'
+    ],
+    'capture-gmp-packing-calibration' => [
+        'requirements_desc' => [
+            'logged_in' => ['Employee'],
+            'has_privilege' => [
+                'privilege' => 'Write',
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Daily Scale Calibration'
+            ],
+            'date' => [
+                'type' => 'datetime',
+                'format' => 'Y-m-d'
+            ],
+            'notes' => [
+                'type' => 'string',
+                'max_length' => 80
+            ],
+            'corrective_action' => [
+                'type' => 'string',
+                'max_length' => 256
+            ],
+            'types' => [
+                'type' => 'array',
+                'values' => [
+                    'id' => [
+                        'type' => 'int',
+                        'min' => 1
+                    ],
+                    'time' => [
+                        'type' => 'datetime',
+                        'format' => 'G:i'
+                    ],
+                    'items' => [
+                        'type' => 'array',
+                        'values' => [
+                            'id' => [
+                                'type' => 'int',
+                                'min' => 1
+                            ],
+                            'test' => [
+                                'type' => 'float'
+                            ],
+                            'status' => [
+                                'type' => 'bool'
+                            ],
+                            'is_sanitized' => [
+                                'type' => 'bool'
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\calibration\registerLogEntry'
     ]
 ];
 
@@ -179,6 +236,7 @@ function getReportData($request)
 }
 
 
+// [***]
 // Returns an associative array that contains the list of scales that are 
 // registered in the especified zone
 function getScalesOfZone($request)
@@ -243,6 +301,59 @@ function getScalesOfZone($request)
         'log_name' => 'Daily Scale Calibration',
         'types' => $scaleList
     ];
+}
+
+
+// Adds a new entry to the calibration log
+function registerLogEntry($request)
+{
+    // first, connect to the data base
+    $logDate = new db\CapturedLogsDAO();
+    $timeLogs = new cal\TimeLogsDAO();
+    $scaleLogs = new cal\ScaleLogsDAO();
+    $logs = new db\LogsDAO();
+
+    // get the ID of the log that we are working with
+    $logID = $logs->getIDByNames(
+        'GMP', 'Packing', 'Daily Scale Calibration'
+    );
+
+    // insert the capture date and the ID of the reportee user
+    $logID = $logDate->insert([
+        'employee_id' => $_SESSION['user_id'],
+        'log_id' => $logID,
+        'capture_date' => $request['date'],
+        'extra_info1' => $request['notes'],
+        'extra_info2' => $request['corrective_action']
+    ]);
+
+    // create temporal storage for the many entries to be inserted in the per 
+    // scale log
+    $scaleLogEntries = [];
+
+    // visit each per scale type log data
+    foreach ($request['types'] as $log) {
+        // store the time info in the data base
+        $timeID = $timeLogs->insert([
+            'capture_date_id' => $logID,
+            'time' => $log['time']
+        ]);
+
+        // then visit each per scale log data
+        foreach ($log['items'] as $scaleLog) {
+            // push the log data to the temporal storage
+            array_push($scaleLogEntries, [
+                'time_log_id' => $timeID,
+                'scale_id' => $scaleLog['id'],
+                'test' => $scaleLog['test'],
+                'was_scale_sanitized' => $scaleLog['is_sanitized'],
+                'was_test_passed' => $scaleLog['status']
+            ]);
+        }
+    }
+
+    // insert the resulting array of per scale log data to the data base
+    $scaleLogs->insert($scaleLogEntries);
 }
 
 ?>
