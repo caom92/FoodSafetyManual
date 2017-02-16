@@ -389,7 +389,7 @@ function scaleCalibrationReportTypeTitle(title, colspan){
 function scaleCalibrationReportItem(itemData){
     var item = new Array();
 
-    item.push({"type":"td","classes":"nameColumn","contents":itemData.name});
+    item.push({"type":"td","classes":"numberColumn","contents":itemData.name});
     item.push({"type":"td","classes":"testColumn","contents":itemData.test});
     if(itemData.status){
         item.push({"type":"td","classes":"statusColumn pass_tag"});
@@ -397,9 +397,9 @@ function scaleCalibrationReportItem(itemData){
         item.push({"type":"td","classes":"statusColumn fail_tag"});
     }
     if(itemData.is_sanitized){
-        item.push({"type":"td","classes":"statusColumn yes_tag"});
+        item.push({"type":"td","classes":"sanitizedColumn yes_tag"});
     } else {
-        item.push({"type":"td","classes":"statusColumn no_tag"});
+        item.push({"type":"td","classes":"sanitizedColumn no_tag"});
     }    
 
     console.log(item);
@@ -426,5 +426,5 @@ function scaleCalibrationFooter(data){
 }
 
 function getCSS(){
-    return '';
+    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}td { border: 1px solid #000000; text-align: left;}th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50;}.even { background-color: #b8e0b9;}.typeTitle{ background-color: yellow; width:588px;}.fullColumn{ background-color: #D3D3D3;width:631px;}.testColumn{ width:147px;}.numberColumn{ width:147px;}.timeColumn{ width:43px;}.statusColumn{ width:147px;}.sanitizedColumn{ width:147px;}</style>';
 }
