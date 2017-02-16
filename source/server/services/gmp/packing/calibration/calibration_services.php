@@ -193,7 +193,7 @@ function getReportData($request)
                     'items' => [[
                         'order' => $log['order'],
                         'name' => $log['scale_name'],
-                        'test' => $log['status'],
+                        'test' => $log['test'],
                         'status' => $log['status'],
                         'is_sanitized' => $log['is_sanitized']
                     ]]
@@ -204,7 +204,7 @@ function getReportData($request)
                 array_push($scaleLogs['items'], [
                     'order' => $log['order'],
                     'name' => $log['scale_name'],
-                    'test' => $log['status'],
+                    'test' => $log['test'],
                     'status' => $log['status'],
                     'is_sanitized' => $log['is_sanitized']
                 ]);
