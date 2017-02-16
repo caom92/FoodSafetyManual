@@ -63,7 +63,7 @@ $gmpPackingCalServices = [
                 'log' => 'Daily Scale Calibration Check'
             ]
         ],
-        'callback' => 'fsm\services\gmp\packing\calibration\getSaclesOfZone'
+        'callback' => 'fsm\services\gmp\packing\calibration\getScalesOfZone'
     ],
     'capture-gmp-packing-scale-calibration' => [
         'requirements_desc' => [
@@ -262,7 +262,7 @@ function getScalesOfZone($request)
         if ($hasTypeChanged) {
             // if the scale type changed, check if we already have scale info.
             // waiting to be stored 
-            if ($scale['type_id'] != 0) {
+            if ($scaleData['type_id'] != 0) {
                 // if we do, store it in the final array
                 array_push($scaleList, $scaleData);
             } 
@@ -270,21 +270,21 @@ function getScalesOfZone($request)
             // create a new temporal storage for the logs of the current 
             // scale type
             $scaleData = [
-                'id' => $log['type_id'],
-                'name' => $log['type_name'],
+                'id' => $row['type_id'],
+                'name' => $row['type_name'],
                 'items' => [[
-                    'id' => $log['id'],
-                    'name' => $log['scale_name'],
-                    'order' => $log['order']
+                    'id' => $row['id'],
+                    'name' => $row['scale_name'],
+                    'order' => $row['order']
                 ]]
             ];
         } else {
             // if the scale type has not change, push the current scale
             // data to the list of scales for the current scale type
             array_push($scaleData['items'], [
-                'id' => $log['id'],
-                'name' => $log['scale_name'],
-                'order' => $log['order']
+                'id' => $row['id'],
+                'name' => $row['scale_name'],
+                'order' => $row['order']
             ]);
         }
     }

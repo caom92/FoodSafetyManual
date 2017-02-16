@@ -25,7 +25,7 @@ class ScalesDAO extends db\DataAccessObject
     {
         return parent::select(
             [
-                'id(id)',
+                "$this->table.id(id)",
                 'type_id(type_id)',
                 'st.name(type_name)',
                 'serial_num(name)',
@@ -42,7 +42,7 @@ class ScalesDAO extends db\DataAccessObject
                 ]
             ],
             [
-                '[><]gmp_packing_scale_types(st)' => [
+                '[><]gmp_packing_calibration_scale_types(st)' => [
                     'type_id' => 'id'
                 ]
             ]
