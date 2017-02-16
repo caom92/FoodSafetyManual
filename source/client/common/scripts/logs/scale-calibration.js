@@ -6,11 +6,11 @@
 
 function loadLogForm(htmlElement){
     $server.request({
-        service: 'log-scale-calibration',
+        service: 'log-gmp-packing-scale-calibration',
         success: function(response) {
             if (response.meta.return_code == 0 || true) {
-                //var report = response.data;
-                var report = {"zone_name":"LAW","program_name":"GMP","module_name":"Packing","log_name":"Scale Calibration","types":[{"id":1,"name":"Digital Scales","items":[{"id":1,"name":"345","order":1},{"id":2,"name":"1337","order":2},{"id":5,"name":"345","order":1},{"id":6,"name":"1337","order":2},{"id":7,"name":"345","order":1},{"id":8,"name":"1337","order":2}]},{"id":2,"name":"Heavy Analog Scales","items":[{"id":3,"name":"#1","order":1},{"id":4,"name":"#2","order":2}]}]};
+                var report = response.data;
+                //var report = {"zone_name":"LAW","program_name":"GMP","module_name":"Packing","log_name":"Scale Calibration","types":[{"id":1,"name":"Digital Scales","items":[{"id":1,"name":"345","order":1},{"id":2,"name":"1337","order":2},{"id":5,"name":"345","order":1},{"id":6,"name":"1337","order":2},{"id":7,"name":"345","order":1},{"id":8,"name":"1337","order":2}]},{"id":2,"name":"Heavy Analog Scales","items":[{"id":3,"name":"#1","order":1},{"id":4,"name":"#2","order":2}]}]};
                 console.log(report);
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name, "id":"log_name"}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":getISODate(new Date())},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":localStorage.first_name + " " + localStorage.last_name}]}]};
                 $(htmlElement).append(logHeader(header));
@@ -20,7 +20,7 @@ function loadLogForm(htmlElement){
                 /*$("#send_report").click(function(){
                     sendGmpPackingPreopReport();
                 });*/
-                $('.log_title').html($("#log_name").text());
+                $('.log_title').html(report.log_name);
                 Materialize.toast("Informacion cargada del server", 3000, "rounded");
             } else {
                 Materialize.toast("Some error", 3000, "rounded");
@@ -42,7 +42,9 @@ function loadFunctionality(data){
 // be shared among all log types
 
 function loadReport(data){
-
+    var testData = {"report_id":1,"created_by":"Victor Miracle","approved_by":"God","creation_date":"12/12/2012","approval_date":"12/12/2012","zone_name":"LAW","program_name":"GMP","module_name":"Packing","log_name":"Scale Calibration","notes":"Notas del reporte","corrective_action":"Ni idea si es texto y opciones","types":[{"id":1,"name":"Digital Scales","time":"23:59","items":[{"order":1,"name":"5545","test":453,"status":true,"is_sanitized":true},{"order":2,"name":"1337","test":452,"status":true,"is_sanitized":true},{"order":3,"name":"9001","test":451,"status":true,"is_sanitized":true}]},{"id":2,"name":"Heavy Analog Scales","time":"23:58","items":[{"order":1,"name":"#1","test":10,"status":true,"is_sanitized":true},{"order":2,"name":"#2","test":10,"status":true,"is_sanitized":true},{"order":3,"name":"#3","test":10,"status":true,"is_sanitized":true}]}]};
+    return scaleCalibrationReport(testData);
+    //return scaleCalibrationReport(data);
 }
 
 /******************************************************************************
@@ -282,7 +284,7 @@ function scaleCalibrationReport(data){
 // languages.xml, not strings
 
 function scaleCalibrationHeader(){
-    var header = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"area_title areaColumn"},{"type":"th","classes":"time_title timeColumn"},{"type":"th","classes":"number_title numberColumn"},{"type":"th","classes":"name_title nameColumn"},{"type":"th","classes":"status_title statusColumn"},{"type":"th","classes":"action_title actionColumn"},{"type":"th","classes":"comment_title commentColumn"}]}]};
+    var header = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"time_title timeColumn"},{"type":"th","classes":"number_title numberColumn"},{"type":"th","classes":"test_title testColumn"},{"type":"th","classes":"status_title statusColumn"},{"type":"th","classes":"sanitized_title sanitizedColumn"}]}]};
 
     return header;
 }
@@ -295,48 +297,82 @@ function scaleCalibrationBody(data){
 
     body.rows = new Array();
 
-    for(var area of data.areas){
-        var firstRowFlag = true;
-        for(var type of area.types){
-            console.log(type);
-            var row = {"type":"tr"};
-            row.columns = new Array();
-            if(firstRowFlag){
-                var rowspan = area.types.length;
-                for(var count of area.types){
-                    rowspan += count.items.length;
-                }
-                row.columns.push(gmpPackingPreopReportAreaName(area.name, rowspan));
-                row.columns.push(gmpPackingPreopReportAreaTime(area.time, rowspan));
-                row.columns.push(gmpPackingPreopReportTypeTitle(type.name, 5));
-                firstRowFlag = false;
-            } else {
-                row.columns.push(gmpPackingPreopReportTypeTitle(type.name, 5));
+    var firstRowFlag = true;
+    for(var type of data.types){
+        var row = {"type":"tr"};
+        row.columns = new Array();
+        if(firstRowFlag){
+            var rowspan = types.length;
+            for(var count of data.types){
+                rowspan += count.items.length;
             }
-            body.rows.push(row);
-            for(var item of type.items){
-                var itemRow = {"type":"tr"};
-                itemRow.columns = gmpPackingPreopReportItem(item);
-                body.rows.push(itemRow);
-            }
+            row.columns.push(scaleCalibrationReportTypeTime(type.time, rowspan));
+            row.columns.push(scaleCalibrationReportTypeTitle(type.name, 4));
+            firstRowFlag = false;
+        } else {
+            row.columns.push(scaleCalibrationReportTypeTitle(type.name, 4));
         }
-        var notesRow = {"type":"tr"};
-        var sanitationRow = {"type":"tr"};
-        notesRow.columns = [gmpPackingPreopReportAreaNotes(area.notes, 7)];
-        sanitationRow.columns = [gmpPackingPreopReportAreaSanitation(area.person_performing_sanitation, 7)];
-        body.rows.push(notesRow);
-        body.rows.push(sanitationRow);
+        for(var item of type.items){
+            var itemRow = {"type":"tr"};
+            itemRow.columns = scaleCalibrationReportItem(item);
+            body.rows.push(itemRow);
+        }
     }
 
     var reportNotesRow = {"type":"tr"};
-    var reportAlbumURL = {"type":"tr"};
-    reportNotesRow.columns = [gmpPackingPreopReportNotes(data.notes, 7)];
-    reportAlbumURL.columns = [gmpPackingPreopReportAlbumURL(data.album_url, 7)];
+    var reportActionsRow = {"type":"tr"};
+    reportNotesRow.columns = [scaleCalibrationReportNotes(data.notes, 5)];
+    reportActionsRow.columns = [scaleCalibrationReportAction(data.corrective_action, 5)];
 
     body.rows.push(reportNotesRow);
-    body.rows.push(reportAlbumURL);
+    body.rows.push(reportActionsRow);
 
     return body;
+}
+
+function scaleCalibrationReportTypeTime(time, rowspan){
+    var typeTime = {"type":"td","classes":"timeColumn","rowspan":rowspan,"contents":time};
+
+    return typeTime;
+}
+
+function scaleCalibrationReportTypeTitle(title, colspan){
+    var typeTitle = {"type":"td","classes":"typeTitle","colspan":colspan,"contents":title};
+
+    return typeTitle;
+}
+
+function scaleCalibrationReportItem(itemData){
+    var item = new Array();
+
+    item.push({"type":"td","classes":"nameColumn","contents":itemData.name});
+    item.push({"type":"td","classes":"testColumn","contents":itemData.test});
+    if(itemData.status){
+        item.push({"type":"td","classes":"statusColumn pass_tag"});
+    } else {
+        item.push({"type":"td","classes":"statusColumn fail_tag"});
+    }
+    if(itemData.is_sanitized){
+        item.push({"type":"td","classes":"statusColumn yes_tag"});
+    } else {
+        item.push({"type":"td","classes":"statusColumn no_tag"});
+    }    
+
+    console.log(item);
+
+    return item;
+}
+
+function scaleCalibrationReportNotes(notes, colspan){
+    var reportNotes = {"type":"td","classes":"fullColumn","colspan":colspan,"contents":"<span class='report_notes_title'></span>: " + notes};
+
+    return reportNotes;
+}
+
+function scaleCalibrationReportAction(action, colspan){
+    var reportNotes = {"type":"td","classes":"fullColumn","colspan":colspan,"contents":"<span class='action_title'></span>: " + notes};
+
+    return reportNotes;
 }
 
 // Footer

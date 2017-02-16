@@ -618,6 +618,16 @@
         <spanish>Base limpiada</spanish>
     </translation>
 
+    <translation id="yes_tag">
+        <english>Yes</english>
+        <spanish>Si</spanish>
+    </translation>
+
+    <translation id="no_tag">
+        <english>No</english>
+        <spanish>No</spanish>
+    </translation>
+
     <translation id="acceptable_tag">
         <english>Acceptable</english>
         <spanish>Aceptable</spanish>
