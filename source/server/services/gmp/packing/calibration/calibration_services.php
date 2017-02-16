@@ -53,7 +53,7 @@ $gmpPackingCalServices = [
         ],
         'callback' => 'fsm\services\gmp\packing\calibration\getReportData'
     ],
-    'log-gmp-packing-calibration' => [
+    'log-gmp-packing-scale-calibration' => [
         'requirements_desc' => [
             'logged_in' => ['Manager', 'Supervisor', 'Employee'],
             'has_privilege' => [
@@ -65,7 +65,7 @@ $gmpPackingCalServices = [
         ],
         'callback' => 'fsm\services\gmp\packing\calibration\getSaclesOfZone'
     ],
-    'capture-gmp-packing-calibration' => [
+    'capture-gmp-packing-scale-calibration' => [
         'requirements_desc' => [
             'logged_in' => ['Employee'],
             'has_privilege' => [
