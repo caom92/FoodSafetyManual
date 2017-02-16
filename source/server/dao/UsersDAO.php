@@ -239,6 +239,13 @@ class UsersDAO extends DataAccessObject
             ['id' => $userID]
         );
     }
+
+
+    // Returns the ID of the user with the especified eployee number
+    function getIDByEmployeeNum($employeeNum)
+    {
+        return parent::get('id', ['employee_num' => $employeeNum]);
+    }
 }
 
 ?>

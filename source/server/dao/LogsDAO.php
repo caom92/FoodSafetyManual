@@ -118,6 +118,32 @@ class LogsDAO extends DataAccessObject
             ]
         );
     }
+
+
+    // Returns the list of all the logs that the user with the especified 
+    // employee number is missing a privilege
+    function selectThoseTheUserIsMissing($employeeNum)
+    {
+        return parent::$dataBase->query(
+            "SELECT
+                p.id AS program_id,
+                p.name AS program_name,
+                m.id AS module_id,
+                m.name AS module_name,
+                l.id AS log_id,
+                l.name AS log_name,
+                l.name_suffix AS log_suffix
+            FROM $this->table AS l
+            INNER JOIN modules AS m 
+                ON l.module_id = m.id
+            INNER JOIN programs AS p 
+                ON m.program_id = p.id
+            INNER JOIN users AS u 
+                ON u.employee_num = $employeeNum
+            INNER JOIN users_logs_privileges AS ulp 
+                ON ulp.log_id != l.id AND ulp.id = u.id"
+        )->fetchAll();
+    }
 }
 
 ?>
