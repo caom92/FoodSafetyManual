@@ -24,7 +24,7 @@ $gmpPackingCalServices = [
                 'privilege' => 'Read',
                 'program' => 'GMP',
                 'module' => 'Packing',
-                'log' => 'Daily Scale Calibration'
+                'log' => 'Daily Scale Calibration Check'
             ],
             'files' => [
                 'name' => 'manual_files',
@@ -40,7 +40,7 @@ $gmpPackingCalServices = [
                 'privilege' => ['Read', 'Write'],
                 'program' => 'GMP',
                 'module' => 'Packing',
-                'log' => 'Daily Scale Calibration'
+                'log' => 'Daily Scale Calibration Check'
             ],
             'start_date' => [
                 'type' => 'datetime',
@@ -60,7 +60,7 @@ $gmpPackingCalServices = [
                 'privilege' => ['Read', 'Write'],
                 'program' => 'GMP',
                 'module' => 'Packing',
-                'log' => 'Daily Scale Calibration'
+                'log' => 'Daily Scale Calibration Check'
             ]
         ],
         'callback' => 'fsm\services\gmp\packing\calibration\getSaclesOfZone'
@@ -72,7 +72,7 @@ $gmpPackingCalServices = [
                 'privilege' => 'Write',
                 'program' => 'GMP',
                 'module' => 'Packing',
-                'log' => 'Daily Scale Calibration'
+                'log' => 'Daily Scale Calibration Check'
             ],
             'date' => [
                 'type' => 'datetime',
@@ -146,7 +146,7 @@ function getReportData($request)
         $request['start_date'],
         $request['end_date'],
         $logs->getIDByNames(
-            'GMP', 'Packing', 'Daily Scale Calibration'
+            'GMP', 'Packing', 'Daily Scale Calibration Check'
         ),
         $_SESSION['zone_id']
     );
@@ -227,7 +227,7 @@ function getReportData($request)
             'zone_name' => $_SESSION['zone_name'],
             'program_name' => 'GMP',
             'module_name' => 'Packing',
-            'log_name' => 'Daily Scale Calibration',
+            'log_name' => 'Daily Scale Calibration Check',
             'notes' => $logDate['extra_info1'],
             'corrective_action' => $logDate['extra_info2'],
             'types' => $scaleTypeLogs
@@ -298,7 +298,7 @@ function getScalesOfZone($request)
         'zone_name' => $_SESSION['zone_name'],
         'program_name' => 'GMP',
         'module_name' => 'Packing',
-        'log_name' => 'Daily Scale Calibration',
+        'log_name' => 'Daily Scale Calibration Check',
         'types' => $scaleList
     ];
 }
@@ -315,7 +315,7 @@ function registerLogEntry($request)
 
     // get the ID of the log that we are working with
     $logID = $logs->getIDByNames(
-        'GMP', 'Packing', 'Daily Scale Calibration'
+        'GMP', 'Packing', 'Daily Scale Calibration Check'
     );
 
     // insert the capture date and the ID of the reportee user
