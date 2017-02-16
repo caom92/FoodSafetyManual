@@ -197,13 +197,8 @@ function scaleCalibrationItem(item, typeID){
     var itemCard = $("<div>");    
     var itemRow = new Object();
 
-    //itemRow.columns = [scaleCalibrationItemTitle(item, typeID), scaleCalibrationItemStatus(item, typeID), scaleCalibrationItemSanitation(item, typeID)];
     itemRow.columns = [scaleCalibrationItemTitle(item, typeID), scaleCalibrationItemTest(item, typeID), scaleCalibrationItemStatus(item, typeID), scaleCalibrationItemSanitation(item, typeID)];
 
-
-    console.log(itemRow);
-
-    console.log(createInputRow(itemRow));
     itemCard.append(createInputRow(itemRow).attr("style", "margin-top:15px;"));
     itemCard.addClass("item-card");
     itemCard.data("id", item.id);
@@ -350,7 +345,7 @@ function scaleCalibrationBody(data){
         var row = {"type":"tr"};
         row.columns = new Array();
         if(firstRowFlag){
-            var rowspan = types.length;
+            var rowspan = data.types.length;
             for(var count of data.types){
                 rowspan += count.items.length;
             }
@@ -360,6 +355,7 @@ function scaleCalibrationBody(data){
         } else {
             row.columns.push(scaleCalibrationReportTypeTitle(type.name, 4));
         }
+        body.rows.push(row);
         for(var item of type.items){
             var itemRow = {"type":"tr"};
             itemRow.columns = scaleCalibrationReportItem(item);
@@ -418,7 +414,7 @@ function scaleCalibrationReportNotes(notes, colspan){
 }
 
 function scaleCalibrationReportAction(action, colspan){
-    var reportNotes = {"type":"td","classes":"fullColumn","colspan":colspan,"contents":"<span class='action_title'></span>: " + notes};
+    var reportNotes = {"type":"td","classes":"fullColumn","colspan":colspan,"contents":"<span class='action_title'></span>: " + action};
 
     return reportNotes;
 }
@@ -427,4 +423,8 @@ function scaleCalibrationReportAction(action, colspan){
 
 function scaleCalibrationFooter(data){
 
+}
+
+function getCSS(){
+    return '';
 }
