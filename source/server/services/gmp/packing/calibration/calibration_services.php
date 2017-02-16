@@ -140,6 +140,7 @@ function getReportData($request)
     $capturedLogs = new db\CapturedLogsDAO();
     $timeLogs = new cal\TimeLogsDAO();
     $users = new db\UsersDAO();
+    $logs = new db\LogsDAO();
 
     // then, we get the captured logs' date info 
     $logDates = $capturedLogs->selectByDateIntervalLogIDAndZoneID(
@@ -211,16 +212,20 @@ function getReportData($request)
         }
 
         // push the last entries to the final storage
-        if ($scaleLogs['type_id'] != 0) {
+        if ($scaleLogs['id'] != 0) {
             array_push($scaleTypeLogs, $scaleLogs);
         } 
+
+        $supervisor = $users->getNameByID($logDate['supervisor_id']);
+        $employee = $users->getNameByID($logDate['employee_id']);
 
         // push the resulting array of per scale type logs to the final report 
         // storage
         array_push($reports, [
             'report_id' => $logDate['id'],
-            'created_by' => $users->getNameByID($logDate['employee_id']),
-            'approved_by' => $users->getNameByID($logDate['supervisor_id']),
+            'created_by' => $employee['first_name'].' '.$employee['last_name'],
+            'approved_by' => (isset($supervisor['first_name'])) ?
+                $supervisor['first_name'].' '.$supervisor['last_name'] : 'N/A',
             'creation_date' => $logDate['capture_date'],
             'approval_date' => (isset($logDate['approval_date'])) ?
                 $logDate['approval_date'] : 'N/A',
@@ -233,6 +238,8 @@ function getReportData($request)
             'types' => $scaleTypeLogs
         ]);
     }
+
+    return $reports;
 }
 
 
