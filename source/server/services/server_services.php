@@ -78,6 +78,15 @@ $serverServices = [
             'logged_in' => ['Administrator']
         ],
         'callback' => 'fsm\services\server\getAllProgramsModulesAndLogs'
+    ],
+    'get-log-manual-url' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor', 'Employee'],
+            'log-suffix' => [
+                'type' => 'string'
+            ]
+        ],
+        'callback' => 'fsm\services\server\getManualURL'
     ]
 ];
 
@@ -249,6 +258,23 @@ function getAllProgramsModulesAndLogs($request)
     }
 
     return $programs;
+}
+
+
+// Returns the URL where the manual PDF file is located for the log with the
+// especified suffix
+function getManualURL($request) 
+{
+    $url = 'data/documents/manuals/';
+    switch ($request['suffix']) {
+        case 'gmp-packing-preop': $url .= 'gmp/preop/'; break;
+        case 'gmp-packing-scale-calibration': $url .= 'gmp/calibration/'; break;
+        default: 
+            throw new \Exception(
+                'The especified suffix does not correspond to any log'
+            );
+        break;
+    }
 }
 
 ?>
