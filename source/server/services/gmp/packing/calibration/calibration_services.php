@@ -262,7 +262,7 @@ function getScalesOfZone($request)
         if ($hasTypeChanged) {
             // if the scale type changed, check if we already have scale info.
             // waiting to be stored 
-            if ($scaleData['type_id'] != 0) {
+            if ($scaleData['id'] != 0) {
                 // if we do, store it in the final array
                 array_push($scaleList, $scaleData);
             } 
@@ -274,7 +274,7 @@ function getScalesOfZone($request)
                 'name' => $row['type_name'],
                 'items' => [[
                     'id' => $row['id'],
-                    'name' => $row['scale_name'],
+                    'name' => $row['name'],
                     'order' => $row['order']
                 ]]
             ];
@@ -283,14 +283,14 @@ function getScalesOfZone($request)
             // data to the list of scales for the current scale type
             array_push($scaleData['items'], [
                 'id' => $row['id'],
-                'name' => $row['scale_name'],
+                'name' => $row['name'],
                 'order' => $row['order']
             ]);
         }
     }
 
     // push the last elements to the list of scales
-    if ($scale['type_id'] != 0) {
+    if ($scaleData['id'] != 0) {
         array_push($scaleList, $scaleData);
     }    
 

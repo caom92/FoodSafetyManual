@@ -102,6 +102,22 @@ class LogsDAO extends DataAccessObject
             ]
         );
     }
+
+
+    // Returns the URL of the log with the especified suffix where the manual 
+    // PDF file is located
+    function getManualURLBySuffix($suffix)
+    {
+        return parent::get(
+            [
+                'manual_url(manual_location)',
+                'name(log_name)'
+            ],
+            [
+                'name_suffix' => $suffix
+            ]
+        );
+    }
 }
 
 ?>
