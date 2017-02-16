@@ -16,7 +16,8 @@ LayoutManager = function(root, container)
         'login',
         'report-problem',
         'password-recovery',
-        'logs'
+        'logs',
+        'modules'
     ];
 }
 

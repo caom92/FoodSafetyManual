@@ -63,6 +63,7 @@ function changeLanguage(lang, callback){
         lang = getLanguage();
     }
     if(lang == "es") {
+        setLanguage("es");
         if(localStorage.spanish == undefined){
             $.ajax({
                 url: $root + 'data/files/languages.xml',
@@ -92,6 +93,7 @@ function changeLanguage(lang, callback){
             $('select').material_select();
         }
     } else if (lang == "en") {
+        setLanguage("en");
         if(localStorage.english == undefined){
             $.ajax({
                 url: $root + 'data/files/languages.xml',

@@ -76,6 +76,9 @@ function createField(fieldObject){
         if(fieldObject.type == "radioGroup"){
             field = createRadioGroup(fieldObject);
         }
+        if(fieldObject.type == "checkbox"){
+            field = createCheckbox(fieldObject);
+        }
         if(fieldObject.type == "text"){
             field = createText(fieldObject);
         }
@@ -298,6 +301,49 @@ function createRadioOption(radioObject, groupName){
         radioWrapper.append(createLabel(radioObject.label));
 
     return radioWrapper;
+}
+
+/*
+Checkbox Object
+{
+    "type":"checkbox",
+    "id":"id",
+    "classes": "classes",
+    "value": any value,
+    "checked": true or false,
+    "disabled": true or false,
+    "label": Label Object
+}
+*/
+
+function createCheckbox(checkboxObject){
+    var checkbox = $("<input>");
+
+    checkbox.attr("type", "checkbox");
+
+    if(checkboxObject.id)
+        checkbox.attr("id", checkboxObject.id);
+
+    if(checkboxObject.classes)
+        checkbox.addClass(checkboxObject.classes);
+
+    if(checkboxObject.value != undefined)
+        checkbox.attr("value", checkboxObject.value);
+
+    if(checkboxObject.checked)
+        checkbox.prop("checked", true);
+
+    if(checkboxObject.disabled)
+        checkbox.prop("disabled", true);
+
+    if($.type(checkboxObject.data) == "object"){
+        checkbox.data(checkboxObject.data);
+    }
+
+    if($.type(checkboxObject.label) == "object")
+        checkboxWrapper.append(createLabel(checkboxObject.label));
+
+    return checkbox;
 }
 
 /*

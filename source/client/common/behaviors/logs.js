@@ -38,7 +38,7 @@ $(function() {
         $(".logs_tab").parent().remove();
         $('ul.tabs').tabs();
         $('.indicator').addClass("green");
-        $(".log_title").html("Pre-Operational Inspection");
+        //$(".log_title").html("Pre-Operational Inspection");
         changeLanguage(localStorage.defaultLanguage);
     }
 
@@ -66,11 +66,10 @@ $(function() {
         $("#report-tab-content").html("");
     });
 
-    changeLanguage(localStorage.defaultLanguage);
-
     $('ul.tabs').tabs();
     $('.indicator').addClass("green");
     createDatePicker();
+    changeLanguage();
     pdfUploader();
 });
 
