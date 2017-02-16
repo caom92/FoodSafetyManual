@@ -23,36 +23,56 @@ class TimeLogsDAO extends db\DataAccessObject
     // the especified captured log ID
     function selectByCaptureDateID($logID)
     {
-        return parent::select(
-            [
-                'time',
-                's.type_id(type_id)',
-                'st.name(type_name)',
-                's.position(order)',
-                's.serial_num(scale_name)',
-                'sl.test(test)',
-                'sl.was_test_passed(status)',
-                'sl.was_scale_sanitized(is_sanitized)'
-            ],
-            [
-                'capture_date_id' => $logID,
-                'ORDER' => [
-                    'type_id',
-                    'scale_name'
-                ]
-            ],
-            [
-                '[><]gmp_packing_calibration_scale_logs(sl)' => [
-                    'id' => 'time_log_id'
-                ],
-                '[><]gmp_packing_calibration_scales(s)' => [
-                    'sl.scale_id' => 'id'
-                ],
-                '[><]gmp_packing_calibration_scale_types(st)' => [
-                    's.type_id' => 'id'
-                ]
-            ]
-        );
+        return parent::$dataBase->query(
+            "SELECT
+                DATE_FORMAT(time, '%H:%i') AS time,
+                s.type_id AS type_id,
+                st.name AS type_name,
+                s.position AS order,
+                s.serial_num AS scale_name,
+                sl.test AS test,
+                sl.was_test_passed AS status,
+                sl.was_scale_sanitized AS is_sanitized
+            FROM $this->table
+            INNER JOIN gmp_packing_calibration_scale_logs AS sl
+                ON $this->table.id = sl.time_log_id
+            INNER JOIN gmp_packing_calibration_scale AS s
+                ON sl.scale_id = s.id
+            INNER JOIN gmp_packing_scale_types AS st
+                ON s.type_id = st.id
+            WHERE capture_date_id = $logID
+            ORDER BY type_id, scale_name"
+        )->fetchAll();
+        // return parent::select(
+        //     [
+        //         'time',
+        //         's.type_id(type_id)',
+        //         'st.name(type_name)',
+        //         's.position(order)',
+        //         's.serial_num(scale_name)',
+        //         'sl.test(test)',
+        //         'sl.was_test_passed(status)',
+        //         'sl.was_scale_sanitized(is_sanitized)'
+        //     ],
+        //     [
+        //         'capture_date_id' => $logID,
+        //         'ORDER' => [
+        //             'type_id',
+        //             'scale_name'
+        //         ]
+        //     ],
+        //     [
+        //         '[><]gmp_packing_calibration_scale_logs(sl)' => [
+        //             'id' => 'time_log_id'
+        //         ],
+        //         '[><]gmp_packing_calibration_scales(s)' => [
+        //             'sl.scale_id' => 'id'
+        //         ],
+        //         '[><]gmp_packing_calibration_scale_types(st)' => [
+        //             's.type_id' => 'id'
+        //         ]
+        //     ]
+        // );
     }
 
 

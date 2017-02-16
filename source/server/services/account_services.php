@@ -639,9 +639,9 @@ function getPrivilegesOfUser($request)
 
         // before we start, we must check if the user has privileges assigned to
         // ALL logs in the database
-        $missingLogs = 
-            $logs->selectThoseTheUserIsMissing($request['employee_num']);
-        $isUserMissingLogs = count($missingLogs) > 0;
+        $allLogs = 
+            $logs->selectAll();
+        $isUserMissingLogs = count($rows) < count($allLogs);
 
         // if the user is missing logs in its privileges array...
         if ($isUserMissingLogs) {
@@ -653,13 +653,33 @@ function getPrivilegesOfUser($request)
             // stored in the data base
             $newPrivileges = [];
 
-            // each of the missing log is pushed to the list of new privileges
-            foreach ($missingLogs as $log) {
-                array_push($newPrivileges, [
-                    'user_id' => $userID,
-                    'log_id' => $log['log_id'],
-                    'privilege_id' => $privilegeID
-                ]);
+            // then, visit all the logs from the data base
+            foreach ($allLogs as $log) {
+                // initialize a flag that will tell if the user is missing a 
+                // privilege for this log
+                $isLogMissing = true;
+
+                // then, visit the logs for which the user has a privilege 
+                // assigned
+                foreach ($rows as $privilegedLog) {
+                    // if the log has a privilege assigned, update the flag and 
+                    // break the loop
+                    if ($privilegedLog['log_id'] == $log['log_id']) {
+                        $isLogMissing = false;
+                        break;
+                    }
+                }
+
+                // if the user does not have a privilege assigned for the log,
+                // push it to the array of new privileges to be assigned to the 
+                // user
+                if ($isLogMissing) {
+                    array_push($newPrivileges, [
+                        'user_id' => $userID,
+                        'log_id' => $log['log_id'],
+                        'privilege_id' => $privilegeID
+                    ]);
+                }
             }
 
             // insert the new privileges to the data base
