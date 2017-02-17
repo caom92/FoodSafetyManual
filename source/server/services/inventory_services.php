@@ -214,7 +214,7 @@ function toggleActivationOfItem($request)
 
 
 // Adds a new inventory item to the specified area
-function addNewItem() 
+function addNewItem($request) 
 {
     // first connect to the data base
     $items = new db\ItemsDAO();
