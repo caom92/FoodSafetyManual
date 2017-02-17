@@ -145,7 +145,7 @@ $gmpPackingPreopServices = [
             ],
             'notes' => [
                 'type' => 'string',
-                'max_length' => 80
+                'max_length' => 256
             ],
             'album_url' => [
                 'type' => 'string',
@@ -181,7 +181,7 @@ $gmpPackingPreopServices = [
                             'comment' => [
                                 'type' => 'string',
                                 'optional' => true,
-                                'max_length' => 80
+                                'max_length' => 128
                             ]
                         ]
                     ]

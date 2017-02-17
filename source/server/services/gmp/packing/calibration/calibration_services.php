@@ -63,7 +63,8 @@ $gmpPackingCalServices = [
                 'log' => 'Daily Scale Calibration Check'
             ]
         ],
-        'callback' => 'fsm\services\gmp\packing\calibration\getScalesOfZone'
+        'callback' => 
+            'fsm\services\gmp\packing\calibration\getActiveScalesOfZone'
     ],
     'capture-gmp-packing-scale-calibration' => [
         'requirements_desc' => [
@@ -80,7 +81,7 @@ $gmpPackingCalServices = [
             ],
             'notes' => [
                 'type' => 'string',
-                'max_length' => 80
+                'max_length' => 256
             ],
             'corrective_action' => [
                 'type' => 'string',
@@ -119,6 +120,77 @@ $gmpPackingCalServices = [
             ]
         ],
         'callback' => 'fsm\services\gmp\packing\calibration\registerLogEntry'
+    ],
+    'get-scales-of-zone' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'has_privileges' => [
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Daily Scale Calibration Check',
+                'privilege' => 'Write'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\calibration\getScalesOfZone'
+    ],
+    'toggle-scale-activation' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'has_privileges' => [
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Daily Scale Calibration Check',
+                'privilege' => 'Write'
+            ],
+            'scale_id' => [
+                'type' => 'int',
+                'min' => 1
+            ]
+        ],
+        'callback' => 
+            'fsm\services\gmp\packing\calibration\toggleActivationOfScale'
+    ],
+    'change-order-of-scale' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'has_privileges' => [
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Daily Scale Calibration Check',
+                'privilege' => 'Write'
+            ],
+            'scale_id' => [
+                'type' => 'int',
+                'min' => 1
+            ],
+            'position' => [
+                'type' => 'int'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\calibration\changeScalePosition'
+    ],
+    'add-new-scale' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'has_privileges' => [
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Daily Scale Calibration Check',
+                'privilege' => 'Write'
+            ],
+            'zone_id' => [
+                'type' => 'int',
+                'min' => 1
+            ],
+            'type_id' => [
+                'type' => 'int',
+                'min' => 1
+            ],
+            'scale_name' => [
+                'type' => 'int'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\calibration\addNewScale'
     ]
 ];
 
@@ -246,7 +318,7 @@ function getReportData($request)
 // [***]
 // Returns an associative array that contains the list of scales that are 
 // registered in the especified zone
-function getScalesOfZone($request)
+function getActiveScalesOfZone($request)
 {
     // first, connect to the data base
     $scales = new cal\ScalesDAO();
@@ -361,6 +433,108 @@ function registerLogEntry($request)
 
     // insert the resulting array of per scale log data to the data base
     $scaleLogs->insert($scaleLogEntries);
+}
+
+
+// [***]
+// Returns a list of all the scales registred in the especified zone
+function getScalesOfZone($request)
+{
+    // first, connect to the data base
+    $scales = new cal\ScalesDAO();
+
+    // then get the data from the table
+    $rows = $scales->selectAllByZoneID($_SESSION['zone_id']);
+
+    // initialize the temporal storage for the list of scales 
+    $scaleList = [];
+
+    // initialize the temporal storage for the data of each scale
+    $scaleData = [
+        'id' => 0
+    ];
+
+    // visit each row that was read from the table
+    foreach ($rows as $row) {
+        // check if the scale type changed
+        $hasTypeChanged = $scaleData['id'] != $row['type_id'];
+        if ($hasTypeChanged) {
+            // if the scale type changed, check if we already have scale info.
+            // waiting to be stored 
+            if ($scaleData['id'] != 0) {
+                // if we do, store it in the final array
+                array_push($scaleList, $scaleData);
+            } 
+
+            // create a new temporal storage for the logs of the current 
+            // scale type
+            $scaleData = [
+                'id' => $row['type_id'],
+                'name' => $row['type_name'],
+                'items' => [[
+                    'id' => $row['id'],
+                    'name' => $row['name'],
+                    'order' => $row['order']
+                ]]
+            ];
+        } else {
+            // if the scale type has not change, push the current scale
+            // data to the list of scales for the current scale type
+            array_push($scaleData['items'], [
+                'id' => $row['id'],
+                'name' => $row['name'],
+                'order' => $row['order']
+            ]);
+        }
+    }
+
+    // push the last elements to the list of scales
+    if ($scaleData['id'] != 0) {
+        array_push($scaleList, $scaleData);
+    }    
+
+    return $scaleList;
+}
+
+
+// Toggles the activation fo the especified scale on or off
+function toggleActivationOfScale($request)
+{
+    $items = new cal\ScalesDAO();
+    $items->toggleActivationByID($request['scale_id']);
+}
+
+
+// Changes the position of the specified scale
+function changeScalePosition($request)
+{
+    $scales = new cal\ScalesDAO();
+    $scales->updatePositionByID($request['scale_id'], $request['position']);
+}
+
+
+// Adds a new scale to the specified zone
+function addNewScale($request) 
+{
+    // first connect to the data base
+    $scales = new cal\ScalesDAO();
+
+    // count the number of scales in this zone
+    // so we can compute the position of this scale and add it
+    // in the last position
+    $numScalesInZone = $scales->countByZoneAndTypeIDs(
+        $_SESSION['zone_id'],
+        $request['type_id']
+    );
+
+    // store the item in the data base 
+    return $items->insert([
+        'is_active' => TRUE,
+        'zone_id' => $_SESSION['zone_id'],
+        'type_id' => $request['type_id'],
+        'position' => $numScalesInZone + 1,
+        'serial_num' => $request['scale_name']
+    ]);
 }
 
 ?>
