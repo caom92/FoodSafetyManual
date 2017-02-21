@@ -60,7 +60,7 @@ like switches, files and ranges.
 Field Object
 {
     "type": "input", "select", "textarea", "button", "switch", "file", "range"
-    "fieldType": "text", "password", "submit", "radio"
+    "fieldType": "text", "password"
 }
 */
 
@@ -79,8 +79,17 @@ function createField(fieldObject){
         if(fieldObject.type == "checkbox"){
             field = createCheckbox(fieldObject);
         }
+        if(fieldObject.type == "switch"){
+            field = createSwitch(fieldObject);
+        }
         if(fieldObject.type == "text"){
             field = createText(fieldObject);
+        }
+        if(fieldObject.type == "button"){
+            field = createButton(fieldObject);
+        }
+        if(fieldObject.type == "floating"){
+            field = createFloatingButton(fieldObject);
         }
     }
     return field;
@@ -204,7 +213,7 @@ function createOption(optionObject){
     if(optionObject.classes)
         option.addClass(optionObject.classes);
 
-    if(optionObject.value)
+    if(optionObject.value != undefined)
         option.attr("value", optionObject.value);
 
     if(optionObject.disabled)
@@ -347,6 +356,64 @@ function createCheckbox(checkboxObject){
 }
 
 /*
+Switch Object
+{
+    "type":"switch",
+    "id":"id",
+    "classes": "classes",
+    "value": any value,
+    "checked": true or false,
+    "disabled": true or false,
+    "onLabel": Label Object,
+    "offLabel": Label Object,
+    "data":
+}
+*/
+
+function createSwitch(switchObject){
+    var switchWrapper = $("<div>");
+    var labelWrapper = $("<label>");
+    var switchInput = $("<input>");
+    var switchLever = $("<span>");
+
+    switchWrapper.addClass("switch");
+    switchInput.attr("type", "checkbox");
+    switchLever.addClass("lever");
+
+    if(switchObject.id)
+        switchInput.attr("id", switchObject.id);
+
+    if(switchObject.classes)
+        switchInput.addClass(switchObject.classes);
+
+    if(switchObject.value)
+        switchInput.attr("value", switchObject.value);
+
+    if(switchObject.checked)
+        switchInput.prop("checked", true);
+
+    if(switchObject.disabled)
+        switchInput.prop("disabled", true);
+
+    if($.type(switchObject.data) == "object"){
+        switchInput.data(switchObject.data);
+    }
+
+    if(switchObject.offLabel)
+        labelWrapper.append(createLabel(switchObject.offLabel));
+
+    labelWrapper.append(switchInput);
+    labelWrapper.append(switchLever);
+
+    if(switchObject.onLabel)
+        labelWrapper.append(createLabel(switchObject.onLabel));
+
+    switchWrapper.append(labelWrapper);
+
+    return switchWrapper;
+}
+
+/*
 Label Object
 {
     "type": "label",
@@ -486,6 +553,31 @@ function createButton(buttonObject){
     buttonWrapper.append(button);
 
     return buttonWrapper;
+}
+
+/*
+Floating Button Object
+{
+    "type":"button",
+    "id": ,
+    "classes": ,
+    "icon": iconObject
+}
+*/
+
+function createFloatingButton(buttonObject){
+    var floatingButton = $("<a>");
+
+    if(buttonObject.id)
+        floatingButton.attr("id", buttonObject.id);
+
+    if(buttonObject.classes)
+        floatingButton.addClass(buttonObject.classes);
+
+    if(buttonObject.icon)
+        floatingButton.append(createIcon(buttonObject.icon));
+
+    return floatingButton;
 }
 
 function getISODate(date){

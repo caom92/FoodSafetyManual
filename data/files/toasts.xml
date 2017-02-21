@@ -111,6 +111,11 @@
         <spanish>El nombre de la zona no puede encontrarse vacío</spanish>
     </translation>
 
+    <translation id="is-workplace-area-empty">
+        <english>Zone name can't be empty</english>
+        <spanish>El nombre de la zona no puede encontrarse vacío</spanish>
+    </translation>
+
     <translation id="duplicated_fields">
         <english>Please correct the duplicate fields</english>
         <spanish>Modifique los campos que ya se encuentran registrados</spanish>
@@ -124,6 +129,11 @@
     <translation id="zone_registered">
         <english>Zone registered successfully</english>
         <spanish>La zona se ha registrado con éxito</spanish>
+    </translation>
+
+    <translation id="workplace_area_registered">
+        <english>Workplace area registered succesfully</english>
+        <spanish>Área de trabajo agregada con éxito</spanish>
     </translation>
 
     <translation id="session_active">

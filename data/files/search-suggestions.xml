@@ -29,4 +29,9 @@
         <english>Add item...</english>
         <spanish>Añadir elemento...</spanish>
     </translation>
+
+    <translation id="add_workplace_area">
+        <english>Add workplace area...</english>
+        <spanish>Añadir área de trabajo...</spanish>
+    </translation>
 </translations>
