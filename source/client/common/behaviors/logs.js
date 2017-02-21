@@ -38,7 +38,6 @@ $(function() {
         $(".logs_tab").parent().remove();
         $('ul.tabs').tabs();
         $('.indicator').addClass("green");
-        $(".log_title").html("Pre-Operational Inspection");
         changeLanguage(localStorage.defaultLanguage);
     }
 
@@ -61,16 +60,16 @@ $(function() {
     $("#request_report").click(function(){
         loadReports(
             $("input[name='start_hidden']").val(),
-            $("input[name='end_hidden']").val()
+            $("input[name='end_hidden']").val(),
+            getParams._
         );
         $("#report-tab-content").html("");
     });
 
-    changeLanguage(localStorage.defaultLanguage);
-
     $('ul.tabs').tabs();
     $('.indicator').addClass("green");
     createDatePicker();
+    changeLanguage();
     pdfUploader();
 });
 
@@ -305,19 +304,18 @@ function reportLoaderCard(data){
     return reportCard;
 }
 
-function loadReports(startDate, endDate){
+function loadReports(startDate, endDate, suffix){
     var data = new Object();
     data.start_date = startDate;
     data.end_date = endDate;
 
     $server.request({
-        service: 'report-gmp-packing-preop',
+        service: 'report-' +  suffix,
         data: data,
         success: function(response) {
             if (response.meta.return_code == 0) {
                 var pdfReportURL = "source/server/report/reportPDF.php";
                 var pdfParams = "?start_date=" + startDate + "&end_date=" + endDate;
-                //$("#request_pdf").attr("href", pdfReportURL + pdfParams);
                 $('#request_pdf').show();
 
                 var wrapper = $("#report-tab-index");

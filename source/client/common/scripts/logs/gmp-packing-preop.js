@@ -5,13 +5,11 @@
 // be shared among all log types
 
 function loadLogForm(htmlElement){
-    console.log("Wrapper was called to load log form");
     $server.request({
         service: 'log-gmp-packing-preop',
         success: function(response) {
             if (response.meta.return_code == 0) {
                 var report = response.data;
-                console.log(report);
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name, "id":"log_name"}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":getISODate(new Date())},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":localStorage.first_name + " " + localStorage.last_name}]}]};
                 $(htmlElement).append(logHeader(header));
                 gmpPackingPreopLog(report, htmlElement);
@@ -31,7 +29,6 @@ function loadLogForm(htmlElement){
 }
 
 function loadPrefilledLogForm(htmlElement, data){
-    console.log("Wrapper was called for a prefilled log form");
     $server.request({
         service: 'report-gmp-packing-preop',
         data: data,
@@ -57,7 +54,6 @@ function loadPrefilledLogForm(htmlElement, data){
 }
 
 function loadFunctionality(data){
-    console.log("Wrapper was called to trigger functionality");
     gmpPackingPreopFunctionality(data);
 }
 
@@ -108,8 +104,6 @@ function sendGmpPackingPreopReport(){
         report.areas.push(area);
     });
 
-    console.log(report);
-
     $server.request({
         service: 'capture-gmp-packing-preop',
         data: report,
@@ -156,8 +150,6 @@ function updateGmpPackingPreopReport(reportID){
         report.areas.push(area);
     });
 
-    console.log(report);
-
     $server.request({
         service: 'update-gmp-packing-preop',
         data: report,
@@ -177,7 +169,6 @@ function gmpPackingPreopLog(data, htmlElement){
     var log = $("<div>");
     var additionalData = $("<div>");
 
-    console.log(data);
     for(var area of data.areas){
         log.append(gmpPackingPreopArea(area));
     }
@@ -317,10 +308,10 @@ function gmpPackingPreopItemTitle(item, areaID){
 }
 
 function gmpPackingPreopItemStatus(item, areaID){
-    var acceptableIcon = {"type":"text","classes":"acceptable_tag green-text big"};
-    var unacceptableIcon = {"type":"text","classes":"unacceptable_tag red-text big"};
-    var radioAcceptable = {"type":"radio","id":"acceptable_" + item.id,"classes":"timeChanger","value":"true","label":{"type":"label","for":"acceptable_" + item.id,"contents": acceptableIcon},"data":{"area_id":areaID,"item_id":item.id}};
-    var radioUnacceptable = {"type":"radio","id":"unacceptable_" + item.id,"classes":"timeChanger","value":"false","label":{"type":"label","for":"unacceptable_" + item.id,"contents": unacceptableIcon},"data":{"area_id":areaID,"item_id":item.id}};
+    var acceptableIcon = {"type":"text","classes":"acceptable_tag big"};
+    var unacceptableIcon = {"type":"text","classes":"unacceptable_tag big"};
+    var radioAcceptable = {"type":"radio","id":"acceptable_" + item.id,"classes":"timeChanger","value":"true","label":{"type":"label","classes":"black-text","for":"acceptable_" + item.id,"contents": acceptableIcon},"data":{"area_id":areaID,"item_id":item.id}};
+    var radioUnacceptable = {"type":"radio","id":"unacceptable_" + item.id,"classes":"timeChanger","value":"false","label":{"type":"label","classes":"black-text","for":"unacceptable_" + item.id,"contents": unacceptableIcon},"data":{"area_id":areaID,"item_id":item.id}};
     var itemRadioGroup = {"type": "radioGroup", "id":"radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"radio_" + item.id,"radioArray":[radioAcceptable, radioUnacceptable]};
     var groupInput = {"id":"radioWrapper_" + item.id,"classes":"col s8 m8 l4","field":itemRadioGroup};
 
@@ -396,6 +387,10 @@ function gmpPackingPreopFunctionality(data){
             if($(this).is(":checked")){
                 var tag = $(this).attr("id");
                 var id = tag.match(/[0-9]+/g);
+                $('label[for="acceptable_'+id[0]+'"]').removeClass("black-text");
+                $('label[for="acceptable_'+id[0]+'"]').addClass("green-text text-darken-2");
+                $('label[for="unacceptable_'+id[0]+'"]').removeClass("red-text");
+                $('label[for="unacceptable_'+id[0]+'"]').addClass("black-text");
                 $("#correctiveActionWrapper_" + id[0]).hide(500);
                 $("#commentWrapper_" + id[0]).hide(500);
             }
@@ -405,6 +400,10 @@ function gmpPackingPreopFunctionality(data){
             if($(this).is(":checked")){
                 var tag = $(this).attr("id");
                 var id = tag.match(/[0-9]+/g);
+                $('label[for="acceptable_'+id[0]+'"]').addClass("black-text");
+                $('label[for="acceptable_'+id[0]+'"]').removeClass("green-text text-darken-2");
+                $('label[for="unacceptable_'+id[0]+'"]').addClass("red-text");
+                $('label[for="unacceptable_'+id[0]+'"]').removeClass("black-text");
                 $("#correctiveActionWrapper_" + id[0]).show(500);
                 $("#commentWrapper_" + id[0]).show(500);
             }
@@ -424,9 +423,6 @@ function gmpPackingPreopReport(data){
     report.thead = gmpPackingPreopReportHeader();
     report.tbody = gmpPackingPreopReportBody(data);
     report.tfoot = gmpPackingPreopReportFooter(data);
-
-    console.log(JSON.stringify(report));
-    console.log(report);
 
     return report;
 }
@@ -452,7 +448,6 @@ function gmpPackingPreopReportBody(data){
     for(var area of data.areas){
         var firstRowFlag = true;
         for(var type of area.types){
-            console.log(type);
             var row = {"type":"tr"};
             row.columns = new Array();
             if(firstRowFlag){
@@ -517,8 +512,6 @@ function gmpPackingPreopReportItem(itemData){
     }    
     item.push({"type":"td","classes":"actionColumn","contents":itemData.corrective_action});
     item.push({"type":"td","classes":"commentColumn","contents":itemData.comment});
-
-    console.log(item);
 
     return item;
 }

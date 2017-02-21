@@ -471,6 +471,11 @@
         <spanish>Bitácoras</spanish>
     </translation>
 
+    <translation id="modules_title">
+        <english>Module</english>
+        <spanish>Módulo</spanish>
+    </translation>
+
     <translation id="inventory_position">
         <english>Position</english>
         <spanish>Posición</spanish>
@@ -603,6 +608,26 @@
         <spanish>Comentarios</spanish>
     </translation>
 
+    <translation id="test_title">
+        <english>Test</english>
+        <spanish>Prueba</spanish>
+    </translation>
+
+    <translation id="sanitized_title">
+        <english>Sanitized Base</english>
+        <spanish>Base limpiada</spanish>
+    </translation>
+
+    <translation id="yes_tag">
+        <english>Yes</english>
+        <spanish>Si</spanish>
+    </translation>
+
+    <translation id="no_tag">
+        <english>No</english>
+        <spanish>No</spanish>
+    </translation>
+
     <translation id="acceptable_tag">
         <english>Acceptable</english>
         <spanish>Aceptable</spanish>
@@ -611,6 +636,16 @@
     <translation id="unacceptable_tag">
         <english>Unacceptable</english>
         <spanish>No aceptable</spanish>
+    </translation>
+
+    <translation id="pass_tag">
+        <english>Pass</english>
+        <spanish>Pasó</spanish>
+    </translation>
+
+    <translation id="fail_tag">
+        <english>Fail</english>
+        <spanish>Falló</spanish>
     </translation>
 
     <translation id="notes_title">

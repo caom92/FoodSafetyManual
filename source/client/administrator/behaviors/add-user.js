@@ -163,7 +163,7 @@ function addModulesCollapsible(programs, maxPrivilege){
                 logsArray.push(log);
             }
             $("#program_collapsible").append(addModuleWrapper(null, null, addModuleHeader(null, null, module.name),
-             addModuleBody(null, null, logsArray, maxPrivilege)));
+            addModuleBody(null, null, logsArray, maxPrivilege)));
         }
     }
     $("#log_select_wrapper").parent().show();

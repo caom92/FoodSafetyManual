@@ -111,6 +111,11 @@
         <spanish>El nombre de la zona no puede encontrarse vacío</spanish>
     </translation>
 
+    <translation id="is-workplace-area-empty">
+        <english>Zone name can't be empty</english>
+        <spanish>El nombre de la zona no puede encontrarse vacío</spanish>
+    </translation>
+
     <translation id="duplicated_fields">
         <english>Please correct the duplicate fields</english>
         <spanish>Modifique los campos que ya se encuentran registrados</spanish>
@@ -124,6 +129,11 @@
     <translation id="zone_registered">
         <english>Zone registered successfully</english>
         <spanish>La zona se ha registrado con éxito</spanish>
+    </translation>
+
+    <translation id="workplace_area_registered">
+        <english>Workplace area registered succesfully</english>
+        <spanish>Área de trabajo agregada con éxito</spanish>
     </translation>
 
     <translation id="session_active">
@@ -169,5 +179,40 @@
     <translation id="pending_alert">
         <english> new pending authorizations</english>
         <spanish> nuevas autorizaciones pendientes</spanish>
+    </translation>
+
+    <translation id="user_zone_modified">
+        <english>The user zone has been changed to </english>
+        <spanish>La zona del usuario ha sido cambiada a </spanish>
+    </translation>
+
+    <translation id="supervisor_has_employees_zone">
+        <english>A supervisor can't change its zone while it has employees assigned</english>
+        <spanish>El supervisor no puede cambiar su zona mientras tenga empleados asignados</spanish>
+    </translation>
+
+    <translation id="supervisor_has_employees_role">
+        <english>A supervisor can't change its role while it has employees assigned</english>
+        <spanish>El supervisor no puede cambiar su role mientras tenga empleados asignados</spanish>
+    </translation>
+
+    <translation id="generic_error">
+        <english>There was an error; your action was not completed</english>
+        <spanish>Hubo un error; no se pudo completar la acción</spanish>
+    </translation>
+
+    <translation id="privileges_updated">
+        <english>Privileges updated</english>
+        <spanish>Permisos actualizados</spanish>
+    </translation>
+
+    <translation id="privileges_unchanged">
+        <english>You haven't changed the user privileges</english>
+        <spanish>No ha modificado los privilegios del usuario</spanish>
+    </translation>
+
+    <translation id="role_modified">
+        <english>User role has been modified to </english>
+        <spanish>El rol del usuario ha sido cambiado a </spanish>
     </translation>
 </translations>

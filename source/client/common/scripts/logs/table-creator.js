@@ -30,14 +30,26 @@ function table(tableData){
     if(tableData.classes)
         table.addClass(tableData.classes);
 
-    if(tableData.thead)
+    if($.type(tableData.thead) == "object")
         table.append(tableHeader(tableData.thead));
+    else if($.type(tableData.thead) == "array"){
+        for(var header of tableData.thead)
+            table.append(tableHeader(header));
+    }
 
-    if(tableData.tfoot)
+    if($.type(tableData.tfoot) == "object")
         table.append(tableFooter(tableData.tfoot));
+    else if($.type(tableData.tfoot) == "array"){
+        for(var footer of tableData.tfoot)
+            table.append(tableFooter(footer));
+    }
 
-    if(tableData.tbody)
+    if($.type(tableData.tbody) == "object")
         table.append(tableBody(tableData.tbody));
+    else if($.type(tableData.tbody) == "array"){
+        for(var body of tableData.tbody)
+            table.append(tableBody(body));
+    }
 
     return table;
 }
@@ -237,8 +249,10 @@ function tableColumn(columnData){
     if(columnData.rowspan)
         column.attr("rowspan", columnData.rowspan);
 
-    if(columnData.contents)
-        column.append(columnData.contents);
+    if($.type(columnData.contents) == "object")
+        column.append(createInput(columnData.contents));
+    else //if($.type(columnData.contents) == "string")
+        column.append(columnData.contents)
 
     return column;
 }
