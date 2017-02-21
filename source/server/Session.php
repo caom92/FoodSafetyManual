@@ -26,7 +26,8 @@ class Session
     {
         ini_set('session.name', 'SessionCookie');
         ini_set('session.hash_function', 'sha512');
-        ini_set('session.referer_check', $_SERVER['HTTP_HOST'].SITE_ROOT);
+        ini_set('session.cookie_httponly', '1');
+        ini_set('session.use_strict_mode', '1');
         @session_start();
     }
 
@@ -418,7 +419,10 @@ class Session
             // required depending on the role of the user and create the final 
             // data structure the holds the user's profile information that 
             // will be sent to the client
+            session_regenerate_id();
             $clientProfile = $this->constructUserProfileArray($userData);
+            $_SESSION['fingerprint'] = hash('sha512', 
+                $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
             return $clientProfile;
         } else {
             throw new \Exception('Log in credentials are incorrect.');
@@ -430,6 +434,41 @@ class Session
     function isOpen()
     {
         return isset($_SESSION['user_id']);
+    }
+
+
+    // Checks if the session is open and if the fingerprint is set
+    // appropietly
+    function check()
+    {
+        // first, check if the session is open
+        if ($this->isOpen()) {
+            // then, check if the fingerprint is set
+            if (!isset($_SESSION['fingerprint'])) {
+                // if not, close the session and notify the user
+                $this->close();
+                throw new \Exception(
+                    'Session cookie is missing the fingerprint');
+            }
+
+            // if it is, check that it is the correct fingerprint
+            $isFingerprintCorrect = 
+                $_SESSION['fingerprint'] 
+                == hash('sha512', 
+                    $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
+
+            // if the fingerprint is different, there is the risk this session 
+            // cookie is a stolen one, so we close the session and throw an
+            // exception
+            if (!$isFingerprintCorrect) {
+                $this->close();
+                throw new \Exception(
+                    "The session cookie's fingerprint is incorrect");
+            }
+        } else {
+            // if not, throw an exception
+            throw new \Exception('The user is not logged in');
+        }
     }
 
 

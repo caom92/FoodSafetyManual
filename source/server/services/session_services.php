@@ -58,7 +58,15 @@ function logOut($request)
 function isLoggedIn($request) 
 {
     $session = new fsm\Session();
-    return $session->isOpen();
+    try {
+        $session->check();
+    } catch (\Exception $e) {
+        if ($e->getMessage() == 'The user is not logged in') {
+            return false;
+        }
+        throw $e;
+    }
+    return true;
 }
 
 ?>

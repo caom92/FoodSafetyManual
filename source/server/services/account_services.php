@@ -74,7 +74,8 @@ $accountServices = [
             ],
             'user_id' => [
                 'type' => 'int',
-                'min' => 1
+                'min' => 1,
+                'optional' => true
             ]
         ],
         'callback' => 'fsm\services\account\editPassword'
@@ -230,6 +231,17 @@ $accountServices = [
     ]
 ];
 
+
+// Resets the session ID for the current session
+function resetSessionID()
+{
+    $userID = $_SESSION['user_id'];
+    $_SESSION['user_id'] = NULL;
+    session_regenerate_id();
+    $_SESSION['user_id'] = $userID;
+}
+
+
 // Returns a list of all the active users
 function getAllUsersAccountInfo($request) 
 {
@@ -347,14 +359,6 @@ function editPassword($request)
         && array_key_exists('user_id', $request)
         && $_SESSION['role_name'] === 'Administrator';
 
-    // if the user is intending to update another's password, make sure the
-    // provided ID is a valid value
-    if ($isUpdatingOtherPassword) {
-        throw new \Exception(
-            'User ID is not an integer value.'
-        );
-    }
-
     // store the new password in the data base 
     $users->updatePasswordByUserID(
         ($isUpdatingOtherPassword) ? $request['user_id'] : $_SESSION['user_id'],
@@ -362,7 +366,8 @@ function editPassword($request)
     );
 
     // save the new password in the session storage
-    if ($isUpdatingOtherPassword) {
+    if (!$isUpdatingOtherPassword) {
+        resetSessionID();
         $_SESSION['login_password'] = $newPasswd;
     }
 }
@@ -815,6 +820,7 @@ function changeZoneOfDirector($request)
     }
 
     // update the zone info associated with the account's session
+    resetSessionID();
     $_SESSION['zone_id'] = $zone['id'];
     $_SESSION['zone_name'] = $zone['name'];
 

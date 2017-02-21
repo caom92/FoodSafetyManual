@@ -301,32 +301,29 @@ class Controller
             'logged_in' => function($name, $value, $options) {
                 // if it does, check if the user is logged in
                 $session = new Session();
-                $isLoggedIn = $session->isOpen();
+                $session->check();
 
-                if ($isLoggedIn) {
-                    // if she is, then check if the service is expecting
-                    // the user to have an specific role
-                    $mustCheckRoles = $options !== 'any';
-                    if ($mustCheckRoles) {
-                        // retrieve the current role of the user
-                        $role = $_SESSION['role_name'];
-                        $hasProperRole = false;
+                // if she is, then check if the service is expecting
+                // the user to have an specific role
+                $mustCheckRoles = $options !== 'any';
+                if ($mustCheckRoles) {
+                    // retrieve the current role of the user
+                    $role = $_SESSION['role_name'];
+                    $hasProperRole = false;
 
-                        // check if the user's role correspond to any of
-                        // the roles that the service is expecting
-                        foreach ($options as $requiredRole) {
-                            if ($role === $requiredRole) {
-                                $hasProperRole = true;
-                                break;
-                            }
-                        }
-
-                        if (!$hasProperRole) {
-                            throw new \Exception('User does not have the proper role.');
+                    // check if the user's role correspond to any of
+                    // the roles that the service is expecting
+                    foreach ($options as $requiredRole) {
+                        if ($role === $requiredRole) {
+                            $hasProperRole = true;
+                            break;
                         }
                     }
-                } else {
-                    throw new \Exception('User is not logged in.');
+
+                    if (!$hasProperRole) {
+                        throw new \Exception(
+                            'User does not have the proper role.');
+                    }
                 }
             },
             'has_privilege' => function($name, $value, $options) {
@@ -515,6 +512,8 @@ class Controller
                     // if the argument was not send by the client and it was not
                     // optional, we throw an exception
                     throw new \Exception("Input argument $attribute is undefined");
+                } else {
+                    continue;
                 }
             } else {
                 // if the rule is to be decided by the attribute name, get the
