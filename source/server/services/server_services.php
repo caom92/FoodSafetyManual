@@ -2,11 +2,7 @@
 
 namespace fsm\services\server;
 
-require_once realpath(dirname(__FILE__).'/../dao/DataAccessObject.php');
 require_once realpath(dirname(__FILE__).'/../Email.php');
-require_once realpath(dirname(__FILE__).'/../dao/LogsDAO.php');
-require_once realpath(dirname(__FILE__).'/../dao/CapturedLogsDAO.php');
-
 
 use fsm\database as db;
 
@@ -91,18 +87,21 @@ $serverServices = [
 ];
 
 // Checks if the data base server is available for use
-function checkStatus($request) 
+function checkStatus($scope, $request) 
 {
     return isset(db\DataAccessObject::$dataBase);
 }
 
 
 // Sends a bug report by email
-function mailBugReport($request) 
+function mailBugReport($scope, $request) 
 {   
+    // get session segment
+    $segment = $scope->session->getSegment('fsm');
+
     // Create the email body by pasting all the posted data into it
-    $body = "Usuario: " . $_SESSION["login-name"] . "<br>"
-        . "ID de empleado: " . $_SESSION["user_id"] . "<br>"
+    $body = "Usuario: " . $segment->get("login-name") . "<br>"
+        . "ID de empleado: " . $segment->get("user_id") . "<br>"
         . "Zona: " . $request["zone-selection"] . "<br>"
         . "Programa: " . $request["procedure-selection"] . "<br>"
         . "Modulo: " . $request['module-selection'] . "<br>"
@@ -167,11 +166,10 @@ function mailBugReport($request)
 
 // [***]
 // Lists all the programs, their modules and their logs
-function getAllProgramsModulesAndLogs($request)
+function getAllProgramsModulesAndLogs($scope, $request)
 {
     // first, connect to the data base and get the logs data
-    $logs = new db\LogsDAO();
-    $rows = $logs->selectAll();
+    $rows = $scope->logs->selectAll();
 
     // then create the final storage where the programs are going to be stored
     $programs = [];
@@ -263,10 +261,9 @@ function getAllProgramsModulesAndLogs($request)
 
 // Returns the URL where the manual PDF file is located for the log with the
 // especified suffix
-function getManualURL($request) 
+function getManualURL($scope, $request) 
 {
-    $logs = new db\LogsDAO();
-    $row = $logs->getManualURLBySuffix($request['log-suffix']);
+    $row = $scope->logs->getManualURLBySuffix($request['log-suffix']);
     $row['manual_location'] = 'data/documents/'.$row['manual_location'];
     return $row;
 }

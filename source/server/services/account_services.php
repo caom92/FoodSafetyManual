@@ -2,15 +2,6 @@
 
 namespace fsm\services\account;
 
-require_once realpath(dirname(__FILE__).'/../dao/UsersDAO.php');
-require_once realpath(dirname(__FILE__).'/../dao/ZonesDAO.php');
-require_once realpath(dirname(__FILE__).'/../dao/PrivilegesDAO.php');
-require_once realpath(dirname(__FILE__).'/../dao/RolesDAO.php');
-require_once realpath(dirname(__FILE__).'/../dao/UsersLogsPrivilegesDAO.php');
-require_once realpath(dirname(__FILE__).'/../dao/SupervisorsEmployeesDAO.php');
-
-use fsm\database as db;
-
 
 $accountServices = [
     'list-users' => [
@@ -233,30 +224,28 @@ $accountServices = [
 
 
 // Resets the session ID for the current session
-function resetSessionID()
+function resetSessionID($session, $segment)
 {
-    $userID = $_SESSION['user_id'];
-    $_SESSION['user_id'] = NULL;
-    session_regenerate_id();
-    $_SESSION['user_id'] = $userID;
+    $userID = $segment->get('user_id');
+    $segment->set('user_id', NULL);
+    $session->regenerateId();
+    $segment->set('user_id', $userID);
 }
 
 
 // Returns a list of all the active users
-function getAllUsersAccountInfo($request) 
+function getAllUsersAccountInfo($scope, $request) 
 {
-    $users = new db\UsersDAO();
-    return $users->selectAll();
+    return $scope->users->selectAll();
 }
 
 
 // Returns the profile info of the specified user
-function getUserAccountInfo($request) 
+function getUserAccountInfo($scope, $request) 
 {
-    $users = new db\UsersDAO();
-    $assignments = new db\SupervisorsEmployeesDAO();
-    $userInfo = $users->getByIdentifier($request['employee_num']);
-    $supervisorID = $assignments->getSupervisorIDByUserID($userInfo['user_id']);
+    $userInfo = $scope->users->getByIdentifier($request['employee_num']);
+    $supervisorID = $scope->supervisorsEmployees->getSupervisorIDByUserID(
+        $userInfo['user_id']);
 
     return [
         'id' => $userInfo['user_id'],
@@ -274,38 +263,32 @@ function getUserAccountInfo($request)
 
 
 // Checks if the log in name is duplicated
-function isLogInNameDuplicated($request) 
+function isLogInNameDuplicated($scope, $request) 
 {
-    // first we connect to the database
-    $users = new db\UsersDAO();
-
     // then we check if the name is duplicated
-    return $users->hasByLogInName($request['login_name']);
+    return $scope->users->hasByLogInName($request['login_name']);
 }
 
 
 // Checks if the employee ID number is duplicated
-function isEmployeeNumDuplicated($request) 
+function isEmployeeNumDuplicated($scope, $request) 
 {
-    // first we connect to the database
-    $users = new db\UsersDAO();
-
     // then we check if the name is duplicated
-    return $users->hasByEmployeeNum($request['employee_num']);
+    return $scope->users->hasByEmployeeNum($request['employee_num']);
 }
 
 
 // Changes the log in name of the user
-function editLogInName($request) 
+function editLogInName($scope, $request) 
 {
-    // first we connect to the database
-    $users = new db\UsersDAO();
+    // get the session segment
+    $segment = $scope->getSegment('fsm');
 
     // then we check if the name is duplicated and if the password is valid
-    $isNameDuplicated = $users->hasByLogInName($request['new_username']);
+    $isNameDuplicated = $scope->users->hasByLogInName($request['new_username']);
     $isPasswordValid = password_verify(
         $request['password'],
-        $_SESSION['login_password']
+        $segment->get('login_password')
     );
     
     if ($isNameDuplicated) {
@@ -323,24 +306,22 @@ function editLogInName($request)
     // if the password is not duplicated and the password is valid, then
     // update the user name
     $users->updateLogInNameByUserID(
-        $_SESSION['user_id'],
+        $segment->get('user_id'),
         $request['new_username']
     );
-
-    return [];
 }
 
 
 // Changes the user log in password
-function editPassword($request) 
+function editPassword($scope, $request) 
 {
-    // first, connect to the data base
-    $users = new db\UsersDAO();
+    // get the session segment
+    $segment = $scope->getSegment('fsm');
 
     // check if the password is valid
     $isPasswordValid = password_verify(
         $request['password'], 
-        $_SESSION['login_password']
+        $segment->get('login_password')
     );
 
     if (!$isPasswordValid) {
@@ -357,38 +338,37 @@ function editPassword($request)
     $isUpdatingOtherPassword = 
         isset($request['user_id'])
         && array_key_exists('user_id', $request)
-        && $_SESSION['role_name'] === 'Administrator';
+        && $segment->get('role_name') === 'Administrator';
 
     // store the new password in the data base 
-    $users->updatePasswordByUserID(
-        ($isUpdatingOtherPassword) ? $request['user_id'] : $_SESSION['user_id'],
+    $scope->users->updatePasswordByUserID(
+        ($isUpdatingOtherPassword) ? 
+            $request['user_id'] : $segment->get('user_id'),
         $newPasswd
     );
 
     // save the new password in the session storage
     if (!$isUpdatingOtherPassword) {
-        resetSessionID();
-        $_SESSION['login_password'] = $newPasswd;
+        resetSessionID($scope->session, $segment);
+        $segment->set('login_password', $newPasswd);
     }
 }
 
 
 // Toggles the activation of the specified account
-function toggleAccountActivation($request) 
+function toggleAccountActivation($scope, $request) 
 {
-    $users = new db\UsersDAO();
-    $assignments = new db\SupervisorsEmployeesDAO();
-
     // check if the user is already a supervisor so that we check the number of
     // employees she has assigned
-    $currentRole = $users->getRoleByID($request['user_id']);
+    $currentRole = $scope->users->getRoleByID($request['user_id']);
     $isCurrentlySupervisor = $currentRole === 'Supervisor';
 
     if ($isCurrentlySupervisor) {
         // if the current role is supervisor, retrieve the number of employees 
         // that she has assigned
         $numEmployees = 
-            $assignments->getNumEmployeesBySupervisorID($request['user_id']);
+            $scope->supervisorsEmployees->getNumEmployeesBySupervisorID(
+                $request['user_id']);
 
         // if she does, prevent the role change
         $hasEmployeesAssigned = $numEmployees > 0;
@@ -397,36 +377,27 @@ function toggleAccountActivation($request)
         }
     }
 
-    $users->toggleActivationByID($request['user_id']);
-    return [];
+    $scope->users->toggleActivationByID($request['user_id']);
 }
 
 
 // Returns a list of all the user privileges
-function getAllUserPrivileges($request)
+function getAllUserPrivileges($scope, $request)
 {
-    $privileges = new db\PrivilegesDAO();
-    return $privileges->selectAll();
+    return $scope->privileges->selectAll();
 }
 
 
 // Returns a list of all the user roles
-function getAllUserRoles($request)
+function getAllUserRoles($scope, $request)
 {
-    $roles = new db\RolesDAO();
-    return $roles->selectAll();
+    return $scope->roles->selectAll();
 }
 
 
 // Creates a new user account
-function addNewUserAccount($request)
+function addNewUserAccount($scope, $request)
 {
-    // first, connect to the data base
-    $users = new db\UsersDAO();
-    $roles = new db\RolesDAO();
-    $userPrivileges = new db\UsersLogsPrivilegesDAO();
-    $assignments = new db\SupervisorsEmployeesDAO();
-
     // then, hash the password
     $hashedPassword = password_hash(
         $request['login_password'],
@@ -434,7 +405,7 @@ function addNewUserAccount($request)
     );
 
     // get the role name
-    $roleName = $roles->getNameByID($request['role_id']);
+    $roleName = $scope->roles->getNameByID($request['role_id']);
 
     // user data to store in the data base
     $userData = [
@@ -487,7 +458,7 @@ function addNewUserAccount($request)
     }
 
     // insert the profile data to the data base 
-    $userID = $users->insert($userData);
+    $userID = $scope->users->insert($userData);
 
     // if a supervisor is required ...
     if ($isSupervisorRequired) {
@@ -504,10 +475,10 @@ function addNewUserAccount($request)
 
             // get the supervisor's zone and role
             $supervisorZone = 
-                $users->getZoneIDByID($request['supervisor_id']);
+                $scope->users->getZoneIDByID($request['supervisor_id']);
 
             $supervisorRole =
-                $users->getRoleByID($request['supervisor_id']);
+                $scope->users->getRoleByID($request['supervisor_id']);
 
             // check if the supervisor has the same zone as the employee
             $haveSameZone = 
@@ -519,7 +490,7 @@ function addNewUserAccount($request)
 
             // if the zone is not the same, notify the user
             if (!$haveSameZone) {
-                $users->deleteByID($userID);
+                $scope->users->deleteByID($userID);
                 throw new \Exception(
                     'The employee is in a different zone than the '.
                     'supervisor'
@@ -529,7 +500,7 @@ function addNewUserAccount($request)
             // if the supervisor does not have the proper role, notify the 
             // user
             if (!$hasSupervisorRole) {
-                $users->deleteByID($userID);
+                $scope->users->deleteByID($userID);
                 throw new \Exception(
                     'The provided supervisor ID does not correspond to a '.
                     'user with supervisor role'
@@ -538,13 +509,13 @@ function addNewUserAccount($request)
 
             // if the supervisor ID is valid and can be assigned, do the 
             // actual assignment
-            $assignments->insert([
+            $scope->supervisorsEmployees->insert([
                 'supervisor_id' => $request['supervisor_id'],
                 'employee_id' => $userID
             ]);
         } else {
             // if the supervisor ID was not provided, notify the user
-            $users->deleteByID($userID);
+            $scope->users->deleteByID($userID);
             throw new \Exception(
                 'Employees must be assigned to a supervisor; no supervisor ID '.
                 'was provided.'
@@ -559,7 +530,7 @@ function addNewUserAccount($request)
             && array_key_exists('privileges', $request);
         if (!$hasPrivileges) {
             // if it was not provided, throw an exception
-            $users->deleteByID($userID);
+            $scope->users->deleteByID($userID);
             throw new \Exception('privileges array was not provided.');
         }
 
@@ -567,8 +538,7 @@ function addNewUserAccount($request)
         // administrator for a single zone only
 
         // get the ID of the read privilege
-        $privilegesTable = new db\PrivilegesDAO();
-        $privilegeID = $privilegesTable->getIDByName('Read');
+        $privilegeID = $scope->privileges->getIDByName('Read');
 
         // create a privileges array with the proper format that medoo is 
         // expecting
@@ -584,75 +554,63 @@ function addNewUserAccount($request)
         }
 
         // store the user privileges in the data base 
-        $userPrivileges->insert($privileges);
+        $scope->usersLogsPrivileges->insert($privileges);
     }
-
-    return [];
 }
 
 
 // Changes the log privileges of an specified user
-function editPrivileges($request)
+function editPrivileges($scope, $request)
 {
-    // then, connect to the data base
-    $userPrivileges = new db\UsersLogsPrivilegesDAO();
-
     // update the log privileges of the user
     foreach ($request['privileges'] as $privilege) {
-        $id = $userPrivileges->getIDByUserAndLogID(
+        $id = $scope->usersLogsPrivileges->getIDByUserAndLogID(
             $request['user_id'],
             $privilege['log_id']
         );
 
         if (isset($id)) {
-            $userPrivileges->updatePrivilegeByID(
+            $scope->usersLogsPrivileges->updatePrivilegeByID(
                 $id,
                 $privilege['privilege_id']
             );
         } else {
-            $userPrivileges->insert([
+            $scope->usersLogsPrivileges->insert([
                 'user_id' => $request['user_id'],
                 'log_id' => $privilege['log_id'],
                 'privilege_id' => $privilege['privilege_id']
             ]);
         }
     }
-
-    return [];
 }
 
 
 // [***]
 // Returns a list of the privileges that a given user identified by its 
 // employee number has organized by log
-function getPrivilegesOfUser($request)
+function getPrivilegesOfUser($scope, $request)
 {
-    // first, connect to the data base and get the role of the user
-    $users = new db\UsersDAO();
-    $privilegesTable = new db\PrivilegesDAO();
-    $userPrivileges = new db\UsersLogsPrivilegesDAO();
-    $logs = new db\LogsDAO();
-
-    $role = $users->getRoleByEmployeeNum($request['employee_num']);
+    $role = $scope->users->getRoleByEmployeeNum($request['employee_num']);
 
     // check if the role of this user requires privileges to be read from the db
     $requiresPrivileges = $role === 'Supervisor' || $role === 'Employee';
     if ($requiresPrivileges) {
         // if the user requires its privileges to be read from the db
         // connect to the db to get them
-        $rows = $userPrivileges->selectByEmployeeNum($request['employee_num']);
+        $rows = $scope->usersLogsPrivileges->selectByEmployeeNum(
+            $request['employee_num']);
 
         // before we start, we must check if the user has privileges assigned to
         // ALL logs in the database
-        $allLogs = 
-            $logs->selectAll();
+        $allLogs = $scope->logs->selectAll();
         $isUserMissingLogs = count($rows) < count($allLogs);
 
         // if the user is missing logs in its privileges array...
         if ($isUserMissingLogs) {
             // get the ID of the user and for the None privilege
-            $userID = $users->getIDByEmployeeNum($request['employee_num']);
-            $privilegeID = $privilegesTable->getIDByName('None');
+            $userID = $scope->users->getIDByEmployeeNum(
+                $request['employee_num']);
+            $privilegeID = $scope->privileges->getIDByName('None');
 
             // create temporal storage for all the new privileges that will be 
             // stored in the data base
@@ -688,16 +646,16 @@ function getPrivilegesOfUser($request)
             }
 
             // insert the new privileges to the data base
-            $userPrivileges->insert($newPrivileges);
+            $scope->usersLogsPrivileges->insert($newPrivileges);
 
             // get the updated list of privileges
-            $rows = $userPrivileges->selectByEmployeeNum(
+            $rows = $scope->usersLogsPrivileges->selectByEmployeeNum(
                 $request['employee_num']);
         }
 
         // also get the ID of the privilege that corresponds to the Read
         // privilege from the db
-        $privilegeID = $privilegesTable->getIDByName('Read');
+        $privilegeID = $scope->privileges->getIDByName('Read');
 
         // finally check if the user is a supervisor
         $isSupervisor = $role === 'Supervisor';
@@ -805,11 +763,13 @@ function getPrivilegesOfUser($request)
 
 // Changes the zone upon which the user is acting to the one with the 
 // especified ID
-function changeZoneOfDirector($request)
+function changeZoneOfDirector($scope, $request)
 {
+    // get the session segment
+    $segment = $scope->session->getSegment('fsm');
+
     // get the info of the zone using the ID
-    $zones = new db\ZonesDAO();
-    $zone = $zones->getByID($request['zone_id']);
+    $zone = $scope->zones->getByID($request['zone_id']);
     
     // check if the zone exists
     if (!isset($zone)) {
@@ -820,9 +780,9 @@ function changeZoneOfDirector($request)
     }
 
     // update the zone info associated with the account's session
-    resetSessionID();
-    $_SESSION['zone_id'] = $zone['id'];
-    $_SESSION['zone_name'] = $zone['name'];
+    resetSessionID($scope->session, $segment);
+    $segment->set('zone_id', $zone['id']);
+    $segment->set('zone_name', $zone['name']);
 
     // return the info of the new zone
     return $zone;
@@ -830,23 +790,20 @@ function changeZoneOfDirector($request)
 
 
 // Changes the role of a user to another
-function editUserRole($request)
+function editUserRole($scope, $request)
 {
-    // first, connect to the database
-    $users = new db\UsersDAO();
-    $assignments = new db\SupervisorsEmployeesDAO();
-    $roles = new db\RolesDAO();
-
     // check if the user is already a supervisor so that we check the number of
     // employees she has assigned
-    $currentRole = $users->getRoleByID($request['user_id']);
+    $currentRole = $scope->users->getRoleByID($request['user_id']);
     $isCurrentlySupervisor = $currentRole === 'Supervisor';
 
     if ($isCurrentlySupervisor) {
         // if the current role is supervisor, retrieve the number of employees 
         // that she has assigned
         $numEmployees = 
-            $assignments->getNumEmployeesBySupervisorID();
+            $scope->supervisorsEmployees->getNumEmployeesBySupervisorID(
+                $request['user_id']
+            );
 
         // if she does, prevent the role change
         $hasEmployeesAssigned = $numEmployees > 0;
@@ -858,13 +815,14 @@ function editUserRole($request)
     // check if the user will be assigned an employee role, and if that is the 
     // case, then that means that a supervisor ID must be provided so that the
     // user gets assigned to that supervisor
-    $roleName = $roles->getNameByID($request['role_id']);
+    $roleName = $scope->roles->getNameByID($request['role_id']);
     $isSupervisorRequired = $roleName === 'Employee';
     
     // if a supervisor is required ...
     if ($isSupervisorRequired) {
         // first, check if the user already has a supervisor assigned
-        $hasSupervisor = $assignments->hasEmployeeID($request['user_id']);
+        $hasSupervisor = $scope->supervisorsEmplyees->hasEmployeeID(
+            $request['user_id']);
 
         // if the user does not have a supervisor assigned, we need to assign
         // her the one that was provided
@@ -882,10 +840,10 @@ function editUserRole($request)
 
                 // get the supervisor's zone and role
                 $supervisorZone = 
-                    $users->getZoneIDByID($request['supervisor_id']);
+                    $scope->users->getZoneIDByID($request['supervisor_id']);
 
                 $supervisorRole =
-                    $users->getRoleByID($request['supervisor_id']);
+                    $scope->users->getRoleByID($request['supervisor_id']);
 
                 // check if the supervisor has the same zone as the employee
                 $haveSameZone = 
@@ -914,7 +872,7 @@ function editUserRole($request)
 
                 // if the supervisor ID is valid and can be assigned, do 
                 // the actual assignment
-                $assignments->insert([
+                $scope->supervisorsEmployees->insert([
                     'supervisor_id' => $request['supervisor_id'],
                     'employee_id' => $userID
                 ]);
@@ -929,27 +887,24 @@ function editUserRole($request)
     }
 
     // finally, change the user role
-    $users->updateRoleByID($request['user_id'], $request['role_id']);
+    $scope->users->updateRoleByID($request['user_id'], $request['role_id']);
 }
 
 
 // Edits the zone of the especified user to the one provided
-function editZoneOfUser($request)
+function editZoneOfUser($scope, $request)
 {
-    // first, connect to the data base
-    $users = new db\UsersDAO();
-    $assignments = new db\SupervisorsEmployeesDAO();
-
     // check if the user is already a supervisor so that we check the number of
     // employees she has assigned
-    $currentRole = $users->getRoleByID($request['user_id']);
+    $currentRole = $scope->users->getRoleByID($request['user_id']);
     $isCurrentlySupervisor = $currentRole === 'Supervisor';
 
     if ($isCurrentlySupervisor) {
         // if the current role is supervisor, retrieve the number of employees 
         // that she has assigned
         $numEmployees = 
-            $assignments->getNumEmployeesBySupervisorID($request['user_id']);
+            $scope->supervisorsEmployees->getNumEmployeesBySupervisorID(
+                $request['user_id']);
 
         // if she does, prevent the role change
         $hasEmployeesAssigned = $numEmployees > 0;
@@ -958,7 +913,7 @@ function editZoneOfUser($request)
         }
     }
 
-    $users->updateZoneIDByID($request['user_id'], $request['zone_id']);
+    $scope->users->updateZoneIDByID($request['user_id'], $request['zone_id']);
 }
 
 ?>

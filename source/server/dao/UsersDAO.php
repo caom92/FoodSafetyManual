@@ -30,7 +30,8 @@ class UsersDAO extends DataAccessObject
     {
         $rows = parent::select(
             [
-                "$this->table.id(user_id)", 'r.id(role_id)', 'r.name(role_name)', 
+                "$this->table.id(user_id)", 'r.id(role_id)', 
+                'r.name(role_name)', 
                 'z.id(zone_id)', 'z.name(zone_name)', 'employee_num', 
                 'first_name', 'last_name', 'login_name', 
                 'login_password'

@@ -25,10 +25,13 @@ Controller.prototype.get = function(service, data, success, error)
         method: 'GET',
 
         // the data to be sent to the server
-        data: data,
+        data: JSON.stringify(data),
 
         // indicates that we expect to recieve a JSON object as response
         dataType: 'json',
+
+        // indicates we are sending a json
+        contentType: 'application/json; charset=UTF-8',
 
         // callback to invoque when the communication was successful
         success: success,
@@ -62,10 +65,13 @@ Controller.prototype.post = function(service, data, success, error)
             method: 'POST',
 
             // the data to be sent to the server
-            data: data,
+            data: JSON.stringify(data),
 
             // indicates that we expect to recieve a JSON object as response
             dataType: 'json',
+
+            // indicates we are sending a json
+            contentType: 'application/json; charset=UTF-8',
 
             // callback to invoque when the communication was successful
             success: success,
@@ -82,10 +88,13 @@ Controller.prototype.post = function(service, data, success, error)
             method: 'POST',
 
             // the data to be sent to the server
-            data: data,
+            data: JSON.stringify(data),
 
             // indicates that we expect to recieve a JSON object as response
             dataType: 'json',
+
+            // indicates we are sending a json
+            contentType: 'application/json; charset=UTF-8',
 
             // indicates that we don't want jQuery to transform the data into a 
             // URL query string

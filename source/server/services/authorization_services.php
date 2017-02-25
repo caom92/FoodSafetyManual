@@ -4,14 +4,6 @@
 // supervisor
 namespace fsm\services\authorizations;
 
-// Import the required files
-require_once realpath(dirname(__FILE__).'/../dao/UsersDAO.php');
-require_once realpath(dirname(__FILE__).'/../dao/SupervisorsEmployeesDAO.php');
-require_once realpath(dirname(__FILE__).'/../dao/CapturedLogsDAO.php');
-
-// Shorthands for the namespaces
-use fsm\database as db;
-
 
 $authorizationServices = [
     'list-supervisors-by-zone' => [
@@ -103,11 +95,10 @@ $authorizationServices = [
 ];
 
 // Returns a list of all the supervisors in the especified zone
-function getSupervisorsOfZone($request)
+function getSupervisorsOfZone($scope, $request)
 {
     // first connect to the database and retrieve the supervisor list
-    $users = new db\UsersDAO();
-    $rows = $users->selectSupervisorsNameByZoneID($request['zone_id']);
+    $rows = $scope->users->selectSupervisorsNameByZoneID($request['zone_id']);
 
     // temporal storage for the list of supervisors to return to the user
     $supervisors = [];
@@ -127,30 +118,28 @@ function getSupervisorsOfZone($request)
 
 // Returns a list of employee users that are assigned to the supervisor user 
 // with the especified ID
-function getEmployeesOfSupervisor($request)
+function getEmployeesOfSupervisor($scope, $request)
 {
-    $assignments = new db\SupervisorsEmployeesDAO();
-    return $assignments->selectEmployeesBySupervisorID(
+    return $scope->supervisorsEmployees->selectEmployeesBySupervisorID(
         $request['supervisor_id']
     );
 }
 
 
 // Assigns employees to their corresponding supervisors
-function assignEmployeesToSupervisors($request)
+function assignEmployeesToSupervisors($scope, $request)
 {
-    // connect to the users table in the data base
-    $users = new db\UsersDAO();
-
     // first, we need to check the input data
     foreach ($request['assignments'] as $assignment) {
         // check if the supervisor has the proper role
         $isSupervisorRole = 
-            $users->getRoleByID($assignment['supervisor_id']) == 'Supervisor';
+            $scope->users->getRoleByID($assignment['supervisor_id']) 
+            == 'Supervisor';
 
         // check if the employee has the proper role
         $isEmployeeRole =
-            $users->getRoleByID($assignment['employee_id']) == 'Employee';
+            $scope->users->getRoleByID($assignment['employee_id']) 
+            == 'Employee';
 
         // if the users do not have the proper role, notify the user
         if (!$isSupervisorRole || !$isEmployeeRole) {
@@ -162,8 +151,8 @@ function assignEmployeesToSupervisors($request)
 
         // check if the users share the same zone
         $haveSameZone = 
-            $users->getZoneIDByID($assignment['supervisor_id']) ==
-            $users->getZoneIDByID($assignment['employee_id']);
+            $scope->users->getZoneIDByID($assignment['supervisor_id']) ==
+            $scope->users->getZoneIDByID($assignment['employee_id']);
 
         // if the users are not in the same zone, notify the user
         if (!$haveSameZone) {
@@ -174,24 +163,19 @@ function assignEmployeesToSupervisors($request)
         }
     }
 
-    // if the data is correct, connect to the data base
-    $assignments = new db\SupervisorsEmployeesDAO();
-
     // insert each assignment
     foreach ($request['assignments'] as $assignment) {
-        $assignments->insert($assignment);
+        $scope->supervisorsEmployees->insert($assignment);
     }
-
-    return [];
 }
 
 
 // Returns a list of all the unapproved logs that a user has
-function getUnapprovedLogsOfUser($request)
+function getUnapprovedLogsOfUser($scope, $request)
 {
-    // first, connect to the data base
-    $capturedLogs = new db\CapturedLogsDAO();
-    $assignments = new db\SupervisorsEmployeesDAO();
+    // get the session segment
+    $segment = $scope->session->getSegment('fsm');
+    $userID = $segment->get('user_id');
 
     // prepare the temporal storage for the final logs array
     $userLogs = [
@@ -208,16 +192,18 @@ function getUnapprovedLogsOfUser($request)
     ];
 
     // check if the user is an administrator
-    if ($_SESSION['role_name'] === 'Supervisor') {
+    if ($segment->get('role_name') === 'Supervisor') {
         // then, get the list of employees that the supervisor has assigned
         $employees = 
-            $assignments->selectEmployeesBySupervisorID($_SESSION['user_id']);
+            $scope->supervisorsEmployees->selectEmployeesBySupervisorID(
+                $userID);
 
         // for each employee assigned to the supervisor...
         foreach ($employees as $employee) {
             // get the unapproved logs that where captured by the employee
             $employeeLogs =    
-                $capturedLogs->selectUnapprovedLogsByUserID($employee['id']);
+                $scope->capturedLogs->selectUnapprovedLogsByUserID(
+                    $employee['id']);
             
             // push every unapproved log to the final storage
             foreach ($employeeLogs as $log) {
@@ -269,7 +255,7 @@ function getUnapprovedLogsOfUser($request)
 
         // retrieve from the database the unapproved logs
         $unapprovedLogs = 
-            $capturedLogs->selectUnapprovedLogsByUserID($_SESSION['user_id']);
+            $scope->capturedLogs->selectUnapprovedLogsByUserID($userID);
 
         // store each one of them in the final storage
         foreach ($unapprovedLogs as $log) {
@@ -316,26 +302,25 @@ function getUnapprovedLogsOfUser($request)
 
 // Returns the number of employees that the supervisor with the especified ID 
 // has assigned
-function getNumEmployeesOfSupervisor($request)
+function getNumEmployeesOfSupervisor($scope, $request)
 {
-    $assignments = new db\SupervisorsEmployeesDAO();
-    return $assignments->getNumEmployeesBySupervisorID($request['supervisor_id']);
+    return $scope->supervisorsEmployees->getNumEmployeesBySupervisorID(
+        $request['supervisor_id']);
 }
 
 
 // Marks the status of the especified log as 'Approved'
-function approveLog($request)
+function approveLog($scope, $request)
 {
-    // first, connect to the data base
-    $capturedLogs = new db\CapturedLogsDAO();
-    $assignments = new db\SupervisorsEmployeesDAO();
+    // get session segment
+    $segment = $scope->session->getSegment('fsm');
 
     // check if the user that captured the log is assigned to the supervisor
-    $employeeID = $capturedLogs->selectUserIDByID($request['captured_log_id']);
-    $hasEmployeeAssigned = $assignments->hasSupervisorAndEmployeeID(
-        $_SESSION['user_id'], 
-        $employeeID
-    );
+    $employeeID = $scope->capturedLogs->selectUserIDByID(
+        $request['captured_log_id']);
+    $hasEmployeeAssigned = 
+        $scope->supervisorsEmployees->hasSupervisorAndEmployeeID(
+            $segment->get('user_id'), $employeeID);
     
     // if the user is not assigned to the supervisor, prevent the update and
     // notify the user
@@ -348,7 +333,7 @@ function approveLog($request)
 
     // if the supervisor is authorized to approve this log, update the log 
     // status
-    $capturedLogs->updateStatusToApprovedByID(
+    $scope->capturedLogs->updateStatusToApprovedByID(
         $request['captured_log_id'],
         $request['date']
     );
@@ -356,18 +341,17 @@ function approveLog($request)
 
 
 // Marks the status of the especified log as 'Rejected'
-function rejectLog($request)
+function rejectLog($scope, $request)
 {
-    // first, connect to the data base
-    $capturedLogs = new db\CapturedLogsDAO();
-    $assignments = new db\SupervisorsEmployeesDAO();
+    // get session segment
+    $segment = $scope->session->getSegment('fsm');
 
     // check if the user that captured the log is assigned to the supervisor
-    $employeeID = $capturedLogs->selectUserIDByID($request['captured_log_id']);
-    $hasEmployeeAssigned = $assignments->hasSupervisorAndEmployeeID(
-        $_SESSION['user_id'], 
-        $employeeID
-    );
+    $employeeID = $scope->capturedLogs->selectUserIDByID(
+        $request['captured_log_id']);
+    $hasEmployeeAssigned = 
+        $scope->supervisorsEmployees->hasSupervisorAndEmployeeID(
+            $segment->get('user_id'), $employeeID);
     
     // if the user is not assigned to the supervisor, prevent the update and
     // notify the user
@@ -380,7 +364,8 @@ function rejectLog($request)
 
     // check if the log is already approved
     $isApproved = 
-        $capturedLogs->getStatusByID($request['captured_log_id']) == 'Approved';
+        $scope->capturedLogs->getStatusByID($request['captured_log_id']) 
+        == 'Approved';
     if ($isApproved) {
         // if it is, prevent the status change and notify the user
         throw new \Exception(
@@ -390,36 +375,39 @@ function rejectLog($request)
 
     // if the supervisor is authorized to approve this log, update the log 
     // status
-    $capturedLogs->updateStatusToRejectedByID($request['captured_log_id']);
+    $scope->capturedLogs->updateStatusToRejectedByID(
+        $request['captured_log_id']);
 }
 
 
 // Returns the number of logs that the user has with pending authorization
-function countPendingLogs($request)
+function countPendingLogs($scope, $request)
 {
-    // first, connect to the data base
-    $capturedLogs = new db\CapturedLogsDAO();
-    $assignments = new db\SupervisorsEmployeesDAO();
+    // get session segment
+    $segment = $scope->session->getSegment('fsm');
+    $userID = $segment->get('user_id');
 
     // temporal storage for the number of pending logs
     $numPendingLogs = 0;
 
     // check if the user is a supervisor
-    if ($_SESSION['role_name'] === 'Supervisor') {
+    if ($segment->get('role_name') === 'Supervisor') {
         // then, get the list of employees that the supervisor has assigned
         $employees = 
-            $assignments->selectEmployeesBySupervisorID($_SESSION['user_id']);
+            $scope->supervisorsEmployees->selectEmployeesBySupervisorID(
+                $userID);
 
         // for each employee assigned to the supervisor...
         foreach ($employees as $employee) {
-            $numPendingLogs += $capturedLogs->countUnapprovedLogsByUserID(
+            $numPendingLogs += $scope->capturedLogs->countUnapprovedLogsByUserID
+            (
                 $employee['id']
             );
         }
     } else {
         // if the user is not a supervisor, it means she's an employee
-        $numPendingLogs += $capturedLogs->countUnapprovedLogsByUserID(
-            $_SESSION['user_id']
+        $numPendingLogs += $scope->capturedLogs->countUnapprovedLogsByUserID(
+            $userID
         );
     }
 

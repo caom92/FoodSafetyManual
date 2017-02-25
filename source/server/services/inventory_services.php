@@ -2,12 +2,6 @@
 
 namespace fsm\services\inventory;
 
-require_once realpath(dirname(__FILE__).'/../dao/WorkingAreasDAO.php');
-require_once realpath(dirname(__FILE__).'/../dao/ItemsDAO.php');
-require_once realpath(dirname(__FILE__).'/../dao/ItemTypesDAO.php');
-
-use fsm\database as db;
-
 
 $inventoryServices = [
     'get-areas-of-zone' => [
@@ -103,14 +97,14 @@ $inventoryServices = [
 ];
 
 
-function addWorkingAreaToZone($request)
-{
-    // first connect to the database
-    $areas = new db\WorkingAreasDAO();
-    
+function addWorkingAreaToZone($scope, $request)
+{   
+    // get session segment
+    $segment = $scope->session->getSegment('fsm');
+
     // insert the new area
-    $id = $areas->insert([
-        'zone_id' => $_SESSION['zone_id'],
+    $id = $scope->workingAreas->insert([
+        'zone_id' => $segment->get('zone_id'),
         'name' => $request['area_name']
     ]);
 
@@ -122,19 +116,17 @@ function addWorkingAreaToZone($request)
 
 
 // Lists the areas of the specified zone
-function getWorkingAreasOfZone($request) 
+function getWorkingAreasOfZone($scope, $request) 
 {
-    $areas = new db\WorkingAreasDAO();
-    return $areas->selectByZoneID($_SESSION['zone_id']);
+    return $scope->workingAreas->selectByZoneID($segment->get('zone_id'));
 }
 
 
 // Lists the items in the specified area
-function getItemsOfWorkingArea($request) 
+function getItemsOfWorkingArea($scope, $request) 
 {
     // first, get the items from the data base
-    $items = new db\ItemsDAO();
-    $rows = $items->selectByAreaID($request['area_id']);
+    $rows = $scope->items->selectByAreaID($request['area_id']);
 
     // temporal storage for the items organized by type
     $types = [];
@@ -197,38 +189,32 @@ function getItemsOfWorkingArea($request)
 
 
 // List all the item types
-function getAllItemTypes($request)
+function getAllItemTypes($scope, $request)
 {
-    $types = new db\ItemTypesDAO();
-    return $types->selectAll();
+    return $scope->itemTypes->selectAll();
 }
 
 
 // Toggles the activation of the specified item
-function toggleActivationOfItem($request) 
+function toggleActivationOfItem($scope, $request) 
 {
-    $items = new db\ItemsDAO();
-    $items->toggleActivationByID($request['item_id']);
-    return [];
+    $scope->items->toggleActivationByID($request['item_id']);
 }
 
 
 // Adds a new inventory item to the specified area
-function addNewItem($request) 
+function addNewItem($scope, $request) 
 {
-    // first connect to the data base
-    $items = new db\ItemsDAO();
-
     // count the number of items in this area
     // so we can compute the position of this item and add it
     // in the last position
-    $numItemsInArea = $items->countByAreaAndTypeIDs(
+    $numItemsInArea = $scope->items->countByAreaAndTypeIDs(
         $request['area_id'],
         $request['type_id']
     );
 
     // store the item in the data base 
-    return $items->insert([
+    return $scope->items->insert([
         'area_id' => $request['area_id'],
         'type_id' => $request['type_id'],
         'is_active' => TRUE,
@@ -239,22 +225,21 @@ function addNewItem($request)
 
 
 // Changes the position of the specified item
-function changeItemPosition($request)
+function changeItemPosition($scope, $request)
 {
-    $items = new db\ItemsDAO();
-    $items->updatePositionByID($request['item_id'], $request['position']);
-    return [];
+    $scope->items->updatePositionByID(
+        $request['item_id'], $request['position']);
 }
 
 
 // [***]
 // Returns a list of all the items in a zone grouped by working areas and item 
 // type
-function getItemsOfZone($request)
+function getItemsOfZone($scope, $request)
 {
-    // first, connect to the data base and get all the items by zone
-    $itemsTable = new db\ItemsDAO();
-    $rows = $itemsTable->selectByZoneID($_SESSION['zone_id']);
+    // get session segment
+    $segment = $scope->session->getSegment('fsm'); 
+    $rows = $scope->items->selectByZoneID($segment->get('zone_id'));
 
     // final array where the working areas are going to be stored
     $areas = [];
@@ -347,11 +332,11 @@ function getItemsOfZone($request)
 
     // return the resulting info
     return [
-        'zone_name' => $_SESSION['zone_name'],
+        'zone_name' => $segment->get('zone_name'),
         'program_name' => 'GMP',
         'module_name' => 'Packing',
         'log_name' => 'Pre-Operational Inspection',
-        'areas' => $areas
+        'areas' => $scope->workingAreas
     ];
 }
 
