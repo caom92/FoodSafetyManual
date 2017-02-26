@@ -6,3 +6,6 @@
 [2017-02-26 08:34:26] tdiary.ERROR: The user is not logged in [] []
 [2017-02-26 08:35:26] tdiary.ERROR: The user is not logged in [] []
 [2017-02-26 08:36:26] tdiary.ERROR: The user is not logged in [] []
+[2017-02-26 08:41:35] tdiary.ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 13 [] []
+[2017-02-26 08:48:51] tdiary.ERROR: The user is not logged in [] []
+[2017-02-26 08:51:03] tdiary.ERROR: User is not allowed to use this service [] []

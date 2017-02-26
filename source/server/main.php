@@ -54,7 +54,7 @@ ServiceProvider::addValidationRule(
 );
 
 ServiceProvider::addValidationRule(
-  'has_privilege',
+  'has_privileges',
   function($scope, $name, $value, $options) {
     // first, get the session segment
     $segment = $scope->session->getSegment('fsm');
@@ -114,7 +114,7 @@ $controller = new ServiceProvider(
     'programs' => function($config) { return new db\ProgramsDAO; },
     'roles' => function($config) { return new db\RolesDAO; },
     'supervisorsEmployees' => function($config) { 
-      return new db\SupervisorEmployeesDAO; 
+      return new db\SupervisorsEmployeesDAO; 
     },
     'users' => function($config) { return new db\UsersDAO; },
     'usersLogsPrivileges' => function($config) { 
