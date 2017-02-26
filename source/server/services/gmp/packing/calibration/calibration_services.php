@@ -119,7 +119,7 @@ $gmpPackingCalServices = [
                 'program' => 'GMP',
                 'module' => 'Packing',
                 'log' => 'Daily Scale Calibration Check',
-                'privilege' => 'Write'
+                'privilege' => 'Read'
             ]
         ],
         'callback' => 'fsm\services\gmp\packing\calibration\getScalesOfZone'
