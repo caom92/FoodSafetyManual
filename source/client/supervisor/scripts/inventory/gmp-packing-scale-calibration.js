@@ -1,85 +1,22 @@
 function addInventoryManager(controlsWrapper, contentWrapper){
-    $("#log_name").html("Pre-operational Inspection");
-    addAreaSelect(controlsWrapper, contentWrapper);
+    $("#log_name").html("Scale Calibration");
+    loadInventory(contentWrapper);
 }
 
-// Functions exclusive to gmp-packing-preop
+function loadInventory(htmlElement){
+    var data = new Object();
 
-function addAreaSelect(controlsWrapper, contentWrapper){
     $server.request({
-        service: 'get-areas-of-zone',
-        success: function(response) {
-            if (response.meta.return_code == 0) {
-                console.log(response.data);
-                var areaSelectRow = {"columns":[]};
-
-                // Select with all areas
-                var areaSelectInput = {"id":"areaSelectWrapper","classes":"input-field col s6 m6 l6"};
-                var areaSelect = {"type":"select","id":"area-select","options":[]};
-
-                areaSelect.options.push({"classes":"select_area","disabled":true,"selected":true});
-
-                for(var area of response.data){
-                    areaSelect.options.push({"value":area.id,"text":area.name});
-                }
-
-                areaSelectInput.field = areaSelect;
-
-                // Text field for adding an area
-                var areaNameInput = {"id":"areaNameWrapper","classes":"input-field col s5 m5 l5"};
-                var areaName = {"type":"input","id":"area_name","classes":"validate add_workplace_area","fieldType":"text"};
-                areaNameInput.field = areaName;
-
-                // Float button to confirm adding a new area
-                var areaAddInput = {"id":"addAreaButtonWrapper","classes":"input-field col s1 m1 l1"};
-                var areaAddButton = {"type":"floating","id":"add_workplace_area","classes":"btn-floating waves-effect waves-light green right"};
-                var areaAddIcon = {"type":"icon","icon":"mdi-plus","size":"mdi-24px"};
-                areaAddButton.icon = areaAddIcon;
-                areaAddInput.field = areaAddButton;
-
-                areaSelectRow.columns.push(areaSelectInput);
-                areaSelectRow.columns.push(areaNameInput);
-                areaSelectRow.columns.push(areaAddInput);
-
-                $(controlsWrapper).hide();
-                $(controlsWrapper).append(createInputRow(areaSelectRow));
-
-                $("#area-select").change(function (e) {
-                    $("table").remove();
-                    loadInventory($(this).val(), contentWrapper);
-                });
-
-                $('#add_workplace_area').on('click', function(e) {
-                    e.preventDefault();
-                    var input = $("#area_name");
-                    var isNameEmpty = input.val() == "";
-                    if (isNameEmpty) {
-                        loadToast("is-workplace-area-empty",4000, "rounded");
-                        input.addClass("invalid");
-                    } else {
-                        $server.request({
-                            service: 'add-workplace-area',
-                            data: {area_name: input.val()},
-                            success: function(response) {
-                                if (response.meta.return_code == 0) {
-                                    var option = createOption({"value":response.data.id,"text":response.data.name});
-                                    $("#area-select").append(option);
-                                    $("#area-select").material_select();
-                                    $("#area_name").val("");
-                                    loadToast("workplace_area_registered", 2500, "rounded");
-                                } else {
-                                    loadToast("generic_area", 2500, "rounded");
-                                }
-                            }
-                        });
-                    }
-                });
-
-                changeLanguage();
-                $(controlsWrapper).show(500);
-            } else {
-                throw response.meta.message;
-            }
+        service: 'get-scales-of-zone',
+        success: function(response){
+            $(htmlElement).hide();
+            gmpScaleCalibrationInventoryTable(htmlElement, response.data);
+            initSortability('change-order-of-scale');
+            dynamicSearchBind("id-search", "id-column");
+            dynamicSearchBind("name-search", "name-column");
+            dynamicSearchBind("type-search", "type-column");
+            changeLanguage();
+            $(htmlElement).show(400);
         }
     });
 }
@@ -97,7 +34,7 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
         var typeBody = {"type":"tbody","id":"type_" + type.id,"classes":"ui-sortable","rows":[]};
         tableJSON.thead.rows[1].columns[3].contents.field.options.push({"value":type.name,"text":type.name});
         tableJSON.tfoot.rows[0].columns[3].contents.field.options.push({"value":type.id,"text":type.name});
-        for(var item of type.inventory){
+        for(var item of type.items){
             typeBody.rows.push(gmpPackingScaleCalibrationInventoryRow(item, type.name));
         }
         tableJSON.tbody.push(typeBody);
@@ -110,9 +47,10 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
     $("input:checkbox").on("change",function(){
         var itemID = $(this).data("id");
         $server.request({
-            service: 'toggle-item-activation',
+            service: 'toggle-scale-activation',
             data: {item_id:itemID},
             success: function(response, message, xhr) {
+                console.log(itemID);
                 if($("#inventory_" + itemID).hasClass("grey-text")){
                     console.log("item_row");
                     loadToast("toggle_item_on_success", 3500, "rounded");
@@ -153,7 +91,7 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
                     console.log(item);
                     console.log(tableRow(gmpPackingScaleCalibrationInventoryRow(item, item.type)));
                     $("tbody#type_" + $("#type_add").val()).append(tableRow(gmpPackingScaleCalibrationInventoryRow(item, item.type)));
-                    initSortability("change-order-of-item");
+                    initSortability('change-order-of-scale');
                     $("html, body").animate({
                         scrollTop: $(document).height()
                     }, 400);
@@ -179,7 +117,7 @@ function gmpPackingScaleCalibrationInventoryRow(item, type){
 
     // Add information columns. Remember the class "search-column" for dynamic
     // search binding
-    inventoryRow.columns.push({"type":"td","contents":item.position,"classes":"position-column"});
+    inventoryRow.columns.push({"type":"td","contents":item.order,"classes":"position-column"});
     inventoryRow.columns.push({"type":"td","contents":item.id,"classes":"id-column search-column"});
     inventoryRow.columns.push({"type":"td","contents":item.name,"classes":"name-column search-column"});
     inventoryRow.columns.push({"type":"td","contents":type,"classes":"type-column search-column"});
@@ -202,23 +140,6 @@ function gmpPackingScaleCalibrationSwitch(item){
     return switchInput;
 }
 
-function loadInventory(areaID, htmlElement){
-    var data = new Object();
-    data.area_id = areaID;
-    console.log(data);
-
-    $server.request({
-        service: 'get-items-of-area',
-        data: data,
-        success: function(response){
-            $(htmlElement).hide();
-            gmpScaleCalibrationInventoryTable(htmlElement, response.data);
-            changeLanguage();
-            initSortability("change-order-of-item");
-            dynamicSearchBind("id-search", "id-column");
-            dynamicSearchBind("name-search", "name-column");
-            dynamicSearchBind("type-search", "type-column");
-            $(htmlElement).show(400);
-        }
-    });
-}
+$(function(){
+    Materialize.toast("Cargado script de Scale Calibration", 2500, "rounded");
+});

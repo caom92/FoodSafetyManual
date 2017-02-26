@@ -56,7 +56,7 @@ function checkSortability(){
     });
 }
 
-function initSortability(){
+function initSortability(sortingService){
     $("#sort tbody").sortable({
         helper: fixHelper,
         cursor: "move",
@@ -71,7 +71,7 @@ function initSortability(){
                     data.position = parseInt(order);
                     console.log(data);
                     $server.request({
-                        service: "change-order-of-item",
+                        service: sortingService,
                         data: data
                     });
                 });
