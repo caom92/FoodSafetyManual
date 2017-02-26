@@ -2,10 +2,6 @@
 
 namespace fsm\services\zone;
 
-require_once realpath(dirname(__FILE__).'/../dao/ZonesDAO.php');
-
-use fsm\database as db;
-
 
 $zoneServices = [
     'list-zones' => [
@@ -37,35 +33,28 @@ $zoneServices = [
 ];
 
 // Returns a list of all zones
-function getAllZones($request) 
+function getAllZones($scope, $request) 
 {
-    $zones = new db\ZonesDAO();
-    return $zones->selectAll();
+    return $scope->zones->selectAll();
 }
 
 
 // Checks if the zone name is duplicated
-function isZoneNameDuplicated($request) 
+function isZoneNameDuplicated($scope, $request) 
 {
-    // first we connect to the database
-    $zones = new db\ZonesDAO();
-
     // then we check if the name is duplicated
     return $zone->hasByName($request['zone_name']);
 }
 
 
 // Stores a new zone in the data base
-function addNewZone($request) 
+function addNewZone($scope, $request) 
 {
-    // first we connect to the database
-    $zones = new db\ZonesDAO();
-
     // then we check if the name is duplicated
-    $isZoneNameDuplicated = $zones->hasByName($request['new_zone']);
+    $isZoneNameDuplicated = $scope->zones->hasByName($request['new_zone']);
     if (!$isZoneNameDuplicated) {
         // if it's not, store it
-        $zones->insert($request['new_zone']);
+        $scope->zones->insert($request['new_zone']);
         return [];
     } else {
         throw new \Exception('Cannot add new zone; name is already taken.');

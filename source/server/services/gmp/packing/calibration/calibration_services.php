@@ -3,18 +3,9 @@
 namespace fsm\services\gmp\packing\calibration;
 
 require_once realpath(dirname(__FILE__).'/../../../globals.php');
-require_once realpath(dirname(__FILE__).'/../../../../dao/CapturedLogsDAO.php');
-require_once realpath(dirname(__FILE__).'/../../../../dao/LogsDAO.php');
-require_once realpath(dirname(__FILE__).
-    '/../../../../dao/gmp/packing/calibration/TimeLogsDAO.php');
-require_once realpath(dirname(__FILE__).
-    '/../../../../dao/gmp/packing/calibration/ScalesDAO.php');
-require_once realpath(dirname(__FILE__).
-    '/../../../../dao/gmp/packing/calibration/ScaleLogsDAO.php');
-require_once realpath(dirname(__FILE__).'/../../../../dao/UsersDAO.php');
 
-use fsm\database\gmp\packing\calibration as cal;
-use fsm\database as db;
+use fsm;
+
 
 $gmpPackingCalServices = [
     'upload-manual-gmp-packing-scale-calibration' => [
@@ -196,32 +187,28 @@ $gmpPackingCalServices = [
 
 
 // Recieves a PDF file and stores it as the new manual for the Pre-Op log
-function uploadManualFile($request)
+function uploadManualFile($scope, $request)
 {
     fsm\uploadManualFile('gmp', 'packing', 'calibration');
-    return [];
 }
 
 
 // [***]
 // Returns the scale calibration log entries captured in the given zone on
 // the especified date interval for presentation in a report
-function getReportData($request)
+function getReportData($scope, $request)
 {
-    // first, we connect to the data base
-    $capturedLogs = new db\CapturedLogsDAO();
-    $timeLogs = new cal\TimeLogsDAO();
-    $users = new db\UsersDAO();
-    $logs = new db\LogsDAO();
+    // first, we get the session segment
+    $segment = $scope->session->getSegment('fsm');
 
     // then, we get the captured logs' date info 
-    $logDates = $capturedLogs->selectByDateIntervalLogIDAndZoneID(
+    $logDates = $scope->capturedLogs->selectByDateIntervalLogIDAndZoneID(
         $request['start_date'],
         $request['end_date'],
-        $logs->getIDByNames(
+        $scope->logs->getIDByNames(
             'GMP', 'Packing', 'Daily Scale Calibration Check'
         ),
-        $_SESSION['zone_id']
+        $segment->get('zone_id')
     );
 
     // if no logs where captured, throw an exception
@@ -235,7 +222,7 @@ function getReportData($request)
     // visit each dated log that was obtained earlier
     foreach ($logDates as $logDate) {
         // select all the per scale type log data
-        $logs = $timeLogs->selectByCaptureDateID($logDate['id']);
+        $logs = $scope->timeLogs->selectByCaptureDateID($logDate['id']);
 
         // initialize the storage for the per scale type logs
         $scaleTypeLogs = [];
@@ -288,8 +275,8 @@ function getReportData($request)
             array_push($scaleTypeLogs, $scaleLogs);
         } 
 
-        $supervisor = $users->getNameByID($logDate['supervisor_id']);
-        $employee = $users->getNameByID($logDate['employee_id']);
+        $supervisor = $scope->users->getNameByID($logDate['supervisor_id']);
+        $employee = $scope->users->getNameByID($logDate['employee_id']);
 
         // push the resulting array of per scale type logs to the final report 
         // storage
@@ -301,7 +288,7 @@ function getReportData($request)
             'creation_date' => $logDate['capture_date'],
             'approval_date' => (isset($logDate['approval_date'])) ?
                 $logDate['approval_date'] : 'N/A',
-            'zone_name' => $_SESSION['zone_name'],
+            'zone_name' => $segment->get('zone_name'),
             'program_name' => 'GMP',
             'module_name' => 'Packing',
             'log_name' => 'Daily Scale Calibration Check',
@@ -318,13 +305,13 @@ function getReportData($request)
 // [***]
 // Returns an associative array that contains the list of scales that are 
 // registered in the especified zone
-function getActiveScalesOfZone($request)
+function getActiveScalesOfZone($scope, $request)
 {
-    // first, connect to the data base
-    $scales = new cal\ScalesDAO();
+    // first, we get the session segment
+    $segment = $scope->session->getSegment('fsm');
 
     // then get the data from the table
-    $rows = $scales->selectActiveByZoneID($_SESSION['zone_id']);
+    $rows = $scope->scales->selectActiveByZoneID($segment->get('zone_id'));
 
     // initialize the temporal storage for the list of scales 
     $scaleList = [];
@@ -374,7 +361,7 @@ function getActiveScalesOfZone($request)
     }    
 
     return [
-        'zone_name' => $_SESSION['zone_name'],
+        'zone_name' => $segment->get('zone_name'),
         'program_name' => 'GMP',
         'module_name' => 'Packing',
         'log_name' => 'Daily Scale Calibration Check',
@@ -384,21 +371,18 @@ function getActiveScalesOfZone($request)
 
 
 // Adds a new entry to the calibration log
-function registerLogEntry($request)
+function registerLogEntry($scope, $request)
 {
-    // first, connect to the data base
-    $logDate = new db\CapturedLogsDAO();
-    $timeLogs = new cal\TimeLogsDAO();
-    $scaleLogs = new cal\ScaleLogsDAO();
-    $logs = new db\LogsDAO();
+    // first, we get the session segment
+    $segment = $scope->session->getSegment('fsm');
 
     // get the ID of the log that we are working with
-    $logID = $logs->getIDByNames(
+    $logID = $scope->logs->getIDByNames(
         'GMP', 'Packing', 'Daily Scale Calibration Check'
     );
 
     // insert the capture date and the ID of the reportee user
-    $logID = $logDate->insert([
+    $logID = $scope->caputerLogs->insert([
         'employee_id' => $_SESSION['user_id'],
         'log_id' => $logID,
         'capture_date' => $request['date'],
@@ -413,7 +397,7 @@ function registerLogEntry($request)
     // visit each per scale type log data
     foreach ($request['types'] as $log) {
         // store the time info in the data base
-        $timeID = $timeLogs->insert([
+        $timeID = $scope->timeLogs->insert([
             'capture_date_id' => $logID,
             'time' => $log['time']
         ]);
@@ -432,19 +416,19 @@ function registerLogEntry($request)
     }
 
     // insert the resulting array of per scale log data to the data base
-    $scaleLogs->insert($scaleLogEntries);
+    $scope->scaleLogs->insert($scaleLogEntries);
 }
 
 
 // [***]
 // Returns a list of all the scales registred in the especified zone
-function getScalesOfZone($request)
+function getScalesOfZone($scope, $request)
 {
-    // first, connect to the data base
-    $scales = new cal\ScalesDAO();
+    // first, we get the session segment
+    $segment = $scope->session->getSegment('fsm');
 
     // then get the data from the table
-    $rows = $scales->selectAllByZoneID($_SESSION['zone_id']);
+    $rows = $scope->scales->selectAllByZoneID($segment->get('zone_id'));
 
     // initialize the temporal storage for the list of scales 
     $scaleList = [];
@@ -498,39 +482,39 @@ function getScalesOfZone($request)
 
 
 // Toggles the activation fo the especified scale on or off
-function toggleActivationOfScale($request)
+function toggleActivationOfScale($scope, $request)
 {
-    $items = new cal\ScalesDAO();
-    $items->toggleActivationByID($request['scale_id']);
+    $scope->scales->toggleActivationByID($request['scale_id']);
 }
 
 
 // Changes the position of the specified scale
-function changeScalePosition($request)
+function changeScalePosition($scope, $request)
 {
-    $scales = new cal\ScalesDAO();
-    $scales->updatePositionByID($request['scale_id'], $request['position']);
+    $scope->scales->updatePositionByID($request['scale_id'], 
+        $request['position']);
 }
 
 
 // Adds a new scale to the specified zone
-function addNewScale($request) 
+function addNewScale($scope, $request) 
 {
-    // first connect to the data base
-    $scales = new cal\ScalesDAO();
+    // first we get the session segment
+    $segment = $scope->session->getSegment('fsm');
+    $zoneID = $segment->get('zone_id');
 
     // count the number of scales in this zone
     // so we can compute the position of this scale and add it
     // in the last position
-    $numScalesInZone = $scales->countByZoneAndTypeIDs(
-        $_SESSION['zone_id'],
+    $numScalesInZone = $scope->scales->countByZoneAndTypeIDs(
+        $zoneID,
         $request['type_id']
     );
 
     // store the item in the data base 
-    return $items->insert([
+    return $scope->scales->insert([
         'is_active' => TRUE,
-        'zone_id' => $_SESSION['zone_id'],
+        'zone_id' => $zoneID,
         'type_id' => $request['type_id'],
         'position' => $numScalesInZone + 1,
         'serial_num' => $request['scale_name']

@@ -2,25 +2,9 @@
 
 namespace fsm\services\gmp\packing\preop;
 
-require_once realpath(dirname(__FILE__).
-    '/../../../../dao/gmp/packing/preop/CorrectiveActionsDAO.php');
-require_once realpath(dirname(__FILE__).
-    '/../../../../dao/gmp/packing/preop/AreasLogDAO.php');
-require_once realpath(dirname(__FILE__).
-    '/../../../../dao/gmp/packing/preop/ItemsLogDAO.php');
-require_once realpath(dirname(__FILE__).
-    '/../../../../dao/CapturedLogsDAO.php');
-require_once realpath(dirname(__FILE__).
-    '/../../../../dao/LogsDAO.php');
-require_once realpath(dirname(__FILE__).
-    '/../../../../dao/UsersDAO.php');
-require_once realpath(dirname(__FILE__).
-    '/../../../globals.php');
-
+require_once realpath(dirname(__FILE__).'/../../../globals.php');
 
 use fsm;
-use fsm\database\gmp\packing\preop as preop;
-use fsm\database as db;
 
 
 $gmpPackingPreopServices = [
@@ -193,21 +177,17 @@ $gmpPackingPreopServices = [
 ];
 
 // Lists all the corrective actions
-function getAllCorrectiveActions($request)
+function getAllCorrectiveActions($scope, $request)
 {
-    $correctiveActions = new preop\CorrectiveActionsDAO();
-    return $correctiveActions->selectAllButNone();
+    return $scope->correctiveActions->selectAllButNone();
 }
 
 
 // Adds a new entry to the pre-op log
-function registerLogEntry($request)
+function registerLogEntry($scope, $request)
 {
-    // if all validations passed, connect to the data base
-    $logDate = new db\CapturedLogsDAO();
-    $areasLog = new preop\AreasLogDAO();
-    $itemsLog = new preop\ItemsLogDAO();
-    $logs = new db\LogsDAO();
+    // get the session segment
+    $segment = $scope->session->getSegment('fsm');
 
     // get the ID of the log that we are working with
     $logID = $logs->getIDByNames(
@@ -223,8 +203,8 @@ function registerLogEntry($request)
     // }
 
     // insert the capture date and the ID of the reportee user
-    $logID = $logDate->insert([
-        'employee_id' => $_SESSION['user_id'],
+    $logID = $scope->capturedLogs->insert([
+        'employee_id' => $segment->get('user_id'),
         'log_id' => $logID,
         'capture_date' => $request['date'],
         'extra_info1' => $request['notes'],
@@ -238,7 +218,7 @@ function registerLogEntry($request)
     // insert each per area log entry one at the time...
     foreach ($request['areas'] as $areaLogEntry) {
         // save the resulting ID for later use
-        $areaID = $areasLog->insert([
+        $areaID = $scope->areasLog->insert([
             'capture_date_id' => $logID,
             'time' => $areaLogEntry['time'],
             'notes' => $areaLogEntry['notes'],
@@ -261,9 +241,7 @@ function registerLogEntry($request)
 
     // finally, store all the per item log entries in the data base in a
     // single query
-    $itemsLog->insert($itemsLogEntries);
-
-    return [];
+    $scope->itemsLog->insert($itemsLogEntries);
 }
 
 
@@ -271,21 +249,18 @@ function registerLogEntry($request)
 // Returns the pre-operational log entries of the working areas and their
 // items in a determined zone that where captured in the given date for
 // presentation in a report
-function getReportData($request)
+function getReportData($scope, $request)
 {
-    $capturedLogs = new db\CapturedLogsDAO();
-    $areasLog = new preop\AreasLogDAO();
-    $itemsLog = new preop\ItemsLogDAO();
-    $users = new db\UsersDAO();
-    $logs = new db\LogsDAO();
+    // get the session segment
+    $segment = $scope->session->getSegment('fsm');
 
-    $logDates = $capturedLogs->selectByDateIntervalLogIDAndZoneID(
+    $logDates = $scope->capturedLogs->selectByDateIntervalLogIDAndZoneID(
         $request['start_date'],
         $request['end_date'],
-        $logs->getIDByNames(
+        $scope->logs->getIDByNames(
             'GMP', 'Packing', 'Pre-Operational Inspection'
         ),
-        $_SESSION['zone_id']
+        $segment->get('zone_id')
     );
 
     if (!isset($logDates)) {
@@ -296,10 +271,10 @@ function getReportData($request)
 
     foreach ($logDates as $logDate) {
         $areasLogEntries = [];
-        $areas = $areasLog->selectByLogID($logDate['id']);
+        $areas = $scope->areasLog->selectByLogID($logDate['id']);
 
         foreach ($areas as $areaData) {
-            $items = $itemsLog->selectByAreaLogID($areaData['id']);
+            $items = $scope->itemsLog->selectByAreaLogID($areaData['id']);
             $tempAreaLogEntry = [
                 'id' => $items[0]['area_id'],
                 'name' => $items[0]['area_name'],
@@ -353,8 +328,8 @@ function getReportData($request)
             array_push($areasLogEntries, $tempAreaLogEntry);
         }
 
-        $supervisor = $users->getNameByID($logDate['supervisor_id']);
-        $employee = $users->getNameByID($logDate['employee_id']);
+        $supervisor = $scope->users->getNameByID($logDate['supervisor_id']);
+        $employee = $scope->users->getNameByID($logDate['employee_id']);
 
         array_push($reports, [
             'report_id' => $logDate['id'],
@@ -367,7 +342,7 @@ function getReportData($request)
             'approval_date' => (isset($logDate['approval_date'])) ?
                 $logDate['approval_date'] :
                 'N/A',
-            'zone_name' => $_SESSION['zone_name'],
+            'zone_name' => $segment->get('zone_name'),
             'program_name' => 'GMP',
             'module_name' => 'Packing',
             'log_name' => 'Pre-Operational Inspection',
@@ -382,24 +357,18 @@ function getReportData($request)
 
 
 // Recieves a PDF file and stores it as the new manual for the Pre-Op log
-function uploadManualFile($request)
+function uploadManualFile($scope, $request)
 {
     fsm\uploadManualFile('gmp', 'packing', 'preop');
-    return [];
 }
 
 
 // This function updates the info in the database of the log with the especified
 // ID
-function editLogEntry($request)
+function editLogEntry($scope, $request)
 {
-    // connect to the database
-    $capturedLogs = new db\CapturedLogsDAO();
-    $areasLog = new preop\AreasLogDAO();
-    $itemsLog = new preop\ItemsLogDAO();
-
     // update the captured log info
-    $capturedLogs->updateByID(
+    $scope->capturedLogs->updateByID(
         [
             'extra_info1' => $request['notes'],
             'extra_info2' => $request['album_url']
@@ -410,7 +379,7 @@ function editLogEntry($request)
     // for each area in the input array...
     foreach ($request['areas'] as $area) {
         // update the area log 
-        $areasLog->updateByCapturedLogID(
+        $scope->areasLog->updateByCapturedLogID(
             [
                 'notes' => $area['notes'],
                 'person_performing_sanitation' => 
@@ -422,7 +391,7 @@ function editLogEntry($request)
         // the for each item in the area
         foreach ($area['items'] as $item) {
             // update the item log
-            $itemsLog->updateByCapturedLogIDAndItemID(
+            $scope->itemsLog->updateByCapturedLogIDAndItemID(
                 [
                     'is_acceptable' => $item['is_acceptable'],
                     'corrective_action_id' => $item['corrective_action_id'],
