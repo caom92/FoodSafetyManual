@@ -403,7 +403,6 @@ function logIn($scope, $request)
         
         // store the user profile in the session cookie and return the info to 
         // the client
-        $scope->session->regenerateId();
         $segment = $scope->session->getSegment('fsm');
         $segment->set('logged_in', TRUE);
         $_SESSION['fsm'] += $userData;
