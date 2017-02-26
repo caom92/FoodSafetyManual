@@ -438,7 +438,7 @@ class ServiceProvider
             // si el arreglo es un arreglo asociativo, debemos invocar esta
             // funcion asociativamente
             foreach ($value as $element) {
-              ServiceProvider::validateServiceInputArguments($element, 
+              ServiceProvider::validateServiceInputArguments($scope, $element, 
                 $options['values']);
             }
           }

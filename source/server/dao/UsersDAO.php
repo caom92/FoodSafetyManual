@@ -90,7 +90,7 @@ class UsersDAO extends DataAccessObject
             FROM $this->table 
             INNER JOIN roles AS r
                 ON role_id = r.id
-            WHERE $this->table.id != {$_SESSION['user_id']}"
+            WHERE $this->table.id != {$_SESSION['fsm']['user_id']}"
         )->fetchAll();
     }
     
