@@ -282,7 +282,7 @@ function isEmployeeNumDuplicated($scope, $request)
 function editLogInName($scope, $request) 
 {
     // get the session segment
-    $segment = $scope->getSegment('fsm');
+    $segment = $scope->session->getSegment('fsm');
 
     // then we check if the name is duplicated and if the password is valid
     $isNameDuplicated = $scope->users->hasByLogInName($request['new_username']);
@@ -316,7 +316,7 @@ function editLogInName($scope, $request)
 function editPassword($scope, $request) 
 {
     // get the session segment
-    $segment = $scope->getSegment('fsm');
+    $segment = $scope->session->getSegment('fsm');
 
     // check if the password is valid
     $isPasswordValid = password_verify(

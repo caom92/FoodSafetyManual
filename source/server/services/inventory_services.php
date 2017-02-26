@@ -118,6 +118,7 @@ function addWorkingAreaToZone($scope, $request)
 // Lists the areas of the specified zone
 function getWorkingAreasOfZone($scope, $request) 
 {
+    $segment = $scope->session->getSegment('fsm');
     return $scope->workingAreas->selectByZoneID($segment->get('zone_id'));
 }
 
