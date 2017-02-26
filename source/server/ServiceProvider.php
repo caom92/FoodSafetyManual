@@ -51,7 +51,7 @@ class ServiceProvider
       // desplegar la informacion en el archivo indicado por la configuracion 
       // del servidor
       $logger->pushHandler(new \Monolog\Handler\StreamHandler(
-        realpath(dirname(__FILE__)).SERVER_LOG_FILE
+        realpath(dirname(__FILE__)).'/'.SERVER_LOG_FILE
       ));
 
       // retornamos la instancia de Monolog

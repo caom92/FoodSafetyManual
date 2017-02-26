@@ -13,6 +13,7 @@ require_once realpath(dirname(__FILE__).'/services/services.php');
 use fsm\database as db;
 use fsm\database\gmp\packing\calibration as cal;
 use fsm\database\gmp\packing\preop as preop;
+use fsm\services\session as session;
 
 // Definimos los validadores personalizados que vamos a utilizar en
 // este proyecto
@@ -20,7 +21,7 @@ ServiceProvider::addValidationRule(
   'logged_in', 
   function($scope, $name, $value, $options) {
     // check if the user has logged in
-    if ($scope->session->isStarted()) {
+    if (session\isLoggedIn($scope, NULL)) {
       // get the session segment
       $segment = $scope->session->getSegment('fsm');
 
