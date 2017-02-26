@@ -692,9 +692,7 @@ function getPrivilegesOfUser($scope, $request)
                 $log = [
                     'id' => $row['log_id'],
                     'name' => $row['log_name'],
-                    'privilege_id' => ($isSupervisor) ?
-                        $privilegeID :
-                        $row['privilege_id']
+                    'privilege_id' => $row['privilege_id']
                 ];
 
                 // and fill the temporal storage of the new module and program
@@ -719,9 +717,7 @@ function getPrivilegesOfUser($scope, $request)
                     $log = [
                         'id' => $row['log_id'],
                         'name' => $row['log_name'],
-                        'privilege_id' => ($isSupervisor) ?
-                            $privilegeID :
-                            $row['privilege_id']
+                        'privilege_id' => $row['privilege_id']
                     ];
                     $module = [
                         'id' => $row['module_id'],
@@ -734,9 +730,7 @@ function getPrivilegesOfUser($scope, $request)
                     array_push($module['logs'], [
                         'id' => $row['log_id'],
                         'name' => $row['log_name'],
-                        'privilege_id' => ($isSupervisor) ?
-                            $privilegeID :
-                            $row['privilege_id']
+                        'privilege_id' => $row['privilege_id']
                     ]);
                 }
             }
