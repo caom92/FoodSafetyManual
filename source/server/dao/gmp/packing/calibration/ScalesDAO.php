@@ -80,7 +80,7 @@ class ScalesDAO extends db\DataAccessObject
 
 
     // Inverts the activation status of the scale with the specified ID
-    function toggleActivationOfScale($scaleID)
+    function toggleActivationByID($scaleID)
     {
         return parent::$dataBase->query(
             "UPDATE $this->table
