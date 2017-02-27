@@ -98,7 +98,7 @@ function logCard(name, suffix){
 
     card.append(name);
 
-    card.data("link", "logs?_="+suffix);
+    card.data("link", "manage-inventory?_="+suffix);
 
     card.on('click', function(event) {
         // prevent normal navigation
