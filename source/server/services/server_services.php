@@ -264,7 +264,7 @@ function getAllProgramsModulesAndLogs($scope, $request)
 function getManualURL($scope, $request) 
 {
     $row = $scope->logs->getManualURLBySuffix($request['log-suffix']);
-    $row['manual_location'] = 'data/documents/'.$row['manual_location'];
+    $row['manual_location'] = 'data/documents/manuals/'.$row['manual_location'];
     return $row;
 }
 

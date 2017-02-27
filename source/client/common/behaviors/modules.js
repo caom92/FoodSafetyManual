@@ -30,6 +30,8 @@ $(function() {
 
     console.log(privileges);
 
+    $("#content_wrapper").html("");
+
     for(var zone of privileges.zones){
         for(var program of zone.programs){
             for(var module of program.modules){

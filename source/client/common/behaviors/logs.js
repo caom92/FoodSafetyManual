@@ -45,6 +45,7 @@ $(function() {
         $.getScript( "source/client/common/scripts/logs/table-creator.js", function( data, textStatus, jqxhr ) {
             $.getScript( "source/client/common/scripts/logs/" + getParams._ + ".js", function( data, textStatus, jqxhr ) {
                 console.log("Load of " +  getParams._);
+                loadManual("#manual_tab", "#log_title");
                 if(localStorage.role_id == "5"){
                     loadLogForm("#logs_tab");
                 } else {
