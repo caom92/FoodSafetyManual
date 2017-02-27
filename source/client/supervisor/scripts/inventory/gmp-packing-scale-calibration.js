@@ -48,7 +48,7 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
         var itemID = $(this).data("id");
         $server.request({
             service: 'toggle-scale-activation',
-            data: {item_id:itemID},
+            data: {scale_id:itemID},
             success: function(response, message, xhr) {
                 console.log(itemID);
                 if($("#inventory_" + itemID).hasClass("grey-text")){
@@ -70,13 +70,14 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
             loadToast("is-item-empty", 3500, "rounded");
         } else {
             var data = new Object();
-            data.name = $("#name_add").val();
+            data.scale_name = $("#name_add").val();
             data.area_id = $("#area-select").val();
             data.type_id = $("#type_add").val();
+            data.zone_id = Number(localStorage.zone_id);
             console.log(data);
 
             $server.request({
-                service: 'add-new-inventory-item',
+                service: 'add-new-scale',
                 data: data,
                 success: function(response){
                     // Here we must append the recently added item to the list,
