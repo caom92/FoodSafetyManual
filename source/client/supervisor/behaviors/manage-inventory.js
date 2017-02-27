@@ -56,7 +56,7 @@ function checkSortability(){
     });
 }
 
-function initSortability(sortingService){
+/*function initSortability(sortingService){
     $("#sort tbody").sortable({
         helper: fixHelper,
         cursor: "move",
@@ -88,6 +88,33 @@ function initSortability(sortingService){
         });
         return $helper;
     };
+}*/
+
+function logCard(name, suffix){
+    var card = $("<div>");
+
+    card.addClass("card-panel white waves-effect waves-green");
+    card.attr("style", "display:block;");
+
+    card.append(name);
+
+    card.data("link", "logs?_="+suffix);
+
+    card.on('click', function(event) {
+        // prevent normal navigation
+        event.preventDefault();
+
+        // get the layout that is being requested 
+        var targetLayout = $(this).data('link');
+
+        // push the state to the history stack
+        window.history.pushState({ layout: targetLayout }, '', targetLayout);
+
+        // load the requested layout
+        $app.load(targetLayout); 
+    });
+
+    return card;
 }
 
 $(function(){
@@ -95,8 +122,27 @@ $(function(){
 
     console.log(getParams);
 
-    $.getScript( "source/client/supervisor/scripts/inventory/" + getParams._ + ".js", function( data, textStatus, jqxhr ) {
+    $.getScript( "source/client/supervisor/scripts/inventory/" + getParams._ + ".js").done(function( data, textStatus, jqxhr ) {
         addInventoryManager("#controls_wrapper", "#content_wrapper");
+    }).fail(function(jqxhr, settings, exception) {
+        var privileges = JSON.parse(localStorage.privileges);
+
+        console.log(privileges);
+
+        $("#content_wrapper").html("");
+
+        for(var zone of privileges.zones){
+            for(var program of zone.programs){
+                for(var module of program.modules){
+                    for(var log of module.logs){
+                        $("#content_wrapper").append(logCard(log.name, log.suffix));
+                    }
+                }
+            }
+        }
+
+        initMaterialize();
+        $("#content_wrapper").show(1000);
     });
 
     changeLanguage();

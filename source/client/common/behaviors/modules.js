@@ -40,8 +40,6 @@ $(function() {
         }
     }
 
-    $("#content_wrapper").append(logCard("Scale Calibration", "scale-calibration"));
-
     initMaterialize();
 
     changeLanguage(localStorage.defaultLanguage);

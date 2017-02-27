@@ -40,7 +40,7 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
         tableJSON.tbody.push(typeBody);
     }
 
-    console.log(tableJSON);
+    //console.log(tableJSON);
 
     $(htmlElement).append(table(tableJSON));
 
@@ -52,11 +52,11 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
             success: function(response, message, xhr) {
                 console.log(itemID);
                 if($("#inventory_" + itemID).hasClass("grey-text")){
-                    console.log("item_row");
+                    //console.log("item_row");
                     loadToast("toggle_item_on_success", 3500, "rounded");
                     $("#inventory_" + itemID).removeClass("grey-text");
                 } else {
-                    console.log("item_row");
+                    //console.log("item_row");
                     loadToast("toggle_item_off_success", 3500, "rounded");
                     $("#inventory_" + itemID).addClass("grey-text");
                 }
@@ -74,7 +74,7 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
             data.area_id = $("#area-select").val();
             data.type_id = $("#type_add").val();
             data.zone_id = Number(localStorage.zone_id);
-            console.log(data);
+            //console.log(data);
 
             $server.request({
                 service: 'add-new-scale',
@@ -88,7 +88,7 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
                     item.name = $("#name_add").val();
                     item.is_active = 1;
                     item.type = $("#type_add option:selected").text();
-                    item.position = Number($($("tbody#type_" + $("#type_add").val() + " tr").last().children()[0]).text()) + 1;
+                    item.order = Number($($("tbody#type_" + $("#type_add").val() + " tr").last().children()[0]).text()) + 1;
                     console.log(item);
                     console.log(tableRow(gmpPackingScaleCalibrationInventoryRow(item, item.type)));
                     $("tbody#type_" + $("#type_add").val()).append(tableRow(gmpPackingScaleCalibrationInventoryRow(item, item.type)));
@@ -101,7 +101,7 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
                     $("#type_add").material_select("destroy");
                     $("#type_add").material_select();
                     loadToast("item_add_success", 3500, "rounded");
-                    changeLanguage(localStorage.defaultLanguage);
+                    changeLanguage();
                 }
             });
         }
@@ -141,6 +141,40 @@ function gmpPackingScaleCalibrationSwitch(item){
     return switchInput;
 }
 
+function initSortability(sortingService){
+    $("#sort tbody").sortable({
+        helper: fixHelper,
+        cursor: "move",
+        update: function(event, ui) {
+            $("tbody").each(function(bodyIndex) {
+                $(this).children().each(function(rowIndex) {
+                    $($(this).children()[0]).text(rowIndex + 1);
+                    var order = $($(this).children()[0]).text();
+                    var itemID = $($(this).children()[1]).text();
+                    var data = new Object();
+                    data.scale_id = parseInt(itemID);
+                    data.position = parseInt(order);
+                    //console.log(data);
+                    $server.request({
+                        service: sortingService,
+                        data: data
+                    });
+                });
+            });
+        }
+    });
+
+    var fixHelper = function(e, tr) {
+        var $originals = tr.children();
+        var $helper = tr.clone();
+        $helper.children().each(function(index)
+        {
+          $(this).width($originals.eq(index).width());
+        });
+        return $helper;
+    };
+}
+
 $(function(){
-    Materialize.toast("Cargado script de Scale Calibration", 2500, "rounded");
+    //Materialize.toast("Cargado script de Scale Calibration", 2500, "rounded");
 });
