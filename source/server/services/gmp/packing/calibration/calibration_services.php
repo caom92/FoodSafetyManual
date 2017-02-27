@@ -457,6 +457,7 @@ function getScalesOfZone($scope, $request)
                 'name' => $row['type_name'],
                 'items' => [[
                     'id' => $row['id'],
+                    'is_active' => $row['is_active'],
                     'name' => $row['name'],
                     'order' => $row['order']
                 ]]
@@ -466,6 +467,7 @@ function getScalesOfZone($scope, $request)
             // data to the list of scales for the current scale type
             array_push($scaleData['items'], [
                 'id' => $row['id'],
+                'is_active' => $row['is_active'],
                 'name' => $row['name'],
                 'order' => $row['order']
             ]);
