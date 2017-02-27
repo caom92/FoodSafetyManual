@@ -57,6 +57,7 @@ class ScalesDAO extends db\DataAccessObject
         return parent::select(
             [
                 "$this->table.id(id)",
+                'is_active',
                 'type_id(type_id)',
                 'st.name(type_name)',
                 'serial_num(name)',
