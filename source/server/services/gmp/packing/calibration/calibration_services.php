@@ -131,7 +131,7 @@ $gmpPackingCalServices = [
                 'program' => 'GMP',
                 'module' => 'Packing',
                 'log' => 'Daily Scale Calibration Check',
-                'privilege' => 'Write'
+                'privilege' => 'Read'
             ],
             'scale_id' => [
                 'type' => 'int',
@@ -148,7 +148,7 @@ $gmpPackingCalServices = [
                 'program' => 'GMP',
                 'module' => 'Packing',
                 'log' => 'Daily Scale Calibration Check',
-                'privilege' => 'Write'
+                'privilege' => 'Read'
             ],
             'scale_id' => [
                 'type' => 'int',
@@ -167,7 +167,7 @@ $gmpPackingCalServices = [
                 'program' => 'GMP',
                 'module' => 'Packing',
                 'log' => 'Daily Scale Calibration Check',
-                'privilege' => 'Write'
+                'privilege' => 'Read'
             ],
             'zone_id' => [
                 'type' => 'int',
