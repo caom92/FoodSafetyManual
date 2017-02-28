@@ -119,18 +119,18 @@ class ServiceProvider
 
           // intentamos ejecutar el servicio
           try {
-            // necesitamos obtener los datos de entrada que fueron enviados 
-            // como JSON
-            $json = json_decode($request->getBody(), true);
+            // obtenemos los datos enviados junto con la peticion y los 
+            // almacenamos en un arreglo asociativo para su mas facil uso
+            $data = $request->getParsedBody();
 
             // validamos los datos de entrada recibidos por el servicio desde el
             // cliente
             ServiceProvider::validateServiceInputArguments(
-              $this, $json, $service['requirements_desc']
+              $this, $data, $service['requirements_desc']
             );
 
             // ejecutamos el servicio
-            $result = $service['callback']($this, $json);
+            $result = $service['callback']($this, $data);
 
             // preparamos la respuesta a enviar al cliente
             $result = ServiceProvider::prepareResponse($result);

@@ -124,6 +124,7 @@ $controller = new ServiceProvider(
     'zones' => function($config) { return new db\ZonesDAO; },
     'scaleLogs' => function($config) { return new cal\ScaleLogsDAO; },
     'scales' => function($config) { return new cal\ScalesDAO; },
+    'scaleTypes' => function($config) { return new cal\ScaleTypesDAO; },
     'timeLogs' => function($config) { return new cal\TimeLogsDAO; },
     'areasLog' => function($config) { return new preop\AreasLogDAO; },
     'correctiveActions' => function($config) { 

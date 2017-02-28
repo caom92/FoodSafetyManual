@@ -88,13 +88,13 @@ Controller.prototype.post = function(service, data, success, error)
             method: 'POST',
 
             // the data to be sent to the server
-            data: JSON.stringify(data),
+            data: data,
 
             // indicates that we expect to recieve a JSON object as response
             dataType: 'json',
 
             // indicates we are sending a json
-            contentType: 'application/json; charset=UTF-8',
+            contentType: 'application/x-www-form-urlencoded',
 
             // indicates that we don't want jQuery to transform the data into a 
             // URL query string

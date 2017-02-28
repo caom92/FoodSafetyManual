@@ -52,27 +52,23 @@ class ScalesDAO extends db\DataAccessObject
 
     // Returns an associative array that contains the data of all the scales
     // that are registered in the zone with the especified ID
-    function selectAllByZoneID($zoneID)
+    function selectByZoneAndTypeID($zoneID, $typeID)
     {
         return parent::select(
             [
                 "$this->table.id(id)",
                 'is_active',
-                'type_id(type_id)',
-                'st.name(type_name)',
                 'serial_num(name)',
                 'position(order)'
             ],
             [
-                'zone_id' => $zoneID,
+                'AND' => [
+                    'zone_id' => $zoneID,
+                    'type_id' => $typeID
+                ],
                 'ORDER' => [
                     'type_id',
                     'order'
-                ]
-            ],
-            [
-                '[><]gmp_packing_calibration_scale_types(st)' => [
-                    'type_id' => 'id'
                 ]
             ]
         );
