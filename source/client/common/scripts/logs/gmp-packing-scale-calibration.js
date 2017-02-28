@@ -40,7 +40,7 @@ function loadManual(htmlElement, titleElement){
         data: {"log-suffix":"gmp-packing-scale-calibration"},
         success: function(response){
             $(titleElement).html(response.data.log_name);
-            $(htmlElement).append('<iframe src = "/espresso/external/ViewerJS/#../../' + response.data.manual_location + 'actual_manual.pdf" width="100%" height="100%" style="min-height: 300px" allowfullscreen webkitallowfullscreen></iframe>');
+            $(htmlElement).append('<iframe src = "' + $root + 'external/ViewerJS/#../../' + response.data.manual_location + 'actual_manual.pdf" width="100%" height="100%" style="min-height: 300px" allowfullscreen webkitallowfullscreen></iframe>');
             console.log(response);
         }
     });
