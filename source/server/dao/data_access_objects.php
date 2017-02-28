@@ -18,6 +18,8 @@ require_once realpath(dirname(__FILE__)
 require_once realpath(dirname(__FILE__)
     .'/gmp/packing/calibration/ScalesDAO.php');
 require_once realpath(dirname(__FILE__)
+    .'/gmp/packing/calibration/ScaleTypesDAO.php');
+require_once realpath(dirname(__FILE__)
     .'/gmp/packing/calibration/TimeLogsDAO.php');
 require_once realpath(dirname(__FILE__)
     .'/gmp/packing/preop/AreasLogDAO.php');
