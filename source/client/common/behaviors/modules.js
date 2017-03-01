@@ -32,15 +32,15 @@ $(function() {
 
     $("#content_wrapper").html("");
 
-    for(var zone of privileges.zones){
-        for(var program of zone.programs){
+    //for(var zone of privileges.zones){
+        for(var program of privileges[localStorage.zone_name].programs){
             for(var module of program.modules){
                 for(var log of module.logs){
                     $("#content_wrapper").append(logCard(log.name, log.suffix));
                 }
             }
         }
-    }
+    //}
 
     initMaterialize();
 

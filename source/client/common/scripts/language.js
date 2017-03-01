@@ -173,7 +173,7 @@ function loadDefaultLanguage(){
     console.log("Default language loaded: " +  localStorage.defaultLanguage);
 }
 
-function loadToast(id, time, style, prepend, append){
+function loadToast(id, time, style, prepend, append, subs){
     var lang = fromCodeToName(getLanguage());
     var toast = "Undefined Toast Message";
     if(localStorage.toasts == undefined){
@@ -191,6 +191,11 @@ function loadToast(id, time, style, prepend, append){
                         toast = $(this).find(lang).text();
                     }
                 });
+                if($.isArray(subs)){
+                    for(var sub of subs){
+                        toast = toast.replace("{{value}}", sub);
+                    }
+                }
                 if(prepend)
                     toast = prepend + toast;
                 if(append)
@@ -203,6 +208,12 @@ function loadToast(id, time, style, prepend, append){
         console.log("toast sent from localStorage");
         var toastMessages = JSON.parse(localStorage.toasts);
         var toast = toastMessages[id][getLanguage()];
+        if($.isArray(subs)){
+            for(var sub of subs){
+                toast = toast.replace("{{value}}", sub);
+            }
+        }
+        toast = toast.replace(/{{value}}/g, "Undefined Value");
         if(prepend)
             toast = prepend + toast;
         if(append)

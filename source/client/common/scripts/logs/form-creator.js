@@ -114,6 +114,9 @@ Text Field Object
     "disabled": "true or false",
     "required": "true or false",
     "data": [{"key": "value"},{"key": "value"}, ...]
+    "validations": {
+        
+    }
 }
 */
 
@@ -162,6 +165,14 @@ function createTextField(fieldObject){
         field.data(fieldObject.data);
     }
 
+    if($.type(fieldObject.validations) == "object"){
+        field.data("validations", fieldObject.validations);
+        field.addClass("formValidator");
+        if(fieldObject.validations.max != undefined){
+            field.attr("length", fieldObject.validations.max);
+        }
+    }
+
     return field;
 }
 
@@ -187,6 +198,11 @@ function createSelect(selectObject){
 
     for(var option of selectObject.options)
         select.append(createOption(option));
+
+    if($.type(selectObject.validations) == "object"){
+        select.data("validations", selectObject.validations);
+        select.addClass("formValidator");
+    }
 
     return select;
 }
@@ -696,3 +712,63 @@ function logHeaderColumn(column){
         changeLanguage(localStorage.defaultLanguage);
     }); 
 });*/
+
+$(function(){
+    $.fn.validate = function(){
+        var errorCounter = 0;
+        var returnValue = true;
+        var validations = null;
+        var element = $(this);
+
+        if (false == element.hasClass("formValidator")) {
+            return true;
+        } else {
+            validations = element.data("validations");
+        }
+
+        if(validations == undefined){
+            return true;
+        }
+
+        if(element.is(":hidden") && element.hasClass("initialized") == false){
+            return true;
+        }
+
+        if(validations.type == "text"){
+            console.log("Type text");
+            if(validations.max != undefined){
+                if(element.val().length > validations.max){
+                    Materialize.toast("El campo de texto excede la longitud permitida", 2500, "rounded");
+                    element.addClass("invalid");
+                    returnValue = false;
+                }
+            }
+
+            if(validations.min != undefined){
+                if(element.val().length < validations.min){
+                    Materialize.toast("El campo de texto no tiene la longitud minima esperada", 2500, "rounded");
+                    element.addClass("invalid");
+                    returnValue = false;
+                }
+            }
+        } else if (validations.type == "select"){
+            //console.log("Type select");
+            //console.log(element.data("selectId"))
+            //console.log($("#" + element.data("selectId")).is(":hidden"));
+            if($("#" + validations.wrapper).is(":hidden")){
+                returnValue = true;
+            } else {
+                if(validations.required == true){
+                    console.log("Type select");
+                    console.log(element.val());
+                }
+            }
+        } else if (validations.type == "radio"){
+            if(validations.required == true){
+                console.log("Type radio");
+            }
+        }
+
+        return returnValue;
+    } 
+});
