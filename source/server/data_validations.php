@@ -163,6 +163,11 @@ function isDateTime($string, $format)
 // the case or false otherwise
 function isBoolean($value)
 {
+  // check if the value is a boolean
+  if (is_bool($value)) {
+    return true;
+  }
+  
   // check if the value is a string or an integer
   $isInteger = isInteger($value);
   $isString = isString($value);
@@ -185,7 +190,7 @@ function isBoolean($value)
   }
   
   // for anything else, return false
-  return false;
+  return is_bool($value);
 }
 
 

@@ -201,7 +201,8 @@ $accountServices = [
             ],
             'supervisor_id' => [
                 'type' => 'int',
-                'min' => 1
+                'min' => 1,
+                'optional' => true
             ]
         ],
         'callback' => 'fsm\services\account\editUserRole'
@@ -818,7 +819,7 @@ function editUserRole($scope, $request)
     // if a supervisor is required ...
     if ($isSupervisorRequired) {
         // first, check if the user already has a supervisor assigned
-        $hasSupervisor = $scope->supervisorsEmplyees->hasEmployeeID(
+        $hasSupervisor = $scope->supervisorsEmployees->hasEmployeeID(
             $request['user_id']);
 
         // if the user does not have a supervisor assigned, we need to assign

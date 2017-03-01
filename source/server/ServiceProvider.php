@@ -400,6 +400,13 @@ class ServiceProvider
           );
         }
       },
+      'bool' => function($scope, $name, $value, $options) {
+        // check if an input argument is a boolean
+        $isBoolean = isBoolean($value);
+        if (!$isBoolean) {
+          throw new Exception("Input argument '$name' is not a boolean value");
+        }
+      },
       'datetime' => function($scope, $name, $value, $options) {
         // revisamos si la variable es una cadena con un formato valido de 
         // hora y/o fecha
