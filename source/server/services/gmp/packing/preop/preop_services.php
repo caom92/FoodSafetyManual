@@ -190,7 +190,7 @@ function registerLogEntry($scope, $request)
     $segment = $scope->session->getSegment('fsm');
 
     // get the ID of the log that we are working with
-    $logID = $logs->getIDByNames(
+    $logID = $scope->logs->getIDByNames(
         'GMP', 'Packing', 'Pre-Operational Inspection'
     );
 
