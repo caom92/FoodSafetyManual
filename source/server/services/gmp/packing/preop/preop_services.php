@@ -231,7 +231,7 @@ function registerLogEntry($scope, $request)
             array_push($itemsLogEntries, [
                 'area_log_id' => $areaID,
                 'item_id' => $itemsLogEntry['id'],
-                'is_acceptable' => $itemsLogEntry['is_acceptable'] === 'true',
+                'is_acceptable' => $itemsLogEntry['is_acceptable'],// === 'true',
                 'corrective_action_id' =>
                     $itemsLogEntry['corrective_action_id'],
                 'comment' => $itemsLogEntry['comment']

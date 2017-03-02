@@ -76,12 +76,12 @@ function getPrivilegesArray($userPrivileges)
             // if it has, check if the zone is not empty
             if ($zone['id'] != 0) {
                 // if it is not, save the current module to the final array
-                $program[$module['name']] = $module;
-                $zone[$program['name']] = $program;
-                $programPrivileges[$zone['name']] = $zone;
                 array_push($program['modules'], $module);
                 array_push($zone['programs'], $program);
                 array_push($programPrivileges['zones'], $zone);
+                $program[$module['name']] = $module;
+                $zone[$program['name']] = $program;
+                $programPrivileges[$zone['name']] = $zone;                
             }
 
             // then fill the temporal holders with the information of 
@@ -120,7 +120,7 @@ function getPrivilegesArray($userPrivileges)
                 $program[$module['name']] = $module;
                 $zone[$program['name']] = $program;
                 array_push($program['modules'], $module);
-                array_push($zone['programs'], $zone);
+                array_push($zone['programs'], $program);
                 
                 // fill the temporal holders with the new data
                 $log = [
