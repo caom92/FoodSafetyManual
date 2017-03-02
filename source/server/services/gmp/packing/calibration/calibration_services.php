@@ -411,8 +411,8 @@ function registerLogEntry($scope, $request)
                 'time_log_id' => $timeID,
                 'scale_id' => $scaleLog['id'],
                 'test' => $scaleLog['test'],
-                'was_scale_sanitized' => $scaleLog['is_sanitized'] == 'true',
-                'was_test_passed' => $scaleLog['status'] == 'true'
+                'was_scale_sanitized' => $scaleLog['is_sanitized'],
+                'was_test_passed' => $scaleLog['status']
             ]);
         }
     }
