@@ -20,6 +20,7 @@ function loadLogForm(htmlElement){
                 });
                 $('.log_title').html($("#log_name").text());
                 Materialize.toast("Informacion cargada del server", 3000, "rounded");
+                $("input").characterCounter();
             } else {
                 Materialize.toast("Some error", 3000, "rounded");
                 throw response.meta.message;
@@ -45,6 +46,7 @@ function loadPrefilledLogForm(htmlElement, data){
                 });
                 changeLanguage(localStorage.defaultLanguage);
                 Materialize.toast("Informacion cargada del server", 3000, "rounded");
+                $("input").characterCounter();
             } else {
                 Materialize.toast("Some error", 3000, "rounded");
                 throw response.meta.message;
@@ -74,6 +76,27 @@ function loadFunctionality(data){
 
 function loadReport(data){
     return gmpPackingPreopReport(data);
+}
+
+function validateLog(){
+    var errorCounter = 0;
+    var returnValue = false;
+
+    $('.formValidator').each(function(){
+        if(!$(this).validate()){
+            console.log("Invalid input");
+            errorCounter++;
+        }
+    });
+
+    if(errorCounter == 0){
+        returnValue = true;
+        Materialize.toast("Bitacora valida", 2500, "rounded");
+    } else {
+        Materialize.toast("Bitacora no valida", 2500, "rounded");
+    }
+
+    return returnValue;
 }
 
 /******************************************************************************
@@ -348,15 +371,15 @@ function gmpPackingPreopItemCorrectiveAction(item, areaID){
     }
 
     var selectLabel = {"type":"label","contents":{"type":"text","classes":"action_title"}};
-    var actionSelect =  {"type": "select", "id": "correctiveAction_" + item.id,"classes":"timeChanger", "options": actionOptions,"data":{"area_id":areaID,"item_id":item.id}};
+    var actionSelect =  {"type": "select", "id": "correctiveAction_" + item.id,"classes":"timeChanger", "options": actionOptions,"data":{"area_id":areaID,"item_id":item.id},"validations":{"type":"select","required":true,"wrapper":"correctiveActionWrapper_" + item.id}};
     var actionSelectInput = {"id":"correctiveActionWrapper_" + item.id,"classes":"input-field col s12 m12 l4","hidden": true,"field":actionSelect,"label":selectLabel,"data":{"area_id":areaID,"item_id":item.id}};
 
     return actionSelectInput;
 }
 
 function gmpPackingPreopItemComment(item, areaID){
-    var commentLabel = {"type":"label","contents":{"type":"text","classes":"comment_title"}};
-    var commentInput = {"type":"input","id": "comment_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"area_id":areaID,"item_id":item.id}};
+    var commentLabel = {"type":"label","contents":{"type":"text","classes":"comment_title"},"for":"comment_" + item.id};
+    var commentInput = {"type":"input","id": "comment_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"area_id":areaID,"item_id":item.id},"validations":{"type":"text","max":80,"min":30}};
     var commentFullInput = {"id":"commentWrapper_" + item.id,"classes":"input-field col s12 m12 l12","hidden": true,"field":commentInput,"label":commentLabel};
 
     if(item.comment){

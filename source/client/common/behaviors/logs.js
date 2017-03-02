@@ -71,10 +71,10 @@ $(function() {
     $('.indicator').addClass("green");
     createDatePicker();
     changeLanguage();
-    pdfUploader();
+    pdfUploader(getParams._);
 });
 
-function pdfUploader() {
+function pdfUploader(suffix) {
     // We load the tabs; we have 2 or 3 depending on the privileges of the user
     // Read means we can load the PDF manual and see past logs
     // Write means we can read and also submit a new log with the current date
@@ -144,7 +144,7 @@ function pdfUploader() {
                     $('#progress-bar').show();
                     // if it doesn't, send the file to the server
                     $server.request({
-                        service: 'upload-manual-gmp-packing-preop',
+                        service: 'upload-manual-' + suffix,
                         data: formData,
                         success: function(response) {
                             // check if the server responded successfully
