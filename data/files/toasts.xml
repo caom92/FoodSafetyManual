@@ -76,6 +76,11 @@
         <spanish>Hubo un error durante la reasignación, intente nuevamente</spanish>
     </translation>
 
+    <translation id="finish_supervisor_assignation">
+        <english>Attention! The user must be assigned a supervisor to complete this action</english>
+        <spanish>¡Atención! Se debe asignar un supervisor al usuario para completar el cambio de rol</spanish>
+    </translation>
+
     <translation id="duplicated_supervisor">
         <english>You must select different supervisors reassign an employee</english>
         <spanish>Debe escoger supervisores distintos para reasignar empleados</spanish>
