@@ -809,10 +809,6 @@ function editUserRole($scope, $request)
     
     // if a supervisor is required ...
     if ($isSupervisorRequired) {
-        if ($isCurrentlyEmployee) {
-            
-        }
-
         // first, check if the user already has a supervisor assigned
         $hasSupervisor = $scope->supervisorsEmployees->hasEmployeeID(
             $request['user_id']);
@@ -839,6 +835,7 @@ function editUserRole($scope, $request)
                     $scope->users->getRoleByID($request['supervisor_id']);
 
                 // check if the supervisor has the same zone as the employee
+                $userData = $scope->users->getByIdentifier($request['user_id']);
                 $haveSameZone = 
                     $supervisorZone === $userData['zone_id'];
 
