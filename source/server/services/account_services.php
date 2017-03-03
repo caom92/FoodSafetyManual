@@ -864,7 +864,7 @@ function editUserRole($scope, $request)
                 // the actual assignment
                 $scope->supervisorsEmployees->insert([
                     'supervisor_id' => $request['supervisor_id'],
-                    'employee_id' => $userID
+                    'employee_id' => $request['user_id']
                 ]);
             } else {
                 // if the supervisor ID was not provided, notify the user
