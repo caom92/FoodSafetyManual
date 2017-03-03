@@ -198,18 +198,11 @@ function loadSideMenu()
             // and has read privileges to that log
             if (hasPrivileges) {
                 if (localStorage.role_name === 'Supervisor') {
-                    var isPrivilegeDefined = 
-                        typeof privileges[localStorage.zone_name] !== 'undefined' &&
-                        typeof privileges[localStorage.zone_name] !== 'undefined' &&
-                        typeof privileges[localStorage.zone_name]['GMP'] !==
-                        'undefined' &&
-                        typeof privileges[localStorage.zone_name]['GMP']['Packing'] !== 'undefined' &&
-                        typeof privileges[localStorage.zone_name]['GMP']['Packing']['Pre-Operational Inspection'] !== 'undefined';
-
-                    if (isPrivilegeDefined) {
-                        hasPrivilege = privileges[localStorage.zone_name]['GMP']['Packing']['Pre-Operational Inspection']['privilege']['name'] === 'Read';
-
-                        if (hasPrivilege) {
+                    var programs = 
+                        privileges[localStorage.zone_name]['programs'];
+                        
+                    for (var program of programs) {
+                        if (program['modules'].length > 0) {
                             localStorage.menu += 
                                 '<li"><a class="nav-link waves-effect ' +
                                 'waves-green" href="manage-inventory"><i ' +

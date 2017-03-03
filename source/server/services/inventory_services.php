@@ -337,7 +337,7 @@ function getItemsOfZone($scope, $request)
         'program_name' => 'GMP',
         'module_name' => 'Packing',
         'log_name' => 'Pre-Operational Inspection',
-        'areas' => $scope->workingAreas
+        'areas' => $areas
     ];
 }
 

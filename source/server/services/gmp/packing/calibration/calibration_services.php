@@ -384,8 +384,8 @@ function registerLogEntry($scope, $request)
     );
 
     // insert the capture date and the ID of the reportee user
-    $logID = $scope->caputerLogs->insert([
-        'employee_id' => $_SESSION['user_id'],
+    $logID = $scope->capturedLogs->insert([
+        'employee_id' => $segment->get('user_id'),
         'log_id' => $logID,
         'capture_date' => $request['date'],
         'extra_info1' => $request['notes'],
