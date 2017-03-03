@@ -654,13 +654,6 @@ function getPrivilegesOfUser($scope, $request)
                 $request['employee_num']);
         }
 
-        // also get the ID of the privilege that corresponds to the Read
-        // privilege from the db
-        $privilegeID = $scope->privileges->getIDByName('Read');
-
-        // finally check if the user is a supervisor
-        $isSupervisor = $role === 'Supervisor';
-
         // now prepare the temporal storage for the array that will contain
         // the privileges of the user
         $privileges = [];
@@ -693,8 +686,7 @@ function getPrivilegesOfUser($scope, $request)
                 $log = [
                     'id' => $row['log_id'],
                     'name' => $row['log_name'],
-                    'privilege_id' => ($isSupervisor) ? 
-                        $privilegeID : $row['privilege_id']
+                    'privilege_id' => $row['privilege_id']
                 ];
 
                 // and fill the temporal storage of the new module and program
@@ -719,8 +711,7 @@ function getPrivilegesOfUser($scope, $request)
                     $log = [
                         'id' => $row['log_id'],
                         'name' => $row['log_name'],
-                        'privilege_id' => ($isSupervisor) ? 
-                            $privilegeID : $row['privilege_id']
+                        'privilege_id' => $row['privilege_id']
                     ];
                     $module = [
                         'id' => $row['module_id'],
@@ -733,8 +724,7 @@ function getPrivilegesOfUser($scope, $request)
                     array_push($module['logs'], [
                         'id' => $row['log_id'],
                         'name' => $row['log_name'],
-                        'privilege_id' => ($isSupervisor) ? 
-                            $privilegeID : $row['privilege_id']
+                        'privilege_id' => $row['privilege_id']
                     ]);
                 }
             }
@@ -794,6 +784,7 @@ function editUserRole($scope, $request)
     // employees she has assigned
     $currentRole = $scope->users->getRoleByID($request['user_id']);
     $isCurrentlySupervisor = $currentRole === 'Supervisor';
+    $isCurrentlyEmployee = $currentRole === 'Employee';
 
     if ($isCurrentlySupervisor) {
         // if the current role is supervisor, retrieve the number of employees 
@@ -818,6 +809,10 @@ function editUserRole($scope, $request)
     
     // if a supervisor is required ...
     if ($isSupervisorRequired) {
+        if ($isCurrentlyEmployee) {
+            
+        }
+
         // first, check if the user already has a supervisor assigned
         $hasSupervisor = $scope->supervisorsEmployees->hasEmployeeID(
             $request['user_id']);
