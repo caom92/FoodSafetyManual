@@ -81,7 +81,7 @@ function getPrivilegesArray($userPrivileges)
                 array_push($programPrivileges['zones'], $zone);
                 $program[$module['name']] = $module;
                 $zone[$program['name']] = $program;
-                $programPrivileges[$zone['name']] = $zone;                
+                $programPrivileges[$zone['name']] = $zone;
             }
 
             // then fill the temporal holders with the information of 
@@ -117,10 +117,10 @@ function getPrivilegesArray($userPrivileges)
             if ($hasProgramChanged) {
                 // if it has, store the current module and program to the 
                 // zone holder
-                $program[$module['name']] = $module;
-                $zone[$program['name']] = $program;
                 array_push($program['modules'], $module);
                 array_push($zone['programs'], $program);
+                $program[$module['name']] = $module;
+                $zone[$program['name']] = $program;
                 
                 // fill the temporal holders with the new data
                 $log = [
@@ -150,8 +150,8 @@ function getPrivilegesArray($userPrivileges)
                 if ($hasModuleChanged) {
                     // if it has, store the info in the temporal program
                     // holder
-                    $program[$module['name']] = $module;
                     array_push($program['modules'], $module);
+                    $program[$module['name']] = $module;
 
                     // and then fill the temporal module holder with the
                     // information of this new module
@@ -183,8 +183,8 @@ function getPrivilegesArray($userPrivileges)
                             'name' => $row['privilege_name']
                         ]
                     ];
-                    $module[$log['name']] = $log;
                     array_push($module['logs'], $log);
+                    $module[$log['name']] = $log;
                 }
             }
         }
@@ -192,16 +192,16 @@ function getPrivilegesArray($userPrivileges)
 
     // don't forget to add the last entry to the final structure
     if ($module['id'] != 0) {
-        $program[$module['name']] = $module;
         array_push($program['modules'], $module);
+        $program[$module['name']] = $module;
     }
     if ($program['id'] != 0) {
-        $zone[$program['name']] = $program;
         array_push($zone['programs'], $program);
+        $zone[$program['name']] = $program;
     }
     if ($zone['id'] != 0) {
-        $programPrivileges[$zone['name']] = $zone;
         array_push($programPrivileges['zones'], $zone);
+        $programPrivileges[$zone['name']] = $zone;
     }
 
     // return the resulting data structure
