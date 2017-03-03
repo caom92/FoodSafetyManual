@@ -189,7 +189,7 @@ function addSupervisorSelect(zoneID, selectedOption){
                         data: editUser,
                         success: function(response){
                             if (response.meta.return_code == 0) {
-                                loadToast("role_modified", 3500, "rounded", null, $("#user-role option:selected").text());
+                                //loadToast("role_modified", 3500, "rounded", null, $("#user-role option:selected").text());
                             } else {
                                 loadToast("finish_supervisor_assignation", 3500, "rounded");
                             }
@@ -852,7 +852,7 @@ $(function (){
     $("#user-role").change(function(e) {
         var data = new Object();
         var employeeRole = 5; // Employee role in the DB
-        data.user_id = get.user_id;
+        data.user_id = parseInt($("#user-id").data("user_id"));
         data.role_id = parseInt($("#user-role").val());
 
         if(data.role_id != 5){
