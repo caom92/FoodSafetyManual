@@ -180,13 +180,31 @@ function addSupervisorSelect(zoneID, selectedOption){
                     $("#supervisor_select_wrapper").append(select);
                     $("#supervisor_select_wrapper").append(label);
                     $("#supervisor_select").val($("#user-id").data("supervisor_id"));
+                    var editUser = {};
+                    editUser.user_id = parseInt($("#user-id").data("user_id"));
+                    editUser.role_id = 5;
+                    editUser.supervisor_id = parseInt($("#supervisor_select").val());
+                    $server.request({
+                        service: 'edit-user-role',
+                        data: editUser,
+                        success: function(response){
+                            if (response.meta.return_code == 0) {
+                                loadToast("role_modified", 3500, "rounded", null, $("#user-role option:selected").text());
+                            } else {
+                                loadToast("finish_supervisor_assignation", 3500, "rounded");
+                            }
+                        }
+                    });
                     $("#supervisor_select").on("change", function(){
                         var assignment = {};
-                        assignment.employee_id = parseInt($("#user-id").data("user_id"));
+                        //assignment.employee_id = parseInt($("#user-id").data("user_id"));
+                        //assignment.supervisor_id = parseInt($(this).val());
+                        //assignment = {"assignments":[assignment]};
+                        assignment.user_id = parseInt($("#user-id").data("user_id"));
+                        assignment.role_id = 5;
                         assignment.supervisor_id = parseInt($(this).val());
-                        assignment = {"assignments":[assignment]};
                         $server.request({
-                            service: 'assign-employees-to-supervisors',
+                            service: 'edit-user-role',
                             data: assignment,
                             success: function(response){
                                 if (response.meta.return_code == 0) {
@@ -833,37 +851,44 @@ $(function (){
     //To change the permissions related to user's role
     $("#user-role").change(function(e) {
         var data = new Object();
+        var employeeRole = 5; // Employee role in the DB
         data.user_id = get.user_id;
         data.role_id = parseInt($("#user-role").val());
-        if(localStorage.employeesOfSupervisor == "0"){
-            $server.request({
-                service: 'edit-user-role',
-                data: data,
-                success: function(response){
-                    if (response.meta.return_code == 0){
-                        loadToast("role_modified", 3500, "rounded", null, $("#user-role option:selected").text());
-                    } else {
-                        loadToast("generic_error", 3500, "rounded");
+
+        if(data.role_id != 5){
+            if(localStorage.employeesOfSupervisor == "0"){
+                $server.request({
+                    service: 'edit-user-role',
+                    data: data,
+                    success: function(response){
+                        if (response.meta.return_code == 0){
+                            loadToast("role_modified", 3500, "rounded", null, $("#user-role option:selected").text());
+                        } else {
+                            loadToast("generic_error", 3500, "rounded");
+                        }
                     }
+                });
+                hidePermissionForms();
+                if($(this).val() == 3){
+                    addZoneSelect(false, $("#user-id").data("zone_id"));
+                    addProgramSelect(2, parseInt($("#user-id").val()));
                 }
-            });
-            hidePermissionForms();
-            if($(this).val() == 3){
-                addZoneSelect(false, $("#user-id").data("zone_id"));
-                addProgramSelect(2, parseInt($("#user-id").val()));
-            }
-            if($(this).val() == 4){
-                addZoneSelect(false, $("#user-id").data("zone_id"));
-            }
-            if($(this).val() == 5){
-                addZoneSelect(true, $("#user-id").data("zone_id"));
-                addProgramSelect(3, parseInt($("#user-id").val()));
+                if($(this).val() == 4){
+                    addZoneSelect(false, $("#user-id").data("zone_id"));
+                }
+                /*if($(this).val() == 5){
+                    addZoneSelect(true, $("#user-id").data("zone_id"));
+                    addProgramSelect(3, parseInt($("#user-id").val()));
+                }*/
+            } else {
+                $("#user-role").val(3);
+                $("select").material_select("destroy");
+                $("select").material_select();
+                loadToast("supervisor_has_employees_role", 3500, "rounded");
             }
         } else {
-            $("#user-role").val(3);
-            $("select").material_select("destroy");
-            $("select").material_select();
-            loadToast("supervisor_has_employees_role", 3500, "rounded");
+            addZoneSelect(true, $("#user-id").data("zone_id"));
+            addProgramSelect(3, parseInt($("#user-id").val()));
         }
     });
 
