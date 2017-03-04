@@ -190,6 +190,7 @@ function addSupervisorSelect(zoneID, selectedOption){
                         success: function(response){
                             if (response.meta.return_code == 0) {
                                 //loadToast("role_modified", 3500, "rounded", null, $("#user-role option:selected").text());
+                                addProgramSelect(3, parseInt($("#user-id").val()));
                             } else {
                                 loadToast("finish_supervisor_assignation", 3500, "rounded");
                             }
@@ -210,6 +211,7 @@ function addSupervisorSelect(zoneID, selectedOption){
                                 if (response.meta.return_code == 0) {
                                     loadToast("supervisor_assign_success", 3500, "rounded", null, ": " + $("#supervisor_select option:selected").text());
                                     $("#user-id").data("supervisor_id", $("#supervisor_select").val());
+                                    addProgramSelect(3, parseInt($("#user-id").val()));
                                     console.log("Cambio supervisor");
                                 } else {
                                     loadToast("supervisor_assign_fail", 3500, "rounded");
@@ -590,7 +592,7 @@ function roleSelect(selected) {
             }
             if(role == 5){
                 addZoneSelect(true, $("#user-id").data("zone_id"));
-                addProgramSelect(3, parseInt($("#user-id").val()));
+                //addProgramSelect(3, parseInt($("#user-id").val()));
             }
         }
     });
@@ -888,7 +890,7 @@ $(function (){
             }
         } else {
             addZoneSelect(true, $("#user-id").data("zone_id"));
-            addProgramSelect(3, parseInt($("#user-id").val()));
+            //addProgramSelect(3, parseInt($("#user-id").val()));
         }
     });
 
