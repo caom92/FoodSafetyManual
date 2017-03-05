@@ -33,7 +33,8 @@ $gmpPackingPreopServices = [
             ],
             'album_url' => [
                 'type' => 'string',
-                'max_length' => 256
+                'max_length' => 256,
+                'optional' => true
             ],
             'areas' => [
                 'type' => 'array',
