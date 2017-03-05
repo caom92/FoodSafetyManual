@@ -268,6 +268,11 @@ function createRadioGroup(groupObject){
     if(groupObject.classes)
         group.addClass(groupObject.classes);
 
+    if($.type(groupObject.validations) == "object"){
+        group.data("validations", groupObject.validations);
+        group.addClass("formValidator");
+    }
+
     for(var radio of groupObject.radioArray)
         group.append(createRadioOption(radio, groupObject.group));
 
@@ -752,20 +757,26 @@ $(function(){
                 }
             }
         } else if (validations.type == "select"){
-            //console.log("Type select");
-            //console.log(element.data("selectId"))
-            //console.log($("#" + element.data("selectId")).is(":hidden"));
             if($("#" + validations.wrapper).is(":hidden")){
                 returnValue = true;
             } else {
                 if(validations.required == true){
                     console.log("Type select");
                     console.log(element.val());
+                    for(var invalid of validations.invalidValues){
+                        if(element.val() == invalid){
+                            returnValue == false;
+                            Materialize.toast("El campo de seleccion no tiene un valor valido", 2500, "rounded");
+                        }
+                    }                    
                 }
             }
         } else if (validations.type == "radio"){
             if(validations.required == true){
-                console.log("Type radio");
+                if($("input[name='" + validations.groupName + "']:checked").val() == undefined){
+                    returnValue = false;
+                    Materialize.toast("El campo de radio debe tener al menos una opcion seleccionada", 2500, "rounded");
+                }
             }
         }
 

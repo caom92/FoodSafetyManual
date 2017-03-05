@@ -114,42 +114,44 @@ function sendGmpPackingPreopReport(){
     report.album_url = $("#report_url").val();
     report.areas = new Array();
 
-    $(".area-card").each(function(){
-        var area = new Object();
-        var areaID = $(this).data("id");
-        area.id = areaID;
-        area.time = $("#time_" + areaID).val();
-        area.notes = $("#notes_" + areaID).val();
-        area.person_performing_sanitation = $("#sanitation_" + areaID).val();
-        area.items = new Array();
-        $(this).children(".item-card").each(function(){
-            var item = new Object();
-            var itemID = $(this).data("id");
-            item.id = itemID;
-            item.is_acceptable = getBool($("input:radio[name='radio_" + itemID + "']:checked").val());
-            if(item.is_acceptable){
-                item.corrective_action_id = 1;
-                item.comment = "";
-            } else {
-                item.corrective_action_id = parseInt($("#correctiveAction_" + itemID).val());
-                item.comment = $("#comment_" + itemID).val();
-            }
-            area.items.push(item);
+    if(validateLog()){
+        $(".area-card").each(function(){
+            var area = new Object();
+            var areaID = $(this).data("id");
+            area.id = areaID;
+            area.time = $("#time_" + areaID).val();
+            area.notes = $("#notes_" + areaID).val();
+            area.person_performing_sanitation = $("#sanitation_" + areaID).val();
+            area.items = new Array();
+            $(this).children(".item-card").each(function(){
+                var item = new Object();
+                var itemID = $(this).data("id");
+                item.id = itemID;
+                item.is_acceptable = getBool($("input:radio[name='radio_" + itemID + "']:checked").val());
+                if(item.is_acceptable){
+                    item.corrective_action_id = 1;
+                    item.comment = "";
+                } else {
+                    item.corrective_action_id = parseInt($("#correctiveAction_" + itemID).val());
+                    item.comment = $("#comment_" + itemID).val();
+                }
+                area.items.push(item);
+            });
+            report.areas.push(area);
         });
-        report.areas.push(area);
-    });
 
-    $server.request({
-        service: 'capture-gmp-packing-preop',
-        data: report,
-        success: function(response){
-            if (response.meta.return_code == 0) {
-                Materialize.toast("Reporte enviado con exito", 3000, "rounded");
-            } else {
-                Materialize.toast(response.meta.message, 3000, "rounded");
+        $server.request({
+            service: 'capture-gmp-packing-preop',
+            data: report,
+            success: function(response){
+                if (response.meta.return_code == 0) {
+                    Materialize.toast("Reporte enviado con exito", 3000, "rounded");
+                } else {
+                    Materialize.toast(response.meta.message, 3000, "rounded");
+                }
             }
-        }
-    });
+        });
+    }
 }
 
 function updateGmpPackingPreopReport(reportID){
@@ -222,7 +224,7 @@ function gmpPackingPreopLog(data, htmlElement){
 
 function gmpPackingPreopComment(reportComment){
     var commentLabel = {"type":"label","contents":{"type":"text","classes":"comment_title"}};
-    var commentInput = {"type":"input","id": "report_comment", "classes": "validate", "fieldType":"text"};
+    var commentInput = {"type":"input","id": "report_comment", "classes": "validate", "fieldType":"text","validations":{"type":"text","max":80}};
     var commentFullInput = {"id":"reportCommentWrapper","classes":"input-field col s12 m12 l12","field":commentInput,"label":commentLabel};
 
     if(reportComment){
@@ -235,7 +237,7 @@ function gmpPackingPreopComment(reportComment){
 
 function gmpPackingPreopAlbumURL(reportUrl){
     var urlLabel = {"type":"label","contents":{"type":"text","classes":"url_title"}};
-    var urlInput = {"type":"input","id": "report_url", "classes": "validate", "fieldType":"text"};
+    var urlInput = {"type":"input","id": "report_url", "classes": "validate", "fieldType":"text","validations":{"type":"text","max":256}};
     var urlFullInput = {"id":"reportUrlWrapper","classes":"input-field col s12 m12 l12","field":urlInput,"label":urlLabel};
 
     if(reportUrl){
@@ -295,7 +297,7 @@ function gmpPackingPreopAreaTime(areaID, time){
 
 function gmpPackingPreopAreaNotes(areaID, notes){
     var notesLabel = {"type":"label","contents":{"type":"text","classes":"notes_title"},"for":"notes_" + areaID};
-    var notesInput = {"type":"input","id": "notes_" + areaID, "classes": "timeChanger validate", "fieldType":"text","data":{"area_id":areaID}};
+    var notesInput = {"type":"input","id": "notes_" + areaID, "classes": "timeChanger validate", "fieldType":"text","data":{"area_id":areaID},"validations":{"type":"text","max":256}};
     var notesFullInput = {"id":"notesWrapper_" + areaID,"classes":"input-field col s12 m12 l12","field":notesInput,"label":notesLabel};
 
     if(notes){
@@ -308,7 +310,7 @@ function gmpPackingPreopAreaNotes(areaID, notes){
 
 function gmpPackingPreopAreaSanitation(areaID, person){
     var sanitationLabel = {"type":"label","contents":{"type":"text","classes":"person_performing_sanitation_title"},"for":"sanitation_" + areaID};
-    var sanitationInput = {"type":"input","id": "sanitation_" + areaID, "classes": "timeChanger validate", "fieldType":"text","data":{"area_id":areaID}};
+    var sanitationInput = {"type":"input","id": "sanitation_" + areaID, "classes": "timeChanger validate", "fieldType":"text","data":{"area_id":areaID},"validations":{"type":"text","max":64}};
     var sanitationFullInput = {"id":"sanitationWrapper_" + areaID,"classes":"input-field col s12 m12 l12","field":sanitationInput,"label":sanitationLabel};
 
     if(person){
@@ -347,7 +349,7 @@ function gmpPackingPreopItemStatus(item, areaID){
     var unacceptableIcon = {"type":"text","classes":"unacceptable_tag big"};
     var radioAcceptable = {"type":"radio","id":"acceptable_" + item.id,"classes":"timeChanger","value":"true","label":{"type":"label","classes":"black-text","for":"acceptable_" + item.id,"contents": acceptableIcon},"data":{"area_id":areaID,"item_id":item.id}};
     var radioUnacceptable = {"type":"radio","id":"unacceptable_" + item.id,"classes":"timeChanger","value":"false","label":{"type":"label","classes":"black-text","for":"unacceptable_" + item.id,"contents": unacceptableIcon},"data":{"area_id":areaID,"item_id":item.id}};
-    var itemRadioGroup = {"type": "radioGroup", "id":"radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"radio_" + item.id,"radioArray":[radioAcceptable, radioUnacceptable]};
+    var itemRadioGroup = {"type": "radioGroup", "id":"radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"radio_" + item.id,"radioArray":[radioAcceptable, radioUnacceptable],"validations":{"type":"radio","required":true,"groupName":"radio_" + item.id}};
     var groupInput = {"id":"radioWrapper_" + item.id,"classes":"col s8 m8 l4","field":itemRadioGroup};
 
     if(item.status == 1){
@@ -362,7 +364,9 @@ function gmpPackingPreopItemStatus(item, areaID){
 function gmpPackingPreopItemCorrectiveAction(item, areaID){
     var actionOptions = new Array();
 
-    for(var action of JSON.parse(localStorage.correctiveActionsSSOP)){
+    var correctiveActions = JSON.parse(localStorage.correctiveActionsSSOP);
+
+    for(var action of correctiveActions){
         var tempOption = {"value":action.id,"text":action.name,"classes":"timeChanger","data":{"area_id":areaID,"item_id":item.id}};
         if(item.corrective_action_id == action.id){
             tempOption.selected = true;
@@ -371,7 +375,7 @@ function gmpPackingPreopItemCorrectiveAction(item, areaID){
     }
 
     var selectLabel = {"type":"label","contents":{"type":"text","classes":"action_title"}};
-    var actionSelect =  {"type": "select", "id": "correctiveAction_" + item.id,"classes":"timeChanger", "options": actionOptions,"data":{"area_id":areaID,"item_id":item.id},"validations":{"type":"select","required":true,"wrapper":"correctiveActionWrapper_" + item.id}};
+    var actionSelect =  {"type": "select", "id": "correctiveAction_" + item.id,"classes":"timeChanger", "options": actionOptions,"data":{"area_id":areaID,"item_id":item.id},"validations":{"type":"select","required":true,"wrapper":"correctiveActionWrapper_" + item.id,"invalidValues":[1]}};
     var actionSelectInput = {"id":"correctiveActionWrapper_" + item.id,"classes":"input-field col s12 m12 l4","hidden": true,"field":actionSelect,"label":selectLabel,"data":{"area_id":areaID,"item_id":item.id}};
 
     return actionSelectInput;
@@ -379,7 +383,7 @@ function gmpPackingPreopItemCorrectiveAction(item, areaID){
 
 function gmpPackingPreopItemComment(item, areaID){
     var commentLabel = {"type":"label","contents":{"type":"text","classes":"comment_title"},"for":"comment_" + item.id};
-    var commentInput = {"type":"input","id": "comment_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"area_id":areaID,"item_id":item.id},"validations":{"type":"text","max":80,"min":30}};
+    var commentInput = {"type":"input","id": "comment_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"area_id":areaID,"item_id":item.id},"validations":{"type":"text","max":80}};
     var commentFullInput = {"id":"commentWrapper_" + item.id,"classes":"input-field col s12 m12 l12","hidden": true,"field":commentInput,"label":commentLabel};
 
     if(item.comment){
