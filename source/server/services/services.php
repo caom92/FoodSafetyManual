@@ -11,5 +11,11 @@ require_once realpath(dirname(__FILE__)
     .'/gmp/packing/preop/preop_services.php');
 require_once realpath(dirname(__FILE__)
     .'/gmp/packing/calibration/calibration_services.php');
+require_once realpath(dirname(__FILE__)
+    .'/gmp/packing/thermometers/thermometer_services.php');
+require_once realpath(dirname(__FILE__)
+    .'/gmp/packing/scissors/scissor_services.php');
+require_once realpath(dirname(__FILE__)
+    .'/gmp/packing/glass/glass_services.php');
 
 ?>

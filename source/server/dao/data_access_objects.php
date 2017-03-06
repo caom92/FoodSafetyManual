@@ -27,5 +27,20 @@ require_once realpath(dirname(__FILE__)
     .'/gmp/packing/preop/CorrectiveActionsDAO.php');
 require_once realpath(dirname(__FILE__)
     .'/gmp/packing/preop/ItemsLogDAO.php');
+require_once realpath(dirname(__FILE__)
+    .'/gmp/packing/thermometers/ThermoLogsDAO.php');
+require_once realpath(dirname(__FILE__)
+    .'/gmp/packing/thermometers/ThermometersDAO.php');
+require_once realpath(dirname(__FILE__)
+    .'/gmp/packing/thermometers/TimeLogsDAO.php');
+require_once realpath(dirname(__FILE__)
+    .'/gmp/packing/scissors/GroupsDAO.php');
+require_once realpath(dirname(__FILE__)
+    .'/gmp/packing/scissors/LogsDAO.php');
+require_once realpath(dirname(__FILE__)
+    .'/gmp/packing/glass/AreaGlassDAO.php');
+require_once realpath(dirname(__FILE__)
+    .'/gmp/packing/glass/LogsDAO.php');
+
 
 ?>
