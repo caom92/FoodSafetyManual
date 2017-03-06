@@ -59,6 +59,27 @@ function loadReport(data){
     return scaleCalibrationReport(data);
 }
 
+function validateLog(){
+    var errorCounter = 0;
+    var returnValue = false;
+
+    $('.formValidator').each(function(){
+        if(!$(this).validate()){
+            console.log("Invalid input");
+            errorCounter++;
+        }
+    });
+
+    if(errorCounter == 0){
+        returnValue = true;
+        Materialize.toast("Bitacora valida", 2500, "rounded");
+    } else {
+        Materialize.toast("Bitacora no valida", 2500, "rounded");
+    }
+
+    return returnValue;
+}
+
 /******************************************************************************
 A collection of functions to display the Log Form. This will be related to the
 name of the log, located in the name_suffix field on the database. Usually, we
@@ -76,45 +97,47 @@ function sendScaleCalibrationReport(){
     console.log(JSON.stringify(report));
     console.log(report);
 
-    $(".type-card").each(function(){
-        console.log("TYPE CARD " + $(this).data("id"));
-        var type = new Object();
-        var typeID = $(this).data("id");
+    if(validateLog()){
+        $(".type-card").each(function(){
+            console.log("TYPE CARD " + $(this).data("id"));
+            var type = new Object();
+            var typeID = $(this).data("id");
 
-        type.id = typeID;
-        type.time = $("#time_" + typeID).val();
-        type.items = new Array();
+            type.id = typeID;
+            type.time = $("#time_" + typeID).val();
+            type.items = new Array();
 
-        $(this).children(".item-card").each(function(){
-            var item = new Object();
-            var itemID = $(this).data("id");
-            item.id = itemID;
-            item.test = $("#test_" + itemID).val();
-            item.status = getBool($("input:radio[name='radio_" + itemID + "']:checked").val());
-            if($("input[id='sanitation_" + itemID + "']:checked").length == 1){
-                item.is_sanitized = true;
-            } else {
-                item.is_sanitized = false;
-            }
-            type.items.push(item);
+            $(this).children(".item-card").each(function(){
+                var item = new Object();
+                var itemID = $(this).data("id");
+                item.id = itemID;
+                item.test = $("#test_" + itemID).val();
+                item.status = getBool($("input:radio[name='radio_" + itemID + "']:checked").val());
+                if($("input[id='sanitation_" + itemID + "']:checked").length == 1){
+                    item.is_sanitized = true;
+                } else {
+                    item.is_sanitized = false;
+                }
+                type.items.push(item);
+            });
+
+            report.types.push(type);
         });
 
-        report.types.push(type);
-    });
+        console.log(report);
 
-    console.log(report);
-
-    $server.request({
-        service: 'capture-gmp-packing-scale-calibration',
-        data: report,
-        success: function(response){
-            if (response.meta.return_code == 0) {
-                Materialize.toast("Reporte enviado con exito", 3000, "rounded");
-            } else {
-                Materialize.toast(response.meta.message, 3000, "rounded");
+        $server.request({
+            service: 'capture-gmp-packing-scale-calibration',
+            data: report,
+            success: function(response){
+                if (response.meta.return_code == 0) {
+                    Materialize.toast("Reporte enviado con exito", 3000, "rounded");
+                } else {
+                    Materialize.toast(response.meta.message, 3000, "rounded");
+                }
             }
-        }
-    });
+        });
+    }
 }
 
 function updateScaleCalibrationReport(reportID){
@@ -228,7 +251,7 @@ function scaleCalibrationItemTitle(item, typeID){
 
 function scaleCalibrationItemTest(item, typeID){
     var testLabel = {"type":"label","contents":{"type":"text","classes":"test_title"}};
-    var testInput = {"type":"input","id": "test_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"type_id":typeID,"item_id":item.id}};
+    var testInput = {"type":"input","id": "test_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"type_id":typeID,"item_id":item.id},"validations":{"type":"number","toast":"gmp-packing-scale-calibration-test"}};
     var testFullInput = {"id":"testWrapper_" + item.id,"classes":"input-field col s6 m3 l3","field":testInput,"label":testLabel};
 
     if(item.test){
@@ -244,7 +267,7 @@ function scaleCalibrationItemStatus(item, typeID){
     var unacceptableIcon = {"type":"text","classes":"fail_tag big"};
     var radioAcceptable = {"type":"radio","id":"acceptable_" + item.id,"classes":"timeChanger","value":"true","label":{"type":"label","classes":"black-text","for":"acceptable_" + item.id,"contents": acceptableIcon},"data":{"type_id":typeID,"item_id":item.id}};
     var radioUnacceptable = {"type":"radio","id":"unacceptable_" + item.id,"classes":"timeChanger","value":"false","label":{"type":"label","classes":"black-text","for":"unacceptable_" + item.id,"contents": unacceptableIcon},"data":{"type_id":typeID,"item_id":item.id}};
-    var itemRadioGroup = {"type": "radioGroup", "id":"radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"radio_" + item.id,"radioArray":[radioAcceptable, radioUnacceptable]};
+    var itemRadioGroup = {"type": "radioGroup", "id":"radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"radio_" + item.id,"radioArray":[radioAcceptable, radioUnacceptable],"validations":{"type":"radio","required":{"value":true,"toast":"gmp-packing-scale-calibration-status"}}};
     var groupInput = {"id":"radioWrapper_" + item.id,"classes":"col s6 m3 l3","field":itemRadioGroup};
 
     if(item.status == 1){

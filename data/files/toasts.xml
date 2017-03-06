@@ -220,4 +220,97 @@
         <english>User role has been modified to </english>
         <spanish>El rol del usuario ha sido cambiado a </spanish>
     </translation>
+
+    <!--Form creator validation toasts-->
+
+    <!--Generic-->
+
+    <translation id="generic-text-max">
+        <english>Text must be no longer than {{value}} characters</english>
+        <spanish>El texto no debe superar los {{value}} caracteres</spanish>
+    </translation>
+
+    <translation id="generic-text-min">
+        <english>Text must be at least {{value}} characters long</english>
+        <spanish>El texto debe tener al menos {{value}} caracteres</spanish>
+    </translation>
+
+    <translation id="generic-text-required">
+        <english>You must enter a text value</english>
+        <spanish>Debe introducir un valor en el campo de texto</spanish>
+    </translation>
+
+    <translation id="generic-number-max">
+        <english>The number must be lower than {{value}}</english>
+        <spanish>El número debe ser menor a {{value}}</spanish>
+    </translation>
+
+    <translation id="generic-number-min">
+        <english>The number must be higher than {{value}}</english>
+        <spanish>El número debe ser mayor a {{value}}</spanish>
+    </translation>
+
+    <translation id="generic-number-required">
+        <english>The value must be a number</english>
+        <spanish>El valor del campo debe ser numérico</spanish>
+    </translation>
+
+    <translation id="generic-select-required">
+        <english>You must select a valid option</english>
+        <spanish>Debe seleccionar una opción válida</spanish>
+    </translation>
+
+    <translation id="generic-radio-required">
+        <english>You must select one option</english>
+        <spanish>Debe marcar una opción</spanish>
+    </translation>
+
+    <!--GMP Packing Preop-->
+
+    <translation id="gmp-packing-preop-item-status">
+        <english>You must mark an item as either Acceptable or Unacceptable</english>
+        <spanish>Debe marcar el objeto como Aceptable o No Aceptable</spanish>
+    </translation>
+
+    <translation id="gmp-packing-preop-item-corrective-action">
+        <english>You must select a corrective action other than None</english>
+        <spanish>Debe seleccionar una acción correctiva diferente a None (ninguno)</spanish>
+    </translation>
+
+    <translation id="gmp-packing-preop-item-comment">
+        <english>The comment for an item must not exceed {{value}} characters</english>
+        <spanish>El comentario de un objeto no debe exceder {{value}} caracteres</spanish>
+    </translation>
+
+    <translation id="gmp-packing-preop-area-notes">
+        <english>The notes for an area must not exceed {{value}} characters</english>
+        <spanish>Las notas de área no deben exceder {{value}} caracteres</spanish>
+    </translation>
+
+    <translation id="gmp-packing-preop-area-sanitation">
+        <english>The name of the person performing sanitation must not exceed {{value}} characters</english>
+        <spanish>El nombre de la persona a cargo de la sanitización no debe exceder {{value}} caracteres</spanish>
+    </translation>
+
+    <translation id="gmp-packing-preop-report-notes">
+        <english>The notes of the report must not exceed {{value}} characters</english>
+        <spanish>Las notas del reporte no deben exceder {{value}} caracteres</spanish>
+    </translation>
+
+    <translation id="gmp-packing-preop-report-url">
+        <english>The URL of the Picasa Album must not exceed {{value}} characters</english>
+        <spanish>El URL del album de Picasa no debe exceder {{value}} caracteres</spanish>
+    </translation>
+
+    <!--GMP Packing Scale Calibration-->
+
+    <translation id="gmp-packing-scale-calibration-test">
+        <english>The test result must be a number</english>
+        <spanish>El resultado de la prueba debe ser un número</spanish>
+    </translation>
+
+    <translation id="gmp-packing-scale-calibration-status">
+        <english>You must either select a scale to Pass or Fail</english>
+        <spanish>El resultado de la prueba debe marcarse como Pasó o Falló</spanish>
+    </translation>
 </translations>

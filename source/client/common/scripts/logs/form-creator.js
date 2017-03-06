@@ -169,7 +169,9 @@ function createTextField(fieldObject){
         field.data("validations", fieldObject.validations);
         field.addClass("formValidator");
         if(fieldObject.validations.max != undefined){
-            field.attr("length", fieldObject.validations.max);
+            if(fieldObject.validations.max.value != undefined){
+                field.attr("length", fieldObject.validations.max.value);
+            }
         }
     }
 
@@ -742,40 +744,100 @@ $(function(){
         if(validations.type == "text"){
             console.log("Type text");
             if(validations.max != undefined){
-                if(element.val().length > validations.max){
-                    Materialize.toast("El campo de texto excede la longitud permitida", 2500, "rounded");
-                    element.addClass("invalid");
-                    returnValue = false;
+                if(validations.max.value != undefined){
+                    if(element.val().length > validations.max.value){
+                        if(validations.max.toast != undefined){
+                            loadToast(validations.max.toast, 2500, "rounded", null, null, [validations.max.value]);
+                        } else {
+                            loadToast("generic-text-max", 2500, "rounded", null, null, [validations.max.value]);
+                        }
+                        element.addClass("invalid");
+                        returnValue = false;
+                    }
                 }
             }
 
             if(validations.min != undefined){
-                if(element.val().length < validations.min){
-                    Materialize.toast("El campo de texto no tiene la longitud minima esperada", 2500, "rounded");
-                    element.addClass("invalid");
-                    returnValue = false;
+                if(validations.min.value != undefined){
+                    if(element.val().length < validations.min.value){
+                        if(validations.min.toast != undefined){
+                            loadToast(validations.min.toast, 2500, "rounded", null, null, [validations.min.value]);
+                        } else {
+                            loadToast("generic-text-min", 2500, "rounded", null, null, [validations.min.value]);
+                        }
+                        element.addClass("invalid");
+                        returnValue = false;
+                    }
+                }
+            }
+        } else if (validations.type == "number"){
+            console.log("Type number");
+
+            if(element.val() != Number(element.val())){
+                if(validations.toast != undefined){
+                    loadToast(validations.toast, 2500, "rounded");
+                } else {
+                    loadToast("generic-number-required", 2500, "rounded");
+                }
+                element.addClass("invalid");
+                returnValue = false;
+            } else {
+                if(validations.max != undefined){
+                    if(validations.max.value != undefined){
+                        if(element.val() > validations.max.value){
+                            if(validations.max.toast != undefined){
+                                loadToast(validations.max.toast, 2500, "rounded", null, null, [validations.max.value]);
+                            } else {
+                                loadToast("generic-number-max", 2500, "rounded", null, null, [validations.max.value]);
+                            }
+                            element.addClass("invalid");
+                            returnValue = false;
+                        }
+                    }
+                }
+
+                if(validations.min != undefined){
+                    if(validations.min.value != undefined){
+                        if(element.val() < validations.min.value){
+                            if(validations.min.toast != undefined){
+                                loadToast(validations.min.toast, 2500, "rounded", null, null, [validations.min.value]);
+                            } else {
+                                loadToast("generic-number-min", 2500, "rounded", null, null, [validations.min.value]);
+                            }
+                            element.addClass("invalid");
+                            returnValue = false;
+                        }
+                    }
                 }
             }
         } else if (validations.type == "select"){
             if($("#" + validations.wrapper).is(":hidden")){
                 returnValue = true;
             } else {
-                if(validations.required == true){
+                if(validations.required.value == true){
                     console.log("Type select");
                     console.log(element.val());
                     for(var invalid of validations.invalidValues){
                         if(element.val() == invalid){
                             returnValue == false;
-                            Materialize.toast("El campo de seleccion no tiene un valor valido", 2500, "rounded");
+                            if(validations.required.toast != undefined){
+                                loadToast(validations.required.toast, 2500, "rounded");
+                            } else {
+                                loadToast("generic-select-required", 2500, "rounded");
+                            }
                         }
                     }                    
                 }
             }
         } else if (validations.type == "radio"){
-            if(validations.required == true){
+            if(validations.required.value == true){
                 if($("input[name='" + validations.groupName + "']:checked").val() == undefined){
                     returnValue = false;
-                    Materialize.toast("El campo de radio debe tener al menos una opcion seleccionada", 2500, "rounded");
+                    if(validations.required.toast != undefined){
+                        loadToast(validations.required.toast, 2500, "rounded");
+                    } else {
+                        loadToast("generic-radio-required", 2500, "rounded");
+                    }
                 }
             }
         }
