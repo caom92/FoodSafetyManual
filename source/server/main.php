@@ -143,6 +143,9 @@ $controller = new ServiceProvider(
       + $authorizationServices 
       + $gmpPackingPreopServices 
       + $gmpPackingCalServices
+      + $gmpPackingThermoServices
+      + $gmpPackingScissorServices
+      + $gmpPackingGlassServices
   ]
 );
 
