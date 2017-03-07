@@ -168,7 +168,7 @@ function createTextField(fieldObject){
     if($.type(fieldObject.validations) == "object"){
         field.data("validations", fieldObject.validations);
         field.addClass("formValidator");
-        if(fieldObject.validations.max != undefined){
+        if(fieldObject.validations.max != undefined && fieldObject.validations.type == "text"){
             if(fieldObject.validations.max.value != undefined){
                 field.attr("length", fieldObject.validations.max.value);
             }

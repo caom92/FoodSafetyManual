@@ -19,7 +19,7 @@ function loadLogForm(htmlElement){
                     sendGmpPackingPreopReport();
                 });
                 $('.log_title').html($("#log_name").text());
-                Materialize.toast("Informacion cargada del server", 3000, "rounded");
+                //Materialize.toast("Informacion cargada del server", 3000, "rounded");
                 $("input").characterCounter();
             } else {
                 Materialize.toast("Some error", 3000, "rounded");
@@ -45,7 +45,7 @@ function loadPrefilledLogForm(htmlElement, data){
                     updateGmpPackingPreopReport(parseInt(data.report_id));
                 });
                 changeLanguage(localStorage.defaultLanguage);
-                Materialize.toast("Informacion cargada del server", 3000, "rounded");
+                //Materialize.toast("Informacion cargada del server", 3000, "rounded");
                 $("input").characterCounter();
             } else {
                 Materialize.toast("Some error", 3000, "rounded");

@@ -21,7 +21,8 @@ function loadLogForm(htmlElement){
                     sendScaleCalibrationReport();
                 });
                 $('.log_title').html(report.log_name);
-                Materialize.toast("Informacion cargada del server", 3000, "rounded");
+                //Materialize.toast("Informacion cargada del server", 3000, "rounded");
+                $("input").characterCounter();
             } else {
                 Materialize.toast("Some error", 3000, "rounded");
                 throw response.meta.message;
@@ -167,7 +168,7 @@ function scaleCalibrationLog(data, htmlElement){
 
 function scaleCalibrationComment(reportComment){
     var commentLabel = {"type":"label","contents":{"type":"text","classes":"comment_title"}};
-    var commentInput = {"type":"input","id": "report_comment", "classes": "validate", "fieldType":"text"};
+    var commentInput = {"type":"input","id": "report_comment", "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":256,"toast":"gmp-packing-preop-report-url"}}};
     var commentFullInput = {"id":"reportCommentWrapper","classes":"input-field col s12 m12 l12","field":commentInput,"label":commentLabel};
 
     if(reportComment){
@@ -180,7 +181,7 @@ function scaleCalibrationComment(reportComment){
 
 function scaleCalibrationCorrectiveAction(reportComment){
     var commentLabel = {"type":"label","contents":{"type":"text","classes":"action_title"}};
-    var commentInput = {"type":"input","id": "report_action", "classes": "validate", "fieldType":"text"};
+    var commentInput = {"type":"input","id": "report_action", "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":256,"toast":"gmp-packing-preop-report-url"}}};
     var commentFullInput = {"id":"reportActionWrapper","classes":"input-field col s12 m12 l12","field":commentInput,"label":commentLabel};
 
     if(reportComment){
