@@ -133,6 +133,22 @@ $gmpPackingScissorServices = [
             ]
         ],
         'callback' => 'fsm\services\gmp\packing\scissors\getAllGroups'
+    ],
+    'upload-manual-gmp-packing-scissors-knives' => [
+        'requirements_desc' => [
+            'logged_in' => ['Director', 'Manager', 'Supervisor'],
+            'has_privileges' => [
+                'privilege' => 'Read',
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Daily Scissors & Knives Inspection'
+            ],
+            'files' => [
+                'name' => 'manual_file',
+                'format' => 'document'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\scissors\uploadManualFile'
     ]
 ];
 
@@ -295,6 +311,14 @@ function getAllGroups($scope, $request)
 
     // retrieve the list of groups from the database
     return $scope->knifeGroups->selectAllByZoneID($segment->get('zone_id'));
+}
+
+
+// Recieves a PDF file and stores it as the new manual for the scissors & knives
+// log
+function uploadManualFile($scope, $request)
+{
+    fsm\uploadManualFile('gmp', 'packing', 'scissors');
 }
 
 ?>
