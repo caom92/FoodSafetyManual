@@ -28,11 +28,9 @@ require_once realpath(dirname(__FILE__)
 require_once realpath(dirname(__FILE__)
     .'/gmp/packing/preop/ItemsLogDAO.php');
 require_once realpath(dirname(__FILE__)
-    .'/gmp/packing/thermometers/ThermoLogsDAO.php');
+    .'/gmp/packing/thermometers/LogsDAO.php');
 require_once realpath(dirname(__FILE__)
     .'/gmp/packing/thermometers/ThermometersDAO.php');
-require_once realpath(dirname(__FILE__)
-    .'/gmp/packing/thermometers/TimeLogsDAO.php');
 require_once realpath(dirname(__FILE__)
     .'/gmp/packing/scissors/GroupsDAO.php');
 require_once realpath(dirname(__FILE__)

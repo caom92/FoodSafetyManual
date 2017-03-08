@@ -125,7 +125,8 @@ $controller = new ServiceProvider(
     'itemsLog' => 'fsm\database\gmp\packing\preop\ItemsLogDAO',
     'knifeGroups' => 'fsm\database\gmp\packing\scissors\GroupsDAO',
     'scissorLogs' => 'fsm\database\gmp\packing\scissors\LogsDAO',
-    'thermometers' => 'fsm\database\gmp\packing\thermometers\ThermometersDAO'
+    'thermometers' => 'fsm\database\gmp\packing\thermometers\ThermometersDAO',
+    'thermoLogs' => 'fsm\database\gmp\packing\thermometers\LogsDAO'
   ],
   [
     'POST' => 

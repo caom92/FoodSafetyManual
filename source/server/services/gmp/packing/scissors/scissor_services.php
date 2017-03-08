@@ -213,7 +213,7 @@ function registerLogEntry($scope, $request)
             'was_returned' => $group['condition'],
             'was_sanitized' => $group['is_sanitized'],
             'corrective_actions' => ($hasCorrectiveAction) ?
-                $group['corrective_action'] : NULL
+                $group['corrective_action'] : ''
         ]);
     }
 
