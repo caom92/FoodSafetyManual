@@ -80,6 +80,26 @@ $gmpPackingThermoServices = [
             ]
         ],
         'callback' => 'fsm\services\gmp\packing\thermometers\registerLogEntry'
+    ],
+    'report-gmp-packing-thermo-calibration' => [
+        'requirements_desc' => [
+            'logged_in' => ['Director', 'Manager', 'Supervisor', 'Employee'],
+            'has_privileges' => [
+                'privilege' => ['Read', 'Write'],
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Daily Thermometer Calibration Verification Check'
+            ],
+            'start_date' => [
+                'type' => 'datetime',
+                'format' => 'Y-m-d'
+            ],
+            'end_date' => [
+                'type' => 'datetime',
+                'format' => 'Y-m-d'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\thermometers\getReportData'
     ]
 ];
 
@@ -157,6 +177,63 @@ function registerLogEntry($scope, $request)
 
     // finally insert the rows to the database
     $scope->thermoLogs->insert($rows);
+}
+
+
+// Returns the report data for this log on the specified date interval
+function getReportData($scope, $request)
+{
+    // first, we get the session segment
+    $segment = $scope->session->getSegment('fsm');
+
+    // then, we get the captured logs' date info 
+    $logDates = $scope->capturedLogs->selectByDateIntervalLogIDAndZoneID(
+        $request['start_date'],
+        $request['end_date'],
+        $scope->logs->getIDByNames(
+            'GMP', 'Packing', 'Daily Thermometer Calibration Verification Check'
+        ),
+        $segment->get('zone_id')
+    );
+
+    // if no logs where captured, throw an exception
+    if (!isset($logDates)) {
+        throw new \Exception('No logs where captured at that date.', 2);
+    }
+
+    // initialize the storage for the reports
+    $reports = [];
+
+    // visit each date log that was obtained earlier
+    foreach ($logDates as $logDate) {
+        // retrieve the per group log corresponding to this date
+        $items = $scope->thermoLogs->selectByCaptureDateID($logDate['id']);
+
+        // then retrieve the name of the employee and supervisor that worked on 
+        // this log
+        $supervisor = $scope->users->getNameByID($logDate['supervisor_id']);
+        $employee = $scope->users->getNameByID($logDate['employee_id']);
+        
+        // push the report data to the array
+        array_push($reports, [
+            'report_id' => $logDate['id'],
+            'created_by' => $employee['first_name'].' '.$employee['last_name'],
+            'approved_by' => (isset($supervisor['first_name'])) ?
+                $supervisor['first_name'].' '.$supervisor['last_name'] : 'N/A',
+            'creation_date' => $logDate['capture_date'],
+            'approval_date' => (isset($logDate['approval_date'])) ?
+                $logDate['approval_date'] : 'N/A',
+            'zone_name' => $segment->get('zone_name'),
+            'program_name' => 'GMP',
+            'module_name' => 'Packing',
+            'log_name' => 'Daily Thermometer Calibration Verification Check',
+            'time' => $logDate['extra_info1'],
+            'items' => $items
+        ]); 
+    }
+
+    // finally return the list of reports
+    return $reports;
 }
 
 ?>
