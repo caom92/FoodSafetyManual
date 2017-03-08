@@ -10,9 +10,6 @@ require_once realpath(dirname(__FILE__).'/dao/data_access_objects.php');
 require_once realpath(dirname(__FILE__).'/services/services.php');
 
 // Declaramos los espacios de nombre que vamos a utilizar
-use fsm\database as db;
-use fsm\database\gmp\packing\calibration as cal;
-use fsm\database\gmp\packing\preop as preop;
 use fsm\services\session as session;
 
 // Definimos los validadores personalizados que vamos a utilizar en
@@ -105,32 +102,29 @@ ServiceProvider::addValidationRule(
 // Instanciamos el provedor de servicios
 $controller = new ServiceProvider(
   [
-    'capturedLogs' => function($config) { return new db\CapturedLogsDAO; },
-    'items' => function($config) { return new db\ItemsDAO; },
-    'itemTypes' => function($config) { return new db\ItemTypesDAO; },
-    'logs' => function($config) { return new db\LogsDAO; },
-    'modules' => function($config) { return new db\ModulesDAO; },
-    'privileges' => function($config) { return new db\PrivilegesDAO; },
-    'programs' => function($config) { return new db\ProgramsDAO; },
-    'roles' => function($config) { return new db\RolesDAO; },
-    'supervisorsEmployees' => function($config) { 
-      return new db\SupervisorsEmployeesDAO; 
-    },
-    'users' => function($config) { return new db\UsersDAO; },
-    'usersLogsPrivileges' => function($config) { 
-      return new db\UsersLogsPrivilegesDAO; 
-    },
-    'workingAreas' => function($config) { return new db\WorkingAreasDAO; },
-    'zones' => function($config) { return new db\ZonesDAO; },
-    'scaleLogs' => function($config) { return new cal\ScaleLogsDAO; },
-    'scales' => function($config) { return new cal\ScalesDAO; },
-    'scaleTypes' => function($config) { return new cal\ScaleTypesDAO; },
-    'timeLogs' => function($config) { return new cal\TimeLogsDAO; },
-    'areasLog' => function($config) { return new preop\AreasLogDAO; },
-    'correctiveActions' => function($config) { 
-      return new preop\CorrectiveActionsDAO; 
-    },
-    'itemsLog' => function($config) { return new preop\ItemsLogDAO; }
+    'capturedLogs' => 'fsm\database\CapturedLogsDAO',
+    'items' => 'fsm\database\ItemsDAO',
+    'itemTypes' => 'fsm\database\ItemTypesDAO',
+    'logs' => 'fsm\database\LogsDAO',
+    'modules' => 'fsm\database\ModulesDAO',
+    'privileges' => 'fsm\database\PrivilegesDAO',
+    'programs' => 'fsm\database\ProgramsDAO',
+    'roles' => 'fsm\database\RolesDAO',
+    'supervisorsEmployees' => 'fsm\database\SupervisorsEmployeesDAO',
+    'users' => 'fsm\database\UsersDAO',
+    'usersLogsPrivileges' => 'fsm\database\UsersLogsPrivilegesDAO',
+    'workingAreas' => 'fsm\database\WorkingAreasDAO',
+    'zones' => 'fsm\database\ZonesDAO',
+    'scaleLogs' => 'fsm\database\gmp\packing\calibration\ScaleLogsDAO',
+    'scales' => 'fsm\database\gmp\packing\calibration\ScalesDAO',
+    'scaleTypes' => 'fsm\database\gmp\packing\calibration\ScaleTypesDAO',
+    'timeLogs' => 'fsm\database\gmp\packing\calibration\TimeLogsDAO',
+    'areasLog' => 'fsm\database\gmp\packing\preop\AreasLogDAO',
+    'correctiveActions' => 
+      'fsm\database\gmp\packing\preop\CorrectiveActionsDAO',
+    'itemsLog' => 'fsm\database\gmp\packing\preop\ItemsLogDAO',
+    'knifeGroups' => 'fsm\database\gmp\packing\scissors\GroupsDAO',
+    'scissorLogs' => 'fsm\database\gmp\packing\scissors\LogsDAO'
   ],
   [
     'POST' => 

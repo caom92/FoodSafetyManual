@@ -17,6 +17,21 @@ class GroupsDAO extends db\DataAccessObject
     {
         parent::__construct("gmp_packing_scissors_groups");
     }
+
+
+    // Return a list of all the active groups that have the especified zone ID
+    function selectActiveByZoneID($zoneID)
+    {
+        return parent::select(
+            ['id', 'name', 'quantity'],
+            [
+                'AND' => [
+                    'zone_id' => $zoneID,
+                    'is_active' => TRUE
+                ]
+            ]
+        );
+    }
 }
 
 ?>

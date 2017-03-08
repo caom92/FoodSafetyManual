@@ -72,11 +72,13 @@ $gmpPackingCalServices = [
             ],
             'notes' => [
                 'type' => 'string',
-                'max_length' => 256
+                'max_length' => 256,
+                'optional' => true
             ],
             'corrective_action' => [
                 'type' => 'string',
-                'max_length' => 256
+                'max_length' => 256,
+                'optional' => true
             ],
             'types' => [
                 'type' => 'array',
