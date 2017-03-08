@@ -43,36 +43,6 @@ class TimeLogsDAO extends db\DataAccessObject
             WHERE capture_date_id = $logID
             ORDER BY type_id, scale_name"
         )->fetchAll();
-        // return parent::select(
-        //     [
-        //         'time',
-        //         's.type_id(type_id)',
-        //         'st.name(type_name)',
-        //         's.position(order)',
-        //         's.serial_num(scale_name)',
-        //         'sl.test(test)',
-        //         'sl.was_test_passed(status)',
-        //         'sl.was_scale_sanitized(is_sanitized)'
-        //     ],
-        //     [
-        //         'capture_date_id' => $logID,
-        //         'ORDER' => [
-        //             'type_id',
-        //             'scale_name'
-        //         ]
-        //     ],
-        //     [
-        //         '[><]gmp_packing_calibration_scale_logs(sl)' => [
-        //             'id' => 'time_log_id'
-        //         ],
-        //         '[><]gmp_packing_calibration_scales(s)' => [
-        //             'sl.scale_id' => 'id'
-        //         ],
-        //         '[><]gmp_packing_calibration_scale_types(st)' => [
-        //             's.type_id' => 'id'
-        //         ]
-        //     ]
-        // );
     }
 
 

@@ -31,7 +31,7 @@ class ServiceProvider
 
 
   // Crea una instancia del manejador de servicios
-  function __construct($scope, $services) {
+  function __construct($daos, $services) {
     // Creamos una instancia de Slim con la configuracion indicada
     $this->app = new \Slim\App([
       'settings' => [
@@ -92,10 +92,11 @@ class ServiceProvider
       };
     };
 
-    // Ahora visitamos cada elemento del arreglo de servicios de contexto de 
-    // Slim
-    foreach ($scope as $name => $callback) {
-      $this->container[$name] = $callback;
+    // Ahora visitamos cada elemento del arreglo de DAOs
+    foreach ($daos as $name => $class) {
+      $this->container[$name] = function($config) use ($class) {
+        return new $class;
+      };
     }
 
     // Ahora visitamos cada elemento del arreglo de servicios
