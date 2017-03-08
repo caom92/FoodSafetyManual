@@ -17,6 +17,22 @@ class ThermometersDAO extends db\DataAccessObject
     {
         parent::__construct("gmp_packing_thermometers_thermometers");
     }
+
+
+    // Returns a list of all the active thermometers that have the especified 
+    // zone ID
+    function selectActiveByZoneID($zoneID)
+    {
+        return parent::select(
+            ['id', 'name'],
+            [
+                'AND' => [
+                    'zone_id' => $zoneID,
+                    'is_active' => TRUE
+                ]
+            ]
+        );
+    }
 }
 
 ?>

@@ -133,11 +133,27 @@ $gmpPackingScissorServices = [
             ]
         ],
         'callback' => 'fsm\services\gmp\packing\scissors\getAllGroups'
+    ],
+    'upload-manual-gmp-packing-scissors-knives' => [
+        'requirements_desc' => [
+            'logged_in' => ['Director', 'Manager', 'Supervisor'],
+            'has_privileges' => [
+                'privilege' => 'Read',
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Daily Scissors & Knives Inspection'
+            ],
+            'files' => [
+                'name' => 'manual_file',
+                'format' => 'document'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\scissors\uploadManualFile'
     ]
 ];
 
 
-// Returns the list of knives and scissors groups that are still valid
+// Returns the list of knives and scissors groups that are still active
 function getActiveGroups($scope, $request)
 {
     // first, get the session segment
@@ -197,7 +213,7 @@ function registerLogEntry($scope, $request)
             'was_returned' => $group['condition'],
             'was_sanitized' => $group['is_sanitized'],
             'corrective_actions' => ($hasCorrectiveAction) ?
-                $group['corrective_action'] : NULL
+                $group['corrective_action'] : ''
         ]);
     }
 
@@ -295,6 +311,14 @@ function getAllGroups($scope, $request)
 
     // retrieve the list of groups from the database
     return $scope->knifeGroups->selectAllByZoneID($segment->get('zone_id'));
+}
+
+
+// Recieves a PDF file and stores it as the new manual for the scissors & knives
+// log
+function uploadManualFile($scope, $request)
+{
+    fsm\uploadManualFile('gmp', 'packing', 'scissors');
 }
 
 ?>
