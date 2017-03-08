@@ -3,8 +3,6 @@
 require_once realpath(dirname(__FILE__)."/../../../external/tcpdf/tcpdf.php");
 require_once realpath(dirname(__FILE__).'/../data_validations.php');
 
-use fsm\validations as val;
-
 
 // {
 //     lang:string
@@ -129,7 +127,7 @@ class PDFCreator extends TCPDF
 
 // get the language that is going to be used to print the PDF file
 $lang = (isset($_POST['lang']) && array_key_exists('lang', $_POST)) ?
-    ((val\isString($_POST['lang'])) ? $_POST['lang'] : 'en') 
+    ((isString($_POST['lang'])) ? $_POST['lang'] : 'en') 
     : 'en';
 
 // create new PDF document
@@ -140,7 +138,7 @@ $html = '';
 
 // set the style of the content and the report data display in the page body
 $style = (isset($_POST['style']) && array_key_exists('style', $_POST)) ?
-    ((val\isString($_POST['style'])) ? $_POST['style'] : '')
+    ((isString($_POST['style'])) ? $_POST['style'] : '')
     : '';
 
 try {
@@ -165,7 +163,7 @@ try {
 
         //  if the page has a header, check that is a string
         if ($hasHeader) {
-            if (!val\isString($report->header, 1, \PHP_INT_MAX)) 
+            if (!isString($report->header, 1, \PHP_INT_MAX)) 
             {
                 throw new \Exception();
             }
@@ -173,7 +171,7 @@ try {
 
         // if the page has a footer, check that is a string
         if ($hasFooter) {
-            if (!val\isString($report->footer, 1, \PHP_INT_MAX))
+            if (!isString($report->footer, 1, \PHP_INT_MAX))
             {
                 throw new \Exception();
             }
@@ -182,7 +180,7 @@ try {
         // if the page has a body, check that is a string with some content
         // in it
         if ($hasBody) {
-            if (!val\stringHasLengthInterval($report->body, 1, \PHP_INT_MAX)) 
+            if (!stringHasLengthInterval($report->body, 1, \PHP_INT_MAX)) 
             {
                 throw new \Exception();
             }
