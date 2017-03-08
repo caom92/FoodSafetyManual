@@ -278,7 +278,7 @@ function addGroup($scope, $request)
     $segment = $scope->session->getSegment('fsm');
 
     // store the item in the data base 
-    return $scope->knifeGroup->insert([
+    return $scope->knifeGroups->insert([
         'zone_id' => $segment->get('zone_id'),
         'is_active' => TRUE,
         'quantity' => $request['quantity'],
@@ -294,7 +294,7 @@ function getAllGroups($scope, $request)
     $segment = $scope->session->getSegment('fsm');
 
     // retrieve the list of groups from the database
-    return $scope->knifeGroup->selectAllByZoneID($segment->get('zone_id'));
+    return $scope->knifeGroups->selectAllByZoneID($segment->get('zone_id'));
 }
 
 ?>
