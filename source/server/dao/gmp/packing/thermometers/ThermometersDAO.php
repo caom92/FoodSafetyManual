@@ -24,7 +24,7 @@ class ThermometersDAO extends db\DataAccessObject
     function selectActiveByZoneID($zoneID)
     {
         return parent::select(
-            ['id', 'name'],
+            ['id', 'serial_num(name)'],
             [
                 'AND' => [
                     'zone_id' => $zoneID,
