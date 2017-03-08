@@ -22,7 +22,7 @@ class LogsDAO extends db\DataAccessObject
     // Insert the specified rows to the table
     function insert($rows) 
     {
-        return parent::insert($row);
+        return parent::insert($rows);
     }
 
 

@@ -21,8 +21,8 @@ $gmpPackingScissorServices = [
     ],
     'capture-gmp-packing-scissors-knives' => [
         'requirements_desc' => [
-            'logged_in' => 'Employee',
-            'has_privilege' => [
+            'logged_in' => ['Employee'],
+            'has_privileges' => [
                 'privilege' => 'Write',
                 'program' => 'GMP',
                 'module' => 'Packing',
