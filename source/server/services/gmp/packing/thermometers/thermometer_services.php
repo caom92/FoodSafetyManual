@@ -34,7 +34,7 @@ $gmpPackingThermoServices = [
             ]
         ], 
         'callback' => 
-            'fsm\service\gmp\packing\thermometers\getActiveThermometers'
+            'fsm\services\gmp\packing\thermometers\getActiveThermometers'
     ],
     'capture-gmp-packing-thermo-calibration' => [
         'requirements_desc' => [
