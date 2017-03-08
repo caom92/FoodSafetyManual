@@ -17,7 +17,8 @@ $gmpPackingThermoServices = [
                 'log' => 'Daily Thermometer Calibration Verification Check'
             ]
         ], 
-        'callback' => 'fsm\service\gmp\packing\thermometers'
+        'callback' => 
+            'fsm\service\gmp\packing\thermometers\getActiveThermometers'
     ]
 ];
 
