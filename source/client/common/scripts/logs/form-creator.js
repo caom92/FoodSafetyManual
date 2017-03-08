@@ -742,7 +742,7 @@ $(function(){
         }
 
         if(validations.type == "text"){
-            console.log("Type text");
+            //console.log("Type text");
             if(validations.max != undefined){
                 if(validations.max.value != undefined){
                     if(element.val().length > validations.max.value){
@@ -771,7 +771,7 @@ $(function(){
                 }
             }
         } else if (validations.type == "number"){
-            console.log("Type number");
+            //console.log("Type number");
 
             if(element.val() != Number(element.val())){
                 if(validations.toast != undefined){
@@ -814,19 +814,34 @@ $(function(){
             if($("#" + validations.wrapper).is(":hidden")){
                 returnValue = true;
             } else {
-                if(validations.required.value == true){
-                    console.log("Type select");
-                    console.log(element.val());
-                    for(var invalid of validations.invalidValues){
-                        if(element.val() == invalid){
-                            returnValue == false;
-                            if(validations.required.toast != undefined){
-                                loadToast(validations.required.toast, 2500, "rounded");
-                            } else {
-                                loadToast("generic-select-required", 2500, "rounded");
+                if(validations.required != undefined){
+                    if(validations.required.value == true){
+                        //console.log("Type select");
+                        //console.log(element.val());
+                        if(validations.invalidValues != undefined){
+                            for(var invalid of validations.invalidValues){
+                                if(element.val() == invalid){
+                                    returnValue == false;
+                                    if(validations.required.toast != undefined){
+                                        loadToast(validations.required.toast, 2500, "rounded");
+                                    } else {
+                                        loadToast("generic-select-required", 2500, "rounded");
+                                    }
+                                }
                             }
-                        }
-                    }                    
+                        } else {
+                            if(element.val() == undefined){
+                                returnValue = false;
+                                if(validations.required.toast != undefined){
+                                    loadToast(validations.required.toast, 2500, "rounded");
+                                } else {
+                                    loadToast("generic-select-required", 2500, "rounded");
+                                }
+                            } else {
+                                returnValue = true;
+                            }
+                        }                                       
+                    }
                 }
             }
         } else if (validations.type == "radio"){
