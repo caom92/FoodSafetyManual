@@ -119,7 +119,7 @@ function registerLogEntry($scope, $request)
 
     // get the ID of the log that we are working with
     $logID = $scope->logs->getIDByNames(
-        'GMP', 'Packing', 'Daily Scale Calibration Check'
+        'GMP', 'Packing', 'Daily Scissors & Knives Inspection'
     );
 
     // insert the capture date and the ID of the reportee user
