@@ -86,6 +86,53 @@ $gmpPackingScissorServices = [
             ]
         ],
         'callback' => 'fsm\services\gmp\packing\scissors\getReportData'
+    ],
+    'toggle-gmp-packing-scissors-knives' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'has_privileges' => [
+                'privilege' => 'Read',
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Daily Scissors & Knives Inspection'
+            ],
+            'id' => [
+                'type' => 'int',
+                'min' => 1
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\scissors\toggleGroupActivation'
+    ],
+    'add-item-gmp-packing-scissors-knives' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'has_privileges' => [
+                'privilege' => 'Read',
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Daily Scissors & Knives Inspection'
+            ],
+            'name' => [
+                'type' => 'string'
+            ],
+            'quantity' => [
+                'type' => 'int',
+                'min' => 1
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\scissors\addGroup'
+    ],
+    'inventory-gmp-packing-scissors-knives' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'has_privileges' => [
+                'privilege' => 'Read',
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Daily Scissors & Knives Inspection'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\scissors\getAllGroups'
     ]
 ];
 
@@ -213,6 +260,41 @@ function getReportData($scope, $request)
 
     // finally return the list of reports
     return $reports;
+}
+
+
+// Toggles the activation status of a knife and scissor group with the 
+// especified ID
+function toggleGroupActivation($scope, $request)
+{
+    $scope->knifeGroups->toggleActivationByID($request['id']);
+}
+
+
+// Adds a new scissors and knife group with the especified to the database 
+function addGroup($scope, $request)
+{
+    // first we get the session segment
+    $segment = $scope->session->getSegment('fsm');
+
+    // store the item in the data base 
+    return $scope->knifeGroup->insert([
+        'zone_id' => $segment->get('zone_id'),
+        'is_active' => TRUE,
+        'quantity' => $request['quantity'],
+        'name' => $request['name']
+    ]);
+}
+
+
+// Retrieve a list of all the knife groups in the database
+function getAllGroups($scope, $request)
+{
+    // first, we get the session segment
+    $segment = $scope->session->getSegment('fsm');
+
+    // retrieve the list of groups from the database
+    return $scope->knifeGroup->selectAllByZoneID($segment->get('zone_id'));
 }
 
 ?>

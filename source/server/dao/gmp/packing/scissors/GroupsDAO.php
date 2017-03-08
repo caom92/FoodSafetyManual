@@ -19,7 +19,7 @@ class GroupsDAO extends db\DataAccessObject
     }
 
 
-    // Return a list of all the active groups that have the especified zone ID
+    // Returns a list of all the active groups that have the especified zone ID
     function selectActiveByZoneID($zoneID)
     {
         return parent::select(
@@ -29,6 +29,41 @@ class GroupsDAO extends db\DataAccessObject
                     'zone_id' => $zoneID,
                     'is_active' => TRUE
                 ]
+            ]
+        );
+    }
+
+
+    // Toggle the activation status of the group with the especified ID
+    function toggleActivationByID($groupID)
+    {
+        return parent::$dataBase->query(
+            "UPDATE $this->table
+            SET is_active = !is_active
+            WHERE id = '$groupID'"
+        )->fetchAll();
+    }
+
+
+    // Insert the specified rows to the table
+    function insert($rows) 
+    {
+        return parent::insert($rows);
+    }
+
+
+    // Returns a list of all the groups from the database
+    function selectAllByZoneID($zoneID)
+    {
+        return parent::select(
+            [
+                'id',
+                'name(group)',
+                'quantity',
+                'is_active'
+            ],
+            [
+                'zone_id' => $zoneID
             ]
         );
     }

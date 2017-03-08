@@ -439,11 +439,6 @@ function getScalesOfZone($scope, $request)
 
     // visit each scale type
     foreach ($scaleTypes as $type) {
-        // initialize the temporal storage for the data of each scale
-        $scaleData = [
-            
-        ];
-
         // retrieve the scales of the especified type and zone
         $scales = $scope->scales->selectByZoneAndTypeID(
             $segment->get('zone_id'), $type['id']
