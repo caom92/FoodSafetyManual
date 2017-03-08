@@ -593,6 +593,16 @@
         <spanish>Nombre</spanish>
     </translation>
 
+    <translation id="group_title">
+        <english>Group</english>
+        <spanish>Grupo</spanish>
+    </translation>
+
+    <translation id="quantity_title">
+        <english>QTY</english>
+        <spanish>QTY</spanish>
+    </translation>
+
     <translation id="status_title">
         <english>Conditions</english>
         <spanish>Condiciones</spanish>
@@ -616,6 +626,21 @@
     <translation id="sanitized_title">
         <english>Sanitized Base</english>
         <spanish>Base limpiada</spanish>
+    </translation>
+
+    <translation id="sanitized_lubricated_title">
+        <english>Sanitized / Lubricated (Mineral Oil)</english>
+        <spanish>Sanitizado / Lubricado (Aceite Mineral)</spanish>
+    </translation>
+
+    <translation id="approved_title">
+        <english>Approved</english>
+        <spanish>Aprobado</spanish>
+    </translation>
+
+    <translation id="returned_conditions_title">
+        <english>Returned on good condition</english>
+        <spanish>Regresado en buenas condiciones</spanish>
     </translation>
 
     <translation id="yes_tag">
@@ -646,6 +671,16 @@
     <translation id="fail_tag">
         <english>Fail</english>
         <spanish>Falló</spanish>
+    </translation>
+
+    <translation id="approved_tag">
+        <english>Approved</english>
+        <spanish>Aprobado</spanish>
+    </translation>
+
+    <translation id="unapproved_tag">
+        <english>Unapproved</english>
+        <spanish>No Aprobado</spanish>
     </translation>
 
     <translation id="notes_title">
