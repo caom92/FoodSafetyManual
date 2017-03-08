@@ -137,7 +137,7 @@ $gmpPackingScissorServices = [
 ];
 
 
-// Returns the list of knives and scissors groups that are still valid
+// Returns the list of knives and scissors groups that are still active
 function getActiveGroups($scope, $request)
 {
     // first, get the session segment

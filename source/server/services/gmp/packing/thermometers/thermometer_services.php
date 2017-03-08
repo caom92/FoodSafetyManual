@@ -22,4 +22,25 @@ $gmpPackingThermoServices = [
     ]
 ];
 
+
+// Returns the list of thermometers that are still active
+function getActiveThermometers($scope, $request)
+{
+    // first, get the session segment
+    $segment = $scope->session->getSegment('fsm');
+
+    // retrieve the list of thermometers from the database
+    $thermos = 
+        $scope->thermometers->selectActiveByZoneID($segment->get('zone_id'));
+
+    // prepare the response JSON
+    return [
+        'zone_name' => $segment->get('zone_name'),
+        'program_name' => 'GMP',
+        'module_name' => 'Packing',
+        'log_name' => 'Daily Thermometer Calibration Verification Check',
+        'items' => $thermos
+    ];
+}
+
 ?>
