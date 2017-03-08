@@ -37,13 +37,13 @@ class LogsDAO extends db\DataAccessObject
                 DATE_FORMAT(time, '%H:%i') AS time,
                 g.quantity AS quantity,
                 was_approved AS approved,
-                was_returned AS condition,
+                was_returned AS `condition`,
                 corrective_actions AS corrective_action,
                 was_sanitized AS is_sanitized
             FROM $this->table
             INNER JOIN gmp_packing_scissors_groups AS g
                 ON $this->table.group_id = g.id
-            WHERE capture_date_id = $logID"
+            WHERE capture_date_id = $dateID"
         )->fetchAll();
     }
 }
