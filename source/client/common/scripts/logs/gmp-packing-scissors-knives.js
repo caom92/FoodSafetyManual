@@ -131,7 +131,7 @@ function sendGmpPackingScissorsKnivesReport(){
             } else {
                 group.condition = false;
             }
-            group.corrective_action_id = $("#correctiveAction_" + groupID).val();
+            group.corrective_action = $("#correctiveAction_" + groupID).val();
             if($("input[id='sanitized_" + groupID + "']:checked").length == 1){
                 group.is_sanitized = true;
             } else {
