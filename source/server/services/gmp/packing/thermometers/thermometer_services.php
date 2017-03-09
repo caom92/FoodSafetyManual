@@ -129,10 +129,6 @@ $gmpPackingThermoServices = [
             ],
             'name' => [
                 'type' => 'string'
-            ],
-            'quantity' => [
-                'type' => 'int',
-                'min' => 1
             ]
         ],
         'callback' => 'fsm\services\gmp\packing\thermometers\addThermometer'
