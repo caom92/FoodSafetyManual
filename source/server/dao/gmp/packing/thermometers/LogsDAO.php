@@ -33,7 +33,7 @@ class LogsDAO extends db\DataAccessObject
         return parent::$dataBase->query(
             "SELECT
                 t.id AS id,
-                t.name AS name,
+                t.serial_num AS name,
                 test,
                 was_test_passed AS calibration,
                 deficiencies,
