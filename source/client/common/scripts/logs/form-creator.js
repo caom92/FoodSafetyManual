@@ -257,6 +257,7 @@ Radio Group Object
     "id": "radioGroup",
     "classes": ,
     "group": "string",
+    "label":label Object,
     "radioArray": [Radio Button Object],
 }
 */
@@ -274,6 +275,9 @@ function createRadioGroup(groupObject){
         group.data("validations", groupObject.validations);
         group.addClass("formValidator");
     }
+
+    if(groupObject.label)
+        group.append(createLabel(groupObject.label));
 
     for(var radio of groupObject.radioArray)
         group.append(createRadioOption(radio, groupObject.group));

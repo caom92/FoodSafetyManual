@@ -30,6 +30,16 @@
         <spanish>Añadir elemento...</spanish>
     </translation>
 
+    <translation id="add_group">
+        <english>Add group...</english>
+        <spanish>Añadir grupo...</spanish>
+    </translation>
+
+    <translation id="add_quantity">
+        <english>Add quantity...</english>
+        <spanish>Añadir cantidad...</spanish>
+    </translation>
+
     <translation id="add_workplace_area">
         <english>Add workplace area...</english>
         <spanish>Añadir área de trabajo...</spanish>
