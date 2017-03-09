@@ -36,7 +36,7 @@ class TimeLogsDAO extends db\DataAccessObject
             FROM $this->table
             INNER JOIN gmp_packing_calibration_scale_logs AS sl
                 ON $this->table.id = sl.time_log_id
-            INNER JOIN gmp_packing_calibration_scale AS s
+            INNER JOIN gmp_packing_calibration_scales AS s
                 ON sl.scale_id = s.id
             INNER JOIN gmp_packing_scale_types AS st
                 ON s.type_id = st.id
