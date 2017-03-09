@@ -100,6 +100,54 @@ $gmpPackingThermoServices = [
             ]
         ],
         'callback' => 'fsm\services\gmp\packing\thermometers\getReportData'
+    ],
+    'toggle-gmp-packing-thermo-calibration' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'has_privileges' => [
+                'privilege' => 'Read',
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Daily Thermometer Calibration Verification Check'
+            ],
+            'id' => [
+                'type' => 'int',
+                'min' => 1
+            ]
+        ],
+        'callback' => 
+            'fsm\services\gmp\packing\thermometers\toggleThermometerActivation'
+    ],
+    'add-item-gmp-packing-thermo-calibration' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'has_privileges' => [
+                'privilege' => 'Read',
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Daily Thermometer Calibration Verification Check'
+            ],
+            'name' => [
+                'type' => 'string'
+            ],
+            'quantity' => [
+                'type' => 'int',
+                'min' => 1
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\thermometers\addThermometer'
+    ],
+    'inventory-gmp-packing-thermo-calibration' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'has_privileges' => [
+                'privilege' => 'Read',
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Daily Thermometer Calibration Verification Check'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\thermometers\getAllThermometers'
     ]
 ];
 
@@ -235,5 +283,39 @@ function getReportData($scope, $request)
     // finally return the list of reports
     return $reports;
 }
+
+
+// Toggles the activation status of a thermometer with the especified ID
+function toggleThermometerActivation($scope, $request)
+{
+    $scope->thermometers->toggleActivationByID($request['id']);
+}
+
+
+// Adds a new thermometer with the especified to the database 
+function addThermometer($scope, $request)
+{
+    // first we get the session segment
+    $segment = $scope->session->getSegment('fsm');
+
+    // store the item in the data base 
+    return $scope->thermometers->insert([
+        'zone_id' => $segment->get('zone_id'),
+        'is_active' => TRUE,
+        'serial_num' => $request['name']
+    ]);
+}
+
+
+// Retrieve a list of all the thermometers in the database
+function getAllThermometers($scope, $request)
+{
+    // first, we get the session segment
+    $segment = $scope->session->getSegment('fsm');
+
+    // retrieve the list of groups from the database
+    return $scope->thermometers->selectAllByZoneID($segment->get('zone_id'));
+}
+
 
 ?>

@@ -33,6 +33,40 @@ class ThermometersDAO extends db\DataAccessObject
             ]
         );
     }
+
+
+    // Toggle the activation status of the group with the especified ID
+    function toggleActivationByID($thermoID)
+    {
+        return parent::$dataBase->query(
+            "UPDATE $this->table
+            SET is_active = !is_active
+            WHERE id = '$thermoID'"
+        )->fetchAll();
+    }
+
+
+    // Insert the specified rows to the table
+    function insert($rows) 
+    {
+        return parent::insert($rows);
+    }
+
+
+    // Returns a list of all the groups from the database
+    function selectAllByZoneID($zoneID)
+    {
+        return parent::select(
+            [
+                'id',
+                'serial_num(name)',
+                'is_active'
+            ],
+            [
+                'zone_id' => $zoneID
+            ]
+        );
+    }
 }
 
 ?>
