@@ -613,6 +613,11 @@
         <spanish>Acción correctiva</spanish>
     </translation>
 
+    <translation id="deficiencies_title">
+        <english>Deficiencies noted</english>
+        <spanish>Deficiencias notadas</spanish>
+    </translation>
+
     <translation id="comment_title">
         <english>Comments</english>
         <spanish>Comentarios</spanish>
@@ -621,6 +626,16 @@
     <translation id="test_title">
         <english>Test</english>
         <spanish>Prueba</spanish>
+    </translation>
+
+    <translation id="thermometer_test_title">
+        <english>Ice point method thermometer test</english>
+        <spanish>Prueba del termómetro con el método del punto de hielo</spanish>
+    </translation>
+
+    <translation id="thermometer_calibration_title">
+        <english>Thermometer calibration</english>
+        <spanish>Calibración de termómetro</spanish>
     </translation>
 
     <translation id="sanitized_title">
