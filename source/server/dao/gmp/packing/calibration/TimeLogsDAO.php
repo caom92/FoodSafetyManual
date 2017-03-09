@@ -28,7 +28,7 @@ class TimeLogsDAO extends db\DataAccessObject
                 DATE_FORMAT(time, '%H:%i') AS time,
                 s.type_id AS type_id,
                 st.name AS type_name,
-                s.position AS order,
+                s.position AS `order`,
                 s.serial_num AS scale_name,
                 sl.test AS test,
                 sl.was_test_passed AS status,
