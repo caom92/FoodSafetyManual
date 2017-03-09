@@ -401,23 +401,23 @@ function gmpPackingScissorsKnivesReportItem(groupData){
     var group = new Array();
 
     group.push({"type":"td","classes":"timeColumn","contents":groupData.time});
-    group.push({"type":"td","classes":"nameColumn","contents":groupData.name});
+    group.push({"type":"td","classes":"groupColumn","contents":groupData.name});
     group.push({"type":"td","classes":"quantityColumn","contents":groupData.quantity});
     if(groupData.approved){
-        group.push({"type":"td","classes":"statusColumn yes_tag"});
+        group.push({"type":"td","classes":"approvedColumn yes_tag"});
     } else {
-        group.push({"type":"td","classes":"statusColumn no_tag"});
+        group.push({"type":"td","classes":"approvedColumn no_tag"});
     }
     if(groupData.condition){
-        group.push({"type":"td","classes":"statusColumn yes_tag"});
+        group.push({"type":"td","classes":"returnedColumn yes_tag"});
     } else {
-        group.push({"type":"td","classes":"statusColumn no_tag"});
+        group.push({"type":"td","classes":"returnedColumn no_tag"});
     }
     group.push({"type":"td","classes":"actionColumn","contents":groupData.corrective_action});
     if(groupData.is_sanitized){
-        group.push({"type":"td","classes":"statusColumn yes_tag"});
+        group.push({"type":"td","classes":"sanitationColumn yes_tag"});
     } else {
-        group.push({"type":"td","classes":"statusColumn no_tag"});
+        group.push({"type":"td","classes":"sanitationColumn no_tag"});
     }
 
     return group;
@@ -433,5 +433,5 @@ function gmpPackingScissorsKnivesReportNotes(notes, colspan){
 }
 
 function getCSS(){
-    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}td { border: 1px solid #000000; text-align: left;}th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50;}.even { background-color: #b8e0b9;}.verticaltext{ writing-mode:tb-rl; transform: rotate(90deg); white-space:nowrap; word-break:break-word; bottom:0;}.typeTitle{ background-color: yellow; width:501px;}.fullColumn{ background-color: #D3D3D3;width:631px;}.nameColumn{ width:116px;}.numberColumn{ width:30px;}.timeColumn{ width:40px;}.areaColumn{ width:90px;}.statusColumn{ width:85px;}.actionColumn{ width:70px;}.commentColumn{ width:200px;}</style>';
+    return '<style> table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%; } td { border: 1px solid #000000; text-align: left; } th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50; } .fullColumn { background-color: #D3D3D3; width: 631px; } .groupColumn { width: 116px; } .quantityColumn { width: 40px; } .timeColumn { width: 40px; } .approvedColumn { width: 70px; } .returnedColumn { width: 105px; } .actionColumn { width: 170px; } .sanitationColumn { width: 90px; } </style>';
 }
