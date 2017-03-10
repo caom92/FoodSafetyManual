@@ -88,9 +88,6 @@ class AreaGlassDAO extends db\DataAccessObject
                     'a.id',
                     "$this->table.position"
                 ]
-            ],
-            [
-                ''
             ]
         );
     }
