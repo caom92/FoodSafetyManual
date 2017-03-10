@@ -45,7 +45,7 @@ class ServiceProvider
     // Inyectamos el servicio PDO para manejar logs en el servidor
     $this->container['log'] = function($config) {
       // creamos una instancia del logger
-      $logger = new \Monolog\Logger('tdiary');
+      $logger = new \Monolog\Logger('ApplicationLog');
 
       // agregamos el manejador de archivos a la pila de manejadores para 
       // desplegar la informacion en el archivo indicado por la configuracion 

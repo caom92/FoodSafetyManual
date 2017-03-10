@@ -64,6 +64,36 @@ class AreaGlassDAO extends db\DataAccessObject
             ]
         );
     }
+
+
+    // Returns a list of all items that are registered in the zone with the 
+    // especified ID
+    function selectActiveByZoneID($zoneID)
+    {
+        return parent::select(
+            [
+                'a.id(area_id)',
+                'a.name(area_name)',
+                "$this->table.id(item_id)",
+                "position(order)",
+                "$this->table.name(item_name)",
+                "quantity"
+            ],
+            [
+                'AND' => [
+                    'a.zone_id' => $zoneID,
+                    'is_active' => TRUE
+                ],
+                'ORDER' => [
+                    'a.id',
+                    "$this->table.position"
+                ]
+            ],
+            [
+                ''
+            ]
+        );
+    }
 }
 
 ?>
