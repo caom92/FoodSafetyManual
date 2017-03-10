@@ -88,6 +88,11 @@ class AreaGlassDAO extends db\DataAccessObject
                     'a.id',
                     "$this->table.position"
                 ]
+            ],
+            [
+                '[><]workplace_areas(a)' => [
+                    'area_id' => 'id'
+                ]
             ]
         );
     }
