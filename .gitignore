@@ -8,3 +8,4 @@ error_log.txt
 source/server/error_log.txt
 ~/.vscode-root
 source/server/app.log
+*.log
