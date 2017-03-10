@@ -113,7 +113,8 @@ $gmpPackingScissorServices = [
                 'log' => 'Daily Scissors & Knives Inspection'
             ],
             'name' => [
-                'type' => 'string'
+                'type' => 'string',
+                'max_length' => 64
             ],
             'quantity' => [
                 'type' => 'int',
