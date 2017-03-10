@@ -77,7 +77,7 @@ $serverServices = [
     ],
     'get-log-manual-url' => [
         'requirements_desc' => [
-            'logged_in' => ['Supervisor', 'Employee'],
+            'logged_in' => ['Supervisor', 'Employee', 'Director', 'Manager'],
             'log-suffix' => [
                 'type' => 'string'
             ]
