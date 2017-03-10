@@ -140,7 +140,7 @@ function gmpPackingGlassBrittleInventoryTable(htmlElement, data){
                     item.is_active = 1;
                     item.order = Number($($("tbody tr").last().children()[0]).text()) + 1;
                     $("tbody").append(tableRow(gmpPackingGlassBrittleInventoryRow(item, item.type)));
-                    initSortability("change-order-of-item");
+                    //initSortability("change-order-of-item");
                     $("html, body").animate({
                         scrollTop: $(document).height()
                     }, 400);
@@ -187,7 +187,7 @@ function gmpPackingGlassBrittleSwitch(item){
     return switchInput;
 }
 
-function initSortability(sortingService){
+/*function initSortability(sortingService){
     $("#sort tbody").sortable({
         helper: fixHelper,
         cursor: "move",
@@ -219,7 +219,7 @@ function initSortability(sortingService){
         });
         return $helper;
     };
-}
+}*/
 
 function loadInventory(areaID, htmlElement){
     var data = new Object();
@@ -232,7 +232,7 @@ function loadInventory(areaID, htmlElement){
             $(htmlElement).hide();
             gmpPackingGlassBrittleInventoryTable(htmlElement, response.data);
             changeLanguage();
-            initSortability("change-order-of-item");
+            //initSortability("change-order-of-item");
             dynamicSearchBind("id-search", "id-column");
             dynamicSearchBind("name-search", "name-column");
             dynamicSearchBind("type-search", "type-column");
