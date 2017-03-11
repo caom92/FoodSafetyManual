@@ -250,12 +250,6 @@ function getActiveAreaItems($scope, $request)
             // empty
             if ($area['id'] != 0) {
                 // if it's not, then push it to the final array
-                array_push($area['items'], [
-                    'id' => $row['item_id'],
-                    'name' => $row['item_name'],
-                    'order' => $row['order'],
-                    'quantity' => $row['quantity']
-                ]);
                 array_push($areas, $area);
             }
 
