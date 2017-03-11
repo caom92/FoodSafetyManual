@@ -825,7 +825,7 @@ $(function(){
                         if(validations.invalidValues != undefined){
                             for(var invalid of validations.invalidValues){
                                 if(element.val() == invalid){
-                                    returnValue == false;
+                                    returnValue = false;
                                     if(validations.required.toast != undefined){
                                         loadToast(validations.required.toast, 2500, "rounded");
                                     } else {

@@ -363,7 +363,7 @@ function gmpPackingThermoCalibrationReportBody(data){
 function gmpPackingThermoCalibrationReportItem(itemData){
     var item = new Array();
 
-    item.push({"type":"td","classes":"nameColumn","contents":itemData.name});
+    item.push({"type":"td","classes":"numberColumn","contents":itemData.name});
     item.push({"type":"td","classes":"testColumn","contents":itemData.test});
     if(itemData.calibration){
         item.push({"type":"td","classes":"calibrationColumn yes_tag"});
@@ -377,5 +377,5 @@ function gmpPackingThermoCalibrationReportItem(itemData){
 }
 
 function getCSS(){
-    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}td { border: 1px solid #000000; text-align: left;}th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50;}.even { background-color: #b8e0b9;}.verticaltext{ writing-mode:tb-rl; transform: rotate(90deg); white-space:nowrap; word-break:break-word; bottom:0;}.typeTitle{ background-color: yellow; width:501px;}.fullColumn{ background-color: #D3D3D3;width:631px;}.nameColumn{ width:116px;}.numberColumn{ width:30px;}.timeColumn{ width:40px;}.areaColumn{ width:90px;}.statusColumn{ width:85px;}.actionColumn{ width:70px;}.commentColumn{ width:200px;}</style>';
+    return "<style> table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%; } td { border: 1px solid #000000; text-align: left; } th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50; } .even { background-color: #b8e0b9; } .timeColumn { width: 40px; } .numberColumn { width: 71px; } .testColumn { width: 90px; } .calibrationColumn { width: 90px; } .deficienciesColumn { width: 170px; } .actionColumn { width: 170px; } </style>";
 }
