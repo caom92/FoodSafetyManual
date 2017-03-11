@@ -90,10 +90,20 @@ class AreaGlassDAO extends db\DataAccessObject
                 ]
             ],
             [
-                '[><]workplace_areas(a)' => [
+                '[><]working_areas(a)' => [
                     'area_id' => 'id'
                 ]
             ]
+        );
+    }
+
+
+    // Updates the position of the specified area glass
+    function updatePositionByID($scaleID, $position)
+    {
+        return parent::update(
+            [ 'position' => $position ], 
+            [ 'id' => $scaleID ]
         );
     }
 }

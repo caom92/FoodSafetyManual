@@ -157,6 +157,25 @@ $gmpPackingGlassServices = [
             ]
         ],
         'callback' => 'fsm\services\gmp\packing\glass\getReportData'
+    ],
+    'reorder-gmp-packing-glass-brittle' => [
+        'requirements_desc' => [
+            'logged_in' => ['Supervisor'],
+            'has_privileges' => [
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Glass & Brittle Plastic Inspection',
+                'privilege' => 'Read'
+            ],
+            'item_id' => [
+                'type' => 'int',
+                'min' => 1
+            ],
+            'position' => [
+                'type' => 'int'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\glass\changeItemPosition'
     ]
 ];
 
@@ -437,5 +456,16 @@ function getReportData($scope, $request)
     // finally return the list of reports
     return $reports;
 }
+
+
+// Changes the position of the specified scale
+function changeScalePosition($scope, $request)
+{
+    $scope->areaGlass->updatePositionByID(
+        $request['item_id'], 
+        $request['position']
+    );
+}
+
 
 ?>
