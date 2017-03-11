@@ -38,7 +38,7 @@ class LogsDAO extends db\DataAccessObject
                 'i.name(item_name)',
                 'i.position(item_order)',
                 'i.quantity(item_quantity)',
-                'is_approved(item_status)'
+                'is_acceptable(item_status)'
             ],
             [
                 'capture_date_id' => $dateID,
