@@ -459,7 +459,7 @@ function getReportData($scope, $request)
 
 
 // Changes the position of the specified scale
-function changeScalePosition($scope, $request)
+function changeItemPosition($scope, $request)
 {
     $scope->areaGlass->updatePositionByID(
         $request['item_id'], 
