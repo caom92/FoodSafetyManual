@@ -25,6 +25,11 @@
         <spanish>Buscar por ID...</spanish>
     </translation>
 
+    <translation id="quantity_search">
+        <english>Search by quantity...</english>
+        <spanish>Buscar por cantidad...</spanish>
+    </translation>
+
     <translation id="add_item">
         <english>Add item...</english>
         <spanish>Añadir elemento...</spanish>
