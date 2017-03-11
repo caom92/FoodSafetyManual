@@ -598,9 +598,19 @@
         <spanish>Grupo</spanish>
     </translation>
 
+    <translation id="description_title">
+        <english>Description</english>
+        <spanish>Descripción</spanish>
+    </translation>
+
     <translation id="quantity_title">
         <english>QTY</english>
         <spanish>QTY</spanish>
+    </translation>
+
+    <translation id="inventory_title">
+        <english>Inv</english>
+        <spanish>Inv</spanish>
     </translation>
 
     <translation id="status_title">
