@@ -58,7 +58,7 @@ class GroupsDAO extends db\DataAccessObject
         return parent::select(
             [
                 'id',
-                'name(group)',
+                'name',
                 'quantity',
                 'is_active'
             ],
