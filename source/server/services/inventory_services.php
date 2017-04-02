@@ -127,7 +127,7 @@ function getWorkingAreasOfZone($scope, $request)
 function getItemsOfWorkingArea($scope, $request) 
 {
     // first, get the items from the data base
-    $rows = $scope->items->selectByAreaID($request['area_id']);
+    $rows = $scope->itemTypes->selectByAreaID($request['area_id']);
 
     // temporal storage for the items organized by type
     $types = [];
@@ -142,7 +142,7 @@ function getItemsOfWorkingArea($scope, $request)
     // visit each row obtained from the data base
     foreach ($rows as $item) {
         // check if this item belongs to a new type
-        $hasTypeChanged = $type['id'] != $item['type']['type_id'];
+        $hasTypeChanged = $type['id'] != $item['type_id'];
         if ($hasTypeChanged) {
             // if it does, check if the current accumulated items inventory is 
             // not empty
@@ -162,11 +162,11 @@ function getItemsOfWorkingArea($scope, $request)
             // and create a new storage for the items of the new type pushing 
             // the current item to its inventory
             $type = [
-                'id' => $item['type']['type_id'],
-                'name' => $item['type']['type_name'],
-                'inventory' => [
+                'id' => $item['type_id'],
+                'name' => $item['type_name'],
+                'inventory' => (isset($item['id'])) ? [
                     $inventoryItem
-                ]
+                ] : []
             ];
         } else {
             // if the type has not changed, push the current item to the 

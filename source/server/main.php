@@ -130,7 +130,9 @@ $controller = new ServiceProvider(
     'areaGlass' => 'fsm\database\gmp\packing\glass\AreaGlassDAO',
     'glassLogs' => 'fsm\database\gmp\packing\glass\LogsDAO',
     'atpTimeLogs' => 'fsm\database\gmp\packing\atp\TimeLogsDAO',
-    'atpLogs' => 'fsm\database\gmp\packing\atp\LogsDAO'
+    'atpLogs' => 'fsm\database\gmp\packing\atp\LogsDAO',
+    'handWashLogs' => 'fsm\database\gmp\packing\handWash\LogsDAO',
+    'handWashCharacteristics' => 'fsm\database\gmp\packing\handWash\CharacteristicsDAO'
   ],
   [
     'POST' => 
@@ -147,6 +149,7 @@ $controller = new ServiceProvider(
       + $gmpPackingScissorServices
       + $gmpPackingGlassServices
       + $gmpPackingATPServices
+      + $gmpPackingHandWashServices
   ]
 );
 

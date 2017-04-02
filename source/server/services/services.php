@@ -19,5 +19,7 @@ require_once realpath(dirname(__FILE__)
     .'/gmp/packing/glass/glass_services.php');
 require_once realpath(dirname(__FILE__)
     .'/gmp/packing/atp/atp_services.php');
+require_once realpath(dirname(__FILE__)
+    .'/gmp/packing/hand_wash/hand_washing_services.php');
 
 ?>

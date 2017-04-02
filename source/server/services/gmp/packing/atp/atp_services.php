@@ -97,8 +97,31 @@ $gmpPackingATPServices = [
             ]
         ],
         'callback' => 'fsm\services\gmp\packing\atp\getReportData'
+    ],
+    'upload-manual-gmp-packing-atp-testing' => [
+        'requirements_desc' => [
+            'logged_in' => ['Director', 'Manager', 'Supervisor'],
+            'has_privileges' => [
+                'privilege' => 'Read',
+                'program' => 'GMP',
+                'module' => 'Packing',
+                'log' => 'Daily Hand Washing Inspection'
+            ],
+            'files' => [
+                'name' => 'manual_file',
+                'format' => 'document'
+            ]
+        ],
+        'callback' => 'fsm\services\gmp\packing\atp\uploadManualFile'
     ]
 ];
+
+
+// Recieves a PDF file and stores it as the new manual for the ATP log
+function uploadManualFile($scope, $request)
+{
+    fsm\uploadManualFile('gmp', 'packing', 'atp');
+}
 
 
 // Returns the required data for creating the log form

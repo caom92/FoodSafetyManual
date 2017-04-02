@@ -43,6 +43,10 @@ require_once realpath(dirname(__FILE__)
     .'/gmp/packing/atp/TimeLogsDAO.php');
 require_once realpath(dirname(__FILE__)
     .'/gmp/packing/atp/LogsDAO.php');
+require_once realpath(dirname(__FILE__)
+    .'/gmp/packing/hand_wash/LogsDAO.php');
+require_once realpath(dirname(__FILE__)
+    .'/gmp/packing/hand_wash/CharacteristicsDAO.php');
 
 
 ?>
