@@ -17,38 +17,6 @@ class ItemsDAO extends DataAccessObject
     }
 
 
-    // Returns an associative array containing the information of all the 
-    // items that are related to the specified area
-    // [in]     areaID: the ID of the area whose items are going to be 
-    //          retrieved
-    function selectByAreaID($areaID)
-    {
-        return parent::select(
-            [ 
-                "$this->table.id",
-                'is_active', 
-                'position', 
-                "$this->table.name",
-                'type' => [
-                    't.id(type_id)', 
-                    't.name(type_name)'
-                ]  
-            ],
-            [ 
-                'area_id' => $areaID,
-                'ORDER' => [
-                    'area_id',
-                    'type_id',
-                    'position'
-                ]
-            ],
-            [
-                '[><]item_types(t)' => [ 'type_id' => 'id' ]
-            ]
-        );
-    }
-
-
     // Inverts the activation status of the item with the specified ID
     function toggleActivationByID($id)
     {
