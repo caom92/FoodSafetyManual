@@ -112,7 +112,7 @@ function sendScaleCalibrationReport(){
                 var item = new Object();
                 var itemID = $(this).data("id");
                 item.id = itemID;
-                item.test = $("#test_" + itemID).val();
+                item.test = Number($("#test_" + itemID).val());
                 item.status = getBool($("input:radio[name='radio_" + itemID + "']:checked").val());
                 if($("input[id='sanitation_" + itemID + "']:checked").length == 1){
                     item.is_sanitized = true;
