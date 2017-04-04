@@ -774,6 +774,20 @@ $(function(){
                     }
                 }
             }
+
+            if(validations.required != undefined){
+                if(validations.required.value == true){
+                    if(element.val().length == 0){
+                        if(validations.required.toast != undefined){
+                            loadToast(validations.required.toast, 2500, "rounded");
+                        } else {
+                            loadToast("generic-text-required", 2500, "rounded");
+                        }
+                        element.addClass("invalid");
+                        returnValue = false;
+                    }
+                }
+            }
         } else if (validations.type == "number"){
             //console.log("Type number");
 
@@ -807,6 +821,20 @@ $(function(){
                                 loadToast(validations.min.toast, 2500, "rounded", null, null, [validations.min.value]);
                             } else {
                                 loadToast("generic-number-min", 2500, "rounded", null, null, [validations.min.value]);
+                            }
+                            element.addClass("invalid");
+                            returnValue = false;
+                        }
+                    }
+                }
+
+                if(validations.required != undefined){
+                    if(validations.required.value == true){
+                        if(element.val().length == 0){
+                            if(validations.required.toast != undefined){
+                                loadToast(validations.required.toast, 2500, "rounded");
+                            } else {
+                                loadToast("generic-number-required", 2500, "rounded");
                             }
                             element.addClass("invalid");
                             returnValue = false;
