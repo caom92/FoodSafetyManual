@@ -117,6 +117,66 @@ function logCard(name, suffix){
     return card;
 }
 
+function validateNewItem(){
+    var returnValue = true;
+
+    $('.add-item-element').each(function(){
+        if(!$(this).validate()){
+            returnValue = false;
+        }
+    });
+
+    return returnValue;
+}
+
+function addItemToInventory(logSuffix, isSortable){
+    // Object that will have the parameters that are meant to be sent
+    // to the server
+    var data = new Object();
+    var item = new Object();
+
+    if(validateNewItem()){
+        // If the input is valid, we build the object accordingly
+        $(".add-item-element").each(function(){
+            var param = $(this).data("param").name;
+            if($(this).data("param").type == "text"){
+                data[param] = $(this).val();
+                item[param] = $(this).val();
+            } else if($(this).data("param").type == "number") {
+                data[param] = Number($(this).val());
+                item[param] = Number($(this).val());
+            }
+        });
+
+        // Once the object is built, we call for the service to
+        // add our item, which is add-item-suffix
+        $server.request({
+            service: 'add-item-' + logSuffix,
+            data: data,
+            success: function(response){
+                // When the function is succesful, we must create a new item
+                // object that must be added at the end 
+                item.id = Number(response.data);
+                item.is_active = 1;
+                $("tbody").append(tableRow(gmpPackingScissorsKnivesInventoryRow(item)));
+                $("html, body").animate({
+                    scrollTop: $(document).height()
+                }, 400);
+                $(".add-item-element").each(function() {
+                    $(this).val = "";
+                });
+                loadToast("item_add_success", 3500, "rounded");
+                changeLanguage();
+            }
+        });
+    } else {
+        Materialize.toast("Entrada no valida", 2500, "rounded");
+    }
+
+    console.log(item);
+    console.log(data);
+}
+
 $(function(){
     var getParams = getURLQueryStringAsJSON();
 
