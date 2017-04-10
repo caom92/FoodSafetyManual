@@ -7,7 +7,7 @@ function loadInventory(htmlElement){
     var data = new Object();
 
     $server.request({
-        service: 'inventory-gmp-packing-handwash',
+        service: 'inventory-gmp-packing-hand-washing',
         success: function(response){
             $(htmlElement).hide();
             gmpPackingHandWashingInventoryTable(htmlElement, response.data);
