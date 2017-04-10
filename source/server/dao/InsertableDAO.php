@@ -4,7 +4,7 @@
 namespace fsm\database;
 
 // Importing required classes
-require_once realpath(dirname(__FILE__)."/../../../DataAccessObject.php");
+require_once realpath(dirname(__FILE__)."/DataAccessObject.php");
 
 
 // A data access object that allows data to be inserted to the table that
