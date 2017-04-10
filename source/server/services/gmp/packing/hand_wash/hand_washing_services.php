@@ -175,8 +175,8 @@ function getAllCharacteristics($scope, $request)
 }
 
 
-// Returns the list of thermometers that are still active
-function getActiveThermometers($scope, $request)
+// Returns the list of characteristics that are still active
+function getActiveCharacteristics($scope, $request)
 {
     // first, get the session segment
     $segment = $scope->session->getSegment('fsm');

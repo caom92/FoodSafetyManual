@@ -132,7 +132,14 @@ $controller = new ServiceProvider(
     'atpTimeLogs' => 'fsm\database\gmp\packing\atp\TimeLogsDAO',
     'atpLogs' => 'fsm\database\gmp\packing\atp\LogsDAO',
     'handWashLogs' => 'fsm\database\gmp\packing\handWash\LogsDAO',
-    'handWashCharacteristics' => 'fsm\database\gmp\packing\handWash\CharacteristicsDAO'
+    'handWashCharacteristics' => 
+      'fsm\database\gmp\packing\handWash\CharacteristicsDAO',
+    'pestSelfInspectionLogs' => 
+      'fsm\database\gmp\pestControl\selfInspection\LogsDAO',
+    'pestSelfInspectionStations' => 
+      'fsm\database\gmp\pestControl\selfInspection\StationsDAO',
+    'pestSelfInspectionRooms' => 
+      'fsm\database\gmp\pestControl\selfInspection\RoomsDAO'
   ],
   [
     'POST' => 
@@ -150,6 +157,7 @@ $controller = new ServiceProvider(
       + $gmpPackingGlassServices
       + $gmpPackingATPServices
       + $gmpPackingHandWashServices
+      + $gmpPestControlSelfInspectionServices
   ]
 );
 
