@@ -9,7 +9,7 @@ require_once realpath(dirname(__FILE__)."/DataAccessObject.php");
 
 // A data access object that allows data to be inserted to the table that
 // it represents
-class InsertableDAO extends db\DataAccessObject
+class InsertableDAO extends DataAccessObject
 {
     // Creates an interface for interacting with the table of the especified
     // name in the data base
