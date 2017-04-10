@@ -23,7 +23,7 @@ $gmpPackingHandWashServices = [
         ],
         'callback' => 'fsm\services\gmp\packing\handWash\uploadManualFile'
     ],
-    'add-characteristic-gmp-packing-hand-washing' => [
+    'add-item-gmp-packing-hand-washing' => [
         'requirements_desc' => [
             'logged_in' => ['Supervisor'],
             'has_privileges' => [
@@ -55,7 +55,7 @@ $gmpPackingHandWashServices = [
         'callback' => 
             'fsm\services\gmp\packing\handWash\toggleCharacteristicActivation'
     ],
-    'inventory-gmp-packing-handwash' => [
+    'inventory-gmp-packing-hand-washing' => [
         'requirements_desc' => [
             'logged_in' => ['Supervisor'],
             'has_privileges' => [
@@ -67,7 +67,7 @@ $gmpPackingHandWashServices = [
         ],
         'callback' => 'fsm\services\gmp\packing\handWash\getAllCharacteristics'
     ],
-    'log-gmp-packing-handwash-log' => [
+    'log-gmp-packing-hand-washing' => [
         'requirements_desc' => [
             'logged_in' => ['Manager', 'Supervisor', 'Employee'],
             'has_privileges' => [
@@ -80,7 +80,7 @@ $gmpPackingHandWashServices = [
         'callback' => 
             'fsm\services\gmp\packing\handWash\getActiveCharacteristics'
     ],
-    'report-gmp-packing-handwash' => [
+    'report-gmp-packing-hand-washing' => [
         'requirements_desc' => [
             'logged_in' => ['Director', 'Manager', 'Supervisor', 'Employee'],
             'has_privileges' => [
@@ -100,7 +100,7 @@ $gmpPackingHandWashServices = [
         ],
         'callback' => 'fsm\services\gmp\packing\handWash\getReportData'
     ],
-    'capture-gmp-packing-handwash' => [
+    'capture-gmp-packing-hand-washing' => [
         'requirements_desc' => [
             'logged_in' => ['Employee'],
             'has_privileges' => [

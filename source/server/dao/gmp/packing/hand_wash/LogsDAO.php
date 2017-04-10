@@ -1,7 +1,7 @@
 <?php
 
 // Namespace for the project's Data Access Objects
-namespace fsm\database\gmp\packing\thermometers;
+namespace fsm\database\gmp\packing\handWash;
 
 // Importing required classes
 require_once realpath(dirname(__FILE__)."/../../../DataAccessObject.php");

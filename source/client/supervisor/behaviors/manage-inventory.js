@@ -158,12 +158,13 @@ function addItemToInventory(logSuffix, isSortable){
                 // object that must be added at the end 
                 item.id = Number(response.data);
                 item.is_active = 1;
-                $("tbody").append(tableRow(gmpPackingScissorsKnivesInventoryRow(item)));
+                console.log(item);
+                $("tbody").append(tableRow(inventoryRowWrapper(item)));
                 $("html, body").animate({
                     scrollTop: $(document).height()
                 }, 400);
                 $(".add-item-element").each(function() {
-                    $(this).val = "";
+                    $(this).val("");
                 });
                 loadToast("item_add_success", 3500, "rounded");
                 changeLanguage();
@@ -175,6 +176,25 @@ function addItemToInventory(logSuffix, isSortable){
 
     console.log(item);
     console.log(data);
+}
+
+function toggleItem(logSuffix, itemID){
+    $server.request({
+        service: 'toggle-' + logSuffix,
+        data: {id:itemID},
+        success: function(response, message, xhr) {
+            console.log(itemID);
+            if($("#inventory_" + itemID).hasClass("grey-text")){
+                //console.log("item_row");
+                loadToast("toggle_item_on_success", 3500, "rounded");
+                $("#inventory_" + itemID).removeClass("grey-text");
+            } else {
+                //console.log("item_row");
+                loadToast("toggle_item_off_success", 3500, "rounded");
+                $("#inventory_" + itemID).addClass("grey-text");
+            }
+        }
+    });
 }
 
 $(function(){
