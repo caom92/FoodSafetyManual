@@ -66,7 +66,8 @@ function createServiceDescriptionFromTemplate($program, $module, $log, $suffix,
     // this function will allow us to create a strategy object for the service
     // with the specified name using the information provided by the service 
     // list
-    $createStrategy = function($serviceName) use ($services) {
+    $createStrategy = function($serviceName, $requiresItemsName = TRUE) 
+        use ($services) {
         // check if the user will use a custom callback for this service
         $useCustomCallback = 
             isset($services[$serviceName]['callback']) 
@@ -102,7 +103,7 @@ function createServiceDescriptionFromTemplate($program, $module, $log, $suffix,
             // throw an exception
             if ($hasItemsName) {
                 $strategy['items_name'] = $services[$serviceName]['items_name'];    
-            } else {
+            } else if ($requiresItemsName) {
                 throw new \Exception(
                     "Failed to create service descriptor; ".
                     "items_name is missing for $serviceName"
@@ -134,7 +135,7 @@ function createServiceDescriptionFromTemplate($program, $module, $log, $suffix,
         : [ NULL, NULL ];
 
     // create the strategy object for the capture service
-    $captureStrategy = $createStrategy('capture');
+    $captureStrategy = $createStrategy('capture', FALSE);
     $captureStrategy['extra_info'] = ($hasValue('capture', 'extra_info')) ?
         $services['capture']['extra_info']
         : [ NULL, NULL ];
@@ -393,10 +394,10 @@ function createServiceDescriptionFromTemplate($program, $module, $log, $suffix,
         // add the service to the services array and append any additional
         // input requirements provided by the user
         $serviceRequirements["inventory-$suffix"] = [
-            'requirements_desc' => 
+            'requirements_desc' => ($hasValue('inventory', 'requirements')) ?
                 $inventoryRequirementsDesc 
-                + ($hasValue('inventory', 'requirements')) ?
-                    $services['inventory']['requirements'] : [],
+                + $services['inventory']['requirements'] 
+                : $inventoryRequirementsDesc,
             'callback' => $services['inventory']['callback']
         ];
     }
@@ -421,10 +422,10 @@ function createServiceDescriptionFromTemplate($program, $module, $log, $suffix,
         // add the service to the services array and append any additional
         // input requirements provided by the user
         $serviceRequirements["add-item-$suffix"] = [
-            'requirements_desc' => 
+            'requirements_desc' => ($hasValue('add', 'requirements')) ?
                 $addRequirementsDesc 
-                + ($hasValue('add', 'requirements')) ?
-                    $services['add']['requirements'] : [],
+                + $services['add']['requirements'] 
+                : $addRequirementsDesc,
             'callback' => $services['add']['callback']
         ];
     }

@@ -4,7 +4,7 @@
 namespace fsm\database;
 
 // Importing required classes
-require_once realpath(dirname(__FILE__)."/../../../InsertableDAO.php");
+require_once realpath(dirname(__FILE__)."/InsertableDAO.php");
 
 
 // A data access object which represents a table in the data base that will 
