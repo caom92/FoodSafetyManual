@@ -638,6 +638,16 @@
         <spanish>Prueba</spanish>
     </translation>
 
+    <translation id="results_title">
+        <english>Results</english>
+        <spanish>Resultado</spanish>
+    </translation>
+
+    <translation id="retest_title">
+        <english>Retest</english>
+        <spanish>2da prueba</spanish>
+    </translation>
+
     <translation id="thermometer_test_title">
         <english>Ice point method thermometer test</english>
         <spanish>Prueba del método del punto de hielo</spanish>

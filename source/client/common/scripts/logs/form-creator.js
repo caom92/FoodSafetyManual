@@ -604,6 +604,10 @@ function createFloatingButton(buttonObject){
     if(buttonObject.icon)
         floatingButton.append(createIcon(buttonObject.icon));
 
+    if($.type(buttonObject.data) == "object"){
+        floatingButton.data(buttonObject.data);
+    }
+
     return floatingButton;
 }
 

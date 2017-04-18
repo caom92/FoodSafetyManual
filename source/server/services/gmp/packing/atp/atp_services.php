@@ -130,8 +130,9 @@ function getLogInfo($scope, $request)
     $segment = $scope->session->getSegment('fsm');
     return [
         'zone_name' => $segment->get('zone_name'),
-        'program_name' => $segment->get('GMP'),
-        'module_name' => $segment->get('Environmental ATP Testing')
+        'program_name' => 'GMP',
+        'module_name' => 'Packing',
+        'log_name' => 'Environmental ATP Testing'
     ];
 }
 

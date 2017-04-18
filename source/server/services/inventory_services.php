@@ -6,7 +6,7 @@ namespace fsm\services\inventory;
 $inventoryServices = [
     'get-areas-of-zone' => [
         'requirements_desc' => [
-            'logged_in' => ['Supervisor']
+            'logged_in' => ['Supervisor', 'Employee']
         ],
         'callback' => 'fsm\services\inventory\getWorkingAreasOfZone'
     ], 
