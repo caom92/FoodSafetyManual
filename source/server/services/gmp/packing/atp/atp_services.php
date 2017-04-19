@@ -145,7 +145,7 @@ function registerLogEntry($scope, $request)
 
     // get the ID of the log that we are working with
     $logID = $scope->logs->getIDByNames(
-        'GMP', 'Packing', 'Daily Scale Calibration Check'
+        'GMP', 'Packing', 'Environmental ATP Testing'
     );
 
     // insert the capture date and the ID of the reportee user
@@ -161,6 +161,7 @@ function registerLogEntry($scope, $request)
     foreach ($request['areas'] as $area) {
         // store in the database the area and time
         $timeLogID = $scope->atpTimeLogs->insert([
+            'capture_date_id' => $logID,
             'area_id' => $area['id'],
             'time' => $area['time']
         ]);
