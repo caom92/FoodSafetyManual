@@ -189,9 +189,9 @@ function registerLogEntry($scope, $request)
                 'test1' => $item['test1'],
                 'was_test1_passed' => $item['results1'],
                 'corrective_action' => ($hasCorrectiveAction) ?
-                    $request['corrective_action'] : NULL,
-                'test2' => ($hasTest) ? $request['test2'] : NULL,
-                'was_test2_passed' => ($hasStatus) ? $request['results2'] : NULL 
+                    $item['corrective_action'] : NULL,
+                'test2' => ($hasTest) ? $item['test2'] : NULL,
+                'was_test2_passed' => ($hasStatus) ? $item['results2'] : NULL 
             ]);
         }
 
