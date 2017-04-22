@@ -110,6 +110,7 @@ function getPrivilegesArray($userPrivileges)
                 ]
             ];
             $logsArray[$log['name']] = [
+                'suffix' => $row['log_suffix'],
                 'privilege' => [
                     'id' => $row['privilege_id'],
                     'name' => $row['privilege_name']
@@ -160,6 +161,7 @@ function getPrivilegesArray($userPrivileges)
                     ]
                 ];
                 $logsArray[$log['name']] = [
+                    'suffix' => $row['log_suffix'],
                     'privilege' => [
                         'id' => $row['privilege_id'],
                         'name' => $row['privilege_name']
@@ -205,6 +207,7 @@ function getPrivilegesArray($userPrivileges)
                         ]
                     ];
                     $logsArray[$log['name']] = [
+                        'suffix' => $row['log_suffix'],
                         'privilege' => [
                             'id' => $row['privilege_id'],
                             'name' => $row['privilege_name']
@@ -235,6 +238,7 @@ function getPrivilegesArray($userPrivileges)
                     array_push($module['logs'], $log);
                     // $module[$log['name']] = $log;
                     $logsArray[$log['name']] = [
+                        'suffix' => $row['log_suffix'],
                         'privilege' => [
                             'id' => $row['privilege_id'],
                             'name' => $row['privilege_name']

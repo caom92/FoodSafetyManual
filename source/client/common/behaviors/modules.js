@@ -27,20 +27,16 @@ function logCard(name, suffix){
 
 $(function() {
     var privileges = JSON.parse(localStorage.privileges);
+    var getParams = getURLQueryStringAsJSON();
 
     console.log(privileges);
 
     $("#content_wrapper").html("");
 
-    //for(var zone of privileges.zones){
-        for(var program of privileges[localStorage.zone_name].programs){
-            for(var module of program.modules){
-                for(var log of module.logs){
-                    $("#content_wrapper").append(logCard(log.name, log.suffix));
-                }
-            }
-        }
-    //}
+    for(var log in privileges[localStorage.zone_name][getParams._p]["suffixes"][getParams._m]){
+        console.log(privileges[localStorage.zone_name][getParams._p]["suffixes"][getParams._m][log]);
+        $("#content_wrapper").append(logCard(log, privileges[localStorage.zone_name][getParams._p]["suffixes"][getParams._m][log]["suffix"]));
+    }
 
     initMaterialize();
 

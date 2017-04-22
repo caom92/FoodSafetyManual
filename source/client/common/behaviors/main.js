@@ -229,7 +229,7 @@ function loadSideMenu()
                         if (isDefined(module.name)) {
                             localStorage.menu +=
                                 `<li><a class="nav-link waves-effect waves-green" 
-                                href="modules"> 
+                                href="modules?_p=${ program.name }&_m=${ module.suffix }"> 
                                 ${ module.name }
                                 </a></li>`;
                         }
