@@ -78,13 +78,13 @@ ServiceProvider::addValidationRule(
 
     if ($isSingle) {
       $hasPrivilege = 
-        isset($userPrivileges[$k][$p][$m][$l]) 
-        && $userPrivileges[$k][$p][$m][$l]['privilege']['name'] == $r;
+        isset($userPrivileges[$k][$p]['names'][$m][$l]) 
+        && $userPrivileges[$k][$p]['names'][$m][$l]['privilege']['name'] == $r;
     } else {
       foreach ($r as $privilege) {
         $hasPrivilege =
-          isset($userPrivileges[$k][$p][$m][$l]) 
-          && $userPrivileges[$k][$p][$m][$l]['privilege']['name'] == $privilege;
+          isset($userPrivileges[$k][$p]['names'][$m][$l]) 
+          && $userPrivileges[$k][$p]['names'][$m][$l]['privilege']['name'] == $privilege;
 
         if ($hasPrivilege) {
           break;
