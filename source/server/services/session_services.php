@@ -53,12 +53,17 @@ function getPrivilegesArray($userPrivileges)
         'name' => '',
         'programs' => []
     ];
+    $programsArray = [];
     
     // initialize the temporal program holder
     $program = [
         'id' => 0,
         'name' => '',
         'modules' => []
+    ];
+    $modulesArray = [
+        'names' => [],
+        'suffixes' => []
     ];
 
     // initialize the temporal module holder
@@ -67,6 +72,7 @@ function getPrivilegesArray($userPrivileges)
         'name' => '',
         'logs' => []
     ];
+    $logsArray = [];
 
     // the suffix name of the module
     $moduleSuffix = '';
@@ -82,9 +88,14 @@ function getPrivilegesArray($userPrivileges)
                 array_push($program['modules'], $module);
                 array_push($zone['programs'], $program);
                 array_push($programPrivileges['zones'], $zone);
-                $program[$moduleSuffix] = $module;
-                $zone[$program['name']] = $program;
-                $programPrivileges[$zone['name']] = $zone;
+                // $program[$moduleSuffix] = $module;
+                // $zone[$program['name']] = $program;
+                // $programPrivileges[$zone['name']] = $zone;
+                $modulesArray['names'][$module['name']] = 
+                    $modulesArray['suffixes'][$module['suffix']] = $logsArray;
+                $programsArray[$program['name']] = $modulesArray;
+                $programPrivileges[$zone['name']] = $programsArray;
+                $programsArray = $modulesArray = $logsArray = [];
             }
 
             // then fill the temporal holders with the information of 
@@ -98,14 +109,20 @@ function getPrivilegesArray($userPrivileges)
                     'name' => $row['privilege_name']
                 ]
             ];
+            $logsArray[$log['name']] = [
+                'privilege' => [
+                    'id' => $row['privilege_id'],
+                    'name' => $row['privilege_name']
+                ]
+            ];
             $moduleSuffix = 
                 strtolower(str_replace(' ', '_', $row['module_name']));
             $module = [
                 'id' => $row['module_id'],
                 'name' => $row['module_name'], 
-                'logs' => [$log],
                 'suffix' => $moduleSuffix,
-                $log['name'] => $log
+                'logs' => [$log]
+                //$log['name'] => $log
             ];
             $program = [
                 'id' => $row['program_id'],
@@ -125,8 +142,12 @@ function getPrivilegesArray($userPrivileges)
                 // zone holder
                 array_push($program['modules'], $module);
                 array_push($zone['programs'], $program);
-                $program[$moduleSuffix] = $module;
-                $zone[$program['name']] = $program;
+                // $program[$moduleSuffix] = $module;
+                // $zone[$program['name']] = $program;
+                $modulesArray['names'][$module['name']] = 
+                    $modulesArray['suffixes'][$module['suffix']] = $logsArray;
+                $programsArray[$program['name']] = $modulesArray;
+                $modulesArray = $logsArray = [];
                 
                 // fill the temporal holders with the new data
                 $log = [
@@ -138,14 +159,20 @@ function getPrivilegesArray($userPrivileges)
                         'name' => $row['privilege_name']
                     ]
                 ];
+                $logsArray[$log['name']] = [
+                    'privilege' => [
+                        'id' => $row['privilege_id'],
+                        'name' => $row['privilege_name']
+                    ]
+                ];
                 $moduleSuffix = 
                     strtolower(str_replace(' ', '_', $row['module_name']));
                 $module = [
                     'id' => $row['module_id'],
                     'name' => $row['module_name'],
-                    'logs' => [$log],
                     'suffix' => $moduleSuffix,
-                    $log['name'] => $log
+                    'logs' => [$log]
+                    //$log['name'] => $log
                 ];
                 $program = [
                     'id' => $row['program_id'],
@@ -160,7 +187,11 @@ function getPrivilegesArray($userPrivileges)
                     // if it has, store the info in the temporal program
                     // holder
                     array_push($program['modules'], $module);
-                    $program[$moduleSuffix] = $module;
+                    // $program[$moduleSuffix] = $module;
+                    $modulesArray['names'][$module['name']] = 
+                        $modulesArray['suffixes'][$module['suffix']] =
+                        $logsArray;
+                    $logsArray = [];
 
                     // and then fill the temporal module holder with the
                     // information of this new module
@@ -173,14 +204,20 @@ function getPrivilegesArray($userPrivileges)
                             'name' => $row['privilege_name']
                         ]
                     ];
+                    $logsArray[$log['name']] = [
+                        'privilege' => [
+                            'id' => $row['privilege_id'],
+                            'name' => $row['privilege_name']
+                        ]
+                    ];
                     $moduleSuffix = 
                         strtolower(str_replace(' ', '_', $row['module_name']));
                     $module = [
                         'id' => $row['module_id'],
                         'name' => $row['module_name'],
-                        'logs' => [ $log ],
                         'suffix' => $moduleSuffix,
-                        $log['name'] => $log
+                        'logs' => [ $log ]
+                        //$log['name'] => $log
                     ];
                 } else {
                     // if the program, zone nor the module have changed, it 
@@ -196,7 +233,13 @@ function getPrivilegesArray($userPrivileges)
                         ]
                     ];
                     array_push($module['logs'], $log);
-                    $module[$log['name']] = $log;
+                    // $module[$log['name']] = $log;
+                    $logsArray[$log['name']] = [
+                        'privilege' => [
+                            'id' => $row['privilege_id'],
+                            'name' => $row['privilege_name']
+                        ]
+                    ];
                 }
             }
         }
@@ -205,15 +248,19 @@ function getPrivilegesArray($userPrivileges)
     // don't forget to add the last entry to the final structure
     if ($module['id'] != 0) {
         array_push($program['modules'], $module);
-        $program[$moduleSuffix] = $module;
+        //$program[$moduleSuffix] = $module;
+        $modulesArray['names'][$module['name']] = 
+            $modulesArray['suffixes'][$moduleSuffix] = $logsArray;
     }
     if ($program['id'] != 0) {
         array_push($zone['programs'], $program);
-        $zone[$program['name']] = $program;
+        //$zone[$program['name']] = $program;
+        $programsArray[$program['name']] = $modulesArray;
     }
     if ($zone['id'] != 0) {
         array_push($programPrivileges['zones'], $zone);
-        $programPrivileges[$zone['name']] = $zone;
+        //$programPrivileges[$zone['name']] = $zone;
+        $programPrivileges[$zone['name']] = $programsArray;
     }
 
     // return the resulting data structure

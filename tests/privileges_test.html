@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Authorization Tests</title>
+    </head>
+    <body>
+        <div id='privilege-area'>
+            <h1>Privileges</h1>
+            <pre class='output'></pre>
+        </div>
+    </body>
+    <script src="/espresso/external/jquery/dist/jquery.min.js"></script>
+    <script src='/espresso/scripts/config.js'></script>
+    <script src="/espresso/scripts/functions.js"></script>
+    <script src='/espresso/scripts/Controller.js'></script>
+    <script>
+        function logout() {
+            $server.request({
+                service: 'logout',
+                success: function(response) {
+                    if (response.meta.return_code != 0) {
+                        alert(response.meta.message);
+                    }
+                }
+            })
+        }
+
+        function test1() {
+            $server.request({
+                service: 'login',
+                data: {
+                    username: 'empleado1',
+                    password: 'password'
+                },
+                success: function(response) {
+                    if (response.meta.return_code == 0) {
+                        $('#privilege-area pre.output').append(
+                            JSON.stringify(response, null, 4)
+                        )
+                        let privileges = response.data.privileges;
+                        for (let program in privileges['LAW']) {
+                            console.log(program)
+                            for (let module in privileges['LAW'][program]) {
+                                console.log(module)
+                            }
+                        }
+                        $server.request({
+                            service: 'log-gmp-packing-atp-testing',
+                            success: function(response) {
+                                let text = JSON.stringify(response, null, 4);
+                                $('#privilege-area pre.output').append(text)
+                                logout()
+                            }
+                        })
+                    } else {
+                        alert(response.meta.message);
+                        logout()
+                    }
+                }
+            });
+        }
+
+        test1()
+    </script>
+</html>
