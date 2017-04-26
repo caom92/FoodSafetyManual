@@ -8,7 +8,7 @@ require_once realpath(dirname(__FILE__)."/InsertableDAO.php");
 
 
 // Data Access Object for the customers table
-class CustomersDAO extends db\InsertableDAO
+class CustomersDAO extends InsertableDAO
 {
     // Creates an interface for interacting with the 
     // customers table in the specified data base

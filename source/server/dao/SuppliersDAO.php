@@ -8,7 +8,7 @@ require_once realpath(dirname(__FILE__)."/InsertableDAO.php");
 
 
 // Data Access Object for the suppliers table
-class SuppliersDAO extends db\InsertableDAO
+class SuppliersDAO extends InsertableDAO
 {
     // Creates an interface for interacting with the 
     // suppliers table in the specified data base
