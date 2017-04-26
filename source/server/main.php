@@ -139,7 +139,13 @@ $controller = new ServiceProvider(
     'pestSelfInspectionStations' => 
       'fsm\database\gmp\pestControl\selfInspection\StationsDAO',
     'pestSelfInspectionRooms' => 
-      'fsm\database\gmp\pestControl\selfInspection\RoomsDAO'
+      'fsm\database\gmp\pestControl\selfInspection\RoomsDAO',
+    'productionAreas' => 
+      'fsm\database\gmp\packing\finishedProduct\ProductionAreasDAO',
+    'suppliers' => 'fsm\database\SuppliersDAO',
+    'customers' => 'fsm\database\CustomersDAO',
+    'qualityTypes' => 'fsm\database\QualityTypesDAO',
+    'finishedProductLogs' => 'fsm\database\gmp\packing\finishedProduct\LogsDAO'
   ],
   [
     'POST' => 
