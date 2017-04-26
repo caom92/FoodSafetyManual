@@ -27,10 +27,10 @@ class LogsDAO extends db\LogDAO
         return parent::select(
             [
                 'batch',
-                'a.name(production_area_name)',
-                's.id(supplier_id)',
-                'p.code(product_code)',
-                'c.id(customer_id)',
+                'a.name(production_area)',
+                's.code(supplier)',
+                'p.code(product)',
+                'i.company_name(customer)',
                 'q.name(quality)',
                 'origin',
                 'expiration_date',
@@ -56,6 +56,9 @@ class LogsDAO extends db\LogDAO
                 ],
                 '[><]customers(c)' => [
                     'customer_id' => 'id'
+                ],
+                '[><]contact_info(i)' => [
+                    'c.contact_info_id' => 'id'
                 ],
                 '[><]quality_types(q)' => [
                     'quality_type_id' => 'id'

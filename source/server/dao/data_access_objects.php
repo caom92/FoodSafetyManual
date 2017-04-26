@@ -54,12 +54,13 @@ require_once realpath(dirname(__FILE__)
 require_once realpath(dirname(__FILE__)
     .'/gmp/pest_control/self_inspection/LogsDAO.php');
 require_once realpath(dirname(__FILE__)
-    .'/gmp/packing/finishedProduct/ProductionAreasDAO.php');
+    .'/gmp/packing/finished_product/ProductionAreasDAO.php');
 require_once realpath(dirname(__FILE__).'/SuppliersDAO.php');
 require_once realpath(dirname(__FILE__).'/ProductsDAO.php');
 require_once realpath(dirname(__FILE__).'/CustomersDAO.php');
 require_once realpath(dirname(__FILE__).'/QualityTypesDAO.php');
 require_once realpath(dirname(__FILE__)
-    .'/gmp/packing/finishedProduct/LogsDAO.php');
+    .'/gmp/packing/finished_product/LogsDAO.php');
+require_once realpath(dirname(__FILE__).'/ContactInfoDAO.php');
 
 ?>
