@@ -61,5 +61,6 @@ require_once realpath(dirname(__FILE__).'/CustomersDAO.php');
 require_once realpath(dirname(__FILE__).'/QualityTypesDAO.php');
 require_once realpath(dirname(__FILE__)
     .'/gmp/packing/finishedProduct/LogsDAO.php');
+require_once realpath(dirname(__FILE__).'/ContactInfoDAO.php');
 
 ?>

@@ -145,7 +145,8 @@ $controller = new ServiceProvider(
     'suppliers' => 'fsm\database\SuppliersDAO',
     'customers' => 'fsm\database\CustomersDAO',
     'qualityTypes' => 'fsm\database\QualityTypesDAO',
-    'finishedProductLogs' => 'fsm\database\gmp\packing\finishedProduct\LogsDAO'
+    'finishedProductLogs' => 'fsm\database\gmp\packing\finishedProduct\LogsDAO',
+    'contactInfo' => 'fsm\database\QualityTypesDAO'
   ],
   [
     'POST' => 
@@ -164,6 +165,8 @@ $controller = new ServiceProvider(
       + $gmpPackingATPServices
       + $gmpPackingHandWashServices
       + $gmpPestControlSelfInspectionServices
+      + $gmpPackingFinishedProductServices
+      + $contactServices
   ]
 );
 

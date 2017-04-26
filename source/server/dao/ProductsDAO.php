@@ -4,11 +4,11 @@
 namespace fsm\database;
 
 // Importing required classes
-require_once realpath(dirname(__FILE__)."/InsertableDAO.php");
+require_once realpath(dirname(__FILE__)."/ToggableItemsDAO.php");
 
 
 // Data Access Object for the products table
-class ProductsDAO extends db\InsertableDAO
+class ProductsDAO extends db\ToggableItemsDAO
 {
     // Creates an interface for interacting with the 
     // products table in the specified data base
@@ -23,6 +23,13 @@ class ProductsDAO extends db\InsertableDAO
     function selectCode()
     {
         return parent::select(['id', 'code']);
+    }
+
+
+    // Returns a list of all products registered
+    function selectAll()
+    {
+        return parent::select('*');
     }
 }
 

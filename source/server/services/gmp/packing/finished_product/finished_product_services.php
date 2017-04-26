@@ -18,8 +18,11 @@ $gmpPackingFinishedProductServices = fsm\createServiceDescriptorFromTemplate(
                     $segment->get('zone_id')
                 );
 
+                // TODO: proveedores, productos, clientes y tipos de calidad
+                // se obtendran de servicios diferentes
+
                 // then, obtain the list of all suppliers
-                $suppliers = $scope->suppliers->selectName();
+                $suppliers = $scope->suppliers->selectCode();
 
                 // after that, obtain the list of products
                 $products = $scope->products->selectCode();
@@ -117,39 +120,34 @@ $gmpPackingFinishedProductServices = fsm\createServiceDescriptorFromTemplate(
         'report' => [
             'items_name' => 'entries',
             'data_view' => function($scope, $segment, $logDate) {
-                // first, get the list of all entries from the database
-                $rows = $scope->finishedProductLogs->selectByCaptureDateID(
+                // get the list of all entries from the database
+                return $scope->finishedProductLogs->selectByCaptureDateID(
                     $logDate['id']
                 );
-
-                // temporal storage for the log entries in their final format 
-                // before sending them to the client
-                $entries = [];
-
-                // visit each row obtained from the data base
-                foreach ($rows as $row) {
-                    array_push($entries, [
-                        'batch' => $row['batch'],
-                        'production_area' => $row['production_area_name'],
-                        'supplier' => 
-                            $scope->suppliers->getNameByID($row['supplier_id']),
-                        'product_code' => $row['product_code'],
-                        'customer' => 
-                            $scope->customers->getNameByID($row['customer_id']),
-                        'quality' => $row['quality'],
-                        'origin' => $row['origin'],
-                        'expiration_date' => $row['expiration_date'],
-                        'water_temperature' => $row['water_temperature'],
-                        'product_temperature' => $row['product_temperature'],
-                        'is_weight_correct' => $row['is_weight_correct'],
-                        'is_label_correct' => $row['is_label_correct'],
-                        'is_trackable' => $row['is_trackable'],
-                        'notes' => $row['notes']
-                    ]);
-                }
-
-                // finally, return the resulting array
-                return $entries;
+            }
+        ],
+        'inventory' => [
+            'callback' => function($scope, $request) {
+                $segment = $scope->session->getSegment('fsm');
+                return $scope->productionAreas->selectByZoneID(
+                    $segment->get('zone_id')
+                );
+            }
+        ],
+        'add' => [
+            'requirements' => [
+                'name' => [
+                    'type' => 'string',
+                    'min_length' => 2,
+                    'max_length' => 64
+                ]
+            ],
+            'callback' => function($scope, $request) {
+                $segment = $scope->session->getSegment('fsm');
+                return $scope->productionAreas->insert([
+                    'zone_id' => $segment->get('zone_id'),
+                    'name' => $request['name']
+                ]);
             }
         ]
     ]

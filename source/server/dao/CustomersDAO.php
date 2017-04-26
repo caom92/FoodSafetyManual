@@ -34,19 +34,26 @@ class CustomersDAO extends db\InsertableDAO
     }
 
 
-    // Returns the company name of the customer with the especified ID
-    function getNameByID($id)
+    // Returns a list of all the customers registered
+    function selectAll()
     {
-        $row = parent::select(
-            [ 'i.company_name' ],
-            [ 'id' => $id ],
+        return parent::select(
             [ 
+                "$this->table.id", 
+                "i.company_name(name)",
+                'i.contact_name(contact_name)',
+                'i.phone_num(phone_num)',
+                'i.email(email)',
+                'city',
+                'salesman'
+            ],
+            [],
+            [
                 '[><]contact_info(i)' => [
                     'contact_info_id' => 'id'
-                ]    
+                ]
             ]
         );
-        return (isset($row)) ? $row[0]['company_name'] : NULL;
     }
 }
 
