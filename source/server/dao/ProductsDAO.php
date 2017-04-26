@@ -8,7 +8,7 @@ require_once realpath(dirname(__FILE__)."/ToggableItemsDAO.php");
 
 
 // Data Access Object for the products table
-class ProductsDAO extends db\ToggableItemsDAO
+class ProductsDAO extends ToggableItemsDAO
 {
     // Creates an interface for interacting with the 
     // products table in the specified data base
