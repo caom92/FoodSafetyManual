@@ -88,9 +88,6 @@ function getPrivilegesArray($userPrivileges)
                 array_push($program['modules'], $module);
                 array_push($zone['programs'], $program);
                 array_push($programPrivileges['zones'], $zone);
-                // $program[$moduleSuffix] = $module;
-                // $zone[$program['name']] = $program;
-                // $programPrivileges[$zone['name']] = $zone;
                 $modulesArray['names'][$module['name']] = 
                     $modulesArray['suffixes'][$module['suffix']] = $logsArray;
                 $programsArray[$program['name']] = $modulesArray;
@@ -123,7 +120,6 @@ function getPrivilegesArray($userPrivileges)
                 'name' => $row['module_name'], 
                 'suffix' => $moduleSuffix,
                 'logs' => [$log]
-                //$log['name'] => $log
             ];
             $program = [
                 'id' => $row['program_id'],
@@ -143,8 +139,6 @@ function getPrivilegesArray($userPrivileges)
                 // zone holder
                 array_push($program['modules'], $module);
                 array_push($zone['programs'], $program);
-                // $program[$moduleSuffix] = $module;
-                // $zone[$program['name']] = $program;
                 $modulesArray['names'][$module['name']] = 
                     $modulesArray['suffixes'][$module['suffix']] = $logsArray;
                 $programsArray[$program['name']] = $modulesArray;
@@ -174,7 +168,6 @@ function getPrivilegesArray($userPrivileges)
                     'name' => $row['module_name'],
                     'suffix' => $moduleSuffix,
                     'logs' => [$log]
-                    //$log['name'] => $log
                 ];
                 $program = [
                     'id' => $row['program_id'],
@@ -189,7 +182,6 @@ function getPrivilegesArray($userPrivileges)
                     // if it has, store the info in the temporal program
                     // holder
                     array_push($program['modules'], $module);
-                    // $program[$moduleSuffix] = $module;
                     $modulesArray['names'][$module['name']] = 
                         $modulesArray['suffixes'][$module['suffix']] =
                         $logsArray;
@@ -220,7 +212,6 @@ function getPrivilegesArray($userPrivileges)
                         'name' => $row['module_name'],
                         'suffix' => $moduleSuffix,
                         'logs' => [ $log ]
-                        //$log['name'] => $log
                     ];
                 } else {
                     // if the program, zone nor the module have changed, it 
@@ -236,7 +227,6 @@ function getPrivilegesArray($userPrivileges)
                         ]
                     ];
                     array_push($module['logs'], $log);
-                    // $module[$log['name']] = $log;
                     $logsArray[$log['name']] = [
                         'suffix' => $row['log_suffix'],
                         'privilege' => [
@@ -252,18 +242,15 @@ function getPrivilegesArray($userPrivileges)
     // don't forget to add the last entry to the final structure
     if ($module['id'] != 0) {
         array_push($program['modules'], $module);
-        //$program[$moduleSuffix] = $module;
         $modulesArray['names'][$module['name']] = 
             $modulesArray['suffixes'][$moduleSuffix] = $logsArray;
     }
     if ($program['id'] != 0) {
         array_push($zone['programs'], $program);
-        //$zone[$program['name']] = $program;
         $programsArray[$program['name']] = $modulesArray;
     }
     if ($zone['id'] != 0) {
         array_push($programPrivileges['zones'], $zone);
-        //$programPrivileges[$zone['name']] = $zone;
         $programPrivileges[$zone['name']] = $programsArray;
     }
 

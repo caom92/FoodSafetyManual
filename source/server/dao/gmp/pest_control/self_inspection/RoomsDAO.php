@@ -24,20 +24,6 @@ class RoomsDAO extends db\InsertableDAO
     // rooms of the specified zone grouped by room
     function selectByZoneID($zoneID)
     {
-        // return parent::$dataBase->query(
-        //     "SELECT 
-        //         r.id AS room_id, 
-        //         r.name AS room_name, 
-        //         s.id AS id,
-        //         s.position AS order, 
-        //         s.name AS name, 
-        //         s.is_active AS is_active
-        //     FROM $this->table AS r
-        //     LEFT JOIN gmp_pest_control_self_inspection_stations AS s
-        //         ON s.room_id = r.id
-        //     WHERE r.zone_id = $zoneID
-        //     ORDER BY s.position"
-        // )->fetchAll();
         return parent::select(
             [
                 "$this->table.id(room_id)",

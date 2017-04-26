@@ -515,7 +515,7 @@ function createServiceDescriptionFromTemplate($program, $module, $log, $suffix,
     }
 
     // finally, return the resulting service descriptor
-    return $services;
+    return $serviceRequirements;
 }
 
 ?>
