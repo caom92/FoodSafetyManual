@@ -26,25 +26,27 @@ class RoomsDAO extends db\InsertableDAO
     {
         return parent::select(
             [
-                "$this->table.id(room_id)",
-                "$this->table.name(room_name)",
-                "s.id(id)",
-                "s.name(name)",
-                "s.position(order)",
-                "s.is_active(is_active)"
+                // "$this->table.id(room_id)",
+                // "$this->table.name(room_name)",
+                // "s.id(id)",
+                // "s.name(name)",
+                // "s.position(order)",
+                // "s.is_active(is_active)"
+                'id',
+                'name'
             ],
             [
                 "$this->table.zone_id" => $zoneID,
-                'ORDER' => [
-                    "$this->table.id",
-                    "s.position"
-                ]
-            ],
-            [
-                '[>]gmp_pest_control_self_inspection_stations(s)' => [
-                    'id' => 'room_id'
-                ]
+                // 'ORDER' => [
+                //     "$this->table.id",
+                //     "s.position"
+                // ]
             ]
+            // [
+            //     '[>]gmp_pest_control_self_inspection_stations(s)' => [
+            //         'id' => 'room_id'
+            //     ]
+            // ]
         );
     }
 }

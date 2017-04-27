@@ -402,7 +402,7 @@ class ServiceProvider
         }
       },
       'bool' => function($scope, $name, $value, $options) {
-        // check if an input argument is a boolean
+        // revisamos si el argumento de entrada es un booleano
         $isBoolean = isBoolean($value);
         if (!$isBoolean) {
           throw new Exception("Input argument '$name' is not a boolean value");
@@ -518,6 +518,13 @@ class ServiceProvider
           if (!$isOptional) {
             throw new Exception("File '$name' is undefined");
           }
+        }
+      },
+      'phone' => function($scope, $name, $value, $options) {
+        // revisamos si el argumento de entrada es un numero telefonico
+        $isPhoneNum = isPhoneNumber($value);
+        if (!$isPhoneNum) {
+          throw new Exception("Input argument '$name' is not a phone number");
         }
       }
     ];
