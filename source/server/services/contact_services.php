@@ -25,9 +25,7 @@ $contactServices = [
                 'max_length' => 64
             ],
             'phone_num' => [
-                'type' => 'string',
-                'min_length' => 7,
-                'max_length' => 16
+                'type' => 'phone'
             ],
             'email' => [
                 'type' => 'email'
@@ -60,9 +58,7 @@ $contactServices = [
                 'max_length' => 64
             ],
             'phone_num' => [
-                'type' => 'string',
-                'min_length' => 7,
-                'max_length' => 16
+                'type' => 'phone'
             ],
             'email' => [
                 'type' => 'email'
