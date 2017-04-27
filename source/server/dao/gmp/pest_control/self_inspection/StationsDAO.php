@@ -29,32 +29,50 @@ class StationsDAO extends db\OrderedItemsDAO
     }
 
 
-    // Returns a list of all the active stations that have the especified 
-    // zone ID
-    function selectActiveByZoneID($zoneID)
+    // Returns a list of all stations registered in the room with the
+    // especified ID
+    function selectByRoomID($roomID)
     {
         return parent::select(
             [
-                "r.id(room_id)",
-                "r.name(room_name)",
-                "$this->table.id(id)",
-                "$this->table.name(name)",
-                "$this->table.position(order)"
+                'id', 'name', 'position(order)', 'is_active'
             ],
             [
-                "r.zone_id" => $zoneID,
+                'room_id' => $roomID,
                 'ORDER' => [
-                    "r.id",
-                    "$this->table.position"
-                ]
-            ],
-            [
-                '[><]gmp_pest_control_self_inspection_rooms(r)' => [
-                    'room_id' => 'id'
+                    'position'
                 ]
             ]
         );
     }
+
+
+    // Returns a list of all the active stations that have the especified 
+    // zone ID
+    // function selectActiveByZoneID($zoneID)
+    // {
+    //     return parent::select(
+    //         [
+    //             "r.id(room_id)",
+    //             "r.name(room_name)",
+    //             "$this->table.id(id)",
+    //             "$this->table.name(name)",
+    //             "$this->table.position(order)"
+    //         ],
+    //         [
+    //             "r.zone_id" => $zoneID,
+    //             'ORDER' => [
+    //                 "r.id",
+    //                 "$this->table.position"
+    //             ]
+    //         ],
+    //         [
+    //             '[><]gmp_pest_control_self_inspection_rooms(r)' => [
+    //                 'room_id' => 'id'
+    //             ]
+    //         ]
+    //     );
+    // }
 }
 
 ?>

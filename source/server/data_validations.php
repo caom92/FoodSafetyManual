@@ -194,4 +194,21 @@ function isBoolean($value)
 }
 
 
+// Checks if the input argument is a phone number returning true if this is the
+// case or false otherwise
+function isPhoneNumber($value)
+{
+  // primero hay que convertir la cadena a minusculas 
+  $phone = strtolower($value);
+
+  // luego, hay que remover guiones, espacios, parentesis, puntos y cadenas 
+  // ext y Ext
+  $phone = preg_replace('\(|\)|\s|\.|\-|ext|Ext|EXT', '', $phone);
+
+  // finalmente, revisamos si la cadena resultante son puros numeros con un +
+  // opcional al principio solamente
+  return preg_match_all('^\+\d{7,15}$|^\d{7,16}$', $phone) === 1;
+}
+
+
 ?>
