@@ -172,7 +172,7 @@ $gmpPestControlSelfInspectionServices = fsm\createServiceDescriptionFromTemplate
                 $rows = [];
 
                 // visit each station
-                foreach ($room['stations'] as $station) {
+                foreach ($request['stations'] as $station) {
                     // and store its information in the row array
                     array_push($rows, [
                         'capture_date_id' => $logID,
