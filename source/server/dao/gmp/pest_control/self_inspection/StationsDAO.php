@@ -61,7 +61,8 @@ class StationsDAO extends db\OrderedItemsDAO
             ],
             [
                 'AND' => [
-                    "r.zone_id" => $zoneID
+                    "r.zone_id" => $zoneID,
+                    'is_active' => TRUE
                 ],
                 'ORDER' => [
                     "r.id",
