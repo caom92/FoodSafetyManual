@@ -187,7 +187,7 @@ function gmpPestControlSelfInspectionItem(station){
 
     nameRow.columns = [gmpPestControlSelfInspectionItemTitle(station)];
     topRow.columns = [gmpPestControlSelfInspectionItemSecured(station), gmpPestControlSelfInspectionItemCondition(station), gmpPestControlSelfInspectionItemActivity(station)];
-    bottomRow.columns = [gmpPestControlSelfInspectionItemPests(station), gmpPestControlSelfInspectionItemOther(station), gmpPestControlSelfInspectionItemCorrectiveAction(station)];
+    bottomRow.columns = [/*gmpPestControlSelfInspectionItemPests(station), gmpPestControlSelfInspectionItemOther(station), */gmpPestControlSelfInspectionItemCorrectiveAction(station)];
 
     itemCard.append(createInputRow(nameRow));
     itemCard.append(createInputRow(topRow));
@@ -280,7 +280,7 @@ function gmpPestControlSelfInspectionItemOther(item){
 function gmpPestControlSelfInspectionItemCorrectiveAction(item){
     var actionLabel = {"type":"label","contents":{"type":"text","classes":"action_title"}};
     var actionInput = {"type":"input","id": "correctiveAction_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"item_id":item.id},"validations":{"type":"text","max":{"value":256}}};
-    var actionFullInput = {"id":"correctiveActionWrapper_" + item.id,"classes":"input-field col s6 m6 l6","field":actionInput,"label":actionLabel};
+    var actionFullInput = {"id":"correctiveActionWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":actionInput,"label":actionLabel};
 
     if(item.corrective_action){
         actionInput.value = item.corrective_action;
