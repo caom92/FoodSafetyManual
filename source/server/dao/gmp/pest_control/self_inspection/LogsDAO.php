@@ -46,7 +46,7 @@ class LogsDAO extends db\LogDAO
                 '[><]gmp_pest_control_self_inspection_stations(s)' => [
                     'station_id' => 'id'
                 ],
-                '[><]gmp_pest_control_self_inspection_stations(r)' => [
+                '[><]gmp_pest_control_self_inspection_rooms(r)' => [
                     's.room_id' => 'id'
                 ]
             ]
