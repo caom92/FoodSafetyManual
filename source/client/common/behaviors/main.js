@@ -198,19 +198,12 @@ function loadSideMenu()
             // and has read privileges to that log
             if (hasPrivileges) {
                 if (localStorage.role_name === 'Supervisor') {
-                    var programs = 
-                        privileges[localStorage.zone_name]['programs'];
-                        
-                    for (var program of programs) {
-                        if (program['modules'].length > 0) {
-                            localStorage.menu += 
-                                '<li"><a class="nav-link waves-effect ' +
-                                'waves-green" href="manage-inventory"><i ' +
-                                'class="mdi mdi-briefcase md-dark md-24 ' + 
-                                'field-icon"></i><span class="inventory">' +
-                                '</span></a></li>';
-                        }
-                    }
+                    localStorage.menu += 
+                        '<li"><a class="nav-link waves-effect ' +
+                        'waves-green" href="manage-inventory"><i ' +
+                        'class="mdi mdi-briefcase md-dark md-24 ' + 
+                        'field-icon"></i><span class="inventory">' +
+                        '</span></a></li>';
                 }
 
                 // then, for every program...
