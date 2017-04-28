@@ -73,6 +73,9 @@ $gmpPestControlSelfInspectionServices = fsm\createServiceDescriptionFromTemplate
         ],
         'report' => [
             'items_name' => 'rooms',
+            'extra_info' => [
+                'notes'
+            ],
             'data_view' => function($scope, $segment, $logDate) {
                 // first, get the list of all active stations
                 $stations = 
@@ -144,6 +147,10 @@ $gmpPestControlSelfInspectionServices = fsm\createServiceDescriptionFromTemplate
         ],
         'capture' => [
             'requirements' => [
+                'notes' => [
+                    'type' => 'string',
+                    'max_length' => 128
+                ],
                 'stations' => [
                     'type' => 'array',
                     'values' => [
@@ -166,6 +173,9 @@ $gmpPestControlSelfInspectionServices = fsm\createServiceDescriptionFromTemplate
                         ]
                     ]
                 ]
+            ],
+            'extra_info' => [
+                'notes'
             ],
             'data_view' => function($scope, $segment, $request, $logID) {
                 // prepare the array of rows to insert to the database
