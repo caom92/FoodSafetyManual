@@ -138,13 +138,15 @@ function addItemToInventory(logSuffix, isSortable){
     if(validateNewItem()){
         // If the input is valid, we build the object accordingly
         $(".add-item-element").each(function(){
-            var param = $(this).data("param").name;
-            if($(this).data("param").type == "text"){
-                data[param] = $(this).val();
-                item[param] = $(this).val();
-            } else if($(this).data("param").type == "number") {
-                data[param] = Number($(this).val());
-                item[param] = Number($(this).val());
+            if($(this).is("input") || $(this).is("select")){
+                var param = $(this).data("param").name;
+                if($(this).data("param").type == "text"){
+                    data[param] = $(this).val();
+                    item[param] = $(this).val();
+                } else if($(this).data("param").type == "number") {
+                    data[param] = Number($(this).val());
+                    item[param] = Number($(this).val());
+                }
             }
         });
 
@@ -164,7 +166,9 @@ function addItemToInventory(logSuffix, isSortable){
                     scrollTop: $(document).height()
                 }, 400);
                 $(".add-item-element").each(function() {
-                    $(this).val("");
+                    if($(this).is("input")){
+                        $(this).val("");
+                    }
                 });
                 loadToast("item_add_success", 3500, "rounded");
                 changeLanguage();

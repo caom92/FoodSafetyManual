@@ -206,6 +206,10 @@ function createSelect(selectObject){
         select.addClass("formValidator");
     }
 
+    if($.type(selectObject.data) == "object"){
+        select.data(selectObject.data);
+    }
+
     return select;
 }
 
