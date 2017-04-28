@@ -31,9 +31,9 @@ class LogsDAO extends db\LogDAO
                 's.id(id)',
                 's.name(name)',
                 's.position(order)',
-                'is_secured',
-                'is_condition_acceptable',
-                'has_activity',
+                'is_secured(secured)',
+                'is_condition_acceptable(condition)',
+                'has_activity(activity)',
                 'corrective_actions'
             ],
             [
