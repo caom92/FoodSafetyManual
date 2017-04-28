@@ -46,7 +46,8 @@ function loadFunctionality(data){
 // be shared among all log types
 
 function loadReport(data){
-    return;
+    return gmpPestControlSelfInspectionReport(data)
+    //return;
 }
 
 function validateLog(){
@@ -109,6 +110,10 @@ function sendGmpPestControlSelfInspectionReport(){
             }
         });
     }
+}
+
+function updateGmpPestControlSelfInspectionReport(reportID){
+
 }
 
 function gmpPestControlSelfInspectionLog(data, htmlElement){
@@ -287,4 +292,110 @@ function gmpPestControlSelfInspectionItemCorrectiveAction(item){
 
 function gmpPestControlSelfInspectionFunctionality(data){
     console.log("Cargando funcionalidad");
+}
+
+// Full report
+
+function gmpPestControlSelfInspectionReport(data){
+    var report = new Object();
+
+    report.type = "table";
+    report.classes = "bordered highlight";
+    report.id = "report_" + data.report_id;
+
+    report.thead = gmpPestControlSelfInspectionHeader();
+    report.tbody = gmpPestControlSelfInspectionBody(data);
+    
+    console.log(JSON.stringify(report));
+    console.log(report);
+
+    return report;
+}
+
+// Header containing Area, Time, Number, Name, Conditions, Corrective Actions
+// and Comment. This header contain the classes to borrow the text from
+// languages.xml, not strings
+
+function gmpPestControlSelfInspectionHeader(){
+    var header = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"number_title numberColumn"},{"type":"th","classes":"area_title areaColumn"},{"type":"th","classes":"secured_title securedColumn"},{"type":"th","classes":"status_title statusColumn"},{"type":"th","classes":"activity_title activityColumn"},{"type":"th","classes":"action_title actionColumn"}]}]};
+
+    return header;
+}
+
+// Body containing all the information, except for the report notes and album
+// URL
+
+function gmpPestControlSelfInspectionBody(data){
+    var body = {"type":"tbody"};
+
+    body.rows = new Array();
+
+    for(var room of data.rooms){
+        var row = {"type":"tr"};
+        row.columns = new Array();
+        row.columns.push(gmpPestControlSelfInspectionReportRoomTitle(room.name, 6));
+        body.rows.push(row);
+
+        for(var station of room.stations){
+            var itemRow = {"type":"tr"};
+            itemRow.columns = gmpPestControlSelfInspectionReportItem(station);
+            body.rows.push(itemRow);
+        }
+    }
+
+    var reportNotesRow = {"type":"tr"};
+    reportNotesRow.columns = [gmpPestControlSelfInspectionReportNotes(data.notes, 6)];
+
+    body.rows.push(reportNotesRow);
+
+    return body;
+}
+
+function gmpPestControlSelfInspectionReportRoomTitle(room, colspan){
+    var roomTitle = {"type":"td","classes":"fullColumn","colspan":colspan,"contents":room};
+
+    return roomTitle;
+}
+
+function gmpPestControlSelfInspectionReportItem(itemData){
+    var item = new Array();
+
+    item.push({"type":"td","classes":"numberColumn","contents":itemData.order});
+    item.push({"type":"td","classes":"areaColumn","contents":itemData.name});
+    if(itemData.secured == 1){
+        item.push({"type":"td","classes":"securedColumn yes_tag"});
+    } else {
+        item.push({"type":"td","classes":"securedColumn no_tag"});
+    }
+    if(itemData.condition == 1){
+        item.push({"type":"td","classes":"statusColumn acceptable_tag"});
+    } else {
+        item.push({"type":"td","classes":"statusColumn unacceptable_tag"});
+    }
+    if(itemData.activity == 1){
+        item.push({"type":"td","classes":"activityColumn yes_tag"});
+    } else {
+        item.push({"type":"td","classes":"activityColumn no_tag"});
+    }
+    item.push({"type":"td","classes":"actionColumn","contents":itemData.corrective_actions});
+
+    console.log(item);
+
+    return item;
+}
+
+function gmpPestControlSelfInspectionReportNotes(notes, colspan){
+    var reportNotes = {"type":"td","classes":"fullColumn","colspan":colspan,"contents":"<span class='report_notes_title'></span>: " + notes};
+
+    return reportNotes;
+}
+
+// Footer
+
+function gmpPestControlSelfInspectionFooter(data){
+
+}
+
+function getCSS(){
+    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}td { border: 1px solid #000000; text-align: left;}th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50;}.even { background-color: #b8e0b9;}.typeTitle{ background-color: yellow; width:588px;}.fullColumn{ background-color: #D3D3D3;width:631px;}.testColumn{ width:147px;}.numberColumn{ width:147px;}.timeColumn{ width:43px;}.statusColumn{ width:147px;}.sanitizedColumn{ width:147px;}</style>';
 }

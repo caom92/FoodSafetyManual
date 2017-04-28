@@ -55,8 +55,6 @@ function loadFunctionality(data){
 // be shared among all log types
 
 function loadReport(data){
-    /*var testData = {"report_id":1,"created_by":"Victor Miracle","approved_by":"God","creation_date":"12/12/2012","approval_date":"12/12/2012","zone_name":"LAW","program_name":"GMP","module_name":"Packing","log_name":"Scale Calibration","notes":"Notas del reporte","corrective_action":"Ni idea si es texto y opciones","types":[{"id":1,"name":"Digital Scales","time":"23:59","items":[{"order":1,"name":"5545","test":453,"status":true,"is_sanitized":true},{"order":2,"name":"1337","test":452,"status":true,"is_sanitized":true},{"order":3,"name":"9001","test":451,"status":true,"is_sanitized":true}]},{"id":2,"name":"Heavy Analog Scales","time":"23:58","items":[{"order":1,"name":"#1","test":10,"status":true,"is_sanitized":true},{"order":2,"name":"#2","test":10,"status":true,"is_sanitized":true},{"order":3,"name":"#3","test":10,"status":true,"is_sanitized":true}]}]};
-    return scaleCalibrationReport(testData);*/
     return scaleCalibrationReport(data);
 }
 
@@ -296,7 +294,6 @@ function scaleCalibrationFunctionality(data){
         if($(this).data().type_id)
             $("#time_" + $(this).data().type_id).val(getISOTime(new Date()));
     });
-
 
     /*if(data.isPrefilled){
         $("input[id^='unacceptable_']").each(function(){
