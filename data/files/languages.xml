@@ -658,6 +658,26 @@
         <spanish>Calibración de termómetro</spanish>
     </translation>
 
+    <translation id="secured_title">
+        <english>Secured</english>
+        <spanish>Asegurado</spanish>
+    </translation>
+
+    <translation id="activity_title">
+        <english>Activity</english>
+        <spanish>Actividad</spanish>
+    </translation>
+
+    <translation id="pests_title">
+        <english>Pests / Insects</english>
+        <spanish>Plagas / Insectos</spanish>
+    </translation>
+
+    <translation id="other_title">
+        <english>Other</english>
+        <spanish>Otros</spanish>
+    </translation>
+
     <translation id="sanitized_title">
         <english>Sanitized Base</english>
         <spanish>Base limpiada</spanish>
