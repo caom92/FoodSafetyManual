@@ -16,7 +16,7 @@ class ProductionAreasDAO extends db\InsertableDAO
     // gmp_packing_finished_production_areas table in the specified data base
     function __construct()
     {
-        parent::__construct('gmp_packing_finished_production_areas');
+        parent::__construct('gmp_packing_finished_product_production_areas');
     }
 
 
