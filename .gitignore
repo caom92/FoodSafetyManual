@@ -10,3 +10,4 @@ source/server/error_log.txt
 source/server/app.log
 app.log
 *.log
+tests/*
