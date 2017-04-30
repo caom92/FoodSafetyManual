@@ -146,7 +146,10 @@ $controller = new ServiceProvider(
     'customers' => 'fsm\database\CustomersDAO',
     'qualityTypes' => 'fsm\database\QualityTypesDAO',
     'finishedProductLogs' => 'fsm\database\gmp\packing\finishedProduct\LogsDAO',
-    'contactInfo' => 'fsm\database\QualityTypesDAO'
+    'contactInfo' => 'fsm\database\QualityTypesDAO',
+    'unusualOcurrenceLogs' => 
+      'fsm\database\gmp\packing\unusualOccurrence\LogsDAO',
+    'shifts' => 'fsm\database\ShiftsDAO'
   ],
   [
     'POST' => 
@@ -167,6 +170,7 @@ $controller = new ServiceProvider(
       + $gmpPestControlSelfInspectionServices
       + $gmpPackingFinishedProductServices
       + $contactServices
+      + $gmpPackingUnusualOccurrenceServices
   ]
 );
 
