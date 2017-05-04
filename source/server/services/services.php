@@ -26,5 +26,7 @@ require_once realpath(dirname(__FILE__)
 require_once realpath(dirname(__FILE__)
     .'/gmp/packing/finished_product/finished_product_services.php');
 require_once realpath(dirname(__FILE__).'/contact_services.php');
+require_once realpath(dirname(__FILE__)
+    .'/gmp/packing/unusual_occurrence/unusual_occurrence_services.php');
 
 ?>

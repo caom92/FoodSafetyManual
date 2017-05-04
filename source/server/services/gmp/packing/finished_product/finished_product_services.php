@@ -18,9 +18,6 @@ $gmpPackingFinishedProductServices = fsm\createServiceDescriptionFromTemplate(
                     $segment->get('zone_id')
                 );
 
-                // TODO: proveedores, productos, clientes y tipos de calidad
-                // se obtendran de servicios diferentes
-
                 // then, obtain the list of all suppliers
                 $suppliers = $scope->suppliers->selectCode();
 
