@@ -2,10 +2,11 @@
 
 // Namespace for the project's Data Access Objects
 namespace fsm\database;
+require_once realpath(dirname(__FILE__)."/DataAccessObject.php");
 
 
 // Data Access Object for the quality_types table
-class QualityTypesDAO
+class QualityTypesDAO extends DataAccessObject
 {
     // Creates an interface for interacting with the 
     // quality_types table in the specified data base
