@@ -1,24 +1,21 @@
 <?php
 
-// Importamos el proveedor de servicios
 require_once realpath(dirname(__FILE__).'/ServiceProvider.php');
-
-// Importamos los DAOs
-require_once realpath(dirname(__FILE__).'/dao/data_access_objects.php');
-
-// Importamos los servicios
-require_once realpath(dirname(__FILE__).'/services/services.php');
+require_once realpath(dirname(__FILE__).'/../dao/TableFactory.php');
 
 // Declaramos los espacios de nombre que vamos a utilizar
-use fsm\services\session as session;
+use fsm\database as db;
 
 // Definimos los validadores personalizados que vamos a utilizar en
 // este proyecto
 ServiceProvider::addValidationRule(
   'logged_in', 
   function($scope, $name, $value, $options) {
+    $service = NULL;
+    include_once realpath(dirname(__FILE__).'/services/session/check-session.php');
+
     // check if the user has logged in
-    if (session\isLoggedIn($scope, NULL)) {
+    if ($service['callback']($scope, NULL)) {
       // get the session segment
       $segment = $scope->session->getSegment('fsm');
 
@@ -102,75 +99,151 @@ ServiceProvider::addValidationRule(
 // Instanciamos el provedor de servicios
 $controller = new ServiceProvider(
   [
-    'capturedLogs' => 'fsm\database\CapturedLogsDAO',
-    'items' => 'fsm\database\ItemsDAO',
-    'itemTypes' => 'fsm\database\ItemTypesDAO',
-    'logs' => 'fsm\database\LogsDAO',
-    'modules' => 'fsm\database\ModulesDAO',
-    'privileges' => 'fsm\database\PrivilegesDAO',
-    'programs' => 'fsm\database\ProgramsDAO',
-    'roles' => 'fsm\database\RolesDAO',
-    'supervisorsEmployees' => 'fsm\database\SupervisorsEmployeesDAO',
-    'users' => 'fsm\database\UsersDAO',
-    'usersLogsPrivileges' => 'fsm\database\UsersLogsPrivilegesDAO',
-    'workingAreas' => 'fsm\database\WorkingAreasDAO',
-    'zones' => 'fsm\database\ZonesDAO',
-    'scaleLogs' => 'fsm\database\gmp\packing\calibration\ScaleLogsDAO',
-    'scales' => 'fsm\database\gmp\packing\calibration\ScalesDAO',
-    'scaleTypes' => 'fsm\database\gmp\packing\calibration\ScaleTypesDAO',
-    'timeLogs' => 'fsm\database\gmp\packing\calibration\TimeLogsDAO',
-    'areasLog' => 'fsm\database\gmp\packing\preop\AreasLogDAO',
-    'correctiveActions' => 
-      'fsm\database\gmp\packing\preop\CorrectiveActionsDAO',
-    'itemsLog' => 'fsm\database\gmp\packing\preop\ItemsLogDAO',
-    'knifeGroups' => 'fsm\database\gmp\packing\scissors\GroupsDAO',
-    'scissorLogs' => 'fsm\database\gmp\packing\scissors\LogsDAO',
-    'thermometers' => 'fsm\database\gmp\packing\thermometers\ThermometersDAO',
-    'thermoLogs' => 'fsm\database\gmp\packing\thermometers\LogsDAO',
-    'areaGlass' => 'fsm\database\gmp\packing\glass\AreaGlassDAO',
-    'glassLogs' => 'fsm\database\gmp\packing\glass\LogsDAO',
-    'atpTimeLogs' => 'fsm\database\gmp\packing\atp\TimeLogsDAO',
-    'atpLogs' => 'fsm\database\gmp\packing\atp\LogsDAO',
-    'handWashLogs' => 'fsm\database\gmp\packing\handWash\LogsDAO',
-    'handWashCharacteristics' => 
-      'fsm\database\gmp\packing\handWash\CharacteristicsDAO',
-    'pestSelfInspectionLogs' => 
-      'fsm\database\gmp\pestControl\selfInspection\LogsDAO',
-    'pestSelfInspectionStations' => 
-      'fsm\database\gmp\pestControl\selfInspection\StationsDAO',
-    'pestSelfInspectionRooms' => 
-      'fsm\database\gmp\pestControl\selfInspection\RoomsDAO',
-    'productionAreas' => 
-      'fsm\database\gmp\packing\finishedProduct\ProductionAreasDAO',
-    'suppliers' => 'fsm\database\SuppliersDAO',
-    'customers' => 'fsm\database\CustomersDAO',
-    'qualityTypes' => 'fsm\database\QualityTypesDAO',
-    'finishedProductLogs' => 'fsm\database\gmp\packing\finishedProduct\LogsDAO',
-    'contactInfo' => 'fsm\database\QualityTypesDAO',
-    'unusualOcurrenceLogs' => 
-      'fsm\database\gmp\packing\unusualOccurrence\LogsDAO',
-    'shifts' => 'fsm\database\ShiftsDAO'
+    'daoFactory' => function($config) {
+      return new db\TableFactory(
+        'fsm\database\\',
+        [
+          'Zones' => 
+            realpath(dirname(__FILE__).'/services/zone/Zones.php'),
+          'Users' => 
+            realpath(dirname(__FILE__).'/services/account/Users.php'),
+          'UsersLogsPrivileges' => 
+            realpath(dirname(__FILE__).'/services/session/UsersLogsPrivileges.php'),
+          'Logs' =>
+            realpath(dirname(__FILE__).'/services/server/Logs.php'),
+          'Modules' => 
+            realpath(dirname(__FILE__).'/services/programs/Modules.php'),
+          'Programs' => 
+            realpath(dirname(__FILE__).'/services/programs/Programs.php'),
+          'ContactInfo' =>
+            realpath(dirname(__FILE__).'/services/contact/Contact.php'),
+          'Customers' =>
+            realpath(dirname(__FILE__).'/services/contact/Customers.php'),
+          'Products' =>
+            realpath(dirname(__FILE__).'/services/contact/Products.php'),
+          'Suppliers' =>
+            realpath(dirname(__FILE__).'/services/contact/Suppliers.php'),
+          'WorkingAreas' =>
+            realpath(dirname(__FILE__).'/services/area/WorkingAreas.php'),
+          'gmp\packing\preop\Items' =>
+            realpath(dirname(__FILE__).'/services/gmp/packing/preop/Items.php'),
+          'gmp\packing\preop\ItemTypes' =>
+            realpath(dirname(__FILE__).'/services/gmp/packing/preop/ItemTypes.php'),
+          'CapturedLogs' =>
+            realpath(dirname(__FILE__).'/services/authorizations/CapturedLogs.php'),
+          'SupervisorsEmployees' =>
+            realpath(dirname(__FILE__).'/services/authorizations/SupervisorsEmployees.php'),
+          'Roles' =>
+            realpath(dirname(__FILE__).'/services/account/Roles.php'),
+          'Privileges' =>
+            realpath(dirname(__FILE__).'/services/account/Privileges.php'),
+        ]
+      );
+    }
   ],
   [
-    'POST' => 
-      $serverServices 
-      + $sessionServices
-      + $accountServices 
-      + $zoneServices 
-      + $programServices 
-      + $inventoryServices 
-      + $authorizationServices 
-      + $gmpPackingPreopServices 
-      + $gmpPackingCalServices
-      + $gmpPackingThermoServices
-      + $gmpPackingScissorServices
-      + $gmpPackingGlassServices
-      + $gmpPackingATPServices
-      + $gmpPackingHandWashServices
-      + $gmpPestControlSelfInspectionServices
-      + $gmpPackingFinishedProductServices
-      + $contactServices
-      + $gmpPackingUnusualOccurrenceServices
+    'POST' => [
+      'add-zone' => 
+        realpath(dirname(__FILE__).'/services/zone/add-zone.php'),
+      'is-zone-name-duplicated' => 
+        realpath(dirname(__FILE__).'/services/zone/is-zone-name-duplicated.php'),
+      'list-zones' => 
+        realpath(dirname(__FILE__).'/services/zone/list-zones.php'),
+      'check-session' => 
+        realpath(dirname(__FILE__).'/services/session/check-session.php'),
+      'login' => 
+        realpath(dirname(__FILE__).'/services/session/login.php'),
+      'logout' =>
+        realpath(dirname(__FILE__).'/services/session/logout.php'),
+      'get-log-manual' =>
+        realpath(dirname(__FILE__).'/services/server/get-log-manual.php'),
+      'list-programs-modules-logs' =>
+        realpath(dirname(__FILE__).'/services/server/list-programs-modules-logs.php'),
+      'send-bug-report' =>
+        realpath(dirname(__FILE__).'/services/server/send-bug-report.php'),
+      'status' =>
+        realpath(dirname(__FILE__).'/services/server/status.php'),
+      'get-modules-of-program' =>
+        realpath(dirname(__FILE__).'/services/programs/get-modules-of-program.php'),
+      'list-programs' =>
+        realpath(dirname(__FILE__).'/services/programs/list-programs.php'),
+      'add-customer' =>
+        realpath(dirname(__FILE__).'/services/contact/add-customer.php'),
+      'add-product' =>
+        realpath(dirname(__FILE__).'/services/contact/add-product.php'),
+      'add-supplier' =>
+        realpath(dirname(__FILE__).'/services/contact/add-supplier.php'),
+      'list-customers' =>
+        realpath(dirname(__FILE__).'/services/contact/list-customers.php'),
+      'list-products' =>
+        realpath(dirname(__FILE__).'/services/contact/list-products.php'),
+      'list-suppliers' =>
+        realpath(dirname(__FILE__).'/services/contact/list-suppliers.php'),
+      'toggle-products' =>
+        realpath(dirname(__FILE__).'/services/contact/toggle-products.php'),
+      'add-new-inventory-item' =>
+        realpath(dirname(__FILE__).'/services/gmp/packing/preop/add-new-inventory-item.php'),
+      'add-workplace-area' =>
+        realpath(dirname(__FILE__).'/services/area/add-workplace-area.php'),
+      'change-order-of-item' =>
+        realpath(dirname(__FILE__).'/services/gmp/packing/preop/change-order-of-item.php'),
+      'get-areas-of-zone' =>
+        realpath(dirname(__FILE__).'/services/area/get-areas-of-zone.php'),
+      'get-items-of-area' =>
+        realpath(dirname(__FILE__).'/services/gmp/packing/preop/get-items-of-area.php'),
+      'list-item-types' =>
+        realpath(dirname(__FILE__).'/services/gmp/packing/preop/list-item-types.php'),
+      'log-gmp-packing-preop' =>
+        realpath(dirname(__FILE__).'/services/gmp/packing/preop/log-gmp-packing-preop.php'),
+      'toggle-item-activation' =>
+        realpath(dirname(__FILE__).'/services/gmp/packing/preop/toggle-item-activation.php'),
+      'approve-log' =>
+        realpath(dirname(__FILE__).'/services/authorizations/approve-log.php'),
+      'assign-employees-to-supervisors' =>
+        realpath(dirname(__FILE__).'/services/authorizations/assign-employees-to-supervisors.php'),
+      'get-num-pending-logs' =>
+        realpath(dirname(__FILE__).'/services/authorizations/get-num-pending-logs.php'),
+      'get-supervisor-num-of-employees' =>
+        realpath(dirname(__FILE__).'/services/authorizations/get-supervisor-num-of-employees.php'),
+      'list-employees-of-supervisors' =>
+        realpath(dirname(__FILE__).'/services/authorizations/list-employees-of-supervisors.php'),
+      'list-supervisors-by-zone' =>
+        realpath(dirname(__FILE__).'/services/authorizations/list-supervisors-by-zone.php'),
+      'list-unapproved-logs-of-user' =>
+        realpath(dirname(__FILE__).'/services/authorizations/list-unapproved-logs-of-users.php'),
+      'reject-log' =>
+        realpath(dirname(__FILE__).'/services/authorizations/reject-log.php'),
+      'add-user' =>
+        realpath(dirname(__FILE__).'/services/account/add-user.php'),
+      'change-password' =>
+        realpath(dirname(__FILE__).'/services/account/change-password.php'),
+      'change-username' =>
+        realpath(dirname(__FILE__).'/services/account/change-username.php'),
+      'director-change-zones' =>
+        realpath(dirname(__FILE__).'/services/account/director-change-zones.php'),
+      'edit-user-privileges' =>
+        realpath(dirname(__FILE__).'/services/account/edit-user-privileges.php'),
+      'edit-user-role' =>
+        realpath(dirname(__FILE__).'/services/account/edit-user-role.php'),
+      'edit-user-zone' =>
+        realpath(dirname(__FILE__).'/services/account/edit-user-zone.php'),
+      'get-employee-info' =>
+        realpath(dirname(__FILE__).'/services/account/get-employee-info.php'),
+      'get-privileges-of-employee' =>
+        realpath(dirname(__FILE__).'/services/account/get-privileges-of-employee.php'),
+      'is-employee-num-duplicated' =>
+        realpath(dirname(__FILE__).'/services/account/is-employee-num-duplicated.php'),
+      'is-login-name-duplicated' =>
+        realpath(dirname(__FILE__).'/services/account/is-login-name-duplicated.php'),
+      'list-privileges' =>
+        realpath(dirname(__FILE__).'/services/account/list-privileges.php'),
+      'list-user-roles' =>
+        realpath(dirname(__FILE__).'/services/account/list-user-roles.php'),
+      'list-users' =>
+        realpath(dirname(__FILE__).'/services/account/list-users.php'),
+      'toggle-account-activation' =>
+        realpath(dirname(__FILE__).'/services/account/toggle-account-activation.php'),
+    ]
   ]
 );
 

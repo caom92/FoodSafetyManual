@@ -1,0 +1,47 @@
+[
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/account/list-users.php"
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/account/get-employee-info.php"
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/account/is-login-name-duplicated.php"
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/account/is-employee-num-duplicated.php"
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/account/change-username.php"
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/account/change-password.php"
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/account/toggle-account-activation.php"
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/account/list-privileges.php"
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/account/list-user-roles.php"
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/account/add-user.php"
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/account/edit-user-privileges.php"
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/account/get-privileges-of-employee.php"
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/account/director-change-zones.php"
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/account/edit-user-role.php"
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/account/edit-user-zone.php"
+  }
+]

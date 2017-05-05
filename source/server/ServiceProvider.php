@@ -31,7 +31,7 @@ class ServiceProvider
 
 
   // Crea una instancia del manejador de servicios
-  function __construct($daos, $services) {
+  function __construct($globals, $services) {
     // Creamos una instancia de Slim con la configuracion indicada
     $this->app = new \Slim\App([
       'settings' => [
@@ -92,16 +92,14 @@ class ServiceProvider
       };
     };
 
-    // Ahora visitamos cada elemento del arreglo de DAOs
-    foreach ($daos as $name => $class) {
-      $this->container[$name] = function($config) use ($class) {
-        return new $class;
-      };
+    // Ahora visitamos cada elemento del arreglo de servicios globales
+    foreach ($globals as $name => $service) {
+      $this->container[$name] = $service;
     }
 
     // Ahora visitamos cada elemento del arreglo de servicios
     foreach ($services as $method => $serviceList) {
-      foreach ($serviceList as $name => $service) {
+      foreach ($serviceList as $name => $import) {
         // guardamos el URI completo con el cual se puede solicitar la ejecucion
         // de este servicio
         $name = SERVER_SERVICE_ROOT.$name;
@@ -109,7 +107,7 @@ class ServiceProvider
         // creamos la funcion que contiene las acciones a ejecutar cuando se
         // llama este servicio
         $callback = function(Request $request, Response $response) 
-          use ($service)
+          use ($import)
         {
           // preparamos los encabezados de la respuesta a enviar al cliente
           $response = $response->withHeader('Content-Type', 
@@ -117,6 +115,13 @@ class ServiceProvider
 
           // inicializamos la variable que almacenara el resultado del servicio
           $result = NULL;
+
+          // inicializamos la variable que almacenara las reglas de validacion
+          // y la funcion a invocar para el servicio
+          $service = NULL;
+
+          // importamos el archivo que contiene la declaracion del servicio
+          include $import;
 
           // intentamos ejecutar el servicio
           try {
