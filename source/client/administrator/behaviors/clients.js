@@ -124,6 +124,7 @@ function addCustomer(){
                 // When the function is succesful, we must create a new item
                 // object that must be added at the end 
                 item.id = Number(response.data);
+                item.name = item.company_name;
                 $("tbody").append(tableRow(customersRow(item)));
                 $("html, body").animate({
                     scrollTop: $(document).height()
