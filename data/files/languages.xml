@@ -797,4 +797,56 @@
         <english>You don't have logs pending corrections</english>
         <spanish>No tiene bitácoras en espera de correcciones</spanish>
     </translation>
+
+    <!--Clients & Suppliers-->
+
+    <translation id="clients">
+        <english>Clients</english>
+        <spanish>Clientes</spanish>
+    </translation>
+
+    <translation id="suppliers">
+        <english>Suppliers</english>
+        <spanish>Proveedores</spanish>
+    </translation>
+
+    <translation id="supplier_id">
+        <english>ID</english>
+        <spanish>ID</spanish>
+    </translation>
+
+    <translation id="supplier_company">
+        <english>Company</english>
+        <spanish>Compañía</spanish>
+    </translation>
+
+    <translation id="supplier_contact">
+        <english>Contact</english>
+        <spanish>Contacto</spanish>
+    </translation>
+
+    <translation id="supplier_phone_number">
+        <english>Phone No.</english>
+        <spanish>Teléfono</spanish>
+    </translation>
+
+    <translation id="supplier_email">
+        <english>Email</english>
+        <spanish>Email</spanish>
+    </translation>
+
+    <translation id="supplier_code">
+        <english>Code</english>
+        <spanish>Código</spanish>
+    </translation>
+
+    <translation id="customer_city">
+        <english>City</english>
+        <spanish>Ciudad</spanish>
+    </translation>
+
+    <translation id="customer_salesman">
+        <english>Salesman</english>
+        <spanish>Vendedor</spanish>
+    </translation>
 </translations>
