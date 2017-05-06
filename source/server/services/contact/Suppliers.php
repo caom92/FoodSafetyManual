@@ -33,7 +33,7 @@ class Suppliers extends db\InsertableTable
     return parent::select(
       [ 
         "$this->table.id", 
-        "i.company_name(name)",
+        "i.company_name(company_name)",
         'i.contact_name(contact_name)',
         'i.phone_num(phone_num)',
         'i.email(email)',

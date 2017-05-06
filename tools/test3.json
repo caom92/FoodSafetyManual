@@ -1,0 +1,23 @@
+{
+  "name": "test",
+  "path": "/opt/lampp/htdocs/espresso/tests/",
+  "namespace": "gmp\\packing\\test",
+  "services": null,
+  "tables": [
+    {
+      "class": "TestTable1",
+      "table": "test_table1",
+      "parent": null
+    },
+    {
+      "class": "TestTable2",
+      "table": "test_table2",
+      "parent": "InsertableTable"
+    },
+    {
+      "class": "TestTable3",
+      "table": "test_table3",
+      "parent": "LogTable"
+    }
+  ]
+}

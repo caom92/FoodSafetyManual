@@ -203,11 +203,11 @@ function isPhoneNumber($value)
 
   // luego, hay que remover guiones, espacios, parentesis, puntos y cadenas 
   // ext y Ext
-  $phone = preg_replace('\(|\)|\s|\.|\-|ext|Ext|EXT', '', $phone);
+  $phone = preg_replace('/\(|\)|\s|\.|\-|ext|Ext|EXT/', '', $phone);
 
   // finalmente, revisamos si la cadena resultante son puros numeros con un +
   // opcional al principio solamente
-  return preg_match_all('^\+\d{7,15}$|^\d{7,16}$', $phone) === 1;
+  return preg_match_all('/^\+\d{7,15}$|^\d{7,16}$/', $phone) === 1;
 }
 
 

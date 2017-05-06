@@ -1,7 +1,7 @@
 <?php
 
 namespace fsm\database;
-require_once realpath(dirname(__FILE__).'/../dao/ToggableItemsTable.php');
+require_once realpath(dirname(__FILE__).'/../../dao/ToggableItemsTable.php');
 use fsm\database as db;
 
 

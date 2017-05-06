@@ -1,7 +1,7 @@
 <?php
 
 namespace fsm\database;
-require_once realpath(dirname(__FILE__).'/../dao/DataBaseTable.php');
+require_once realpath(dirname(__FILE__).'/../../dao/DataBaseTable.php');
 use fsm\database as db;
 
 
