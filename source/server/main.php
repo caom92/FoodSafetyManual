@@ -149,7 +149,8 @@ $controller = new ServiceProvider(
     'contactInfo' => 'fsm\database\ContactInfoDAO',
     'unusualOcurrenceLogs' => 
       'fsm\database\gmp\packing\unusualOccurrence\LogsDAO',
-    'shifts' => 'fsm\database\ShiftsDAO'
+    'shifts' => 'fsm\database\ShiftsDAO',
+    'products' => 'fsm\database\ProductsDAO'
   ],
   [
     'POST' => 
