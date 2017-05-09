@@ -1,17 +1,17 @@
 <?php
 
 namespace fsm\database\gmp\packing\atp;
-require_once realpath(dirname(__FILE__)."/../../../../dao/InsertableTable.php");
+require_once realpath(dirname(__FILE__).'/../../../../dao/InsertableTable.php');
 use fsm\database as db;
 
 
 // Interfaz para la tabla gmp_packing_atp_logs
 class Logs extends db\InsertableTable
 {
-  // Crea una instancia de una interfaz a la base de datos para modificar la
-  // tabla gmp_packing_atp_logs
-  function __construct() {
-    parent::__construct("gmp_packing_atp_logs");
+  // Crea una instancia de una interfaz a la base de datos para modificar 
+  // la tabla gmp_packing_atp_logs
+  function __construct() { 
+    parent::__construct('gmp_packing_atp_logs');
   }
 
   // Retorna una lista de todos los renglones que tengan registrados el ID

@@ -1,23 +1,48 @@
 {
-  "name": "test",
-  "path": "/opt/lampp/htdocs/espresso/tests/",
-  "namespace": "gmp\\packing\\test",
-  "services": null,
+  "name": "glass",
+  "path": "/opt/lampp/htdocs/espresso/source/server/services/gmp/packing/glass/",
+  "namespace": "gmp\\packing\\glass",
+  "program": "GMP",
+  "module": "Packing",
+  "log": "Glass & Brittle Plastic Inspection",
+  "suffix": "gmp-packing-glass-brittle",
+  "manual_path": "gmp/packing/glass/",
   "tables": [
     {
-      "class": "TestTable1",
-      "table": "test_table1",
-      "parent": null
-    },
-    {
-      "class": "TestTable2",
-      "table": "test_table2",
-      "parent": "InsertableTable"
-    },
-    {
-      "class": "TestTable3",
-      "table": "test_table3",
+      "class": "Logs",
+      "table": "gmp_packing_finished_product_logs",
       "parent": "LogTable"
+    },
+    {
+      "class": "AreaGlass",
+      "table": "gmp_packing_finished_product_production_areas",
+      "parent": "InsertableTable"
     }
-  ]
+  ],
+  "services": {
+    "log": {
+      "items_name": "areas"
+    },
+    "capture": {
+      "extra_info": [
+        "time",
+        "notes"
+      ]
+    },
+    "report": {
+      "items_name": "areas",
+      "extra_info": [
+        "time",
+        "notes"
+      ]
+    },
+    "inventory": true,
+    "add": true,
+    "toggle": {
+      "dao_name": "gmp\\packing\\glass\\AreaGlass" 
+    },
+    "reorder": {
+      "dao_name": "gmp\\packing\\glass\\AreaGlass" 
+    }
+  }
 }
