@@ -1,8 +1,13 @@
 <?php
 
-$service = [
-  'requirements_desc' => [
-    'logged_in' => ['Supervisor'],
+require_once realpath(dirname(__FILE__).'/../../../service_creators.php');
+use fsm;
+
+$service = fsm\createAddService(
+  'GMP',
+  'Packing',
+  'Pre-Operational Inspection',
+  [
     'area_id' => [
       'type' => 'int',
       'min' => 1
@@ -16,7 +21,7 @@ $service = [
       'max_length' => 64
     ]
   ],
-  'callback' => function($scope, $request) {
+  function($scope, $request) {
     // count the number of items in this area
     // so we can compute the position of this item and add it
     // in the last position
@@ -35,6 +40,6 @@ $service = [
       'name' => $request['name']
     ]);
   }
-];
+);
 
 ?>

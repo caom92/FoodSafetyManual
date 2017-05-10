@@ -110,19 +110,21 @@ $controller = new ServiceProvider(
         $authorizations['tables'] +
         $area['tables'] +
         $account['tables'] +
+        $atp['tables'] +
+        $calibration['tables'] +
+        $finishedProduct['tables'] +
+        $glass['tables'] +
+        $handWash['tables'] +
+        $preop['tables'] +
+        $scissors['tables'] +
+        $thermometers['tables'] +
+        $unusualOccurrence['tables'] +
+        $selfInspection['tables'] +
         [
-          
-          
-          
-          
-          
-          
-          'gmp\packing\preop\Items' =>
-            realpath(dirname(__FILE__).'/services/gmp/packing/preop/Items.php'),
-          'gmp\packing\preop\ItemTypes' =>
-            realpath(dirname(__FILE__).'/services/gmp/packing/preop/ItemTypes.php'),
-          
-          
+          'Shifts' =>
+            realpath(dirname(__FILE__).'services/Shifts.php'),
+          'QualityTypes' =>
+            realpath(dirname(__FILE__).'services/QualityTypes.php')
         ]
       );
     }
@@ -137,29 +139,16 @@ $controller = new ServiceProvider(
       $authorizations['services'] +
       $area['services'] +
       $account['services'] +
-    [
-      
-      
-      
-      
-      
-      'add-new-inventory-item' =>
-        realpath(dirname(__FILE__).'/services/gmp/packing/preop/add-new-inventory-item.php'),
-      
-      'change-order-of-item' =>
-        realpath(dirname(__FILE__).'/services/gmp/packing/preop/change-order-of-item.php'),
-      
-      'get-items-of-area' =>
-        realpath(dirname(__FILE__).'/services/gmp/packing/preop/get-items-of-area.php'),
-      'list-item-types' =>
-        realpath(dirname(__FILE__).'/services/gmp/packing/preop/list-item-types.php'),
-      'log-gmp-packing-preop' =>
-        realpath(dirname(__FILE__).'/services/gmp/packing/preop/log-gmp-packing-preop.php'),
-      'toggle-item-activation' =>
-        realpath(dirname(__FILE__).'/services/gmp/packing/preop/toggle-item-activation.php'),
-      
-      
-    ]
+      $atp['services'] +
+      $calibration['services'] +
+      $finishedProduct['services'] +
+      $glass['services'] +
+      $handWash['services'] +
+      $preop['services'] +
+      $scissors['services'] +
+      $thermometers['services'] +
+      $unusualOccurrence['services'] +
+      $selfInspection['services']
   ]
 );
 

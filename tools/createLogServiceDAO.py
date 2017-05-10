@@ -287,7 +287,12 @@ else:
       "  [\n"
       "    'extra_info' => [\n"
       "      '" + inputFile['services']['capture']['extra_info'][0] + "',\n"
-      "      '" + inputFile['services']['capture']['extra_info'][1] + "'\n"
+    )
+    if inputFile['services']['capture']['extra_info'][1] is not None:
+      outputFile.write(
+        "      '" + inputFile['services']['capture']['extra_info'][1] + "'\n"
+      )
+    outputFile.write(
       "    ],\n"
       "    'function' => function($scope, $segment, $request, $logID) {\n"
       "      // TO DO\n"
@@ -351,7 +356,12 @@ else:
       "    'items_name' => '" + inputFile['services']['report']['items_name'] + "',\n"
       "    'extra_info' => [\n"
       "      '" + inputFile['services']['report']['extra_info'][0] + "',\n"
-      "      '" + inputFile['services']['report']['extra_info'][1] + "'\n"
+    )
+    if inputFile['services']['report']['extra_info'][1] is not None:
+      outputFile.write(
+        "      '" + inputFile['services']['report']['extra_info'][1] + "'\n"
+      )
+    outputFile.write(
       "    ],\n"
       "    'function' => function($scope, $segment, $logDate) {\n"
       "      // TO DO\n"

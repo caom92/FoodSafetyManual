@@ -8,10 +8,15 @@ $service = fsm\createInventoryService(
   'Packing',
   'Glass & Brittle Plastic Inspection',
   [
-    // TO DO
+    'area_id' => [
+      'type' => 'int',
+      'min' => 1
+    ]
   ],
   function($scope, $request) {
-    // TO DO
+    // get the items from the data base
+    return $scope->daoFactory->get('gmp\packing\glass\AareaGlass')
+      ->selectByAreaID($request['area_id']);
   }
 );
 

@@ -1,14 +1,19 @@
 <?php
 
-$service = [
-  'requirements_desc' => [
-    'logged_in' => ['Supervisor'],
+require_once realpath(dirname(__FILE__).'/../../../service_creators.php');
+use fsm;
+
+$service = fsm\createInventoryService(
+  'GMP',
+  'Packing',
+  'Pre-Operational Inspection',
+  [
     'area_id' => [
       'type' => 'int',
       'min' => 1
     ]
   ],
-  'callback' => function($scope, $request) {
+  function($scope, $request) {
     // first, get the items from the data base
     $rows = $scope->daoFactory->get('gmp\packing\preop\ItemTypes')
       ->selectByAreaID($request['area_id']);
@@ -71,6 +76,6 @@ $service = [
 
     return $types;
   }
-];
+);
 
 ?>
