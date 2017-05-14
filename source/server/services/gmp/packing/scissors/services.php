@@ -22,6 +22,8 @@ $scissors = [
       realpath(dirname(__FILE__).'/add-gmp-packing-scissors-knives.php'),
     'toggle-gmp-packing-scissors-knives' =>
       realpath(dirname(__FILE__).'/toggle-gmp-packing-scissors-knives.php'),
+    'update-gmp-packing-scissors-knives' =>
+      realpath(dirname(__FILE__).'/update-gmp-packing-scissors-knives.php')
   ]
 ];
 

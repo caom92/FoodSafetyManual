@@ -22,6 +22,8 @@ $thermometers = [
       realpath(dirname(__FILE__).'/add-gmp-packing-thermo-calibration.php'),
     'toggle-gmp-packing-thermo-calibration' =>
       realpath(dirname(__FILE__).'/toggle-gmp-packing-thermo-calibration.php'),
+    'update-gmp-packing-thermo-calibration' =>
+      realpath(dirname(__FILE__).'/update-gmp-packing-thermo-calibration.php')
   ]
 ];
 

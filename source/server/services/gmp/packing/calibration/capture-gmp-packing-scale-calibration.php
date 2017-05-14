@@ -8,10 +8,6 @@ $service = fsm\createCaptureService(
   'Packing',
   'Daily Scale Calibration Check',
   [
-    'date' => [
-      'type' => 'datetime',
-      'format' => 'Y-m-d'
-    ],
     'notes' => [
       'type' => 'string',
       'max_length' => 256,

@@ -22,6 +22,8 @@ $handWash = [
       realpath(dirname(__FILE__).'/add-gmp-packing-hand-washing.php'),
     'toggle-gmp-packing-hand-washing' =>
       realpath(dirname(__FILE__).'/toggle-gmp-packing-hand-washing.php'),
+    'update-gmp-packing-hand-washing' =>
+      realpath(dirname(__FILE__).'/update-gmp-packing-hand-washing.php'),
   ]
 ];
 

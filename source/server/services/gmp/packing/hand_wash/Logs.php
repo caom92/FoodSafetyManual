@@ -33,6 +33,24 @@ class Logs extends db\LogTable
       WHERE capture_date_id = $dateID"
     )->fetchAll();
   }
+
+  // Modifica los valores de los renglones que cumplan con las condiciones 
+  // especificadas
+  // [in]   changes (dictionary): arreglo asociativo que describe los nuevos 
+  //        valores a ser ingresados a la tabla
+  // [in]   logID (uint): el ID de la bitacora cuyos datos van a ser modificados
+  // [in]   characteristicID (uint): el ID de la caracteristica cuyos datos 
+  //        van a ser modificados 
+  // [out]  return (uint): el numero de renglones que fueron modificados
+  function updateByCapturedLogIDAndAreaGlassID($changes, $logID, 
+    $characteristicID) {
+    return parent::update($changes, [
+      'AND' => [
+        'capture_date_id' => $logID,
+        'characteristic_id' => $characteristicID
+      ]
+    ]);
+  }
 }
 
 ?>

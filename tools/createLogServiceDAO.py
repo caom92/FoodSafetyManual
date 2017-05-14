@@ -274,9 +274,7 @@ else:
   if inputFile['services']['capture']['extra_info'] is None:
     outputFile.write(
       "  [\n"
-      "    'extra_info' => [\n"
-      "      // NULL\n"
-      "    ],\n"
+      "    'extra_info' => NULL\n,"
       "    'function' => function($scope, $segment, $request, $logID) {\n"
       "      // TO DO\n"
       "    }\n"
@@ -342,9 +340,7 @@ else:
     outputFile.write(
       "  [\n"
       "    'items_name' => '" + inputFile['services']['report']['items_name'] + "',\n"
-      "    'extra_info' => [\n"
-      "      // NULL\n"
-      "    ],\n"
+      "    'extra_info' => NULL,\n"
       "    'function' => function($scope, $segment, $logDate) {\n"
       "      // TO DO\n"
       "    }\n"
@@ -502,6 +498,74 @@ if inputFile['services']['reorder'] is not None:
     "    'reorder-" + inputFile['suffix'] + "' =>\n"
     "      realpath(dirname(__FILE__).'/reorder-" + inputFile['suffix'] + ".php'),\n"
   )
+
+# Creamos el archivo del servicio para modificar los datos de la bitacora
+outputFile = open(inputFile['path'] + 'capture-' + inputFile['suffix'] + '.php', 'w')
+outputFile.write(
+  "<?php\n"
+  "\n"
+  "require_once realpath(dirname(__FILE__).'/../../../service_creators.php');\n"
+  "use fsm;\n"
+  "\n"
+  "$service = fsm\createUpdateService(\n"
+  "  '" + inputFile['program'] + "',\n"
+  "  '" + inputFile['module'] + "',\n" 
+  "  '" + inputFile['log'] + "',\n"
+  "  [\n"
+  "    // TO DO\n"
+  "  ],\n"
+)
+
+# Dependiendo si se va a escribir una funcion personalizada o se utilizara el 
+# templete, decidimos como sera el siguiente parametro
+if inputFile['services']['capture'] is None:
+  outputFile.write(
+    "  function($scope, $request) {\n"
+    "    // TO DO\n"
+    "  },\n"
+    "  TRUE"
+  )
+else:
+  if inputFile['services']['capture']['extra_info'] is None:
+    outputFile.write(
+      "  [\n"
+      "    'extra_info' => NULL\n,"
+      "    'function' => function($scope, $request) {\n"
+      "      // TO DO\n"
+      "    }\n"
+      "  ]\n"
+    )
+  else:  
+    outputFile.write(
+      "  [\n"
+      "    'extra_info' => [\n"
+      "      '" + inputFile['services']['capture']['extra_info'][0] + "',\n"
+    )
+    if inputFile['services']['capture']['extra_info'][1] is not None:
+      outputFile.write(
+        "      '" + inputFile['services']['capture']['extra_info'][1] + "'\n"
+      )
+    outputFile.write(
+      "    ],\n"
+      "    'function' => function($scope, $request) {\n"
+      "      // TO DO\n"
+      "    }\n"
+      "  ]\n"
+    )
+
+# Continuamos escribiendo el archivo
+outputFile.write(
+  ");\n"
+  "\n"
+  "?>"
+)
+outputFile.close()
+
+# Agregamos el archivo del servicio a nuestro archivo conglomerado
+servicesFile.write(
+  "    'update-" + inputFile['suffix'] + "' =>\n"
+  "      realpath(dirname(__FILE__).'/update-" + inputFile['suffix'] + ".php'),\n"
+)
 
 # Finalmente, cerramos la lista de servicios
 servicesFile.write(

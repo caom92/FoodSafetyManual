@@ -48,6 +48,22 @@ class Logs extends db\LogTable
       ]
     );
   }
+
+  // Modifica los valores de los renglones que cumplan con las condiciones 
+  // especificadas
+  // [in]   changes (dictionary): arreglo asociativo que describe los nuevos 
+  //        valores a ser ingresados a la tabla
+  // [in]   logID (uint): el ID de la bitacora cuyos datos van a ser modificados
+  // [in]   areaID (uint): el ID del area cuyos datos van a ser modificados
+  // [out]  return (uint): el numero de renglones que fueron modificados
+  function updateByCapturedLogIDAndAreaGlassID($changes, $logID, $areaID) {
+    return parent::update($changes, [
+      'AND' => [
+        'capture_date_id' => $logID,
+        'area_glass_id' => $areaID
+      ]
+    ]);
+  }
 }
 
 ?>

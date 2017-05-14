@@ -38,6 +38,27 @@ class Logs extends db\LogTable
       WHERE capture_date_id = $dateID"
     )->fetchAll();
   }
+
+  // Modifica los renglones de la tabla que tienen registrado el ID de fecha de 
+  // captura especificado, sustituyendo los viejos datos con los datos
+  // especificados
+  // [in]   changes (dictionary): arreglo asociativo que contiene los datos que 
+  //        van a ser añadidos en la tabla organizados por columnas
+  // [in]   logID (uint): el ID de fecha de captura cuyo renglon en la tabla
+  //        va a ser modificado
+  // [in]   groupID (uint): el ID del grupo de tijeras y cuchillos cuyos datos 
+  //        van a ser modificados
+  // [out]  return (uint): el numero de renglones que fueron modificados
+  function updateByCapturedLogIDAndGroupID($changes, $logID, $groupID) {
+    return parent::update($changes,
+      [
+        'AND' => [
+          'capture_date_id' => $logID,
+          'group_id' => $groupID
+        ]
+      ]
+    );
+  }
 }
 
 ?>

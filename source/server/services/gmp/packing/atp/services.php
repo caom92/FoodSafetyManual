@@ -9,13 +9,15 @@ $atp = [
   ],
   'services' => [
     'upload-manual-gmp-packing-atp-testing' =>
-      realpath(dirname(__FILE__).'/upload-manual-atp-testing.php'),
+      realpath(dirname(__FILE__).'/upload-manual-gmp-packing-atp-testing.php'),
     'log-gmp-packing-atp-testing' =>
-      realpath(dirname(__FILE__).'/log-atp-testing.php'),
+      realpath(dirname(__FILE__).'/log-gmp-packing-atp-testing.php'),
     'capture-gmp-packing-atp-testing' =>
-      realpath(dirname(__FILE__).'/capture-atp-testing.php'),
+      realpath(dirname(__FILE__).'/capture-gmp-packing-atp-testing.php'),
     'report-gmp-packing-atp-testing' =>
-      realpath(dirname(__FILE__).'/report-atp-testing.php'),
+      realpath(dirname(__FILE__).'/report-gmp-packing-atp-testing.php'),
+    'update-gmp-packing-atp-testing' =>
+      realpath(dirname(__FILE__).'/update-gmp-packing-atp-testing.php')
   ]
 ];
 

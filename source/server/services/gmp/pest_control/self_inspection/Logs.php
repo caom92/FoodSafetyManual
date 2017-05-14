@@ -50,6 +50,23 @@ class Logs extends db\LogTable
       ]
     );
   }
+
+  // Modifica los renglones de la tabla que tienen registrado el ID de fecha de 
+  // captura especificado, sustituyendo los viejos datos con los datos
+  // especificados
+  // [in]   changes (dictionary): arreglo asociativo que contiene los datos que 
+  //        van a ser añadidos en la tabla organizados por columnas
+  // [in]   logID (uint): el ID de fecha de captura cuyo renglon en la tabla
+  //        va a ser modificado
+  // [in]   stationID (uint): el ID de la estacion cuyos datos van a ser 
+  //        modificados
+  // [out]  return (uint): el numero de renglones que fueron modificados
+  function updateByCapturedLogIDAndStationID($changes, $logID, $stationID) {
+    return parent::update($changes, [
+      'capture_date_id' => $logID,
+      'station_id' => $stationID
+    ]);
+  }
 }
 
 ?>

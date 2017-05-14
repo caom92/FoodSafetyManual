@@ -30,6 +30,8 @@ $selfInspection = [
       realpath(dirname(__FILE__).'/add-room-gmp-pest-control-self-inspection.php'),
     'rooms-gmp-pest-control-self-inspection' =>
       realpath(dirname(__FILE__).'/rooms-gmp-pest-control-self-inspection.php'),
+    'update-gmp-pest-control-self-inspection' =>
+      realpath(dirname(__FILE__).'/update-gmp-pest-control-self-inspection.php'),
   ]
 ];
 

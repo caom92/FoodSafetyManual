@@ -428,4 +428,62 @@ function createReorderService($program, $module, $log, $daoName) {
   ];
 }
 
+// Crea el descriptor del servicio para modificar los datos de una bitacora
+// [in]   program (string): el nombre del programa al cual pertenece este 
+//        servicio
+// [in]   module (string): el nombre del modulo al cual pertenece este servicio
+// [in]   log (string): el nombre de la bitacora a la cual pertenece este 
+//        servicio
+// [in]   requirements (dictionary): arreglo asociativo que describe los datos a
+//        ser recibidos por el cliente para su captura en la base de datos
+// [in]   strategy (function(dictionary, dictionary):dictionary or dictionary): 
+//        la funcion a invocar al ejecutar cuando se solicita el servicio, o par
+//        que define el proceso a seguir para obtener los objetos del inventario
+//        de esta bitacora junto con el nombre de dichos objetos
+// [in]   [useCustom] (boolean): bandera que indica si vamos a usar una funcion
+//        personalizada para ejecutar el servicio o si vamos a crear una 
+//        utilizando el templete
+// [out]  return (dictionary): arreglo asociativo que contiene la descripcion
+//        del servicio
+function createUpdateService($program, $module, $log, $requirements, $strategy,
+  $useCustom = FALSE) {
+  return [
+    'requirements_desc' => [
+      'logged_in' => ['Supervisor'],
+      'has_privileges' => [
+        'privilege' => 'Read',
+        'program' => $program,
+        'module' => $module,
+        'log' => $log
+      ],
+      'report_id' => [
+        'type' => 'int',
+        'min' => 1
+      ]
+    ] + $requirements,
+    'callback' => (!$useCustom) ? 
+      function($scope, $request) use ($strategy) {
+        // update the extra info of the log if there is any
+        $hasExtraInfo = isset($strategy['extra_info'][0]);
+        if ($hasExtraInfo) {
+          $data = [
+            'extra_info1' => $request[$strategy['extra_info'][0]]
+          ];
+
+          if (isset($strategy['extra_info'][1])) {
+            $data['extra_info2'] = $request[$strategy['extra_info'][1]];
+          }
+
+          $scope->daoFactory->get('CapturedLogs')->updateByID(
+            $data, $request['report_id']
+          );
+        }
+
+        // then update the other tables
+        return $strategy['function']($scope, $request);
+      }
+      : $strategy
+  ];
+}
+
 ?>
