@@ -15,6 +15,7 @@ class TableFactory
   //        definiciones de las clases que representan las tablas en la
   //        base de datos organizados por nombre de clase
   function __construct($namespace, $tablesClassDefinitions) {
+    $this->namespace = $namespace;
     $this->classDefinitions = $tablesClassDefinitions;
   }
 
@@ -46,7 +47,8 @@ class TableFactory
         include $this->classDefinitions[$tableName];
 
         // instanciamos la clase
-        $this->tables[$tableName] = new $this->namespace . $tableName;
+        $className = $this->namespace . $tableName;
+        $this->tables[$tableName] = new $className;
 
         // y retornamos dicha instancia
         return $this->tables[$tableName];
