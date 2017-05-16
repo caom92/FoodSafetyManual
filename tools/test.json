@@ -1,0 +1,128 @@
+[
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/ContactInfo.php",
+    "class": "ContactInfo",
+    "table": "contact_info",
+    "namespace": null,
+    "parent": "InsertableTable"
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/Customers.php",
+    "class": "Customers",
+    "table": "customers",
+    "namespace": null,
+    "parent": "InsertableTable"
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/Items.php",
+    "class": "Items",
+    "table": "items",
+    "namespace": null,
+    "parent": "OrderedItemsTable"
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/ItemTypes.php",
+    "class": "ItemTypes",
+    "table": "item_types",
+    "namespace": null,
+    "parent": null
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/Logs.php",
+    "class": "Logs",
+    "table": "logs",
+    "namespace": null,
+    "parent": null
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/Modules.php",
+    "class": "Modules",
+    "table": "modules",
+    "namespace": null,
+    "parent": null
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/Privileges.php",
+    "class": "Privileges",
+    "table": "privileges",
+    "namespace": null,
+    "parent": null
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/Products.php",
+    "class": "Products",
+    "table": "products",
+    "namespace": null,
+    "parent": "ToggableItemsTable"
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/Programs.php",
+    "class": "Programs",
+    "table": "programs",
+    "namespace": null,
+    "parent": null
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/QualityTypes.php",
+    "class": "QualityTypes",
+    "table": "quality_types",
+    "namespace": null,
+    "parent": null
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/Roles.php",
+    "class": "Roles",
+    "table": "roles",
+    "namespace": null,
+    "parent": null
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/Shifts.php",
+    "class": "Shifts",
+    "table": "shifts",
+    "namespace": null,
+    "parent": null
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/SupervisorsEmployees.php",
+    "class": "SupervisorsEmployees",
+    "table": "supervisors_employees",
+    "namespace": null,
+    "parent": null
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/Suppliers.php",
+    "class": "Suppliers",
+    "table": "suppliers",
+    "namespace": null,
+    "parent": "InsertableTable"
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/Users.php",
+    "class": "Users",
+    "table": "users",
+    "namespace": null,
+    "parent": "ToggableItemsTable"
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/UsersLogsPrivileges.php",
+    "class": "UsersLogsPrivileges",
+    "table": "users_logs_privileges",
+    "namespace": null,
+    "parent": "InsertableTable"
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/WorkingAreas.php",
+    "class": "WorkingAreas",
+    "table": "working_areas",
+    "namespace": null,
+    "parent": "InsertableTable"
+  },
+  {
+    "file": "/opt/lampp/htdocs/espresso/source/server/services/Zones.php",
+    "class": "Zones",
+    "table": "zones",
+    "namespace": null,
+    "parent": "InsertableTable"
+  }
+]
