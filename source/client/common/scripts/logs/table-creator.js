@@ -7,6 +7,7 @@
         "type":"table",
         "id":"id",
         "classes":"class",
+        "style":,
         "thead":{},
         "tfoot":{},
         "tbody":{}
@@ -29,6 +30,9 @@ function table(tableData){
 
     if(tableData.classes)
         table.addClass(tableData.classes);
+
+    if(tableData.style)
+        table.attr("style", tableData.style);
 
     if($.type(tableData.thead) == "object")
         table.append(tableHeader(tableData.thead));

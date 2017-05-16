@@ -20,7 +20,7 @@ class Customers extends db\InsertableTable
   //        y ID de todos los clientes registrados en la tabla
   function selectName() {
     return parent::select(
-      [ "$this->table.id", "i.company_name(name)" ],
+      [ "$this->table.id", "i.company_name(company_name)" ],
       [],
       [
         '[><]contact_info(i)' => [
