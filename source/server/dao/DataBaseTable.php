@@ -34,6 +34,12 @@ class DataBaseTable
     ]);
   }
 
+  // Retorna verdadero si la conexion a la base de datos fue establecida o falso
+  // en caso contrario
+  static function isDataBaseConnectionEstablished() {
+    return isset(self::$dataBase);
+  }
+
 
   // Interfaz que representa la conexion a la base de datos
   protected static $dataBase;

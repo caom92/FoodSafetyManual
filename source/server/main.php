@@ -100,7 +100,10 @@ ServiceProvider::addValidationRule(
 // Instanciamos el provedor de servicios
 $controller = new ServiceProvider(
   [
-    'daoFactory' => function($config) {
+    'daoFactory' => function($config) use (
+      $zone, $server, $programs, $contact, $authorizations, $area, $account,
+      $atp, $calibration, $finishedProduct, $glass, $handWash, $preop, 
+      $scissors, $thermometers, $unusualOccurrences, $selfInspection) {
       return new db\TableFactory(
         'fsm\database\\',
         $zone['tables'] +
@@ -118,7 +121,7 @@ $controller = new ServiceProvider(
         $preop['tables'] +
         $scissors['tables'] +
         $thermometers['tables'] +
-        $unusualOccurrence['tables'] +
+        $unusualOccurrences['tables'] +
         $selfInspection['tables'] +
         [
           'Shifts' =>

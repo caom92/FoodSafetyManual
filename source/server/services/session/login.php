@@ -398,7 +398,13 @@ $service = [
   'callback' => function($scope, $request) {
     // if there is a session already opened, close it before openning the 
     // new one
-    if (isLoggedIn($scope, NULL)) {
+    $isLoggedIn = function($scope) {
+      $segment = $scope->session->getSegment('fsm');
+      $isLoggedIn = $segment->get('logged_in');
+      return isset($isLoggedIn) ? $isLoggedIn : false;
+    };
+
+    if ($isLoggedIn($scope)) {
       $scope->session->clear();
       $scope->session->destroy();
     }
