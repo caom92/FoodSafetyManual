@@ -1,7 +1,7 @@
 <?php
 
 require_once realpath(dirname(__FILE__).'/ServiceProvider.php');
-require_once realpath(dirname(__FILE__).'/../dao/TableFactory.php');
+require_once realpath(dirname(__FILE__).'/dao/TableFactory.php');
 require_once realpath(dirname(__FILE__).'/services/services.php');
 
 // Declaramos los espacios de nombre que vamos a utilizar
@@ -147,7 +147,7 @@ $controller = new ServiceProvider(
       $preop['services'] +
       $scissors['services'] +
       $thermometers['services'] +
-      $unusualOccurrence['services'] +
+      $unusualOccurrences['services'] +
       $selfInspection['services']
   ]
 );

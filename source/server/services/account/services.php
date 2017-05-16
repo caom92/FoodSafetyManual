@@ -1,6 +1,6 @@
 <?php
 
-$accountServices = [
+$account = [
   'tables' => [
     'Users' => 
       realpath(dirname(__FILE__).'/Users.php'),
