@@ -3,7 +3,7 @@ function suppliersTable(htmlElement, data){
 
     tableJSON.thead = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"supplier_id"},{"type":"th","classes":"name_title"},{"type":"th","classes":"supplier_code"},{"type":"th","classes":"inventory_dismiss"}]},{"type":"tr","columns":[{"type":"td","classes":"dynamic-search","contents":{"field":{"type":"input","id":"id-search","classes":"validate id_search","fieldType":"text"}}},{"type":"td","classes":"dynamic-search","contents":{"field":{"type":"input","id":"company-search","classes":"validate company_search","fieldType":"text"}}},{"type":"td","classes":"dynamic-search","contents":{"field":{"type":"input","id":"contact-search","classes":"validate contact_search","fieldType":"text"}}}]}]};
 
-    tableJSON.tfoot = {"type":"tfoot","rows":[{"type":"tr","columns":[{"type":"td","contents":""},{"type":"td","contents":{"field":{"type":"input","id":"company_add","classes":"validate add_item add-supplier-element","fieldType":"text","validations":{"type":"text","max":{"value":64},"required":{"value":true}},"data":{"param":{"name":"company_name","type":"text"}}}}},{"type":"td","contents":{"field":{"type":"input","id":"contact_add","classes":"validate add_item add-supplier-element","fieldType":"text","validations":{"type":"text","max":{"value":8},"required":{"value":true}},"data":{"param":{"name":"contact_name","type":"text"}}}}},{"type":"td","contents":{"field":{"type":"floating","id":"add_inventory","classes":"btn-floating waveseffect waves-light green center","icon":{"type":"icon","icon":"mdi-plus","size":"mdi-24px"}}}}]}]};
+    tableJSON.tfoot = {"type":"tfoot","rows":[{"type":"tr","columns":[{"type":"td","contents":""},{"type":"td","contents":{"field":{"type":"input","id":"company_add","classes":"validate add_item add-supplier-element","fieldType":"text","validations":{"type":"text","max":{"value":64},"required":{"value":true}},"data":{"param":{"name":"name","type":"text"}}}}},{"type":"td","contents":{"field":{"type":"input","id":"contact_add","classes":"validate add_item add-supplier-element","fieldType":"text","validations":{"type":"text","max":{"value":8},"required":{"value":true}},"data":{"param":{"name":"code","type":"text"}}}}},{"type":"td","contents":{"field":{"type":"floating","id":"add_inventory","classes":"btn-floating waveseffect waves-light green center","icon":{"type":"icon","icon":"mdi-plus","size":"mdi-24px"}}}}]}]};
 
     tableJSON.tbody = {"type":"tbody","rows":[]};
 
@@ -128,13 +128,13 @@ function addSupplier(){
         // Once the object is built, we call for the service to
         // add our item, which is add-item-suffix
         $server.request({
-            service: 'add-supplier',
+            service: 'add-product',
             data: data,
             success: function(response){
                 // When the function is succesful, we must create a new item
                 // object that must be added at the end 
                 item.id = Number(response.data);
-                item.name = item.company_name;
+                item.is_active = 1;
                 $("tbody").append(tableRow(suppliersRow(item)));
                 $("html, body").animate({
                     scrollTop: $(document).height()
