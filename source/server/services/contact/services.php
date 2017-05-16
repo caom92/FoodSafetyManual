@@ -3,7 +3,7 @@
 $contact = [
   'tables' => [
     'ContactInfo' =>
-      realpath(dirname(__FILE__).'/Contact.php'),
+      realpath(dirname(__FILE__).'/ContactInfo.php'),
     'Customers' =>
       realpath(dirname(__FILE__).'/Customers.php'),
     'Products' =>
