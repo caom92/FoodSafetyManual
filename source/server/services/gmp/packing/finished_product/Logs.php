@@ -44,7 +44,7 @@ class Logs extends db\LogTable
       ],
       [
         '[><]gmp_packing_finished_product_production_areas(a)' => [
-          'production_areas_id' => 'id'
+          'production_area_id' => 'id'
         ],
         '[><]suppliers(s)' => [
           'supplier_id' => 'id'
