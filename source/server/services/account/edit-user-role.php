@@ -21,7 +21,7 @@ $service = [
     // check if the user is already a supervisor so that we check the number of
     // employees she has assigned
     $users = $scope->daoFactory->get('Users');
-    $supervisorsEmployees = $scope->daoFactory->get('SupervisorsEmployess');
+    $supervisorsEmployees = $scope->daoFactory->get('SupervisorsEmployees');
     $currentRole = $users->getRoleByID($request['user_id']);
     $isCurrentlySupervisor = $currentRole === 'Supervisor';
     $isCurrentlyEmployee = $currentRole === 'Employee';

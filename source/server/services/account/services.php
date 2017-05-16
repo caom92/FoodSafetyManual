@@ -5,7 +5,7 @@ $account = [
     'Users' => 
       realpath(dirname(__FILE__).'/Users.php'),
     'UsersLogsPrivileges' => 
-      realpath(dirname(__FILE__).'/services/session/UsersLogsPrivileges.php'),
+      realpath(dirname(__FILE__).'/UsersLogsPrivileges.php'),
     'Roles' =>
       realpath(dirname(__FILE__).'/Roles.php'),
     'Privileges' =>
