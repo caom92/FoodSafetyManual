@@ -102,12 +102,13 @@ $gmpPackingFinishedProductServices = fsm\createServiceDescriptionFromTemplate(
             ],
             'data_view' => function($scope, $segment, $request, $logID) {
                 // prepare the array of rows to insert to the database
-                $rows = $request['entries'];
+                $rows = [];
 
                 // visit each entry
-                foreach ($rows as $entry) {
+                foreach ($request['entries'] as $entry) {
                     // add the capture date ID
                     $entry['capture_date_id'] = $logID;
+                    array_push($rows, $entry);
                 }
 
                 // finally, insert all the rows to the database

@@ -1,9 +1,9 @@
 function suppliersTable(htmlElement, data){
     var tableJSON = {"type":"table","id":"sort","classes":"highlight","thead":{},"tbody":{},"tfoot":{}};
 
-    tableJSON.thead = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"supplier_id"},{"type":"th","classes":"supplier_company"},{"type":"th","classes":"supplier_contact"},{"type":"th","classes":"supplier_phone_number"},{"type":"th","classes":"supplier_email"},{"type":"th","classes":"supplier_code"},{"type":"th","contents":""}]},{"type":"tr","columns":[{"type":"td","classes":"dynamic-search","contents":{"field":{"type":"input","id":"id-search","classes":"validate id_search","fieldType":"text"}}},{"type":"td","classes":"dynamic-search","contents":{"field":{"type":"input","id":"company-search","classes":"validate company_search","fieldType":"text"}}},{"type":"td","classes":"dynamic-search","contents":{"field":{"type":"input","id":"contact-search","classes":"validate contact_search","fieldType":"text"}}},{"type":"td","classes":"dynamic-search","contents":{"field":{"type":"input","id":"phone-search","classes":"validate phone_search","fieldType":"text"}}},{"type":"td","classes":"dynamic-search","contents":{"field":{"type":"input","id":"email-search","classes":"validate email_search","fieldType":"text"}}},{"type":"td","classes":"dynamic-search","contents":{"field":{"type":"input","id":"code-search","classes":"validate code_search","fieldType":"text"}}}]}]};
+    tableJSON.thead = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"supplier_id"},{"type":"th","classes":"name_title"},{"type":"th","classes":"supplier_code"},{"type":"th","classes":"inventory_dismiss"}]},{"type":"tr","columns":[{"type":"td","classes":"dynamic-search","contents":{"field":{"type":"input","id":"id-search","classes":"validate id_search","fieldType":"text"}}},{"type":"td","classes":"dynamic-search","contents":{"field":{"type":"input","id":"company-search","classes":"validate company_search","fieldType":"text"}}},{"type":"td","classes":"dynamic-search","contents":{"field":{"type":"input","id":"contact-search","classes":"validate contact_search","fieldType":"text"}}}]}]};
 
-    tableJSON.tfoot = {"type":"tfoot","rows":[{"type":"tr","columns":[{"type":"td","contents":""},{"type":"td","contents":{"field":{"type":"input","id":"company_add","classes":"validate add_item add-supplier-element","fieldType":"text","validations":{"type":"text","max":{"value":128},"required":{"value":true}},"data":{"param":{"name":"company_name","type":"text"}}}}},{"type":"td","contents":{"field":{"type":"input","id":"contact_add","classes":"validate add_item add-supplier-element","fieldType":"text","validations":{"type":"text","max":{"value":64},"required":{"value":true}},"data":{"param":{"name":"contact_name","type":"text"}}}}},{"type":"td","contents":{"field":{"type":"input","id":"phone_add","classes":"validate add_item add-supplier-element","fieldType":"text","validations":{"type":"text","max":{"value":16},"required":{"value":true}},"data":{"param":{"name":"phone_num","type":"text"}}}}},{"type":"td","contents":{"field":{"type":"input","id":"email_add","classes":"validate add_item add-supplier-element","fieldType":"text","validations":{"type":"text","max":{"value":64},"required":{"value":true}},"data":{"param":{"name":"email","type":"text"}}}}},{"type":"td","contents":{"field":{"type":"input","id":"code_add","classes":"validate add_item add-supplier-element","fieldType":"text","validations":{"type":"text","max":{"value":4},"required":{"value":true}},"data":{"param":{"name":"code","type":"text"}}}}},{"type":"td","contents":{"field":{"type":"floating","id":"add_inventory","classes":"btn-floating waveseffect waves-light green center","icon":{"type":"icon","icon":"mdi-plus","size":"mdi-24px"}}}}]}]};
+    tableJSON.tfoot = {"type":"tfoot","rows":[{"type":"tr","columns":[{"type":"td","contents":""},{"type":"td","contents":{"field":{"type":"input","id":"company_add","classes":"validate add_item add-supplier-element","fieldType":"text","validations":{"type":"text","max":{"value":64},"required":{"value":true}},"data":{"param":{"name":"company_name","type":"text"}}}}},{"type":"td","contents":{"field":{"type":"input","id":"contact_add","classes":"validate add_item add-supplier-element","fieldType":"text","validations":{"type":"text","max":{"value":8},"required":{"value":true}},"data":{"param":{"name":"contact_name","type":"text"}}}}},{"type":"td","contents":{"field":{"type":"floating","id":"add_inventory","classes":"btn-floating waveseffect waves-light green center","icon":{"type":"icon","icon":"mdi-plus","size":"mdi-24px"}}}}]}]};
 
     tableJSON.tbody = {"type":"tbody","rows":[]};
 
@@ -25,14 +25,25 @@ function suppliersRow(item){
     // Add information columns. Remember the class "search-column" for dynamic
     // search binding
     inventoryRow.columns.push({"type":"td","contents":item.id,"classes":"id-column search-column"});
-    inventoryRow.columns.push({"type":"td","contents":item.company_name,"classes":"company-column search-column"});
-    inventoryRow.columns.push({"type":"td","contents":item.contact_name,"classes":"contact-column search-column"});
-    inventoryRow.columns.push({"type":"td","contents":item.phone_num,"classes":"phone-column search-column"});
-    inventoryRow.columns.push({"type":"td","contents":item.email,"classes":"email-column search-column"});
-    inventoryRow.columns.push({"type":"td","contents":item.code,"classes":"code-column search-column"});
+    inventoryRow.columns.push({"type":"td","contents":item.name,"classes":"company-column search-column"});
+    inventoryRow.columns.push({"type":"td","contents":item.code,"classes":"contact-column search-column"});
+    inventoryRow.columns.push({"type":"td","contents":suppliersSwitch(item)});
 
     return inventoryRow;
 }
+
+function suppliersSwitch(item){
+    var switchField = {"type":"switch","id":"switch_" + item.id,"data":{"id":item.id}};
+
+    if(item.is_active == 1){
+        switchField.checked = true;
+    }
+
+    var switchInput = {"field":switchField};
+
+    return switchInput;
+}
+
 
 function validateSupplier(){
     var returnValue = true;
@@ -144,16 +155,16 @@ function addSupplier(){
 
 $(function(){
     $server.request({
-        service: 'list-suppliers',
+        service: 'list-products',
         success: function(response, message, xhr) {
             console.log(JSON.stringify(response.data));
             suppliersTable("#content_wrapper", response.data);
-            dynamicSearchBind("id-search", "id-column");
+            /*dynamicSearchBind("id-search", "id-column");
             dynamicSearchBind("company-search", "company-column");
             dynamicSearchBind("contact-search", "contact-column");
             dynamicSearchBind("phone-search", "phone-column");
             dynamicSearchBind("email-search", "email-column");
-            dynamicSearchBind("code-search", "code-column");
+            dynamicSearchBind("code-search", "code-column");*/
             changeLanguage();
         }
     });

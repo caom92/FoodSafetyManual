@@ -638,6 +638,61 @@
         <spanish>Prueba</spanish>
     </translation>
 
+    <translation id="batch_title">
+        <english>Batch</english>
+        <spanish>Lote</spanish>
+    </translation>
+
+    <translation id="origin_title">
+        <english>Origin</english>
+        <spanish>Origen</spanish>
+    </translation>
+
+    <translation id="expires_title">
+        <english>Expires</english>
+        <spanish>Expira</spanish>
+    </translation>
+
+    <translation id="correct_weight_title">
+        <english>Correct Weight?</english>
+        <spanish>¿Peso/Llenado correcto?</spanish>
+    </translation>
+
+    <translation id="correct_label_title">
+        <english>Correct Label?</english>
+        <spanish>¿Etiquetado correcto?</spanish>
+    </translation>
+
+    <translation id="traceability_title">
+        <english>Traceability</english>
+        <spanish>Trazabilidad</spanish>
+    </translation>
+
+    <translation id="water_temperature">
+        <english>Washing water temperature (°F)</english>
+        <spanish>Temperatura del agua de lavado (°F)</spanish>
+    </translation>
+
+    <translation id="water_temperature_short">
+        <english>Water (°F)</english>
+        <spanish>Agua (°F)</spanish>
+    </translation>
+
+    <translation id="packing_temperature">
+        <english>Packed product temperature (°F)</english>
+        <spanish>Temperatura del producto empacado (°F)</spanish>
+    </translation>
+
+    <translation id="packing_temperature_short">
+        <english>Packed (°F)</english>
+        <spanish>Empacado (°F)</spanish>
+    </translation>
+
+    <translation id="quality_title">
+        <english>Quality</english>
+        <spanish>Calidad</spanish>
+    </translation>
+
     <translation id="results_title">
         <english>Results</english>
         <spanish>Resultado</spanish>
@@ -808,6 +863,11 @@
     <translation id="suppliers">
         <english>Suppliers</english>
         <spanish>Proveedores</spanish>
+    </translation>
+
+    <translation id="products">
+        <english>Products</english>
+        <spanish>Productos</spanish>
     </translation>
 
     <translation id="supplier_id">

@@ -23,7 +23,7 @@ class CustomersDAO extends InsertableDAO
     function selectName()
     {
         return parent::select(
-            [ "$this->table.id", "i.company_name(name)" ],
+            [ "$this->table.id", "i.company_name(company_name)" ],
             [],
             [
                 '[><]contact_info(i)' => [
@@ -40,7 +40,7 @@ class CustomersDAO extends InsertableDAO
         return parent::select(
             [ 
                 "$this->table.id", 
-                "i.company_name(name)",
+                "i.company_name(company_name)",
                 'i.contact_name(contact_name)',
                 'i.phone_num(phone_num)',
                 'i.email(email)',
