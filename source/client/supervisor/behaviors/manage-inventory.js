@@ -206,28 +206,49 @@ $(function(){
 
     console.log(getParams);
 
-    $.getScript( "source/client/supervisor/scripts/inventory/" + getParams._ + ".js").done(function( data, textStatus, jqxhr ) {
-        addInventoryManager("#controls_wrapper", "#content_wrapper");
-    }).fail(function(jqxhr, settings, exception) {
-        var privileges = JSON.parse(localStorage.privileges);
+    if(getParams._){
+        $.getScript( "source/client/supervisor/scripts/inventory/" + getParams._ + ".js").done(function( data, textStatus, jqxhr ) {
+            addInventoryManager("#controls_wrapper", "#content_wrapper");
+        }).fail(function(jqxhr, settings, exception) {
+            var privileges = JSON.parse(localStorage.privileges);
 
-        console.log(privileges);
+            console.log(privileges);
 
-        $("#content_wrapper").html("");
+            $("#content_wrapper").html("");
 
-        for(var zone of privileges.zones){
-            for(var program of zone.programs){
-                for(var module of program.modules){
-                    for(var log of module.logs){
-                        $("#content_wrapper").append(logCard(log.name, log.suffix));
+            for(var zone of privileges.zones){
+                for(var program of zone.programs){
+                    for(var module of program.modules){
+                        for(var log of module.logs){
+                            $("#content_wrapper").append(logCard(log.name, log.suffix));
+                        }
                     }
                 }
             }
-        }
 
-        initMaterialize();
-        $("#content_wrapper").show(1000);
-    });
+            initMaterialize();
+            $("#content_wrapper").show(1000);
+        });
+    } else {
+        var privileges = JSON.parse(localStorage.privileges);
+
+            console.log(privileges);
+
+            $("#content_wrapper").html("");
+
+            for(var zone of privileges.zones){
+                for(var program of zone.programs){
+                    for(var module of program.modules){
+                        for(var log of module.logs){
+                            $("#content_wrapper").append(logCard(log.name, log.suffix));
+                        }
+                    }
+                }
+            }
+
+            initMaterialize();
+            $("#content_wrapper").show(1000);
+    }
 
     changeLanguage();
 });
