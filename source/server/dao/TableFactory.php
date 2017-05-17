@@ -29,7 +29,7 @@ class TableFactory
   function get($tableName) {
     // primero revisamos si la tabla ya habia sido instanciada antes
     $isTableInitialized =
-      isset($tables[$tableName])
+      isset($this->tables[$tableName])
       && array_key_exists($tableName, $this->tables);
 
     if ($isTableInitialized) {

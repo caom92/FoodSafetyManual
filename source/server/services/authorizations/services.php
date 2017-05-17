@@ -16,12 +16,12 @@ $authorizations = [
       realpath(dirname(__FILE__).'/get-num-pending-logs.php'),
     'get-supervisor-num-of-employees' =>
       realpath(dirname(__FILE__).'/get-supervisor-num-of-employees.php'),
-    'list-employees-of-supervisors' =>
-      realpath(dirname(__FILE__).'/list-employees-of-supervisors.php'),
+    'list-employees-of-supervisor' =>
+      realpath(dirname(__FILE__).'/list-employees-of-supervisor.php'),
     'list-supervisors-by-zone' =>
       realpath(dirname(__FILE__).'/list-supervisors-by-zone.php'),
     'list-unapproved-logs-of-user' =>
-      realpath(dirname(__FILE__).'/list-unapproved-logs-of-users.php'),
+      realpath(dirname(__FILE__).'/list-unapproved-logs-of-user.php'),
     'reject-log' =>
       realpath(dirname(__FILE__).'/reject-log.php')
   ]
