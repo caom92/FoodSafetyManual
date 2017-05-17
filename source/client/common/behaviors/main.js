@@ -261,6 +261,7 @@ function initMaterialize(){
     // we load the corresponding layout to the current view, preventing
     // full-page reloading; we also make use of history API in order to preserve
     // browser's forward and backward buttons' functionality 
+    $('a.nav-link').off('click');
     $('a.nav-link').on('click', function(event) {
         // prevent normal navigation
         event.preventDefault();

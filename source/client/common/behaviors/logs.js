@@ -19,7 +19,7 @@ $(function() {
 
     if(!localStorage.correctiveActionsSSOP){
         $server.request({
-            service: 'list-corrective-actions',
+            service: 'list-corrective-actions-gmp-packing-preop',
             success: function(response) {
                 if (response.meta.return_code == 0) {
                     localStorage.correctiveActionsSSOP = JSON.stringify(response.data);
