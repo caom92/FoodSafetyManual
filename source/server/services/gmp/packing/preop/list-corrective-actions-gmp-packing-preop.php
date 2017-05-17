@@ -2,9 +2,9 @@
 
 $service = [
   'requirements_desc' => [
-    'logged_in' => ['Supervisor'],
+    'logged_in' => ['Supervisor', 'Employee'],
     'has_privileges' => [
-      'privilege' => 'Read',
+      'privilege' => ['Read', 'Write'],
       'program' => 'GMP',
       'module' => 'Packing',
       'log' => 'Pre-Operational Inspection'
@@ -12,7 +12,7 @@ $service = [
   ],
   'callback' => function($scope, $request) {
     return $scope->daoFactory->get('gmp\packing\preop\CorrectiveActions')
-      ->selectAllButNone();
+      ->selectAllButOptionOther();
   }
 ];
 
