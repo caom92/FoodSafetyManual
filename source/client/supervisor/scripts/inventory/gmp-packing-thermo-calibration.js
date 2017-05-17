@@ -63,7 +63,7 @@ function gmpPackingThermoCalibrationInventoryTable(htmlElement, data){
             data.name = $("#name_add").val();
 
             $server.request({
-                service: 'add-item-gmp-packing-thermo-calibration',
+                service: 'add-gmp-packing-thermo-calibration',
                 data: data,
                 success: function(response){
                     // Here we must append the recently added item to the list,

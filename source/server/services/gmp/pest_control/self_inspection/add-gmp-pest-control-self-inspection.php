@@ -23,7 +23,7 @@ $service = fsm\createAddService(
     // so we can compute the position of this station and add it
     // in the last position
     $stations = $scope->daoFactory
-      ->get('gmp\pestControl\SelfInspection\Stations');
+      ->get('gmp\pestControl\selfInspection\Stations');
     $numItemsInRoom = $stations->countByRoomID($request['room_id']);
 
     // store the item in the data base 

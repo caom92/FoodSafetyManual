@@ -64,7 +64,7 @@ function gmpPackingScissorsKnivesInventoryTable(htmlElement, data){
             data.quantity = Number($("#quantity_add").val());
 
             $server.request({
-                service: 'add-item-gmp-packing-scissors-knives',
+                service: 'add-gmp-packing-scissors-knives',
                 data: data,
                 success: function(response){
                     // Here we must append the recently added item to the list,
@@ -72,7 +72,7 @@ function gmpPackingScissorsKnivesInventoryTable(htmlElement, data){
                     // TODO: Optimize this part, its hideous
                     var item = new Object();
                     item.id = Number(response.data);
-                    item.group = $("#name_add").val();
+                    item.name = $("#name_add").val();
                     item.quantity = Number($("#quantity_add").val());
                     item.is_active = 1;
                     $("tbody").append(tableRow(gmpPackingScissorsKnivesInventoryRow(item)));
@@ -100,7 +100,7 @@ function gmpPackingScissorsKnivesInventoryRow(item){
     // Add information columns. Remember the class "search-column" for dynamic
     // search binding
     inventoryRow.columns.push({"type":"td","contents":item.id,"classes":"id-column search-column"});
-    inventoryRow.columns.push({"type":"td","contents":item.group,"classes":"name-column search-column"});
+    inventoryRow.columns.push({"type":"td","contents":item.name,"classes":"name-column search-column"});
     inventoryRow.columns.push({"type":"td","contents":item.quantity,"classes":"quantity-column search-column"});
 
     // Add switch to toggle activaction or deactivation of the item

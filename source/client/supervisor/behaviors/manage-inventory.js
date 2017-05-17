@@ -153,7 +153,7 @@ function addItemToInventory(logSuffix, isSortable){
         // Once the object is built, we call for the service to
         // add our item, which is add-item-suffix
         $server.request({
-            service: 'add-item-' + logSuffix,
+            service: 'add-' + logSuffix,
             data: data,
             success: function(response){
                 // When the function is succesful, we must create a new item
