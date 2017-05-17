@@ -7,7 +7,7 @@ function loadInventory(htmlElement){
     var data = new Object();
 
     $server.request({
-        service: 'get-scales-of-zone',
+        service: 'inventory-gmp-packing-scale-calibration',
         success: function(response){
             $(htmlElement).hide();
             gmpScaleCalibrationInventoryTable(htmlElement, response.data);
@@ -77,7 +77,7 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
             //console.log(data);
 
             $server.request({
-                service: 'add-new-scale',
+                service: 'add-gmp-packing-scale-calibration',
                 data: data,
                 success: function(response){
                     // Here we must append the recently added item to the list,
