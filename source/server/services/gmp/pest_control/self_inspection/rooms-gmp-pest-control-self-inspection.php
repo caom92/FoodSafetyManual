@@ -14,7 +14,7 @@ $service = [
   ],
   'callback' => function($scope, $request) {
     $segment = $scope->session->getSegment('fsm');
-    return $scope->daoFactory->get('gmp\pestControl\SelfInspection\Rooms')
+    return $scope->daoFactory->get('gmp\pestControl\selfInspection\Rooms')
       ->selectByZoneID($segment->get('zone_id'));
   }
 ];
