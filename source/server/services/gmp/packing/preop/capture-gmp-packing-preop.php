@@ -62,7 +62,7 @@ $service = fsm\createCaptureService(
       // insert each per area log entry one at the time...
       foreach ($request['areas'] as $areaLogEntry) {
         // save the resulting ID for later use
-        $areaID = $scope->daoFactory->get('gmp\packing\preop\AreasLog')
+        $areaID = $scope->daoFactory->get('gmp\packing\preop\AreaLogs')
           ->insert([
             'capture_date_id' => $logID,
             'time' => $areaLogEntry['time'],
@@ -86,7 +86,7 @@ $service = fsm\createCaptureService(
 
       // finally, store all the per item log entries in the data base in a
       // single query
-      return $scope->daoFactory->get('gmp\packing\preop\ItemsLog')
+      return $scope->daoFactory->get('gmp\packing\preop\ItemLogs')
         ->insert($itemsLogEntries);
     }
   ]
