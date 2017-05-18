@@ -15,11 +15,11 @@ $service = fsm\createReportService(
     ],
     'function' => function($scope, $segment, $logDate) {
       $areasLogEntries = [];
-      $areas = $scope->daoFactory->get('gmp\packing\preop\AreasLog')
-        ->selectByLogID($logDate['id']);
+      $areas = $scope->daoFactory->get('gmp\packing\preop\AreaLogs')
+        ->selectByCaptureDateID($logDate['id']);
 
       foreach ($areas as $areaData) {
-        $items = $scope->daoFactory->get('gmp\packing\preop\ItemsLog')
+        $items = $scope->daoFactory->get('gmp\packing\preop\ItemLogs')
           ->selectByAreaLogID($areaData['id']);
         $tempAreaLogEntry = [
           'id' => $items[0]['area_id'],

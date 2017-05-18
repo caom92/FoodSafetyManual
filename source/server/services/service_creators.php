@@ -96,7 +96,7 @@ function createLogService($program, $module, $log, $strategy,
       ]
     ],
     'callback' => (!$useCustom) ?
-      function($scope, $request) use ($strategy) {
+      function($scope, $request) use ($strategy, $program, $module, $log) {
         // first, get the session segment
         $segment = $scope->session->getSegment('fsm');
 

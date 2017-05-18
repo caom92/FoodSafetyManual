@@ -17,7 +17,7 @@ $service = fsm\createAddService(
   function($scope, $request) {
     $segment = $scope->session->getSegment('fsm');
     return $scope->daoFactory
-      ->get('gmp\packing\finishedProduct\productionAreas')->insert([
+      ->get('gmp\packing\finishedProduct\ProductionAreas')->insert([
         'zone_id' => $segment->get('zone_id'),
         'name' => $request['name']
       ]);

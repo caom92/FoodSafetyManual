@@ -71,7 +71,7 @@ $service = [
     // for each area in the input array...
     foreach ($request['areas'] as $area) {
       // update the area log 
-      $scope->daoFactory->get('gmp\packing\preop\AreasLog')
+      $scope->daoFactory->get('gmp\packing\preop\AreaLogs')
         ->updateByCapturedLogID(
           [
             'notes' => $area['notes'],
@@ -84,7 +84,7 @@ $service = [
       // the for each item in the area
       foreach ($area['items'] as $item) {
         // update the item log
-        $scope->daoFacotry->get('gmp\packing\preop\ItemsLog')
+        $scope->daoFacotry->get('gmp\packing\preop\ItemLogs')
           ->updateByCapturedLogIDAndItemID(
             [
               'is_acceptable' => $item['is_acceptable'],

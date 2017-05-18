@@ -31,7 +31,7 @@ class AreaLogs extends db\LogTable
         person_performing_sanitation
       FROM
         $this->table
-      WHERE capture_date_id = $logID"
+      WHERE capture_date_id = $dateID"
     );
   }
 
