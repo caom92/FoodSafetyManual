@@ -91,9 +91,9 @@ function loadInventory(id, htmlElement){
         success: function(response){
             $(htmlElement).hide();
             gmpPackingHandWashingInventoryTable(htmlElement, response.data);
-            /*dynamicSearchBind("id-search", "id-column");
+            initSortability("reorder-gmp-pest-control-self-inspection");
+            dynamicSearchBind("id-search", "id-column");
             dynamicSearchBind("name-search", "name-column");
-            dynamicSearchBind("type-search", "type-column");*/
             changeLanguage();
             $(htmlElement).show(400);
         }
@@ -140,7 +140,7 @@ function gmpPackingHandWashingInventoryRow(item){
 
     // Add information columns. Remember the class "search-column" for dynamic
     // search binding
-    inventoryRow.columns.push({"type":"td","contents":item.id,"classes":"position-column"});
+    inventoryRow.columns.push({"type":"td","contents":item.order,"classes":"position-column"});
     inventoryRow.columns.push({"type":"td","contents":item.id,"classes":"id-column search-column"});
     inventoryRow.columns.push({"type":"td","contents":item.name,"classes":"name-column search-column"});
 

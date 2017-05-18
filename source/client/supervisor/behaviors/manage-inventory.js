@@ -56,7 +56,7 @@ function checkSortability(){
     });
 }
 
-/*function initSortability(sortingService){
+function initSortability(sortingService){
     $("#sort tbody").sortable({
         helper: fixHelper,
         cursor: "move",
@@ -88,7 +88,7 @@ function checkSortability(){
         });
         return $helper;
     };
-}*/
+}
 
 function logCard(name, suffix){
     var card = $("<div>");
