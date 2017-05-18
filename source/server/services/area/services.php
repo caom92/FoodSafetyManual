@@ -9,7 +9,9 @@ $area = [
     'add-workplace-area' =>
       realpath(dirname(__FILE__).'/add-workplace-area.php'),
     'get-areas-of-zone' =>
-      realpath(dirname(__FILE__).'/get-areas-of-zone.php')
+      realpath(dirname(__FILE__).'/get-areas-of-zone.php'),
+    'get-items-of-area' => 
+      realpath(dirname(__FILE__).'/get-items-of-area.php')
   ]
 ];
 
