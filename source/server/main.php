@@ -125,9 +125,9 @@ $controller = new ServiceProvider(
         $selfInspection['tables'] +
         [
           'Shifts' =>
-            realpath(dirname(__FILE__).'services/Shifts.php'),
+            realpath(dirname(__FILE__).'/services/Shifts.php'),
           'QualityTypes' =>
-            realpath(dirname(__FILE__).'services/QualityTypes.php')
+            realpath(dirname(__FILE__).'/services/QualityTypes.php')
         ]
       );
     }
