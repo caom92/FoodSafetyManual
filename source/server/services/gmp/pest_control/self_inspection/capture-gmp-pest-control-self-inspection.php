@@ -57,7 +57,7 @@ $service = fsm\createCaptureService(
       }
 
       // finally, insert all the rows to the database
-      return $scope->daoFactory->get('gmp\pestControl\SelfInspection\Logs')
+      return $scope->daoFactory->get('gmp\pestControl\selfInspection\Logs')
         ->insert($rows);
     }
   ]

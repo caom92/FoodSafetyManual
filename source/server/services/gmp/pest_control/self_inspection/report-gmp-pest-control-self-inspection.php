@@ -15,7 +15,7 @@ $service = fsm\createReportService(
     'function' => function($scope, $segment, $logDate) {
       // first, get the list of all active stations
       $stations = 
-        $scope->daoFactory->get('gmp\pestControl\SelfInspection\Logs')
+        $scope->daoFactory->get('gmp\pestControl\selfInspection\Logs')
           ->selectByCaptureDateID(
             $logDate['id']
           );

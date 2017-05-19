@@ -11,7 +11,8 @@ $service = fsm\createLogService(
     'items_name' => 'types',
     'function' => function($scope, $segment) {
       // then get the data from the table
-      $rows = $scope->scales->selectActiveByZoneID($segment->get('zone_id'));
+      $rows = $scope->daoFactory->get('gmp\packing\calibration\Scales')
+        ->selectActiveByZoneID($segment->get('zone_id'));
 
       // initialize the temporal storage for the list of scales 
       $scaleList = [];

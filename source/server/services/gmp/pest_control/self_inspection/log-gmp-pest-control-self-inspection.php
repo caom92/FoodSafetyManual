@@ -12,7 +12,7 @@ $service = fsm\createLogService(
     'function' => function($scope, $segment) {
       // first, get the list of all active stations
       $stations = 
-        $scope->daoFactory->get('gmp\pestControl\SelfInspection\Stations')
+        $scope->daoFactory->get('gmp\pestControl\selfInspection\Stations')
           ->selectActiveByZoneID(
             $segment->get('zone_id')
           );
