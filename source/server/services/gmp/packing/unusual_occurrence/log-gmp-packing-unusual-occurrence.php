@@ -14,7 +14,7 @@ $service = fsm\createLogService(
         $segment->get('zone_id')
       );
       $shifts = $scope->daoFactory->get('Shifts')->selectAll();
-      $products = $scope->daoFactory->get('Products')->selectCode();
+      $products = $scope->daoFactory->get('Products')->selectAll();
       return [
         'shifts' => $shifts,
         'products' => $products,
