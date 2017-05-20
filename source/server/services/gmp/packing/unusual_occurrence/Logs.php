@@ -41,8 +41,8 @@ class Logs extends db\LogTable
         '[><]shifts(s)' => [
           'shift_id' => 'id'
         ],
-        '[><]working_areas(a)' => [
-          'area_id' => 'id'
+        '[><]gmp_packing_finished_product_production_areas(a)' => [
+          'production_area_id' => 'id'
         ],
         '[><]products(p)' => [
           'product_id' => 'id'
