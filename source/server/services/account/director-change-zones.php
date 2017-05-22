@@ -1,6 +1,6 @@
 <?php
 
-require_once realpath(dirname(__FILE__)).'/function.php';
+require_once realpath(dirname(__FILE__)).'/functions.php';
 
 $service = [
   'requirements_desc' => [

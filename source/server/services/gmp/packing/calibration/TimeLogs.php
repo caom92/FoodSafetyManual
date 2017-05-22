@@ -39,7 +39,7 @@ class TimeLogs extends db\LogTable
         ON sl.scale_id = s.id
       INNER JOIN gmp_packing_calibration_scale_types AS st
         ON s.type_id = st.id
-      WHERE capture_date_id = $logID
+      WHERE capture_date_id = $dateID
       ORDER BY type_id, scale_name"
     )->fetchAll();
   }

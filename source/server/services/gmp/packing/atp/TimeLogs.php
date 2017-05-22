@@ -31,7 +31,7 @@ class TimeLogs extends db\LogTable
       FROM $this->table
       INNER JOIN working_areas AS a
         ON $this->table.area_id = a.id
-      WHERE capture_date_id = $logID"
+      WHERE capture_date_id = $dateID"
     )->fetchAll();
   }
 }
