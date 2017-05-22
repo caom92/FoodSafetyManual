@@ -11,7 +11,7 @@ class WorkingAreas extends db\InsertableTable
   // Crea una instancia de una interfaz a la base de datos para modificar 
   // la tabla working_areas
   function __construct() { 
-    parent::__construct('working_areas');
+    parent::__construct('gmp_packing_preop_working_areas');
   }
 
   // Returns an associative array containing the information of all the 

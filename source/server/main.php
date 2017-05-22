@@ -111,7 +111,6 @@ $controller = new ServiceProvider(
         $programs['tables'] +
         $contact['tables'] +
         $authorizations['tables'] +
-        $area['tables'] +
         $account['tables'] +
         $atp['tables'] +
         $calibration['tables'] +
@@ -140,7 +139,6 @@ $controller = new ServiceProvider(
       $programs['services'] +
       $contact['services'] +
       $authorizations['services'] +
-      $area['services'] +
       $account['services'] +
       $atp['services'] +
       $calibration['services'] +

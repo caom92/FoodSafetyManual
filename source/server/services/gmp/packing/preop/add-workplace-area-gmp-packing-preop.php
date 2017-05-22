@@ -18,7 +18,7 @@ $service = [
     $segment = $scope->session->getSegment('fsm');
 
     // insert the new area
-    $id = $scope->daoFactory->get('WorkingAreas')->insert([
+    $id = $scope->daoFactory->get('gmp\packing\preop\WorkingAreas')->insert([
       'zone_id' => $segment->get('zone_id'),
       'name' => $request['area_name']
     ]);

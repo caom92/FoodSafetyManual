@@ -11,7 +11,7 @@ class Items extends db\OrderedItemsTable
   // Crea una instancia de una interfaz a la base de datos para modificar 
   // la tabla items
   function __construct() { 
-    parent::__construct('items');
+    parent::__construct('gmp_packing_preop_items');
   }
 
   // Returns the number of items associated to the specified working area

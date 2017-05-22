@@ -7,7 +7,7 @@ function addInventoryManager(controlsWrapper, contentWrapper){
 
 function addAreaSelect(controlsWrapper, contentWrapper){
     $server.request({
-        service: 'get-areas-of-zone',
+        service: 'get-areas-of-zone-gmp-packing-preop',
         success: function(response) {
             if (response.meta.return_code == 0) {
                 //console.log(response.data);
@@ -58,7 +58,7 @@ function addAreaSelect(controlsWrapper, contentWrapper){
                         input.addClass("invalid");
                     } else {
                         $server.request({
-                            service: 'add-workplace-area',
+                            service: 'add-workplace-area-gmp-packing-preop',
                             data: {area_name: input.val()},
                             success: function(response) {
                                 if (response.meta.return_code == 0) {
@@ -242,7 +242,7 @@ function loadInventory(areaID, htmlElement){
     //console.log(data);
 
     $server.request({
-        service: 'get-items-of-area',
+        service: 'get-items-of-area-gmp-packing-preop',
         data: data,
         success: function(response){
             $(htmlElement).hide();

@@ -12,6 +12,8 @@ $preop = [
       realpath(dirname(__FILE__).'/Items.php'),
     'gmp\packing\preop\ItemTypes' =>
       realpath(dirname(__FILE__).'/ItemTypes.php'),
+    'gmp\packing\preop\WorkingAreas' =>
+      realpath(dirname(__FILE__).'/WorkingAreas.php')
   ],
   'services' => [
     'upload-manual-gmp-packing-preop' =>
@@ -34,6 +36,12 @@ $preop = [
       realpath(dirname(__FILE__).'/list-corrective-actions-gmp-packing-preop.php'),
     'update-gmp-packing-preop' =>
       realpath(dirname(__FILE__).'/update-gmp-packing-preop.php'),
+    'add-workplace-area-gmp-packing-preop' =>
+      realpath(dirname(__FILE__).'/add-workplace-area-gmp-packing-preop.php'),
+    'get-areas-of-zone-gmp-packing-preop' =>
+      realpath(dirname(__FILE__).'/get-areas-of-zone-gmp-packing-preop.php'),
+    'get-items-of-area-gmp-packing-preop' => 
+      realpath(dirname(__FILE__).'/get-items-of-area-gmp-packing-preop.php')
   ]
 ];
 
