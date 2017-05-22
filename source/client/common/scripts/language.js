@@ -248,10 +248,7 @@ function datePicker(nameHidden, maxDate, minDate){
                 clear: 'Borrar',
                 close: 'Cerrar',
                 formatSubmit: "yyyy-mm-dd",
-                showMonthsShort: true,
-                hiddenSuffix: nameHidden,
-                max: maxDate,
-                min: minDate
+                showMonthsShort: true
             };
         break;
         case "en":
@@ -259,12 +256,22 @@ function datePicker(nameHidden, maxDate, minDate){
                 selectMonths: true, // Creates a dropdown to control month
                 selectYears: 1000,
                 formatSubmit: "yyyy-mm-dd",
-                showMonthsShort: true,
-                hiddenSuffix: nameHidden,
-                max: maxDate,
-                min: minDate
+                showMonthsShort: true
             };
         break;
     }
+
+    if(nameHidden){
+        datePickerConfig.hiddenSuffix = nameHidden;
+    }
+
+    if(maxDate){
+        datePickerConfig.max = maxDate;
+    }
+
+    if(minDate){
+        datePickerConfig.min = minDate;
+    }
+
     return datePickerConfig;
 }

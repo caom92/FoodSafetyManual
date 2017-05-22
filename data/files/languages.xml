@@ -431,6 +431,11 @@
         <spanish>Fecha</spanish>
     </translation>
 
+    <translation id="shift_title">
+        <english>Shift</english>
+        <spanish>Turno</spanish>
+    </translation>
+
     <translation id="made_by">
         <english>Made by</english>
         <spanish>Elaborado por</spanish>
@@ -856,7 +861,7 @@
     <!--Clients & Suppliers-->
 
     <translation id="clients">
-        <english>Clients</english>
+        <english>Customers</english>
         <spanish>Clientes</spanish>
     </translation>
 

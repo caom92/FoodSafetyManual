@@ -13,6 +13,7 @@
     "Materialize": "materialize#^0.97.6",
     "mdi": "^1.6.50",
     "jquery-validation": "^1.15.1",
-    "jquery-ui": "^1.12.1"
+    "jquery-ui": "^1.12.1",
+    "materialize-clockpicker": "^0.1.1"
   }
 }
