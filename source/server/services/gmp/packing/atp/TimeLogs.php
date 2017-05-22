@@ -29,7 +29,7 @@ class TimeLogs extends db\LogTable
         a.name AS area_name,
         DATE_FORMAT(time, '%H:%i') AS time
       FROM $this->table
-      INNER JOIN working_areas AS a
+      INNER JOIN gmp_packing_preop_working_areas AS a
         ON $this->table.area_id = a.id
       WHERE capture_date_id = $dateID"
     )->fetchAll();

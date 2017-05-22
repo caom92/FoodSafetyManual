@@ -49,8 +49,8 @@ class Items extends db\OrderedItemsTable
         ]
       ],
       [
-        '[><]working_areas(a)' => ['area_id' => 'id'],
-        '[><]item_types(t)' => ['type_id' => 'id']
+        '[><]gmp_packing_preop_working_areas(a)' => ['area_id' => 'id'],
+        '[><]gmp_packing_preop_item_types(t)' => ['type_id' => 'id']
       ]
     );
   }
