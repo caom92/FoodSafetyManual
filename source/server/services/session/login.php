@@ -71,6 +71,7 @@ function getPrivilegesArray($userPrivileges)
         'id' => $row['log_id'],
         'name' => $row['log_name'],
         'suffix' => $row['log_suffix'],
+        'has_inventory' => $row['has_inventory'],
         'privilege' => [
           'id' => $row['privilege_id'],
           'name' => $row['privilege_name']
@@ -119,6 +120,7 @@ function getPrivilegesArray($userPrivileges)
           'id' => $row['log_id'],
           'name' => $row['log_name'],
           'suffix' => $row['log_suffix'],
+          'has_inventory' => $row['has_inventory'],
           'privilege' => [
             'id' => $row['privilege_id'],
             'name' => $row['privilege_name']
@@ -126,6 +128,7 @@ function getPrivilegesArray($userPrivileges)
         ];
         $logsArray[$log['name']] = [
           'suffix' => $row['log_suffix'],
+          'has_inventory' => $row['has_inventory'],
           'privilege' => [
             'id' => $row['privilege_id'],
             'name' => $row['privilege_name']
@@ -163,6 +166,7 @@ function getPrivilegesArray($userPrivileges)
             'id' => $row['log_id'],
             'name' => $row['log_name'],
             'suffix' => $row['log_suffix'],
+            'has_inventory' => $row['has_inventory'],
             'privilege' => [
               'id' => $row['privilege_id'],
               'name' => $row['privilege_name']
@@ -170,6 +174,7 @@ function getPrivilegesArray($userPrivileges)
           ];
           $logsArray[$log['name']] = [
             'suffix' => $row['log_suffix'],
+            'has_inventory' => $row['has_inventory'],
             'privilege' => [
               'id' => $row['privilege_id'],
               'name' => $row['privilege_name']
@@ -191,6 +196,7 @@ function getPrivilegesArray($userPrivileges)
             'id' => $row['log_id'],
             'name' => $row['log_name'],
             'suffix' => $row['log_suffix'],
+            'has_inventory' => $row['has_inventory'],
             'privilege' => [
               'id' => $row['privilege_id'],
               'name' => $row['privilege_name']
@@ -199,6 +205,7 @@ function getPrivilegesArray($userPrivileges)
           array_push($module['logs'], $log);
           $logsArray[$log['name']] = [
             'suffix' => $row['log_suffix'],
+            'has_inventory' => $row['has_inventory'],
             'privilege' => [
               'id' => $row['privilege_id'],
               'name' => $row['privilege_name']
