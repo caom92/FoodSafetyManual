@@ -3,18 +3,21 @@
 require_once realpath(dirname(__FILE__).'/../../../service_creators.php');
 
 
-$service = fsm\createLogService(
+$service = fsm\createReportService(
   'GMP',
   'Pest Control',
   'Self Inspection',
   [
     'items_name' => 'rooms',
-    'function' => function($scope, $segment) {
+    'extra_info' => [
+      'notes',
+    ],
+    'function' => function($scope, $segment, $logDate) {
       // first, get the list of all active stations
       $stations = 
-        $scope->daoFactory->get('gmp\pestControl\selfInspection\Stations')
-          ->selectActiveByZoneID(
-            $segment->get('zone_id')
+        $scope->daoFactory->get('gmp\selfInspection\pestControl\Logs')
+          ->selectByCaptureDateID(
+            $logDate['id']
           );
 
       // then initialize the room array
@@ -46,7 +49,12 @@ $service = fsm\createLogService(
             'stations' => [[
               'id' => $station['id'],
               'order' => $station['order'],
-              'name' => $station['name']
+              'name' => $station['name'],
+              'secured' => $station['secured'],
+              'condition' => $station['condition'],
+              'activity' => $station['activity'],
+              'corrective_actions' => 
+                $station['corrective_actions']
             ]]
           ];
         } else {
@@ -54,7 +62,12 @@ $service = fsm\createLogService(
           array_push($room['stations'], [
             'id' => $station['id'],
             'order' => $station['order'],
-            'name' => $station['name']
+            'name' => $station['name'],
+            'secured' => $station['secured'],
+            'condition' => $station['condition'],
+            'activity' => $station['activity'],
+            'corrective_actions' => 
+              $station['corrective_actions']
           ]);
         }
       }
@@ -62,7 +75,7 @@ $service = fsm\createLogService(
       // don't forget to save the last room data in the
       // final storage
       if ($room['id'] != 0) {
-          array_push($rooms, $room);
+        array_push($rooms, $room);
       }
 
       // return the resulting array

@@ -1,6 +1,6 @@
 <?php
 
-namespace fsm\database\gmp\pestControl\selfInspection;
+namespace fsm\database\gmp\selfInspection\pestControl;
 require_once realpath(dirname(__FILE__).'/../../../../dao/LogTable.php');
 use fsm\database as db;
 
@@ -11,7 +11,7 @@ class Logs extends db\LogTable
   // Crea una instancia de una interfaz a la base de datos para modificar 
   // la tabla gmp_pest_control_self_inspection_logs
   function __construct() { 
-    parent::__construct('gmp_pest_control_self_inspection_logs');
+    parent::__construct('gmp_self_inspection_pest_control_logs');
   }
 
   // Retorna una lista de todos los renglones en la tabla que tengan asignado

@@ -1,6 +1,6 @@
 function loadLogForm(htmlElement){
     $server.request({
-        service: 'log-gmp-pest-control-self-inspection',
+        service: 'log-gmp-self-inspection-pest-control',
         success: function(response) {
             if (response.meta.return_code == 0) {
                 var report = response.data;
@@ -28,7 +28,7 @@ function loadPrefilledLogForm(htmlElement, data){
 function loadManual(htmlElement, titleElement){
     $server.request({
         service: 'get-log-manual-url',
-        data: {"log-suffix":"gmp-pest-control-self-inspection"},
+        data: {"log-suffix":"gmp-self-inspection-pest-control"},
         success: function(response){
             $(titleElement).html(response.data.log_name);
             $(htmlElement).append('<iframe src = "' + $root + 'external/ViewerJS/#../../' + response.data.manual_location + 'actual_manual.pdf" width="100%" height="100%" style="min-height: 300px" allowfullscreen webkitallowfullscreen></iframe>');
@@ -99,7 +99,7 @@ function sendGmpPestControlSelfInspectionReport(){
         console.log(report);
 
         $server.request({
-            service: 'capture-gmp-pest-control-self-inspection',
+            service: 'capture-gmp-self-inspection-pest-control',
             data: report,
             success: function(response){
                 if (response.meta.return_code == 0) {

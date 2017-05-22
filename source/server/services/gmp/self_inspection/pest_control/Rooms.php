@@ -11,7 +11,7 @@ class Rooms extends db\InsertableTable
   // Crea una instancia de una interfaz a la base de datos para modificar 
   // la tabla gmp_pest_control_self_inspection_rooms
   function __construct() { 
-    parent::__construct('gmp_pest_control_self_inspection_rooms');
+    parent::__construct('gmp_self_inspection_pest_control_rooms');
   }
   
   // Retorna la lista de renglones que tengan registrado el ID de zona 
