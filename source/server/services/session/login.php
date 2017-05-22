@@ -281,6 +281,7 @@ function constructUserProfileArray($scope, $userData) {
             'log_id' => $log['log_id'],
             'log_name' => $log['log_name'],
             'log_suffix' => $log['log_suffix'],
+            'has_inventory' => $log['has_inventory'],
             'privilege_id' => $log['privilege_id'],
             'privilege_name' => $log['privilege_name']
           ]);
@@ -307,6 +308,7 @@ function constructUserProfileArray($scope, $userData) {
           'log_id' => $log['log_id'],
           'log_name' => $log['log_name'],
           'log_suffix' => $log['log_suffix'],
+          'has_inventory' => $log['has_inventory'],
           'privilege_id' => $log['privilege_id'],
           'privilege_name' => $log['privilege_name']
         ]);
@@ -335,6 +337,7 @@ function constructUserProfileArray($scope, $userData) {
           'log_id' => $log['log_id'],
           'log_name' => $log['log_name'],
           'log_suffix' => $log['log_suffix'],
+          'has_inventory' => $log['has_inventory'],
           'privilege_id' => $log['privilege_id'],
           'privilege_name' => $log['privilege_name']
         ]);
@@ -362,6 +365,7 @@ function constructUserProfileArray($scope, $userData) {
           'log_id' => $log['log_id'],
           'log_name' => $log['log_name'],
           'log_suffix' => $log['log_suffix'],
+          'has_inventory' => $log['has_inventory'],
           'privilege_id' => $log['privilege_id'],
           'privilege_name' => $log['privilege_name']
         ]);
