@@ -109,6 +109,14 @@ class ServiceProvider
         $callback = function(Request $request, Response $response) 
           use ($import)
         {
+          // revisamos que el archivo donde se definio el servicio exista
+          if (!isset($import) || strlen($import) == 0) {
+            throw new \Exception(
+              "Failed to import the definition file for service '$name', the ".
+              "file could not be found. Check that the file exists and that ".
+              "the correct file path was provided."
+            );
+          }
           // preparamos los encabezados de la respuesta a enviar al cliente
           $response = $response->withHeader('Content-Type', 
             'application/json;charset=utf8');
