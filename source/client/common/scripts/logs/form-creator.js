@@ -92,6 +92,9 @@ function createField(fieldObject){
         if(fieldObject.type == "date"){
             field = createDateInput(fieldObject);
         }
+        if(fieldObject.type == "time"){
+            field = createTimeInput(fieldObject);
+        }
         if(fieldObject.type == "select"){
             field = createSelect(fieldObject);
         }
@@ -253,6 +256,63 @@ function createDateInput(fieldObject){
     }
 
     field.addClass("datepicker");
+
+    return field;
+}
+
+function createTimeInput(fieldObject){
+    var field = $("<input>");
+
+    field.attr("type", "date");
+
+    if(fieldObject.id)
+        field.attr("id", fieldObject.id);
+
+    if(fieldObject.classes)
+        field.attr("class", fieldObject.classes);
+
+    if(fieldObject.value)
+        field.attr("value", fieldObject.value);
+
+    if(fieldObject.size)
+        field.attr("size", fieldObject.size);
+
+    if(fieldObject.maxlength)
+        field.attr("maxlength", fieldObject.maxlength);
+
+    if(fieldObject.min)
+        field.attr("min", fieldObject.min);
+
+    if(fieldObject.max)
+        field.attr("max", fieldObject.max);
+
+    if(fieldObject.placeholder)
+        field.attr("placeholder", fieldObject.placeholder);
+
+    if(fieldObject.readonly)
+        field.prop("readonly", true);
+
+    if(fieldObject.disabled)
+        field.prop("disabled", true);
+
+    if(fieldObject.required)
+        field.prop("required", true);
+
+    if($.type(fieldObject.data) == "object"){
+        field.data(fieldObject.data);
+    }
+
+    if($.type(fieldObject.validations) == "object"){
+        field.data("validations", fieldObject.validations);
+        field.addClass("formValidator");
+        if(fieldObject.validations.max != undefined && fieldObject.validations.type == "text"){
+            if(fieldObject.validations.max.value != undefined){
+                field.attr("length", fieldObject.validations.max.value);
+            }
+        }
+    }
+
+    field.addClass("timepicker");
 
     return field;
 }

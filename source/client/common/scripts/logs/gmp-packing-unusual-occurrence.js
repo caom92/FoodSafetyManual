@@ -15,6 +15,14 @@ function loadLogForm(htmlElement){
                 $("#send_report").click(function(){
                     sendGmpPackingFinishedProductReport();
                 });
+                $('.timepicker').pickatime({
+                    autoclose: false,
+                    vibrate: true,
+                    twelvehour: false,
+                    afterDone: function(Element, Time) {
+                        
+                    }
+                });
                 gmpPackingFinishedProductFunctionality();
                 $("input").characterCounter();
                 changeLanguage();
@@ -191,8 +199,8 @@ function gmpPackingUnusualOccurrenceItemShift(item){
 }
 
 function gmpPackingUnusualOccurrenceItemTime(item){
-    var batchLabel = {"type":"label","contents":{"type":"text","classes":"time_title"}};
-    var batchInput = {"type":"input","id": "time_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
+    var batchLabel = {"type":"label","classes":"active","contents":{"type":"text","classes":"time_title"}};
+    var batchInput = {"type":"time","id": "time_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
     var batchFullInput = {"id":"batchWrapper","classes":"input-field col s4 m4 l4","field":batchInput,"label":batchLabel};
 
     if(item.time){
