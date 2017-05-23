@@ -331,11 +331,10 @@ function gmpPackingFinishedProductReport(data){
     var report = new Object();
 
     report.type = "table";
-    report.classes = "";
+    report.classes = "bordered highlight";
     report.id = "report_" + data.report_id;
-    report.type = "form";
 
-    report.form = gmpPackingUnusualOccurrenceForm(data);
+    report.tbody = gmpPackingUnusualOccurrenceBody(data);
     
     console.log(JSON.stringify(report));
     console.log(report);
@@ -343,23 +342,28 @@ function gmpPackingFinishedProductReport(data){
     return report;
 }
 
-// Form
+// Body
 
-function gmpPackingUnusualOccurrenceForm(data){
-    var form = new Object;
-    var shiftRow = new Object();
-    var productRow = new Object();
-    var descriptionRow = new Object();
-    var actionRow = new Object();
-    var urlRow = new Object();
+function gmpPackingUnusualOccurrenceBody(data){
+    var form = {"type":"tbody"};
+    var shiftRow = {"type":"tr"};
+    var productRow = {"type":"tr"};
+    var descriptionRow = {"type":"tr"};
+    var actionRow = {"type":"tr"};
+    var urlRow = {"type":"tr"};
 
     form.rows = [];
 
-    shiftRow.columns = [gmpPackingUnusualOccurrenceReportShift(item), gmpPackingUnusualOccurrenceReportTime(item), gmpPackingUnusualOccurrenceReportProductionArea(item)];
-    productRow.columns = [gmpPackingUnusualOccurrenceReportProduct(item), gmpPackingUnusualOccurrenceReportBatch(item)];
-    descriptionRow.columns = [gmpPackingUnusualOccurrenceReportDescription(item)];
-    actionRow.columns = [gmpPackingUnusualOccurrenceReportAction(item)];
-    urlRow.columns = [gmpPackingUnusualOccurrenceReportAlbumURL(item)];
+    console.log("SOY EL CUERPO");
+    console.log(data);
+
+    shiftRow.columns = [gmpPackingUnusualOccurrenceReportShift(data), gmpPackingUnusualOccurrenceReportTime(data), gmpPackingUnusualOccurrenceReportProductionArea(data)];
+    productRow.columns = [gmpPackingUnusualOccurrenceReportProduct(data), gmpPackingUnusualOccurrenceReportBatch(data)];
+    descriptionRow.columns = [gmpPackingUnusualOccurrenceReportDescription(data)];
+    actionRow.columns = [gmpPackingUnusualOccurrenceReportAction(data)];
+    urlRow.columns = [gmpPackingUnusualOccurrenceReportAlbumURL(data)];
+
+    console.log("TERMINO EL CUERPO");
 
     form.rows.push(shiftRow);
     form.rows.push(productRow);
@@ -371,112 +375,37 @@ function gmpPackingUnusualOccurrenceForm(data){
 }
 
 function gmpPackingUnusualOccurrenceReportShift(item){
-    var itemTitle = {"type":"text","id":"title_" + item.id,"classes":"", "text":item.name};
-    var titleInput = {"id":"titleWrapper_" + item.id,"classes":"card-title col s4 m4 l4","field": itemTitle};
-
-    return titleInput;
+    return {"type":"td","classes":"shiftColumn","contents":"<span class='shift_title'></span>: " + item.entry[0].shift};
 }
 
 function gmpPackingUnusualOccurrenceReportTime(item){
-    var itemTitle = {"type":"text","id":"title_" + item.id,"classes":"", "text":item.name};
-    var titleInput = {"id":"titleWrapper_" + item.id,"classes":"card-title col s4 m4 l4","field": itemTitle};
-
-    return titleInput;
+    return {"type":"td","classes":"timeColumn","contents":"<span class='time_title'></span>: " + item.entry[0].time};
 }
 
 function gmpPackingUnusualOccurrenceReportProductionArea(item){
-    var itemTitle = {"type":"text","id":"title_" + item.id,"classes":"", "text":item.name};
-    var titleInput = {"id":"titleWrapper_" + item.id,"classes":"card-title col s4 m4 l4","field": itemTitle};
-
-    return titleInput;
+    return {"type":"td","classes":"areaColumn","contents":"<span class='production_area_title'></span>: " + item.entry[0].area};
 }
 
 function gmpPackingUnusualOccurrenceReportProduct(item){
-    var itemTitle = {"type":"text","id":"title_" + item.id,"classes":"", "text":item.name};
-    var titleInput = {"id":"titleWrapper_" + item.id,"classes":"card-title col s6 m6 l6","field": itemTitle};
-
-    return titleInput;
+    return {"type":"td","classes":"productColumn","colspan":2,"contents":"<span class='products'></span>: " + item.entry[0].product_code + ", " + item.entry[0].product_name};
 }
 
 function gmpPackingUnusualOccurrenceReportBatch(item){
-    var itemTitle = {"type":"text","id":"title_" + item.id,"classes":"", "text":item.name};
-    var titleInput = {"id":"titleWrapper_" + item.id,"classes":"card-title col s6 m6 l6","field": itemTitle};
-
-    return titleInput;
+    return {"type":"td","classes":"batchColumn","contents":"<span class='batch_title'></span>: " + item.entry[0].batch};
 }
 
 function gmpPackingUnusualOccurrenceReportDescription(item){
-    var itemTitle = {"type":"text","id":"title_" + item.id,"classes":"", "text":item.name};
-    var titleInput = {"id":"titleWrapper_" + item.id,"classes":"card-title col s12 m12 l12","field": itemTitle};
-
-    return titleInput;
+    return {"type":"td","classes":"fullColumn","colspan":3,"contents":"<span class='description'></span>: " + item.entry[0].description};
 }
 
 function gmpPackingUnusualOccurrenceReportAction(item){
-    var itemTitle = {"type":"text","id":"title_" + item.id,"classes":"", "text":item.name};
-    var titleInput = {"id":"titleWrapper_" + item.id,"classes":"card-title col s12 m12 l12","field": itemTitle};
-
-    return titleInput;
+    return {"type":"td","classes":"fullColumn","colspan":3,"contents":"<span class='action_title'></span>: " + item.entry[0].corrective_action};
 }
 
 function gmpPackingUnusualOccurrenceReportAlbumURL(item){
-    var itemTitle = {"type":"text","id":"title_" + item.id,"classes":"", "text":item.name};
-    var titleInput = {"id":"titleWrapper_" + item.id,"classes":"card-title col s12 m12 l12","field": itemTitle};
-
-    return titleInput;
-}
-
-// Body containing all the information
-
-function gmpPackingFinishedProductBody(data){
-    var body = {"type":"tbody"};
-
-    body.rows = new Array();
-
-    for(var item of data.entries){
-        var row = {"type":"tr"};
-        row.columns = gmpPackingFinishedProductReportItem(item);
-        body.rows.push(row);
-    }
-
-    return body;
-}
-
-function gmpPackingFinishedProductReportItem(itemData){
-    var item = new Array();
-
-    item.push({"type":"td","classes":"batchColumn","contents":itemData.batch});
-    item.push({"type":"td","classes":"areaColumn","contents":itemData.production_area});
-    item.push({"type":"td","classes":"suppliersColumn","contents":itemData.supplier});
-    item.push({"type":"td","classes":"productsColumn","contents":itemData.product});
-    item.push({"type":"td","classes":"clientsColumn","contents":itemData.customer});
-    item.push({"type":"td","classes":"qualityColumn","contents":itemData.quality});
-    item.push({"type":"td","classes":"originColumn","contents":itemData.origin});
-    item.push({"type":"td","classes":"expiresColumn","contents":itemData.expiration_date});
-    item.push({"type":"td","classes":"waterColumn","contents":itemData.water_temperature});
-    item.push({"type":"td","classes":"packingColumn","contents":itemData.product_temperature});
-    if(itemData.is_weight_correct == 1){
-        item.push({"type":"td","classes":"weightColumn yes_tag"});
-    } else {
-        item.push({"type":"td","classes":"weightColumn no_tag"});
-    }
-    if(itemData.is_label_correct == 1){
-        item.push({"type":"td","classes":"labelColumn yes_tag"});
-    } else {
-        item.push({"type":"td","classes":"labelColumn no_tag"});
-    }
-    if(itemData.is_trackable == 1){
-        item.push({"type":"td","classes":"traceabilityColumn yes_tag"});
-    } else {
-        item.push({"type":"td","classes":"traceabilityColumn no_tag"});
-    }
-    item.push({"type":"td","classes":"notesColumn","contents":itemData.notes});
-
-    console.log(item);
-
-    return item;
+    return {"type":"td","classes":"fullColumn","colspan":3,"contents":"<span class='url_title'></span>: " + item.entry[0].album_url};
 }
 
 function getCSS(){
-    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}td { border: 1px solid #000000; text-align: left;}th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50;}.even { background-color: #b8e0b9;}.typeTitle{ background-color: yellow; width:588px;}.fullColumn{ background-color: #D3D3D3;width:631px;}.testColumn{ width:147px;}.numberColumn{ width:147px;}.timeColumn{ width:43px;}.statusColumn{ width:147px;}.sanitizedColumn{ width:147px;}</style>';
+    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%; } td { border: 1px solid #000000; text-align: left; } th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50; } .fullColumn { width: 631px; } .shiftColumn { width: 211px; } .areaColumn { width: 210px; } .timeColumn { width: 210px; } .productColumn { width: 316px; } .batchColumn { width: 315px; }</style>';
 }

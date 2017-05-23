@@ -583,6 +583,11 @@
         <spanish>Área</spanish>
     </translation>
 
+    <translation id="production_area_title">
+        <english>Production Area</english>
+        <spanish>Área de Producción</spanish>
+    </translation>
+
     <translation id="time_title">
         <english>Time</english>
         <spanish>Hora</spanish>

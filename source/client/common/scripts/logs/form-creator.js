@@ -1,16 +1,16 @@
 function form(formData){
     var form = $("<div>");
 
-    if(tableData.id)
-        table.attr("id", tableData.id);
+    if(formData.id)
+        form.attr("id", formData.id);
 
-    if(tableData.classes)
-        table.addClass(tableData.classes);
+    if(formData.classes)
+        form.addClass(formData.classes);
 
-    if(tableData.style)
-        table.attr("style", tableData.style);
+    if(formData.style)
+        form.attr("style", formData.style);
 
-    for(var row of formData.rows)
+    for(var row of formData.form.rows)
         form.append(createInputRow(row));
 
     return form;
