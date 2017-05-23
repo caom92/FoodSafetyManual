@@ -31,6 +31,7 @@ class UsersLogsPrivileges extends db\InsertableTable
         l.id AS log_id,
         l.name AS log_name,
         l.name_suffix AS log_suffix,
+        l.has_inventory AS has_inventory,
         pr.id AS privilege_id,
         pr.name AS privilege_name 
       FROM $this->table 
@@ -64,6 +65,7 @@ class UsersLogsPrivileges extends db\InsertableTable
         l.id AS log_id,
         l.name AS log_name,
         l.name_suffix AS log_suffix,
+        l.has_inventory AS has_inventory,
         m.id AS module_id,
         m.name AS module_name,
         r.id AS privilege_id,
@@ -102,6 +104,7 @@ class UsersLogsPrivileges extends db\InsertableTable
         l.id AS log_id,
         l.name AS log_name,
         l.name_suffix AS log_suffix,
+        l.has_inventory AS has_inventory,
         r.id AS privilege_id,
         r.name AS privilege_name
       FROM $this->table AS t

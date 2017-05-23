@@ -3,11 +3,11 @@
 require_once realpath(dirname(__FILE__).'/../../../service_creators.php');
 
 
-$service = fsm\createReorderService(
+$service = fsm\createUploadManualService(
   'GMP',
   'Pest Control',
   'Self Inspection',
-  'gmp\pestControl\selfInspection\Stations'
+  'gmp/self_inspection/pest_control/'
 );
 
 ?>

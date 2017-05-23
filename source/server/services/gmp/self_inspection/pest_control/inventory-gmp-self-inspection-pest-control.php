@@ -13,7 +13,7 @@ $service = fsm\createInventoryService(
     ]
   ],
   function($scope, $request) {
-    return $scope->daoFactory->get('gmp\pestControl\selfInspection\Stations')
+    return $scope->daoFactory->get('gmp\selfInspection\pestControl\Stations')
       ->selectByRoomID($request['room_id']);
 
     // // get the session segment

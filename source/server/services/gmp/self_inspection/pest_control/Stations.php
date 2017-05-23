@@ -11,7 +11,7 @@ class Stations extends db\OrderedItemsTable
   // Crea una instancia de una interfaz a la base de datos para modificar 
   // la tabla gmp_pest_control_self_inspection_stations
   function __construct() { 
-    parent::__construct('gmp_pest_control_self_inspection_stations');
+    parent::__construct('gmp_self_inspection_pest_control_stations');
   }
 
   // Retorna el numero de renglones que tengan registrados el ID de habitacion

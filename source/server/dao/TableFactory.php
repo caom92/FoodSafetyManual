@@ -43,6 +43,15 @@ class TableFactory
         && array_key_exists($tableName, $this->classDefinitions);
 
       if ($isTableDefined) {
+        // hay que revisar si la direccion del archivo fue capturada 
+        // correctamente
+        if (strlen($this->classDefinitions[$tableName]) <= 0) {
+          // si no lo fue, lanzamos una excepcion
+          throw new \Exception("Failed to create an instance of '$tableName', ".
+            "the file path associated to this class name could not be ".
+            "resolved to any file. Maybe the file path is misspelled.");
+        }
+
         // si tenemos el archivo, lo incluimos
         include $this->classDefinitions[$tableName];
 
@@ -55,8 +64,8 @@ class TableFactory
       } else {
         // si no tenemos el archivo, lanzamos una excepcion
         throw new \Exception(
-          "Failed to create an instance of '$tableName', the class is not "
-          . "defined");
+          "Failed to create an instance of '$tableName', no class file is ".
+          "associated to this class name. Maybe the class name is misspelled.");
       }
     }
   }

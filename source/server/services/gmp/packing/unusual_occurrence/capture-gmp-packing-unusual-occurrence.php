@@ -54,6 +54,7 @@ $service = fsm\createCaptureService(
           'capture_date_id' => $logID,
           'time' => $request['time'],
           'shift_id' => $request['shift_id'],
+          'production_area_id' => $request['area_id'],
           'product_id' => $request['product_id'],
           'batch' => $request['batch'],
           'description' => $request['description'],

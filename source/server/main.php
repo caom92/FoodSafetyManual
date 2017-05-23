@@ -101,7 +101,7 @@ ServiceProvider::addValidationRule(
 $controller = new ServiceProvider(
   [
     'daoFactory' => function($config) use (
-      $zone, $server, $programs, $contact, $authorizations, $area, $account,
+      $zone, $server, $programs, $contact, $authorizations, $account,
       $atp, $calibration, $finishedProduct, $glass, $handWash, $preop, 
       $scissors, $thermometers, $unusualOccurrences, $selfInspection) {
       return new db\TableFactory(
@@ -111,7 +111,6 @@ $controller = new ServiceProvider(
         $programs['tables'] +
         $contact['tables'] +
         $authorizations['tables'] +
-        $area['tables'] +
         $account['tables'] +
         $atp['tables'] +
         $calibration['tables'] +
@@ -140,7 +139,6 @@ $controller = new ServiceProvider(
       $programs['services'] +
       $contact['services'] +
       $authorizations['services'] +
-      $area['services'] +
       $account['services'] +
       $atp['services'] +
       $calibration['services'] +

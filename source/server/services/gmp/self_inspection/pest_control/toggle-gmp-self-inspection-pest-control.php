@@ -3,11 +3,11 @@
 require_once realpath(dirname(__FILE__).'/../../../service_creators.php');
 
 
-$service = fsm\createUploadManualService(
+$service = fsm\createToggleService(
   'GMP',
   'Pest Control',
   'Self Inspection',
-  'gmp/pest_control/self_inspection/'
+  'gmp\selfInspection\pestControl\Stations'
 );
 
 ?>

@@ -46,13 +46,13 @@ class ItemLogs extends db\InsertableTable
         '[><]gmp_packing_preop_corrective_actions(ca)' => [
           'corrective_action_id' => 'id'
         ],
-        '[><]items(i)' => [
+        'gmp_packing_preop_items(i)' => [
           'item_id' => 'id'
         ],
-        '[><]working_areas(a)' => [
+        '[><]gmp_packing_preop_working_areas(a)' => [
           'i.area_id' => 'id'
         ],
-        '[><]item_types(it)' => [
+        '[><]gmp_packing_preop_item_types(it)' => [
           'i.type_id' => 'id'
         ]
       ]

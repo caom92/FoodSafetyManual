@@ -78,7 +78,7 @@ class AreaGlass extends db\OrderedItemsTable
         ]
       ],
       [
-        '[><]working_areas(a)' => [
+        '[><]gmp_packing_preop_working_areas(a)' => [
           'area_id' => 'id'
         ]
       ]

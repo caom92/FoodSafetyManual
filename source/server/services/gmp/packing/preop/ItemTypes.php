@@ -11,7 +11,7 @@ class ItemTypes extends db\DataBaseTable
   // Crea una instancia de una interfaz a la base de datos para modificar 
   // la tabla item_types
   function __construct() { 
-    parent::__construct('item_types');
+    parent::__construct('gmp_packing_preop_item_types');
   }
 
   // Returns an associative array that contains the info of all the

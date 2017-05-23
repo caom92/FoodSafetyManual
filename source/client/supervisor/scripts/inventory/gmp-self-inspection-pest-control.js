@@ -6,7 +6,7 @@ function addInventoryManager(controlsWrapper, contentWrapper){
 
 function addAreaSelect(controlsWrapper, contentWrapper){
     $server.request({
-        service: 'rooms-gmp-pest-control-self-inspection',
+        service: 'rooms-gmp-self-inspection-pest-control',
         success: function(response) {
             if (response.meta.return_code == 0) {
                 var areaSelectRow = {"columns":[]};
@@ -56,7 +56,7 @@ function addAreaSelect(controlsWrapper, contentWrapper){
                         input.addClass("invalid");
                     } else {
                         $server.request({
-                            service: 'add-room-gmp-pest-control-self-inspection',
+                            service: 'add-room-gmp-self-inspection-pest-control',
                             data: {name: input.val()},
                             success: function(response) {
                                 if (response.meta.return_code == 0) {
@@ -86,12 +86,12 @@ function loadInventory(id, htmlElement){
     var data = new Object();
 
     $server.request({
-        service: 'inventory-gmp-pest-control-self-inspection',
+        service: 'inventory-gmp-self-inspection-pest-control',
         data: {"room_id":id},
         success: function(response){
             $(htmlElement).hide();
             gmpPackingHandWashingInventoryTable(htmlElement, response.data);
-            initSortability("reorder-gmp-pest-control-self-inspection");
+            initSortability("reorder-gmp-self-inspection-pest-control");
             dynamicSearchBind("id-search", "id-column");
             dynamicSearchBind("name-search", "name-column");
             changeLanguage();
@@ -121,12 +121,12 @@ function gmpPackingHandWashingInventoryTable(htmlElement, data){
     $(htmlElement).append(table(tableJSON));
 
     $("#add_inventory").on("click",function(e){
-        addItemToInventory("gmp-pest-control-self-inspection", false);
+        addItemToInventory("gmp-self-inspection-pest-control", false);
     });
 
     $("input:checkbox").on("change",function(){
         var itemID = $(this).data("id");
-        toggleItem("gmp-pest-control-self-inspection", itemID);
+        toggleItem("gmp-self-inspection-pest-control", itemID);
     });
 }
 

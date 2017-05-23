@@ -42,7 +42,7 @@ class Logs extends db\LogTable
         '[><]gmp_packing_glass_area_glass(i)' => [
           'area_glass_id' => 'id'
         ],
-        '[><]working_areas(a)' => [
+        '[><]gmp_packing_preop_working_areas(a)' => [
           'i.area_id' => 'id'
         ]
       ]
