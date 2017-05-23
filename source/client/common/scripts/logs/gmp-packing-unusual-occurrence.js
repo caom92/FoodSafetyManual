@@ -331,12 +331,11 @@ function gmpPackingFinishedProductReport(data){
     var report = new Object();
 
     report.type = "table";
-    report.classes = "bordered highlight responsive-table";
+    report.classes = "";
     report.id = "report_" + data.report_id;
-    report.style = "display: block; overflow: scroll;";
+    report.type = "form";
 
-    report.thead = gmpPackingFinishedProductHeader();
-    report.tbody = gmpPackingFinishedProductBody(data);
+    report.form = gmpPackingUnusualOccurrenceForm(data);
     
     console.log(JSON.stringify(report));
     console.log(report);
@@ -344,14 +343,87 @@ function gmpPackingFinishedProductReport(data){
     return report;
 }
 
-// Header containing Area, Time, Number, Name, Conditions, Corrective Actions
-// and Comment. This header contain the classes to borrow the text from
-// languages.xml, not strings
+// Form
 
-function gmpPackingFinishedProductHeader(){
-    var header = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"batch_title batchColumn"},{"type":"th","classes":"area_title areaColumn"},{"type":"th","classes":"suppliers suppliersColumn"},{"type":"th","classes":"products productsColumn"},{"type":"th","classes":"clients clientsColumn"},{"type":"th","classes":"quality_title qualityColumn"},{"type":"th","classes":"origin_title originColumn"},{"type":"th","classes":"expires_title expiresColumn"},{"type":"th","classes":"water_temperature_short waterColumn"},{"type":"th","classes":"packing_temperature_short packingColumn"},{"type":"th","classes":"correct_weight_title weightColumn"},{"type":"th","classes":"correct_label_title labelColumn"},{"type":"th","classes":"traceability_title traceabilityColumn"},{"type":"th","classes":"notes_title notesColumn"}]}]};
+function gmpPackingUnusualOccurrenceForm(data){
+    var form = new Object;
+    var shiftRow = new Object();
+    var productRow = new Object();
+    var descriptionRow = new Object();
+    var actionRow = new Object();
+    var urlRow = new Object();
 
-    return header;
+    form.rows = [];
+
+    shiftRow.columns = [gmpPackingUnusualOccurrenceReportShift(item), gmpPackingUnusualOccurrenceReportTime(item), gmpPackingUnusualOccurrenceReportProductionArea(item)];
+    productRow.columns = [gmpPackingUnusualOccurrenceReportProduct(item), gmpPackingUnusualOccurrenceReportBatch(item)];
+    descriptionRow.columns = [gmpPackingUnusualOccurrenceReportDescription(item)];
+    actionRow.columns = [gmpPackingUnusualOccurrenceReportAction(item)];
+    urlRow.columns = [gmpPackingUnusualOccurrenceReportAlbumURL(item)];
+
+    form.rows.push(shiftRow);
+    form.rows.push(productRow);
+    form.rows.push(descriptionRow);
+    form.rows.push(actionRow);
+    form.rows.push(urlRow);
+
+    return form;
+}
+
+function gmpPackingUnusualOccurrenceReportShift(item){
+    var itemTitle = {"type":"text","id":"title_" + item.id,"classes":"", "text":item.name};
+    var titleInput = {"id":"titleWrapper_" + item.id,"classes":"card-title col s4 m4 l4","field": itemTitle};
+
+    return titleInput;
+}
+
+function gmpPackingUnusualOccurrenceReportTime(item){
+    var itemTitle = {"type":"text","id":"title_" + item.id,"classes":"", "text":item.name};
+    var titleInput = {"id":"titleWrapper_" + item.id,"classes":"card-title col s4 m4 l4","field": itemTitle};
+
+    return titleInput;
+}
+
+function gmpPackingUnusualOccurrenceReportProductionArea(item){
+    var itemTitle = {"type":"text","id":"title_" + item.id,"classes":"", "text":item.name};
+    var titleInput = {"id":"titleWrapper_" + item.id,"classes":"card-title col s4 m4 l4","field": itemTitle};
+
+    return titleInput;
+}
+
+function gmpPackingUnusualOccurrenceReportProduct(item){
+    var itemTitle = {"type":"text","id":"title_" + item.id,"classes":"", "text":item.name};
+    var titleInput = {"id":"titleWrapper_" + item.id,"classes":"card-title col s6 m6 l6","field": itemTitle};
+
+    return titleInput;
+}
+
+function gmpPackingUnusualOccurrenceReportBatch(item){
+    var itemTitle = {"type":"text","id":"title_" + item.id,"classes":"", "text":item.name};
+    var titleInput = {"id":"titleWrapper_" + item.id,"classes":"card-title col s6 m6 l6","field": itemTitle};
+
+    return titleInput;
+}
+
+function gmpPackingUnusualOccurrenceReportDescription(item){
+    var itemTitle = {"type":"text","id":"title_" + item.id,"classes":"", "text":item.name};
+    var titleInput = {"id":"titleWrapper_" + item.id,"classes":"card-title col s12 m12 l12","field": itemTitle};
+
+    return titleInput;
+}
+
+function gmpPackingUnusualOccurrenceReportAction(item){
+    var itemTitle = {"type":"text","id":"title_" + item.id,"classes":"", "text":item.name};
+    var titleInput = {"id":"titleWrapper_" + item.id,"classes":"card-title col s12 m12 l12","field": itemTitle};
+
+    return titleInput;
+}
+
+function gmpPackingUnusualOccurrenceReportAlbumURL(item){
+    var itemTitle = {"type":"text","id":"title_" + item.id,"classes":"", "text":item.name};
+    var titleInput = {"id":"titleWrapper_" + item.id,"classes":"card-title col s12 m12 l12","field": itemTitle};
+
+    return titleInput;
 }
 
 // Body containing all the information
@@ -403,12 +475,6 @@ function gmpPackingFinishedProductReportItem(itemData){
     console.log(item);
 
     return item;
-}
-
-// Footer
-
-function gmpPackingFinishedProductFooter(data){
-
 }
 
 function getCSS(){

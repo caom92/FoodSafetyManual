@@ -1,3 +1,22 @@
+function form(formData){
+    var form = $("<div>");
+
+    if(tableData.id)
+        table.attr("id", tableData.id);
+
+    if(tableData.classes)
+        table.addClass(tableData.classes);
+
+    if(tableData.style)
+        table.attr("style", tableData.style);
+
+    for(var row of formData.rows)
+        form.append(createInputRow(row));
+
+    return form;
+}
+
+
 // Generic input creator
 
 /*
