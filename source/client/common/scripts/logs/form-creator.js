@@ -255,7 +255,7 @@ function createDateInput(fieldObject){
         }
     }
 
-    field.addClass("datepicker");
+    //field.addClass("datepicker");
 
     return field;
 }
@@ -312,7 +312,7 @@ function createTimeInput(fieldObject){
         }
     }
 
-    field.addClass("timepicker");
+    //field.addClass("timepicker");
 
     return field;
 }

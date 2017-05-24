@@ -31,8 +31,14 @@ function loadLogForm(htmlElement){
                             data: JSON.parse(localStorage.country_codes)
                         });
                     });
-                }                
-                $('.datepicker').pickadate(datePicker(null, null, new Date()));
+                }
+                /*$('.expires_datepicker').each(function(index, element){
+                    var itemID = $(this).data("item_id");
+                    var dateObj = datePicker("expiresHidden_" + itemID, null, new Date());
+                    $(this).pickadate(dateObj);
+                });*/
+                //$('.datepicker').pickadate(datePicker("expires", null, new Date()));
+                dateActivator();
                 changeLanguage();
             } else {
                 Materialize.toast("Some error", 3000, "rounded");
@@ -92,6 +98,14 @@ function validateLog(){
     return returnValue;
 }
 
+function dateActivator(){
+    $('.expires_datepicker').each(function(index, element){
+        var itemID = $(this).data("item_id");
+        var dateObj = datePicker("expiresHidden_" + itemID, null, new Date());
+        $(this).pickadate(dateObj);
+    });
+}
+
 /******************************************************************************
 A collection of functions to display the Log Form. This will be related to the
 name of the log, located in the name_suffix field on the database. Usually, we
@@ -116,7 +130,8 @@ function sendgmpPackingFinishedProductReport(){
             item.customer_id = $("#client_" + itemID).val();
             item.quality_type_id = parseInt($("#quality_" + itemID).val());
             item.origin = $("#origin_" + itemID).val();
-            item.expiration_date = $("#expires_" + itemID).val();
+            //item.expiration_date = $("#expires_" + itemID).val();
+            item.expiration_date = $("input[name='expiresHidden_" + itemID + "']").val()
             item.water_temperature = parseFloat($("#water_" + itemID).val());
             item.product_temperature = parseFloat($("#packing_" + itemID).val());
             item.is_weight_correct = getBool($("input:radio[name='weight_radio_" + itemID + "']:checked").val());
@@ -401,8 +416,8 @@ function gmpPackingFinishedProductItemOrigin(item){
 
 function gmpPackingFinishedProductItemExpires(item){
     var expiresLabel = {"type":"label","contents":{"type":"text","classes":"expires_title"}};
-    var expiresInput = {"type":"date","id": "expires_" + item.id, "classes":"datepicker validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
-    var expiresFullInput = {"id":"expiresWrapper","classes":"input-field col s4 m4 l4","field":expiresInput,"label":expiresLabel};
+    var expiresInput = {"type":"date","id": "expires_" + item.id, "classes":"expires_datepicker validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}},"data":{"item_id":item.id}};
+    var expiresFullInput = {"id":"expiresWrapper_" + item.id,"classes":"input-field col s4 m4 l4","field":expiresInput,"label":expiresLabel};
 
     if(item.expires){
         expiresInput.value = item.expires;
@@ -520,6 +535,7 @@ function gmpPackingFinishedProductFunctionality(data){
             $("#del_area_test_1").removeClass("grey");
             $("#del_area_test_1").addClass("red");
         }
+        dateActivator();
         changeLanguage();
     });
 
