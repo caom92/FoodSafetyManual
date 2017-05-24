@@ -110,10 +110,10 @@ function sendgmpPackingFinishedProductReport(){
             var itemID = $(this).data("id");
             console.log("ID: " + itemID);
             item.batch = parseInt($("#batch_" + itemID).val());
-            item.production_area_id = parseInt($("#productionArea_" + itemID).val());
-            item.supplier_id = parseInt($("#supplier_" + itemID).val());
-            item.product_id = parseInt($("#product_" + itemID).val());
-            item.customer_id = parseInt($("#client_" + itemID).val());
+            item.production_area_id = $("#productionArea_" + itemID).val();
+            item.supplier_id = $("#supplier_" + itemID).val();
+            item.product_id = $("#product_" + itemID).val();
+            item.customer_id = $("#client_" + itemID).val();
             item.quality_type_id = parseInt($("#quality_" + itemID).val());
             item.origin = $("#origin_" + itemID).val();
             item.expiration_date = $("#expires_" + itemID).val();
