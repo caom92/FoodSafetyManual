@@ -234,7 +234,63 @@ function gmpPackingFinishedProductItemBatch(item){
     return batchFullInput;
 }
 
+// Temporary open fields
+
 function gmpPackingFinishedProductItemProductionArea(item){
+    var batchLabel = {"type":"label","contents":{"type":"text","classes":"production_area_title"}};
+    var batchInput = {"type":"input","id": "productionArea_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
+    var batchFullInput = {"id":"productionAreaWrapper_" + item.id,"classes":"input-field col s6 m6 l6","field":batchInput,"label":batchLabel};
+
+    if(item.area){
+        batchInput.value = item.area;
+        batchLabel.classes = "active";
+    }
+
+    return batchFullInput;
+}
+
+function gmpPackingFinishedProductItemSupplier(item){
+    var batchLabel = {"type":"label","contents":{"type":"text","classes":"suppliers"}};
+    var batchInput = {"type":"input","id": "supplier_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
+    var batchFullInput = {"id":"supplierWrapper_" + item.id,"classes":"input-field col s4 m4 l4","field":batchInput,"label":batchLabel};
+
+    if(item.supplier){
+        batchInput.value = item.supplier;
+        batchLabel.classes = "active";
+    }
+
+    return batchFullInput;
+}
+
+function gmpPackingFinishedProductItemProduct(item){
+    var batchLabel = {"type":"label","contents":{"type":"text","classes":"products"}};
+    var batchInput = {"type":"input","id": "product_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
+    var batchFullInput = {"id":"productWrapper_" + item.id,"classes":"input-field col s4 m4 l4","field":batchInput,"label":batchLabel};
+
+    if(item.product){
+        batchInput.value = item.product;
+        batchLabel.classes = "active";
+    }
+
+    return batchFullInput;
+}
+
+function gmpPackingFinishedProductItemClient(item){
+    var batchLabel = {"type":"label","contents":{"type":"text","classes":"clients"}};
+    var batchInput = {"type":"input","id": "client_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
+    var batchFullInput = {"id":"clientWrapper_" + item.id,"classes":"input-field col s4 m4 l4","field":batchInput,"label":batchLabel};
+
+    if(item.client){
+        batchInput.value = item.client;
+        batchLabel.classes = "active";
+    }
+
+    return batchFullInput;
+}
+
+// Uncomment when we start using tables for production areas, suppliers, customers and products
+
+/*function gmpPackingFinishedProductItemProductionArea(item){
     var areas = new Array();
 
     for(var area of item.production_areas){
@@ -304,7 +360,7 @@ function gmpPackingFinishedProductItemClient(item){
     var actionSelectInput = {"id":"clientWrapper_" + item.id,"classes":"input-field col s4 m4 l4","field":actionSelect,"label":selectLabel,"data":{"item_id":item.id}};
 
     return actionSelectInput;
-}
+}*/
 
 function gmpPackingFinishedProductItemQuality(item){
     var qualitys = new Array();

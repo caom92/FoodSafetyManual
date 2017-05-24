@@ -212,6 +212,34 @@ function gmpPackingUnusualOccurrenceItemTime(item){
 }
 
 function gmpPackingUnusualOccurrenceItemProductionArea(item){
+    var productionAreaLabel = {"type":"label","contents":{"type":"text","classes":"production_area_title"}};
+    var productionAreaInput = {"type":"input","id": "productionArea_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
+    var productionAreaFullInput = {"id":"productionAreaWrapper_","classes":"input-field col s4 m4 l4","field":productionAreaInput,"label":productionAreaLabel};
+
+    if(item.area){
+        productionAreaInput.value = item.area;
+        productionAreaLabel.classes = "active";
+    }
+
+    return productionAreaFullInput;
+}
+
+function gmpPackingUnusualOccurrenceItemProduct(item){
+    var productLabel = {"type":"label","contents":{"type":"text","classes":"products"}};
+    var productInput = {"type":"input","id": "product_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
+    var productFullInput = {"id":"productWrapper_","classes":"input-field col s8 m8 l8","field":productInput,"label":productLabel};
+
+    if(item.product){
+        productInput.value = item.product;
+        productLabel.classes = "active";
+    }
+
+    return productFullInput;
+}
+
+// Uncomment when we start using the Production Area Table
+
+/*function gmpPackingUnusualOccurrenceItemProductionArea(item){
     var areas = new Array();
 
     for(var area of item.production_areas){
@@ -222,22 +250,23 @@ function gmpPackingUnusualOccurrenceItemProductionArea(item){
         areas.push(tempOption);
     }
 
-    var selectLabel = {"type":"label","contents":{"type":"text","classes":"area_title"}};
+    var selectLabel = {"type":"label","contents":{"type":"text","classes":"production_area_title"}};
     var actionSelect =  {"type": "select", "id": "productionArea_" + item.id,"options": areas,"data":{"item_id":item.id},"validations":{"type":"select","required":{"value":true,"toast":"gmp-packing-preop-item-corrective-action"},"wrapper":"productionAreaWrapper_" + item.id}};
     var actionSelectInput = {"id":"productionAreaWrapper_" + item.id,"classes":"input-field col s4 m4 l4","field":actionSelect,"label":selectLabel,"data":{"item_id":item.id}};
 
     return actionSelectInput;
-}
+}*/
 
+// Uncomment when we start using the Production Area Table
 
-function gmpPackingUnusualOccurrenceItemProduct(item){
+/*function gmpPackingUnusualOccurrenceItemProduct(item){
     var products = new Array();
 
     for(var product of item.product_codes){
         var tempOption = {"value":product.id,"text":product.code + ", " + product.name,"data":{"item_id":item.id}};
-        /*if(item.product_id == product.id){
+        if(item.product_id == product.id){
             tempOption.selected = true;
-        }*/
+        }
         products.push(tempOption);
     }
 
@@ -246,7 +275,7 @@ function gmpPackingUnusualOccurrenceItemProduct(item){
     var actionSelectInput = {"id":"productWrapper_" + item.id,"classes":"input-field col s8 m8 l8","field":actionSelect,"label":selectLabel,"data":{"item_id":item.id}};
 
     return actionSelectInput;
-}
+}*/
 
 function gmpPackingUnusualOccurrenceItemBatch(item){
     var batchLabel = {"type":"label","contents":{"type":"text","classes":"batch_title"}};
