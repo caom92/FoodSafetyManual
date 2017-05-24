@@ -103,9 +103,9 @@ function sendGmpPackingFinishedProductReport(){
             console.log("ID: " + itemID);
             report.time = $("#time_" + itemID).val();
             report.shift_id = parseInt($("#shift_" + itemID).val());
-            report.area_id = parseInt($("#productionArea_" + itemID).val());
-            report.product_id = parseInt($("#product_" + itemID).val());
-            report.batch = parseInt($("#batch_" + itemID).val());
+            report.area_id = $("#productionArea_" + itemID).val();
+            report.product_id = $("#product_" + itemID).val();
+            report.batch = $("#batch_" + itemID).val();
             report.description = $("#description_" + itemID).val();
             report.corrective_action = $("#action_" + itemID).val();
             report.album_url = $("#report_url").val();
