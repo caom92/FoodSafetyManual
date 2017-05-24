@@ -294,8 +294,7 @@ $(function() {
                     // load the side menu items
                     loadSideMenu();
 
-                    if (localStorage.role_name == 'Supervisor'
-                        || localStorage.role_name == 'Employee') {
+                    if (localStorage.role_name == 'Supervisor') {
                         setInterval(getNumPendingAuthorizations, 60000);
                     }
 
