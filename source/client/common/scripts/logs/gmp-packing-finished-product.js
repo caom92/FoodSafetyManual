@@ -20,7 +20,7 @@ function loadLogForm(htmlElement){
                 });
                 gmpPackingFinishedProductFunctionality();
                 $("input").characterCounter();
-                if(localStorage.country_codes){
+                /*if(localStorage.country_codes){
                     $("input.autocomplete").autocomplete({
                         data: JSON.parse(localStorage.country_codes)
                     });
@@ -31,13 +31,14 @@ function loadLogForm(htmlElement){
                             data: JSON.parse(localStorage.country_codes)
                         });
                     });
-                }
+                }*/
                 /*$('.expires_datepicker').each(function(index, element){
                     var itemID = $(this).data("item_id");
                     var dateObj = datePicker("expiresHidden_" + itemID, null, new Date());
                     $(this).pickadate(dateObj);
                 });*/
                 //$('.datepicker').pickadate(datePicker("expires", null, new Date()));
+                autocompleteActivator();
                 dateActivator();
                 changeLanguage();
             } else {
@@ -104,6 +105,21 @@ function dateActivator(){
         var dateObj = datePicker("expiresHidden_" + itemID, null, new Date());
         $(this).pickadate(dateObj);
     });
+}
+
+function autocompleteActivator(){
+    if(localStorage.country_codes){
+        $("input.autocomplete").autocomplete({
+            data: JSON.parse(localStorage.country_codes)
+        });
+    } else {
+        $.getJSON( "data/files/countries.json", function( data ) {
+            localStorage.country_codes = JSON.stringify(data);
+            $("input.autocomplete").autocomplete({
+                data: JSON.parse(localStorage.country_codes)
+            });
+        });
+    }
 }
 
 /******************************************************************************
@@ -535,6 +551,7 @@ function gmpPackingFinishedProductFunctionality(data){
             $("#del_area_test_1").removeClass("grey");
             $("#del_area_test_1").addClass("red");
         }
+        autocompleteActivator();
         dateActivator();
         changeLanguage();
     });
