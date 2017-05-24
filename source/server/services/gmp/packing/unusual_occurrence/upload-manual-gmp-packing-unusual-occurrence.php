@@ -7,7 +7,7 @@ $service = fsm\createUploadManualService(
   'GMP',
   'Packing',
   'Daily Notice of Unusual Occurrence and Corrective Action Report',
-  'gmp/pracking/unusual_occurrence/'
+  'unusual_occurrence/'
 );
 
 ?>

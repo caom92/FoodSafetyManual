@@ -2,7 +2,7 @@
 
 $unusualOccurrences = [
   'tables' => [
-    'gmp\packing\unusualOccurrence\Logs' =>
+    'unusualOccurrence\Logs' =>
       realpath(dirname(__FILE__).'/Logs.php'),
   ],
   'services' => [

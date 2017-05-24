@@ -13,7 +13,7 @@ $service = fsm\createReportService(
       // NULL
     ],
     'function' => function($scope, $segment, $logDate) {
-      return $scope->daoFactory->get('gmp\packing\unusualOccurrence\Logs')
+      return $scope->daoFactory->get('unusualOccurrence\Logs')
         ->selectByCaptureDateID($logDate['id']);
     }
   ]

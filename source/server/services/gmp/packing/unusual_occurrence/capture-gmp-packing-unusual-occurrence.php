@@ -8,6 +8,10 @@ $service = fsm\createCaptureService(
   'Packing',
   'Daily Notice of Unusual Occurrence and Corrective Action Report',
   [
+    'incident_date' => [
+      'type' => 'datetime',
+      'format' => 'Y-m-d'
+    ],
     'time' => [
       'type' => 'datetime',
       'format' => 'G:i'
@@ -49,9 +53,10 @@ $service = fsm\createCaptureService(
       // NULL
     ],
     'function' => function($scope, $segment, $request, $logID) {
-      return $scope->daoFactory->get('gmp\packing\unusualOccurrence\Logs')
+      return $scope->daoFactory->get('unusualOccurrence\Logs')
         ->insert([
           'capture_date_id' => $logID,
+          'incident_date' => $request['incident_date'],
           'time' => $request['time'],
           'shift_id' => $request['shift_id'],
           'production_area_id' => $request['area_id'],

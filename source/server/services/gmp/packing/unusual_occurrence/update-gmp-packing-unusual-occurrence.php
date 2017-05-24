@@ -47,7 +47,7 @@ $service = fsm\createUpdateService(
   [
     'extra_info' => NULL,
     'function' => function($scope, $segment, $request, $logID) {
-      $scope->daoFactory->get('gmp\packing\unusualOccurrence\Logs')
+      $scope->daoFactory->get('unusualOccurrence\Logs')
         ->updateByCapturedLogID([
           'time' => $request['time'],
           'shift_id' => $request['shift_id'],
