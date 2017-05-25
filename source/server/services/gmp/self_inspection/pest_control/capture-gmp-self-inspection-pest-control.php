@@ -5,8 +5,8 @@ require_once realpath(dirname(__FILE__).'/../../../service_creators.php');
 
 $service = fsm\createCaptureService(
   'GMP',
-  'Pest Control',
   'Self Inspection',
+  'Pest Control',
   [
     'notes' => [
       'type' => 'string',
