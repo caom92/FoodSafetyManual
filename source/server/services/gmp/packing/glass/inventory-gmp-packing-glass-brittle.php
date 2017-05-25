@@ -14,7 +14,7 @@ $service = fsm\createInventoryService(
   ],
   function($scope, $request) {
     // get the items from the data base
-    return $scope->daoFactory->get('gmp\packing\glass\AareaGlass')
+    return $scope->daoFactory->get('gmp\packing\glass\AreaGlass')
       ->selectByAreaID($request['area_id']);
   }
 );
