@@ -25,6 +25,7 @@ function loadLogForm(htmlElement){
                 });
                 gmpPackingFinishedProductFunctionality();
                 $("input").characterCounter();
+                dateActivator();
                 changeLanguage();
             } else {
                 Materialize.toast("Some error", 3000, "rounded");
@@ -84,6 +85,14 @@ function validateLog(){
     return returnValue;
 }
 
+function dateActivator(){
+    $('.incident_datepicker').each(function(index, element){
+        var itemID = $(this).data("item_id");
+        var dateObj = datePicker("incidentHidden_" + itemID, null, new Date());
+        $(this).pickadate(dateObj);
+    });
+}
+
 /******************************************************************************
 A collection of functions to display the Log Form. This will be related to the
 name of the log, located in the name_suffix field on the database. Usually, we
@@ -102,6 +111,7 @@ function sendGmpPackingFinishedProductReport(){
             var itemID = $(this).data("id");
             console.log("ID: " + itemID);
             report.time = $("#time_" + itemID).val();
+            report.incident_date = $("input[name='incidentHidden_" + itemID + "']").val();
             report.shift_id = parseInt($("#shift_" + itemID).val());
             report.area_id = $("#productionArea_" + itemID).val();
             report.product_id = $("#product_" + itemID).val();
@@ -161,8 +171,8 @@ function gmpPackingUnusualOccurrenceItem(item){
     var actionRow = new Object();
     var urlRow = new Object();
 
-    shiftRow.columns = [gmpPackingUnusualOccurrenceItemShift(item), gmpPackingUnusualOccurrenceItemTime(item), gmpPackingUnusualOccurrenceItemProductionArea(item)];
-    productRow.columns = [gmpPackingUnusualOccurrenceItemProduct(item), gmpPackingUnusualOccurrenceItemBatch(item)];
+    shiftRow.columns = [gmpPackingUnusualOccurrenceItemShift(item), gmpPackingUnusualOccurrenceItemTime(item), gmpPackingUnusualOccurrenceItemDate(item)];
+    productRow.columns = [gmpPackingUnusualOccurrenceItemProductionArea(item), gmpPackingUnusualOccurrenceItemProduct(item), gmpPackingUnusualOccurrenceItemBatch(item)];
     descriptionRow.columns = [gmpPackingUnusualOccurrenceItemDescription(item)];
     actionRow.columns = [gmpPackingUnusualOccurrenceItemAction(item)];
     urlRow.columns = [gmpPackingUnusualOccurrenceAlbumURL()];
@@ -199,8 +209,8 @@ function gmpPackingUnusualOccurrenceItemShift(item){
 }
 
 function gmpPackingUnusualOccurrenceItemTime(item){
-    var batchLabel = {"type":"label","classes":"active","contents":{"type":"text","classes":"time_title"}};
-    var batchInput = {"type":"time","id": "time_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
+    var batchLabel = {"type":"label","classes":"active","contents":{"type":"text","classes":"time_title"},"for":"time_" + item.id};
+    var batchInput = {"type":"time","id": "time_" + item.id, "classes": "timepicker validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
     var batchFullInput = {"id":"batchWrapper","classes":"input-field col s4 m4 l4","field":batchInput,"label":batchLabel};
 
     if(item.time){
@@ -209,6 +219,19 @@ function gmpPackingUnusualOccurrenceItemTime(item){
     }
 
     return batchFullInput;
+}
+
+function gmpPackingUnusualOccurrenceItemDate(item){
+    var incidentLabel = {"type":"label","classes":"active","contents":{"type":"text","classes":"incident_date"},"for":"incident_" + item.id};
+    var incidentInput = {"type":"date","id": "incident_" + item.id, "classes":"incident_datepicker validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}},"data":{"item_id":item.id}};
+    var incidentFullInput = {"id":"incidentWrapper_" + item.id,"classes":"input-field col s4 m4 l4","field":incidentInput,"label":incidentLabel};
+
+    if(item.incident_date){
+        incidentInput.value = item.incident_date;
+        incidentLabel.classes = "active";
+    }
+
+    return incidentFullInput;
 }
 
 function gmpPackingUnusualOccurrenceItemProductionArea(item){
@@ -227,7 +250,7 @@ function gmpPackingUnusualOccurrenceItemProductionArea(item){
 function gmpPackingUnusualOccurrenceItemProduct(item){
     var productLabel = {"type":"label","contents":{"type":"text","classes":"products"}};
     var productInput = {"type":"input","id": "product_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
-    var productFullInput = {"id":"productWrapper_","classes":"input-field col s8 m8 l8","field":productInput,"label":productLabel};
+    var productFullInput = {"id":"productWrapper_","classes":"input-field col s4 m4 l4","field":productInput,"label":productLabel};
 
     if(item.product){
         productInput.value = item.product;

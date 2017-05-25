@@ -431,6 +431,11 @@
         <spanish>Fecha</spanish>
     </translation>
 
+    <translation id="incident_date">
+        <english>Incident date</english>
+        <spanish>Fecha de la ocurrencia</spanish>
+    </translation>
+
     <translation id="shift_title">
         <english>Shift</english>
         <spanish>Turno</spanish>

@@ -155,7 +155,7 @@ function sendgmpPackingFinishedProductReport(){
             item.quality_type_id = parseInt($("#quality_" + itemID).val());
             item.origin = $("#origin_" + itemID).val();
             //item.expiration_date = $("#expires_" + itemID).val();
-            item.expiration_date = $("input[name='expiresHidden_" + itemID + "']").val()
+            item.expiration_date = $("input[name='expiresHidden_" + itemID + "']").val();
             item.water_temperature = parseFloat($("#water_" + itemID).val());
             item.product_temperature = parseFloat($("#packing_" + itemID).val());
             item.is_weight_correct = getBool($("input:radio[name='weight_radio_" + itemID + "']:checked").val());
