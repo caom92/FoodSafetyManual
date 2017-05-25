@@ -1,6 +1,6 @@
 <?php
 
-namespace fsm\database\gmp\packing\unusualOccurrence;
+namespace fsm\database\unusualOccurrence;
 require_once realpath(dirname(__FILE__).'/../../../../dao/LogTable.php');
 use fsm\database as db;
 
@@ -11,7 +11,7 @@ class Logs extends db\LogTable
   // Crea una instancia de una interfaz a la base de datos para modificar 
   // la tabla gmp_packing_unusual_occurrence_logs
   function __construct() { 
-    parent::__construct('gmp_packing_unusual_occurrence_logs');
+    parent::__construct('unusual_occurrence_logs');
   }
 
   // Retorna una lista de todos los renglones en la tabla que tengan asignado
@@ -24,6 +24,7 @@ class Logs extends db\LogTable
   function selectByCaptureDateID($dateID) {
     return parent::select(
       [
+        'incident_date',
         'time',
         's.name(shift)',
         'a.name(area)',

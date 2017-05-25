@@ -25,10 +25,14 @@ class Logs extends db\LogTable
     return parent::select(
       [
         'batch',
-        'a.name(production_area)',
-        's.code(supplier)',
-        'p.code(product)',
-        'i.company_name(customer)',
+        // 'a.name(production_area)',
+        // 's.code(supplier)',
+        // 'p.code(product)',
+        // 'i.company_name(customer)',
+        'production_area_id(production_area)',
+        'supplier_id(supplier)',
+        'product_id(product)',
+        'customer_id(customer)',
         'q.name(quality)',
         'origin',
         'expiration_date',
@@ -43,21 +47,21 @@ class Logs extends db\LogTable
         'capture_date_id' => $dateID
       ],
       [
-        '[><]gmp_packing_finished_product_production_areas(a)' => [
-          'production_area_id' => 'id'
-        ],
-        '[><]suppliers(s)' => [
-          'supplier_id' => 'id'
-        ],
-        '[><]product(p)' => [
-          'product_id' => 'id'
-        ],
-        '[><]customers(c)' => [
-          'customer_id' => 'id'
-        ],
-        '[><]contact_info(i)' => [
-          'c.contact_info_id' => 'id'
-        ],
+        // '[><]gmp_packing_finished_product_production_areas(a)' => [
+        //   'production_area_id' => 'id'
+        // ],
+        // '[><]suppliers(s)' => [
+        //   'supplier_id' => 'id'
+        // ],
+        // '[><]product(p)' => [
+        //   'product_id' => 'id'
+        // ],
+        // '[><]customers(c)' => [
+        //   'customer_id' => 'id'
+        // ],
+        // '[><]contact_info(i)' => [
+        //   'c.contact_info_id' => 'id'
+        // ],
         '[><]quality_types(q)' => [
           'quality_type_id' => 'id'
         ]

@@ -95,7 +95,7 @@ $service = fsm\createCaptureService(
         }
 
         // store the items to the database
-        return $scope->daoFactory->get('gmp\packing\atp\Logs')->insert($items);
+        $scope->daoFactory->get('gmp\packing\atp\Logs')->insert($items);
       }
     }
   ]

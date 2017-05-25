@@ -16,7 +16,7 @@ $service = fsm\createReportService(
       // get the areas corresponding to this log date
       $areaLogs = $scope->daoFactory->get('gmp\packing\atp\TimeLogs')
         ->selectByCaptureDateID($logDate['id']);
-
+        
       // initialize the array of per-area info
       $areas = [];
 
@@ -28,7 +28,7 @@ $service = fsm\createReportService(
 
         // push the complete area data to the final storage
         array_push($areas, [
-          'name' => $area['name'],
+          'name' => $area['area_name'],
           'time' => $area['time'],
           'items' => $items
         ]);

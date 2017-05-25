@@ -1,17 +1,17 @@
 <?php
 
-namespace fsm\database\gmp\packing\preop;
+namespace fsm\database\gmp\packing\atp;
 require_once realpath(dirname(__FILE__).'/../../../../dao/InsertableTable.php');
 use fsm\database as db;
 
 
-// Interfaz para la tabla working_areas
-class WorkingAreas extends db\InsertableTable
+// Interfaz para la tabla gmp_packing_atp_check_areas
+class CheckAreas extends db\InsertableTable
 {
   // Crea una instancia de una interfaz a la base de datos para modificar 
-  // la tabla working_areas
+  // la tabla gmp_packing_atp_check_areas
   function __construct() { 
-    parent::__construct('gmp_packing_preop_working_areas');
+    parent::__construct('gmp_packing_atp_check_areas');
   }
 
   // Returns an associative array containing the information of all the 

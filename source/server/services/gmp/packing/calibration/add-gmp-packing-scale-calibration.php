@@ -8,10 +8,6 @@ $service = fsm\createAddService(
   'Packing',
   'Daily Scale Calibration Check',
   [
-    'zone_id' => [
-      'type' => 'int',
-      'min' => 1
-    ],
     'type_id' => [
       'type' => 'int',
       'min' => 1
