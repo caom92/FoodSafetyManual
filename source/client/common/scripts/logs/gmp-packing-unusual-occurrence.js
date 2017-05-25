@@ -292,7 +292,7 @@ function gmpPackingUnusualOccurrenceItemBatch(item){
 
 function gmpPackingUnusualOccurrenceItemDescription(item){
     var descriptionLabel = {"type":"label","contents":{"type":"text","classes":"description"},"for":"description_" + item.id};
-    var descriptionInput = {"type":"input","id": "description_" + item.id, "classes": "validate", "fieldType":"text","data":{"id":item.id},"validations":{"type":"text","max":{"value":128,"toast":"gmp-packing-preop-item-comment"}}};
+    var descriptionInput = {"type":"input","id": "description_" + item.id, "classes": "validate", "fieldType":"text","data":{"id":item.id},"validations":{"type":"text","max":{"value":256,"toast":"gmp-packing-preop-item-comment"}}};
     var descriptionFullInput = {"id":"descriptionWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":descriptionInput,"label":descriptionLabel};
 
     if(item.comment){
