@@ -4,8 +4,8 @@ require_once realpath(dirname(__FILE__).'/../../../service_creators.php');
 
 $service = fsm\createInventoryService(
   'GMP',
-  'Pest Control',
   'Self Inspection',
+  'Pest Control',
   [
     'room_id' => [
       'type' => 'int',

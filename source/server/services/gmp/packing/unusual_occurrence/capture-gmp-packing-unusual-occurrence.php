@@ -35,7 +35,7 @@ $service = fsm\createCaptureService(
     'description' => [
       'type' => 'string',
       'min_length' => 2,
-      'max_length' => 128
+      'max_length' => 256
     ],
     'corrective_action' => [
       'type' => 'string',

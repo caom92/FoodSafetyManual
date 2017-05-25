@@ -29,7 +29,7 @@ class Logs extends db\DataBaseTable
         l.id AS log_id,
         l.name AS log_name,
         l.name_suffix AS log_suffix,
-        l.has_inventory AS has_inventory
+        l.has_inventory AS has_inventory,
         r.id AS privilege_id,
         r.name AS privilege_name
       FROM $this->table AS l

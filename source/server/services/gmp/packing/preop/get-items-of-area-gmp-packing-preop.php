@@ -10,7 +10,7 @@ $service = [
   ],
   'callback' => function($scope, $request) {
     // first, get the items from the data base
-    $rows = $scope->daoFactory->get('gmp/packing/preop/ItemTypes')
+    $rows = $scope->daoFactory->get('gmp\packing\preop\ItemTypes')
       ->selectByAreaID($request['area_id']);
 
     // temporal storage for the items organized by type

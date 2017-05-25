@@ -9,8 +9,8 @@ $service = [
     'has_privileges' => [
       'privilege' => 'Read',
       'program' => 'GMP',
-      'module' => 'Pest Control',
-      'log' => 'Self Inspection'
+      'module' => 'Self Inspection',
+      'log' => 'Pest Control'
     ],
     'name' => [
       'type' => 'string',

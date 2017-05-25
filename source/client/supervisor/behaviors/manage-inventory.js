@@ -220,7 +220,9 @@ $(function(){
                 for(var program of zone.programs){
                     for(var module of program.modules){
                         for(var log of module.logs){
-                            $("#content_wrapper").append(logCard(log.name, log.suffix));
+                            if (log.has_inventory) {
+                                $("#content_wrapper").append(logCard(log.name, log.suffix));
+                            }
                         }
                     }
                 }
@@ -240,7 +242,9 @@ $(function(){
                 for(var program of zone.programs){
                     for(var module of program.modules){
                         for(var log of module.logs){
-                            $("#content_wrapper").append(logCard(log.name, log.suffix));
+                            if (log.has_inventory) {
+                                $("#content_wrapper").append(logCard(log.name, log.suffix));
+                            }
                         }
                     }
                 }
