@@ -108,16 +108,24 @@ function dateActivator(){
 }
 
 function autocompleteActivator(){
-    if(localStorage.country_codes){
-        $("input.autocomplete").autocomplete({
-            data: JSON.parse(localStorage.country_codes)
+    function autocompleteInit(){
+        $("input.autocomplete").each(function(index, element){
+            var autocomplete = $(this);
+            if(!autocomplete.hasClass("autocomplete_active")){
+                autocomplete.autocomplete({
+                    data: JSON.parse(localStorage.country_codes)
+                });
+                autocomplete.addClass("autocomplete_active");
+            }
         });
+    }
+
+    if(localStorage.country_codes){
+        autocompleteInit();
     } else {
         $.getJSON( "data/files/countries.json", function( data ) {
             localStorage.country_codes = JSON.stringify(data);
-            $("input.autocomplete").autocomplete({
-                data: JSON.parse(localStorage.country_codes)
-            });
+            autocompleteInit();
         });
     }
 }
