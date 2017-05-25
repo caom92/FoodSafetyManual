@@ -34,7 +34,7 @@ class ItemTypes extends db\DataBaseTable
         t.id AS type_id, 
         t.name AS type_name 
       FROM $this->table AS t
-      LEFT JOIN items AS i 
+      LEFT JOIN gmp_packing_preop_items AS i 
         ON i.type_id = t.id AND i.area_id = $areaID
       ORDER BY area_id, type_id, position"
     )->fetchAll();
