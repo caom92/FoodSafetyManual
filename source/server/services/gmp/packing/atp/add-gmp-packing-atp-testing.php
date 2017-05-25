@@ -8,7 +8,7 @@ $service = fsm\createAddService(
   'Packing',
   'Environmental ATP Testing',
   [
-    'area_name' => [
+    'name' => [
       'type' => 'string',
       'min_length' => 1,
       'max_length' => 32
@@ -23,7 +23,7 @@ $service = fsm\createAddService(
     // store the item in the data base 
     return $areas->insert([
       'zone_id' => $zoneID,
-      'name' => $request['area_name']
+      'name' => $request['name']
     ]);
   }
 );
