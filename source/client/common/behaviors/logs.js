@@ -17,18 +17,20 @@ function createDatePicker(){
 $(function() {
     var getParams = getURLQueryStringAsJSON();
 
-    if(!localStorage.correctiveActionsSSOP){
-        $server.request({
-            service: 'list-corrective-actions-gmp-packing-preop',
-            success: function(response) {
-                if (response.meta.return_code == 0) {
-                    localStorage.correctiveActionsSSOP = JSON.stringify(response.data);
-                } else {
-                    Materialize.toast("Some error", 3000, "rounded");
-                    throw response.meta.message;
+    if(localStorage.role_id == "5" || localStorage.role_id == "3"){
+        if(!localStorage.correctiveActionsSSOP){
+            $server.request({
+                service: 'list-corrective-actions-gmp-packing-preop',
+                success: function(response) {
+                    if (response.meta.return_code == 0) {
+                        localStorage.correctiveActionsSSOP = JSON.stringify(response.data);
+                    } else {
+                        Materialize.toast("Some error", 3000, "rounded");
+                        throw response.meta.message;
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     if(localStorage.role_id == "5"){
