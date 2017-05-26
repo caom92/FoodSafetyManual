@@ -88,7 +88,7 @@ function validateLog(){
 function dateActivator(){
     $('.incident_datepicker').each(function(index, element){
         var itemID = $(this).data("item_id");
-        var dateObj = datePicker("incidentHidden_" + itemID, null, new Date());
+        var dateObj = datePicker("incidentHidden_" + itemID, null, null);
         $(this).pickadate(dateObj);
     });
 }
@@ -315,7 +315,7 @@ function gmpPackingUnusualOccurrenceItemBatch(item){
 
 function gmpPackingUnusualOccurrenceItemDescription(item){
     var descriptionLabel = {"type":"label","contents":{"type":"text","classes":"description"},"for":"description_" + item.id};
-    var descriptionInput = {"type":"input","id": "description_" + item.id, "classes": "validate", "fieldType":"text","data":{"id":item.id},"validations":{"type":"text","max":{"value":256,"toast":"gmp-packing-preop-item-comment"}}};
+    var descriptionInput = {"type":"input","id": "description_" + item.id, "classes": "validate", "fieldType":"text","data":{"id":item.id},"validations":{"type":"text","max":{"value":512,"toast":"gmp-packing-preop-item-comment"}}};
     var descriptionFullInput = {"id":"descriptionWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":descriptionInput,"label":descriptionLabel};
 
     if(item.comment){
@@ -328,7 +328,7 @@ function gmpPackingUnusualOccurrenceItemDescription(item){
 
 function gmpPackingUnusualOccurrenceItemAction(item){
     var actionLabel = {"type":"label","contents":{"type":"text","classes":"action_title"},"for":"action_" + item.id};
-    var actionInput = {"type":"input","id": "action_" + item.id, "classes": "validate", "fieldType":"text","data":{"id":item.id},"validations":{"type":"text","max":{"value":128,"toast":"gmp-packing-preop-item-comment"}}};
+    var actionInput = {"type":"input","id": "action_" + item.id, "classes": "validate", "fieldType":"text","data":{"id":item.id},"validations":{"type":"text","max":{"value":512,"toast":"gmp-packing-preop-item-comment"}}};
     var actionFullInput = {"id":"actionWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":actionInput,"label":actionLabel};
 
     if(item.comment){

@@ -290,7 +290,7 @@ function gmpPackingFinishedProductItemProductionArea(item){
 
 function gmpPackingFinishedProductItemSupplier(item){
     var batchLabel = {"type":"label","contents":{"type":"text","classes":"suppliers"}};
-    var batchInput = {"type":"input","id": "supplier_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
+    var batchInput = {"type":"input","id": "supplier_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"},"min":{"value":2}}};
     var batchFullInput = {"id":"supplierWrapper_" + item.id,"classes":"input-field col s4 m4 l4","field":batchInput,"label":batchLabel};
 
     if(item.supplier){
@@ -303,7 +303,7 @@ function gmpPackingFinishedProductItemSupplier(item){
 
 function gmpPackingFinishedProductItemProduct(item){
     var batchLabel = {"type":"label","contents":{"type":"text","classes":"products"}};
-    var batchInput = {"type":"input","id": "product_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
+    var batchInput = {"type":"input","id": "product_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"},"min":{"value":2}}};
     var batchFullInput = {"id":"productWrapper_" + item.id,"classes":"input-field col s4 m4 l4","field":batchInput,"label":batchLabel};
 
     if(item.product){
@@ -316,7 +316,7 @@ function gmpPackingFinishedProductItemProduct(item){
 
 function gmpPackingFinishedProductItemClient(item){
     var batchLabel = {"type":"label","contents":{"type":"text","classes":"clients"}};
-    var batchInput = {"type":"input","id": "client_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
+    var batchInput = {"type":"input","id": "client_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"},"min":{"value":2}}};
     var batchFullInput = {"id":"clientWrapper_" + item.id,"classes":"input-field col s4 m4 l4","field":batchInput,"label":batchLabel};
 
     if(item.client){
