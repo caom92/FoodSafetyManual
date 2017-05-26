@@ -27,6 +27,7 @@ class TimeLogs extends db\LogTable
         DATE_FORMAT(time, '%H:%i') AS time,
         s.type_id AS type_id,
         st.name AS type_name,
+        s.id AS scale_id,
         s.position AS `order`,
         s.serial_num AS scale_name,
         sl.test AS test,

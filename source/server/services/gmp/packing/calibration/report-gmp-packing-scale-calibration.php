@@ -44,6 +44,7 @@ $service = fsm\createReportService(
             'name' => $log['type_name'],
             'time' => $log['time'],
             'items' => [[
+              'id' => $log['scale_id'],
               'order' => $log['order'],
               'name' => $log['scale_name'],
               'test' => $log['test'],
@@ -55,6 +56,7 @@ $service = fsm\createReportService(
           // if the scale type has not change, push the current log
           // data to the array of logs for the current scale type
           array_push($scaleLogs['items'], [
+            'id' => $log['scale_id'],
             'order' => $log['order'],
             'name' => $log['scale_name'],
             'test' => $log['test'],
