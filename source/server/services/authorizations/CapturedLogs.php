@@ -74,7 +74,7 @@ class CapturedLogs extends db\InsertableTable
     $logID, 
     $zoneID
   ) {
-    return parent::select(
+    $rows = parent::select(
       [
         "$this->table.id(id)",
         'capture_date',
@@ -100,6 +100,8 @@ class CapturedLogs extends db\InsertableTable
         ]
       ]
     );
+
+    return $rows[0];
   }
 
   // Revisa si hay renglones en la tabla que tengan registrados la
