@@ -60,6 +60,48 @@ class CapturedLogs extends db\InsertableTable
     );
   }
 
+  // Retorna una lista de los renglones que tengan registrados los IDs de
+  // bitacora y zona especificados y que cuyo ID sea el especificado
+  // [in]   reportID (uint): el ID del reporte cuyos registros van a ser leidos
+  // [in]   logID (uint): ID de la bitacora cuyos registros van a ser leidos
+  // [in]   zoneID (uint): ID de la zona cuyos registros van a ser leidos
+  // [out]  return (dictionary): arreglo asociativo que contiene los datos de 
+  //        capturados dentro del intervalo de fechas dado y de la bitacora
+  //        y zona especificados organizados en renglones y columnas y agrupados
+  //        por fecha
+  function selectByIDLogIDAndZoneID(
+    $reportID,
+    $logID, 
+    $zoneID
+  ) {
+    return parent::select(
+      [
+        "$this->table.id(id)",
+        'capture_date',
+        'employee_id',
+        'approval_date',
+        'supervisor_id',
+        'extra_info1',
+        'extra_info2'
+      ], 
+      [
+        'AND' => [
+          "$this->table.id" => $reportID,
+          'log_id' => $logID, 
+          'u.zone_id' => $zoneID
+        ],
+        'ORDER' => [
+          'capture_date'
+        ]
+      ],
+      [
+        '[><]users(u)' => [
+          'employee_id' => 'id'
+        ]
+      ]
+    );
+  }
+
   // Revisa si hay renglones en la tabla que tengan registrados la
   // fecha y ID de zona y bitacora especificados
   // [in]   date (string): la fecha cuyas bitacoras van a ser buscadas

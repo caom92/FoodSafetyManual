@@ -486,4 +486,110 @@ function createUpdateService($program, $module, $log, $requirements, $strategy,
   ];
 }
 
+// Crea el descriptor del servicio para generar un reporte para su autorizacion
+// [in]   program (string): el nombre del programa al cual pertenece este 
+//        servicio
+// [in]   module (string): el nombre del modulo al cual pertenece este servicio
+// [in]   log (string): el nombre de la bitacora a la cual pertenece este 
+//        servicio
+// [in]   strategy (function(dictionary, dictionary):dictionary or dictionary): 
+//        la funcion a invocar al ejecutar cuando se solicita el servicio, o par
+//        que define el proceso a seguir para obtener los objetos del inventario
+//        de esta bitacora junto con el nombre de dichos objetos
+// [in]   [useCustom] (boolean): bandera que indica si vamos a usar una funcion
+//        personalizada para ejecutar el servicio o si vamos a crear una 
+//        utilizando el templete
+// [out]  return (dictionary): arreglo asociativo que contiene la descripcion
+//        del servicio
+function createAuthorizationReportService($program, $module, $log, $strategy,
+  $useCustom = FALSE) {
+  return [
+    'requirements_desc' => [
+      'logged_in' => ['Supervisor'],
+      'has_privileges' => [
+        'privilege' => 'Read',
+        'program' => $program,
+        'module' => $module,
+        'log' => $log
+      ],
+      'report_id' => [
+        'type' => 'int',
+        'min' => 0
+      ]
+    ],
+    'callback' => (!$useCustom) ?
+      function($scope, $request) use ($program, $module, $log, $strategy) {
+        // first, we get the session segment
+        $segment = $scope->session->getSegment('fsm');
+
+        // then, we get the captured logs' date info 
+        $logDate = $scope->daoFactory->get('CapturedLogs')
+          ->selectByIDLogIDAndZoneID(
+            $request['report_id'],
+            $scope->daoFactory->get('Logs')->getIDByNames(
+              $program, $module, $log),
+            $segment->get('zone_id')
+          );
+
+        // if no logs where captured, throw an exception
+        if (!isset($logDate)) {
+          throw new \Exception(
+            'No logs where captured at that date.', 2);
+        }
+
+        // retrieve the per characteristic log corresponding to 
+        // this date
+        $items = $strategy['function']($scope, $segment, 
+          $logDate);
+
+        // then retrieve the name of the employee and supervisor
+        // that worked on this log
+        $users = $scope->daoFactory->get('Users');
+        $supervisor = $users->getNameByID(
+          $logDate['supervisor_id']);
+        $employee = $users->getNameByID(
+          $logDate['employee_id']);
+          
+        // push the report data to the array
+        $reportInfo = [
+          'report_id' => $logDate['id'],
+          'created_by' => 
+            $employee['first_name'].' '.
+            $employee['last_name'],
+          'approved_by' => 
+            (isset($supervisor['first_name'])) ?
+              $supervisor['first_name'].' '.
+              $supervisor['last_name'] 
+              : 'N/A',
+          'creation_date' => $logDate['capture_date'],
+          'approval_date' => 
+            (isset($logDate['approval_date'])) ?
+              $logDate['approval_date'] : 'N/A',
+          'zone_name' => $segment->get('zone_name'),
+          'program_name' => $program,
+          'module_name' => $module,
+          'log_name' => $log
+        ];
+
+        // check if the extra fields are being used and if they
+        // are, add them to the final report info structure
+        if (isset($strategy['extra_info'][0])) {
+          $reportInfo[$strategy['extra_info'][0]] = 
+            $logDate['extra_info1'];
+        }
+
+        if (isset($strategy['extra_info'][1])) {
+          $reportInfo[$strategy['extra_info'][1]] = 
+            $logDate['extra_info2'];
+        }
+
+        // add the actual log items to the report info structure
+        $reportInfo[$strategy['items_name']] = $items;
+
+        // finally return the list of reports
+        return $reportInfo;
+      } : $strategy
+  ];
+}
+
 ?>
