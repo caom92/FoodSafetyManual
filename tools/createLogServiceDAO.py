@@ -608,6 +608,85 @@ def createUpdateServiceFile(inputFile, servicesFile):
     + ".php'),\n"
   )
 
+# Esta funcion crea el archivo donde se encontrara definido el servicio que
+# retorna un reporte para su autorizacion o rechazo
+# [in]  inputFile (file stream): el archivo que fue ingresado al programa que 
+#       contiene el JSON que define las caracteristicas del servicio
+# [in]  servicesFile (file stream): el archivo donde se conglomeran las 
+#       declaraciones de todos los servicios de esta bitacora
+def createAuthorizationReportServiceFile(inputFile, servicesFile):
+  # Creamos el archivo del servicio para capturar los datos de la bitacora
+  outputFile = open(inputFile['path'] + 'authorization-report-' 
+    + inputFile['suffix'] + '.php', 'w')
+  outputFile.write(
+    "<?php\n"
+    "\n"
+    "require_once realpath(dirname(__FILE__).'/../../../service_creators.php');"
+    "\n"
+    "\n"
+    "\n"
+    "$service = fsm\createAuthorizationReportService(\n"
+    "  '" + inputFile['program'] + "',\n"
+    "  '" + inputFile['module'] + "',\n" 
+    "  '" + inputFile['log'] + "',\n"
+  )
+
+  # Dependiendo si se va a escribir una funcion personalizada o se utilizara el 
+  # templete, decidimos como sera el siguiente parametro
+  if inputFile['services']['report'] is None:
+    outputFile.write(
+      "  function($scope, $request) {\n"
+      "    // TO DO\n"
+      "  },\n"
+      "  TRUE"
+    )
+  else:
+    if inputFile['services']['report']['extra_info'] is None:
+      outputFile.write(
+        "  [\n"
+        "    'items_name' => '" + inputFile['services']['report']['items_name'] 
+        + "',\n"
+        "    'extra_info' => NULL,\n"
+        "    'function' => function($scope, $segment, $logDate) {\n"
+        "      // TO DO\n"
+        "    }\n"
+        "  ]\n"
+      )
+    else:
+      outputFile.write(
+        "  [\n"
+        "    'items_name' => '" + inputFile['services']['report']['items_name'] 
+        + "',\n"
+        "    'extra_info' => [\n"
+        "      '" + inputFile['services']['report']['extra_info'][0] + "',\n"
+      )
+      if inputFile['services']['report']['extra_info'][1] is not None:
+        outputFile.write(
+          "      '" + inputFile['services']['report']['extra_info'][1] + "'\n"
+        )
+      outputFile.write(
+        "    ],\n"
+        "    'function' => function($scope, $segment, $logDate) {\n"
+        "      // TO DO\n"
+        "    }\n"
+        "  ]\n"
+      )
+
+  # Continuamos escribiendo el archivo
+  outputFile.write(
+    ");\n"
+    "\n"
+    "?>"
+  )
+  outputFile.close()
+
+  # Agregamos el archivo del servicio a nuestro archivo conglomerado
+  servicesFile.write(
+    "    'report-" + inputFile['suffix'] + "' =>\n"
+    "      realpath(dirname(__FILE__).'/authorization-report-" 
+    + inputFile['suffix'] + ".php'),\n"
+  )
+
 # El JSON se espera que tenga la siguiente forma:
 # {
 #   "name": "string",
@@ -683,6 +762,7 @@ createAddServiceFile(inputFile, servicesFile)
 createToggleServiceFile(inputFile, servicesFile)
 createReorderServiceFile(inputFile, servicesFile)
 createUpdateServiceFile(inputFile, servicesFile)
+createAuthorizationReportServiceFile(inputFile, servicesFile)
 
 # Finalmente, cerramos la lista de servicios
 servicesFile.write(

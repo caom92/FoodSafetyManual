@@ -15,7 +15,9 @@ $unusualOccurrences = [
     'report-gmp-packing-unusual-occurrence' =>
       realpath(dirname(__FILE__).'/report-gmp-packing-unusual-occurrence.php'),
     'update-gmp-packing-unusual-occurrence' =>
-      realpath(dirname(__FILE__).'/update-gmp-packing-unusual-occurrence.php')
+      realpath(dirname(__FILE__).'/update-gmp-packing-unusual-occurrence.php'),
+    'authorization-report-gmp-packing-unusual-occurrence' =>
+      realpath(dirname(__FILE__).'/authorization-report-gmp-packing-unusual-occurrence.php')
   ]
 ];
 

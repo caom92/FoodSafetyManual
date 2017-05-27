@@ -25,7 +25,9 @@ $glass = [
     'reorder-gmp-packing-glass-brittle' =>
       realpath(dirname(__FILE__).'/reorder-gmp-packing-glass-brittle.php'),
     'update-gmp-packing-glass-brittle' =>
-      realpath(dirname(__FILE__).'/update-gmp-packing-glass-brittle.php')
+      realpath(dirname(__FILE__).'/update-gmp-packing-glass-brittle.php'),
+    'authorization-report-gmp-packing-glass-brittle' =>
+      realpath(dirname(__FILE__).'/authorization-report-gmp-packing-glass-brittle.php'),
   ]
 ];
 

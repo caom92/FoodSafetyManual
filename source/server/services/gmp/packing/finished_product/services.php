@@ -22,6 +22,8 @@ $finishedProduct = [
       realpath(dirname(__FILE__).'/add-gmp-packing-finished-product.php'),
     'update-gmp-packing-finished-product' =>
       realpath(dirname(__FILE__).'/update-gmp-packing-finished-product.php'),
+    'authorization-report-gmp-packing-finished-product' =>
+      realpath(dirname(__FILE__).'/authorization-report-gmp-packing-finished-product.php')
   ]
 ];
 

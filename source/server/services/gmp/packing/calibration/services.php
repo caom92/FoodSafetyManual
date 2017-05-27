@@ -29,7 +29,9 @@ $calibration = [
     'reorder-gmp-packing-scale-calibration' =>
       realpath(dirname(__FILE__).'/reorder-gmp-packing-scale-calibration.php'),
     'update-gmp-packing-scale-calibration' =>
-      realpath(dirname(__FILE__).'/update-gmp-packing-scale-calibration.php')
+      realpath(dirname(__FILE__).'/update-gmp-packing-scale-calibration.php'),
+    'authorization-report-gmp-packing-scale-calibration' =>
+      realpath(dirname(__FILE__).'/authorization-report-gmp-packing-scale-calibration.php')
   ]
 ];
 
