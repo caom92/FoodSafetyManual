@@ -23,7 +23,9 @@ $atp = [
     'inventory-gmp-packing-atp-testing' =>
       realpath(dirname(__FILE__).'/inventory-gmp-packing-atp-testing.php'),
     'add-gmp-packing-atp-testing' =>
-      realpath(dirname(__FILE__).'/add-gmp-packing-atp-testing.php')
+      realpath(dirname(__FILE__).'/add-gmp-packing-atp-testing.php'),
+    'authorization-report-gmp-packing-atp-testing' =>
+      realpath(dirname(__FILE__).'/authorization-report-gmp-packing-atp-testing.php')
   ]
 ];
 
