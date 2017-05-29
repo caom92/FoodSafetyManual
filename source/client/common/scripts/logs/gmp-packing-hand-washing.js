@@ -26,7 +26,28 @@ function loadLogForm(htmlElement){
 }
 
 function loadPrefilledLogForm(htmlElement, data){
-    return;
+    $server.request({
+        service: 'authorization-report-gmp-packing-hand-washing',
+        data: data,
+        success: function(response) {
+            if (response.meta.return_code == 0) {
+                $(htmlElement).html("");
+                var report = response.data;
+                var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name, "id":"log_name"}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":getISODate(new Date())},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":localStorage.first_name + " " + localStorage.last_name}]}]};
+                $(htmlElement).append(logHeader(header));
+                gmpPackingHandWashingLog(report, htmlElement);
+                loadFunctionality({"isPrefilled":true});
+                $("#send_report").click(function(){
+                    updateGmpPackingHandWashingReport(parseInt(data.report_id));
+                });
+                changeLanguage();
+                $("input").characterCounter();
+            } else {
+                Materialize.toast("Some error", 3000, "rounded");
+                throw response.meta.message;
+            }
+        }
+    });
 }
 
 function loadManual(htmlElement, titleElement){
@@ -116,6 +137,44 @@ function sendGmpPackingHandWashingReport(){
     }
 }
 
+function updateGmpPackingHandWashingReport(reportID){
+    var report = new Object();
+
+    report.report_id = reportID;
+    report.notes = $("#report_comment").val();
+    report.items = new Array();
+
+    if(validateLog()){
+        $(".item-card").each(function(){
+            var item = new Object();
+            var itemID = $(this).data("id");
+            item.id = itemID;
+            if($("input[id='approved_" + itemID + "']:checked").length == 1){
+                item.is_acceptable = true;
+            } else {
+                item.is_acceptable = false;
+            }
+            report.items.push(item);
+        });
+
+        console.log(report);
+
+        $server.request({
+            service: 'update-gmp-packing-hand-washing',
+            data: report,
+            success: function(response){
+                if (response.meta.return_code == 0) {
+                    Materialize.toast("Reporte actualizado con exito", 3000, "rounded");
+                    $("#content_wrapper").hide();
+                    $("#authorizations_wrapper").show();
+                } else {
+                    Materialize.toast(response.meta.message, 3000, "rounded");
+                }
+            }
+        });
+    }
+}
+
 function gmpPackingHandWashingLog(data, htmlElement){
     var log = $("<div>");
     var itemsCard = $("<div>");
@@ -183,6 +242,10 @@ function gmpPackingHandWashingInspection(item){
     var checkboxLabel = {"type":"label","contents":{"type":"text","classes":"approved_tag"},"for":"approved_" + item.id};
     var checkboxField = {"type":"checkbox", "id":"approved_" + item.id,"classes":"filled-in timeChanger", "data":{"group_id":item.id}};
     var checkboxFullInput = {"field":checkboxField, "label":checkboxLabel,"classes":"col s2 m2 l2"};
+
+    if(item.is_acceptable == 1){
+        checkboxField.checked = true;
+    }
 
     return checkboxFullInput;
 }
