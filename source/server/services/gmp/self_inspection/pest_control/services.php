@@ -4,9 +4,9 @@ $selfInspection = [
   'tables' => [
     'gmp\selfInspection\pestControl\Logs' =>
       realpath(dirname(__FILE__).'/Logs.php'),
-    'gmp\pestControl\selfInspection\Rooms' =>
+    'gmp\selfInspection\pestControl\Rooms' =>
       realpath(dirname(__FILE__).'/Rooms.php'),
-    'gmp\pestControl\selfInspection\Stations' =>
+    'gmp\selfInspection\pestControl\Stations' =>
       realpath(dirname(__FILE__).'/Stations.php'),
   ],
   'services' => [
