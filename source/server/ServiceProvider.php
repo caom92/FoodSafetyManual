@@ -107,7 +107,7 @@ class ServiceProvider
         // creamos la funcion que contiene las acciones a ejecutar cuando se
         // llama este servicio
         $callback = function(Request $request, Response $response) 
-          use ($import)
+          use ($import, $name)
         {
           // revisamos que el archivo donde se definio el servicio exista
           if (!isset($import) || strlen($import) == 0) {
