@@ -39,7 +39,7 @@ $service = fsm\createUpdateService(
       $logs = $scope->daoFactory->get('gmp\packing\glass\Logs');
       foreach ($request['areas'] as $area) {
         foreach ($area['items'] as $item) {
-          $logs->updateByCapturedDateIDAndAreaGlassID(
+          $logs->updateByCapturedLogIDAndAreaGlassID(
             [
               'is_acceptable' => $item['is_acceptable']
             ],
