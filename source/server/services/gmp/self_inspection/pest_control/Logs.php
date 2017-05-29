@@ -63,8 +63,10 @@ class Logs extends db\LogTable
   // [out]  return (uint): el numero de renglones que fueron modificados
   function updateByCapturedLogIDAndStationID($changes, $logID, $stationID) {
     return parent::update($changes, [
-      'capture_date_id' => $logID,
-      'station_id' => $stationID
+      'AND' => [
+        'capture_date_id' => $logID,
+        'station_id' => $stationID
+      ]
     ]);
   }
 }
