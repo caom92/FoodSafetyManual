@@ -10,7 +10,6 @@ function loadLogForm(htmlElement){
         success: function(response) {
             if (response.meta.return_code == 0 || true) {
                 var report = response.data;
-                //var report = {"zone_name":"LAW","program_name":"GMP","module_name":"Packing","log_name":"Scale Calibration","types":[{"id":1,"name":"Digital Scales","items":[{"id":1,"name":"345","order":1},{"id":2,"name":"1337","order":2},{"id":5,"name":"345","order":1},{"id":6,"name":"1337","order":2},{"id":7,"name":"345","order":1},{"id":8,"name":"1337","order":2}]},{"id":2,"name":"Heavy Analog Scales","items":[{"id":3,"name":"#1","order":1},{"id":4,"name":"#2","order":2}]}]};
                 console.log(report);
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name, "id":"log_name"}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":getISODate(new Date())},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":localStorage.first_name + " " + localStorage.last_name}]}]};
                 $(htmlElement).append(logHeader(header));
@@ -21,7 +20,6 @@ function loadLogForm(htmlElement){
                     sendScaleCalibrationReport();
                 });
                 $('.log_title').html(report.log_name);
-                //Materialize.toast("Informacion cargada del server", 3000, "rounded");
                 $("input").characterCounter();
             } else {
                 Materialize.toast("Some error", 3000, "rounded");
@@ -32,7 +30,28 @@ function loadLogForm(htmlElement){
 }
 
 function loadPrefilledLogForm(htmlElement, data){
-
+    $server.request({
+        service: 'authorization-report-gmp-packing-scale-calibration',
+        data: data,
+        success: function(response) {
+            if (response.meta.return_code == 0) {
+                $(htmlElement).html("");
+                var report = response.data;
+                var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name, "id":"log_name"}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":getISODate(new Date())},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":localStorage.first_name + " " + localStorage.last_name}]}]};
+                $(htmlElement).append(logHeader(header));
+                scaleCalibrationLog(report, htmlElement);
+                loadFunctionality({"isPrefilled":true});
+                $("#send_report").click(function(){
+                    updateScaleCalibrationReport(parseInt(data.report_id));
+                });
+                changeLanguage();
+                $("input").characterCounter();
+            } else {
+                Materialize.toast("Some error", 3000, "rounded");
+                throw response.meta.message;
+            }
+        }
+    });
 }
 
 function loadManual(htmlElement, titleElement){
@@ -140,7 +159,55 @@ function sendScaleCalibrationReport(){
 }
 
 function updateScaleCalibrationReport(reportID){
+    var report = new Object();
 
+    report.report_id = reportID;
+    report.notes = $("#report_comment").val();
+    report.corrective_action = $("#report_action").val();
+    report.types = new Array();
+
+    if(validateLog()){
+        $(".type-card").each(function(){
+            var type = new Object();
+            var typeID = $(this).data("id");
+
+            type.id = typeID;
+            type.time = $("#time_" + typeID).val();
+            type.items = new Array();
+
+            $(this).children(".item-card").each(function(){
+                var item = new Object();
+                var itemID = $(this).data("id");
+                item.id = itemID;
+                item.test = Number($("#test_" + itemID).val());
+                item.status = getBool($("input:radio[name='radio_" + itemID + "']:checked").val());
+                if($("input[id='sanitation_" + itemID + "']:checked").length == 1){
+                    item.is_sanitized = true;
+                } else {
+                    item.is_sanitized = false;
+                }
+                type.items.push(item);
+            });
+
+            report.types.push(type);
+        });
+
+        console.log(report);
+
+        $server.request({
+            service: 'update-gmp-packing-scale-calibration',
+            data: report,
+            success: function(response){
+                if (response.meta.return_code == 0) {
+                    Materialize.toast("Reporte actualizado con exito", 3000, "rounded");
+                    $("#content_wrapper").hide();
+                    $("#authorizations_wrapper").show();
+                } else {
+                    Materialize.toast(response.meta.message, 3000, "rounded");
+                }
+            }
+        });
+    }
 }
 
 function scaleCalibrationLog(data, htmlElement){
@@ -283,57 +350,25 @@ function scaleCalibrationItemSanitation(item, typeID){
     var checkboxField = {"type":"checkbox", "id":"sanitation_" + item.id,"classes":"filled-in timeChanger", "data":{"type_id":typeID}};
     var checkboxFullInput = {"field":checkboxField, "label":checkboxLabel,"classes":"col s6 m3 l3"};
 
+    if(item.is_sanitized == 1){
+        checkboxField.checked = true;
+    }
+
     return checkboxFullInput;
 }
 
 // Functionality
 
 function scaleCalibrationFunctionality(data){
-    $(".timeChanger").change(function(){
-        console.log("Time changed");
-        if($(this).data().type_id)
-            $("#time_" + $(this).data().type_id).val(getISOTime(new Date()));
-    });
+    if(data.isPrefilled){
 
-    /*if(data.isPrefilled){
-        $("input[id^='unacceptable_']").each(function(){
-            $(this).attr("disabled", true);
-        });
-
-        $("div[id^='commentWrapper_']").show();
-        $("div[id^='correctiveActionWrapper_']").show();
     } else {
         $(".timeChanger").change(function(){
-            if($(this).data().area_id)
-                $("#time_" + $(this).data().area_id).val(getISOTime(new Date()));
+            console.log("Time changed");
+            if($(this).data().type_id)
+                $("#time_" + $(this).data().type_id).val(getISOTime(new Date()));
         });
-
-        $("input[id^='acceptable_']").change(function(){
-            if($(this).is(":checked")){
-                var tag = $(this).attr("id");
-                var id = tag.match(/[0-9]+/g);
-                $('label[for="acceptable_'+id[0]+'"]').removeClass("black-text");
-                $('label[for="acceptable_'+id[0]+'"]').addClass("green-text text-darken-2");
-                $('label[for="unacceptable_'+id[0]+'"]').removeClass("red-text");
-                $('label[for="unacceptable_'+id[0]+'"]').addClass("black-text");
-                $("#correctiveActionWrapper_" + id[0]).hide(500);
-                $("#commentWrapper_" + id[0]).hide(500);
-            }
-        });
-
-        $("input[id^='unacceptable_']").change(function(){
-            if($(this).is(":checked")){
-                var tag = $(this).attr("id");
-                var id = tag.match(/[0-9]+/g);
-                $('label[for="acceptable_'+id[0]+'"]').addClass("black-text");
-                $('label[for="acceptable_'+id[0]+'"]').removeClass("green-text text-darken-2");
-                $('label[for="unacceptable_'+id[0]+'"]').addClass("red-text");
-                $('label[for="unacceptable_'+id[0]+'"]').removeClass("black-text");
-                $("#correctiveActionWrapper_" + id[0]).show(500);
-                $("#commentWrapper_" + id[0]).show(500);
-            }
-        });
-    }*/
+    }
 }
 
 // Full report
