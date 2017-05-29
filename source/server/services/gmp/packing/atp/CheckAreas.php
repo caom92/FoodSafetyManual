@@ -24,6 +24,18 @@ class CheckAreas extends db\InsertableTable
       [ 'zone_id' => $zoneID ]
     );
   }
+
+  // Returns the ID of the area with the especified name and zone ID
+  function selectIDByNameAndZoneID($name, $zoneID) {
+    $rows = parent::select(
+      'id', [ 'AND' => [
+        'name' => $name,
+        'zone_id' => $zoneID
+      ]]
+    );
+
+    return (count($rows) > 0) ? $rows[0] : NULL;
+  }
 }
 
 ?>
