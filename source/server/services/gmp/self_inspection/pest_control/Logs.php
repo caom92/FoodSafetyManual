@@ -5,11 +5,11 @@ require_once realpath(dirname(__FILE__).'/../../../../dao/LogTable.php');
 use fsm\database as db;
 
 
-// Interfaz para la tabla gmp_pest_control_self_inspection_logs
+// Interfaz para la tabla gmp_self_inspection_pest_control_logs
 class Logs extends db\LogTable
 {
   // Crea una instancia de una interfaz a la base de datos para modificar 
-  // la tabla gmp_pest_control_self_inspection_logs
+  // la tabla gmp_self_inspection_pest_control_logs
   function __construct() { 
     parent::__construct('gmp_self_inspection_pest_control_logs');
   }
@@ -41,10 +41,10 @@ class Logs extends db\LogTable
         ]
       ],
       [
-        '[><]gmp_pest_control_self_inspection_stations(s)' => [
+        '[><]gmp_self_inspection_pest_control_stations(s)' => [
           'station_id' => 'id'
         ],
-        '[><]gmp_pest_control_self_inspection_rooms(r)' => [
+        '[><]gmp_self_inspection_pest_control_rooms(r)' => [
           's.room_id' => 'id'
         ]
       ]

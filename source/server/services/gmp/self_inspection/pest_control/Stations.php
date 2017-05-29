@@ -1,15 +1,15 @@
 <?php
 
-namespace fsm\database\gmp\pestControl\selfInspection;
+namespace fsm\database\gmp\selfInspection\pestControl;
 require_once realpath(dirname(__FILE__).'/../../../../dao/OrderedItemsTable.php');
 use fsm\database as db;
 
 
-// Interfaz para la tabla gmp_pest_control_self_inspection_stations
+// Interfaz para la tabla gmp_self_inspection_pest_control_stations
 class Stations extends db\OrderedItemsTable
 {
   // Crea una instancia de una interfaz a la base de datos para modificar 
-  // la tabla gmp_pest_control_self_inspection_stations
+  // la tabla gmp_self_inspection_pest_control_stations
   function __construct() { 
     parent::__construct('gmp_self_inspection_pest_control_stations');
   }
@@ -74,7 +74,7 @@ class Stations extends db\OrderedItemsTable
         ]
       ],
       [
-        '[><]gmp_pest_control_self_inspection_rooms(r)' => [
+        '[><]gmp_self_inspection_pest_control_rooms(r)' => [
           'room_id' => 'id'
         ]
       ]
