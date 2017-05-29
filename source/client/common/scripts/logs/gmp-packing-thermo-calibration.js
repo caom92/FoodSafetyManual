@@ -21,14 +21,14 @@ function loadLogForm(htmlElement){
     });
 }
 
-/*function loadPrefilledLogForm(htmlElement, data){
+function loadPrefilledLogForm(htmlElement, data){
     $server.request({
-        service: 'report-gmp-packing-preop',
+        service: 'authorization-report-gmp-packing-thermo-calibration',
         data: data,
         success: function(response) {
             if (response.meta.return_code == 0) {
                 $(htmlElement).html("");
-                var report = response.data[0];
+                var report = response.data;
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":report.creation_date},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":report.created_by}]}]};
                 $(htmlElement).append(logHeader(header));
                 gmpPackingThermoCalibrationLog(report, htmlElement);
@@ -36,7 +36,7 @@ function loadLogForm(htmlElement){
                 $("#send_report").click(function(){
                     updateGmpPackingThermoCalibrationReport(parseInt(data.report_id));
                 });
-                changeLanguage(localStorage.defaultLanguage);
+                changeLanguage();
                 $("input").characterCounter();
             } else {
                 Materialize.toast("Some error", 3000, "rounded");
@@ -44,7 +44,7 @@ function loadLogForm(htmlElement){
             }
         }
     });
-}*/
+}
 
 function loadManual(htmlElement, titleElement){
     $server.request({
@@ -131,53 +131,42 @@ function sendGmpPackingThermoCalibrationReport(){
     }
 }
 
-/*function updateGmpPackingThermoCalibrationReport(reportID){
+function updateGmpPackingThermoCalibrationReport(reportID){
     var report = new Object();
 
     report.report_id = reportID;
-    report.notes = $("#report_comment").val();
-    report.album_url = $("#report_url").val();
-    report.areas = new Array();
+    report.time = $("#time").val();
+    report.items = new Array();
 
-    $(".area-card").each(function(){
-        var area = new Object();
-        var areaID = $(this).data("id");
-        area.id = areaID;
-        area.time = $("#time_" + areaID).val();
-        area.notes = $("#notes_" + areaID).val();
-        area.person_performing_sanitation = $("#sanitation_" + areaID).val();
-        area.items = new Array();
-        $(this).children(".item-card").each(function(){
+    if(validateLog()){
+        $(".item-card").each(function(){
             var item = new Object();
             var itemID = $(this).data("id");
             item.id = itemID;
-            item.is_acceptable = getBool($("input:radio[name='radio_" + itemID + "']:checked").val());
-            if(item.is_acceptable){
-                item.corrective_action_id = 1;
-                item.comment = "";
-            } else {
-                item.corrective_action_id = parseInt($("#correctiveAction_" + itemID).val());
-                item.comment = $("#comment_" + itemID).val();
-            }
-            area.items.push(item);
+            item.test = Number($("#test_" + itemID).val());
+            item.calibration = getBool($("input:radio[name='radio_" + itemID + "']:checked").val());
+            item.deficiencies = $("#deficiencies_" + itemID).val();
+            item.corrective_action = $("#correctiveAction_" + itemID).val();
+            report.items.push(item);
         });
-        report.areas.push(area);
-    });
 
-    $server.request({
-        service: 'update-gmp-packing-preop',
-        data: report,
-        success: function(response){
-            if (response.meta.return_code == 0) {
-                Materialize.toast("Reporte enviado con exito", 3000, "rounded");
-                $("#content_wrapper").hide();
-                $("#authorizations_wrapper").show();
-            } else {
-                Materialize.toast(response.meta.message, 3000, "rounded");
+        console.log(report);
+
+        $server.request({
+            service: 'update-gmp-packing-thermo-calibration',
+            data: report,
+            success: function(response){
+                if (response.meta.return_code == 0) {
+                    Materialize.toast("Reporte enviado con exito", 3000, "rounded");
+                    $("#content_wrapper").hide();
+                    $("#authorizations_wrapper").show();
+                } else {
+                    Materialize.toast(response.meta.message, 3000, "rounded");
+                }
             }
-        }
-    });
-}*/
+        });
+    }
+}
 
 function gmpPackingThermoCalibrationLog(data, htmlElement){
     var log = $("<div>");

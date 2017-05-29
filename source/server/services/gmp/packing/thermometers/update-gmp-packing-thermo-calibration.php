@@ -43,7 +43,7 @@ $service = fsm\createUpdateService(
       'time',
     ],
     'function' => function($scope, $request) {
-      $logs = $scope->daoFactory->get('gmp\packing\thermometer\Logs');
+      $logs = $scope->daoFactory->get('gmp\packing\thermometers\Logs');
       foreach ($request['items'] as $thermometer) {
         $logs->updateByCapturedLogIDAndThermometerID(
           [
