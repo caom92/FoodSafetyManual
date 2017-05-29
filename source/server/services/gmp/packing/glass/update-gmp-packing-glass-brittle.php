@@ -44,7 +44,7 @@ $service = fsm\createUpdateService(
               'is_acceptable' => $item['is_acceptable']
             ],
             $request['report_id'],
-            $area['id']
+            $item['id']
           );
         }
       }

@@ -56,7 +56,8 @@ class Logs extends db\LogTable
   // [in]   logID (uint): el ID de la bitacora cuyos datos van a ser modificados
   // [in]   areaID (uint): el ID del area cuyos datos van a ser modificados
   // [out]  return (uint): el numero de renglones que fueron modificados
-  function updateByCapturedLogIDAndAreaGlassID($changes, $logID, $areaID) {
+  function updateByCapturedLogAndAreaIDs($changes, $logID, $areaID) 
+  {
     return parent::update($changes, [
       'AND' => [
         'capture_date_id' => $logID,
