@@ -22,7 +22,27 @@ function loadLogForm(htmlElement){
 }
 
 function loadPrefilledLogForm(htmlElement, data){
-    return;
+    $server.request({
+        service: 'authorization-report-gmp-self-inspection-pest-control',
+        data: data,
+        success: function(response) {
+            if (response.meta.return_code == 0) {
+                $(htmlElement).html("");
+                var report = response.data;
+                var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name, "id":"log_name"}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":getISODate(new Date())},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":localStorage.first_name + " " + localStorage.last_name}]}]};
+                $(htmlElement).append(logHeader(header));
+                gmpPestControlSelfInspectionLog(report, htmlElement);
+                $("#send_report").click(function(){
+                    updateGmpPestControlSelfInspectionReport(parseInt(data.report_id));
+                });
+                $("input").characterCounter();
+                changeLanguage();
+            } else {
+                Materialize.toast("Some error", 3000, "rounded");
+                throw response.meta.message;
+            }
+        }
+    });
 }
 
 function loadManual(htmlElement, titleElement){
@@ -113,7 +133,40 @@ function sendGmpPestControlSelfInspectionReport(){
 }
 
 function updateGmpPestControlSelfInspectionReport(reportID){
+    var report = new Object();
 
+    report.report_id = reportID;
+    report.notes = $("#report_comment").val();
+    report.stations = new Array();
+
+    if(validateLog() || true){
+        $(".item-card").each(function(){
+            var station = new Object();
+            var itemID = $(this).data("id");
+            station.id = itemID;
+            station.is_secured = getBool($("input[id='secured_" + itemID +"']:checked").val());
+            station.condition = getBool($("input[id='acceptable_" + itemID +"']:checked").val());
+            station.activity = getBool($("input[id='activity_" + itemID +"']:checked").val());
+            station.corrective_actions = $("#correctiveAction_" + itemID).val();
+            report.stations.push(station);
+        });
+
+        console.log(report);
+
+        $server.request({
+            service: 'update-gmp-self-inspection-pest-control',
+            data: report,
+            success: function(response){
+                if (response.meta.return_code == 0) {
+                    Materialize.toast("Reporte actualizado con exito", 3000, "rounded");
+                    $("#content_wrapper").hide();
+                    $("#authorizations_wrapper").show();
+                } else {
+                    Materialize.toast(response.meta.message, 3000, "rounded");
+                }
+            }
+        });
+    }
 }
 
 function gmpPestControlSelfInspectionLog(data, htmlElement){
@@ -216,9 +269,9 @@ function gmpPestControlSelfInspectionItemSecured(item){
     var itemRadioGroup = {"type": "radioGroup", "id":"secured_radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"secured_radio_" + item.id,"radioArray":[radioAcceptable, radioUnacceptable],"validations":{"type":"radio","required":{"value":true,"toast":"gmp-packing-preop-item-status"},"groupName":"secured_radio_" + item.id},"label":statusLabel};
     var groupInput = {"id":"secured_radioWrapper_" + item.id,"classes":"col s4 m4 l4","field":itemRadioGroup};
 
-    if(item.status == 1){
+    if(item.secured == 1){
         radioAcceptable.checked = true;
-    } else if (item.status == 0){
+    } else if (item.secured == 0){
         radioUnacceptable.checked = true;
     }
 
@@ -234,9 +287,9 @@ function gmpPestControlSelfInspectionItemCondition(item){
     var itemRadioGroup = {"type": "radioGroup", "id":"condition_radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"conditio_radio_" + item.id,"radioArray":[radioAcceptable, radioUnacceptable],"validations":{"type":"radio","required":{"value":true,"toast":"gmp-packing-preop-item-status"},"groupName":"conditio_radio_" + item.id},"label":statusLabel};
     var groupInput = {"id":"condition_radioWrapper_" + item.id,"classes":"col s4 m4 l4","field":itemRadioGroup};
 
-    if(item.status == 1){
+    if(item.condition == 1){
         radioAcceptable.checked = true;
-    } else if (item.status == 0){
+    } else if (item.condition == 0){
         radioUnacceptable.checked = true;
     }
 
@@ -252,9 +305,9 @@ function gmpPestControlSelfInspectionItemActivity(item){
     var itemRadioGroup = {"type": "radioGroup", "id":"activity_radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"activity_radio_" + item.id,"radioArray":[radioAcceptable, radioUnacceptable],"validations":{"type":"radio","required":{"value":true,"toast":"gmp-packing-preop-item-status"},"groupName":"activity_radio_" + item.id},"label":statusLabel};
     var groupInput = {"id":"activity_radioWrapper_" + item.id,"classes":"col s4 m4 l4","field":itemRadioGroup};
 
-    if(item.status == 1){
+    if(item.activity == 1){
         radioAcceptable.checked = true;
-    } else if (item.status == 0){
+    } else if (item.activity == 0){
         radioUnacceptable.checked = true;
     }
 
@@ -282,8 +335,8 @@ function gmpPestControlSelfInspectionItemCorrectiveAction(item){
     var actionInput = {"type":"input","id": "correctiveAction_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"item_id":item.id},"validations":{"type":"text","max":{"value":256}}};
     var actionFullInput = {"id":"correctiveActionWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":actionInput,"label":actionLabel};
 
-    if(item.corrective_action){
-        actionInput.value = item.corrective_action;
+    if(item.corrective_actions){
+        actionInput.value = item.corrective_actions;
         actionLabel.classes = "active";
     }
 
@@ -397,5 +450,5 @@ function gmpPestControlSelfInspectionFooter(data){
 }
 
 function getCSS(){
-    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}td { border: 1px solid #000000; text-align: left;}th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50;}.even { background-color: #b8e0b9;}.typeTitle{ background-color: yellow; width:588px;}.fullColumn{ background-color: #D3D3D3;width:631px;}.testColumn{ width:147px;}.numberColumn{ width:147px;}.timeColumn{ width:43px;}.statusColumn{ width:147px;}.sanitizedColumn{ width:147px;}</style>';
+    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%; } td { border: 1px solid #000000; text-align: left; } th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50; } .even { background-color: #b8e0b9; } .typeTitle { background-color: yellow; width: 588px; } .fullColumn { background-color: #D3D3D3; width: 631px; } .numberColumn { width: 47px; } .areaColumn { width: 200px; } .securedColumn { width: 70px; } .statusColumn { width: 100px; } .activityColumn { width: 70px; } .actionColumn { width: 144px; }</style>';
 }
