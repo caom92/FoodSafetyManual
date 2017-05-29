@@ -70,7 +70,7 @@ $service = fsm\createCaptureService(
       }
 
       // finally insert the rows to the database
-      return $scope->daoFactory->get('gmp\packing\scissor\Logs')->insert($rows);
+      return $scope->daoFactory->get('gmp\packing\scissors\Logs')->insert($rows);
     }
   ]
 );

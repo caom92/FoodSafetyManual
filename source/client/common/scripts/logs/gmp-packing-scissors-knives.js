@@ -23,26 +23,16 @@ function loadLogForm(htmlElement){
             }
         }
     });
-    /*var report = {"zone_name":"LAW","program_name":"GMP","module_name":"Packing","log_name":"Daily Scissors & Knives Inspection","items":[{"id":1,"name":"A","quantity":23},{"id":2,"name":"B","quantity":24},{"id":3,"name":"Knives","quantity":12}]};
-    var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name, "id":"log_name"}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":getISODate(new Date())},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":localStorage.first_name + " " + localStorage.last_name}]}]};
-    $(htmlElement).append(logHeader(header));
-    gmpPackingScissorsKnivesLog(report, htmlElement);
-    loadFunctionality({"isPrefilled":false});
-    $("input").characterCounter();
-    $("#send_report").click(function(){
-        sendGmpPackingScissorsKnivesReport();
-    });
-    changeLanguage();*/
 }
 
 function loadPrefilledLogForm(htmlElement, data){
     $server.request({
-        service: 'report-gmp-packing-preop',
+        service: 'authorization-report-gmp-packing-scissors-knives',
         data: data,
         success: function(response) {
             if (response.meta.return_code == 0) {
                 $(htmlElement).html("");
-                var report = response.data[0];
+                var report = response.data;
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":report.creation_date},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":report.created_by}]}]};
                 $(htmlElement).append(logHeader(header));
                 gmpPackingScissorsKnivesLog(report, htmlElement);
@@ -50,7 +40,7 @@ function loadPrefilledLogForm(htmlElement, data){
                 $("#send_report").click(function(){
                     updateGmpPackingScissorsKnivesReport(parseInt(data.report_id));
                 });
-                changeLanguage(localStorage.defaultLanguage);
+                changeLanguage();
                 $("input").characterCounter();
             } else {
                 Materialize.toast("Some error", 3000, "rounded");
@@ -161,47 +151,45 @@ function updateGmpPackingScissorsKnivesReport(reportID){
 
     report.report_id = reportID;
     report.notes = $("#report_comment").val();
-    report.album_url = $("#report_url").val();
-    report.areas = new Array();
+    report.items = new Array();
 
-    $(".area-card").each(function(){
-        var area = new Object();
-        var areaID = $(this).data("id");
-        area.id = areaID;
-        area.time = $("#time_" + areaID).val();
-        area.notes = $("#notes_" + areaID).val();
-        area.person_performing_sanitation = $("#sanitation_" + areaID).val();
-        area.items = new Array();
-        $(this).children(".item-card").each(function(){
-            var item = new Object();
-            var itemID = $(this).data("id");
-            item.id = itemID;
-            item.is_acceptable = getBool($("input:radio[name='radio_" + itemID + "']:checked").val());
-            if(item.is_acceptable){
-                item.corrective_action_id = 1;
-                item.comment = "";
+    if(validateLog()){
+        console.log("Entered group Knives");
+        $(".group-card").each(function(){
+            console.log("Entered group card");
+            var group = new Object();
+            var groupID = $(this).data("id");
+            group.id = groupID;
+            group.time = $("#time_" + groupID).val();
+            group.approved = getBool($("input:radio[name='radio_" + groupID + "']:checked").val());
+            if($("input[id='returnConditions_" + groupID + "']:checked").length == 1){
+                group.condition = true;
             } else {
-                item.corrective_action_id = parseInt($("#correctiveAction_" + itemID).val());
-                item.comment = $("#comment_" + itemID).val();
+                group.condition = false;
             }
-            area.items.push(item);
+            group.corrective_action = $("#correctiveAction_" + groupID).val();
+            if($("input[id='sanitized_" + groupID + "']:checked").length == 1){
+                group.is_sanitized = true;
+            } else {
+                group.is_sanitized = false;
+            }
+            report.items.push(group);
         });
-        report.areas.push(area);
-    });
 
-    $server.request({
-        service: 'update-gmp-packing-preop',
-        data: report,
-        success: function(response){
-            if (response.meta.return_code == 0) {
-                Materialize.toast("Reporte enviado con exito", 3000, "rounded");
-                $("#content_wrapper").hide();
-                $("#authorizations_wrapper").show();
-            } else {
-                Materialize.toast(response.meta.message, 3000, "rounded");
+        $server.request({
+            service: 'update-gmp-packing-scissors-knives',
+            data: report,
+            success: function(response){
+                if (response.meta.return_code == 0) {
+                    Materialize.toast("Reporte actualizado con exito", 3000, "rounded");
+                    $("#content_wrapper").hide();
+                    $("#authorizations_wrapper").show();
+                } else {
+                    Materialize.toast(response.meta.message, 3000, "rounded");
+                }
             }
-        }
-    });
+        });
+    }
 }
 
 function gmpPackingScissorsKnivesLog(data, htmlElement){
@@ -293,9 +281,9 @@ function gmpPackingScissorsKnivesApproved(group){
     var itemRadioGroup = {"type": "radioGroup", "id":"radioGroup_"  + group.id,"classes":"col s12 m12 l12","group":"radio_" + group.id,"radioArray":[radioApproved, radioUnapproved],"validations":{"type":"radio","required":{"value":true},"groupName":"radio_" + group.id}};
     var groupInput = {"id":"radioWrapper_" + group.id,"classes":"col s6 m3 l3","field":itemRadioGroup};
 
-    if(group.status == 1){
+    if(group.approved == 1){
         radioApproved.checked = true;
-    } else if (group.status == 0){
+    } else if (group.approved == 0){
         radioUnapproved.checked = true;
     }
 
@@ -306,6 +294,10 @@ function gmpPackingScissorsKnivesConditions(group){
     var checkboxLabel = {"type":"label","contents":{"type":"text","classes":"returned_conditions_title"},"for":"returnConditions_" + group.id};
     var checkboxField = {"type":"checkbox", "id":"returnConditions_" + group.id,"classes":"filled-in timeChanger", "data":{"group_id":group.id}};
     var checkboxFullInput = {"field":checkboxField, "label":checkboxLabel,"classes":"col s4 m4 l4"};
+
+    if(group.condition == 1){
+        checkboxField.checked = true;
+    }
 
     return checkboxFullInput;
 }
@@ -327,6 +319,10 @@ function gmpPackingScissorsKnivesSanitized(group){
     var checkboxLabel = {"type":"label","contents":{"type":"text","classes":"sanitized_lubricated_title"},"for":"sanitized_" + group.id};
     var checkboxField = {"type":"checkbox", "id":"sanitized_" + group.id,"classes":"filled-in timeChanger", "data":{"group_id":group.id}};
     var checkboxFullInput = {"field":checkboxField, "label":checkboxLabel,"classes":"col s4 m4 l4"};
+
+    if(group.is_sanitized == 1){
+        checkboxField.checked = true;
+    }
 
     return checkboxFullInput;
 }
