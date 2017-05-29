@@ -14,8 +14,18 @@ $service = fsm\createAuthorizationReportService(
     ],
     'function' => function($scope, $segment, $logDate) {
       // retrieve the per group log corresponding to this date
-      return $scope->daoFactory->get('gmp\packing\scissors\Logs')
+      $data = $scope->daoFactory->get('gmp\packing\scissors\Logs')
         ->selectByCaptureDateID($logDate['id']);
+      return [
+        'id' => $data['id'],
+        'name' => $data['name'],
+        'time' => $data['time'],
+        'quantity' => $data['quantity'],
+        'approved' => $data['approved'],
+        'condition' => $data['condition'],
+        'corrective_action' => $data['corrective_action'],
+        'is_sanitized' => $data['is_sanitized'],
+      ];
     }
   ]
 );
