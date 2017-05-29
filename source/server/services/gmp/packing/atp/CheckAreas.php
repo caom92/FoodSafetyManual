@@ -26,6 +26,10 @@ class CheckAreas extends db\InsertableTable
   }
 
   // Returns the ID of the area with the especified name and zone ID
+  // [in]   name: the name of the area which id will be searched for
+  // [in]   zoneID: the id of the zone which the area should be looked in
+  // [out]  return: the id of the area if this was found or null if this was
+  //        not the case
   function selectIDByNameAndZoneID($name, $zoneID) {
     $rows = parent::select(
       'id', [ 'AND' => [
