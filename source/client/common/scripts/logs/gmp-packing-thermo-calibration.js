@@ -172,7 +172,7 @@ function gmpPackingThermoCalibrationLog(data, htmlElement){
     var log = $("<div>");
     var logCard = $("<div>");
 
-    logCard.append(createInputRow({"columns":[gmpPackingThermoCalibrationTime()]}));
+    logCard.append(createInputRow({"columns":[gmpPackingThermoCalibrationTime(data.time)]}));
 
     for(var item of data.items){
         logCard.append(gmpPackingThermoCalibrationItem(item));
