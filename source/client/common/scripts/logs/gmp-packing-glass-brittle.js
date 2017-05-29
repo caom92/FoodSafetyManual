@@ -24,14 +24,14 @@ function loadLogForm(htmlElement){
     });
 }
 
-/*function loadPrefilledLogForm(htmlElement, data){
+function loadPrefilledLogForm(htmlElement, data){
     $server.request({
-        service: 'report-gmp-glass-brittle',
+        service: 'authorization-report-gmp-packing-glass-brittle',
         data: data,
         success: function(response) {
             if (response.meta.return_code == 0) {
                 $(htmlElement).html("");
-                var report = response.data[0];
+                var report = response.data;
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":report.creation_date},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":report.created_by}]}]};
                 $(htmlElement).append(logHeader(header));
                 gmpPackingGlassBrittleLog(report, htmlElement);
@@ -47,7 +47,7 @@ function loadLogForm(htmlElement){
             }
         }
     });
-}*/
+}
 
 function loadManual(htmlElement, titleElement){
     $server.request({
@@ -107,7 +107,7 @@ function sendGmpPackingGlassBrittleReport(){
     report.time = $("#time").val();
     report.areas = new Array();
 
-    if(validateLog() || true){
+    if(validateLog()){
         $(".area-card").each(function(){
             var area = new Object();
             var areaID = $(this).data("id");
@@ -139,15 +139,15 @@ function sendGmpPackingGlassBrittleReport(){
     }
 }
 
-/*function updateGmpPackingGlassBrittleReport(){
+function updateGmpPackingGlassBrittleReport(reportID){
     var report = new Object();
 
-    report.date = getISODate(new Date());
+    report.report_id = reportID;
     report.notes = $("#report_comment").val();
     report.time = $("#time").val();
     report.areas = new Array();
 
-    if(validateLog() || true){
+    if(validateLog()){
         $(".area-card").each(function(){
             var area = new Object();
             var areaID = $(this).data("id");
@@ -170,14 +170,16 @@ function sendGmpPackingGlassBrittleReport(){
             data: report,
             success: function(response){
                 if (response.meta.return_code == 0) {
-                    Materialize.toast("Reporte enviado con exito", 3000, "rounded");
+                    Materialize.toast("Reporte actualizado con exito", 3000, "rounded");
+                    $("#content_wrapper").hide();
+                    $("#authorizations_wrapper").show();
                 } else {
                     Materialize.toast(response.meta.message, 3000, "rounded");
                 }
             }
         });
     }
-}*/
+}
 
 
 function gmpPackingGlassBrittleLog(data, htmlElement){

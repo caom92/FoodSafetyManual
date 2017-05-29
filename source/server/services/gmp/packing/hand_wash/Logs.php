@@ -42,7 +42,7 @@ class Logs extends db\LogTable
   // [in]   characteristicID (uint): el ID de la caracteristica cuyos datos 
   //        van a ser modificados 
   // [out]  return (uint): el numero de renglones que fueron modificados
-  function updateByCapturedLogIDAndAreaGlassID($changes, $logID, 
+  function updateByCapturedLogIDAndCharacteristicID($changes, $logID, 
     $characteristicID) {
     return parent::update($changes, [
       'AND' => [
