@@ -107,7 +107,7 @@ function sendGmpPackingGlassBrittleReport(){
     report.time = $("#time").val();
     report.areas = new Array();
 
-    if(validateLog() || true){
+    if(validateLog()){
         $(".area-card").each(function(){
             var area = new Object();
             var areaID = $(this).data("id");
@@ -147,7 +147,7 @@ function updateGmpPackingGlassBrittleReport(reportID){
     report.time = $("#time").val();
     report.areas = new Array();
 
-    if(validateLog() || true){
+    if(validateLog()){
         $(".area-card").each(function(){
             var area = new Object();
             var areaID = $(this).data("id");
