@@ -31,12 +31,12 @@ function loadLogForm(htmlElement){
 
 function loadPrefilledLogForm(htmlElement, data){
     $server.request({
-        service: 'report-gmp-packing-preop',
+        service: 'authorization-report-gmp-packing-preop',
         data: data,
         success: function(response) {
             if (response.meta.return_code == 0) {
                 $(htmlElement).html("");
-                var report = response.data[0];
+                var report = response.data;
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":report.creation_date},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":report.created_by}]}]};
                 $(htmlElement).append(logHeader(header));
                 gmpPackingPreopLog(report, htmlElement);
@@ -44,8 +44,7 @@ function loadPrefilledLogForm(htmlElement, data){
                 $("#send_report").click(function(){
                     updateGmpPackingPreopReport(parseInt(data.report_id));
                 });
-                changeLanguage(localStorage.defaultLanguage);
-                //Materialize.toast("Informacion cargada del server", 3000, "rounded");
+                changeLanguage();
                 $("input").characterCounter();
             } else {
                 Materialize.toast("Some error", 3000, "rounded");
@@ -410,9 +409,9 @@ function gmpPackingPreopFunctionality(data){
             $("#commentWrapper_" + id[0]).show(500);
         });*/
 
-        $("input[id^='unacceptable_']").each(function(){
+        /*$("input[id^='unacceptable_']").each(function(){
             $(this).attr("disabled", true);
-        });
+        });*/
 
         $("div[id^='commentWrapper_']").show();
         $("div[id^='correctiveActionWrapper_']").show();
