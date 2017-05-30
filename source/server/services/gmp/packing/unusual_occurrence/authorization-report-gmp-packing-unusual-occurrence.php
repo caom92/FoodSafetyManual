@@ -16,9 +16,18 @@ $service = fsm\createAuthorizationReportService(
       $entry = $scope->daoFactory->get('unusualOccurrence\Logs')
         ->selectByCaptureDateID($logDate['id']);
       $shifts = $scope->daoFactory->get('Shifts')->selectAll();
+
+      $finalShifts = [];
+      foreach ($shifts as $shift) {
+        array_push($finalShifts, [
+          'shift_id' => $shift['id'],
+          'name' => $shift['name']
+        ]);
+      }
+
       return [
-        'shifts' => $shifts,
-        'entry' => $entry
+        'shifts' => $finalShifts,
+        'entry' => $entry[0]
       ];
     }
   ]
