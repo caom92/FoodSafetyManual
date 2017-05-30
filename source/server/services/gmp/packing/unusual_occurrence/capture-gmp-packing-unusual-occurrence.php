@@ -21,16 +21,19 @@ $service = fsm\createCaptureService(
       'min' => 1
     ],
     'area_id' => [
-      'type' => 'int',
-      'min' => 1
+      'type' => 'string',
+      'min_length' => 2,
+      'max_length' => 80
     ],
     'product_id' => [
-      'type' => 'int',
-      'min' => 1
+      'type' => 'string',
+      'min_length' => 2,
+      'max_length' => 80
     ],
     'batch' => [
-      'type' => 'int',
-      'min' => 1
+      'type' => 'string',
+      'min_length' => 2,
+      'max_length' => 80
     ],
     'description' => [
       'type' => 'string',
