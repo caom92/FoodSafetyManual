@@ -48,7 +48,7 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
         var itemID = $(this).data("id");
         $server.request({
             service: 'toggle-gmp-packing-scale-calibration',
-            data: {scale_id:itemID},
+            data: {id:itemID},
             success: function(response, message, xhr) {
                 console.log(itemID);
                 if($("#inventory_" + itemID).hasClass("grey-text")){

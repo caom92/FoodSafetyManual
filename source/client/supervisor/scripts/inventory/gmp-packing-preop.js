@@ -111,7 +111,7 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
         var itemID = $(this).data("id");
         $server.request({
             service: 'toggle-gmp-packing-preop',
-            data: {item_id:itemID},
+            data: {id:itemID},
             success: function(response, message, xhr) {
                 if($("#inventory_" + itemID).hasClass("grey-text")){
                     //console.log("item_row");
