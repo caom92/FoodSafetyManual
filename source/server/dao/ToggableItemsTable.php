@@ -24,7 +24,7 @@ class ToggableItemsTable extends InsertableTable
       "UPDATE $this->table
       SET is_active = !is_active
       WHERE id = '$itemID'"
-    )->fetchAll();
+    )->execute();
   }
 }
 
