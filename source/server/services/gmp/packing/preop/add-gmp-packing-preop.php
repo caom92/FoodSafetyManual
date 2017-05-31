@@ -18,7 +18,7 @@ $service = fsm\createAddService(
     ],
     'name' => [
       'type' => 'string',
-      'max_length' => 64
+      'max_length' => 255
     ]
   ],
   function($scope, $request) {

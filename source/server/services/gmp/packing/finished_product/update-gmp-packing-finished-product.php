@@ -60,8 +60,8 @@ $service = fsm\createUpdateService(
         ],
         'notes' => [
           'type' => 'string',
-          'min_length' => 3,
-          'max_length' => 128
+          'min_length' => 1,
+          'max_length' => 65535
         ]
       ]
     ]

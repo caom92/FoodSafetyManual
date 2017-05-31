@@ -8,11 +8,11 @@ $service = [
     ],
     'first_name' => [
       'type' => 'string',
-      'min_length' => 2
+      'min_length' => 1
     ],
     'last_name' => [
       'type' => 'string',
-      'min_length' => 2
+      'min_length' => 1
     ],
     'role_id' => [
       'type' => 'int',

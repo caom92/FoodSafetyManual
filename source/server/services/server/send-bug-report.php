@@ -25,25 +25,25 @@ $service = [
     ],
     'summary' => [
       'type' => 'string',
-      'min_length' => 3,
-      'max_length' => 512
+      'min_length' => 1,
+      'max_length' => 65535
     ],
     'steps' => [
       'type' => 'string',
-      'min_length' => 3,
-      'max_length' => 512,
+      'min_length' => 1,
+      'max_length' => 65535,
       'optional' => true
     ],
     'expectation' => [
       'type' => 'string',
-      'min_length' => 3,
-      'max_length' => 512,
+      'min_length' => 1,
+      'max_length' => 65535,
       'optional' => true
     ],
     'reality' => [
       'type' => 'string',
-      'min_length' => 3,
-      'max_length' => 512,
+      'min_length' => 1,
+      'max_length' => 65535,
       'optional' => true
     ],
     'files' => [

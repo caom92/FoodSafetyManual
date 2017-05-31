@@ -10,7 +10,7 @@ $service = fsm\createUpdateService(
   [
     'notes' => [
       'type' => 'string',
-      'max_length' => 128
+      'max_length' => 65535
     ],
     'stations' => [
       'type' => 'array',
@@ -30,7 +30,7 @@ $service = fsm\createUpdateService(
         ],
         'corrective_actions' => [
           'type' => 'string',
-          'max_length' => 128
+          'max_length' => 65535
         ]
       ]
     ]

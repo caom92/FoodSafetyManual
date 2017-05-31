@@ -15,7 +15,7 @@ $service = fsm\createAddService(
     'scale_name' => [
       'type' => 'string',
       'min_length' => 1,
-      'max_length' => 32
+      'max_length' => 255
     ]
   ],
   function($scope, $request) {

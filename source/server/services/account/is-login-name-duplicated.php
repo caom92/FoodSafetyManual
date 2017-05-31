@@ -6,7 +6,7 @@ $service = [
       'logged_in' => 'any',
       'login_name' => [
         'type' => 'string',
-        'min_length' => 5
+        'min_length' => 3
       ]
     ],
   ],

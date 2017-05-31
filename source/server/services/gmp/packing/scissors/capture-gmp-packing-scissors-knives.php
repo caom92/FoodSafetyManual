@@ -10,7 +10,7 @@ $service = fsm\createCaptureService(
   [
     'notes' => [
       'type' => 'string',
-      'max_length' => 256,
+      'max_length' => 65535,
       'optional' => true
     ],
     'items' => [
@@ -35,7 +35,7 @@ $service = fsm\createCaptureService(
         ],
         'corrective_action' => [
           'type' => 'string',
-          'max_length' => 256,
+          'max_length' => 65535,
           'optional' => true
         ]
       ]
