@@ -37,6 +37,14 @@ $service = fsm\createAuthorizationReportService(
         // and then, obtain the list of quality types
         $qualityTypes = $scope->daoFactory->get('QualityTypes')->selectAll();
 
+        $finalQualities = [];
+        foreach ($qualityTypes as $type) {
+          array_push($finalQualities, [
+            'quality_id' => $type['id'],
+            'name' => $type['name']
+          ]);
+        }
+
         // finally, return the log info
         return [
           'log_info' => [
@@ -44,7 +52,7 @@ $service = fsm\createAuthorizationReportService(
             'suppliers' => $suppliers,
             'product_codes' => $products,
             'customers' => $customers,
-            'quality_types' => $qualityTypes
+            'quality_types' => $finalQualities
           ],
           'entries' => $entries
         ];
