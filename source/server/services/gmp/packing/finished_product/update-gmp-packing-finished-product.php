@@ -16,20 +16,24 @@ $service = fsm\createUpdateService(
           'min' => 1
         ],
         'production_area_id' => [
-          'type' => 'int',
-          'min' => 1
+          'type' => 'string',
+          'min_length' => 2,
+          'max_length' => 80
         ],
         'supplier_id' => [
-          'type' => 'int',
-          'min' => 1
+          'type' => 'string',
+          'min_length' => 2,
+          'max_length' => 80
         ],
         'product_id' => [
-          'type' => 'int',
-          'min' => 1
+          'type' => 'string',
+          'min_length' => 2,
+          'max_length' => 80
         ],
         'customer_id' => [
-          'type' => 'int',
-          'min' => 1
+          'type' => 'string',
+          'min_length' => 2,
+          'max_length' => 80
         ],
         'quality_type_id' => [
           'type' => 'int',
