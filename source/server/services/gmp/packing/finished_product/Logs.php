@@ -33,6 +33,7 @@ class Logs extends db\LogTable
         'supplier_id(supplier)',
         'product_id(product)',
         'customer_id(customer)',
+        'q.id(quality_id)',
         'q.name(quality)',
         'origin',
         'expiration_date',
