@@ -13,31 +13,12 @@ function loadLogForm(htmlElement){
                 item.product_codes = report.log_info.product_codes;
                 item.customers = report.log_info.customers;
                 item.quality_types = report.log_info.quality_types;
-                //$(htmlElement).append(gmpPackingFinishedProductItem(item));
                 gmpPackingFinishedProductLog(item, htmlElement);
                 $("#send_report").click(function(){
                     sendgmpPackingFinishedProductReport();
                 });
                 gmpPackingFinishedProductFunctionality();
                 $("input").characterCounter();
-                /*if(localStorage.country_codes){
-                    $("input.autocomplete").autocomplete({
-                        data: JSON.parse(localStorage.country_codes)
-                    });
-                } else {
-                    $.getJSON( "data/files/countries.json", function( data ) {
-                        localStorage.country_codes = JSON.stringify(data);
-                        $("input.autocomplete").autocomplete({
-                            data: JSON.parse(localStorage.country_codes)
-                        });
-                    });
-                }*/
-                /*$('.expires_datepicker').each(function(index, element){
-                    var itemID = $(this).data("item_id");
-                    var dateObj = datePicker("expiresHidden_" + itemID, null, new Date());
-                    $(this).pickadate(dateObj);
-                });*/
-                //$('.datepicker').pickadate(datePicker("expires", null, new Date()));
                 autocompleteActivator();
                 dateActivator();
                 changeLanguage();
@@ -50,7 +31,44 @@ function loadLogForm(htmlElement){
 }
 
 function loadPrefilledLogForm(htmlElement, data){
-    return;
+    $server.request({
+        service: 'authorization-report-gmp-packing-finished-product',
+        data: data,
+        success: function(response) {
+            if (response.meta.return_code == 0) {
+                $(htmlElement).html("");
+                var report = response.data;
+                var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name, "id":"log_name"}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":getISODate(new Date())},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":localStorage.first_name + " " + localStorage.last_name}]}]};
+                $(htmlElement).append(logHeader(header));
+                /*item.id = 1;
+                item.production_areas = report.log_info.production_areas;
+                item.suppliers = report.log_info.suppliers;
+                item.product_codes = report.log_info.product_codes;
+                item.customers = report.log_info.customers;
+                item.quality_types = report.log_info.quality_types;*/
+                var itemID = 1;
+                for(var item of report.items.entries){
+                    item.id = itemID;
+                    item.quality_types = report.items.log_info.quality_types;
+                    console.log("entrada de FP");
+                    console.log(item);
+                    gmpPackingFinishedProductLog(item, htmlElement);
+                    itemID++;
+                }
+                $("#send_report").click(function(){
+                    updateGmpPackingFinishedProductReport(parseInt(data.report_id));
+                });
+                loadFunctionality({"isPrefilled":true});
+                $("input").characterCounter();
+                autocompleteActivator();
+                dateActivator();
+                changeLanguage();
+            } else {
+                Materialize.toast("Some error", 3000, "rounded");
+                throw response.meta.message;
+            }
+        }
+    });
 }
 
 function loadManual(htmlElement, titleElement){
@@ -66,7 +84,7 @@ function loadManual(htmlElement, titleElement){
 }
 
 function loadFunctionality(data){
-    //gmpPackingFinishedProductFunctionality(data);
+    gmpPackingFinishedProductFunctionality(data);
     return;
 }
 
@@ -154,7 +172,6 @@ function sendgmpPackingFinishedProductReport(){
             item.customer_id = $("#client_" + itemID).val();
             item.quality_type_id = parseInt($("#quality_" + itemID).val());
             item.origin = $("#origin_" + itemID).val();
-            //item.expiration_date = $("#expires_" + itemID).val();
             item.expiration_date = $("input[name='expiresHidden_" + itemID + "']").val();
             item.water_temperature = parseFloat($("#water_" + itemID).val());
             item.product_temperature = parseFloat($("#packing_" + itemID).val());
@@ -182,8 +199,51 @@ function sendgmpPackingFinishedProductReport(){
     }
 }
 
-function updategmpPackingFinishedProductReport(reportID){
+function updateGmpPackingFinishedProductReport(reportID){
+    var report = new Object();
 
+    report.report_id = reportID;
+    report.entries = [];
+
+    if(validateLog() || true){
+        $(".item-card").each(function(){
+            var item = new Object();
+            var itemID = $(this).data("id");
+            console.log("ID: " + itemID);
+            item.batch = parseInt($("#batch_" + itemID).val());
+            item.production_area_id = $("#productionArea_" + itemID).val();
+            item.supplier_id = $("#supplier_" + itemID).val();
+            item.product_id = $("#product_" + itemID).val();
+            item.customer_id = $("#client_" + itemID).val();
+            item.quality_type_id = parseInt($("#quality_" + itemID).val());
+            item.origin = $("#origin_" + itemID).val();
+            item.expiration_date = $("input[name='expiresHidden_" + itemID + "']").val();
+            item.water_temperature = parseFloat($("#water_" + itemID).val());
+            item.product_temperature = parseFloat($("#packing_" + itemID).val());
+            item.is_weight_correct = getBool($("input:radio[name='weight_radio_" + itemID + "']:checked").val());
+            item.is_label_correct = getBool($("input:radio[name='label_radio_" + itemID + "']:checked").val());
+            item.is_trackable = getBool($("input:radio[name='traceability_radio_" + itemID + "']:checked").val());
+            item.notes = $("#comment_" + itemID).val();
+            report.entries.push(item);
+        });
+
+        console.log(report);
+        console.log(JSON.stringify(report));
+
+        $server.request({
+            service: 'update-gmp-packing-finished-product',
+            data: report,
+            success: function(response){
+                if (response.meta.return_code == 0) {
+                    Materialize.toast("Reporte enviado con exito", 3000, "rounded");
+                    $("#content_wrapper").hide();
+                    $("#authorizations_wrapper").show();
+                } else {
+                    Materialize.toast(response.meta.message, 3000, "rounded");
+                }
+            }
+        });
+    }
 }
 
 function gmpPackingFinishedProductLog(data, htmlElement){
@@ -280,8 +340,8 @@ function gmpPackingFinishedProductItemProductionArea(item){
     var batchInput = {"type":"input","id": "productionArea_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
     var batchFullInput = {"id":"productionAreaWrapper_" + item.id,"classes":"input-field col s6 m6 l6","field":batchInput,"label":batchLabel};
 
-    if(item.area){
-        batchInput.value = item.area;
+    if(item.production_area){
+        batchInput.value = item.production_area;
         batchLabel.classes = "active";
     }
 
@@ -319,8 +379,8 @@ function gmpPackingFinishedProductItemClient(item){
     var batchInput = {"type":"input","id": "client_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"},"min":{"value":2}}};
     var batchFullInput = {"id":"clientWrapper_" + item.id,"classes":"input-field col s4 m4 l4","field":batchInput,"label":batchLabel};
 
-    if(item.client){
-        batchInput.value = item.client;
+    if(item.customer){
+        batchInput.value = item.customer;
         batchLabel.classes = "active";
     }
 
@@ -443,8 +503,8 @@ function gmpPackingFinishedProductItemExpires(item){
     var expiresInput = {"type":"date","id": "expires_" + item.id, "classes":"expires_datepicker validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}},"data":{"item_id":item.id}};
     var expiresFullInput = {"id":"expiresWrapper_" + item.id,"classes":"input-field col s4 m4 l4","field":expiresInput,"label":expiresLabel};
 
-    if(item.expires){
-        expiresInput.value = item.expires;
+    if(item.expiration_date){
+        expiresInput.value = item.expiration_date;
         expiresLabel.classes = "active";
     }
 
@@ -456,8 +516,8 @@ function gmpPackingFinishedProductItemWater(item){
     var waterInput = {"type":"input","id": "water_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
     var waterFullInput = {"id":"waterWrapper","classes":"input-field col s6 m6 l6","field":waterInput,"label":waterLabel};
 
-    if(item.water){
-        waterInput.value = item.water;
+    if(item.water_temperature){
+        waterInput.value = item.water_temperature;
         waterLabel.classes = "active";
     }
 
@@ -469,8 +529,8 @@ function gmpPackingFinishedProductItemPacking(item){
     var packingInput = {"type":"input","id": "packing_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
     var packingFullInput = {"id":"packingWrapper","classes":"input-field col s6 m6 l6","field":packingInput,"label":packingLabel};
 
-    if(item.packing){
-        packingInput.value = item.packing;
+    if(item.product_temperature){
+        packingInput.value = item.product_temperature;
         packingLabel.classes = "active";
     }
 
@@ -486,9 +546,9 @@ function gmpPackingFinishedProductItemWeight(item){
     var itemRadioGroup = {"type": "radioGroup", "id":"weight_radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"weight_radio_" + item.id,"radioArray":[radioAcceptable, radioUnacceptable],"validations":{"type":"radio","required":{"value":true,"toast":"gmp-packing-preop-item-status"},"groupName":"weight_radio_" + item.id},"label":statusLabel};
     var groupInput = {"id":"weight_radioWrapper_" + item.id,"classes":"col s4 m4 l4","field":itemRadioGroup};
 
-    if(item.weight == 1){
+    if(item.is_weight_correct == 1){
         radioAcceptable.checked = true;
-    } else if (item.status == 0){
+    } else if (item.is_weight_correct == 0){
         radioUnacceptable.checked = true;
     }
 
@@ -504,9 +564,9 @@ function gmpPackingFinishedProductItemLabel(item){
     var itemRadioGroup = {"type": "radioGroup", "id":"label_radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"label_radio_" + item.id,"radioArray":[radioAcceptable, radioUnacceptable],"validations":{"type":"radio","required":{"value":true,"toast":"gmp-packing-preop-item-status"},"groupName":"label_radio_" + item.id},"label":statusLabel};
     var groupInput = {"id":"label_radioWrapper_" + item.id,"classes":"col s4 m4 l4","field":itemRadioGroup};
 
-    if(item.label == 1){
+    if(item.is_label_correct == 1){
         radioAcceptable.checked = true;
-    } else if (item.status == 0){
+    } else if (item.is_label_correct == 0){
         radioUnacceptable.checked = true;
     }
 
@@ -522,9 +582,9 @@ function gmpPackingFinishedProductItemTrazable(item){
     var itemRadioGroup = {"type": "radioGroup", "id":"traceability_radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"traceability_radio_" + item.id,"radioArray":[radioAcceptable, radioUnacceptable],"validations":{"type":"radio","required":{"value":true,"toast":"gmp-packing-preop-item-status"},"groupName":"traceability_radio_" + item.id},"label":statusLabel};
     var groupInput = {"id":"traceability_radioWrapper_" + item.id,"classes":"col s4 m4 l4","field":itemRadioGroup};
 
-    if(item.traceability == 1){
+    if(item.is_trackable == 1){
         radioAcceptable.checked = true;
-    } else if (item.status == 0){
+    } else if (item.is_trackable == 0){
         radioUnacceptable.checked = true;
     }
 
@@ -536,8 +596,8 @@ function gmpPackingFinishedProductItemNotes(item){
     var commentInput = {"type":"input","id": "comment_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"id":item.id},"validations":{"type":"text","max":{"value":128,"toast":"gmp-packing-preop-item-comment"}}};
     var commentFullInput = {"id":"commentWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":commentInput,"label":commentLabel};
 
-    if(item.comment){
-        commentInput.value = item.comment;
+    if(item.notes){
+        commentInput.value = item.notes;
         commentLabel.classes = "active";
     }
 
@@ -547,36 +607,41 @@ function gmpPackingFinishedProductItemNotes(item){
 function gmpPackingFinishedProductFunctionality(data){
     console.log("Cargando funcionalidad");
 
-    $(".test_button").on("click", function(e){
-        console.log($(this).data());
-        var lastTest = $(this).data("last_test");
-        var newItem = $(this).data("item_data");
-        newItem.id = lastTest + 1;
-        $("#items-wrapper").append(gmpPackingFinishedProductItem(newItem));
-        $(this).data("last_test", lastTest + 1);
-        $("#del_area_test_1").data("last_test", lastTest + 1);
-        if($("#del_area_test_1").hasClass("grey")){
-            $("#del_area_test_1").removeClass("grey");
-            $("#del_area_test_1").addClass("red");
-        }
-        autocompleteActivator();
-        dateActivator();
-        changeLanguage();
-    });
-
-    $(".delete_button").on("click", function(e){
-        var lastTest = $(this).data("last_test");
-        if(lastTest > 1){
-            $("#item_" + lastTest).remove();
-            $(this).data("last_test", lastTest - 1);
-            $("#add_area_test_1").data("last_test", lastTest - 1);
+    if(data.isPrefilled){
+        $(".test_button").remove();
+        $(".delete_button").remove();
+    } else {
+        $(".test_button").on("click", function(e){
+            console.log($(this).data());
+            var lastTest = $(this).data("last_test");
+            var newItem = $(this).data("item_data");
+            newItem.id = lastTest + 1;
+            $("#items-wrapper").append(gmpPackingFinishedProductItem(newItem));
+            $(this).data("last_test", lastTest + 1);
+            $("#del_area_test_1").data("last_test", lastTest + 1);
+            if($("#del_area_test_1").hasClass("grey")){
+                $("#del_area_test_1").removeClass("grey");
+                $("#del_area_test_1").addClass("red");
+            }
+            autocompleteActivator();
+            dateActivator();
             changeLanguage();
-        }
-        if(lastTest - 1 == 1){
-            $(this).removeClass("red");
-            $(this).addClass("grey");
-        }
-    });
+        });
+
+        $(".delete_button").on("click", function(e){
+            var lastTest = $(this).data("last_test");
+            if(lastTest > 1){
+                $("#item_" + lastTest).remove();
+                $(this).data("last_test", lastTest - 1);
+                $("#add_area_test_1").data("last_test", lastTest - 1);
+                changeLanguage();
+            }
+            if(lastTest - 1 == 1){
+                $(this).removeClass("red");
+                $(this).addClass("grey");
+            }
+        });
+    }
 }
 
 // Full report

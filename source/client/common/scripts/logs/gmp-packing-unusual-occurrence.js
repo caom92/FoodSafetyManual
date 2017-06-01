@@ -36,7 +36,45 @@ function loadLogForm(htmlElement){
 }
 
 function loadPrefilledLogForm(htmlElement, data){
-    return;
+    $server.request({
+        service: 'authorization-report-gmp-packing-unusual-occurrence',
+        data: data,
+        success: function(response) {
+            if (response.meta.return_code == 0) {
+                var item = new Object();
+                $(htmlElement).html("");
+                console.log("MAMES");
+                var report = response.data;
+                var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":report.creation_date},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":report.created_by}]}]};
+                $(htmlElement).append(logHeader(header));
+                item.id = 1;
+                /*item.production_areas = report.items.areas;
+                item.product_codes = report.items.products;*/
+                item.shifts = report.items.shifts;
+                item.entry = report.items.entry;
+                gmpPackingUnusualOccurrenceLog(item, htmlElement);
+                loadFunctionality({"isPrefilled":true});
+                $("#send_report").click(function(){
+                    updateGmpPackingFinishedProductReport(parseInt(data.report_id));
+                });
+                $('.timepicker').pickatime({
+                    autoclose: false,
+                    vibrate: true,
+                    twelvehour: false,
+                    afterDone: function(Element, Time) {
+                        
+                    }
+                });
+                $("input").characterCounter();
+                dateActivator();
+                changeLanguage();
+                console.log("MAMES");
+            } else {
+                Materialize.toast("Some error", 3000, "rounded");
+                throw response.meta.message;
+            }
+        }
+    });
 }
 
 function loadManual(htmlElement, titleElement){
@@ -52,8 +90,7 @@ function loadManual(htmlElement, titleElement){
 }
 
 function loadFunctionality(data){
-    //gmpPackingFinishedProductFunctionality(data);
-    return;
+    gmpPackingFinishedProductFunctionality(data);
 }
 
 // Wrapper for showing a HTML report. For convenience's sake, this name will
@@ -139,7 +176,42 @@ function sendGmpPackingFinishedProductReport(){
 }
 
 function updateGmpPackingFinishedProductReport(reportID){
+    var report = new Object();
 
+    report.report_id = reportID;
+
+    if(validateLog() || true){
+        $(".item-card").each(function(){
+            var item = new Object();
+            var itemID = $(this).data("id");
+            report.time = $("#time_" + itemID).val();
+            report.incident_date = $("input[name='incidentHidden_" + itemID + "']").val();
+            report.shift_id = parseInt($("#shift_" + itemID).val());
+            report.area_id = $("#productionArea_" + itemID).val();
+            report.product_id = $("#product_" + itemID).val();
+            report.batch = $("#batch_" + itemID).val();
+            report.description = $("#description_" + itemID).val();
+            report.corrective_action = $("#action_" + itemID).val();
+            report.album_url = $("#report_url").val();
+        });
+
+        console.log(report);
+        console.log(JSON.stringify(report));
+
+        $server.request({
+            service: 'update-gmp-packing-unusual-occurrence',
+            data: report,
+            success: function(response){
+                if (response.meta.return_code == 0) {
+                    Materialize.toast("Reporte enviado con exito", 3000, "rounded");
+                    $("#content_wrapper").hide();
+                    $("#authorizations_wrapper").show();
+                } else {
+                    Materialize.toast(response.meta.message, 3000, "rounded");
+                }
+            }
+        });
+    }
 }
 
 function gmpPackingUnusualOccurrenceLog(data, htmlElement){
@@ -175,7 +247,7 @@ function gmpPackingUnusualOccurrenceItem(item){
     productRow.columns = [gmpPackingUnusualOccurrenceItemProductionArea(item), gmpPackingUnusualOccurrenceItemProduct(item), gmpPackingUnusualOccurrenceItemBatch(item)];
     descriptionRow.columns = [gmpPackingUnusualOccurrenceItemDescription(item)];
     actionRow.columns = [gmpPackingUnusualOccurrenceItemAction(item)];
-    urlRow.columns = [gmpPackingUnusualOccurrenceAlbumURL()];
+    urlRow.columns = [gmpPackingUnusualOccurrenceAlbumURL(item)];
 
     itemCard.append(createInputRow(shiftRow));
     itemCard.append(createInputRow(productRow));
@@ -194,10 +266,10 @@ function gmpPackingUnusualOccurrenceItemShift(item){
     var shifts = new Array();
 
     for(var shift of item.shifts){
-        var tempOption = {"value":shift.id,"text":shift.name,"data":{"item_id":item.id}};
-        /*if(item.supplier_id == shift.id){
+        var tempOption = {"value":shift.shift_id,"text":shift.name,"data":{"item_id":item.id}};
+        if(item.entry.shift_id == shift.id){
             tempOption.selected = true;
-        }*/
+        }
         shifts.push(tempOption);
     }
 
@@ -209,12 +281,13 @@ function gmpPackingUnusualOccurrenceItemShift(item){
 }
 
 function gmpPackingUnusualOccurrenceItemTime(item){
+    console.log(item);
     var batchLabel = {"type":"label","classes":"active","contents":{"type":"text","classes":"time_title"},"for":"time_" + item.id};
     var batchInput = {"type":"time","id": "time_" + item.id, "classes": "timepicker validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
     var batchFullInput = {"id":"batchWrapper","classes":"input-field col s4 m4 l4","field":batchInput,"label":batchLabel};
 
-    if(item.time){
-        batchInput.value = item.time;
+    if(item.entry.time){
+        batchInput.value = item.entry.time;
         batchLabel.classes = "active";
     }
 
@@ -226,8 +299,8 @@ function gmpPackingUnusualOccurrenceItemDate(item){
     var incidentInput = {"type":"date","id": "incident_" + item.id, "classes":"incident_datepicker validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}},"data":{"item_id":item.id}};
     var incidentFullInput = {"id":"incidentWrapper_" + item.id,"classes":"input-field col s4 m4 l4","field":incidentInput,"label":incidentLabel};
 
-    if(item.incident_date){
-        incidentInput.value = item.incident_date;
+    if(item.entry.incident_date){
+        incidentInput.value = item.entry.incident_date;
         incidentLabel.classes = "active";
     }
 
@@ -239,8 +312,8 @@ function gmpPackingUnusualOccurrenceItemProductionArea(item){
     var productionAreaInput = {"type":"input","id": "productionArea_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
     var productionAreaFullInput = {"id":"productionAreaWrapper_","classes":"input-field col s4 m4 l4","field":productionAreaInput,"label":productionAreaLabel};
 
-    if(item.area){
-        productionAreaInput.value = item.area;
+    if(item.entry.area){
+        productionAreaInput.value = item.entry.area;
         productionAreaLabel.classes = "active";
     }
 
@@ -252,8 +325,8 @@ function gmpPackingUnusualOccurrenceItemProduct(item){
     var productInput = {"type":"input","id": "product_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
     var productFullInput = {"id":"productWrapper_","classes":"input-field col s4 m4 l4","field":productInput,"label":productLabel};
 
-    if(item.product){
-        productInput.value = item.product;
+    if(item.entry.product_name){
+        productInput.value = item.entry.product_name;
         productLabel.classes = "active";
     }
 
@@ -305,8 +378,8 @@ function gmpPackingUnusualOccurrenceItemBatch(item){
     var batchInput = {"type":"input","id": "batch_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
     var batchFullInput = {"id":"batchWrapper","classes":"input-field col s4 m4 l4","field":batchInput,"label":batchLabel};
 
-    if(item.batch){
-        batchInput.value = item.batch;
+    if(item.entry.batch){
+        batchInput.value = item.entry.batch;
         batchLabel.classes = "active";
     }
 
@@ -318,8 +391,8 @@ function gmpPackingUnusualOccurrenceItemDescription(item){
     var descriptionInput = {"type":"input","id": "description_" + item.id, "classes": "validate", "fieldType":"text","data":{"id":item.id},"validations":{"type":"text","max":{"value":512,"toast":"gmp-packing-preop-item-comment"}}};
     var descriptionFullInput = {"id":"descriptionWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":descriptionInput,"label":descriptionLabel};
 
-    if(item.comment){
-        descriptionInput.value = item.comment;
+    if(item.entry.description){
+        descriptionInput.value = item.entry.description;
         descriptionLabel.classes = "active";
     }
 
@@ -331,21 +404,21 @@ function gmpPackingUnusualOccurrenceItemAction(item){
     var actionInput = {"type":"input","id": "action_" + item.id, "classes": "validate", "fieldType":"text","data":{"id":item.id},"validations":{"type":"text","max":{"value":512,"toast":"gmp-packing-preop-item-comment"}}};
     var actionFullInput = {"id":"actionWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":actionInput,"label":actionLabel};
 
-    if(item.comment){
-        actionInput.value = item.comment;
+    if(item.entry.corrective_action){
+        actionInput.value = item.entry.corrective_action;
         actionLabel.classes = "active";
     }
 
     return actionFullInput;
 }
 
-function gmpPackingUnusualOccurrenceAlbumURL(reportUrl){
+function gmpPackingUnusualOccurrenceAlbumURL(item){
     var urlLabel = {"type":"label","contents":{"type":"text","classes":"url_title"}};
     var urlInput = {"type":"input","id": "report_url", "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":256,"toast":"gmp-packing-preop-report-url"}}};
     var urlFullInput = {"id":"reportUrlWrapper","classes":"input-field col s12 m12 l12","field":urlInput,"label":urlLabel};
 
-    if(reportUrl){
-        urlInput.value = reportUrl;
+    if(item.entry.album_url){
+        urlInput.value = item.entry.album_url;
         urlLabel.classes = "active";
     }
 
