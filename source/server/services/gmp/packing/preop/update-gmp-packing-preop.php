@@ -15,11 +15,11 @@ $service = [
     ],
     'notes' => [
       'type' => 'string',
-      'max_length' => 256
+      'max_length' => 65535
     ],
     'album_url' => [
       'type' => 'string',
-      'max_length' => 256
+      'max_length' => 255
     ],
     'areas' => [
       'type' => 'array',
@@ -27,12 +27,12 @@ $service = [
         'notes' => [
           'type' => 'string',
           'optional' => true,
-          'max_length' => 256
+          'max_length' => 65535
         ],
         'person_performing_sanitation' => [
           'type' => 'string',
           'optional' => true,
-          'max_length' => 64
+          'max_length' => 255
         ],
         'items' => [
           'type' => 'array',
@@ -51,7 +51,7 @@ $service = [
             'comment' => [
               'type' => 'string',
               'optional' => true,
-              'max_length' => 128
+              'max_length' => 65535
             ]
           ]
         ]

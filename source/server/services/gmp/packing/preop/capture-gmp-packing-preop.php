@@ -18,12 +18,12 @@ $service = fsm\createCaptureService(
         'notes' => [
           'type' => 'string',
           'optional' => true,
-          'max_length' => 256
+          'max_length' => 65535
         ],
         'person_performing_sanitation' => [
           'type' => 'string',
           'optional' => true,
-          'max_length' => 64
+          'max_length' => 255
         ],
         'items' => [
           'type' => 'array',
@@ -42,7 +42,7 @@ $service = fsm\createCaptureService(
             'comment' => [
               'type' => 'string',
               'optional' => true,
-              'max_length' => 80
+              'max_length' => 65535
             ]
           ]
         ]

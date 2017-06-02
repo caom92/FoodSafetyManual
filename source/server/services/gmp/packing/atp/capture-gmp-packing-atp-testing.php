@@ -13,8 +13,8 @@ $service = fsm\createCaptureService(
       'values' => [
         'name' => [
           'type' => 'string',
-          'min_length' => 2,
-          'max_length' => 64
+          'min_length' => 1,
+          'max_length' => 255
         ],
         'time' => [
           'type' => 'datetime',
@@ -35,7 +35,7 @@ $service = fsm\createCaptureService(
             ],
             'corrective_action' => [
               'type' => 'string',
-              'max_length' => 256,
+              'max_length' => 65535,
               'optional' => true
             ],
             'test2' => [

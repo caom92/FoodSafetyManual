@@ -34,7 +34,7 @@ $service = fsm\createUpdateService(
             ],
             'corrective_action' => [
               'type' => 'string',
-              'max_length' => 256,
+              'max_length' => 65535,
               'optional' => true
             ],
             'test2' => [

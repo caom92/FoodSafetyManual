@@ -33,23 +33,23 @@ $service = fsm\createCaptureService(
         // ],
         'production_area_id' => [
           'type' => 'string',
-          'min_length' => 2,
-          'max_length' => 80
+          'min_length' => 1,
+          'max_length' => 255
         ],
         'supplier_id' => [
           'type' => 'string',
-          'min_length' => 2,
-          'max_length' => 80
+          'min_length' => 1,
+          'max_length' => 255
         ],
         'product_id' => [
           'type' => 'string',
-          'min_length' => 2,
-          'max_length' => 80
+          'min_length' => 1,
+          'max_length' => 255
         ],
         'customer_id' => [
           'type' => 'string',
-          'min_length' => 2,
-          'max_length' => 80
+          'min_length' => 1,
+          'max_length' => 255
         ],
         'quality_type_id' => [
           'type' => 'int',
@@ -80,8 +80,8 @@ $service = fsm\createCaptureService(
         ],
         'notes' => [
           'type' => 'string',
-          'min_length' => 3,
-          'max_length' => 128
+          'min_length' => 1,
+          'max_length' => 65535
         ]
       ]
     ]

@@ -8,6 +8,10 @@ $service = fsm\createUpdateService(
   'Packing',
   'Daily Notice of Unusual Occurrence and Corrective Action Report',
   [
+    'incident_date' => [
+      'type' => 'datetime',
+      'format' => 'Y-m-d'
+    ],
     'time' => [
       'type' => 'datetime',
       'format' => 'G:i'
@@ -33,28 +37,29 @@ $service = fsm\createUpdateService(
     ],
     'description' => [
       'type' => 'string',
-      'min_length' => 2,
-      'max_length' => 128
+      'min_length' => 1,
+      'max_length' => 65535
     ],
     'corrective_action' => [
       'type' => 'string',
-      'min_length' => 2,
-      'max_length' => 128
+      'min_length' => 1,
+      'max_length' => 65535
     ],
     'album_url' => [
       'type' => 'string',
-      'min_length' => 2,
-      'max_length' => 256
+      'min_length' => 1,
+      'max_length' => 255
     ],
   ],
   [
     'extra_info' => NULL,
-    'function' => function($scope, $segment, $request, $logID) {
+    'function' => function($scope, $request) {
       $scope->daoFactory->get('unusualOccurrence\Logs')
         ->updateByCapturedLogID([
+          'incident_date' => $request['incident_date'],
           'time' => $request['time'],
           'shift_id' => $request['shift_id'],
-          'area_id' => $request['area_id'],
+          'production_area_id' => $request['area_id'],
           'product_id' => $request['product_id'],
           'batch' => $request['batch'],
           'description' => $request['description'],

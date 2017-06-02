@@ -5,13 +5,13 @@ $service = [
     'logged_in' => ['Administrator'],
     'company_name' => [
       'type' => 'string',
-      'min_length' => 2,
-      'max_length' => 128
+      'min_length' => 1,
+      'max_length' => 255
     ],
     'contact_name' => [
       'type' => 'string',
-      'min_length' => 2,
-      'max_length' => 64
+      'min_length' => 1,
+      'max_length' => 255
     ],
     'phone_num' => [
       'type' => 'phone'
@@ -21,13 +21,13 @@ $service = [
     ],
     'city' => [
       'type' => 'string',
-      'min_length' => 2,
-      'max_length' => 64
+      'min_length' => 1,
+      'max_length' => 255
     ],
     'salesman' => [
       'type' => 'string',
-      'min_length' => 2,
-      'max_length' => 64
+      'min_length' => 1,
+      'max_length' => 255
     ]
   ],
   'callback' => function($scope, $request) {

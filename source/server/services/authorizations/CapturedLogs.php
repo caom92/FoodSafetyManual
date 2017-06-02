@@ -201,7 +201,7 @@ class CapturedLogs extends db\InsertableTable
       "UPDATE 
         $this->table 
         SET 
-          supervisor_id = {$_SESSION['user_id']},
+          supervisor_id = {$_SESSION['fsm']['user_id']},
           approval_date = ".parent::$dataBase->quote($date).",
           status_id = (
             SELECT id FROM log_status WHERE name = ".

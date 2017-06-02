@@ -9,7 +9,7 @@ $service = [
     ],
     'new_username' => [
       'type' => 'string',
-      'min_length' => 5
+      'min_length' => 3
     ]
   ],
   'callback' => function($scope, $request) {

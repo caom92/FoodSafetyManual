@@ -37,18 +37,18 @@ $service = fsm\createCaptureService(
     ],
     'description' => [
       'type' => 'string',
-      'min_length' => 2,
-      'max_length' => 512
+      'min_length' => 1,
+      'max_length' => 65535
     ],
     'corrective_action' => [
       'type' => 'string',
-      'min_length' => 2,
-      'max_length' => 512
+      'min_length' => 1,
+      'max_length' => 65535
     ],
     'album_url' => [
       'type' => 'string',
-      'min_length' => 2,
-      'max_length' => 256
+      'min_length' => 1,
+      'max_length' => 255
     ],
   ],
   [
