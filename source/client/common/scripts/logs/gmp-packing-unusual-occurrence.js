@@ -267,8 +267,10 @@ function gmpPackingUnusualOccurrenceItemShift(item){
 
     for(var shift of item.shifts){
         var tempOption = {"value":shift.shift_id,"text":shift.name,"data":{"item_id":item.id}};
-        if(item.entry.shift_id == shift.id){
-            tempOption.selected = true;
+        if(item.entry){
+            if(item.entry.shift_id == shift.id){
+                tempOption.selected = true;
+            }
         }
         shifts.push(tempOption);
     }
