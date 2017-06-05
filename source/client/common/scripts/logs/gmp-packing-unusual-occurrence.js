@@ -288,9 +288,11 @@ function gmpPackingUnusualOccurrenceItemTime(item){
     var batchInput = {"type":"time","id": "time_" + item.id, "classes": "timepicker validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
     var batchFullInput = {"id":"batchWrapper","classes":"input-field col s4 m4 l4","field":batchInput,"label":batchLabel};
 
-    if(item.entry.time){
-        batchInput.value = item.entry.time;
-        batchLabel.classes = "active";
+    if(item.entry){
+        if(item.entry.time){
+            batchInput.value = item.entry.time;
+            batchLabel.classes = "active";
+        }
     }
 
     return batchFullInput;
@@ -301,9 +303,11 @@ function gmpPackingUnusualOccurrenceItemDate(item){
     var incidentInput = {"type":"date","id": "incident_" + item.id, "classes":"incident_datepicker validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}},"data":{"item_id":item.id}};
     var incidentFullInput = {"id":"incidentWrapper_" + item.id,"classes":"input-field col s4 m4 l4","field":incidentInput,"label":incidentLabel};
 
-    if(item.entry.incident_date){
-        incidentInput.value = item.entry.incident_date;
-        incidentLabel.classes = "active";
+    if(item.entry){
+        if(item.entry.incident_date){
+            incidentInput.value = item.entry.incident_date;
+            incidentLabel.classes = "active";
+        }
     }
 
     return incidentFullInput;
@@ -314,9 +318,11 @@ function gmpPackingUnusualOccurrenceItemProductionArea(item){
     var productionAreaInput = {"type":"input","id": "productionArea_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
     var productionAreaFullInput = {"id":"productionAreaWrapper_","classes":"input-field col s4 m4 l4","field":productionAreaInput,"label":productionAreaLabel};
 
-    if(item.entry.area){
-        productionAreaInput.value = item.entry.area;
-        productionAreaLabel.classes = "active";
+    if(item.entry){
+        if(item.entry.area){
+            productionAreaInput.value = item.entry.area;
+            productionAreaLabel.classes = "active";
+        }
     }
 
     return productionAreaFullInput;
@@ -327,9 +333,11 @@ function gmpPackingUnusualOccurrenceItemProduct(item){
     var productInput = {"type":"input","id": "product_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
     var productFullInput = {"id":"productWrapper_","classes":"input-field col s4 m4 l4","field":productInput,"label":productLabel};
 
-    if(item.entry.product_name){
-        productInput.value = item.entry.product_name;
-        productLabel.classes = "active";
+    if(item.entry){
+        if(item.entry.product_name){
+            productInput.value = item.entry.product_name;
+            productLabel.classes = "active";
+        }
     }
 
     return productFullInput;
@@ -380,9 +388,11 @@ function gmpPackingUnusualOccurrenceItemBatch(item){
     var batchInput = {"type":"input","id": "batch_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
     var batchFullInput = {"id":"batchWrapper","classes":"input-field col s4 m4 l4","field":batchInput,"label":batchLabel};
 
-    if(item.entry.batch){
-        batchInput.value = item.entry.batch;
-        batchLabel.classes = "active";
+    if(item.entry){
+        if(item.entry.batch){
+            batchInput.value = item.entry.batch;
+            batchLabel.classes = "active";
+        }
     }
 
     return batchFullInput;
@@ -393,9 +403,11 @@ function gmpPackingUnusualOccurrenceItemDescription(item){
     var descriptionInput = {"type":"input","id": "description_" + item.id, "classes": "validate", "fieldType":"text","data":{"id":item.id},"validations":{"type":"text","max":{"value":512,"toast":"gmp-packing-preop-item-comment"}}};
     var descriptionFullInput = {"id":"descriptionWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":descriptionInput,"label":descriptionLabel};
 
-    if(item.entry.description){
-        descriptionInput.value = item.entry.description;
-        descriptionLabel.classes = "active";
+    if(item.entry){
+        if(item.entry.description){
+            descriptionInput.value = item.entry.description;
+            descriptionLabel.classes = "active";
+        }
     }
 
     return descriptionFullInput;
@@ -406,9 +418,11 @@ function gmpPackingUnusualOccurrenceItemAction(item){
     var actionInput = {"type":"input","id": "action_" + item.id, "classes": "validate", "fieldType":"text","data":{"id":item.id},"validations":{"type":"text","max":{"value":512,"toast":"gmp-packing-preop-item-comment"}}};
     var actionFullInput = {"id":"actionWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":actionInput,"label":actionLabel};
 
-    if(item.entry.corrective_action){
-        actionInput.value = item.entry.corrective_action;
-        actionLabel.classes = "active";
+    if(item.entry){
+        if(item.entry.corrective_action){
+            actionInput.value = item.entry.corrective_action;
+            actionLabel.classes = "active";
+        }
     }
 
     return actionFullInput;
@@ -419,9 +433,11 @@ function gmpPackingUnusualOccurrenceAlbumURL(item){
     var urlInput = {"type":"input","id": "report_url", "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":256,"toast":"gmp-packing-preop-report-url"}}};
     var urlFullInput = {"id":"reportUrlWrapper","classes":"input-field col s12 m12 l12","field":urlInput,"label":urlLabel};
 
-    if(item.entry.album_url){
-        urlInput.value = item.entry.album_url;
-        urlLabel.classes = "active";
+    if(item.entry){
+        if(item.entry.album_url){
+            urlInput.value = item.entry.album_url;
+            urlLabel.classes = "active";
+        }
     }
 
     return urlFullInput;
