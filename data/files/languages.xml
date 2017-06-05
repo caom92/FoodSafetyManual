@@ -593,6 +593,11 @@
         <spanish>Área de Producción</spanish>
     </translation>
 
+    <translation id="add_production_area">
+        <english>New Production Area...</english>
+        <spanish>Nueva Área de Producción</spanish>
+    </translation>
+
     <translation id="time_title">
         <english>Time</english>
         <spanish>Hora</spanish>
