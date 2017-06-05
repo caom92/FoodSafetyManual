@@ -27,9 +27,11 @@ class Logs extends db\LogTable
         'incident_date',
         'time',
         's.name(shift)',
-        'a.name(area)',
-        'p.code(product_code)',
-        'p.name(product_name)',
+        // 'a.name(area)',
+        // 'p.code(product_code)',
+        // 'p.name(product_name)',
+        'production_area_id(area)',
+        'product_id(product_name)',
         'batch',
         'description',
         'corrective_action',
@@ -41,13 +43,13 @@ class Logs extends db\LogTable
       [
         '[><]shifts(s)' => [
           'shift_id' => 'id'
-        ],
-        '[><]gmp_packing_finished_product_production_areas(a)' => [
-          'production_area_id' => 'id'
-        ],
-        '[><]products(p)' => [
-          'product_id' => 'id'
         ]
+        // '[><]gmp_packing_finished_product_production_areas(a)' => [
+        //   'production_area_id' => 'id'
+        // ],
+        // '[><]products(p)' => [
+        //   'product_id' => 'id'
+        // ]
       ]
     );
   }

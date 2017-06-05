@@ -17,7 +17,10 @@ class Shifts extends db\DataBaseTable
   // Returns an associative array with the info of every shift
   // stored in the data base
   function selectAll() {
-    return parent::select('*');
+    return parent::select([
+      'id(shift_id)',
+      'name'
+    ]);
   }
 }
 
