@@ -2,19 +2,22 @@
 
 require_once realpath(dirname(__FILE__).'/../../../service_creators.php');
 
-
-$service = fsm\createAddService(
-  'GMP',
-  'Packing',
-  'Environmental ATP Testing',
-  [
+$service = [
+  'requirements_desc' => [
+    'logged_in' => ['Supervisor', 'Employee'],
+    'has_privileges' => [
+      'privilege' => ['Read', 'Write'],
+      'program' => 'GMP',
+      'module' => 'Packing',
+      'log' => 'Environmental ATP Testing'
+    ],
     'name' => [
       'type' => 'string',
       'min_length' => 1,
       'max_length' => 255
     ]
   ],
-  function($scope, $request) {
+  'callback' => function($scope, $request) {
     // first we get the session segment
     $segment = $scope->session->getSegment('fsm');
     $zoneID = $segment->get('zone_id');
@@ -26,6 +29,6 @@ $service = fsm\createAddService(
       'name' => $request['name']
     ]);
   }
-);
+];
 
 ?>
