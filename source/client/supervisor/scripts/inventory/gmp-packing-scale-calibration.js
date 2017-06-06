@@ -11,7 +11,7 @@ function loadInventory(htmlElement){
         success: function(response){
             $(htmlElement).hide();
             gmpScaleCalibrationInventoryTable(htmlElement, response.data);
-            initSortability('change-order-of-scale');
+            initSortability('toggle-gmp-packing-scale-calibration');
             dynamicSearchBind("id-search", "id-column");
             dynamicSearchBind("name-search", "name-column");
             dynamicSearchBind("type-search", "type-column");
@@ -92,7 +92,7 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
                     console.log(item);
                     console.log(tableRow(gmpPackingScaleCalibrationInventoryRow(item, item.type)));
                     $("tbody#type_" + $("#type_add").val()).append(tableRow(gmpPackingScaleCalibrationInventoryRow(item, item.type)));
-                    initSortability('change-order-of-scale');
+                    initSortability('toggle-gmp-packing-scale-calibration');
                     $("html, body").animate({
                         scrollTop: $(document).height()
                     }, 400);
@@ -152,7 +152,7 @@ function initSortability(sortingService){
                     var order = $($(this).children()[0]).text();
                     var itemID = $($(this).children()[1]).text();
                     var data = new Object();
-                    data.scale_id = parseInt(itemID);
+                    data.id = parseInt(itemID);
                     data.position = parseInt(order);
                     //console.log(data);
                     $server.request({
