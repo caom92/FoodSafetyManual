@@ -119,9 +119,11 @@ function sendGmpPackingAtpTestingReport(){
                 item.test_number = itemID;
                 item.test1 = Number($("#test_" + areaID + "_" + itemID).val());
                 item.results1 = getBool($("input[id='test_acceptable_" + areaID + "_" + itemID +"']:checked").val());
-                item.corrective_action = $("#correctiveAction_" + areaID + "_" + itemID).val();
-                item.test2 = 15;
-                item.results2 = getBool($("input[id='acceptable_" + areaID + "_" + itemID +"']:checked").val());
+                if(item.results1 == false){
+                    item.corrective_action = $("#correctiveAction_" + areaID + "_" + itemID).val();
+                    item.test2 = 15;
+                    item.results2 = getBool($("input[id='acceptable_" + areaID + "_" + itemID +"']:checked").val());
+                }
                 area.items.push(item);
             });
             report.areas.push(area);
@@ -383,7 +385,7 @@ function gmpPackingAtpTestingItemRetest(item, number){
     var unacceptableIcon = {"type":"text","classes":"fail_tag big"};
     var radioAcceptable = {"type":"radio","id":"acceptable_" + item.id + "_" + number,"classes":"timeChanger","value":"true","label":{"type":"label","classes":"black-text","for":"acceptable_" + item.id + "_" + number,"contents": acceptableIcon},"data":{"test_no":number,"item_id":item.id}};
     var radioUnacceptable = {"type":"radio","id":"unacceptable_" + item.id + "_" + number,"classes":"timeChanger","value":"false","label":{"type":"label","classes":"black-text","for":"unacceptable_" + item.id + "_" + number,"contents": unacceptableIcon},"data":{"test_no":number,"item_id":item.id}};
-    var itemRadioGroup = {"type": "radioGroup", "id":"radioGroup_"  + item.id + "_" + number,"classes":"col s12 m12 l12","group":"radio_" + item.id + "_" + number,"radioArray":[radioAcceptable, radioUnacceptable],"validations":{"type":"radio","required":{"value":true,"toast":"gmp-packing-preop-item-status"},"groupName":"radio_" + item.id + "_" + number},"label":statusLabel};
+    var itemRadioGroup = {"type": "radioGroup", "id":"radioGroup_"  + item.id + "_" + number,"classes":"col s12 m12 l12","group":"radio_" + item.id + "_" + number,"radioArray":[radioAcceptable, radioUnacceptable],"label":statusLabel};
     var groupInput = {"id":"radioWrapper_" + item.id + "_" + number,"classes":"col s2 m2 l2","field":itemRadioGroup};
 
     if(item.status == 1){
