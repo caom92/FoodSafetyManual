@@ -193,7 +193,7 @@ function gmpPestControlSelfInspectionLog(data, htmlElement){
 
 function gmpPestControlSelfInspectionComment(reportComment){
     var commentLabel = {"type":"label","contents":{"type":"text","classes":"comment_title"}};
-    var commentInput = {"type":"input","id": "report_comment", "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
+    var commentInput = {"type":"input","id": "report_comment", "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":65535,"toast":"gmp-packing-preop-report-notes"}}};
     var commentFullInput = {"id":"reportCommentWrapper","classes":"input-field col s12 m12 l12","field":commentInput,"label":commentLabel};
 
     if(reportComment){
@@ -332,7 +332,7 @@ function gmpPestControlSelfInspectionItemOther(item){
 
 function gmpPestControlSelfInspectionItemCorrectiveAction(item){
     var actionLabel = {"type":"label","contents":{"type":"text","classes":"action_title"}};
-    var actionInput = {"type":"input","id": "correctiveAction_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"item_id":item.id},"validations":{"type":"text","max":{"value":256}}};
+    var actionInput = {"type":"input","id": "correctiveAction_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"item_id":item.id},"validations":{"type":"text","max":{"value":255}}};
     var actionFullInput = {"id":"correctiveActionWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":actionInput,"label":actionLabel};
 
     if(item.corrective_actions){

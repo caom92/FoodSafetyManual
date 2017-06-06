@@ -201,18 +201,12 @@ function gmpPackingAtpTestingLog(data, htmlElement){
     var additionalData = $("<div>");
     var areaAddWrapper = $("<div>");
 
-    console.log('ANTES');
     if(data.entries){
         for(var area in data.entries){
             console.log(data.entries[area]);
             areasCard.append(gmpPackingAtpTestingArea(data.entries[area]));
         }
     }
-    console.log('DESPUES');
-    /*for(var area in data){
-        console.log(data[area]);
-        areasCard.append(gmpPackingAtpTestingArea(data[area]));
-    }*/
 
     console.log(data);
 
@@ -292,7 +286,7 @@ function gmpPackingAtpTestingAreaControlsDelButton(data){
 
 function gmpPackingAtpTestingComment(reportComment){
     var commentLabel = {"type":"label","contents":{"type":"text","classes":"comment_title"}};
-    var commentInput = {"type":"input","id": "report_comment", "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":80,"toast":"gmp-packing-preop-report-notes"}}};
+    var commentInput = {"type":"input","id": "report_comment", "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":65535,"toast":"gmp-packing-preop-report-notes"}}};
     var commentFullInput = {"id":"reportCommentWrapper","classes":"input-field col s12 m12 l12","field":commentInput,"label":commentLabel};
 
     if(reportComment){
@@ -436,7 +430,7 @@ function gmpPackingAtpTestingItemResult(item, number){
 
 function gmpPackingAtpTestingItemCorrectiveAction(item, number){
     var actionLabel = {"type":"label","contents":{"type":"text","classes":"action_title"}};
-    var actionInput = {"type":"input","id": "correctiveAction_" + item.id + "_" + number, "classes": "validate timeChanger", "fieldType":"text","data":{"test_no":number,"item_id":item.id},"validations":{"type":"text","max":{"value":256}}};
+    var actionInput = {"type":"input","id": "correctiveAction_" + item.id + "_" + number, "classes": "validate timeChanger", "fieldType":"text","data":{"test_no":number,"item_id":item.id},"validations":{"type":"text","max":{"value":255}}};
     var actionFullInput = {"id":"correctiveActionWrapper_" + item.id + "_" + number,"classes":"input-field col s4 m4 l4","field":actionInput,"label":actionLabel};
 
     if(item.corrective_action){
@@ -449,7 +443,7 @@ function gmpPackingAtpTestingItemCorrectiveAction(item, number){
 
 function gmpPackingAtpTestingItemSecondReading(item, number){
     var testLabel = {"type":"label","contents":{"type":"text","classes":"test_title"}};
-    var testInput = {"type":"input","id": "retest_" + item.id + "_" + number, "classes": "validate timeChanger", "fieldType":"text","data":{"test_no":number,"area_id":item.id},"validations":{"type":"number"/*,"toast":"gmp-packing-scale-calibration-test"*/}};
+    var testInput = {"type":"input","id": "retest_" + item.id + "_" + number, "classes": "validate timeChanger", "fieldType":"text","data":{"test_no":number,"area_id":item.id},"validations":{"type":"number"}};
     var testFullInput = {"id":"retestWrapper_" + item.id + "_" + number,"classes":"input-field col s2 m2 l2","field":testInput,"label":testLabel};
 
     if(item.test2){
