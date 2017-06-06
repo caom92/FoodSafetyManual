@@ -8,6 +8,10 @@ $service = fsm\createUpdateService(
   'Packing',
   'Environmental ATP Testing',
   [
+    'notes' => [
+      'type' => 'string',
+      'max_length' => 65535
+    ],
     'areas' => [
       'type' => 'array',
       'values' => [
@@ -51,7 +55,9 @@ $service = fsm\createUpdateService(
     ]
   ],
   [
-    'extra_info' => NULL,
+    'extra_info' => [
+      'notes',
+    ],
     'function' => function($scope, $request) {
       foreach ($request['areas'] as $area) {
         $scope->daoFactory->get('gmp\packing\atp\TimeLogs')

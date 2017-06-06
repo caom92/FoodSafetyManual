@@ -149,6 +149,7 @@ function updateGmpPackingAtpTestingReport(reportID){
     var report = new Object();
 
     report.report_id = reportID;
+    report.notes = $("#report_comment").val();
     report.areas = [];
 
     if(validateLog()){
@@ -166,11 +167,11 @@ function updateGmpPackingAtpTestingReport(reportID){
                 item.test_number = itemID;
                 item.test1 = Number($("#test_" + testID + "_" + itemID).val());
                 item.results1 = getBool($("input[id='test_acceptable_" + testID + "_" + itemID +"']:checked").val());
-                if(item.results1 == false){
+                //if(item.results1 == false){
                     item.corrective_action = $("#correctiveAction_" + testID + "_" + itemID).val();
                     item.test2 = Number($("#retest_" + testID + "_" + itemID).val());
                     item.results2 = getBool($("input[id='acceptable_" + testID + "_" + itemID +"']:checked").val());
-                }
+                //}
                 area.items.push(item);
             });
             report.areas.push(area);
