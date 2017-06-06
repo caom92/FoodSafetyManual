@@ -53,7 +53,7 @@ $service = fsm\createUpdateService(
   [
     'extra_info' => NULL,
     'function' => function($scope, $request) {
-      foreach ($areas as $area) {
+      foreach ($request['areas'] as $area) {
         $scope->daoFactory->get('gmp\packing\atp\TimeLogs')->update(
           ['time' => $area['time']], $request['report_id']
         );
