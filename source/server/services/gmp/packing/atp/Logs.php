@@ -58,7 +58,7 @@ class Logs extends db\InsertableTable
         test_num = {$changes['test_num']},
         test1 = {$changes['test1']},
         was_test1_passed = ". 
-          ($changes['was_test1_passed']) ? 1 : 0 .",
+          ($changes['was_test1_passed']) ? '1' : '0' .",
         corrective_action = {$changes['corrective_action']},
         test2 = {$changes['test2']},
         was_test2_passed = {$changes['was_test2_passed']}
