@@ -46,7 +46,7 @@ class Logs extends db\InsertableTable
   //        va a ser modificado
   // [in]   areaID (uint): el ID del area cuyos datos van a ser modificados
   // [out]  return (uint): el numero de renglones que fueron modificados
-  function updateByCapturedLogIDAndItemID($changes, $logID, $areaID) {
+  function updateByCapturedLogIDAndAreaID($changes, $logID, $areaID) {
     return parent::$dataBase->query(
       "UPDATE 
         $this->table
