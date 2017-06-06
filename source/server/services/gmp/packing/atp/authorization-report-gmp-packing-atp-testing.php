@@ -8,7 +8,7 @@ $service = fsm\createAuthorizationReportService(
   'Packing',
   'Environmental ATP Testing',
   [
-    'items_name' => 'areas',
+    'items_name' => 'entries',
     'extra_info' => [
       // NULL
     ],
