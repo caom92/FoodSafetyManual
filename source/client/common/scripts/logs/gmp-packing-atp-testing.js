@@ -211,7 +211,7 @@ function gmpPackingAtpTestingAreaControlsInput(data){
 
 function gmpPackingAtpTestingAreaControlsAddButton(data){
     var areaAddInput = {"id":"addAreaButtonWrapper","classes":"input-field col s1 m1 l1"};
-    var areaAddButton = {"type":"floating","id":"add_area","classes":"btn-floating waves-effect waves-light green right test_button","data":{"last_test":1}};
+    var areaAddButton = {"type":"floating","id":"add_area","classes":"btn-floating waves-effect waves-light green right","data":{"last_test":1}};
     var areaAddIcon = {"type":"icon","icon":"mdi-plus","size":"mdi-24px"};
     areaAddButton.icon = areaAddIcon;
     areaAddInput.field = areaAddButton;
@@ -221,7 +221,7 @@ function gmpPackingAtpTestingAreaControlsAddButton(data){
 
 function gmpPackingAtpTestingAreaControlsDelButton(data){
     var areaDelInput = {"id":"delAreaButtonWrapper","classes":"input-field col s1 m1 l1"};
-    var areaDelButton = {"type":"floating","id":"del_area","classes":"btn-floating waves-effect waves-light grey right delete_button","data":{"last_test":1}};
+    var areaDelButton = {"type":"floating","id":"del_area","classes":"btn-floating waves-effect waves-light grey","data":{"last_test":1}};
     var areaDelIcon = {"type":"icon","icon":"mdi-minus","size":"mdi-24px"};
     areaDelButton.icon = areaDelIcon;
     areaDelInput.field = areaDelButton;
@@ -444,6 +444,9 @@ function gmpPackingAtpTestingFunctionality(data){
 }
 
 function gmpPackingAtpTestingAddDelTestsFunctionality(data){
+    $( ".test_button" ).off();
+    $( ".delete_button" ).off();
+
     $(".test_button").on("click", function(e){
         var areaID = $(this).data("area_id");
         var lastTest = $(this).data("last_test");
