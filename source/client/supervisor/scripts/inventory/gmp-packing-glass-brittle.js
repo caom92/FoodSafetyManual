@@ -127,7 +127,7 @@ function gmpPackingGlassBrittleInventoryTable(htmlElement, data){
             data.area_id = $("#area-select").val();
 
             $server.request({
-                service: 'add-item-gmp-packing-glass-brittle',
+                service: 'add-gmp-packing-glass-brittle',
                 data: data,
                 success: function(response){
                     // Here we must append the recently added item to the list,
