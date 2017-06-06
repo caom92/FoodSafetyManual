@@ -59,8 +59,8 @@ class Logs extends db\InsertableTable
         test1 = {$changes['test1']},
         was_test1_passed = {$changes['was_test1_passed']},
         corrective_action = {$changes['corrective_action']},
-        test1 = {$changes['test2']},
-        was_test1_passed = {$changes['was_test2_passed']}
+        test2 = {$changes['test2']},
+        was_test2_passed = {$changes['was_test2_passed']}
       WHERE cl.id = $logID AND tl.area_id = $areaID"
     );
   }
