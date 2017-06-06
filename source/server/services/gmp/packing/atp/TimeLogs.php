@@ -34,6 +34,18 @@ class TimeLogs extends db\LogTable
       WHERE capture_date_id = $dateID"
     )->fetchAll();
   }
+
+  // Actualiza los datos almacenados en el renglon con el ID de fecha de 
+  // captura especificado
+  // [in]   newData (dictionary): los datos que van a ser ingresados en la BD
+  // [in]   logID (uint): el ID de la fecha de captura cuyos datos van a ser
+  //        modificados
+  // [out]  return (int): el numero de renglones que fueron modificados
+  function updateByCapturedLogID($newData, $logID) {
+    return parent::update($newData, [
+      'capture_date_id' => $logID
+    ]);
+  }
 }
 
 ?>
