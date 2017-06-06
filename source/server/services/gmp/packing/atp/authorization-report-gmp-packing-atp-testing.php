@@ -28,6 +28,7 @@ $service = fsm\createAuthorizationReportService(
 
         // push the complete area data to the final storage
         array_push($areas, [
+          'id' => $area['area_id'],
           'name' => $area['area_name'],
           'time' => $area['time'],
           'items' => $items
