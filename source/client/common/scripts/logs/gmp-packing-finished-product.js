@@ -205,7 +205,7 @@ function updateGmpPackingFinishedProductReport(reportID){
     report.report_id = reportID;
     report.entries = [];
 
-    if(validateLog() || true){
+    if(validateLog()){
         $(".item-card").each(function(){
             var item = new Object();
             var itemID = $(this).data("id");
@@ -235,7 +235,7 @@ function updateGmpPackingFinishedProductReport(reportID){
             data: report,
             success: function(response){
                 if (response.meta.return_code == 0) {
-                    Materialize.toast("Reporte enviado con exito", 3000, "rounded");
+                    Materialize.toast("Reporte actualizado con exito", 3000, "rounded");
                     $("#content_wrapper").hide();
                     $("#authorizations_wrapper").show();
                 } else {

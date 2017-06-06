@@ -33,11 +33,11 @@ function loadPrefilledLogForm(htmlElement, data){
                 var report = response.data;
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name, "id":"log_name"}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":getISODate(new Date())},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":localStorage.first_name + " " + localStorage.last_name}]}]};
                 $(htmlElement).append(logHeader(header));
-                gmpPackingAtpTestingLog(report.areas, htmlElement);
+                gmpPackingAtpTestingLog(report, htmlElement);
                 loadFunctionality({"isPrefilled":true});
                 changeLanguage();
                 $("#send_report").click(function(){
-                    sendGmpPackingAtpTestingReport();
+                    updateGmpPackingAtpTestingReport(parseInt(data.report_id));
                 });
                 $("input").characterCounter();
                 changeLanguage();
@@ -106,7 +106,7 @@ function sendGmpPackingAtpTestingReport(){
     report.notes = $("#report_comment").val();
     report.areas = new Array();
 
-    if(validateLog() || true){
+    if(validateLog()){
         $(".area-card").each(function(){
             var area = new Object();
             var areaID = $(this).data("id");
@@ -121,7 +121,7 @@ function sendGmpPackingAtpTestingReport(){
                 item.results1 = getBool($("input[id='test_acceptable_" + areaID + "_" + itemID +"']:checked").val());
                 if(item.results1 == false){
                     item.corrective_action = $("#correctiveAction_" + areaID + "_" + itemID).val();
-                    item.test2 = 15;
+                    item.test2 = Number($("#retest_" + areaID + "_" + itemID).val());
                     item.results2 = getBool($("input[id='acceptable_" + areaID + "_" + itemID +"']:checked").val());
                 }
                 area.items.push(item);
@@ -145,18 +145,73 @@ function sendGmpPackingAtpTestingReport(){
     }
 }
 
+function updateGmpPackingAtpTestingReport(reportID){
+    var report = new Object();
+
+    report.report_id = reportID;
+    report.areas = [];
+
+    if(validateLog()){
+        $(".area-card").each(function(){
+            var area = new Object();
+            var areaID = $(this).data("id");
+            console.log("ID de area: " + areaID);
+            area.id = areaID;
+            area.time = $("#time_" + area.id).val();
+            area.items = new Array();
+            $(this).find(".item-card").each(function(){
+                var item = new Object();
+                var itemID = $(this).data("number");
+                var testID = $(this).data("id");
+                item.test_number = itemID;
+                item.test1 = Number($("#test_" + testID + "_" + itemID).val());
+                item.results1 = getBool($("input[id='test_acceptable_" + testID + "_" + itemID +"']:checked").val());
+                if(item.results1 == false){
+                    item.corrective_action = $("#correctiveAction_" + testID + "_" + itemID).val();
+                    item.test2 = Number($("#retest_" + testID + "_" + itemID).val());
+                    item.results2 = getBool($("input[id='acceptable_" + testID + "_" + itemID +"']:checked").val());
+                }
+                area.items.push(item);
+            });
+            report.areas.push(area);
+        });
+
+        console.log(report);
+
+        $server.request({
+            service: 'update-gmp-packing-atp-testing',
+            data: report,
+            success: function(response){
+                if (response.meta.return_code == 0) {
+                    Materialize.toast("Reporte actualizado con exito", 3000, "rounded");
+                    $("#content_wrapper").hide();
+                    $("#authorizations_wrapper").show();
+                } else {
+                    Materialize.toast(response.meta.message, 3000, "rounded");
+                }
+            }
+        });
+    }
+}
+
 function gmpPackingAtpTestingLog(data, htmlElement){
     var log = $("<div>");
     var areasCard = $("<div>");
     var additionalData = $("<div>");
     var areaAddWrapper = $("<div>");
 
+    console.log('ANTES');
+    if(data.entries){
+        for(var area in data.entries){
+            console.log(data.entries[area]);
+            areasCard.append(gmpPackingAtpTestingArea(data.entries[area]));
+        }
+    }
+    console.log('DESPUES');
     /*for(var area in data){
         console.log(data[area]);
         areasCard.append(gmpPackingAtpTestingArea(data[area]));
     }*/
-
-    //areasCard.append(gmpPackingAtpTestingArea(data[0]));
 
     console.log(data);
 
@@ -164,14 +219,17 @@ function gmpPackingAtpTestingLog(data, htmlElement){
     areasCard.attr("id", "areas_wrapper");
     additionalData.addClass("card-panel white");
 
-    areaAddWrapper.addClass("card-panel white");
-    areaAddWrapper.append(createInputRow(gmpPackingAtpTestingAreaControls(data)));
+    if(data.areas){
+        areaAddWrapper.addClass("card-panel white");
+        areaAddWrapper.append(createInputRow(gmpPackingAtpTestingAreaControls(data)));
+    }
 
     additionalData.append(createText({"type":"text","classes":"report_additional_info"}));
     additionalData.append(createInputRow({"columns":[gmpPackingAtpTestingComment(data.notes)]}));
 
     log.append(areasCard);
-    log.append(areaAddWrapper);
+    if(data.areas)
+        log.append(areaAddWrapper);
     log.append(additionalData);
     log.append($("<div class='row'>").append(createButton(gmpPackingAtpTestingSendButton())));
 
@@ -256,13 +314,22 @@ function gmpPackingAtpTestingArea(item){
     var topRow = new Object();
     var bottomRow = new Object();
 
+    console.log("Nivel de area");
+    console.log(item);
+
     topRow.columns = [gmpPackingAtpTestingAreaTitle(item), gmpPackingAtpTestingAreaTime(item)];
     bottomRow.columns = [gmpPackingAtpTestingAreaAddTestButton(item), gmpPackingAtpTestingAreaDelTestButton(item)];
 
     testsWrapper.attr("id", "tests_wrapper_" + item.id);
 
     areaCard.append(createInputRow(topRow));
-    testsWrapper.append(gmpPackingAtpTestingItem(item, 1))
+    if(item.items){
+        for(var entry of item.items){
+            testsWrapper.append(gmpPackingAtpTestingItem(entry, 1));
+        }
+    } else {
+        testsWrapper.append(gmpPackingAtpTestingItem(item, 1));
+    }
     areaCard.append(testsWrapper);
     areaCard.append(createInputRow(bottomRow));
 
@@ -285,8 +352,8 @@ function gmpPackingAtpTestingAreaTime(area, time){
     var timeInput = {"type":"input","id": "time_" + area.id, "classes": "validate", "fieldType":"text","disabled":true,"data":{"area_id":area.id},"value":getISOTime(new Date())};
     var timeFullInput = {"id":"timeWrapper_" + area.id,"classes":"input-field col s6 m6 l6","field":timeInput,"label":timeLabel};
 
-    if(time){
-        timeInput.value = time;
+    if(area.time){
+        timeInput.value = area.time;
     }
 
     return timeFullInput;
@@ -316,7 +383,7 @@ function gmpPackingAtpTestingItem(area, number){
     var itemCard = $("<div>");
     var topRow = new Object();
 
-    topRow.columns = [gmpPackingAtpTestingItemReading(area, number), gmpPackingAtpTestingItemResult(area, number),gmpPackingAtpTestingItemCorrectiveAction(area, number), gmpPackingAtpTestingItemRetest(area, number)];
+    topRow.columns = [gmpPackingAtpTestingItemReading(area, number), gmpPackingAtpTestingItemResult(area, number),gmpPackingAtpTestingItemCorrectiveAction(area, number), gmpPackingAtpTestingItemSecondReading(area, number), gmpPackingAtpTestingItemRetest(area, number)];
 
     itemCard.append(createInputRow(topRow));
 
@@ -338,10 +405,10 @@ function gmpPackingAtpTestingItemNumber(item, number){
 function gmpPackingAtpTestingItemReading(item, number){
     var testLabel = {"type":"label","contents":{"type":"text","classes":"test_title"}};
     var testInput = {"type":"input","id": "test_" + item.id + "_" + number, "classes": "validate timeChanger", "fieldType":"text","data":{"test_no":number,"area_id":item.id},"validations":{"type":"number"/*,"toast":"gmp-packing-scale-calibration-test"*/}};
-    var testFullInput = {"id":"testWrapper_" + item.id + "_" + number,"classes":"input-field col s4 m4 l4","field":testInput,"label":testLabel};
+    var testFullInput = {"id":"testWrapper_" + item.id + "_" + number,"classes":"input-field col s2 m2 l2","field":testInput,"label":testLabel};
 
-    if(item.test){
-        testInput.value = item.test;
+    if(item.test1){
+        testInput.value = item.test1;
         testLabel.classes = "active";
     }
 
@@ -357,9 +424,9 @@ function gmpPackingAtpTestingItemResult(item, number){
     var itemRadioGroup = {"type": "radioGroup", "id":"test_radioGroup_"  + item.id + "_" + number,"classes":"col s12 m12 l12","group":"test_radio_" + item.id + "_" + number,"radioArray":[radioAcceptable, radioUnacceptable],"validations":{"type":"radio","required":{"value":true,"toast":"gmp-packing-preop-item-status"},"groupName":"test_radio_" + item.id + "_" + number},"label":statusLabel};
     var groupInput = {"id":"test_radioWrapper_" + item.id + "_" + number,"classes":"col s2 m2 l2","field":itemRadioGroup};
 
-    if(item.status == 1){
+    if(item.results1 == 1){
         radioAcceptable.checked = true;
-    } else if (item.status == 0){
+    } else if (item.results1 == 0){
         radioUnacceptable.checked = true;
     }
 
@@ -379,6 +446,19 @@ function gmpPackingAtpTestingItemCorrectiveAction(item, number){
     return actionFullInput;
 }
 
+function gmpPackingAtpTestingItemSecondReading(item, number){
+    var testLabel = {"type":"label","contents":{"type":"text","classes":"test_title"}};
+    var testInput = {"type":"input","id": "retest_" + item.id + "_" + number, "classes": "validate timeChanger", "fieldType":"text","data":{"test_no":number,"area_id":item.id},"validations":{"type":"number"/*,"toast":"gmp-packing-scale-calibration-test"*/}};
+    var testFullInput = {"id":"retestWrapper_" + item.id + "_" + number,"classes":"input-field col s2 m2 l2","field":testInput,"label":testLabel};
+
+    if(item.test2){
+        testInput.value = item.test2;
+        testLabel.classes = "active";
+    }
+
+    return testFullInput;
+}
+
 function gmpPackingAtpTestingItemRetest(item, number){
     var statusLabel = {"type": "label","contents": {"type":"text","classes":"retest_title"}};
     var acceptableIcon = {"type":"text","classes":"pass_tag big"};
@@ -388,9 +468,9 @@ function gmpPackingAtpTestingItemRetest(item, number){
     var itemRadioGroup = {"type": "radioGroup", "id":"radioGroup_"  + item.id + "_" + number,"classes":"col s12 m12 l12","group":"radio_" + item.id + "_" + number,"radioArray":[radioAcceptable, radioUnacceptable],"label":statusLabel};
     var groupInput = {"id":"radioWrapper_" + item.id + "_" + number,"classes":"col s2 m2 l2","field":itemRadioGroup};
 
-    if(item.status == 1){
+    if(item.results2 == 1){
         radioAcceptable.checked = true;
-    } else if (item.status == 0){
+    } else if (item.results2 == 0){
         radioUnacceptable.checked = true;
     }
 
@@ -400,54 +480,56 @@ function gmpPackingAtpTestingItemRetest(item, number){
 function gmpPackingAtpTestingFunctionality(data){
     console.log("Cargando funcionalidad");
 
-    $("#productionArea").on("change", function(e){
-        if($(this).val() == "0"){
-            $("#newAreaInput").prop('disabled', false);
-        } else {
-            $("#newAreaInput").prop('disabled', true);
-        }
-    });
+    if(data.isPrefilled){
+        $(".test_button").remove();
+        $(".delete_button").remove();
+    } else {
+        $("#productionArea").on("change", function(e){
+            if($(this).val() == "0"){
+                $("#newAreaInput").prop('disabled', false);
+            } else {
+                $("#newAreaInput").prop('disabled', true);
+            }
+        });
 
-    $("#add_area").on("click", function(e){
-        if($("#productionArea").val() == "0"){
-            $server.request({
-                service: 'add-gmp-packing-atp-testing',
-                data: {"name":$("#newAreaInput").val()},
-                success: function(response){
-                    console.log(response);
-                    if (response.meta.return_code == 0) {
-                        Materialize.toast("Area añadida", 3000, "rounded");
-                        $("#areas_wrapper").append(gmpPackingAtpTestingArea({"id":parseInt(response.data),"name":$("#newAreaInput").val()}));
-                        $("#add_production_area_option").before($("<option>", {
-                            value: parseInt(response.data),
-                            text: $("#newAreaInput").val(),
-                            disabled: true
-                        }));
-                        $("#newAreaInput").val("")
-                        $('select').material_select('destroy');
-                        $('select').material_select();
-                        gmpPackingAtpTestingAddDelTestsFunctionality(data);
-                        changeLanguage();
-                    } else {
-                        Materialize.toast(response.meta.message, 3000, "rounded");
+        $("#add_area").on("click", function(e){
+            if($("#productionArea").val() == "0"){
+                $server.request({
+                    service: 'add-gmp-packing-atp-testing',
+                    data: {"name":$("#newAreaInput").val()},
+                    success: function(response){
+                        console.log(response);
+                        if (response.meta.return_code == 0) {
+                            Materialize.toast("Area añadida", 3000, "rounded");
+                            $("#areas_wrapper").append(gmpPackingAtpTestingArea({"id":parseInt(response.data),"name":$("#newAreaInput").val()}));
+                            $("#add_production_area_option").before($("<option>", {
+                                value: parseInt(response.data),
+                                text: $("#newAreaInput").val(),
+                                disabled: true
+                            }));
+                            $("#newAreaInput").val("")
+                            $('select').material_select('destroy');
+                            $('select').material_select();
+                            gmpPackingAtpTestingAddDelTestsFunctionality(data);
+                            changeLanguage();
+                        } else {
+                            Materialize.toast(response.meta.message, 3000, "rounded");
+                        }
                     }
-                }
-            });
-            /*
-            gmpPackingAtpTestingAddDelTestsFunctionality(data);
-            changeLanguage();*/
-        } else {
-            $("#areas_wrapper").append(gmpPackingAtpTestingArea(JSON.parse($("#productionArea").val())));
-            $("option[value='" + $("#productionArea").val() + "']").prop("disabled", true);
-            gmpPackingAtpTestingAddDelTestsFunctionality(data);
-            changeLanguage();
-        }
-    });
+                });
+            } else {
+                $("#areas_wrapper").append(gmpPackingAtpTestingArea(JSON.parse($("#productionArea").val())));
+                $("option[value='" + $("#productionArea").val() + "']").prop("disabled", true);
+                gmpPackingAtpTestingAddDelTestsFunctionality(data);
+                changeLanguage();
+            }
+        });
+    }
 }
 
 function gmpPackingAtpTestingAddDelTestsFunctionality(data){
-    $( ".test_button" ).off();
-    $( ".delete_button" ).off();
+    $(".test_button").off();
+    $(".delete_button").off();
 
     $(".test_button").on("click", function(e){
         var areaID = $(this).data("area_id");

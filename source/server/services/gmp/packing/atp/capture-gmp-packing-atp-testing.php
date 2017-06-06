@@ -52,7 +52,7 @@ $service = fsm\createCaptureService(
   ],
   [
     'extra_info' => [
-      // NULL
+      'notes'
     ],
     'function' => function($scope, $segment, $request, $logID) {
       // get an instance of the areas' DAO
