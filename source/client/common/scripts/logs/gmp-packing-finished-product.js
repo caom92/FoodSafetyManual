@@ -17,7 +17,7 @@ function loadLogForm(htmlElement){
                 $("#send_report").click(function(){
                     sendgmpPackingFinishedProductReport();
                 });
-                gmpPackingFinishedProductFunctionality();
+                gmpPackingFinishedProductFunctionality({"isPrefilled":false});
                 $("input").characterCounter();
                 autocompleteActivator();
                 dateActivator();

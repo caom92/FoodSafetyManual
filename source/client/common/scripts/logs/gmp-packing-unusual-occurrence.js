@@ -43,7 +43,6 @@ function loadPrefilledLogForm(htmlElement, data){
             if (response.meta.return_code == 0) {
                 var item = new Object();
                 $(htmlElement).html("");
-                console.log("MAMES");
                 var report = response.data;
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":report.creation_date},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":report.created_by}]}]};
                 $(htmlElement).append(logHeader(header));
@@ -68,7 +67,6 @@ function loadPrefilledLogForm(htmlElement, data){
                 $("input").characterCounter();
                 dateActivator();
                 changeLanguage();
-                console.log("MAMES");
             } else {
                 Materialize.toast("Some error", 3000, "rounded");
                 throw response.meta.message;
