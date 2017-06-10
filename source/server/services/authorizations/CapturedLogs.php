@@ -258,9 +258,9 @@ class CapturedLogs extends db\InsertableTable
         $this->table
       WHERE
         employee_id = $userID AND
-        status_id != (
+        status_id == (
           SELECT id FROM log_status WHERE name = ".
-          parent::$dataBase->quote('Approved')."
+          parent::$dataBase->quote('Waiting')."
         )"
     )->fetchAll();
 
