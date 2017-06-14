@@ -36,7 +36,7 @@ class ScaleLogs extends db\InsertableTable
         test = {$changes['test']},
         was_test_passed = {$changes['was_test_passed']},
         was_scale_sanitized = {$changes['was_scale_sanitized']}
-      WHERE cl.id = $logID AND tl.scale_id = $scaleID"
+      WHERE cl.id = $logID AND scale_id = $scaleID"
     );
   }
 }

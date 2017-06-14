@@ -44,6 +44,18 @@ class TimeLogs extends db\LogTable
       ORDER BY type_id, scale_name"
     )->fetchAll();
   }
+
+  // Modifica los renglones de la tabla que tienen registrado el ID de fecha de 
+  // captura especificado, sustituyendo los viejos datos con los datos
+  // especificados
+  // [in]   changes (dictionary): arreglo asociativo que contiene los datos que 
+  //        van a ser añadidos en la tabla organizados por columnas
+  // [in]   dateID (uint): el ID de fecha de captura cuyo renglon en la tabla
+  //        va a ser modificado
+  // [out]  return (uint): el numero de renglones que fueron modificados
+  function updateByCaptureDateID($changes, $dateID) {
+    return parent::update($changes, [ 'capture_date_id' => $dateID ]);
+  }
 }
 
 ?>
