@@ -13,7 +13,7 @@ namespace fsm;
 // [out]  return (dictionary): arreglo asociativo que contiene la descripcion
 //        del servicio
 function 
-createUploadManualService($program, $module, $log, $manualDir) {
+createUploadManualService($program, $module, $log, $manualFileDir) {
   return [
     'requirements_desc' => [
       'logged_in' => ['Director', 'Manager', 'Supervisor'],
