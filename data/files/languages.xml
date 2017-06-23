@@ -162,6 +162,11 @@
         <spanish>Actualizar</spanish>
     </translation>
 
+    <translation id="update_password">
+        <english>Update password</english>
+        <spanish>Actualizar contraseña</spanish>
+    </translation>
+
     <translation id="add_button">
         <english>Add</english>
         <spanish>Agregar</spanish>

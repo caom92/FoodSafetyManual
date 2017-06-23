@@ -399,5 +399,5 @@ function reportHeader(zone, program, module, log, elaborationDate, employeeName,
 }
 
 function reportHeaderPDF(zone, program, module, log, elaborationDate, employeeName, approvalDate, supervisorName){
-    return $("<div><table><tr><td><span class='zone_name'></span>: " + zone + "<br><span class='program_name'></span>: " + program + "<br><span class='module_name'></span>: " + module + "<br><span class='name'></span>: " + log + "</td></tr><tr><td><span class='elaborated_name'></span>: " + elaborationDate + "<br><span class='made_by'></span>: " + employeeName + "<br><span class='approved_name'></span>: " + approvalDate + "<br><span class='approved_by'></span>: " + supervisorName + "</td></tr></table></div><br>");
+    return $("<div><table><tr><td><span class='zone_name'></span>: " + zone + "<br><span class='program_name'></span>: " + program + "<br><span class='module_name'></span>: " + module + "<br><span class='name'></span>: " + log + "</td><td><span class='elaborated_name'></span>: " + elaborationDate + "<br><span class='made_by'></span>: " + employeeName + "<br><span class='approved_name'></span>: " + approvalDate + "<br><span class='approved_by'></span>: " + supervisorName + "</td></tr></table></div><br>");
 }
