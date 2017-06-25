@@ -25,6 +25,9 @@ function storeUserDataInLocalStorage(userData)
     localStorage.first_name = userData.first_name;
     localStorage.last_name = userData.last_name;
     localStorage.login_name = userData.login_name;
+    localStorage.company = userData.company;
+    localStorage.logo = userData.logo;
+    localStorage.address = userData.address;
 
     if (isDefined(userData.zone_id)) {
         localStorage.zone_id = userData.zone_id;

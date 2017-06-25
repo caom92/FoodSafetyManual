@@ -389,6 +389,15 @@ function constructUserProfileArray($scope, $userData) {
     1 : $userData['zone_id'];
   $userDataToSend['zone_name'] = ($isDirector) ?
     'AVA' : $userData['zone_name'];
+  $userDataToSend['logo'] = 
+    ($isDirector || strlen($userData['zone_logo']) == 0) ? 
+      'default.png' : $userData['zone_logo'];
+  $userDataToSend['company'] =
+    ($isDirector || strlen($userData['zone_company']) == 0) ? 
+      'Company Name' : $userData['zone_company'];
+  $userDataToSend['address'] = 
+    ($isDirector || strlen($userData['zone_address']) == 0) ? 
+      'Company Address' : $userData['zone_address'];
   $userDataToSend['exclusive_access'] =
     strtolower($userData['role_name']).'/';
   $userDataToSend['privileges'] = $privileges;

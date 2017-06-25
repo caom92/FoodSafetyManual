@@ -29,6 +29,9 @@ $service = [
     \resetSessionID($scope->session, $segment);
     $segment->set('zone_id', $zone['id']);
     $segment->set('zone_name', $zone['name']);
+    $segment->set('logo', $zone['logo_path']); 
+    $segment->set('company', $zone['company_name']);
+    $segment->set('address', $zone['address']);
 
     // return the info of the new zone
     return $zone;

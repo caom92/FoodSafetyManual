@@ -28,8 +28,9 @@ class Users extends db\ToggableItemsTable
       [
         "$this->table.id(user_id)", 'r.id(role_id)', 
         'r.name(role_name)', 
-        'z.id(zone_id)', 'z.name(zone_name)', 'employee_num', 
-        'first_name', 'last_name', 'login_name', 
+        'z.id(zone_id)', 'z.name(zone_name)', 'z.company_name(zone_company)',
+        'z.address(zone_address)', 'z.logo_path(zone_logo)',
+        'employee_num', 'first_name', 'last_name', 'login_name', 
         'login_password'
       ], 
       [ 

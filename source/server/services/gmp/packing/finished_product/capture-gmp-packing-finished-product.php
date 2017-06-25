@@ -12,8 +12,8 @@ $service = fsm\createCaptureService(
       'type' => 'array',
       'values' => [
         'batch' => [
-          'type' => 'int',
-          'min' => 1
+          'type' => 'string',
+          'min_length' => 1
         ],
         // 'production_area_id' => [
         //   'type' => 'int',
@@ -81,7 +81,8 @@ $service = fsm\createCaptureService(
         'notes' => [
           'type' => 'string',
           'min_length' => 1,
-          'max_length' => 65535
+          'max_length' => 65535,
+          'optional' => TRUE
         ]
       ]
     ]

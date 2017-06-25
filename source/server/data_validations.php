@@ -24,7 +24,7 @@ function isNumeric($data)
 // this is the case or false otherwise
 function isInteger($data)
 {
-  return filter_var($data, FILTER_VALIDATE_INT) != NULL;
+  return filter_var($data, FILTER_VALIDATE_INT) !== NULL;
 }
 
 
@@ -36,7 +36,7 @@ function isFloat($data)
     $data, 
     FILTER_VALIDATE_FLOAT,
     FILTER_FLAG_ALLOW_THOUSAND
-  ) != NULL;
+  ) !== NULL;
 }
 
 
@@ -52,7 +52,7 @@ function integerIsBetweenValues($data, $min, $max)
       'min_range' => $min,
       'max_range' => $max
     ]]
-  ) != NULL;
+  ) !== NULL;
 }
 
 
@@ -93,7 +93,7 @@ function stringHasLengthInterval($string, $min, $max)
 // address returning true if this is the case or false otherwise 
 function stringIsEmail($string)
 {
-  return filter_var($string, FILTER_VALIDATE_EMAIL) != NULL;
+  return filter_var($string, FILTER_VALIDATE_EMAIL) !== NULL;
 }
 
 

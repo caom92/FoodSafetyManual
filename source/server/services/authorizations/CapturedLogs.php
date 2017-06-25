@@ -31,6 +31,8 @@ class CapturedLogs extends db\InsertableTable
     $logID, 
     $zoneID
   ) {
+    $statusID = parent::$dataBase->select(
+      'log_status', 'id', [ 'name' => 'Approved']);
     return parent::select(
       [
         "$this->table.id(id)",
@@ -46,7 +48,8 @@ class CapturedLogs extends db\InsertableTable
           'log_id' => $logID, 
           'capture_date[>=]' => $startDate,
           'capture_date[<=]' => $endDate,
-          'u.zone_id' => $zoneID
+          'u.zone_id' => $zoneID,
+          'status_id' => $statusID
         ],
         'ORDER' => [
           'capture_date'
@@ -169,9 +172,9 @@ class CapturedLogs extends db\InsertableTable
         ON t.employee_id = u.id
       WHERE
         t.employee_id = $userID AND
-        t.status_id != (
+        t.status_id = (
           SELECT id FROM log_status WHERE name = ".
-          parent::$dataBase->quote('Approved')."
+          parent::$dataBase->quote('Waiting')."
         )
       ORDER BY t.status_id, t.capture_date"
     )->fetchAll();
@@ -258,7 +261,7 @@ class CapturedLogs extends db\InsertableTable
         $this->table
       WHERE
         employee_id = $userID AND
-        status_id == (
+        status_id = (
           SELECT id FROM log_status WHERE name = ".
           parent::$dataBase->quote('Waiting')."
         )"

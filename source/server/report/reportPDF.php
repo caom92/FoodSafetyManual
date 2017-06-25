@@ -23,12 +23,19 @@ class PDFCreator extends TCPDF
 {
     // The translated texts to be used in the file
     private $texts;
+    private $logo;
+    private $company;
+    private $address;
 
 
     // Create an instance of the PDF file creator
     // [in]     lang: a string that contains the code of the language that we 
     //          going to use to display the text
-    function __construct($lang) {
+    function __construct($lang, $logo, $company, $address) {
+        $this->logo = $logo;
+        $this->company = $company;
+        $this->address = $address;
+
         // first, initialize a TCPDF instance
         parent::__construct(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, 
             true, 'UTF-8', false);
@@ -86,9 +93,9 @@ class PDFCreator extends TCPDF
     // Creates the page header of the PDF file
     public function Header() {
         // define the company info
-        $logo = realpath(dirname(__FILE__)."/../../../data/images/logo.png");
-        $companyName = "Jacobs Farm, Del Cabo";
-        $companyAddress = "P.O. Box 508 Pescadero, CA. 94060";
+        $logo = realpath(dirname(__FILE__)."/../../../data/logos/$this->logo");
+        $companyName = $this->company;
+        $companyAddress = $this->address;
 
         // sets the logo and the company info in the PDF file
         $this->Image($logo, 5, 5, 40, '', 'PNG', '', 'T', false, 300, '', 
@@ -131,7 +138,12 @@ $lang = (isset($_POST['lang']) && array_key_exists('lang', $_POST)) ?
     : 'en';
 
 // create new PDF document
-$pdf = new PDFCreator($lang);
+$pdf = new PDFCreator(
+    $lang, 
+    $_POST['logo'], 
+    $_POST['company'], 
+    $_POST['address']
+);
 
 // initialize the storage for the HTML that will be displayed in the PDF file
 $html = '';
