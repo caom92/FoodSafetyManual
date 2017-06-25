@@ -209,7 +209,6 @@ function reportLoaderCard(data){
     cardRow.append(openIconWrapper);
 
     reportCard.append(cardRow);
-
     reportCard.data("report", table(loadReport(data)));
     reportCard.data("raw_report", data);
     reportCard.data("header", reportHeader(data.zone_name, data.module_name, data.program_name, data.log_name, data.creation_date, data.created_by, data.approval_date, data.approved_by));

@@ -31,6 +31,8 @@ class CapturedLogs extends db\InsertableTable
     $logID, 
     $zoneID
   ) {
+    $statusID = parent::$dataBase->select(
+      'log_status', 'id', [ 'name' => 'Approved']);
     return parent::select(
       [
         "$this->table.id(id)",
@@ -46,7 +48,8 @@ class CapturedLogs extends db\InsertableTable
           'log_id' => $logID, 
           'capture_date[>=]' => $startDate,
           'capture_date[<=]' => $endDate,
-          'u.zone_id' => $zoneID
+          'u.zone_id' => $zoneID,
+          'status_id' => $statusID
         ],
         'ORDER' => [
           'capture_date'

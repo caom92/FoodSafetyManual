@@ -122,7 +122,7 @@ main.with-side-menu, footer {
 }
 /* Square area with the company's logo */
 .logo-area {
-    background: white url("../images/logo.png") no-repeat center;
+    background: white url("../logos/default.png") no-repeat center;
     background-size: contain;
 }
 
