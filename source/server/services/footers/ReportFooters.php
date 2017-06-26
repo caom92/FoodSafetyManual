@@ -6,7 +6,7 @@ use fsm\database as db;
 
 
 // Interfaz para la tabla report_footers
-class UsersLogsPrivileges extends db\InsertableTable
+class ReportFooters extends db\InsertableTable
 {
   // Crea una instancia de una interfaz a la base de datos para modificar 
   // la tabla report_footers
