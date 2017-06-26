@@ -1,3 +1,5 @@
+var incID = 1;
+
 function loadLogForm(htmlElement){
     $server.request({
         service: 'log-gmp-packing-atp-testing',
@@ -69,7 +71,7 @@ function loadFunctionality(data){
 // be shared among all log types
 
 function loadReport(data){
-    return;
+    return gmpPackingAtpTestingReport(data);
 }
 
 function validateLog(){
@@ -222,9 +224,10 @@ function gmpPackingAtpTestingLog(data, htmlElement){
     additionalData.append(createText({"type":"text","classes":"report_additional_info"}));
     additionalData.append(createInputRow({"columns":[gmpPackingAtpTestingComment(data.notes)]}));
 
-    log.append(areasCard);
     if(data.areas)
         log.append(areaAddWrapper);
+
+    log.append(areasCard);
     log.append(additionalData);
     log.append($("<div class='row'>").append(createButton(gmpPackingAtpTestingSendButton())));
 
@@ -234,12 +237,12 @@ function gmpPackingAtpTestingLog(data, htmlElement){
 function gmpPackingAtpTestingAreaControls(data){
     var controlsRow = new Object();
 
-    controlsRow.columns = [/*gmpPackingAtpTestingAreaControlsSelect(data), */gmpPackingAtpTestingAreaControlsSelect(data), gmpPackingAtpTestingAreaControlsInput(data), gmpPackingAtpTestingAreaControlsAddButton(data), gmpPackingAtpTestingAreaControlsDelButton(data)];
+    controlsRow.columns = [gmpPackingAtpTestingAreaControlsInput(data), gmpPackingAtpTestingAreaControlsAddButton(data), gmpPackingAtpTestingAreaControlsDelButton(data)];
 
     return controlsRow;
 }
 
-function gmpPackingAtpTestingAreaControlsSelect(data){
+/*function gmpPackingAtpTestingAreaControlsSelect(data){
     var areas = new Array();
 
     for(var area of data.areas){
@@ -254,12 +257,12 @@ function gmpPackingAtpTestingAreaControlsSelect(data){
     var actionSelectInput = {"id":"productionAreaWrapper","classes":"input-field col s5 m5 l5","field":actionSelect,"label":selectLabel};
 
     return actionSelectInput;
-}
+}*/
 
 function gmpPackingAtpTestingAreaControlsInput(data){
     var areaNewLabel = {"type":"label","contents":{"type":"text","classes":"production_area_title"},"for":"newAreaInput","classes":"active"};
-    var areaNewInput = {"type":"input","id": "newAreaInput", "classes": "validate", "fieldType":"text","disabled":true};
-    var areaNewFullInput = {"id":"newAreaInputWrapper","classes":"input-field col s5 m5 l5","field":areaNewInput,"label":areaNewLabel};
+    var areaNewInput = {"type":"input","id": "newAreaInput", "classes": "validate", "fieldType":"text"};
+    var areaNewFullInput = {"id":"newAreaInputWrapper","classes":"input-field col s10 m10 l10","field":areaNewInput,"label":areaNewLabel};
 
     return areaNewFullInput;
 }
@@ -479,16 +482,20 @@ function gmpPackingAtpTestingFunctionality(data){
         $(".test_button").remove();
         $(".delete_button").remove();
     } else {
-        $("#productionArea").on("change", function(e){
+        /*$("#productionArea").on("change", function(e){
             if($(this).val() == "0"){
                 $("#newAreaInput").prop('disabled', false);
             } else {
                 $("#newAreaInput").prop('disabled', true);
             }
-        });
+        });*/
 
         $("#add_area").on("click", function(e){
-            if($("#productionArea").val() == "0"){
+            $("#areas_wrapper").append(gmpPackingAtpTestingArea({"id":incID++,"name":$("#newAreaInput").val()}));
+            gmpPackingAtpTestingAddDelTestsFunctionality(data);
+            changeLanguage();
+            loadToast("new-atp-area-add", 2500, "rounded", null, null, [$("#newAreaInput").val()]);
+            /*if($("#productionArea").val() == "0"){
                 $server.request({
                     service: 'add-gmp-packing-atp-testing',
                     data: {"name":$("#newAreaInput").val()},
@@ -517,7 +524,7 @@ function gmpPackingAtpTestingFunctionality(data){
                 $("option[value='" + $("#productionArea").val() + "']").prop("disabled", true);
                 gmpPackingAtpTestingAddDelTestsFunctionality(data);
                 changeLanguage();
-            }
+            }*/
         });
     }
 }

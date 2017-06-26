@@ -279,4 +279,5 @@ function datePicker(nameHidden, maxDate, minDate){
 function clearLanguageCache(){
     localStorage.removeItem("spanish");
     localStorage.removeItem("english");
+    localStorage.removeItem("toasts");
 }

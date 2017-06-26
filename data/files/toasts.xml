@@ -221,6 +221,11 @@
         <spanish>El rol del usuario ha sido cambiado a </spanish>
     </translation>
 
+    <translation id="new-atp-area-add">
+        <english>The area {{value}} has been added</english>
+        <spanish>El área {{value}} fue añadida</spanish>
+    </translation>
+
     <!--Form creator validation toasts-->
 
     <!--Generic-->
