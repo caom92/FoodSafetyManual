@@ -196,9 +196,12 @@ function reportLoaderCard(data){
     cardRow.addClass("row no-margin-bottom");
 
     var secretForm = $('<form id="secretForm_' + data.report_id + '" action="source/server/report/reportPDF.php" target="_blank" method="post" hidden>' +
-            '<input id="contents_' +data.report_id + '"type="text" name="content" hidden>' + 
-            '<input id="css_' +data.report_id + '"type="text" name="style" hidden>' + 
-            '<input id="lang_' +data.report_id + '"type="text" name="lang" hidden>' + 
+            '<input id="contents_' + data.report_id + ' "type="text" name="content" hidden>' + 
+            '<input id="css_' + data.report_id + ' "type="text" name="style" hidden>' + 
+            '<input id="lang_' + data.report_id + ' "type="text" name="lang" hidden>' + 
+            '<input id="company_' + data.report_id + ' "type="text" name="company" hidden>' + 
+            '<input id="address_' + data.report_id + ' "type="text" name="address" hidden>' + 
+            '<input id="logo_' + data.report_id + ' "type="text" name="logo" hidden>' + 
         '</form>');
     reportCard.append(secretForm);
 
@@ -264,6 +267,9 @@ function reportLoaderCard(data){
         $("#contents_" + data.report_id).val(JSON.stringify([contentObject]));
         $("#css_" + data.report_id).val(getCSS());
         $("#lang_" + data.report_id).val(localStorage.defaultLanguage);
+        $("#company_" + data.report_id).val(localStorage.company);
+        $("#address_" + data.report_id).val(localStorage.address);
+        $("#logo_" + data.report_id).val(localStorage.logo);
         $("#secretForm_" + data.report_id).submit();
     });
 
@@ -299,6 +305,9 @@ function reportLoaderCard(data){
         $("#contents_" + data.report_id).val(JSON.stringify(htmlContent));
         $("#css_" + data.report_id).val(getCSS());
         $("#lang_" + data.report_id).val(localStorage.defaultLanguage);
+        $("#company_" + data.report_id).val(localStorage.company);
+        $("#address_" + data.report_id).val(localStorage.address);
+        $("#logo_" + data.report_id).val(localStorage.logo);
         $("#secretForm_" + data.report_id).submit();
         $("#report-tab-content").html(currentHTML);
     });
