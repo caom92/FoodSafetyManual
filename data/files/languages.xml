@@ -162,6 +162,11 @@
         <spanish>Actualizar</spanish>
     </translation>
 
+    <translation id="update_password">
+        <english>Update password</english>
+        <spanish>Actualizar contraseña</spanish>
+    </translation>
+
     <translation id="add_button">
         <english>Add</english>
         <spanish>Agregar</spanish>
@@ -654,8 +659,8 @@
     </translation>
 
     <translation id="test_title">
-        <english>Test</english>
-        <spanish>Prueba</spanish>
+        <english>Reading</english>
+        <spanish>Lectura</spanish>
     </translation>
 
     <translation id="batch_title">

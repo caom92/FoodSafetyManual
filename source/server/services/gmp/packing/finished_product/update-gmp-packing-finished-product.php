@@ -17,7 +17,7 @@ $service = fsm\createUpdateService(
         ],
         'production_area_id' => [
           'type' => 'string',
-          'min_length' => 2,
+          'min_length' => 1,
           'max_length' => 80
         ],
         'supplier_id' => [
