@@ -196,12 +196,12 @@ function reportLoaderCard(data){
     cardRow.addClass("row no-margin-bottom");
 
     var secretForm = $('<form id="secretForm_' + data.report_id + '" action="source/server/report/reportPDF.php" target="_blank" method="post" hidden>' +
-            '<input id="contents_' + data.report_id + ' "type="text" name="content" hidden>' + 
-            '<input id="css_' + data.report_id + ' "type="text" name="style" hidden>' + 
-            '<input id="lang_' + data.report_id + ' "type="text" name="lang" hidden>' + 
-            '<input id="company_' + data.report_id + ' "type="text" name="company" hidden>' + 
-            '<input id="address_' + data.report_id + ' "type="text" name="address" hidden>' + 
-            '<input id="logo_' + data.report_id + ' "type="text" name="logo" hidden>' + 
+            '<input id="contents_' + data.report_id + '"type="text" name="content" hidden>' + 
+            '<input id="css_' + data.report_id + '"type="text" name="style" hidden>' + 
+            '<input id="lang_' + data.report_id + '"type="text" name="lang" hidden>' + 
+            '<input id="company_' + data.report_id + '"type="text" name="company" hidden>' + 
+            '<input id="address_' + data.report_id + '"type="text" name="address" hidden>' + 
+            '<input id="logo_' + data.report_id + '"type="text" name="logo" hidden>' + 
         '</form>');
     reportCard.append(secretForm);
 
