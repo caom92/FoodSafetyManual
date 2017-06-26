@@ -26,8 +26,6 @@ $service = [
     $zones = $scope->daoFactory->get('Zones'); 
     $isZoneNameDuplicated = $zones->hasByName($request['new_zone']);
 
-
-
     if (!$isZoneNameDuplicated) {
       $zones->insert([
         'name' => $request['new_zone'],
