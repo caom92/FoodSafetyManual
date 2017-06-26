@@ -11,6 +11,9 @@ function addDynamicSearchRow(){
 function addZoneListElement(element){
     var row = $("<tr>");
     row.append($("<td class='search-column'>").text(element.name));
+    row.append($("<td class='search-column'>").text(element.company_name));
+    row.append($("<td class='search-column'>").text(element.address));
+    row.append($("<td class='search-column'>").html("<img src='data/logos/" + element.logo_path + "' height='42'>"));
     return row;
 }
 

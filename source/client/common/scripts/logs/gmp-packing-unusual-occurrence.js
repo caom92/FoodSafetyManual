@@ -25,6 +25,7 @@ function loadLogForm(htmlElement){
                 });
                 gmpPackingFinishedProductFunctionality();
                 $("input").characterCounter();
+                $("textarea").characterCounter();
                 dateActivator();
                 changeLanguage();
             } else {
@@ -65,6 +66,7 @@ function loadPrefilledLogForm(htmlElement, data){
                     }
                 });
                 $("input").characterCounter();
+                $("textarea").characterCounter();
                 dateActivator();
                 changeLanguage();
             } else {
@@ -398,7 +400,7 @@ function gmpPackingUnusualOccurrenceItemBatch(item){
 
 function gmpPackingUnusualOccurrenceItemDescription(item){
     var descriptionLabel = {"type":"label","contents":{"type":"text","classes":"description"},"for":"description_" + item.id};
-    var descriptionInput = {"type":"input","id": "description_" + item.id, "classes": "validate", "fieldType":"text","data":{"id":item.id},"validations":{"type":"text","max":{"value":512}}};
+    var descriptionInput = {"type":"textarea","id": "description_" + item.id, "classes": "validate", "fieldType":"text","data":{"id":item.id},"validations":{"type":"text","max":{"value":65535}}};
     var descriptionFullInput = {"id":"descriptionWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":descriptionInput,"label":descriptionLabel};
 
     if(item.entry){
@@ -413,7 +415,7 @@ function gmpPackingUnusualOccurrenceItemDescription(item){
 
 function gmpPackingUnusualOccurrenceItemAction(item){
     var actionLabel = {"type":"label","contents":{"type":"text","classes":"action_title"},"for":"action_" + item.id};
-    var actionInput = {"type":"input","id": "action_" + item.id, "classes": "validate", "fieldType":"text","data":{"id":item.id},"validations":{"type":"text","max":{"value":512}}};
+    var actionInput = {"type":"textarea","id": "action_" + item.id, "classes": "validate", "fieldType":"text","data":{"id":item.id},"validations":{"type":"text","max":{"value":65535}}};
     var actionFullInput = {"id":"actionWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":actionInput,"label":actionLabel};
 
     if(item.entry){

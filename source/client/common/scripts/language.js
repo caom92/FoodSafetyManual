@@ -275,3 +275,8 @@ function datePicker(nameHidden, maxDate, minDate){
 
     return datePickerConfig;
 }
+
+function clearLanguageCache(){
+    localStorage.removeItem("spanish");
+    localStorage.removeItem("english");
+}

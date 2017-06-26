@@ -116,6 +116,9 @@ function createField(fieldObject){
         if(fieldObject.type == "floating"){
             field = createFloatingButton(fieldObject);
         }
+        if(fieldObject.type == "textarea"){
+            field = createTextarea(fieldObject);
+        }
     }
     return field;
 }
@@ -158,6 +161,66 @@ function createTextField(fieldObject){
 
     if(fieldObject.classes)
         field.attr("class", fieldObject.classes);
+
+    if(fieldObject.value)
+        field.attr("value", fieldObject.value);
+
+    if(fieldObject.size)
+        field.attr("size", fieldObject.size);
+
+    if(fieldObject.maxlength)
+        field.attr("maxlength", fieldObject.maxlength);
+
+    if(fieldObject.min)
+        field.attr("min", fieldObject.min);
+
+    if(fieldObject.max)
+        field.attr("max", fieldObject.max);
+
+    if(fieldObject.placeholder)
+        field.attr("placeholder", fieldObject.placeholder);
+
+    if(fieldObject.readonly)
+        field.prop("readonly", true);
+
+    if(fieldObject.disabled)
+        field.prop("disabled", true);
+
+    if(fieldObject.required)
+        field.prop("required", true);
+
+    if($.type(fieldObject.data) == "object"){
+        field.data(fieldObject.data);
+    }
+
+    if($.type(fieldObject.validations) == "object"){
+        field.data("validations", fieldObject.validations);
+        field.addClass("formValidator");
+        if(fieldObject.validations.max != undefined && fieldObject.validations.type == "text"){
+            if(fieldObject.validations.max.value != undefined){
+                field.attr("length", fieldObject.validations.max.value);
+            }
+        }
+    }
+
+    return field;
+}
+
+function createTextarea(fieldObject){
+    var field = $("<textarea>");
+
+    if(fieldObject.fieldType)
+        field.attr("type", fieldObject.fieldType);
+    else
+        field.attr("type", "text");
+
+    if(fieldObject.id)
+        field.attr("id", fieldObject.id);
+
+    if(fieldObject.classes)
+        field.attr("class", fieldObject.classes);
+
+    field.addClass("materialize-textarea");
 
     if(fieldObject.value)
         field.attr("value", fieldObject.value);
@@ -707,6 +770,7 @@ Button Object
 function createButton(buttonObject){
     var buttonWrapper = $("<div>");
     var button = $("<a>");
+    var buttonText = $("<span>");
 
     buttonWrapper.addClass("center-align");
     button.addClass("waves-effect waves-light btn");
@@ -715,12 +779,18 @@ function createButton(buttonObject){
         button.attr("id", buttonObject.id);
 
     if(buttonObject.classes)
-        buttonWrapper.addClass(classes);
+        buttonText.addClass(buttonObject.classes);
+
+    button.append(buttonText);
 
     if(buttonObject.icon)
         button.append(createIcon(buttonObject.icon));
 
     buttonWrapper.append(button);
+
+    if($.type(buttonObject.data) == "object"){
+        button.data(buttonObject.data);
+    }
 
     return buttonWrapper;
 }

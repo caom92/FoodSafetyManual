@@ -105,6 +105,11 @@
         <spanish>Zonas</spanish>
     </translation>
 
+    <translation id="programs">
+        <english>Programs</english>
+        <spanish>Programas</spanish>
+    </translation>
+
     <translation id="inventory">
         <english>Inventory</english>
         <spanish>Inventario</spanish>
@@ -933,5 +938,27 @@
     <translation id="customer_salesman">
         <english>Salesman</english>
         <spanish>Vendedor</spanish>
+    </translation>
+
+    <!--Admin controls-->
+
+    <translation id="pdf_footer">
+        <english>PDF Footer</english>
+        <spanish>Pie de página en PDF</spanish>
+    </translation>
+
+    <translation id="html_footer">
+        <english>HTML Footer</english>
+        <spanish>Pie de página en HTML</spanish>
+    </translation>
+
+    <translation id="edit_button">
+        <english>Edit</english>
+        <spanish>Editar</spanish>
+    </translation>
+
+    <translation id="save_button">
+        <english>Save</english>
+        <spanish>Guardar</spanish>
     </translation>
 </translations>
