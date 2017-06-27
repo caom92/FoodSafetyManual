@@ -16,7 +16,7 @@ class ReportFooters extends db\InsertableTable
 
   // Retorna el pie de pagina que tenga registrado la zona y la bitacora 
   // especificados
-  function selectByZoneIDAndLogID($zoneID, $logID) {
+  function getByZoneIDAndLogID($zoneID, $logID) {
     return parent::get(
       [ 
         'capture_form_footer(form_footer)', 
