@@ -13,11 +13,11 @@ $service = [
     ],
     'capture_form_footer' => [
       'type' => 'string',
-      'max_length' => 65538
+      'max_length' => 65535
     ],
     'report_document_footer' => [
       'type' => 'string',
-      'max_length' => 65538
+      'max_length' => 65535
     ]
   ],
   'callback' => function($scope, $request) {
