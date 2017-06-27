@@ -25,12 +25,9 @@ class TimeLogs extends db\LogTable
     return parent::$dataBase->query(
       "SELECT
         $this->table.id AS time_log_id,
-        a.id AS area_id,
-        a.name AS area_name,
+        area AS area_name,
         DATE_FORMAT(time, '%H:%i') AS time
       FROM $this->table
-      INNER JOIN gmp_packing_atp_check_areas AS a
-        ON $this->table.area_id = a.id
       WHERE capture_date_id = $dateID"
     )->fetchAll();
   }
