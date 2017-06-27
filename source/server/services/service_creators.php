@@ -104,12 +104,13 @@ function createLogService($program, $module, $log, $strategy,
         $items = $strategy['function']($scope, $segment);
 
         // retrieve the footers for the capture form
-        $footers = $scope->daoFactory->get('ReportFooters')->getByZoneIDAndLogID(
-          $segment->get('zone_id'),
-          $scope->daoFactory->get('Logs')->getIDByNames(
-            $program, $module, $log
-          )
-        );
+        $footers = $scope->daoFactory->get('ReportFooters')
+          ->getByZoneIDAndLogID(
+            $segment->get('zone_id'),
+            $scope->daoFactory->get('Logs')->getIDByNames(
+              $program, $module, $log
+            )
+          );
 
         // prepare the response JSON
         return [
@@ -117,7 +118,7 @@ function createLogService($program, $module, $log, $strategy,
           'program_name' => $program,
           'module_name' => $module,
           'log_name' => $log,
-          'html_footer' => $footer['form_footer'],
+          'html_footer' => $footers['form_footer'],
           $strategy['items_name'] => $items
         ];
       } : $strategy
