@@ -103,12 +103,21 @@ function createLogService($program, $module, $log, $strategy,
         // retrieve the list of log items from the database
         $items = $strategy['function']($scope, $segment);
 
+        // retrieve the footers for the capture form
+        $footers = $scope->daoFactory->get('ReportFooters')->getByZoneAndLogID(
+          $segment->get('zone_id'),
+          $scope->daoFactory->get('Logs')->getIDByNames(
+            $program, $module, $log
+          )
+        );
+
         // prepare the response JSON
         return [
           'zone_name' => $segment->get('zone_name'),
           'program_name' => $program,
           'module_name' => $module,
           'log_name' => $log,
+          'html_footer' => $footer['form_footer'],
           $strategy['items_name'] => $items
         ];
       } : $strategy
@@ -221,13 +230,23 @@ function createReportService($program, $module, $log, $strategy,
         // first, we get the session segment
         $segment = $scope->session->getSegment('fsm');
 
+        // get the log ID
+        $logID = $scope->daoFactory->get('Logs')->getIDByNames(
+          $program, $module, $log);
+
+        // get the footers
+        $footers = $scope->daoFactory->get('ReportFooters')
+          ->getByZoneIDAndLogID(
+            $segment->get('zone_id'),
+            $logID
+          );
+
         // then, we get the captured logs' date info 
         $logDates = $scope->daoFactory->get('CapturedLogs')
           ->selectByDateIntervalLogIDAndZoneID(
             $request['start_date'],
             $request['end_date'],
-            $scope->daoFactory->get('Logs')->getIDByNames(
-              $program, $module, $log),
+            $logID,
             $segment->get('zone_id')
           );
 
@@ -296,7 +315,10 @@ function createReportService($program, $module, $log, $strategy,
         }
 
         // finally return the list of reports
-        return $reports;
+        return [
+          'pdf_footer' => $footers['report_footer'],
+          'reports' => $reports
+        ];
       } : $strategy
   ];
 }

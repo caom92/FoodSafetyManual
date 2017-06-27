@@ -13,7 +13,7 @@ $service = [
     ]
   ],
   'callback' => function($scope, $request) {
-    return $scope->daoFactory->get('ReportFooters')->selectByZoneIDAndLogID(
+    return $scope->daoFactory->get('ReportFooters')->getByZoneIDAndLogID(
       $request['zone_id'], $request['log_id']
     );
   }

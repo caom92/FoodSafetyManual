@@ -11,9 +11,10 @@ $service = fsm\createCaptureService(
     'areas' => [
       'type' => 'array',
       'values' => [
-          'id' => [
-          'type' => 'int',
-          'min' => 1
+        'name' => [
+          'type' => 'string',
+          'min_length' => 1,
+          'max_length' => 255
         ],
         'time' => [
           'type' => 'datetime',
@@ -56,7 +57,7 @@ $service = fsm\createCaptureService(
     ],
     'function' => function($scope, $segment, $request, $logID) {
       // get an instance of the areas' DAO
-      $areas = $scope->daoFactory->get('gmp\packing\atp\CheckAreas');
+      // $areas = $scope->daoFactory->get('gmp\packing\atp\CheckAreas');
       $zoneID = $segment->get('zone_id');
 
       // then visit each area element
@@ -77,7 +78,7 @@ $service = fsm\createCaptureService(
         $timeLogID = $scope->daoFactory->get('gmp\packing\atp\TimeLogs')
           ->insert([
             'capture_date_id' => $logID,
-            'area_id' => $area['id'],
+            'area' => $area['name'],
             'time' => $area['time']
           ]);
 
