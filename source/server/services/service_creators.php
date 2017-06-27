@@ -104,7 +104,7 @@ function createLogService($program, $module, $log, $strategy,
         $items = $strategy['function']($scope, $segment);
 
         // retrieve the footers for the capture form
-        $footers = $scope->daoFactory->get('ReportFooters')->getByZoneAndLogID(
+        $footers = $scope->daoFactory->get('ReportFooters')->getByZoneIDAndLogID(
           $segment->get('zone_id'),
           $scope->daoFactory->get('Logs')->getIDByNames(
             $program, $module, $log
