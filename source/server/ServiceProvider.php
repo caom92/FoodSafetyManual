@@ -102,7 +102,7 @@ class ServiceProvider
       foreach ($serviceList as $name => $import) {
         // guardamos el URI completo con el cual se puede solicitar la ejecucion
         // de este servicio
-        // $name = SERVER_SERVICE_ROOT.$name;
+        $name = SERVER_SERVICE_ROOT.$name;
 
         // creamos la funcion que contiene las acciones a ejecutar cuando se
         // llama este servicio
