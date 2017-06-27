@@ -183,7 +183,7 @@ function pdfUploader(suffix) {
     }
 }
 
-function reportLoaderCard(data){
+function reportLoaderCard(data, footer){
     var reportCard = $("<div>");
     var cardRow = $("<div>");
     var openIconWrapper = $("<div class='iconContainer col s1 m1 l1'>");
@@ -202,6 +202,7 @@ function reportLoaderCard(data){
             '<input id="company_' + data.report_id + '"type="text" name="company" hidden>' + 
             '<input id="address_' + data.report_id + '"type="text" name="address" hidden>' + 
             '<input id="logo_' + data.report_id + '"type="text" name="logo" hidden>' + 
+            '<input id="footer_' + data.report_id + '"type="text" name="footer" hidden>' + 
         '</form>');
     reportCard.append(secretForm);
 
@@ -270,6 +271,7 @@ function reportLoaderCard(data){
         $("#company_" + data.report_id).val(localStorage.company);
         $("#address_" + data.report_id).val(localStorage.address);
         $("#logo_" + data.report_id).val(localStorage.logo);
+        $("#footer_" + data.report_id).val(footer);
         $("#secretForm_" + data.report_id).submit();
     });
 
@@ -309,6 +311,7 @@ function reportLoaderCard(data){
         $("#address_" + data.report_id).val(localStorage.address);
         $("#logo_" + data.report_id).val(localStorage.logo);
         $("#secretForm_" + data.report_id).submit();
+        $("#footer_" + data.report_id).val(footer);
         $("#report-tab-content").html(currentHTML);
     });
 
@@ -332,8 +335,8 @@ function loadReports(startDate, endDate, suffix){
                 var wrapper = $("#report-tab-index");
                 wrapper.html('');
 
-                for (reportData of response.data) {
-                    wrapper.append(reportLoaderCard(reportData));
+                for (reportData of response.data.reports) {
+                    wrapper.append(reportLoaderCard(reportData, response.data.pdf_footer));
                 }
 
                 $("#report-tab-index").append('<div class="divider"></div>');

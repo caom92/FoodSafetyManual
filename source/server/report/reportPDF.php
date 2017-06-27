@@ -31,10 +31,11 @@ class PDFCreator extends TCPDF
     // Create an instance of the PDF file creator
     // [in]     lang: a string that contains the code of the language that we 
     //          going to use to display the text
-    function __construct($lang, $logo, $company, $address) {
+    function __construct($lang, $logo, $company, $address, $footer) {
         $this->logo = $logo;
         $this->company = $company;
         $this->address = $address;
+        $this->footer = $footer;
 
         // first, initialize a TCPDF instance
         parent::__construct(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, 
@@ -120,6 +121,16 @@ class PDFCreator extends TCPDF
         // set font
         $this->SetFont('helvetica', 'I', 8);
 
+        // If there is a footer, add it
+
+        if(isset($this->footer)){
+            $this->writeHTMLCell(
+                0, 0, '', '',
+                $this->footer, 
+                0, 1, 0, true, 'C', true
+            );
+        }
+
         // set the page number
         $this->Cell(
             0, 10, 
@@ -127,7 +138,7 @@ class PDFCreator extends TCPDF
             $this->texts["of"]." ".$this->getAliasNbPages(), 
             0, false, 'C', 0, '', 0, false, 'T', 'M'
         );
-        $this->Line(15,$this->y,200,$this->y);
+        $this->Line(15,$this->y,197,$this->y);
     }
 }
 
@@ -142,7 +153,8 @@ $pdf = new PDFCreator(
     $lang, 
     $_POST['logo'], 
     $_POST['company'], 
-    $_POST['address']
+    $_POST['address'],
+    $_POST['footer']
 );
 
 // initialize the storage for the HTML that will be displayed in the PDF file
