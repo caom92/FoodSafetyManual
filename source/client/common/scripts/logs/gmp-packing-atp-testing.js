@@ -112,8 +112,9 @@ function sendGmpPackingAtpTestingReport(){
         $(".area-card").each(function(){
             var area = new Object();
             var areaID = $(this).data("id");
-            area.id = areaID;
-            area.time = $("#time_" + area.id).val();
+            //area.id = areaID;
+            area.name = $("#area_name_" + areaID).val();
+            area.time = $("#time_" + areaID).val();
             area.items = new Array();
             $(this).find(".item-card").each(function(){
                 var item = new Object();
@@ -339,10 +340,15 @@ function gmpPackingAtpTestingArea(item){
 }
 
 function gmpPackingAtpTestingAreaTitle(item){
-    var itemTitle = {"type":"text","id":"title_" + item.id,"classes":"", "text":item.name};
+    var areaNewLabel = {"type":"label","contents":{"type":"text","classes":"production_area_title"},"for":"newAreaInput","classes":"active"};
+    var areaNewInput = {"type":"input","id": "area_name_" + item.id, "classes": "validate", "fieldType":"text","value":item.name};
+    var areaNewFullInput = {"id":"newAreaInputWrapper","classes":"input-field col s6 m6 l6","field":areaNewInput,"label":areaNewLabel};
+
+    return areaNewFullInput;
+    /*var itemTitle = {"type":"text","id":"title_" + item.id,"classes":"", "text":item.name};
     var titleInput = {"id":"titleWrapper_" + item.id,"classes":"card-title col s6 m6 l6","field": itemTitle};
 
-    return titleInput;
+    return titleInput;*/
 }
 
 function gmpPackingAtpTestingAreaTime(area, time){
