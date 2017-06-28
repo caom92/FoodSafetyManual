@@ -61,7 +61,14 @@ $service = fsm\createLogService(
         array_push($scaleList, $scaleData);
       }
 
-      return $scaleList;
+      // retrieve the list of units
+      $units = $scope->daoFactory->get('gmp\packing\calibration\WeightUnits')
+        ->selectAll();
+
+      return [
+        'units' => $units,
+        'scales' => $scaleList
+      ];
     }
   ]
 );

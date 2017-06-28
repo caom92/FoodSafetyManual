@@ -39,6 +39,10 @@ $service = fsm\createUpdateService(
             'test' => [
               'type' => 'float'
             ],
+            'unit_id' => [
+              'type' => 'int',
+              'min' => 1
+            ],
             'status' => [
               'type' => 'bool'
             ],
@@ -70,6 +74,7 @@ $service = fsm\createUpdateService(
             ->updateByCapturedLogIDAndScaleID(
               [
                 'test' => $item['test'],
+                'unit_id' => $item['unit_id'],
                 'was_test_passed' => $item['status'],
                 'was_scale_sanitized' => $item['is_sanitized']
               ],

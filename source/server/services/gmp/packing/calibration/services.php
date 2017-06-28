@@ -10,6 +10,8 @@ $calibration = [
       realpath(dirname(__FILE__).'/ScaleTypes.php'),
     'gmp\packing\calibration\TimeLogs' =>
       realpath(dirname(__FILE__).'/TimeLogs.php'),
+    'gmp\packing\calibration\WeightUnits' =>
+      realpath(dirname(__FILE__).'/WeightUnits.php')
   ],
   'services' => [
     'upload-manual-gmp-packing-scale-calibration' =>
