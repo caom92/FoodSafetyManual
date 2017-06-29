@@ -224,15 +224,17 @@ function gmpPackingAtpTestingLog(data, htmlElement){
 
     if(data.areas){
         areaAddWrapper.addClass("card-panel white");
-        areaAddWrapper.append(createInputRow(gmpPackingAtpTestingAreaControls(data)));
     }
+
+    areaAddWrapper.append(createInputRow(gmpPackingAtpTestingAreaControls(data)));
+    console.log(gmpPackingAtpTestingAreaControls(data));
 
     additionalData.append(createText({"type":"text","classes":"report_additional_info"}));
     additionalData.append(createInputRow({"columns":[gmpPackingAtpTestingComment(data.notes)]}));
 
-    if(data.areas)
-        log.append(areaAddWrapper);
+    //if(data.areas)
 
+    log.append(areaAddWrapper);
     log.append(areasCard);
     log.append(additionalData);
     log.append($("<div class='row'>").append(createButton(gmpPackingAtpTestingSendButton())));
@@ -571,4 +573,84 @@ function gmpPackingAtpTestingAddDelTestsFunctionality(data){
             $(this).addClass("grey");
         }
     });
+}
+
+function gmpPackingAtpTestingReport(data){
+    var report = new Object();
+
+    report.type = "table";
+    report.classes = "bordered highlight";
+    report.id = "report_" + data.report_id;
+
+    report.thead = gmpPackingAtpTestingHeader();
+    report.tbody = gmpPackingAtpTestingBody(data);
+    
+    console.log(JSON.stringify(report));
+    console.log(report);
+
+    return report;
+}
+
+function gmpPackingAtpTestingHeader(){
+    var header = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"test_title testColumn"},{"type":"th","classes":"results_title resultsColumn"},{"type":"th","classes":"action_title actionColumn"},{"type":"th","classes":"test_title testColumn"},{"type":"th","classes":"retest_title resultColumn"}]}]};
+
+    return header;
+}
+
+function gmpPackingAtpTestingBody(data){
+    var body = {"type":"tbody"};
+
+    body.rows = new Array();
+
+    for(var area of data.areas){
+        var row = {"type":"tr"};
+        row.columns = gmpPackingAtpTestingAreaRow(area);
+        body.rows.push(row);
+        for(var item of area.items){
+            var itemRow = {"type":"tr"};
+            itemRow.columns = gmpPackingAtpTestingReportItem(item);
+            body.rows.push(itemRow);
+        }
+    }
+
+    /*var reportNotesRow = {"type":"tr"};
+    reportNotesRow.columns = [gmpPackingAtpTestingNotes(data.notes, 5)];
+    body.rows.push(reportNotesRow);*/
+
+    return body;
+}
+
+function gmpPackingAtpTestingAreaRow(area){
+    var areaRow = new Array();
+
+    areaRow.push({"type":"td","classes":"nameColumn","contents":area.name,"colspan":3});
+    areaRow.push({"type":"td","classes":"timeColumn","contents":area.time,"colspan":2});
+
+    return area;
+}
+
+function gmpPackingAtpTestingReportItem(itemData){
+    var item = new Array();
+
+    item.push({"type":"td","classes":"testColumn","contents":itemData.test1});
+    if(itemData.results1 == 1){
+        item.push({"type":"td","classes":"weightColumn pass_tag"});
+    } else {
+        item.push({"type":"td","classes":"weightColumn fail_tag"});
+    }
+    item.push({"type":"td","classes":"actionColumn","contents":itemData.corrective_action});
+    item.push({"type":"td","classes":"testColumn","contents":itemData.test2});
+    if(itemData.results2 == 1){
+        item.push({"type":"td","classes":"labelColumn pass_tag"});
+    } else {
+        item.push({"type":"td","classes":"labelColumn fail_tag"});
+    }
+
+    console.log(item);
+
+    return item;
+}
+
+function getCSS(){
+    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}td { border: 1px solid #000000; text-align: left;}th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50;}.even { background-color: #b8e0b9;}.verticaltext{ writing-mode:tb-rl; transform: rotate(90deg); white-space:nowrap; word-break:break-word; bottom:0;}.typeTitle{ background-color: yellow; width:501px;}.fullColumn{ background-color: #D3D3D3;width:631px;}.nameColumn{ width:116px;}.numberColumn{ width:30px;}.timeColumn{ width:40px;}.areaColumn{ width:90px;}.statusColumn{ width:85px;}.actionColumn{ width:70px;}.commentColumn{ width:200px;}</style>';
 }

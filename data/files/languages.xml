@@ -688,6 +688,11 @@
         <spanish>¿Peso/Llenado correcto?</spanish>
     </translation>
 
+    <translation id="unit_title">
+        <english>Units</english>
+        <spanish>Unidades</spanish>
+    </translation>
+
     <translation id="correct_label_title">
         <english>Correct Label?</english>
         <spanish>¿Etiquetado correcto?</spanish>

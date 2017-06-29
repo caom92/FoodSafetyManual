@@ -339,7 +339,7 @@ function scaleCalibrationItemUnits(item, typeID, units){
         var radioIcon = {"type":"text","classes":"big", "text":unit.symbol};
         var radioButton = {"type":"radio","id":"unitType_" + item.id + "_" + unit.id,"classes":"timeChanger","value":unit.id,"label":{"type":"label","classes":"black-text","for":"unitType_" + item.id + "_" + unit.id,"contents": radioIcon},"data":{"type_id":typeID,"item_id":item.id,"unit_id":unit.id}};
 
-        if(item.unit_id == unit.id){
+        if(item.unit == unit.id){
             radioButton.checked = true;
         }
 
