@@ -48,7 +48,7 @@ $service = fsm\createAuthorizationReportService(
               'order' => $log['order'],
               'name' => $log['scale_name'],
               'test' => $log['test'],
-              'unit' => $log['unit_name'],
+              'unit' => $log['unit_id'],
               'status' => $log['status'],
               'is_sanitized' => $log['is_sanitized']
             ]]
@@ -61,7 +61,7 @@ $service = fsm\createAuthorizationReportService(
             'order' => $log['order'],
             'name' => $log['scale_name'],
             'test' => $log['test'],
-            'unit' => $log['unit_name'],
+            'unit' => $log['unit_id'],
             'status' => $log['status'],
             'is_sanitized' => $log['is_sanitized']
           ]);
@@ -73,7 +73,14 @@ $service = fsm\createAuthorizationReportService(
         array_push($scaleTypeLogs, $scaleLogs);
       }
 
-      return $scaleTypeLogs;
+      // get the list of weight units
+      $units = $scope->daoFactory->get('gmp\packing\calibration\WeightUnits')
+        ->selectAll();
+
+      return [
+        'units' => $units,
+        'logs' => $scaleTypeLogs
+      ];
     }
   ]
 );
