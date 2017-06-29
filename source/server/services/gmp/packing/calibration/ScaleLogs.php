@@ -36,6 +36,7 @@ class ScaleLogs extends db\InsertableTable
         ON tl.capture_date_id = cl.id
       SET 
         test = {$changes['test']},
+        unit_id = {$changes['unit_id']},
         was_test_passed = {$wasTestPassed},
         was_scale_sanitized = {$wasScaleSanitized}
       WHERE cl.id = $logID AND scale_id = $scaleID"
