@@ -39,6 +39,10 @@ $service = fsm\createCaptureService(
             'test' => [
               'type' => 'float'
             ],
+            'unit_id' => [
+              'type' => 'int',
+              'min' => 1
+            ],
             'status' => [
               'type' => 'bool'
             ],
@@ -76,6 +80,7 @@ $service = fsm\createCaptureService(
             'time_log_id' => $timeID,
             'scale_id' => $scaleLog['id'],
             'test' => $scaleLog['test'],
+            'unit_id' => $scaleLog['unit_id'],
             'was_scale_sanitized' => $scaleLog['is_sanitized'],
             'was_test_passed' => $scaleLog['status']
           ]);

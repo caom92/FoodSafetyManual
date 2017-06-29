@@ -31,6 +31,7 @@ class TimeLogs extends db\LogTable
         s.position AS `order`,
         s.serial_num AS scale_name,
         sl.test AS test,
+        u.symbol AS unit_name,
         sl.was_test_passed AS status,
         sl.was_scale_sanitized AS is_sanitized
       FROM $this->table
@@ -40,6 +41,8 @@ class TimeLogs extends db\LogTable
         ON sl.scale_id = s.id
       INNER JOIN gmp_packing_calibration_scale_types AS st
         ON s.type_id = st.id
+      INNER JOIN gmp_packing_calibration_weight_units AS u
+        ON sl.unit_id = u.id
       WHERE capture_date_id = $dateID
       ORDER BY type_id, scale_name"
     )->fetchAll();

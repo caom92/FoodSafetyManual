@@ -48,6 +48,7 @@ $service = fsm\createAuthorizationReportService(
               'order' => $log['order'],
               'name' => $log['scale_name'],
               'test' => $log['test'],
+              'unit' => $log['unit_name'],
               'status' => $log['status'],
               'is_sanitized' => $log['is_sanitized']
             ]]
@@ -60,6 +61,7 @@ $service = fsm\createAuthorizationReportService(
             'order' => $log['order'],
             'name' => $log['scale_name'],
             'test' => $log['test'],
+            'unit' => $log['unit_name'],
             'status' => $log['status'],
             'is_sanitized' => $log['is_sanitized']
           ]);
