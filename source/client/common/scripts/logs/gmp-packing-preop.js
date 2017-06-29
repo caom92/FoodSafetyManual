@@ -19,7 +19,7 @@ function loadLogForm(htmlElement){
                     sendGmpPackingPreopReport();
                 });
                 $('.log_title').html($("#log_name").text());
-                //Materialize.toast("Informacion cargada del server", 3000, "rounded");
+                $(htmlElement).append(report.html_footer);
                 $("input").characterCounter();
             } else {
                 Materialize.toast("Some error", 3000, "rounded");

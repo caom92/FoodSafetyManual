@@ -13,6 +13,8 @@ function loadLogForm(htmlElement){
                     sendGmpPackingThermoCalibrationReport();
                 });
                 $("input").characterCounter();
+                $(htmlElement).append(report.html_footer);
+                changeLanguage();
             } else {
                 Materialize.toast("Some error", 3000, "rounded");
                 throw response.meta.message;

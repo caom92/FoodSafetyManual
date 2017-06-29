@@ -11,12 +11,13 @@ function loadLogForm(htmlElement){
                 $(htmlElement).append(logHeader(header));
                 gmpPackingScissorsKnivesLog(report, htmlElement);
                 loadFunctionality({"isPrefilled":false});
-                changeLanguage(localStorage.defaultLanguage);
                 $("#send_report").click(function(){
                     sendGmpPackingScissorsKnivesReport();
                 });
                 $('.log_title').html($("#log_name").text());
                 $("input").characterCounter();
+                $(htmlElement).append(report.html_footer);
+                changeLanguage();
             } else {
                 Materialize.toast("Some error", 3000, "rounded");
                 throw response.meta.message;

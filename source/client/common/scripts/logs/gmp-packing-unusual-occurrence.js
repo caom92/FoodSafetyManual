@@ -27,6 +27,7 @@ function loadLogForm(htmlElement){
                 $("input").characterCounter();
                 $("textarea").characterCounter();
                 dateActivator();
+                $(htmlElement).append(report.html_footer);
                 changeLanguage();
             } else {
                 Materialize.toast("Some error", 3000, "rounded");

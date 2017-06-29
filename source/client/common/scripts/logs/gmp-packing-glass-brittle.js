@@ -11,11 +11,12 @@ function loadLogForm(htmlElement){
                 $(htmlElement).append(logHeader(header));
                 gmpPackingGlassBrittleLog(report, htmlElement);
                 loadFunctionality({"isPrefilled":false});
-                changeLanguage();
                 $("#send_report").click(function(){
                     sendGmpPackingGlassBrittleReport();
                 });
+                $(htmlElement).append(report.html_footer);
                 $("input").characterCounter();
+                changeLanguage();
             } else {
                 Materialize.toast("Some error", 3000, "rounded");
                 throw response.meta.message;

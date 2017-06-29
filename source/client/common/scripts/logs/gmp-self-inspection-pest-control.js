@@ -12,6 +12,7 @@ function loadLogForm(htmlElement){
                 });
                 $('.log_title').html($("#log_name").text());
                 $("input").characterCounter();
+                $(htmlElement).append(report.html_footer);
                 changeLanguage();
             } else {
                 Materialize.toast("Some error", 3000, "rounded");

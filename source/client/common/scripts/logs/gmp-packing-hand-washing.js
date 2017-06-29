@@ -16,6 +16,7 @@ function loadLogForm(htmlElement){
                     sendGmpPackingHandWashingReport();
                 });
                 $('.log_title').html($("#log_name").text());
+                changeLanguage();
                 $("input").characterCounter();
             } else {
                 Materialize.toast("Some error", 3000, "rounded");

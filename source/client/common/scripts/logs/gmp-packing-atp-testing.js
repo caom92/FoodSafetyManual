@@ -16,6 +16,7 @@ function loadLogForm(htmlElement){
                 });
                 $('.log_title').html($("#log_name").text());
                 $("input").characterCounter();
+                $(htmlElement).append(report.html_footer);
                 changeLanguage();
             } else {
                 Materialize.toast("Some error", 3000, "rounded");
@@ -126,6 +127,10 @@ function sendGmpPackingAtpTestingReport(){
                     item.corrective_action = $("#correctiveAction_" + areaID + "_" + itemID).val();
                     item.test2 = Number($("#retest_" + areaID + "_" + itemID).val());
                     item.results2 = getBool($("input[id='acceptable_" + areaID + "_" + itemID +"']:checked").val());
+                } else {
+                    item.corrective_action = "";
+                    item.test2 = 0;
+                    item.results2 = false;
                 }
                 area.items.push(item);
             });
