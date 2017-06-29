@@ -79,7 +79,7 @@ $service = fsm\createAuthorizationReportService(
 
       return [
         'units' => $units,
-        'logs' => $scaleTypeLogs
+        'scales' => $scaleTypeLogs
       ];
     }
   ]
