@@ -15,9 +15,10 @@ $service = fsm\createUpdateService(
     'areas' => [
       'type' => 'array',
       'values' => [
-        'id' => [
-          'type' => 'int',
-          'min' => 1
+        'name' => [
+          'type' => 'string',
+          'min_length' => 1,
+          'max_length' => 255
         ],
         'time' => [
           'type' => 'datetime',
@@ -67,7 +68,7 @@ $service = fsm\createUpdateService(
 
         foreach ($area['items'] as $item) {
           $scope->daoFactory->get('gmp\packing\atp\Logs')
-            ->updateByCapturedLogIDAndAreaID(
+            ->updateByCapturedLogIDAndArea(
               [
                 'test_num' => $item['test_number'],
                 'test1' => $item['test1'],
@@ -79,7 +80,7 @@ $service = fsm\createUpdateService(
                   $item['results2'] : 'NULL'
               ],
               $request['report_id'],
-              $area['id']
+              $area['name']
             );
         }
       }

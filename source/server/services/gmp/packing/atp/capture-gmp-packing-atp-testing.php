@@ -62,18 +62,6 @@ $service = fsm\createCaptureService(
 
       // then visit each area element
       foreach ($request['areas'] as $area) {
-        // // check if the area already exists on the DB
-        // $areaID = $areas->selectIDByNameAndZoneID(
-        //   $area['name'], $zoneID);
-
-        // // if this is not the case, insert it
-        // if (!isset($areaID)) {
-        //   $areaID = $areas->insert([
-        //     'name' => $area['name'],
-        //     'zone_id' => $zoneID
-        //   ]);
-        // }
-
         // store in the database the area and time
         $timeLogID = $scope->daoFactory->get('gmp\packing\atp\TimeLogs')
           ->insert([
