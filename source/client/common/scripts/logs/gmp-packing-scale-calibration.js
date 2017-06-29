@@ -132,6 +132,7 @@ function sendScaleCalibrationReport(){
                 var itemID = $(this).data("id");
                 item.id = itemID;
                 item.test = Number($("#test_" + itemID).val());
+                item.unit_id = parseInt($('input[name=unitRadio_' + itemID +']:checked').val());
                 item.status = getBool($("input:radio[name='radio_" + itemID + "']:checked").val());
                 if($("input[id='sanitation_" + itemID + "']:checked").length == 1){
                     item.is_sanitized = true;
@@ -182,6 +183,7 @@ function updateScaleCalibrationReport(reportID){
                 var itemID = $(this).data("id");
                 item.id = itemID;
                 item.test = Number($("#test_" + itemID).val());
+                item.unit_id = parseInt($('input[name=unitRadio_' + itemID +']:checked').val());
                 item.status = getBool($("input:radio[name='radio_" + itemID + "']:checked").val());
                 if($("input[id='sanitation_" + itemID + "']:checked").length == 1){
                     item.is_sanitized = true;
@@ -217,8 +219,8 @@ function scaleCalibrationLog(data, htmlElement){
     var additionalData = $("<div>");
 
     console.log(data);
-    for(var type of data.types){
-        log.append(scaleCalibrationType(type));
+    for(var type of data.types.scales){
+        log.append(scaleCalibrationType(type, data.types.units));
     }
 
     additionalData.addClass("card-panel white");
@@ -265,7 +267,7 @@ function scaleCalibrationSendButton(){
     return button;
 }
 
-function scaleCalibrationType(type){
+function scaleCalibrationType(type, units){
     var typeCard = $("<div>");
     var title = $("<div>");
 
@@ -278,7 +280,7 @@ function scaleCalibrationType(type){
     typeCard.append(createInputRow({"columns":[scaleCalibrationTypeTime(type.id, type.time)]}));
 
     for(var item of type.items){
-        typeCard.append(scaleCalibrationItem(item, type.id));
+        typeCard.append(scaleCalibrationItem(item, type.id, units));
     }
 
     return typeCard;
@@ -296,11 +298,11 @@ function scaleCalibrationTypeTime(typeID, time){
     return timeFullInput;
 }
 
-function scaleCalibrationItem(item, typeID){
+function scaleCalibrationItem(item, typeID, units){
     var itemCard = $("<div>");    
     var itemRow = new Object();
 
-    itemRow.columns = [scaleCalibrationItemTitle(item, typeID), scaleCalibrationItemTest(item, typeID), scaleCalibrationItemStatus(item, typeID), scaleCalibrationItemSanitation(item, typeID)];
+    itemRow.columns = [scaleCalibrationItemTitle(item, typeID), scaleCalibrationItemTest(item, typeID), scaleCalibrationItemUnits(item, typeID, units), scaleCalibrationItemStatus(item, typeID), scaleCalibrationItemSanitation(item, typeID)];
 
     itemCard.append(createInputRow(itemRow).attr("style", "margin-top:15px;"));
     itemCard.addClass("item-card");
@@ -312,7 +314,7 @@ function scaleCalibrationItem(item, typeID){
 
 function scaleCalibrationItemTitle(item, typeID){
     var itemTitle = {"type":"text","id":"title_" + item.id, "text":item.name};
-    var titleInput = {"id":"titleWrapper_" + item.id,"classes":"card-title col s6 m3 l3","field": itemTitle};
+    var titleInput = {"id":"titleWrapper_" + item.id,"classes":"card-title col s6 m2 l2","field": itemTitle};
 
     return titleInput;
 }
@@ -330,13 +332,33 @@ function scaleCalibrationItemTest(item, typeID){
     return testFullInput;
 }
 
+function scaleCalibrationItemUnits(item, typeID, units){
+    var radioArray = [];
+
+    for(var unit of units){
+        var radioIcon = {"type":"text","classes":"big", "text":unit.symbol};
+        var radioButton = {"type":"radio","id":"unitType_" + item.id + "_" + unit.id,"classes":"timeChanger","value":unit.id,"label":{"type":"label","classes":"black-text","for":"unitType_" + item.id + "_" + unit.id,"contents": radioIcon},"data":{"type_id":typeID,"item_id":item.id,"unit_id":unit.id}};
+
+        if(item.unit_id == unit.id){
+            radioButton.checked = true;
+        }
+
+        radioArray.push(radioButton);
+    }
+
+    var itemRadioGroup = {"type": "radioGroup", "id":"unitRadio_"  + item.id,"classes":"col s12 m12 l12","group":"unitRadio_" + item.id,"radioArray":radioArray,"validations":{"type":"radio","required":{"value":true,"toast":"gmp-packing-scale-calibration-status"},"groupName":"unitRadio_"+item.id}};
+    var groupInput = {"id":"unitRadioWrapper_" + item.id,"classes":"col s4 m2 l2","field":itemRadioGroup};
+
+    return groupInput;
+}
+
 function scaleCalibrationItemStatus(item, typeID){
     var acceptableIcon = {"type":"text","classes":"pass_tag big"};
     var unacceptableIcon = {"type":"text","classes":"fail_tag big"};
     var radioAcceptable = {"type":"radio","id":"acceptable_" + item.id,"classes":"timeChanger","value":"true","label":{"type":"label","classes":"black-text","for":"acceptable_" + item.id,"contents": acceptableIcon},"data":{"type_id":typeID,"item_id":item.id}};
     var radioUnacceptable = {"type":"radio","id":"unacceptable_" + item.id,"classes":"timeChanger","value":"false","label":{"type":"label","classes":"black-text","for":"unacceptable_" + item.id,"contents": unacceptableIcon},"data":{"type_id":typeID,"item_id":item.id}};
     var itemRadioGroup = {"type": "radioGroup", "id":"radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"radio_" + item.id,"radioArray":[radioAcceptable, radioUnacceptable],"validations":{"type":"radio","required":{"value":true,"toast":"gmp-packing-scale-calibration-status"},"groupName":"radio_"+item.id}};
-    var groupInput = {"id":"radioWrapper_" + item.id,"classes":"col s6 m3 l3","field":itemRadioGroup};
+    var groupInput = {"id":"radioWrapper_" + item.id,"classes":"col s4 m2 l2","field":itemRadioGroup};
 
     if(item.status == 1){
         radioAcceptable.checked = true;
@@ -350,7 +372,7 @@ function scaleCalibrationItemStatus(item, typeID){
 function scaleCalibrationItemSanitation(item, typeID){
     var checkboxLabel = {"type":"label","contents":{"type":"text","classes":"sanitized_title"},"for":"sanitation_" + item.id};
     var checkboxField = {"type":"checkbox", "id":"sanitation_" + item.id,"classes":"filled-in timeChanger", "data":{"type_id":typeID}};
-    var checkboxFullInput = {"field":checkboxField, "label":checkboxLabel,"classes":"col s6 m3 l3"};
+    var checkboxFullInput = {"field":checkboxField, "label":checkboxLabel,"classes":"col s4 m3 l3"};
 
     if(item.is_sanitized == 1){
         checkboxField.checked = true;
@@ -397,7 +419,7 @@ function scaleCalibrationReport(data){
 // languages.xml, not strings
 
 function scaleCalibrationHeader(){
-    var header = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"time_title timeColumn"},{"type":"th","classes":"number_title numberColumn"},{"type":"th","classes":"test_title testColumn"},{"type":"th","classes":"status_title statusColumn"},{"type":"th","classes":"sanitized_title sanitizedColumn"}]}]};
+    var header = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"time_title timeColumn"},{"type":"th","classes":"number_title numberColumn"},{"type":"th","classes":"test_title testColumn"},{"type":"th","classes":"unit_title unitColumn"},{"type":"th","classes":"status_title statusColumn"},{"type":"th","classes":"sanitized_title sanitizedColumn"}]}]};
 
     return header;
 }
@@ -461,6 +483,7 @@ function scaleCalibrationReportItem(itemData){
 
     item.push({"type":"td","classes":"numberColumn","contents":itemData.name});
     item.push({"type":"td","classes":"testColumn","contents":itemData.test});
+    item.push({"type":"td","classes":"unitColumn","contents":itemData.unit});
     if(itemData.status){
         item.push({"type":"td","classes":"statusColumn pass_tag"});
     } else {
@@ -496,5 +519,5 @@ function scaleCalibrationFooter(data){
 }
 
 function getCSS(){
-    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}td { border: 1px solid #000000; text-align: left;}th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50;}.even { background-color: #b8e0b9;}.typeTitle{ background-color: yellow; width:588px;}.fullColumn{ background-color: #D3D3D3;width:631px;}.testColumn{ width:147px;}.numberColumn{ width:147px;}.timeColumn{ width:43px;}.statusColumn{ width:147px;}.sanitizedColumn{ width:147px;}</style>';
+    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}td { border: 1px solid #000000; text-align: left;}th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50;}.even { background-color: #b8e0b9;}.typeTitle{ background-color: yellow; width:588px;}.fullColumn{ background-color: #D3D3D3;width:631px;}.testColumn{ width:77px;}.unitColumn{ width:70px;}.numberColumn{ width:147px;}.timeColumn{ width:43px;}.statusColumn{ width:147px;}.sanitizedColumn{ width:147px;}</style>';
 }

@@ -166,7 +166,7 @@ function sendgmpPackingFinishedProductReport(){
             var item = new Object();
             var itemID = $(this).data("id");
             console.log("ID: " + itemID);
-            item.batch = parseInt($("#batch_" + itemID).val());
+            item.batch = $("#batch_" + itemID).val();
             item.production_area_id = $("#productionArea_" + itemID).val();
             item.supplier_id = $("#supplier_" + itemID).val();
             item.product_id = $("#product_" + itemID).val();
