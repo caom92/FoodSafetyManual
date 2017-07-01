@@ -41,11 +41,13 @@ $service = fsm\createUpdateService(
         ],
         'origin' => [
           'type' => 'string',
-          'length' => 3
+          'length' => 3,
+          'optional' => TRUE
         ],
         'expiration_date' => [
           'type' => 'datetime',
-          'format' => 'Y-m-d'
+          'format' => 'Y-m-d',
+          'optional' => TRUE
         ],
         'water_temperature' => [
           'type' => 'float'
