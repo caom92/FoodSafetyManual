@@ -113,7 +113,6 @@ function sendGmpPackingAtpTestingReport(){
         $(".area-card").each(function(){
             var area = new Object();
             var areaID = $(this).data("id");
-            //area.id = areaID;
             area.name = $("#area_name_" + areaID).val();
             area.time = $("#time_" + areaID).val();
             area.items = new Array();
@@ -165,7 +164,7 @@ function updateGmpPackingAtpTestingReport(reportID){
             var area = new Object();
             var areaID = $(this).data("id");
             console.log("ID de area: " + areaID);
-            area.id = areaID;
+            area.name = $("#area_name_" + areaID).val();
             area.time = $("#time_" + area.id).val();
             area.items = new Array();
             $(this).find(".item-card").each(function(){
