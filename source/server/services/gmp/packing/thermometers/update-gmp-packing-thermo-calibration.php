@@ -25,6 +25,9 @@ $service = fsm\createUpdateService(
         'calibration' => [
           'type' => 'bool'
         ],
+        'sanitization' => [
+          'type' => 'bool'
+        ],
         'deficiencies' => [
           'type' => 'string',
           'max_length' => 65535,
@@ -49,6 +52,7 @@ $service = fsm\createUpdateService(
           [
             'test' => $thermometer['test'],
             'was_test_passed' => $thermometer['calibration'],
+            'was_sanitized' => $thermometer['sanitization'],
             'deficiencies' => $thermometer['deficiencies'],
             'corrective_actions' => $thermometer['corrective_action']
           ],

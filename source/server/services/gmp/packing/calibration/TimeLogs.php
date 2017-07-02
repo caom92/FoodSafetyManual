@@ -45,7 +45,7 @@ class TimeLogs extends db\LogTable
       INNER JOIN gmp_packing_calibration_weight_units AS u
         ON sl.unit_id = u.id
       WHERE capture_date_id = $dateID
-      ORDER BY type_id, scale_name"
+      ORDER BY type_id, `order`"
     )->fetchAll();
   }
 

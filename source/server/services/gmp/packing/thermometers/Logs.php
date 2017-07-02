@@ -28,6 +28,7 @@ class Logs extends db\LogTable
         t.serial_num AS name,
         test,
         was_test_passed AS calibration,
+        was_sanitized AS sanitization,
         deficiencies,
         corrective_actions AS corrective_action
       FROM $this->table
