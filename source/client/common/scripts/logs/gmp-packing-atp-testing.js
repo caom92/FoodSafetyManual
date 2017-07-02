@@ -113,7 +113,6 @@ function sendGmpPackingAtpTestingReport(){
         $(".area-card").each(function(){
             var area = new Object();
             var areaID = $(this).data("id");
-            //area.id = areaID;
             area.name = $("#area_name_" + areaID).val();
             area.time = $("#time_" + areaID).val();
             area.items = new Array();
@@ -165,7 +164,7 @@ function updateGmpPackingAtpTestingReport(reportID){
             var area = new Object();
             var areaID = $(this).data("id");
             console.log("ID de area: " + areaID);
-            area.id = areaID;
+            area.name = $("#area_name_" + areaID).val();
             area.time = $("#time_" + area.id).val();
             area.items = new Array();
             $(this).find(".item-card").each(function(){
@@ -245,7 +244,7 @@ function gmpPackingAtpTestingLog(data, htmlElement){
 function gmpPackingAtpTestingAreaControls(data){
     var controlsRow = new Object();
 
-    controlsRow.columns = [gmpPackingAtpTestingAreaControlsInput(data), gmpPackingAtpTestingAreaControlsAddButton(data), gmpPackingAtpTestingAreaControlsDelButton(data)];
+    controlsRow.columns = [/*gmpPackingAtpTestingAreaControlsInput(data),*/gmpPackingAtpTestingAreaControlsAddButton(data), gmpPackingAtpTestingAreaControlsDelButton(data)];
 
     return controlsRow;
 }
@@ -276,7 +275,7 @@ function gmpPackingAtpTestingAreaControlsInput(data){
 }
 
 function gmpPackingAtpTestingAreaControlsAddButton(data){
-    var areaAddInput = {"id":"addAreaButtonWrapper","classes":"input-field col s1 m1 l1"};
+    var areaAddInput = {"id":"addAreaButtonWrapper","classes":"input-field col offset-s10 offset-m10 offset-l10 s1 m1 l1"};
     var areaAddButton = {"type":"floating","id":"add_area","classes":"btn-floating waves-effect waves-light green right","data":{"last_test":1}};
     var areaAddIcon = {"type":"icon","icon":"mdi-plus","size":"mdi-24px"};
     areaAddButton.icon = areaAddIcon;

@@ -41,18 +41,10 @@ function loadPrefilledLogForm(htmlElement, data){
                 var report = response.data;
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name, "id":"log_name"}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":getISODate(new Date())},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":localStorage.first_name + " " + localStorage.last_name}]}]};
                 $(htmlElement).append(logHeader(header));
-                /*item.id = 1;
-                item.production_areas = report.log_info.production_areas;
-                item.suppliers = report.log_info.suppliers;
-                item.product_codes = report.log_info.product_codes;
-                item.customers = report.log_info.customers;
-                item.quality_types = report.log_info.quality_types;*/
                 var itemID = 1;
                 for(var item of report.items.entries){
                     item.id = itemID;
                     item.quality_types = report.items.log_info.quality_types;
-                    console.log("entrada de FP");
-                    console.log(item);
                     gmpPackingFinishedProductLog(item, htmlElement);
                     itemID++;
                 }
@@ -161,7 +153,7 @@ function sendgmpPackingFinishedProductReport(){
     report.date = getISODate(new Date());
     report.entries = [];
 
-    if(validateLog() || true){
+    if(validateLog()){
         $(".item-card").each(function(){
             var item = new Object();
             var itemID = $(this).data("id");
@@ -211,7 +203,7 @@ function updateGmpPackingFinishedProductReport(reportID){
             var item = new Object();
             var itemID = $(this).data("id");
             console.log("ID: " + itemID);
-            item.batch = parseInt($("#batch_" + itemID).val());
+            item.batch = $("#batch_" + itemID).val();
             item.production_area_id = $("#productionArea_" + itemID).val();
             item.supplier_id = $("#supplier_" + itemID).val();
             item.product_id = $("#product_" + itemID).val();
@@ -260,6 +252,10 @@ function gmpPackingFinishedProductLog(data, htmlElement){
 
     log.append(itemsCard);
     log.append(createInputRow(addRow));
+
+    if($("#send_report").length == 1){
+        $('#send_report').parent().remove();
+    }
     log.append($("<div class='row'>").append(createButton(gmpPackingFinishedProductSendButton())));
 
     $(htmlElement).append(log);

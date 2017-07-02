@@ -138,7 +138,7 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
             //console.log(data);
 
             $server.request({
-                service: 'add-new-inventory-item',
+                service: 'add-gmp-packing-preop',
                 data: data,
                 success: function(response){
                     // Here we must append the recently added item to the list,

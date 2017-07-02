@@ -6,5 +6,5 @@ $(function()
 
     $('.collapsible').collapsible();
 
-    //changeLanguage(localStorage.defaultLanguage);
+    changeLanguage();
 });
