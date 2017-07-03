@@ -16,12 +16,14 @@ function createDatePicker(){
 
 function clearLog(htmlElement){
     $(".clearable:text").val("");
+    $(".clearable[type='date']").val("");
     $("select").material_select("destroy");
     $("select.clearable").each(function() {
         $(this).val($(this).find("option:first").val());
     });
     $("select").material_select();
     $(".clearable:radio").prop("checked", false);
+    $(".clearable:checkbox").prop("checked", false);
     specialClearLog();
 }
 

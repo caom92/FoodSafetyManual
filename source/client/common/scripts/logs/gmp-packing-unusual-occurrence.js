@@ -13,6 +13,7 @@ function loadLogForm(htmlElement){
                 item.shifts = report.items.shifts;
                 gmpPackingUnusualOccurrenceLog(item, htmlElement);
                 $("#send_report").click(function(){
+                    $(this).attr("disabled", true);
                     sendGmpPackingFinishedProductReport();
                 });
                 $('.timepicker').pickatime({
@@ -123,6 +124,10 @@ function validateLog(){
     return returnValue;
 }
 
+function specialClearLog(){
+    return;
+}
+
 function dateActivator(){
     $('.incident_datepicker').each(function(index, element){
         var itemID = $(this).data("item_id");
@@ -143,7 +148,7 @@ function sendGmpPackingFinishedProductReport(){
     report.date = getISODate(new Date());
     //report.entries = [];
 
-    if(validateLog() || true){
+    if(validateLog()){
         $(".item-card").each(function(){
             var item = new Object();
             var itemID = $(this).data("id");
@@ -159,20 +164,21 @@ function sendGmpPackingFinishedProductReport(){
             report.album_url = $("#report_url").val();
         });
 
-        console.log(report);
-        console.log(JSON.stringify(report));
-
         $server.request({
             service: 'capture-gmp-packing-unusual-occurrence',
             data: report,
             success: function(response){
                 if (response.meta.return_code == 0) {
                     Materialize.toast("Reporte enviado con exito", 3000, "rounded");
+                    clearLog();
                 } else {
                     Materialize.toast(response.meta.message, 3000, "rounded");
                 }
+                $("#send_report").removeAttr("disabled");
             }
         });
+    } else {
+        $("#send_report").removeAttr("disabled");
     }
 }
 
@@ -181,7 +187,7 @@ function updateGmpPackingFinishedProductReport(reportID){
 
     report.report_id = reportID;
 
-    if(validateLog() || true){
+    if(validateLog()){
         $(".item-card").each(function(){
             var item = new Object();
             var itemID = $(this).data("id");
@@ -195,9 +201,6 @@ function updateGmpPackingFinishedProductReport(reportID){
             report.corrective_action = $("#action_" + itemID).val();
             report.album_url = $("#report_url").val();
         });
-
-        console.log(report);
-        console.log(JSON.stringify(report));
 
         $server.request({
             service: 'update-gmp-packing-unusual-occurrence',
