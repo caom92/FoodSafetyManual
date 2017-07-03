@@ -176,7 +176,7 @@ class CapturedLogs extends db\InsertableTable
           SELECT id FROM log_status WHERE name = ".
           parent::$dataBase->quote('Waiting')."
         )
-      ORDER BY t.status_id, t.capture_date"
+      ORDER BY t.capture_date DESC"
     )->fetchAll();
   }
 
