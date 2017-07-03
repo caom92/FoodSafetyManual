@@ -35,6 +35,11 @@ class Zones extends db\InsertableTable
       'name' => $zoneName
     ]);
   }
+
+  // Updates the data of the zone that has the especified ID
+  function updateByZoneID($zoneID, $changes) {
+    return parent::update($changes, [ 'id' => $zoneID ]);
+  }
 }
 
 ?>
