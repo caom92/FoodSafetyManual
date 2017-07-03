@@ -85,6 +85,11 @@ Field Object
 
 function createField(fieldObject){
     var field = $("<span>");
+    if(!fieldObject.classes){
+        fieldObject.classes = "";
+    }
+    if(!(fieldObject.isClearable === false))
+        fieldObject.classes = fieldObject.classes + " clearable";
     if($.type(fieldObject) == "object"){
         if(fieldObject.type == "input"){
             field = createTextField(fieldObject);
@@ -510,6 +515,11 @@ function createRadioOption(radioObject, groupName){
     var radio = $("<input>");
 
     //radioWrapper.addClass("row");
+    if(!radioObject.classes){
+        radioObject.classes = "";
+    }
+    if(!(radioObject.isClearable === false))
+        radioObject.classes = radioObject.classes + " clearable";
 
     // TODO all of assignations to radioButton
 
