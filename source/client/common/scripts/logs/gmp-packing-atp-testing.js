@@ -330,7 +330,7 @@ function gmpPackingAtpTestingArea(item){
     areaCard.append(createInputRow(topRow));
     if(item.items){
         for(var entry of item.items){
-            testsWrapper.append(gmpPackingAtpTestingItem(entry, 1));
+            testsWrapper.append(gmpPackingAtpTestingItem(entry, entry.test_number));
         }
     } else {
         testsWrapper.append(gmpPackingAtpTestingItem(item, 1));
