@@ -21,8 +21,8 @@ $service = [
     );
     $fileName = date('Y-m-d_H-i-s').$format;
 
-    $uploadDir = realpath(
-      dirname(__FILE__)."/../../../../data/logos/{$fileName}");
+    $uploadDir = 
+      realpath(dirname(__FILE__)."/../../../../data/logos") . "/{$fileName}";
 
     $wasMoveSuccessful = move_uploaded_file(
       $_FILES['logo']['tmp_name'], 
