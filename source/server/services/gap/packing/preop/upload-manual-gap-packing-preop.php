@@ -4,10 +4,10 @@ require_once realpath(dirname(__FILE__).'/../../../service_creators.php');
 
 
 $service = fsm\createUploadManualService(
-  'GMP',
+  'GAP',
   'Packing',
   'Pre-Operational Inspection',
-  'gmp/packing/preop/'
+  'gap/packing/preop/'
 );
 
 ?>

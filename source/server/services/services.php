@@ -18,5 +18,6 @@ require_once realpath(dirname(__FILE__).'/gmp/packing/thermometers/services.php'
 require_once realpath(dirname(__FILE__).'/gmp/packing/unusual_occurrence/services.php');
 require_once realpath(dirname(__FILE__).'/gmp/self_inspection/pest_control/services.php');
 require_once realpath(dirname(__FILE__).'/footers/services.php');
+require_once realpath(dirname(__FILE__).'/gap/packing/preop/services.php');
 
 ?>

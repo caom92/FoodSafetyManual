@@ -31,7 +31,7 @@ createUploadManualService($program, $module, $log, $manualFileDir) {
     'callback' => function($scope, $request) use ($manualFileDir) {
       // first, get the zone name
       $zone = $scope->session->getSegment('fsm')->get('zone_name');
-      $manualFileDir .= ($zone.'/');
+      $manualFileDir .= (strtolower($zone).'/');
 
       // if it was, compute the full directory path where the file
       // will be stored
