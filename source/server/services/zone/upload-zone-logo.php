@@ -15,8 +15,14 @@ $service = [
   'callback' => function($scope, $request) {
     $zones = $scope->daoFactory->get('Zones'); 
 
+    $format = substr(
+      $_FILES['logo']['name'], 
+      strpos($_FILES['logo']['name'], '.')
+    );
+    $fileName = date('Y-m-d_H-i-s').$format;
+
     $uploadDir = realpath(
-      dirname(__FILE__)."/../../../../data/logos/{$request['logo']}");
+      dirname(__FILE__)."/../../../../data/logos/{$fileName}");
 
     $wasMoveSuccessful = move_uploaded_file(
       $_FILES['logo']['tmp_name'], 
@@ -31,8 +37,10 @@ $service = [
     }
 
     $zones->updateByZoneID($request['zone_id'], [
-      'logo_path' => $request['logo']
+      'logo_path' => $fileName
     ]);
+
+    return $fileName;
   }
 ];
 
