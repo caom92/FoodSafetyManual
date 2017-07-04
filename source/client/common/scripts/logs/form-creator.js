@@ -748,6 +748,7 @@ File Object description
 {
     "type": "file",
     "classes": "Classes for the language"
+    "name": Name for the form that contains the file
 }
 */
 
@@ -765,6 +766,8 @@ function createFileInput(fileObject){
     buttonWrapper.addClass("btn");
     buttonText.addClass(fileObject.classes);
     buttonInput.attr("type", "file");
+    if(fileObject.name)
+        buttonInput.attr("name", fileObject.name);
     //buttonInput.attr("id", fileObject.id);
 
     buttonWrapper.append(buttonText);

@@ -16,6 +16,8 @@ function createDatePicker(){
 
 function clearLog(htmlElement){
     $(".clearable:text").val("");
+    $("textarea.clearable").val("");
+    $("textarea.clearable").trigger("autoresize");
     $(".clearable[type='date']").val("");
     $("select").material_select("destroy");
     $("select.clearable").each(function() {
