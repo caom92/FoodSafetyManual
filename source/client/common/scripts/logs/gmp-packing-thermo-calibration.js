@@ -117,6 +117,11 @@ function sendGmpPackingThermoCalibrationReport(){
             item.id = itemID;
             item.test = Number($("#test_" + itemID).val());
             item.calibration = getBool($("input:radio[name='radio_" + itemID + "']:checked").val());
+            if($("input[id='sanitized_" + itemID + "']:checked").length == 1){
+                item.sanitization = true;
+            } else {
+                item.sanitization = false;
+            }
             item.deficiencies = $("#deficiencies_" + itemID).val();
             item.corrective_action = $("#correctiveAction_" + itemID).val();
             report.items.push(item);
@@ -156,6 +161,11 @@ function updateGmpPackingThermoCalibrationReport(reportID){
             item.id = itemID;
             item.test = Number($("#test_" + itemID).val());
             item.calibration = getBool($("input:radio[name='radio_" + itemID + "']:checked").val());
+            if($("input[id='sanitized_" + itemID + "']:checked").length == 1){
+                item.sanitization = true;
+            } else {
+                item.sanitization = false;
+            }
             item.deficiencies = $("#deficiencies_" + itemID).val();
             item.corrective_action = $("#correctiveAction_" + itemID).val();
             report.items.push(item);
@@ -220,7 +230,7 @@ function gmpPackingThermoCalibrationItem(item){
     var topRow = new Object();
     var bottomRow = new Object();
 
-    topRow.columns = [gmpPackingThermoCalibrationTitle(item), gmpPackingThermoCalibrationTest(item), gmpPackingThermoCalibrationPass(item)];
+    topRow.columns = [gmpPackingThermoCalibrationTitle(item), gmpPackingThermoCalibrationTest(item), gmpPackingThermoCalibrationPass(item), gmpPackingThermoCalibrationSanitized(item)];
     bottomRow.columns = [gmpPackingThermoCalibrationDeficiencies(item), gmpPackingThermoCalibrationCorrectiveAction(item)];
 
     itemCard.append(createInputRow(topRow).attr("style", "margin-top:15px;"));
@@ -243,7 +253,7 @@ function gmpPackingThermoCalibrationTitle(item){
 function gmpPackingThermoCalibrationTest(item){
     var testLabel = {"type":"label","contents":{"type":"text","classes":"thermometer_test_title"}};
     var testInput = {"type":"input","id": "test_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"item_id":item.id},"validations":{"type":"number"}};
-    var testFullInput = {"id":"testWrapper_" + item.id,"classes":"input-field col s6 m6 l6","field":testInput,"label":testLabel};
+    var testFullInput = {"id":"testWrapper_" + item.id,"classes":"input-field col s4 m4 l4","field":testInput,"label":testLabel};
 
     if(item.test){
         testInput.value = item.test;
@@ -263,7 +273,7 @@ function gmpPackingThermoCalibrationPass(item){
     var radioApproved = {"type":"radio","id":"approved_" + item.id,"classes":"timeChanger","value":"true","label":{"type":"label","classes":"black-text","for":"approved_" + item.id,"contents": acceptableIcon},"data":{"item_id":item.id}};
     var radioUnapproved = {"type":"radio","id":"unapproved_" + item.id,"classes":"timeChanger","value":"false","label":{"type":"label","classes":"black-text","for":"unapproved_" + item.id,"contents": unacceptableIcon},"data":{"item_id":item.id}};
     var itemRadioGroup = {"type": "radioGroup", "id":"radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"radio_" + item.id,"label":calibrationPassLabel,"radioArray":[radioApproved, radioUnapproved],"validations":{"type":"radio","required":{"value":true},"groupName":"radio_" + item.id}};
-    var groupInput = {"id":"radioWrapper_" + item.id,"classes":"col s4 m4 l4","field":itemRadioGroup};
+    var groupInput = {"id":"radioWrapper_" + item.id,"classes":"col s3 m3 l3","field":itemRadioGroup};
 
     if(item.calibration == true){
         radioApproved.checked = true;
@@ -272,6 +282,18 @@ function gmpPackingThermoCalibrationPass(item){
     }
 
     return groupInput;
+}
+
+function gmpPackingThermoCalibrationSanitized(item){
+    var checkboxLabel = {"type":"label","contents":{"type":"text","classes":"sanitized_thermo"},"for":"sanitized_" + item.id};
+    var checkboxField = {"type":"checkbox", "id":"sanitized_" + item.id,"classes":"filled-in timeChanger", "data":{"item_id":item.id}};
+    var checkboxFullInput = {"field":checkboxField, "label":checkboxLabel,"classes":"col s3 m3 l3"};
+
+    if(item.sanitization == 1){
+        checkboxField.checked = true;
+    }
+
+    return checkboxFullInput;
 }
 
 function gmpPackingThermoCalibrationDeficiencies(item){

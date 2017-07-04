@@ -778,6 +778,11 @@
         <spanish>Otros</spanish>
     </translation>
 
+    <translation id="sanitized_thermo">
+        <english>Sanitized</english>
+        <spanish>Sanitizado</spanish>
+    </translation>
+
     <translation id="sanitized_title">
         <english>Sanitized Base</english>
         <spanish>Base limpiada</spanish>
