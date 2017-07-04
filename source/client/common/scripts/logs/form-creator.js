@@ -200,6 +200,9 @@ function createTextField(fieldObject){
     if(fieldObject.required)
         field.prop("required", true);
 
+    if(fieldObject.hidden)
+        field.hide();
+
     if($.type(fieldObject.data) == "object"){
         field.data(fieldObject.data);
     }

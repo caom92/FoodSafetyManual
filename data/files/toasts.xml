@@ -31,6 +31,16 @@
         <spanish>Sólo se permite adjuntar imágenes</spanish>
     </translation>
 
+    <translation id="invalid_file_format">
+        <english>Invalid file format</english>
+        <spanish>Formato de archivo no válido</spanish>
+    </translation>
+
+    <translation id="new_logo_uploaded">
+        <english>New logo uploaded</english>
+        <spanish>Nuevo logo actualizado</spanish>
+    </translation>
+
     <translation id="invalid_password">
         <english>The password is not valid</english>
         <spanish>La contraseña ingresada no es válida</spanish>

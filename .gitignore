@@ -11,3 +11,4 @@ source/server/app.log
 app.log
 *.log
 tests/*
+data/logos/

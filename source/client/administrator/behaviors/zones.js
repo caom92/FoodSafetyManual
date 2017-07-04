@@ -83,7 +83,7 @@ function uploadLogoButton(item){
 function logoFileInput(zone){
     var logoField = {"type":"file","id":"upload-logo-form","classes":"upload_button","name":"logo","additional_fields":[]};
 
-    var testInput = {"type":"input","id":"zone_id_" + zone.id,"fieldType":"text","name":"zone_id"};
+    var testInput = {"type":"input","id":"zone_id_" + zone.id,"fieldType":"text","name":"zone_id","value":zone.id,"hidden":true};
 
     logoField.additional_fields.push(testInput);
 
@@ -103,14 +103,28 @@ function logoFileRow(zone){
 function bindUploadButtonFunctionality(){
     $("a[id^='upload_']").on("click", function(){
         var zoneID = $(this).data("id");
+        var zone = $(this).data("item");
         if($(this).data("waiting") == true){
             var formData = new FormData($('#upload-logo-form')[0]);
             $server.request({
                 service:'upload-zone-logo',
                 data: formData,
                 success: function(response, message, xhr) {
-                    console.log("success");
-                    $("#upload_row_" + zoneID);
+                    if(response.meta.return_code == 0){
+                        $("#upload_row_" + zoneID).remove();
+                        zone.logo_path = response.data;
+                        $("#program_" + zoneID).attr("id", "tempRow");
+                        $("#tempRow").after(tableRow(zoneRow(zone)));
+                        $("#tempRow").remove();
+                        bindUploadButtonFunctionality();
+                        bindEditButtonFunctionality();
+                        changeLanguage();
+                        loadToast("new_logo_uploaded", 3500, "rounded");
+                    } else {
+                        loadToast("invalid_file_format", 3500, "rounded");
+                    }
+                    //console.log("success");
+                    //$("#upload_row_" + zoneID);
                 }
             });
         } else {
