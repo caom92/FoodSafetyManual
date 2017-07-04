@@ -3,7 +3,7 @@ function zonesTable(htmlElement, data){
 
     tableJSON.thead = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"zone_name"},{"type":"th","classes":"company_zone_name"},{"type":"th","classes":"address_zone_name"},{"type":"th"}]}]};
 
-    tableJSON.tfoot = {"type":"tfoot","rows":[{"type":"tr","columns":[{"type":"td","contents":{"field":{"type":"input","id":"new_zone","classes":"validate add_item add-item-element","fieldType":"text","validations":{"type":"text","max":{"value":3},"required":{"value":true}},"data":{"param":{"name":"name","type":"text"}}}}},{"type":"td","contents":{"field":{"type":"input","id":"company_name","classes":"validate add_item add-item-element","fieldType":"text","validations":{"type":"text","max":{"value":65535},"required":{"value":true}},"data":{"param":{"name":"name","type":"text"}}}}},{"type":"td","contents":{"field":{"type":"input","id":"company_address","classes":"validate add_item add-item-element","fieldType":"text","validations":{"type":"text","max":{"value":65535},"required":{"value":true}},"data":{"param":{"name":"name","type":"text"}}}}},{"type":"td","contents":{"field":{"type":"floating","id":"add_inventory","classes":"btn-floating waveseffect waves-light green center","icon":{"type":"icon","icon":"mdi-plus","size":"mdi-24px"}}}}]},{"type":"tr","columns":[{"type":"td","colspan":4,"contents":{"field":{"type":"file","id":"logo_file","classes":"attach_file","name":"logo"}}}]}]};
+    tableJSON.tfoot = {"type":"tfoot","rows":[{"type":"tr","columns":[{"type":"td","contents":{"field":{"type":"input","id":"new_zone","classes":"validate add_item add-item-element","fieldType":"text","validations":{"type":"text","max":{"value":3},"required":{"value":true}},"data":{"param":{"name":"name","type":"text"}}}}},{"type":"td","contents":{"field":{"type":"input","id":"company_name","classes":"validate add_item add-item-element","fieldType":"text","validations":{"type":"text","max":{"value":65535},"required":{"value":true}},"data":{"param":{"name":"name","type":"text"}}}}},{"type":"td","contents":{"field":{"type":"input","id":"company_address","classes":"validate add_item add-item-element","fieldType":"text","validations":{"type":"text","max":{"value":65535},"required":{"value":true}},"data":{"param":{"name":"name","type":"text"}}}}},{"type":"td","contents":{"field":{"type":"floating","id":"add_inventory","classes":"btn-floating waveseffect waves-light green center","icon":{"type":"icon","icon":"mdi-plus","size":"mdi-24px"}}}}]}]};
 
     tableJSON.tbody.rows = [];
 
@@ -22,7 +22,10 @@ function zoneRow(zone){
     inventoryRow.columns.push({"type":"td","contents":zone.name,"classes":"zone-column"});
     inventoryRow.columns.push({"type":"td","contents":zone.company_name,"classes":"pdf-column"});
     inventoryRow.columns.push({"type":"td","contents":zone.address,"classes":"html-column"});
-    inventoryRow.columns.push({"type":"td","contents":"<img src='data/logos/" + zone.logo_path + "' height='42'>","classes":"html-column"});
+    if(zone.logo_path)
+        inventoryRow.columns.push({"type":"td","contents":"<img src='data/logos/" + zone.logo_path + "' height='42'>","classes":"html-column"});
+    else
+        inventoryRow.columns.push({"type":"td","contents":"<img src='data/logos/" + "default.png" + "' height='42'>","classes":"html-column"});
 
     // Edit Button
     //inventoryRow.columns.push({"type":"td","contents":programEditButton(zone)});
@@ -42,12 +45,22 @@ $(function (){
                         data.new_zone = $("#new_zone").val();
                         data.company_name = $("#company_name").val();
                         data.company_address = $("#company_address").val();
-                        data.logo = new FormData($("#logo_file")[0]);
+                        //data.logo = new FormData($("#logo_file")[0]);
+                        zone = new Object();
+                        zone.name = data.new_zone;
+                        zone.company_name = data.company_name;
+                        zone.address = data.company_address;
                         $server.request({
                             service: "add-zone",
                             data: data,
                             success: function(response, message, xhr) {
-                                console.log(response);
+                                if(response.meta.return_code == 0){
+                                    zone.id = response.data;
+                                    $("#new_zone").val("");
+                                    $("#company_name").val("");
+                                    $("#company_address").val("");
+                                    $("tbody").append(tableRow(zoneRow(zone)));
+                                }
                             }
                         });
                     });
