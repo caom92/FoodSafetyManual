@@ -40,13 +40,14 @@ class Logs extends db\InsertableTable
   // Modifica los renglones de la tabla que tienen registrado el ID de fecha de 
   // captura especificado, sustituyendo los viejos datos con los datos
   // especificados
+  // [in]   testNum (uint): el numero de medicion realizado sobre el objeto
   // [in]   changes (dictionary): arreglo asociativo que contiene los datos que 
   //        van a ser añadidos en la tabla organizados por columnas
   // [in]   logID (uint): el ID de fecha de captura cuyo renglon en la tabla
   //        va a ser modificado
   // [in]   area (string): el nombre del area cuyos datos van a ser modificados
   // [out]  return (uint): el numero de renglones que fueron modificados
-  function updateByCapturedLogIDAndArea($changes, $logID, $area) {
+  function updateByCapturedLogIDAndArea($testNum, $changes, $logID, $area) {
     $test1 = ($changes['was_test1_passed']) ? '1' : '0';
     $test2 = ($changes['was_test2_passed']) ? '1' : '0';
 
@@ -58,13 +59,12 @@ class Logs extends db\InsertableTable
       INNER JOIN captured_logs AS cl
         ON tl.capture_date_id = cl.id
       SET 
-        test_num = {$changes['test_num']},
         test1 = {$changes['test1']},
         was_test1_passed = {$test1},
         corrective_action = '{$changes['corrective_action']}',
         test2 = {$changes['test2']},
         was_test2_passed = {$test2}
-      WHERE cl.id = $logID AND tl.area = $area"
+      WHERE cl.id = $logID AND tl.area = '$area' AND test_num = $testNum"
     );
   }
 }

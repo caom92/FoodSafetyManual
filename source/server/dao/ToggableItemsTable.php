@@ -22,9 +22,9 @@ class ToggableItemsTable extends InsertableTable
   function toggleActivationByID($itemID) {
     parent::$dataBase->query(
       "UPDATE $this->table
-      SET is_active = !is_active
+      SET is_active = NOT is_active
       WHERE id = '$itemID'"
-    )->execute();
+    );
   }
 }
 

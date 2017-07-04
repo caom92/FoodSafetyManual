@@ -25,6 +25,9 @@ $service = fsm\createCaptureService(
         'calibration' => [
           'type' => 'bool'
         ],
+        'sanitization' => [
+          'type' => 'bool'
+        ],
         'deficiencies' => [
           'type' => 'string',
           'max_length' => 65535,
@@ -48,21 +51,22 @@ $service = fsm\createCaptureService(
 
       // then visit each thermometer
       foreach ($request['items'] as $item) {
-          // check if the thermometer has corrective actions
-          $hasCorrectiveAction = 
-              isset($item['corrective_action']) 
-              && array_key_exists('corrective_action', $item);
+        // check if the thermometer has corrective actions
+        $hasCorrectiveAction = 
+          isset($item['corrective_action']) 
+          && array_key_exists('corrective_action', $item);
 
-          // store the thermometer info to the array of rows
-          array_push($rows, [
-              'capture_date_id' => $logID,
-              'thermometer_id' => $item['id'],
-              'test' => $item['test'],
-              'was_test_passed' => $item['calibration'],
-              'deficiencies' => $item['deficiencies'],
-              'corrective_actions' => ($hasCorrectiveAction) ?
-                  $item['corrective_action'] : ''
-          ]);
+        // store the thermometer info to the array of rows
+        array_push($rows, [
+          'capture_date_id' => $logID,
+          'thermometer_id' => $item['id'],
+          'test' => $item['test'],
+          'was_test_passed' => $item['calibration'],
+          'was_sanitized' => $item['sanitization'],
+          'deficiencies' => $item['deficiencies'],
+          'corrective_actions' => ($hasCorrectiveAction) ?
+            $item['corrective_action'] : ''
+        ]);
       }
 
       // finally insert the rows to the database

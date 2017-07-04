@@ -19,7 +19,9 @@ class CorrectiveActions extends db\DataBaseTable{
   //        todas las acciones correctivas, excepto 'Other' organizados en 
   //        renglones y columnas
   function selectAllButOptionOther() {
-    return parent::select('*', ['name[!]' => 'Other']);
+    return parent::select([
+      'id', 'code', 'en_name(en)', 'es_name(es)'
+    ], ['code[!]' => 'OTH']);
   }
 }
 

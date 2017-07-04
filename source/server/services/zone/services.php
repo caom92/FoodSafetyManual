@@ -11,7 +11,9 @@ $zone = [
     'is-zone-name-duplicated' => 
       realpath(dirname(__FILE__).'/is-zone-name-duplicated.php'),
     'list-zones' => 
-      realpath(dirname(__FILE__).'/list-zones.php')
+      realpath(dirname(__FILE__).'/list-zones.php'),
+    'edit-zone' =>
+      realpath(dirname(__FILE__).'/edit-zone.php')
   ]
 ];
 

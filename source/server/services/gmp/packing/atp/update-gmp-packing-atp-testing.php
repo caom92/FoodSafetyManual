@@ -69,8 +69,8 @@ $service = fsm\createUpdateService(
         foreach ($area['items'] as $item) {
           $scope->daoFactory->get('gmp\packing\atp\Logs')
             ->updateByCapturedLogIDAndArea(
+              $item['test_number'],
               [
-                'test_num' => $item['test_number'],
                 'test1' => $item['test1'],
                 'was_test1_passed' => $item['results1'],
                 'corrective_action' => (isset($item['corrective_action'])) ? 

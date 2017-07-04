@@ -6,7 +6,7 @@ use fsm\database as db;
 
 
 // Interfaz para la tabla working_areas
-class WorkingAreas extends db\InsertableTable
+class WorkingAreas extends db\ToggableItemsTable
 {
   // Crea una instancia de una interfaz a la base de datos para modificar 
   // la tabla working_areas
