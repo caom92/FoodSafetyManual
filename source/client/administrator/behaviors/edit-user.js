@@ -114,6 +114,7 @@ function addZoneSelect(supervisorFlag, selectedOption) {
 }
 
 function addProgramSelect(maxPrivilege, employeeNum, selectedOption) {
+    removeProgramSelect();
     var select = $("<select>");
     var label = $("<label>");
 
@@ -146,6 +147,12 @@ function addProgramSelect(maxPrivilege, employeeNum, selectedOption) {
             }
         }
     });
+}
+
+function removeProgramSelect(){
+    $("#program_select").material_select("destroy");
+    $(".select_program").remove();
+    $("#program_select").remove();
 }
 
 function addSupervisorSelect(zoneID, selectedOption){
@@ -233,6 +240,7 @@ function addSupervisorSelect(zoneID, selectedOption){
 // This functions add a collapsible for a collection of 
 
 function addModulesCollapsible(programs, maxPrivilege){
+    $("#program_collapsible").html("");
     for(var program of programs){
         for(var module of program.modules){
             var logsArray = [];
