@@ -17,6 +17,7 @@ function loadLogForm(htmlElement){
                 loadFunctionality({"isPrefilled":false});
                 changeLanguage(localStorage.defaultLanguage);
                 $("#send_report").click(function(){
+                    $(this).attr("disabled", true);
                     sendScaleCalibrationReport();
                 });
                 $('.log_title').html(report.log_name);
@@ -44,6 +45,7 @@ function loadPrefilledLogForm(htmlElement, data){
                 scaleCalibrationLog(report, htmlElement);
                 loadFunctionality({"isPrefilled":true});
                 $("#send_report").click(function(){
+                    $(this).attr("disabled", true);
                     updateScaleCalibrationReport(parseInt(data.report_id));
                 });
                 changeLanguage();
@@ -100,6 +102,10 @@ function validateLog(){
     return returnValue;
 }
 
+function specialClearLog(){
+    return;
+}
+
 /******************************************************************************
 A collection of functions to display the Log Form. This will be related to the
 name of the log, located in the name_suffix field on the database. Usually, we
@@ -145,19 +151,21 @@ function sendScaleCalibrationReport(){
             report.types.push(type);
         });
 
-        console.log(report);
-
         $server.request({
             service: 'capture-gmp-packing-scale-calibration',
             data: report,
             success: function(response){
                 if (response.meta.return_code == 0) {
                     Materialize.toast("Reporte enviado con exito", 3000, "rounded");
+                    clearLog();
                 } else {
                     Materialize.toast(response.meta.message, 3000, "rounded");
                 }
+                $("#send_report").removeAttr("disabled");
             }
         });
+    } else {
+        $("#send_report").removeAttr("disabled");
     }
 }
 
@@ -288,7 +296,7 @@ function scaleCalibrationType(type, units){
 
 function scaleCalibrationTypeTime(typeID, time){
     var timeLabel = {"type":"label","contents":{"type":"text","classes":"time_title"},"for":"time_" + typeID,"classes":"active"};
-    var timeInput = {"type":"input","id": "time_" + typeID, "classes": "validate", "fieldType":"text","disabled":true,"data":{"type_id":typeID},"value":getISOTime(new Date())};
+    var timeInput = {"type":"input","id": "time_" + typeID, "classes": "validate", "fieldType":"text","disabled":true,"data":{"type_id":typeID},"value":getISOTime(new Date()),"isClearable":false};
     var timeFullInput = {"id":"timeWrapper_" + typeID,"classes":"input-field col s12 m12 l12","field":timeInput,"label":timeLabel};
 
     if(time){

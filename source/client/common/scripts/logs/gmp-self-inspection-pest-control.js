@@ -8,6 +8,7 @@ function loadLogForm(htmlElement){
                 $(htmlElement).append(logHeader(header));
                 gmpPestControlSelfInspectionLog(report, htmlElement);
                 $("#send_report").click(function(){
+                    $(this).attr("disabled", true);
                     sendGmpPestControlSelfInspectionReport();
                 });
                 $('.log_title').html($("#log_name").text());
@@ -92,6 +93,10 @@ function validateLog(){
     return returnValue;
 }
 
+function specialClearLog(){
+    return;
+}
+
 /******************************************************************************
 A collection of functions to display the Log Form. This will be related to the
 name of the log, located in the name_suffix field on the database. Usually, we
@@ -105,7 +110,7 @@ function sendGmpPestControlSelfInspectionReport(){
     report.notes = $("#report_comment").val();
     report.stations = new Array();
 
-    if(validateLog() || true){
+    if(validateLog()){
         $(".item-card").each(function(){
             var station = new Object();
             var itemID = $(this).data("id");
@@ -125,11 +130,15 @@ function sendGmpPestControlSelfInspectionReport(){
             success: function(response){
                 if (response.meta.return_code == 0) {
                     Materialize.toast("Reporte enviado con exito", 3000, "rounded");
+                    clearLog();
                 } else {
                     Materialize.toast(response.meta.message, 3000, "rounded");
                 }
+                $("#send_report").removeAttr("disabled");
             }
         });
+    } else {
+        $("#send_report").removeAttr("disabled");
     }
 }
 
@@ -140,7 +149,7 @@ function updateGmpPestControlSelfInspectionReport(reportID){
     report.notes = $("#report_comment").val();
     report.stations = new Array();
 
-    if(validateLog() || true){
+    if(validateLog()){
         $(".item-card").each(function(){
             var station = new Object();
             var itemID = $(this).data("id");

@@ -116,26 +116,6 @@ function programSaveButton(item){
     return buttonInput;
 }
 
-function gmpPackingPreopLog(data, htmlElement){
-    var log = $("<div>");
-    var additionalData = $("<div>");
-
-    for(var area of data.areas){
-        log.append(gmpPackingPreopArea(area));
-    }
-
-    additionalData.addClass("card-panel white");
-
-    additionalData.append(createText({"type":"text","classes":"report_additional_info"}));
-    additionalData.append(createInputRow({"columns":[gmpPackingPreopComment(data.notes)]}));
-    additionalData.append(createInputRow({"columns":[gmpPackingPreopAlbumURL(data.album_url)]}));
-
-    log.append(additionalData);
-    log.append($("<div class='row'>").append(createButton(gmpPackingPreopSendButton())));
-
-    $(htmlElement).append(log);
-}
-
 function bindEditButtonFunctionality(){
     $("a[id^='edit_']").on("click", function(){
         console.log("Presionado");

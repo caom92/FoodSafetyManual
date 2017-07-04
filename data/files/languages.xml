@@ -426,6 +426,16 @@
         <spanish>Zona</spanish>
     </translation>
 
+    <translation id="company_zone_name">
+        <english>Company Name</english>
+        <spanish>Nombre</spanish>
+    </translation>
+
+    <translation id="address_zone_name">
+        <english>Address</english>
+        <spanish>Dirección</spanish>
+    </translation>
+
     <translation id="program_name">
         <english>Program</english>
         <spanish>Programa</spanish>

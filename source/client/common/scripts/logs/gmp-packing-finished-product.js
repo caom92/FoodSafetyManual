@@ -15,6 +15,7 @@ function loadLogForm(htmlElement){
                 item.quality_types = report.log_info.quality_types;
                 gmpPackingFinishedProductLog(item, htmlElement);
                 $("#send_report").click(function(){
+                    $(this).attr("disabled", true);
                     sendgmpPackingFinishedProductReport();
                 });
                 gmpPackingFinishedProductFunctionality({"isPrefilled":false});
@@ -110,6 +111,10 @@ function validateLog(){
     return returnValue;
 }
 
+function specialClearLog(){
+    return;
+}
+
 function dateActivator(){
     $('.expires_datepicker').each(function(index, element){
         var itemID = $(this).data("item_id");
@@ -184,11 +189,15 @@ function sendgmpPackingFinishedProductReport(){
             success: function(response){
                 if (response.meta.return_code == 0) {
                     Materialize.toast("Reporte enviado con exito", 3000, "rounded");
+                    clearLog();
                 } else {
                     Materialize.toast(response.meta.message, 3000, "rounded");
                 }
+                $("#send_report").removeAttr("disabled");
             }
         });
+    } else {
+        $("#send_report").removeAttr("disabled");
     }
 }
 

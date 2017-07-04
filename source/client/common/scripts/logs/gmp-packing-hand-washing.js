@@ -13,6 +13,7 @@ function loadLogForm(htmlElement){
                 loadFunctionality({"isPrefilled":false});
                 changeLanguage();
                 $("#send_report").click(function(){
+                    $(this).attr("disabled", true);
                     sendGmpPackingHandWashingReport();
                 });
                 $('.log_title').html($("#log_name").text());
@@ -95,6 +96,10 @@ function validateLog(){
     return returnValue;
 }
 
+function specialClearLog(){
+    return;
+}
+
 /******************************************************************************
 A collection of functions to display the Log Form. This will be related to the
 name of the log, located in the name_suffix field on the database. Usually, we
@@ -130,11 +135,15 @@ function sendGmpPackingHandWashingReport(){
             success: function(response){
                 if (response.meta.return_code == 0) {
                     Materialize.toast("Reporte enviado con exito", 3000, "rounded");
+                    clearLog();
                 } else {
                     Materialize.toast(response.meta.message, 3000, "rounded");
                 }
+                $("#send_report").removeAttr("disabled");
             }
         });
+    } else {
+        $("#send_report").removeAttr("disabled");
     }
 }
 

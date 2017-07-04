@@ -85,6 +85,11 @@ Field Object
 
 function createField(fieldObject){
     var field = $("<span>");
+    if(!fieldObject.classes){
+        fieldObject.classes = "";
+    }
+    if(!(fieldObject.isClearable === false))
+        fieldObject.classes = fieldObject.classes + " clearable";
     if($.type(fieldObject) == "object"){
         if(fieldObject.type == "input"){
             field = createTextField(fieldObject);
@@ -118,6 +123,9 @@ function createField(fieldObject){
         }
         if(fieldObject.type == "textarea"){
             field = createTextarea(fieldObject);
+        }
+        if(fieldObject.type == "file"){
+            field = createFileInput(fieldObject);
         }
     }
     return field;
@@ -510,6 +518,11 @@ function createRadioOption(radioObject, groupName){
     var radio = $("<input>");
 
     //radioWrapper.addClass("row");
+    if(!radioObject.classes){
+        radioObject.classes = "";
+    }
+    if(!(radioObject.isClearable === false))
+        radioObject.classes = radioObject.classes + " clearable";
 
     // TODO all of assignations to radioButton
 
@@ -727,6 +740,60 @@ function createIcon(iconObject){
     }
 
     return icon;
+}
+
+/*
+File Object description
+
+{
+    "type": "file",
+    "classes": "Classes for the language"
+}
+*/
+
+function createFileInput(fileObject){
+    var formWrapper = $("<form>");
+    var fileInputWrapper = $("<div>");
+    var buttonWrapper = $("<div>");
+    var buttonText = $("<span>");
+    var buttonInput = $("<input>");
+    var pathWrapper = $("<div>");
+    var pathInput = $("<input>");
+
+    fileInputWrapper.addClass("file-field input-field");
+
+    buttonWrapper.addClass("btn");
+    buttonText.addClass(fileObject.classes);
+    buttonInput.attr("type", "file");
+    //buttonInput.attr("id", fileObject.id);
+
+    buttonWrapper.append(buttonText);
+    buttonWrapper.append(buttonInput);
+
+    pathWrapper.addClass("file-path-wrapper");
+    pathInput.addClass("file-path validate");
+    pathInput.attr("type", "text");
+
+    pathWrapper.append(pathInput);
+
+    fileInputWrapper.append(buttonWrapper);
+    fileInputWrapper.append(pathWrapper);
+
+    formWrapper.attr("id", fileObject.id);
+    formWrapper.attr("enctype", "multipart/form-data");
+    formWrapper.append(fileInputWrapper);
+
+    return formWrapper;
+
+    /*<div class="file-field input-field">
+        <div class="btn">
+            <span>File</span>
+            <input type="file">
+        </div>
+        <div class="file-path-wrapper">
+            <input class="file-path validate" type="text">
+        <div>
+    <div>*/
 }
 
 /*

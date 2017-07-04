@@ -14,6 +14,19 @@ function createDatePicker(){
 // 3.- Init datePicker
 // 4.- If they don't exist, obtain corrective actions from server
 
+function clearLog(htmlElement){
+    $(".clearable:text").val("");
+    $(".clearable[type='date']").val("");
+    $("select").material_select("destroy");
+    $("select.clearable").each(function() {
+        $(this).val($(this).find("option:first").val());
+    });
+    $("select").material_select();
+    $(".clearable:radio").prop("checked", false);
+    $(".clearable:checkbox").prop("checked", false);
+    specialClearLog();
+}
+
 $(function() {
     var getParams = getURLQueryStringAsJSON();
 
@@ -243,6 +256,7 @@ function reportLoaderCard(data, footer){
             $("#report-tab-content").append(tempHeader);
             $("#report-tab-content").append(tempPDFHeader);
             $("#report-tab-content").append(tempCard);
+            $("#report-tab-content").append(footer);
             changeLanguage(localStorage.defaultLanguage, function(){
                 reportIcon.show(200);
             });
