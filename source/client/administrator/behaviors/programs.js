@@ -141,7 +141,7 @@ function bindSaveButtonFunctionality(){
                 "report_document_footer":$("#pdf_footer_" + footerID).val(),
             },
             success: function(response){
-                Materialize.toast("Pies de pagina actualizados");
+                loadToast("program_updated", 3500, "rounded");
                 var updatedProgram = program;
                 updatedProgram.pdf_footer = $("#pdf_footer_" + footerID).val();
                 updatedProgram.html_footer = $("#html_footer_" + footerID).val();

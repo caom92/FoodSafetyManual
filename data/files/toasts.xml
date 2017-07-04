@@ -226,6 +226,18 @@
         <spanish>El área {{value}} fue añadida</spanish>
     </translation>
 
+    <!--Admin messages-->
+
+    <translation id="program_updated">
+        <english>Program footers updated</english>
+        <spanish>Pies de página actualizados</spanish>
+    </translation>
+
+    <translation id="zone_updated">
+        <english>Zone data updated</english>
+        <spanish>Información de zona actualizada</spanish>
+    </translation>
+
     <!--Form creator validation toasts-->
 
     <!--Generic-->
