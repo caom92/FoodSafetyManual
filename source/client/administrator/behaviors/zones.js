@@ -42,7 +42,7 @@ $(function (){
                         data.new_zone = $("#new_zone").val();
                         data.company_name = $("#company_name").val();
                         data.company_address = $("#company_address").val();
-                        //data.logo = $("#logo_file").val();
+                        data.logo = new FormData($("#logo_file")[0]);
                         $server.request({
                             service: "add-zone",
                             data: data,

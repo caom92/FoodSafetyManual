@@ -752,6 +752,7 @@ File Object description
 */
 
 function createFileInput(fileObject){
+    var formWrapper = $("<form>");
     var fileInputWrapper = $("<div>");
     var buttonWrapper = $("<div>");
     var buttonText = $("<span>");
@@ -764,7 +765,7 @@ function createFileInput(fileObject){
     buttonWrapper.addClass("btn");
     buttonText.addClass(fileObject.classes);
     buttonInput.attr("type", "file");
-    buttonInput.attr("id", fileObject.id);
+    //buttonInput.attr("id", fileObject.id);
 
     buttonWrapper.append(buttonText);
     buttonWrapper.append(buttonInput);
@@ -778,7 +779,11 @@ function createFileInput(fileObject){
     fileInputWrapper.append(buttonWrapper);
     fileInputWrapper.append(pathWrapper);
 
-    return fileInputWrapper;
+    formWrapper.attr("id", fileObject.id);
+    formWrapper.attr("enctype", "multipart/form-data");
+    formWrapper.append(fileInputWrapper);
+
+    return formWrapper;
 
     /*<div class="file-field input-field">
         <div class="btn">
