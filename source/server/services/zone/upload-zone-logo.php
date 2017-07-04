@@ -37,8 +37,10 @@ $service = [
     }
 
     $zones->updateByZoneID($request['zone_id'], [
-      'logo_path' => $request['logo']
+      'logo_path' => $fileName
     ]);
+
+    return $fileName;
   }
 ];
 
