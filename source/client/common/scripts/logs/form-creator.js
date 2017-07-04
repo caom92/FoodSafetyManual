@@ -124,6 +124,9 @@ function createField(fieldObject){
         if(fieldObject.type == "textarea"){
             field = createTextarea(fieldObject);
         }
+        if(fieldObject.type == "file"){
+            field = createFileInput(fieldObject);
+        }
     }
     return field;
 }
@@ -737,6 +740,55 @@ function createIcon(iconObject){
     }
 
     return icon;
+}
+
+/*
+File Object description
+
+{
+    "type": "file",
+    "classes": "Classes for the language"
+}
+*/
+
+function createFileInput(fileObject){
+    var fileInputWrapper = $("<div>");
+    var buttonWrapper = $("<div>");
+    var buttonText = $("<span>");
+    var buttonInput = $("<input>");
+    var pathWrapper = $("<div>");
+    var pathInput = $("<input>");
+
+    fileInputWrapper.addClass("file-field input-field");
+
+    buttonWrapper.addClass("btn");
+    buttonText.addClass(fileObject.classes);
+    buttonInput.attr("type", "file");
+    buttonInput.attr("id", fileObject.id);
+
+    buttonWrapper.append(buttonText);
+    buttonWrapper.append(buttonInput);
+
+    pathWrapper.addClass("file-path-wrapper");
+    pathInput.addClass("file-path validate");
+    pathInput.attr("type", "text");
+
+    pathWrapper.append(pathInput);
+
+    fileInputWrapper.append(buttonWrapper);
+    fileInputWrapper.append(pathWrapper);
+
+    return fileInputWrapper;
+
+    /*<div class="file-field input-field">
+        <div class="btn">
+            <span>File</span>
+            <input type="file">
+        </div>
+        <div class="file-path-wrapper">
+            <input class="file-path validate" type="text">
+        <div>
+    <div>*/
 }
 
 /*
