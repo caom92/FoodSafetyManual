@@ -226,7 +226,7 @@ function gmpPackingScissorsKnivesLog(data, htmlElement){
 
 function gmpPackingScissorsKnivesComment(reportComment){
     var commentLabel = {"type":"label","contents":{"type":"text","classes":"comment_title"}};
-    var commentInput = {"type":"input","id": "report_comment", "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
+    var commentInput = {"type":"textarea","id": "report_comment", "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
     var commentFullInput = {"id":"reportCommentWrapper","classes":"input-field col s12 m12 l12","field":commentInput,"label":commentLabel};
 
     if(reportComment){

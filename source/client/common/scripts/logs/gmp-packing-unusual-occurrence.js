@@ -434,7 +434,7 @@ function gmpPackingUnusualOccurrenceItemAction(item){
 
 function gmpPackingUnusualOccurrenceAlbumURL(item){
     var urlLabel = {"type":"label","contents":{"type":"text","classes":"url_title"}};
-    var urlInput = {"type":"input","id": "report_url", "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":255,"toast":"gmp-packing-preop-report-url"}}};
+    var urlInput = {"type":"textarea","id": "report_url", "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":65535,"toast":"gmp-packing-preop-report-url"}}};
     var urlFullInput = {"id":"reportUrlWrapper","classes":"input-field col s12 m12 l12","field":urlInput,"label":urlLabel};
 
     if(item.entry){

@@ -599,7 +599,7 @@ function gmpPackingFinishedProductItemTrazable(item){
 
 function gmpPackingFinishedProductItemNotes(item){
     var commentLabel = {"type":"label","contents":{"type":"text","classes":"comment_title"},"for":"comment_" + item.id};
-    var commentInput = {"type":"input","id": "comment_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"id":item.id},"validations":{"type":"text","max":{"value":65535,"toast":"gmp-packing-preop-item-comment"}}};
+    var commentInput = {"type":"textarea","id": "comment_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"id":item.id},"validations":{"type":"text","max":{"value":65535,"toast":"gmp-packing-preop-item-comment"}}};
     var commentFullInput = {"id":"commentWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":commentInput,"label":commentLabel};
 
     if(item.notes){
