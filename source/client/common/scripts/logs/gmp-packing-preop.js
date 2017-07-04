@@ -22,6 +22,7 @@ function loadLogForm(htmlElement){
                 $('.log_title').html($("#log_name").text());
                 $(htmlElement).append(report.html_footer);
                 $("input").characterCounter();
+                $("textarea").characterCounter();
             } else {
                 Materialize.toast("Some error", 3000, "rounded");
                 throw response.meta.message;
@@ -47,6 +48,7 @@ function loadPrefilledLogForm(htmlElement, data){
                 });
                 changeLanguage();
                 $("input").characterCounter();
+                $("textarea").characterCounter();
             } else {
                 Materialize.toast("Some error", 3000, "rounded");
                 throw response.meta.message;
@@ -253,7 +255,7 @@ function gmpPackingPreopComment(reportComment){
 
 function gmpPackingPreopAlbumURL(reportUrl){
     var urlLabel = {"type":"label","contents":{"type":"text","classes":"url_title"}};
-    var urlInput = {"type":"input","id": "report_url", "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":255,"toast":"gmp-packing-preop-report-url"}}};
+    var urlInput = {"type":"textarea","id": "report_url", "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":65535,"toast":"gmp-packing-preop-report-url"}}};
     var urlFullInput = {"id":"reportUrlWrapper","classes":"input-field col s12 m12 l12","field":urlInput,"label":urlLabel};
 
     if(reportUrl){
@@ -313,7 +315,7 @@ function gmpPackingPreopAreaTime(areaID, time){
 
 function gmpPackingPreopAreaNotes(areaID, notes){
     var notesLabel = {"type":"label","contents":{"type":"text","classes":"notes_title"},"for":"notes_" + areaID};
-    var notesInput = {"type":"textarea","id": "notes_" + areaID, "classes": "timeChanger validate", "fieldType":"text","data":{"area_id":areaID},"validations":{"type":"text","max":{"value":256,"toast":"gmp-packing-preop-area-notes"}}};
+    var notesInput = {"type":"textarea","id": "notes_" + areaID, "classes": "timeChanger validate", "fieldType":"text","data":{"area_id":areaID},"validations":{"type":"text","max":{"value":65535,"toast":"gmp-packing-preop-area-notes"}}};
     var notesFullInput = {"id":"notesWrapper_" + areaID,"classes":"input-field col s12 m12 l12","field":notesInput,"label":notesLabel};
 
     if(notes){
@@ -326,7 +328,7 @@ function gmpPackingPreopAreaNotes(areaID, notes){
 
 function gmpPackingPreopAreaSanitation(areaID, person){
     var sanitationLabel = {"type":"label","contents":{"type":"text","classes":"person_performing_sanitation_title"},"for":"sanitation_" + areaID};
-    var sanitationInput = {"type":"input","id": "sanitation_" + areaID, "classes": "timeChanger validate", "fieldType":"text","data":{"area_id":areaID},"validations":{"type":"text","max":{"value":64,"toast":"gmp-packing-preop-area-sanitation"}}};
+    var sanitationInput = {"type":"input","id": "sanitation_" + areaID, "classes": "timeChanger validate", "fieldType":"text","data":{"area_id":areaID},"validations":{"type":"text","max":{"value":255,"toast":"gmp-packing-preop-area-sanitation"}}};
     var sanitationFullInput = {"id":"sanitationWrapper_" + areaID,"classes":"input-field col s12 m12 l12","field":sanitationInput,"label":sanitationLabel};
 
     if(person){
@@ -399,7 +401,7 @@ function gmpPackingPreopItemCorrectiveAction(item, areaID){
 
 function gmpPackingPreopItemComment(item, areaID){
     var commentLabel = {"type":"label","contents":{"type":"text","classes":"comment_title"},"for":"comment_" + item.id};
-    var commentInput = {"type":"input","id": "comment_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"area_id":areaID,"item_id":item.id},"validations":{"type":"text","max":{"value":255,"toast":"gmp-packing-preop-item-comment"}}};
+    var commentInput = {"type":"textarea","id": "comment_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"area_id":areaID,"item_id":item.id},"validations":{"type":"text","max":{"value":65535,"toast":"gmp-packing-preop-item-comment"}}};
     var commentFullInput = {"id":"commentWrapper_" + item.id,"classes":"input-field col s12 m12 l12","hidden": true,"field":commentInput,"label":commentLabel};
 
     if(item.comment){

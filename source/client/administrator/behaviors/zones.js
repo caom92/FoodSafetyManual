@@ -182,10 +182,12 @@ function bindSaveButtonFunctionality(){
 $(function (){
     $.getScript( "source/client/common/scripts/logs/form-creator.js", function( data, textStatus, jqxhr ) {
         $.getScript( "source/client/common/scripts/logs/table-creator.js", function( data, textStatus, jqxhr ) {
+            $("#zones_wrapper").hide();
             $server.request({
                 service: "list-zones",
                 success: function(response, message, xhr) {
                     zonesTable("#zones_wrapper", response.data);
+                    $("#zones_wrapper").show(500);
                     bindEditButtonFunctionality();
                     bindUploadButtonFunctionality();
                     $("#add_inventory").on("click", function(){
@@ -208,6 +210,7 @@ $(function (){
                                     $("#company_name").val("");
                                     $("#company_address").val("");
                                     $("tbody").append(tableRow(zoneRow(zone)));
+                                    changeLanguage();
                                 }
                             }
                         });
