@@ -167,6 +167,9 @@ function createTextField(fieldObject){
     if(fieldObject.id)
         field.attr("id", fieldObject.id);
 
+    if(fieldObject.name)
+        field.attr("name", fieldObject.name);
+
     if(fieldObject.classes)
         field.attr("class", fieldObject.classes);
 
@@ -748,7 +751,8 @@ File Object description
 {
     "type": "file",
     "classes": "Classes for the language"
-    "name": Name for the form that contains the file
+    "name": Name for the form that contains the file,
+    "additional_fields":
 }
 */
 
@@ -785,6 +789,12 @@ function createFileInput(fileObject){
     formWrapper.attr("id", fileObject.id);
     formWrapper.attr("enctype", "multipart/form-data");
     formWrapper.append(fileInputWrapper);
+
+    if(fileObject.additional_fields){
+        for(var field of fileObject.additional_fields){
+            formWrapper.append(createField(field));
+        }
+    }
 
     return formWrapper;
 

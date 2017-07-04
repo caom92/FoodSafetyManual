@@ -13,7 +13,9 @@ $zone = [
     'list-zones' => 
       realpath(dirname(__FILE__).'/list-zones.php'),
     'edit-zone' =>
-      realpath(dirname(__FILE__).'/edit-zone.php')
+      realpath(dirname(__FILE__).'/edit-zone.php'),
+    'upload-zone-logo' =>
+      realpath(dirname(__FILE__).'/upload-zone-logo.php')
   ]
 ];
 

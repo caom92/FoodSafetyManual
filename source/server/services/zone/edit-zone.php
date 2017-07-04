@@ -24,7 +24,7 @@ $service = [
   ],
   'callback' => function($scope, $request) {
     $zones = $scope->daoFactory->get('Zones'); 
-    $currentZone = $zone->getByID($request['zone_id']);
+    $currentZone = $zones->getByID($request['zone_id']);
     $isZoneNameDuplicated = 
       $zones->hasByName($request['zone_name'])
       && $currentZone['name'] != $request['zone_name'];

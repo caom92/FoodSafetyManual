@@ -4,8 +4,8 @@ $service = [
   'requirements_desc' => [
     'logged_in' => ['Administrator'],
     'zone_id' => [
-      'type' => 'string',
-      'length' => 3
+      'type' => 'int',
+      'min' => 1
     ],
     'logo' => [
       'type' => 'files',

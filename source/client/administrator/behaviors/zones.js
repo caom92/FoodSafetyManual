@@ -81,11 +81,46 @@ function uploadLogoButton(item){
 }
 
 function logoFileInput(zone){
-    var logoField = {"type": "file","classes":"upload_button","name":"loadFile"};
+    var logoField = {"type":"file","id":"upload-logo-form","classes":"upload_button","name":"logo","additional_fields":[]};
+
+    var testInput = {"type":"input","id":"zone_id_" + zone.id,"fieldType":"text","name":"zone_id"};
+
+    logoField.additional_fields.push(testInput);
 
     var logoInput = {"field":logoField};
 
-    return logoFileInput;
+    return logoInput;
+}
+
+function logoFileRow(zone){
+    var uploadRow = {"type":"tr","id":"upload_row_" + zone.id,"classes":"","columns":[]};
+
+    uploadRow.columns.push({"type":"td","contents":logoFileInput(zone),"colspan":6});
+
+    return uploadRow;
+}
+
+function bindUploadButtonFunctionality(){
+    $("a[id^='upload_']").on("click", function(){
+        var zoneID = $(this).data("id");
+        if($(this).data("waiting") == true){
+            var formData = new FormData($('#upload-logo-form')[0]);
+            $server.request({
+                service:'upload-zone-logo',
+                data: formData,
+                success: function(response, message, xhr) {
+                    console.log("success");
+                    $("#upload_row_" + zoneID);
+                }
+            });
+        } else {
+            console.log("mames");
+            console.log($(this).data());
+            $(this).data("waiting", true);
+            $("#program_" + $(this).data("id")).after(tableRow(logoFileRow($(this).data("item"))));
+            changeLanguage();
+        }
+    });
 }
 
 function bindEditButtonFunctionality(){
@@ -94,7 +129,7 @@ function bindEditButtonFunctionality(){
         console.log($(this).data());
         $("#program_" + $(this).data("id")).after(tableRow(zoneEditableRow($(this).data("item"))));
         $("#program_" + $(this).data("id")).remove();
-        bindSaveButtonFunctionality()
+        bindSaveButtonFunctionality();
         changeLanguage();
     });
 }
@@ -138,6 +173,7 @@ $(function (){
                 success: function(response, message, xhr) {
                     zonesTable("#zones_wrapper", response.data);
                     bindEditButtonFunctionality();
+                    bindUploadButtonFunctionality();
                     $("#add_inventory").on("click", function(){
                         var data = new Object();
                         data.new_zone = $("#new_zone").val();
