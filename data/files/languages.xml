@@ -981,4 +981,9 @@
         <english>Save</english>
         <spanish>Guardar</spanish>
     </translation>
+
+    <translation id="upload_button">
+        <english>Upload Logo</english>
+        <spanish>Cargar Logo</spanish>
+    </translation>
 </translations>

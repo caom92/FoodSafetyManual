@@ -28,6 +28,8 @@ function zoneRow(zone){
     else
         inventoryRow.columns.push({"type":"td","contents":"<img src='data/logos/" + "default.png" + "' height='42'>","classes":"html-column"});
 
+    inventoryRow.columns.push({"type":"td","contents":uploadLogoButton(zone)});
+
     return inventoryRow;
 }
 
@@ -48,6 +50,8 @@ function zoneEditableRow(program){
     else
         inventoryRow.columns.push({"type":"td","contents":"<img src='data/logos/" + "default.png" + "' height='42'>","classes":"html-column"});
 
+    inventoryRow.columns.push({"type":"td"});
+
     return inventoryRow;
 }
 
@@ -66,6 +70,22 @@ function zoneSaveButton(item){
     var buttonInput = {"field":buttonField};
 
     return buttonInput;
+}
+
+function uploadLogoButton(item){
+    var buttonField = {"type":"button","classes":"upload_button","id":"upload_" + item.id,"data":{"id":item.id,"item":item},"icon":{"type": "icon", "icon": "mdi-send", "size": "mdi-32px", "color": "white-text"}};
+
+    var buttonInput = {"field":buttonField};
+
+    return buttonInput;
+}
+
+function logoFileInput(zone){
+    var logoField = {"type": "file","classes":"upload_button","name":"loadFile"};
+
+    var logoInput = {"field":logoField};
+
+    return logoFileInput;
 }
 
 function bindEditButtonFunctionality(){
