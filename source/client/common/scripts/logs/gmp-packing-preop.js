@@ -240,7 +240,7 @@ function gmpPackingPreopLog(data, htmlElement){
 
 function gmpPackingPreopComment(reportComment){
     var commentLabel = {"type":"label","contents":{"type":"text","classes":"comment_title"}};
-    var commentInput = {"type":"input","id": "report_comment", "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":65535,"toast":"gmp-packing-preop-report-notes"}}};
+    var commentInput = {"type":"textarea","id": "report_comment", "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":65535,"toast":"gmp-packing-preop-report-notes"}}};
     var commentFullInput = {"id":"reportCommentWrapper","classes":"input-field col s12 m12 l12","field":commentInput,"label":commentLabel};
 
     if(reportComment){
@@ -313,7 +313,7 @@ function gmpPackingPreopAreaTime(areaID, time){
 
 function gmpPackingPreopAreaNotes(areaID, notes){
     var notesLabel = {"type":"label","contents":{"type":"text","classes":"notes_title"},"for":"notes_" + areaID};
-    var notesInput = {"type":"input","id": "notes_" + areaID, "classes": "timeChanger validate", "fieldType":"text","data":{"area_id":areaID},"validations":{"type":"text","max":{"value":256,"toast":"gmp-packing-preop-area-notes"}}};
+    var notesInput = {"type":"textarea","id": "notes_" + areaID, "classes": "timeChanger validate", "fieldType":"text","data":{"area_id":areaID},"validations":{"type":"text","max":{"value":256,"toast":"gmp-packing-preop-area-notes"}}};
     var notesFullInput = {"id":"notesWrapper_" + areaID,"classes":"input-field col s12 m12 l12","field":notesInput,"label":notesLabel};
 
     if(notes){
@@ -383,7 +383,7 @@ function gmpPackingPreopItemCorrectiveAction(item, areaID){
     var correctiveActions = JSON.parse(localStorage.correctiveActionsSSOP);
 
     for(var action of correctiveActions){
-        var tempOption = {"value":action.id,"text":action.name,"classes":"timeChanger","data":{"area_id":areaID,"item_id":item.id}};
+        var tempOption = {"value":action.id,"text":action[localStorage.defaultLanguage],"classes":"timeChanger","data":{"area_id":areaID,"item_id":item.id}};
         if(item.corrective_action_id == action.id){
             tempOption.selected = true;
         }
