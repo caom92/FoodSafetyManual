@@ -1,7 +1,8 @@
 <?php
 
 namespace fsm\database\gap\packing\preop;
-require_once realpath(dirname(__FILE__).'/../../../../dao/InsertableTable.php');
+require_once realpath(dirname(__FILE__)
+  .'/../../../../dao/ToggableItemsTable.php');
 use fsm\database as db;
 
 
