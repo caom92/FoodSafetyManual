@@ -30,8 +30,6 @@ $gapPreop = [
       realpath(dirname(__FILE__).'/add-gap-packing-preop.php'),
     'toggle-gap-packing-preop' =>
       realpath(dirname(__FILE__).'/toggle-gap-packing-preop.php'),
-    'toggle-area-gap-packing-preop' =>
-      realpath(dirname(__FILE__).'/toggle-gap-packing-preop.php'),
     'reorder-gap-packing-preop' =>
       realpath(dirname(__FILE__).'/reorder-gap-packing-preop.php'),
     'list-corrective-actions-gap-packing-preop' =>
