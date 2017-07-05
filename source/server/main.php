@@ -123,6 +123,7 @@ $controller = new ServiceProvider(
         $unusualOccurrences['tables'] +
         $selfInspection['tables'] +
         $footers['tables'] +
+        $gapPreop['tables'] +
         [
           'Shifts' =>
             realpath(dirname(__FILE__).'/services/Shifts.php'),
@@ -151,7 +152,8 @@ $controller = new ServiceProvider(
       $thermometers['services'] +
       $unusualOccurrences['services'] +
       $selfInspection['services'] +
-      $footers['services']
+      $footers['services'] +
+      $gapPreop['services']
   ]
 );
 
