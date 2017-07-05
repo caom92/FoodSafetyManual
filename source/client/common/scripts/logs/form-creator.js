@@ -236,8 +236,9 @@ function createTextarea(fieldObject){
 
     field.addClass("materialize-textarea");
 
-    if(fieldObject.value)
-        field.attr("value", fieldObject.value);
+    if(fieldObject.value){
+        field.val(fieldObject.value);
+    }
 
     if(fieldObject.size)
         field.attr("size", fieldObject.size);
