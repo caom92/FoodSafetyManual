@@ -103,7 +103,8 @@ $controller = new ServiceProvider(
     'daoFactory' => function($config) use (
       $zone, $server, $programs, $contact, $authorizations, $account,
       $atp, $calibration, $finishedProduct, $glass, $handWash, $preop, 
-      $scissors, $thermometers, $unusualOccurrences, $selfInspection, $footers) {
+      $scissors, $thermometers, $unusualOccurrences, $selfInspection, $footers,
+      $gapPreop) {
       return new db\TableFactory(
         'fsm\database\\',
         $zone['tables'] +
