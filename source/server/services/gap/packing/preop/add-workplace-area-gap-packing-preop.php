@@ -17,16 +17,25 @@ $service = [
     // get session segment
     $segment = $scope->session->getSegment('fsm');
 
-    // insert the new area
-    $id = $scope->daoFactory->get('gap\packing\preop\WorkingAreas')->insert([
-      'zone_id' => $segment->get('zone_id'),
-      'name' => $request['area_name']
-    ]);
+    $areas = $scope->daoFactory->get('gap\packing\preop\WorkingAreas');
+    $isAreaNameDuplicated = $areas->hasByName($request['area_name']);
 
-    return [
-      'id' => $id,
-      'name' => $request['area_name']
-    ];
+    if (!$isAreaNameDuplicated) {
+      // insert the new area
+      $id = $areas->insert([
+        'zone_id' => $segment->get('zone_id'),
+        'name' => $request['area_name']
+      ]);
+
+      return [
+        'id' => $id,
+        'name' => $request['area_name']
+      ];
+    } else {
+      throw new \Exception(
+        'Failed to add new area; the name is already taken.'
+      );
+    }
   }
 ];
 
