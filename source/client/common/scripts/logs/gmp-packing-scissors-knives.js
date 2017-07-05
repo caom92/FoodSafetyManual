@@ -288,7 +288,7 @@ function gmpPackingScissorsKnivesApproved(group){
     var unacceptableIcon = {"type":"text","classes":"unapproved_tag big"};
     var radioApproved = {"type":"radio","id":"approved_" + group.id,"classes":"timeChanger","value":"true","label":{"type":"label","classes":"black-text","for":"approved_" + group.id,"contents": acceptableIcon},"data":{"group_id":group.id}};
     var radioUnapproved = {"type":"radio","id":"unapproved_" + group.id,"classes":"timeChanger","value":"false","label":{"type":"label","classes":"black-text","for":"unapproved_" + group.id,"contents": unacceptableIcon},"data":{"group_id":group.id}};
-    var itemRadioGroup = {"type": "radioGroup", "id":"radioGroup_"  + group.id,"classes":"col s12 m12 l12","group":"radio_" + group.id,"radioArray":[radioApproved, radioUnapproved],"validations":{"type":"radio","required":{"value":true},"groupName":"radio_" + group.id}};
+    var itemRadioGroup = {"type": "radioGroup", "id":"radioGroup_"  + group.id,"classes":"col s12 m12 l12","group":"radio_" + group.id,"radioArray":[radioApproved, radioUnapproved],"validations":{"type":"radio","required":{"value":true,"toast":"gmp-packing-scissors-knives-status"},"groupName":"radio_" + group.id}};
     var groupInput = {"id":"radioWrapper_" + group.id,"classes":"col s6 m3 l3","field":itemRadioGroup};
 
     if(group.approved == 1){

@@ -1047,7 +1047,6 @@ $(function(){
         }
 
         if(validations.type == "text"){
-            //console.log("Type text");
             if(validations.max != undefined){
                 if(validations.max.value != undefined){
                     if(element.val().length > validations.max.value){
@@ -1090,8 +1089,6 @@ $(function(){
                 }
             }
         } else if (validations.type == "number"){
-            //console.log("Type number");
-
             if(element.val() != Number(element.val())){
                 if(validations.toast != undefined){
                     loadToast(validations.toast, 2500, "rounded");
@@ -1149,8 +1146,6 @@ $(function(){
             } else {
                 if(validations.required != undefined){
                     if(validations.required.value == true){
-                        //console.log("Type select");
-                        //console.log(element.val());
                         if(validations.invalidValues != undefined){
                             for(var invalid of validations.invalidValues){
                                 if(element.val() == invalid){

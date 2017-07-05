@@ -356,7 +356,7 @@ function gmpPackingAtpTestingArea(item){
 
 function gmpPackingAtpTestingAreaTitle(item){
     var areaNewLabel = {"type":"label","contents":{"type":"text","classes":"production_area_title"},"for":"newAreaInput","classes":"active"};
-    var areaNewInput = {"type":"input","id": "area_name_" + item.id, "classes": "validate", "fieldType":"text","value":item.name};
+    var areaNewInput = {"type":"input","id": "area_name_" + item.id, "classes": "validate", "fieldType":"text","value":item.name,"validations":{"type":"text","max":{"value":255,"toast":"gmp-packing-atp-testing-max-name"},"required":{"value":true,"toast":"gmp-packing-atp-testing-required-name"}}};
     var areaNewFullInput = {"id":"newAreaInputWrapper","classes":"input-field col s6 m6 l6","field":areaNewInput,"label":areaNewLabel};
 
     return areaNewFullInput;
@@ -440,7 +440,7 @@ function gmpPackingAtpTestingItemResult(item, number){
     var unacceptableIcon = {"type":"text","classes":"fail_tag big"};
     var radioAcceptable = {"type":"radio","id":"test_acceptable_" + item.id + "_" + number,"classes":"timeChanger","value":"true","label":{"type":"label","classes":"black-text","for":"test_acceptable_" + item.id + "_" + number,"contents": acceptableIcon},"data":{"test_no":number,"item_id":item.id}};
     var radioUnacceptable = {"type":"radio","id":"test_unacceptable_" + item.id + "_" + number,"classes":"timeChanger","value":"false","label":{"type":"label","classes":"black-text","for":"test_unacceptable_" + item.id + "_" + number,"contents": unacceptableIcon},"data":{"test_no":number,"item_id":item.id}};
-    var itemRadioGroup = {"type": "radioGroup", "id":"test_radioGroup_"  + item.id + "_" + number,"classes":"col s12 m12 l12","group":"test_radio_" + item.id + "_" + number,"radioArray":[radioAcceptable, radioUnacceptable],"validations":{"type":"radio","required":{"value":true,"toast":"gmp-packing-preop-item-status"},"groupName":"test_radio_" + item.id + "_" + number},"label":statusLabel};
+    var itemRadioGroup = {"type": "radioGroup", "id":"test_radioGroup_"  + item.id + "_" + number,"classes":"col s12 m12 l12","group":"test_radio_" + item.id + "_" + number,"radioArray":[radioAcceptable, radioUnacceptable],"validations":{"type":"radio","required":{"value":true,"toast":"gmp-packing-atp-testing-status"},"groupName":"test_radio_" + item.id + "_" + number},"label":statusLabel};
     var groupInput = {"id":"test_radioWrapper_" + item.id + "_" + number,"classes":"col s2 m2 l2","field":itemRadioGroup};
 
     if(item.results1 == 1){

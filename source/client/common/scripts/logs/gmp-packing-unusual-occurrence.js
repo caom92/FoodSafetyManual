@@ -289,7 +289,7 @@ function gmpPackingUnusualOccurrenceItemShift(item){
 function gmpPackingUnusualOccurrenceItemTime(item){
     console.log(item);
     var batchLabel = {"type":"label","classes":"active","contents":{"type":"text","classes":"time_title"},"for":"time_" + item.id};
-    var batchInput = {"type":"time","id": "time_" + item.id, "classes": "timepicker validate", "fieldType":"text","validations":{"type":"text","max":{"value":80}}};
+    var batchInput = {"type":"time","id": "time_" + item.id, "classes": "timepicker validate", "fieldType":"text","validations":{"type":"text","max":{"value":80},"required":{"value":true}}};
     var batchFullInput = {"id":"batchWrapper","classes":"input-field col s4 m4 l4","field":batchInput,"label":batchLabel};
 
     if(item.entry){
@@ -304,7 +304,7 @@ function gmpPackingUnusualOccurrenceItemTime(item){
 
 function gmpPackingUnusualOccurrenceItemDate(item){
     var incidentLabel = {"type":"label","classes":"active","contents":{"type":"text","classes":"incident_date"},"for":"incident_" + item.id};
-    var incidentInput = {"type":"date","id": "incident_" + item.id, "classes":"incident_datepicker validate", "fieldType":"text","validations":{"type":"text","max":{"value":80}},"data":{"item_id":item.id}};
+    var incidentInput = {"type":"date","id": "incident_" + item.id, "classes":"incident_datepicker validate", "fieldType":"text","validations":{"type":"text","max":{"value":80},"required":{"value":true}},"data":{"item_id":item.id}};
     var incidentFullInput = {"id":"incidentWrapper_" + item.id,"classes":"input-field col s4 m4 l4","field":incidentInput,"label":incidentLabel};
 
     if(item.entry){
@@ -319,7 +319,7 @@ function gmpPackingUnusualOccurrenceItemDate(item){
 
 function gmpPackingUnusualOccurrenceItemProductionArea(item){
     var productionAreaLabel = {"type":"label","contents":{"type":"text","classes":"production_area_title"}};
-    var productionAreaInput = {"type":"input","id": "productionArea_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":255}}};
+    var productionAreaInput = {"type":"input","id": "productionArea_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":255},"required":{"value":true}}};
     var productionAreaFullInput = {"id":"productionAreaWrapper_","classes":"input-field col s4 m4 l4","field":productionAreaInput,"label":productionAreaLabel};
 
     if(item.entry){
@@ -334,7 +334,7 @@ function gmpPackingUnusualOccurrenceItemProductionArea(item){
 
 function gmpPackingUnusualOccurrenceItemProduct(item){
     var productLabel = {"type":"label","contents":{"type":"text","classes":"products"}};
-    var productInput = {"type":"input","id": "product_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":255}}};
+    var productInput = {"type":"input","id": "product_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":255},"required":{"value":true}}};
     var productFullInput = {"id":"productWrapper_","classes":"input-field col s4 m4 l4","field":productInput,"label":productLabel};
 
     if(item.entry){
@@ -389,7 +389,7 @@ function gmpPackingUnusualOccurrenceItemProduct(item){
 
 function gmpPackingUnusualOccurrenceItemBatch(item){
     var batchLabel = {"type":"label","contents":{"type":"text","classes":"batch_title"}};
-    var batchInput = {"type":"input","id": "batch_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":255}}};
+    var batchInput = {"type":"input","id": "batch_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":255},"required":{"value":true}}};
     var batchFullInput = {"id":"batchWrapper","classes":"input-field col s4 m4 l4","field":batchInput,"label":batchLabel};
 
     if(item.entry){
@@ -404,7 +404,7 @@ function gmpPackingUnusualOccurrenceItemBatch(item){
 
 function gmpPackingUnusualOccurrenceItemDescription(item){
     var descriptionLabel = {"type":"label","contents":{"type":"text","classes":"description"},"for":"description_" + item.id};
-    var descriptionInput = {"type":"textarea","id": "description_" + item.id, "classes": "validate", "fieldType":"text","data":{"id":item.id},"validations":{"type":"text","max":{"value":65535}}};
+    var descriptionInput = {"type":"textarea","id": "description_" + item.id, "classes": "validate", "fieldType":"text","data":{"id":item.id},"validations":{"type":"text","max":{"value":65535},"required":{"value":true}}};
     var descriptionFullInput = {"id":"descriptionWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":descriptionInput,"label":descriptionLabel};
 
     if(item.entry){
@@ -419,7 +419,7 @@ function gmpPackingUnusualOccurrenceItemDescription(item){
 
 function gmpPackingUnusualOccurrenceItemAction(item){
     var actionLabel = {"type":"label","contents":{"type":"text","classes":"action_title"},"for":"action_" + item.id};
-    var actionInput = {"type":"textarea","id": "action_" + item.id, "classes": "validate", "fieldType":"text","data":{"id":item.id},"validations":{"type":"text","max":{"value":65535}}};
+    var actionInput = {"type":"textarea","id": "action_" + item.id, "classes": "validate", "fieldType":"text","data":{"id":item.id},"validations":{"type":"text","max":{"value":65535},"required":{"value":true}}};
     var actionFullInput = {"id":"actionWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":actionInput,"label":actionLabel};
 
     if(item.entry){
@@ -434,7 +434,7 @@ function gmpPackingUnusualOccurrenceItemAction(item){
 
 function gmpPackingUnusualOccurrenceAlbumURL(item){
     var urlLabel = {"type":"label","contents":{"type":"text","classes":"url_title"}};
-    var urlInput = {"type":"textarea","id": "report_url", "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":65535,"toast":"gmp-packing-preop-report-url"}}};
+    var urlInput = {"type":"textarea","id": "report_url", "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":65535,"toast":"gmp-packing-preop-report-url"},"required":{"value":true}}};
     var urlFullInput = {"id":"reportUrlWrapper","classes":"input-field col s12 m12 l12","field":urlInput,"label":urlLabel};
 
     if(item.entry){
@@ -509,7 +509,6 @@ function gmpPackingUnusualOccurrenceBody(data){
 
     form.rows = [];
 
-    console.log("SOY EL CUERPO");
     console.log(data);
 
     shiftRow.columns = [gmpPackingUnusualOccurrenceReportShift(data), gmpPackingUnusualOccurrenceReportTime(data), gmpPackingUnusualOccurrenceReportProductionArea(data)];

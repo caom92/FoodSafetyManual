@@ -340,4 +340,82 @@
         <english>You must either select a scale to Pass or Fail</english>
         <spanish>El resultado de la prueba debe marcarse como Pasó o Falló</spanish>
     </translation>
+
+    <!--GMP Packing Thermometer Calibration-->
+
+    <translation id="gmp-packing-thermo-calibration-test">
+        <english>You must enter a value for the ice point method test</english>
+        <spanish>Debe ingresar un valor para la prueba del método del punto de hielo</spanish>
+    </translation>
+
+    <translation id="gmp-packing-thermo-calibration-status">
+        <english>You must indicate if the thermometer was calibrated or not</english>
+        <spanish>Debe indicar si el termómetro fue calibrado o no</spanish>
+    </translation>
+
+    <!--GMP Packing Scissors And Knives Inspection-->
+
+    <translation id="gmp-packing-scissors-knives-status">
+        <english>You must mark an item as either Approved or Unapproved</english>
+        <spanish>Debe marcar el objeto como Aprobado o No Aprobado</spanish>
+    </translation>
+
+    <!--GMP Packing ATP Testing-->
+
+    <translation id="gmp-packing-atp-testing-required-name">
+        <english>You must enter a name for the area tested</english>
+        <spanish>Debe indicar el nombre del area probada</spanish>
+    </translation>
+
+    <translation id="gmp-packing-atp-testing-max-name">
+        <english>The area's name must not exceed {{value}} characters</english>
+        <spanish>El nombre del area no debe exceder {{value}} caracteres</spanish>
+    </translation>
+
+    <translation id="gmp-packing-atp-testing-status">
+        <english>You must mark an item as either Pass or Fail</english>
+        <spanish>Debe marcar el objeto como Pasó o Falló</spanish>
+    </translation>
+
+    <!--GMP Packing Finished Product-->
+
+    <translation id="gmp-packing-finished-product-water">
+        <english>You must enter the washing water temperature</english>
+        <spanish>Debe indicar la temperatura del agua para lavado</spanish>
+    </translation>
+
+    <translation id="gmp-packing-finished-product-packing">
+        <english>You must enter the packing temperature</english>
+        <spanish>Debe indicar la temperatura de empacado</spanish>
+    </translation>
+
+    <translation id="gmp-packing-finished-product-weight">
+        <english>You must indicate if the weight was correct</english>
+        <spanish>Debe indicar si el peso fue correcto</spanish>
+    </translation>
+
+    <translation id="gmp-packing-finished-product-label">
+        <english>You must indicate if the product was correctly labeled</english>
+        <spanish>Debe indicar si el producto fue etiquetado adecuadamente</spanish>
+    </translation>
+
+    <translation id="gmp-packing-finished-product-trace">
+        <english>You must indicate if the product is traceable</english>
+        <spanish>Debe indicar la trazabilidad del producto</spanish>
+    </translation>
+
+    <translation id="gmp-packing-finished-product-supplier">
+        <english>You must enter the name of the supplier (at least 2 characters)</english>
+        <spanish>Debe ingresar el nombre del proveedor (al menos 2 caracteres)</spanish>
+    </translation>
+
+    <translation id="gmp-packing-finished-product-product">
+        <english>You must enter the name of the product (at least 2 characters)</english>
+        <spanish>Debe ingresar el nombre del producto (al menos 2 caracteres)</spanish>
+    </translation>
+
+    <translation id="gmp-packing-finished-product-client">
+        <english>You must enter the name of the cliente (at least 2 characters)</english>
+        <spanish>Debe ingresar el nombre del cliente (al menos 2 caracteres)</spanish>
+    </translation>
 </translations>

@@ -14,6 +14,7 @@ function loadLogForm(htmlElement){
                     sendGmpPackingThermoCalibrationReport();
                 });
                 $("input").characterCounter();
+                $("textarea").characterCounter();
                 $(htmlElement).append(report.html_footer);
                 changeLanguage();
             } else {
@@ -39,8 +40,10 @@ function loadPrefilledLogForm(htmlElement, data){
                 $("#send_report").click(function(){
                     updateGmpPackingThermoCalibrationReport(parseInt(data.report_id));
                 });
-                changeLanguage();
                 $("input").characterCounter();
+                $("textarea").characterCounter();
+                $(htmlElement).append(report.html_footer);
+                changeLanguage();
             } else {
                 Materialize.toast("Some error", 3000, "rounded");
                 throw response.meta.message;
@@ -142,6 +145,7 @@ function sendGmpPackingThermoCalibrationReport(){
                 $("#send_report").removeAttr("disabled");
             }
         });
+        $("#send_report").removeAttr("disabled");
     } else {
         $("#send_report").removeAttr("disabled");
     }
@@ -252,7 +256,7 @@ function gmpPackingThermoCalibrationTitle(item){
 
 function gmpPackingThermoCalibrationTest(item){
     var testLabel = {"type":"label","contents":{"type":"text","classes":"thermometer_test_title"}};
-    var testInput = {"type":"input","id": "test_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"item_id":item.id},"validations":{"type":"number"}};
+    var testInput = {"type":"input","id": "test_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"item_id":item.id},"validations":{"type":"number","required":{"value":true,"toast":"gmp-packing-thermo-calibration-test"}}};
     var testFullInput = {"id":"testWrapper_" + item.id,"classes":"input-field col s4 m4 l4","field":testInput,"label":testLabel};
 
     if(item.test){
@@ -272,7 +276,7 @@ function gmpPackingThermoCalibrationPass(item){
     var unacceptableIcon = {"type":"text","classes":"no_tag big"};
     var radioApproved = {"type":"radio","id":"approved_" + item.id,"classes":"timeChanger","value":"true","label":{"type":"label","classes":"black-text","for":"approved_" + item.id,"contents": acceptableIcon},"data":{"item_id":item.id}};
     var radioUnapproved = {"type":"radio","id":"unapproved_" + item.id,"classes":"timeChanger","value":"false","label":{"type":"label","classes":"black-text","for":"unapproved_" + item.id,"contents": unacceptableIcon},"data":{"item_id":item.id}};
-    var itemRadioGroup = {"type": "radioGroup", "id":"radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"radio_" + item.id,"label":calibrationPassLabel,"radioArray":[radioApproved, radioUnapproved],"validations":{"type":"radio","required":{"value":true},"groupName":"radio_" + item.id}};
+    var itemRadioGroup = {"type": "radioGroup", "id":"radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"radio_" + item.id,"label":calibrationPassLabel,"radioArray":[radioApproved, radioUnapproved],"validations":{"type":"radio","required":{"value":true,"toast":"gmp-packing-thermo-calibration-status"},"groupName":"radio_" + item.id}};
     var groupInput = {"id":"radioWrapper_" + item.id,"classes":"col s3 m3 l3","field":itemRadioGroup};
 
     if(item.calibration == true){
@@ -298,7 +302,7 @@ function gmpPackingThermoCalibrationSanitized(item){
 
 function gmpPackingThermoCalibrationDeficiencies(item){
     var deficienciesLabel = {"type":"label","contents":{"type":"text","classes":"deficiencies_title"}};
-    var deficienciesInput = {"type":"input","id": "deficiencies_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"item_id":item.id},"validations":{"type":"text","max":{"value":256}}};
+    var deficienciesInput = {"type":"textarea","id": "deficiencies_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"item_id":item.id},"validations":{"type":"text","max":{"value":65535}}};
     var deficienciesFullInput = {"id":"deficienciesWrapper_" + item.id,"classes":"input-field col s6 m6 l6","field":deficienciesInput,"label":deficienciesLabel};
 
     if(item.deficiencies){
@@ -311,7 +315,7 @@ function gmpPackingThermoCalibrationDeficiencies(item){
 
 function gmpPackingThermoCalibrationCorrectiveAction(item){
     var actionLabel = {"type":"label","contents":{"type":"text","classes":"action_title"}};
-    var actionInput = {"type":"input","id": "correctiveAction_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"item_id":item.id},"validations":{"type":"text","max":{"value":256}}};
+    var actionInput = {"type":"textarea","id": "correctiveAction_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"item_id":item.id},"validations":{"type":"text","max":{"value":65535}}};
     var actionFullInput = {"id":"correctiveActionWrapper_" + item.id,"classes":"input-field col s6 m6 l6","field":actionInput,"label":actionLabel};
 
     if(item.corrective_action){
