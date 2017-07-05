@@ -68,7 +68,7 @@ function addAreaSelect(controlsWrapper, contentWrapper){
                                     $("#area_name").val("");
                                     loadToast("workplace_area_registered", 2500, "rounded");
                                 } else {
-                                    loadToast("generic_area", 2500, "rounded");
+                                    loadToast("gmp-packing-preop-repeated-area", 2500, "rounded");
                                 }
                             }
                         });

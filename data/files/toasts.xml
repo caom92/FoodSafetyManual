@@ -329,6 +329,11 @@
         <spanish>El URL del album de Picasa no debe exceder {{value}} caracteres</spanish>
     </translation>
 
+    <translation id="gmp-packing-preop-repeated-area">
+        <english>Failed to add new area; the name is already taken</english>
+        <spanish>Error al añadir area; el nombre del área se encuentra repetido</spanish>
+    </translation>
+
     <!--GMP Packing Scale Calibration-->
 
     <translation id="gmp-packing-scale-calibration-test">
