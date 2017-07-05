@@ -30,12 +30,10 @@ $preop = [
       realpath(dirname(__FILE__).'/add-gmp-packing-preop.php'),
     'toggle-gmp-packing-preop' =>
       realpath(dirname(__FILE__).'/toggle-gmp-packing-preop.php'),
-    'toggle-area-gmp-packing-preop' =>
-      realpath(dirname(__FILE__).'/toggle-gmp-packing-preop.php'),
     'reorder-gmp-packing-preop' =>
       realpath(dirname(__FILE__).'/reorder-gmp-packing-preop.php'),
-    'list-corrective-actions-gmp-packing-preop' =>
-      realpath(dirname(__FILE__).'/list-corrective-actions-gmp-packing-preop.php'),
+    'list-corrective-actions-gmp-packing-preop' => realpath(dirname(__FILE__)
+      .'/list-corrective-actions-gmp-packing-preop.php'),
     'update-gmp-packing-preop' =>
       realpath(dirname(__FILE__).'/update-gmp-packing-preop.php'),
     'add-workplace-area-gmp-packing-preop' =>

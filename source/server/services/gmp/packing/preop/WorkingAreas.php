@@ -6,7 +6,7 @@ use fsm\database as db;
 
 
 // Interfaz para la tabla working_areas
-class WorkingAreas extends db\ToggableItemsTable
+class WorkingAreas extends db\InsertableTable
 {
   // Crea una instancia de una interfaz a la base de datos para modificar 
   // la tabla working_areas
@@ -23,6 +23,14 @@ class WorkingAreas extends db\ToggableItemsTable
       [ "$this->table.id", 'name' ],
       [ 'zone_id' => $zoneID ]
     );
+  }
+
+  // Searches an area with the given name and returns its data if it 
+  // found it or NULL otherwise
+  function hasByName($areaName) {
+    return parent::has([
+      'name' => $areaName
+    ]);
   }
 }
 
