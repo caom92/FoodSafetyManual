@@ -135,8 +135,8 @@ function loadZoneSelectionMenu()
             localStorage.zone_id = response.data.id;
             localStorage.zone_name = 
                 response.data.name;
-            localStorage.logo = response.data.logo;
-            localStorage.company = response.data.company;
+            localStorage.logo = response.data.logo_path;
+            localStorage.company = response.data.company_name;
             localStorage.address = response.data.address;
         } else {
             // if the server answered with error,
