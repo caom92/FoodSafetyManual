@@ -983,7 +983,12 @@
     </translation>
 
     <translation id="upload_button">
-        <english>Upload Logo</english>
-        <spanish>Cargar Logo</spanish>
+        <english>Upload</english>
+        <spanish>Cargar</spanish>
+    </translation>
+
+    <translation id="select_logo_button">
+        <english>Select Logo</english>
+        <spanish>Elegir Logo</spanish>
     </translation>
 </translations>
