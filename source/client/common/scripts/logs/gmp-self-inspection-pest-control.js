@@ -47,18 +47,6 @@ function loadPrefilledLogForm(htmlElement, data){
     });
 }
 
-function loadManual(htmlElement, titleElement){
-    $server.request({
-        service: 'get-log-manual-url',
-        data: {"log-suffix":"gmp-self-inspection-pest-control"},
-        success: function(response){
-            $(titleElement).html(response.data.log_name);
-            $(htmlElement).append('<iframe src = "' + $root + 'external/ViewerJS/#../../' + response.data.manual_location + 'actual_manual.pdf" width="100%" height="100%" style="min-height: 300px" allowfullscreen webkitallowfullscreen></iframe>');
-            console.log(response);
-        }
-    });
-}
-
 function loadFunctionality(data){
     //gmpPestControlSelfInspectionFunctionality(data);
     return;

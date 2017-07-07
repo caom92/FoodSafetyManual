@@ -62,7 +62,7 @@ $(function() {
         $.getScript( "source/client/common/scripts/logs/table-creator.js", function( data, textStatus, jqxhr ) {
             $.getScript( "source/client/common/scripts/logs/" + getParams._ + ".js", function( data, textStatus, jqxhr ) {
                 console.log("Load of " +  getParams._);
-                loadManual("#manual_tab", "#log_title");
+                loadManual("#manual_tab", "#log_title", getParams._);
                 if(localStorage.role_id == "5"){
                     loadLogForm("#logs_tab");
                 } else {
@@ -90,6 +90,18 @@ $(function() {
     changeLanguage();
     pdfUploader(getParams._);
 });
+
+function loadManual(htmlElement, titleElement, suffix){
+    $server.request({
+        service: 'get-log-manual-url',
+        data: {"log-suffix":suffix},
+        success: function(response){
+            $(titleElement).html(response.data.log_name);
+            $(htmlElement).append('<iframe src = "' + $root + 'external/ViewerJS/#../../' + response.data.manual_location + localStorage.zone_name  + '/actual_manual.pdf" width="100%" height="100%" style="min-height: 300px" allowfullscreen webkitallowfullscreen></iframe>');
+            console.log(response);
+        }
+    });
+}
 
 function pdfUploader(suffix) {
     // We load the tabs; we have 2 or 3 depending on the privileges of the user
