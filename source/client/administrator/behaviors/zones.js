@@ -81,7 +81,7 @@ function uploadLogoButton(item){
 }
 
 function logoFileInput(zone){
-    var logoField = {"type":"file","id":"upload-logo-form","classes":"upload_button","name":"logo","additional_fields":[]};
+    var logoField = {"type":"file","id":"upload-logo-form","classes":"select_logo_button","name":"logo","additional_fields":[]};
 
     var testInput = {"type":"input","id":"zone_id_" + zone.id,"fieldType":"text","name":"zone_id","value":zone.id,"hidden":true};
 
@@ -143,6 +143,7 @@ function bindEditButtonFunctionality(){
         console.log($(this).data());
         $("#program_" + $(this).data("id")).after(tableRow(zoneEditableRow($(this).data("item"))));
         $("#program_" + $(this).data("id")).remove();
+        bindUploadButtonFunctionality();
         bindSaveButtonFunctionality();
         changeLanguage();
     });
@@ -172,6 +173,7 @@ function bindSaveButtonFunctionality(){
                     $("#edit_program_" + zoneID).after(tableRow(zoneRow(updatedZone)));
                     $("#edit_program_" + zoneID).remove();
                     bindEditButtonFunctionality();
+                    bindUploadButtonFunctionality()
                     changeLanguage();
                 }
             }
