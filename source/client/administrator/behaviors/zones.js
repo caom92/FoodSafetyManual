@@ -105,6 +105,7 @@ function bindUploadButtonFunctionality(){
         var zoneID = $(this).data("id");
         var zone = $(this).data("item");
         if($(this).data("waiting") == true){
+            $(this).data("waiting", false);
             var formData = new FormData($('#upload-logo-form')[0]);
             $server.request({
                 service:'upload-zone-logo',
@@ -123,8 +124,6 @@ function bindUploadButtonFunctionality(){
                     } else {
                         loadToast("invalid_file_format", 3500, "rounded");
                     }
-                    //console.log("success");
-                    //$("#upload_row_" + zoneID);
                 }
             });
         } else {
@@ -141,6 +140,7 @@ function bindEditButtonFunctionality(){
     $("a[id^='edit_']").on("click", function(){
         console.log("Presionado");
         console.log($(this).data());
+        $("#upload_row_" + $(this).data("id")).remove();
         $("#program_" + $(this).data("id")).after(tableRow(zoneEditableRow($(this).data("item"))));
         $("#program_" + $(this).data("id")).remove();
         bindUploadButtonFunctionality();
