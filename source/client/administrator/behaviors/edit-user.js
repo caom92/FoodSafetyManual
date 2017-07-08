@@ -30,9 +30,9 @@ function hidePermissionForms(){
     $("#zone_select_wrapper").parent().hide();
     $("#program_select_wrapper").html("");
     $("#program_select_wrapper").parent().hide();
-    $("#program_collapsible").html("");
+    $("#program_collapsible_wrapper").html("");
     $("#supervisor_select_wrapper").html("");
-    $("#program_collapsible").parent().hide();
+    $("#program_collapsible_wrapper").parent().hide();
     $("#log_select_wrapper").parent().hide();
 }
 
@@ -136,10 +136,17 @@ function addProgramSelect(maxPrivilege, employeeNum, selectedOption) {
                     option.append(program.name);
                     select.append(option);
                 }
-                addModulesCollapsible(response.data, maxPrivilege);
+                addModulesCollapsible(response.data[0], maxPrivilege);
                 $("#program_select_wrapper").append(select);
                 $("#program_select_wrapper").append(label);
                 $("#program_select_wrapper").parent().show();
+                $("#program_select").change(function (argument) {
+                    for (var program of response.data) {
+                        if(program.id == $("#program_select").val()){
+                            addModulesCollapsible(program, maxPrivilege);
+                        }
+                    }
+                });
                 $("#privilege_header").show();
                 changeLanguage(localStorage.defaultLanguage);
             } else {
@@ -196,7 +203,6 @@ function addSupervisorSelect(zoneID, selectedOption){
                         data: editUser,
                         success: function(response){
                             if (response.meta.return_code == 0) {
-                                //loadToast("role_modified", 3500, "rounded", null, $("#user-role option:selected").text());
                                 addProgramSelect(3, parseInt($("#user-id").val()));
                             } else {
                                 loadToast("finish_supervisor_assignation", 3500, "rounded");
@@ -205,9 +211,6 @@ function addSupervisorSelect(zoneID, selectedOption){
                     });
                     $("#supervisor_select").on("change", function(){
                         var assignment = {};
-                        //assignment.employee_id = parseInt($("#user-id").data("user_id"));
-                        //assignment.supervisor_id = parseInt($(this).val());
-                        //assignment = {"assignments":[assignment]};
                         assignment.user_id = parseInt($("#user-id").data("user_id"));
                         assignment.role_id = 5;
                         assignment.supervisor_id = parseInt($(this).val());
@@ -239,24 +242,25 @@ function addSupervisorSelect(zoneID, selectedOption){
 
 // This functions add a collapsible for a collection of 
 
-function addModulesCollapsible(programs, maxPrivilege){
-    $("#program_collapsible").html("");
-    for(var program of programs){
-        for(var module of program.modules){
-            var logsArray = [];
-            for(var log of module.logs){
-                logsArray.push(log);
-            }
-            $("#program_collapsible").append(addModuleWrapper(null, null, addModuleHeader(null, null, module.name),
-             addModuleBody(null, null, logsArray, maxPrivilege)));
+function addModulesCollapsible(program, maxPrivilege){
+    var programID = program.id;
+
+    $(".program-collapsible").hide();
+    for(var module of program.modules){
+        var logsArray = [];
+        for(var log of module.logs){
+            logsArray.push(log);
+        }
+        if($("#program_collapsible_" + programID + "_" + module.id).length == 1){
+            $("#program_collapsible_" + programID + "_" + module.id).show();
+        } else {
+            $("#program_collapsible_wrapper").append(addModuleWrapper("program_collapsible_" + programID + "_" + module.id, "program-collapsible", addModuleHeader(null, null, module.name),
+            addModuleBody(null, null, logsArray, maxPrivilege)));
+            changeLanguage();
         }
     }
     $("#log_select_wrapper").parent().show();
-    $("#program_collapsible").parent().show();
-    /*var wrapper = $("<ul>");
-
-    wrapper.addClass("collapsible");
-    wrapper.attr("data-collapsible", "accordion");*/
+    $("#program_collapsible_wrapper").parent().show();
 }
 
 function addModuleWrapper(id, classes, header, body){
@@ -281,7 +285,7 @@ function addModuleWrapper(id, classes, header, body){
 
     return wrapper;
 
-    //$("#program_collapsible").append(wrapper);
+    //$("#program_collapsible_wrapper").append(wrapper);
 }
 
 function addModuleHeader(id, classes, programName){
@@ -847,7 +851,6 @@ function fillUserInformation(userID){
             }
         }
     });
-    console.log("Entered");
 }
 
 $(function (){
