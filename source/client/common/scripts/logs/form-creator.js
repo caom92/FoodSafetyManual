@@ -1014,17 +1014,6 @@ function logHeaderColumn(column){
     return headerColumn;
 }
 
-/*$(function (){
-    $.getScript( "source/client/supervisor/behaviors/gmp-packing-preop.js", function( data, textStatus, jqxhr ) {
-        console.log( "Load was performed." );
-        var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":"Pre-operational Log"}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":"LAW"},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":"GMP"},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":"Packing"}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":"2017-01-23"},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":"Empleado I"}]}]};
-        $("#content_wrapper").append(logHeader(header));
-        loadLogForm(null, "#content_wrapper");
-        loadFunctionality();
-        changeLanguage(localStorage.defaultLanguage);
-    }); 
-});*/
-
 $(function(){
     $.fn.validate = function(){
         var errorCounter = 0;

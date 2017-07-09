@@ -55,7 +55,7 @@ LayoutManager.prototype.load = function(layout, container = this.container)
 
             $.ajax({
                 method: 'GET',
-                url: baseURL + 'behaviors/' + layout + '.js',
+                url: baseURL + 'controllers/' + layout + '.js',
                 dataType: 'script',
                 cache: true,
                 error: function(xhr, status, message) {
