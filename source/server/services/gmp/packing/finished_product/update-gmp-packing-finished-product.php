@@ -77,10 +77,13 @@ $service = fsm\createUpdateService(
     'extra_info' => NULL,
     'function' => function($scope, $request) {
       $logs = $scope->daoFactory->get('gmp\packing\finishedProduct\Logs');
-      foreach ($request['entries'] as $entry) {
-        $logs->updateByCapturedLogID(
-          $entry,
-          $request['report_id']
+      $ids = $logs->selectIDByCapturedLogID($request['report_id']);
+
+      for ($i = 0; $i < count($request['entries']); ++$i) {
+        $logs->updateByCapturedLogIDAndID(
+          $request['entries'][$i],
+          $request['report_id'],
+          $ids[$i]
         );
       }
     }
