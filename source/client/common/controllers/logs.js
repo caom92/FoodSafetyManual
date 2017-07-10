@@ -267,10 +267,13 @@ function reportLoaderCard(data, footer){
             var tempPDFHeader = iconParent.data("headerPDF");
             tempPDFHeader.attr("id", "headerPDFWrapper_" + data.report_id);
             tempPDFHeader.hide();
+            var footerCard = $("<div>");
+            footerCard.addClass("card-panel white");
+            footerCard.append(footer);
             $("#report-tab-content").append(tempHeader);
             $("#report-tab-content").append(tempPDFHeader);
             $("#report-tab-content").append(tempCard);
-            $("#report-tab-content").append(footer);
+            $("#report-tab-footer").append(footerCard);
             changeLanguage(localStorage.defaultLanguage, function(){
                 reportIcon.show(200);
             });
@@ -282,6 +285,7 @@ function reportLoaderCard(data, footer){
             $(this).addClass("mdi-file-document-box green-text");
             $(".reportCard").show(300);
             $("#report-tab-content").html("");
+            $("#report-tab-footer").html("");
             reportIcon.hide(200);
         }
         console.log("lmao");
@@ -351,25 +355,36 @@ function loadReports(startDate, endDate, suffix){
     data.start_date = startDate;
     data.end_date = endDate;
 
+    console.log("loadReports");
+
+    $("#loading_reports").show();
+
     $server.request({
         service: 'report-' +  suffix,
         data: data,
         success: function(response) {
             if (response.meta.return_code == 0) {
-                var pdfReportURL = "source/server/report/reportPDF.php";
-                var pdfParams = "?start_date=" + startDate + "&end_date=" + endDate;
-                $('#request_pdf').show();
+                var reports = response.data.reports;
+                if(typeof reports != "undefined" && reports != null && reports.length > 0){
+                    var pdfReportURL = "source/server/report/reportPDF.php";
+                    var pdfParams = "?start_date=" + startDate + "&end_date=" + endDate;
+                    $('#request_pdf').show();
 
-                var wrapper = $("#report-tab-index");
-                wrapper.html('');
+                    var wrapper = $("#report-tab-index");
+                    wrapper.html('');
 
-                for (reportData of response.data.reports) {
-                    wrapper.append(reportLoaderCard(reportData, response.data.pdf_footer));
+                    for (reportData of response.data.reports) {
+                        wrapper.append(reportLoaderCard(reportData, response.data.pdf_footer));
+                    }
+
+                    $("#loading_reports").hide();
+                } else {
+                    loadToast("no_approved_reports",3000 ,"rounded");
+                    $("#loading_reports").hide();
                 }
-
-                $("#report-tab-index").append('<div class="divider"></div>');
             } else {
-                Materialize.toast("No se encuentra un reporte para esa fecha", 3000, "rounded");
+                loadToast("no_approved_reports",3000 ,"rounded");
+                $("#loading_reports").hide();
                 throw response.meta.message;
             }
         }

@@ -248,6 +248,18 @@
         <spanish>Información de zona actualizada</spanish>
     </translation>
 
+    <!--Logs.js Messages-->
+
+    <translation id="no_reports">
+        <english>There are no reports for those dates</english>
+        <spanish>No existen reportes para ese rango de fechas</spanish>
+    </translation>
+
+    <translation id="no_approved_reports">
+        <english>There are no approved reports for those dates</english>
+        <spanish>No existen reportes aprobados para ese periodo de fechas</spanish>
+    </translation>
+
     <!--Form creator validation toasts-->
 
     <!--Generic-->
