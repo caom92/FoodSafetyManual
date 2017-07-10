@@ -4,6 +4,7 @@ function waitingReportCard(report){
     var buttonRow = $("<div>");
 
     reportCard.addClass("card-panel");
+    reportCard.attr("id", "waiting_report_" + report.captured_log_id);
     employeeInfoRow.addClass("row");
     buttonRow.addClass("row center-align");
 
@@ -28,10 +29,9 @@ function waitingReportCard(report){
         $.getScript( "source/client/common/scripts/logs/" + logScript + ".js", function( data, textStatus, jqxhr ) {
             console.log("Load of " +  logScript);
             $("#master_wrapper").fadeOut(500);
-            //$("#content_wrapper").show(500);
+            $("#content_wrapper").show(500);
             var data = {"start_date":report.capture_date,"end_date":report.capture_date,"report_id":reportID};
             loadPrefilledLogForm("#content_wrapper", data);
-            //$("#content_wrapper").append($("<div class='card-panel white'>"));
         });
     });
 
@@ -171,8 +171,12 @@ function approveReport(logID){
         success: function(response){
             if(response.meta.return_code == 0){
                 loadToast("approve_report", 2500, "rounded");
-                updateSigns();
                 getNumPendingAuthorizations();
+                $("#waiting_report_" + logID).remove();
+                updateSigns();
+                $("#content_wrapper").fadeOut(500);
+                $("#master_wrapper").fadeIn(500);
+                changeLanguage();
             }
         }
     });
@@ -190,8 +194,11 @@ function rejectReport(logID, report){
             if(response.meta.return_code == 0){
                 loadToast("reject_report", 2500, "rounded");
                 $("#rejected_reports").append(rejectedReportCard(report));
+                $("#waiting_report_" + logID).remove();
                 updateSigns();
-                changeLanguage(localStorage.defaultLanguage);
+                $("#content_wrapper").fadeOut(500);
+                $("#master_wrapper").fadeIn(500);
+                changeLanguage();
             }
         }
     });
@@ -211,7 +218,43 @@ function updateSigns(){
     }
 }
 
+function approveButton(){
+    var button = {"type":"button","id":"approve_report","icon":{"type":"icon","icon":"mdi-checkbox-marked-circle","size":"mdi-18px", "text":{"type":"text","classes":"approve_button"}},"align":"col s3 m3 l3"};
+
+    return button;
+}
+
+function rejectButton(){
+    var button = {"type":"button","id":"reject_report","icon":{"type":"icon","icon":"mdi-delete","size":"mdi-18px", "text":{"type":"text","classes":"reject_button"}},"align":"col s3 m3 l3"};
+
+    return button;
+}
+
+function returnButton(){
+    var button = {"type":"button","id":"return_button","icon":{"type":"icon","icon":"mdi-undo-variant","size":"mdi-18px", "text":{"type":"text","classes":"return_button"}},"align":"col s3 m3 l3"};
+
+    return button;
+}
+
+function bindAuthorizationButtonsFunctionality(htmlElement, reportID){
+    $("#return_button").on("click", function (argument) {
+        $(htmlElement).fadeOut(500, function(){
+            $(htmlElement).html("");
+            window.scrollTo(0, 0);
+            $("#master_wrapper").fadeIn(500);
+        });
+    });
+    $("#approve_report").click(function(){
+        approveReport(reportID);
+    });
+    $("#reject_report").click(function(){
+        rejectReport(reportID);
+    });
+}
+
 $(function (){
+    getNumPendingAuthorizations();
+    
     if(!localStorage.correctiveActionsSSOP){
         $server.request({
             service: 'list-corrective-actions-gmp-packing-preop',

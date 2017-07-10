@@ -1,6 +1,3 @@
-// DatePicker is common to all reports. It's used to select a range of dates
-// to display in report form
-
 // Wrapper for loading a Log Form. For convenience's sake, this name will
 // be shared among all log types
 
@@ -8,24 +5,24 @@ function loadLogForm(htmlElement){
     $server.request({
         service: 'log-gmp-packing-scale-calibration',
         success: function(response) {
-            if (response.meta.return_code == 0 || true) {
+            if (response.meta.return_code == 0) {
                 var report = response.data;
-                console.log(report);
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name, "id":"log_name"}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":getISODate(new Date())},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":localStorage.first_name + " " + localStorage.last_name}]}]};
                 $(htmlElement).append(logHeader(header));
-                scaleCalibrationLog(report, htmlElement);
+                scaleCalibrationLog(report, htmlElement, false);
                 loadFunctionality({"isPrefilled":false});
-                changeLanguage(localStorage.defaultLanguage);
                 $("#send_report").click(function(){
                     $(this).attr("disabled", true);
+                    $("#sending_log").show();
                     sendScaleCalibrationReport();
                 });
                 $('.log_title').html(report.log_name);
                 $("input").characterCounter();
+                $("textarea").characterCounter();
                 $(htmlElement).append(report.html_footer);
                 changeLanguage();
             } else {
-                Materialize.toast("Some error", 3000, "rounded");
+                Materialize.toast(response.meta.message, 3000, "rounded");
                 throw response.meta.message;
             }
         }
@@ -42,16 +39,22 @@ function loadPrefilledLogForm(htmlElement, data){
                 var report = response.data;
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name, "id":"log_name"}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":getISODate(new Date())},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":localStorage.first_name + " " + localStorage.last_name}]}]};
                 $(htmlElement).append(logHeader(header));
-                scaleCalibrationLog(report, htmlElement);
+                scaleCalibrationLog(report, htmlElement, true);
                 loadFunctionality({"isPrefilled":true});
                 $("#send_report").click(function(){
                     $(this).attr("disabled", true);
+                    $("#sending_log").show();
                     updateScaleCalibrationReport(parseInt(data.report_id));
                 });
+                bindAuthorizationButtonsFunctionality(htmlElement, data.report_id);
                 changeLanguage();
                 $("input").characterCounter();
+                $("textarea").characterCounter();
+                $("textarea").trigger("autoresize");
+                window.scrollTo(0, 0);
+                $(htmlElement).fadeIn(500);
             } else {
-                Materialize.toast("Some error", 3000, "rounded");
+                Materialize.toast(response.meta.message, 3000, "rounded");
                 throw response.meta.message;
             }
         }
@@ -150,10 +153,12 @@ function sendScaleCalibrationReport(){
                     Materialize.toast(response.meta.message, 3000, "rounded");
                 }
                 $("#send_report").removeAttr("disabled");
+                $("#sending_log").hide();
             }
         });
     } else {
         $("#send_report").removeAttr("disabled");
+        $("#sending_log").hide();
     }
 }
 
@@ -200,19 +205,23 @@ function updateScaleCalibrationReport(reportID){
             success: function(response){
                 if (response.meta.return_code == 0) {
                     Materialize.toast("Reporte actualizado con exito", 3000, "rounded");
-                    $("#content_wrapper").hide();
-                    $("#authorizations_wrapper").show();
                 } else {
                     Materialize.toast(response.meta.message, 3000, "rounded");
                 }
+                $("#send_report").removeAttr("disabled");
+                $("#sending_log").hide();
             }
         });
+    } else {
+        $("#send_report").removeAttr("disabled");
+        $("#sending_log").hide();
     }
 }
 
-function scaleCalibrationLog(data, htmlElement){
+function scaleCalibrationLog(data, htmlElement, isPrefilled){
     var log = $("<div>");
     var additionalData = $("<div>");
+    var buttonRow = $("<div>");
 
     console.log(data);
     for(var type of data.types.scales){
@@ -226,7 +235,18 @@ function scaleCalibrationLog(data, htmlElement){
     additionalData.append(createInputRow({"columns":[scaleCalibrationCorrectiveAction(data.corrective_action)]}));
 
     log.append(additionalData);
-    log.append($("<div class='row'>").append(createButton(scaleCalibrationSendButton())));
+    
+    buttonRow.attr("id", "button_row");
+    buttonRow.addClass("row");
+    buttonRow.append(createButton(sendButton()));
+    
+    if(isPrefilled === true){
+        buttonRow.append(createButton(approveButton()));
+        buttonRow.append(createButton(rejectButton()));
+        buttonRow.append(createButton(returnButton()));
+    }
+
+    log.append(buttonRow);
 
     $(htmlElement).append(log);
 }
@@ -257,8 +277,8 @@ function scaleCalibrationCorrectiveAction(reportComment){
     return commentFullInput;
 }
 
-function scaleCalibrationSendButton(){
-    var button = {"type":"button","id":"send_report","icon":{"type":"icon","icon":"mdi-send","size":"mdi-18px", "text":{"type":"text","classes":"send_button"}}};
+function sendButton(){
+    var button = {"type":"button","id":"send_report","icon":{"type":"icon","icon":"mdi-send","size":"mdi-18px", "text":{"type":"text","classes":"send_button"}},"align":"col s3 m3 l3"};
 
     return button;
 }

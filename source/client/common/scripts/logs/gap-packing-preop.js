@@ -12,17 +12,18 @@ function loadLogForm(htmlElement){
                 var report = response.data;
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name, "id":"log_name"}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":getISODate(new Date())},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":localStorage.first_name + " " + localStorage.last_name}]}]};
                 $(htmlElement).append(logHeader(header));
-                gmpPackingPreopLog(report, htmlElement);
+                gmpPackingPreopLog(report, htmlElement, false);
                 loadFunctionality({"isPrefilled":false});
-                changeLanguage(localStorage.defaultLanguage);
                 $("#send_report").click(function(){
                     $(this).attr("disabled", true);
+                    $("#sending_log").show();
                     sendGmpPackingPreopReport();
                 });
-                $('.log_title').html($("#log_name").text());
-                $(htmlElement).append(report.html_footer);
+                $('.log_title').html(report.log_name);
                 $("input").characterCounter();
                 $("textarea").characterCounter();
+                $(htmlElement).append(report.html_footer);
+                changeLanguage();
             } else {
                 Materialize.toast("Some error", 3000, "rounded");
                 throw response.meta.message;
@@ -41,15 +42,20 @@ function loadPrefilledLogForm(htmlElement, data){
                 var report = response.data;
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":report.creation_date},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":report.created_by}]}]};
                 $(htmlElement).append(logHeader(header));
-                gmpPackingPreopLog(report, htmlElement);
+                gmpPackingPreopLog(report, htmlElement, true);
                 loadFunctionality({"isPrefilled":true});
                 $("#send_report").click(function(){
+                    $(this).attr("disabled", true);
+                    $("#sending_log").show();
                     updateGmpPackingPreopReport(parseInt(data.report_id));
                 });
+                bindAuthorizationButtonsFunctionality(htmlElement, data.report_id);
                 changeLanguage();
                 $("input").characterCounter();
                 $("textarea").characterCounter();
                 $("textarea").trigger("autoresize");
+                window.scrollTo(0, 0);
+                $(htmlElement).fadeIn(500);
             } else {
                 Materialize.toast(response.meta.message, 3000, "rounded");
                 throw response.meta.message;
@@ -154,10 +160,12 @@ function sendGmpPackingPreopReport(){
                     Materialize.toast(response.meta.message, 3000, "rounded");
                 }
                 $("#send_report").removeAttr("disabled");
+                $("#sending_log").hide();
             }
         });
     } else {
         $("#send_report").removeAttr("disabled");
+        $("#sending_log").hide();
     }
 }
 
@@ -169,6 +177,7 @@ function updateGmpPackingPreopReport(reportID){
     report.album_url = $("#report_url").val();
     report.areas = new Array();
 
+    if(validateLog()){
     $(".area-card").each(function(){
         var area = new Object();
         var areaID = $(this).data("id");
@@ -200,18 +209,25 @@ function updateGmpPackingPreopReport(reportID){
         success: function(response){
             if (response.meta.return_code == 0) {
                 Materialize.toast("Reporte enviado con exito", 3000, "rounded");
-                $("#content_wrapper").hide();
-                $("#authorizations_wrapper").show();
+                $("#send_report").removeAttr("disabled");
+                $("#sending_log").hide();
             } else {
                 Materialize.toast(response.meta.message, 3000, "rounded");
+                $("#send_report").removeAttr("disabled");
+                $("#sending_log").hide();
             }
         }
     });
+    } else {
+        $("#send_report").removeAttr("disabled");
+        $("#sending_log").hide();
+    }
 }
 
-function gmpPackingPreopLog(data, htmlElement){
+function gmpPackingPreopLog(data, htmlElement, isPrefilled){
     var log = $("<div>");
     var additionalData = $("<div>");
+    var buttonRow = $("<div>");
 
     for(var area of data.areas){
         log.append(gmpPackingPreopArea(area));
@@ -224,7 +240,18 @@ function gmpPackingPreopLog(data, htmlElement){
     additionalData.append(createInputRow({"columns":[gmpPackingPreopAlbumURL(data.album_url)]}));
 
     log.append(additionalData);
-    log.append($("<div class='row'>").append(createButton(gmpPackingPreopSendButton())));
+
+    buttonRow.attr("id", "button_row");
+    buttonRow.addClass("row");
+    buttonRow.append(createButton(sendButton()));
+    
+    if(isPrefilled === true){
+        buttonRow.append(createButton(approveButton()));
+        buttonRow.append(createButton(rejectButton()));
+        buttonRow.append(createButton(returnButton()));
+    }
+
+    log.append(buttonRow);
 
     $(htmlElement).append(log);
 }
@@ -244,7 +271,7 @@ function gmpPackingPreopComment(reportComment){
 
 function gmpPackingPreopAlbumURL(reportUrl){
     var urlLabel = {"type":"label","contents":{"type":"text","classes":"url_title"}};
-    var urlInput = {"type":"input","id": "report_url", "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":255,"toast":"gmp-packing-preop-report-url"}}};
+    var urlInput = {"type":"textarea","id": "report_url", "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":65535,"toast":"gmp-packing-preop-report-url"}}};
     var urlFullInput = {"id":"reportUrlWrapper","classes":"input-field col s12 m12 l12","field":urlInput,"label":urlLabel};
 
     if(reportUrl){
@@ -255,8 +282,8 @@ function gmpPackingPreopAlbumURL(reportUrl){
     return urlFullInput;
 }
 
-function gmpPackingPreopSendButton(){
-    var button = {"type":"button","id":"send_report","icon":{"type":"icon","icon":"mdi-send","size":"mdi-18px", "text":{"type":"text","classes":"send_button"}}};
+function sendButton(){
+    var button = {"type":"button","id":"send_report","icon":{"type":"icon","icon":"mdi-send","size":"mdi-18px", "text":{"type":"text","classes":"send_button"}},"align":"col s3 m3 l3"};
 
     return button;
 }
@@ -304,7 +331,7 @@ function gmpPackingPreopAreaTime(areaID, time){
 
 function gmpPackingPreopAreaNotes(areaID, notes){
     var notesLabel = {"type":"label","contents":{"type":"text","classes":"notes_title"},"for":"notes_" + areaID};
-    var notesInput = {"type":"textarea","id": "notes_" + areaID, "classes": "timeChanger validate", "fieldType":"text","data":{"area_id":areaID},"validations":{"type":"text","max":{"value":256,"toast":"gmp-packing-preop-area-notes"}}};
+    var notesInput = {"type":"textarea","id": "notes_" + areaID, "classes": "timeChanger validate", "fieldType":"text","data":{"area_id":areaID},"validations":{"type":"text","max":{"value":65535,"toast":"gmp-packing-preop-area-notes"}}};
     var notesFullInput = {"id":"notesWrapper_" + areaID,"classes":"input-field col s12 m12 l12","field":notesInput,"label":notesLabel};
 
     if(notes){
@@ -317,7 +344,7 @@ function gmpPackingPreopAreaNotes(areaID, notes){
 
 function gmpPackingPreopAreaSanitation(areaID, person){
     var sanitationLabel = {"type":"label","contents":{"type":"text","classes":"person_performing_sanitation_title"},"for":"sanitation_" + areaID};
-    var sanitationInput = {"type":"input","id": "sanitation_" + areaID, "classes": "timeChanger validate", "fieldType":"text","data":{"area_id":areaID},"validations":{"type":"text","max":{"value":64,"toast":"gmp-packing-preop-area-sanitation"}}};
+    var sanitationInput = {"type":"input","id": "sanitation_" + areaID, "classes": "timeChanger validate", "fieldType":"text","data":{"area_id":areaID},"validations":{"type":"text","max":{"value":255,"toast":"gmp-packing-preop-area-sanitation"}}};
     var sanitationFullInput = {"id":"sanitationWrapper_" + areaID,"classes":"input-field col s12 m12 l12","field":sanitationInput,"label":sanitationLabel};
 
     if(person){
@@ -390,7 +417,7 @@ function gmpPackingPreopItemCorrectiveAction(item, areaID){
 
 function gmpPackingPreopItemComment(item, areaID){
     var commentLabel = {"type":"label","contents":{"type":"text","classes":"comment_title"},"for":"comment_" + item.id};
-    var commentInput = {"type":"input","id": "comment_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"area_id":areaID,"item_id":item.id},"validations":{"type":"text","max":{"value":255,"toast":"gmp-packing-preop-item-comment"}}};
+    var commentInput = {"type":"textarea","id": "comment_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"area_id":areaID,"item_id":item.id},"validations":{"type":"text","max":{"value":65535,"toast":"gmp-packing-preop-item-comment"}}};
     var commentFullInput = {"id":"commentWrapper_" + item.id,"classes":"input-field col s12 m12 l12","hidden": true,"field":commentInput,"label":commentLabel};
 
     if(item.comment){
@@ -409,20 +436,54 @@ function gmpPackingPreopFunctionality(data){
         $("#commentWrapper_" + id[0]).show(500);
     });*/
 
-    if(data.isPrefilled){
-        /*$("input[id^='unacceptable_']:checked").each(function(){
+    if(data.isPrefilled === true){
+        console.log("Is prefilled");
+        $("input[id^='acceptable_']:checked").each(function(){
             var tag = $(this).attr("id");
             var id = tag.match(/[0-9]+/g);
-            $("#correctiveActionWrapper_" + id[0]).show(500);
-            $("#commentWrapper_" + id[0]).show(500);
-        });*/
+            $("#correctiveActionWrapper_" + id[0]).hide();
+            $("#commentWrapper_" + id[0]).hide();
+        });
+
+        $("input[id^='unacceptable_']:checked").each(function(){
+            var tag = $(this).attr("id");
+            var id = tag.match(/[0-9]+/g);
+            $("#correctiveActionWrapper_" + id[0]).show();
+            $("#commentWrapper_" + id[0]).show();
+        });
+
+        $("input[id^='acceptable_']").change(function(){
+            if($(this).is(":checked")){
+                var tag = $(this).attr("id");
+                var id = tag.match(/[0-9]+/g);
+                $('label[for="acceptable_'+id[0]+'"]').removeClass("black-text");
+                $('label[for="acceptable_'+id[0]+'"]').addClass("green-text text-darken-2");
+                $('label[for="unacceptable_'+id[0]+'"]').removeClass("red-text");
+                $('label[for="unacceptable_'+id[0]+'"]').addClass("black-text");
+                $("#correctiveActionWrapper_" + id[0]).hide(500);
+                $("#commentWrapper_" + id[0]).hide(500);
+            }
+        });
+
+        $("input[id^='unacceptable_']").change(function(){
+            if($(this).is(":checked")){
+                var tag = $(this).attr("id");
+                var id = tag.match(/[0-9]+/g);
+                $('label[for="acceptable_'+id[0]+'"]').addClass("black-text");
+                $('label[for="acceptable_'+id[0]+'"]').removeClass("green-text text-darken-2");
+                $('label[for="unacceptable_'+id[0]+'"]').addClass("red-text");
+                $('label[for="unacceptable_'+id[0]+'"]').removeClass("black-text");
+                $("#correctiveActionWrapper_" + id[0]).show(500);
+                $("#commentWrapper_" + id[0]).show(500);
+            }
+        });
 
         /*$("input[id^='unacceptable_']").each(function(){
             $(this).attr("disabled", true);
         });*/
 
-        $("div[id^='commentWrapper_']").show();
-        $("div[id^='correctiveActionWrapper_']").show();
+        /*$("div[id^='commentWrapper_']").show();
+        $("div[id^='correctiveActionWrapper_']").show();*/
     } else {
         $(".timeChanger").change(function(){
             if($(this).data().area_id)

@@ -9,14 +9,16 @@ function loadLogForm(htmlElement){
                 var report = response.data;
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name, "id":"log_name"}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":getISODate(new Date())},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":localStorage.first_name + " " + localStorage.last_name}]}]};
                 $(htmlElement).append(logHeader(header));
-                gmpPackingScissorsKnivesLog(report, htmlElement);
+                gmpPackingScissorsKnivesLog(report, htmlElement, false);
                 loadFunctionality({"isPrefilled":false});
                 $("#send_report").click(function(){
                     $(this).attr("disabled", true);
+                    $("#sending_log").show();
                     sendGmpPackingScissorsKnivesReport();
                 });
                 $('.log_title').html($("#log_name").text());
                 $("input").characterCounter();
+                $("textarea").characterCounter();
                 $(htmlElement).append(report.html_footer);
                 changeLanguage();
             } else {
@@ -37,15 +39,22 @@ function loadPrefilledLogForm(htmlElement, data){
                 var report = response.data;
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":report.creation_date},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":report.created_by}]}]};
                 $(htmlElement).append(logHeader(header));
-                gmpPackingScissorsKnivesLog(report, htmlElement);
+                gmpPackingScissorsKnivesLog(report, htmlElement, true);
                 loadFunctionality({"isPrefilled":true});
                 $("#send_report").click(function(){
+                    $(this).attr("disabled", true);
+                    $("#sending_log").show();
                     updateGmpPackingScissorsKnivesReport(parseInt(data.report_id));
                 });
+                bindAuthorizationButtonsFunctionality(htmlElement, data.report_id);
                 changeLanguage();
                 $("input").characterCounter();
+                $("textarea").characterCounter();
+                $("textarea").trigger("autoresize");
+                window.scrollTo(0, 0);
+                $(htmlElement).fadeIn(500);
             } else {
-                Materialize.toast("Some error", 3000, "rounded");
+                Materialize.toast(response.meta.message, 3000, "rounded");
                 throw response.meta.message;
             }
         }
@@ -137,10 +146,12 @@ function sendGmpPackingScissorsKnivesReport(){
                     Materialize.toast(response.meta.message, 3000, "rounded");
                 }
                 $("#send_report").removeAttr("disabled");
+                $("#sending_log").hide();
             }
         });
     } else {
         $("#send_report").removeAttr("disabled");
+        $("#sending_log").hide();
     }
 }
 
@@ -180,20 +191,26 @@ function updateGmpPackingScissorsKnivesReport(reportID){
             success: function(response){
                 if (response.meta.return_code == 0) {
                     Materialize.toast("Reporte actualizado con exito", 3000, "rounded");
-                    $("#content_wrapper").hide();
-                    $("#authorizations_wrapper").show();
+                    $("#send_report").removeAttr("disabled");
+                    $("#sending_log").hide();
                 } else {
                     Materialize.toast(response.meta.message, 3000, "rounded");
+                    $("#send_report").removeAttr("disabled");
+                    $("#sending_log").hide();
                 }
             }
         });
+    } else {
+        $("#send_report").removeAttr("disabled");
+        $("#sending_log").hide();
     }
 }
 
-function gmpPackingScissorsKnivesLog(data, htmlElement){
+function gmpPackingScissorsKnivesLog(data, htmlElement, isPrefilled){
     var log = $("<div>");
     var groupsCard = $("<div>");
     var additionalData = $("<div>");
+    var buttonRow = $("<div>");
 
     for(var group of data.items){
         groupsCard.append(gmpPackingScissorsKnivesGroup(group));
@@ -207,7 +224,18 @@ function gmpPackingScissorsKnivesLog(data, htmlElement){
 
     log.append(groupsCard);
     log.append(additionalData);
-    log.append($("<div class='row'>").append(createButton(gmpPackingScissorsKnivesSendButton())));
+
+    buttonRow.attr("id", "button_row");
+    buttonRow.addClass("row");
+    buttonRow.append(createButton(sendButton()));
+    
+    if(isPrefilled === true){
+        buttonRow.append(createButton(approveButton()));
+        buttonRow.append(createButton(rejectButton()));
+        buttonRow.append(createButton(returnButton()));
+    }
+
+    log.append(buttonRow);
 
     $(htmlElement).append(log);
 }
@@ -225,8 +253,8 @@ function gmpPackingScissorsKnivesComment(reportComment){
     return commentFullInput;
 }
 
-function gmpPackingScissorsKnivesSendButton(){
-    var button = {"type":"button","id":"send_report","icon":{"type":"icon","icon":"mdi-send","size":"mdi-18px", "text":{"type":"text","classes":"send_button"}}};
+function sendButton(){
+    var button = {"type":"button","id":"send_report","icon":{"type":"icon","icon":"mdi-send","size":"mdi-18px", "text":{"type":"text","classes":"send_button"}},"align":"col s3 m3 l3"};
 
     return button;
 }

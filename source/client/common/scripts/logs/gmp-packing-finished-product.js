@@ -13,19 +13,21 @@ function loadLogForm(htmlElement){
                 item.product_codes = report.log_info.product_codes;
                 item.customers = report.log_info.customers;
                 item.quality_types = report.log_info.quality_types;
-                gmpPackingFinishedProductLog(item, htmlElement);
+                gmpPackingFinishedProductLog(item, htmlElement, false, true);
                 $("#send_report").click(function(){
                     $(this).attr("disabled", true);
+                    $("#sending_log").show();
                     sendgmpPackingFinishedProductReport();
                 });
                 gmpPackingFinishedProductFunctionality({"isPrefilled":false});
                 $("input").characterCounter();
+                $("textarea").characterCounter();
                 autocompleteActivator();
                 dateActivator();
                 $(htmlElement).append(report.html_footer);
                 changeLanguage();
             } else {
-                Materialize.toast("Some error", 3000, "rounded");
+                Materialize.toast(response.meta.message, 3000, "rounded");
                 throw response.meta.message;
             }
         }
@@ -46,19 +48,26 @@ function loadPrefilledLogForm(htmlElement, data){
                 for(var item of report.items.entries){
                     item.id = itemID;
                     item.quality_types = report.items.log_info.quality_types;
-                    gmpPackingFinishedProductLog(item, htmlElement);
+                    gmpPackingFinishedProductLog(item, htmlElement, true, (itemID == report.items.entries.length));
                     itemID++;
                 }
                 $("#send_report").click(function(){
+                    $(this).attr("disabled", true);
+                    $("#sending_log").show();
                     updateGmpPackingFinishedProductReport(parseInt(data.report_id));
                 });
+                bindAuthorizationButtonsFunctionality(htmlElement, data.report_id);
                 loadFunctionality({"isPrefilled":true});
+                changeLanguage();
                 $("input").characterCounter();
+                $("textarea").characterCounter();
+                $("textarea").trigger("autoresize");
+                window.scrollTo(0, 0);
+                $(htmlElement).fadeIn(500);
                 autocompleteActivator();
                 dateActivator();
-                changeLanguage();
             } else {
-                Materialize.toast("Some error", 3000, "rounded");
+                Materialize.toast(response.meta.message, 3000, "rounded");
                 throw response.meta.message;
             }
         }
@@ -186,10 +195,12 @@ function sendgmpPackingFinishedProductReport(){
                     Materialize.toast(response.meta.message, 3000, "rounded");
                 }
                 $("#send_report").removeAttr("disabled");
+                $("#sending_log").hide();
             }
         });
     } else {
         $("#send_report").removeAttr("disabled");
+        $("#sending_log").hide();
     }
 }
 
@@ -234,20 +245,24 @@ function updateGmpPackingFinishedProductReport(reportID){
             success: function(response){
                 if (response.meta.return_code == 0) {
                     Materialize.toast("Reporte actualizado con exito", 3000, "rounded");
-                    $("#content_wrapper").hide();
-                    $("#authorizations_wrapper").show();
                 } else {
                     Materialize.toast(response.meta.message, 3000, "rounded");
                 }
+                $("#send_report").removeAttr("disabled");
+                $("#sending_log").hide();
             }
         });
+    } else {
+        $("#send_report").removeAttr("disabled");
+        $("#sending_log").hide();
     }
 }
 
-function gmpPackingFinishedProductLog(data, htmlElement){
+function gmpPackingFinishedProductLog(data, htmlElement, isPrefilled, isLast){
     var log = $("<div>");
     var itemsCard = $("<div>");
     var addRow = new Object();
+    var buttonRow = $("<div>");
 
     itemsCard.attr("id", "items-wrapper");
 
@@ -256,18 +271,32 @@ function gmpPackingFinishedProductLog(data, htmlElement){
     itemsCard.append(gmpPackingFinishedProductItem(data));
 
     log.append(itemsCard);
+
     log.append(createInputRow(addRow));
 
     if($("#send_report").length == 1){
         $('#send_report').parent().remove();
     }
-    log.append($("<div class='row'>").append(createButton(gmpPackingFinishedProductSendButton())));
+    
+    if(isLast === true){
+        buttonRow.attr("id", "button_row");
+        buttonRow.addClass("row");
+        buttonRow.append(createButton(sendButton()));
+        
+        if(isPrefilled === true){
+            buttonRow.append(createButton(approveButton()));
+            buttonRow.append(createButton(rejectButton()));
+            buttonRow.append(createButton(returnButton()));
+        }
+
+        log.append(buttonRow);
+    }
 
     $(htmlElement).append(log);
 }
 
-function gmpPackingFinishedProductSendButton(){
-    var button = {"type":"button","id":"send_report","icon":{"type":"icon","icon":"mdi-send","size":"mdi-18px", "text":{"type":"text","classes":"send_button"}}};
+function sendButton(){
+    var button = {"type":"button","id":"send_report","icon":{"type":"icon","icon":"mdi-send","size":"mdi-18px", "text":{"type":"text","classes":"send_button"}},"align":"col s3 m3 l3"};
 
     return button;
 }
