@@ -5,6 +5,4 @@ $(function()
     });
 
     $('.collapsible').collapsible();
-
-    changeLanguage();
 });

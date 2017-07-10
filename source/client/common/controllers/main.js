@@ -166,6 +166,7 @@ function loadSideMenu()
         // display the admin menu
         $('#actions-list').load($root + 'source/client/administrator/layouts/menu.html', function(){
             initMaterialize();
+            changeLanguage();
         });
     } else {
         // if the user is has a user role, we display the programs menu
