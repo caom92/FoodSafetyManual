@@ -38,7 +38,9 @@ $(function() {
         $("#content_wrapper").append(logCard(log, privileges[localStorage.zone_name][getParams._p]["suffixes"][getParams._m][log]["suffix"]));
     }
 
+    $("#master_wrapper").fadeIn(300);
+
     initMaterialize();
 
-    changeLanguage(localStorage.defaultLanguage);
+    changeLanguage();
 });

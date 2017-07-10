@@ -270,6 +270,9 @@ function initMaterialize(){
         // prevent normal navigation
         event.preventDefault();
 
+        $("#master_wrapper").fadeOut(300);
+        $("#content_wrapper").fadeOut(300);
+
         // get the layout that is being requested 
         var targetLayout = $(this).attr('href');
 

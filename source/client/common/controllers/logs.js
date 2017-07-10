@@ -64,7 +64,7 @@ $(function() {
                 console.log("Load of " +  getParams._);
                 loadManual("#manual_tab", "#log_title", getParams._);
                 if(localStorage.role_id == "5"){
-                    loadLogForm("#logs_tab");
+                    loadLogForm("#logs_wrapper");
                 } else {
                     $("#logs_tab").remove();
                     $(".logs_tab").parent().remove();
@@ -99,6 +99,7 @@ function loadManual(htmlElement, titleElement, suffix){
             $(titleElement).html(response.data.log_name);
             $(htmlElement).append('<iframe src = "' + $root + 'external/ViewerJS/#../../' + response.data.manual_location + localStorage.zone_name  + '/actual_manual.pdf" width="100%" height="100%" style="min-height: 300px" allowfullscreen webkitallowfullscreen></iframe>');
             console.log(response);
+            $("#master_wrapper").fadeIn(1000);
         }
     });
 }

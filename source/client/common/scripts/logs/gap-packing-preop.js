@@ -51,7 +51,7 @@ function loadPrefilledLogForm(htmlElement, data){
                 $("textarea").characterCounter();
                 $("textarea").trigger("autoresize");
             } else {
-                Materialize.toast("Some error", 3000, "rounded");
+                Materialize.toast(response.meta.message, 3000, "rounded");
                 throw response.meta.message;
             }
         }

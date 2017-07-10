@@ -27,11 +27,11 @@ function waitingReportCard(report){
         var logScript = $(this).data("service_name");
         $.getScript( "source/client/common/scripts/logs/" + logScript + ".js", function( data, textStatus, jqxhr ) {
             console.log("Load of " +  logScript);
-            $("#authorizations_wrapper").hide();
-            $("#content_wrapper").show();
+            $("#master_wrapper").fadeOut(500);
+            //$("#content_wrapper").show(500);
             var data = {"start_date":report.capture_date,"end_date":report.capture_date,"report_id":reportID};
             loadPrefilledLogForm("#content_wrapper", data);
-            $("#content_wrapper").append($("<div class='card-panel white'>"));
+            //$("#content_wrapper").append($("<div class='card-panel white'>"));
         });
     });
 
@@ -131,8 +131,9 @@ function fillPendingAuthorizations(){
                 // for(var rejected of response.data.rejected.logs){
                 //     $("#rejected_reports").append(rejectedReportCard(rejected));
                 // }
+                $("#master_wrapper").fadeIn(700);
                 updateSigns();
-                changeLanguage(localStorage.defaultLanguage);
+                changeLanguage();
             }
         }
     });
