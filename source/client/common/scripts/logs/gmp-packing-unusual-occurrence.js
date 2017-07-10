@@ -11,9 +11,10 @@ function loadLogForm(htmlElement){
                 item.production_areas = report.items.areas;
                 item.product_codes = report.items.products;
                 item.shifts = report.items.shifts;
-                gmpPackingUnusualOccurrenceLog(item, htmlElement);
+                gmpPackingUnusualOccurrenceLog(item, htmlElement, false);
                 $("#send_report").click(function(){
                     $(this).attr("disabled", true);
+                    $("#sending_log").show();
                     sendGmpPackingFinishedProductReport();
                 });
                 $('.timepicker').pickatime({
@@ -31,7 +32,7 @@ function loadLogForm(htmlElement){
                 $(htmlElement).append(report.html_footer);
                 changeLanguage();
             } else {
-                Materialize.toast("Some error", 3000, "rounded");
+                Materialize.toast(response.meta.message, 3000, "rounded");
                 throw response.meta.message;
             }
         }
@@ -54,9 +55,11 @@ function loadPrefilledLogForm(htmlElement, data){
                 item.product_codes = report.items.products;*/
                 item.shifts = report.items.shifts;
                 item.entry = report.items.entry;
-                gmpPackingUnusualOccurrenceLog(item, htmlElement);
+                gmpPackingUnusualOccurrenceLog(item, htmlElement, true);
                 loadFunctionality({"isPrefilled":true});
                 $("#send_report").click(function(){
+                    $(this).attr("disabled", true);
+                    $("#sending_log").show();
                     updateGmpPackingFinishedProductReport(parseInt(data.report_id));
                 });
                 $('.timepicker').pickatime({
@@ -67,12 +70,15 @@ function loadPrefilledLogForm(htmlElement, data){
                         
                     }
                 });
+                bindAuthorizationButtonsFunctionality(htmlElement, data.report_id);
                 $("input").characterCounter();
                 $("textarea").characterCounter();
                 dateActivator();
                 changeLanguage();
+                window.scrollTo(0, 0);
+                $(htmlElement).fadeIn(500);
             } else {
-                Materialize.toast("Some error", 3000, "rounded");
+                Materialize.toast(response.meta.message, 3000, "rounded");
                 throw response.meta.message;
             }
         }
@@ -163,10 +169,12 @@ function sendGmpPackingFinishedProductReport(){
                     Materialize.toast(response.meta.message, 3000, "rounded");
                 }
                 $("#send_report").removeAttr("disabled");
+                $("#sending_log").hide();
             }
         });
     } else {
         $("#send_report").removeAttr("disabled");
+        $("#sending_log").hide();
     }
 }
 
@@ -196,33 +204,47 @@ function updateGmpPackingFinishedProductReport(reportID){
             success: function(response){
                 if (response.meta.return_code == 0) {
                     Materialize.toast("Reporte enviado con exito", 3000, "rounded");
-                    $("#content_wrapper").hide();
-                    $("#authorizations_wrapper").show();
                 } else {
                     Materialize.toast(response.meta.message, 3000, "rounded");
                 }
+                $("#send_report").removeAttr("disabled");
+                $("#sending_log").hide();
             }
         });
+    } else {
+        $("#send_report").removeAttr("disabled");
+        $("#sending_log").hide();
     }
 }
 
-function gmpPackingUnusualOccurrenceLog(data, htmlElement){
+function gmpPackingUnusualOccurrenceLog(data, htmlElement, isPrefilled){
     var log = $("<div>");
     var itemsCard = $("<div>");
-    var addRow = new Object();
+    var buttonRow = $("<div>");
 
     itemsCard.attr("id", "items-wrapper");
 
     itemsCard.append(gmpPackingUnusualOccurrenceItem(data));
 
     log.append(itemsCard);
-    log.append($("<div class='row'>").append(createButton(gmpPackingFinishedProductSendButton())));
+
+    buttonRow.attr("id", "button_row");
+    buttonRow.addClass("row");
+    buttonRow.append(createButton(sendButton()));
+    
+    if(isPrefilled === true){
+        buttonRow.append(createButton(approveButton()));
+        buttonRow.append(createButton(rejectButton()));
+        buttonRow.append(createButton(returnButton()));
+    }
+
+    log.append(buttonRow);
 
     $(htmlElement).append(log);
 }
 
-function gmpPackingFinishedProductSendButton(){
-    var button = {"type":"button","id":"send_report","icon":{"type":"icon","icon":"mdi-send","size":"mdi-18px", "text":{"type":"text","classes":"send_button"}}};
+function sendButton(){
+    var button = {"type":"button","id":"send_report","icon":{"type":"icon","icon":"mdi-send","size":"mdi-18px", "text":{"type":"text","classes":"send_button"}},"align":"col s3 m3 l3"};
 
     return button;
 }

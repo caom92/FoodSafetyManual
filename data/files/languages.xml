@@ -162,6 +162,21 @@
         <spanish>Enviar</spanish>
     </translation>
 
+    <translation id="approve_button">
+        <english>Approve</english>
+        <spanish>Aprobar</spanish>
+    </translation>
+
+    <translation id="reject_button">
+        <english>Reject</english>
+        <spanish>Rechazar</spanish>
+    </translation>
+
+    <translation id="return_button">
+        <english>Back</english>
+        <spanish>Atrás</spanish>
+    </translation>
+
     <translation id="update_button">
         <english>Update</english>
         <spanish>Actualizar</spanish>

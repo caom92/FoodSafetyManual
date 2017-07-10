@@ -870,6 +870,9 @@ function createButton(buttonObject){
     if(buttonObject.icon)
         button.append(createIcon(buttonObject.icon));
 
+    if(buttonObject.align)
+        buttonWrapper.addClass(buttonObject.align);
+
     buttonWrapper.append(button);
 
     if($.type(buttonObject.data) == "object"){

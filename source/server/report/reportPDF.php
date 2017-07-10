@@ -99,7 +99,7 @@ class PDFCreator extends TCPDF
         $companyAddress = $this->address;
 
         // sets the logo and the company info in the PDF file
-        $this->Image($logo, 5, 5, 40, '', 'PNG', '', 'T', false, 300, '', 
+        $this->Image($logo, 5, 5, 40, '', '', '', 'T', false, 300, '', 
             false, false, 0, false, false, false);
         $this->ln(0);
         $this->SetFont('helvetica', 'B', 15);
