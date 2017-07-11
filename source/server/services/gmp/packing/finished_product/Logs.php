@@ -14,6 +14,16 @@ class Logs extends db\LogTable
     parent::__construct('gmp_packing_finished_product_logs');
   }
 
+  // Retorna la lista de los IDs de todos los renglones en la tabla que tengan 
+  // asignado el ID de fecha de captura especificado
+  // [in]   dateID (int): el ID de la fecha en que los datos fueron capturados
+  //        en la base de datos
+  function selectIDByCapturedLogID($dateID) {
+    return parent::select(
+      'id', [ 'capture_date_id' => $dateID ]
+    );
+  }
+
   // Retorna una lista de todos los renglones en la tabla que tengan asignado
   // el ID de la fecha de captura especificado
   // [in]   dateID (int): el ID de la fecha en que los datos fueron capturados
@@ -71,15 +81,21 @@ class Logs extends db\LogTable
   }
 
   // Modifica los renglones de la tabla que tienen registrado el ID de fecha de 
-  // captura especificado, sustituyendo los viejos datos con los datos
-  // especificados
+  // captura y el ID de renglon especificados, sustituyendo los viejos datos 
+  // con los datos especificados
   // [in]   changes (dictionary): arreglo asociativo que contiene los datos que 
   //        van a ser añadidos en la tabla organizados por columnas
-  // [in]   logID (uint): el ID de fecha de captura cuyo renglon en la tabla
+  // [in]   dateID (uint): el ID de fecha de captura cuyo renglon en la tabla
   //        va a ser modificado
+  // [in]   logID (uint): el ID del renglon cuyos datos van a ser modificados
   // [out]  return (uint): el numero de renglones que fueron modificados
-  function updateByCapturedLogID($changes, $logID) {
-      return parent::update($changes, ['capture_date_id' => $logID]);
+  function updateByCapturedLogIDAndID($changes, $dateID, $logID) {
+    return parent::update($changes, [
+      'AND' => [
+        'capture_date_id' => $dateID,
+        'id' => $logID
+      ]
+    ]);
   }
 }
 
