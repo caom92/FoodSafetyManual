@@ -567,7 +567,7 @@ function gmpPackingUnusualOccurrenceReportAction(item){
 }
 
 function gmpPackingUnusualOccurrenceReportAlbumURL(item){
-    return {"type":"td","classes":"fullColumn","colspan":3,"contents":"<span class='url_title'></span>: " + item.entry[0].album_url};
+    return {"type":"td","classes":"fullColumn","colspan":3,"contents":"<span class='url_title'></span>: <a href='" + item.entry[0].albumURL + "' >" + item.entry[0].albumURL + "</a>"};
 }
 
 function getCSS(){
