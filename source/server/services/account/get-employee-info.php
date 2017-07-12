@@ -3,13 +3,14 @@
 $service = [
   'requirements_desc' => [
     'logged_in' => ['Administrator'],
-    'employee_num' => [
-      'type' => 'int'
+    'user_id' => [
+      'type' => 'int',
+      'min' => 1
     ]
   ],
   'callback' => function($scope, $request) {
     $userInfo = $scope->daoFactory->get('Users')
-      ->getByIdentifier($request['employee_num']);
+      ->getByIdentifier($request['user_id']);
     $supervisorID = $scope->daoFactory->get('SupervisorsEmployees')
       ->getSupervisorIDByUserID($userInfo['user_id']);
 
