@@ -210,7 +210,7 @@ class Users extends db\ToggableItemsTable
   // Returns the name of the user with the especified ID
   function getNameByID($userID) {
     return parent::get(
-      ['first_name', 'last_name'],
+      ['first_name', 'last_name', 'signature_path'],
       ['id' => $userID]
     );
   }
