@@ -389,9 +389,9 @@ function constructUserProfileArray($scope, $userData) {
     1 : $userData['zone_id'];
   $userDataToSend['zone_name'] = ($isDirector) ?
     'AVA' : $userData['zone_name'];
-  $userDataToSend['logo'] = 
-    ($isDirector || strlen($userData['zone_logo']) == 0) ? 
-      'default.png' : $userData['zone_logo'];
+  // $userDataToSend['logo'] = 
+  //   ($isDirector || strlen($userData['zone_logo']) == 0) ? 
+  //     'default.png' : $userData['zone_logo'];
   $userDataToSend['company'] =
     ($isDirector || strlen($userData['zone_company']) == 0) ? 
       'Company Name' : $userData['zone_company'];
@@ -401,6 +401,16 @@ function constructUserProfileArray($scope, $userData) {
   $userDataToSend['exclusive_access'] =
     strtolower($userData['role_name']).'/';
   $userDataToSend['privileges'] = $privileges;
+
+  if ($isDirector) {
+    $zone = $scope->daoFactory->get('Zones')->getByID(1);
+    $userDataToSend['logo'] = (strlen($zone['logo_path']) > 0) ? 
+      $zone['logo_path'] : 'default.png';
+  } else {
+    $userDataToSend['logo'] = (strlen($zone['logo_path']) > 0) ?
+      $userData['zone_logo'] : 'default';
+  }
+
   return $userDataToSend;
 }
 
