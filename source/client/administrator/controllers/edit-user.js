@@ -123,7 +123,7 @@ function addProgramSelect(maxPrivilege, employeeNum, selectedOption) {
     label.attr("for", "program_select");
 
     var data = new Object();
-    data.employee_num = employeeNum;
+    data.user_id = employeeNum;
 
     $server.request({
         service: 'get-privileges-of-employee',
@@ -825,7 +825,7 @@ function getUserPrivileges(userID){
 
 function fillUserInformation(userID){
     var data = new Object();
-    data.employee_num = userID;
+    data.user_id = userID;
     $server.request({
         service: 'get-employee-info',
         data: data,

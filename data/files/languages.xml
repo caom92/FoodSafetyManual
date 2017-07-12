@@ -217,6 +217,16 @@
         <spanish>Catálogo de zonas</spanish>
     </translation>
 
+    <translation id="signatures_catalog">
+        <english>Signature control</english>
+        <spanish>Control de firmas</spanish>
+    </translation>
+
+    <translation id="signature_title">
+        <english>Signature</english>
+        <spanish>Firma</spanish>
+    </translation>
+
     <translation id="mandatory_fields">
         <english>The fields with a * are mandatory</english>
         <spanish>Los campos marcados con * son obligatorios</spanish>
@@ -240,6 +250,11 @@
     <translation id="last_name">
         <english>Last name</english>
         <spanish>Apellido(s)</spanish>
+    </translation>
+
+    <translation id="supervisor_signature">
+        <english>Signature</english>
+        <spanish>Firma</spanish>
     </translation>
 
     <translation id="email">

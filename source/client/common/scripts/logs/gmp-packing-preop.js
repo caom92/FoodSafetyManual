@@ -49,7 +49,7 @@ function loadPrefilledLogForm(htmlElement, data){
                     $("#sending_log").show();
                     updateGmpPackingPreopReport(parseInt(data.report_id));
                 });
-                bindAuthorizationButtonsFunctionality(htmlElement, data.report_id)
+                bindAuthorizationButtonsFunctionality(htmlElement, data.report_id);
                 changeLanguage();
                 $("input").characterCounter();
                 $("textarea").characterCounter();
