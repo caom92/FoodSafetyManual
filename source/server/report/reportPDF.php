@@ -31,11 +31,12 @@ class PDFCreator extends TCPDF
     // Create an instance of the PDF file creator
     // [in]     lang: a string that contains the code of the language that we 
     //          going to use to display the text
-    function __construct($lang, $logo, $company, $address, $footer) {
+    function __construct($lang, $logo, $company, $address, $footer, $signature) {
         $this->logo = $logo;
         $this->company = $company;
         $this->address = $address;
         $this->footer = $footer;
+        $this->signature = $signature;
 
         // first, initialize a TCPDF instance
         parent::__construct(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, 
@@ -112,6 +113,15 @@ class PDFCreator extends TCPDF
         $this->ln(9);
     }
 
+    /*public function closing(){
+        //$this->SetY(-45);
+
+        $signature = realpath(dirname(__FILE__)."/../../../data/signatures/$this->signature");
+
+        $this->Image($signature, 15, 30, 40, '', '', '', 'T', false, 300, '', 
+            false, false, 0, false, false, false);
+    }*/
+
 
     // Creates the page footer of the PDF file
     public function Footer() {
@@ -154,7 +164,8 @@ $pdf = new PDFCreator(
     $_POST['logo'], 
     $_POST['company'], 
     $_POST['address'],
-    $_POST['footer']
+    $_POST['footer'],
+    $_POST['signature']
 );
 
 // initialize the storage for the HTML that will be displayed in the PDF file
@@ -228,6 +239,7 @@ try {
         // print the result to the document
         $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
     }
+    //$pdf->closing();
 } catch (\Exception $e) {
     // if an exception was thrown, print an error PDF file
     $html = 
