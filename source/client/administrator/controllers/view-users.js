@@ -74,14 +74,14 @@ function addListElement(element){
     row.append($("<td class='name-column search-column'>").text(element.first_name + ' ' + element.last_name));
     row.append($("<td class='role-column search-column'>").text(element.role_name));
     var button;
-    if (element.is_active == 1) {
+    if (parseInt(element.is_active) == 1) {
         var column = $("<td>").html('<a class="nav-link green btn-floating waves-effect waves-light edit-user-button" href="edit-user?user_id=' + element.id + '"><i class="mdi mdi-settings md-24 field-icon"></i></a>');
         button = column.find('a');
     } else {
         var column = $("<td>").html('<a class="nav-link green btn-floating waves-effect waves-light disabled edit-user-button" href="#"><i class="mdi mdi-settings md-24 field-icon"></i></a>');
         button = column.find('a');
     }
-    row.append(createActivationSwitch(element.id, element.is_active));
+    row.append(createActivationSwitch(element.id, parseInt(element.is_active)));
     button.on('click', function(event) {
         // prevent normal navigation
         event.preventDefault();
