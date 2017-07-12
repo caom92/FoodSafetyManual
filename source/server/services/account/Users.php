@@ -175,6 +175,29 @@ class Users extends db\ToggableItemsTable
     );
   }
 
+  // Returns a list of all the users that are supervisors and belong to the
+  // especified zone
+  function selectInfoAndSignatureByZoneID($zoneID) {
+    return parent::select(
+      [
+        "$this->table.id(id)", 
+        'first_name', 
+        'last_name',
+        'employee_num',
+        'login_name(username)',
+        'signature_path'
+      ],
+      ['AND' => [
+        'zone_id' => $zoneID,
+        'r.name' => 'Supervisor',
+        'is_active[!]' => FALSE
+      ]],
+      ['[><]roles(r)' => [
+        'role_id' => 'id'
+      ]]
+    );
+  }
+
   // Updates the zone ID of the user with the especified ID to the provided 
   // zone ID
   function updateZoneIDByID($userID, $zoneID) {
