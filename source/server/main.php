@@ -154,7 +154,8 @@ $controller = new ServiceProvider(
       $unusualOccurrences['services'] +
       $selfInspection['services'] +
       $footers['services'] +
-      $gapPreop['services']
+      $gapPreop['services'] +
+      $signatures['services']
   ]
 );
 
