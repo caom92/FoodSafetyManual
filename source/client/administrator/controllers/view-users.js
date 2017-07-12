@@ -75,7 +75,7 @@ function addListElement(element){
     row.append($("<td class='role-column search-column'>").text(element.role_name));
     var button;
     if (element.is_active == 1) {
-        var column = $("<td>").html('<a class="nav-link green btn-floating waves-effect waves-light edit-user-button" href="edit-user?user_id=' + element.employee_num + '"><i class="mdi mdi-settings md-24 field-icon"></i></a>');
+        var column = $("<td>").html('<a class="nav-link green btn-floating waves-effect waves-light edit-user-button" href="edit-user?user_id=' + element.id + '"><i class="mdi mdi-settings md-24 field-icon"></i></a>');
         button = column.find('a');
     } else {
         var column = $("<td>").html('<a class="nav-link green btn-floating waves-effect waves-light disabled edit-user-button" href="#"><i class="mdi mdi-settings md-24 field-icon"></i></a>');
