@@ -407,8 +407,8 @@ function constructUserProfileArray($scope, $userData) {
     $userDataToSend['logo'] = (strlen($zone['logo_path']) > 0) ? 
       $zone['logo_path'] : 'default.png';
   } else {
-    $userDataToSend['logo'] = (strlen($zone['logo_path']) > 0) ?
-      $userData['zone_logo'] : 'default';
+    $userDataToSend['logo'] = (strlen($userData['zone_logo']) > 0) ?
+      $userData['zone_logo'] : 'default.png';
   }
 
   return $userDataToSend;

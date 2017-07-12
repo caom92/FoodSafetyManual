@@ -12,3 +12,4 @@ app.log
 *.log
 tests/*
 data/logos/
+data/signatures/
