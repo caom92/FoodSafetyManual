@@ -26,7 +26,7 @@ $service = [
     // if it was, compute the full directory path where the file
     // will be stored
     $uploadDir = realpath(
-      dirname(__FILE__)."/../../../data/signatures") . "/{$fileName}";
+      dirname(__FILE__)."/../../../../data/signatures") . "/{$fileName}";
 
     // finally save the uploaded file as the current manual file
     $wasMoveSuccessful = move_uploaded_file(

@@ -230,6 +230,7 @@ function reportLoaderCard(data, footer){
             '<input id="company_' + data.report_id + '"type="text" name="company" hidden>' + 
             '<input id="address_' + data.report_id + '"type="text" name="address" hidden>' + 
             '<input id="logo_' + data.report_id + '"type="text" name="logo" hidden>' + 
+            '<input id="signature_' + data.report_id + '"type="text" name="signature" hidden>' + 
             '<input id="footer_' + data.report_id + '"type="text" name="footer" hidden>' + 
         '</form>');
     reportCard.append(secretForm);
@@ -304,6 +305,7 @@ function reportLoaderCard(data, footer){
         $("#company_" + data.report_id).val(localStorage.company);
         $("#address_" + data.report_id).val(localStorage.address);
         $("#logo_" + data.report_id).val(localStorage.logo);
+        $("#signature_" + data.report_id).val(data.signature_path);
         $("#footer_" + data.report_id).val(footer);
         $("#secretForm_" + data.report_id).submit();
     });
@@ -343,6 +345,7 @@ function reportLoaderCard(data, footer){
         $("#company_" + data.report_id).val(localStorage.company);
         $("#address_" + data.report_id).val(localStorage.address);
         $("#logo_" + data.report_id).val(localStorage.logo);
+        $("#signature_" + data.report_id).val(data.signature_path);
         $("#secretForm_" + data.report_id).submit();
         $("#footer_" + data.report_id).val(footer);
         $("#report-tab-content").html(currentHTML);
