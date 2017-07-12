@@ -3,22 +3,23 @@
 $service = [
   'requirements_desc' => [
     'logged_in' => ['Administrator'],
-    'employee_num' => [
-      'type' => 'int'
+    'user_id' => [
+      'type' => 'int',
+      'min' => 1
     ]
   ],
   'callback' => function($scope, $request) {
     $users = $scope->daoFactory->get('Users');
     $usersLogsPrivileges = $scope->daoFactory->get('UsersLogsPrivileges');
-    $role = $users->getRoleByEmployeeNum($request['employee_num']);
+    $role = $users->getRoleByID($request['user_id']);
 
     // check if the role of this user requires privileges to be read from the db
     $requiresPrivileges = $role === 'Supervisor' || $role === 'Employee';
     if ($requiresPrivileges) {
       // if the user requires its privileges to be read from the db
       // connect to the db to get them
-      $rows = $usersLogsPrivileges->selectByEmployeeNum(
-        $request['employee_num']);
+      $rows = $usersLogsPrivileges->selectByUserID(
+        $request['user_id']);
 
       // before we start, we must check if the user has privileges assigned to
       // ALL logs in the database
@@ -28,8 +29,6 @@ $service = [
       // if the user is missing logs in its privileges array...
       if ($isUserMissingLogs) {
         // get the ID of the user and for the None privilege
-        $userID = $users->getIDByEmployeeNum(
-          $request['employee_num']);
         $privilegeID = $scope->daoFactory->get('Privileges')
           ->getIDByName('None');
 
@@ -59,7 +58,7 @@ $service = [
           // user
           if ($isLogMissing) {
             array_push($newPrivileges, [
-              'user_id' => $userID,
+              'user_id' => $request['user_id'],
               'log_id' => $log['log_id'],
               'privilege_id' => $privilegeID
             ]);
@@ -70,8 +69,8 @@ $service = [
         $usersLogsPrivileges->insert($newPrivileges);
 
         // get the updated list of privileges
-        $rows = $usersLogsPrivileges->selectByEmployeeNum(
-          $request['employee_num']);
+        $rows = $usersLogsPrivileges->selectByUserID(
+          $request['user_id']);
       }
 
       // now prepare the temporal storage for the array that will contain
