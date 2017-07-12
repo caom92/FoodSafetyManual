@@ -290,6 +290,8 @@ function createReportService($program, $module, $log, $strategy,
                 $supervisor['first_name'].' '.
                 $supervisor['last_name'] 
                 : 'N/A',
+            'signature_path' => (strlen($supervisor['signature_path']) > 0) ? 
+              $supervisor['signature_path'] : 'default.png',
             'creation_date' => $logDate['capture_date'],
             'approval_date' => 
               (isset($logDate['approval_date'])) ?

@@ -14,7 +14,14 @@ $service = [
   ],
   'callback' => function($scope, $request) {
     // get the current date
-    $fileName = "{$request['supervisor_id']}" . date('Y-m-d_H-i-s');
+    $format = substr(
+      $_FILES['signature_file']['name'], 
+      strpos($_FILES['signature_file']['name'], '.')
+    );
+    $fileName = 
+      "{$request['supervisor_id']}_" 
+      . date('Y-m-d_H-i-s') 
+      . "{$format}";
 
     // if it was, compute the full directory path where the file
     // will be stored
