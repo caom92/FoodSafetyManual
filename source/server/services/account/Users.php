@@ -219,6 +219,12 @@ class Users extends db\ToggableItemsTable
   function getIDByEmployeeNum($employeeNum) {
     return parent::get('id', ['employee_num' => $employeeNum]);
   }
+
+  // Updates the path of the signature file of the user with the specified user 
+  // ID, to the path given
+  function updateSignaturePathByID($userID, $path) {
+    return parent::update(['signature_path' => $path], ['id' => $userID]);
+  }
 }
 
 ?>

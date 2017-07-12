@@ -52,7 +52,8 @@ class Logs extends db\LogTable
         'is_weight_correct',
         'is_label_correct',
         'is_trackable',
-        'notes'
+        'notes',
+        'album_url'
       ],
       [
         'capture_date_id' => $dateID
