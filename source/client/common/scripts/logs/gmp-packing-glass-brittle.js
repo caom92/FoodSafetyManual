@@ -13,7 +13,11 @@ function loadLogForm(htmlElement){
                 loadFunctionality({"isPrefilled":false});
                 $("#send_report").click(function(){
                     $(this).attr("disabled", true);
-                    sendGmpPackingGlassBrittleReport();
+                    if($(this).data("waiting") === false){
+                        $(this).data("waiting", true);
+                        $("#sending_log").show();
+                        sendGmpPackingGlassBrittleReport();
+                    }
                 });
                 $(htmlElement).append(report.html_footer);
                 $("input").characterCounter();
@@ -130,10 +134,14 @@ function sendGmpPackingGlassBrittleReport(){
                     Materialize.toast(response.meta.message, 3000, "rounded");
                 }
                 $("#send_report").removeAttr("disabled");
+                $("#send_report").data("waiting", false);
+                $("#sending_log").hide();
             }
         });
     } else {
         $("#send_report").removeAttr("disabled");
+        $("#send_report").data("waiting", false);
+        $("#sending_log").hide();
     }
 }
 
@@ -198,7 +206,7 @@ function gmpPackingGlassBrittleLog(data, htmlElement){
     additionalData.append(createInputRow({"columns":[gmpPackingGlassBrittleComment(data.notes)]}));
 
     log.append(additionalData);
-    log.append($("<div class='row'>").append(createButton(gmpPackingGlassBrittleSendButton())));
+    log.append($("<div class='row'>").append(createButton(sendButton())));
 
     $(htmlElement).append(log);
 }
@@ -228,8 +236,8 @@ function gmpPackingGlassBrittleComment(reportComment){
     return commentFullInput;
 }
 
-function gmpPackingGlassBrittleSendButton(){
-    var button = {"type":"button","id":"send_report","icon":{"type":"icon","icon":"mdi-send","size":"mdi-18px", "text":{"type":"text","classes":"send_button"}}};
+function sendButton(){
+    var button = {"type":"button","id":"send_report","icon":{"type":"icon","icon":"mdi-send","size":"mdi-18px", "text":{"type":"text","classes":"send_button"}},"align":"col s3 m3 l3","data":{"waiting":false}};
 
     return button;
 }
