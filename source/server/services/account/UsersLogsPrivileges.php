@@ -79,9 +79,7 @@ class UsersLogsPrivileges extends db\InsertableTable
         ON p.id = m.program_id
         INNER JOIN privileges AS r
         ON r.id = t.privilege_id
-      WHERE t.user_id = '$userID' AND t.privilege_id != (
-        SELECT id FROM privileges WHERE name = 'None'
-      )
+      WHERE t.user_id = '$userID'
       ORDER BY p.id, m.id, l.id"
     )->fetchAll();
   }
