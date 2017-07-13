@@ -833,7 +833,7 @@ function fillUserInformation(userID){
             if (response.meta.return_code == 0) {
                 var user = response.data;
                 $("#login-name").val(user.login_name);
-                $("#user-id").val(user.employee_num);
+                $("#user-id").val(user.id);
                 $("#user-id").data("user_id", user.id);
                 $("#user-id").data("zone_id", user.zone_id);
                 $("#user-id").data("supervisor_id", user.supervisor_id);
