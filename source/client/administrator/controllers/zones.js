@@ -122,6 +122,7 @@ function bindUploadButtonFunctionality(){
                         changeLanguage();
                         loadToast("new_logo_uploaded", 3500, "rounded");
                     } else {
+                        $("#upload_row_" + zoneID).remove();
                         loadToast("invalid_file_format", 3500, "rounded");
                     }
                 }
@@ -175,6 +176,8 @@ function bindSaveButtonFunctionality(){
                     bindEditButtonFunctionality();
                     bindUploadButtonFunctionality()
                     changeLanguage();
+                } else {
+                    loadToast("required-zone-info", 3000, "rounded");
                 }
             }
         });

@@ -12,8 +12,11 @@ function loadLogForm(htmlElement){
                 gmpPestControlSelfInspectionLog(report, htmlElement, false);
                 $("#send_report").click(function(){
                     $(this).attr("disabled", true);
-                    $("#sending_log").show();
-                    sendGmpPestControlSelfInspectionReport();
+                    if($(this).data("waiting") === false){
+                        $(this).data("waiting", true);
+                        $("#sending_log").show();
+                        sendGmpPestControlSelfInspectionReport();
+                    }
                 });
                 $('.log_title').html(report.log_name);
                 $("input").characterCounter();
@@ -135,11 +138,13 @@ function sendGmpPestControlSelfInspectionReport(){
                     Materialize.toast(response.meta.message, 3000, "rounded");
                 }
                 $("#send_report").removeAttr("disabled");
+                $("#send_report").data("waiting", false);
                 $("#sending_log").hide();
             }
         });
     } else {
         $("#send_report").removeAttr("disabled");
+        $("#send_report").data("waiting", false);
         $("#sending_log").hide();
     }
 }
@@ -232,7 +237,7 @@ function gmpPestControlSelfInspectionComment(reportComment){
 }
 
 function sendButton(){
-    var button = {"type":"button","id":"send_report","icon":{"type":"icon","icon":"mdi-send","size":"mdi-18px", "text":{"type":"text","classes":"send_button"}},"align":"col s3 m3 l3"};
+    var button = {"type":"button","id":"send_report","icon":{"type":"icon","icon":"mdi-send","size":"mdi-18px", "text":{"type":"text","classes":"send_button"}},"align":"col s3 m3 l3","data":{"waiting":false}};
 
     return button;
 }

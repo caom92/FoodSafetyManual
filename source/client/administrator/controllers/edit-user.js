@@ -211,12 +211,12 @@ function addSupervisorSelect(zoneID, selectedOption){
                     });
                     $("#supervisor_select").on("change", function(){
                         var assignment = {};
-                        assignment.user_id = parseInt($("#user-id").data("user_id"));
-                        assignment.role_id = 5;
+                        assignment.employee_id = parseInt($("#user-id").data("user_id"));
+                        //assignment.role_id = 5;
                         assignment.supervisor_id = parseInt($(this).val());
                         $server.request({
-                            service: 'edit-user-role',
-                            data: assignment,
+                            service: 'assign-employees-to-supervisors',
+                            data: {"assignments":[assignment]},
                             success: function(response){
                                 if (response.meta.return_code == 0) {
                                     loadToast("supervisor_assign_success", 3500, "rounded", null, ": " + $("#supervisor_select option:selected").text());
@@ -833,7 +833,7 @@ function fillUserInformation(userID){
             if (response.meta.return_code == 0) {
                 var user = response.data;
                 $("#login-name").val(user.login_name);
-                $("#user-id").val(user.employee_num);
+                $("#user-id").val(user.id);
                 $("#user-id").data("user_id", user.id);
                 $("#user-id").data("zone_id", user.zone_id);
                 $("#user-id").data("supervisor_id", user.supervisor_id);

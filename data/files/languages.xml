@@ -120,6 +120,12 @@
         <spanish>Supervisores</spanish>
     </translation>
 
+    <translation id="signatures">
+        <english>Signatures</english>
+        <spanish>Firmas</spanish>
+    </translation>
+
+
     <translation id="employee">
         <english>Employee</english>
         <spanish>Empleado</spanish>

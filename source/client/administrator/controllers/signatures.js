@@ -10,7 +10,9 @@ function addZoneSelect() {
         service: 'list-zones',
         success: function (response, messages, xhr) {
             if (response.meta.return_code == 0) {
+                showNoSupervisorSign();
                 for (var zone of response.data) {
+                    hideSigns();
                     var option = $("<option>");
                     option.attr("value", zone.id);
                     option.append(zone.name);
@@ -18,13 +20,11 @@ function addZoneSelect() {
                 }
                 $("#zone_select_wrapper").append(select);
                 $("#zone_select_wrapper").append(label);
-                //addSupervisorSelect(parseInt($("#zone_select").val()));
                 $("#zone_select").change(function(index){
-                    //$("#supervisor_select_wrapper").html("");
-                    //addSupervisorSelect(parseInt($("#zone_select").val()));
                     $("#signatures_wrapper").html("");
                     addSignaturesTable(parseInt($("#zone_select").val()));
                 });
+                addSignaturesTable(parseInt($("#zone_select").val()));
                 changeLanguage();
             } else {
                 throw response.meta.message;
@@ -39,9 +39,14 @@ function addSignaturesTable(zoneID){
         data: {"zone_id":zoneID},
         success: function (response, messages, xhr) {
             if (response.meta.return_code == 0) {
-                signaturesTable("#signatures_wrapper", response.data);
-                bindUploadButtonFunctionality();
-                changeLanguage();
+                if(response.data.length != 0){
+                    hideSigns();
+                    signaturesTable("#signatures_wrapper", response.data);
+                    bindUploadButtonFunctionality();
+                    changeLanguage();
+                } else {
+                    showNoSupervisorSign();
+                }
             } else {
                 throw response.meta.message;
             }
@@ -53,8 +58,6 @@ function signaturesTable(htmlElement, data){
     var tableJSON = {"type":"table","id":"sort","classes":"highlight","thead":{},"tbody":{},"tfoot":{}};
 
     tableJSON.thead = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"employee_id"},{"type":"th","classes":"real_name"},{"type":"th","classes":"username"},{"type":"th","classes":"signature_title"},{"type":"th"}]}]};
-
-    //tableJSON.tfoot = {"type":"tfoot","rows":[{"type":"tr","columns":[{"type":"td","contents":{"field":{"type":"input","id":"new_zone","classes":"validate add_item add-item-element","fieldType":"text","validations":{"type":"text","max":{"value":3},"required":{"value":true}},"data":{"param":{"name":"name","type":"text"}}}}},{"type":"td","contents":{"field":{"type":"input","id":"company_name","classes":"validate add_item add-item-element","fieldType":"text","validations":{"type":"text","max":{"value":65535},"required":{"value":true}},"data":{"param":{"name":"name","type":"text"}}}}},{"type":"td","contents":{"field":{"type":"input","id":"company_address","classes":"validate add_item add-item-element","fieldType":"text","validations":{"type":"text","max":{"value":65535},"required":{"value":true}},"data":{"param":{"name":"name","type":"text"}}}}},{"type":"td","contents":{"field":{"type":"floating","id":"add_inventory","classes":"btn-floating waveseffect waves-light green center","icon":{"type":"icon","icon":"mdi-plus","size":"mdi-24px"}}}}]}]};
 
     tableJSON.tbody.rows = [];
 
@@ -164,15 +167,15 @@ function bindUploadButtonFunctionality(){
                 success: function(response, message, xhr) {
                     if(response.meta.return_code == 0){
                         $("#upload_row_" + zoneID).remove();
-                        /*zone.logo_path = response.data;
+                        zone.signature_path = response.data;
                         $("#supervisor_" + zoneID).attr("id", "tempRow");
-                        $("#tempRow").after(tableRow(zoneRow(zone)));
+                        $("#tempRow").after(tableRow(signatureRow(zone)));
                         $("#tempRow").remove();
                         bindUploadButtonFunctionality();
-                        bindEditButtonFunctionality();*/
                         changeLanguage();
                         loadToast("new_logo_uploaded", 3500, "rounded");
                     } else {
+                        $("#upload_row_" + zoneID).remove();
                         loadToast("invalid_file_format", 3500, "rounded");
                     }
                 }
@@ -187,49 +190,16 @@ function bindUploadButtonFunctionality(){
     });
 }
 
-function bindEditButtonFunctionality(){
-    $("a[id^='edit_']").on("click", function(){
-        console.log("Presionado");
-        console.log($(this).data());
-        $("#upload_row_" + $(this).data("id")).remove();
-        $("#program_" + $(this).data("id")).after(tableRow(zoneEditableRow($(this).data("item"))));
-        $("#program_" + $(this).data("id")).remove();
-        bindUploadButtonFunctionality();
-        bindSaveButtonFunctionality();
-        changeLanguage();
-    });
+function hideSigns(){
+    $(".no_sign").hide();
 }
 
-function bindSaveButtonFunctionality(){
-    $("a[id^='save_']").on("click", function(){
-        var zoneID = $(this).data("id");
-        var zone = $(this).data("item");
-        console.log("Presionado");
-        console.log($(this).data());
-        $server.request({
-            service: 'edit-zone',
-            data: {
-                "zone_id":zoneID,
-                "zone_name":$("#zone_name_" + zoneID).val(),
-                "company_name":$("#company_name_" + zoneID).val(),
-                "company_address":$("#company_address_" + zoneID).val()
-            },
-            success: function(response){
-                if(response.meta.return_code == 0){
-                    loadToast("zone_updated", 3500, "rounded");
-                    var updatedZone = zone;
-                    updatedZone.name = $("#zone_name_" + zoneID).val(),
-                    updatedZone.company_name = $("#company_name_" + zoneID).val();
-                    updatedZone.address = $("#company_address_" + zoneID).val();
-                    $("#edit_program_" + zoneID).after(tableRow(zoneRow(updatedZone)));
-                    $("#edit_program_" + zoneID).remove();
-                    bindEditButtonFunctionality();
-                    bindUploadButtonFunctionality()
-                    changeLanguage();
-                }
-            }
-        });
-    });
+function showNoSupervisorSign(){
+    $(".no_sign").hide();
+    $("#employee_table_wrapper").html("");
+    $("#supervisor_change_wrapper").html("");
+    $("#change_button").html("");
+    $("#no_supervisors").show();
 }
 
 $(function (){
@@ -238,41 +208,6 @@ $(function (){
             addZoneSelect();
             $("#signatures_wrapper").hide();
             $("#signatures_wrapper").fadeIn(500);
-            /*$server.request({
-                service: "list-zones",
-                success: function(response, message, xhr) {
-                    zonesTable("#zones_wrapper", response.data);
-                    $("#zones_wrapper").show(500);
-                    bindEditButtonFunctionality();
-                    bindUploadButtonFunctionality();
-                    $("#add_inventory").on("click", function(){
-                        var data = new Object();
-                        data.new_zone = $("#new_zone").val();
-                        data.company_name = $("#company_name").val();
-                        data.company_address = $("#company_address").val();
-                        //data.logo = new FormData($("#logo_file")[0]);
-                        zone = new Object();
-                        zone.name = data.new_zone;
-                        zone.company_name = data.company_name;
-                        zone.address = data.company_address;
-                        $server.request({
-                            service: "add-zone",
-                            data: data,
-                            success: function(response, message, xhr) {
-                                if(response.meta.return_code == 0){
-                                    zone.id = response.data;
-                                    $("#new_zone").val("");
-                                    $("#company_name").val("");
-                                    $("#company_address").val("");
-                                    $("tbody").append(tableRow(zoneRow(zone)));
-                                    changeLanguage();
-                                }
-                            }
-                        });
-                    });
-                    changeLanguage();
-                }
-            });*/
         });
     });
 

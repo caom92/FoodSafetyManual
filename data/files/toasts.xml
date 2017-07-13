@@ -126,6 +126,11 @@
         <spanish>El nombre de la zona no puede encontrarse vacío</spanish>
     </translation>
 
+    <translation id="required-zone-info">
+        <english>You must enter information for both the name and the address of the zone</english>
+        <spanish>Debe ingresar el nombre y dirección de la zona</spanish>
+    </translation>
+
     <translation id="is-workplace-area-empty">
         <english>Zone name can't be empty</english>
         <spanish>El nombre de la zona no puede encontrarse vacío</spanish>

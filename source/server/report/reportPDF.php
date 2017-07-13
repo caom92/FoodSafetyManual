@@ -31,12 +31,13 @@ class PDFCreator extends TCPDF
     // Create an instance of the PDF file creator
     // [in]     lang: a string that contains the code of the language that we 
     //          going to use to display the text
-    function __construct($lang, $logo, $company, $address, $footer, $signature) {
+    function __construct($lang, $logo, $company, $address, $footer, $signature, $supervisor) {
         $this->logo = $logo;
         $this->company = $company;
         $this->address = $address;
         $this->footer = $footer;
         $this->signature = $signature;
+        $this->supervisor = $supervisor;
 
         // first, initialize a TCPDF instance
         parent::__construct(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, 
@@ -124,16 +125,21 @@ class PDFCreator extends TCPDF
 
         $this->ln(30);
         $this->Line($this->x + 120,$this->y,$this->x + 170,$this->y);
-        $this->Cell(
+        /*$this->Cell(
                 50, 0,
                 "Supervisor", 
                 1, 1, 'C', 0, null, 0
-            );
-        /*$this->writeHTMLCell(
-                50, 0, $this->x + 120, $this->y,
-                "Supervisor", 
-                1, 1, 0, false, 'C', true
             );*/
+        $this->writeHTMLCell(
+                50, 0, $this->x + 120, $this->y,
+                "<div style='width:50px;'>Supervisor</div>", 
+                0, 1, 0, true, 'C', false
+            );
+        $this->writeHTMLCell(
+                50, 0, $this->x + 120, $this->y,
+                "<div style='width:50px;'>" . $this->supervisor . "</div>", 
+                0, 1, 0, true, 'C', false
+            );
     }
 
 
@@ -179,7 +185,8 @@ $pdf = new PDFCreator(
     $_POST['company'], 
     $_POST['address'],
     $_POST['footer'],
-    $_POST['signature']
+    $_POST['signature'],
+    $_POST['supervisor']
 );
 
 // initialize the storage for the HTML that will be displayed in the PDF file
@@ -253,7 +260,7 @@ try {
         // print the result to the document
         $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
     }
-    //$pdf->closing();
+    $pdf->closing($_POST['supervisor']);
 } catch (\Exception $e) {
     // if an exception was thrown, print an error PDF file
     $html = 
