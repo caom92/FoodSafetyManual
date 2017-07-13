@@ -292,37 +292,6 @@ $(function() {
         });
     });
 
-    // Retrieve the zones from the server
-    // $server.request({
-    //     service: 'list-zones',
-    //     cache: true,
-    //     success: function(response, message, xhr) {
-    //         // check if the response was positive
-    //         if (response.meta.return_code == 0) {
-    //             // if it was, store the retrieve zones into a list of HTML
-    //             // option elements
-    //             var html = "";
-    //             for (zone of response.data) {
-    //                 html += "<option value='" + zone.id + "'>"
-    //                     + zone.name + "</option>";
-    //             }
-
-    //             // inject the list of options into the select field
-    //             $("#zone-selection").html($("#zone-selection").html() + html);
-    //         }
-
-    //         // finally, initialize the select field
-    //         $("#zone-selection").material_select();
-    //     },
-    //     error: function(xhr, status, message) {
-    //         // print the message in the console
-    //         console.log("server says: " + status + ", " + message);
-
-    //         // finally, initialize the select field
-    //         $("#zone-selection").material_select();
-    //     }
-    // });
-
     // Retrieve the programs from the server
     $server.request({
         service: 'list-programs',
