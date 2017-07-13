@@ -70,6 +70,11 @@ class SupervisorsEmployees extends db\DataBaseTable
   function hasEmployeeID($userID) {
     return parent::has(['employee_id' => $userID]);
   }
+
+  // Deletes the relationship that has the especified employee ID
+  function deleteByEmployeeID($employeeID) {
+    return parent::delete([ 'employee_id' => $employeeID]);
+  }
 }
 
 ?>
