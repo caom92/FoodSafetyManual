@@ -181,6 +181,7 @@ function sendgmpPackingFinishedProductReport(){
             item.is_label_correct = getBool($("input:radio[name='label_radio_" + itemID + "']:checked").val());
             item.is_trackable = getBool($("input:radio[name='traceability_radio_" + itemID + "']:checked").val());
             item.notes = $("#comment_" + itemID).val();
+            item.album_url = $("#report_url_" + itemID).val();
             report.entries.push(item);
         });
 
@@ -238,6 +239,7 @@ function updateGmpPackingFinishedProductReport(reportID){
             item.is_label_correct = getBool($("input:radio[name='label_radio_" + itemID + "']:checked").val());
             item.is_trackable = getBool($("input:radio[name='traceability_radio_" + itemID + "']:checked").val());
             item.notes = $("#comment_" + itemID).val();
+            item.album_url = $("#report_url_" + itemID).val();
             report.entries.push(item);
         });
 
@@ -334,6 +336,7 @@ function gmpPackingFinishedProductItem(item){
     var temperatureRow = new Object();
     var infoRow = new Object();
     var notesRow = new Object();
+    var urlRow = new Object();
 
     batchRow.columns = [gmpPackingFinishedProductItemBatch(item), gmpPackingFinishedProductItemProductionArea(item)];
     codesRow.columns = [gmpPackingFinishedProductItemSupplier(item), gmpPackingFinishedProductItemProduct(item), gmpPackingFinishedProductItemClient(item)];
@@ -341,6 +344,7 @@ function gmpPackingFinishedProductItem(item){
     temperatureRow.columns = [gmpPackingFinishedProductItemWater(item), gmpPackingFinishedProductItemPacking(item)];
     infoRow.columns = [gmpPackingFinishedProductItemWeight(item), gmpPackingFinishedProductItemLabel(item), gmpPackingFinishedProductItemTrazable(item)];
     notesRow.columns = [gmpPackingFinishedProductItemNotes(item)];
+    urlRow.columns = [gmpPackingFinishedProductItemAlbumURL(item)];
 
     itemCard.append(createInputRow(batchRow));
     itemCard.append(createInputRow(codesRow));
@@ -348,6 +352,7 @@ function gmpPackingFinishedProductItem(item){
     itemCard.append(createInputRow(temperatureRow));
     itemCard.append(createInputRow(infoRow));
     itemCard.append(createInputRow(notesRow));
+    itemCard.append(createInputRow(urlRow));
 
     itemCard.addClass("card-panel white item-card");
     itemCard.attr("id", "item_" + item.id);
@@ -640,6 +645,19 @@ function gmpPackingFinishedProductItemNotes(item){
     return commentFullInput;
 }
 
+function gmpPackingFinishedProductItemAlbumURL(item){
+    var urlLabel = {"type":"label","contents":{"type":"text","classes":"url_title"}};
+    var urlInput = {"type":"textarea","id": "report_url_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":65535,"toast":"gmp-packing-preop-report-url"}}};
+    var urlFullInput = {"id":"reportUrlWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":urlInput,"label":urlLabel};
+
+    if(item.album_url){
+        urlInput.value = item.album_url;
+        urlLabel.classes = "active";
+    }
+
+    return urlFullInput;
+}
+
 function gmpPackingFinishedProductFunctionality(data){
     console.log("Cargando funcionalidad");
 
@@ -686,12 +704,16 @@ function gmpPackingFinishedProductReport(data){
     var report = new Object();
 
     report.type = "table";
-    report.classes = "bordered highlight responsive-table";
+    report.classes = "bordered highlight";
     report.id = "report_" + data.report_id;
-    report.style = "display: block; overflow: scroll;";
+    //report.style = "display: block; overflow: scroll;";
 
-    report.thead = gmpPackingFinishedProductHeader();
-    report.tbody = gmpPackingFinishedProductBody(data);
+    report.tbody = [];
+
+    //report.thead = gmpPackingFinishedProductHeader();
+    for(var item of data.entries){
+        report.tbody.push(gmpPackingFinishedProductBody(item));
+    }
     
     console.log(JSON.stringify(report));
     console.log(report);
@@ -714,13 +736,15 @@ function gmpPackingFinishedProductHeader(){
 function gmpPackingFinishedProductBody(data){
     var body = {"type":"tbody"};
 
-    body.rows = new Array();
+    //body.rows = new Array();
 
-    for(var item of data.entries){
+    /*for(var item of data.entries){
         var row = {"type":"tr"};
         row.columns = gmpPackingFinishedProductReportItem(item);
         body.rows.push(row);
-    }
+    }*/
+
+    body.rows = gmpPackingFinishedProductReportItem(data);
 
     return body;
 }
@@ -728,34 +752,51 @@ function gmpPackingFinishedProductBody(data){
 function gmpPackingFinishedProductReportItem(itemData){
     var item = new Array();
 
-    item.push({"type":"td","classes":"batchColumn","contents":itemData.batch});
-    item.push({"type":"td","classes":"areaColumn","contents":itemData.production_area});
-    item.push({"type":"td","classes":"suppliersColumn","contents":itemData.supplier});
-    item.push({"type":"td","classes":"productsColumn","contents":itemData.product});
-    item.push({"type":"td","classes":"clientsColumn","contents":itemData.customer});
-    item.push({"type":"td","classes":"qualityColumn","contents":itemData.quality});
-    item.push({"type":"td","classes":"originColumn","contents":itemData.origin});
-    item.push({"type":"td","classes":"expiresColumn","contents":itemData.expiration_date});
-    item.push({"type":"td","classes":"waterColumn","contents":itemData.water_temperature});
-    item.push({"type":"td","classes":"packingColumn","contents":itemData.product_temperature});
+    var batchRow = {"type":"tr","columns":[]};
+    var contactRow = {"type":"tr","columns":[]};
+    var qualityRow = {"type":"tr","columns":[]};
+    var temperatureTopRow = {"type":"tr","columns":[]};
+    var temperatureBotRow = {"type":"tr","columns":[]};
+    var controlRow = {"type":"tr","columns":[]};
+    var notesRow = {"type":"tr","columns":[]};
+    var albumRow = {"type":"tr","columns":[]};
+
+    batchRow.columns.push({"type":"td","classes":"batchColumn","contents":"<span class='batch_title'></span>: " + itemData.batch});
+    batchRow.columns.push({"type":"td","classes":"areaColumn","contents":"<span class='area_title'></span>: " + itemData.production_area,"colspan":2});
+    contactRow.columns.push({"type":"td","classes":"suppliersColumn","contents":"<span class='suppliers'></span>: " + itemData.supplier});
+    contactRow.columns.push({"type":"td","classes":"productsColumn","contents":"<span class='products'></span>: " + itemData.product});
+    contactRow.columns.push({"type":"td","classes":"clientsColumn","contents":"<span class='clients'></span>: " + itemData.customer});
+    qualityRow.columns.push({"type":"td","classes":"qualityColumn","contents":"<span class='quality_title'></span>: " + itemData.quality});
+    qualityRow.columns.push({"type":"td","classes":"originColumn","contents":"<span class='origin_title'></span>: " + itemData.origin});
+    qualityRow.columns.push({"type":"td","classes":"expiresColumn","contents":"<span class='expires_title'></span>: " + itemData.expiration_date});
+    temperatureTopRow.columns.push({"type":"td","classes":"waterColumn","contents":"<span class='water_temperature'></span>: " + itemData.water_temperature,"colspan":3});
+    temperatureBotRow.columns.push({"type":"td","classes":"packingColumn","contents":"<span class='packing_temperature'></span>: " + itemData.product_temperature,"colspan":3});
     if(itemData.is_weight_correct == 1){
-        item.push({"type":"td","classes":"weightColumn yes_tag"});
+        controlRow.columns.push({"type":"td","classes":"weightColumn","contents":"<span class='correct_weight_title'></span>: <span class='yes_tag'></span>"});
     } else {
-        item.push({"type":"td","classes":"weightColumn no_tag"});
+        controlRow.columns.push({"type":"td","classes":"weightColumn","contents":"<span class='correct_weight_title'></span>: <span class='no_tag'></span>"});
     }
     if(itemData.is_label_correct == 1){
-        item.push({"type":"td","classes":"labelColumn yes_tag"});
+        controlRow.columns.push({"type":"td","classes":"labelColumn","contents":"<span class='correct_label_title'></span>: <span class='yes_tag'></span>"});
     } else {
-        item.push({"type":"td","classes":"labelColumn no_tag"});
+        controlRow.columns.push({"type":"td","classes":"labelColumn","contents":"<span class='correct_label_title'></span>: <span class='no_tag'></span>"});
     }
     if(itemData.is_trackable == 1){
-        item.push({"type":"td","classes":"traceabilityColumn yes_tag"});
+        controlRow.columns.push({"type":"td","classes":"traceabilityColumn","contents":"<span class='traceability_title'></span>: <span class='yes_tag'></span>"});
     } else {
-        item.push({"type":"td","classes":"traceabilityColumn no_tag"});
+        controlRow.columns.push({"type":"td","classes":"traceabilityColumn","contents":"<span class='traceability_title'></span>: <span class='no_tag'></span>"});
     }
-    item.push({"type":"td","classes":"notesColumn","contents":itemData.notes});
+    notesRow.columns.push({"type":"td","classes":"notesColumn","contents":"<span class='notes_title'></span>: " + itemData.notes,"colspan":3});
+    albumRow.columns.push({"type":"td","classes":"notesColumn","contents":"<span class='url_title'></span>: <a href='" + itemData.album_url + "' >" + itemData.album_url + "</a>","colspan":3});
 
-    console.log(item);
+    item.push(batchRow);
+    item.push(contactRow);
+    item.push(qualityRow);
+    item.push(temperatureTopRow);
+    item.push(temperatureBotRow);
+    item.push(controlRow);
+    item.push(notesRow);
+    item.push(albumRow);
 
     return item;
 }
