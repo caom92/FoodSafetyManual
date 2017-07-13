@@ -46,6 +46,8 @@ $service = [
     // store the file path in the database
     $scope->daoFactory->get('Users')->updateSignaturePathByID(
       $request['supervisor_id'], $fileName);
+
+    return $fileName;
   }
 ];
 
