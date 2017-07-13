@@ -212,6 +212,7 @@ function pdfUploader(suffix) {
 }
 
 function reportLoaderCard(data, footer){
+    console.log(data);
     var reportCard = $("<div>");
     var cardRow = $("<div>");
     var openIconWrapper = $("<div class='iconContainer col s1 m1 l1'>");
@@ -231,6 +232,7 @@ function reportLoaderCard(data, footer){
             '<input id="address_' + data.report_id + '"type="text" name="address" hidden>' + 
             '<input id="logo_' + data.report_id + '"type="text" name="logo" hidden>' + 
             '<input id="signature_' + data.report_id + '"type="text" name="signature" hidden>' + 
+            '<input id="supervisor_' + data.report_id + '"type="text" name="supervisor" hidden>' + 
             '<input id="footer_' + data.report_id + '"type="text" name="footer" hidden>' + 
         '</form>');
     reportCard.append(secretForm);
@@ -306,6 +308,8 @@ function reportLoaderCard(data, footer){
         $("#address_" + data.report_id).val(localStorage.address);
         $("#logo_" + data.report_id).val(localStorage.logo);
         $("#signature_" + data.report_id).val(data.signature_path);
+        console.log(data.approved_by);
+        $("#supervisor_" + data.report_id).val(data.approved_by);
         $("#footer_" + data.report_id).val(footer);
         $("#secretForm_" + data.report_id).submit();
     });
@@ -346,6 +350,7 @@ function reportLoaderCard(data, footer){
         $("#address_" + data.report_id).val(localStorage.address);
         $("#logo_" + data.report_id).val(localStorage.logo);
         $("#signature_" + data.report_id).val(data.signature_path);
+        $("#supervisor_" + data.report_id).val(data.approved_by);
         $("#secretForm_" + data.report_id).submit();
         $("#footer_" + data.report_id).val(footer);
         $("#report-tab-content").html(currentHTML);
