@@ -113,14 +113,28 @@ class PDFCreator extends TCPDF
         $this->ln(9);
     }
 
-    /*public function closing(){
-        //$this->SetY(-45);
+    public function closing(){
+        //$this->SetY(-35);
+        //$this->SetX(-60);
 
         $signature = realpath(dirname(__FILE__)."/../../../data/signatures/$this->signature");
 
-        $this->Image($signature, 15, 30, 40, '', '', '', 'T', false, 300, '', 
+        $this->Image($signature, $this->x + 120, $this->y, 50, 30, '', '', 'T', false, 300, '', 
             false, false, 0, false, false, false);
-    }*/
+
+        $this->ln(30);
+        $this->Line($this->x + 120,$this->y,$this->x + 170,$this->y);
+        $this->Cell(
+                50, 0,
+                "Supervisor", 
+                1, 1, 'C', 0, null, 0
+            );
+        /*$this->writeHTMLCell(
+                50, 0, $this->x + 120, $this->y,
+                "Supervisor", 
+                1, 1, 0, false, 'C', true
+            );*/
+    }
 
 
     // Creates the page footer of the PDF file

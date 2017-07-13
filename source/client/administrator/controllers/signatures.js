@@ -1,0 +1,280 @@
+function addZoneSelect() {
+    var select = $("<select>");
+    var label = $("<label>");
+
+    select.attr("id", "zone_select");
+    label.addClass("select_zone");
+    label.attr("for", "zone_select");
+
+    $server.request({
+        service: 'list-zones',
+        success: function (response, messages, xhr) {
+            if (response.meta.return_code == 0) {
+                for (var zone of response.data) {
+                    var option = $("<option>");
+                    option.attr("value", zone.id);
+                    option.append(zone.name);
+                    select.append(option);
+                }
+                $("#zone_select_wrapper").append(select);
+                $("#zone_select_wrapper").append(label);
+                //addSupervisorSelect(parseInt($("#zone_select").val()));
+                $("#zone_select").change(function(index){
+                    //$("#supervisor_select_wrapper").html("");
+                    //addSupervisorSelect(parseInt($("#zone_select").val()));
+                    $("#signatures_wrapper").html("");
+                    addSignaturesTable(parseInt($("#zone_select").val()));
+                });
+                changeLanguage();
+            } else {
+                throw response.meta.message;
+            }
+        }
+    });
+}
+
+function addSignaturesTable(zoneID){
+    $server.request({
+        service: 'list-signatures-by-zone',
+        data: {"zone_id":zoneID},
+        success: function (response, messages, xhr) {
+            if (response.meta.return_code == 0) {
+                signaturesTable("#signatures_wrapper", response.data);
+                bindUploadButtonFunctionality();
+                changeLanguage();
+            } else {
+                throw response.meta.message;
+            }
+        }
+    });
+}
+
+function signaturesTable(htmlElement, data){
+    var tableJSON = {"type":"table","id":"sort","classes":"highlight","thead":{},"tbody":{},"tfoot":{}};
+
+    tableJSON.thead = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"employee_id"},{"type":"th","classes":"real_name"},{"type":"th","classes":"username"},{"type":"th","classes":"signature_title"},{"type":"th"}]}]};
+
+    //tableJSON.tfoot = {"type":"tfoot","rows":[{"type":"tr","columns":[{"type":"td","contents":{"field":{"type":"input","id":"new_zone","classes":"validate add_item add-item-element","fieldType":"text","validations":{"type":"text","max":{"value":3},"required":{"value":true}},"data":{"param":{"name":"name","type":"text"}}}}},{"type":"td","contents":{"field":{"type":"input","id":"company_name","classes":"validate add_item add-item-element","fieldType":"text","validations":{"type":"text","max":{"value":65535},"required":{"value":true}},"data":{"param":{"name":"name","type":"text"}}}}},{"type":"td","contents":{"field":{"type":"input","id":"company_address","classes":"validate add_item add-item-element","fieldType":"text","validations":{"type":"text","max":{"value":65535},"required":{"value":true}},"data":{"param":{"name":"name","type":"text"}}}}},{"type":"td","contents":{"field":{"type":"floating","id":"add_inventory","classes":"btn-floating waveseffect waves-light green center","icon":{"type":"icon","icon":"mdi-plus","size":"mdi-24px"}}}}]}]};
+
+    tableJSON.tbody.rows = [];
+
+    for(var supervisor of data){
+        tableJSON.tbody.rows.push(signatureRow(supervisor));
+    }
+
+    $(htmlElement).append(table(tableJSON));
+}
+
+function signatureRow(supervisor){
+    // JSON for the inventory row
+    var inventoryRow = {"type":"tr","id":"supervisor_" + supervisor.id,"classes":"","columns":[]};
+
+    // Add information columns.
+    inventoryRow.columns.push({"type":"td","contents":supervisor.employee_num,"classes":"number-column"});
+    inventoryRow.columns.push({"type":"td","contents":supervisor.full_name,"classes":"name-column"});
+    inventoryRow.columns.push({"type":"td","contents":supervisor.username,"classes":"username-column"});
+
+    if(supervisor.signature_path)
+        inventoryRow.columns.push({"type":"td","contents":"<img src='data/signatures/" + supervisor.signature_path + "' height='42'>","classes":"signature-column"});
+    else
+        inventoryRow.columns.push({"type":"td","contents":"<img src='data/signatures/" + "default.png" + "' height='42'>","classes":"signature-column"});
+
+    inventoryRow.columns.push({"type":"td","contents":uploadSignatureButton(supervisor)});
+
+    return inventoryRow;
+}
+
+function zoneEditableRow(program){
+    // JSON for the inventory row
+    var inventoryRow = {"type":"tr","id":"edit_program_" + program.id,"classes":"","columns":[]};
+
+    // Add information columns.
+    inventoryRow.columns.push({"type":"td","contents":{"field":{"type":"input","id":"zone_name_" + program.id,"classes":"validate","value":program.name,"fieldType":"text"}},"classes":"pdf-column"});
+    inventoryRow.columns.push({"type":"td","contents":{"field":{"type":"input","id":"company_name_" + program.id,"classes":"validate","value":program.company_name,"fieldType":"text"}},"classes":"pdf-column"});
+    inventoryRow.columns.push({"type":"td","contents":{"field":{"type":"input","id":"company_address_" + program.id,"classes":"validate","value":program.address,"fieldType":"text"}},"classes":"html-column"});
+
+    // Edit Button
+    inventoryRow.columns.push({"type":"td","contents":zoneSaveButton(program)});
+
+    if(program.logo_path)
+        inventoryRow.columns.push({"type":"td","contents":"<img src='data/logos/" + program.logo_path + "' height='42'>","classes":"html-column"});
+    else
+        inventoryRow.columns.push({"type":"td","contents":"<img src='data/logos/" + "default.png" + "' height='42'>","classes":"html-column"});
+
+    inventoryRow.columns.push({"type":"td"});
+
+    return inventoryRow;
+}
+
+
+function zoneEditButton(item){
+    var buttonField = {"type":"button","classes":"edit_button","id":"edit_" + item.id,"data":{"id":item.id,"item":item},"icon":{"type": "icon", "icon": "mdi-send", "size": "mdi-32px", "color": "white-text"}};
+
+    var buttonInput = {"field":buttonField};
+
+    return buttonInput;
+}
+
+function zoneSaveButton(item){
+    var buttonField = {"type":"button","classes":"save_button","id":"save_" + item.id,"data":{"id":item.id,"item":item},"icon":{"type": "icon", "icon": "mdi-send", "size": "mdi-32px", "color": "white-text"}};
+
+    var buttonInput = {"field":buttonField};
+
+    return buttonInput;
+}
+
+function uploadSignatureButton(item){
+    var buttonField = {"type":"button","classes":"upload_button","id":"upload_" + item.id,"data":{"id":item.id,"item":item},"icon":{"type": "icon", "icon": "mdi-send", "size": "mdi-32px", "color": "white-text"}};
+
+    var buttonInput = {"field":buttonField};
+
+    return buttonInput;
+}
+
+function logoFileInput(zone){
+    var logoField = {"type":"file","id":"upload-logo-form","classes":"select_logo_button","name":"signature_file","additional_fields":[]};
+
+    var testInput = {"type":"input","id":"zone_id_" + zone.id,"fieldType":"text","name":"supervisor_id","value":zone.id,"hidden":true};
+
+    logoField.additional_fields.push(testInput);
+
+    var logoInput = {"field":logoField};
+
+    return logoInput;
+}
+
+function logoFileRow(zone){
+    var uploadRow = {"type":"tr","id":"upload_row_" + zone.id,"classes":"","columns":[]};
+
+    uploadRow.columns.push({"type":"td","contents":logoFileInput(zone),"colspan":6});
+
+    return uploadRow;
+}
+
+function bindUploadButtonFunctionality(){
+    $("a[id^='upload_']").on("click", function(){
+        var zoneID = $(this).data("id");
+        var zone = $(this).data("item");
+        if($(this).data("waiting") == true){
+            $(this).data("waiting", false);
+            var formData = new FormData($('#upload-logo-form')[0]);
+            $server.request({
+                service:'add-signature',
+                data: formData,
+                success: function(response, message, xhr) {
+                    if(response.meta.return_code == 0){
+                        $("#upload_row_" + zoneID).remove();
+                        /*zone.logo_path = response.data;
+                        $("#supervisor_" + zoneID).attr("id", "tempRow");
+                        $("#tempRow").after(tableRow(zoneRow(zone)));
+                        $("#tempRow").remove();
+                        bindUploadButtonFunctionality();
+                        bindEditButtonFunctionality();*/
+                        changeLanguage();
+                        loadToast("new_logo_uploaded", 3500, "rounded");
+                    } else {
+                        loadToast("invalid_file_format", 3500, "rounded");
+                    }
+                }
+            });
+        } else {
+            console.log("mames");
+            console.log($(this).data());
+            $(this).data("waiting", true);
+            $("#supervisor_" + $(this).data("id")).after(tableRow(logoFileRow($(this).data("item"))));
+            changeLanguage();
+        }
+    });
+}
+
+function bindEditButtonFunctionality(){
+    $("a[id^='edit_']").on("click", function(){
+        console.log("Presionado");
+        console.log($(this).data());
+        $("#upload_row_" + $(this).data("id")).remove();
+        $("#program_" + $(this).data("id")).after(tableRow(zoneEditableRow($(this).data("item"))));
+        $("#program_" + $(this).data("id")).remove();
+        bindUploadButtonFunctionality();
+        bindSaveButtonFunctionality();
+        changeLanguage();
+    });
+}
+
+function bindSaveButtonFunctionality(){
+    $("a[id^='save_']").on("click", function(){
+        var zoneID = $(this).data("id");
+        var zone = $(this).data("item");
+        console.log("Presionado");
+        console.log($(this).data());
+        $server.request({
+            service: 'edit-zone',
+            data: {
+                "zone_id":zoneID,
+                "zone_name":$("#zone_name_" + zoneID).val(),
+                "company_name":$("#company_name_" + zoneID).val(),
+                "company_address":$("#company_address_" + zoneID).val()
+            },
+            success: function(response){
+                if(response.meta.return_code == 0){
+                    loadToast("zone_updated", 3500, "rounded");
+                    var updatedZone = zone;
+                    updatedZone.name = $("#zone_name_" + zoneID).val(),
+                    updatedZone.company_name = $("#company_name_" + zoneID).val();
+                    updatedZone.address = $("#company_address_" + zoneID).val();
+                    $("#edit_program_" + zoneID).after(tableRow(zoneRow(updatedZone)));
+                    $("#edit_program_" + zoneID).remove();
+                    bindEditButtonFunctionality();
+                    bindUploadButtonFunctionality()
+                    changeLanguage();
+                }
+            }
+        });
+    });
+}
+
+$(function (){
+    $.getScript( "source/client/common/scripts/logs/form-creator.js", function( data, textStatus, jqxhr ) {
+        $.getScript( "source/client/common/scripts/logs/table-creator.js", function( data, textStatus, jqxhr ) {
+            addZoneSelect();
+            $("#signatures_wrapper").hide();
+            $("#signatures_wrapper").fadeIn(500);
+            /*$server.request({
+                service: "list-zones",
+                success: function(response, message, xhr) {
+                    zonesTable("#zones_wrapper", response.data);
+                    $("#zones_wrapper").show(500);
+                    bindEditButtonFunctionality();
+                    bindUploadButtonFunctionality();
+                    $("#add_inventory").on("click", function(){
+                        var data = new Object();
+                        data.new_zone = $("#new_zone").val();
+                        data.company_name = $("#company_name").val();
+                        data.company_address = $("#company_address").val();
+                        //data.logo = new FormData($("#logo_file")[0]);
+                        zone = new Object();
+                        zone.name = data.new_zone;
+                        zone.company_name = data.company_name;
+                        zone.address = data.company_address;
+                        $server.request({
+                            service: "add-zone",
+                            data: data,
+                            success: function(response, message, xhr) {
+                                if(response.meta.return_code == 0){
+                                    zone.id = response.data;
+                                    $("#new_zone").val("");
+                                    $("#company_name").val("");
+                                    $("#company_address").val("");
+                                    $("tbody").append(tableRow(zoneRow(zone)));
+                                    changeLanguage();
+                                }
+                            }
+                        });
+                    });
+                    changeLanguage();
+                }
+            });*/
+        });
+    });
+
+    changeLanguage();
+});
