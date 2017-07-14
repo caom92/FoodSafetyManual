@@ -1,57 +1,40 @@
 {
-  "name": "preop",
-  "path": "/opt/lampp/htdocs/espresso/source/server/services/gmp/packing/preop/",
-  "namespace": "gmp\\packing\\preop",
+  "name": "doc_control",
+  "path": "/opt/lampp/htdocs/espresso/source/server/services/gmp/doc_control/doc_control/",
+  "namespace": "gmp\\docControl\\docControl",
   "program": "GMP",
-  "module": "Packing",
-  "log": "Pre-Operational Inspection",
-  "suffix": "gmp-packing-preop",
-  "manual_path": "gmp/pracking/preop/",
+  "module": "Document Control",
+  "log": "Document Control",
+  "suffix": "gmp-doc-control-doc-control",
+  "manual_path": "gmp/doc_control/doc_control/",
   "tables": [
     {
-      "class": "AreaLogs",
-      "table": "gmp_packing_finished_product_logs",
-      "parent": "LogTable"
+      "class": "Documents",
+      "table": "gmp_packing_doc_control_doc_control_documents",
+      "parent": "ToggableItemsTable"
     },
     {
-      "class": "CorrectiveActions",
-      "table": "gmp_packing_finished_product_logs",
-      "parent": "LogTable"
-    },
-    {
-      "class": "ItemLogs",
-      "table": "gmp_packing_finished_product_logs",
-      "parent": "LogTable"
-    },
-    {
-      "class": "Items",
-      "table": "gmp_packing_finished_product_logs",
-      "parent": "LogTable"
-    },
-    {
-      "class": "ItemTypes",
-      "table": "gmp_packing_finished_product_logs",
+      "class": "Logs",
+      "table": "gmp_packing_doc_control_doc_control_logs",
       "parent": "LogTable"
     }
   ],
   "services": {
     "log": {
-      "items_name": "areas"
+      "items_name": "documents"
     },
     "capture": {
       "extra_info": null
     },
     "report": {
-      "items_name": "areas",
+      "items_name": "documents",
       "extra_info": null
     },
     "inventory": true,
     "add": true,
     "toggle": {
-      "dao_name": "gmp\\packing\\preop\\Items"
+      "dao_name": "gmp\\docControl\\docControl\\Items"
     },
-    "reorder": {
-      "dao_name": "gmp\\packing\\preop\\Items"
-    }
+    "reorder": null
   }
 }

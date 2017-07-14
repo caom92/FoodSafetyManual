@@ -753,7 +753,7 @@ servicesFile.write(
 )
 
 # Ahora, crearemos los archivos de los servicios
-createUploadManualService(inputFile, servicesFile)
+createUploadManualServiceFile(inputFile, servicesFile)
 createLogServiceFile(inputFile, servicesFile)
 createCaptureServiceFile(inputFile, servicesFile)
 createReportServiceFile(inputFile, servicesFile)

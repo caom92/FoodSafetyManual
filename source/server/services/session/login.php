@@ -374,8 +374,74 @@ function constructUserProfileArray($scope, $userData) {
 
     // for the admin, we don't need the zone, nor has any privileges
     case 'Administrator':
+      $zones = $scope->daoFactory->get('Zones')->selectAll();
+      $logs = $scope->daoFactory->get('Logs')->selectAll();
+
+      $finalLogs = [];
+
+      $program = [
+        'id' => 0
+      ];
+
+      $module = [
+        'id' => 0
+      ];
+
+      foreach ($logs as $log) {
+        $hasProgramChanged = $program['id'] != $log['program_id'];
+        if ($hasProgramChanged) {
+          if ($program['id'] != 0) {
+            array_push($program['modules'], $module);
+            array_push($finalLogs, $program);
+          }
+
+          $module = [
+            'id' => $log['module_id'],
+            'name' => $log['module_name'],
+            'logs' => [[
+              'id' => $log['log_id'],
+              'name' => $log['log_name']
+            ]]
+          ];
+
+          $program = [
+            'id' => $log['program_id'],
+            'name' => $log['program_name'],
+            'modules' => []
+          ];
+        } else {
+          $hasModuleChanged = $module['id'] != $log['module_id'];
+          if ($hasModuleChanged) {
+            array_push($program['modules'], $module);
+            $module = [
+              'id' => $log['module_id'],
+              'name' => $log['module_name'],
+              'logs' => [[
+                'id' => $log['log_id'],
+                'name' => $log['log_name']
+              ]]
+            ];
+          } else {
+            array_push($module['logs'], [
+              'id' => $log['log_id'],
+              'name' => $log['name']
+            ]);
+          }
+        }
+      }
+
+      if ($module['id'] != 0) {
+        array_push($program['modules'], $module);
+      }
+
+      if ($program['id'] != 0) {
+        array_push($finalLogs, $program);      
+      }
+
       $userDataToSend['exclusive_access'] =
         strtolower($userData['role_name']).'/';
+      $userDataToSend['log_list'] = $finalLogs;
+      $userDataToSend['zone_list'] = $zones;
       return $userDataToSend;
     break;
   }
