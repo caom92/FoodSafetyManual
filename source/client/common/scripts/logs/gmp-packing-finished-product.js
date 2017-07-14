@@ -181,7 +181,9 @@ function sendgmpPackingFinishedProductReport(){
             item.is_label_correct = getBool($("input:radio[name='label_radio_" + itemID + "']:checked").val());
             item.is_trackable = getBool($("input:radio[name='traceability_radio_" + itemID + "']:checked").val());
             item.notes = $("#comment_" + itemID).val();
-            item.album_url = $("#report_url_" + itemID).val();
+            if($("#report_url_" + itemID).val().length != 0){
+                item.album_url = $("#report_url_" + itemID).val();
+            }
             report.entries.push(item);
         });
 
@@ -239,7 +241,9 @@ function updateGmpPackingFinishedProductReport(reportID){
             item.is_label_correct = getBool($("input:radio[name='label_radio_" + itemID + "']:checked").val());
             item.is_trackable = getBool($("input:radio[name='traceability_radio_" + itemID + "']:checked").val());
             item.notes = $("#comment_" + itemID).val();
-            item.album_url = $("#report_url_" + itemID).val();
+            if($("#report_url_" + itemID).val().length != 0){
+                item.album_url = $("#report_url_" + itemID).val();
+            }
             report.entries.push(item);
         });
 
