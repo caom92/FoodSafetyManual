@@ -424,7 +424,7 @@ function constructUserProfileArray($scope, $userData) {
           } else {
             array_push($module['logs'], [
               'id' => $log['log_id'],
-              'name' => $log['name']
+              'name' => $log['log_name']
             ]);
           }
         }
@@ -455,9 +455,6 @@ function constructUserProfileArray($scope, $userData) {
     1 : $userData['zone_id'];
   $userDataToSend['zone_name'] = ($isDirector) ?
     'AVA' : $userData['zone_name'];
-  // $userDataToSend['logo'] = 
-  //   ($isDirector || strlen($userData['zone_logo']) == 0) ? 
-  //     'default.png' : $userData['zone_logo'];
   $userDataToSend['company'] =
     ($isDirector || strlen($userData['zone_company']) == 0) ? 
       'Company Name' : $userData['zone_company'];
