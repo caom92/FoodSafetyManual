@@ -132,14 +132,25 @@ $(function() {
 
     if(localStorage.privileges != null){
         var privilegeObject = JSON.parse(localStorage.privileges);
+        var zone = privilegeObject.zones[0];
+    } else if (localStorage.zone_list != null && localStorage.log_list != null){
+        var privilegeObject = {};
+        privilegeObject.zones = JSON.parse(localStorage.zone_list);
+        var zone = {};
+        zone.programs = JSON.parse(localStorage.log_list);
+    }
+    console.log(privilegeObject);
+    console.log(zone);
 
-        for(var zone of privilegeObject.zones){
-            console.log(zone.name);
-            $("#problem-zone-selection").append("<option id='zone_" + zone.id + "' value='" + zone.name + "'>" + zone.name + "</option>");
+//    if(localStorage.privileges != null){
+        //var privilegeObject = JSON.parse(localStorage.privileges);
+
+        for(var zoneDetails of privilegeObject.zones){
+            console.log(zoneDetails.name);
+            $("#problem-zone-selection").append("<option id='zone_" + zoneDetails.id + "' value='" + zoneDetails.name + "'>" + zoneDetails.name + "</option>");
         }
         $("#problem-zone-selection").material_select();
 
-        var zone = privilegeObject.zones[0];
         for(var program of zone.programs){
             $("#procedure-selection").append("<option id='program_" + program.id + "' value='" + program.name + "'>" + program.name + "</option>");
             $("#program_" + program.id).data(program);
@@ -198,7 +209,9 @@ $(function() {
             }
             $("#log-selection").material_select();
         });
-    }
+    //} else if (localStorage.zone_list != null && localStorage.log_list != null){
+
+    //}
     
     // hide the language and fields
     $("#lang").hide();

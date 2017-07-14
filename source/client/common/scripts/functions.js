@@ -17,6 +17,7 @@ function isWhitespace(variable)
 // Stores in the local storage all the user profile data
 function storeUserDataInLocalStorage(userData)
 {
+    console.log(userData);
     localStorage.user_id = userData.user_id;
     localStorage.role_id = userData.role_id;
     localStorage.role_name = userData.role_name;
@@ -39,11 +40,11 @@ function storeUserDataInLocalStorage(userData)
     }
 
     if (isDefined(userData.zone_list)) {
-        localStorage.zone_list = userData.zone_list;
+        localStorage.zone_list = JSON.stringify(userData.zone_list);
     }
 
     if (isDefined(userData.log_list)) {
-        localStorage.zone_list = userData.log_list;
+        localStorage.log_list = JSON.stringify(userData.log_list);
     }
 }
 
