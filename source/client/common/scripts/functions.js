@@ -37,6 +37,14 @@ function storeUserDataInLocalStorage(userData)
     if (isDefined(userData.privileges)) {
         localStorage.privileges = JSON.stringify(userData.privileges);
     }
+
+    if (isDefined(userData.zone_list)) {
+        localStorage.zone_list = userData.zone_list;
+    }
+
+    if (isDefined(userData.log_list)) {
+        localStorage.zone_list = userData.log_list;
+    }
 }
 
 
