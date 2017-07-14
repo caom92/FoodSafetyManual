@@ -69,7 +69,7 @@ function isRequiredTextAreaValid(id) {
 function changeLanguageForSelectFields(lang) {
     switch (lang) {
         case "es":
-            $("#zone-selection__label").text("Zona Defectuosa*");
+            $("#problem-zone-selection__label").text("Zona Defectuosa*");
             $("#procedure-selection__label").text("Procedimiento Defectuoso*");
             $("#module-selection__label").text("Módulo Defectuoso*");
             $("#browser-selection__label").text("Navegador Web que usa*");
@@ -89,7 +89,7 @@ function changeLanguageForSelectFields(lang) {
         break;
             
         case "en":
-            $("#zone-selection__label").text("Defective Zone*");
+            $("#problem-zone-selection__label").text("Defective Zone*");
             $("#procedure-selection__label").text("Defective Process*");
             $("#module-selection__label").text("Defective Module*");
             $("#browser-selection__label").text("Web browser you use*");
@@ -122,10 +122,82 @@ $(function() {
     $("#user-id").val(localStorage.employee_num);
     $("#lang").val(localStorage.defaultLanguage);
 
-    if (isDefined(localStorage.zone_name)) {
-        $('#zone-selection').val(localStorage.zone_name);
+    /*if (isDefined(localStorage.zone_name)) {
+        $('#problem-zone-selection').val(localStorage.zone_name);
     } else {
-        $('#zone-selection').val('N/A');
+        $('#problem-zone-selection').val('N/A');
+    }*/
+
+    // Fill the program/module/log selects
+
+    if(localStorage.privileges != null){
+        var privilegeObject = JSON.parse(localStorage.privileges);
+
+        for(var zone of privilegeObject.zones){
+            console.log(zone.name);
+            $("#problem-zone-selection").append("<option id='zone_" + zone.id + "' value='" + zone.name + "'>" + zone.name + "</option>");
+        }
+        $("#problem-zone-selection").material_select();
+
+        var zone = privilegeObject.zones[0];
+        for(var program of zone.programs){
+            $("#procedure-selection").append("<option id='program_" + program.id + "' value='" + program.name + "'>" + program.name + "</option>");
+            $("#program_" + program.id).data(program);
+            console.log(program.name);
+            for(var module of program.modules){
+                console.log(module.name);
+                for(var log of module.logs){
+                    console.log(log.name);
+                }
+            }
+            var program = $("#procedure-selection option:selected").data();
+            $("#module-selection").html("");
+            $("#module-selection").material_select("destroy");
+            for(var module of program.modules){
+                $("#module-selection").append("<option id='module_" + module.id + "' value='" + module.name + "'>" + module.name + "</option>");
+                $("#module_" + module.id).data(module);
+            }
+            $("#module-selection").material_select();
+            var module = $("#module-selection option:selected").data();
+            $("#log-selection").html("");
+            $("#log-selection").material_select("destroy");
+            for(var log of module.logs){
+                $("#log-selection").append("<option id='log_" + log.id + "' value='" + log.name + "'>" + log.name + "</option>");
+                $("#log_" + log.id).data(log);
+            }
+            $("#log-selection").material_select();
+        }
+
+        $("#procedure-selection").change(function () {
+            var program = $("#procedure-selection option:selected").data();
+            console.log(program);
+            $("#module-selection").html("");
+            $("#module-selection").material_select("destroy");
+            for(var module of program.modules){
+                $("#module-selection").append("<option id='module_" + module.id + "' value='" + module.name + "'>" + module.name + "</option>");
+                $("#module_" + module.id).data(module);
+            }
+            $("#module-selection").material_select();
+            var module = $("#module-selection option:selected").data();
+            $("#log-selection").html("");
+            $("#log-selection").material_select("destroy");
+            for(var log of module.logs){
+                $("#log-selection").append("<option id='log_" + log.id + "' value='" + log.name + "'>" + log.name + "</option>");
+                $("#log_" + log.id).data(log);
+            }
+            $("#log-selection").material_select();
+        });
+
+        $("#module-selection").change(function () {
+            var module = $("#module-selection option:selected").data();
+            $("#log-selection").html("");
+            $("#log-selection").material_select("destroy");
+            for(var log of module.logs){
+                $("#log-selection").append("<option id='module_" + log.id + "' value='" + log.name + "'>" + log.name + "</option>");
+                $("#log_" + log.id).data(log);
+            }
+            $("#log-selection").material_select();
+        });
     }
     
     // hide the language and fields
@@ -133,7 +205,7 @@ $(function() {
     
     // change a previously invalid select field to valid when the user finally
     // selects a valid option
-    // setOnChangeListenerToRequiredSelectField("#zone-selection");
+    // setOnChangeListenerToRequiredSelectField("#problem-zone-selection");
     setOnChangeListenerToRequiredSelectField("#procedure-selection");
     setOnChangeListenerToRequiredSelectField("#module-selection");
     setOnChangeListenerToRequiredSelectField("#browser-selection");
@@ -176,7 +248,7 @@ $(function() {
         
         // check if the required select inputs have a value selected;
         // if any of those is empty, mark it on the form
-        var zoneIsValid = isRequiredTextAreaValid("#zone-selection");
+        var zoneIsValid = isRequiredTextAreaValid("#problem-zone-selection");
         var procedureIsValid = 
             isRequiredSelectFieldValid("#procedure-selection");
         var moduleIsValid = 
@@ -250,7 +322,7 @@ $(function() {
         }
     });
 
-    $('#procedure-selection').on('change', function() {
+    /*$('#procedure-selection').on('change', function() {
         $server.request({
             service: 'get-modules-of-program',
             data: {
@@ -287,7 +359,7 @@ $(function() {
                 console.log("server says: " + status + ", " + message);
 
                 // finally, initialize the select field
-                $("#zone-selection").material_select();
+                $("#problem-zone-selection").material_select();
             }
         });
     });
@@ -295,7 +367,6 @@ $(function() {
     // Retrieve the programs from the server
     $server.request({
         service: 'list-programs',
-        cache: true,
         success: function(response, message, xhr) {
             // check if the response was positive
             if (response.meta.return_code == 0) {
@@ -334,7 +405,7 @@ $(function() {
             // finally, initialize the select field
             $("#procedure-selection").material_select();
         }
-    }); 
+    }); */
 
     // change the language that is being displayed
     changeLanguage(localStorage.defaultLanguage);
