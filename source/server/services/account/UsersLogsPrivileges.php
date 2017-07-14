@@ -147,6 +147,41 @@ class UsersLogsPrivileges extends db\InsertableTable
       ]
     );
   }
+
+  // Returns the list of modules which the user with the especified ID has 
+  // access to only, ignoring all others, as an associative array and which 
+  // assigned privilege is not None
+  // [in]     userID: the ID of the user which privileges we want to 
+  //          retrieve
+  // [out]    return: an associative array if the user was found in the
+  //          database or NULL otherwise; information is organized in a
+  //          program/module/privilege fashion
+  function selectByUserIDExceptNone($userID) {
+    return parent::$dataBase->query(
+      "SELECT 
+        p.id AS program_id,
+        p.name AS program_name,
+        l.id AS log_id,
+        l.name AS log_name,
+        l.name_suffix AS log_suffix,
+        l.has_inventory AS has_inventory,
+        m.id AS module_id,
+        m.name AS module_name,
+        r.id AS privilege_id,
+        r.name AS privilege_name
+      FROM $this->table AS t
+        INNER JOIN logs AS l
+        ON l.id = t.log_id
+        INNER JOIN modules AS m
+        ON m.id = l.module_id
+        INNER JOIN programs AS p
+        ON p.id = m.program_id
+        INNER JOIN privileges AS r
+        ON r.id = t.privilege_id AND r.name != 'None'
+      WHERE t.user_id = '$userID'
+      ORDER BY p.id, m.id, l.id"
+    )->fetchAll();
+  }
 }
 
 ?>
