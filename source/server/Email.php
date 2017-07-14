@@ -1,7 +1,7 @@
 <?php
 
 // The namespace of the services of the project
-namespace fsm;
+namespace fsm\mail;
 
 // Import the configuration file
 require_once realpath(dirname(__FILE__).'/config/mail_config.php');
@@ -32,7 +32,7 @@ class Email
     function __construct($receiver, $subject, $body, $lang)
     {
         // Create a new PHPMailer instance
-        $this->mail = new \PHPMailerOAuth;
+        $this->mail = new \PHPMailer;
 
         // Indicate we are using UTF-8 character encoding
         $this->mail->CharSet = mail\CHARSET;
@@ -52,37 +52,26 @@ class Email
         // Whether to use SMTP authentication
         $this->mail->SMTPAuth = true;
 
-        // Set AuthType
-        $this->mail->AuthType = "XOAUTH2";
+        // SMTP Username
+        $this->mail->Username = mail\EMAIL;
 
-        // User Email to use for SMTP authentication
-        // Use the same Email used in Google Developer Console
-        $this->mail->oauthUserEmail = mail\OAUTH_USER_EMAIL;
-
-        // Obtained From Google Developer Console
-        $this->mail->oauthClientId = mail\OAUTH_CLIENT_ID;
-
-        // Obtained From Google Developer Console
-        $this->mail->oauthClientSecret = mail\OAUTH_CLIENT_SECRET;
-
-        // Obtained By running get_oauth_token.php after setting up APP in 
-        // Google Developer Console.
-        $this->mail->oauthRefreshToken = mail\OAUTH_REFRESH_TOKEN;
+        // SMTP Password
+        $this->mail->Password = mail\PASSWORD;
 
         // Set who the message is to be sent from
         // For gmail, this generally needs to be the same as the user you 
         // logged in as
         switch ($lang) {
             case 'en':
-                $this->mail->setFrom(mail\OAUTH_USER_EMAIL, mail\USER_NAME_EN);
+                $this->mail->setFrom(mail\EMAIL, mail\USER_NAME_EN);
             break;
 
             case 'es':
-                $this->mail->setFrom(mail\OAUTH_USER_EMAIL, mail\USER_NAME_ES);
+                $this->mail->setFrom(mail\EMAIL, mail\USER_NAME_ES);
             break;
 
             default:
-                $this->mail->setFrom(mail\OAUTH_USER_EMAIL, mail\USER_NAME_EN);
+                $this->mail->setFrom(mail\EMAIL, mail\USER_NAME_EN);
             break;
         }
 

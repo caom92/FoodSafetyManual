@@ -448,12 +448,12 @@ class ServiceProvider
           if ($isSimpleArray) {
             // obtenemos el validador que le corresponde al tipo de dato que
             // se espera que tenga cada elemento
-            $rule = $options['type'];
+            $rule = $options['values']['type'];
             $validator = self::$validationRules[$rule];
 
             // y validamos cada elemento 
             for ($i = 0; $i < $length; $i++) {
-              $validator("$name[$i]", $value[$i], $options['values']);
+              $validator($scope, "$name[$i]", $value[$i], $options['values']);
             }
           } else {
             // si el arreglo es un arreglo asociativo, debemos invocar esta
