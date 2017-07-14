@@ -299,8 +299,18 @@
     </translation>
 
     <translation id="defective_process">
-        <english>Defective Process*</english>
-        <spanish>Procedimiento Defectuoso*</spanish>
+        <english>Defective Program*</english>
+        <spanish>Programa Defectuoso*</spanish>
+    </translation>
+
+    <translation id="defective_module">
+        <english>Defective Module*</english>
+        <spanish>Módulo Defectuoso*</spanish>
+    </translation>
+
+    <translation id="defective_log">
+        <english>Defective Log*</english>
+        <spanish>Bitácora Defectuosa*</spanish>
     </translation>
 
     <translation id="web_browser">
