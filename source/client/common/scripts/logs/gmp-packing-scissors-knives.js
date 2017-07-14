@@ -25,7 +25,7 @@ function loadLogForm(htmlElement){
                 $(htmlElement).append(report.html_footer);
                 changeLanguage();
             } else {
-                Materialize.toast("Some error", 3000, "rounded");
+                Materialize.toast(response.meta.message, 3000, "rounded");
                 throw response.meta.message;
             }
         }

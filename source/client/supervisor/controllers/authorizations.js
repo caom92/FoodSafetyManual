@@ -262,7 +262,7 @@ $(function (){
                 if (response.meta.return_code == 0) {
                     localStorage.correctiveActionsSSOP = JSON.stringify(response.data);
                 } else {
-                    Materialize.toast("Some error", 3000, "rounded");
+                    Materialize.toast(response.meta.message, 3000, "rounded");
                     throw response.meta.message;
                 }
             }

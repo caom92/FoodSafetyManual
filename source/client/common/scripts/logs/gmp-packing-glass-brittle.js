@@ -23,7 +23,7 @@ function loadLogForm(htmlElement){
                 $("input").characterCounter();
                 changeLanguage();
             } else {
-                Materialize.toast("Some error", 3000, "rounded");
+                Materialize.toast(response.meta.message, 3000, "rounded");
                 throw response.meta.message;
             }
         }
@@ -48,7 +48,7 @@ function loadPrefilledLogForm(htmlElement, data){
                 changeLanguage();
                 $("input").characterCounter();
             } else {
-                Materialize.toast("Some error", 3000, "rounded");
+                Materialize.toast(response.meta.message, 3000, "rounded");
                 throw response.meta.message;
             }
         }
