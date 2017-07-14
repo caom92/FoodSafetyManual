@@ -347,7 +347,7 @@ function constructUserProfileArray($scope, $userData) {
     case 'Employee':
       // get the modules associated with this user
       $logs = $scope->daoFactory->get('UsersLogsPrivileges')
-        ->selectByUserID($userData['user_id']);
+        ->selectByUserIDExceptNone($userData['user_id']);
       
       // the rows that hold the privileges data
       $privileges = [];

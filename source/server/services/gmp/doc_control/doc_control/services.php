@@ -1,6 +1,6 @@
 <?php
 
-$doc_control = [
+$docControl = [
   'tables' => [
     'gmp\docControl\docControl\Documents' =>
       realpath(dirname(__FILE__).'/Documents.php'),
