@@ -24,6 +24,10 @@ $service = [
     'areas' => [
       'type' => 'array',
       'values' => [
+        'id' => [
+          'type' => 'int',
+          'min' => 1
+        ],
         'notes' => [
           'type' => 'string',
           'optional' => true,
@@ -72,13 +76,14 @@ $service = [
     foreach ($request['areas'] as $area) {
       // update the area log 
       $scope->daoFactory->get('gap\packing\preop\AreaLogs')
-        ->updateByCapturedLogID(
+        ->updateByCapturedLogIDAndAreaID(
           [
             'notes' => $area['notes'],
             'person_performing_sanitation' => 
               $area['person_performing_sanitation']
           ],
-          $request['report_id']
+          $request['report_id'],
+          $area['id']
         );
 
       // the for each item in the area

@@ -22,7 +22,7 @@ $service = [
 
     if (!$isAreaNameDuplicated) {
       // insert the new area
-      $id = $area->insert([
+      $id = $areas->insert([
         'zone_id' => $segment->get('zone_id'),
         'name' => $request['area_name']
       ]);
