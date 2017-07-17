@@ -14,6 +14,11 @@ class Documents extends db\ToggableItemsTable
     parent::__construct('gmp_packing_doc_control_doc_control_documents');
   }
 
+  // Retorna la lista de los documentos almacenados en la base de datos que
+  // tengan registrados el ID de zona especificado
+  function selectByZoneID($zoneID) {
+    return parent::select(['id', 'name'], ['zone_id' => $zoneID]);
+  }
 }
 
 ?>

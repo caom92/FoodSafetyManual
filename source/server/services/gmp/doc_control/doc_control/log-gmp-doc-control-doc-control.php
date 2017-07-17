@@ -10,7 +10,9 @@ $service = fsm\createLogService(
   [
     'items_name' => 'documents',
     'function' => function($scope, $segment) {
-      // TO DO
+      $segment = $scope->session->getSegment('fsm');
+      return $scope->daoFactory->get('gmp\docControl\docControl\Documents')
+        ->selectByZoneID($segment->get('zone_id'));
     }
   ]
 );
