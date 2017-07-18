@@ -104,7 +104,7 @@ $controller = new ServiceProvider(
       $zone, $server, $programs, $contact, $authorizations, $account,
       $atp, $calibration, $finishedProduct, $glass, $handWash, $preop, 
       $scissors, $thermometers, $unusualOccurrences, $selfInspection, $footers,
-      $gapPreop) {
+      $gapPreop, $docControl) {
       return new db\TableFactory(
         'fsm\database\\',
         $zone['tables'] +
