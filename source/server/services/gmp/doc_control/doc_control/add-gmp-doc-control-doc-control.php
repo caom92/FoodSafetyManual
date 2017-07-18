@@ -33,7 +33,7 @@ $service = fsm\createAddService(
     }
 
     // si el nombre esta disponible, lo agregamos a la base de datos
-    $documents->insert([
+    return $documents->insert([
       'zone_id' => $zoneID,
       'name' => $request['name']
     ]);
