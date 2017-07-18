@@ -1,5 +1,18 @@
+/*
+Form Object
+{
+    type: form,
+    id: id,
+    classes: classes,
+    name: name,
+    method: post | get
+    style: style,
+    form: form, organized by rows
+}
+*/
+
 function form(formData){
-    var form = $("<div>");
+    var form = $("<form>");
 
     if(formData.id)
         form.attr("id", formData.id);
@@ -7,20 +20,88 @@ function form(formData){
     if(formData.classes)
         form.addClass(formData.classes);
 
+    if(formData.name)
+        form.attr("name", formData.names);
+
+    if(formData.method == "post" || formData.method == "get")
+        form.attr("method", formData.method);
+
     if(formData.style)
         form.attr("style", formData.style);
 
     for(var row of formData.form.rows)
         form.append(createInputRow(row));
 
+    for(var section of formData.form.sections)
+        form.append(formSection(section));
+
     return form;
 }
 
+/*
+Form Object
+{
+    type: section,
+    opening: Section Object OR Rows Array,
+    closing: Section Object OR Rows Array,
+    rows: | section:
+}
+*/
 
-// Generic input creator
+function formSection(sectionObject) {
+    var section = $("<div>");
+
+    if(sectionObject.opening){
+        if(sectionObject.opening.type == "section"){
+            section.append(formSection(sectionObject.opening));
+        }
+        if(sectionObject.opening.type == "rows"){
+            for(var row of sectionObject.opening.rows){
+                section.append(createInputRow(row));
+            }    
+        }
+    }
+
+    if(sectionObject.rows){
+        for(var row of sectionObject.rows){
+            section.append(createInputRow(row));
+        }
+    }
+    else if(sectionObject.section){
+        section.append(formSection(sectionObject.section));
+    }
+
+    if(sectionObject.closing){
+        if(sectionObject.closing.type == "section"){
+            section.append(formSection(sectionObject.closing));
+        }
+        if(sectionObject.closing.type == "rows"){
+            for(var row of sectionObject.closing.rows){
+                section.append(createInputRow(row));
+            }    
+        }
+    }
+
+    return section;
+}
+
+/*
+Rows Object
+{
+    "type":"rows"
+    "rows":[{rowObject}, {rowObject}, {rowObject}]
+}
+*/
+
+function createInputRows(rows){
+
+}
+
+// Generic input row creator
 
 /*
 {
+    "type":"row"
     "columns":[{inputObject}, {inputObject}, {inputObject}]
 }
 */
@@ -231,6 +312,9 @@ function createTextarea(fieldObject){
     if(fieldObject.id)
         field.attr("id", fieldObject.id);
 
+    if(fieldObject.name)
+        field.attr("name", fieldObject.name);
+
     if(fieldObject.classes)
         field.attr("class", fieldObject.classes);
 
@@ -289,6 +373,9 @@ function createDateInput(fieldObject){
     if(fieldObject.id)
         field.attr("id", fieldObject.id);
 
+    if(fieldObject.name)
+        field.attr("name", fieldObject.name);
+
     if(fieldObject.classes)
         field.attr("class", fieldObject.classes);
 
@@ -345,6 +432,9 @@ function createTimeInput(fieldObject){
 
     if(fieldObject.id)
         field.attr("id", fieldObject.id);
+
+    if(fieldObject.name)
+        field.attr("name", fieldObject.name);
 
     if(fieldObject.classes)
         field.attr("class", fieldObject.classes);
@@ -411,6 +501,9 @@ function createSelect(selectObject){
 
     if(selectObject.id)
         select.attr("id", selectObject.id);
+
+    if(selectObject.name)
+        select.attr("name", selectObject.name);
 
     if(selectObject.classes)
         select.addClass(selectObject.classes);
@@ -586,6 +679,9 @@ function createCheckbox(checkboxObject){
     if(checkboxObject.id)
         checkbox.attr("id", checkboxObject.id);
 
+    if(checkboxObject.name)
+        checkbox.attr("name", checkboxObject.name);
+
     if(checkboxObject.classes)
         checkbox.addClass(checkboxObject.classes);
 
@@ -635,6 +731,9 @@ function createSwitch(switchObject){
 
     if(switchObject.id)
         switchInput.attr("id", switchObject.id);
+
+    if(switchObject.name)
+        switchInput.attr("name", switchObject.name);
 
     if(switchObject.classes)
         switchInput.addClass(switchObject.classes);
@@ -774,6 +873,7 @@ function createFileInput(fileObject){
     buttonWrapper.addClass("btn");
     buttonText.addClass(fileObject.classes);
     buttonInput.attr("type", "file");
+
     if(fileObject.name)
         buttonInput.attr("name", fileObject.name);
     //buttonInput.attr("id", fileObject.id);
@@ -862,6 +962,9 @@ function createButton(buttonObject){
     if(buttonObject.id)
         button.attr("id", buttonObject.id);
 
+    if(buttonObject.name)
+        button.attr("name", buttonObject.name);
+
     if(buttonObject.classes)
         buttonText.addClass(buttonObject.classes);
 
@@ -897,6 +1000,9 @@ function createFloatingButton(buttonObject){
 
     if(buttonObject.id)
         floatingButton.attr("id", buttonObject.id);
+
+    if(buttonObject.name)
+        floatingButton.attr("name", buttonObject.name);
 
     if(buttonObject.classes)
         floatingButton.addClass(buttonObject.classes);
