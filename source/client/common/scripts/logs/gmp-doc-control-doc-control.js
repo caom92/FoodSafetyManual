@@ -285,8 +285,8 @@ function gmpPackingDocRegistryItem(item, registerNumber){
 
 function gmpPackingDocRegistryHiddenID(item, registerNumber){
     var idLabel = {"type":"label","contents":{"type":"text"}};
-    var idInput = {"type":"text","id":"id_" + item.id,"name":"documents[" + item.no + "][id]","classes":"validate","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
-    var idFullInput = {"id":"dateWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":idInput,"label":idLabel};
+    var idInput = {"type":"input","id":"id_" + item.id,"name":"documents[" + item.no + "][id]","classes":"validate","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
+    var idFullInput = {"id":"idWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":idInput,"label":idLabel};
 
     if(item.id){
         idInput.value = item.id;
