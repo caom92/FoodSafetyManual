@@ -250,7 +250,7 @@ def createCaptureServiceFile(inputFile, servicesFile):
     if inputFile['services']['capture']['extra_info'] is None:
       outputFile.write(
         "  [\n"
-        "    'extra_info' => NULL\n,"
+        "    'extra_info' => NULL,\n"
         "    'function' => function($scope, $segment, $request, $logID) {\n"
         "      // TO DO\n"
         "    }\n"
@@ -569,7 +569,7 @@ def createUpdateServiceFile(inputFile, servicesFile):
     if inputFile['services']['capture']['extra_info'] is None:
       outputFile.write(
         "  [\n"
-        "    'extra_info' => NULL\n,"
+        "    'extra_info' => NULL,\n"
         "    'function' => function($scope, $request) {\n"
         "      // TO DO\n"
         "    }\n"

@@ -20,7 +20,7 @@ $service = [
     );
     $fileName = 
       "{$request['supervisor_id']}_" 
-      . date('Y-m-d_H-i-s') 
+      . date('Y-m-d_H:i:s') 
       . "{$format}";
 
     // if it was, compute the full directory path where the file

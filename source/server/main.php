@@ -125,6 +125,7 @@ $controller = new ServiceProvider(
         $selfInspection['tables'] +
         $footers['tables'] +
         $gapPreop['tables'] +
+        $docControl['tables'] +
         [
           'Shifts' =>
             realpath(dirname(__FILE__).'/services/Shifts.php'),
@@ -155,7 +156,8 @@ $controller = new ServiceProvider(
       $selfInspection['services'] +
       $footers['services'] +
       $gapPreop['services'] +
-      $signatures['services']
+      $signatures['services'] +
+      $docControl['services']
   ]
 );
 

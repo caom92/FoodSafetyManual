@@ -42,9 +42,15 @@ class AreaLogs extends db\LogTable
   //        van a ser añadidos en la tabla organizados por columnas
   // [in]   logID (uint): el ID de fecha de captura cuyo renglon en la tabla
   //        va a ser modificado
+  // [in]   areaID (uint): el ID del area cuyo renglon queremos actualizar 
   // [out]  return (uint): el numero de renglones que fueron modificados
-  function updateByCapturedLogID($changes, $logID) {
-      return parent::update($changes, ['capture_date_id' => $logID]);
+  function updateByCapturedLogIDAndAreaID($changes, $logID, $areaID) {
+      return parent::update($changes, [
+        'AND' => [
+          'capture_date_id' => $logID,
+          'area_id' => $areaID
+        ]
+      ]);
   }
 }
 

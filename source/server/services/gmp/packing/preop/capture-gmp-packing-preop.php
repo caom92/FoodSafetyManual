@@ -11,6 +11,10 @@ $service = fsm\createCaptureService(
     'areas' => [
       'type' => 'array',
       'values' => [
+        'id' => [
+          'type' => 'int',
+          'min' => 1
+        ],
         'time' => [
           'type' => 'datetime',
           'format' => 'G:i'
@@ -65,6 +69,7 @@ $service = fsm\createCaptureService(
         $areaID = $scope->daoFactory->get('gmp\packing\preop\AreaLogs')
           ->insert([
             'capture_date_id' => $logID,
+            'area_id' => $areaLogEntry['id'],
             'time' => $areaLogEntry['time'],
             'notes' => $areaLogEntry['notes'],
             'person_performing_sanitation' =>

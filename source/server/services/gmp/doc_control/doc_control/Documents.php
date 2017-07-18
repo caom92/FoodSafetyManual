@@ -15,9 +15,18 @@ class Documents extends db\ToggableItemsTable
   }
 
   // Retorna la lista de los documentos almacenados en la base de datos que
+  // tengan registrados el ID de zona especificado y que cuyo estado sea activo
+  function selectActiveByZoneID($zoneID) {
+    return parent::select(['id', 'name'], [ 'AND' => [
+      'zone_id' => $zoneID,
+      'is_active' => TRUE
+    ]]);
+  }
+
+  // Retorna la lista de los documentos almacenados en la base de datos que
   // tengan registrados el ID de zona especificado
   function selectByZoneID($zoneID) {
-    return parent::select(['id', 'name'], ['zone_id' => $zoneID]);
+    return parent::select('*', [ 'zone_id' => $zoneID ]);
   }
 }
 

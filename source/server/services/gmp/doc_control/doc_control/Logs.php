@@ -22,6 +22,46 @@ class Logs extends db\LogTable
   //        de la tabla que tengan asignado el ID especificado organizados en
   //        renglones y columnas
   function selectByCaptureDateID($dateID) {
+    return parent::select(
+      [
+        'document_id',
+        'd.name(document_name)',
+        'document_employee',
+        'document_date',
+        'notes',
+        'additional_info_url',
+        'picture1',
+        'picture2'
+      ],
+      [
+        'capture_date_id' => $dateID,
+        'ORDER' => [
+          'document_id'
+        ]
+      ],
+      [
+        '[><]gmp_doc_control_doc_control_documents' => [
+          'id' => 'document_id'
+        ]
+      ]
+    );
+  }
+
+  // Modifica los datos registrados en la tabla que tengan el ID de fecha de 
+  // captura y ID de documento especificados
+  // [in]   changes (dictionary): arreglo asociativo que contiene los datos que 
+  //        van a ser añadidos en la tabla organizados por columnas
+  // [in]   dateID (uint): el ID de fecha de captura cuyo renglon en la tabla
+  //        va a ser modificado
+  // [in]   docID (uint): el ID del documento cuyos registros van a ser 
+  //        modificados
+  function updateByCaptureDateIDAndDocumentID($changes, $dateID, $docID) {
+    return parent::update(
+      $changes, [ 'AND' => [
+        'capture_date_id' => $dateID,
+        'document_id' => $docID
+      ]]
+    );
   }
 }
 
