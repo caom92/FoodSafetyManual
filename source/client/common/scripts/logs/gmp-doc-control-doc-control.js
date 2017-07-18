@@ -16,6 +16,7 @@ function loadLogForm(htmlElement){
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name, "id":"log_name"}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":getISODate(new Date())},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":localStorage.first_name + " " + localStorage.last_name}]}]};
                 $(htmlElement).append(logHeader(header));
                 gmpPackingDocRegistryForm(report.documents, htmlElement, false);
+                dateActivator();
                 loadFunctionality({"isPrefilled":false});
                 $("#send_report").click(function(){
                     $(this).attr("disabled", true);
@@ -104,6 +105,10 @@ function validateLog(){
 
 function specialClearLog(){
     return;
+}
+
+function dateActivator(){
+    $(".datepicker").pickadate();;
 }
 
 /******************************************************************************
@@ -250,7 +255,7 @@ function sendButton(){
 
 function gmpPackingDocRegistryDate(date){
     var dataLabel = {"type":"label","contents":{"type":"text","classes":"date_name"}};
-    var dataInput = {"type":"date","id":"report_date","name":"date","classes":"validate","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
+    var dataInput = {"type":"date","id":"report_date","name":"date","classes":"validate datepicker","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
     var dataFullInput = {"id":"reportDateWrapper","classes":"input-field col s12 m12 l12","field":dataInput,"label":dataLabel};
 
     if(date){
@@ -280,7 +285,7 @@ function gmpPackingDocRegistryItem(item, registerNumber){
 
 function gmpPackingDocRegistryHiddenID(item, registerNumber){
     var idLabel = {"type":"label","contents":{"type":"text"}};
-    var idInput = {"type":"date","id":"id_" + item.id,"name":"documents[" + item.no + "][id]","classes":"validate","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
+    var idInput = {"type":"text","id":"id_" + item.id,"name":"documents[" + item.no + "][id]","classes":"validate","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
     var idFullInput = {"id":"dateWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":idInput,"label":idLabel};
 
     if(item.id){
@@ -300,7 +305,7 @@ function gmpPackingDocRegistryTitle(item, registerNumber){
 
 function gmpPackingDocRegistryItemDate(item, registerNumber){
     var dataLabel = {"type":"label","contents":{"type":"text","classes":"date_name"}};
-    var dataInput = {"type":"date","id":"data_" + item.id,"name":"documents[" + item.no + "][entries][" + registerNumber + "][date]","classes":"validate","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
+    var dataInput = {"type":"date","id":"data_" + item.id,"name":"documents[" + item.no + "][entries][" + registerNumber + "][date]","classes":"validate datepicker","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
     var dataFullInput = {"id":"dateWrapper_" + item.id,"classes":"input-field col s6 m6 l6","field":dataInput,"label":dataLabel};
 
     if(item.date){
@@ -424,6 +429,7 @@ function gmpPackingDocControlFunctionality(data){
             $("#document_registry_form").append(formSection(gmpPackingDocRegistryItem(tempObject, 0)));
             $("option[value='" + $("#productionArea").val() + "']").prop("disabled", true);
             gmpPackingAtpTestingAddDelTestsFunctionality(data);
+            dateActivator();
             changeLanguage();
             //loadToast("new-atp-area-add", 2500, "rounded", null, null, [$("#newAreaInput").val()]);
             /*if($("#productionArea").val() == "0"){
