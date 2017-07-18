@@ -7,7 +7,7 @@ $service = fsm\createToggleService(
   'GMP',
   'Document Control',
   'Document Control',
-  'gmp\docControl\docControl\Items'
+  'gmp\docControl\docControl\Documents'
 );
 
 ?>
