@@ -682,7 +682,7 @@ def createAuthorizationReportServiceFile(inputFile, servicesFile):
 
   # Agregamos el archivo del servicio a nuestro archivo conglomerado
   servicesFile.write(
-    "    'report-" + inputFile['suffix'] + "' =>\n"
+    "    'authorization-report-" + inputFile['suffix'] + "' =>\n"
     "      realpath(dirname(__FILE__).'/authorization-report-" 
     + inputFile['suffix'] + ".php'),\n"
   )

@@ -24,7 +24,7 @@ $docControl = [
       realpath(dirname(__FILE__).'/toggle-gmp-doc-control-doc-control.php'),
     'update-gmp-doc-control-doc-control' =>
       realpath(dirname(__FILE__).'/update-gmp-doc-control-doc-control.php'),
-    'report-gmp-doc-control-doc-control' =>
+    'authorization-report-gmp-doc-control-doc-control' =>
       realpath(dirname(__FILE__).'/authorization-report-gmp-doc-control-doc-control.php'),
   ]
 ];
