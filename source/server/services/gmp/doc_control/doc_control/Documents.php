@@ -28,6 +28,17 @@ class Documents extends db\ToggableItemsTable
   function selectByZoneID($zoneID) {
     return parent::select('*', [ 'zone_id' => $zoneID ]);
   }
+
+  // Retorna verdadero si la combinacion especificada de nombre y ID de zona
+  // ya existe en la base de datos o falso en caso contrario
+  function hasByNameAndZoneID($name, $zoneID) {
+    return parent::has([
+      'AND' => [
+        'name' => $name,
+        'zone_id' => $zoneID
+      ]
+    ]);
+  }
 }
 
 ?>
