@@ -49,7 +49,8 @@ class Logs extends db\InsertableTable
   // [out]  return (uint): el numero de renglones que fueron modificados
   function updateByCapturedLogIDAndArea($testNum, $changes, $logID, $area) {
     $test1 = ($changes['was_test1_passed']) ? '1' : '0';
-    $test2 = ($changes['was_test2_passed']) ? '1' : '0';
+    $test2 = ($changes['was_test2_passed']) ? 
+      $changes['was_test2_passed'] : 'NULL';
 
     return parent::$dataBase->query(
       "UPDATE 
