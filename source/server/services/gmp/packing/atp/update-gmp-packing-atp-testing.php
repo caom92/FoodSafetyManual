@@ -75,7 +75,7 @@ $service = fsm\createUpdateService(
                 'was_test1_passed' => $item['results1'],
                 'corrective_action' => (isset($item['corrective_action'])) ? 
                   $item['corrective_action'] : NULL,
-                'test2' => (isset($item['test2'])) ? $item['test2'] : NULL,
+                'test2' => (isset($item['test2'])) ? $item['test2'] : 'NULL',
                 'was_test2_passed' => (isset($item['results2'])) ? 
                   $item['results2'] : NULL
               ],
