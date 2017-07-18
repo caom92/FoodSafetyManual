@@ -3,7 +3,7 @@
 $service = [
   'requirements_desc' => [
     'logged_in' => 'any',
-    'zone-selection' => [
+    'problem-zone-selection' => [
       'type' => 'string',
       'length' => 3
     ],
@@ -41,19 +41,16 @@ $service = [
     ],
     'steps' => [
       'type' => 'string',
-      'min_length' => 1,
       'max_length' => 65535,
       'optional' => true
     ],
     'expectation' => [
       'type' => 'string',
-      'min_length' => 1,
       'max_length' => 65535,
       'optional' => true
     ],
     'reality' => [
       'type' => 'string',
-      'min_length' => 1,
       'max_length' => 65535,
       'optional' => true
     ],
@@ -62,10 +59,10 @@ $service = [
       'optional' => true,
       'format' => 'bitmap'
     ],
-    'lang' => [
-      'type' => 'string',
-      'length' => 2
-    ]
+    // 'lang' => [
+    //   'type' => 'string',
+    //   'length' => 2
+    // ]
   ],
   'callback' => function($scope, $request) {
     include_once realpath(dirname(__FILE__).'/../../Email.php');
@@ -86,7 +83,7 @@ $service = [
     // Create the email body by pasting all the posted data into it
     $body = "Usuario: " . $segment->get("login-name") . "<br>"
       . "ID de empleado: " . $segment->get("user_id") . "<br>"
-      . "Zona: " . $request["zone-selection"] . "<br>"
+      . "Zona: " . $request["problem-zone-selection"] . "<br>"
       . "Programa: " . $request["procedure-selection"] . "<br>"
       . "Modulo: " . $request['module-selection'] . '<br>'
       . "<br>"

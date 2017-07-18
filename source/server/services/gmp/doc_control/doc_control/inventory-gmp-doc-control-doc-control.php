@@ -13,7 +13,7 @@ $service = fsm\createInventoryService(
   function($scope, $request) {
     $segment = $scope->session->getSegment('fsm');
     return $scope->daoFactory->get('gmp\docControl\docControl\Documents')
-      ->selectByZoneID($segment['zone_id']);
+      ->selectByZoneID($segment->get('zone_id'));
   }
 );
 

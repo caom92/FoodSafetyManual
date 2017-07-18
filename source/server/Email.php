@@ -53,25 +53,25 @@ class Email
         $this->mail->SMTPAuth = true;
 
         // SMTP Username
-        $this->mail->Username = mail\EMAIL;
+        $this->mail->Username = mail\SENDER_EMAIL;
 
         // SMTP Password
-        $this->mail->Password = mail\PASSWORD;
+        $this->mail->Password = mail\SENDER_PASSWORD;
 
         // Set who the message is to be sent from
         // For gmail, this generally needs to be the same as the user you 
         // logged in as
         switch ($lang) {
             case 'en':
-                $this->mail->setFrom(mail\EMAIL, mail\USER_NAME_EN);
+                $this->mail->setFrom(mail\SENDER_EMAIL, mail\USER_NAME_EN);
             break;
 
             case 'es':
-                $this->mail->setFrom(mail\EMAIL, mail\USER_NAME_ES);
+                $this->mail->setFrom(mail\SENDER_EMAIL, mail\USER_NAME_ES);
             break;
 
             default:
-                $this->mail->setFrom(mail\EMAIL, mail\USER_NAME_EN);
+                $this->mail->setFrom(mail\SENDER_EMAIL, mail\USER_NAME_EN);
             break;
         }
 
