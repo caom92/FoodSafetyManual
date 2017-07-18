@@ -137,6 +137,7 @@ function sendGmpPackingHandWashingReport(){
                 if (response.meta.return_code == 0) {
                     Materialize.toast("Reporte enviado con exito", 3000, "rounded");
                     clearLog();
+                    $('ul.tabs').tabs('select_tab', 'manual_tab');
                 } else {
                     Materialize.toast(response.meta.message, 3000, "rounded");
                 }

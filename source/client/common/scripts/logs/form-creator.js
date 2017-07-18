@@ -21,7 +21,13 @@ function createForm(formData){
         form.addClass(formData.classes);
 
     if(formData.name)
-        form.attr("name", formData.names);
+        form.attr("name", formData.name);
+
+    if(formData.action)
+        form.attr("action", formData.action);
+
+    if(formData.enctype)
+        form.attr("enctype", formData.enctype);
 
     if(formData.method == "post" || formData.method == "get")
         form.attr("method", formData.method);
@@ -885,6 +891,9 @@ function createFileInput(fileObject){
     buttonWrapper.addClass("btn");
     buttonText.addClass(fileObject.classes);
     buttonInput.attr("type", "file");
+
+    if(fileObject.multiple === true)
+        buttonInput.prop("multiple", true);
 
     if(fileObject.name)
         buttonInput.attr("name", fileObject.name);

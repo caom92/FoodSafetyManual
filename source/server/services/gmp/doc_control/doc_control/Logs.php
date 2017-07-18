@@ -11,7 +11,7 @@ class Logs extends db\LogTable
   // Crea una instancia de una interfaz a la base de datos para modificar 
   // la tabla gmp_packing_doc_control_doc_control_logs
   function __construct() { 
-    parent::__construct('gmp_packing_doc_control_doc_control_logs');
+    parent::__construct('gmp_doc_control_doc_control_logs');
   }
 
   // Retorna una lista de todos los renglones en la tabla que tengan asignado
