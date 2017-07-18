@@ -11,7 +11,7 @@ Form Object
 }
 */
 
-function form(formData){
+function createForm(formData){
     var form = $("<form>");
 
     if(formData.id)
@@ -29,11 +29,17 @@ function form(formData){
     if(formData.style)
         form.attr("style", formData.style);
 
-    for(var row of formData.form.rows)
-        form.append(createInputRow(row));
-
-    for(var section of formData.form.sections)
-        form.append(formSection(section));
+    if(formData.form){
+        if(formData.form.rows){
+            for(var row of formData.form.rows){
+                form.append(createInputRow(row));
+            }
+        } else if (formData.form.sections){
+            for(var section of formData.form.sections){
+                form.append(formSection(section));
+            }
+        }
+    }
 
     return form;
 }
@@ -50,6 +56,12 @@ Form Object
 
 function formSection(sectionObject) {
     var section = $("<div>");
+
+    if(sectionObject.classes)
+        section.addClass(sectionObject.classes);
+
+    if(sectionObject.id)
+        section.attr("id", sectionObject.id);
 
     if(sectionObject.opening){
         if(sectionObject.opening.type == "section"){
@@ -860,7 +872,7 @@ File Object description
 */
 
 function createFileInput(fileObject){
-    var formWrapper = $("<form>");
+    //var formWrapper = $("<form>");
     var fileInputWrapper = $("<div>");
     var buttonWrapper = $("<div>");
     var buttonText = $("<span>");
@@ -890,7 +902,7 @@ function createFileInput(fileObject){
     fileInputWrapper.append(buttonWrapper);
     fileInputWrapper.append(pathWrapper);
 
-    formWrapper.attr("id", fileObject.id);
+    /*formWrapper.attr("id", fileObject.id);
     formWrapper.attr("enctype", "multipart/form-data");
     formWrapper.append(fileInputWrapper);
 
@@ -898,9 +910,9 @@ function createFileInput(fileObject){
         for(var field of fileObject.additional_fields){
             formWrapper.append(createField(field));
         }
-    }
+    }*/
 
-    return formWrapper;
+    return fileInputWrapper;
 
     /*<div class="file-field input-field">
         <div class="btn">
