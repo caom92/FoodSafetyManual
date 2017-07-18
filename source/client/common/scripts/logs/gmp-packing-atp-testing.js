@@ -178,7 +178,7 @@ function updateGmpPackingAtpTestingReport(reportID){
             var areaID = $(this).data("id");
             console.log("ID de area: " + areaID);
             area.name = $("#area_name_" + areaID).val();
-            area.time = $("#time_" + area.id).val();
+            area.time = $("#time_" + areaID).val();
             area.items = new Array();
             $(this).find(".item-card").each(function(){
                 var item = new Object();
@@ -225,10 +225,12 @@ function gmpPackingAtpTestingLog(data, htmlElement, isPrefilled){
     var areaAddWrapper = $("<div>");
     var buttonRow = $("<div>");
 
+    var areaID = 1;
     if(data.entries){
         for(var area in data.entries){
-            console.log(data.entries[area]);
-            areasCard.append(gmpPackingAtpTestingArea(data.entries[area]));
+            var tempArea = data.entries[area];
+            tempArea.id = areaID++;
+            areasCard.append(gmpPackingAtpTestingArea(tempArea));
         }
     }
 
@@ -250,8 +252,11 @@ function gmpPackingAtpTestingLog(data, htmlElement, isPrefilled){
 
     //if(data.areas)
 
-    log.append(areaAddWrapper);
     log.append(areasCard);
+
+    if(isPrefilled == false)
+        log.append(areaAddWrapper);
+    
     log.append(additionalData);
     
     buttonRow.attr("id", "button_row");
