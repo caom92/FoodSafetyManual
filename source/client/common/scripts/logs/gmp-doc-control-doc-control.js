@@ -360,7 +360,7 @@ function gmpPackingDocRegistryItemUrl(item, registerNumber){
 }
 
 function gmpPackingDocRegistryItemFile(item, registerNumber){
-    var logoField = {"type":"file","id":"log_files_" + item.id,"classes":"select_logo_button","name":"documents[" + item.no + "][entries][" + registerNumber + "][pictures][]","multiple":true};
+    var logoField = {"type":"file","id":"log_files_" + item.id,"classes":"select_logo_button","name":"pictures[" + item.no + "][" + registerNumber + "][]","multiple":true};
     var logoInput = {"id":"filesWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":logoField};
 
     return logoInput;
