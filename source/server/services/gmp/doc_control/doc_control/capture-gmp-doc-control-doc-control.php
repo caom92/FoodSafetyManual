@@ -107,10 +107,17 @@ $service = fsm\createCaptureService(
               // generamos el nombre del archivo
               $fileName = "{$logID}_" . date('Y-m-d_H:i:s') . "_$k$format";
 
+              $s = NULL;
+              if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+                $s = '\\';
+              } else {
+                $s = '/';
+              }
+
               // y movemos el archivo al directorio donde sera almacenado
               $wasMoveSuccessful = move_uploaded_file(
                 $_FILES['documents']['tmp_name'][$i]['entries'][$j]['pictures'][$k], 
-                $uploadDir . "/$fileName"
+                $uploadDir . "$s$fileName"
               );
 
               // revisamos si el archivo se almaceno con exito, lanzando una

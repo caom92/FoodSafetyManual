@@ -23,10 +23,17 @@ $service = [
       . date('Y-m-d_H:i:s') 
       . "{$format}";
 
+    $s = NULL;
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+      $s = '\\';
+    } else {
+      $s = '/';
+    }
+
     // if it was, compute the full directory path where the file
     // will be stored
     $uploadDir = realpath(
-      dirname(__FILE__)."/../../../../data/signatures") . "/{$fileName}";
+      dirname(__FILE__)."/../../../../data/signatures") . "$s$fileName";
 
     // finally save the uploaded file as the current manual file
     $wasMoveSuccessful = move_uploaded_file(
