@@ -60,7 +60,9 @@ $service = fsm\createCaptureService(
       $logData = [];
 
       // visitamos cada entrada enviada por el usuario
+      $i = 0;
       foreach ($request['documents'] as $document) {
+        $j = 0;
         foreach ($document['entries'] as $entry) {
           // preparamos los datos que van a ser ingresados en la BD
           $data = [
@@ -80,32 +82,34 @@ $service = fsm\createCaptureService(
           ];
 
           // revisamos si el usuario envio imagenes
+          // echo var_dump($_FILES);
           $werePicturesUploaded = 
-            isset($_FILES['pictures']) && array_key_exists('pictures', $_FILES);
+            isset($_FILES['documents']) 
+            && array_key_exists('documents', $_FILES);
 
           // si asi fue, hay que guardarlas en el servidor
           if ($werePicturesUploaded) {
             // primero generamos la direccion donde van a almacenarse las 
             // imagenes
             $uploadDir = realpath(
-              dirname(__FILE__)."/../../../data/images/".
-              "gmp/packing/doc_control/"
+              dirname(__FILE__)."/../../../../../../data/images/".
+              "gmp/doc_control/doc_control/"
             );
 
             // luego visitamos cada imagen
-            for ($i = 0; $i < count($_FILES['pictures']); ++$i) {
+            for ($k = 0; $k < count($_FILES['documents']['name'][$i]['entries'][$j]['pictures']); ++$k) {
               // obtenemos el formato del archivo
-              $format = substr(
-                $_FILES['pictures']['name'][$i], 
-                strpos($_FILES['pictures']['name'][$i], '.')
-              );
+              $originalFileName = 
+                $_FILES['documents']['name'][$i]['entries'][$j]['pictures'][$k];
+              $format = 
+                substr($originalFileName, strpos($originalFileName, '.'));
 
               // generamos el nombre del archivo
-              $fileName = "$logID_" . date('Y-m-d_H:i:s') . "_$i.$format";
+              $fileName = "{$logID}_" . date('Y-m-d_H:i:s') . "_$k$format";
 
               // y movemos el archivo al directorio donde sera almacenado
               $wasMoveSuccessful = move_uploaded_file(
-                $_FILES['pictures']['tmp_name'][$i], 
+                $_FILES['documents']['tmp_name'][$i]['entries'][$j]['pictures'][$k], 
                 $uploadDir . "/$fileName"
               );
 
@@ -113,21 +117,22 @@ $service = fsm\createCaptureService(
               // excepcion si no fue asi
               if (!$wasMoveSuccessful) {
                 throw new \Exception(
-                  'The file '.$_FILES['pictures']['name'][$i].
-                  ' could not be uploaded.'
+                  "The file '{$originalFileName}' could not be uploaded."
                 );
               }
 
               // por ultimo, guardamos el nombre del archivo subido en la 
               // estructura de datos con los datos a guardar en la tabla
-              $data['picture' . ($i + 1)] = $fileName;
-            }
-          }
+              $data['picture' . ($k + 1)] = $fileName;
+            } // for ($k = 0; $k < count($_FILES['pictures']); ++$k)
+          } // if ($werePicturesUploaded)
 
           // guardamos los datos a subir en el conglomerado
           array_push($logData, $data);
-        }
-      }
+          ++$j;
+        } // foreach ($document['entries'] as $entry)
+        ++$i;
+      } // foreach ($request['documents'] as $document)
 
       // finalmente, ingresamos los datos en la tabla
       $logs->insert($logData);

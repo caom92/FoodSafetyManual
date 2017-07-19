@@ -29,7 +29,7 @@ $service = [
     // depending on the current role and the rol that the user will change to 
     // we must make a different set of validations
 
-    if ($isCurrentlyEmployee) {
+    if ($isCurrentlyEmployee && !$willBecomeEmployee) {
       // if the user is currently an employee, no matter to which role she will
       // change, her relationship with her supervisor must be deleted
       $supervisorsEmployees->deleteByEmployeeID($request['user_id']);
