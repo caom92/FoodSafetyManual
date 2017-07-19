@@ -45,11 +45,13 @@ function loadPrefilledLogForm(htmlElement, data){
         data: data,
         success: function(response) {
             if (response.meta.return_code == 0) {
+                console.log(response);
                 $(htmlElement).html("");
                 var report = response.data;
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":report.creation_date},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":report.created_by}]}]};
                 $(htmlElement).append(logHeader(header));
-                gmpPackingDocControlLog(report, htmlElement, true);
+                gmpPackingDocRegistryForm(report.documents, htmlElement, true);
+                dateActivator();
                 loadFunctionality({"isPrefilled":true});
                 $("#send_report").click(function(){
                     $(this).attr("disabled", true);
@@ -122,14 +124,6 @@ are going to divide them into full log, area log and individual item log.
 ******************************************************************************/
 
 function sendGmpPackingDocControlReport(){
-    var report = new Object();
-
-    report.user_id = localStorage.user_id;
-    report.date = getISODate(new Date());
-    report.notes = $("#report_comment").val();
-    report.album_url = $("#report_url").val();
-    report.areas = new Array();
-
     if(validateLog()){
         var formData = new FormData($('#document_registry_form')[0]);
 
@@ -141,7 +135,6 @@ function sendGmpPackingDocControlReport(){
             success: function(response){
                 if (response.meta.return_code == 0) {
                     Materialize.toast("Reporte enviado con exito", 3000, "rounded");
-                    //clearLog();
                     $('ul.tabs').tabs('select_tab', 'manual_tab');
                 } else {
                     Materialize.toast(response.meta.message, 3000, "rounded");
@@ -159,15 +152,8 @@ function sendGmpPackingDocControlReport(){
 }
 
 function updateGmpPackingDocControlReport(reportID){
-    var report = new Object();
-
-    report.report_id = reportID;
-    report.notes = $("#report_comment").val();
-    report.album_url = $("#report_url").val();
-    report.areas = new Array();
-
     if(validateLog()){
-        $(".area-card").each(function(){
+        /*$(".area-card").each(function(){
             var area = new Object();
             var areaID = $(this).data("id");
             area.id = areaID;
@@ -190,11 +176,15 @@ function updateGmpPackingDocControlReport(reportID){
                 area.items.push(item);
             });
             report.areas.push(area);
-        });
+        });*/
+
+        var formData = new FormData($('#document_registry_form')[0]);
+
+        formData.append("report_id", reportID);
 
         $server.request({
             service: 'update-gmp-doc-control-doc-control',
-            data: report,
+            data: formData,
             success: function(response){
                 if (response.meta.return_code == 0) {
                     Materialize.toast("Reporte enviado con exito", 3000, "rounded");
@@ -220,19 +210,23 @@ function gmpPackingDocRegistryForm(data, htmlElement, isPrefilled){
     var buttonRow = $("<div>");
     var controlsRow = $("<div>");
 
-    controlsRow.addClass("card-panel white");
+    if(!(isPrefilled === true)){
+        controlsRow.addClass("card-panel white");
+        $(controlsRow).append(createInputRow(gmpPackingAtpTestingAreaControls(data)));
+    }
 
-    $(controlsRow).append(createInputRow(gmpPackingAtpTestingAreaControls(data)));
     $(htmlElement).append(controlsRow);
 
     form.form.sections.push({"type":"section","rows":[{"type":"row","columns":[gmpPackingDocRegistryDate(getISODate(new Date()))]}]});
 
-    /*var entryNumber = 0;
-    for(var log of data){
-        log.no = entryNumber++;
-        console.log(log);
-        form.form.sections.push(gmpPackingDocRegistryItem(log));
-    }*/
+    if(isPrefilled === true){
+        var entryNumber = 0;
+        for(var log of data){
+            log.no = entryNumber;
+            console.log(log);
+            form.form.sections.push(gmpPackingDocRegistryItem(log, entryNumber++));
+        }
+    }
 
     $(htmlElement).append(createForm(form));
 
@@ -260,7 +254,7 @@ function sendButton(){
 function gmpPackingDocRegistryDate(date){
     var dataLabel = {"type":"label","contents":{"type":"text","classes":"date_name"}};
     var dataInput = {"type":"date","id":"report_date","name":"date","classes":"validate pickadate","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
-    var dataFullInput = {"id":"reportDateWrapper","classes":"input-field col s12 m12 l12","field":dataInput,"label":dataLabel};
+    var dataFullInput = {"id":"reportDateWrapper","classes":"input-field col s12 m12 l12","field":dataInput,"label":dataLabel,"hidden":true};
 
     if(date){
         dataInput.value = date;
@@ -286,34 +280,47 @@ function gmpPackingDocRegistryItem(item, registerNumber){
     controlsSection.rows.push(controlsRow);
 
     documentItem.sections.push(identitySection);
-    documentItem.sections.push(gmpPackingDocRegistryItemEntry(item, registerNumber));
+
+    if(item.entries){
+        var entryNumber = 0;
+        for(var entry of item.entries){
+            entry.id = item.id;
+            entry.no = registerNumber;
+            documentItem.sections.push(gmpPackingDocRegistryItemEntry(entry, entryNumber++, true));
+        }
+    } else {
+        documentItem.sections.push(gmpPackingDocRegistryItemEntry(item, registerNumber));
+    }
     documentItem.sections.push(controlsSection);
 
     return documentItem;
 }
 
-function gmpPackingDocRegistryItemEntry(item, registerNumber){
+function gmpPackingDocRegistryItemEntry(item, registerNumber, isPrefilled){
     var entrySection = {"type":"section","id":"entryWrapper_" + item.id + "_" + registerNumber,"classes":"card-panel white","rows":[]};
 
     var employeeRow = {"type":"row","columns":[]};
     var dataRow = {"type":"row","columns":[]};
-    var filesRow = {"type":"row","columns":[]};
 
     employeeRow.columns = [gmpPackingDocRegistryItemDate(item, registerNumber), gmpPackingDocRegistryItemUser(item, registerNumber)];
     dataRow.columns = [gmpPackingDocRegistryItemData(item, registerNumber), gmpPackingDocRegistryItemUrl(item, registerNumber)];
-    filesRow.columns = [gmpPackingDocRegistryItemFile(item, registerNumber)];
 
     entrySection.rows.push(employeeRow);
     entrySection.rows.push(dataRow);
-    entrySection.rows.push(filesRow);
+
+    if(!(isPrefilled === true)){
+        var filesRow = {"type":"row","columns":[]};
+        filesRow.columns = [gmpPackingDocRegistryItemFile(item, registerNumber)];
+        entrySection.rows.push(filesRow);
+    }
 
     return entrySection;
 }
 
 function gmpPackingDocRegistryHiddenID(item, registerNumber){
     var idLabel = {"type":"label","contents":{"type":"text"}};
-    var idInput = {"type":"input","id":"id_" + item.id,"name":"documents[" + item.no + "][id]","classes":"validate","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
-    var idFullInput = {"id":"idWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":idInput,"label":idLabel,"hidden":true};
+    var idInput = {"type":"input","id":"id_" + item.id + "_" + registerNumber,"name":"documents[" + item.no + "][id]","classes":"validate","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
+    var idFullInput = {"id":"idWrapper_" + item.id + "_" + registerNumber,"classes":"input-field col s12 m12 l12","field":idInput,"label":idLabel,"hidden":true};
 
     if(item.id){
         idInput.value = item.id;
@@ -324,16 +331,16 @@ function gmpPackingDocRegistryHiddenID(item, registerNumber){
 }
 
 function gmpPackingDocRegistryTitle(item, registerNumber){
-    var logTitle = {"type":"text","id":"title_" + item.id,"classes":"blue-text", "text":item.name};
-    var titleInput = {"id":"titleWrapper_" + item.id,"classes":"card-title col s12 m12 l12","field": logTitle};
+    var logTitle = {"type":"text","id":"title_" + item.id + "_" + registerNumber,"classes":"blue-text", "text":item.name};
+    var titleInput = {"id":"titleWrapper_" + item.id + "_" + registerNumber,"classes":"card-title col s12 m12 l12","field": logTitle};
 
     return titleInput;
 }
 
 function gmpPackingDocRegistryItemDate(item, registerNumber){
     var dataLabel = {"type":"label","contents":{"type":"text","classes":"date_name"}};
-    var dataInput = {"type":"date","id":"date_" + item.id,"classes":"validate entry_date","fieldType":"text","validations":{"type":"text","max":{"value":65535}},"data":{"name":"documents[" + item.no + "][entries][" + registerNumber + "][date]"}};
-    var dataFullInput = {"id":"dateWrapper_" + item.id,"classes":"input-field col s6 m6 l6","field":dataInput,"label":dataLabel};
+    var dataInput = {"type":"date","id":"date_" + item.id + "_" + registerNumber,"classes":"validate entry_date","fieldType":"text","validations":{"type":"text","max":{"value":65535}},"data":{"name":"documents[" + item.no + "][entries][" + registerNumber + "][date]"}};
+    var dataFullInput = {"id":"dateWrapper_" + item.id + "_" + registerNumber,"classes":"input-field col s6 m6 l6","field":dataInput,"label":dataLabel};
 
     if(item.date){
         dataInput.value = item.date;
@@ -344,12 +351,14 @@ function gmpPackingDocRegistryItemDate(item, registerNumber){
 }
 
 function gmpPackingDocRegistryItemUser(item, registerNumber){
+    console.log("Item en authorization");
+    console.log(item);
     var userLabel = {"type":"label","contents":{"type":"text","classes":"users_sidenav"}};
-    var userInput = {"type":"input","id":"user_" + item.id,"name":"documents[" + item.no + "][entries][" + registerNumber + "][employee]","classes":"validate","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
-    var userFullInput = {"id":"userWrapper_" + item.id,"classes":"input-field col s6 m6 l6","field":userInput,"label":userLabel};
+    var userInput = {"type":"input","id":"user_" + item.id + "_" + registerNumber,"name":"documents[" + item.no + "][entries][" + registerNumber + "][employee]","classes":"validate","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
+    var userFullInput = {"id":"userWrapper_" + item.id + "_" + registerNumber,"classes":"input-field col s6 m6 l6","field":userInput,"label":userLabel};
 
-    if(item.user){
-        userInput.value = item.user;
+    if(item.employee){
+        userInput.value = item.employee;
         userLabel.classes = "active";
     }
 
@@ -358,11 +367,11 @@ function gmpPackingDocRegistryItemUser(item, registerNumber){
 
 function gmpPackingDocRegistryItemData(item, registerNumber){
     var dataLabel = {"type":"label","contents":{"type":"text","classes":"notes_title"}};
-    var dataInput = {"type":"textarea","id":"data_" + item.id,"name":"documents[" + item.no + "][entries][" + registerNumber + "][notes]","classes":"validate","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
-    var dataFullInput = {"id":"dataWrapper_" + item.id,"classes":"input-field col s6 m6 l6","field":dataInput,"label":dataLabel};
+    var dataInput = {"type":"textarea","id":"data_" + item.id + "_" + registerNumber,"name":"documents[" + item.no + "][entries][" + registerNumber + "][notes]","classes":"validate","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
+    var dataFullInput = {"id":"dataWrapper_" + item.id + "_" + registerNumber,"classes":"input-field col s6 m6 l6","field":dataInput,"label":dataLabel};
 
-    if(item.data){
-        dataInput.value = item.data;
+    if(item.notes){
+        dataInput.value = item.notes;
         dataLabel.classes = "active";
     }
 
@@ -371,11 +380,11 @@ function gmpPackingDocRegistryItemData(item, registerNumber){
 
 function gmpPackingDocRegistryItemUrl(item, registerNumber){
     var urlLabel = {"type":"label","contents":{"type":"text","classes":"url_title"}};
-    var urlInput = {"type":"textarea","id":"album_url_" + item.id,"name":"documents[" + item.no + "][entries][" + registerNumber + "][additional_info_url]","classes":"validate","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
-    var urlFullInput = {"id":"urlWrapper_" + item.id,"classes":"input-field col s6 m6 l6","field":urlInput,"label":urlLabel};
+    var urlInput = {"type":"textarea","id":"album_url_" + item.id + "_" + registerNumber,"name":"documents[" + item.no + "][entries][" + registerNumber + "][additional_info_url]","classes":"validate","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
+    var urlFullInput = {"id":"urlWrapper_" + item.id + "_" + registerNumber,"classes":"input-field col s6 m6 l6","field":urlInput,"label":urlLabel};
 
-    if(item.album_url){
-        urlInput.value = item.album_url;
+    if(item.additional_info_url){
+        urlInput.value = item.additional_info_url;
         urlLabel.classes = "active";
     }
 
@@ -383,8 +392,8 @@ function gmpPackingDocRegistryItemUrl(item, registerNumber){
 }
 
 function gmpPackingDocRegistryItemFile(item, registerNumber){
-    var logoField = {"type":"file","id":"log_files_" + item.id,"classes":"select_logo_button","name":"documents[" + item.no + "][entries][" + registerNumber + "][pictures][]","multiple":true};
-    var logoInput = {"id":"filesWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":logoField};
+    var logoField = {"type":"file","id":"log_files_" + item.id + "_" + registerNumber,"classes":"select_logo_button","name":"documents[" + item.no + "][entries][" + registerNumber + "][pictures][]","multiple":true};
+    var logoInput = {"id":"filesWrapper_" + item.id + "_" + registerNumber,"classes":"input-field col s12 m12 l12","field":logoField};
 
     return logoInput;
 }
@@ -502,16 +511,6 @@ function gmpDocControlAddDelEntryFunctionality(data){
         }
         dateActivator();
         changeLanguage();
-        /*var areaID = $(this).data("area_id");
-        var lastTest = $(this).data("last_test");
-        $("#tests_wrapper_" + areaID).append(gmpPackingAtpTestingItem({"id":areaID}, lastTest + 1));
-        $(this).data("last_test", lastTest + 1);
-        $("#del_area_test_" + areaID).data("last_test", lastTest + 1);
-        if($("#del_area_test_" + areaID).hasClass("grey")){
-            $("#del_area_test_" + areaID).removeClass("grey");
-            $("#del_area_test_" + areaID).addClass("red");
-        }
-        changeLanguage();*/
     });
 
     $(".delete_button").on("click", function(e){
