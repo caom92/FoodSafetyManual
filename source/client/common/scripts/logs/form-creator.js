@@ -56,7 +56,7 @@ Form Object
     type: section,
     opening: Section Object OR Rows Array,
     closing: Section Object OR Rows Array,
-    rows: | section:
+    rows: | sections:
 }
 */
 
@@ -85,8 +85,10 @@ function formSection(sectionObject) {
             section.append(createInputRow(row));
         }
     }
-    else if(sectionObject.section){
-        section.append(formSection(sectionObject.section));
+    else if(sectionObject.sections){
+        for(var sec of sectionObject.sections){
+            section.append(formSection(sec));
+        }
     }
 
     if(sectionObject.closing){

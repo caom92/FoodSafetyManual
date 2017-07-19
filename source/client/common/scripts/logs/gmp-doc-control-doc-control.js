@@ -271,26 +271,49 @@ function gmpPackingDocRegistryDate(date){
 }
 
 function gmpPackingDocRegistryItem(item, registerNumber){
-    var documentItem = {"type":"section","classes":"card-panel white","rows":[]};
+    var documentItem = {"type":"section","id":"documentWrapper_" + item.id,"classes":"card-panel white","sections":[]};
+    var identitySection = {"type":"section","id":"identityWrapper_" + item.id,"rows":[]};
     var identityRow = {"type":"row","columns":[]};
+    var controlsSection = {"type":"section","id":"controlsWrapper_" + item.id,"rows":[]};
+    var controlsRow = {"type":"row","columns":[]};
+
+    identityRow.columns = [gmpPackingDocRegistryHiddenID(item, registerNumber), gmpPackingDocRegistryTitle(item, registerNumber)];
+    
+    identitySection.rows.push(identityRow);
+
+    controlsRow.columns = [gmpDocControlItemAddEntryButton(item), gmpDocControlItemDelEntryButton(item)];
+
+    controlsSection.rows.push(controlsRow);
+
+    documentItem.sections.push(identitySection);
+    documentItem.sections.push(gmpPackingDocRegistryItemEntry(item, registerNumber));
+    documentItem.sections.push(controlsSection);
+
+    return documentItem;
+}
+
+function gmpPackingDocRegistryItemEntry(item, registerNumber){
+    var entrySection = {"type":"section","id":"entryWrapper_" + item.id + "_" + registerNumber,"classes":"card-panel white","rows":[]};
+
+    var employeeRow = {"type":"row","columns":[]};
     var dataRow = {"type":"row","columns":[]};
     var filesRow = {"type":"row","columns":[]};
 
-    identityRow.columns = [gmpPackingDocRegistryHiddenID(item, registerNumber), gmpPackingDocRegistryTitle(item, registerNumber), gmpPackingDocRegistryItemDate(item, registerNumber), gmpPackingDocRegistryItemUser(item, registerNumber)];
+    employeeRow.columns = [gmpPackingDocRegistryItemDate(item, registerNumber), gmpPackingDocRegistryItemUser(item, registerNumber)];
     dataRow.columns = [gmpPackingDocRegistryItemData(item, registerNumber), gmpPackingDocRegistryItemUrl(item, registerNumber)];
     filesRow.columns = [gmpPackingDocRegistryItemFile(item, registerNumber)];
 
-    documentItem.rows.push(identityRow);
-    documentItem.rows.push(dataRow);
-    documentItem.rows.push(filesRow);
+    entrySection.rows.push(employeeRow);
+    entrySection.rows.push(dataRow);
+    entrySection.rows.push(filesRow);
 
-    return documentItem;
+    return entrySection;
 }
 
 function gmpPackingDocRegistryHiddenID(item, registerNumber){
     var idLabel = {"type":"label","contents":{"type":"text"}};
     var idInput = {"type":"input","id":"id_" + item.id,"name":"documents[" + item.no + "][id]","classes":"validate","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
-    var idFullInput = {"id":"idWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":idInput,"label":idLabel};
+    var idFullInput = {"id":"idWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":idInput,"label":idLabel,"hidden":true};
 
     if(item.id){
         idInput.value = item.id;
@@ -366,6 +389,26 @@ function gmpPackingDocRegistryItemFile(item, registerNumber){
     return logoInput;
 }
 
+function gmpDocControlItemAddEntryButton(area){
+    var areaAddInput = {"id":"addTestButtonWrapper_" + area.id,"classes":"input-field col s1 offset-s10 m1 offset-m10 l1 offset-l10"};
+    var areaAddButton = {"type":"floating","id":"add_area_test_" + area.id,"classes":"btn-floating waves-effect waves-light green right test_button","data":{"document_id":area.id,"document_no":area.no,"last_test":1}};
+    var areaAddIcon = {"type":"icon","icon":"mdi-plus","size":"mdi-24px"};
+    areaAddButton.icon = areaAddIcon;
+    areaAddInput.field = areaAddButton;
+
+    return areaAddInput;
+}
+
+function gmpDocControlItemDelEntryButton(area){
+    var areaAddInput = {"id":"delTestButtonWrapper_" + area.id,"classes":"input-field col s1 m1 l1"};
+    var areaAddButton = {"type":"floating","id":"del_area_test_" + area.id,"classes":"btn-floating waves-effect waves-light grey right delete_button","data":{"document_id":area.id,"document_no":area.no,"last_test":1}};
+    var areaAddIcon = {"type":"icon","icon":"mdi-minus","size":"mdi-24px"};
+    areaAddButton.icon = areaAddIcon;
+    areaAddInput.field = areaAddButton;
+
+    return areaAddInput;
+}
+
 /***************************************************************************/
 
 function gmpPackingAtpTestingAreaControls(data){
@@ -432,19 +475,34 @@ function gmpPackingDocControlFunctionality(data){
             console.log(tempObject);
             $("#document_registry_form").append(formSection(gmpPackingDocRegistryItem(tempObject, 0)));
             $("option[value='" + $("#productionArea").val() + "']").prop("disabled", true);
-            gmpPackingAtpTestingAddDelTestsFunctionality(data);
+            gmpDocControlAddDelEntryFunctionality(data);
             dateActivator();
             changeLanguage();
         });
     }
 }
 
-function gmpPackingAtpTestingAddDelTestsFunctionality(data){
+function gmpDocControlAddDelEntryFunctionality(data){
     $(".test_button").off();
     $(".delete_button").off();
 
     $(".test_button").on("click", function(e){
-        var areaID = $(this).data("area_id");
+        var tempObject = {};
+        var docID = $(this).data("document_id");
+        var lastTest = $(this).data("last_test");
+        var docNo = $(this).data("document_no");
+        tempObject.id = docID;
+        tempObject.no = docNo;
+        $("#entryWrapper_" + docID + "_" + (lastTest - 1)).after(formSection(gmpPackingDocRegistryItemEntry(tempObject, lastTest)));
+        $(this).data("last_test", lastTest + 1);
+        $("#del_area_test_" + docID).data("last_test", lastTest + 1);
+        if($("#del_area_test_" + docID).hasClass("grey")){
+            $("#del_area_test_" + docID).removeClass("grey");
+            $("#del_area_test_" + docID).addClass("red");
+        }
+        dateActivator();
+        changeLanguage();
+        /*var areaID = $(this).data("area_id");
         var lastTest = $(this).data("last_test");
         $("#tests_wrapper_" + areaID).append(gmpPackingAtpTestingItem({"id":areaID}, lastTest + 1));
         $(this).data("last_test", lastTest + 1);
@@ -453,19 +511,20 @@ function gmpPackingAtpTestingAddDelTestsFunctionality(data){
             $("#del_area_test_" + areaID).removeClass("grey");
             $("#del_area_test_" + areaID).addClass("red");
         }
-        changeLanguage();
+        changeLanguage();*/
     });
 
     $(".delete_button").on("click", function(e){
-        var areaID = $(this).data("area_id");
+        var docID = $(this).data("document_id");
         var lastTest = $(this).data("last_test");
         if(lastTest > 1){
-            $("#test_row_" + areaID + "_" + lastTest).remove();
+            $("#entryWrapper_" + docID + "_" + (lastTest-1)).remove();
             $(this).data("last_test", lastTest - 1);
-            $("#add_area_test_" + areaID).data("last_test", lastTest - 1);
+            $("#add_area_test_" + docID).data("last_test", lastTest - 1);
             changeLanguage();
         }
-        if(lastTest - 1 == 1){
+        if((lastTest - 1) == 1){
+            console.log("Solo queda 1");
             $(this).removeClass("red");
             $(this).addClass("grey");
         }
@@ -525,6 +584,8 @@ function gmpPackingDocControlReportBody(data){
 
             body.rows.push(entryRow);
 
+            // For the time being, add pictures one by one. If there are more pictures,
+            // change this with a loop
             if(entry.picture1){
                 var picture1Row = {"type":"tr","columns":[]};
 
