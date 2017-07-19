@@ -40,8 +40,8 @@ class Logs extends db\LogTable
         ]
       ],
       [
-        '[><]gmp_doc_control_doc_control_documents' => [
-          'id' => 'document_id'
+        '[><]gmp_doc_control_doc_control_documents(d)' => [
+          'document_id' => 'id'
         ]
       ]
     );
