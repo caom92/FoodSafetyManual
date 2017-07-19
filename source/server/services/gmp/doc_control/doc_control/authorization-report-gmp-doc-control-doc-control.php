@@ -34,15 +34,15 @@ $service = fsm\createAuthorizationReportService(
             // si no lo es, guardamos los registros anteriores en el 
             // almacenamiento final para todos los registros
             array_push($documents, $document);
-
-            // e reiniciamos el almacenamiento temporal con la informacion
-            // del documento actual
-            $document = [
-              'id' => $row['document_id'],
-              'name' => $row['document_name'],
-              'entries' => []
-            ];
           }
+
+          // e reiniciamos el almacenamiento temporal con la informacion
+          // del documento actual
+          $document = [
+            'id' => $row['document_id'],
+            'name' => $row['document_name'],
+            'entries' => []
+          ];
 
           // guardamos la informacion del documento actual en el almacenamiento
           // temporal
