@@ -435,37 +435,6 @@ function gmpPackingDocControlFunctionality(data){
             gmpPackingAtpTestingAddDelTestsFunctionality(data);
             dateActivator();
             changeLanguage();
-            //loadToast("new-atp-area-add", 2500, "rounded", null, null, [$("#newAreaInput").val()]);
-            /*if($("#productionArea").val() == "0"){
-                $server.request({
-                    service: 'add-gmp-packing-atp-testing',
-                    data: {"name":$("#newAreaInput").val()},
-                    success: function(response){
-                        console.log(response);
-                        if (response.meta.return_code == 0) {
-                            Materialize.toast("Area añadida", 3000, "rounded");
-                            $("#areas_wrapper").append(gmpPackingAtpTestingArea({"id":parseInt(response.data),"name":$("#newAreaInput").val()}));
-                            $("#add_production_area_option").before($("<option>", {
-                                value: parseInt(response.data),
-                                text: $("#newAreaInput").val(),
-                                disabled: true
-                            }));
-                            $("#newAreaInput").val("")
-                            $('select').material_select('destroy');
-                            $('select').material_select();
-                            gmpPackingAtpTestingAddDelTestsFunctionality(data);
-                            changeLanguage();
-                        } else {
-                            Materialize.toast(response.meta.message, 3000, "rounded");
-                        }
-                    }
-                });
-            } else {
-                $("#areas_wrapper").append(gmpPackingAtpTestingArea(JSON.parse($("#productionArea").val())));
-                $("option[value='" + $("#productionArea").val() + "']").prop("disabled", true);
-                gmpPackingAtpTestingAddDelTestsFunctionality(data);
-                changeLanguage();
-            }*/
         });
     }
 }
@@ -525,7 +494,7 @@ function gmpPackingDocControlReport(data){
 // languages.xml, not strings
 
 function gmpPackingDocControlReportHeader(){
-    var header = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"area_title areaColumn"},{"type":"th","classes":"time_title timeColumn"},{"type":"th","classes":"number_title numberColumn"},{"type":"th","classes":"name_title nameColumn"},{"type":"th","classes":"status_title statusColumn"},{"type":"th","classes":"action_title actionColumn"},{"type":"th","classes":"comment_title commentColumn"}]}]};
+    var header = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"users_sidenav userColumn"},{"type":"th","classes":"date_name dateColumn"},{"type":"th","classes":"notes_title notesColumn"},{"type":"th","classes":"url_title urlColumn"}]}]};
 
     return header;
 }
@@ -535,59 +504,55 @@ function gmpPackingDocControlReportHeader(){
 
 function gmpPackingDocControlReportBody(data){
     var body = {"type":"tbody"};
-
     body.rows = new Array();
 
-    for(var area of data.areas){
-        var firstRowFlag = true;
-        for(var type of area.types){
-            var row = {"type":"tr"};
-            row.columns = new Array();
-            if(firstRowFlag){
-                var rowspan = area.types.length;
-                for(var count of area.types){
-                    rowspan += count.items.length;
-                }
-                row.columns.push(gmpPackingDocControlReportAreaName(area.name, rowspan));
-                row.columns.push(gmpPackingDocControlReportAreaTime(area.time, rowspan));
-                row.columns.push(gmpPackingDocControlReportTypeTitle(type.name, 5));
-                firstRowFlag = false;
-            } else {
-                row.columns.push(gmpPackingDocControlReportTypeTitle(type.name, 5));
+    console.log(data);
+
+    for(var doc of data.documents){
+        // Title row
+        var titleRow = {"type":"tr","columns":[]};
+
+        // Create and append the Log Title in one full row
+        titleRow.columns.push(gmpPackingDocControlReportLogTitle(doc.name, 4));
+        body.rows.push(titleRow);
+
+        // Go trough entries, print them all
+        for(var entry of doc.entries){
+            // Entry row
+            var entryRow = {"type":"tr","columns":[]};
+
+            entryRow.columns = gmpPackingDocControlReportItem(entry);
+
+            body.rows.push(entryRow);
+
+            if(entry.picture1){
+                var picture1Row = {"type":"tr","columns":[]};
+
+                picture1Row.columns = gmpPackingDocControlImageColumn(entry.picture1, 4);
+
+                body.rows.push(picture1Row);
             }
-            body.rows.push(row);
-            for(var item of type.items){
-                var itemRow = {"type":"tr"};
-                itemRow.columns = gmpPackingDocControlReportItem(item);
-                body.rows.push(itemRow);
+
+            if(entry.picture2){
+                var picture2Row = {"type":"tr","columns":[]};
+
+                picture2Row.columns = gmpPackingDocControlImageColumn(entry.picture2, 4);
+
+                body.rows.push(picture2Row);
             }
         }
-        var notesRow = {"type":"tr"};
-        var sanitationRow = {"type":"tr"};
-        notesRow.columns = [gmpPackingDocControlReportAreaNotes(area.notes, 7)];
-        sanitationRow.columns = [gmpPackingDocControlReportAreaSanitation(area.person_performing_sanitation, 7)];
-        body.rows.push(notesRow);
-        body.rows.push(sanitationRow);
     }
-
-    var reportNotesRow = {"type":"tr"};
-    var reportAlbumURL = {"type":"tr"};
-    reportNotesRow.columns = [gmpPackingDocControlReportNotes(data.notes, 7)];
-    reportAlbumURL.columns = [gmpPackingDocControlReportAlbumURL(data.album_url, 7)];
-
-    body.rows.push(reportNotesRow);
-    body.rows.push(reportAlbumURL);
 
     return body;
 }
 
-// Type title, colspan 5
-// Example: Food Contact - Daily and Non Food Contact - Daily
+// Type title, colspan usually 4
+// For printing the log code (name used in the inventory)
 
-function gmpPackingDocControlReportTypeTitle(title, colspan){
-    var typeTitle = {"type":"td","classes":"typeTitle","colspan":colspan,"contents":title};
+function gmpPackingDocControlReportLogTitle(title, colspan){
+    var logTitle = {"type":"td","classes":"logTitle","colspan":colspan,"contents":title};
 
-    return typeTitle;
+    return logTitle;
 }
 
 // A row with five 'td' elements, including the number, name, status,
@@ -596,51 +561,22 @@ function gmpPackingDocControlReportTypeTitle(title, colspan){
 function gmpPackingDocControlReportItem(itemData){
     var item = new Array();
 
-    item.push({"type":"td","classes":"numberColumn","contents":itemData.order});
-    item.push({"type":"td","classes":"nameColumn","contents":itemData.name});
-    if(itemData.status){
-        item.push({"type":"td","classes":"statusColumn acceptable_tag"});
-    } else {
-        item.push({"type":"td","classes":"statusColumn unacceptable_tag"});
-    }    
-    item.push({"type":"td","classes":"actionColumn","contents":itemData.corrective_action});
-    item.push({"type":"td","classes":"commentColumn","contents":itemData.comment});
+    item.push({"type":"td","classes":"userColumn","contents":itemData.employee});
+    item.push({"type":"td","classes":"dateColumn","contents":itemData.date});
+    item.push({"type":"td","classes":"notesColumn","contents":itemData.notes});
+    item.push({"type":"td","classes":"urlColumn","contents":itemData.additional_info_url});
 
     return item;
 }
 
-// Area name. It will have a rowspan equal to the number of items + the
-// number of types
+function gmpPackingDocControlImageColumn(imageAddress, colspan){
+    var item = new Array();
 
-function gmpPackingDocControlReportAreaName(name, rowspan){
-    var areaName = {"type":"td","classes":"areaColumn","rowspan":rowspan,"contents":name};
+    item.push({"type":"td","classes":"imageColumn","colspan":colspan,"contents":'<div style="text-align:center"><img src="http://localhost/espresso/data/images/gmp/doc_control/doc_control/' + imageAddress + '" alt="report_image" class="report_image"></div>'});
 
-    return areaName;
-}
+    //style="display:block;height:auto;width:100%;height:100%;
 
-// Area time. It will have a rowspan equal to the number of items + the
-// number of types
-
-function gmpPackingDocControlReportAreaTime(time, rowspan){
-    var areaTime = {"type":"td","classes":"timeColumn","rowspan":rowspan,"contents":time};
-
-    return areaTime;
-}
-
-// Area notes. It will have a colspan equal to the number of columns
-
-function gmpPackingDocControlReportAreaNotes(notes, colspan){
-    var areaNotes = {"type":"td","classes":"fullColumn","colspan":colspan,"contents":"<span class='notes_title'></span>: " + notes};
-
-    return areaNotes;
-}
-
-// Area sanitation. It will have a colspan equal to the number of columns
-
-function gmpPackingDocControlReportAreaSanitation(sanitation, colspan){
-    var areaSanitation = {"type":"td","classes":"fullColumn","colspan":colspan,"contents":"<span class='person_performing_sanitation_title'></span>: " + sanitation};
-
-    return areaSanitation;
+    return item;
 }
 
 // Footer
@@ -649,24 +585,8 @@ function gmpPackingDocControlReportFooter(data){
 
 }
 
-// Notes for the report. They will go in the footer. Colspan equal to the
-// number of columns
-
-function gmpPackingDocControlReportNotes(notes, colspan){
-    var reportNotes = {"type":"td","classes":"fullColumn","colspan":colspan,"contents":"<span class='report_notes_title'></span>: " + notes};
-
-    return reportNotes;
-}
-
-// Album URL. It will go in the footer. Colspan equal to the
-// number of columns
-
-function gmpPackingDocControlReportAlbumURL(albumURL, colspan){
-    var reportURL = {"type":"td","classes":"fullColumn","colspan":colspan,"contents":"<span class='url_title'></span>: <a href='" + albumURL + "' >" + albumURL + "</a>"};
-
-    return reportURL;
-}
+// CSS for the server to correctly display the HTML table
 
 function getCSS(){
-    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}td { border: 1px solid #000000; text-align: left;}th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50;}.even { background-color: #b8e0b9;}.verticaltext{ writing-mode:tb-rl; transform: rotate(90deg); white-space:nowrap; word-break:break-word; bottom:0;}.typeTitle{ background-color: yellow; width:501px;}.fullColumn{ background-color: #D3D3D3;width:631px;}.nameColumn{ width:116px;}.numberColumn{ width:30px;}.timeColumn{ width:40px;}.areaColumn{ width:90px;}.statusColumn{ width:85px;}.actionColumn{ width:70px;}.commentColumn{ width:200px;}</style>';
+    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}td { border: 1px solid #000000; text-align: left;}th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50;}.even { background-color: #b8e0b9;}.verticaltext{ writing-mode:tb-rl; transform: rotate(90deg); white-space:nowrap; word-break:break-word; bottom:0;}.typeTitle{ background-color: yellow; width:501px;}.fullColumn{ background-color: #D3D3D3;width:631px;}.nameColumn{ width:116px;}.numberColumn{ width:30px;}.timeColumn{ width:40px;}.areaColumn{ width:90px;}.statusColumn{ width:85px;}.actionColumn{ width:70px;}.commentColumn{ width:200px;} .report_image{width:350px !important;}</style>';
 }

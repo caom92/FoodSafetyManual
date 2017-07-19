@@ -40,7 +40,7 @@ $(function() {
                     if (response.meta.return_code == 0) {
                         localStorage.correctiveActionsSSOP = JSON.stringify(response.data);
                     } else {
-                        Materialize.toast("Some error", 3000, "rounded");
+                        Materialize.toast(response.meta.message, 3000, "rounded");
                         throw response.meta.message;
                     }
                 }
@@ -308,7 +308,6 @@ function reportLoaderCard(data, footer){
         $("#address_" + data.report_id).val(localStorage.address);
         $("#logo_" + data.report_id).val(localStorage.logo);
         $("#signature_" + data.report_id).val(data.signature_path);
-        console.log(data.approved_by);
         $("#supervisor_" + data.report_id).val(data.approved_by);
         $("#footer_" + data.report_id).val(footer);
         $("#secretForm_" + data.report_id).submit();
@@ -351,8 +350,8 @@ function reportLoaderCard(data, footer){
         $("#logo_" + data.report_id).val(localStorage.logo);
         $("#signature_" + data.report_id).val(data.signature_path);
         $("#supervisor_" + data.report_id).val(data.approved_by);
-        $("#secretForm_" + data.report_id).submit();
         $("#footer_" + data.report_id).val(footer);
+        $("#secretForm_" + data.report_id).submit();
         $("#report-tab-content").html(currentHTML);
     });
 

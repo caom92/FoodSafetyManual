@@ -105,7 +105,7 @@ $service = fsm\createCaptureService(
                 substr($originalFileName, strpos($originalFileName, '.'));
 
               // generamos el nombre del archivo
-              $fileName = "{$logID}_" . date('Y-m-d_H:i:s') . "_$k$format";
+              $fileName = "{$logID}_" . date('Y-m-d_H-i-s') . "_$k$format";
 
               $s = NULL;
               if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {

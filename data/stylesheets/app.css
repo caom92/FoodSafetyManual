@@ -195,3 +195,7 @@ li#zone-menu {
     font-weight: bold;
     font-size: 1.17rem;
 }
+
+.report_image {
+    width:100%;
+}
