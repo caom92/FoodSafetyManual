@@ -52,7 +52,14 @@ $service = fsm\createUpdateService(
         foreach ($document['entries'] as $entry) {
           // actualizamos los datos almacenados en la BD
           $logs->updateByCaptureDateIDAndDocumentID(
-            $entry, $request['report_id'], $document['id']
+            [
+              'document_date' => $entry['date'],
+              'document_employee' => $entry['employee'],
+              'notes' => $entry['notes'],
+              'additional_info_url' => $entry['additional_info_url']
+            ], 
+            $request['report_id'], 
+            $document['id']
           );
         }
       }
