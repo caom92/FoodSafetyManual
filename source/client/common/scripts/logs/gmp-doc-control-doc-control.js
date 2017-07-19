@@ -108,7 +108,11 @@ function specialClearLog(){
 }
 
 function dateActivator(){
-    $(".datepicker").pickadate();;
+    $(".datepicker").pickadate();
+    $(".entry_date").each(function(){
+        var dateObj = datePicker($(this).data("name"), null, null);
+        $(this).pickadate(dateObj);
+    });
 }
 
 /******************************************************************************
@@ -255,7 +259,7 @@ function sendButton(){
 
 function gmpPackingDocRegistryDate(date){
     var dataLabel = {"type":"label","contents":{"type":"text","classes":"date_name"}};
-    var dataInput = {"type":"date","id":"report_date","name":"date","classes":"validate datepicker","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
+    var dataInput = {"type":"date","id":"report_date","name":"date","classes":"validate pickadate","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
     var dataFullInput = {"id":"reportDateWrapper","classes":"input-field col s12 m12 l12","field":dataInput,"label":dataLabel};
 
     if(date){
@@ -305,7 +309,7 @@ function gmpPackingDocRegistryTitle(item, registerNumber){
 
 function gmpPackingDocRegistryItemDate(item, registerNumber){
     var dataLabel = {"type":"label","contents":{"type":"text","classes":"date_name"}};
-    var dataInput = {"type":"date","id":"data_" + item.id,"name":"documents[" + item.no + "][entries][" + registerNumber + "][date]","classes":"validate datepicker","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
+    var dataInput = {"type":"date","id":"date_" + item.id,"classes":"validate entry_date","fieldType":"text","validations":{"type":"text","max":{"value":65535}},"data":{"name":"documents[" + item.no + "][entries][" + registerNumber + "][date]"}};
     var dataFullInput = {"id":"dateWrapper_" + item.id,"classes":"input-field col s6 m6 l6","field":dataInput,"label":dataLabel};
 
     if(item.date){
