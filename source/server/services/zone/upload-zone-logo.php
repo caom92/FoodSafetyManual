@@ -20,9 +20,16 @@ $service = [
       strpos($_FILES['logo']['name'], '.')
     );
     $fileName = date('Y-m-d_H-i-s').$format;
+    
+    $s = NULL;
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+      $s = '\\';
+    } else {
+      $s = '/';
+    }
 
     $uploadDir = 
-      realpath(dirname(__FILE__)."/../../../../data/logos") . "/{$fileName}";
+      realpath(dirname(__FILE__)."/../../../../data/logos") . "$s$fileName";
 
     $wasMoveSuccessful = move_uploaded_file(
       $_FILES['logo']['tmp_name'], 
