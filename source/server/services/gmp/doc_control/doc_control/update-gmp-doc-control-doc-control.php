@@ -9,33 +9,36 @@ $service = fsm\createUpdateService(
   'Document Control',
   [
     'documents' => [
-      'id' => [
-        'type' => 'int',
-        'min' => 1
-      ],
-      'entries' => [
-        'type' => 'array',
-        'values' => [
-          'date' => [
-            'type' => 'datetime',
-            'format' => 'Y-m-d'
-          ],
-          'employee' => [
-            'type' => 'string',
-            'min_length' => 1,
-            'max_length' => 255
-          ],
-          'notes' => [
-            'type' => 'string',
-            'min_length' => 1,
-            'max_length' => 65535,
-            'optional' => TRUE
-          ],
-          'additional_info_url' => [
-            'type' => 'string',
-            'min_length' => 1,
-            'max_length' => 65535,
-            'optional' => TRUE
+      'type' => 'array',
+      'values' => [
+        'id' => [
+          'type' => 'int',
+          'min' => 1
+        ],
+        'entries' => [
+          'type' => 'array',
+          'values' => [
+            'date' => [
+              'type' => 'datetime',
+              'format' => 'Y-m-d'
+            ],
+            'employee' => [
+              'type' => 'string',
+              'min_length' => 1,
+              'max_length' => 255
+            ],
+            'notes' => [
+              'type' => 'string',
+              'min_length' => 1,
+              'max_length' => 65535,
+              'optional' => TRUE
+            ],
+            'additional_info_url' => [
+              'type' => 'string',
+              'min_length' => 1,
+              'max_length' => 65535,
+              'optional' => TRUE
+            ]
           ]
         ]
       ]
