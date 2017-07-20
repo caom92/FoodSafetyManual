@@ -137,7 +137,7 @@ function uploadSignatureButton(item){
 function logoFileForm(zone){
     var logoForm = {"type":"form","id":"upload-logo-form","enctype":"multipart/form-data","name":"upload-logo-form","form":{"rows":[]}};
 
-    var logoField = {"type":"file","id":"upload-logo-field","classes":"select_logo_button","name":"signature_file"};
+    var logoField = {"type":"file","id":"upload-logo-field","classes":"select_image_button","name":"signature_file"};
     var logoInput = {"field":logoField};
 
     var testInput = {"type":"input","id":"zone_id_" + zone.id,"fieldType":"text","name":"supervisor_id","value":zone.id,"hidden":true};
