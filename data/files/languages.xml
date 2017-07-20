@@ -1037,4 +1037,9 @@
         <english>Select Logo</english>
         <spanish>Elegir Logo</spanish>
     </translation>
+
+    <translation id="select_image_button">
+        <english>Select Image</english>
+        <spanish>Elegir Imagen</spanish>
+    </translation>
 </translations>

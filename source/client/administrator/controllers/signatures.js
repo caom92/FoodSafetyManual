@@ -135,7 +135,7 @@ function uploadSignatureButton(item){
 }
 
 function logoFileInput(zone){
-    var logoField = {"type":"file","id":"upload-logo-form","classes":"select_logo_button","name":"signature_file","additional_fields":[]};
+    var logoField = {"type":"file","id":"upload-logo-form","classes":"select_image_button","name":"signature_file","additional_fields":[]};
 
     var testInput = {"type":"input","id":"zone_id_" + zone.id,"fieldType":"text","name":"supervisor_id","value":zone.id,"hidden":true};
 
