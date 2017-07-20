@@ -40,8 +40,9 @@ $service = fsm\createCaptureService(
               'optional' => TRUE
             ],
             'pictures' => [
-              'type' => 'files',
-              'format' => 'bitmap',
+              'type' => 'string',
+              'min_length' => 1,
+              'max_length' => 65535,
               'optional' => TRUE
             ]
           ]
@@ -77,8 +78,7 @@ $service = fsm\createCaptureService(
               (isset($entry['additional_info_url']) 
                 && array_key_exists('additional_info_url', $entry)) ?
                 $entry['additional_info_url'] : NULL,
-            'picture1' => NULL,
-            'picture2' => NULL
+            'pictures' => NULL
           ];
 
           // revisamos si el usuario envio imagenes
@@ -95,6 +95,9 @@ $service = fsm\createCaptureService(
               dirname(__FILE__)."/../../../../../../data/images/".
               "gmp/doc_control/doc_control/"
             );
+
+            // arreglo temporal para guardar los nombres de los archivos
+            $images = [];
 
             // luego visitamos cada imagen
             for ($k = 0; $k < count($_FILES['documents']['name'][$i]['entries'][$j]['pictures']); ++$k) {
@@ -133,11 +136,12 @@ $service = fsm\createCaptureService(
 
               // por ultimo, guardamos el nombre del archivo subido en la 
               // estructura de datos con los datos a guardar en la tabla
-              $data['picture' . ($k + 1)] = $fileName;
+              array_push($images, $fileName);
             } // for ($k = 0; $k < count($_FILES['pictures']); ++$k)
           } // if ($werePicturesUploaded)
 
           // guardamos los datos a subir en el conglomerado
+          $data['pictures'] = json_encode($images);
           array_push($logData, $data);
           ++$j;
         } // foreach ($document['entries'] as $entry)

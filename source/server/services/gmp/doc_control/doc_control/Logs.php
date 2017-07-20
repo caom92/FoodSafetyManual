@@ -30,8 +30,7 @@ class Logs extends db\LogTable
         'document_date',
         'notes',
         'additional_info_url',
-        'picture1',
-        'picture2'
+        'pictures',
       ],
       [
         'capture_date_id' => $dateID,
