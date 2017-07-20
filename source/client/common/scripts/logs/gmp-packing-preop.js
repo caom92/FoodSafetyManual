@@ -404,7 +404,7 @@ function gmpPackingPreopItemStatus(item, areaID){
 function gmpPackingPreopItemCorrectiveAction(item, areaID){
     var actionOptions = new Array();
 
-    var correctiveActions = JSON.parse(localStorage.correctiveActionsSSOP);
+    var correctiveActions = JSON.parse(localStorage.correctiveActionsGMPSSOP);
 
     for(var action of correctiveActions){
         var tempOption = {"value":action.id,"text":action[localStorage.defaultLanguage],"classes":"timeChanger","data":{"area_id":areaID,"item_id":item.id}};

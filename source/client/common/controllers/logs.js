@@ -33,15 +33,28 @@ $(function() {
     var getParams = getURLQueryStringAsJSON();
 
     if(localStorage.role_id == "5" || localStorage.role_id == "3"){
-        if(!localStorage.correctiveActionsSSOP){
+        if(!localStorage.correctiveActionsGMPSSOP){
             $server.request({
                 service: 'list-corrective-actions-gmp-packing-preop',
                 success: function(response) {
                     if (response.meta.return_code == 0) {
-                        localStorage.correctiveActionsSSOP = JSON.stringify(response.data);
+                        localStorage.correctiveActionsGMPSSOP = JSON.stringify(response.data);
                     } else {
-                        Materialize.toast(response.meta.message, 3000, "rounded");
-                        throw response.meta.message;
+                        /*Materialize.toast(response.meta.message, 3000, "rounded");
+                        throw response.meta.message;*/
+                    }
+                }
+            });
+        }
+        if(!localStorage.correctiveActionsGAPSSOP){
+            $server.request({
+                service: 'list-corrective-actions-gap-packing-preop',
+                success: function(response) {
+                    if (response.meta.return_code == 0) {
+                        localStorage.correctiveActionsGAPSSOP = JSON.stringify(response.data);
+                    } else {
+                        /*Materialize.toast(response.meta.message, 3000, "rounded");
+                        throw response.meta.message;*/
                     }
                 }
             });
