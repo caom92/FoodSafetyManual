@@ -87,6 +87,9 @@ $service = fsm\createCaptureService(
             isset($_FILES['documents']) 
             && array_key_exists('documents', $_FILES);
 
+          // arreglo temporal para guardar los nombres de los archivos
+          $images = [];
+
           // si asi fue, hay que guardarlas en el servidor
           if ($werePicturesUploaded) {
             // primero generamos la direccion donde van a almacenarse las 
@@ -95,9 +98,6 @@ $service = fsm\createCaptureService(
               dirname(__FILE__)."/../../../../../../data/images/".
               "gmp/doc_control/doc_control/"
             );
-
-            // arreglo temporal para guardar los nombres de los archivos
-            $images = [];
 
             // luego visitamos cada imagen
             for ($k = 0; $k < count($_FILES['documents']['name'][$i]['entries'][$j]['pictures']); ++$k) {
@@ -141,7 +141,9 @@ $service = fsm\createCaptureService(
           } // if ($werePicturesUploaded)
 
           // guardamos los datos a subir en el conglomerado
-          $data['pictures'] = json_encode($images);
+          if (count($images) > 0) {
+            $data['pictures'] = json_encode($images);
+          }
           array_push($logData, $data);
           ++$j;
         } // foreach ($document['entries'] as $entry)
