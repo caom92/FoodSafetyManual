@@ -164,6 +164,13 @@ function sendGmpPackingDocControlReport(){
 
 function updateGmpPackingDocControlReport(reportID){
     if(validateLog()){
+        $(".optional").each(function() {
+            console.log($(this).attr("name"));
+            if($(this).val() == ""){
+                $(this).data("temp-name", $(this).attr("name"));
+                $(this).removeAttr("name");
+            }
+        });
         /*$(".area-card").each(function(){
             var area = new Object();
             var areaID = $(this).data("id");
@@ -206,6 +213,9 @@ function updateGmpPackingDocControlReport(reportID){
                     $("#send_report").removeAttr("disabled");
                     $("#sending_log").hide();
                 }
+                $(".optional").each(function() {
+                    $(this).attr("name", $(this).data("temp-name"));
+                });
             }
         });
     } else {
@@ -654,7 +664,7 @@ function gmpPackingDocControlReportItem(itemData){
 function gmpPackingDocControlImageColumn(imageAddress, colspan){
     var item = new Array();
 
-    item.push({"type":"td","classes":"imageColumn","colspan":colspan,"contents":'<div style="margin-left: auto; margin-right: auto;"><img src="http://localhost/espresso/data/images/gmp/doc_control/doc_control/' + imageAddress + '" alt="report_image" class="report_image"></div>'/*,"style":"text-align:center;"*/});
+    item.push({"type":"td","classes":"imageColumn","colspan":colspan,"contents":'<div style="text-align: center;"><img src="http://localhost/espresso/data/images/gmp/doc_control/doc_control/' + imageAddress + '" alt="report_image" class="report_image"></div>'/*,"style":"text-align:center;"*/});
 
     //style="display:block;height:auto;width:100%;height:100%;
 
