@@ -37,11 +37,15 @@ function createForm(formData){
 
     if(formData.form){
         if(formData.form.rows){
+            console.log("Form with rows");
             for(var row of formData.form.rows){
+                console.log("Print a row");
                 form.append(createInputRow(row));
             }
         } else if (formData.form.sections){
+            console.log("Form with sections");
             for(var section of formData.form.sections){
+                console.log("Print a section");
                 form.append(formSection(section));
             }
         }
@@ -154,20 +158,25 @@ Input Object
 function createInput(inputObject){
     var input = $("<div>");
 
-    if(inputObject.id)
-        input.attr("id", inputObject.id);
+    if(inputObject.type == "form"){
+        console.log("It was a form all allong");
+        input.append(createForm(inputObject));
+    } else {
+        if(inputObject.id)
+            input.attr("id", inputObject.id);
 
-    if(inputObject.classes)
-        input.addClass(inputObject.classes);
+        if(inputObject.classes)
+            input.addClass(inputObject.classes);
 
-    if(inputObject.hidden)
-        input.hide();
+        if(inputObject.hidden)
+            input.hide();
 
-    if(inputObject.field)
-        input.append(createField(inputObject.field));
+        if(inputObject.field)
+            input.append(createField(inputObject.field));
 
-    if(inputObject.label)
-        input.append(createLabel(inputObject.label));
+        if(inputObject.label)
+            input.append(createLabel(inputObject.label));
+    }
 
     return input;
 }
@@ -227,6 +236,9 @@ function createField(fieldObject){
         }
         if(fieldObject.type == "file"){
             field = createFileInput(fieldObject);
+        }
+        if(fieldObject.type == "form"){
+            field = createForm(fieldObject);
         }
     }
     return field;

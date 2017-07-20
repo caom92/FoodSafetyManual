@@ -134,25 +134,38 @@ function uploadSignatureButton(item){
     return buttonInput;
 }
 
-function logoFileInput(zone){
-    var logoField = {"type":"file","id":"upload-logo-form","classes":"select_image_button","name":"signature_file","additional_fields":[]};
+function logoFileForm(zone){
+    var logoForm = {"type":"form","id":"upload-logo-form","enctype":"multipart/form-data","name":"upload-logo-form","form":{"rows":[]}};
 
-    var testInput = {"type":"input","id":"zone_id_" + zone.id,"fieldType":"text","name":"supervisor_id","value":zone.id,"hidden":true};
-
-    logoField.additional_fields.push(testInput);
-
+    var logoField = {"type":"file","id":"upload-logo-field","classes":"select_image_button","name":"signature_file"};
     var logoInput = {"field":logoField};
 
-    return logoInput;
+    var testInput = {"type":"input","id":"zone_id_" + zone.id,"fieldType":"text","name":"supervisor_id","value":zone.id,"hidden":true};
+    var fullInput = {"field":testInput};
+
+    var logoRow = {"type":"row","columns":[]};
+    var inputRow = {"type":"row","columns":[]};
+
+    logoRow.columns = [logoInput];
+    inputRow.columns = [fullInput];
+
+    logoForm.form.rows.push(logoRow);
+    logoForm.form.rows.push(inputRow);
+
+    console.log(logoForm);
+    console.log(JSON.stringify(logoForm));
+
+    return logoForm;
 }
 
 function logoFileRow(zone){
     var uploadRow = {"type":"tr","id":"upload_row_" + zone.id,"classes":"","columns":[]};
 
-    uploadRow.columns.push({"type":"td","contents":logoFileInput(zone),"colspan":6});
+    uploadRow.columns.push({"type":"td","contents":logoFileForm(zone),"colspan":6});
 
     return uploadRow;
 }
+
 
 function bindUploadButtonFunctionality(){
     $("a[id^='upload_']").on("click", function(){
