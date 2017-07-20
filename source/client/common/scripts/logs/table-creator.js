@@ -253,6 +253,9 @@ function tableColumn(columnData){
     if(columnData.rowspan)
         column.attr("rowspan", columnData.rowspan);
 
+    if(columnData.style)
+        column.attr("style", columnData.style);
+
     if($.type(columnData.contents) == "object")
         column.append(createInput(columnData.contents));
     else //if($.type(columnData.contents) == "string")

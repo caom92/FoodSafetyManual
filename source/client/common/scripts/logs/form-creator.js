@@ -911,7 +911,9 @@ function createFileInput(fileObject){
 
     if(fileObject.name)
         buttonInput.attr("name", fileObject.name);
-    //buttonInput.attr("id", fileObject.id);
+
+    if(fileObject.optional === true)
+        buttonInput.addClass("optional");
 
     buttonWrapper.append(buttonText);
     buttonWrapper.append(buttonInput);

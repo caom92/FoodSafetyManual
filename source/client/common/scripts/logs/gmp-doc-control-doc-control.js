@@ -125,6 +125,14 @@ are going to divide them into full log, area log and individual item log.
 
 function sendGmpPackingDocControlReport(){
     if(validateLog()){
+        $(".optional").each(function() {
+            console.log($(this).attr("name"));
+            if($(this).val() == ""){
+                $(this).data("temp-name", $(this).attr("name"));
+                $(this).removeAttr("name");
+            }
+        });
+
         var formData = new FormData($('#document_registry_form')[0]);
 
         console.log(formData);
@@ -139,6 +147,9 @@ function sendGmpPackingDocControlReport(){
                 } else {
                     Materialize.toast(response.meta.message, 3000, "rounded");
                 }
+                $(".optional").each(function() {
+                    $(this).attr("name", $(this).data("temp-name"));
+                });
                 $("#send_report").removeAttr("disabled");
                 $("#send_report").data("waiting", false);
                 $("#sending_log").hide();
@@ -367,7 +378,7 @@ function gmpPackingDocRegistryItemUser(item, registerNumber){
 
 function gmpPackingDocRegistryItemData(item, registerNumber){
     var dataLabel = {"type":"label","contents":{"type":"text","classes":"notes_title"}};
-    var dataInput = {"type":"textarea","id":"data_" + item.id + "_" + registerNumber,"name":"documents[" + item.no + "][entries][" + registerNumber + "][notes]","classes":"validate","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
+    var dataInput = {"type":"textarea","id":"data_" + item.id + "_" + registerNumber,"name":"documents[" + item.no + "][entries][" + registerNumber + "][notes]","classes":"validate optional","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
     var dataFullInput = {"id":"dataWrapper_" + item.id + "_" + registerNumber,"classes":"input-field col s6 m6 l6","field":dataInput,"label":dataLabel};
 
     if(item.notes){
@@ -380,7 +391,7 @@ function gmpPackingDocRegistryItemData(item, registerNumber){
 
 function gmpPackingDocRegistryItemUrl(item, registerNumber){
     var urlLabel = {"type":"label","contents":{"type":"text","classes":"url_title"}};
-    var urlInput = {"type":"textarea","id":"album_url_" + item.id + "_" + registerNumber,"name":"documents[" + item.no + "][entries][" + registerNumber + "][additional_info_url]","classes":"validate","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
+    var urlInput = {"type":"textarea","id":"album_url_" + item.id + "_" + registerNumber,"name":"documents[" + item.no + "][entries][" + registerNumber + "][additional_info_url]","classes":"validate optional","fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
     var urlFullInput = {"id":"urlWrapper_" + item.id + "_" + registerNumber,"classes":"input-field col s6 m6 l6","field":urlInput,"label":urlLabel};
 
     if(item.additional_info_url){
@@ -392,7 +403,7 @@ function gmpPackingDocRegistryItemUrl(item, registerNumber){
 }
 
 function gmpPackingDocRegistryItemFile(item, registerNumber){
-    var logoField = {"type":"file","id":"log_files_" + item.id + "_" + registerNumber,"classes":"select_image_button","name":"documents[" + item.no + "][entries][" + registerNumber + "][pictures][]","multiple":true};
+    var logoField = {"type":"file","id":"log_files_" + item.id + "_" + registerNumber,"classes":"select_image_button","name":"documents[" + item.no + "][entries][" + registerNumber + "][pictures][]","multiple":true,"optional":true};
     var logoInput = {"id":"filesWrapper_" + item.id + "_" + registerNumber,"classes":"input-field col s12 m12 l12","field":logoField};
 
     return logoInput;
@@ -585,7 +596,18 @@ function gmpPackingDocControlReportBody(data){
 
             // For the time being, add pictures one by one. If there are more pictures,
             // change this with a loop
-            if(entry.picture1){
+            if(entry.pictures){
+                var imgArray = JSON.parse(entry.pictures);
+
+                for(var img of imgArray){
+                    var pictureRow = {"type":"tr","columns":[]};
+
+                    pictureRow.columns = gmpPackingDocControlImageColumn(img, 4);
+
+                    body.rows.push(pictureRow);
+                }
+            }
+            /*if(entry.picture1){
                 var picture1Row = {"type":"tr","columns":[]};
 
                 picture1Row.columns = gmpPackingDocControlImageColumn(entry.picture1, 4);
@@ -599,7 +621,7 @@ function gmpPackingDocControlReportBody(data){
                 picture2Row.columns = gmpPackingDocControlImageColumn(entry.picture2, 4);
 
                 body.rows.push(picture2Row);
-            }
+            }*/
         }
     }
 
@@ -632,7 +654,7 @@ function gmpPackingDocControlReportItem(itemData){
 function gmpPackingDocControlImageColumn(imageAddress, colspan){
     var item = new Array();
 
-    item.push({"type":"td","classes":"imageColumn","colspan":colspan,"contents":'<div style="text-align:center"><img src="http://localhost/espresso/data/images/gmp/doc_control/doc_control/' + imageAddress + '" alt="report_image" class="report_image"></div>'});
+    item.push({"type":"td","classes":"imageColumn","colspan":colspan,"contents":'<div style="margin-left: auto; margin-right: auto;"><img src="http://localhost/espresso/data/images/gmp/doc_control/doc_control/' + imageAddress + '" alt="report_image" class="report_image"></div>'/*,"style":"text-align:center;"*/});
 
     //style="display:block;height:auto;width:100%;height:100%;
 
@@ -648,5 +670,5 @@ function gmpPackingDocControlReportFooter(data){
 // CSS for the server to correctly display the HTML table
 
 function getCSS(){
-    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}td { border: 1px solid #000000; text-align: left;}th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50;}.even { background-color: #b8e0b9;}.verticaltext{ writing-mode:tb-rl; transform: rotate(90deg); white-space:nowrap; word-break:break-word; bottom:0;}.typeTitle{ background-color: yellow; width:501px;}.fullColumn{ background-color: #D3D3D3;width:631px;}.nameColumn{ width:116px;}.numberColumn{ width:30px;}.timeColumn{ width:40px;}.areaColumn{ width:90px;}.statusColumn{ width:85px;}.actionColumn{ width:70px;}.commentColumn{ width:200px;} .report_image{width:350px !important;}</style>';
+    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}td { border: 1px solid #000000; text-align: left;}th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50;}.even { background-color: #b8e0b9;}.verticaltext{ writing-mode:tb-rl; transform: rotate(90deg); white-space:nowrap; word-break:break-word; bottom:0;}.typeTitle{ background-color: yellow; width:501px;}.fullColumn{ background-color: #D3D3D3;width:631px;}.nameColumn{ width:116px;}.numberColumn{ width:30px;}.timeColumn{ width:40px;}.areaColumn{ width:90px;}.statusColumn{ width:85px;}.actionColumn{ width:70px;}.commentColumn{ width:200px;} .report_image{width:350px !important; padding-left: 140px;}</style>';
 }
