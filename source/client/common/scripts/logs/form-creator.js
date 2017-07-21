@@ -909,11 +909,18 @@ function createFileInput(fileObject){
     if(fileObject.multiple === true)
         buttonInput.prop("multiple", true);
 
+    if(fileObject.id)
+        buttonInput.attr("id", fileObject.id);
+
     if(fileObject.name)
         buttonInput.attr("name", fileObject.name);
 
     if(fileObject.optional === true)
         buttonInput.addClass("optional");
+
+    if($.type(fileObject.data) == "object"){
+        buttonInput.data(fileObject.data);
+    }
 
     buttonWrapper.append(buttonText);
     buttonWrapper.append(buttonInput);

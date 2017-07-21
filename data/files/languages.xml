@@ -1047,4 +1047,9 @@
         <english>Select Image</english>
         <spanish>Elegir Imagen</spanish>
     </translation>
+
+    <translation id="select_file_button">
+        <english>Select File</english>
+        <spanish>Elegir Archivo</spanish>
+    </translation>
 </translations>

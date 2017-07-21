@@ -11,6 +11,7 @@ source/server/app.log
 app.log
 *.log
 tests/*
+external/*
 data/logos/
 data/signatures/
 data/manuals/

@@ -86,7 +86,7 @@ $service = fsm\createCaptureService(
 
       // esta funcion sube los archivos especificados del arreglo de archivos 
       // al servidor y luego retorna los nombres con los cuales fueron guardados
-      $uploadFiles = function($field, $start, $length, $uploadDir) {
+      $uploadFiles = function($field, $start, $length, $uploadDir) use ($logID) {
         // arreglo temporal para guardar los nombres de los archivos
         $files = [];
 

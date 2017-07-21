@@ -137,6 +137,36 @@ function sendGmpPackingDocControlReport(){
 
         console.log(formData);
 
+        var fileCurrentIndex = 0;
+
+        $("input:file[id^=log_images]").each(function () {
+            if($(this)[0].files.length){
+                /*console.log("Documento actual: " + $(this).data("document_index"));
+                console.log("Entrada actual: " + $(this).data("entry_index"));
+                console.log("Longitud de entradas: " + $(this)[0].files.length);*/
+                console.log("Datos de imagenes");
+                console.log($(this).data());
+                console.log("A guardar image_index = " + fileCurrentIndex + ", image_lenght = " + $(this)[0].files.length);
+                formData.append("documents[" + $(this).data("document_index") + "][entries][" + $(this).data("entry_index") + "][pictures_start]", fileCurrentIndex);
+                formData.append("documents[" + $(this).data("document_index") + "][entries][" + $(this).data("entry_index") + "][pictures_length]", $(this)[0].files.length);
+                fileCurrentIndex += $(this)[0].files.length;
+            }
+        });
+
+        fileCurrentIndex = 0;
+
+        $("input:file[id^=log_files]").each(function () {
+            if($(this)[0].files.length){
+                /*console.log("Documento actual: " + $(this).data("document_index"));
+                console.log("Entrada actual: " + $(this).data("entry_index"));
+                console.log("Longitud de entradas: " + $(this)[0].files.length);*/
+                console.log("A guardar image_index = " + fileCurrentIndex + ", image_lenght = " + $(this)[0].files.length);
+                formData.append("documents[" + $(this).data("document_index") + "][entries][" + $(this).data("entry_index") + "][files_start]", fileCurrentIndex);
+                formData.append("documents[" + $(this).data("document_index") + "][entries][" + $(this).data("entry_index") + "][files_length]", $(this)[0].files.length);
+                fileCurrentIndex += $(this)[0].files.length;
+            }
+        });
+
         $server.request({
             service: 'capture-gmp-doc-control-doc-control',
             data: formData,
@@ -330,8 +360,11 @@ function gmpPackingDocRegistryItemEntry(item, registerNumber, isPrefilled){
     entrySection.rows.push(dataRow);
 
     if(!(isPrefilled === true)){
+        var imagesRow = {"type":"row","columns":[]};
         var filesRow = {"type":"row","columns":[]};
+        imagesRow.columns = [gmpPackingDocRegistryItemImage(item, registerNumber)];
         filesRow.columns = [gmpPackingDocRegistryItemFile(item, registerNumber)];
+        entrySection.rows.push(imagesRow);
         entrySection.rows.push(filesRow);
     }
 
@@ -412,8 +445,15 @@ function gmpPackingDocRegistryItemUrl(item, registerNumber){
     return urlFullInput;
 }
 
+function gmpPackingDocRegistryItemImage(item, registerNumber){
+    var logoField = {"type":"file","id":"log_images_" + item.id + "_" + registerNumber,"classes":"select_image_button","name":"pictures[]","multiple":true,"optional":true,"data":{"document_index":item.no,"entry_index":registerNumber}};
+    var logoInput = {"id":"imagesWrapper_" + item.id + "_" + registerNumber,"classes":"input-field col s12 m12 l12","field":logoField};
+
+    return logoInput;
+}
+
 function gmpPackingDocRegistryItemFile(item, registerNumber){
-    var logoField = {"type":"file","id":"log_files_" + item.id + "_" + registerNumber,"classes":"select_image_button","name":"documents[" + item.no + "][entries][" + registerNumber + "][pictures][]","multiple":true,"optional":true};
+    var logoField = {"type":"file","id":"log_files_" + item.id + "_" + registerNumber,"classes":"select_file_button","name":"files[]","multiple":true,"optional":true,"data":{"document_index":item.no,"entry_index":registerNumber}};
     var logoInput = {"id":"filesWrapper_" + item.id + "_" + registerNumber,"classes":"input-field col s12 m12 l12","field":logoField};
 
     return logoInput;
