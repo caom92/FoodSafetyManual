@@ -124,6 +124,21 @@ function fillPendingAuthorizations(){
         service: 'list-unapproved-logs-of-user',
         success: function(response){
             if(response.meta.return_code == 0){
+                console.log("Enter service");
+                if(response.data.waiting.logs){
+                    console.log("Enter float button");
+                    $("#master_wrapper").append(`<div class="fixed-action-btn">
+                        <a id="reverse_order" class="btn-floating btn-large green arrow-down">
+                            <i class="mdi mdi-sort mdi-24px"></i>
+                        </a>
+                    </div>`);
+                    $("#reverse_order").click(function(argument) {
+                        $("#waiting_reports").children().each(function(i,li){
+                            $("#waiting_reports").prepend(li);
+                        });
+                    });
+                }
+
                 for(var waiting of response.data.waiting.logs){
                     $("#waiting_reports").append(waitingReportCard(waiting));
                 }
