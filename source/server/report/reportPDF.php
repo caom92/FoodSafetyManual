@@ -100,11 +100,25 @@ class PDFCreator extends TCPDF
         $companyName = $this->company;
         $companyAddress = $this->address;
 
+        list($w, $h) = getimagesize($logo);
+
+        if($w > ($h*2)){
+            $width = 36;
+            $height = 0;
+            $padding_x = 0;
+        } else {
+            $height = 18;
+            $width = 0;
+            $padding_x = (integer)(((18 * $h) / $w) / 2);
+        }
+
         // sets the logo and the company info in the PDF file
-        $this->Image($logo, 5, 5, 40, '', '', '', 'T', false, 300, '', 
+        $this->Image($logo, 5 + $padding_x, 5, $width, $height, '', '', 'M', false, 300, '', 
             false, false, 0, false, false, false);
         $this->ln(0);
         $this->SetFont('helvetica', 'B', 15);
+        $this->SetX(5);
+        $this->SetY(5);
         $this->Cell(0, 12, $companyName, 0, false, 'C', 0, '', 0, false, 
             'T', 'M');
         $this->ln(5);
