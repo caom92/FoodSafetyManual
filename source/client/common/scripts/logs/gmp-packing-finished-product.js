@@ -741,14 +741,6 @@ function gmpPackingFinishedProductHeader(){
 function gmpPackingFinishedProductBody(data){
     var body = {"type":"tbody"};
 
-    //body.rows = new Array();
-
-    /*for(var item of data.entries){
-        var row = {"type":"tr"};
-        row.columns = gmpPackingFinishedProductReportItem(item);
-        body.rows.push(row);
-    }*/
-
     body.rows = gmpPackingFinishedProductReportItem(data);
 
     return body;
@@ -757,51 +749,65 @@ function gmpPackingFinishedProductBody(data){
 function gmpPackingFinishedProductReportItem(itemData){
     var item = new Array();
 
-    var batchRow = {"type":"tr","columns":[]};
-    var contactRow = {"type":"tr","columns":[]};
-    var qualityRow = {"type":"tr","columns":[]};
-    var temperatureTopRow = {"type":"tr","columns":[]};
-    var temperatureBotRow = {"type":"tr","columns":[]};
-    var controlRow = {"type":"tr","columns":[]};
+    var firstRowTitles  = {"type":"tr","columns":[]};
+    var firstRowContent  = {"type":"tr","columns":[]};
+    var secondRowTitles  = {"type":"tr","columns":[]};
+    var secondRowContent  = {"type":"tr","columns":[]};
     var notesRow = {"type":"tr","columns":[]};
-    var albumRow = {"type":"tr","columns":[]};
 
-    batchRow.columns.push({"type":"td","classes":"batchColumn","contents":"<span class='batch_title'></span>: " + itemData.batch});
-    batchRow.columns.push({"type":"td","classes":"areaColumn","contents":"<span class='area_title'></span>: " + itemData.production_area,"colspan":2});
-    contactRow.columns.push({"type":"td","classes":"suppliersColumn","contents":"<span class='suppliers'></span>: " + itemData.supplier});
-    contactRow.columns.push({"type":"td","classes":"productsColumn","contents":"<span class='products'></span>: " + itemData.product});
-    contactRow.columns.push({"type":"td","classes":"clientsColumn","contents":"<span class='clients'></span>: " + itemData.customer});
-    qualityRow.columns.push({"type":"td","classes":"qualityColumn","contents":"<span class='quality_title'></span>: " + itemData.quality});
-    qualityRow.columns.push({"type":"td","classes":"originColumn","contents":"<span class='origin_title'></span>: " + itemData.origin});
-    qualityRow.columns.push({"type":"td","classes":"expiresColumn","contents":"<span class='expires_title'></span>: " + itemData.expiration_date});
-    temperatureTopRow.columns.push({"type":"td","classes":"waterColumn","contents":"<span class='water_temperature'></span>: " + itemData.water_temperature,"colspan":3});
-    temperatureBotRow.columns.push({"type":"td","classes":"packingColumn","contents":"<span class='packing_temperature'></span>: " + itemData.product_temperature,"colspan":3});
+    // First row titles and content; batch, area, suppliers, products, clients and quality
+
+    firstRowTitles.columns.push({"type":"td","classes":"batchColumn pseudo-th","contents":"<span class='batch_title'></span>","colspan":2});
+    firstRowTitles.columns.push({"type":"td","classes":"areaColumn pseudo-th","contents":"<span class='area_title'></span>"});
+    firstRowTitles.columns.push({"type":"td","classes":"suppliersColumn pseudo-th","contents":"<span class='suppliers'></span>"});
+    firstRowTitles.columns.push({"type":"td","classes":"productsColumn pseudo-th","contents":"<span class='products'></span>"});
+    firstRowTitles.columns.push({"type":"td","classes":"clientsColumn pseudo-th","contents":"<span class='clients'></span>"});
+    firstRowTitles.columns.push({"type":"td","classes":"qualityColumn pseudo-th","contents":"<span class='quality_title'></span>"});
+
+    firstRowContent.columns.push({"type":"td","classes":"batchColumn","contents":itemData.batch,"colspan":2});
+    firstRowContent.columns.push({"type":"td","classes":"areaColumn","contents":itemData.production_area});
+    firstRowContent.columns.push({"type":"td","classes":"suppliersColumn","contents":itemData.supplier});
+    firstRowContent.columns.push({"type":"td","classes":"productsColumn","contents":itemData.product});
+    firstRowContent.columns.push({"type":"td","classes":"clientsColumn","contents":itemData.customer});
+    firstRowContent.columns.push({"type":"td","classes":"qualityColumn","contents":itemData.quality});
+
+    // Second row titles and content; origin, exp. date, w. tempratur, p. temperature, correct weight, correct label and traceability
+
+    secondRowTitles.columns.push({"type":"td","classes":"batchColumn pseudo-th","contents":"<span class='origin_title'></span>"});
+    secondRowTitles.columns.push({"type":"td","classes":"areaColumn pseudo-th","contents":"<span class='expires_title'></span>"});
+    secondRowTitles.columns.push({"type":"td","classes":"suppliersColumn pseudo-th","contents":"<span class='water_temperature'></span>"});
+    secondRowTitles.columns.push({"type":"td","classes":"productsColumn pseudo-th","contents":"<span class='packing_temperature'></span>"});
+    secondRowTitles.columns.push({"type":"td","classes":"clientsColumn pseudo-th","contents":"<span class='correct_weight_title'></span>"});
+    secondRowTitles.columns.push({"type":"td","classes":"qualityColumn pseudo-th","contents":"<span class='correct_label_title'></span>"});
+    secondRowTitles.columns.push({"type":"td","classes":"batchColumn pseudo-th","contents":"<span class='traceability_title'></span>"});
+
+    secondRowContent.columns.push({"type":"td","classes":"batchColumn","contents":itemData.origin});
+    secondRowContent.columns.push({"type":"td","classes":"areaColumn","contents":itemData.expiration_date});
+    secondRowContent.columns.push({"type":"td","classes":"suppliersColumn","contents":itemData.water_temperature});
+    secondRowContent.columns.push({"type":"td","classes":"productsColumn","contents":itemData.product_temperature});
     if(itemData.is_weight_correct == 1){
-        controlRow.columns.push({"type":"td","classes":"weightColumn","contents":"<span class='correct_weight_title'></span>: <span class='yes_tag'></span>"});
+        secondRowContent.columns.push({"type":"td","classes":"weightColumn","contents":"<span class='yes_tag'></span>"});
     } else {
-        controlRow.columns.push({"type":"td","classes":"weightColumn","contents":"<span class='correct_weight_title'></span>: <span class='no_tag'></span>"});
+        secondRowContent.columns.push({"type":"td","classes":"weightColumn","contents":"<span class='no_tag'></span>"});
     }
     if(itemData.is_label_correct == 1){
-        controlRow.columns.push({"type":"td","classes":"labelColumn","contents":"<span class='correct_label_title'></span>: <span class='yes_tag'></span>"});
+        secondRowContent.columns.push({"type":"td","classes":"labelColumn","contents":"<span class='yes_tag'></span>"});
     } else {
-        controlRow.columns.push({"type":"td","classes":"labelColumn","contents":"<span class='correct_label_title'></span>: <span class='no_tag'></span>"});
+        secondRowContent.columns.push({"type":"td","classes":"labelColumn","contents":"<span class='no_tag'></span>"});
     }
     if(itemData.is_trackable == 1){
-        controlRow.columns.push({"type":"td","classes":"traceabilityColumn","contents":"<span class='traceability_title'></span>: <span class='yes_tag'></span>"});
+        secondRowContent.columns.push({"type":"td","classes":"traceabilityColumn","contents":"<span class='yes_tag'></span>"});
     } else {
-        controlRow.columns.push({"type":"td","classes":"traceabilityColumn","contents":"<span class='traceability_title'></span>: <span class='no_tag'></span>"});
+        secondRowContent.columns.push({"type":"td","classes":"traceabilityColumn","contents":"<span class='no_tag'></span>"});
     }
-    notesRow.columns.push({"type":"td","classes":"notesColumn","contents":"<span class='notes_title'></span>: " + itemData.notes,"colspan":3});
-    albumRow.columns.push({"type":"td","classes":"notesColumn","contents":"<span class='url_title'></span>: <a href='" + itemData.album_url + "' >" + itemData.album_url + "</a>","colspan":3});
+    notesRow.columns.push({"type":"td","classes":"notesColumn","contents":"<span class='notes_title'></span>: " + itemData.notes,"colspan":5});
+    notesRow.columns.push({"type":"td","classes":"notesColumn","contents":"<span class='url_title'></span>: <a href='" + itemData.album_url + "' >" + "View Report" + "</a>","colspan":2});
 
-    item.push(batchRow);
-    item.push(contactRow);
-    item.push(qualityRow);
-    item.push(temperatureTopRow);
-    item.push(temperatureBotRow);
-    item.push(controlRow);
+    item.push(firstRowTitles);
+    item.push(firstRowContent);
+    item.push(secondRowTitles);
+    item.push(secondRowContent);
     item.push(notesRow);
-    item.push(albumRow);
 
     return item;
 }
@@ -813,5 +819,5 @@ function gmpPackingFinishedProductFooter(data){
 }
 
 function getCSS(){
-    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}td { border: 1px solid #000000; text-align: left;}th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50;}.even { background-color: #b8e0b9;}.typeTitle{ background-color: yellow; width:588px;}.fullColumn{ background-color: #D3D3D3;width:631px;}.testColumn{ width:147px;}.numberColumn{ width:147px;}.timeColumn{ width:43px;}.statusColumn{ width:147px;}.sanitizedColumn{ width:147px;}</style>';
+    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}td { border: 1px solid #000000; text-align: left;}th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50;}.even { background-color: #b8e0b9;}.typeTitle{ background-color: yellow; width:588px;}.fullColumn{ background-color: #D3D3D3;width:631px;}.testColumn{ width:147px;}.numberColumn{ width:147px;}.timeColumn{ width:43px;}.statusColumn{ width:147px;}.sanitizedColumn{ width:147px;} .pseudo-th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50;}</style>';
 }
