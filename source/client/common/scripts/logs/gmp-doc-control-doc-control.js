@@ -656,7 +656,11 @@ function gmpPackingDocControlReportItem(itemData){
     item.push({"type":"td","classes":"userColumn","contents":itemData.employee});
     item.push({"type":"td","classes":"dateColumn","contents":itemData.date});
     item.push({"type":"td","classes":"notesColumn","contents":itemData.notes});
-    item.push({"type":"td","classes":"urlColumn","contents":itemData.additional_info_url});
+    if(itemData.additional_info_url){
+        item.push({"type":"td","classes":"urlColumn","contents":"<a href='" + itemData.additional_info_url + "' ><span class='open_url'></span></a>"});
+    } else {
+        item.push({"type":"td","classes":"urlColumn"});
+    }
 
     return item;
 }

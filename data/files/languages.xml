@@ -905,9 +905,14 @@
     </translation>
 
     <translation id="url_title">
-        <english>Link to Picasa Album</english>
-        <spanish>Dirección del Album de Picasa</spanish>
+        <english>Link to Album</english>
+        <spanish>Enlace del Album</spanish>
     </translation>
+
+    <translation id="open_url">
+        <english>Click to open</english>
+        <spanish>Presione para abrir</spanish>
+    </translation>   
 
     <translation id="report_additional_info">
         <english>Additional Report Information</english>
