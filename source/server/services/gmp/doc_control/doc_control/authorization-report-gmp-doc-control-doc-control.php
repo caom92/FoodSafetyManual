@@ -51,7 +51,8 @@ $service = fsm\createAuthorizationReportService(
             'date' => $row['document_date'],
             'notes' => $row['notes'],
             'additional_info_url' => $row['additional_info_url'],
-            'pictures' => $row['pictures']
+            'pictures' => $row['pictures'],
+            'files' => $row['files']
           ]);
         } else {
           // si el documento no ha cambiado, guardamos la informacion en el 
@@ -61,7 +62,8 @@ $service = fsm\createAuthorizationReportService(
             'date' => $row['document_date'],
             'notes' => $row['notes'],
             'additional_info_url' => $row['additional_info_url'],
-            'pictures' => $row['pictures']
+            'pictures' => $row['pictures'],
+            'files' => $row['files']
           ]);
         }
       }
