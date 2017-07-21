@@ -39,15 +39,39 @@ $service = fsm\createCaptureService(
               'max_length' => 65535,
               'optional' => TRUE
             ],
-            'pictures' => [
-              'type' => 'string',
-              'min_length' => 1,
-              'max_length' => 65535,
+            'pictures_start' => [
+              'type' => 'int',
+              'min' => 0,
+              'optional' => TRUE
+            ],
+            'pictures_length' => [
+              'type' => 'int',
+              'min' => 1,
+              'optional' => TRUE
+            ],
+            'files_start' => [
+              'type' => 'int',
+              'min' => 0,
+              'optional' => TRUE
+            ],
+            'files_length' => [
+              'type' => 'int',
+              'min' => 1,
               'optional' => TRUE
             ]
           ]
         ]
       ]
+    ],
+    'pictures' => [
+      'type' => 'files',
+      'format' => 'bitmap',
+      'optional' => TRUE
+    ],
+    'files' => [
+      'type' => 'files',
+      'format' => 'documents',
+      'optional' => TRUE
     ]
   ],
   [
@@ -60,10 +84,57 @@ $service = fsm\createCaptureService(
       // base de datos
       $logData = [];
 
+      // esta funcion sube los archivos especificados del arreglo de archivos 
+      // al servidor y luego retorna los nombres con los cuales fueron guardados
+      $uploadFiles = function($field, $start, $length, $uploadDir) {
+        // arreglo temporal para guardar los nombres de los archivos
+        $files = [];
+
+        // luego visitamos cada imagen
+        for ($i = $start; $i < $length; ++$i) {
+          // obtenemos el formato del archivo
+          $originalFileName = $_FILES[$field]['name'][$i];
+          $format = 
+            substr($originalFileName, strpos($originalFileName, '.'));
+
+          // generamos el nombre del archivo
+          $fileName = 
+            "{$logID}_" . 
+            date('Y-m-d_H-i-s') . 
+            "_$i$format";
+
+          $s = NULL;
+          if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            $s = '\\';
+          } else {
+            $s = '/';
+          }
+
+          // y movemos el archivo al directorio donde sera almacenado
+          $wasMoveSuccessful = move_uploaded_file(
+            $_FILES[$field]['tmp_name'][$i], 
+            $uploadDir . "$s$fileName"
+          );
+
+          // revisamos si el archivo se almaceno con exito, lanzando una
+          // excepcion si no fue asi
+          if (!$wasMoveSuccessful) {
+            throw new \Exception(
+              "The file '{$originalFileName}' could not be uploaded."
+            );
+          }
+
+          // por ultimo, guardamos el nombre del archivo subido en la 
+          // estructura de datos con los datos a guardar en la tabla
+          array_push($files, $fileName);
+        } // for ($i = $start; $i < $length; ++$i)
+
+        // retornamos los nombres de los archivos
+        return $files;
+      };
+
       // visitamos cada entrada enviada por el usuario
-      $i = 0;
       foreach ($request['documents'] as $document) {
-        $j = 0;
         foreach ($document['entries'] as $entry) {
           // preparamos los datos que van a ser ingresados en la BD
           $data = [
@@ -78,76 +149,56 @@ $service = fsm\createCaptureService(
               (isset($entry['additional_info_url']) 
                 && array_key_exists('additional_info_url', $entry)) ?
                 $entry['additional_info_url'] : NULL,
-            'pictures' => NULL
+            'pictures' => NULL,
+            'files' => NULL
           ];
 
           // revisamos si el usuario envio imagenes
-          // echo var_dump($_FILES);
           $werePicturesUploaded = 
-            isset($_FILES['documents']) 
-            && array_key_exists('documents', $_FILES);
+            isset($_FILES['pictures']) 
+            && array_key_exists('pictures', $_FILES);
+
+          $wereDocumentsUploaded = 
+            isset($_FILES['files']) 
+            && array_key_exists('files', $_FILES);
 
           // arreglo temporal para guardar los nombres de los archivos
-          $images = [];
+          $images = ($werePicturesUploaded) ? 
+            $uploadFiles(
+              'pictures', 
+              $entry['pictures_start'], 
+              $entry['pictures_length'], 
+              realpath(
+                dirname(__FILE__)."/../../../../../../data/images/".
+                "gmp/doc_control/doc_control/"
+              )
+            )
+            : [];
 
-          // si asi fue, hay que guardarlas en el servidor
-          if ($werePicturesUploaded) {
-            // primero generamos la direccion donde van a almacenarse las 
-            // imagenes
-            $uploadDir = realpath(
-              dirname(__FILE__)."/../../../../../../data/images/".
-              "gmp/doc_control/doc_control/"
-            );
-
-            // luego visitamos cada imagen
-            for ($k = 0; $k < count($_FILES['documents']['name'][$i]['entries'][$j]['pictures']); ++$k) {
-              // obtenemos el formato del archivo
-              $originalFileName = 
-                $_FILES['documents']['name'][$i]['entries'][$j]['pictures'][$k];
-              $format = 
-                substr($originalFileName, strpos($originalFileName, '.'));
-
-              // generamos el nombre del archivo
-              $fileName = 
-                "{$logID}_" . 
-                date('Y-m-d_H-i-s') . 
-                "_{$i}_{$j}_$k$format";
-
-              $s = NULL;
-              if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-                $s = '\\';
-              } else {
-                $s = '/';
-              }
-
-              // y movemos el archivo al directorio donde sera almacenado
-              $wasMoveSuccessful = move_uploaded_file(
-                $_FILES['documents']['tmp_name'][$i]['entries'][$j]['pictures'][$k], 
-                $uploadDir . "$s$fileName"
-              );
-
-              // revisamos si el archivo se almaceno con exito, lanzando una
-              // excepcion si no fue asi
-              if (!$wasMoveSuccessful) {
-                throw new \Exception(
-                  "The file '{$originalFileName}' could not be uploaded."
-                );
-              }
-
-              // por ultimo, guardamos el nombre del archivo subido en la 
-              // estructura de datos con los datos a guardar en la tabla
-              array_push($images, $fileName);
-            } // for ($k = 0; $k < count($_FILES['pictures']); ++$k)
-          } // if ($werePicturesUploaded)
+          $documents = ($wereDocumentsUploaded) ? 
+            $uploadFiles(
+              'files', 
+              $entry['files_start'], 
+              $entry['files_length'], 
+              realpath(
+                dirname(__FILE__)."/../../../../../../data/documents/".
+                "gmp/doc_control/doc_control/"
+              )
+            )
+            : [];
 
           // guardamos los datos a subir en el conglomerado
           if (count($images) > 0) {
             $data['pictures'] = json_encode($images);
           }
+
+          // guardamos los datos a subir en el conglomerado
+          if (count($documents) > 0) {
+            $data['files'] = json_encode($documents);
+          }
+
           array_push($logData, $data);
-          ++$j;
         } // foreach ($document['entries'] as $entry)
-        ++$i;
       } // foreach ($request['documents'] as $document)
 
       // finalmente, ingresamos los datos en la tabla

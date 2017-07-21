@@ -4,6 +4,7 @@ namespace fsm\database;
 require_once realpath(dirname(__FILE__)."/../config/database_config.php");
 // Medoo:
 require_once realpath(dirname(__FILE__)."/../../../external/autoload.php");
+use Medoo\Medoo;
 
 
 // Una interfaz para acceder a y modificar los datos almacenados dentro de una 
@@ -20,7 +21,7 @@ class DataBaseTable
   // Intenta establecer una conexion a la base de datos y almacena una instancia
   // de la interfaz que representa dicha conexion para su uso futuro
   static function connectToDataBase() {
-    self::$dataBase = new \medoo([
+    self::$dataBase = new Medoo([
       "database_type" => "mysql",
       "database_name" => DATA_BASE,
       "server" => HOST,
@@ -103,7 +104,8 @@ class DataBaseTable
   //        insertar en la tabla organizados por renglones y columnas
   // [out]  return (uint): el ID del ultimo renglon insertado
   protected function insert($rows) {
-    return self::$dataBase->insert($this->table, $rows);
+    self::$dataBase->insert($this->table, $rows);
+    return self::$dataBase->id();
   }
   
   // Modifica los valores en la tabla que cumplan con las condiciones 
@@ -117,7 +119,8 @@ class DataBaseTable
   //        dicha operacion
   // [out]  return (uint): el numero de renglones que fueron modificados
   protected function update($newValues, $where) {
-    return self::$dataBase->update($this->table, $newValues, $where);
+    $result = self::$dataBase->update($this->table, $newValues, $where);
+    return $result->rowCount();
   }
 
   // Reemplaza los datos existentes en las columnas especificadas con los datos
@@ -141,7 +144,8 @@ class DataBaseTable
   //        dicha operacion
   // [out]  return (uint): el numero de renglones que fueron borrados
   protected function delete($where) {
-    return self::$dataBase->delete($this->table, $where);
+    $result = self::$dataBase->delete($this->table, $where);
+    return $result->rowCount();
   }
 
   // Cuenta el numero de renglones en la tabla que cumplan con las condiciones
