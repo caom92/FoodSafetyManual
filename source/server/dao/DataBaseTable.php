@@ -4,7 +4,6 @@ namespace fsm\database;
 require_once realpath(dirname(__FILE__)."/../config/database_config.php");
 // Medoo:
 require_once realpath(dirname(__FILE__)."/../../../external/autoload.php");
-use Medoo\Medoo;
 
 
 // Una interfaz para acceder a y modificar los datos almacenados dentro de una 
@@ -21,7 +20,7 @@ class DataBaseTable
   // Intenta establecer una conexion a la base de datos y almacena una instancia
   // de la interfaz que representa dicha conexion para su uso futuro
   static function connectToDataBase() {
-    self::$dataBase = new Medoo([
+    self::$dataBase = new \medoo([
       "database_type" => "mysql",
       "database_name" => DATA_BASE,
       "server" => HOST,
@@ -104,8 +103,7 @@ class DataBaseTable
   //        insertar en la tabla organizados por renglones y columnas
   // [out]  return (uint): el ID del ultimo renglon insertado
   protected function insert($rows) {
-    self::$dataBase->insert($this->table, $rows);
-    return self::$dataBase->id();
+    return self::$dataBase->insert($this->table, $rows);
   }
   
   // Modifica los valores en la tabla que cumplan con las condiciones 
