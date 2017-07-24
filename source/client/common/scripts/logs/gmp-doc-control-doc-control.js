@@ -106,6 +106,12 @@ function validateLog(){
 }
 
 function specialClearLog(){
+    $(".document-wrapper").remove();
+    $("option").prop("disabled", false);
+    $("select").material_select("destroy");
+    $("select").material_select();
+    incID = 0;
+
     return;
 }
 
@@ -259,14 +265,15 @@ function updateGmpPackingDocControlReport(reportID){
 function gmpPackingDocRegistryForm(data, htmlElement, isPrefilled){
     var form = {"type":"form","id":"document_registry_form","method":"post","enctype":"multipart/form-data","name":"document_registry_form","form":{"sections":[]},"action":"tester.php"};
     var buttonRow = $("<div>");
-    var controlsRow = $("<div>");
+    //var controlsRow = $("<div>");
 
     if(!(isPrefilled === true)){
-        controlsRow.addClass("card-panel white");
-        $(controlsRow).append(createInputRow(gmpPackingAtpTestingAreaControls(data)));
+        //controlsRow.addClass("card-panel white");
+        //$(controlsRow).append(createInputRow(gmpPackingAtpTestingAreaControls(data)));
+        $("body").append(createBottomModal({"id":"document-select-modal","content":gmpPackingAtpTestingAreaControls(data)}));
     }
 
-    $(htmlElement).append(controlsRow);
+    //$(htmlElement).append(controlsRow);
 
     form.form.sections.push({"type":"section","rows":[{"type":"row","columns":[gmpPackingDocRegistryDate(getISODate(new Date()))]}]});
 
@@ -293,6 +300,16 @@ function gmpPackingDocRegistryForm(data, htmlElement, isPrefilled){
 
     $(htmlElement).append(buttonRow);
 
+    $("body").append(createBottomModal({"id":"document-select-modal","content":"<h4>Test Modal</h4>","footer":"<p>Footer</p>"}));
+
+    $(htmlElement).append(`<div class="fixed-action-btn">
+                        <a class="btn-floating btn-large green modal-trigger mdi mdi-plus mdi-48px" href="#document-select-modal">
+                            
+                        </a>
+                    </div>`);
+
+    $(".modal-trigger").leanModal({dismissible: true});
+
     return form;
 }
 
@@ -316,7 +333,7 @@ function gmpPackingDocRegistryDate(date){
 }
 
 function gmpPackingDocRegistryItem(item, registerNumber){
-    var documentItem = {"type":"section","id":"documentWrapper_" + item.id,"classes":"card-panel white","sections":[]};
+    var documentItem = {"type":"section","id":"documentWrapper_" + item.id,"classes":"card-panel white document-wrapper","sections":[]};
     var identitySection = {"type":"section","id":"identityWrapper_" + item.id,"rows":[]};
     var identityRow = {"type":"row","columns":[]};
     var controlsSection = {"type":"section","id":"controlsWrapper_" + item.id,"rows":[]};
@@ -484,7 +501,8 @@ function gmpDocControlItemDelEntryButton(area){
 function gmpPackingAtpTestingAreaControls(data){
     var controlsRow = new Object();
 
-    controlsRow.columns = [gmpPackingAtpTestingAreaControlsSelect(data), gmpPackingAtpTestingAreaControlsAddButton(data), gmpPackingAtpTestingAreaControlsDelButton(data)];
+    controlsRow.type = "row";
+    controlsRow.columns = [gmpPackingAtpTestingAreaControlsSelect(data), gmpPackingAtpTestingAreaControlsAddButton(data)];
 
     return controlsRow;
 }
@@ -499,13 +517,13 @@ function gmpPackingAtpTestingAreaControlsSelect(data){
 
     var selectLabel = {"type":"label","contents":{"type":"text","classes":"production_area_title"}};
     var actionSelect =  {"type":"select","id":"productionArea","options":logs,"wrapper":"productionAreaWrapper"};
-    var actionSelectInput = {"id":"productionAreaWrapper","classes":"input-field col s10 m10 l10","field":actionSelect,"label":selectLabel};
+    var actionSelectInput = {"id":"productionAreaWrapper","classes":"input-field col s11 m11 l11","field":actionSelect,"label":selectLabel};
 
     return actionSelectInput;
 }
 
 function gmpPackingAtpTestingAreaControlsAddButton(data){
-    var areaAddInput = {"id":"addAreaButtonWrapper","classes":"input-field col s1 m1 l1"};
+    var areaAddInput = {"id":"addAreaButtonWrapper","classes":"input-field col s1 m1 l1 modal-close"};
     var areaAddButton = {"type":"floating","id":"add_area","classes":"btn-floating waves-effect waves-light green right","data":{"last_test":1}};
     var areaAddIcon = {"type":"icon","icon":"mdi-plus","size":"mdi-24px"};
     areaAddButton.icon = areaAddIcon;
@@ -514,7 +532,7 @@ function gmpPackingAtpTestingAreaControlsAddButton(data){
     return areaAddInput;
 }  
 
-function gmpPackingAtpTestingAreaControlsDelButton(data){
+/*function gmpPackingAtpTestingAreaControlsDelButton(data){
     var areaDelInput = {"id":"delAreaButtonWrapper","classes":"input-field col s1 m1 l1"};
     var areaDelButton = {"type":"floating","id":"del_area","classes":"btn-floating waves-effect waves-light grey","data":{"last_test":1}};
     var areaDelIcon = {"type":"icon","icon":"mdi-minus","size":"mdi-24px"};
@@ -522,7 +540,7 @@ function gmpPackingAtpTestingAreaControlsDelButton(data){
     areaDelInput.field = areaDelButton;
 
     return areaDelInput;
-}
+}*/
 
 /***************************************************************************/
 

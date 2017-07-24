@@ -1061,6 +1061,87 @@ function createFloatingButton(buttonObject){
     return floatingButton;
 }
 
+/*
+
+id: id (must be referenced in a 'button' or 'a' element)
+classes: classes
+content: HTML or Section/InputRow
+footer: HTML or Section/InputRow
+
+*/
+
+function createBottomModal(modalObject){
+    var bottomModal = $("<div>");
+
+    if(modalObject.id)
+        bottomModal.attr("id", modalObject.id);
+
+    if(modalObject.classes)
+        bottomModal.addClass(modalObject.classes);
+
+    bottomModal.addClass("modal");
+
+    if(modalObject.content){
+        bottomModal.append(createModalContent(modalObject.content));
+    }
+
+    if(modalObject.footer){
+        bottomModal.append(createModalFooter(modalObject.footer));
+    }
+
+    return bottomModal;
+}
+
+function createModalContent(modalContentObject){
+    var content = $("<div>");
+
+    content.addClass("modal-content");
+
+    if($.type(modalContentObject) == "object"){
+        if(modalContentObject.type){
+            if(modalContentObject.type == "row"){
+                content.append(createInputRow(modalContentObject));
+            } else if(modalContentObject.type == "section"){
+                content.append(formSection(modalContentObject));
+            } else if(modalContentObject.type == "form"){
+                content.append(createForm(modalContentObject));
+            } else {
+                content.append(createField(modalContentObject));
+            }
+        }
+    } else {
+        console.log("Append Modal Content HTML");
+        content.append(modalContentObject);
+    }
+
+    return content;
+}
+
+function createModalFooter(modalFooterObject){
+    var footer = $("<div>");
+
+    footer.addClass("modal-footer");
+
+    if($.type(modalFooterObject) == "object"){
+        if(modalFooterObject.type){
+            if(modalFooterObject.type == "row"){
+                footer.append(createInputRow());
+            } else if(modalFooterObject.type == "section"){
+                footer.append(formSection(modalFooterObject));
+            } else if(modalFooterObject.type == "form"){
+                footer.append(createForm(modalFooterObject));
+            } else {
+                footer.append(createField(modalFooterObject));
+            }
+        }
+    } else {
+        console.log("Append Modal Footer HTML");
+        footer.append(modalFooterObject);            
+    }
+
+    return footer;
+}
+
 function getISODate(date){
     var ISODate = "";
 
