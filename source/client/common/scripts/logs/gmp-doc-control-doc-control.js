@@ -646,7 +646,7 @@ function gmpPackingDocControlReportBody(data){
 
             // For the time being, add pictures one by one. If there are more pictures,
             // change this with a loop
-            if(entry.pictures){
+            if(entry.pictures != null){
                 var imgArray = JSON.parse(entry.pictures);
 
                 for(var img of imgArray){
@@ -655,6 +655,18 @@ function gmpPackingDocControlReportBody(data){
                     pictureRow.columns = gmpPackingDocControlImageColumn(img, 4);
 
                     body.rows.push(pictureRow);
+                }
+            }
+
+            if(entry.files != null){
+                var fileArray = JSON.parse(entry.files);
+
+                for(var file of fileArray){
+                    var fileRow = {"type":"tr","columns":[]};
+
+                    fileRow.columns = gmpPackingDocControlFileColumn(file, 4);
+
+                    body.rows.push(fileRow);
                 }
             }
             /*if(entry.picture1){
@@ -709,6 +721,16 @@ function gmpPackingDocControlImageColumn(imageAddress, colspan){
     var item = new Array();
 
     item.push({"type":"td","classes":"imageColumn","colspan":colspan,"contents":'<div style="text-align: center;"><img src="http://localhost/espresso/data/images/gmp/doc_control/doc_control/' + imageAddress + '" alt="report_image" class="report_image"></div>'/*,"style":"text-align:center;"*/});
+
+    //style="display:block;height:auto;width:100%;height:100%;
+
+    return item;
+}
+
+function gmpPackingDocControlFileColumn(fileAddress, colspan){
+    var item = new Array();
+
+    item.push({"type":"td","classes":"imageColumn","colspan":colspan,"contents":"<a href='http://localhost/espresso/data/documents/gmp/doc_control/doc_control/" + fileAddress + "' target='_blank'><span class='open_file'></span><a>"});
 
     //style="display:block;height:auto;width:100%;height:100%;
 

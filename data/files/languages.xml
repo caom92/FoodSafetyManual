@@ -912,6 +912,11 @@
     <translation id="open_url">
         <english>Click to open</english>
         <spanish>Presione para abrir</spanish>
+    </translation>
+
+    <translation id="open_file">
+        <english>Click to open file</english>
+        <spanish>Presione para abrir archivo</spanish>
     </translation>   
 
     <translation id="report_additional_info">

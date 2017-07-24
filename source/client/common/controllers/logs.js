@@ -250,7 +250,15 @@ function reportLoaderCard(data, footer){
         '</form>');
     reportCard.append(secretForm);
 
-    cardRow.append($("<div class='col s6 m6 l6' style='font-size: 24px;'>").append(data.creation_date));
+    var dateDisplay;
+
+    if(data.date_display){
+        dateDisplay = data.date_display;
+    } else {
+        dateDisplay = data.creation_date;
+    }
+
+    cardRow.append($("<div class='col s6 m6 l6' style='font-size: 24px;'>").append(dateDisplay));
     reportIconWrapper.append(reportIcon);
     openIconWrapper.append(openIcon);
     cardRow.append(reportIconWrapper);
