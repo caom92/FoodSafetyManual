@@ -7,23 +7,81 @@ $service = fsm\createReportService(
   'GMP',
   'Document Control',
   'Document Control',
-  [
-    'items_name' => 'documents',
-    'extra_info' => NULL,
-    'function' => function($scope, $segment, $logDate) {
+  function($scope, $request) {
+    // first, we get the session segment
+    $segment = $scope->session->getSegment('fsm');
+
+    // get the log ID
+    $logID = $scope->daoFactory->get('Logs')->getIDByNames(
+      'GMP', 'Document Control', 'Document Control');
+
+    // get the footers
+    $footers = $scope->daoFactory->get('ReportFooters')
+      ->getByZoneIDAndLogID(
+        $segment->get('zone_id'),
+        $logID
+      );
+
+    // then, we get the captured logs' date info 
+    $logDates = $scope->daoFactory->get('CapturedLogs')
+      ->selectByDateIntervalLogIDAndZoneID(
+        $request['start_date'],
+        $request['end_date'],
+        $logID,
+        $segment->get('zone_id')
+      );
+
+    // if no logs where captured, throw an exception
+    if (!isset($logDates)) {
+      throw new \Exception(
+        'No logs where captured at that date.', 2);
+    }
+
+    // initialize the storage for the reports
+    $reports = [];
+
+    // visit each date log that was obtained earlier
+    foreach ($logDates as $logDate) {
       // primero obtenemos todos los registros capturados en la fecha solicitada
       $rows = $scope->daoFactory->get('gmp\docControl\docControl\Logs')
         ->selectByCaptureDateID($logDate['id']);
 
-      // inicializamos el arreglo donde seran devueltos todos los registros
-      $documents = [];
+      // then retrieve the name of the employee and supervisor
+      // that worked on this log
+      $users = $scope->daoFactory->get('Users');
+      $supervisor = $users->getNameByID(
+        $logDate['supervisor_id']);
+      $employee = $users->getNameByID(
+        $logDate['employee_id']);
 
-      // inicializamos un almacenamiento temporal donde se iran guardando
-      // los registros
+      // push the report data to the array
+      $reportInfo = [
+        'report_id' => $logDate['id'],
+        'created_by' => 
+          $employee['first_name'].' '.
+          $employee['last_name'],
+        'approved_by' => 
+          (isset($supervisor['first_name'])) ?
+            $supervisor['first_name'].' '.
+            $supervisor['last_name'] 
+            : 'N/A',
+        'signature_path' => (strlen($supervisor['signature_path']) > 0) ? 
+          $supervisor['signature_path'] : 'default.png',
+        'creation_date' => $logDate['capture_date'],
+        'approval_date' => 
+          (isset($logDate['approval_date'])) ?
+            $logDate['approval_date'] : 'N/A',
+        'zone_name' => $segment->get('zone_name'),
+        'program_name' => $program,
+        'module_name' => $module,
+        'log_name' => $log
+      ];
+
+      // inicializamos el arreglo donde seran devueltos todos los registros
       $document = [
         'id' => 0
       ];
-
+      
       // visitamos cada registro leido de la BD
       foreach ($rows as $row) {
         // revisamos si el documento del registro cambio
@@ -31,9 +89,11 @@ $service = fsm\createReportService(
         if ($hasDocumentChanged) {
           // si cambio, revisamos si es el primer registro leido
           if ($document['id'] != 0) {
-            // si no lo es, guardamos los registros anteriores en el 
-            // almacenamiento final para todos los registros
-            array_push($documents, $document);
+            array_push($reports, $reportInfo + [
+              'display_date' => 
+                "{$reportInfo['creation_date']} {$document['name']}",
+              'document' => $document
+            ]);
           }
 
           // e reiniciamos el almacenamiento temporal con la informacion
@@ -65,18 +125,26 @@ $service = fsm\createReportService(
             'pictures' => $row['pictures'],
             'files' => $row['files']
           ]);
-        }
-      }
+        } // if ($hasDocumentChanged)
+      } // foreach ($rows as $row)
 
       // no hay que olvidar almacenar el ultimo registro en el conglomerado
       if ($document['id'] != 0) {
-        array_push($documents, $document);
+        array_push($reports, $reportInfo + [
+          'display_date' => 
+            "{$reportInfo['creation_date']} {$document['name']}",
+          'document' => $document
+        ]);
       }
+    } // foreach ($logDates as $logDate)
 
-      // retornamos el almacenamiento conglomerado
-      return $documents;
-    }
-  ]
+    // finally return the list of reports
+    return [
+      'pdf_footer' => $footers['report_footer'],
+      'reports' => $reports
+    ];
+  },
+  TRUE
 );
 
 ?>
