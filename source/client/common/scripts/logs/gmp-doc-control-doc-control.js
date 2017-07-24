@@ -627,7 +627,7 @@ function gmpPackingDocControlReportBody(data){
 
     console.log(data);
 
-    for(var doc of data.documents){
+    var doc = data.document;
         // Title row
         var titleRow = {"type":"tr","columns":[]};
 
@@ -685,7 +685,6 @@ function gmpPackingDocControlReportBody(data){
                 body.rows.push(picture2Row);
             }*/
         }
-    }
 
     return body;
 }

@@ -229,7 +229,7 @@ function reportLoaderCard(data, footer){
     var reportCard = $("<div>");
     var cardRow = $("<div>");
     var openIconWrapper = $("<div class='iconContainer col s1 m1 l1'>");
-    var reportIconWrapper = $("<div class='iconContainer col offset-s4 offset-m4 offset-l4 s1 m1 l1'>");
+    var reportIconWrapper = $("<div class='iconContainer col s1 m1 l1'>");
     var openIcon = $('<i class="mdi mdi-file-document-box mdi-36px green-text"></i>');
     var reportIcon = $('<i class="mdi mdi-file-pdf-box mdi-36px red-text text-darken-4"></i>');
     reportIcon.hide();
@@ -252,13 +252,13 @@ function reportLoaderCard(data, footer){
 
     var dateDisplay;
 
-    if(data.date_display){
-        dateDisplay = data.date_display;
+    if(data.display_date){
+        dateDisplay = data.display_date;
     } else {
         dateDisplay = data.creation_date;
     }
 
-    cardRow.append($("<div class='col s6 m6 l6' style='font-size: 24px;'>").append(dateDisplay));
+    cardRow.append($("<div class='col s10 m10 l10' style='font-size: 24px;'>").append(dateDisplay));
     reportIconWrapper.append(reportIcon);
     openIconWrapper.append(openIcon);
     cardRow.append(reportIconWrapper);

@@ -72,9 +72,9 @@ $service = fsm\createReportService(
           (isset($logDate['approval_date'])) ?
             $logDate['approval_date'] : 'N/A',
         'zone_name' => $segment->get('zone_name'),
-        'program_name' => $program,
-        'module_name' => $module,
-        'log_name' => $log
+        'program_name' => "GMP",
+        'module_name' => "Document Control",
+        'log_name' => "Document Control"
       ];
 
       // inicializamos el arreglo donde seran devueltos todos los registros
