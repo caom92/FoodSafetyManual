@@ -38,6 +38,7 @@ function waitingReportCard(report){
         $.getScript( "source/client/common/scripts/logs/" + logScript + ".js", function( data, textStatus, jqxhr ) {
             console.log("Load of " +  logScript);
             $("#master_wrapper").fadeOut(500);
+            $("#preloader_wrapper").show();
             $("#content_wrapper").show(500);
             var data = {"start_date":report.capture_date,"end_date":report.capture_date,"report_id":reportID};
             loadPrefilledLogForm("#content_wrapper", data);

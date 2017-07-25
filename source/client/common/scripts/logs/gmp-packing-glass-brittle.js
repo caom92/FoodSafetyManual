@@ -49,6 +49,9 @@ function loadPrefilledLogForm(htmlElement, data){
                 });
                 changeLanguage();
                 $("input").characterCounter();
+                window.scrollTo(0, 0);
+                $("#preloader_wrapper").hide();
+                $(htmlElement).fadeIn(500);
             } else {
                 Materialize.toast(response.meta.message, 3000, "rounded");
                 throw response.meta.message;

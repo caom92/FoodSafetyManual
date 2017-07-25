@@ -57,9 +57,11 @@ function loadPrefilledLogForm(htmlElement, data){
                 $("input").characterCounter();
                 $("textarea").characterCounter();
                 $("textarea").trigger("autoresize");
-                window.scrollTo(0, 0);
                 $(htmlElement).append(report.html_footer);
                 changeLanguage();
+                window.scrollTo(0, 0);
+                $("#preloader_wrapper").hide();
+                $(htmlElement).fadeIn(500);
             } else {
                 Materialize.toast(response.meta.message, 3000, "rounded");
                 throw response.meta.message;

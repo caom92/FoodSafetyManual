@@ -58,6 +58,7 @@ function loadPrefilledLogForm(htmlElement, data){
                 $("textarea").trigger("autoresize");
                 changeLanguage();
                 window.scrollTo(0, 0);
+                $("#preloader_wrapper").hide();
                 $(htmlElement).fadeIn(500);
             } else {
                 Materialize.toast(response.meta.message, 3000, "rounded");

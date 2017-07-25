@@ -55,6 +55,7 @@ function loadPrefilledLogForm(htmlElement, data){
                 $("textarea").characterCounter();
                 $("textarea").trigger("autoresize");
                 window.scrollTo(0, 0);
+                $("#preloader_wrapper").hide();
                 $(htmlElement).fadeIn(500);
             } else {
                 Materialize.toast(response.meta.message, 3000, "rounded");
