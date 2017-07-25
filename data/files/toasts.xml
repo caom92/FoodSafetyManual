@@ -309,6 +309,11 @@
         <spanish>Debe marcar una opción</spanish>
     </translation>
 
+    <translation id="log-changed">
+        <english>Changes were made to the log, please save them by clicking "send" before approving</english>
+        <spanish>Se detectaron cambios en la bitácora, por favor guárdelos presionando "enviar" antes de aprobarlos</spanish>
+    </translation>
+
     <!--GMP Packing Preop-->
 
     <translation id="gmp-packing-preop-item-status">

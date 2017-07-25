@@ -117,8 +117,7 @@ class DataBaseTable
   //        dicha operacion
   // [out]  return (uint): el numero de renglones que fueron modificados
   protected function update($newValues, $where) {
-    $result = self::$dataBase->update($this->table, $newValues, $where);
-    return $result->rowCount();
+    return self::$dataBase->update($this->table, $newValues, $where);
   }
 
   // Reemplaza los datos existentes en las columnas especificadas con los datos
@@ -142,8 +141,7 @@ class DataBaseTable
   //        dicha operacion
   // [out]  return (uint): el numero de renglones que fueron borrados
   protected function delete($where) {
-    $result = self::$dataBase->delete($this->table, $where);
-    return $result->rowCount();
+    return self::$dataBase->delete($this->table, $where);
   }
 
   // Cuenta el numero de renglones en la tabla que cumplan con las condiciones

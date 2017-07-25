@@ -41,11 +41,13 @@ function loadPrefilledLogForm(htmlElement, data){
         data: data,
         success: function(response) {
             if (response.meta.return_code == 0) {
+                changesFlag = false;
                 $(htmlElement).html("");
                 var report = response.data;
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":report.creation_date},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":report.created_by}]}]};
                 $(htmlElement).append(logHeader(header));
                 gmpPackingPreopLog(report, htmlElement, true);
+                bindChangeListener();
                 loadFunctionality({"isPrefilled":true});
                 $("#send_report").click(function(){
                     $(this).attr("disabled", true);
@@ -215,13 +217,12 @@ function updateGmpPackingPreopReport(reportID){
         success: function(response){
             if (response.meta.return_code == 0) {
                 Materialize.toast("Reporte enviado con exito", 3000, "rounded");
-                $("#send_report").removeAttr("disabled");
-                $("#sending_log").hide();
+                changesFlag = false;
             } else {
                 Materialize.toast(response.meta.message, 3000, "rounded");
-                $("#send_report").removeAttr("disabled");
-                $("#sending_log").hide();
             }
+            $("#send_report").removeAttr("disabled");
+            $("#sending_log").hide();
         }
     });
     } else {

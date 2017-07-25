@@ -1,3 +1,12 @@
+var changesFlag = false;
+
+function bindChangeListener(){
+    $(":input").change(function() {
+        console.log("change on input");
+        changesFlag = true;
+    });
+}
+
 function waitingReportCard(report){
     var reportCard = $("<div>");
     var employeeInfoRow = $("<div>");
@@ -180,21 +189,25 @@ function approveReport(logID){
     data.captured_log_id = logID;
     data.date = getISODate(new Date());
 
-    $server.request({
-        service: 'approve-log',
-        data: data,
-        success: function(response){
-            if(response.meta.return_code == 0){
-                loadToast("approve_report", 2500, "rounded");
-                getNumPendingAuthorizations();
-                $("#waiting_report_" + logID).remove();
-                updateSigns();
-                $("#content_wrapper").fadeOut(500);
-                $("#master_wrapper").fadeIn(500);
-                changeLanguage();
+    if(changesFlag === false){
+        $server.request({
+            service: 'approve-log',
+            data: data,
+            success: function(response){
+                if(response.meta.return_code == 0){
+                    loadToast("approve_report", 2500, "rounded");
+                    getNumPendingAuthorizations();
+                    $("#waiting_report_" + logID).remove();
+                    updateSigns();
+                    $("#content_wrapper").fadeOut(500);
+                    $("#master_wrapper").fadeIn(500);
+                    changeLanguage();
+                }
             }
-        }
-    });
+        });
+    } else {
+        loadToast("log-changed", 3500, "rounded");
+    }
 }
 
 function rejectReport(logID, report){
