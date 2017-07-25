@@ -1,11 +1,35 @@
 function addInventoryManager(controlsWrapper, contentWrapper){
     $("#log_name").html("Pre-operational Inspection");
+    $("#multi_inventory_tabs").show();
+    $('ul.tabs').tabs();
+    $('.indicator').addClass("green");
+    controlsWrapper = "#inventory_controls_wrapper";
+    contentWrapper = "#inventory_tab";
     addAreaSelect(controlsWrapper, contentWrapper);
+    addAreaControlTable("#areas_tab");
 }
 
 // Functions exclusive to gmp-packing-preop
 
+function addAreaControlTable(areasWrapper){
+    console.log("areasWrapper: " + areasWrapper);
+    $server.request({
+        service: 'get-areas-of-zone-gmp-packing-preop',
+        success: function(response) {
+            if (response.meta.return_code == 0) {
+                $(areasWrapper).append(JSON.stringify(response.data));
+                $(areasWrapper).append(gmpPackingPreopAreasTable(areasWrapper, response.data));
+                changeLanguage();
+            } else {
+                throw response.meta.message;
+            }
+        }
+    });
+}
+
 function addAreaSelect(controlsWrapper, contentWrapper){
+    console.log("controlsWrapper: " + controlsWrapper);
+    console.log("contentWrapper: " + contentWrapper);
     $server.request({
         service: 'get-areas-of-zone-gmp-packing-preop',
         success: function(response) {
@@ -82,6 +106,34 @@ function addAreaSelect(controlsWrapper, contentWrapper){
             }
         }
     });
+}
+
+function gmpPackingPreopAreasTable(htmlElement, data){
+    var tableJSON = {"type":"table","id":"area_sort","classes":"highlight","thead":{},"tbody":{},"tfoot":{}};
+
+    tableJSON.thead = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"inventory_id"},{"type":"th","classes":"inventory_name"}]}]};
+
+    tableJSON.tfoot = null;
+
+    tableJSON.tbody = {"type":"tbody","rows":[]};
+
+    for(var area of data){
+        tableJSON.tbody.rows.push(gmpPackingPreopAreaRow(area));
+    }
+
+    $(htmlElement).append(table(tableJSON));
+}
+
+function gmpPackingPreopAreaRow(area){
+    // JSON for the inventory row
+    var inventoryRow = {"type":"tr","id":"area_" + area.id,"classes":"ui-sortable-handle","columns":[]};
+
+    // Add information columns. Remember the class "search-column" for dynamic
+    // search binding
+    inventoryRow.columns.push({"type":"td","contents":area.id,"classes":"id-column"});
+    inventoryRow.columns.push({"type":"td","contents":area.name,"classes":"name-column"});
+
+    return inventoryRow;
 }
 
 function gmpScaleCalibrationInventoryTable(htmlElement, data){
