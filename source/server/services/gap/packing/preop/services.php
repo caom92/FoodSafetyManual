@@ -43,7 +43,9 @@ $gapPreop = [
     'get-items-of-area-gap-packing-preop' => 
       realpath(dirname(__FILE__).'/get-items-of-area-gap-packing-preop.php'),
     'authorization-report-gap-packing-preop' =>
-      realpath(dirname(__FILE__).'/authorization-report-gap-packing-preop.php')
+      realpath(dirname(__FILE__).'/authorization-report-gap-packing-preop.php'),
+    'reorder-area-gap-packing-preop' =>
+      realpath(dirname(__FILE__).'/reorder-area-gap-packing-preop.php')
   ]
 ];
 

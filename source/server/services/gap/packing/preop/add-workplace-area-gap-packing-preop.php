@@ -21,9 +21,16 @@ $service = [
     $isAreaNameDuplicated = $areas->hasByName($request['area_name']);
 
     if (!$isAreaNameDuplicated) {
+      // count the number of areas so we can compute the position of this
+      // item and add it in the last position
+      $numAreas = $areas->countByZoneID(
+        $segment->get('zone_id')
+      );
+
       // insert the new area
       $id = $areas->insert([
         'zone_id' => $segment->get('zone_id'),
+        'position' => $numAreas + 1,
         'name' => $request['area_name']
       ]);
 

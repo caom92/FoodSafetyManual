@@ -7,7 +7,7 @@ use fsm\database as db;
 
 
 // Interfaz para la tabla working_areas
-class WorkingAreas extends db\InsertableTable
+class WorkingAreas extends db\OrderedItemsTable
 {
   // Crea una instancia de una interfaz a la base de datos para modificar 
   // la tabla working_areas
@@ -22,7 +22,12 @@ class WorkingAreas extends db\InsertableTable
   function selectByZoneID($zoneID) {
     return parent::select(
       [ "$this->table.id", 'name' ],
-      [ 'zone_id' => $zoneID ]
+      [ 
+        'zone_id' => $zoneID,
+        'ORDER' => [
+          "$this->table.position"
+        ]
+      ]
     );
   }
 
@@ -32,6 +37,11 @@ class WorkingAreas extends db\InsertableTable
     return parent::has([
       'name' => $areaName
     ]);
+  }
+
+  // Returns the number of rows that have the especified zone ID
+  function countByZoneID($zoneID) {
+    return parent::count(['zone_id' => $zoneID]);
   }
 }
 
