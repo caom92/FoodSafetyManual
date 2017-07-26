@@ -665,7 +665,7 @@ function gmpPackingDocControlReportBody(data){
 
             // For the time being, add pictures one by one. If there are more pictures,
             // change this with a loop
-            if(entry.pictures != null){
+            if(entry.pictures != null && entry.pictures != ""){
                 var imgArray = JSON.parse(entry.pictures);
 
                 for(var img of imgArray){
@@ -677,7 +677,7 @@ function gmpPackingDocControlReportBody(data){
                 }
             }
 
-            if(entry.files != null){
+            if(entry.files != null && entry.files != ""){
                 var fileArray = JSON.parse(entry.files);
 
                 for(var file of fileArray){
