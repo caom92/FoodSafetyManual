@@ -47,6 +47,42 @@ class Logs extends db\LogTable
     );
   }
 
+  // Retorna una lista de todos los renglones en la tabla que tengan asignado
+  // el ID de la fecha de captura especificado
+  // [in]   dateID (int): el ID de la fecha en que los datos fueron capturados
+  //        en la base de datos
+  // [out]  return (dictionary): un arreglo asociativo que contiene los datos
+  //        de la tabla que tengan asignado el ID especificado organizados en
+  //        renglones y columnas
+  function selectByCaptureDateIDAndDocumentID($dateID, $documentID) {
+    return parent::select(
+      [
+        'document_id',
+        'd.name(document_name)',
+        'document_employee',
+        'document_date',
+        'notes',
+        'additional_info_url',
+        'pictures',
+        'files'
+      ],
+      [
+        'AND' => [
+          'capture_date_id' => $dateID,
+          'document_id' => $documentID
+        ],
+        'ORDER' => [
+          'document_id'
+        ]
+      ],
+      [
+        '[><]gmp_doc_control_doc_control_documents(d)' => [
+          'document_id' => 'id'
+        ]
+      ]
+    );
+  }
+
   // Modifica los datos registrados en la tabla que tengan el ID de fecha de 
   // captura y ID de documento especificados
   // [in]   changes (dictionary): arreglo asociativo que contiene los datos que 

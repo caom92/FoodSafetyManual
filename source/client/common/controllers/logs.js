@@ -110,7 +110,7 @@ function loadManual(htmlElement, titleElement, suffix){
         data: {"log-suffix":suffix},
         success: function(response){
             $(titleElement).html(response.data.log_name);
-            $(htmlElement).append('<iframe src = "' + $root + 'external/ViewerJS/#../../' + response.data.manual_location + localStorage.zone_name  + '/actual_manual.pdf" width="100%" height="100%" style="min-height: 300px" allowfullscreen webkitallowfullscreen></iframe>');
+            $(htmlElement).append('<iframe src = "' + $root + 'external/ViewerJS/#../../' + response.data.manual_location + localStorage.zone_name.toLowerCase()  + '/actual_manual.pdf" width="100%" height="100%" style="min-height: 300px" allowfullscreen webkitallowfullscreen></iframe>');
             console.log(response);
             $("#master_wrapper").fadeIn(1000);
         }

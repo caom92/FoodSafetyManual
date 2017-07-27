@@ -3,11 +3,30 @@
 require_once realpath(dirname(__FILE__).'/../../../service_creators.php');
 
 
-$service = fsm\createReportService(
-  'GMP',
-  'Document Control',
-  'Document Control',
-  function($scope, $request) {
+$service = [
+  'requirements_desc' => [
+    'logged_in' => ['Director', 'Manager', 'Supervisor', 'Employee'],
+    'has_privileges' => [
+      'privilege' => ['Read', 'Write'],
+      'program' => 'GMP',
+      'module' => 'Document Control',
+      'log' => 'Document Control'
+    ],
+    'start_date' => [
+      'type' => 'datetime',
+      'format' => 'Y-m-d'
+    ],
+    'end_date' => [
+      'type' => 'datetime',
+      'format' => 'Y-m-d'
+    ],
+    'document_id' => [
+      'type' => 'int',
+      'min' => 1,
+      'optional' => TRUE
+    ]
+  ],
+  'callback' => function($scope, $request) {
     // first, we get the session segment
     $segment = $scope->session->getSegment('fsm');
 
@@ -43,8 +62,17 @@ $service = fsm\createReportService(
     // visit each date log that was obtained earlier
     foreach ($logDates as $logDate) {
       // primero obtenemos todos los registros capturados en la fecha solicitada
-      $rows = $scope->daoFactory->get('gmp\docControl\docControl\Logs')
-        ->selectByCaptureDateID($logDate['id']);
+      $wasDocumentIDProvided = isset($request['document_id']) 
+        && array_key_exists('document_id', $request);
+
+      $rows = ($wasDocumentIDProvided) ? 
+        $scope->daoFactory->get('gmp\docControl\docControl\Logs')
+          ->selectByCaptureDateID($logDate['id'])
+        : $scope->daoFactory->get('gmp\docControl\docControl\Logs')
+          ->selectByCaptureDateIDAndDocumentID(
+            $logDate['id'], 
+            $request['document_id']
+          );
 
       // then retrieve the name of the employee and supervisor
       // that worked on this log
@@ -143,8 +171,7 @@ $service = fsm\createReportService(
       'pdf_footer' => $footers['report_footer'],
       'reports' => $reports
     ];
-  },
-  TRUE
-);
+  }
+];
 
 ?>
