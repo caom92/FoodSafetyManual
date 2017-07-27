@@ -78,11 +78,17 @@ $(function() {
                 loadManual("#manual_tab", "#log_title", getParams._);
                 if(localStorage.role_id == "5"){
                     loadLogForm("#logs_wrapper");
+                    if($.isFunction(additionalLoadReportControls)){
+                        additionalLoadReportControls("#additional_controls");
+                    }
                 } else {
                     $("#logs_tab").remove();
                     $(".logs_tab").parent().remove();
                     $('ul.tabs').tabs();
                     $('.indicator').addClass("green");
+                    if($.isFunction(additionalLoadReportControls)){
+                        additionalLoadReportControls("#additional_controls");
+                    }
                 }
             });
         });
@@ -385,6 +391,11 @@ function loadReports(startDate, endDate, suffix){
     data.end_date = endDate;
 
     console.log("loadReports");
+
+    $(".report_param").each(function() {
+        if($(this).data("param_name"))
+            data[$(this).data("param_name")] = $(this).val();
+    });
 
     $("#loading_reports").show();
 

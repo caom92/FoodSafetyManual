@@ -86,6 +86,37 @@ function loadReport(data){
     return gmpPackingDocControlReport(data);
 }
 
+function additionalLoadReportControls(htmlDocument, data){
+    console.log("additionalLoadReportControls");
+    $server.request({
+        service: 'log-gmp-doc-control-doc-control',
+        success: function(response){
+            console.log(response.data.documents);
+            var documentList = createDocumentSelect(response.data.documents);
+            console.log(documentList);
+            console.log(createField(documentList));
+            $(htmlDocument).append(createInput(documentList));
+            $("select").material_select();
+            changeLanguage();
+        }
+    });
+}
+
+function createDocumentSelect(data){
+    var logs = new Array();
+
+    for(var log of data){
+        var tempOption = {"value":log.id,"text":log.name,"data":log};
+        logs.push(tempOption);
+    }
+
+    var selectLabel = {"type":"label","contents":{"type":"text","classes":"production_area_title"}};
+    var actionSelect =  {"type":"select","id":"reportProductionArea","classes":"report_param","options":logs,"wrapper":"reportProductionAreaWrapper","data":{"param_name":"document_id"}};
+    var actionSelectInput = {"id":"reportProductionAreaWrapper","classes":"input-field col s12 m12 l12","field":actionSelect,"label":selectLabel};
+
+    return actionSelectInput;
+}
+
 function validateLog(){
     var errorCounter = 0;
     var returnValue = false;
@@ -531,7 +562,7 @@ function gmpPackingAtpTestingAreaControlsAddButton(data){
     areaAddInput.field = areaAddButton;
 
     return areaAddInput;
-}  
+}
 
 /*function gmpPackingAtpTestingAreaControlsDelButton(data){
     var areaDelInput = {"id":"delAreaButtonWrapper","classes":"input-field col s1 m1 l1"};
