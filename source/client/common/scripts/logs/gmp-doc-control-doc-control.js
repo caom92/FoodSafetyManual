@@ -271,7 +271,7 @@ function gmpPackingDocRegistryForm(data, htmlElement, isPrefilled){
     if(!(isPrefilled === true)){
         //controlsRow.addClass("card-panel white");
         //$(controlsRow).append(createInputRow(gmpPackingAtpTestingAreaControls(data)));
-        $("body").append(createBottomModal({"id":"document-select-modal","content":gmpPackingAtpTestingAreaControls(data)}));
+        $("body").append(createBottomModal({"id":"document-select-modal","classes":"modal-80","content":gmpPackingAtpTestingAreaControls(data)}));
     }
 
     //$(htmlElement).append(controlsRow);
@@ -304,7 +304,7 @@ function gmpPackingDocRegistryForm(data, htmlElement, isPrefilled){
     $("body").append(createBottomModal({"id":"document-select-modal","content":"<h4>Test Modal</h4>","footer":"<p>Footer</p>"}));
 
     $(htmlElement).append(`<div class="fixed-action-btn">
-                        <a class="btn-floating btn-large green modal-trigger mdi mdi-plus mdi-48px" href="#document-select-modal">
+                        <a class="btn-floating btn-large orange modal-trigger mdi mdi-plus mdi-48px" href="#document-select-modal">
                             
                         </a>
                     </div>`);
