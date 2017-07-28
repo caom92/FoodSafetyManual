@@ -394,9 +394,11 @@ function loadReports(startDate, endDate, suffix){
 
     $(".report_param").each(function() {
         if($(this).data("param_name"))
-            data[$(this).data("param_name")] = $(this).val();
+            data[$(this).data("param_name")] = parseInt($(this).val());
     });
 
+    $("#report-tab-index").html("");
+    $("#request_pdf").hide();
     $("#loading_reports").show();
 
     $server.request({

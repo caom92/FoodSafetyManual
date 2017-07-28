@@ -65,14 +65,14 @@ $service = [
       $wasDocumentIDProvided = isset($request['document_id']) 
         && array_key_exists('document_id', $request);
 
-      $rows = ($wasDocumentIDProvided) ? 
+      $rows = ($wasDocumentIDProvided) ?
         $scope->daoFactory->get('gmp\docControl\docControl\Logs')
-          ->selectByCaptureDateID($logDate['id'])
-        : $scope->daoFactory->get('gmp\docControl\docControl\Logs')
           ->selectByCaptureDateIDAndDocumentID(
             $logDate['id'], 
             $request['document_id']
-          );
+          )
+        : $scope->daoFactory->get('gmp\docControl\docControl\Logs')
+          ->selectByCaptureDateID($logDate['id']);
 
       // then retrieve the name of the employee and supervisor
       // that worked on this log

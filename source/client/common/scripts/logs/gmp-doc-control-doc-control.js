@@ -105,6 +105,8 @@ function additionalLoadReportControls(htmlDocument, data){
 function createDocumentSelect(data){
     var logs = new Array();
 
+    logs.push({"classes":"any_document"});
+
     for(var log of data){
         var tempOption = {"value":log.id,"text":log.name,"data":log};
         logs.push(tempOption);

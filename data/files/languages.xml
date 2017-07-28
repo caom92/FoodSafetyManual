@@ -627,6 +627,11 @@
         <spanish>Cualquier tipo</spanish>
     </translation>
 
+    <translation id="any_document">
+        <english>All documents</english>
+        <spanish>Todos los documentos</spanish>
+    </translation>
+
     <translation id="manual_tab">
         <english>View manual</english>
         <spanish>Ver manual</spanish>
