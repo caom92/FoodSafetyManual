@@ -416,9 +416,38 @@ function gmpPackingDocRegistryItemEntry(item, registerNumber, isPrefilled){
         filesRow.columns = [gmpPackingDocRegistryItemFile(item, registerNumber)];
         entrySection.rows.push(imagesRow);
         entrySection.rows.push(filesRow);
+    } else {
+        console.log("Entrada prefilled");
+        console.log(item);
+        if(item.pictures != null && item.pictures != ""){
+            var imgArray = JSON.parse(item.pictures);
+
+            entrySection.rows.push({"type":"row","columns":[gmpDocControlFileTitle("Imagenes adjuntas")]});
+
+            for(var img of imgArray){
+                entrySection.rows.push({"type":"row","columns":[gmpDocControlFileTitle("<a href='" + $domain + $root + "data/images/gmp/doc_control/doc_control/" + img + "'>" + img + "</a>")]});
+            }
+        }
+
+        if(item.files != null && item.files != ""){
+            var fileArray = JSON.parse(item.files);
+
+            entrySection.rows.push({"type":"row","columns":[gmpDocControlFileTitle("Archivos adjuntos")]});
+
+            for(var file of fileArray){
+                entrySection.rows.push({"type":"row","columns":[gmpDocControlFileTitle("<a href='" + $domain + $root + "data/documents/gmp/doc_control/doc_control/" + file + "'>" + file + "</a>")]});
+            }
+        }
     }
 
     return entrySection;
+}
+
+function gmpDocControlFileTitle(item){
+    var itemTitle = {"type":"text","classes":"","text":item};
+    var titleInput = {"classes":"card-title col s12 m12 l12","field": itemTitle};
+
+    return titleInput;
 }
 
 function gmpPackingDocRegistryHiddenID(item, registerNumber){
@@ -770,7 +799,7 @@ function gmpPackingDocControlReportItem(itemData){
 function gmpPackingDocControlImageColumn(imageAddress, colspan){
     var item = new Array();
 
-    item.push({"type":"td","classes":"imageColumn","colspan":colspan,"contents":'<div style="text-align: center;"><img src="http://localhost/espresso/data/images/gmp/doc_control/doc_control/' + imageAddress + '" alt="report_image" class="report_image"></div>'/*,"style":"text-align:center;"*/});
+    item.push({"type":"td","classes":"imageColumn","colspan":colspan,"contents":'<div style="text-align: center;"><img src="' + $domain + $root + 'data/images/gmp/doc_control/doc_control/' + imageAddress + '" alt="report_image" class="report_image"></div>'/*,"style":"text-align:center;"*/});
 
     //style="display:block;height:auto;width:100%;height:100%;
 
@@ -780,7 +809,7 @@ function gmpPackingDocControlImageColumn(imageAddress, colspan){
 function gmpPackingDocControlFileColumn(fileAddress, colspan){
     var item = new Array();
 
-    item.push({"type":"td","classes":"imageColumn","colspan":colspan,"contents":"<a href='http://localhost/espresso/data/documents/gmp/doc_control/doc_control/" + fileAddress + "' target='_blank'><span class='open_file'></span><a>"});
+    item.push({"type":"td","classes":"imageColumn","colspan":colspan,"contents":"<a href='" + $domain + $root + "data/documents/gmp/doc_control/doc_control/" + fileAddress + "' target='_blank'><span class='open_file'></span><a>"});
 
     //style="display:block;height:auto;width:100%;height:100%;
 
