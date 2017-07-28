@@ -236,9 +236,9 @@ function updateGmpPackingFinishedProductReport(reportID){
             if($("#origin_" + itemID).val() != ""){
                 item.origin = $("#origin_" + itemID).val();
             }
-            //if($("input[name='expiresHidden_" + itemID + "']").val() != ""){
+            if($("input[name='expiresHidden_" + itemID + "']").val() != ""){
                 item.expiration_date = $("input[name='expiresHidden_" + itemID + "']").val();
-            //}
+            }
             item.water_temperature = parseFloat($("#water_" + itemID).val());
             item.product_temperature = parseFloat($("#packing_" + itemID).val());
             item.is_weight_correct = getBool($("input:radio[name='weight_radio_" + itemID + "']:checked").val());
