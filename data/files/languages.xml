@@ -539,7 +539,12 @@
 
     <translation id="manage_inventory">
         <english>Manage Inventory</english>
-        <spanish>Gestión de inventario</spanish>
+        <spanish>Gestión de Inventario</spanish>
+    </translation>
+
+    <translation id="manage_areas">
+        <english>Manage Areas</english>
+        <spanish>Gestión de Areas</spanish>
     </translation>
 
     <translation id="logs">
