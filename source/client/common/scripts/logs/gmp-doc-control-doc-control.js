@@ -299,15 +299,13 @@ function updateGmpPackingDocControlReport(reportID){
 function gmpPackingDocRegistryForm(data, htmlElement, isPrefilled){
     var form = {"type":"form","id":"document_registry_form","method":"post","enctype":"multipart/form-data","name":"document_registry_form","form":{"sections":[]},"action":"tester.php"};
     var buttonRow = $("<div>");
-    //var controlsRow = $("<div>");
+    var controlsRow = $("<div>");
 
     if(!(isPrefilled === true)){
-        //controlsRow.addClass("card-panel white");
-        //$(controlsRow).append(createInputRow(gmpPackingAtpTestingAreaControls(data)));
-        $("body").append(createBottomModal({"id":"document-select-modal","classes":"modal-80","content":gmpPackingAtpTestingAreaControls(data)}));
+        controlsRow.addClass("card-panel white");
+        $(controlsRow).append(createInputRow(gmpPackingAtpTestingAreaControls(data)));
+        //$("body").append(createBottomModal({"id":"document-select-modal","classes":"modal-80","content":gmpPackingAtpTestingAreaControls(data)}));
     }
-
-    //$(htmlElement).append(controlsRow);
 
     form.form.sections.push({"type":"section","rows":[{"type":"row","columns":[gmpPackingDocRegistryDate(getISODate(new Date()))]}]});
 
@@ -332,9 +330,10 @@ function gmpPackingDocRegistryForm(data, htmlElement, isPrefilled){
         buttonRow.append(createButton(returnButton()));
     }
 
+    $(htmlElement).append(controlsRow);
     $(htmlElement).append(buttonRow);
 
-    $("body").append(createBottomModal({"id":"document-select-modal","content":"<h4>Test Modal</h4>","footer":"<p>Footer</p>"}));
+    /*$("body").append(createBottomModal({"id":"document-select-modal","content":"<h4>Test Modal</h4>","footer":"<p>Footer</p>"}));
 
     $(htmlElement).append(`<div class="fixed-action-btn">
                         <a class="btn-floating btn-large orange modal-trigger mdi mdi-plus mdi-48px" href="#document-select-modal">
@@ -342,7 +341,7 @@ function gmpPackingDocRegistryForm(data, htmlElement, isPrefilled){
                         </a>
                     </div>`);
 
-    $(".modal-trigger").leanModal({dismissible: true});
+    $(".modal-trigger").leanModal({dismissible: true});*/
 
     return form;
 }
