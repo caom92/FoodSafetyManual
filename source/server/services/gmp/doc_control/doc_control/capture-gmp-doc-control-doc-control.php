@@ -91,7 +91,7 @@ $service = fsm\createCaptureService(
         $files = [];
 
         // luego visitamos cada imagen
-        for ($i = $start; $i < $length; ++$i) {
+        for ($i = $start; $i < $start + $length; ++$i) {
           // obtenemos el formato del archivo
           $originalFileName = $_FILES[$field]['name'][$i];
           $format = 
@@ -133,6 +133,15 @@ $service = fsm\createCaptureService(
         return $files;
       };
 
+      // revisamos si el usuario envio imagenes
+      $werePicturesUploaded = 
+        isset($_FILES['pictures']) 
+        && array_key_exists('pictures', $_FILES);
+
+      $wereDocumentsUploaded = 
+        isset($_FILES['files']) 
+        && array_key_exists('files', $_FILES);
+
       // visitamos cada entrada enviada por el usuario
       foreach ($request['documents'] as $document) {
         foreach ($document['entries'] as $entry) {
@@ -153,17 +162,8 @@ $service = fsm\createCaptureService(
             'files' => NULL
           ];
 
-          // revisamos si el usuario envio imagenes
-          $werePicturesUploaded = 
-            isset($_FILES['pictures']) 
-            && array_key_exists('pictures', $_FILES);
-
-          $wereDocumentsUploaded = 
-            isset($_FILES['files']) 
-            && array_key_exists('files', $_FILES);
-
           // arreglo temporal para guardar los nombres de los archivos
-          $images = ($werePicturesUploaded) ? 
+          $images = ($werePicturesUploaded && $entry['pictures_length'] > 0) ? 
             $uploadFiles(
               'pictures', 
               $entry['pictures_start'], 
@@ -175,7 +175,7 @@ $service = fsm\createCaptureService(
             )
             : [];
 
-          $documents = ($wereDocumentsUploaded) ? 
+          $documents = ($wereDocumentsUploaded && $entry['files_length'] > 0) ? 
             $uploadFiles(
               'files', 
               $entry['files_start'], 
