@@ -21,7 +21,7 @@ class WorkingAreas extends db\OrderedItemsTable
   //          retrieved
   function selectByZoneID($zoneID) {
     return parent::select(
-      [ "$this->table.id", 'name' ],
+      [ "$this->table.id", 'position', 'name' ],
       [ 
         'zone_id' => $zoneID,
         'ORDER' => [
