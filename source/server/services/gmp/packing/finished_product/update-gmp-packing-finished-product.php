@@ -86,6 +86,14 @@ $service = fsm\createUpdateService(
       $ids = $logs->selectIDByCapturedLogID($request['report_id']);
 
       for ($i = 0; $i < count($request['entries']); ++$i) {
+        $hasExpirationDate = 
+      	  isset($request['entries'][$i]['expiration_date']) 
+          && array_key_exists('expiration_date', $request['entries'][$i]);
+      	  
+      	if (!$hasExpirationDate) {
+      	  $request['entries'][$i]['expiration_date'] = '';
+      	}
+
         $logs->updateByCapturedLogIDAndID(
           $request['entries'][$i],
           $request['report_id'],
