@@ -1,7 +1,7 @@
 <?php
 
 namespace fsm\database\gmp\packing\preop;
-require_once realpath(dirname(__FILE__).'/../../../../dao/InsertableTable.php');
+require_once realpath(dirname(__FILE__).'/../../../../dao/OrderedItemsTable.php');
 use fsm\database as db;
 
 

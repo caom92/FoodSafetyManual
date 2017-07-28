@@ -2,7 +2,7 @@
 
 namespace fsm\database\gap\packing\preop;
 require_once realpath(dirname(__FILE__)
-  .'/../../../../dao/InsertableTable.php');
+  .'/../../../../dao/OrderedItemsTable.php');
 use fsm\database as db;
 
 

@@ -17,8 +17,8 @@ function addAreaControlTable(areasWrapper){
         service: 'get-areas-of-zone-gmp-packing-preop',
         success: function(response) {
             if (response.meta.return_code == 0) {
-                $(areasWrapper).append(JSON.stringify(response.data));
                 $(areasWrapper).append(gmpPackingPreopAreasTable(areasWrapper, response.data));
+                initAreaSortability("reorder-area-gmp-packing-preop");
                 changeLanguage();
             } else {
                 throw response.meta.message;
@@ -69,7 +69,7 @@ function addAreaSelect(controlsWrapper, contentWrapper){
                 $(controlsWrapper).append(createInputRow(areaSelectRow));
 
                 $("#area-select").change(function (e) {
-                    $("table").remove();
+                    $("#sort").remove();
                     loadInventory($(this).val(), contentWrapper);
                 });
 
@@ -111,7 +111,7 @@ function addAreaSelect(controlsWrapper, contentWrapper){
 function gmpPackingPreopAreasTable(htmlElement, data){
     var tableJSON = {"type":"table","id":"area_sort","classes":"highlight","thead":{},"tbody":{},"tfoot":{}};
 
-    tableJSON.thead = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"inventory_id"},{"type":"th","classes":"inventory_name"}]}]};
+    tableJSON.thead = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"inventory_position"},{"type":"th","classes":"inventory_id"},{"type":"th","classes":"inventory_name"}]}]};
 
     tableJSON.tfoot = null;
 
@@ -130,6 +130,7 @@ function gmpPackingPreopAreaRow(area){
 
     // Add information columns. Remember the class "search-column" for dynamic
     // search binding
+    inventoryRow.columns.push({"type":"td","contents":area.position,"classes":"position-column"});
     inventoryRow.columns.push({"type":"td","contents":area.id,"classes":"id-column"});
     inventoryRow.columns.push({"type":"td","contents":area.name,"classes":"name-column"});
 
@@ -205,7 +206,7 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
                     //console.log(item);
                     //console.log(tableRow(gmpPackingScaleCalibrationInventoryRow(item, item.type)));
                     $("tbody#type_" + $("#type_add").val()).append(tableRow(gmpPackingScaleCalibrationInventoryRow(item, item.type)));
-                    initSortability("change-order-of-item");
+                    initSortability("reorder-gmp-packing-preop");
                     $("html, body").animate({
                         scrollTop: $(document).height()
                     }, 400);
@@ -288,6 +289,39 @@ function initSortability(sortingService){
     };
 }
 
+function initAreaSortability(sortingService){
+    $("#area_sort tbody").sortable({
+        helper: fixHelper,
+        cursor: "move",
+        update: function(event, ui) {
+            $("#area_sort tbody").each(function(bodyIndex) {
+                $(this).children().each(function(rowIndex) {
+                    $($(this).children()[0]).text(rowIndex + 1);
+                    var order = $($(this).children()[0]).text();
+                    var itemID = $($(this).children()[1]).text();
+                    var data = new Object();
+                    data.item_id = parseInt(itemID);
+                    data.position = parseInt(order);
+                    $server.request({
+                        service: sortingService,
+                        data: data
+                    });
+                });
+            });
+        }
+    });
+
+    var fixHelper = function(e, tr) {
+        var $originals = tr.children();
+        var $helper = tr.clone();
+        $helper.children().each(function(index)
+        {
+          $(this).width($originals.eq(index).width());
+        });
+        return $helper;
+    };
+}
+
 function loadInventory(areaID, htmlElement){
     var data = new Object();
     data.area_id = areaID;
@@ -300,7 +334,7 @@ function loadInventory(areaID, htmlElement){
             $(htmlElement).hide();
             gmpScaleCalibrationInventoryTable(htmlElement, response.data);
             changeLanguage();
-            initSortability("change-order-of-item");
+            initSortability("reorder-gmp-packing-preop");
             dynamicSearchBind("id-search", "id-column");
             dynamicSearchBind("name-search", "name-column");
             dynamicSearchBind("type-search", "type-column");
