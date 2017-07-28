@@ -213,6 +213,16 @@
         <spanish>Adjuntar</spanish>
     </translation>
 
+    <translation id="attached_files">
+        <english>Attached PDF files</english>
+        <spanish>Archivos PDF adjuntos</spanish>
+    </translation>
+
+    <translation id="attached_images">
+        <english>Attached images</english>
+        <spanish>Imágenes adjuntas</spanish>
+    </translation>
+
     <translation id="general_information">
         <english>General Information</english>
         <spanish>Datos generales</spanish>

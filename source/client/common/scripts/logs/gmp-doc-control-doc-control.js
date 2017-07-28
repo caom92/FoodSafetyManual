@@ -422,7 +422,7 @@ function gmpPackingDocRegistryItemEntry(item, registerNumber, isPrefilled){
         if(item.pictures != null && item.pictures != ""){
             var imgArray = JSON.parse(item.pictures);
 
-            entrySection.rows.push({"type":"row","columns":[gmpDocControlFileTitle("Imagenes adjuntas")]});
+            entrySection.rows.push({"type":"row","columns":[gmpDocControlFileTitle("<span class='attached_images'></span>")]});
 
             for(var img of imgArray){
                 entrySection.rows.push({"type":"row","columns":[gmpDocControlFileTitle("<a href='" + $domain + $root + "data/images/gmp/doc_control/doc_control/" + img + "'>" + img + "</a>")]});
@@ -432,7 +432,7 @@ function gmpPackingDocRegistryItemEntry(item, registerNumber, isPrefilled){
         if(item.files != null && item.files != ""){
             var fileArray = JSON.parse(item.files);
 
-            entrySection.rows.push({"type":"row","columns":[gmpDocControlFileTitle("Archivos adjuntos")]});
+            entrySection.rows.push({"type":"row","columns":[gmpDocControlFileTitle("<span class='attached_files'></span>")]});
 
             for(var file of fileArray){
                 entrySection.rows.push({"type":"row","columns":[gmpDocControlFileTitle("<a href='" + $domain + $root + "data/documents/gmp/doc_control/doc_control/" + file + "'>" + file + "</a>")]});
