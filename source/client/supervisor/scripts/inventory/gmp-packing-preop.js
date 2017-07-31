@@ -90,6 +90,7 @@ function addAreaSelect(controlsWrapper, contentWrapper){
                                     $("#area-select").append(option);
                                     $("#area-select").material_select();
                                     $("#area_name").val("");
+                                    $("#area_sort tbody").append(tableRow(gmpPackingPreopAreaRow(response.data)));
                                     loadToast("workplace_area_registered", 2500, "rounded");
                                 } else {
                                     loadToast("gmp-packing-preop-repeated-area", 2500, "rounded");
@@ -126,7 +127,7 @@ function gmpPackingPreopAreasTable(htmlElement, data){
 
 function gmpPackingPreopAreaRow(area){
     // JSON for the inventory row
-    var inventoryRow = {"type":"tr","id":"area_" + area.id,"classes":"ui-sortable-handle","columns":[]};
+    var inventoryRow = {"type":"tr","id":"area_" + area.id,"classes":"ui-sortable-handle","columns":[],"data":area};
 
     // Add information columns. Remember the class "search-column" for dynamic
     // search binding
@@ -294,8 +295,11 @@ function initAreaSortability(sortingService){
         helper: fixHelper,
         cursor: "move",
         update: function(event, ui) {
+            $("#area-select").html("");
+            $("#area-select").append(createOption({"classes":"select_area","disabled":true,"selected":true}));
             $("#area_sort tbody").each(function(bodyIndex) {
                 $(this).children().each(function(rowIndex) {
+                    console.log($(this).data());
                     $($(this).children()[0]).text(rowIndex + 1);
                     var order = $($(this).children()[0]).text();
                     var itemID = $($(this).children()[1]).text();
@@ -306,6 +310,10 @@ function initAreaSortability(sortingService){
                         service: sortingService,
                         data: data
                     });
+                    $("select").material_select("destroy");
+                    $("#area-select").append(createOption({"value":$(this).data("id"),"text":$(this).data("name")}));
+                    $("select").material_select();
+                    changeLanguage();
                 });
             });
         }

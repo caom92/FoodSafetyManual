@@ -214,6 +214,10 @@ function tableRow(rowData){
         }
     }
 
+    if($.type(rowData.data) == "object"){
+        row.data(rowData.data);
+    }
+
     return row;
 }
 

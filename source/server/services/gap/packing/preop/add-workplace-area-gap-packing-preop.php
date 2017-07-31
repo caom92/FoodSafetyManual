@@ -28,14 +28,16 @@ $service = [
       );
 
       // insert the new area
+      $position = $numAreas + 1;
       $id = $areas->insert([
         'zone_id' => $segment->get('zone_id'),
-        'position' => $numAreas + 1,
+        'position' => $position,
         'name' => $request['area_name']
       ]);
 
       return [
         'id' => $id,
+        "position" => $position,
         'name' => $request['area_name']
       ];
     } else {
