@@ -1,6 +1,6 @@
 function loadLogForm(htmlElement){
     $server.request({
-        service: 'log-gmp-packing-unusual-occurrence',
+        service: 'log-gap-others-unusual-occurrence',
         success: function(response) {
             if (response.meta.return_code == 0) {
                 var item = new Object();
@@ -45,7 +45,7 @@ function loadLogForm(htmlElement){
 
 function loadPrefilledLogForm(htmlElement, data){
     $server.request({
-        service: 'authorization-report-gmp-packing-unusual-occurrence',
+        service: 'authorization-report-gap-others-unusual-occurrence',
         data: data,
         success: function(response) {
             if (response.meta.return_code == 0) {
@@ -166,7 +166,7 @@ function sendGmpPackingFinishedProductReport(){
         });
 
         $server.request({
-            service: 'capture-gmp-packing-unusual-occurrence',
+            service: 'capture-gap-others-unusual-occurrence',
             data: report,
             success: function(response){
                 if (response.meta.return_code == 0) {
@@ -209,7 +209,7 @@ function updateGmpPackingFinishedProductReport(reportID){
         });
 
         $server.request({
-            service: 'update-gmp-packing-unusual-occurrence',
+            service: 'update-gap-others-unusual-occurrence',
             data: report,
             success: function(response){
                 if (response.meta.return_code == 0) {

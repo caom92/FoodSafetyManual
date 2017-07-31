@@ -1,6 +1,6 @@
 <?php
 
-$unusualOccurrences = [
+$gapOthersUnusualOccurrences = [
   'tables' => [
     'gap\others\unusualOccurrence\Logs' =>
       realpath(dirname(__FILE__).'/Logs.php'),
