@@ -1191,6 +1191,17 @@ function getBool(val) {
     return val != null && (!isNaN(num = +val) ? !!num : !!String(val).toLowerCase().replace(!!0, ''));
 }
 
+function getBoolFromString(val) {
+    var num;
+    if(val === "true"){
+        num = true;
+    } else if(val === "false") {
+        num = false;
+    } else {
+        num = null;
+    }
+    return num;
+}
 
 // Generic Log Form functions
 

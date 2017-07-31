@@ -101,6 +101,11 @@
         <spanish>Debe asignar un supervisor al empleado</spanish>
     </translation>
 
+    <translation id="supervisor_has_employees">
+        <english>You can't discharge a Supervisor with employees assigned</english>
+        <spanish>El supervisor no puede ser dado de baja mientras tenga empleados asignados</spanish>
+    </translation>
+
     <translation id="is-login-name-duplicated">
         <english>The username is already in use</english>
         <spanish>El nombre de usuario ya se encuentra registrado</spanish>
