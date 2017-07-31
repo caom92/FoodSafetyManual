@@ -135,18 +135,22 @@ function sendGmpPackingPreopReport(){
             var areaID = $(this).data("id");
             area.id = areaID;
             area.time = $("#time_" + areaID).val();
-            area.notes = $("#notes_" + areaID).val();
-            area.person_performing_sanitation = $("#sanitation_" + areaID).val();
+            if($("#notes_" + areaID).val() != ""){
+                area.notes = $("#notes_" + areaID).val();
+            }
+            if($("#sanitation_" + areaID).val() != ""){
+                area.person_performing_sanitation = $("#sanitation_" + areaID).val();
+            }
             area.items = new Array();
             $(this).children(".item-card").each(function(){
                 var item = new Object();
                 var itemID = $(this).data("id");
                 item.id = itemID;
-                item.is_acceptable = getBool($("input:radio[name='radio_" + itemID + "']:checked").val());
-                if(item.is_acceptable){
-                    item.corrective_action_id = 1;
-                    item.comment = "";
-                } else {
+                var acceptability = getBoolFromString($("input:radio[name='radio_" + itemID + "']:checked").val());
+                if(acceptability === true || acceptability === false){
+                    item.is_acceptable = acceptability;
+                }
+                if(item.is_acceptable === false){
                     item.corrective_action_id = parseInt($("#correctiveAction_" + itemID).val());
                     item.comment = $("#comment_" + itemID).val();
                 }
@@ -391,7 +395,7 @@ function gmpPackingPreopItemStatus(item, areaID){
     var unacceptableIcon = {"type":"text","classes":"unacceptable_tag big"};
     var radioAcceptable = {"type":"radio","id":"acceptable_" + item.id,"classes":"timeChanger","value":"true","label":{"type":"label","classes":"black-text","for":"acceptable_" + item.id,"contents": acceptableIcon},"data":{"area_id":areaID,"item_id":item.id}};
     var radioUnacceptable = {"type":"radio","id":"unacceptable_" + item.id,"classes":"timeChanger","value":"false","label":{"type":"label","classes":"black-text","for":"unacceptable_" + item.id,"contents": unacceptableIcon},"data":{"area_id":areaID,"item_id":item.id}};
-    var itemRadioGroup = {"type": "radioGroup", "id":"radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"radio_" + item.id,"radioArray":[radioAcceptable, radioUnacceptable],"validations":{"type":"radio","required":{"value":true,"toast":"gmp-packing-preop-item-status"},"groupName":"radio_" + item.id}};
+    var itemRadioGroup = {"type": "radioGroup", "id":"radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"radio_" + item.id,"radioArray":[radioAcceptable, radioUnacceptable],"validations":{"type":"radio","groupName":"radio_" + item.id}};
     var groupInput = {"id":"radioWrapper_" + item.id,"classes":"col s8 m8 l4","field":itemRadioGroup};
 
     if(item.status == 1){
@@ -417,7 +421,7 @@ function gmpPackingPreopItemCorrectiveAction(item, areaID){
     }
 
     var selectLabel = {"type":"label","contents":{"type":"text","classes":"action_title"}};
-    var actionSelect =  {"type": "select", "id": "correctiveAction_" + item.id,"classes":"timeChanger", "options": actionOptions,"data":{"area_id":areaID,"item_id":item.id},"validations":{"type":"select","required":{"value":true,"toast":"gmp-packing-preop-item-corrective-action"},"wrapper":"correctiveActionWrapper_" + item.id,"invalidValues":[1]}};
+    var actionSelect =  {"type": "select", "id": "correctiveAction_" + item.id,"classes":"timeChanger", "options": actionOptions,"data":{"area_id":areaID,"item_id":item.id},"validations":{"type":"select","wrapper":"correctiveActionWrapper_" + item.id}};
     var actionSelectInput = {"id":"correctiveActionWrapper_" + item.id,"classes":"input-field col s12 m12 l4","hidden": true,"field":actionSelect,"label":selectLabel,"data":{"area_id":areaID,"item_id":item.id}};
 
     return actionSelectInput;
