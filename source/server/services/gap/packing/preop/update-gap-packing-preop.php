@@ -46,11 +46,13 @@ $service = [
               'min' => 1
             ],
             'is_acceptable' => [
-              'type' => 'bool'
+              'type' => 'bool',
+              'optional' => TRUE
             ],
             'corrective_action_id' => [
               'type' => 'int',
-              'min' => 1
+              'min' => 1,
+              'optional' => TRUE
             ],
             'comment' => [
               'type' => 'string',
