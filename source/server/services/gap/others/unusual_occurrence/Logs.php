@@ -1,6 +1,6 @@
 <?php
 
-namespace fsm\database\unusualOccurrence;
+namespace fsm\database\gap\others\unusualOccurrence;
 require_once realpath(dirname(__FILE__).'/../../../../dao/LogTable.php');
 use fsm\database as db;
 
@@ -11,7 +11,7 @@ class Logs extends db\LogTable
   // Crea una instancia de una interfaz a la base de datos para modificar 
   // la tabla gmp_packing_unusual_occurrence_logs
   function __construct() { 
-    parent::__construct('unusual_occurrence_logs');
+    parent::__construct('gap_others_unusual_occurrence_logs');
   }
 
   // Retorna una lista de todos los renglones en la tabla que tengan asignado
