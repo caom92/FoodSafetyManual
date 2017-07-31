@@ -3,9 +3,9 @@
 require_once realpath(dirname(__FILE__).'/../../../service_creators.php');
 
 
-$service = fsm\createCaptureService(
-  'GMP',
-  'Packing',
+$service = fsm\createUpdateService(
+  'GAP',
+  'Others',
   'Daily Notice of Unusual Occurrence and Corrective Action Report',
   [
     'incident_date' => [
@@ -22,18 +22,18 @@ $service = fsm\createCaptureService(
     ],
     'area_id' => [
       'type' => 'string',
-      'min_length' => 2,
-      'max_length' => 80
+      'min_length' => 1,
+      'max_length' => 255
     ],
     'product_id' => [
       'type' => 'string',
-      'min_length' => 2,
-      'max_length' => 80
+      'min_length' => 1,
+      'max_length' => 255
     ],
     'batch' => [
       'type' => 'string',
-      'min_length' => 2,
-      'max_length' => 80
+      'min_length' => 1,
+      'max_length' => 255
     ],
     'description' => [
       'type' => 'string',
@@ -52,13 +52,10 @@ $service = fsm\createCaptureService(
     ],
   ],
   [
-    'extra_info' => [
-      // NULL
-    ],
-    'function' => function($scope, $segment, $request, $logID) {
-      return $scope->daoFactory->get('unusualOccurrence\Logs')
-        ->insert([
-          'capture_date_id' => $logID,
+    'extra_info' => NULL,
+    'function' => function($scope, $request) {
+      $scope->daoFactory->get('gap\others\unusualOccurrence\Logs')
+        ->updateByCapturedLogID([
           'incident_date' => $request['incident_date'],
           'time' => $request['time'],
           'shift_id' => $request['shift_id'],
@@ -68,7 +65,7 @@ $service = fsm\createCaptureService(
           'description' => $request['description'],
           'corrective_action' => $request['corrective_action'],
           'album_url' => $request['album_url']
-        ]);
+        ], $request['report_id']);
     }
   ]
 );

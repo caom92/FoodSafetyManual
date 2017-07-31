@@ -35,7 +35,7 @@ class AreaGlass extends db\OrderedItemsTable
     return parent::select(
       [ 
         "$this->table.id",
-        'position(order)',
+        "$this->table.position(order)",
         "$this->table.name",
         'quantity',
         'is_active'
@@ -63,7 +63,7 @@ class AreaGlass extends db\OrderedItemsTable
         'a.id(area_id)',
         'a.name(area_name)',
         "$this->table.id(item_id)",
-        "position(order)",
+        "$this->table.position(order)",
         "$this->table.name(item_name)",
         "quantity"
       ],
