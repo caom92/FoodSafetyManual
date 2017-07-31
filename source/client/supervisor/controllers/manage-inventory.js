@@ -238,7 +238,14 @@ $(function(){
 
             $("#content_wrapper").html("");
 
-            for(var zone of privileges.zones){
+            for(var log in privileges[localStorage.zone_name][getParams._p]["suffixes"][getParams._m]){
+                console.log(privileges[localStorage.zone_name][getParams._p]["suffixes"][getParams._m][log]);
+                if(privileges[localStorage.zone_name][getParams._p]["suffixes"][getParams._m][log]["has_inventory"] == 1){
+                    $("#content_wrapper").append(logCard(log, privileges[localStorage.zone_name][getParams._p]["suffixes"][getParams._m][log]["suffix"]));
+                }
+            }
+
+            /*for(var zone of privileges.zones){
                 for(var program of zone.programs){
                     for(var module of program.modules){
                         for(var log of module.logs){
@@ -248,7 +255,7 @@ $(function(){
                         }
                     }
                 }
-            }
+            }*/
 
             initMaterialize();
             $("#content_wrapper").show(1000);

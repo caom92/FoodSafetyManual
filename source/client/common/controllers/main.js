@@ -200,14 +200,63 @@ function loadSideMenu()
 
             // add the link to the PreOp inventory if the user is a supervisor
             // and has read privileges to that log
+            var inventoryFlag = false;
             if (hasPrivileges) {
                 if (localStorage.role_name === 'Supervisor') {
-                    localStorage.menu += 
+                    // then, for every program...
+                    for (var program of privileges.zones[0].programs) {
+                        // create the navigation menu item
+
+                        for(var module of program.modules){
+                            console.log("enter modules");
+                            for(var log of module.logs){
+                                console.log("enter log");
+                                if(log.has_inventory == 1){
+                                    console.log("has inventory");
+                                    console.log(log);
+                                    inventoryFlag = true;
+                                }
+                            }
+                        }
+                        console.log(inventoryFlag)
+
+                        if(inventoryFlag === true){
+                            inventoryFlag = false;
+                            localStorage.menu += 
+                                '<li><ul class="collapsible collapsible-accordion">' +
+                                '<li><a class="collapsible-header program-button">' + 
+                                '<i class="mdi mdi-briefcase md-dark md-24 field-icon">' +
+                                '</i><span>' + '<span class="inventory"></span> ' + program.name + '</span></a>' +
+                                '<div class="collapsible-body"><ul>';
+
+                            // and for every module...
+                            for (var module of program.modules) {
+                                for(var log of module.logs){
+                                    if(log.has_inventory == 1){
+                                        inventoryFlag = true;
+                                    }
+                                }
+                                // add an item to the program collapsible menu
+                                if (isDefined(module.name) && inventoryFlag === true) {
+                                    inventoryFlag = false;
+                                    localStorage.menu +=
+                                        `<li><a class="nav-link waves-effect waves-green" 
+                                        href="manage-inventory?_p=${ program.name }&_m=${ module.suffix }"> 
+                                        ${ module.name }
+                                        </a></li>`;
+                                }
+                            }
+                            // finally, we close this collapsible menu and repeat
+                            localStorage.menu += 
+                                '</ul></div></li></ul></li>';
+                        }
+                    }
+                    /*localStorage.menu += 
                         '<li"><a class="nav-link waves-effect ' +
                         'waves-green" href="manage-inventory"><i ' +
                         'class="mdi mdi-briefcase md-dark md-24 ' + 
                         'field-icon"></i><span class="inventory">' +
-                        '</span></a></li>';
+                        '</span></a></li>';*/
                 }
 
                 // then, for every program...
