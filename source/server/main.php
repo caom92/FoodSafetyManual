@@ -103,7 +103,8 @@ $controller = new ServiceProvider(
     'daoFactory' => function($config) use (
       $zone, $server, $programs, $contact, $authorizations, $account,
       $atp, $calibration, $finishedProduct, $glass, $handWash, $preop, 
-      $scissors, $thermometers, $unusualOccurrences, $selfInspection, $footers,
+      $scissors, $thermometers, $gmpOthersUnusualOccurrences, $gapOthersUnusualOccurrences, 
+      $selfInspection, $footers,
       $gapPreop, $docControl) {
       return new db\TableFactory(
         'fsm\database\\',
@@ -121,7 +122,8 @@ $controller = new ServiceProvider(
         $preop['tables'] +
         $scissors['tables'] +
         $thermometers['tables'] +
-        $unusualOccurrences['tables'] +
+        $gmpOthersUnusualOccurrences['tables'] +
+        $gapOthersUnusualOccurrences['tables'] +
         $selfInspection['tables'] +
         $footers['tables'] +
         $gapPreop['tables'] +
@@ -152,7 +154,8 @@ $controller = new ServiceProvider(
       $preop['services'] +
       $scissors['services'] +
       $thermometers['services'] +
-      $unusualOccurrences['services'] +
+      $gmpOthersUnusualOccurrences['services'] +
+      $gapOthersUnusualOccurrences['services'] +
       $selfInspection['services'] +
       $footers['services'] +
       $gapPreop['services'] +
