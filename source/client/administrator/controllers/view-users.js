@@ -39,6 +39,8 @@ function createActivationSwitch(userID, isActive) {
     `);
     var checkbox = div.find('input');
     checkbox.on('click', function(event) {
+        var tempCheckbox = $(this);
+        event.preventDefault();
         $server.request({
             service: 'toggle-account-activation',
             data: {
@@ -50,10 +52,13 @@ function createActivationSwitch(userID, isActive) {
                     var button = row.find('a.btn-floating');
                     if (button.hasClass('disabled')) {
                         button.removeClass('disabled');
+                        tempCheckbox.prop("checked", true);
                     } else {
                         button.addClass('disabled');
+                        tempCheckbox.prop("checked", false);
                     }
                 } else {
+                    loadToast("supervisor_has_employees", 3500, "rounded");
                     console.log(`server says: ${ response.meta.message }`);
                 }
             }

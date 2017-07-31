@@ -143,28 +143,32 @@ function changeLanguage(lang, callback){
 }
 
 function loadSearchSuggestions(lang){
-    if(lang == "es") {
+    var lang = fromCodeToName(getLanguage());
+    if(localStorage.suggestions == undefined){
         $.ajax({
             url: $root + 'data/files/search-suggestions.xml',
             success: function(xml) {
+                var searchSuggestions = {};
                 $(xml).find('translation').each(function(){
+                    var tempObject = {};
                     var id = $(this).attr('id');
-                    var text = $(this).find("spanish").text();
+                    var text = $(this).find(lang).text();
                     $("." + id).attr("placeholder", text);
+                    searchSuggestions[$(this).attr("id")] = {
+                        "en": $(this).find("english").text(),
+                        "es": $(this).find("spanish").text()
+                    };
+                    localStorage.suggestions = JSON.stringify(searchSuggestions);
                 });
             }
         });
-    } else if (lang == "en") {
-        $.ajax({
-            url: $root + 'data/files/search-suggestions.xml',
-            success: function(xml) {
-                $(xml).find('translation').each(function(){
-                    var id = $(this).attr('id');
-                    var text = $(this).find("english").text();
-                    $("." + id).attr("placeholder", text);
-                });
-            }
-        });
+    } else {
+        var searchSuggestions = JSON.parse(localStorage.suggestions);
+        for(var sug in searchSuggestions){
+            console.log("." + sug);
+            console.log(searchSuggestions[sug][getLanguage()]);
+            $("." + sug).attr("placeholder", searchSuggestions[sug][getLanguage()]);
+        }
     }
 }
 
@@ -280,4 +284,5 @@ function clearLanguageCache(){
     localStorage.removeItem("spanish");
     localStorage.removeItem("english");
     localStorage.removeItem("toasts");
+    localStorage.removeItem("suggestions");
 }
