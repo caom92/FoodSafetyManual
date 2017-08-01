@@ -594,6 +594,12 @@ function gmpPackingPreopReportBody(data){
         }
         var notesRow = {"type":"tr"};
         var sanitationRow = {"type":"tr"};
+        if(area.notes == null){
+            area.notes = "";
+        }
+        if(area.person_performing_sanitation == null){
+            area.person_performing_sanitation = "";
+        }
         notesRow.columns = [gmpPackingPreopReportAreaNotes(area.notes, 7)];
         sanitationRow.columns = [gmpPackingPreopReportAreaSanitation(area.person_performing_sanitation, 7)];
         body.rows.push(notesRow);
@@ -628,12 +634,16 @@ function gmpPackingPreopReportItem(itemData){
 
     item.push({"type":"td","classes":"numberColumn","contents":itemData.order});
     item.push({"type":"td","classes":"nameColumn","contents":itemData.name});
-    if(itemData.status){
+    if(itemData.status === 1){
         item.push({"type":"td","classes":"statusColumn acceptable_tag"});
-    } else {
+        item.push({"type":"td","classes":"actionColumn","contents":itemData.corrective_action});
+    } else if (itemData.status === 0){
         item.push({"type":"td","classes":"statusColumn unacceptable_tag"});
-    }    
-    item.push({"type":"td","classes":"actionColumn","contents":itemData.corrective_action});
+        item.push({"type":"td","classes":"actionColumn","contents":itemData.corrective_action});
+    } else {
+        item.push({"type":"td","classes":"statusColumn"});
+        item.push({"type":"td","classes":"actionColumn"});
+    }
     item.push({"type":"td","classes":"commentColumn","contents":itemData.comment});
 
     return item;
