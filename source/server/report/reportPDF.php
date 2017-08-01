@@ -61,6 +61,45 @@ class PDFCreator extends TCPDF
             break;
         }
 
+        if(isset($this->footer)){
+            $tpdf = new TCPDF();
+
+            $tpdf->startTransaction();
+            $tpdf->AddPage();
+            $start_y = $tpdf->GetY();
+            $start_page = $tpdf->getPage();
+            $tpdf->writeHTMLCell(
+                0, 0, '', '',
+                $this->footer, 
+                0, 1, 0, true, 'C', true
+            );
+            $end_y = $tpdf->GetY();
+            $end_page = $tpdf->getPage();
+            $height = 0;
+            if ($end_page == $start_page) {
+                $height = $end_y - $start_y;
+            } else {
+                for ($page=$start_page; $page <= $end_page; ++$page) {
+                    $tpdf->setPage($page);
+                    if ($page == $start_page) {
+                        // first page
+                        $height = $tpdf->h - $start_y - $tpdf->bMargin;
+                    } elseif ($page == $end_page) {
+                        // last page
+                        $height = $end_y - $tpdf->tMargin;
+                    } else {
+                        $height = $tpdf->h - $tpdf->tMargin - $tpdf->bMargin;
+                    }
+                }
+            }
+            // restore previous object
+            $tpdf->rollbackTransaction();
+            $this->height = $height;
+            $this->SetAutoPageBreak(TRUE, $height);
+        } else {
+            $this->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+        }
+
         // sets the metadata for the generated PDF file
         $this->SetCreator(PDF_CREATOR);
         $this->SetAuthor("Jacobs Farm, Del Cabo");
@@ -77,7 +116,7 @@ class PDFCreator extends TCPDF
         $this->SetFooterMargin(PDF_MARGIN_FOOTER);
 
         // set auto page breaks
-        $this->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+        //$this->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
         // set image scale factor
         $this->setImageScale(PDF_IMAGE_SCALE_RATIO);
@@ -168,6 +207,8 @@ class PDFCreator extends TCPDF
         // If there is a footer, add it
 
         if(isset($this->footer)){
+            //$this->SetAutoPageBreak(TRUE, $this->height + 5);
+            $this->SetY(-$this->height);
             $this->writeHTMLCell(
                 0, 0, '', '',
                 $this->footer, 

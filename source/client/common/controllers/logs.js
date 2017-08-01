@@ -101,6 +101,7 @@ $(function() {
             getParams._
         );
         $("#report-tab-content").html("");
+        $("#report-tab-footer").html("");
     });
 
     $('ul.tabs').tabs();
@@ -281,6 +282,7 @@ function reportLoaderCard(data, footer){
 
     openIcon.on("click", function(argument) {
         var iconParent = $(this).parent().parent().parent();
+        $("#report-tab-footer").html("");
         if(iconParent.hasClass("reportCard")){
             console.log("Has report card");
             iconParent.removeClass("reportCard");
@@ -319,7 +321,6 @@ function reportLoaderCard(data, footer){
             $("#report-tab-footer").html("");
             reportIcon.hide(200);
         }
-        console.log("lmao");
     });
 
     reportIcon.on("click", function(argument){
