@@ -32,7 +32,7 @@ class AreaLogs extends db\LogTable
       FROM
         $this->table
       WHERE capture_date_id = $dateID"
-    );
+    )->fetchAll();
   }
 
   // Modifica los renglones de la tabla que tienen registrado el ID de fecha de 

@@ -23,6 +23,10 @@ class CorrectiveActions extends db\DataBaseTable{
       'id', 'code', 'en_name(en)', 'es_name(es)'
     ], ['code[!]' => 'OTH']);
   }
-}
 
-?>
+  // Retorna el ID de la opción Otro
+  function getOptionOtherID() {
+    $row = parent::get(['id'], [ 'code' => 'OTH' ]);
+    return $row['id'];
+  }
+}

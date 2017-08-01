@@ -40,7 +40,7 @@ class Items extends db\OrderedItemsTable
       [
         'AND' => [
           'a.zone_id' => $zoneID,
-          'is_active' => TRUE
+          "$this->table.is_active" => TRUE
         ],
         'ORDER' => [
           'a.id',

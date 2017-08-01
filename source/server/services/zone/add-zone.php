@@ -23,11 +23,25 @@ $service = [
     $isZoneNameDuplicated = $zones->hasByName($request['new_zone']);
 
     if (!$isZoneNameDuplicated) {
-      return $zones->insert([
+      $zoneID = $zones->insert([
         'name' => $request['new_zone'],
         'company_name' => $request['company_name'],
         'address' => $request['company_address']
       ]);
+
+      $logs = $scope->daoFactory->get('Logs')->selectAll();
+      $footers = $scope->daoFactory->get('ReportFooters');
+
+      foreach ($logs as $log) {
+        $footers->insert([
+          'zone_id' => $zoneID,
+          'log_id' => $log['id'],
+          'capture_form_footer' => '',
+          'report_document_footer' => ''
+        ]);
+      }
+
+      return $zoneID;
     } else {
       throw new \Exception('Cannot add new zone; name is already taken.');
     }
