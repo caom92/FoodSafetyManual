@@ -99,7 +99,7 @@ $service = fsm\createCaptureService(
                 && array_key_exists('corrective_action_id', $itemsLogEntry)) ? 
                   $itemsLogEntry['corrective_action_id'] : 
                   $scope->daoFactory->get('gap\packing\preop\CorrectiveActions')
-                    ->getOptionOtherID(),
+                    ->getOptionNoneID(),
             'comment' => 
               (isset($itemsLogEntry['comment']) 
                 && array_key_exists('comment', $itemsLogEntry)) ? 
