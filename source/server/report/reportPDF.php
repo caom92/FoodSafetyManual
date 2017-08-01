@@ -66,6 +66,9 @@ class PDFCreator extends TCPDF
 
             $tpdf->startTransaction();
             $tpdf->AddPage();
+            $tpdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+            $tpdf->setFontSubsetting(true);
+            $tpdf->SetFont('helvetica', 'I', 6);
             $start_y = $tpdf->GetY();
             $start_page = $tpdf->getPage();
             $tpdf->writeHTMLCell(
@@ -95,7 +98,7 @@ class PDFCreator extends TCPDF
             // restore previous object
             $tpdf->rollbackTransaction();
             $this->height = $height;
-            $this->SetAutoPageBreak(TRUE, $height);
+            $this->SetAutoPageBreak(TRUE, $this->height + 18);
         } else {
             $this->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
         }
@@ -202,13 +205,12 @@ class PDFCreator extends TCPDF
         $this->SetY(-15);
 
         // set font
-        $this->SetFont('helvetica', 'I', 8);
+        $this->SetFont('helvetica', 'I', 6);
 
         // If there is a footer, add it
 
         if(isset($this->footer)){
-            //$this->SetAutoPageBreak(TRUE, $this->height + 5);
-            $this->SetY(-$this->height);
+            $this->SetY(-($this->height) -15);
             $this->writeHTMLCell(
                 0, 0, '', '',
                 $this->footer, 
