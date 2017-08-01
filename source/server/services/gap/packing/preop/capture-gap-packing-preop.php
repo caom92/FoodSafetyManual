@@ -73,9 +73,16 @@ $service = fsm\createCaptureService(
             'capture_date_id' => $logID,
             'area_id' => $areaLogEntry['id'],
             'time' => $areaLogEntry['time'],
-            'notes' => $areaLogEntry['notes'],
-            'person_performing_sanitation' =>
-              $areaLogEntry['person_performing_sanitation']
+            'notes' => (isset($areaLogEntry['notes']) 
+              && array_key_exists('notes', $areaLogEntry)) ?
+                $areaLogEntry['notes'] : NULL,
+            'person_performing_sanitation' => 
+              (isset($areaLogEntry['person_performing_sanitation']) 
+                && array_key_exists(
+                  'person_performing_sanitation', 
+                  $areaLogEntry)
+              ) ?
+                $areaLogEntry['person_performing_sanitation'] : NULL
           ]);
 
         // then store each per item log entry in the temporal storage
@@ -83,10 +90,20 @@ $service = fsm\createCaptureService(
           array_push($itemsLogEntries, [
             'area_log_id' => $areaID,
             'item_id' => $itemsLogEntry['id'],
-            'is_acceptable' => $itemsLogEntry['is_acceptable'],
-            'corrective_action_id' =>
-              $itemsLogEntry['corrective_action_id'],
-            'comment' => $itemsLogEntry['comment']
+            'is_acceptable' => 
+              (isset($itemsLogEntry['is_acceptable']) 
+                && array_key_exists('is_acceptable', $itemsLogEntry)) ? 
+                  $itemsLogEntry['is_acceptable'] : NULL,
+            'corrective_action_id' => 
+              (isset($itemsLogEntry['corrective_action_id']) 
+                && array_key_exists('corrective_action_id', $itemsLogEntry)) ? 
+                  $itemsLogEntry['corrective_action_id'] : 
+                  $scope->daoFactory->get('gap\packing\preop\CorrectiveActions')
+                    ->getOptionOtherID(),
+            'comment' => 
+              (isset($itemsLogEntry['comment']) 
+                && array_key_exists('comment', $itemsLogEntry)) ? 
+                  $itemsLogEntry['comment'] : NULL
           ]);
         }
       }

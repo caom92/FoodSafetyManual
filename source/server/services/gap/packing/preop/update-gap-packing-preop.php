@@ -80,9 +80,13 @@ $service = [
       $scope->daoFactory->get('gap\packing\preop\AreaLogs')
         ->updateByCapturedLogIDAndAreaID(
           [
-            'notes' => $area['notes'],
+            'notes' => 
+              (isset($area['notes']) && array_key_exists('notes', $area)) ? 
+                $area['notes'] : NULL,
             'person_performing_sanitation' => 
-              $area['person_performing_sanitation']
+              (isset($area['person_performing_sanitation']) 
+              && array_key_exists('person_performing_sanitation', $area)) ? 
+                $area['person_perforing_sanitation'] : NULL
           ],
           $request['report_id'],
           $area['id']
@@ -94,9 +98,19 @@ $service = [
         $scope->daoFactory->get('gap\packing\preop\ItemLogs')
           ->updateByCapturedLogIDAndItemID(
             [
-              'is_acceptable' => $item['is_acceptable'],
-              'corrective_action_id' => $item['corrective_action_id'],
-              'comment' => $item['comment']
+              'is_acceptable' => 
+                (isset($item['is_acceptable']) 
+                && array_key_exists('is_acceptable', $item)) ? 
+                  $item['is_acceptable'] : NULL,
+              'corrective_action_id' => (isset($item['corrective_action_id']) 
+                && array_key_exists('corrective_action_id', $item)) ? 
+                  $item['corrective_action_id'] 
+                  : $scope->daoFactory
+                    ->get('gap\packing\preop\CorrectiveActions')
+                    ->getOptionOtherID(),
+              'comment' => 
+                (isset($item['comment']) 
+                && array_key_exists('comment', $item)) ? $item['comment'] : NULL
             ],
             $request['report_id'],
             $item['id']
