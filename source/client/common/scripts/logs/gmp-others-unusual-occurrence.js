@@ -104,6 +104,10 @@ function loadReport(data){
     //return;
 }
 
+function additionalLoadReportControls(htmlDocument, data){
+    return;
+}
+
 function validateLog(){
     var errorCounter = 0;
     var returnValue = false;

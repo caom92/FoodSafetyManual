@@ -78,6 +78,10 @@ function loadReport(data){
     return gmpPackingScissorsKnivesReport(data);
 }
 
+function additionalLoadReportControls(htmlDocument, data){
+    return;
+}
+
 function validateLog(){
     var errorCounter = 0;
     var returnValue = false;
