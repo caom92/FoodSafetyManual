@@ -665,8 +665,8 @@ function gmpPackingAtpTestingBody(data){
 function gmpPackingAtpTestingAreaRow(area){
     var areaRow = new Array();
 
-    areaRow.push({"type":"td","classes":"areaColumn","contents":area.name,"colspan":3});
-    areaRow.push({"type":"td","classes":"timeColumn","contents":area.time,"colspan":2});
+    areaRow.push({"type":"td","classes":"timeColumn","contents":area.time});
+    areaRow.push({"type":"td","classes":"areaColumn","contents":area.name,"colspan":4});
 
     return areaRow;
 }
@@ -677,15 +677,18 @@ function gmpPackingAtpTestingReportItem(itemData){
     item.push({"type":"td","classes":"testColumn","contents":itemData.test1});
     if(itemData.results1 == 1){
         item.push({"type":"td","classes":"resultColumn pass_tag"});
+        item.push({"type":"td","classes":"actionColumn","contents":itemData.corrective_action});
+        item.push({"type":"td","classes":"testColumn"});
+        item.push({"type":"td","classes":"resultColumn"});
     } else {
         item.push({"type":"td","classes":"resultColumn fail_tag"});
-    }
-    item.push({"type":"td","classes":"actionColumn","contents":itemData.corrective_action});
-    item.push({"type":"td","classes":"testColumn","contents":itemData.test2});
-    if(itemData.results2 == 1){
-        item.push({"type":"td","classes":"resultColumn pass_tag"});
-    } else {
-        item.push({"type":"td","classes":"resultColumn fail_tag"});
+        item.push({"type":"td","classes":"actionColumn","contents":itemData.corrective_action});
+        item.push({"type":"td","classes":"testColumn","contents":itemData.test2});
+        if(itemData.results2 == 1){
+            item.push({"type":"td","classes":"resultColumn pass_tag"});
+        } else {
+            item.push({"type":"td","classes":"resultColumn fail_tag"});
+        }
     }
 
     console.log(item);
@@ -694,5 +697,5 @@ function gmpPackingAtpTestingReportItem(itemData){
 }
 
 function getCSS(){
-    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%; } td { border: 1px solid #000000; text-align: left; } th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50; } .fullColumn { background-color: #D3D3D3; width: 631px; } .timeColumn { width: 231px; background-color: yellow; } .areaColumn { width: 400px; background-color: yellow; } .testColumn { width: 100px; } .resultColumn { width: 100px; } .actionColumn { width: 231px; }</style>';
+    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%; } td { border: 1px solid #000000; text-align: left; } th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50; } .fullColumn { background-color: #D3D3D3; width: 631px; } .timeColumn { width: 100px; background-color: yellow; } .areaColumn { width: 531px; background-color: yellow; } .testColumn { width: 100px; } .resultColumn { width: 100px; } .actionColumn { width: 231px; }</style>';
 }
