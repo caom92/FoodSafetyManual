@@ -1,5 +1,5 @@
 function addInventoryManager(controlsWrapper, contentWrapper){
-    $("#log_name").html("Glass & Brittle Plastic Inspection");
+    //$("#log_name").html("Glass & Brittle Plastic Inspection");
     addAreaSelect(controlsWrapper, contentWrapper);
 }
 

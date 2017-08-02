@@ -1,5 +1,5 @@
 function addInventoryManager(controlsWrapper, contentWrapper){
-    $("#log_name").html("ATP Testing");
+    //$("#log_name").html("ATP Testing");
     loadInventory(contentWrapper);
 }
 
