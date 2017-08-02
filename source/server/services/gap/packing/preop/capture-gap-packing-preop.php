@@ -5,8 +5,8 @@ require_once realpath(dirname(__FILE__).'/../../../service_creators.php');
 
 $service = fsm\createCaptureService(
   'GAP',
-  'Packing',
-  'Pre-Operational Inspection',
+  'Fields',
+  'Organic Program Verification & SRRC',
   [
     'areas' => [
       'type' => 'array',
