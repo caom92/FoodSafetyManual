@@ -1,5 +1,5 @@
 function addInventoryManager(controlsWrapper, contentWrapper){
-    $("#log_name").html("Daily Hand Washing Inspection");
+    //$("#log_name").html("Daily Hand Washing Inspection");
     loadInventory(contentWrapper);
 }
 

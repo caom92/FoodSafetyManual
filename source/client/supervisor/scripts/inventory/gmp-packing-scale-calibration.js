@@ -1,5 +1,5 @@
 function addInventoryManager(controlsWrapper, contentWrapper){
-    $("#log_name").html("Scale Calibration");
+    //$("#log_name").html("Scale Calibration");
     loadInventory(contentWrapper);
 }
 

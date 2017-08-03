@@ -1,5 +1,5 @@
 function addInventoryManager(controlsWrapper, contentWrapper){
-    $("#log_name").html("Daily Thermometer Calibration Verification Check");
+    //$("#log_name").html("Daily Thermometer Calibration Verification Check");
     loadInventory(contentWrapper);
 }
 

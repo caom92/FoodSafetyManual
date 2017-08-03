@@ -1,5 +1,5 @@
 function addInventoryManager(controlsWrapper, contentWrapper){
-    $("#log_name").html("Daily Scissors & Knives Inspection");
+    //$("#log_name").html("Daily Scissors & Knives Inspection");
     loadInventory(contentWrapper);
 }
 

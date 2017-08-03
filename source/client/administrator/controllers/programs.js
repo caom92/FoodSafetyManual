@@ -91,8 +91,8 @@ function programEditableRow(program){
 
     // Add information columns.
     inventoryRow.columns.push({"type":"td","contents":program.log_name,"classes":"program-column"});
-    inventoryRow.columns.push({"type":"td","contents":{"field":{"type":"input","id":"pdf_footer_" + program.id,"classes":"validate","value":program.pdf_footer,"fieldType":"text"}},"classes":"pdf-column"});
-    inventoryRow.columns.push({"type":"td","contents":{"field":{"type":"input","id":"html_footer_" + program.id,"classes":"validate","value":program.html_footer,"fieldType":"text"}},"classes":"html-column"});
+    inventoryRow.columns.push({"type":"td","contents":{"field":{"type":"textarea","id":"pdf_footer_" + program.id,"classes":"validate","value":program.pdf_footer,"fieldType":"text"}},"classes":"pdf-column"});
+    inventoryRow.columns.push({"type":"td","contents":{"field":{"type":"textarea","id":"html_footer_" + program.id,"classes":"validate","value":program.html_footer,"fieldType":"text"}},"classes":"html-column"});
 
     // Edit Button
     inventoryRow.columns.push({"type":"td","contents":programSaveButton(program)});

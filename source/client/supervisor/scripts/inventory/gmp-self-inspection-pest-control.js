@@ -1,5 +1,5 @@
 function addInventoryManager(controlsWrapper, contentWrapper){
-    $("#log_name").html("Self Inspection");
+    //$("#log_name").html("Self Inspection");
     addAreaSelect(controlsWrapper, contentWrapper);
     //loadInventory(contentWrapper);
 }

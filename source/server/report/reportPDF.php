@@ -1,7 +1,6 @@
 <?php
 
-require_once realpath(dirname(__FILE__)."/PDFCreator.php");
-
+require_once realpath(dirname(__FILE__)."/PDFCreator.php")
 
 // get the language that is going to be used to print the PDF file
 $lang = (isset($_POST['lang']) && array_key_exists('lang', $_POST)) ?

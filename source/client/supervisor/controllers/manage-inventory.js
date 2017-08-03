@@ -44,6 +44,16 @@ function dynamicSearchBind(input, column){
     }
 }
 
+function loadManual(titleElement, suffix){
+    $server.request({
+        service: 'get-log-manual-url',
+        data: {"log-suffix":suffix},
+        success: function(response){
+            $(titleElement).html(response.data.log_name);
+        }
+    });
+}
+
 function checkSortability(){
     $("tbody").each(function(index){
         if($(this).children().length != $(this).children().filter(":visible").length) {
@@ -208,6 +218,7 @@ $(function(){
 
     if(getParams._){
         $.getScript( "source/client/supervisor/scripts/inventory/" + getParams._ + ".js").done(function( data, textStatus, jqxhr ) {
+            loadManual("#log_name", getParams._);
             addInventoryManager("#controls_wrapper", "#content_wrapper");
         }).fail(function(jqxhr, settings, exception) {
             var privileges = JSON.parse(localStorage.privileges);

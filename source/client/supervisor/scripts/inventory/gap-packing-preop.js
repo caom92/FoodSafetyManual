@@ -1,5 +1,5 @@
 function addInventoryManager(controlsWrapper, contentWrapper){
-    $("#log_name").html("Pre-operational Inspection");
+    //$("#log_name").html("Pre-operational Inspection");
     $("#multi_inventory_tabs").show();
     $('ul.tabs').tabs();
     $('.indicator').addClass("green");
