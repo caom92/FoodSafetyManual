@@ -71,6 +71,10 @@ function loadReport(data){
     return gmpPackingGlassBrittleReport(data);
 }
 
+function additionalLoadReportControls(htmlDocument, data){
+    return;
+}
+
 function validateLog(){
     var errorCounter = 0;
     var returnValue = false;
