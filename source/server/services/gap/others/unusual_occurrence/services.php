@@ -16,6 +16,9 @@ $gapOthersUnusualOccurrences = [
       realpath(dirname(__FILE__).'/report-gap-others-unusual-occurrence.php'),
     'update-gap-others-unusual-occurrence' =>
       realpath(dirname(__FILE__).'/update-gap-others-unusual-occurrence.php'),
+    'send-report-gap-others-unusual-occurrence' =>
+      realpath(dirname(__FILE__)
+        .'/send-report-gap-others-unusual-occurrence.php'),
     'authorization-report-gap-others-unusual-occurrence' =>
       realpath(dirname(__FILE__).'/authorization-report-gap-others-unusual-occurrence.php')
   ]
