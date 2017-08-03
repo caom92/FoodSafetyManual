@@ -14,8 +14,7 @@ $service = fsm\createLogService(
       $products = $scope->daoFactory->get('Products')->selectAll();
       return [
         'shifts' => $shifts,
-        'products' => $products,
-        'areas' => $areas
+        'products' => $products
       ];
     }
   ]
