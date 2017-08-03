@@ -127,15 +127,15 @@ $service = [
       $pdf->Output($fileName, 'F');
 
       $body = 
-        "All,\n\n".
-        "Please see attachment to review the NOUCA report. Also, note that \n".
-        "all corrective actions regarding this incident has been completed. \n".
-        "Other wise please consider to complete whatever is left to cover.\n\n".
-        "Por favor revise el archivo NOUCA adjunto en este correo.  Tambien \n".
-        "note que todas las acciones correctivas fueron hechas referente a \n".
-        "este problema. Si no es asi, por favor considere terminar las \n".
-        "acciones que esten pendientes.\n\n".
-        "Sincerely/a la orden,\n\n".
+        "All,<br>".
+        "Please see attachment to review the NOUCA report. Also, note that<br>".
+        "all corrective actions regarding this incident has been completed. <br>".
+        "Other wise please consider to complete whatever is left to cover.<br><br>".
+        "Por favor revise el archivo NOUCA adjunto en este correo.  Tambien <br>".
+        "note que todas las acciones correctivas fueron hechas referente a <br>".
+        "este problema. Si no es asi, por favor considere terminar las <br>".
+        "acciones que esten pendientes.<br><br>".
+        "Sincerely/a la orden,<br><br>".
         "Quality Assurance Group";
 
       $email = new Email(
