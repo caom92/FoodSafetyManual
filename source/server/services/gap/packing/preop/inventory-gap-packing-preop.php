@@ -4,8 +4,8 @@ require_once realpath(dirname(__FILE__).'/../../../service_creators.php');
 
 $service = fsm\createInventoryService(
   'GAP',
-  'Packing',
-  'Pre-Operational Inspection',
+  'Fields',
+  'Organic Program Verification & SRRC',
   [
     'area_id' => [
       'type' => 'int',

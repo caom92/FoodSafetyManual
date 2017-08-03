@@ -6,8 +6,8 @@ $service = [
     'has_privileges' => [
       'privilege' => ['Read','Write'],
       'program' => 'GAP',
-      'module' => 'Packing',
-      'log' => 'Pre-Operational Inspection'
+      'module' => 'Fields',
+      'log' => 'Organic Program Verification & SRRC'
     ],
     'report_id' => [
       'type' => 'int',
