@@ -102,6 +102,7 @@ $(function() {
         );
         $("#report-tab-content").html("");
         $("#report-tab-footer").html("");
+        $("#report-tab-subject").html("");
     });
 
     $('ul.tabs').tabs();
@@ -237,9 +238,12 @@ function reportLoaderCard(data, footer){
     var cardRow = $("<div>");
     var openIconWrapper = $("<div class='iconContainer col s1 m1 l1'>");
     var reportIconWrapper = $("<div class='iconContainer col s1 m1 l1'>");
+    var emailIconWrapper = $("<div class='iconContainer col s1 m1 l1'>");
     var openIcon = $('<i class="mdi mdi-file-document-box mdi-36px green-text"></i>');
     var reportIcon = $('<i class="mdi mdi-file-pdf-box mdi-36px red-text text-darken-4"></i>');
+    var emailIcon = $('<i class="mdi mdi-email mdi-36px blue-text"></i>');
     reportIcon.hide();
+    emailIcon.hide();
 
     reportCard.addClass("card-panel white reportCard pdfReport");
     cardRow.addClass("row no-margin-bottom");
@@ -254,6 +258,7 @@ function reportLoaderCard(data, footer){
             '<input id="signature_' + data.report_id + '"type="text" name="signature" hidden>' + 
             '<input id="supervisor_' + data.report_id + '"type="text" name="supervisor" hidden>' + 
             '<input id="footer_' + data.report_id + '"type="text" name="footer" hidden>' + 
+            '<input id="subject_' + data.report_id + '"type="text" name="subject" hidden>' + 
         '</form>');
     reportCard.append(secretForm);
 
@@ -265,9 +270,11 @@ function reportLoaderCard(data, footer){
         dateDisplay = data.creation_date;
     }
 
-    cardRow.append($("<div class='col s10 m10 l10' style='font-size: 24px;'>").append(dateDisplay));
+    cardRow.append($("<div class='col s9 m9 l9' style='font-size: 24px;'>").append(dateDisplay));
     reportIconWrapper.append(reportIcon);
     openIconWrapper.append(openIcon);
+    emailIconWrapper.append(emailIcon);
+    cardRow.append(emailIconWrapper);
     cardRow.append(reportIconWrapper);
     cardRow.append(openIconWrapper);
 
@@ -279,6 +286,7 @@ function reportLoaderCard(data, footer){
 
     openIcon.css( 'cursor', 'pointer' );
     reportIcon.css( 'cursor', 'pointer' );
+    emailIcon.css( 'cursor', 'pointer' );
 
     openIcon.on("click", function(argument) {
         var iconParent = $(this).parent().parent().parent();
@@ -303,12 +311,24 @@ function reportLoaderCard(data, footer){
             var footerCard = $("<div>");
             footerCard.addClass("card-panel white");
             footerCard.append(footer);
+            if(logHasEmail != undefined){
+                if(logHasEmail()){
+                    $("#report-tab-subject").append($(`<div class="row"><div id="subject_wrapper" class="input-field col s12">
+                    <input id="subject" type="text"><label id="subject_label" class="subject" for="subject"></label>
+                    </div></div>`));
+                }
+            }
             $("#report-tab-content").append(tempHeader);
             $("#report-tab-content").append(tempPDFHeader);
             $("#report-tab-content").append(tempCard);
             $("#report-tab-footer").append(footerCard);
             changeLanguage(localStorage.defaultLanguage, function(){
                 reportIcon.show(200);
+                if(logHasEmail != undefined){
+                    if(logHasEmail()){
+                        emailIcon.show(200);
+                    }
+                }
             });
             //$("#report-tab-content").show(600);
         } else {
@@ -319,7 +339,9 @@ function reportLoaderCard(data, footer){
             $(".reportCard").show(300);
             $("#report-tab-content").html("");
             $("#report-tab-footer").html("");
+            $("#report-tab-subject").html("");
             reportIcon.hide(200);
+            emailIcon.hide(200);
         }
     });
 
@@ -339,6 +361,26 @@ function reportLoaderCard(data, footer){
         $("#supervisor_" + data.report_id).val(data.approved_by);
         $("#footer_" + data.report_id).val(footer);
         $("#secretForm_" + data.report_id).submit();
+    });
+
+    emailIcon.on("click", function(argument) {
+        var emailData = {};
+        var contentObject = {};
+        contentObject.header = $("#headerPDFWrapper_" + data.report_id).html();
+        contentObject.body = $("#sandboxWrapper_" + data.report_id).html();
+        contentObject.footer = "";
+        emailData.content = JSON.stringify([contentObject]);
+        emailData.style = getCSS();
+        emailData.lang = localStorage.defaultLanguage;
+        emailData.company = localStorage.company;
+        emailData.address = localStorage.address;
+        emailData.logo = localStorage.logo;
+        emailData.signature = data.signature_path;
+        emailData.supervisor = data.approved_by;
+        emailData.footer = footer;
+        emailData.subject = $("#subject").val();
+        console.log(emailData);
+        sendEmail(emailData);
     });
 
     $("#request_pdf").off("click");

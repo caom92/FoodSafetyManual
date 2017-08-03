@@ -119,6 +119,10 @@ function createDocumentSelect(data){
     return actionSelectInput;
 }
 
+function logHasEmail(){
+    return false;
+}
+
 function validateLog(){
     var errorCounter = 0;
     var returnValue = false;

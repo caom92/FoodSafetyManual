@@ -108,6 +108,25 @@ function additionalLoadReportControls(htmlDocument, data){
     return;
 }
 
+function sendEmail(data){
+    $server.request({
+        service: 'send-report-gap-others-unusual-occurrence',
+        data: data,
+        success: function(response) {
+            if (response.meta.return_code == 0) {
+                Materialize.toast("email_report_success", 3500, "rounded");
+            } else {
+                Materialize.toast(response.meta.message, 3500, "rounded");
+                throw response.meta.message;
+            }
+        }
+    });
+}
+
+function logHasEmail(){
+    return true;
+}
+
 function validateLog(){
     var errorCounter = 0;
     var returnValue = false;

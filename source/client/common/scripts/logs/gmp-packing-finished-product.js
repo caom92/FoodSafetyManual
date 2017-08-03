@@ -97,6 +97,10 @@ function additionalLoadReportControls(htmlDocument, data){
     return;
 }
 
+function logHasEmail(){
+    return false;
+}
+
 function validateLog(){
     var errorCounter = 0;
     var returnValue = false;

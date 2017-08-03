@@ -278,6 +278,11 @@
         <spanish>Correo electrónico</spanish>
     </translation>
 
+    <translation id="subject">
+        <english>E-Mail subject</english>
+        <spanish>Asunto del correo electrónico</spanish>
+    </translation>
+
     <translation id="employee_id">
         <english>Employee ID</english>
         <spanish>ID de Empleado</spanish>
@@ -677,6 +682,11 @@
     <translation id="production_area_title">
         <english>Production Area</english>
         <spanish>Área de Producción</spanish>
+    </translation>
+
+    <translation id="item_place_equipment_title">
+        <english>Item/Place/Equipment, etc.</english>
+        <spanish>Objeto/Lugar/Equipo, etc.</spanish>
     </translation>
 
     <translation id="add_production_area">

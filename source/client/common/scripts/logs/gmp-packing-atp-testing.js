@@ -83,6 +83,10 @@ function additionalLoadReportControls(htmlDocument, data){
     return;
 }
 
+function logHasEmail(){
+    return false;
+}
+
 function validateLog(){
     var errorCounter = 0;
     var returnValue = false;
@@ -389,7 +393,7 @@ function gmpPackingAtpTestingArea(item){
 }
 
 function gmpPackingAtpTestingAreaTitle(item){
-    var areaNewLabel = {"type":"label","contents":{"type":"text","classes":"production_area_title"},"for":"newAreaInput","classes":"active"};
+    var areaNewLabel = {"type":"label","contents":{"type":"text","classes":"item_place_equipment_title"},"for":"newAreaInput","classes":"active"};
     var areaNewInput = {"type":"input","id": "area_name_" + item.id, "classes": "validate", "fieldType":"text","value":item.name,"validations":{"type":"text","max":{"value":255,"toast":"gmp-packing-atp-testing-max-name"},"required":{"value":true,"toast":"gmp-packing-atp-testing-required-name"}}};
     var areaNewFullInput = {"id":"newAreaInputWrapper","classes":"input-field col s6 m6 l6","field":areaNewInput,"label":areaNewLabel};
 
@@ -549,7 +553,7 @@ function gmpPackingAtpTestingFunctionality(data){
             $("#areas_wrapper").append(gmpPackingAtpTestingArea({"id":incID++,"name":$("#newAreaInput").val()}));
             gmpPackingAtpTestingAddDelTestsFunctionality(data);
             changeLanguage();
-            loadToast("new-atp-area-add", 2500, "rounded", null, null, [$("#newAreaInput").val()]);
+            //loadToast("new-atp-area-add", 2500, "rounded", null, null, [$("#newAreaInput").val()]);
             /*if($("#productionArea").val() == "0"){
                 $server.request({
                     service: 'add-gmp-packing-atp-testing',
