@@ -124,6 +124,16 @@ $service = [
       $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
     } finally {
       $fileName = date('m/d/Y h:i:s a', time()) . ".pdf";
+      $directory = realpath(dirname(__FILE__)."/../../../../../../data/documents/temp/");
+
+      $s = NULL;
+      if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        $s = '\\';
+      } else {
+        $S = "/";
+      }
+
+      $fileName = $directory . $s . $fileName;
       $pdf->Output($fileName, 'F');
 
       $body = 
