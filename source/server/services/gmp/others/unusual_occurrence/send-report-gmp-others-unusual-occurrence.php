@@ -123,7 +123,7 @@ $service = [
       // print the result to the document
       $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
     } finally {
-      $fileName = date('m-d-Y_h-i-s_a', time()) . ".pdf";
+      $fileName = date('m/d/Y h:i:s a', time()) . ".pdf";
       $directory = realpath(dirname(__FILE__)."/../../../../../../data/documents/temp/");
 
       $s = NULL;
@@ -150,7 +150,7 @@ $service = [
 
       $email = new Email(
         [
-          'email' => "caom92@gmail.com",
+          'email' => 'QAgroup@delcabo.com',
           'name' => 'QA Group'
         ],
         $request['subject'],
