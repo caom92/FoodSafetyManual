@@ -123,7 +123,17 @@ $service = [
       // print the result to the document
       $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
     } finally {
-      $fileName = date('m/d/Y h:i:s a', time()) . ".pdf";
+      $fileName = date('m-d-Y_h-i-s_a', time()) . ".pdf";
+      $directory = realpath(dirname(__FILE__)."/../../../../../../data/documents/temp/");
+
+      $s = NULL;
+      if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        $s = '\\';
+      } else {
+        $S = "/";
+      }
+
+      $fileName = $directory . $s . $fileName;
       $pdf->Output($fileName, 'F');
 
       $body = 
@@ -140,7 +150,7 @@ $service = [
 
       $email = new Email(
         [
-          'email' => 'QAgroup@delcabo.com',
+          'email' => "caom92@gmail.com",
           'name' => 'QA Group'
         ],
         $request['subject'],

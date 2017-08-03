@@ -165,8 +165,6 @@ function loadSearchSuggestions(lang){
     } else {
         var searchSuggestions = JSON.parse(localStorage.suggestions);
         for(var sug in searchSuggestions){
-            console.log("." + sug);
-            console.log(searchSuggestions[sug][getLanguage()]);
             $("." + sug).attr("placeholder", searchSuggestions[sug][getLanguage()]);
         }
     }

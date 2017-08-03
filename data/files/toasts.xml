@@ -191,6 +191,11 @@
         <spanish>El elemento fue dado de baja</spanish>
     </translation>
 
+    <translation id="email_report_success">
+        <english>Email sent successfully</english>
+        <spanish>Correo enviado con éxito</spanish>
+    </translation>
+
     <translation id="approve_report">
         <english>The log has been approved</english>
         <spanish>La bitácora ha sido aprobada</spanish>
