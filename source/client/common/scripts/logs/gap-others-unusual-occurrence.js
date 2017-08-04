@@ -114,7 +114,7 @@ function sendEmail(data){
         data: data,
         success: function(response) {
             if (response.meta.return_code == 0) {
-                Materialize.toast("email_report_success", 3500, "rounded");
+                loadToast("email_report_success", 3500, "rounded");
             } else {
                 Materialize.toast(response.meta.message, 3500, "rounded");
                 throw response.meta.message;
