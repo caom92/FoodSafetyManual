@@ -517,7 +517,7 @@ $service = [
 
       // if it is not, notify the user
       if (!$isPasswordValid) {
-        throw new \Exception('Log in credentials are incorrect.');
+        throw new \Exception('Log in credentials are incorrect.', 1);
       } 
 
       // now, retrieve the user privileges and any additional information 
@@ -542,7 +542,7 @@ $service = [
       
       return $clientProfile;
     } else {
-      throw new \Exception('Log in credentials are incorrect.');
+      throw new \Exception('Log in credentials are incorrect.', 1);
     }
   }
 ];

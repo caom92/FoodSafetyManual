@@ -8,4 +8,6 @@ const SERVER_SERVICE_ROOT = '/espresso/services/';
 //const LOG_FILE = 'error_log.txt';
 const SERVER_LOG_FILE = 'app.log';
 
+const SERVER_ALLOW_CROSS_SITE_REFERENCE = TRUE;
+
 ?>

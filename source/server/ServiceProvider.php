@@ -114,12 +114,22 @@ class ServiceProvider
             throw new \Exception(
               "Failed to import the definition file for service '$name', the ".
               "file could not be found. Check that the file exists and that ".
-              "the correct file path was provided."
+              "the correct file path was provided.",
+              100
             );
           }
           // preparamos los encabezados de la respuesta a enviar al cliente
           $response = $response->withHeader('Content-Type', 
             'application/json;charset=utf8');
+          
+          if (SERVER_ALLOW_CROSS_SITE_REFERENCE) {
+            $response = $response->withHeader('Access-Control-Allow-Headers', 
+              'Content-Type');
+            $response = $response->withHeader('Access-Control-Allow-Methods', 
+              'GET, POST, OPTIONS');
+            $response = $response->withHeader('Access-Control-Allow-Origin', 
+              '*');
+          }
 
           // inicializamos la variable que almacenara el resultado del servicio
           $result = NULL;
@@ -285,7 +295,7 @@ class ServiceProvider
         } else if (!$isOptional && $options['type'] != 'files') {
           // si el argumento no fue enviado desde el cliente y no fue declarado 
           // como opcional, entonces hay que lanzar una excepcion
-          throw new Exception("Input argument $attribute is undefined");
+          throw new Exception("Input argument $attribute is undefined", 101);
         } else {
           // si el argumento no fue enviado pero es opcional, podemos brincar 
           // esta validacion y continuar con los otros argumentos
@@ -316,7 +326,8 @@ class ServiceProvider
         if (!isNumeric($value)) {
           // si no lo tiene, notificamos al usuario
           throw new Exception(
-            "Input argument '$name' is not a numeric value"
+            "Input argument '$name' is not a numeric value",
+            102
           );
         }
       },
@@ -341,14 +352,16 @@ class ServiceProvider
             // del intervalo
             if (!integerIsBetweenValues($value, $min, $max)) {
               throw new Exception(
-                "Input argument '$name' is not within [$min, $max]"
+                "Input argument '$name' is not within [$min, $max]",
+                103
               );
             }
           }
         } else {
           // si la variable no posee un valor entro, notificamos al cliente
           throw new Exception(
-            "Input argument '$name' is not an integer value"
+            "Input argument '$name' is not an integer value",
+            104
           );
         }
       },
@@ -356,7 +369,8 @@ class ServiceProvider
         // revisamos que la variable posea un valor de coma flotante
         if (!isFloat($value)) {
           throw new Exception(
-            "Input argument '$name' is not a floating-point value"
+            "Input argument '$name' is not a floating-point value",
+            105
           );
         }
       },
@@ -381,7 +395,8 @@ class ServiceProvider
             if (!stringHasLength($value, $options['length'])) {
               throw new Exception(
                 "Input argument '$name' does not have a length of ".
-                $options['length']
+                $options['length'],
+                106
               );
             }
           } else {
@@ -394,14 +409,16 @@ class ServiceProvider
             if (!stringHasLengthInterval($value, $min, $max)) {
               throw new Exception(
                 "Input argument '$name' does not have a length that is ".
-                "within [$min, $max]"
+                "within [$min, $max]",
+                107
               );
             }
           }
         } else {
           // si la variable no es una cadena, notificamos al usuario
           throw new Exception(
-            "Input argument '$name' is not a string value"
+            "Input argument '$name' is not a string value",
+            108
           );
         }
       },
@@ -410,7 +427,8 @@ class ServiceProvider
         // correo electronico
         if (!stringIsEmail($value)) {
           throw new Exception(
-            "Input argument '$name' is not an email string"
+            "Input argument '$name' is not an email string",
+            109
           );
         }
       },
@@ -418,7 +436,10 @@ class ServiceProvider
         // revisamos si el argumento de entrada es un booleano
         $isBoolean = isBoolean($value);
         if (!$isBoolean) {
-          throw new Exception("Input argument '$name' is not a boolean value");
+          throw new Exception(
+            "Input argument '$name' is not a boolean value",
+            110
+          );
         }
       },
       'datetime' => function($scope, $name, $value, $options) {
@@ -427,7 +448,8 @@ class ServiceProvider
         if (!isDateTime($value, $options['format'])) {
           throw new Exception(
             "Input argument '$name' is not a date and/or time literal of ".
-            "the format '{$options['format']}'"
+            "the format '{$options['format']}'",
+            111
           );
         }
       },
@@ -466,7 +488,7 @@ class ServiceProvider
         } else if (!$isOptional) {
           // si el arreglo esta vacio y no fue declarado como opcional, 
           // lanzamos una excepcion
-          throw new Exception("Input argument $name is an empty array");
+          throw new Exception("Input argument $name is an empty array", 112);
         }
       },
       'files' => function($scope, $name, $value, $options) {
@@ -498,14 +520,18 @@ class ServiceProvider
                   foreach ($_FILES[$name]['tmp_name'] as $file) {
                     if (!isDocumentFile($file)) {
                       throw new Exception(
-                        "A file in '$name' is not a document file");
+                        "A file in '$name' is not a document file",
+                        113
+                      );
                       break;
                     }
                   }
                 } else if (!isDocumentFile($_FILES[$name]['tmp_name'])) {
                   throw new Exception(
                     "The file '{$_FILES[$name]['name']}' is not a document ".
-                    "file");
+                    "file",
+                    113
+                  );
                 }
               break;
 
@@ -514,13 +540,17 @@ class ServiceProvider
                   foreach ($_FILES[$name]['tmp_name'] as $file) {
                     if (!isBitmapFile($file)) {
                       throw new Exception(
-                        "A file in '$name' is not a bitmap file");
+                        "A file in '$name' is not a bitmap file",
+                        114
+                      );
                       break;
                     }
                   }
                 } else if (!isBitmapFile($_FILES[$name]['tmp_name'])) {
                   throw new Exception(
-                    "The file '{$_FILES[$name]['name']}' is not a bitmap file");
+                    "The file '{$_FILES[$name]['name']}' is not a bitmap file",
+                    114
+                  );
                 }
               break;
             }
@@ -529,7 +559,7 @@ class ServiceProvider
           // si no se enviaron archivos desde el cliente y no fueron declarados 
           // como opcionales, notificamos al usuario
           if (!$isOptional) {
-            throw new Exception("File '$name' is undefined");
+            throw new Exception("File '$name' is undefined", 115);
           }
         }
       },
@@ -537,7 +567,10 @@ class ServiceProvider
         // revisamos si el argumento de entrada es un numero telefonico
         $isPhoneNum = isPhoneNumber($value);
         if (!$isPhoneNum) {
-          throw new Exception("Input argument '$name' is not a phone number");
+          throw new Exception(
+            "Input argument '$name' is not a phone number",
+            116
+          );
         }
       }
     ];

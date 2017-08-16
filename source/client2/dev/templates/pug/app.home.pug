@@ -1,0 +1,60 @@
+include globals.pug
+
+-
+  var navBarConfig = {
+    styleClass: "'green'",
+    sideNavButton: {
+      id: "'sidenav-activation-btn'",
+      icon: 'mdi mdi-menu white-text'
+    }
+  };
++navBar(navBarConfig)
+  mz-navbar-item
+    - 
+      var zones = [
+        'BCN',
+        'LAW',
+        'PES',
+        'ZAR',
+        'ETC'
+      ];
+    +select("'zone-selection'", "'Zona'", zones)('*ngIf'="isDirector")
+  mz-navbar-item
+    +link('http://www.jfdc.tech/')
+      i.mdi.mdi-home
+  mz-navbar-item
+    +link()('[id]'="'translation-button'")
+      i.mdi.mdi-translate
+    - 
+      var languageOptions = [
+        { name: 'Español' },
+        { name: 'English' }
+      ];
+    +dropdownMenu("'language-options'", "'translation-button'", languageOptions)
+
++sideNav("'sidenav'", "'sidenav-activation-btn'")(
+  '[fixed]'="'true'"
+)
+  div.logo-area
+  -
+    var collapsibleConfig = {
+      title: {
+        icon: 'mdi mdi-account-circle white-text',
+        text: '{{userFullName}}'
+      },
+      items: [
+        {
+          type: 'hyperlink',
+          destination: '#',
+          text: 'Editar perfil'
+        },
+        {
+          type: 'hyperlink',
+          destination: '#',
+          text: 'Cerrar sesión'
+        }
+      ]
+    };
+  +sideNavCollapsible(collapsibleConfig)(id='account-options')
+
+div.container: ui-view
