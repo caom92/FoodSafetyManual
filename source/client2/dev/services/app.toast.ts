@@ -42,7 +42,7 @@ export class ToastService
       119: 'No está autorizado para usar este servicio',
       login: {
         1: 'Las credenciales son incorrectas'
-      }
+      },
     },
     en: {
       101: 'A server input argument was not send',

@@ -25,12 +25,19 @@ include globals.pug
   mz-navbar-item
     +link()('[id]'="'translation-button'")
       i.mdi.mdi-translate
-    - 
-      var languageOptions = [
-        { name: 'Español' },
-        { name: 'English' }
-      ];
     +dropdownMenu("'language-options'", "'translation-button'", languageOptions)
+      mz-dropdown-item
+        a(
+          href='#' 
+          '(click)'='onLanguageButtonClicked("es")'
+          click-stop-propagation
+        )='Español'
+      mz-dropdown-item
+        a(
+          href='#' 
+          '(click)'='onLanguageButtonClicked("en")'
+          click-stop-propagation
+        )='English'
 
 +sideNav("'sidenav'", "'sidenav-activation-btn'")(
   '[fixed]'="'true'"

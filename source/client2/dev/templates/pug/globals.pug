@@ -168,10 +168,8 @@ mixin dropdownMenu(name, buttonId, items)
     '[belowOrigin]'="true"
     '[dropdownButtonId]'=buttonId
   )
-    each item in items
-      mz-dropdown-item
-        a(href='#')
-          =item.name
+    if block
+      block
 
 //- Crea una lista de seleccion
 //- [in]  name (string): el ID HTML con la que sera identificada la lista de 

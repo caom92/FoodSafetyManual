@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { StateService } from '@uirouter/angular'
 import { BackendService } from '../services/app.backend'
 import { ToastService } from '../services/app.toast'
 
@@ -54,7 +55,8 @@ export class LogInComponent implements OnInit
   constructor(
     private server: BackendService, 
     private formBuilder: FormBuilder,
-    private toastManager: ToastService
+    private toastManager: ToastService,
+    private router: StateService
   ) {
   }
 
@@ -123,8 +125,10 @@ export class LogInComponent implements OnInit
       (response: Response) => {
         let result = JSON.parse(response['_body'].toString())
         if (result.meta.return_code == 0) {
+          sessionStorage.is_logged_in = true
           this.mapUserDataToLocalStorage(result.data)
           this.toastManager.showText('loggedIn')
+          this.router.go('edit-profile')
         } else {
           this.toastManager.showServiceErrorText('login', result.meta)
         }
