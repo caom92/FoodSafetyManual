@@ -899,6 +899,11 @@
         <spanish>No aceptable</spanish>
     </translation>
 
+    <translation id="na_tag">
+        <english>N/A</english>
+        <spanish>N/A</spanish>
+    </translation>
+
     <translation id="pass_tag">
         <english>Pass</english>
         <spanish>Pasó</spanish>
