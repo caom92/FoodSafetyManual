@@ -15,16 +15,15 @@ div.row
         mz-card-content
           +textInput(
             'username',
-            'username',
             "'Nombre de usuario'",
             'mdi mdi-account-circle'
           )(
             mz-validation
             required
             '[errorMessageResource]'='formErrorMessages.username'
+            formControlName='username'
           )
           +passwordInput(
-            'password',
             'password',
             "'Contraseña'",
             'mdi mdi-lock'
@@ -32,6 +31,7 @@ div.row
             mz-validation
             required
             '[errorMessageResource]'='formErrorMessages.password'
+            formControlName='password'
           )
         mz-card-action
           +button(

@@ -3,34 +3,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { StateService } from '@uirouter/angular'
 import { BackendService } from '../services/app.backend'
 import { ToastService } from '../services/app.toast'
+import { HomeElementsService } from '../services/app.home'
 
 // Componente que define el comportamiento de la pagina de inicio de sesion
 @Component({
   templateUrl: '../templates/app.login.html',
-  // Este estilo permite remover el margen del lado izquierdo de la pagina que
-  // normalmente se usa para desplegar el menu lateral que en esta pantalla no 
-  // sera desplegado
-  // tambien dejara de desplegar dicho menu y el boton que lo activa
-  styles: [`
-    @media screen and (min-width: 992px) {
-      div.container {
-        padding-left: 0px !important;
-      }
-    }
-
-    ul.side-nav, #sidenav-activation-btn {
-      display: none;
-    }
-  `],
-  providers: [
-    BackendService,
-    ToastService
-  ],
-  // Inyectamos directamente en el HTML el estilo CSS definido anteriormente, si
-  // no configuramos la inyeccion de esta forma, el estilo no se aplicara a la 
-  // pagina correctamente
-  encapsulation: ViewEncapsulation.None
-}) // @Component
+})
 export class LogInComponent implements OnInit 
 {
   // Interfaz que representa el contenido y las reglas de validacion del 
@@ -56,45 +34,49 @@ export class LogInComponent implements OnInit
     private server: BackendService, 
     private formBuilder: FormBuilder,
     private toastManager: ToastService,
-    private router: StateService
+    private router: StateService,
+    private home: HomeElementsService
   ) {
   }
 
   // Almacena los datos recuperados del servidor al momento de iniciar sesion 
   // en localStorage
   private mapUserDataToLocalStorage(userData) {
-    localStorage.user_id = userData.user_id;
-    localStorage.role_id = userData.role_id;
-    localStorage.role_name = userData.role_name;
-    localStorage.exclusive_access = userData.exclusive_access;
-    localStorage.employee_num = userData.employee_num;
-    localStorage.first_name = userData.first_name;
-    localStorage.last_name = userData.last_name;
-    localStorage.login_name = userData.login_name;
-    localStorage.company = userData.company;
-    localStorage.logo = userData.logo;
-    localStorage.address = userData.address;
+    localStorage.user_id = userData.user_id
+    localStorage.role_id = userData.role_id
+    localStorage.role_name = userData.rolename
+    localStorage.exclusive_access = userData.exclusive_access
+    localStorage.employee_num = userData.employee_num
+    localStorage.first_name = userData.first_name
+    localStorage.last_name = userData.last_name
+    localStorage.login_name = userData.login_name
+    localStorage.company = userData.company
+    localStorage.logo = userData.logo
+    localStorage.address = userData.address
 
     if (userData.zone_id !== undefined) {
-      localStorage.zone_id = userData.zone_id;
-      localStorage.zone_name = userData.zone_name;
+      localStorage.zone_id = userData.zone_id
+      localStorage.zone_name = userData.zone_name
     }
 
     if (userData.privileges !== undefined) {
-      localStorage.privileges = JSON.stringify(userData.privileges);
+      localStorage.privileges = JSON.stringify(userData.privileges)
     }
 
     if (userData.zone_list !== undefined) {
-      localStorage.zone_list = JSON.stringify(userData.zone_list);
+      localStorage.zone_list = JSON.stringify(userData.zone_list)
     }
 
     if (userData.log_list !== undefined) {
-      localStorage.log_list = JSON.stringify(userData.log_list);
+      localStorage.log_list = JSON.stringify(userData.log_list)
     }
   }
 
   // Esta funcion se invoca cuando el componente es inicializado
   ngOnInit() {
+    // indicamos que esta es la pagina de inicio de sesion
+    this.home.hideSideNav()
+
     // Configuramos el formulario con valores iniciales vacios y las reglas de 
     // validacion correspondientes
     this.userLogInInfo = this.formBuilder.group({
@@ -107,6 +89,33 @@ export class LogInComponent implements OnInit
         Validators.minLength(6)
       ])]
     })
+
+    // cuando el usuario quiere entrar a la pantalla de inicio de sesion, hay 
+    // que revisar si el usuario aun no haya iniciado sesion para permitirle 
+    // entrar a esta pagina
+    this.server.update(
+      'check-session', 
+      new FormData(), 
+      (response: Response) => {
+        let result = JSON.parse(response['_body'].toString())
+        if (result.meta.return_code == 0) {
+          if (result.data) {
+            // si el usuario ya inicio sesion hay que redireccionar al usuario 
+            // a la pagina principal
+            localStorage.is_logged_in = true
+            this.router.go('edit-profile')
+          } else {
+            // si el usuario no hay iniciado sesion, permitimos al usuario 
+            // entrar a esta pagina
+            localStorage.is_logged_in = false
+          }
+        } else {
+          // si algo ocurrio con la comunicacion con el servidor, desplegamos 
+          // un mensaje de error al usuario
+          this.toastManager.showServiceErrorText('check-session', result.meta)
+        }
+      }
+    )
   }
 
   // Esta funcion es invocada cuando el usuario hace clic en el boton de enviar
@@ -125,11 +134,16 @@ export class LogInComponent implements OnInit
       (response: Response) => {
         let result = JSON.parse(response['_body'].toString())
         if (result.meta.return_code == 0) {
-          sessionStorage.is_logged_in = true
+          // si el usuario logro iniciar sesion exitosamente, guardamos los 
+          // datos retornados por el servidor y activamos la bandera que indica 
+          // que iniciamos sesion
+          localStorage.is_logged_in = true
           this.mapUserDataToLocalStorage(result.data)
           this.toastManager.showText('loggedIn')
           this.router.go('edit-profile')
         } else {
+          // si hubo un problema con la conexion del servidor, desplegamos un 
+          // mensaje de error al usuario
           this.toastManager.showServiceErrorText('login', result.meta)
         }
       }

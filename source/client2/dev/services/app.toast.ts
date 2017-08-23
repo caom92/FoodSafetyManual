@@ -8,7 +8,7 @@ export class ToastService
 {
   // La lista de los diferentes mensajes informativos que se pueden desplegar, 
   // tanto en ingles como en español
-  private infoMessages = {
+  private static infoMessages = {
     es: {
       loggedIn: 'Sesión iniciada correctamente'
     },
@@ -19,7 +19,7 @@ export class ToastService
 
   // La lista de los diferentes mensajes de error que el servidor puede 
   // retornar, tanto en ingles como en español
-  private errorMessages = {
+  private static errorMessages = {
     es: {
       101: 'Faltó enviar una entrada al servidor',
       102: 'Una entrada enviada al servidor no es un valor numérico',
@@ -86,9 +86,13 @@ export class ToastService
 
     // luego revisamos si el texto ingresado corresponde a algun indice en la 
     // lista de mensajes
-    if (this.infoMessages[lang][text] !== undefined) {
+    if (ToastService.infoMessages[lang][text] !== undefined) {
       // si asi es, desplegamos el mensaje en el idioma elegido
-      this.toastService.show(this.infoMessages[lang][text], 3500, 'rounded')  
+      this.toastService.show(
+        ToastService.infoMessages[lang][text], 
+        3500, 
+        'rounded'
+      )  
     } else {
       // sino, desplegamos el indice asumiendo que se trata de un mensaje 
       // ingresado por el usuario
@@ -114,20 +118,20 @@ export class ToastService
 
     // revisamos si el codigo de error retornado corresponde a algun mensaje de 
     // error configurado para el servicio solicitado
-    if (this.errorMessages[lang][service][code] !== undefined) {
+    if (ToastService.errorMessages[lang][service][code] !== undefined) {
       // si asi fue, lo desplegamos
       this.toastService.show(
-        this.errorMessages[lang][service][code],
+        ToastService.errorMessages[lang][service][code],
         3500, 'rounded'
       )
     } 
 
     // si no, revisamos si el codigo de error retornado corresponde a algun 
     // mensaje de error generico configurado
-    else if (this.errorMessages[lang][code] !== undefined) {
+    else if (ToastService.errorMessages[lang][code] !== undefined) {
       // si asi fue, lo desplegamos
       this.toastService.show(
-        this.errorMessages[lang][code],
+        ToastService.errorMessages[lang][code],
         3500, 'rounded'
       )
 

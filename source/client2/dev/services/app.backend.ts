@@ -49,7 +49,8 @@ export class BackendService
         BackendService.url + service,
         new RequestOptions({
           headers: BackendService.headers,
-          body: data
+          body: data,
+          withCredentials: true
         })
       )
       .map(successCallback)
@@ -75,7 +76,8 @@ export class BackendService
         BackendService.url + service,
         new RequestOptions({
           headers: BackendService.headers,
-          body: data
+          body: data,
+          withCredentials: true
         })
       )
       .map(successCallback)
@@ -101,7 +103,8 @@ export class BackendService
         BackendService.url + service,
         data,
         new RequestOptions({
-          headers: BackendService.headers
+          headers: BackendService.headers,
+          withCredentials: true
         })
       )
       .map(successCallback)
@@ -127,7 +130,8 @@ export class BackendService
         BackendService.url + service,
         new RequestOptions({
           headers: BackendService.headers,
-          body: data
+          body: data,
+          withCredentials: true
         })
       )
       .map(successCallback)

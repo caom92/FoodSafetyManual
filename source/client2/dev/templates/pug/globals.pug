@@ -10,20 +10,34 @@
   dir.assets = dir.root + 'assets/';
   dir.stylesheets = dir.root + 'stylesheets/';
 
+//- Crea un enlace
+//- [in]  [destination] (string): la URL a donde navegara el usuario al hacer 
+//-       clic sobre el enlace
+mixin link(destination = '#')
+  a(href=destination)&attributes(attributes)
+    block
+
+//- Crean un enlace de UI-Router
+//- [in]  destination (string): el nombre del estado a donde navegara el 
+//-       usuario al hacer clic sobre el enlace
+mixin uiRouterLink(destination)
+  a(uiSref=destination)&attributes(attributes)
+    block
+
 //- Crea una barra de navegacion
-//- [in]  config (object): el objeto que especifica la estructura
+//- [in]  [config] (object): el objeto que especifica la estructura
 //-       de la barra de navegacion, esta debe contener el siguiente formato:
-//-       sideNavButton (object) {
-//-         id (string): el ID HTML del boton que activara el menu lateral, 
-//-           debe escribirse con triples comillas, "'ejemplo'"
-//-         icon (string): las clase de icono que va a ser desplegado en el 
-//-           boton 
-//-       }
-//-       styleClass (string): las clases que se le seran aplicadas a la barra 
-//-         de navegacion, deben contener comillas dobles y sencillas asi: 
-//-         "'ejemplo'"
-mixin navBar(config)
-  mz-navbar('[navbarClass]'=config.styleClass)
+//-       * sideNavButton (object): el objeto que indica los parametros de 
+//-         configuracion para agregar un boton que active un menu de 
+//-         navegacion lateral
+//-         ** id (string): el ID HTML del boton que activara el menu lateral, 
+//-            debe escribirse con triples comillas, "'ejemplo'"
+//-         ** [icon] (string): las clase de icono que va a ser desplegado en 
+//-            el boton 
+//-         ** [showFlag] (string): la condicion que indica cuando se debe 
+//-            desplegar el boton que activa el menu lateral
+mixin navBar(config = {})
+  mz-navbar&attributes(attributes)
     if config.sideNavButton
       mz-navbar-item-container('[align]'="'left'")
         if config.sideNavButton.showFlag
@@ -41,20 +55,6 @@ mixin navBar(config)
       mz-navbar-item-container('[align]'="'right'")
         block
 
-//- Crea un enlace
-//- [in]  destination (string): la URL a donde navegara el usuario al hacer 
-//-       clic sobre el enlace
-mixin link(destination = '#')
-  a(href=destination)&attributes(attributes)
-    block
-
-//- Crean un enlace de UI-Router
-//- [in]  destination (string): el nombre del estado a donde navegara el 
-//-       usuario al hacer clic sobre el enlace
-mixin uiRouterLink(destination)
-  a(uiSref=destination)
-    block
-
 //- Crea un menu de navegacion lateral
 //- [in]  name (string): el ID HTML que sera asociado al menu lateral, debe 
 //-       estar escrito con triples comillas, "'ejemplo'"
@@ -69,48 +69,26 @@ mixin sideNav(name, collapseButtonId)
     block
 
 //- Crea un menu colapsable como elemento de un menu lateral
-//- [in]  config (object): el objeto que especifica la estructura del menu 
-//-       colapsable, debe contener el siguiente formato:
-//-       title (object) {
-//-         icon (string): la clase de icono que va a ser desplegado junto al 
-//-           titulo del menu colapsable
-//-         text (string): el texto a desplegar como el titulo del menu 
-//-           colapsable
-//-       }
-//-       items (array) {
-//-         type (string): el tipo de elemento que sera añadido dentro del menu 
-//-           colapsable, debe ser uno de las siguientes opciones:
-//-           - hyperlink: un enlace HTML
-//-           - uiRouterLink: un enlace de UI-Router
-//-         destination (string): el destino a donde navegara el usuario al 
-//-           hacerle clic a la opcion
-//-         text (string): el texto a desplegar como el nombre de la opcion del 
-//-           menu colapsable
-//-       }
-mixin sideNavCollapsible(config)
+//- [in]  title (string): el texto a desplegar como el titulo del menu 
+//-       colapsable
+//- [in]  [icon] (string): la clase de icono que va a ser desplegado junto 
+//-       con el titulo del menu colapsable
+mixin sideNavCollapsible(title, icon = null)
   mz-sidenav-collapsible&attributes(attributes)
     mz-sidenav-collapsible-header
-      if config.title.icon
-        i(class=config.title.icon)
-      =config.title.text
-    mz-sidenav-collapsible-content
-      each item in config.items
-        mz-sidenav-link
-          case item.type
-            when 'hyperlink'
-              +link(item.destination)
-                =item.text
-            when 'uiRouterLink'
-              +uiRouterLink(item.destination)
-                =item.text
+      if icon
+        i(class=icon)
+      =title
+    if block
+      mz-sidenav-collapsible-content
+        block
 
 //- Crea un campo de texto
-//- [in]  model (string): el nombre del modelo del componente angular 2
 //- [in]  name (string): el nombre del campo dentro del formulario de captura 
 //-       de la pagina
 //- [in]  label (string): el nombre del campo a desplegar en el formulario
-//- [in]  icon (string): el icono a desplegar junto con el campo de texto
-mixin textInput(model, name, label, icon = null)
+//- [in]  [icon] (string): el icono a desplegar junto con el campo de texto
+mixin textInput(name, label, icon = null)
   mz-input-container
     if icon
       i(class=icon mz-input-prefix)
@@ -118,19 +96,16 @@ mixin textInput(model, name, label, icon = null)
       type='text'
       id=name
       name=name
-      formControlName=model
       '[label]'=label
       mz-input
     )&attributes(attributes)
 
 //- Crea un campo de contraseña
-//- [in]  model (string): el nombre del modelo del componente angular 2
 //- [in]  name (string): el nombre del campo dentro del formulario de captura 
 //-       de la pagina
 //- [in]  label (string): el nombre del campo a desplegar en el formulario
-//- [in]  icon (string): el icono a desplegar junto con el campo de contraseña
-//- '[(ngModel)]'=model
-mixin passwordInput(model, name, label, icon = null)
+//- [in]  [icon] (string): el icono a desplegar junto con el campo de contraseña
+mixin passwordInput(name, label, icon = null)
   mz-input-container
     if icon
       i(class=icon mz-input-prefix)
@@ -138,7 +113,6 @@ mixin passwordInput(model, name, label, icon = null)
       type='password'
       id=name
       name=name
-      formControlName=model
       '[label]'=label
       mz-input
     )&attributes(attributes)
@@ -150,6 +124,7 @@ mixin passwordInput(model, name, label, icon = null)
 mixin button(type, name, text)
   button(
     id=name
+    name=name
     type=type
     mz-button
   )&attributes(attributes)=text
@@ -159,15 +134,11 @@ mixin button(type, name, text)
 //-       escrito con comillas triples, "'ejemplo'"
 //- [in]  buttonId (string): el ID HTML del boton que activa la cascada,
 //-       debe ser escrito con comillas triples, "'ejemplo'"
-//- [in]  items (array<objects>): la lista de opciones que apareceran dentro 
-//-       del menu de cascada, estos deben tener el sig. formato:
-//-       name (string): el texto a desplegar como el nombre de la opcion
-mixin dropdownMenu(name, buttonId, items)
+mixin dropdownMenu(name, buttonId)
   mz-dropdown(
     '[id]'=name,
-    '[belowOrigin]'="true"
     '[dropdownButtonId]'=buttonId
-  )
+  )&attributes(attributes)
     if block
       block
 
@@ -176,8 +147,8 @@ mixin dropdownMenu(name, buttonId, items)
 //-       seleccion, debe tener comillas triples, "'ejemplo'"
 //- [in]  placeholder (string): el texto a desplegar como nombre de la lista de 
 //-       seleccion, debe tener comillas triples, "'ejemplo'"
-//- [in]  options (array<string>): la lista de opciones que seran desplegadas 
-//-       dentro de la lista de seleccion
+//- [in]  options (string): el nombre del attributo del componente de Angular 
+//-       cuyos elementos van a ser desplegados
 mixin select(name, placeholder, options)
   mz-select-container&attributes(attributes)
     select(
@@ -185,6 +156,5 @@ mixin select(name, placeholder, options)
       '[placeholder]'=placeholder
       mz-select
     )
-      each option in options
-        option
-          =option
+      option('*ngFor'='let x of ' + options)
+        ='{{ x }}'

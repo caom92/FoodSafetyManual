@@ -122,13 +122,23 @@ class ServiceProvider
           $response = $response->withHeader('Content-Type', 
             'application/json;charset=utf8');
           
-          if (SERVER_ALLOW_CROSS_SITE_REFERENCE) {
+          if (SERVER_ALLOW_CORS_REQUESTS) {
             $response = $response->withHeader('Access-Control-Allow-Headers', 
               'Content-Type');
             $response = $response->withHeader('Access-Control-Allow-Methods', 
               'GET, POST, OPTIONS');
-            $response = $response->withHeader('Access-Control-Allow-Origin', 
-              '*');
+            
+            if (SERVER_ALLOW_CORS_CREDENTIALS) {
+              $response = $response->withHeader('Access-Control-Allow-Origin', 
+                SERVER_CORS_CREDENTIALS_ALLOWED_ORIGIN);
+              $response = $response->withHeader(
+                'Access-Control-Allow-Credentials', 
+                'true'
+              );
+            } else {
+              $response = $response->withHeader('Access-Control-Allow-Origin', 
+                '*');
+            }
           }
 
           // inicializamos la variable que almacenara el resultado del servicio

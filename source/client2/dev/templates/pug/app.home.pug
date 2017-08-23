@@ -2,66 +2,44 @@ include globals.pug
 
 -
   var navBarConfig = {
-    styleClass: "'green'",
     sideNavButton: {
       id: "'sidenav-activation-btn'",
-      icon: 'mdi mdi-menu white-text'
+      icon: 'mdi mdi-menu white-text',
+      showFlag: "this.home.showSideNav === true"
     }
   };
-+navBar(navBarConfig)
++navBar(navBarConfig)('[navbarClass]'="'green'")
   mz-navbar-item
-    - 
-      var zones = [
-        'BCN',
-        'LAW',
-        'PES',
-        'ZAR',
-        'ETC'
-      ];
-    +select("'zone-selection'", "'Zona'", zones)('*ngIf'="isDirector")
+    +select("'zone-selection'", "'Zona'", 'zones')('*ngIf'="home.showZoneMenu")
   mz-navbar-item
     +link('http://www.jfdc.tech/')
       i.mdi.mdi-home
   mz-navbar-item
     +link()('[id]'="'translation-button'")
       i.mdi.mdi-translate
-    +dropdownMenu("'language-options'", "'translation-button'", languageOptions)
+    +dropdownMenu("'language-options'", "'translation-button'")
       mz-dropdown-item
-        a(
-          href='#' 
+        +link()(
           '(click)'='onLanguageButtonClicked("es")'
           click-stop-propagation
         )='Español'
       mz-dropdown-item
-        a(
-          href='#' 
+        +link()(
           '(click)'='onLanguageButtonClicked("en")'
           click-stop-propagation
         )='English'
 
 +sideNav("'sidenav'", "'sidenav-activation-btn'")(
   '[fixed]'="'true'"
+  '*ngIf'="this.home.showSideNav === true"
 )
   div.logo-area
-  -
-    var collapsibleConfig = {
-      title: {
-        icon: 'mdi mdi-account-circle white-text',
-        text: '{{userFullName}}'
-      },
-      items: [
-        {
-          type: 'hyperlink',
-          destination: '#',
-          text: 'Editar perfil'
-        },
-        {
-          type: 'hyperlink',
-          destination: '#',
-          text: 'Cerrar sesión'
-        }
-      ]
-    };
-  +sideNavCollapsible(collapsibleConfig)(id='account-options')
+  +sideNavCollapsible(
+    '{{home.userFullName}}', 'mdi mdi-account-circle white-text'
+  )(id='account-options')
+    mz-sidenav-link
+      +uiRouterLink('edit-profile')='Editar perfil'
+    mz-sidenav-link
+      +link()('(click)'='onLogOutButtonClicked()')='Cerrar sesión'
 
-div.container: ui-view
+div.container('[ngClass]'="{ 'with-sidenav': home.showSideNav }"): ui-view
