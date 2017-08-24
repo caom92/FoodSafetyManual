@@ -39,11 +39,13 @@ ServiceProvider::addValidationRule(
 
         if (!$hasProperRole) {
           throw new Exception(
-            'User does not have the proper role.');
+            'User does not have the proper role.',
+            117
+          );
         }
       }
     } else {
-      throw new Exception('The user is not logged in');
+      throw new Exception('The user is not logged in', 118);
     }
   }
 );
@@ -92,7 +94,9 @@ ServiceProvider::addValidationRule(
 
     if (!$hasPrivilege) {
       throw new Exception(
-        'User is not allowed to use this service');
+        'User is not allowed to use this service',
+        119
+      );
     }
   }
 );

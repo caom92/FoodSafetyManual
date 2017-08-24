@@ -150,7 +150,7 @@ $service = [
 
       $email = new Email(
         [
-          'email' => 'caom92@gmail.com',
+          'email' => 'QAgroup@delcabo.com',
           'name' => 'QA Group'
         ],
         $request['subject'],

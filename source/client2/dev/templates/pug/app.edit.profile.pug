@@ -1,0 +1,21 @@
+include globals.pug
+
+div.row
+  div.col.s12.m12
+    h4
+      i.mdi.mdi-account-circle
+      ='Su Perfil de Usuario'
+div.row
+  form
+    div.col.s12.m6
+      +textInput('profile-name', "'Nombre de usuario'")(
+        '[(ngModel)]'='username'
+      )
+    div.col.s12.m6
+      +textInput('employee-num', "'ID de Empleado'")(
+        '[(ngModel)]'='employeeID'
+      )
+    div.col.s12.m6
+      +textInput('full-name', "'Nombre'")(
+        '[(ngModel)]'='fullName'
+      )

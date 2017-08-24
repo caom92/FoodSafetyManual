@@ -16,3 +16,6 @@ data/logos/
 data/signatures/
 data/manuals/
 data/images/
+source/client2/node_modules/
+source/client2/dev/templates/*.html
+source/client2/dev/stylesheets/*.css

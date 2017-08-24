@@ -1,0 +1,45 @@
+include globals.pug
+
+-
+  var navBarConfig = {
+    sideNavButton: {
+      id: "'sidenav-activation-btn'",
+      icon: 'mdi mdi-menu white-text',
+      showFlag: "this.home.showSideNav === true"
+    }
+  };
++navBar(navBarConfig)('[navbarClass]'="'green'")
+  mz-navbar-item
+    +select("'zone-selection'", "'Zona'", 'zones')('*ngIf'="home.showZoneMenu")
+  mz-navbar-item
+    +link('http://www.jfdc.tech/')
+      i.mdi.mdi-home
+  mz-navbar-item
+    +link()('[id]'="'translation-button'")
+      i.mdi.mdi-translate
+    +dropdownMenu("'language-options'", "'translation-button'")
+      mz-dropdown-item
+        +link()(
+          '(click)'='onLanguageButtonClicked("es")'
+          click-stop-propagation
+        )='Español'
+      mz-dropdown-item
+        +link()(
+          '(click)'='onLanguageButtonClicked("en")'
+          click-stop-propagation
+        )='English'
+
++sideNav("'sidenav'", "'sidenav-activation-btn'")(
+  '[fixed]'="'true'"
+  '*ngIf'="this.home.showSideNav === true"
+)
+  div.logo-area
+  +sideNavCollapsible(
+    '{{home.userFullName}}', 'mdi mdi-account-circle white-text'
+  )(id='account-options')
+    mz-sidenav-link
+      +uiRouterLink('edit-profile')='Editar perfil'
+    mz-sidenav-link
+      +link()('(click)'='onLogOutButtonClicked()')='Cerrar sesión'
+
+div.container('[ngClass]'="{ 'with-sidenav': home.showSideNav }"): ui-view

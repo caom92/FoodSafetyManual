@@ -1,0 +1,160 @@
+//- Este archivo contiene un conjunto de utiles mixins que se pueden utilizar en
+//- todas las plantillas Pug del proyecto para facilitar la programacion
+//- Declaramos una variable que contenga los URLs de las carpetas de interes del
+//- proyecto
+- 
+  var dir = { root: '../' };
+  dir.modules = dir.root + 'node_modules/';
+  dir.templates = dir.root + 'templates/';
+  dir.components = dir.root + 'components/';
+  dir.assets = dir.root + 'assets/';
+  dir.stylesheets = dir.root + 'stylesheets/';
+
+//- Crea un enlace
+//- [in]  [destination] (string): la URL a donde navegara el usuario al hacer 
+//-       clic sobre el enlace
+mixin link(destination = '#')
+  a(href=destination)&attributes(attributes)
+    block
+
+//- Crean un enlace de UI-Router
+//- [in]  destination (string): el nombre del estado a donde navegara el 
+//-       usuario al hacer clic sobre el enlace
+mixin uiRouterLink(destination)
+  a(uiSref=destination)&attributes(attributes)
+    block
+
+//- Crea una barra de navegacion
+//- [in]  [config] (object): el objeto que especifica la estructura
+//-       de la barra de navegacion, esta debe contener el siguiente formato:
+//-       * sideNavButton (object): el objeto que indica los parametros de 
+//-         configuracion para agregar un boton que active un menu de 
+//-         navegacion lateral
+//-         ** id (string): el ID HTML del boton que activara el menu lateral, 
+//-            debe escribirse con triples comillas, "'ejemplo'"
+//-         ** [icon] (string): las clase de icono que va a ser desplegado en 
+//-            el boton 
+//-         ** [showFlag] (string): la condicion que indica cuando se debe 
+//-            desplegar el boton que activa el menu lateral
+mixin navBar(config = {})
+  mz-navbar&attributes(attributes)
+    if config.sideNavButton
+      mz-navbar-item-container('[align]'="'left'")
+        if config.sideNavButton.showFlag
+          mz-navbar-item
+            a(
+              '[id]'=config.sideNavButton.id
+              '*ngIf'=config.sideNavButton.showFlag
+            )
+              i(class=config.sideNavButton.icon)
+        else
+          mz-navbar-item 
+            a('[id]'=config.sideNavButton.id)
+              i(class=config.sideNavButton.icon)
+    if block
+      mz-navbar-item-container('[align]'="'right'")
+        block
+
+//- Crea un menu de navegacion lateral
+//- [in]  name (string): el ID HTML que sera asociado al menu lateral, debe 
+//-       estar escrito con triples comillas, "'ejemplo'"
+//- [in]  collapseButtonId (string): el ID HTML del boton que activa y 
+//-       desactiva el menu lateral, debe estar escrito con triples comillas, 
+//-       "'ejemplo'"
+mixin sideNav(name, collapseButtonId)
+  mz-sidenav(
+    '[id]'=name
+    '[collapseButtonId]'=collapseButtonId
+  )&attributes(attributes)
+    block
+
+//- Crea un menu colapsable como elemento de un menu lateral
+//- [in]  title (string): el texto a desplegar como el titulo del menu 
+//-       colapsable
+//- [in]  [icon] (string): la clase de icono que va a ser desplegado junto 
+//-       con el titulo del menu colapsable
+mixin sideNavCollapsible(title, icon = null)
+  mz-sidenav-collapsible&attributes(attributes)
+    mz-sidenav-collapsible-header
+      if icon
+        i(class=icon)
+      =title
+    if block
+      mz-sidenav-collapsible-content
+        block
+
+//- Crea un campo de texto
+//- [in]  name (string): el nombre del campo dentro del formulario de captura 
+//-       de la pagina
+//- [in]  label (string): el nombre del campo a desplegar en el formulario
+//- [in]  [icon] (string): el icono a desplegar junto con el campo de texto
+mixin textInput(name, label, icon = null)
+  mz-input-container
+    if icon
+      i(class=icon mz-input-prefix)
+    input(
+      type='text'
+      id=name
+      name=name
+      '[label]'=label
+      mz-input
+    )&attributes(attributes)
+
+//- Crea un campo de contraseña
+//- [in]  name (string): el nombre del campo dentro del formulario de captura 
+//-       de la pagina
+//- [in]  label (string): el nombre del campo a desplegar en el formulario
+//- [in]  [icon] (string): el icono a desplegar junto con el campo de contraseña
+mixin passwordInput(name, label, icon = null)
+  mz-input-container
+    if icon
+      i(class=icon mz-input-prefix)
+    input(
+      type='password'
+      id=name
+      name=name
+      '[label]'=label
+      mz-input
+    )&attributes(attributes)
+
+//- Crea un boton
+//- [in]  type (string): el tipo del boton que va a ser desplegado
+//- [in]  name (string): el nombre del boton que va a tener en el formulario
+//- [in]  text (string): el texto a desplegar dentro del boton
+mixin button(type, name, text)
+  button(
+    id=name
+    name=name
+    type=type
+    mz-button
+  )&attributes(attributes)=text
+
+//- Crea un menu de cascada
+//- [in]  name (string): el ID HTML que identificara este menu, debe ser 
+//-       escrito con comillas triples, "'ejemplo'"
+//- [in]  buttonId (string): el ID HTML del boton que activa la cascada,
+//-       debe ser escrito con comillas triples, "'ejemplo'"
+mixin dropdownMenu(name, buttonId)
+  mz-dropdown(
+    '[id]'=name,
+    '[dropdownButtonId]'=buttonId
+  )&attributes(attributes)
+    if block
+      block
+
+//- Crea una lista de seleccion
+//- [in]  name (string): el ID HTML con la que sera identificada la lista de 
+//-       seleccion, debe tener comillas triples, "'ejemplo'"
+//- [in]  placeholder (string): el texto a desplegar como nombre de la lista de 
+//-       seleccion, debe tener comillas triples, "'ejemplo'"
+//- [in]  options (string): el nombre del attributo del componente de Angular 
+//-       cuyos elementos van a ser desplegados
+mixin select(name, placeholder, options)
+  mz-select-container&attributes(attributes)
+    select(
+      id=name,
+      '[placeholder]'=placeholder
+      mz-select
+    )
+      option('*ngFor'='let x of ' + options)
+        ='{{ x }}'

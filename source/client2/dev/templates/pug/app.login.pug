@@ -1,0 +1,44 @@
+include globals.pug
+
+div.row
+  div.col.s12.m6.offset-m3
+    form(
+      '[formGroup]'='userLogInInfo'
+      '(ngSubmit)'='onLogInFormSubmit()'
+      novalidate
+    )
+      mz-card(
+        '[hoverable]'="'true'"
+        '[textClass]'="'center-align'"
+      )
+        mz-card-title='Inicie Sesión'
+        mz-card-content
+          +textInput(
+            'username',
+            "'Nombre de usuario'",
+            'mdi mdi-account-circle'
+          )(
+            mz-validation
+            required
+            '[errorMessageResource]'='formErrorMessages.username'
+            formControlName='username'
+          )
+          +passwordInput(
+            'password',
+            "'Contraseña'",
+            'mdi mdi-lock'
+          )(
+            mz-validation
+            required
+            '[errorMessageResource]'='formErrorMessages.password'
+            formControlName='password'
+          )
+        mz-card-action
+          +button(
+            'submit', 
+            'submit-button', 
+            'Iniciar sesión'
+          )(
+            '[flat]'="'true'"
+            '[disabled]'="!userLogInInfo.valid"
+          )
