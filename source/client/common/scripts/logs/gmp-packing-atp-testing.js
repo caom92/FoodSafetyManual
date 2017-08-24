@@ -638,7 +638,7 @@ function gmpPackingAtpTestingReport(data){
 }
 
 function gmpPackingAtpTestingHeader(){
-    var header = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"test_title testColumn"},{"type":"th","classes":"results_title resultColumn"},{"type":"th","classes":"action_title actionColumn"},{"type":"th","classes":"test_title testColumn"},{"type":"th","classes":"retest_title resultColumn"}]}]};
+    var header = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"time_title timeColumn"},{"type":"th","classes":"area_title areaColumn"},{"type":"th","classes":"test_title testColumn"},{"type":"th","classes":"results_title resultColumn"},{"type":"th","classes":"action_title actionColumn"},{"type":"th","classes":"test_title testColumn"},{"type":"th","classes":"retest_title resultColumn"}]}]};
 
     return header;
 }
@@ -649,13 +649,23 @@ function gmpPackingAtpTestingBody(data){
     body.rows = new Array();
 
     for(var area of data.areas){
-        var row = {"type":"tr"};
-        row.columns = gmpPackingAtpTestingAreaRow(area);
-        body.rows.push(row);
+        var isFirst = true;
         for(var item of area.items){
-            var itemRow = {"type":"tr"};
-            itemRow.columns = gmpPackingAtpTestingReportItem(item);
-            body.rows.push(itemRow);
+            if(isFirst){
+                var row = {"type":"tr"};
+                row.columns = gmpPackingAtpTestingAreaRow(area, area.items.length);
+                var tempRow = {"type":"tr"};
+                tempRow.columns = gmpPackingAtpTestingReportItem(item);
+                for(var col of tempRow.columns){
+                    row.columns.push(col);
+                }
+                body.rows.push(row);
+                isFirst = false;
+            } else {
+                var itemRow = {"type":"tr"};
+                itemRow.columns = gmpPackingAtpTestingReportItem(item);
+                body.rows.push(itemRow);   
+            }
         }
     }
 
@@ -666,11 +676,11 @@ function gmpPackingAtpTestingBody(data){
     return body;
 }
 
-function gmpPackingAtpTestingAreaRow(area){
+function gmpPackingAtpTestingAreaRow(area, rowspan){
     var areaRow = new Array();
 
-    areaRow.push({"type":"td","classes":"timeColumn","contents":area.time});
-    areaRow.push({"type":"td","classes":"areaColumn","contents":area.name,"colspan":4});
+    areaRow.push({"type":"td","classes":"timeColumn","contents":area.time,"rowspan":rowspan});
+    areaRow.push({"type":"td","classes":"areaColumn","contents":area.name,"rowspan":rowspan});
 
     return areaRow;
 }
@@ -701,5 +711,5 @@ function gmpPackingAtpTestingReportItem(itemData){
 }
 
 function getCSS(){
-    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%; } td { border: 1px solid #000000; text-align: left; } th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50; } .fullColumn { background-color: #D3D3D3; width: 631px; } .timeColumn { width: 100px; background-color: yellow; } .areaColumn { width: 531px; background-color: yellow; } .testColumn { width: 100px; } .resultColumn { width: 100px; } .actionColumn { width: 231px; }</style>';
+    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%; } td { border: 1px solid #000000; text-align: left; } th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50; } .fullColumn { background-color: #D3D3D3; width: 631px; } .timeColumn { width: 40px; } .areaColumn { width: 100px; } .testColumn { width: 60px; } .resultColumn { width: 60px; } .actionColumn { width: 251px; }</style>';
 }
