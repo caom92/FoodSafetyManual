@@ -251,8 +251,9 @@ function datePicker(nameHidden, maxDate, minDate){
                 close: 'Cerrar',
                 formatSubmit: "yyyy-mm-dd",
                 showMonthsShort: true,
-                onSet: function() {
-                    this.close();
+                onSet: function(change) {
+                    if(change.select)
+                        this.close();
                 }
             };
         break;
@@ -262,8 +263,9 @@ function datePicker(nameHidden, maxDate, minDate){
                 selectYears: 1000,
                 formatSubmit: "yyyy-mm-dd",
                 showMonthsShort: true,
-                onSet: function() {
-                    this.close();
+                onSet: function(change) {
+                    if(change.select)
+                        this.close();
                 }
             };
         break;
