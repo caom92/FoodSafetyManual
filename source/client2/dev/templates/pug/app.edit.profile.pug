@@ -1,21 +1,36 @@
 include globals.pug
 
+div.row: div.col.s12.m12
+  h4
+    i.mdi.mdi-account-circle
+    ='Su Perfil de Usuario'
+
 div.row
-  div.col.s12.m12
-    h4
-      i.mdi.mdi-account-circle
-      ='Su Perfil de Usuario'
-div.row
-  form
-    div.col.s12.m6
-      +textInput('profile-name', "'Nombre de usuario'")(
-        '[(ngModel)]'='username'
-      )
-    div.col.s12.m6
-      +textInput('employee-num', "'ID de Empleado'")(
-        '[(ngModel)]'='employeeID'
-      )
-    div.col.s12.m6
-      +textInput('full-name', "'Nombre'")(
-        '[(ngModel)]'='fullName'
-      )
+  div.col.s12.m6
+    +textInput('profile-name', "'Nombre de usuario'")(
+      '[(ngModel)]'='username'
+    )
+  div.col.s12.m6
+    +textInput('employee-num', "'ID de Empleado'")(
+      '[(ngModel)]'='employeeID'
+    )
+  div.col.s12.m6
+    +textInput('full-name', "'Nombre'")(
+      '[(ngModel)]'='fullName'
+    )
+
+div.row: div.col.s12
+  mz-collapsible(
+    '[mode]'="'accordion'"
+  )
+    +accordionItem('Cambiar la contraseña', 'mdi mdi-lock')
+      form
+        +passwordInput('newPassword', "'Nueva contraseña'")
+        +passwordInput('newPasswordConfirmation', "'Repita nueva contraseña'")
+        +passwordInput('oldPassword', "'Contraseña actual'")
+        +button('submit', 'editPasswordSubmit', 'Cambiar', 'mdi mdi-send')
+    +accordionItem('Cambiar el nombre de usuario', 'mdi mdi-account')
+      form
+        +textInput('newUsername', "'Nuvo nombre de usuario'")
+        +passwordInput('oldPassword', "'Contraseña actual'")
+        +button('submit', 'editUsernameSubmit', 'Cambiar', 'mdi mdi-send')

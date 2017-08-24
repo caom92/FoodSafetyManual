@@ -1,0 +1,285 @@
+//- 
+    Version Information
+
+    Form Creator Mixin v 0.0.4
+    ng2-materialize version
+    Created by Victor Miracle on august 7, 2017
+    Last updated august 16, 2017 by Victor Miracle
+    Property of Koi Software
+
+    Version History
+
+    0.0.1
+        -Initial creation of form elements
+    0.0.2
+        -Addition of form formatting mixins (for rows, sections, etc.)
+        -Addition of attributes for form elements
+    0.0.3
+        -Minor fixes and expanding the documentation
+    0.0.4
+        -The column classes used for column width have been separated into
+         different attributes, in order to have them easily accesible for other
+         versions of this Form creator
+
+    Notes:
+
+    -Current version supports 6 types of form elements. Other elements must
+     be created directly in the .pug file, or added to this file
+    -Forms can be created with sections, rows, a single section, a single
+     row or a single column
+    -When modifying this file, please note that all elements must have an
+     explicitly declarated type
+    -ngIf can be used in any element
+    -ngFor should be used in row and section wrappers. If they must be used
+     elsewhere, consider first if your design really needs an ngFor in any
+     place other than rows or sections
+    -Pay attention to attributes. HTML attributes (i.e., "id" and "class")
+     are usually strings wrapped in double quotes ("example"), but Angular
+     attributes (i.e. [label], [icon], [hidden]) are strings wrapped in both
+     single AND double quotes ("'example'"). This only applies to strings, if
+     your attribute points to a variable in your TypeScript file, it is only
+     wrapped in double OR single quotes ("exampleObject.exampleAttribute", 
+     "exampleVariable")
+    -When naming attributes consider the use of the attribute rather than the
+     name of the corresponding HTML attribute. (i.e. in text inputs, label 
+     refers the label attribute of the text input, whereas in an option element
+     label refers to the inner HTML of the option, since there is no label
+     attribute for options but the innerHTML of the option is what is displayed
+     in the final HTML element)
+
+    -IMPORTANT: Should you remove comments in order to create a "production" 
+     version, keep the Version Information section and this note, specially if
+     your project uses another version of Form Creater Mixin (i.e. Ionic)
+
+//- Form Mixin - Last updated on v0.0.3
+    Form wrapper
+    Creates a form for purposes of submitting
+
+    formObject
+
+    {
+        "name"     : String, // The name of the form, can be any string
+        "method"   : String, // A string that matches "POST|GET"
+        "target"   : String, // A target that indicates where to display the response after subitting the form, "_blank|_self|_parent|_top|framename"
+        "action"   : String, // A URL for the form to be submitted to. Any string is valid, but it must be a valid URL to actually do something
+        "contents" : Object, // A sections, section, rows, row or column object.
+        "ngFor"    : String, // Angular's ngFor attribute. Must be a string with the correct syntax. Example: "let value of arrayVar"
+        "ngIf"     : String  // Angular's ngIf attribute. Usually a boolean value in the corresponding component
+    }
+
+mixin mz-form(formObject)
+    form(name= formObject.name method= formObject.method target= formObject.target action= formObject.action "*ngFor"= formObject.ngFor id= formObject.id "*ngIf"= formObject.ngIf)
+        if formObject.contents.type == "rows"
+            div(class= formObject.contents.classes)
+                +print-rows(formObject.contents)
+        else if formObject.contents.type == "row"
+            div(class= formObject.contents.classes)
+                +print-row(formObject.contents)
+        else if formObject.contents.type == "column"
+            div(class= formObject.contents.classes)
+                +print-column(formObject.contents)
+        else if formObject.contents.type == "sections"
+            div(class= formObject.contents.classes)
+                +print-sections(formObject.contents)
+        else if formObject.contents.type == "section"
+            div(class= formObject.contents.classes)
+                +print-section(formObject.contents)
+
+//- Rows Mixin - Last updated on v0.0.3
+    Rows Object
+
+    {
+        "type" : "rows",       // Explicit declaration of object type
+        "rows" : Array[Object] // An array of row objects
+    }
+
+mixin print-rows(rowsObject)
+    each row in rowsObject.rows
+        if(row.classes)
+            div(class= "row " + row.classes)
+        else
+            div(class= "row")
+                +print-row(row)
+
+//- Row Mixin - Last updated on v0.0.4
+    Row object
+
+    {
+        "type"    : "row",  // Explicit declaration of object type
+        "classes" : String, // Any number of classes contained in one string, separated by spaces
+        "ngFor"   : String, // Angular's ngFor attribute. Must be a string with the correct syntax. Example: "let value of arrayVar"
+        "column"  : Object  // A single column object
+    }
+
+mixin print-row(rowObject)
+    each column in rowObject.columns
+        -var columnClasses = "col";
+        -if(column.size_s){ columnClasses += " s" + column.size_s; }
+        -if(column.size_m){ columnClasses += " m" + column.size_m; }
+        -if(column.size_l){ columnClasses += " l" + column.size_l; }
+        div(class= columnClasses "*ngFor"= column.contents.ngFor)
+            +print-column(column)
+
+//- Column Mixin - Last updated on v0.0.4
+    Column object
+
+    {
+        "type"     : "column", // Explicit declaration of object type
+        "classes"  : String,   // Any number of classes contained in one string, separated by spaces
+        "size_s"   : Number,   // Width of the column for small screens
+        "size_m"   : Number,   // Width of the column for medium screens
+        "size_l"   : Number,   // Width of the column for large screens
+        "contents" : Object    // A object of any of the supported types, currently text|password|textarea|checkbox|radio|select
+    }
+
+mixin print-column(columnObject)
+    if columnObject.contents.type == "text"
+        +mz-input(columnObject.contents)
+    else if columnObject.contents.type == "password"
+        +mz-input(columnObject.contents)
+    else if columnObject.contents.type == "textarea"
+        +mz-textarea(columnObject.contents)
+    else if columnObject.contents.type == "checkbox"
+        +mz-checkbox(columnObject.contents)
+    else if columnObject.contents.type == "radio"
+        +mz-radio-button(columnObject.contents)
+    else if columnObject.contents.type == "select"
+        +mz-select(columnObject.contents)
+
+//- Sections Mixin - Last updated on v0.0.3
+    Sections Object
+
+    {
+        "type"     : "sections",   // Explicit declaration of object type
+        "sections" : Array[Object] // An array of section objects
+    }
+
+mixin print-sections(sectionObject)
+    each section in sectionObject.sections
+        +print-section(section)
+
+//- Section Mixin - Last updated on v0.0.3
+    Section Object
+
+    {
+        "type"     : "section", // Explicit declaration of object type
+        "classes"  : String,    // Any number of classes contained in one string, separated by spaces
+        "contents" : Object     // A single object, either a rows or a section object
+    }
+
+mixin print-section(sectionObject)
+    if sectionObject.contents.type == "rows"
+        div(class= sectionObject.classes)
+            +print-rows(sectionObject.contents)
+    else if sectionObject.contents.type == "section"
+        div(class= sectionObject.classes)
+            +print-section(sectionObject.contents)
+
+//- Text input mixin - Last updated on v0.0.3
+    Creates a Materialize text input object
+
+    inputObject
+    {
+        "type"    : "password|text", // Explicit declaration of object type. Currently, mz-input supports password and text type
+        "id"      : String,          // Any string for the id attribute of the <input mz-input> element. It must be unique within the DOM
+        "classes" : String,          // Any number of classes contained in one string, separated by spaces
+        "label"   : String,          // A string that indicates a variable or object attribute in TypeScript that is to be used as a label. A string must be wrapped in double AND single quotes ("'example'"), while a variable must be wrapped only in double OR single quotes
+        "target"  : String,          // ngModel data binding target
+        "icon"    : String,          // A string that indicates a variable or object attribute in TypeScript that is to be used as an icon (https://materialdesignicons.com/). A string must be wrapped in double AND single quotes ("'example'"), while a variable must be wrapped only in double OR single quotes
+    }
+
+mixin mz-input(inputObject)
+    mz-input-container(class= inputObject.classes)
+        if inputObject.icon
+            i('mz-icon-mdi' 'mz-textarea-prefix' '[icon]'= inputObject.icon)
+        input('mz-input' type= inputObject.type '[label]'= inputObject.label id= inputObject.id '[(ngModel)]'= inputObject.target name= inputObject.name)
+
+//- Text area mixin - Last updated on v0.0.3
+    Creates a Materialize text area with a textarea object
+
+    textareaObject
+    {
+        "type"        : "textarea", // Explicit declaration of object type
+        "id"          : String,     // Any string for the id attribute of the <textarea mz-textarea> element. It must be unique within the DOM
+        "classes"     : String,     // Any number of classes contained in one string, separated by spaces
+        "label"       : String,     // A string that indicates a variable or object attribute in TypeScript that is to be used as a label. A string must be wrapped in double AND single quotes ("'example'"), while a variable must be wrapped only in double OR single quotes
+        "placeholder" : String,     // A placeholder for the textarea, to be displayed when the textarea is empty
+        "length"      : Number,     // A number that indicates the maximum lenght of the string inside the textarea
+        "name"        : String,     // A name for the textarea. Must be unique within the form context.
+        "icon"        : String      // A string that indicates a variable or object attribute in TypeScript that is to be used as an icon (https://materialdesignicons.com/). A string must be wrapped in double AND single quotes ("'example'"), while a variable must be wrapped only in double OR single quotes
+    }
+
+mixin mz-textarea(textareaObject)
+    mz-textarea-container(class= textareaObject.classes)
+        if textareaObject.icon
+            i('mz-icon-mdi' 'mz-textarea-prefix' '[icon]'= textareaObject.icon)
+        textarea('mz-textarea' '[label]'= textareaObject.label id= textareaObject.id placeholder= textareaObject.placeholder lenght= textareaObject.lenght '[(ngModel)]'= textareaObject.target name= textareaObject.name)
+
+//- Checkbox mixin - Last updated on v0.0.3
+    Creates a Materialize checkbox input object
+
+    inputObject
+    {
+        "type"    : "checkbox", // Explicit declaration of object type
+        "id"      : String,     // Any string for the id attribute of the <input mz-checkbox> element. It must be unique within the DOM
+        "classes" : String,     // Any number of classes contained in one string, separated by spaces
+        "label"   : String,     // A string that indicates a variable or object attribute in TypeScript that is to be used as a label. A string must be wrapped in double AND single quotes ("'example'"), while a variable must be wrapped only in double OR single quotes
+        "target"  : String,     // ngModel data binding target
+        "name"    : String      // A name for the checkbox. Must be unique within the form context.
+    }
+
+mixin mz-checkbox(checkboxObject)
+    mz-checkbox-container(class= checkboxObject.classes)
+        input('mz-checkbox' type="checkbox" '[label]'= checkboxObject.label id= checkboxObject.id '[(ngModel)]'= checkboxObject.target name= checkboxObject.name)
+
+//- Radio button mixin - Last updated on v0.0.3
+    Creates a Materialize text input
+
+    inputObject
+    {
+        "type"    : "radio", // Explicit declaration of object type
+        "id"      : String,  // Any string for the id attribute of the <input mz-radio-button> element. It must be unique within the DOM
+        "classes" : String,  // Any number of classes contained in one string, separated by spaces
+        "label"   : String,  // A string that indicates a variable or object attribute in TypeScript that is to be used as a label. A string must be wrapped in double AND single quotes ("'example'"), while a variable must be wrapped only in double OR single quotes
+        "name"    : String,  // A name for the radio button. Must be unique within the form context
+        "gap"     : Boolean, // Boolean that indicates if the radio button must have a gap when selected (true) or if it must be filled entirely (false)
+        "value"   : String   // String that indicates what value will be read from the selected radio button
+    }
+
+mixin mz-radio-button(radioButtonObject)
+    mz-radio-button-container(class= radioButtonObject.classes)
+        input('mz-radio-button' type="radio" '[label]'= radioButtonObject.label id= radioButtonObject.id name= radioButtonObject.name '[withGap]'= radioButtonObject.gap '[(ngModel)]'= radioButtonObject.target value= radioButtonObject.value)
+
+//- Select Mixin - Last updated on v0.0.3
+    Creates a Materialize select input
+
+    selectObject
+    {
+        "id":         : String,        // Any string for the id attribute of the <select> element. It must be unique within the DOM
+        "classes"     : String,        // Any number of classes contained in one string, separated by spaces
+        "name"        : String,        // A name for the radio button. Must be unique within the form context
+        "label"       : String,        // A string that indicates a variable or object attribute in TypeScript that is to be used as a label. A string must be wrapped in double AND single quotes ("'example'"), while a variable must be wrapped only in double OR single quotes
+        "placeholder" : String,        // A placeholder for the select, to be displayed when the select has it's default value. A string must be wrapped in double AND single quotes ("'example'"), while a variable must be wrapped only in double OR single quotes
+        "target"      : String,        // ngModel data binding target
+        "options"     : Array[Object]  // An array of option objects (shown below)
+    }
+    
+mixin mz-select(selectObject)
+    mz-select-container(class= selectObject.classes)
+        select('mz-select' '[label]'= selectObject.label id= selectObject.id name= selectObject.name '[placeholder]'= selectObject.placeholder '[(ngModel)]'= selectObject.target)
+            each option in selectObject.options
+                +mz-option(option)
+
+//- Option Mixin - Last updated on v0.0.3
+    Creates a Materialize option for a Materialize select input
+
+    optionObject
+    {
+        "id"      : String, // Any string for the id attribute of the <option> element. It must be unique within the DOM
+        "classes" : String, // Any number of classes contained in one string, separated by spaces
+        "value"   : String, // String that indicates what value will be read from the selected option
+        "label"   : String  // A string that indicates a variable or object attribute in TypeScript that is to be used as a label. A string must be wrapped in double AND single quotes ("'example'"), while a variable must be wrapped only in double OR single quotes
+    }
+
+mixin mz-option(optionObject)
+    option(class= optionObject.classes id= optionObject.id '[value]'= optionObject.value)= optionObject.label

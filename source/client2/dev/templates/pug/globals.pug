@@ -121,13 +121,15 @@ mixin passwordInput(name, label, icon = null)
 //- [in]  type (string): el tipo del boton que va a ser desplegado
 //- [in]  name (string): el nombre del boton que va a tener en el formulario
 //- [in]  text (string): el texto a desplegar dentro del boton
-mixin button(type, name, text)
+mixin button(type, name, text, icon = null)
   button(
     id=name
     name=name
     type=type
     mz-button
   )&attributes(attributes)=text
+    if icon
+      i(class=icon)
 
 //- Crea un menu de cascada
 //- [in]  name (string): el ID HTML que identificara este menu, debe ser 
@@ -158,3 +160,16 @@ mixin select(name, placeholder, options)
     )
       option('*ngFor'='let x of ' + options)
         ='{{ x }}'
+
+//- Crea un campo para un acordion
+//- [in]  title (string): el titulo a desplegar como el encabezado del acordion
+//- [in]  [icon] (string): la clase del icono a desplegar junto con el 
+//-       encabezado
+mixin accordionItem(title, icon = null)
+  mz-collapsible-item
+    mz-collapsible-item-header
+      if icon
+        i(class=icon)
+      =title
+    mz-collapsible-item-body
+      block
