@@ -1,0 +1,10 @@
+{
+    "App Name": "Logmaster",
+    "Login": "Iniciar sesión",
+    "Menu": "Menú",
+    "Username": "Nombre de usuario",
+    "Password": "Contraseña",
+    "Change language": "Cambio de idioma",
+    "usernameMinLenght": "Este campo debe tener al menos 3 caracteres",
+    "passwordMinLenght": "Este campo debe tener al menos 6 caracteres"
+}
