@@ -9,14 +9,17 @@ div.row
   div.col.s12.m6
     +textInput('profile-name', "'Nombre de usuario'")(
       '[(ngModel)]'='username'
+      disabled
     )
   div.col.s12.m6
     +textInput('employee-num', "'ID de Empleado'")(
       '[(ngModel)]'='employeeID'
+      disabled
     )
   div.col.s12.m6
     +textInput('full-name', "'Nombre'")(
       '[(ngModel)]'='fullName'
+      disabled
     )
 
 div.row: div.col.s12
@@ -24,13 +27,53 @@ div.row: div.col.s12
     '[mode]'="'accordion'"
   )
     +accordionItem('Cambiar la contraseña', 'mdi mdi-lock')
-      form
-        +passwordInput('newPassword', "'Nueva contraseña'")
-        +passwordInput('newPasswordConfirmation', "'Repita nueva contraseña'")
-        +passwordInput('oldPassword', "'Contraseña actual'")
-        +button('submit', 'editPasswordSubmit', 'Cambiar', 'mdi mdi-send')
+      form(
+        '[formGroup]'='passwordEditionForm'
+        '(ngSubmit)'='onPasswordEditionFormSubmit()'
+        novalidate
+      )
+        +passwordInput('new-password', "'Nueva contraseña'")(
+          formControlName='newPassword'
+          required
+          mz-validation
+          '[errorMessageResource]'='passwordEditionFormMessages.newPassword'
+        )
+        +passwordInput(
+          'new-password-confirmation', 
+          "'Repita nueva contraseña'"
+        )(
+          formControlName='newPasswordConfirmation'
+          required
+          mz-validation
+          '[errorMessageResource]'='passwordEditionFormMessages.newPasswordConfirmation'
+        )
+        +passwordInput('oldPassword', "'Contraseña actual'")(
+          formControlName='oldPassword'
+          required
+          mz-validation
+          '[errorMessageResource]'='passwordEditionFormMessages.oldPassword'
+        )
+        +button('submit', 'editPasswordSubmit', 'Cambiar', 'mdi mdi-send')(
+          '[disabled]'="!passwordEditionForm.valid"
+        )
     +accordionItem('Cambiar el nombre de usuario', 'mdi mdi-account')
-      form
-        +textInput('newUsername', "'Nuvo nombre de usuario'")
-        +passwordInput('oldPassword', "'Contraseña actual'")
-        +button('submit', 'editUsernameSubmit', 'Cambiar', 'mdi mdi-send')
+      form(
+        '[formGroup]'='usernameEditionForm'
+        '(ngSubmit)'='onUsernameEditionFormSubmit()'
+        novalidate
+      )
+        +textInput('new-username', "'Nuevo nombre de usuario'")(
+          formControlName='newUsername'
+          required
+          mz-validation
+          '[errorMessageResource]'='usernameEditionFormMessages.newUsername'
+        )
+        +passwordInput('password', "'Contraseña actual'")(
+          formControlName='password'
+          required
+          mz-validation
+          '[errorMessageResource]'='usernameEditionFormMessages.password'
+        )
+        +button('submit', 'editUsernameSubmit', 'Cambiar', 'mdi mdi-send')(
+          '[disabled]'="!usernameEditionForm.valid"
+        )

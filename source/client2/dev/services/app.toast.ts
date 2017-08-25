@@ -10,10 +10,14 @@ export class ToastService
   // tanto en ingles como en español
   private static infoMessages = {
     es: {
-      loggedIn: 'Sesión iniciada correctamente'
+      loggedIn: 'Sesión iniciada correctamente',
+      passwordChanged: 'La contraseña se cambió exitosamente',
+      usernameChanged: 'El nombre de usuario se cambió exitosamente'
     },
     en: {
-      loggedIn: 'Logged in successfully'
+      loggedIn: 'Logged in successfully',
+      passwordChanged: 'The password was changed successfully',
+      usernameChanged: 'The user name was changed successfully'
     }
   }
 
@@ -21,6 +25,16 @@ export class ToastService
   // retornar, tanto en ingles como en español
   private static errorMessages = {
     es: {
+      login: {
+        1: 'Las credenciales son incorrectas'
+      },
+      'change-password': {
+        1: 'La vieja contraseña es incorrecta'
+      },
+      'change-username': {
+        1: 'El nombre ingresado ya fue reclamado',
+        2: 'La contraseña es incorrecta'
+      },
       101: 'Faltó enviar una entrada al servidor',
       102: 'Una entrada enviada al servidor no es un valor numérico',
       103: 'Una entrada enviada al servidor esta fuera del intervalo correcto',
@@ -39,12 +53,19 @@ export class ToastService
       116: 'Una entrada enviada al servidor no es un número telefónico',
       117: 'No tiene el rol apropiado para usar este servicio',
       118: 'La sesión no ha sido iniciada',
-      119: 'No está autorizado para usar este servicio',
-      login: {
-        1: 'Las credenciales son incorrectas'
-      },
+      119: 'No está autorizado para usar este servicio'
     },
     en: {
+      login: {
+        1: 'Log in credentials are incorrect'
+      },
+      'change-password': {
+        1: 'Current password is incorrect'
+      },
+      'change-username': {
+        1: 'The user name is already taken',
+        2: 'The password is incorrect'
+      },
       101: 'A server input argument was not send',
       102: 'A server input argument is not a numeric value',
       103: 'A server input argument is outside the correct interval',
@@ -63,10 +84,7 @@ export class ToastService
       116: 'A server input argument is not a phone number',
       117: 'The user does not have the proper role to use this service',
       118: 'You are not logged in',
-      119: 'You are not authorized to use this service',
-      login: {
-        1: 'Log in credentials are incorrect'
-      }
+      119: 'You are not authorized to use this service'
     }
   }
 
