@@ -21,7 +21,8 @@ $service = [
     if (!isset($zone)) {
       // if not, notify the user
       throw new \Exception(
-        "No zone with ID ".$request['zone_id']." could be find"
+        "No zone with ID ".$request['zone_id']." could be find",
+        1
       );
     }
 

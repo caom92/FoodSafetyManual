@@ -10,7 +10,17 @@ include globals.pug
   };
 +navBar(navBarConfig)('[navbarClass]'="'green'")
   mz-navbar-item
-    +select("'zone-selection'", "'Zona'", 'zones')('*ngIf'="home.showZoneMenu")
+    +select(
+      "'zone-selection'", 
+      'selectedZoneID', 
+      "'Zona'", 
+      'home.zones', 
+      '.name', 
+      '.id', 
+      'onZoneSelectionChanged(selectedZoneID)'
+    )(
+      '*ngIf'="home.showZoneMenu"
+    )
   mz-navbar-item
     +link('http://www.jfdc.tech/')
       i.mdi.mdi-home
