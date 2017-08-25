@@ -27,13 +27,15 @@ $service = [
     
     if ($isNameDuplicated) {
       throw new \Exception(
-        'Failed to update user name; new name is already taken.'
+        'Failed to update user name; new name is already taken.',
+        1
       );
     }
 
     if (!$isPasswordValid) {
       throw new \Exception(
-        'Failed to update user name; the password is incorrect.'
+        'Failed to update user name; the password is incorrect.',
+        2
       );
     }
     
