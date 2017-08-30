@@ -155,7 +155,7 @@ function sendGmpPackingPreopReport(){
                 var itemID = $(this).data("id");
                 item.id = itemID;
                 var acceptability = getBoolFromString($("input:radio[name='radio_" + itemID + "']:checked").val());
-                if(acceptability === true || acceptability === false){
+                if(acceptability === true || acceptability === false || acceptability === null){
                     item.is_acceptable = acceptability;
                 }
                 if(item.is_acceptable === false){
@@ -211,7 +211,7 @@ function updateGmpPackingPreopReport(reportID){
             var item = new Object();
             var itemID = $(this).data("id");
             item.id = itemID;
-            item.is_acceptable = getBool($("input:radio[name='radio_" + itemID + "']:checked").val());
+            item.is_acceptable = getBoolFromString($("input:radio[name='radio_" + itemID + "']:checked").val());
             if(item.is_acceptable){
                 item.corrective_action_id = 1;
                 item.comment = "";
@@ -401,15 +401,19 @@ function gmpPackingPreopItemTitle(item, areaID){
 function gmpPackingPreopItemStatus(item, areaID){
     var acceptableIcon = {"type":"text","classes":"acceptable_tag big"};
     var unacceptableIcon = {"type":"text","classes":"unacceptable_tag big"};
+    var naIcon = {"type":"text","classes":"na_tag big"};
     var radioAcceptable = {"type":"radio","id":"acceptable_" + item.id,"classes":"timeChanger","value":"true","label":{"type":"label","classes":"black-text","for":"acceptable_" + item.id,"contents": acceptableIcon},"data":{"area_id":areaID,"item_id":item.id}};
     var radioUnacceptable = {"type":"radio","id":"unacceptable_" + item.id,"classes":"timeChanger","value":"false","label":{"type":"label","classes":"black-text","for":"unacceptable_" + item.id,"contents": unacceptableIcon},"data":{"area_id":areaID,"item_id":item.id}};
-    var itemRadioGroup = {"type": "radioGroup", "id":"radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"radio_" + item.id,"radioArray":[radioAcceptable, radioUnacceptable]};
+    var radioNa = {"type":"radio","id":"na_" + item.id,"classes":"timeChanger","value":"null","label":{"type":"label","classes":"black-text","for":"na_" + item.id,"contents": naIcon},"data":{"area_id":areaID,"item_id":item.id}};
+    var itemRadioGroup = {"type": "radioGroup", "id":"radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"radio_" + item.id,"radioArray":[radioAcceptable, radioUnacceptable, radioNa]};
     var groupInput = {"id":"radioWrapper_" + item.id,"classes":"col s8 m8 l4","field":itemRadioGroup};
 
     if(item.status == 1){
         radioAcceptable.checked = true;
     } else if (item.status == 0){
         radioUnacceptable.checked = true;
+    } else if (item.status == null) {
+        radioNa.checked = true;
     }
 
     return groupInput;
@@ -645,7 +649,7 @@ function gmpPackingPreopReportItem(itemData){
         item.push({"type":"td","classes":"statusColumn unacceptable_tag"});
         item.push({"type":"td","classes":"actionColumn","contents":itemData.corrective_action});
     } else {
-        item.push({"type":"td","classes":"statusColumn"});
+        item.push({"type":"td","classes":"statusColumn na_tag"});
         item.push({"type":"td","classes":"actionColumn"});
     }
     item.push({"type":"td","classes":"commentColumn","contents":itemData.comment});

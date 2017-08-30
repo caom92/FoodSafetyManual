@@ -174,8 +174,8 @@
     </translation>
 
     <translation id="reject_button">
-        <english>Reject</english>
-        <spanish>Rechazar</spanish>
+        <english>Delete</english>
+        <spanish>Borrar</spanish>
     </translation>
 
     <translation id="return_button">
@@ -897,6 +897,11 @@
     <translation id="unacceptable_tag">
         <english>Unacceptable</english>
         <spanish>No aceptable</spanish>
+    </translation>
+
+    <translation id="na_tag">
+        <english>N/A</english>
+        <spanish>N/A</spanish>
     </translation>
 
     <translation id="pass_tag">

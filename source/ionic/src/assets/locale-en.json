@@ -1,0 +1,10 @@
+{
+    "App Name": "Logmaster",
+    "Login": "Login",
+    "Menu": "Menu",
+    "Username": "Username",
+    "Password": "Password",
+    "Change language": "Change language",
+    "usernameMinLenght": "This field must be at least 3 characters long",
+    "passwordMinLenght": "This field must be at least 6 characters long"
+}

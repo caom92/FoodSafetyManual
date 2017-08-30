@@ -250,7 +250,11 @@ function datePicker(nameHidden, maxDate, minDate){
                 clear: 'Borrar',
                 close: 'Cerrar',
                 formatSubmit: "yyyy-mm-dd",
-                showMonthsShort: true
+                showMonthsShort: true,
+                onSet: function(change) {
+                    if(change.select)
+                        this.close();
+                }
             };
         break;
         case "en":
@@ -258,7 +262,11 @@ function datePicker(nameHidden, maxDate, minDate){
                 selectMonths: true, // Creates a dropdown to control month
                 selectYears: 1000,
                 formatSubmit: "yyyy-mm-dd",
-                showMonthsShort: true
+                showMonthsShort: true,
+                onSet: function(change) {
+                    if(change.select)
+                        this.close();
+                }
             };
         break;
     }
