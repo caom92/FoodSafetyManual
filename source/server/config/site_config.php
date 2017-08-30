@@ -17,6 +17,10 @@ const SERVER_ALLOW_CORS_CREDENTIALS = TRUE;
 
 // List of origins which requests the server is allowed to attend if the come 
 // with a session cookie attached
-const SERVER_CORS_CREDENTIALS_ALLOWED_ORIGIN = 'http://localhost:4200'
+const SERVER_CORS_CREDENTIALS_ALLOWED_ORIGINS = [
+  'http://localhost:4200',
+  'http://localhost:8100',
+  'http://manual.jfdc.tech'
+];
 
 ?>

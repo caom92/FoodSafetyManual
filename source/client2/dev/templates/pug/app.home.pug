@@ -51,5 +51,28 @@ include globals.pug
       +uiRouterLink('edit-profile')='Editar perfil'
     mz-sidenav-link
       +link()('(click)'='onLogOutButtonClicked()')='Cerrar sesión'
-
+  mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
+    +link()(class='side-menu-link waves-effect waves-green')
+      i.mdi.mdi-account-multiple.mdi-24px
+      ='{{ menu.options.users }}'
+  mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
+    +link()(class='side-menu-link waves-effect waves-green')
+      i.mdi.mdi-domain.mdi-24px
+      ='{{ menu.options.zones }}'
+  mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
+    +link()(class='side-menu-link waves-effect waves-green')
+      i.mdi.mdi-note-multiple-outline.mdi-24px
+      ='{{ menu.options.programs }}'
+  mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
+    +link()(class='side-menu-link waves-effect waves-green')
+      i.mdi.mdi-account-star.mdi-24px
+      ='{{ menu.options.supervisors }}'
+  mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
+    +link()(class='side-menu-link waves-effect waves-green')
+      i.mdi.mdi-pen.mdi-24px
+      ='{{ menu.options.signatures }}'
+  mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
+    +link()(class='side-menu-link waves-effect waves-green')
+      i.mdi.mdi-alert.mdi-24px.mdi-dark
+      ='{{ menu.options.reportProblem }}'
 div.container('[ngClass]'="{ 'with-sidenav': home.showSideNav }"): ui-view

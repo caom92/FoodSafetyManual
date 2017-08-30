@@ -139,6 +139,7 @@ export class LogInComponent implements OnInit
           // que iniciamos sesion
           localStorage.is_logged_in = true
           this.mapUserDataToLocalStorage(result.data)
+          this.home.roleName = localStorage.role_name
 
           // si el usuario es un director, desplegamos el menu de zonas 
           if (localStorage.role_name === 'Director') {

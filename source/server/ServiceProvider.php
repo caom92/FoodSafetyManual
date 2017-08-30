@@ -130,7 +130,7 @@ class ServiceProvider
             
             if (SERVER_ALLOW_CORS_CREDENTIALS) {
               $response = $response->withHeader('Access-Control-Allow-Origin', 
-                SERVER_CORS_CREDENTIALS_ALLOWED_ORIGIN);
+                rtrim($_SERVER['HTTP_REFERER'], '/'));
               $response = $response->withHeader(
                 'Access-Control-Allow-Credentials', 
                 'true'

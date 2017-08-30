@@ -11,6 +11,35 @@ import { HomeElementsService } from '../services/app.home'
 })
 export class HomeComponent implements OnInit
 {
+  menu = {
+    options: {
+      users: null,
+      zones: null,
+      programs: null,
+      supervisors: null,
+      signatures: null,
+      reportProblem: null
+    },
+    text: {
+      en: {
+        users: 'Users',
+        zones: 'Zones',
+        programs: 'Programs',
+        supervisors: 'Supervisors',
+        signatures: 'Signatures',
+        reportProblem: 'Report Problem'
+      },
+      es: {
+        users: 'Usuarios',
+        zones: 'Zonas',
+        programs: 'Programas',
+        supervisors: 'Supervisores',
+        signatures: 'Firmas',
+        reportProblem: 'Reportar Problema'
+      }
+    }
+  }
+
   constructor(
     private server: BackendService,
     private toastManager: ToastService,
@@ -25,6 +54,8 @@ export class HomeComponent implements OnInit
     if (localStorage.lang === undefined) {
       localStorage.lang = 'es'
     }
+
+    this.onLanguageButtonClicked(localStorage.lang)
 
     // si el usuario no ha iniciado sesion, coloca la bandera como falso
     if (localStorage.is_logged_in === undefined) {
@@ -49,6 +80,7 @@ export class HomeComponent implements OnInit
           } else {
             // de lo contrario, permitimos la navegacion
             localStorage.is_logged_in = true
+            this.home.roleName = localStorage.role_name
             if (localStorage.role_name == 'Director') {
               this.server.update(
                 'list-zones',
@@ -82,6 +114,12 @@ export class HomeComponent implements OnInit
   // Esta funcion se ejecuta cuando el usuario cambio el idioma de la pagina
   onLanguageButtonClicked(lang) {
     localStorage.lang = lang
+    this.menu.options.users = this.menu.text[lang].users
+    this.menu.options.zones = this.menu.text[lang].zones
+    this.menu.options.programs = this.menu.text[lang].programs
+    this.menu.options.supervisors = this.menu.text[lang].supervisors
+    this.menu.options.signatures = this.menu.text[lang].signatures
+    this.menu.options.reportProblem = this.menu.text[lang].reportProblem
   }
 
   // Esta es la funcion que se invoca cuando el usuario hace clic en el boton 
