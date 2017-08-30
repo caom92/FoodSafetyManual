@@ -1,3 +1,6 @@
+var orientation = "P";
+var fontsize = "10";
+
 function createDatePicker(){
     $("#report_date_start").html("");
     $("#report_date_end").html("");
@@ -89,6 +92,12 @@ $(function() {
                     if($.isFunction(additionalLoadReportControls)){
                         additionalLoadReportControls("#additional_controls");
                     }
+                }
+                if($.isFunction(pdfReportOrientation)){
+                    orientation = pdfReportOrientation()
+                }
+                if($.isFunction(pdfReportFontsize)){
+                    fontsize = pdfReportFontsize()
                 }
             });
         });
@@ -259,6 +268,8 @@ function reportLoaderCard(data, footer){
             '<input id="supervisor_' + data.report_id + '"type="text" name="supervisor" hidden>' + 
             '<input id="footer_' + data.report_id + '"type="text" name="footer" hidden>' + 
             '<input id="subject_' + data.report_id + '"type="text" name="subject" hidden>' + 
+            '<input id="fontsize_' + data.report_id + '"type="text" name="fontsize" hidden>' + 
+            '<input id="orientation_' + data.report_id + '"type="text" name="orientation" hidden>' + 
         '</form>');
     reportCard.append(secretForm);
 
@@ -360,6 +371,8 @@ function reportLoaderCard(data, footer){
         $("#signature_" + data.report_id).val(data.signature_path);
         $("#supervisor_" + data.report_id).val(data.approved_by);
         $("#footer_" + data.report_id).val(footer);
+        $("#orientation_" + data.report_id).val(orientation);
+        $("#fontsize_" + data.report_id).val(fontsize);
         $("#secretForm_" + data.report_id).submit();
     });
 
@@ -378,6 +391,8 @@ function reportLoaderCard(data, footer){
         emailData.signature = data.signature_path;
         emailData.supervisor = data.approved_by;
         emailData.footer = footer;
+        emailData.orientation = orientation;
+        emailData.fontsize = fontsize;
         emailData.subject = $("#subject").val();
         console.log(emailData);
         sendEmail(emailData);
@@ -421,6 +436,8 @@ function reportLoaderCard(data, footer){
         $("#signature_" + data.report_id).val(data.signature_path);
         $("#supervisor_" + data.report_id).val(data.approved_by);
         $("#footer_" + data.report_id).val(footer);
+        $("#orientation_" + data.report_id).val(orientation);
+        $("#fontsize_" + data.report_id).val(fontsize);
         $("#secretForm_" + data.report_id).submit();
         $("#report-tab-content").html(currentHTML);
     });

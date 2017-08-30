@@ -112,6 +112,14 @@ function specialClearLog(){
     return;
 }
 
+function pdfReportOrientation(){
+    return "P";
+}
+
+function pdfReportFontsize(){
+    return "10";
+}
+
 /******************************************************************************
 A collection of functions to display the Log Form. This will be related to the
 name of the log, located in the name_suffix field on the database. Usually, we
@@ -241,7 +249,7 @@ function gmpPackingHandWashingLog(data, htmlElement, isPrefilled){
 }
 
 function gmpPackingHandWashingComment(reportComment){
-    var commentLabel = {"type":"label","contents":{"type":"text","classes":"comment_title"}};
+    var commentLabel = {"type":"label","contents":{"type":"text","classes":"hw_comment_title"}};
     var commentInput = {"type":"textarea","id": "report_comment", "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":65535}}};
     var commentFullInput = {"id":"reportCommentWrapper","classes":"input-field col s12 m12 l12","field":commentInput,"label":commentLabel};
 
@@ -364,7 +372,7 @@ function gmpPackingHandWashingReportItem(itemData){
 // number of columns
 
 function gmpPackingHandWashingReportNotes(notes, colspan){
-    var reportNotes = {"type":"td","classes":"fullColumn","colspan":colspan,"contents":"<span class='report_notes_title'></span>: " + notes};
+    var reportNotes = {"type":"td","classes":"fullColumn","colspan":colspan,"contents":"<span class='hw_comment_title'></span>: " + notes};
 
     return reportNotes;
 }

@@ -749,6 +749,11 @@
         <spanish>Comentarios</spanish>
     </translation>
 
+    <translation id="hw_comment_title">
+        <english>Revised Area &amp; Comments</english>
+        <spanish>Area Revisada y Comentarios</spanish>
+    </translation>
+
     <translation id="test_title">
         <english>Reading</english>
         <spanish>Lectura</spanish>
@@ -795,8 +800,8 @@
     </translation>
 
     <translation id="water_temperature_short">
-        <english>Water (°F)</english>
-        <spanish>Agua (°F)</spanish>
+        <english>Water °F</english>
+        <spanish>Agua °F</spanish>
     </translation>
 
     <translation id="packing_temperature">
@@ -805,8 +810,8 @@
     </translation>
 
     <translation id="packing_temperature_short">
-        <english>Packed (°F)</english>
-        <spanish>Empacado (°F)</spanish>
+        <english>Packed °F</english>
+        <spanish>Empacado °F</spanish>
     </translation>
 
     <translation id="quality_title">

@@ -18,13 +18,15 @@ class PDFCreator extends TCPDF
     // Create an instance of the PDF file creator
     // [in]     lang: a string that contains the code of the language that we 
     //          going to use to display the text
-    function __construct($lang, $logo, $company, $address, $footer, $signature, $supervisor) {
+    function __construct($lang, $logo, $company, $address, $footer, $signature, $supervisor, $fontsize, $orientation) {
         $this->logo = $logo;
         $this->company = $company;
         $this->address = $address;
         $this->footer = $footer;
         $this->signature = $signature;
         $this->supervisor = $supervisor;
+        $this->fontsize = $fontsize;
+        $this->orientation = $orientation;
 
         // first, initialize a TCPDF instance
         parent::__construct(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, 
@@ -76,7 +78,7 @@ class PDFCreator extends TCPDF
         // dejavusans is a UTF-8 Unicode font, if you only need to
         // print standard ASCII chars, you can use core fonts like
         // helvetica or times to reduce file size.
-        $this->SetFont('helvetica', '', 10, '', true);
+        $this->SetFont('helvetica', '', $fontsize, '', true);
     }
 
 
@@ -119,25 +121,30 @@ class PDFCreator extends TCPDF
         //$this->SetY(-35);
         //$this->SetX(-60);
 
+        if($this->orientation == "P")
+            $x_offset = 120;
+        else
+            $x_offset = 215;
+
         $signature = realpath(dirname(__FILE__)."/../../../data/signatures/$this->signature");
 
-        $this->Image($signature, $this->x + 120, $this->y, 50, 30, '', '', 'T', false, 300, '', 
+        $this->Image($signature, $this->x + $x_offset, $this->y, 50, 30, '', '', 'T', false, 300, '', 
             false, false, 0, false, false, false);
 
         $this->ln(30);
-        $this->Line($this->x + 120,$this->y,$this->x + 170,$this->y);
+        $this->Line($this->x + $x_offset,$this->y,$this->x + $x_offset + 50,$this->y);
         /*$this->Cell(
                 50, 0,
                 "Supervisor", 
                 1, 1, 'C', 0, null, 0
             );*/
         $this->writeHTMLCell(
-                50, 0, $this->x + 120, $this->y,
+                50, 0, $this->x + $x_offset, $this->y,
                 "<div style='width:50px;'>Supervisor</div>", 
                 0, 1, 0, true, 'C', false
             );
         $this->writeHTMLCell(
-                50, 0, $this->x + 120, $this->y,
+                50, 0, $this->x + $x_offset, $this->y,
                 "<div style='width:50px;'>" . $this->supervisor . "</div>", 
                 0, 1, 0, true, 'C', false
             );
@@ -169,6 +176,9 @@ class PDFCreator extends TCPDF
             $this->texts["of"]." ".$this->getAliasNbPages(), 
             0, false, 'C', 0, '', 0, false, 'T', 'M'
         );
-        $this->Line(15,$this->y,197,$this->y);
+        if($this->orientation == "P")
+            $this->Line(15,$this->y,197,$this->y);
+        else
+            $this->Line(15,$this->y,282,$this->y);
     }
 }

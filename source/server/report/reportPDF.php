@@ -7,6 +7,10 @@ $lang = (isset($_POST['lang']) && array_key_exists('lang', $_POST)) ?
     ((isString($_POST['lang'])) ? $_POST['lang'] : 'en') 
     : 'en';
 
+$fontsize = (isset($_POST['fontsize'])) ? (is_numeric($_POST['fontsize']) ? $_POST['fontsize'] : '10' ) : '10';
+
+$orientation = (isset($_POST['orientation'])) ? (isString($_POST['orientation']) ? $_POST['orientation'] : 'P' ) : 'P';
+
 // create new PDF document
 $pdf = new PDFCreator(
     $lang, 
@@ -15,7 +19,9 @@ $pdf = new PDFCreator(
     $_POST['address'],
     $_POST['footer'],
     $_POST['signature'],
-    $_POST['supervisor']
+    $_POST['supervisor'],
+    $fontsize,
+    $orientation
 );
 
 // initialize the storage for the HTML that will be displayed in the PDF file
@@ -77,7 +83,7 @@ try {
     // for each report to display in the document ...
     foreach ($reportData as $report) {
         // add a new page 
-        $pdf->AddPage();
+        $pdf->AddPage($orientation);
 
         // check if the header and the footer are set
         $header = (isset($report->header)) ? $report->header.'<br><br>' : '';
