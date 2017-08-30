@@ -9,7 +9,7 @@ function loadLogForm(htmlElement){
                 var report = response.data;
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name, "id":"log_name"}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":getISODate(new Date())},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":localStorage.first_name + " " + localStorage.last_name}]}]};
                 $(htmlElement).append(logHeader(header));
-                gmpPackingGlassBrittleLog(report, htmlElement);
+                gmpPackingGlassBrittleLog(report, htmlElement, false);
                 loadFunctionality({"isPrefilled":false});
                 $("#send_report").click(function(){
                     $(this).attr("disabled", true);
@@ -41,12 +41,13 @@ function loadPrefilledLogForm(htmlElement, data){
                 var report = response.data;
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":report.creation_date},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":report.created_by}]}]};
                 $(htmlElement).append(logHeader(header));
-                gmpPackingGlassBrittleLog(report, htmlElement);
+                gmpPackingGlassBrittleLog(report, htmlElement, true);
                 bindChangeListener();
                 loadFunctionality({"isPrefilled":true});
                 $("#send_report").click(function(){
                     updateGmpPackingGlassBrittleReport(parseInt(data.report_id));
                 });
+                bindAuthorizationButtonsFunctionality(htmlElement, data.report_id);
                 changeLanguage();
                 $("input").characterCounter();
                 window.scrollTo(0, 0);
@@ -206,10 +207,11 @@ function updateGmpPackingGlassBrittleReport(reportID){
 }
 
 
-function gmpPackingGlassBrittleLog(data, htmlElement){
+function gmpPackingGlassBrittleLog(data, htmlElement, isPrefilled){
     var log = $("<div>");
     var timeLog = $("<div>");
     var additionalData = $("<div>");
+    var buttonRow = $("<div>");
 
     timeLog.addClass("card-panel white");
     timeLog.append(createInputRow({"columns":[gmpPackingGlassBrittleTime(data.time)]}));
@@ -224,7 +226,19 @@ function gmpPackingGlassBrittleLog(data, htmlElement){
     additionalData.append(createInputRow({"columns":[gmpPackingGlassBrittleComment(data.notes)]}));
 
     log.append(additionalData);
-    log.append($("<div class='row'>").append(createButton(sendButton())));
+    //log.append($("<div class='row'>").append(createButton(sendButton())));
+
+    buttonRow.attr("id", "button_row");
+    buttonRow.addClass("row");
+    buttonRow.append(createButton(sendButton()));
+
+    if(isPrefilled === true){
+        buttonRow.append(createButton(approveButton()));
+        buttonRow.append(createButton(rejectButton()));
+        buttonRow.append(createButton(returnButton()));
+    }
+
+    log.append(buttonRow);
 
     $(htmlElement).append(log);
 }

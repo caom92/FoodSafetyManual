@@ -211,7 +211,7 @@ function approveReport(logID){
     }
 }
 
-function rejectReport(logID, report){
+function rejectReport(logID/*, report*/){
     var data = new Object();
 
     data.captured_log_id = logID;
@@ -222,7 +222,7 @@ function rejectReport(logID, report){
         success: function(response){
             if(response.meta.return_code == 0){
                 loadToast("reject_report", 2500, "rounded");
-                $("#rejected_reports").append(rejectedReportCard(report));
+                //$("#rejected_reports").append(rejectedReportCard(report));
                 $("#waiting_report_" + logID).remove();
                 updateSigns();
                 $("#content_wrapper").fadeOut(500);
