@@ -1,14 +1,15 @@
-import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions, URLSearchParams } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { Injectable } from '@angular/core'
+import { Http, Response, Headers, RequestOptions, URLSearchParams } from '@angular/http'
+import { Observable } from 'rxjs/Rx'
 
 // Servicio que proporciona la interfaz con la cual el backend puede 
 // comunicarse con el backend de la aplicacion
 @Injectable()
-export class BackendService {
+export class BackendService 
+{
   // El URL a donde se enviaran las peticiones de servicio al backend de la 
   // aplicacion
-  private static url = 'http://localhost/logmaster/backend/services/'
+  private static url = 'http://manual.jfdc.tech/services/'
 
   // Los encabezados del paquete HTTP que sera enviado
   private static headers = new Headers({ 
@@ -48,7 +49,8 @@ export class BackendService {
         BackendService.url + service,
         new RequestOptions({
           headers: BackendService.headers,
-          body: data
+          body: data,
+          withCredentials: true
         })
       )
       .map(successCallback)
@@ -74,7 +76,8 @@ export class BackendService {
         BackendService.url + service,
         new RequestOptions({
           headers: BackendService.headers,
-          body: data
+          body: data,
+          withCredentials: true
         })
       )
       .map(successCallback)
@@ -100,7 +103,8 @@ export class BackendService {
         BackendService.url + service,
         data,
         new RequestOptions({
-          headers: BackendService.headers
+          headers: BackendService.headers,
+          withCredentials: true
         })
       )
       .map(successCallback)
@@ -126,7 +130,8 @@ export class BackendService {
         BackendService.url + service,
         new RequestOptions({
           headers: BackendService.headers,
-          body: data
+          body: data,
+          withCredentials: true
         })
       )
       .map(successCallback)

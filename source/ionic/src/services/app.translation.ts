@@ -6,7 +6,6 @@ import { LocaleService, Language } from 'angular-l10n';
 
 })
 export class TranslationService implements OnInit {
-
     @Language() lang: string;
 
     constructor(public locale: LocaleService) { }
@@ -16,5 +15,4 @@ export class TranslationService implements OnInit {
     selectLanguage(language: string): void {
         this.locale.setCurrentLanguage(language);
     }
-
 }
