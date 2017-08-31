@@ -49,9 +49,12 @@ class WorkingAreas extends db\OrderedItemsTable
 
   // Searches an area with the given name and returns its data if it 
   // found it or NULL otherwise
-  function hasByName($areaName) {
+  function hasByNameAndZoneID($areaName, $zoneID) {
     return parent::has([
-      'name' => $areaName
+      'AND' => [
+        'name' => $areaName,
+        'zone_id' => $zoneID
+      ]
     ]);
   }
 

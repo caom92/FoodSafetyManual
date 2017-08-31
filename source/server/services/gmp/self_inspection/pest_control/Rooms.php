@@ -34,6 +34,15 @@ class Rooms extends db\InsertableTable
       ]
     );
   }
+
+  function hasByZoneIDAndName($zoneID, $name) {
+    return parent::has([
+      'AND' => [
+        'name' => $areaName,
+        'zone_id' => $zoneID
+      ]
+    ]);
+  }
 }
 
 ?>
