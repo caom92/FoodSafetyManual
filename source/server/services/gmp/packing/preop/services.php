@@ -40,6 +40,9 @@ $preop = [
       realpath(dirname(__FILE__).'/add-workplace-area-gmp-packing-preop.php'),
     'get-areas-of-zone-gmp-packing-preop' =>
       realpath(dirname(__FILE__).'/get-areas-of-zone-gmp-packing-preop.php'),
+    'get-areas-of-zone-by-position-gmp-packing-preop' =>
+      realpath(dirname(__FILE__)
+      .'/get-areas-of-zone-by-position-gmp-packing-preop.php'),
     'get-items-of-area-gmp-packing-preop' => 
       realpath(dirname(__FILE__).'/get-items-of-area-gmp-packing-preop.php'),
     'authorization-report-gmp-packing-preop' =>

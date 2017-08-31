@@ -151,15 +151,33 @@ mixin dropdownMenu(name, buttonId)
 //-       seleccion, debe tener comillas triples, "'ejemplo'"
 //- [in]  options (string): el nombre del attributo del componente de Angular 
 //-       cuyos elementos van a ser desplegados
-mixin select(name, placeholder, options)
+mixin select(name, model, placeholder, options, optionName = '', optionValue = '', onChangeCallback = null)
   mz-select-container&attributes(attributes)
-    select(
-      id=name,
-      '[placeholder]'=placeholder
-      mz-select
-    )
-      option('*ngFor'='let x of ' + options)
-        ='{{ x }}'
+    if onChangeCallback
+      select(
+        id=name,
+        '[placeholder]'=placeholder
+        mz-select
+        '[(ngModel)]'=model
+        '(change)'=onChangeCallback
+      )
+        option(
+          '*ngFor'='let x of ' + options
+          '[ngValue]'='x' + optionValue
+        )
+          ='{{ x' + optionName + ' }}'
+    else
+      select(
+        id=name,
+        '[placeholder]'=placeholder
+        mz-select
+        '[ngModel]'=model
+      )
+        option(
+          '*ngFor'='let x of ' + options
+          '[ngValue]'='x' + optionValue
+        )
+          ='{{ x' + optionName + ' }}'
 
 //- Crea un campo para un acordion
 //- [in]  title (string): el titulo a desplegar como el encabezado del acordion

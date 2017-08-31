@@ -18,7 +18,9 @@ $service = [
     $segment = $scope->session->getSegment('fsm');
 
     $areas = $scope->daoFactory->get('gap\packing\preop\WorkingAreas');
-    $isAreaNameDuplicated = $areas->hasByName($request['area_name']);
+    $isAreaNameDuplicated = $areas->hasByNameAndZoneID(
+      $request['area_name'], $segment->get('zone_id')
+    );
 
     if (!$isAreaNameDuplicated) {
       // count the number of areas so we can compute the position of this

@@ -18,6 +18,9 @@ export class HomeElementsService
   // El nombre completo del usuario que sera desplegado en el menu lateral
   userFullName: string = null
 
+  // El nombre del rol del usuario
+  roleName: string = null
+
   // Despliega el menu lateral
   displaySideNav() {
     this.showSideNav = true

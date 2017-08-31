@@ -27,9 +27,21 @@ class Rooms extends db\InsertableTable
         'name'
       ],
       [
-        "$this->table.zone_id" => $zoneID
+        "$this->table.zone_id" => $zoneID,
+        'ORDER' => [
+          'name'
+        ]
       ]
     );
+  }
+
+  function hasByZoneIDAndName($zoneID, $name) {
+    return parent::has([
+      'AND' => [
+        'name' => $areaName,
+        'zone_id' => $zoneID
+      ]
+    ]);
   }
 }
 

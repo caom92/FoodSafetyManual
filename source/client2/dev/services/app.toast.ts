@@ -12,12 +12,14 @@ export class ToastService
     es: {
       loggedIn: 'Sesión iniciada correctamente',
       passwordChanged: 'La contraseña se cambió exitosamente',
-      usernameChanged: 'El nombre de usuario se cambió exitosamente'
+      usernameChanged: 'El nombre de usuario se cambió exitosamente',
+      zoneChanged: 'La zona se cambió exitosamente'
     },
     en: {
       loggedIn: 'Logged in successfully',
       passwordChanged: 'The password was changed successfully',
-      usernameChanged: 'The user name was changed successfully'
+      usernameChanged: 'The user name was changed successfully',
+      zoneChanged: 'The zone was changed successfully'
     }
   }
 
@@ -34,6 +36,9 @@ export class ToastService
       'change-username': {
         1: 'El nombre ingresado ya fue reclamado',
         2: 'La contraseña es incorrecta'
+      },
+      'director-change-zones': {
+        1: 'La zona seleccionada no pudo ser encontrada'
       },
       101: 'Faltó enviar una entrada al servidor',
       102: 'Una entrada enviada al servidor no es un valor numérico',
@@ -65,6 +70,9 @@ export class ToastService
       'change-username': {
         1: 'The user name is already taken',
         2: 'The password is incorrect'
+      },
+      'director-change-zones': {
+        1: "The selected zone couldn\'t be found"
       },
       101: 'A server input argument was not send',
       102: 'A server input argument is not a numeric value',

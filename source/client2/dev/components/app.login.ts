@@ -44,7 +44,7 @@ export class LogInComponent implements OnInit
   private mapUserDataToLocalStorage(userData) {
     localStorage.user_id = userData.user_id
     localStorage.role_id = userData.role_id
-    localStorage.role_name = userData.rolename
+    localStorage.role_name = userData.role_name
     localStorage.exclusive_access = userData.exclusive_access
     localStorage.employee_num = userData.employee_num
     localStorage.first_name = userData.first_name
@@ -139,6 +139,30 @@ export class LogInComponent implements OnInit
           // que iniciamos sesion
           localStorage.is_logged_in = true
           this.mapUserDataToLocalStorage(result.data)
+          this.home.roleName = localStorage.role_name
+
+          // si el usuario es un director, desplegamos el menu de zonas 
+          if (localStorage.role_name === 'Director') {
+            this.server.update(
+              'list-zones',
+              new FormData(),
+              (response: Response) => {
+                let result = JSON.parse(response['_body'].toString())
+                if (result.meta.return_code == 0) {
+                  this.home.zones = result.data
+                  this.home.displayZoneMenu()
+                } else {
+                  // si algo ocurrio con la comunicacion con el servidor, 
+                  // desplegamos un mensaje de error al usuario
+                  this.toastManager.showServiceErrorText(
+                    'list-zones', 
+                    result.meta
+                  )
+                }
+              }
+            )
+          }
+
           this.toastManager.showText('loggedIn')
           this.router.go('edit-profile')
         } else {

@@ -7,7 +7,7 @@ $service = [
   'callback' => function($scope, $request) {
     $segment = $scope->session->getSegment('fsm');
     return $scope->daoFactory->get('gmp\packing\preop\WorkingAreas')
-      ->selectByZoneIDOrderedByName($segment->get('zone_id'));
+      ->selectByZoneID($segment->get('zone_id'));
   }
 ];
 
