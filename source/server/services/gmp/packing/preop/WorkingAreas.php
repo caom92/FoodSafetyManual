@@ -30,6 +30,23 @@ class WorkingAreas extends db\OrderedItemsTable
     );
   }
 
+  // Returns an associative array containing the information of all the 
+  // working areas that are related to the specified zone ordered by name and 
+  // not by position
+  // [in]     zoneID: the ID of the zone whose areas are going to be
+  //          retrieved
+  function selectByZoneIDOrderedByName($zoneID) {
+    return parent::select(
+      [ "$this->table.id", 'position', 'name' ],
+      [ 
+        'zone_id' => $zoneID,
+        'ORDER' => [
+          'name'
+        ]
+      ]
+    );
+  }
+
   // Searches an area with the given name and returns its data if it 
   // found it or NULL otherwise
   function hasByName($areaName) {

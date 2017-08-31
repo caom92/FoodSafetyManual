@@ -27,7 +27,10 @@ class Rooms extends db\InsertableTable
         'name'
       ],
       [
-        "$this->table.zone_id" => $zoneID
+        "$this->table.zone_id" => $zoneID,
+        'ORDER' => [
+          'name'
+        ]
       ]
     );
   }
