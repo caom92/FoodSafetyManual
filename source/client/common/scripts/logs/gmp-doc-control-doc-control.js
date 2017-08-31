@@ -86,6 +86,10 @@ function loadReport(data){
     return gmpPackingDocControlReport(data);
 }
 
+function loadImageArray(data){
+    return gmpPackingDocControlImages(data);
+}
+
 function additionalLoadReportControls(htmlDocument, data){
     console.log("additionalLoadReportControls");
     $server.request({
@@ -686,6 +690,24 @@ function gmpDocControlAddDelEntryFunctionality(data){
 
 // Full report
 
+function gmpPackingDocControlImages(data){
+    var imageArray = [];
+
+    for(var entry of data.document.entries){
+        if(entry.pictures != null){
+            var tempArray = JSON.parse(entry.pictures);
+            var moreTempArray = [];
+            for(var imageAddress of tempArray){
+                imageAddress = $domain + $root + 'data/images/gmp/doc_control/doc_control/' + imageAddress;
+                moreTempArray.push(imageAddress);
+            }
+            imageArray.push(moreTempArray);
+        }
+    }
+    
+    return imageArray;
+}
+
 function gmpPackingDocControlReport(data){
     var report = new Object();
 
@@ -738,7 +760,7 @@ function gmpPackingDocControlReportBody(data){
 
             // For the time being, add pictures one by one. If there are more pictures,
             // change this with a loop
-            if(entry.pictures != null && entry.pictures != ""){
+            /*if(entry.pictures != null && entry.pictures != ""){
                 var imgArray = JSON.parse(entry.pictures);
 
                 for(var img of imgArray){
@@ -748,7 +770,7 @@ function gmpPackingDocControlReportBody(data){
 
                     body.rows.push(pictureRow);
                 }
-            }
+            }*/
 
             if(entry.files != null && entry.files != ""){
                 var fileArray = JSON.parse(entry.files);

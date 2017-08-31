@@ -14,7 +14,7 @@ function addInventoryManager(controlsWrapper, contentWrapper){
 function addAreaControlTable(areasWrapper){
     console.log("areasWrapper: " + areasWrapper);
     $server.request({
-        service: 'get-areas-of-zone-gmp-packing-preop',
+        service: 'get-areas-of-zone-by-position-gmp-packing-preop',
         success: function(response) {
             if (response.meta.return_code == 0) {
                 $(areasWrapper).append(gmpPackingPreopAreasTable(areasWrapper, response.data));

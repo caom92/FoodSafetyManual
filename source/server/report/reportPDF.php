@@ -24,6 +24,8 @@ $pdf = new PDFCreator(
     $orientation
 );
 
+//var_dump(json_decode($_POST["images"]));
+
 // initialize the storage for the HTML that will be displayed in the PDF file
 $html = '';
 
@@ -82,6 +84,7 @@ try {
 
     // for each report to display in the document ...
     foreach ($reportData as $report) {
+        $hasImages = false;
         // add a new page 
         $pdf->AddPage($orientation);
 
@@ -94,8 +97,45 @@ try {
 
         // print the result to the document
         $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+        $pdf->closing($_POST['supervisor']);
+
+        if(isset($_POST["images"])){
+            $hasImages = true;
+            
+            foreach (json_decode($_POST["images"]) as $imageArray) {
+                foreach($imageArray as $image){
+                    list($w, $h) = getimagesize($image);
+
+                    // Resize and padding
+                    if($w >= $h){
+                        $width = 200;
+                        $height = 0;
+                        $padding_x = 0;
+                        $padding_y = (287 - (integer)((200*$h) / $w))/2;
+                    } else {
+                        $height = 287;
+                        $width = 0;
+                        $padding_x = (200 - (integer)((287*$w) / $h))/2;
+                        $padding_y = 0;
+                    }
+
+                    $pdf->setPrintHeader(false);
+                    $pdf->AddPage($orientation);
+                    $pdf->setPrintFooter(false);
+                    $bMargin = $pdf->getBreakMargin();
+                    // disable auto-page-break
+                    $pdf->SetAutoPageBreak(false, 0);
+                    // set bacground image
+                    $pdf->Image($image, 5 + $padding_x, 5 + $padding_y, $width, $height, '', '', '', false, 300, '', false, false, 0);
+                    // set the starting point for the page content
+                    $pdf->setPageMark();
+                }
+            }
+            /*$pdf->setPrintHeader(true);
+            $pdf->AddPage($orientation);
+            $pdf->setPrintFooter(true);*/
+        }
     }
-    $pdf->closing($_POST['supervisor']);
 } catch (\Exception $e) {
     // if an exception was thrown, print an error PDF file
     $html = 
