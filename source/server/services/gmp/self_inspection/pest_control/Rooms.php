@@ -35,6 +35,12 @@ class Rooms extends db\InsertableTable
     );
   }
 
+  // Revisa si ya existe una habitacion en la zona indicada que tenga en nombre 
+  // inidicado
+  // [in]   zoneID (uint): el ID de la zona cuya habitacion queremos buscar
+  // [in]   name (string): el nombre de la habitacion que queremos buscar
+  // [out]  return (boolean): verdadero si ya existe el nombre de habitacion 
+  //        ingresado en la zona indicada o falso en caso contrario
   function hasByZoneIDAndName($zoneID, $name) {
     return parent::has([
       'AND' => [
@@ -42,6 +48,18 @@ class Rooms extends db\InsertableTable
         'zone_id' => $zoneID
       ]
     ]);
+  }
+
+  // Actualiza la habitacion con el ID especificado para que tenga el nombre 
+  // indicado
+  // [in]   roomID (uint): el ID de la habitacion cuyo nombre va a ser editado
+  // [in]   name (string): el nuevo nombre que sera asignado a la habitación
+  // [out]  return (uint): el numero de renglones que fueron editados   
+  function updateNameByID($roomID, $name) {
+    return parent::update(
+      [ 'name' => $name ],
+      [ 'id' => $roomID ]
+    );
   }
 }
 

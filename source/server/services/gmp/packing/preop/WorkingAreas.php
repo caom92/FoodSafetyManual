@@ -62,6 +62,14 @@ class WorkingAreas extends db\OrderedItemsTable
   function countByZoneID($zoneID) {
     return parent::count(['zone_id' => $zoneID]);
   }
+
+  // Actualiza el area con el ID especificado para que tenga el nombre indicado
+  function updateNameByID($areaID, $name) {
+    return parent::update(
+      [ 'name' => $name ],
+      [ 'id' => $areaID]
+    );
+  }
 }
 
 ?>

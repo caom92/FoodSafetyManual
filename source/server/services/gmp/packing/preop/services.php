@@ -48,7 +48,9 @@ $preop = [
     'authorization-report-gmp-packing-preop' =>
       realpath(dirname(__FILE__).'/authorization-report-gmp-packing-preop.php'),
     'reorder-area-gmp-packing-preop' =>
-      realpath(dirname(__FILE__).'/reorder-area-gmp-packing-preop.php')
+      realpath(dirname(__FILE__).'/reorder-area-gmp-packing-preop.php'),
+    'edit-workplace-area-gmp-packing-preop' =>
+      realpath(dirname(__FILE__)).'/edit-workplace-area-gmp-packing-preop.php'
   ]
 ];
 

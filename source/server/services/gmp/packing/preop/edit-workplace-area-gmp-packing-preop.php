@@ -9,6 +9,10 @@ $service = [
       'module' => 'Packing',
       'log' => 'Pre-Operational Inspection'
     ],
+    'area_id' => [
+      'type' => 'int',
+      'min' => 1
+    ],
     'area_name' => [
       'type' => 'string',
       'min_length' => 1,
@@ -16,39 +20,22 @@ $service = [
     ]
   ],
   'callback' => function($scope, $request) {
-    // get session segment
     $segment = $scope->session->getSegment('fsm');
-
     $areas = $scope->daoFactory->get('gmp\packing\preop\WorkingAreas');
     $isAreaNameDuplicated = $areas->hasByNameAndZoneID(
       $request['area_name'], $segment->get('zone_id')
     );
 
-    if (!$isAreaNameDuplicated) {
-      // count the number of areas so we can compute the position of this
-      // item and add it in the last position
-      $numAreas = $areas->countByZoneID(
-        $segment->get('zone_id')
-      );
-
-      // insert the new area
-      $position = $numAreas + 1;
-      $id = $areas->insert([
-        'zone_id' => $segment->get('zone_id'),
-        'position' => $position,
-        'name' => $request['area_name']
-      ]);
-
-      return [
-        'id' => $id,
-        "position" => $position,
-        'name' => $request['area_name']
-      ];
-    } else {
+    if ($isAreaNameDuplicated) {
       throw new \Exception(
-        'Failed to add new area; the name is already taken.'
+        'Failed to add new area; the name is already taken.', 1
       );
     }
+
+    return $area->updateNameByID(
+      $request['area_id'],
+      $request['area_name']
+    );
   }
 ];
 
