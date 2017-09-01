@@ -19,6 +19,7 @@ function addAreaControlTable(areasWrapper){
             if (response.meta.return_code == 0) {
                 $(areasWrapper).append(gmpPackingPreopAreasTable(areasWrapper, response.data));
                 initAreaSortability("reorder-area-gmp-packing-preop");
+                bindEditButtonFunctionality();
                 changeLanguage();
             } else {
                 throw response.meta.message;
@@ -112,7 +113,7 @@ function addAreaSelect(controlsWrapper, contentWrapper){
 function gmpPackingPreopAreasTable(htmlElement, data){
     var tableJSON = {"type":"table","id":"area_sort","classes":"highlight","thead":{},"tbody":{},"tfoot":{}};
 
-    tableJSON.thead = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"inventory_position"},{"type":"th","classes":"inventory_id"},{"type":"th","classes":"inventory_name"}]}]};
+    tableJSON.thead = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"inventory_position"},{"type":"th","classes":"inventory_id"},{"type":"th","classes":"inventory_name"},{"type":"th"}]}]};
 
     tableJSON.tfoot = null;
 
@@ -135,7 +136,76 @@ function gmpPackingPreopAreaRow(area){
     inventoryRow.columns.push({"type":"td","contents":area.id,"classes":"id-column"});
     inventoryRow.columns.push({"type":"td","contents":area.name,"classes":"name-column"});
 
+    inventoryRow.columns.push({"type":"td","contents":gmpPackingPreopAreaEditButton(area)});
+
     return inventoryRow;
+}
+
+function gmpPackingPreopAreaEditableRow(area){
+    // JSON for the inventory row
+    var inventoryRow = {"type":"tr","id":"edit_area_" + area.id,"classes":"ui-sortable-handle","columns":[],"data":area};
+
+    // Add information columns. Remember the class "search-column" for dynamic
+    // search binding
+    inventoryRow.columns.push({"type":"td","contents":area.position,"classes":"position-column"});
+    inventoryRow.columns.push({"type":"td","contents":area.id,"classes":"id-column"});
+    inventoryRow.columns.push({"type":"td","contents":{"field":{"type":"input","id":"area_edit_" + area.id,"classes":"validate","value": area.name,"fieldType":"text"}},"classes":"name-column"});
+
+    inventoryRow.columns.push({"type":"td","contents":gmpPackingPreopAreaSaveButton(area)});
+
+    return inventoryRow;
+}
+
+function gmpPackingPreopAreaEditButton(item){
+    var buttonField = {"type":"floating","classes":"btn-floating waves-effect waves-light green right","id":"edit_" + item.id,"data":{"id":item.id,"item":item},"icon":{"type": "icon", "icon": "mdi-pencil", "size": "mdi-32px", "color": "white-text"}};
+
+    var buttonInput = {"field":buttonField};
+
+    return buttonInput;
+}
+
+function gmpPackingPreopAreaSaveButton(item){
+    var buttonField = {"type":"floating","classes":"btn-floating waves-effect waves-light green right","id":"save_" + item.id,"data":{"id":item.id,"item":item},"icon":{"type": "icon", "icon": "mdi-send", "size": "mdi-32px", "color": "white-text"}};
+
+    var buttonInput = {"field":buttonField};
+
+    return buttonInput;
+}
+
+function bindEditButtonFunctionality(){
+    $("a[id^='edit_']").on("click", function(){
+        var tempData = $(this).data("item");
+        tempData.position = $("#area_" + tempData.id).children(".position-column").text();
+        $("#area_" + $(this).data("id")).after(tableRow(gmpPackingPreopAreaEditableRow(tempData)));
+        $("#area_" + $(this).data("id")).remove();
+        bindSaveButtonFunctionality()
+        changeLanguage();
+    });
+}
+
+function bindSaveButtonFunctionality(){
+    $("a[id^='save_']").on("click", function(){
+        console.log("save pressed");
+        console.log($("#edit_area_" + areaID).children(".position-column").text());
+        var areaID = Number($(this).data("id"));
+        var areaPosition = Number($("#edit_area_" + areaID).children(".position-column").text());
+        var areaName = $("#area_edit_" + areaID).val();
+        $server.request({
+            service: 'edit-workplace-area-gmp-packing-preop',
+            data: {
+                "area_id": Number(areaID),
+                "area_name": areaName
+            },
+            success: function(response){
+                loadToast("program_updated", 3500, "rounded");
+                var updatedArea = {"id":areaID,"position":areaPosition,"name":areaName};
+                $("#edit_area_" + areaID).after(tableRow(gmpPackingPreopAreaRow(updatedArea)));
+                $("#edit_area_" + areaID).remove();
+                bindEditButtonFunctionality();
+                changeLanguage();
+            }
+        });
+    });
 }
 
 function gmpScaleCalibrationInventoryTable(htmlElement, data){
@@ -269,7 +339,6 @@ function initSortability(sortingService){
                     var data = new Object();
                     data.item_id = parseInt(itemID);
                     data.position = parseInt(order);
-                    //console.log(data);
                     $server.request({
                         service: sortingService,
                         data: data
@@ -299,13 +368,21 @@ function initAreaSortability(sortingService){
             $("#area-select").append(createOption({"classes":"select_area","disabled":true,"selected":true}));
             $("#area_sort tbody").each(function(bodyIndex) {
                 $(this).children().each(function(rowIndex) {
-                    console.log($(this).data());
                     $($(this).children()[0]).text(rowIndex + 1);
                     var order = $($(this).children()[0]).text();
                     var itemID = $($(this).children()[1]).text();
                     var data = new Object();
                     data.item_id = parseInt(itemID);
                     data.position = parseInt(order);
+                    // Code for updating the data embedded in the button
+                    /*var embeddedItem = {};
+                    embeddedItem.id = Number($("#area_" + itemID).children(".id-column").text());
+                    if($("#area_" + itemID).children(".name-column").children().length == 0){
+                        embeddedItem.position = Number($("#area_" + itemID).children(".position-column").text());
+                    } else {
+                        embeddedItem.position = "Es una fila editable";
+                    }
+                    embeddedItem.name = $("#area_" + itemID).children(".name-column").text();*/
                     $server.request({
                         service: sortingService,
                         data: data

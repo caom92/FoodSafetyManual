@@ -1147,7 +1147,7 @@ function getISODate(date){
 
     ISODate += date.getFullYear() + "-";
 
-    if((date.getMonth() + 1) < 9){
+    if(date.getMonth() < 9){
         ISODate += "0" + (date.getMonth() + 1)+ "-";
     } else {
         ISODate += (date.getMonth() + 1) + "-";

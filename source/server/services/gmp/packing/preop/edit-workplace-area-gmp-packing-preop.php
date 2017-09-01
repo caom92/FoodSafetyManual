@@ -32,7 +32,7 @@ $service = [
       );
     }
 
-    return $area->updateNameByID(
+    return $areas->updateNameByID(
       $request['area_id'],
       $request['area_name']
     );

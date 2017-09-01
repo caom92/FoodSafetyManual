@@ -86,10 +86,6 @@ function loadReport(data){
     return gmpPackingDocControlReport(data);
 }
 
-function loadImageArray(data){
-    return gmpPackingDocControlImages(data);
-}
-
 function additionalLoadReportControls(htmlDocument, data){
     console.log("additionalLoadReportControls");
     $server.request({
@@ -172,6 +168,14 @@ function pdfReportOrientation(){
 
 function pdfReportFontsize(){
     return "10";
+}
+
+function loadImageArray(data){
+    return null;
+}
+
+function loadImageArray(data){
+    return gmpPackingDocControlImages(data);
 }
 
 /******************************************************************************

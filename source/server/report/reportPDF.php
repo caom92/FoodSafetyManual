@@ -100,40 +100,42 @@ try {
         $pdf->closing($_POST['supervisor']);
 
         if(isset($_POST["images"])){
-            $hasImages = true;
-            
-            foreach (json_decode($_POST["images"]) as $imageArray) {
-                foreach($imageArray as $image){
-                    list($w, $h) = getimagesize($image);
+            if($_POST["images"] != "null"){
+                $hasImages = true;
+                
+                foreach (json_decode($_POST["images"]) as $imageArray) {
+                    foreach($imageArray as $image){
+                        list($w, $h) = getimagesize($image);
 
-                    // Resize and padding
-                    if($w >= $h){
-                        $width = 200;
-                        $height = 0;
-                        $padding_x = 0;
-                        $padding_y = (287 - (integer)((200*$h) / $w))/2;
-                    } else {
-                        $height = 287;
-                        $width = 0;
-                        $padding_x = (200 - (integer)((287*$w) / $h))/2;
-                        $padding_y = 0;
+                        // Resize and padding
+                        if($w >= $h){
+                            $width = 200;
+                            $height = 0;
+                            $padding_x = 0;
+                            $padding_y = (287 - (integer)((200*$h) / $w))/2;
+                        } else {
+                            $height = 287;
+                            $width = 0;
+                            $padding_x = (200 - (integer)((287*$w) / $h))/2;
+                            $padding_y = 0;
+                        }
+
+                        $pdf->setPrintHeader(false);
+                        $pdf->AddPage($orientation);
+                        $pdf->setPrintFooter(false);
+                        $bMargin = $pdf->getBreakMargin();
+                        // disable auto-page-break
+                        $pdf->SetAutoPageBreak(false, 0);
+                        // set bacground image
+                        $pdf->Image($image, 5 + $padding_x, 5 + $padding_y, $width, $height, '', '', '', false, 300, '', false, false, 0);
+                        // set the starting point for the page content
+                        $pdf->setPageMark();
                     }
-
-                    $pdf->setPrintHeader(false);
-                    $pdf->AddPage($orientation);
-                    $pdf->setPrintFooter(false);
-                    $bMargin = $pdf->getBreakMargin();
-                    // disable auto-page-break
-                    $pdf->SetAutoPageBreak(false, 0);
-                    // set bacground image
-                    $pdf->Image($image, 5 + $padding_x, 5 + $padding_y, $width, $height, '', '', '', false, 300, '', false, false, 0);
-                    // set the starting point for the page content
-                    $pdf->setPageMark();
                 }
+                /*$pdf->setPrintHeader(true);
+                $pdf->AddPage($orientation);
+                $pdf->setPrintFooter(true);*/
             }
-            /*$pdf->setPrintHeader(true);
-            $pdf->AddPage($orientation);
-            $pdf->setPrintFooter(true);*/
         }
     }
 } catch (\Exception $e) {
