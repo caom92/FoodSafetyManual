@@ -1,16 +1,41 @@
+var _controlsWrapper;
+var _contentWrapper;
+
 function addInventoryManager(controlsWrapper, contentWrapper){
-    //$("#log_name").html("Glass & Brittle Plastic Inspection");
-    addAreaSelect(controlsWrapper, contentWrapper);
+    $("#multi_inventory_tabs").show();
+    $('ul.tabs').tabs();
+    $('.indicator').addClass("green");
+    controlsWrapper = "#inventory_controls_wrapper";
+    contentWrapper = "#inventory_tab";
+    _controlsWrapper = controlsWrapper;
+    _contentWrapper = contentWrapper;
+    addAreaSelect(controlsWrapper, contentWrapper, null);
+    addAreaControlTable("#areas_tab");
 }
 
-// Functions exclusive to gmp-packing-preop
+// Functions exclusive to gmp-packing-glass-brittle
 
-function addAreaSelect(controlsWrapper, contentWrapper){
+function addAreaControlTable(areasWrapper){
+    $server.request({
+        service: 'get-areas-of-zone-by-position-gmp-packing-preop',
+        success: function(response) {
+            if (response.meta.return_code == 0) {
+                $(areasWrapper).append(gmpPackingPreopAreasTable(areasWrapper, response.data));
+                initAreaSortability("reorder-area-gmp-packing-preop");
+                bindEditButtonFunctionality();
+                changeLanguage();
+            } else {
+                throw response.meta.message;
+            }
+        }
+    });
+}
+
+function addAreaSelect(controlsWrapper, contentWrapper, defaultValue){
     $server.request({
         service: 'get-areas-of-zone-gmp-packing-preop',
         success: function(response) {
             if (response.meta.return_code == 0) {
-                //console.log(response.data);
                 var areaSelectRow = {"columns":[]};
 
                 // Select with all areas
@@ -44,8 +69,14 @@ function addAreaSelect(controlsWrapper, contentWrapper){
                 $(controlsWrapper).hide();
                 $(controlsWrapper).append(createInputRow(areaSelectRow));
 
+                if(defaultValue != null){
+                    $("#area-select").material_select("destroy");
+                    $("#area-select").val(defaultValue);
+                    $("#area-select").material_select();
+                }
+
                 $("#area-select").change(function (e) {
-                    $("table").remove();
+                    $("#sort").remove();
                     loadInventory($(this).val(), contentWrapper);
                 });
 
@@ -66,6 +97,7 @@ function addAreaSelect(controlsWrapper, contentWrapper){
                                     $("#area-select").append(option);
                                     $("#area-select").material_select();
                                     $("#area_name").val("");
+                                    $("#area_sort tbody").append(tableRow(gmpPackingPreopAreaRow(response.data)));
                                     loadToast("workplace_area_registered", 2500, "rounded");
                                 } else {
                                     loadToast("generic_area", 2500, "rounded");
@@ -83,6 +115,118 @@ function addAreaSelect(controlsWrapper, contentWrapper){
         }
     });
 }
+
+// Functions for area control (reorder and name changing of areas)
+
+function gmpPackingPreopAreasTable(htmlElement, data){
+    var tableJSON = {"type":"table","id":"area_sort","classes":"highlight","thead":{},"tbody":{},"tfoot":{}};
+
+    tableJSON.thead = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"inventory_position"},{"type":"th","classes":"inventory_id"},{"type":"th","classes":"inventory_name"},{"type":"th"}]}]};
+
+    tableJSON.tfoot = null;
+
+    tableJSON.tbody = {"type":"tbody","rows":[]};
+
+    for(var area of data){
+        tableJSON.tbody.rows.push(gmpPackingPreopAreaRow(area));
+    }
+
+    $(htmlElement).append(table(tableJSON));
+}
+
+function gmpPackingPreopAreaRow(area){
+    // JSON for the inventory row
+    var inventoryRow = {"type":"tr","id":"area_" + area.id,"classes":"ui-sortable-handle","columns":[],"data":area};
+
+    // Add information columns. Remember the class "search-column" for dynamic
+    // search binding
+    inventoryRow.columns.push({"type":"td","contents":area.position,"classes":"position-column"});
+    inventoryRow.columns.push({"type":"td","contents":area.id,"classes":"id-column"});
+    inventoryRow.columns.push({"type":"td","contents":area.name,"classes":"name-column"});
+
+    inventoryRow.columns.push({"type":"td","contents":gmpPackingPreopAreaEditButton(area)});
+
+    return inventoryRow;
+}
+
+function gmpPackingPreopAreaEditableRow(area){
+    // JSON for the inventory row
+    var inventoryRow = {"type":"tr","id":"edit_area_" + area.id,"classes":"ui-sortable-handle","columns":[],"data":area};
+
+    // Add information columns. Remember the class "search-column" for dynamic
+    // search binding
+    inventoryRow.columns.push({"type":"td","contents":area.position,"classes":"position-column"});
+    inventoryRow.columns.push({"type":"td","contents":area.id,"classes":"id-column"});
+    inventoryRow.columns.push({"type":"td","contents":{"field":{"type":"input","id":"area_edit_" + area.id,"classes":"validate","value": area.name,"fieldType":"text"}},"classes":"name-column"});
+
+    inventoryRow.columns.push({"type":"td","contents":gmpPackingPreopAreaSaveButton(area)});
+
+    return inventoryRow;
+}
+
+function gmpPackingPreopAreaEditButton(item){
+    var buttonField = {"type":"floating","classes":"btn-floating waves-effect waves-light green right","id":"edit_" + item.id,"data":{"id":item.id,"item":item},"icon":{"type": "icon", "icon": "mdi-pencil", "size": "mdi-32px", "color": "white-text"}};
+
+    var buttonInput = {"field":buttonField};
+
+    return buttonInput;
+}
+
+function gmpPackingPreopAreaSaveButton(item){
+    var buttonField = {"type":"floating","classes":"btn-floating waves-effect waves-light green right","id":"save_" + item.id,"data":{"id":item.id,"item":item},"icon":{"type": "icon", "icon": "mdi-send", "size": "mdi-32px", "color": "white-text"}};
+
+    var buttonInput = {"field":buttonField};
+
+    return buttonInput;
+}
+
+function bindEditButtonFunctionality(){
+    $("a[id^='edit_']").on("click", function(){
+        var tempData = $(this).data("item");
+        tempData.position = $("#area_" + tempData.id).children(".position-column").text();
+        $("#area_" + $(this).data("id")).after(tableRow(gmpPackingPreopAreaEditableRow(tempData)));
+        $("#area_" + $(this).data("id")).remove();
+        bindSaveButtonFunctionality()
+        changeLanguage();
+    });
+}
+
+function bindSaveButtonFunctionality(){
+    $("a[id^='save_']").on("click", function(){
+        console.log("save pressed");
+        console.log($("#edit_area_" + areaID).children(".position-column").text());
+        var areaID = Number($(this).data("id"));
+        var areaPosition = Number($("#edit_area_" + areaID).children(".position-column").text());
+        var areaName = $("#area_edit_" + areaID).val();
+        var originalName = $(this).data("item").name;
+        $server.request({
+            service: 'edit-workplace-area-gmp-packing-preop',
+            data: {
+                "area_id": Number(areaID),
+                "area_name": areaName
+            },
+            success: function(response){
+                var updatedArea = {"id":areaID,"position":areaPosition,"name":areaName};
+                var currentValue = $("#area-select").val();
+                if(response.meta.return_code == 0){
+                    loadToast("area_updated", 3500, "rounded");
+                    updatedArea.name = areaName;
+                    $(_controlsWrapper).html("");
+                    addAreaSelect(_controlsWrapper, _contentWrapper, currentValue);
+                } else {
+                    loadToast("area_name_repeated", 3500, "rounded");
+                    updatedArea.name = originalName;
+                }
+                $("#edit_area_" + areaID).after(tableRow(gmpPackingPreopAreaRow(updatedArea)));
+                $("#edit_area_" + areaID).remove();
+                bindEditButtonFunctionality();
+                changeLanguage();
+            }
+        });
+    });
+}
+
+// Functions for the inventory table (adding and toggling inventory items)
 
 function gmpPackingGlassBrittleInventoryTable(htmlElement, data){
     var tableJSON = {"type":"table","id":"sort","classes":"highlight","thead":{},"tbody":{},"tfoot":{}};
@@ -200,11 +344,51 @@ function initSortability(sortingService){
                     var data = new Object();
                     data.item_id = parseInt(itemID);
                     data.position = parseInt(order);
-                    //console.log(data);
                     $server.request({
                         service: sortingService,
                         data: data
                     });
+                });
+            });
+        }
+    });
+
+    var fixHelper = function(e, tr) {
+        var $originals = tr.children();
+        var $helper = tr.clone();
+        $helper.children().each(function(index)
+        {
+          $(this).width($originals.eq(index).width());
+        });
+        return $helper;
+    };
+}
+
+function initAreaSortability(sortingService){
+    $("#area_sort tbody").sortable({
+        helper: fixHelper,
+        cursor: "move",
+        update: function(event, ui) {
+            //Comented lines were used to reorganize the area-select contents; no longer needed since
+            //the area list will be organized in alphabetic order
+            //$("#area-select").html("");
+            //$("#area-select").append(createOption({"classes":"select_area","disabled":true,"selected":true}));
+            $("#area_sort tbody").each(function(bodyIndex) {
+                $(this).children().each(function(rowIndex) {
+                    $($(this).children()[0]).text(rowIndex + 1);
+                    var order = $($(this).children()[0]).text();
+                    var itemID = $($(this).children()[1]).text();
+                    var data = new Object();
+                    data.item_id = parseInt(itemID);
+                    data.position = parseInt(order);
+                    $server.request({
+                        service: sortingService,
+                        data: data
+                    });
+                    //$("select").material_select("destroy");
+                    //$("#area-select").append(createOption({"value":$(this).data("id"),"text":$(this).data("name")}));
+                    //$("select").material_select();
+                    changeLanguage();
                 });
             });
         }

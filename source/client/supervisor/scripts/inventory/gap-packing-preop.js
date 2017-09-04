@@ -1,24 +1,28 @@
+var _controlsWrapper;
+var _contentWrapper;
+
 function addInventoryManager(controlsWrapper, contentWrapper){
-    //$("#log_name").html("Pre-operational Inspection");
     $("#multi_inventory_tabs").show();
     $('ul.tabs').tabs();
     $('.indicator').addClass("green");
     controlsWrapper = "#inventory_controls_wrapper";
     contentWrapper = "#inventory_tab";
-    addAreaSelect(controlsWrapper, contentWrapper);
+    _controlsWrapper = controlsWrapper;
+    _contentWrapper = contentWrapper;
+    addAreaSelect(controlsWrapper, contentWrapper, null);
     addAreaControlTable("#areas_tab");
 }
 
 // Functions exclusive to gap-packing-preop
 
 function addAreaControlTable(areasWrapper){
-    console.log("areasWrapper: " + areasWrapper);
     $server.request({
-        service: 'get-areas-of-zone-gap-packing-preop',
+        service: 'get-areas-of-zone-by-position-gap-packing-preop',
         success: function(response) {
             if (response.meta.return_code == 0) {
                 $(areasWrapper).append(gmpPackingPreopAreasTable(areasWrapper, response.data));
                 initAreaSortability("reorder-area-gap-packing-preop");
+                bindEditButtonFunctionality();
                 changeLanguage();
             } else {
                 throw response.meta.message;
@@ -27,14 +31,11 @@ function addAreaControlTable(areasWrapper){
     });
 }
 
-function addAreaSelect(controlsWrapper, contentWrapper){
-    console.log("controlsWrapper: " + controlsWrapper);
-    console.log("contentWrapper: " + contentWrapper);
+function addAreaSelect(controlsWrapper, contentWrapper, defaultValue){
     $server.request({
         service: 'get-areas-of-zone-gap-packing-preop',
         success: function(response) {
             if (response.meta.return_code == 0) {
-                //console.log(response.data);
                 var areaSelectRow = {"columns":[]};
 
                 // Select with all areas
@@ -67,6 +68,12 @@ function addAreaSelect(controlsWrapper, contentWrapper){
 
                 $(controlsWrapper).hide();
                 $(controlsWrapper).append(createInputRow(areaSelectRow));
+
+                if(defaultValue != null){
+                    $("#area-select").material_select("destroy");
+                    $("#area-select").val(defaultValue);
+                    $("#area-select").material_select();
+                }
 
                 $("#area-select").change(function (e) {
                     $("#sort").remove();
@@ -109,6 +116,8 @@ function addAreaSelect(controlsWrapper, contentWrapper){
     });
 }
 
+// Functions for area control (reorder and name changing of areas)
+
 function gmpPackingPreopAreasTable(htmlElement, data){
     var tableJSON = {"type":"table","id":"area_sort","classes":"highlight","thead":{},"tbody":{},"tfoot":{}};
 
@@ -135,8 +144,89 @@ function gmpPackingPreopAreaRow(area){
     inventoryRow.columns.push({"type":"td","contents":area.id,"classes":"id-column"});
     inventoryRow.columns.push({"type":"td","contents":area.name,"classes":"name-column"});
 
+        inventoryRow.columns.push({"type":"td","contents":gmpPackingPreopAreaEditButton(area)});
+
     return inventoryRow;
 }
+
+function gmpPackingPreopAreaEditableRow(area){
+    // JSON for the inventory row
+    var inventoryRow = {"type":"tr","id":"edit_area_" + area.id,"classes":"ui-sortable-handle","columns":[],"data":area};
+
+    // Add information columns. Remember the class "search-column" for dynamic
+    // search binding
+    inventoryRow.columns.push({"type":"td","contents":area.position,"classes":"position-column"});
+    inventoryRow.columns.push({"type":"td","contents":area.id,"classes":"id-column"});
+    inventoryRow.columns.push({"type":"td","contents":{"field":{"type":"input","id":"area_edit_" + area.id,"classes":"validate","value": area.name,"fieldType":"text"}},"classes":"name-column"});
+
+    inventoryRow.columns.push({"type":"td","contents":gmpPackingPreopAreaSaveButton(area)});
+
+    return inventoryRow;
+}
+
+function gmpPackingPreopAreaEditButton(item){
+    var buttonField = {"type":"floating","classes":"btn-floating waves-effect waves-light green right","id":"edit_" + item.id,"data":{"id":item.id,"item":item},"icon":{"type": "icon", "icon": "mdi-pencil", "size": "mdi-32px", "color": "white-text"}};
+
+    var buttonInput = {"field":buttonField};
+
+    return buttonInput;
+}
+
+function gmpPackingPreopAreaSaveButton(item){
+    var buttonField = {"type":"floating","classes":"btn-floating waves-effect waves-light green right","id":"save_" + item.id,"data":{"id":item.id,"item":item},"icon":{"type": "icon", "icon": "mdi-send", "size": "mdi-32px", "color": "white-text"}};
+
+    var buttonInput = {"field":buttonField};
+
+    return buttonInput;
+}
+
+function bindEditButtonFunctionality(){
+    $("a[id^='edit_']").on("click", function(){
+        var tempData = $(this).data("item");
+        tempData.position = $("#area_" + tempData.id).children(".position-column").text();
+        $("#area_" + $(this).data("id")).after(tableRow(gmpPackingPreopAreaEditableRow(tempData)));
+        $("#area_" + $(this).data("id")).remove();
+        bindSaveButtonFunctionality()
+        changeLanguage();
+    });
+}
+
+function bindSaveButtonFunctionality(){
+    $("a[id^='save_']").on("click", function(){
+        console.log("save pressed");
+        console.log($("#edit_area_" + areaID).children(".position-column").text());
+        var areaID = Number($(this).data("id"));
+        var areaPosition = Number($("#edit_area_" + areaID).children(".position-column").text());
+        var areaName = $("#area_edit_" + areaID).val();
+        var originalName = $(this).data("item").name;
+        $server.request({
+            service: 'edit-workplace-area-gap-packing-preop',
+            data: {
+                "area_id": Number(areaID),
+                "area_name": areaName
+            },
+            success: function(response){
+                var updatedArea = {"id":areaID,"position":areaPosition,"name":areaName};
+                var currentValue = $("#area-select").val();
+                if(response.meta.return_code == 0){
+                    loadToast("area_updated", 3500, "rounded");
+                    updatedArea.name = areaName;
+                    $(_controlsWrapper).html("");
+                    addAreaSelect(_controlsWrapper, _contentWrapper, currentValue);
+                } else {
+                    loadToast("area_name_repeated", 3500, "rounded");
+                    updatedArea.name = originalName;
+                }
+                $("#edit_area_" + areaID).after(tableRow(gmpPackingPreopAreaRow(updatedArea)));
+                $("#edit_area_" + areaID).remove();
+                bindEditButtonFunctionality();
+                changeLanguage();
+            }
+        });
+    });
+}
+
+// Functions for the inventory table (adding and toggling inventory items)
 
 function gmpScaleCalibrationInventoryTable(htmlElement, data){
     var tableJSON = {"type":"table","id":"sort","classes":"highlight","thead":{},"tbody":{},"tfoot":{}};
@@ -157,8 +247,6 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
         tableJSON.tbody.push(typeBody);
     }
 
-    //console.log(tableJSON);
-
     $(htmlElement).append(table(tableJSON));
 
     $("input:checkbox").on("change",function(){
@@ -168,11 +256,9 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
             data: {id:itemID},
             success: function(response, message, xhr) {
                 if($("#inventory_" + itemID).hasClass("grey-text")){
-                    //console.log("item_row");
                     loadToast("toggle_item_on_success", 3500, "rounded");
                     $("#inventory_" + itemID).removeClass("grey-text");
                 } else {
-                    //console.log("item_row");
                     loadToast("toggle_item_off_success", 3500, "rounded");
                     $("#inventory_" + itemID).addClass("grey-text");
                 }
@@ -189,7 +275,6 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
             data.name = $("#name_add").val();
             data.area_id = $("#area-select").val();
             data.type_id = $("#type_add").val();
-            //console.log(data);
 
             $server.request({
                 service: 'add-gap-packing-preop',
@@ -204,8 +289,6 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
                     item.is_active = 1;
                     item.type = $("#type_add option:selected").text();
                     item.position = Number($($("tbody#type_" + $("#type_add").val() + " tr").last().children()[0]).text()) + 1;
-                    //console.log(item);
-                    //console.log(tableRow(gmpPackingScaleCalibrationInventoryRow(item, item.type)));
                     $("tbody#type_" + $("#type_add").val()).append(tableRow(gmpPackingScaleCalibrationInventoryRow(item, item.type)));
                     initSortability("reorder-gap-packing-preop");
                     $("html, body").animate({
@@ -269,7 +352,6 @@ function initSortability(sortingService){
                     var data = new Object();
                     data.item_id = parseInt(itemID);
                     data.position = parseInt(order);
-                    //console.log(data);
                     $server.request({
                         service: sortingService,
                         data: data
@@ -295,8 +377,10 @@ function initAreaSortability(sortingService){
         helper: fixHelper,
         cursor: "move",
         update: function(event, ui) {
-            $("#area-select").html("");
-            $("#area-select").append(createOption({"classes":"select_area","disabled":true,"selected":true}));
+            //Comented lines were used to reorganize the area-select contents; no longer needed since
+            //the area list will be organized in alphabetic order
+            //$("#area-select").html("");
+            //$("#area-select").append(createOption({"classes":"select_area","disabled":true,"selected":true}));
             $("#area_sort tbody").each(function(bodyIndex) {
                 $(this).children().each(function(rowIndex) {
                     console.log($(this).data());
@@ -310,9 +394,9 @@ function initAreaSortability(sortingService){
                         service: sortingService,
                         data: data
                     });
-                    $("select").material_select("destroy");
-                    $("#area-select").append(createOption({"value":$(this).data("id"),"text":$(this).data("name")}));
-                    $("select").material_select();
+                    //$("select").material_select("destroy");
+                    //$("#area-select").append(createOption({"value":$(this).data("id"),"text":$(this).data("name")}));
+                    //$("select").material_select();
                     changeLanguage();
                 });
             });
@@ -333,7 +417,6 @@ function initAreaSortability(sortingService){
 function loadInventory(areaID, htmlElement){
     var data = new Object();
     data.area_id = areaID;
-    //console.log(data);
 
     $server.request({
         service: 'get-items-of-area-gap-packing-preop',

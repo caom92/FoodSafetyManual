@@ -16,7 +16,6 @@ function addInventoryManager(controlsWrapper, contentWrapper){
 // Functions exclusive to gmp-packing-preop
 
 function addAreaControlTable(areasWrapper){
-    console.log("areasWrapper: " + areasWrapper);
     $server.request({
         service: 'get-areas-of-zone-by-position-gmp-packing-preop',
         success: function(response) {
@@ -33,13 +32,10 @@ function addAreaControlTable(areasWrapper){
 }
 
 function addAreaSelect(controlsWrapper, contentWrapper, defaultValue){
-    console.log("controlsWrapper: " + controlsWrapper);
-    console.log("contentWrapper: " + contentWrapper);
     $server.request({
         service: 'get-areas-of-zone-gmp-packing-preop',
         success: function(response) {
             if (response.meta.return_code == 0) {
-                //console.log(response.data);
                 var areaSelectRow = {"columns":[]};
 
                 // Select with all areas
@@ -119,6 +115,8 @@ function addAreaSelect(controlsWrapper, contentWrapper, defaultValue){
         }
     });
 }
+
+// Functions for area control (reorder and name changing of areas)
 
 function gmpPackingPreopAreasTable(htmlElement, data){
     var tableJSON = {"type":"table","id":"area_sort","classes":"highlight","thead":{},"tbody":{},"tfoot":{}};
@@ -228,7 +226,9 @@ function bindSaveButtonFunctionality(){
     });
 }
 
-function gmpScaleCalibrationInventoryTable(htmlElement, data){
+// Functions for the inventory table (adding and toggling inventory items)
+
+function gmpPackingPreopInventoryTable(htmlElement, data){
     var tableJSON = {"type":"table","id":"sort","classes":"highlight","thead":{},"tbody":{},"tfoot":{}};
 
     tableJSON.thead = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"inventory_position"},{"type":"th","classes":"inventory_id"},{"type":"th","classes":"inventory_name"},{"type":"th","classes":"inventory_type"},{"type":"th","classes":"inventory_dismiss"}]},{"type":"tr","columns":[{"type":"td","contents":""},{"type":"td","classes":"dynamic-search","contents":{"field":{"type":"input","id":"id-search","classes":"validate id_search","fieldType":"text"}}},{"type":"td","classes":"dynamic-search","contents":{"field":{"type":"input","id":"name-search","classes":"validate name_search","fieldType":"text"}}},{"type":"td","contents":{"field":{"type":"select","id":"type-search","classes":"type_search","options":[{"classes":"any_type","value":""}]}}},{"type":"td","contents":""}]}]};
@@ -242,7 +242,7 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
         tableJSON.thead.rows[1].columns[3].contents.field.options.push({"value":type.name,"text":type.name});
         tableJSON.tfoot.rows[0].columns[3].contents.field.options.push({"value":type.id,"text":type.name});
         for(var item of type.inventory){
-            typeBody.rows.push(gmpPackingScaleCalibrationInventoryRow(item, type.name));
+            typeBody.rows.push(gmpPackingPreopInventoryRow(item, type.name));
         }
         tableJSON.tbody.push(typeBody);
     }
@@ -275,7 +275,6 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
             data.name = $("#name_add").val();
             data.area_id = $("#area-select").val();
             data.type_id = $("#type_add").val();
-            //console.log(data);
 
             $server.request({
                 service: 'add-gmp-packing-preop',
@@ -290,7 +289,7 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
                     item.is_active = 1;
                     item.type = $("#type_add option:selected").text();
                     item.position = Number($($("tbody#type_" + $("#type_add").val() + " tr").last().children()[0]).text()) + 1;
-                    $("tbody#type_" + $("#type_add").val()).append(tableRow(gmpPackingScaleCalibrationInventoryRow(item, item.type)));
+                    $("tbody#type_" + $("#type_add").val()).append(tableRow(gmpPackingPreopInventoryRow(item, item.type)));
                     initSortability("reorder-gmp-packing-preop");
                     $("html, body").animate({
                         scrollTop: $(document).height()
@@ -307,7 +306,7 @@ function gmpScaleCalibrationInventoryTable(htmlElement, data){
     });
 }
 
-function gmpPackingScaleCalibrationInventoryRow(item, type){
+function gmpPackingPreopInventoryRow(item, type){
     // JSON for the inventory row
     var inventoryRow = {"type":"tr","id":"inventory_" + item.id,"classes":"ui-sortable-handle","columns":[]};
 
@@ -323,12 +322,12 @@ function gmpPackingScaleCalibrationInventoryRow(item, type){
     inventoryRow.columns.push({"type":"td","contents":type,"classes":"type-column search-column"});
 
     // Add switch to toggle activaction or deactivation of the item
-    inventoryRow.columns.push({"type":"td","contents":gmpPackingScaleCalibrationSwitch(item)});
+    inventoryRow.columns.push({"type":"td","contents":gmpPackingPreopSwitch(item)});
 
     return inventoryRow;
 }
 
-function gmpPackingScaleCalibrationSwitch(item){
+function gmpPackingPreopSwitch(item){
     var switchField = {"type":"switch","id":"switch_" + item.id,"data":{"id":item.id}};
 
     if(item.is_active == 1){
@@ -423,7 +422,7 @@ function loadInventory(areaID, htmlElement){
         data: data,
         success: function(response){
             $(htmlElement).hide();
-            gmpScaleCalibrationInventoryTable(htmlElement, response.data);
+            gmpPackingPreopInventoryTable(htmlElement, response.data);
             changeLanguage();
             initSortability("reorder-gmp-packing-preop");
             dynamicSearchBind("id-search", "id-column");
