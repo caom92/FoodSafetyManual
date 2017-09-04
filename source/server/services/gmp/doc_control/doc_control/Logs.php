@@ -131,7 +131,7 @@ class Logs extends db\LogTable
         ON u.zone_id = $zoneID
       WHERE
         '$start' <= document_date 
-        AND document date <= '$end'
+        AND document_date <= '$end'
       ORDER BY
         document_date
     ");
@@ -173,7 +173,7 @@ class Logs extends db\LogTable
         ON u.zone_id = $zoneID
       WHERE
         '$start' <= document_date 
-        AND document date <= '$end'
+        AND document_date <= '$end'
         AND document_id = $documentID
       ORDER BY
         document_date
