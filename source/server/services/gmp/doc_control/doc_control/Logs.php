@@ -99,6 +99,86 @@ class Logs extends db\LogTable
       ]]
     );
   }
+
+  function selectByDateIntervalLogIDAndZoneID($start, $end, $zoneID) {
+    return parent::$dataBase->query("
+      SELECT
+        cl.capture_date AS captured_date,
+        cl.employee_id AS employee_id,
+        cl.approval_date AS apprival_date,
+        cl.supervisor_id AS supervisor_id,
+        cl.extra_info1 AS extra_info1,
+        cl.extra_info2 AS extra_info2,
+        document_id,
+        d.name AS document_name,
+        document_employee,
+        document_date,
+        notes,
+        additional_info_url,
+        pictures,
+        files
+      FROM
+        $this->table
+      INNER JOIN 
+        gmp_doc_control_doc_control AS d
+        ON document_id = d.id
+      INNER JOIN
+        captured_logs AS cl
+        ON
+          capture_date_id = cl.id
+      INNER JOIN
+        users AS u
+        ON u.zone_id = $zoneID
+      WHERE
+        $start <= document_date 
+        AND document date <= $end
+      ORDER BY
+        document_date
+    ");
+  }
+
+  function selectByDateIntervalLogIDZoneIDAndDocumentID(
+    $start, 
+    $end, 
+    $zoneID, 
+    $documentID
+  ) {
+    return parent::$dataBase->query("
+      SELECT
+        cl.capture_date AS captured_date,
+        cl.employee_id AS employee_id,
+        cl.approval_date AS apprival_date,
+        cl.supervisor_id AS supervisor_id,
+        cl.extra_info1 AS extra_info1,
+        cl.extra_info2 AS extra_info2,
+        document_id,
+        d.name AS document_name,
+        document_employee,
+        document_date,
+        notes,
+        additional_info_url,
+        pictures,
+        files
+      FROM
+        $this->table
+      INNER JOIN 
+        gmp_doc_control_doc_control AS d
+        ON document_id = d.id
+      INNER JOIN
+        captured_logs AS cl
+        ON
+          capture_date_id = cl.id
+      INNER JOIN
+        users AS u
+        ON u.zone_id = $zoneID
+      WHERE
+        $start <= document_date 
+        AND document date <= $end
+        AND document_id = $documentID
+      ORDER BY
+        document_date
+    ");
+  }
 }
 
 ?>

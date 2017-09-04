@@ -104,7 +104,7 @@ class CapturedLogs extends db\InsertableTable
       ]
     );
 
-    return $rows[0];
+    return count($rows) > 0 ? $rows[0] : NULL;
   }
 
   // Revisa si hay renglones en la tabla que tengan registrados la
