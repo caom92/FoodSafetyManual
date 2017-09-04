@@ -31,8 +31,8 @@ $service = [
     $segment = $scope->session->getSegment('fsm');
 
     // get the log ID
-    // $logID = $scope->daoFactory->get('Logs')->getIDByNames(
-    //   'GMP', 'Document Control', 'Document Control');
+    $logID = $scope->daoFactory->get('Logs')->getIDByNames(
+      'GMP', 'Document Control', 'Document Control');
 
     // get the footers
     $footers = $scope->daoFactory->get('ReportFooters')
@@ -55,7 +55,7 @@ $service = [
           $request['document_id']
         )
       : $scope->daoFactory->get('gmp\docControl\docControl\Logs')
-          ->selectByDateIntervalLogIDZoneID(
+          ->selectByDateIntervalLogIDAndZoneID(
             $request['start_date'],
             $request['end_date'],
             $segment->get('zone_id')
