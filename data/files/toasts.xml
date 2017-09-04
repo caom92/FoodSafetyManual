@@ -263,6 +263,18 @@
         <spanish>Información de zona actualizada</spanish>
     </translation>
 
+    <!--Supervisor messages-->
+
+    <translation id="area_updated">
+        <english>Area name updated</english>
+        <spanish>Nombre de área actualizada</spanish>
+    </translation>
+
+    <translation id="area_name_repeated">
+        <english>Area name can't be changed; the name is already taken</english>
+        <spanish>El nombre del área no se puede cambiar; el nombre ya se encuentra en uso</spanish>
+    </translation>
+
     <!--Logs.js Messages-->
 
     <translation id="no_reports">
