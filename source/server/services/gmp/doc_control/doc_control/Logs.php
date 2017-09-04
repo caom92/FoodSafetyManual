@@ -127,6 +127,9 @@ class Logs extends db\LogTable
         captured_logs AS cl
         ON
           capture_date_id = cl.id
+          AND cl.status_id = (
+            SELECT id FROM log_status WHERE name = 'Waiting'
+          )
       INNER JOIN
         users AS u
         ON u.zone_id = $zoneID
@@ -170,6 +173,9 @@ class Logs extends db\LogTable
         captured_logs AS cl
         ON
           capture_date_id = cl.id
+          AND cl.status_id = (
+            SELECT id FROM log_status WHERE name = 'Waiting'
+          )
       INNER JOIN
         users AS u
         ON u.zone_id = $zoneID
