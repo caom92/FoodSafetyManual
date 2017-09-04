@@ -99,22 +99,22 @@ $service = [
         'program_name' => "GMP",
         'module_name' => "Document Control",
         'log_name' => "Document Control",
-        'reports' => [[
+        'reports' => [
           'display_date' => 
             "{$log['document_date']} {$log['document_name']}",
           'document' => [
             'id' => $log['document_id'],
             'name' => $log['document_name'],
-            'entries' => [[
+            'entries' => [
               'employee' => $log['document_employee'],
               'date' => $log['document_date'],
               'notes' => $log['notes'],
               'additional_info_url' => $log['additional_info_url'],
               'pictures' => $log['pictures'],
               'files' => $log['files']
-            ]]
+            ]
           ]
-        ]]
+        ]
       ];
 
       array_push($reports, $reportInfo);

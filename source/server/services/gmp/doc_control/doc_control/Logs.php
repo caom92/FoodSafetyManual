@@ -101,12 +101,14 @@ class Logs extends db\LogTable
   }
 
   function selectByDateIntervalLogIDAndZoneID($start, $end, $zoneID) {
+    $statusID = parent::$dataBase->select(
+      'log_status', 'id', [ 'name' => 'Approved']);
     return parent::$dataBase->query("
       SELECT
         cl.id AS id,
         cl.capture_date AS capture_date,
         cl.employee_id AS employee_id,
-        cl.approval_date AS apprival_date,
+        cl.approval_date AS approval_date,
         cl.supervisor_id AS supervisor_id,
         cl.extra_info1 AS extra_info1,
         cl.extra_info2 AS extra_info2,
@@ -127,15 +129,14 @@ class Logs extends db\LogTable
         captured_logs AS cl
         ON
           capture_date_id = cl.id
-          AND cl.status_id = (
-            SELECT id FROM log_status WHERE name = 'Waiting'
-          )
       INNER JOIN
         users AS u
-        ON u.zone_id = $zoneID
+        ON cl.employee_id = u.id
       WHERE
         '$start' <= document_date 
         AND document_date <= '$end'
+        AND cl.status_id = $statusID
+        AND u.zone_id = $zoneID
       ORDER BY
         document_date
     ");
@@ -152,7 +153,7 @@ class Logs extends db\LogTable
         cl.id AS id,
         cl.capture_date AS capture_date,
         cl.employee_id AS employee_id,
-        cl.approval_date AS apprival_date,
+        cl.approval_date AS approval_date,
         cl.supervisor_id AS supervisor_id,
         cl.extra_info1 AS extra_info1,
         cl.extra_info2 AS extra_info2,
@@ -173,16 +174,15 @@ class Logs extends db\LogTable
         captured_logs AS cl
         ON
           capture_date_id = cl.id
-          AND cl.status_id = (
-            SELECT id FROM log_status WHERE name = 'Waiting'
-          )
       INNER JOIN
         users AS u
-        ON u.zone_id = $zoneID
+        ON cl.employee_id = u.id
       WHERE
         '$start' <= document_date 
         AND document_date <= '$end'
         AND document_id = $documentID
+        AND u.zone_id = $zoneID
+        AND cl.status_id = $statusID
       ORDER BY
         document_date
     ");
