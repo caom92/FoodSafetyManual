@@ -31,8 +31,8 @@ $service = [
     $segment = $scope->session->getSegment('fsm');
 
     // get the log ID
-    $logID = $scope->daoFactory->get('Logs')->getIDByNames(
-      'GMP', 'Document Control', 'Document Control');
+    // $logID = $scope->daoFactory->get('Logs')->getIDByNames(
+    //   'GMP', 'Document Control', 'Document Control');
 
     // get the footers
     $footers = $scope->daoFactory->get('ReportFooters')
@@ -41,17 +41,28 @@ $service = [
         $logID
       );
 
+    // primero obtenemos todos los registros capturados en la fecha solicitada
+    $wasDocumentIDProvided = isset($request['document_id']) 
+      && array_key_exists('document_id', $request);
+
     // then, we get the captured logs' date info 
-    $logDates = $scope->daoFactory->get('CapturedLogs')
-      ->selectByDateIntervalLogIDAndZoneID(
-        $request['start_date'],
-        $request['end_date'],
-        $logID,
-        $segment->get('zone_id')
-      );
+    $logs = ($wasDocumentIDProvided) ? 
+      $scope->daoFactory->get('gmp\docControl\docControl\Logs')
+        ->selectByDateIntervalLogIDZoneIDAndDocumentID(
+          $request['start_date'],
+          $request['end_date'],
+          $segment->get('zone_id'),
+          $request['document_id']
+        )
+      : $scope->daoFactory->get('gmp\docControl\docControl\Logs')
+          ->selectByDateIntervalLogIDZoneID(
+            $request['start_date'],
+            $request['end_date'],
+            $segment->get('zone_id')
+          );
 
     // if no logs where captured, throw an exception
-    if (!isset($logDates)) {
+    if (!isset($logs)) {
       throw new \Exception(
         'No logs where captured at that date.', 2);
     }
@@ -60,31 +71,16 @@ $service = [
     $reports = [];
 
     // visit each date log that was obtained earlier
-    foreach ($logDates as $logDate) {
-      // primero obtenemos todos los registros capturados en la fecha solicitada
-      $wasDocumentIDProvided = isset($request['document_id']) 
-        && array_key_exists('document_id', $request);
-
-      $rows = ($wasDocumentIDProvided) ?
-        $scope->daoFactory->get('gmp\docControl\docControl\Logs')
-          ->selectByCaptureDateIDAndDocumentID(
-            $logDate['id'], 
-            $request['document_id']
-          )
-        : $scope->daoFactory->get('gmp\docControl\docControl\Logs')
-          ->selectByCaptureDateID($logDate['id']);
-
+    foreach ($logs as $log) {
       // then retrieve the name of the employee and supervisor
       // that worked on this log
       $users = $scope->daoFactory->get('Users');
-      $supervisor = $users->getNameByID(
-        $logDate['supervisor_id']);
-      $employee = $users->getNameByID(
-        $logDate['employee_id']);
+      $supervisor = $users->getNameByID($log['supervisor_id']);
+      $employee = $users->getNameByID($log['employee_id']);
 
       // push the report data to the array
       $reportInfo = [
-        'report_id' => $logDate['id'],
+        'report_id' => $log['id'],
         'created_by' => 
           $employee['first_name'].' '.
           $employee['last_name'],
@@ -95,76 +91,95 @@ $service = [
             : 'N/A',
         'signature_path' => (strlen($supervisor['signature_path']) > 0) ? 
           $supervisor['signature_path'] : 'default.png',
-        'creation_date' => $logDate['capture_date'],
+        'creation_date' => $log['capture_date'],
         'approval_date' => 
-          (isset($logDate['approval_date'])) ?
-            $logDate['approval_date'] : 'N/A',
+          (isset($log['approval_date'])) ?
+            $log['approval_date'] : 'N/A',
         'zone_name' => $segment->get('zone_name'),
         'program_name' => "GMP",
         'module_name' => "Document Control",
-        'log_name' => "Document Control"
-      ];
-
-      // inicializamos el arreglo donde seran devueltos todos los registros
-      $document = [
-        'id' => 0
-      ];
-      
-      // visitamos cada registro leido de la BD
-      foreach ($rows as $row) {
-        // revisamos si el documento del registro cambio
-        $hasDocumentChanged = $row['document_id'] != $document['id'];
-        if ($hasDocumentChanged) {
-          // si cambio, revisamos si es el primer registro leido
-          if ($document['id'] != 0) {
-            array_push($reports, $reportInfo + [
-              'display_date' => 
-                "{$reportInfo['creation_date']} {$document['name']}",
-              'document' => $document
-            ]);
-          }
-
-          // e reiniciamos el almacenamiento temporal con la informacion
-          // del documento actual
-          $document = [
-            'id' => $row['document_id'],
-            'name' => $row['document_name'],
-            'entries' => []
-          ];
-
-          // guardamos la informacion del documento actual en el almacenamiento
-          // temporal
-          array_push($document['entries'], [
-            'employee' => $row['document_employee'],
-            'date' => $row['document_date'],
-            'notes' => $row['notes'],
-            'additional_info_url' => $row['additional_info_url'],
-            'pictures' => $row['pictures'],
-            'files' => $row['files']
-          ]);
-        } else {
-          // si el documento no ha cambiado, guardamos la informacion en el 
-          // almacenamiento temporal
-          array_push($document['entries'], [
-            'employee' => $row['document_employee'],
-            'date' => $row['document_date'],
-            'notes' => $row['notes'],
-            'additional_info_url' => $row['additional_info_url'],
-            'pictures' => $row['pictures'],
-            'files' => $row['files']
-          ]);
-        } // if ($hasDocumentChanged)
-      } // foreach ($rows as $row)
-
-      // no hay que olvidar almacenar el ultimo registro en el conglomerado
-      if ($document['id'] != 0) {
-        array_push($reports, $reportInfo + [
+        'log_name' => "Document Control",
+        'reports' => [[
           'display_date' => 
-            "{$reportInfo['creation_date']} {$document['name']}",
-          'document' => $document
-        ]);
-      }
-    } // foreach ($logDates as $logDate)
+            "{$log['document_date']} {$document['name']}",
+          'document' => [
+            'id' => $log['document_id'],
+            'name' => $log['document_name'],
+            'entries' => [[
+              'employee' => $log['document_employee'],
+              'date' => $log['document_date'],
+              'notes' => $log['notes'],
+              'additional_info_url' => $log['additional_info_url'],
+              'pictures' => $log['pictures'],
+              'files' => $log['files']
+            ]]
+          ]
+        ]]
+      ];
+
+      array_push($reports, $reportInfo);
+    }
+
+    //   // inicializamos el arreglo donde seran devueltos todos los registros
+    //   $document = [
+    //     'id' => 0
+    //   ];
+      
+    //   // visitamos cada registro leido de la BD
+    //   foreach ($rows as $row) {
+    //     // revisamos si el documento del registro cambio
+    //     $hasDocumentChanged = $row['document_id'] != $document['id'];
+    //     if ($hasDocumentChanged) {
+    //       // si cambio, revisamos si es el primer registro leido
+    //       if ($document['id'] != 0) {
+    //         array_push($reports, $reportInfo + [
+    //           'display_date' => 
+    //             "{$reportInfo['creation_date']} {$document['name']}",
+    //           'document' => $document
+    //         ]);
+    //       }
+
+    //       // e reiniciamos el almacenamiento temporal con la informacion
+    //       // del documento actual
+    //       $document = [
+    //         'id' => $row['document_id'],
+    //         'name' => $row['document_name'],
+    //         'entries' => []
+    //       ];
+
+    //       // guardamos la informacion del documento actual en el almacenamiento
+    //       // temporal
+    //       array_push($document['entries'], [
+    //         'employee' => $row['document_employee'],
+    //         'date' => $row['document_date'],
+    //         'notes' => $row['notes'],
+    //         'additional_info_url' => $row['additional_info_url'],
+    //         'pictures' => $row['pictures'],
+    //         'files' => $row['files']
+    //       ]);
+    //     } else {
+    //       // si el documento no ha cambiado, guardamos la informacion en el 
+    //       // almacenamiento temporal
+    //       array_push($document['entries'], [
+    //         'employee' => $row['document_employee'],
+    //         'date' => $row['document_date'],
+    //         'notes' => $row['notes'],
+    //         'additional_info_url' => $row['additional_info_url'],
+    //         'pictures' => $row['pictures'],
+    //         'files' => $row['files']
+    //       ]);
+    //     } // if ($hasDocumentChanged)
+    //   } // foreach ($rows as $row)
+
+    //   // no hay que olvidar almacenar el ultimo registro en el conglomerado
+    //   if ($document['id'] != 0) {
+    //     array_push($reports, $reportInfo + [
+    //       'display_date' => 
+    //         "{$reportInfo['creation_date']} {$document['name']}",
+    //       'document' => $document
+    //     ]);
+    //   }
+    // } // foreach ($logDates as $logDate)
 
     // finally return the list of reports
     return [
