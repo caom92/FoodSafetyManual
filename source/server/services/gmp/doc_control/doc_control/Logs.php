@@ -101,7 +101,7 @@ class Logs extends db\LogTable
   }
 
   function selectByDateIntervalLogIDAndZoneID($start, $end, $zoneID) {
-    $statusID = parent::$dataBase->select(
+    $status = parent::$dataBase->get(
       'log_status', 'id', [ 'name' => 'Approved']);
     return parent::$dataBase->query("
       SELECT
@@ -135,7 +135,7 @@ class Logs extends db\LogTable
       WHERE
         '$start' <= document_date 
         AND document_date <= '$end'
-        AND cl.status_id = $statusID
+        AND cl.status_id = {$status['id']}
         AND u.zone_id = $zoneID
       ORDER BY
         document_date
@@ -148,6 +148,8 @@ class Logs extends db\LogTable
     $zoneID, 
     $documentID
   ) {
+    $status = parent::$dataBase->get(
+      'log_status', 'id', [ 'name' => 'Approved']);
     return parent::$dataBase->query("
       SELECT
         cl.id AS id,
@@ -182,7 +184,7 @@ class Logs extends db\LogTable
         AND document_date <= '$end'
         AND document_id = $documentID
         AND u.zone_id = $zoneID
-        AND cl.status_id = $statusID
+        AND cl.status_id = {$status['id']}
       ORDER BY
         document_date
     ");
