@@ -101,7 +101,7 @@ $service = [
         'log_name' => "Document Control",
         'reports' => [[
           'display_date' => 
-            "{$log['document_date']} {$document['name']}",
+            "{$log['document_date']} {$log['document_name']}",
           'document' => [
             'id' => $log['document_id'],
             'name' => $log['document_name'],

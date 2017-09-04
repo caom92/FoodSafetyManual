@@ -103,7 +103,8 @@ class Logs extends db\LogTable
   function selectByDateIntervalLogIDAndZoneID($start, $end, $zoneID) {
     return parent::$dataBase->query("
       SELECT
-        cl.capture_date AS captured_date,
+        cl.id AS id,
+        cl.capture_date AS capture_date,
         cl.employee_id AS employee_id,
         cl.approval_date AS apprival_date,
         cl.supervisor_id AS supervisor_id,
@@ -145,7 +146,8 @@ class Logs extends db\LogTable
   ) {
     return parent::$dataBase->query("
       SELECT
-        cl.capture_date AS captured_date,
+        cl.id AS id,
+        cl.capture_date AS capture_date,
         cl.employee_id AS employee_id,
         cl.approval_date AS apprival_date,
         cl.supervisor_id AS supervisor_id,
