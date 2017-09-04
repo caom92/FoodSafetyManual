@@ -120,7 +120,7 @@ class Logs extends db\LogTable
       FROM
         $this->table
       INNER JOIN 
-        gmp_doc_control_doc_control AS d
+        gmp_doc_control_doc_control_documents AS d
         ON document_id = d.id
       INNER JOIN
         captured_logs AS cl
@@ -162,7 +162,7 @@ class Logs extends db\LogTable
       FROM
         $this->table
       INNER JOIN 
-        gmp_doc_control_doc_control AS d
+        gmp_doc_control_doc_control_documents AS d
         ON document_id = d.id
       INNER JOIN
         captured_logs AS cl
