@@ -34,7 +34,7 @@ $service = [
       );
     }
 
-    $room->updateNameByID(
+    $rooms->updateNameByID(
       $request['room_id'], $request['name']
     );
   }
