@@ -129,6 +129,7 @@ class Logs extends db\LogTable
         captured_logs AS cl
         ON
           capture_date_id = cl.id
+          AND cl.status_id = {$status['id']}
       INNER JOIN
         users AS u
         ON cl.employee_id = u.id
@@ -136,7 +137,6 @@ class Logs extends db\LogTable
       WHERE
         '$start' <= document_date 
         AND document_date <= '$end'
-        AND cl.status_id = {$status['id']}
       ORDER BY
         document_date
     ");
@@ -176,6 +176,7 @@ class Logs extends db\LogTable
         captured_logs AS cl
         ON
           capture_date_id = cl.id
+          AND cl.status_id = {$status['id']}
       INNER JOIN
         users AS u
         ON cl.employee_id = u.id
@@ -184,7 +185,6 @@ class Logs extends db\LogTable
         '$start' <= document_date 
         AND document_date <= '$end'
         AND document_id = $documentID
-        AND cl.status_id = {$status['id']}
       ORDER BY
         document_date
     ");
