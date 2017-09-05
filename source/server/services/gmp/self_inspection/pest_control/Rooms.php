@@ -44,7 +44,7 @@ class Rooms extends db\InsertableTable
   function hasByZoneIDAndName($zoneID, $name) {
     return parent::has([
       'AND' => [
-        'name' => $areaName,
+        'name' => $name,
         'zone_id' => $zoneID
       ]
     ]);
