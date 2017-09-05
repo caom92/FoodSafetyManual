@@ -1,10 +1,37 @@
+var _controlsWrapper;
+var _contentWrapper;
+
 function addInventoryManager(controlsWrapper, contentWrapper){
-    //$("#log_name").html("Self Inspection");
-    addAreaSelect(controlsWrapper, contentWrapper);
-    //loadInventory(contentWrapper);
+    $("#multi_inventory_tabs").show();
+    $('ul.tabs').tabs();
+    $('.indicator').addClass("green");
+    controlsWrapper = "#inventory_controls_wrapper";
+    contentWrapper = "#inventory_tab";
+    _controlsWrapper = controlsWrapper;
+    _contentWrapper = contentWrapper;
+    addAreaSelect(controlsWrapper, contentWrapper, null);
+    addAreaControlTable("#areas_tab");
 }
 
-function addAreaSelect(controlsWrapper, contentWrapper){
+// Functions exclusive to Pest Control
+
+function addAreaControlTable(areasWrapper){
+    $server.request({
+        service: 'rooms-gmp-self-inspection-pest-control',
+        success: function(response) {
+            if (response.meta.return_code == 0) {
+                $(areasWrapper).append(gmpSelfInspectionPestControlAreasTable(areasWrapper, response.data));
+                //initAreaSortability("reorder-area-gmp-packing-preop");
+                bindEditButtonFunctionality();
+                changeLanguage();
+            } else {
+                throw response.meta.message;
+            }
+        }
+    });
+}
+
+function addAreaSelect(controlsWrapper, contentWrapper, defaultValue){
     $server.request({
         service: 'rooms-gmp-self-inspection-pest-control',
         success: function(response) {
@@ -64,9 +91,9 @@ function addAreaSelect(controlsWrapper, contentWrapper){
                                     $("#area-select").append(option);
                                     $("#area-select").material_select();
                                     $("#area_name").val("");
-                                    loadToast("workplace_area_registered", 2500, "rounded");
+                                    loadToast("workplace_area_registered", 3500, "rounded");
                                 } else {
-                                    loadToast("generic_area", 2500, "rounded");
+                                    loadToast("area_name_repeated", 3500, "rounded");
                                 }
                             }
                         });
@@ -100,8 +127,111 @@ function loadInventory(id, htmlElement){
     });
 }
 
+// Functions for area control (reorder and name changing of areas)
+
+function gmpSelfInspectionPestControlAreasTable(htmlElement, data){
+    var tableJSON = {"type":"table","id":"area_sort","classes":"highlight","thead":{},"tbody":{},"tfoot":{}};
+
+    tableJSON.thead = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"inventory_id"},{"type":"th","classes":"inventory_name"},{"type":"th"}]}]};
+
+    tableJSON.tfoot = null;
+
+    tableJSON.tbody = {"type":"tbody","rows":[]};
+
+    for(var area of data){
+        tableJSON.tbody.rows.push(gmpPackingPreopAreaRow(area));
+    }
+
+    $(htmlElement).append(table(tableJSON));
+}
+
+function gmpPackingPreopAreaRow(area){
+    // JSON for the inventory row
+    var inventoryRow = {"type":"tr","id":"area_" + area.id,"classes":"ui-sortable-handle","columns":[],"data":area};
+
+    // Add information columns. Remember the class "search-column" for dynamic
+    // search binding
+    inventoryRow.columns.push({"type":"td","contents":area.id,"classes":"id-column"});
+    inventoryRow.columns.push({"type":"td","contents":area.name,"classes":"name-column"});
+
+    inventoryRow.columns.push({"type":"td","contents":gmpPackingPreopAreaEditButton(area)});
+
+    return inventoryRow;
+}
+
+function gmpPackingPreopAreaEditableRow(area){
+    // JSON for the inventory row
+    var inventoryRow = {"type":"tr","id":"edit_area_" + area.id,"classes":"ui-sortable-handle","columns":[],"data":area};
+
+    // Add information columns. Remember the class "search-column" for dynamic
+    // search binding
+    inventoryRow.columns.push({"type":"td","contents":area.id,"classes":"id-column"});
+    inventoryRow.columns.push({"type":"td","contents":{"field":{"type":"input","id":"area_edit_" + area.id,"classes":"validate","value": area.name,"fieldType":"text"}},"classes":"name-column"});
+
+    inventoryRow.columns.push({"type":"td","contents":gmpPackingPreopAreaSaveButton(area)});
+
+    return inventoryRow;
+}
+
+function gmpPackingPreopAreaEditButton(item){
+    var buttonField = {"type":"floating","classes":"btn-floating waves-effect waves-light green right","id":"edit_" + item.id,"data":{"id":item.id,"item":item},"icon":{"type": "icon", "icon": "mdi-pencil", "size": "mdi-32px", "color": "white-text"}};
+
+    var buttonInput = {"field":buttonField};
+
+    return buttonInput;
+}
+
+function gmpPackingPreopAreaSaveButton(item){
+    var buttonField = {"type":"floating","classes":"btn-floating waves-effect waves-light green right","id":"save_" + item.id,"data":{"id":item.id,"item":item},"icon":{"type": "icon", "icon": "mdi-send", "size": "mdi-32px", "color": "white-text"}};
+
+    var buttonInput = {"field":buttonField};
+
+    return buttonInput;
+}
+
+function bindEditButtonFunctionality(){
+    $("a[id^='edit_']").on("click", function(){
+        var tempData = $(this).data("item");
+        $("#area_" + $(this).data("id")).after(tableRow(gmpPackingPreopAreaEditableRow(tempData)));
+        $("#area_" + $(this).data("id")).remove();
+        bindSaveButtonFunctionality()
+        changeLanguage();
+    });
+}
+
+function bindSaveButtonFunctionality(){
+    $("a[id^='save_']").on("click", function(){
+        var areaID = Number($(this).data("id"));
+        var areaName = $("#area_edit_" + areaID).val();
+        var originalName = $(this).data("item").name;
+        $server.request({
+            service: 'edit-room-gmp-self-inspection-pest-control',
+            data: {
+                "room_id": Number(areaID),
+                "name": areaName
+            },
+            success: function(response){
+                var updatedArea = {"id":areaID,"name":areaName};
+                var currentValue = $("#area-select").val();
+                if(response.meta.return_code == 0){
+                    loadToast("area_updated", 3500, "rounded");
+                    updatedArea.name = areaName;
+                    $(_controlsWrapper).html("");
+                    addAreaSelect(_controlsWrapper, _contentWrapper, currentValue);
+                } else {
+                    loadToast("area_name_repeated", 3500, "rounded");
+                    updatedArea.name = originalName;
+                }
+                $("#edit_area_" + areaID).after(tableRow(gmpPackingPreopAreaRow(updatedArea)));
+                $("#edit_area_" + areaID).remove();
+                bindEditButtonFunctionality();
+                changeLanguage();
+            }
+        });
+    });
+}
+
 function inventoryRowWrapper(item){
-    console.log("Wrapper called");
     return gmpPackingHandWashingInventoryRow(item);
 }
 

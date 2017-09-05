@@ -171,10 +171,6 @@ function pdfReportFontsize(){
 }
 
 function loadImageArray(data){
-    return null;
-}
-
-function loadImageArray(data){
     return gmpPackingDocControlImages(data);
 }
 
@@ -218,9 +214,6 @@ function sendGmpPackingDocControlReport(){
 
         $("input:file[id^=log_files]").each(function () {
             if($(this)[0].files.length){
-                /*console.log("Documento actual: " + $(this).data("document_index"));
-                console.log("Entrada actual: " + $(this).data("entry_index"));
-                console.log("Longitud de entradas: " + $(this)[0].files.length);*/
                 console.log("A guardar image_index = " + fileCurrentIndex + ", image_lenght = " + $(this)[0].files.length);
                 formData.append("documents[" + $(this).data("document_index") + "][entries][" + $(this).data("entry_index") + "][files_start]", fileCurrentIndex);
                 formData.append("documents[" + $(this).data("document_index") + "][entries][" + $(this).data("entry_index") + "][files_length]", $(this)[0].files.length);
@@ -235,6 +228,9 @@ function sendGmpPackingDocControlReport(){
                 if (response.meta.return_code == 0) {
                     Materialize.toast("Reporte enviado con exito", 3000, "rounded");
                     $('ul.tabs').tabs('select_tab', 'manual_tab');
+                    $("#docControlControls").show();
+                    $("div[id^='documentWrapper_']").remove();
+                    incID = 0;
                 } else {
                     Materialize.toast(response.meta.message, 3000, "rounded");
                 }
@@ -321,11 +317,14 @@ function gmpPackingDocRegistryForm(data, htmlElement, isPrefilled){
     var buttonRow = $("<div>");
     var controlsRow = $("<div>");
 
+    controlsRow.attr("id", "docControlControls");
+
     if(!(isPrefilled === true)){
         controlsRow.addClass("card-panel white");
         $(controlsRow).append(createInputRow(gmpPackingAtpTestingAreaControls(data)));
         //$("body").append(createBottomModal({"id":"document-select-modal","classes":"modal-80","content":gmpPackingAtpTestingAreaControls(data)}));
     }
+    $(htmlElement).append(controlsRow);
 
     form.form.sections.push({"type":"section","rows":[{"type":"row","columns":[gmpPackingDocRegistryDate(getISODate(new Date()))]}]});
 
@@ -350,7 +349,6 @@ function gmpPackingDocRegistryForm(data, htmlElement, isPrefilled){
         buttonRow.append(createButton(returnButton()));
     }
 
-    $(htmlElement).append(controlsRow);
     $(htmlElement).append(buttonRow);
 
     /*$("body").append(createBottomModal({"id":"document-select-modal","content":"<h4>Test Modal</h4>","footer":"<p>Footer</p>"}));
@@ -398,7 +396,7 @@ function gmpPackingDocRegistryItem(item, registerNumber){
 
     controlsRow.columns = [gmpDocControlItemAddEntryButton(item), gmpDocControlItemDelEntryButton(item)];
 
-    controlsSection.rows.push(controlsRow);
+    //controlsSection.rows.push(controlsRow);
 
     documentItem.sections.push(identitySection);
 
@@ -644,15 +642,16 @@ function gmpPackingDocControlFunctionality(data){
             tempObject.no = incID++;
             console.log(tempObject);
             $("#document_registry_form").append(formSection(gmpPackingDocRegistryItem(tempObject, 0)));
-            $("option[value='" + $("#productionArea").val() + "']").prop("disabled", true);
-            gmpDocControlAddDelEntryFunctionality(data);
+            //$("option[value='" + $("#productionArea").val() + "']").prop("disabled", true);
+            $("#docControlControls").hide();
+            //gmpDocControlAddDelEntryFunctionality(data);
             dateActivator();
             changeLanguage();
         });
     }
 }
 
-function gmpDocControlAddDelEntryFunctionality(data){
+/*function gmpDocControlAddDelEntryFunctionality(data){
     $(".test_button").off();
     $(".delete_button").off();
 
@@ -689,7 +688,7 @@ function gmpDocControlAddDelEntryFunctionality(data){
             $(this).addClass("grey");
         }
     });
-}
+}*/
 
 
 // Full report
@@ -697,15 +696,12 @@ function gmpDocControlAddDelEntryFunctionality(data){
 function gmpPackingDocControlImages(data){
     var imageArray = [];
 
-    for(var entry of data.document.entries){
-        if(entry.pictures != null){
-            var tempArray = JSON.parse(entry.pictures);
-            var moreTempArray = [];
-            for(var imageAddress of tempArray){
-                imageAddress = $domain + $root + 'data/images/gmp/doc_control/doc_control/' + imageAddress;
-                moreTempArray.push(imageAddress);
-            }
-            imageArray.push(moreTempArray);
+    var entry = data.reports.document.entries;
+    if(entry.pictures != null){
+        var tempArray = JSON.parse(entry.pictures);
+        for(var imageAddress of tempArray){
+            imageAddress = $domain + $root + 'data/images/gmp/doc_control/doc_control/' + imageAddress;
+            imageArray.push(imageAddress);
         }
     }
     
@@ -743,66 +739,51 @@ function gmpPackingDocControlReportBody(data){
     var body = {"type":"tbody"};
     body.rows = new Array();
 
-    console.log(data);
+    console.log("Reporte sencillo");
 
-    var doc = data.document;
-        // Title row
-        var titleRow = {"type":"tr","columns":[]};
+    var doc = data.reports;
+    // Title row
+    var titleRow = {"type":"tr","columns":[]};
 
-        // Create and append the Log Title in one full row
-        titleRow.columns.push(gmpPackingDocControlReportLogTitle(doc.name, 4));
-        body.rows.push(titleRow);
+    // Create and append the Log Title in one full row
+    titleRow.columns.push(gmpPackingDocControlReportLogTitle(doc.document.name, 4));
+    body.rows.push(titleRow);
 
-        // Go trough entries, print them all
-        for(var entry of doc.entries){
-            // Entry row
-            var entryRow = {"type":"tr","columns":[]};
+    // Go trough entries, print them all
+    var entry = doc.document.entries;
+    // Entry row
+    var entryRow = {"type":"tr","columns":[]};
 
-            entryRow.columns = gmpPackingDocControlReportItem(entry);
+    entryRow.columns = gmpPackingDocControlReportItem(entry);
 
-            body.rows.push(entryRow);
+    body.rows.push(entryRow);
 
-            // For the time being, add pictures one by one. If there are more pictures,
-            // change this with a loop
-            /*if(entry.pictures != null && entry.pictures != ""){
-                var imgArray = JSON.parse(entry.pictures);
+    // For the time being, add pictures one by one. If there are more pictures,
+    // change this with a loop
 
-                for(var img of imgArray){
-                    var pictureRow = {"type":"tr","columns":[]};
+    /*if(entry.pictures != null && entry.pictures != ""){
+        var imgArray = JSON.parse(entry.pictures);
 
-                    pictureRow.columns = gmpPackingDocControlImageColumn(img, 4);
+        for(var img of imgArray){
+            var pictureRow = {"type":"tr","columns":[]};
 
-                    body.rows.push(pictureRow);
-                }
-            }*/
+            pictureRow.columns = gmpPackingDocControlImageColumn(img, 4);
 
-            if(entry.files != null && entry.files != ""){
-                var fileArray = JSON.parse(entry.files);
-
-                for(var file of fileArray){
-                    var fileRow = {"type":"tr","columns":[]};
-
-                    fileRow.columns = gmpPackingDocControlFileColumn(file, 4);
-
-                    body.rows.push(fileRow);
-                }
-            }
-            /*if(entry.picture1){
-                var picture1Row = {"type":"tr","columns":[]};
-
-                picture1Row.columns = gmpPackingDocControlImageColumn(entry.picture1, 4);
-
-                body.rows.push(picture1Row);
-            }
-
-            if(entry.picture2){
-                var picture2Row = {"type":"tr","columns":[]};
-
-                picture2Row.columns = gmpPackingDocControlImageColumn(entry.picture2, 4);
-
-                body.rows.push(picture2Row);
-            }*/
+            body.rows.push(pictureRow);
         }
+    }*/
+
+    if(entry.files != null && entry.files != ""){
+        var fileArray = JSON.parse(entry.files);
+
+        for(var file of fileArray){
+            var fileRow = {"type":"tr","columns":[]};
+
+            fileRow.columns = gmpPackingDocControlFileColumn(file, 4);
+
+            body.rows.push(fileRow);
+        }
+    }
 
     return body;
 }

@@ -7,7 +7,11 @@ $lang = (isset($_POST['lang']) && array_key_exists('lang', $_POST)) ?
     ((isString($_POST['lang'])) ? $_POST['lang'] : 'en') 
     : 'en';
 
+// Check if fontsize was sent from client; if not, default to 10
+
 $fontsize = (isset($_POST['fontsize'])) ? (is_numeric($_POST['fontsize']) ? $_POST['fontsize'] : '10' ) : '10';
+
+// Check if page orientation was sent from client; if not, default to portrait
 
 $orientation = (isset($_POST['orientation'])) ? (isString($_POST['orientation']) ? $_POST['orientation'] : 'P' ) : 'P';
 
@@ -23,8 +27,6 @@ $pdf = new PDFCreator(
     $fontsize,
     $orientation
 );
-
-//var_dump(json_decode($_POST["images"]));
 
 // initialize the storage for the HTML that will be displayed in the PDF file
 $html = '';
@@ -103,34 +105,32 @@ try {
             if($_POST["images"] != "null"){
                 $hasImages = true;
                 
-                foreach (json_decode($_POST["images"]) as $imageArray) {
-                    foreach($imageArray as $image){
-                        list($w, $h) = getimagesize($image);
+                foreach(json_decode($_POST["images"]) as $image){
+                    list($w, $h) = getimagesize($image);
 
-                        // Resize and padding
-                        if($w >= $h){
-                            $width = 200;
-                            $height = 0;
-                            $padding_x = 0;
-                            $padding_y = (287 - (integer)((200*$h) / $w))/2;
-                        } else {
-                            $height = 287;
-                            $width = 0;
-                            $padding_x = (200 - (integer)((287*$w) / $h))/2;
-                            $padding_y = 0;
-                        }
-
-                        $pdf->setPrintHeader(false);
-                        $pdf->AddPage($orientation);
-                        $pdf->setPrintFooter(false);
-                        $bMargin = $pdf->getBreakMargin();
-                        // disable auto-page-break
-                        $pdf->SetAutoPageBreak(false, 0);
-                        // set bacground image
-                        $pdf->Image($image, 5 + $padding_x, 5 + $padding_y, $width, $height, '', '', '', false, 300, '', false, false, 0);
-                        // set the starting point for the page content
-                        $pdf->setPageMark();
+                    // Resize and padding
+                    if($w >= $h){
+                        $width = 200;
+                        $height = 0;
+                        $padding_x = 0;
+                        $padding_y = (287 - (integer)((200*$h) / $w))/2;
+                    } else {
+                        $height = 287;
+                        $width = 0;
+                        $padding_x = (200 - (integer)((287*$w) / $h))/2;
+                        $padding_y = 0;
                     }
+
+                    $pdf->setPrintHeader(false);
+                    $pdf->AddPage($orientation);
+                    $pdf->setPrintFooter(false);
+                    $bMargin = $pdf->getBreakMargin();
+                    // disable auto-page-break
+                    $pdf->SetAutoPageBreak(false, 0);
+                    // set bacground image
+                    $pdf->Image($image, 5 + $padding_x, 5 + $padding_y, $width, $height, '', '', '', false, 300, '', false, false, 0);
+                    // set the starting point for the page content
+                    $pdf->setPageMark();
                 }
                 /*$pdf->setPrintHeader(true);
                 $pdf->AddPage($orientation);

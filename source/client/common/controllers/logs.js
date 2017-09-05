@@ -314,12 +314,29 @@ function reportLoaderCard(data, footer){
             $(this).addClass("mdi-close-box red-text");
             $(".reportCard").hide(300);
             var tempCard = $("<div>");
-            //var imageCard = $("<div>");
+            var imageCard = $("<div>");
             tempCard.addClass("card-panel white");
             tempCard.attr("id", "sandboxWrapper_" + data.report_id);
+            imageCard.attr("id", "imagesWrapper_" + data.report_id);
             //$("#report-tab-content").hide();
             $("#report-tab-content").html("");
             tempCard.append(iconParent.data("report"));
+            console.log("raw_report");
+            console.log(iconParent.data("raw_report"));
+            if(loadImageArray(iconParent.data("raw_report")) != null){
+                imageCard.addClass("card-panel white");
+                var imageArray = loadImageArray(iconParent.data("raw_report"));
+                console.log("imageArray");
+                console.log(imageArray);
+                for(var singleImage of imageArray){
+                    console.log("singleImage");
+                    console.log(singleImage);
+                    var tempImage = $("<img>");
+                    tempImage.attr("src", singleImage);
+                    tempImage.attr("width", "100%");
+                    imageCard.append(tempImage);
+                }
+            }
             var tempHeader = iconParent.data("header");
             tempHeader.attr("id", "headerWrapper_" + data.report_id);
             var tempPDFHeader = iconParent.data("headerPDF");
@@ -338,6 +355,7 @@ function reportLoaderCard(data, footer){
             $("#report-tab-content").append(tempHeader);
             $("#report-tab-content").append(tempPDFHeader);
             $("#report-tab-content").append(tempCard);
+            $("#report-tab-content").append(imageCard);
             $("#report-tab-footer").append(footerCard);
             changeLanguage(localStorage.defaultLanguage, function(){
                 reportIcon.show(200);
