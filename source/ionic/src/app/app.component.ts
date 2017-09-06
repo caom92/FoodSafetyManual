@@ -16,7 +16,8 @@ export class MyApp {
 
   rootPage:any = HomePage;
 
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{title: string, component: any, icon: string}>;
+  adminPages: Array<{title: string, component: any, icon: string}>;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private storage: Storage, public menuCtrl: MenuController) {
     platform.ready().then(() => {
@@ -27,7 +28,15 @@ export class MyApp {
     });
 
     this.pages = [
-      { title: 'Editar Perfil', component: EditProfile }
+      { title: 'Editar Perfil', component: EditProfile, icon: "contact" }
+    ];
+
+    this.adminPages = [
+      { title: 'Usuarios', component: HomePage, icon: "people" },
+      { title: 'Zonas', component: HomePage, icon: "map" },
+      { title: 'Programas', component: HomePage, icon: "copy" },
+      { title: 'Supervisores', component: HomePage, icon: "medal" },
+      { title: 'Firmas', component: HomePage, icon: "create" }
     ];
   }
 
@@ -45,6 +54,10 @@ export class MyApp {
     this.storage.clear()
     this.nav.setRoot(HomePage)
     this.menuCtrl.enable(false)
+  }
+
+  isAdmin(){
+    return localStorage["__mydb/_ionickv/role_name"] == '"Administrator"';
   }
 }
 

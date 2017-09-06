@@ -1,10 +1,22 @@
 {
     "App Name": "Logmaster",
+    "English": "Inglés",
+    "Spanish": "Español",
     "Login": "Iniciar sesión",
     "Menu": "Menú",
+    "User Profile": "Su perfil de usuario",
     "Username": "Nombre de usuario",
+    "EmployeeID": "ID de Empleado",
+    "Name": "Nombre",
     "Password": "Contraseña",
+    "New Username": "Nuevo nombre de usuario",
+    "New Password": "Contraseña nueva",
+    "Check Password": "Verifique su contraseña nueva",
+    "Current Password": "Contraseña actual",
+    "Change": "Cambiar",
     "Change language": "Cambio de idioma",
+    "Change Password": "Cambiar Contraseña",
+    "Change Username": "Cambiar el nombre de usuario",
     "usernameMinLenght": "Este campo debe tener al menos 3 caracteres",
     "passwordMinLenght": "Este campo debe tener al menos 6 caracteres"
 }
