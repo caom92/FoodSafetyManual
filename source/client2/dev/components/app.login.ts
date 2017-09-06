@@ -145,15 +145,18 @@ export class LogInComponent implements OnInit
           // opciones en la aplicacion
           switch (localStorage.role_name) {
             case 'Employee':
-              this.home.setupEmployeeApp()
+            case 'Manager':
+              this.home.initProgramsMenu()
             break
 
             case 'Supervisor':
-              this.home.setupSupervisorApp(this.server, this.toastManager)
+              this.home.initProgramsMenu()
+              this.home.initSupervisorMenu(this.server, this.toastManager)
             break
 
             case 'Director':
-              this.home.setupDirectorApp(this.server, this.toastManager)
+              this.home.initProgramsMenu()
+              this.home.initZoneMenu(this.server, this.toastManager)
             break
           }
 

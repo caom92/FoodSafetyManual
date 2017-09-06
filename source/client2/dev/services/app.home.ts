@@ -49,14 +49,14 @@ export class HomeElementsService
 
   // Realiza los procesos necesarios para desplegar en la aplicacion las 
   // opciones apropiadas que corresponden a un usuario con el rol de empleado
-  setupEmployeeApp() {
+  initProgramsMenu() {
     let privileges = JSON.parse(localStorage.privileges)
     this.programs = privileges[localStorage.zone_name]
   }
 
   // Realiza los procesos necesarios para desplegar en la aplicacion las 
   // opciones apropiadas que corresponden a un usuario con el rol de supervisor
-  setupSupervisorApp(server, toastManager) {
+  initSupervisorMenu(server, toastManager) {
     // esta funcion solicitara al servidor el numero de autorizaciones 
     // pendientes
     let getNumPendingAuthorizations = () => {
@@ -97,7 +97,7 @@ export class HomeElementsService
     } // let getNumPendingAuthorizations
 
     // desplegamos las opciones del menu lateral
-    this.setupEmployeeApp()
+    this.initProgramsMenu()
 
     // recuperamos del servidor el numero de autorizaciones pendientes
     getNumPendingAuthorizations()
@@ -109,7 +109,7 @@ export class HomeElementsService
 
   // Realiza los procesos necesarios para desplegar en la aplicacion las 
   // opciones apropiadas que corresponden a un usuario con el rol de director
-  setupDirectorApp(server, toastManager) {
+  initZoneMenu(server, toastManager) {
     // si el usuario es un director, desplegamos el menu de zonas pidiendolas 
     // del servidor
     server.update(
