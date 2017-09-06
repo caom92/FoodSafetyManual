@@ -141,28 +141,23 @@ export class LogInComponent implements OnInit
           this.mapUserDataToLocalStorage(result.data)
           this.home.roleName = localStorage.role_name
 
-          // si el usuario es un director, desplegamos el menu de zonas 
-          if (localStorage.role_name === 'Director') {
-            this.server.update(
-              'list-zones',
-              new FormData(),
-              (response: Response) => {
-                let result = JSON.parse(response['_body'].toString())
-                if (result.meta.return_code == 0) {
-                  this.home.zones = result.data
-                  this.home.displayZoneMenu()
-                } else {
-                  // si algo ocurrio con la comunicacion con el servidor, 
-                  // desplegamos un mensaje de error al usuario
-                  this.toastManager.showServiceErrorText(
-                    'list-zones', 
-                    result.meta
-                  )
-                }
-              }
-            )
+          // dependiendo del rol del usuario, se deben mostrar diferentes 
+          // opciones en la aplicacion
+          switch (localStorage.role_name) {
+            case 'Employee':
+              this.home.setupEmployeeApp()
+            break
+
+            case 'Supervisor':
+              this.home.setupSupervisorApp(this.server, this.toastManager)
+            break
+
+            case 'Director':
+              this.home.setupDirectorApp(this.server, this.toastManager)
+            break
           }
 
+          // indicamos al usuario que ha iniciado
           this.toastManager.showText('loggedIn')
           this.router.go('edit-profile')
         } else {
