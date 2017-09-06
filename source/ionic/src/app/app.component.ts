@@ -6,10 +6,14 @@ import { HttpModule } from '@angular/http';
 import { Storage } from '@ionic/storage';
 
 import { HomePage } from '../pages/home/home';
+import { BackendService } from '../services/app.backend';
 import { EditProfile } from '../pages/edit-profile/edit-profile';
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
+  providers: [
+    BackendService
+  ]
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
@@ -19,7 +23,7 @@ export class MyApp {
   pages: Array<{title: string, component: any, icon: string}>;
   adminPages: Array<{title: string, component: any, icon: string}>;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private storage: Storage, public menuCtrl: MenuController) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private storage: Storage, public menuCtrl: MenuController, private server: BackendService) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -51,9 +55,27 @@ export class MyApp {
   }
 
   closeSession(){
-    this.storage.clear()
-    this.nav.setRoot(HomePage)
-    this.menuCtrl.enable(false)
+    this.server.update(
+      'logout', 
+      new FormData(), 
+      (response: Response) => {
+        let result = JSON.parse(response['_body'].toString())
+        if (result.meta.return_code == 0) {
+          // si la sesion fue cerrada correctamente, desactivamos la bandera y 
+          // redireccionamos al usuario a la pantalla de inicio de sesion
+          //localStorage.is_logged_in = false
+          //this.home.hideZoneMenu()
+          //this.router.go('login')
+          this.storage.clear()
+          this.nav.setRoot(HomePage)
+          this.menuCtrl.enable(false)
+        } else {
+          // si hubo un problema con la comunicacion con el servidor, 
+          // desplegamos un mensaje de error al usuario
+          //this.toastManager.showServiceErrorText('check-session', result.meta)
+        }
+      }
+    )
   }
 
   isAdmin(){

@@ -72,11 +72,58 @@ export class HomePage implements OnInit {
   ngOnInit() {
     // Configuramos el formulario con valores iniciales vacios y las reglas de 
     // validacion correspondientes
-    if(localStorage["__mydb/_ionickv/is_logged_in"] == "true"){
+    /*if(localStorage["__mydb/_ionickv/is_logged_in"] == "true"){
       this.app.getRootNav().setRoot(EditProfile)
       this.menuCtrl.enable(true)
-    }
-    console.log(localStorage["__mydb/_ionickv/is_logged_in"])
+    }*/
+
+    // New Check Session
+    this.server.update(
+      'check-session', 
+      new FormData(), 
+      (response: Response) => {
+        let result = JSON.parse(response['_body'].toString())
+        if (result.meta.return_code == 0) {
+          if (!result.data) {
+            // si el usuario no ha iniciado sesion, desactivamos la bandera y 
+            // redireccionamos a la pantalla de inicio de sesion
+            this.menuCtrl.enable(false)
+            //this.app.getRootNav().setRoot(HomePage)
+          } else {
+            this.app.getRootNav().setRoot(EditProfile)
+            this.menuCtrl.enable(true)
+            // de lo contrario, permitimos la navegacion
+            /*localStorage.is_logged_in = true
+            this.home.roleName = localStorage.role_name
+            if (localStorage.role_name == 'Director') {
+              this.server.update(
+                'list-zones',
+                new FormData(),
+                (response: Response) => {
+                  let result = JSON.parse(response['_body'].toString())
+                  if (result.meta.return_code == 0) {
+                    this.home.zones = result.data
+                    this.home.displayZoneMenu()
+                  } else {
+                    // si algo ocurrio con la comunicacion con el servidor, 
+                    // desplegamos un mensaje de error al usuario
+                    this.toastManager.showServiceErrorText(
+                      'list-zones', 
+                      result.meta
+                    )
+                  }
+                }
+              )
+            }*/
+          }
+        } else {
+          // si hubo un problema con la comunicacion con el servidor 
+          // desplegamos un mensaje de error al usuario 
+          this.toasts.showServiceErrorText('check-session', result.meta)
+        }
+      }
+    )
+
     this.userLogInInfo = this.formBuilder.group({
       username: [ null, Validators.compose([
         Validators.required,
