@@ -14,7 +14,8 @@ import { EditProfileComponent } from './app.edit.profile'
 
 // Importamos los servicios que van a ser necesitados por cada pagina del 
 // sistema
-import { uiRouterConfigFn } from './ui.router.config'
+import { uiRouterConfigFn } from '../services/ui.router.config'
+import { KeysPipe } from '../services/app.keys'
 import { ClickStopPropagationDirective } from '../directives/app.stop.propagation'
 import { HomeElementsService } from '../services/app.home'
 import { BackendService } from '../services/app.backend'
@@ -61,7 +62,8 @@ import { ToastService } from '../services/app.toast'
     ClickStopPropagationDirective,
     HomeComponent,
     LogInComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    KeysPipe
   ],
   // indicamos cual es el componente raiz
   bootstrap: [ HomeComponent ]

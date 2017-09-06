@@ -21,6 +21,12 @@ export class HomeElementsService
   // El nombre del rol del usuario
   roleName: string = null
 
+  // La lista de programas a los cuales el usuario tiene acceso
+  programs: object = null
+
+  // El numero de autorizaciones pendientes de revisar por el supervisor
+  numPendingAuthorizations: number = 0
+
   // Despliega el menu lateral
   displaySideNav() {
     this.showSideNav = true
@@ -40,4 +46,90 @@ export class HomeElementsService
   hideZoneMenu() {
     this.showZoneMenu = false
   }
-}
+
+  // Realiza los procesos necesarios para desplegar en la aplicacion las 
+  // opciones apropiadas que corresponden a un usuario con el rol de empleado
+  initProgramsMenu() {
+    let privileges = JSON.parse(localStorage.privileges)
+    this.programs = privileges[localStorage.zone_name]
+  }
+
+  // Realiza los procesos necesarios para desplegar en la aplicacion las 
+  // opciones apropiadas que corresponden a un usuario con el rol de supervisor
+  initSupervisorMenu(server, toastManager) {
+    // esta funcion solicitara al servidor el numero de autorizaciones 
+    // pendientes
+    let getNumPendingAuthorizations = () => {
+      server.update(
+        'get-num-pending-logs',
+        new FormData(),
+        (response: Response) => {
+          let result = JSON.parse(response['_body'].toString())
+          if (result.meta.return_code == 0) {
+            // si el usuario tiene nuevas autorizaciones pendientes, hay que 
+            // notificarle en la pantalla
+            if (result.data > this.numPendingAuthorizations) {
+              // asegurate de mostrar el mensaje en el idioma que el usuario 
+              // haya elegido
+              if (localStorage.lang == 'en') {
+                toastManager.showText(
+                  `${ result.data - this.numPendingAuthorizations} new pending authorizations`
+                )
+              } else {
+                toastManager.showText(
+                  `${ result.data - this.numPendingAuthorizations} nuevas autorizaciones pendientes`
+                )
+              }
+            }
+
+            // actualizamos el numero de autorizaciones pendientes
+            this.numPendingAuthorizations = result.data
+          } else {
+            // si algo ocurrio con la comunicacion con el servidor, 
+            // desplegamos un mensaje de error al usuario
+            toastManager.showServiceErrorText(
+              'get-num-pending-logs', 
+              result.meta
+            ) // toastManager.showServiceErrorText
+          } // if (result.meta.return_code == 0)
+        } // (response: Response)
+      ) // server.update
+    } // let getNumPendingAuthorizations
+
+    // desplegamos las opciones del menu lateral
+    this.initProgramsMenu()
+
+    // recuperamos del servidor el numero de autorizaciones pendientes
+    getNumPendingAuthorizations()
+
+    // indicamos que cada minuto volveremos a recuperar las autorizaciones 
+    // pendientes del servidor
+    setInterval(getNumPendingAuthorizations, 60000)
+  }
+
+  // Realiza los procesos necesarios para desplegar en la aplicacion las 
+  // opciones apropiadas que corresponden a un usuario con el rol de director
+  initZoneMenu(server, toastManager) {
+    // si el usuario es un director, desplegamos el menu de zonas pidiendolas 
+    // del servidor
+    server.update(
+      'list-zones',
+      new FormData(),
+      (response: Response) => {
+        let result = JSON.parse(response['_body'].toString())
+        if (result.meta.return_code == 0) {
+          // desplegamos el menu de zonas
+          this.zones = result.data
+          this.displayZoneMenu()
+        } else {
+          // si algo ocurrio con la comunicacion con el servidor, 
+          // desplegamos un mensaje de error al usuario
+          toastManager.showServiceErrorText(
+            'list-zones', 
+            result.meta
+          ) // toastManager.showServiceErrorText
+        } // if (result.meta.return_code == 0)
+      } // (response: Response)
+    ) // server.update
+  } // setupDirectorApp(server, toastManager)
+} // export class HomeElementsService

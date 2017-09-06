@@ -11,6 +11,8 @@ import { HomeElementsService } from '../services/app.home'
 })
 export class HomeComponent implements OnInit
 {
+  // La lista de opciones del menu lateral de navegacion en los diferentes 
+  // idiomas disponibles
   menu = {
     options: {
       users: null,
@@ -18,7 +20,9 @@ export class HomeComponent implements OnInit
       programs: null,
       supervisors: null,
       signatures: null,
-      reportProblem: null
+      reportProblem: null,
+      inventory: null,
+      authorizations: null
     },
     text: {
       en: {
@@ -27,7 +31,9 @@ export class HomeComponent implements OnInit
         programs: 'Programs',
         supervisors: 'Supervisors',
         signatures: 'Signatures',
-        reportProblem: 'Report Problem'
+        reportProblem: 'Report Problem',
+        inventory: 'Inventory',
+        authorizations: 'Authorizations'
       },
       es: {
         users: 'Usuarios',
@@ -35,7 +41,9 @@ export class HomeComponent implements OnInit
         programs: 'Programas',
         supervisors: 'Supervisores',
         signatures: 'Firmas',
-        reportProblem: 'Reportar Problema'
+        reportProblem: 'Reportar Problema',
+        inventory: 'Inventario',
+        authorizations: 'Autorizaciones'
       }
     }
   }
@@ -81,45 +89,45 @@ export class HomeComponent implements OnInit
             // de lo contrario, permitimos la navegacion
             localStorage.is_logged_in = true
             this.home.roleName = localStorage.role_name
-            if (localStorage.role_name == 'Director') {
-              this.server.update(
-                'list-zones',
-                new FormData(),
-                (response: Response) => {
-                  let result = JSON.parse(response['_body'].toString())
-                  if (result.meta.return_code == 0) {
-                    this.home.zones = result.data
-                    this.home.displayZoneMenu()
-                  } else {
-                    // si algo ocurrio con la comunicacion con el servidor, 
-                    // desplegamos un mensaje de error al usuario
-                    this.toastManager.showServiceErrorText(
-                      'list-zones', 
-                      result.meta
-                    )
-                  }
-                }
-              )
+
+            // dependiendo del rol del usuario, se deben mostrar diferentes 
+            // opciones en la aplicacion
+            switch (localStorage.role_name) {
+              case 'Employee':
+              case 'Manager':
+                this.home.initProgramsMenu()
+              break
+
+              case 'Supervisor':
+                this.home.initProgramsMenu()
+                this.home.initSupervisorMenu(this.server, this.toastManager)
+              break
+
+              case 'Director':
+                this.home.initProgramsMenu()
+                this.home.initZoneMenu(this.server, this.toastManager)
+              break
             }
           }
         } else {
           // si hubo un problema con la comunicacion con el servidor 
           // desplegamos un mensaje de error al usuario 
           this.toastManager.showServiceErrorText('check-session', result.meta)
-        }
-      }
-    )
-  }
+        } // if (result.meta.return_code == 0)
+      } // (response: Response)
+    ) // this.server.update
+  } // ngOnInit() 
 
   // Esta funcion se ejecuta cuando el usuario cambio el idioma de la pagina
   onLanguageButtonClicked(lang) {
+    // almacenamos temporalmente el idioma elegido por el usuario
     localStorage.lang = lang
-    this.menu.options.users = this.menu.text[lang].users
-    this.menu.options.zones = this.menu.text[lang].zones
-    this.menu.options.programs = this.menu.text[lang].programs
-    this.menu.options.supervisors = this.menu.text[lang].supervisors
-    this.menu.options.signatures = this.menu.text[lang].signatures
-    this.menu.options.reportProblem = this.menu.text[lang].reportProblem
+
+    // desplegamos cada opcion del menu lateral de navegacion en el idioma 
+    // elegido
+    for (let option in this.menu.options) {
+      this.menu.options[option] = this.menu.text[lang][option]
+    }
   }
 
   // Esta es la funcion que se invoca cuando el usuario hace clic en el boton 
@@ -140,10 +148,10 @@ export class HomeComponent implements OnInit
           // si hubo un problema con la comunicacion con el servidor, 
           // desplegamos un mensaje de error al usuario
           this.toastManager.showServiceErrorText('check-session', result.meta)
-        }
-      }
-    )
-  }
+        } // if (result.meta.return_code == 0)
+      } // (response: Response)
+    ) // this.server.update
+  } // onLogOutButtonClicked()
 
   // Esta funcion se invoca cuando el usuario cambio de zona
   // [in]   selectedZone (uint): el ID de la zona elegida por el usuario
@@ -171,9 +179,9 @@ export class HomeComponent implements OnInit
           this.toastManager.showServiceErrorText(
             'director-change-zones', 
             result.meta
-          )
-        }
-      }
-    )
-  }
-}
+          ) // this.toastManager.showServiceErrorText
+        } // if (result.meta.return_code == 0)
+      } // (response: Response)
+    ) // this.server.update
+  } // onZoneSelectionChanged(selectedZoneID)
+} // export class HomeComponent implements OnInit

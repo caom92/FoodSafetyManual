@@ -1,5 +1,6 @@
 include globals.pug
 
+//- Barra de navegacion en la parte superior de la pagina
 -
   var navBarConfig = {
     sideNavButton: {
@@ -39,6 +40,7 @@ include globals.pug
           click-stop-propagation
         )='English'
 
+//- Menu de navegacion lateral
 +sideNav("'sidenav'", "'sidenav-activation-btn'")(
   '[fixed]'="'true'"
   '*ngIf'="this.home.showSideNav === true"
@@ -48,9 +50,16 @@ include globals.pug
     '{{home.userFullName}}', 'mdi mdi-account-circle white-text'
   )(id='account-options')
     mz-sidenav-link
-      +uiRouterLink('edit-profile')='Editar perfil'
+      +uiRouterLink('edit-profile')(class='waves-effect waves-green')
+        ='Editar perfil'
     mz-sidenav-link
-      +link()('(click)'='onLogOutButtonClicked()')='Cerrar sesión'
+      +link()(
+        class='waves-effect waves-green'
+        '(click)'='onLogOutButtonClicked()'
+      )
+        ='Cerrar sesión'
+  
+  //- Menu de navegacion para el administrador
   mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
     +link()(class='side-menu-link waves-effect waves-green')
       i.mdi.mdi-account-multiple.mdi-24px
@@ -71,8 +80,48 @@ include globals.pug
     +link()(class='side-menu-link waves-effect waves-green')
       i.mdi.mdi-pen.mdi-24px
       ='{{ menu.options.signatures }}'
-  mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
+
+  //- Menu de navegacion para el supervisor
+  mz-sidenav-link('*ngIf'="home.roleName === 'Supervisor'")
+    +link()(class='side-menu-link waves-effect waves-green')
+      i.mdi.mdi-comment-check.mdi-24px.mdi-dark
+      ='{{ menu.options.authorizations }}'
+      mz-badge(
+        '*ngIf'='home.numPendingAuthorizations != 0'
+        '[value]'='home.numPendingAuthorizations'
+        '[caption]'="' '"
+        '[badgeClass]'="'green'"
+      )
+  div('*ngIf'="home.roleName === 'Supervisor'")
+    +sideNavCollapsible(
+      "{{ menu.options.inventory + ' ' + program }}", 'mdi mdi-briefcase'
+    )(
+      '*ngFor'='let program of home.programs | keys'
+    )
+      mz-sidenav-link(
+        '*ngFor'='let module of home.programs[program].names | keys'
+      )
+        +link()(class='waves-effect waves-green')
+          ='{{ module }}'
+
+  //- Menu de navegacion para el empleado, el supervisor, gerente o director
+  div('*ngIf'="home.roleName != 'Administrator'")
+    +sideNavCollapsible(
+      '{{ program }}', 'mdi mdi-wrench'
+    )(
+      '*ngFor'='let program of home.programs | keys'
+    )
+      mz-sidenav-link(
+        '*ngFor'='let module of home.programs[program].names | keys'
+      )
+        +link()(class='waves-effect waves-green')
+          ='{{ module }}'
+
+  //- El boton para reportar errores del sistema
+  mz-sidenav-link
     +link()(class='side-menu-link waves-effect waves-green')
       i.mdi.mdi-alert.mdi-24px.mdi-dark
       ='{{ menu.options.reportProblem }}'
+
+//- Area principal de la pagina
 div.container('[ngClass]'="{ 'with-sidenav': home.showSideNav }"): ui-view
