@@ -23,5 +23,7 @@ require_once realpath(dirname(__FILE__).'/gap/packing/preop/services.php');
 require_once realpath(dirname(__FILE__).'/signatures/services.php');
 require_once realpath(dirname(__FILE__)
   .'/gmp/doc_control/doc_control/services.php');
+require_once realpath(dirname(__FILE__)
+  .'/gmp/packing/cold_room_temp/services.php');
 
 ?>

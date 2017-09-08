@@ -158,7 +158,7 @@ class ServiceProvider
               if ($isOriginAllowed) {
                 $response = $response->withHeader(
                   'Access-Control-Allow-Origin',
-                  $origin
+                  $currentOrigin
                 );
                 $response = $response->withHeader(
                   'Access-Control-Allow-Credentials', 

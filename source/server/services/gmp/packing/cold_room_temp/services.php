@@ -1,6 +1,6 @@
 <?php
 
-$cold_room = [
+$coldRoomTemp = [
   'tables' => [
     'gmp\packing\coldRoomTemp\Rooms' =>
       realpath(dirname(__FILE__).'/Rooms.php'),
