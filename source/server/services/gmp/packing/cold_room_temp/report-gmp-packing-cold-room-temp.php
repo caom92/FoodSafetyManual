@@ -8,7 +8,7 @@ $service = fsm\createReportService(
   'Packing',
   'Cold Room Temperature Control',
   [
-    'items_name' => 'rooms',
+    'items_name' => 'items',
     'extra_info' => NULL,
     'function' => function($scope, $segment, $logDate) {
       // retrieve the per group log corresponding to this date

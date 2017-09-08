@@ -8,7 +8,7 @@ $service = fsm\createAuthorizationReportService(
   'Packing',
   'Cold Room Temperature Control',
   [
-    'items_name' => 'rooms',
+    'items_name' => 'items',
     'extra_info' => NULL,
     'function' => function($scope, $segment, $logDate) {
       // recuperamos la bitacora de este cuarto frio correspondiente a la fecha 

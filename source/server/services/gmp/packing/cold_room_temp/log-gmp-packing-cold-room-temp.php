@@ -8,7 +8,7 @@ $service = fsm\createLogService(
   'Packing',
   'Cold Room Temperature Control',
   [
-    'items_name' => 'rooms',
+    'items_name' => 'items',
     'function' => function($scope, $segment) {
       // retrieve the list of thermometers from the database
       return $scope->daoFactory->get('gmp\packing\coldRoomTemp\Rooms')
