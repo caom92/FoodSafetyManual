@@ -34,7 +34,7 @@ class Logs extends db\LogTable
         'capture_date_id' => $dateID
       ],
       [
-        'gmp_packing_cool_room_temp_rooms(r)' => [
+        '[><]gmp_packing_cold_room_temp_rooms(r)' => [
           'room_id' => 'id'
         ]
       ]
@@ -56,7 +56,7 @@ class Logs extends db\LogTable
     return parent::update($changes, [
       'AND' => [
         'capture_date_id' => $logID,
-        'room_id' => $thermometerID
+        'room_id' => $roomID
       ]
     ]);
   }

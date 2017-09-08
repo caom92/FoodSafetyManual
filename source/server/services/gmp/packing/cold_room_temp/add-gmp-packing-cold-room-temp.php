@@ -34,9 +34,9 @@ $service = fsm\createAddService(
 
     // almacenamos el objeto en la base de datos
     return $rooms->insert([
-      'zone_id' => $segment->get('zone_id'),
+      'zone_id' => $scope->session->getSegment('fsm')->get('zone_id'),
       'is_active' => TRUE,
-      'serial_num' => $request['name']
+      'name' => $request['name']
     ]);
   }
 );

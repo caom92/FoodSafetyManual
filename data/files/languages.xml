@@ -829,6 +829,11 @@
         <spanish>2da prueba</spanish>
     </translation>
 
+    <translation id="cold_room_test_title">
+        <english>Actual Temp Reading</english>
+        <spanish>Lectura de temperatura</spanish>
+    </translation>
+
     <translation id="thermometer_test_title">
         <english>Ice point method thermometer test</english>
         <spanish>Prueba del método del punto de hielo</spanish>
