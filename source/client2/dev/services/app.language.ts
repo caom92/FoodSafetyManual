@@ -16,7 +16,9 @@ export class LanguageService
       signatures: null,
       problem: null,
       inventory: null,
-      authorizations: null
+      authorizations: null,
+      editProfile: null,
+      logout: null
     },
     loginFormLabels: {
       title: null,
@@ -45,7 +47,8 @@ export class LanguageService
       newPassword: null,
       newPasswordConfirmation: null,
       oldPassword: null,
-      submit: null
+      submit: null,
+      error: null
     },
     editPasswordForm: {
       newPassword: {
@@ -90,7 +93,9 @@ export class LanguageService
         signatures: 'Firmas',
         reportProblem: 'Reportar Problema',
         inventory: 'Inventario',
-        authorizations: 'Autorizaciones'
+        authorizations: 'Autorizaciones',
+        editProfile: 'Editar Perfil',
+        logout: 'Cerrar Sesión'
       },
       loginFormLabels: {
         title: 'Inicie Sesión',
@@ -119,7 +124,8 @@ export class LanguageService
         newPassword: 'Nueva contraseña',
         newPasswordConfirmation: 'Confirme nueva contraseña',
         oldPassword: 'Contraseña actual',
-        submit: 'Editar'
+        submit: 'Editar',
+        error: 'Los campos para la nueva contraseña no coinciden'
       },
       editPasswordForm: {
         newPassword: {
@@ -200,7 +206,9 @@ export class LanguageService
         signatures: 'Signatures',
         reportProblem: 'Report Problem',
         inventory: 'Inventory',
-        authorizations: 'Authorizations'
+        authorizations: 'Authorizations',
+        editProfile: 'Edit Profile',
+        logout: 'Log Out'
       },
       loginFormLabels: {
         title: 'Sign In',
@@ -229,7 +237,8 @@ export class LanguageService
         newPassword: 'New password',
         newPasswordConfirmation: 'Confirm new password',
         oldPassword: 'Current password',
-        submit: 'Edit'
+        submit: 'Edit',
+        error: 'The fields for the new password differ from one another'
       },
       editPasswordForm: {
         newPassword: {

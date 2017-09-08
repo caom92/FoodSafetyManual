@@ -51,6 +51,21 @@ export class EditProfileComponent implements OnInit
         Validators.required,
         Validators.minLength(6)
       ]) ]
+    }, { 
+      validator: function(group: FormGroup) {
+        // es necesario comparar los campos de la nueva contraseña y de la 
+        // confirmacion de la nueva contraseña para asegurarse de que sean 
+        // iguales
+        let password = group.controls['newPassword'].value 
+        let passwordConfirmation = 
+          group.controls['newPasswordConfirmation'].value
+        
+        // si no lo son, hay que retornar una bandera de error que activara el 
+        // mensaje de error a desplegar
+        return (password === passwordConfirmation) ? 
+          null 
+          : { arePasswordsDifferent: true }
+      }
     })
 
     // hacemos lo mismo para el formulario de edicion de nombre de usuario

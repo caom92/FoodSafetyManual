@@ -51,13 +51,13 @@ include globals.pug
   )(id='account-options')
     mz-sidenav-link
       +uiRouterLink('edit-profile')(class='waves-effect waves-green')
-        ='Editar perfil'
+        ='{{ langManager.messages.sideNavOptions.editProfile }}'
     mz-sidenav-link
       +link()(
         class='waves-effect waves-green'
         '(click)'='onLogOutButtonClicked()'
       )
-        ='Cerrar sesión'
+        ='{{ langManager.messages.sideNavOptions.logout }}'
   
   //- Menu de navegacion para el administrador
   mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
