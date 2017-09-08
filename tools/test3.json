@@ -1,39 +1,39 @@
 {
-  "name": "doc_control",
-  "path": "/opt/lampp/htdocs/espresso/source/server/services/gmp/doc_control/doc_control/",
-  "namespace": "gmp\\docControl\\docControl",
+  "name": "cold_room",
+  "path": "/opt/lampp/htdocs/espresso/source/server/services/gmp/packing/cold_room_temp/",
+  "namespace": "gmp\\packing\\coldRoomTemp",
   "program": "GMP",
-  "module": "Document Control",
-  "log": "Document Control",
-  "suffix": "gmp-doc-control-doc-control",
-  "manual_path": "gmp/doc_control/doc_control/",
+  "module": "Packing",
+  "log": "Cold Room Temperature Control",
+  "suffix": "gmp-packing-cold-room",
+  "manual_path": "gmp/packing/cold_room_temp/",
   "tables": [
     {
-      "class": "Documents",
-      "table": "gmp_packing_doc_control_doc_control_documents",
+      "class": "Rooms",
+      "table": "gmp_packing_cold_room_temp_rooms",
       "parent": "ToggableItemsTable"
     },
     {
       "class": "Logs",
-      "table": "gmp_packing_doc_control_doc_control_logs",
+      "table": "gmp_packing_cold_room_temp_logs",
       "parent": "LogTable"
     }
   ],
   "services": {
     "log": {
-      "items_name": "documents"
+      "items_name": "rooms"
     },
     "capture": {
       "extra_info": null
     },
     "report": {
-      "items_name": "documents",
+      "items_name": "rooms",
       "extra_info": null
     },
     "inventory": true,
     "add": true,
     "toggle": {
-      "dao_name": "gmp\\docControl\\docControl\\Items"
+      "dao_name": "gmp\\packing\\coldRoomTemp\\Rooms"
     },
     "reorder": null
   }
