@@ -3,6 +3,7 @@ import { BackendService } from '../services/app.backend'
 import { ToastService } from '../services/app.toast'
 import { StateService } from '@uirouter/angular'
 import { HomeElementsService } from '../services/app.home'
+import { LanguageService } from '../services/app.language'
 
 // Componente que define el comportamiento de la pagina de inicio de sesion
 @Component({
@@ -11,59 +12,25 @@ import { HomeElementsService } from '../services/app.home'
 })
 export class HomeComponent implements OnInit
 {
-  // La lista de opciones del menu lateral de navegacion en los diferentes 
-  // idiomas disponibles
-  menu = {
-    options: {
-      users: null,
-      zones: null,
-      programs: null,
-      supervisors: null,
-      signatures: null,
-      reportProblem: null,
-      inventory: null,
-      authorizations: null
-    },
-    text: {
-      en: {
-        users: 'Users',
-        zones: 'Zones',
-        programs: 'Programs',
-        supervisors: 'Supervisors',
-        signatures: 'Signatures',
-        reportProblem: 'Report Problem',
-        inventory: 'Inventory',
-        authorizations: 'Authorizations'
-      },
-      es: {
-        users: 'Usuarios',
-        zones: 'Zonas',
-        programs: 'Programas',
-        supervisors: 'Supervisores',
-        signatures: 'Firmas',
-        reportProblem: 'Reportar Problema',
-        inventory: 'Inventario',
-        authorizations: 'Autorizaciones'
-      }
-    }
-  }
-
+  // El constructor de este componente, inyectando los servicios requeridos
   constructor(
     private server: BackendService,
     private toastManager: ToastService,
     private router: StateService,
-    private home: HomeElementsService
+    private home: HomeElementsService,
+    private langManager: LanguageService
   ) {
   }
 
   // Esta funcion se ejecuta al iniciar la pagina
   ngOnInit() {
     // si no hay ningun idioma definimo, definimos el idioma español por defecto
-    if (localStorage.lang === undefined) {
+    if (localStorage.lang == null) {
       localStorage.lang = 'es'
     }
 
-    this.onLanguageButtonClicked(localStorage.lang)
+    // inicializamos los mensajes en el idioma adecuado
+    this.langManager.initMessages()
 
     // si el usuario no ha iniciado sesion, coloca la bandera como falso
     if (localStorage.is_logged_in === undefined) {
@@ -88,11 +55,10 @@ export class HomeComponent implements OnInit
           } else {
             // de lo contrario, permitimos la navegacion
             localStorage.is_logged_in = true
-            this.home.roleName = localStorage.role_name
 
             // dependiendo del rol del usuario, se deben mostrar diferentes 
             // opciones en la aplicacion
-            switch (localStorage.role_name) {
+            switch (this.home.roleName) {
               case 'Employee':
               case 'Manager':
                 this.home.initProgramsMenu()
@@ -112,7 +78,11 @@ export class HomeComponent implements OnInit
         } else {
           // si hubo un problema con la comunicacion con el servidor 
           // desplegamos un mensaje de error al usuario 
-          this.toastManager.showServiceErrorText('check-session', result.meta)
+          this.toastManager.showText(
+            this.langManager.getServiceMessage(
+              'check-session', result.meta.return_code
+            )
+          )
         } // if (result.meta.return_code == 0)
       } // (response: Response)
     ) // this.server.update
@@ -120,14 +90,7 @@ export class HomeComponent implements OnInit
 
   // Esta funcion se ejecuta cuando el usuario cambio el idioma de la pagina
   onLanguageButtonClicked(lang) {
-    // almacenamos temporalmente el idioma elegido por el usuario
-    localStorage.lang = lang
-
-    // desplegamos cada opcion del menu lateral de navegacion en el idioma 
-    // elegido
-    for (let option in this.menu.options) {
-      this.menu.options[option] = this.menu.text[lang][option]
-    }
+    this.langManager.changeLanguage(lang)
   }
 
   // Esta es la funcion que se invoca cuando el usuario hace clic en el boton 
@@ -141,13 +104,20 @@ export class HomeComponent implements OnInit
         if (result.meta.return_code == 0) {
           // si la sesion fue cerrada correctamente, desactivamos la bandera y 
           // redireccionamos al usuario a la pantalla de inicio de sesion
+          let lang = localStorage.lang
+          localStorage.clear()
+          localStorage.lang = lang
           localStorage.is_logged_in = false
           this.home.hideZoneMenu()
           this.router.go('login')
         } else {
           // si hubo un problema con la comunicacion con el servidor, 
           // desplegamos un mensaje de error al usuario
-          this.toastManager.showServiceErrorText('check-session', result.meta)
+          this.toastManager.showText(
+            this.langManager.getServiceMessage(
+              'logout', result.meta.return_code
+            )
+          )
         } // if (result.meta.return_code == 0)
       } // (response: Response)
     ) // this.server.update
@@ -168,19 +138,17 @@ export class HomeComponent implements OnInit
         let result = JSON.parse(response['_body'].toString())
         if (result.meta.return_code == 0) {
           // cambiamos la zona actual por la nueva
-          localStorage.zone_name = result.data.name
-          localStorage.zone_id = result.data.id
+          this.home.zone.name = result.data.name
+          this.home.zone.id = result.data.id
+        } 
 
-          // damos retroalimentacion al usuario
-          this.toastManager.showText('zoneChanged')
-        } else {
-          // si hubo un problema con la comunicacion con el servidor
-          // le anunciamos al usuario
-          this.toastManager.showServiceErrorText(
+        // damos retroalimentacion al usuario del resultado de esta operacion
+        this.toastManager.showText(
+          this.langManager.getServiceMessage(
             'director-change-zones', 
-            result.meta
-          ) // this.toastManager.showServiceErrorText
-        } // if (result.meta.return_code == 0)
+            result.meta.return_code
+          )
+        ) // this.toastManager.showServiceErrorText
       } // (response: Response)
     ) // this.server.update
   } // onZoneSelectionChanged(selectedZoneID)

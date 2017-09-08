@@ -63,29 +63,29 @@ include globals.pug
   mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
     +link()(class='side-menu-link waves-effect waves-green')
       i.mdi.mdi-account-multiple.mdi-24px
-      ='{{ menu.options.users }}'
+      ='{{ langManager.messages.sideNavOptions.users }}'
   mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
     +link()(class='side-menu-link waves-effect waves-green')
       i.mdi.mdi-domain.mdi-24px
-      ='{{ menu.options.zones }}'
+      ='{{ langManager.messages.sideNavOptions.zones }}'
   mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
     +link()(class='side-menu-link waves-effect waves-green')
       i.mdi.mdi-note-multiple-outline.mdi-24px
-      ='{{ menu.options.programs }}'
+      ='{{ langManager.messages.sideNavOptions.programs }}'
   mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
     +link()(class='side-menu-link waves-effect waves-green')
       i.mdi.mdi-account-star.mdi-24px
-      ='{{ menu.options.supervisors }}'
+      ='{{ langManager.messages.sideNavOptions.supervisors }}'
   mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
     +link()(class='side-menu-link waves-effect waves-green')
       i.mdi.mdi-pen.mdi-24px
-      ='{{ menu.options.signatures }}'
+      ='{{ langManager.messages.sideNavOptions.signatures }}'
 
   //- Menu de navegacion para el supervisor
   mz-sidenav-link('*ngIf'="home.roleName === 'Supervisor'")
     +link()(class='side-menu-link waves-effect waves-green')
       i.mdi.mdi-comment-check.mdi-24px.mdi-dark
-      ='{{ menu.options.authorizations }}'
+      ='{{ langManager.messages.sideNavOptions.authorizations }}'
       mz-badge(
         '*ngIf'='home.numPendingAuthorizations != 0'
         '[value]'='home.numPendingAuthorizations'
@@ -94,7 +94,7 @@ include globals.pug
       )
   div('*ngIf'="home.roleName === 'Supervisor'")
     +sideNavCollapsible(
-      "{{ menu.options.inventory + ' ' + program }}", 'mdi mdi-briefcase'
+      "{{ langManager.messages.sideNavOptions.inventory + ' ' + program }}", 'mdi mdi-briefcase'
     )(
       '*ngFor'='let program of home.programs | keys'
     )
@@ -121,7 +121,7 @@ include globals.pug
   mz-sidenav-link
     +link()(class='side-menu-link waves-effect waves-green')
       i.mdi.mdi-alert.mdi-24px.mdi-dark
-      ='{{ menu.options.reportProblem }}'
+      ='{{ langManager.messages.sideNavOptions.reportProblem }}'
 
 //- Area principal de la pagina
 div.container('[ngClass]'="{ 'with-sidenav': home.showSideNav }"): ui-view

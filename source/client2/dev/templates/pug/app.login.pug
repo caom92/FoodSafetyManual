@@ -11,33 +11,34 @@ div.row
         '[hoverable]'="'true'"
         '[textClass]'="'center-align'"
       )
-        mz-card-title='Inicie Sesión'
+        mz-card-title
+          ='{{ langManager.messages.loginFormLabels.title }}'
         mz-card-content
           +textInput(
             'username',
-            "'Nombre de usuario'",
+            "langManager.messages.loginFormLabels.username",
             'mdi mdi-account-circle'
           )(
             mz-validation
             required
-            '[errorMessageResource]'='formErrorMessages.username'
+            '[errorMessageResource]'='langManager.messages.loginForm.username'
             formControlName='username'
           )
           +passwordInput(
             'password',
-            "'Contraseña'",
+            "langManager.messages.loginFormLabels.password",
             'mdi mdi-lock'
           )(
             mz-validation
             required
-            '[errorMessageResource]'='formErrorMessages.password'
+            '[errorMessageResource]'='langManager.messages.loginForm.password'
             formControlName='password'
           )
         mz-card-action
           +button(
             'submit', 
             'submit-button', 
-            'Iniciar sesión'
+            '{{ langManager.messages.loginFormLabels.submit }}'
           )(
             '[flat]'="'true'"
             '[disabled]'="!userLogInInfo.valid"

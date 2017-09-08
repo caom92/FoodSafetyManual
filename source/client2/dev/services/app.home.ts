@@ -7,51 +7,205 @@ import { Injectable } from '@angular/core'
 export class HomeElementsService
 {
   // Bandera que indica si se debe desplegar el menu lateral
-  showSideNav = true
-
-  // Bandera que indica si se debe desplegar el menu de zonas
-  showZoneMenu = false
-
-  // La lista de zonas que seran desplegadas en el menu de zonas
-  zones = []
-
-  // El nombre completo del usuario que sera desplegado en el menu lateral
-  userFullName: string = null
-
-  // El nombre del rol del usuario
-  roleName: string = null
-
-  // La lista de programas a los cuales el usuario tiene acceso
-  programs: object = null
-
-  // El numero de autorizaciones pendientes de revisar por el supervisor
-  numPendingAuthorizations: number = 0
+  private _showSideNav = true
+  get showSideNav() {
+    return this._showSideNav
+  }
 
   // Despliega el menu lateral
   displaySideNav() {
-    this.showSideNav = true
+    this._showSideNav = true
   }
 
   // Oculta el menu lateral
   hideSideNav() {
-    this.showSideNav = false
+    this._showSideNav = false
+  }
+
+  // Bandera que indica si se debe desplegar el menu de zonas
+  private _showZoneMenu = false
+  get showZoneMenu() {
+    return this._showZoneMenu
   }
 
   // Despliega el menu de zonas
   displayZoneMenu() {
-    this.showZoneMenu = true
+    this._showZoneMenu = true
   }
 
   // Oculta el menu de zonas
   hideZoneMenu() {
-    this.showZoneMenu = false
+    this._showZoneMenu = false
   }
+
+  // El ID del usuario que tiene registrado en la base de datos
+  private _userID: number = 
+    (localStorage.user_id !== undefined) ?
+      localStorage.user_id
+      : null
+  set userID(value: number) {
+    this._userID = value
+    localStorage.user_id = value
+  }
+  get userID() {
+    return this._userID
+  }
+
+  // El nombre del rol del usuario
+  private _roleName: string = 
+    (localStorage.role_name !== undefined) ?
+      localStorage.role_name
+      : null
+  set roleName(value: string) {
+    this._roleName = value
+    localStorage.role_name = value
+  }
+  get roleName() {
+    return this._roleName
+  }
+
+  // El numero de indentificacion del empleado en la empresa
+  private _employeeNum: string = 
+    (localStorage.employee_num !== undefined) ?
+      localStorage.employee_num
+      : null
+  set employeeNum(value: string) {
+    this._employeeNum = value
+    localStorage.employee_num = value
+  }
+  get employeeNum() {
+    return this._employeeNum
+  }
+
+  // El nombre completo del usuario que sera desplegado en el menu lateral
+  private _userFullName: string = 
+    (localStorage.user_full_name !== undefined) ?
+      localStorage.user_full_name
+      : null
+  set userFullName(value: string) {
+    this._userFullName = value
+    localStorage.user_full_name = value
+  }
+  get userFullName() {
+    return this._userFullName
+  }
+
+  // El nombre de cuenta del usuario para iniciar sesion
+  private _loginName: string = 
+    (localStorage.login_name !== undefined) ?
+      localStorage.login_name
+      : null
+  set loginName(value: string) {
+    this._loginName = value
+    localStorage.login_name = value
+  }
+  get loginName() {
+    return this._loginName
+  }
+
+  // Informacion de la compañia
+  private _company = {
+    name: (localStorage.company_name !== undefined) ? 
+      localStorage.company_name : null,
+    logo: (localStorage.company_logo !== undefined) ? 
+      localStorage.company_logo : null,
+    address: (localStorage.company_address !== undefined) ? 
+      localStorage.company_address : null
+  }
+  set companyName(value: string) {
+    this._company.name = value
+    localStorage.company_name = value
+  }
+  set companyLogo(value: string) {
+    this._company.logo = value
+    localStorage.company_logo = value
+  }
+  set companyAddress(value: string) {
+    this._company.address = value
+    localStorage.company_address = value
+  }
+  get company() {
+    return this._company
+  }
+
+  // Informacion de la zona del usuario
+  private _zone = {
+    id: (localStorage.zone_id !== undefined) ? 
+      localStorage.zone_id : null,
+    name: (localStorage.zone_name !== undefined) ? 
+      localStorage.zone_name : null
+  }
+  set zoneID(value: number) {
+    this._zone.id = value
+    localStorage.zone_id = value
+  }
+  set zoneName(value: string) {
+    this._zone.name = value
+    localStorage.zone_name = value
+  }
+  get zone() {
+    return this._zone
+  }
+
+  // Los permisos de acceso que el usuario tiene para las bitacoras del sistema
+  private _privileges: object = 
+    (localStorage.privileges !== undefined) ?
+      JSON.parse(localStorage.privileges)
+      : null
+  set privileges(value: object) {
+    this._privileges = value
+    localStorage.privileges = JSON.stringify(value)
+  }
+  get privileges() {
+    return this._privileges
+  }
+
+  // La lista de zonas que seran desplegadas en el menu de zonas
+  private _zones = 
+    (localStorage.zone_list !== undefined) ?
+      JSON.parse(localStorage.zone_list)
+      : []
+  set zones(value: Array<object>) {
+    this._zones = value
+    localStorage.zone_list = JSON.stringify(value)
+  }
+  get zones() {
+    return this._zones
+  }
+
+  // La lista de bitacoras que estan registradas en el sistema
+  private _logs = 
+    (localStorage.log_list !== undefined) ?
+      JSON.parse(localStorage.log_list)
+      : []
+  set logs(value: Array<object>) {
+    this._logs = value
+    localStorage.log_list = JSON.stringify(value)
+  }
+  get logs() {
+    return this._logs
+  }
+
+  // La lista de programas a los cuales el usuario tiene acceso
+  private _programs: object = 
+    (localStorage.programs !== undefined) ?
+      JSON.parse(localStorage.programs)
+      : []
+  set programs(value: object) {
+    this._programs = value
+    localStorage.programs = JSON.stringify(value)
+  }
+  get programs() {
+    return this._programs
+  }
+
+  // El numero de autorizaciones pendientes de revisar por el supervisor
+  numPendingAuthorizations: number = 0
 
   // Realiza los procesos necesarios para desplegar en la aplicacion las 
   // opciones apropiadas que corresponden a un usuario con el rol de empleado
   initProgramsMenu() {
-    let privileges = JSON.parse(localStorage.privileges)
-    this.programs = privileges[localStorage.zone_name]
+    this.programs = this.privileges[this.zone.name]
   }
 
   // Realiza los procesos necesarios para desplegar en la aplicacion las 
