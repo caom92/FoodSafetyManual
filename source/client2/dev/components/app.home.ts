@@ -47,6 +47,7 @@ export class HomeComponent implements OnInit
       (response: Response) => {
         let result = JSON.parse(response['_body'].toString())
         if (result.meta.return_code == 0) {
+          this.home.hideSpinner()
           if (!result.data) {
             // si el usuario no ha iniciado sesion, desactivamos la bandera y 
             // redireccionamos a la pantalla de inicio de sesion

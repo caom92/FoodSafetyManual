@@ -38,6 +38,19 @@ export class HomeElementsService
     this._showZoneMenu = false
   }
 
+  private _showSpinner = true
+  get showSpinner() {
+    return this._showSpinner
+  }
+  
+  displaySpinner() {
+    this._showSpinner = true
+  }
+
+  hideSpinner() {
+    this._showSpinner = false
+  }
+
   // El ID del usuario que tiene registrado en la base de datos
   private _userID: number = 
     (localStorage.user_id !== undefined) ?
