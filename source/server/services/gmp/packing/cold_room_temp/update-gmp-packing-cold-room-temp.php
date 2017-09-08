@@ -36,7 +36,9 @@ $service = fsm\createUpdateService(
     ]
   ],
   [
-    'extra_info' => NULL,
+    'extra_info' => [
+      'time'
+    ],
     'function' => function($scope, $request) {
       $logs = $scope->daoFactory->get('gmp\packing\coldRoomTemp\Logs');
       foreach ($request['items'] as $room) {

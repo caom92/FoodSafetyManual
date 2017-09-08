@@ -39,18 +39,6 @@ class Logs extends db\LogTable
         ]
       ]
     );
-    // return parent::$dataBase->query(
-    //   "SELECT
-    //     r.id AS id,
-    //     r.name AS name,
-    //     test,
-    //     deficiencies,
-    //     corrective_actions AS corrective_action
-    //   FROM $this->table
-    //   INNER JOIN gmp_packing_cool_room_temp_rooms AS r
-    //     ON $this->table.room_id = t.id
-    //   WHERE capture_date_id = $dateID"
-    // )->fetchAll();
   }
 
   // Modifica los renglones de la tabla que tienen registrado el ID de fecha de 

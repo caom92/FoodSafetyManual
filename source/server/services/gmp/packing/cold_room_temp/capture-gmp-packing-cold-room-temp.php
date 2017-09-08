@@ -36,7 +36,9 @@ $service = fsm\createCaptureService(
     ]
   ],
   [
-    'extra_info' => NULL,
+    'extra_info' => [
+      'time'
+    ],
     'function' => function($scope, $segment, $request, $logID) {
       // initialize the array of rows to be inserted to the database
       $rows = [];
