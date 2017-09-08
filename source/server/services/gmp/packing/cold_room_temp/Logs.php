@@ -34,7 +34,9 @@ class Logs extends db\LogTable
         'capture_date_id' => $dateID
       ],
       [
-        'gmp_packing_cool_room_temp_rooms(r)'
+        'gmp_packing_cool_room_temp_rooms(r)' => [
+          'room_id' => 'id'
+        ]
       ]
     );
     // return parent::$dataBase->query(
@@ -46,7 +48,7 @@ class Logs extends db\LogTable
     //     corrective_actions AS corrective_action
     //   FROM $this->table
     //   INNER JOIN gmp_packing_cool_room_temp_rooms AS r
-    //     ON $this->table.thermometer_id = t.id
+    //     ON $this->table.room_id = t.id
     //   WHERE capture_date_id = $dateID"
     // )->fetchAll();
   }
