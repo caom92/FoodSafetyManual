@@ -8,8 +8,7 @@ import { Pipe, PipeTransform } from '@angular/core'
 export class KeysPipe implements PipeTransform 
 {
   transform(value): any {
-    return (value) ?
-      Object.keys(value)
-      : null
+    // extraemos las llaves del objeto ingresado y las regresamos en un arreglo
+    return (value) ? Object.keys(value) : null
   }
 }

@@ -122,22 +122,56 @@ class ServiceProvider
           $response = $response->withHeader('Content-Type', 
             'application/json;charset=utf8');
           
+          // revisamos si el servidor esta configurado para ejercer CORS
           if (SERVER_ALLOW_CORS_REQUESTS) {
-            $response = $response->withHeader('Access-Control-Allow-Headers', 
-              'Content-Type');
-            $response = $response->withHeader('Access-Control-Allow-Methods', 
-              'GET, POST, OPTIONS');
+            // si asi se, configuramos los encabezados necesarios
+            $response = $response->withHeader(
+              'Access-Control-Allow-Headers', 'Content-Type'
+            );
+            $response = $response->withHeader(
+              'Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS'
+            );
             
+            // revisamos si el usuario necesita usar credenciales de 
+            // identificacion de sesion junto con la comunicacion CORS 
             if (SERVER_ALLOW_CORS_CREDENTIALS) {
-              $response = $response->withHeader('Access-Control-Allow-Origin', 
-                rtrim($_SERVER['HTTP_REFERER'], '/'));
-              $response = $response->withHeader(
-                'Access-Control-Allow-Credentials', 
-                'true'
-              );
+              // si es asi, necesitamos asegurarnos de que el cliente proviene 
+              // de un origen autorizado, asi que primero obtenemos el origen
+              $currentOrigin = rtrim($_SERVER['HTTP_REFERER'], '/');
+
+              // inicializamos la bandera que indica si este origen esta 
+              // autorizado
+              $isOriginAllowed = FALSE;
+
+              // tenemos que comparar el origen actual con la lista de origenes 
+              // autorizados uno por uno
+              foreach (SERVER_CORS_CREDENTIALS_ALLOWED_ORIGINS as $origin) {
+                if ($currentOrigin == $origin) {
+                  $isOriginAllowed = TRUE;
+                  break;
+                }
+              }
+
+              // si el origen actual esta autorizado para usar credenciales de 
+              // autentificacion con CORS, inicializamos el resto de los 
+              // encabezados necesarios
+              if ($isOriginAllowed) {
+                $response = $response->withHeader(
+                  'Access-Control-Allow-Origin',
+                  $origin
+                );
+                $response = $response->withHeader(
+                  'Access-Control-Allow-Credentials', 
+                  'true'
+                );
+              }
             } else {
-              $response = $response->withHeader('Access-Control-Allow-Origin', 
-                '*');
+              // si no es necesario permitir CORS con credenciales de 
+              // autentificacion, permitimos el acceso a cualquier origen
+              $response = $response->withHeader(
+                'Access-Control-Allow-Origin', 
+                '*'
+              );
             }
           }
 

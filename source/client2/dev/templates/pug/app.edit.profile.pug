@@ -3,22 +3,28 @@ include globals.pug
 div.row: div.col.s12.m12
   h4
     i.mdi.mdi-account-circle
-    ='Su Perfil de Usuario'
+    ='{{ langManager.messages.userProfileLabels.title }}'
 
 div.row
   div.col.s12.m6
-    +textInput('profile-name', "'Nombre de usuario'")(
-      '[(ngModel)]'='username'
+    +textInput(
+      'profile-name', 
+      "langManager.messages.userProfileLabels.username"
+    )(
+      '[(ngModel)]'='home.loginName'
       disabled
     )
   div.col.s12.m6
-    +textInput('employee-num', "'ID de Empleado'")(
-      '[(ngModel)]'='employeeID'
+    +textInput(
+      'employee-num', 
+      "langManager.messages.userProfileLabels.employeeNum"
+    )(
+      '[(ngModel)]'='home.employeeNum'
       disabled
     )
   div.col.s12.m6
-    +textInput('full-name', "'Nombre'")(
-      '[(ngModel)]'='fullName'
+    +textInput('full-name', "langManager.messages.userProfileLabels.fullName")(
+      '[(ngModel)]'='home.userFullName'
       disabled
     )
 
@@ -26,54 +32,82 @@ div.row: div.col.s12
   mz-collapsible(
     '[mode]'="'accordion'"
   )
-    +accordionItem('Cambiar la contraseña', 'mdi mdi-lock')
+    +accordionItem(
+      '{{ langManager.messages.editPasswordFormLabels.title }}', 
+      'mdi mdi-lock'
+    )
       form(
         '[formGroup]'='passwordEditionForm'
         '(ngSubmit)'='onPasswordEditionFormSubmit()'
         novalidate
       )
-        +passwordInput('new-password', "'Nueva contraseña'")(
+        +passwordInput(
+          'new-password', 
+          "langManager.messages.editPasswordFormLabels.newPassword"
+        )(
           formControlName='newPassword'
           required
           mz-validation
-          '[errorMessageResource]'='passwordEditionFormMessages.newPassword'
+          '[errorMessageResource]'='langManager.messages.editPasswordForm.newPassword'
         )
         +passwordInput(
           'new-password-confirmation', 
-          "'Repita nueva contraseña'"
+          "langManager.messages.editPasswordFormLabels.newPasswordConfirmation"
         )(
           formControlName='newPasswordConfirmation'
           required
           mz-validation
-          '[errorMessageResource]'='passwordEditionFormMessages.newPasswordConfirmation'
+          '[errorMessageResource]'='langManager.messages.editPasswordForm.newPasswordConfirmation'
         )
-        +passwordInput('oldPassword', "'Contraseña actual'")(
+        +passwordInput(
+          'oldPassword', 
+          "langManager.messages.editPasswordFormLabels.oldPassword"
+        )(
           formControlName='oldPassword'
           required
           mz-validation
-          '[errorMessageResource]'='passwordEditionFormMessages.oldPassword'
+          '[errorMessageResource]'='langManager.messages.editPasswordForm.oldPassword'
         )
-        +button('submit', 'editPasswordSubmit', 'Cambiar', 'mdi mdi-send')(
+        +button(
+          'submit', 
+          'editPasswordSubmit', 
+          '{{ langManager.messages.editPasswordFormLabels.submit }}', 
+          'mdi mdi-send'
+        )(
           '[disabled]'="!passwordEditionForm.valid"
         )
-    +accordionItem('Cambiar el nombre de usuario', 'mdi mdi-account')
+    +accordionItem(
+      '{{ langManager.messages.editUsernameFormLabels.title }}', 
+      'mdi mdi-account'
+    )
       form(
         '[formGroup]'='usernameEditionForm'
         '(ngSubmit)'='onUsernameEditionFormSubmit()'
         novalidate
       )
-        +textInput('new-username', "'Nuevo nombre de usuario'")(
+        +textInput(
+          'new-username', 
+          "langManager.messages.editUsernameFormLabels.newUsername"
+        )(
           formControlName='newUsername'
           required
           mz-validation
-          '[errorMessageResource]'='usernameEditionFormMessages.newUsername'
+          '[errorMessageResource]'='langManager.messages.editUsernameForm.newUsername'
         )
-        +passwordInput('password', "'Contraseña actual'")(
+        +passwordInput(
+          'password', 
+          "langManager.messages.editUsernameFormLabels.password"
+        )(
           formControlName='password'
           required
           mz-validation
-          '[errorMessageResource]'='usernameEditionFormMessages.password'
+          '[errorMessageResource]'='langManager.messages.editUsernameForm.password'
         )
-        +button('submit', 'editUsernameSubmit', 'Cambiar', 'mdi mdi-send')(
+        +button(
+          'submit', 
+          'editUsernameSubmit', 
+          '{{ langManager.messages.editUsernameFormLabels.submit }}', 
+          'mdi mdi-send'
+        )(
           '[disabled]'="!usernameEditionForm.valid"
         )

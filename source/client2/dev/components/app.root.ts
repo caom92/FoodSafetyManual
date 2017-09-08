@@ -19,6 +19,7 @@ import { KeysPipe } from '../services/app.keys'
 import { ClickStopPropagationDirective } from '../directives/app.stop.propagation'
 import { HomeElementsService } from '../services/app.home'
 import { BackendService } from '../services/app.backend'
+import { LanguageService } from '../services/app.language'
 import { ToastService } from '../services/app.toast'
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
@@ -55,7 +56,8 @@ import { ToastService } from '../services/app.toast'
   providers: [
     HomeElementsService,
     BackendService,
-    ToastService
+    ToastService,
+    LanguageService
   ],
   // declaramos los componentes que va a utilizar nuestro sistema
   declarations: [
@@ -69,6 +71,9 @@ import { ToastService } from '../services/app.toast'
   bootstrap: [ HomeComponent ]
 })
 export class RootModule { 
-  constructor(private home: HomeElementsService) {
+  constructor(
+    private home: HomeElementsService,
+    private langManager: LanguageService
+  ) {
   }
 }

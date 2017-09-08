@@ -4,6 +4,7 @@ import { StateService } from '@uirouter/angular'
 import { BackendService } from '../services/app.backend'
 import { ToastService } from '../services/app.toast'
 import { HomeElementsService } from '../services/app.home'
+import { LanguageService } from '../services/app.language'
 
 // Componente que define el comportamiento de la pagina de inicio de sesion
 @Component({
@@ -15,19 +16,6 @@ export class LogInComponent implements OnInit
   // formulario de captura
   userLogInInfo: FormGroup
 
-  // Lista de los mensajes de error a desplegar en la pantalla cuando el 
-  // formulario de captura sea invalida
-  formErrorMessages = {
-    username: {
-      required: 'Este campo es obligatorio',
-      minlength: 'Este campo debe tener al menos 3 caracteres'
-    },
-    password: {
-      required: 'Este campo es obligatorio',
-      minlength: 'Este campo debe tener al menos 6 caracteres'
-    }
-  }
-
   // El constructor de este componente
   // haremos uso de la interfaz del servidor y del constructor de formularios
   constructor(
@@ -35,40 +23,38 @@ export class LogInComponent implements OnInit
     private formBuilder: FormBuilder,
     private toastManager: ToastService,
     private router: StateService,
-    private home: HomeElementsService
+    private home: HomeElementsService,
+    private langManager: LanguageService
   ) {
   }
 
   // Almacena los datos recuperados del servidor al momento de iniciar sesion 
-  // en localStorage
-  private mapUserDataToLocalStorage(userData) {
-    localStorage.user_id = userData.user_id
-    localStorage.role_id = userData.role_id
-    localStorage.role_name = userData.role_name
-    localStorage.exclusive_access = userData.exclusive_access
-    localStorage.employee_num = userData.employee_num
-    localStorage.first_name = userData.first_name
-    localStorage.last_name = userData.last_name
-    localStorage.login_name = userData.login_name
-    localStorage.company = userData.company
-    localStorage.logo = userData.logo
-    localStorage.address = userData.address
+  // para ser utilizados mas adelante
+  private storeUserData(userData) {
+    this.home.userID = userData.user_id
+    this.home.roleName = userData.role_name
+    this.home.employeeNum = userData.employee_num
+    this.home.userFullName = `${userData.first_name} ${userData.last_name}`
+    this.home.loginName = userData.login_name
+    this.home.companyName = userData.company
+    this.home.companyLogo = userData.logo
+    this.home.companyAddress = userData.address
 
     if (userData.zone_id !== undefined) {
-      localStorage.zone_id = userData.zone_id
-      localStorage.zone_name = userData.zone_name
+      this.home.zoneID = userData.zone_id
+      this.home.zoneName = userData.zone_name
     }
 
     if (userData.privileges !== undefined) {
-      localStorage.privileges = JSON.stringify(userData.privileges)
+      this.home.privileges = userData.privileges
     }
 
     if (userData.zone_list !== undefined) {
-      localStorage.zone_list = JSON.stringify(userData.zone_list)
+      this.home.zones = userData.zone_list
     }
 
     if (userData.log_list !== undefined) {
-      localStorage.log_list = JSON.stringify(userData.log_list)
+      this.home.logs = userData.log_list
     }
   }
 
@@ -110,13 +96,17 @@ export class LogInComponent implements OnInit
             localStorage.is_logged_in = false
           }
         } else {
-          // si algo ocurrio con la comunicacion con el servidor, desplegamos 
-          // un mensaje de error al usuario
-          this.toastManager.showServiceErrorText('check-session', result.meta)
+          // si hubo un problema con la comunicacion con el servidor debemos 
+          // notificar al usuario
+          this.toastManager.showText(
+            this.langManager.getServiceMessage(
+              'check-session', result.meta.return_code
+            )
+          )
         }
-      }
-    )
-  }
+      } // (response: Response)
+    ) // this.server.update
+  } // ngOnInit()
 
   // Esta funcion es invocada cuando el usuario hace clic en el boton de enviar
   // en el formulario de captura
@@ -138,12 +128,11 @@ export class LogInComponent implements OnInit
           // datos retornados por el servidor y activamos la bandera que indica 
           // que iniciamos sesion
           localStorage.is_logged_in = true
-          this.mapUserDataToLocalStorage(result.data)
-          this.home.roleName = localStorage.role_name
+          this.storeUserData(result.data)
 
           // dependiendo del rol del usuario, se deben mostrar diferentes 
           // opciones en la aplicacion
-          switch (localStorage.role_name) {
+          switch (this.home.roleName) {
             case 'Employee':
             case 'Manager':
               this.home.initProgramsMenu()
@@ -160,15 +149,19 @@ export class LogInComponent implements OnInit
             break
           }
 
-          // indicamos al usuario que ha iniciado
-          this.toastManager.showText('loggedIn')
+          // indicamos al usuario que ha iniciado sesion
+          this.toastManager.showText(
+            this.langManager.getServiceMessage('login', result.meta.return_code)
+          )
           this.router.go('edit-profile')
         } else {
           // si hubo un problema con la conexion del servidor, desplegamos un 
           // mensaje de error al usuario
-          this.toastManager.showServiceErrorText('login', result.meta)
-        }
-      }
-    )
+          this.toastManager.showText(
+            this.langManager.getServiceMessage('login', result.meta.return_code)
+          )
+        } // if (result.meta.return_code == 0)
+      } // (response: Response)
+    ) // this.server.update
   } // onLogInFormSubmit
 } // class LogInComponent
