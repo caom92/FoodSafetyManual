@@ -107,9 +107,9 @@ $controller = new ServiceProvider(
     'daoFactory' => function($config) use (
       $zone, $server, $programs, $contact, $authorizations, $account,
       $atp, $calibration, $finishedProduct, $glass, $handWash, $preop, 
-      $scissors, $thermometers, $gmpOthersUnusualOccurrences, $gapOthersUnusualOccurrences, 
-      $selfInspection, $footers,
-      $gapPreop, $docControl) {
+      $scissors, $thermometers, $gmpOthersUnusualOccurrences, 
+      $gapOthersUnusualOccurrences, $selfInspection, $footers, $gapPreop, 
+      $docControl, $coldRoomTemp) {
       return new db\TableFactory(
         'fsm\database\\',
         $zone['tables'] +
@@ -132,6 +132,7 @@ $controller = new ServiceProvider(
         $footers['tables'] +
         $gapPreop['tables'] +
         $docControl['tables'] +
+        $coldRoomTemp['tables'] +
         [
           'Shifts' =>
             realpath(dirname(__FILE__).'/services/Shifts.php'),
@@ -164,7 +165,8 @@ $controller = new ServiceProvider(
       $footers['services'] +
       $gapPreop['services'] +
       $signatures['services'] +
-      $docControl['services']
+      $docControl['services'] +
+      $coldRoomTemp['services']
   ]
 );
 
