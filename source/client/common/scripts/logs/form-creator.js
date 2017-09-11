@@ -1153,7 +1153,7 @@ function getISODate(date){
         ISODate += (date.getMonth() + 1) + "-";
     }
 
-    if(date.getDate()<9){
+    if(date.getDate() < 10){
         ISODate += "0" + date.getDate();
     } else {
         ISODate += date.getDate();

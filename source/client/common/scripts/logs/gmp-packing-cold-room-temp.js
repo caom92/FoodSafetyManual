@@ -247,7 +247,7 @@ function gmpPackingThermoCalibrationLog(data, htmlElement, isPrefilled){
 
 function gmpPackingThermoCalibrationTime(time){
     var timeLabel = {"type":"label","contents":{"type":"text","classes":"time_title"},"for":"time","classes":"active"};
-    var timeInput = {"type":"input","id": "time", "classes": "validate", "fieldType":"text","disabled":true,"value":getISOTime(new Date()),"isClearable":false};
+    var timeInput = {"type":"input","id": "time", "classes": "validate", "fieldType":"text","readonly":true,"value":getISOTime(new Date()),"isClearable":false};
     var timeFullInput = {"id":"timeWrapper","classes":"input-field col s12 m12 l12","field":timeInput,"label":timeLabel};
 
     if(time){
@@ -266,13 +266,16 @@ function sendButton(){
 function gmpPackingThermoCalibrationItem(item){
     var itemCard = $("<div>");
     var topRow = new Object();
+    var middleRow = new Object();
     var bottomRow = new Object();
 
-    topRow.columns = [gmpPackingThermoCalibrationTitle(item), gmpPackingThermoCalibrationTest(item), gmpPackingThermoCalibrationDeficiencies(item)];
+    topRow.columns = [gmpPackingThermoCalibrationTitle(item)]
+    middleRow.columns = [gmpPackingThermoCalibrationTest(item), gmpPackingThermoCalibrationDeficiencies(item)];
     bottomRow.columns = [gmpPackingThermoCalibrationCorrectiveAction(item)];
 
-    itemCard.append(createInputRow(topRow).attr("style", "margin-top:15px;"));
-    itemCard.append(createInputRow(bottomRow).attr("style", "margin-top:15px;"));
+    itemCard.append(createInputRow(topRow));
+    itemCard.append(createInputRow(middleRow));
+    itemCard.append(createInputRow(bottomRow));
 
     itemCard.addClass("item-card");
     itemCard.data("id", item.id);
@@ -283,7 +286,7 @@ function gmpPackingThermoCalibrationItem(item){
 
 function gmpPackingThermoCalibrationTitle(item){
     var itemTitle = {"type":"text","id":"title_" + item.id,"classes":"blue-text", "text":item.name};
-    var titleInput = {"id":"titleWrapper_" + item.id,"classes":"card-title col s2 m2 l2","field": itemTitle};
+    var titleInput = {"id":"titleWrapper_" + item.id,"classes":"card-title col s12 m12 l12","field": itemTitle};
 
     return titleInput;
 }
@@ -291,7 +294,7 @@ function gmpPackingThermoCalibrationTitle(item){
 function gmpPackingThermoCalibrationTest(item){
     var testLabel = {"type":"label","contents":{"type":"text","classes":"cold_room_test_title"}};
     var testInput = {"type":"input","id": "test_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"item_id":item.id},"validations":{"type":"number","required":{"value":true,"toast":"gmp-packing-thermo-calibration-test"}}};
-    var testFullInput = {"id":"testWrapper_" + item.id,"classes":"input-field col s5 m5 l5","field":testInput,"label":testLabel};
+    var testFullInput = {"id":"testWrapper_" + item.id,"classes":"input-field col s6 m6 l6","field":testInput,"label":testLabel};
 
     if(item.test){
         testInput.value = item.test;
@@ -304,7 +307,7 @@ function gmpPackingThermoCalibrationTest(item){
 function gmpPackingThermoCalibrationDeficiencies(item){
     var deficienciesLabel = {"type":"label","contents":{"type":"text","classes":"deficiencies_title"}};
     var deficienciesInput = {"type":"textarea","id": "deficiencies_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"item_id":item.id},"validations":{"type":"text","max":{"value":65535}}};
-    var deficienciesFullInput = {"id":"deficienciesWrapper_" + item.id,"classes":"input-field col s5 m5 l5","field":deficienciesInput,"label":deficienciesLabel};
+    var deficienciesFullInput = {"id":"deficienciesWrapper_" + item.id,"classes":"input-field col s6 m6 l6","field":deficienciesInput,"label":deficienciesLabel};
 
     if(item.deficiencies){
         deficienciesInput.value = item.deficiencies;
@@ -399,5 +402,5 @@ function gmpPackingThermoCalibrationReportItem(itemData){
 }
 
 function getCSS(){
-    return "<style> table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%; } td { border: 1px solid #000000; text-align: left; } th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50; } .even { background-color: #b8e0b9; } .timeColumn { width: 40px; } .numberColumn { width: 71px; } .testColumn { width: 120px; } .deficienciesColumn { width: 200px; } .actionColumn { width: 200px; } </style>";
+    return "<style> table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%; } td { border: 1px solid #000000; text-align: left; } th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50; } .even { background-color: #b8e0b9; } .timeColumn { width: 40px; } .numberColumn { width: 100px; } .testColumn { width: 91px; } .deficienciesColumn { width: 200px; } .actionColumn { width: 200px; } </style>";
 }
