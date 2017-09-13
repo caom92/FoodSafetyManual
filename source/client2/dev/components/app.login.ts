@@ -153,6 +153,7 @@ export class LogInComponent implements OnInit
           this.toastManager.showText(
             this.langManager.getServiceMessage('login', result.meta.return_code)
           )
+          this.home.displaySideNav()
           this.router.go('edit-profile')
         } else {
           // si hubo un problema con la conexion del servidor, desplegamos un 

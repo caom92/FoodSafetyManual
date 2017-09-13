@@ -73,9 +73,12 @@ $service = [
     $hasReality = isset($request["reality"]) 
       && array_key_exists('reality', $request);
 
-    $steps = ($hasSteps) ? $request['steps'] : 'N/A';
-    $expectations = ($hasExpectations) ? $request['expectation'] : 'N/A';
-    $reality = ($hasExpectations) ? $request['expectation'] : 'N/A';
+    $steps = ($hasSteps && $request['steps'] != 'null') ? 
+      $request['steps'] : 'N/A';
+    $expectations = ($hasExpectations && $request['expectation'] != 'null') ? 
+      $request['expectation'] : 'N/A';
+    $reality = ($hasExpectations && $request['reality'] != 'null') ? 
+      $request['expectation'] : 'N/A';
 
     // get session segment
     $segment = $scope->session->getSegment('fsm');
@@ -95,7 +98,7 @@ $service = [
     }
 
     // continue with the rest of the body
-    $body .= "\n" . "Severidad: " . $request["severity-selection"] . "<br>"
+    $body .= "<br>" . "Severidad: " . $request["severity-selection"] . "<br>"
       . "Resumen: " . $request["summary"] . "<br>"
       . "Pasos para reproducirlo: " . 
       $steps
@@ -140,12 +143,7 @@ $service = [
 
     // if the email could not be sent, throw en exception
     if (strlen($result) > 0) {
-      throw new \Exception($result);
-    }
-
-    // if the email could not be sent, throw en exception
-    if (strlen($result) > 0) {
-      throw new \Exception($result);
+      throw new \Exception($result, 1);
     }
     
     // return the invalid bitmap images 

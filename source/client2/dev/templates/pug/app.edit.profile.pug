@@ -60,7 +60,7 @@ div.row: div.col.s12
           '[errorMessageResource]'='langManager.messages.editPasswordForm.newPasswordConfirmation'
         )
         +passwordInput(
-          'oldPassword', 
+          'old-password', 
           "langManager.messages.editPasswordFormLabels.oldPassword"
         )(
           formControlName='oldPassword'
@@ -76,6 +76,11 @@ div.row: div.col.s12
         )(
           '[disabled]'="!passwordEditionForm.valid"
         )
+        div.invalid.red-text(
+          '*ngIf'="passwordEditionForm.hasError('arePasswordsDifferent')"
+          style='font-size: 0.8rem;'
+        )
+          ='{{ langManager.messages.editPasswordFormLabels.error }}'
     +accordionItem(
       '{{ langManager.messages.editUsernameFormLabels.title }}', 
       'mdi mdi-account'

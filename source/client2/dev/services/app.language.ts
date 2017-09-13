@@ -5,83 +5,15 @@ import { Injectable } from '@angular/core'
 @Injectable()
 export class LanguageService
 {
-  // Las interfaces publicas a todos los textos del sistema; el sistema 
-  // desplegara cualquier texto que este almacenado aqui
-  messages = {
-    sideNavOptions: {
-      users: null,
-      zones: null,
-      programs: null,
-      supervisors: null,
-      signatures: null,
-      problem: null,
-      inventory: null,
-      authorizations: null
-    },
-    loginFormLabels: {
-      title: null,
-      username: null,
-      password: null,
-      submit: null
-    },
-    loginForm: {
-      username: {
-        required: null,
-        minlength: null
-      },
-      password: {
-        required: null,
-        minlength: null
-      }
-    },
-    userProfileLabels: {
-      title: null,
-      username: null,
-      employeeNum: null,
-      fullName: null
-    },
-    editPasswordFormLabels: {
-      title: null,
-      newPassword: null,
-      newPasswordConfirmation: null,
-      oldPassword: null,
-      submit: null
-    },
-    editPasswordForm: {
-      newPassword: {
-        required: null,
-        minlength: null
-      },
-      newPasswordConfirmation: {
-        required: null,
-        minlength: null
-      },
-      oldPassword: {
-        required: null,
-        minlength: null
-      }
-    },
-    editUsernameFormLabels: {
-      title: null,
-      newUsername: null,
-      password: null,
-      submit: null,
-    },
-    editUsernameForm: {
-      newUsername: {
-        required: null,
-        minlength: null
-      },
-      password: {
-        required: null,
-        minlength: null
-      }
-    }
-  }
-
   // La lista de traducciones para todos los textos del sistema
   private translations = {
     es: { // Español
+      global: {
+        wait: 'Por favor espere...'
+      },
+      navBar: {
+        zone: 'Zona'
+      },
       sideNavOptions: {
         users: 'Usuarios',
         zones: 'Zonas',
@@ -90,7 +22,9 @@ export class LanguageService
         signatures: 'Firmas',
         reportProblem: 'Reportar Problema',
         inventory: 'Inventario',
-        authorizations: 'Autorizaciones'
+        authorizations: 'Autorizaciones',
+        editProfile: 'Editar Perfil',
+        logout: 'Cerrar Sesión'
       },
       loginFormLabels: {
         title: 'Inicie Sesión',
@@ -119,7 +53,8 @@ export class LanguageService
         newPassword: 'Nueva contraseña',
         newPasswordConfirmation: 'Confirme nueva contraseña',
         oldPassword: 'Contraseña actual',
-        submit: 'Editar'
+        submit: 'Editar',
+        error: 'Los campos para la nueva contraseña no coinciden'
       },
       editPasswordForm: {
         newPassword: {
@@ -151,6 +86,73 @@ export class LanguageService
           minlength: 'Este campo debe tener al menos 6 caracteres'
         }
       },
+      reportProblemFormLabels: {
+        titles: [
+          'Información General',
+          'Descripción'
+        ],
+        username: 'Nombre de usuario',
+        employeeNum: 'ID de empleado',
+        zone: 'Zona defectuosa',
+        program: 'Programa defectuoso',
+        module: 'Módulo defectuoso',
+        log: 'Bitácora defectuosa',
+        browser: 'Navegador web que usa',
+        severity: 'Severidad del problema',
+        summary: 'Descripción del problema',
+        steps: 'Pasos para replicar el problema',
+        expectation: '¿Qué resultado esperaba?',
+        reality: '¿Cuál fué el resultado obtenido?',
+        screenshots: [
+          'Adjunte 1 o más capturas de imágenes',
+          'Adjuntar'
+        ],
+        severityLevels: [
+          'Caída del programa',
+          'Sin solución alternativa',
+          'Tiene solución alternativa',
+          'Error de documentación',
+          'Trivial',
+          'Defecto visual',
+          'Mejora',
+          'Otro'
+        ],
+        selectLabel: 'Elija una opción',
+        submit: 'Enviar'
+      },
+      reportProblemForm: {
+        zone: {
+          required: 'Este campo es requerido'
+        },
+        program: {
+          required: 'Este campo es requerido'
+        },
+        module: {
+          required: 'Este campo es requerido'
+        },
+        log: {
+          required: 'Este campo es requerido'
+        },
+        browser: {
+          required: 'Este campo es requerido'
+        },
+        severity: {
+          required: 'Este campo es requerido'
+        },
+        summary: {
+          required: 'Este campo es requerido',
+          maxlength: 'Este campo no debe ser mas de 1024 caracteres de largo'
+        },
+        steps: {
+          maxlength: 'Este campo no debe ser mas de 1024 caracteres de largo'
+        },
+        expectation: {
+          maxlength: 'Este campo no debe ser mas de 1024 caracteres de largo'
+        },
+        reality: {
+          maxlength: 'Este campo no debe ser mas de 1024 caracteres de largo'
+        }
+      },
       login: {
         0: 'Sesión iniciada exitosamente',
         1: 'Las credenciales son incorrectas'
@@ -170,6 +172,10 @@ export class LanguageService
       'director-change-zones': {
         0: 'La zona se cambió exitosamente',
         1: 'La zona seleccionada no pudo ser encontrada'
+      },
+      'send-bug-report': {
+        0: 'Se envió el reporte de error exitosamente',
+        1: 'Hubo un problema al enviar el reporte de error'
       },
       101: 'Faltó enviar una entrada al servidor',
       102: 'Una entrada enviada al servidor no es un valor numérico',
@@ -192,6 +198,12 @@ export class LanguageService
       119: 'No está autorizado para usar este servicio'
     },
     en: { // Ingles
+      global: {
+        wait: 'Please wait...'
+      },
+      navBar: {
+        zone: 'Zone'
+      },
       sideNavOptions: {
         users: 'Users',
         zones: 'Zones',
@@ -200,7 +212,9 @@ export class LanguageService
         signatures: 'Signatures',
         reportProblem: 'Report Problem',
         inventory: 'Inventory',
-        authorizations: 'Authorizations'
+        authorizations: 'Authorizations',
+        editProfile: 'Edit Profile',
+        logout: 'Log Out'
       },
       loginFormLabels: {
         title: 'Sign In',
@@ -229,7 +243,8 @@ export class LanguageService
         newPassword: 'New password',
         newPasswordConfirmation: 'Confirm new password',
         oldPassword: 'Current password',
-        submit: 'Edit'
+        submit: 'Edit',
+        error: 'The fields for the new password differ from one another'
       },
       editPasswordForm: {
         newPassword: {
@@ -261,6 +276,73 @@ export class LanguageService
           minlength: 'This field must be at least 6 characters long'
         }
       },
+      reportProblemFormLabels: {
+        titles: [
+          'General Information',
+          'Description'
+        ],
+        username: 'Username',
+        employeeNum: 'Employee ID',
+        zone: 'Defective zone',
+        program: 'Defective program',
+        module: 'Defective module',
+        log: 'Defective log',
+        browser: 'Web browser you use',
+        severity: 'Severity of the issue',
+        summary: 'Issue summary',
+        steps: 'Steps to replicate the issue',
+        expectation: 'What was the expected result?',
+        reality: 'What was the obtained result?',
+        screenshots: [
+          'Attach 1 or more screenshots',
+          'Attach'
+        ],
+        severityLevels: [
+          'Crash',
+          'No workaround',
+          'Has workaround',
+          'Documentation error',
+          'Trivial',
+          'Visual defect',
+          'Enhancement',
+          'Other'
+        ],
+        selectLabel: 'Select an option',
+        submit: 'Send'
+      },
+      reportProblemForm: {
+        zone: {
+          required: 'This field is required'
+        },
+        program: {
+          required: 'This field is required'
+        },
+        module: {
+          required: 'This field is required'
+        },
+        log: {
+          required: 'This field is required'
+        },
+        browser: {
+          required: 'This field is required'
+        },
+        severity: {
+          required: 'This field is required'
+        },
+        summary: {
+          required: 'This field is required',
+          maxlength: 'This field should be no more than 1024 characters long'
+        },
+        steps: {
+          maxlength: 'This field should be no more than 1024 characters long'
+        },
+        expectation: {
+          maxlength: 'This field should be no more than 1024 characters long'
+        },
+        reality: {
+          maxlength: 'This field should be no more than 1024 characters long'
+        }
+      },
       login: {
         0: 'Logged in successfully',
         1: 'Log in credentials are incorrect'
@@ -281,6 +363,10 @@ export class LanguageService
         0: 'Zone changed successfully',
         1: "The selected zone couldn't be found"
       },
+      'send-bug-report': {
+        0: 'The bug report was sent successfully',
+        1: 'There was a problem sending the bug report'
+      },
       101: 'A server input argument was not send',
       102: 'A server input argument is not a numeric value',
       103: 'A server input argument is outside the correct interval',
@@ -300,6 +386,138 @@ export class LanguageService
       117: 'The user does not have the proper role to use this service',
       118: 'You are not logged in',
       119: 'You are not authorized to use this service'
+    }
+  }
+
+  // Las interfaces publicas a todos los textos del sistema; el sistema 
+  // desplegara cualquier texto que este almacenado aqui
+  messages = {
+    global: {
+      wait: null
+    },
+    navBar: {
+      zone: null
+    },
+    sideNavOptions: {
+      users: null,
+      zones: null,
+      programs: null,
+      supervisors: null,
+      signatures: null,
+      problem: null,
+      inventory: null,
+      authorizations: null,
+      editProfile: null,
+      logout: null
+    },
+    loginFormLabels: {
+      title: null,
+      username: null,
+      password: null,
+      submit: null
+    },
+    loginForm: {
+      username: {
+        required: null,
+        minlength: null
+      },
+      password: {
+        required: null,
+        minlength: null
+      }
+    },
+    userProfileLabels: {
+      title: null,
+      username: null,
+      employeeNum: null,
+      fullName: null
+    },
+    editPasswordFormLabels: {
+      title: null,
+      newPassword: null,
+      newPasswordConfirmation: null,
+      oldPassword: null,
+      submit: null,
+      error: null
+    },
+    editPasswordForm: {
+      newPassword: {
+        required: null,
+        minlength: null
+      },
+      newPasswordConfirmation: {
+        required: null,
+        minlength: null
+      },
+      oldPassword: {
+        required: null,
+        minlength: null
+      }
+    },
+    editUsernameFormLabels: {
+      title: null,
+      newUsername: null,
+      password: null,
+      submit: null,
+    },
+    editUsernameForm: {
+      newUsername: {
+        required: null,
+        minlength: null
+      },
+      password: {
+        required: null,
+        minlength: null
+      }
+    },
+    reportProblemFormLabels: {
+      titles: [ null, null ],
+      username: null,
+      zone: null,
+      program: null,
+      module: null,
+      log: null,
+      browser: null,
+      summary: null,
+      steps: null,
+      expectation: null,
+      reality: null,
+      screenshots: [ null, null ],
+      selectLabel: null,
+      submit: null
+    },
+    reportProblemForm: {
+      zone: {
+        required: null
+      },
+      program: {
+        required: null
+      },
+      module: {
+        required: null
+      },
+      log: {
+        required: null
+      },
+      browser: {
+        required: null
+      },
+      severity: {
+        required: null
+      },
+      summary: {
+        required: null,
+        maxlength: null
+      },
+      steps: {
+        maxlength: null
+      },
+      expectation: {
+        maxlength: null
+      },
+      reality: {
+        maxlength: null
+      }
     }
   }
 

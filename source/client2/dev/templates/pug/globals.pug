@@ -13,7 +13,7 @@
 //- Crea un enlace
 //- [in]  [destination] (string): la URL a donde navegara el usuario al hacer 
 //-       clic sobre el enlace
-mixin link(destination = '#')
+mixin link(destination = 'javascript:void(0)')
   a(href=destination)&attributes(attributes)
     block
 
@@ -147,37 +147,77 @@ mixin dropdownMenu(name, buttonId)
 //- Crea una lista de seleccion
 //- [in]  name (string): el ID HTML con la que sera identificada la lista de 
 //-       seleccion, debe tener comillas triples, "'ejemplo'"
-//- [in]  placeholder (string): el texto a desplegar como nombre de la lista de 
+//- [in]  label (string): el texto a desplegar como nombre de la lista de 
 //-       seleccion, debe tener comillas triples, "'ejemplo'"
-//- [in]  options (string): el nombre del attributo del componente de Angular 
+//- [in]  placeholder (string): el texto a desplegar como la 1ra opcion de la 
+//-       lista de seleccion
+//- [in]  options (string): el nombre del atributo del componente de Angular 
 //-       cuyos elementos van a ser desplegados
-mixin select(name, model, placeholder, options, optionName = '', optionValue = '', onChangeCallback = null)
-  mz-select-container&attributes(attributes)
+//- [in]  [optionName] (string): el nombre del atributo de cada elemento leido 
+//-       del arreglo de opciones a desplegar en la lista de seleccion
+//- [in]  [optionValue] (string): el nombre del atributo de cada elemento leido 
+//-       del arreglo de opciones a emplear como el valor a guardar cuando esa 
+//-       opcion es elegida en la lista de seleccion
+//- [in]  [onChangeCallback] (string): la funcion a invocar cuando el valor 
+//-       elegido de la lista de seleccion cambia
+//- [in]  [multiple] (boolean): bandera que indica si esta lista de seleccion 
+//-       es de opcion multiple o no
+mixin select(name, label, placeholder, options, optionName = '', optionValue = '', onChangeCallback = null, multiple = false)
+  mz-select-container
     if onChangeCallback
-      select(
-        id=name,
-        '[placeholder]'=placeholder
-        mz-select
-        '[(ngModel)]'=model
-        '(change)'=onChangeCallback
-      )
-        option(
-          '*ngFor'='let x of ' + options
-          '[ngValue]'='x' + optionValue
+      if multiple
+        select&attributes(attributes)(
+          id=name
+          '[label]'=label
+          '[placeholder]'=placeholder
+          mz-select
+          '(change)'=onChangeCallback
+          multiple
         )
-          ='{{ x' + optionName + ' }}'
+          option(
+            '*ngFor'='let x of ' + options
+            '[ngValue]'='x' + optionValue
+          )
+            ='{{ x' + optionName + ' }}'
+      else
+        select&attributes(attributes)(
+          id=name
+          '[label]'=label
+          '[placeholder]'=placeholder
+          mz-select
+          '(change)'=onChangeCallback
+        )
+          option(
+            '*ngFor'='let x of ' + options
+            '[ngValue]'='x' + optionValue
+          )
+            ='{{ x' + optionName + ' }}'
     else
-      select(
-        id=name,
-        '[placeholder]'=placeholder
-        mz-select
-        '[ngModel]'=model
-      )
-        option(
-          '*ngFor'='let x of ' + options
-          '[ngValue]'='x' + optionValue
+      if multiple
+        select&attributes(attributes)(
+          id=name
+          '[label]'=label
+          '[placeholder]'=placeholder
+          mz-select
+          multiple
         )
-          ='{{ x' + optionName + ' }}'
+          option(
+            '*ngFor'='let x of ' + options
+            '[ngValue]'='x' + optionValue
+          )
+            ='{{ x' + optionName + ' }}'
+      else 
+        select&attributes(attributes)(
+          id=name
+          '[label]'=label
+          '[placeholder]'=placeholder
+          mz-select
+        )
+          option(
+            '*ngFor'='let x of ' + options
+            '[ngValue]'='x' + optionValue
+          )
+            ='{{ x' + optionName + ' }}'
 
 //- Crea un campo para un acordion
 //- [in]  title (string): el titulo a desplegar como el encabezado del acordion
@@ -191,3 +231,43 @@ mixin accordionItem(title, icon = null)
       =title
     mz-collapsible-item-body
       block
+
+//- Crea un area de texto
+//- [in]  name (string): el nombre del campo con el cual podra ser referenciado 
+//-       en el componente
+//- [in]  length (uint): el numero maximo de caracteres que el area de texto va 
+//-       a admitir
+//- [in]  label (string): el nombre a desplegar en pantalla para señalar el 
+//-       area de texto
+//- [in]  [icon] (string): el icono a desplegar a un costado del area de texto
+mixin textArea(name, length, label, icon = null)
+  mz-textarea-container
+    if (icon)
+      i.mz-textarea-prefix(class=icon)
+    textarea(
+      id=name
+      name=name
+      '[label]'=label
+      length=length
+      mz-textarea
+    )&attributes(attributes)
+
+//- Crea un campo para subir archivos
+//- [in]  name (string): el nombre del campo con el cual podra ser referenciado 
+//-       en el componente
+//- [in]  label (string): el nombre a desplegar en pantalla para señalar el 
+//-       campo para subir archivos
+//- [in]  buttonLabel (string): el texto a desplegar dentro del boton para 
+//-       seleccionar archivos
+//- [in]  [isMultiple] (boolean): bandera que indica si se permiten elegir 
+//-       multiples archivos para subirlos
+mixin fileInput(name, label, buttonLabel, isMultiple = false)
+  div.file-field.input-field
+      div.btn
+        span: =buttonLabel
+        if (isMultiple)
+          input(id=name name=name type='file' multiple)
+        else
+          input(id=name name=name type='file')
+      div.file-path-wrapper
+        input.file-path.validate(type='text' placeholder=label)

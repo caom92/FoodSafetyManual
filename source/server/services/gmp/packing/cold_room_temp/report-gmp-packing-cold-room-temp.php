@@ -9,7 +9,7 @@ $service = fsm\createReportService(
   'Cold Room Temperature Control',
   [
     'items_name' => 'items',
-    'extra_info' => ['time'],
+    'extra_info' => [ 'time' ],
     'function' => function($scope, $segment, $logDate) {
       // retrieve the per group log corresponding to this date
       return $scope->daoFactory->get('gmp\packing\coldRoomTemp\Logs')

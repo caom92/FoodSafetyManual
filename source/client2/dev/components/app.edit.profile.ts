@@ -21,6 +21,8 @@ export class EditProfileComponent implements OnInit
   // formulario para editar el nombre de usuario
   usernameEditionForm: FormGroup
 
+  // El constructor del componente importando los servicios y componentes 
+  // necesarios
   constructor(
     private home: HomeElementsService,
     private server: BackendService,
@@ -33,9 +35,6 @@ export class EditProfileComponent implements OnInit
 
   // Esta funcion se invoca cuando el componente es inicializado
   ngOnInit() {
-    // desplegamos el menu lateral de navegacion
-    this.home.displaySideNav()
-
     // inicializamos las reglas de validacion del formulario de edicion de 
     // contraseña
     this.passwordEditionForm = this.formBuilder.group({
@@ -51,6 +50,21 @@ export class EditProfileComponent implements OnInit
         Validators.required,
         Validators.minLength(6)
       ]) ]
+    }, { 
+      validator: function(group: FormGroup) {
+        // es necesario comparar los campos de la nueva contraseña y de la 
+        // confirmacion de la nueva contraseña para asegurarse de que sean 
+        // iguales
+        let password = group.controls['newPassword'].value 
+        let passwordConfirmation = 
+          group.controls['newPasswordConfirmation'].value
+        
+        // si no lo son, hay que retornar una bandera de error que activara el 
+        // mensaje de error a desplegar
+        return (password === passwordConfirmation) ? 
+          null 
+          : { arePasswordsDifferent: true }
+      }
     })
 
     // hacemos lo mismo para el formulario de edicion de nombre de usuario

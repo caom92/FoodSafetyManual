@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core'
 export class HomeElementsService
 {
   // Bandera que indica si se debe desplegar el menu lateral
-  private _showSideNav = true
+  private _showSideNav = false
   get showSideNav() {
     return this._showSideNav
   }
@@ -36,6 +36,19 @@ export class HomeElementsService
   // Oculta el menu de zonas
   hideZoneMenu() {
     this._showZoneMenu = false
+  }
+
+  private _showSpinner = true
+  get showSpinner() {
+    return this._showSpinner
+  }
+  
+  displaySpinner() {
+    this._showSpinner = true
+  }
+
+  hideSpinner() {
+    this._showSpinner = false
   }
 
   // El ID del usuario que tiene registrado en la base de datos
