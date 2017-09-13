@@ -13,14 +13,15 @@ include globals.pug
   mz-navbar-item
     +select(
       "'zone-selection'", 
-      'selectedZoneID', 
-      "'Zona'", 
+      '',
+      "langManager.messages.navBar.zone", 
       'home.zones', 
       '.name', 
       '.id', 
       'onZoneSelectionChanged(selectedZoneID)'
     )(
       '*ngIf'="home.showZoneMenu"
+      '[ngModel]'='selectedZoneID'
     )
   mz-navbar-item
     +link('http://www.jfdc.tech/')
@@ -119,7 +120,7 @@ include globals.pug
 
   //- El boton para reportar errores del sistema
   mz-sidenav-link
-    +link()(class='side-menu-link waves-effect waves-green')
+    +uiRouterLink('report-problem')(class='side-menu-link waves-effect waves-green')
       i.mdi.mdi-alert.mdi-24px.mdi-dark
       ='{{ langManager.messages.sideNavOptions.reportProblem }}'
 

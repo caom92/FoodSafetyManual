@@ -11,6 +11,8 @@ import { HttpModule } from '@angular/http'
 import { HomeComponent } from './app.home'
 import { LogInComponent } from './app.login'
 import { EditProfileComponent } from './app.edit.profile'
+import { ReportProblemComponent } from './app.report.problem'
+import { ProgressModalComponent } from './app.please.wait'
 
 // Importamos los servicios que van a ser necesitados por cada pagina del 
 // sistema
@@ -46,6 +48,11 @@ import { ToastService } from '../services/app.toast'
           name: 'edit-profile',
           url: '/edit-profile',
           component: EditProfileComponent
+        },
+        {
+          name: 'report-problem',
+          url: '/report-problem',
+          component: ReportProblemComponent
         }
       ],
       useHash: true,
@@ -65,7 +72,12 @@ import { ToastService } from '../services/app.toast'
     HomeComponent,
     LogInComponent,
     EditProfileComponent,
-    KeysPipe
+    KeysPipe,
+    ReportProblemComponent,
+    ProgressModalComponent
+  ],
+  entryComponents: [
+    ProgressModalComponent
   ],
   // indicamos cual es el componente raiz
   bootstrap: [ HomeComponent ]

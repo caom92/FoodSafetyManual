@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core'
 export class HomeElementsService
 {
   // Bandera que indica si se debe desplegar el menu lateral
-  private _showSideNav = true
+  private _showSideNav = false
   get showSideNav() {
     return this._showSideNav
   }

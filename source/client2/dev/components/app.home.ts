@@ -56,6 +56,9 @@ export class HomeComponent implements OnInit
           } else {
             // de lo contrario, permitimos la navegacion
             localStorage.is_logged_in = true
+            
+            // no olvides desplegar el menu lateral de navegacion
+            this.home.displaySideNav()
 
             // dependiendo del rol del usuario, se deben mostrar diferentes 
             // opciones en la aplicacion

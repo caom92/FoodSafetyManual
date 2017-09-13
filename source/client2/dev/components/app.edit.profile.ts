@@ -21,6 +21,8 @@ export class EditProfileComponent implements OnInit
   // formulario para editar el nombre de usuario
   usernameEditionForm: FormGroup
 
+  // El constructor del componente importando los servicios y componentes 
+  // necesarios
   constructor(
     private home: HomeElementsService,
     private server: BackendService,
@@ -33,9 +35,6 @@ export class EditProfileComponent implements OnInit
 
   // Esta funcion se invoca cuando el componente es inicializado
   ngOnInit() {
-    // desplegamos el menu lateral de navegacion
-    this.home.displaySideNav()
-
     // inicializamos las reglas de validacion del formulario de edicion de 
     // contraseña
     this.passwordEditionForm = this.formBuilder.group({
