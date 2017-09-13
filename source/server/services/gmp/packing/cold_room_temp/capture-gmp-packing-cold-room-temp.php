@@ -8,6 +8,10 @@ $service = fsm\createCaptureService(
   'Packing',
   'Cold Room Temperature Control',
   [
+    'time' => [
+      'type' => 'datetime',
+      'format' => 'G:i'
+    ],
     'items' => [
       'type' => 'array',
       'values' => [
