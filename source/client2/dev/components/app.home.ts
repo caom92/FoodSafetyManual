@@ -12,6 +12,8 @@ import { LanguageService } from '../services/app.language'
 })
 export class HomeComponent implements OnInit
 {
+  selectedZoneID: any = null
+  
   // El constructor de este componente, inyectando los servicios requeridos
   constructor(
     private server: BackendService,
@@ -129,10 +131,11 @@ export class HomeComponent implements OnInit
 
   // Esta funcion se invoca cuando el usuario cambio de zona
   // [in]   selectedZone (uint): el ID de la zona elegida por el usuario
-  onZoneSelectionChanged(selectedZoneID) {
+  onZoneSelectionChanged() {
+    console.log(this.selectedZoneID)
     // instanciamos los datos que vamos a enviar al servidor
     let data = new FormData()
-    data.append('zone_id', selectedZoneID)
+    data.append('zone_id', this.selectedZoneID.toString())
 
     // enviamos al servidor el comando para cambiar de zona
     this.server.update(
@@ -142,8 +145,8 @@ export class HomeComponent implements OnInit
         let result = JSON.parse(response['_body'].toString())
         if (result.meta.return_code == 0) {
           // cambiamos la zona actual por la nueva
-          this.home.zone.name = result.data.name
-          this.home.zone.id = result.data.id
+          this.home.zoneName = result.data.name
+          this.home.zoneID = result.data.id
         } 
 
         // damos retroalimentacion al usuario del resultado de esta operacion
