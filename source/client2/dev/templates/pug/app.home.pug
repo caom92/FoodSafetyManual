@@ -102,7 +102,10 @@ include globals.pug
       mz-sidenav-link(
         '*ngFor'='let module of home.programs[program].names | keys'
       )
-        +link()(class='waves-effect waves-green')
+        +uiRouterLink('inventory-selection')(
+          class='waves-effect waves-green'
+          '[uiParams]'="{ program: program, module: home.programs[program].names[module].suffix }"
+        )
           ='{{ module }}'
 
   //- Menu de navegacion para el empleado, el supervisor, gerente o director
@@ -115,7 +118,10 @@ include globals.pug
       mz-sidenav-link(
         '*ngFor'='let module of home.programs[program].names | keys'
       )
-        +link()(class='waves-effect waves-green')
+        +uiRouterLink('log-selection')(
+          class='waves-effect waves-green'
+          '[uiParams]'="{ program: program, module: home.programs[program].names[module].suffix }"
+        )
           ='{{ module }}'
 
   //- El boton para reportar errores del sistema

@@ -153,6 +153,9 @@ export class LanguageService
           maxlength: 'Este campo no debe ser mas de 1024 caracteres de largo'
         }
       },
+      inventoryList: {
+        noInventory: 'No hay inventarios en éste módulo'
+      },
       login: {
         0: 'Sesión iniciada exitosamente',
         1: 'Las credenciales son incorrectas'
@@ -343,6 +346,9 @@ export class LanguageService
           maxlength: 'This field should be no more than 1024 characters long'
         }
       },
+      inventoryList: {
+        noInventory: 'There is no inventory in this module'
+      },
       login: {
         0: 'Logged in successfully',
         1: 'Log in credentials are incorrect'
@@ -518,6 +524,9 @@ export class LanguageService
       reality: {
         maxlength: null
       }
+    },
+    inventoryList: {
+      noInventory: null
     }
   }
 

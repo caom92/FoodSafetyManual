@@ -13,6 +13,8 @@ import { LogInComponent } from './app.login'
 import { EditProfileComponent } from './app.edit.profile'
 import { ReportProblemComponent } from './app.report.problem'
 import { ProgressModalComponent } from './app.please.wait'
+import { LogListComponent } from './app.log.list'
+import { InventoryListComponent } from './app.inventory.list'
 
 // Importamos los servicios que van a ser necesitados por cada pagina del 
 // sistema
@@ -53,6 +55,16 @@ import { ToastService } from '../services/app.toast'
           name: 'report-problem',
           url: '/report-problem',
           component: ReportProblemComponent
+        },
+        {
+          name: 'log-selection',
+          url: '/log-selection/:program/:module',
+          component: LogListComponent
+        },
+        {
+          name: 'inventory-selection',
+          url: '/inventory-selection/:program/:module',
+          component: InventoryListComponent
         }
       ],
       useHash: true,
@@ -74,8 +86,11 @@ import { ToastService } from '../services/app.toast'
     EditProfileComponent,
     KeysPipe,
     ReportProblemComponent,
-    ProgressModalComponent
+    ProgressModalComponent,
+    LogListComponent,
+    InventoryListComponent
   ],
+  // declaramos cualquier componente que sera inyectado dinamicamente
   entryComponents: [
     ProgressModalComponent
   ],
@@ -83,6 +98,8 @@ import { ToastService } from '../services/app.toast'
   bootstrap: [ HomeComponent ]
 })
 export class RootModule { 
+  // Constructor del modulo raiz importa aquellos servicios que seran globales 
+  // para todos los demas modulos
   constructor(
     private home: HomeElementsService,
     private langManager: LanguageService
