@@ -19,7 +19,7 @@ export class BackendService
   // La funcion que sera ejecutada en caso de que la comunicacion con el 
   // servidor falle
   private static defaultErrorCallback = 
-    (error: any, caught: Observable<Response>) => {
+    (error: any, caught: Observable<void>) => {
       // simplimente arrojamos una excepcion para que sea capturada en una 
       // parte mas alta del programa
       Observable.throw(error)
@@ -41,7 +41,7 @@ export class BackendService
   create(
     service: string, 
     data: URLSearchParams, 
-    successCallback: any, 
+    successCallback: (response: any) => void, 
     errorCallback = BackendService.defaultErrorCallback
   ): void {
     this.http
@@ -53,7 +53,13 @@ export class BackendService
           withCredentials: true
         })
       )
-      .map(successCallback)
+      .map((response: Response) => {
+        // convertimos el resultado en JSON 
+        let result = JSON.parse(response['_body'].toString())
+
+        // invocamos la funcion de exito especificada por el usuario
+        successCallback(result)
+      })
       .catch(errorCallback)
       .subscribe()
   }
@@ -68,7 +74,7 @@ export class BackendService
   read(
     service: string, 
     data: URLSearchParams, 
-    successCallback: any, 
+    successCallback: (response: any) => void, 
     errorCallback = BackendService.defaultErrorCallback
   ): void {
     this.http
@@ -80,7 +86,13 @@ export class BackendService
           withCredentials: true
         })
       )
-      .map(successCallback)
+      .map((response: Response) => {
+        // convertimos el resultado en JSON 
+        let result = JSON.parse(response['_body'].toString())
+
+        // invocamos la funcion de exito especificada por el usuario
+        successCallback(result)
+      })
       .catch(errorCallback)
       .subscribe()
   }
@@ -95,7 +107,7 @@ export class BackendService
   update(
     service: string, 
     data: FormData, 
-    successCallback: any, 
+    successCallback: (response: any) => void, 
     errorCallback = BackendService.defaultErrorCallback
   ): void {
     this.http
@@ -107,7 +119,13 @@ export class BackendService
           withCredentials: true
         })
       )
-      .map(successCallback)
+      .map((response: Response) => {
+        // convertimos el resultado en JSON 
+        let result = JSON.parse(response['_body'].toString())
+
+        // invocamos la funcion de exito especificada por el usuario
+        successCallback(result)
+      })
       .catch(errorCallback)
       .subscribe()
   }
@@ -122,7 +140,7 @@ export class BackendService
   delete(
     service: string, 
     data: URLSearchParams, 
-    successCallback: any, 
+    successCallback: (response: any) => void, 
     errorCallback = BackendService.defaultErrorCallback
   ): void {
     this.http
@@ -134,7 +152,13 @@ export class BackendService
           withCredentials: true
         })
       )
-      .map(successCallback)
+      .map((response: Response) => {
+        // convertimos el resultado en JSON 
+        let result = JSON.parse(response['_body'].toString())
+
+        // invocamos la funcion de exito especificada por el usuario
+        successCallback(result)
+      })
       .catch(errorCallback)
       .subscribe()
   }

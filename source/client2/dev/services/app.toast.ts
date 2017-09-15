@@ -12,7 +12,7 @@ export class ToastService
   }
 
 
-  showText(text: string) {
+  showText(text: string): void {
     this.toastService.show(text, 3500, 'rounded')
   }
 }

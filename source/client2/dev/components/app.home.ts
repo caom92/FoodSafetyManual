@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit
   }
 
   // Esta funcion se ejecuta al iniciar la pagina
-  ngOnInit() {
+  ngOnInit(): void {
     // si no hay ningun idioma definimo, definimos el idioma español por defecto
     if (localStorage.lang == null) {
       localStorage.lang = 'es'
@@ -46,11 +46,10 @@ export class HomeComponent implements OnInit
     this.server.update(
       'check-session', 
       new FormData(), 
-      (response: Response) => {
-        let result = JSON.parse(response['_body'].toString())
-        if (result.meta.return_code == 0) {
+      (response: any) => {
+        if (response.meta.return_code == 0) {
           this.home.hideSpinner()
-          if (!result.data) {
+          if (!response.data) {
             // si el usuario no ha iniciado sesion, desactivamos la bandera y 
             // redireccionamos a la pantalla de inicio de sesion
             localStorage.is_logged_in = false
@@ -86,7 +85,7 @@ export class HomeComponent implements OnInit
           // desplegamos un mensaje de error al usuario 
           this.toastManager.showText(
             this.langManager.getServiceMessage(
-              'check-session', result.meta.return_code
+              'check-session', response.meta.return_code
             )
           )
         } // if (result.meta.return_code == 0)
@@ -95,19 +94,18 @@ export class HomeComponent implements OnInit
   } // ngOnInit() 
 
   // Esta funcion se ejecuta cuando el usuario cambio el idioma de la pagina
-  onLanguageButtonClicked(lang) {
+  onLanguageButtonClicked(lang): void {
     this.langManager.changeLanguage(lang)
   }
 
   // Esta es la funcion que se invoca cuando el usuario hace clic en el boton 
   // de cerrar sesion
-  onLogOutButtonClicked() {
+  onLogOutButtonClicked(): void {
     this.server.update(
       'logout', 
       new FormData(), 
-      (response: Response) => {
-        let result = JSON.parse(response['_body'].toString())
-        if (result.meta.return_code == 0) {
+      (response: any) => {
+        if (response.meta.return_code == 0) {
           // si la sesion fue cerrada correctamente, desactivamos la bandera y 
           // redireccionamos al usuario a la pantalla de inicio de sesion
           let lang = localStorage.lang
@@ -121,7 +119,7 @@ export class HomeComponent implements OnInit
           // desplegamos un mensaje de error al usuario
           this.toastManager.showText(
             this.langManager.getServiceMessage(
-              'logout', result.meta.return_code
+              'logout', response.meta.return_code
             )
           )
         } // if (result.meta.return_code == 0)
@@ -131,8 +129,7 @@ export class HomeComponent implements OnInit
 
   // Esta funcion se invoca cuando el usuario cambio de zona
   // [in]   selectedZone (uint): el ID de la zona elegida por el usuario
-  onZoneSelectionChanged() {
-    console.log(this.selectedZoneID)
+  onZoneSelectionChanged(): void {
     // instanciamos los datos que vamos a enviar al servidor
     let data = new FormData()
     data.append('zone_id', this.selectedZoneID.toString())
@@ -141,19 +138,18 @@ export class HomeComponent implements OnInit
     this.server.update(
       'director-change-zones',
       data,
-      (response: Response) => {
-        let result = JSON.parse(response['_body'].toString())
-        if (result.meta.return_code == 0) {
+      (response: any) => {
+        if (response.meta.return_code == 0) {
           // cambiamos la zona actual por la nueva
-          this.home.zoneName = result.data.name
-          this.home.zoneID = result.data.id
+          this.home.zoneName = response.data.name
+          this.home.zoneID = response.data.id
         } 
 
         // damos retroalimentacion al usuario del resultado de esta operacion
         this.toastManager.showText(
           this.langManager.getServiceMessage(
             'director-change-zones', 
-            result.meta.return_code
+            response.meta.return_code
           )
         ) // this.toastManager.showServiceErrorText
       } // (response: Response)

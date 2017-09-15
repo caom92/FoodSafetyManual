@@ -60,7 +60,7 @@ export class ReportProblemComponent implements OnInit
   }
 
   // Esta funcion se invoca al iniciar el componente
-  ngOnInit() {
+  ngOnInit(): void {
     // primero inicializamos el formulario de la parte superior junto con sus 
     // reglas de validacion
     this.infoForm = this.formBuilder.group({
@@ -103,7 +103,7 @@ export class ReportProblemComponent implements OnInit
 
   // Esta funcion se invoca cuando el usuario selecciona una zona de la lista 
   // de seleccion
-  onZoneSelected() {
+  onZoneSelected(): void {
     // cargamos la lista de programas a las cuales el usuario tiene permiso de 
     // acceder en la lista de seleccion de programas del formulario
     let zone = this.infoForm.controls['zone'].value
@@ -112,7 +112,7 @@ export class ReportProblemComponent implements OnInit
 
   // Esta funcion se invoca cuando el usuario selecciona un programa de la 
   // lista de seleccion
-  onProgramSelected() {
+  onProgramSelected(): void {
     // cargamos la lista de modulos a los cuales el usuario tiene permiso de 
     // acceder en la lista de seleccion de modulos del formulario
     let zone = this.infoForm.controls['zone'].value
@@ -122,7 +122,7 @@ export class ReportProblemComponent implements OnInit
 
   // Esta funcion se invoca cuando el usuario selecciona un modulo de la 
   // lista de seleccion
-  onModuleSelected() {
+  onModuleSelected(): void {
     // cargamos la lista de bitacoras a las cuales el usuario tiene permiso de 
     // acceder en la lista de seleccion de bitacoras del formulario
     let zone = this.infoForm.controls['zone'].value
@@ -131,30 +131,48 @@ export class ReportProblemComponent implements OnInit
     this.logs = Object.keys(
       this.home.privileges[zone][program].names[module]
     )
+    this.logs.splice(0, 1)
   }
 
   // Esta funcion se invoca cuando el usuario hace clic en el boton para enviar 
   // el reporte de error
-  onReportProblemFormSubmit() {
-    // Debido a que el autor no pudo encontrar una forma de emplear campos de 
-    // entrada de archivos con las interfaces de formularios de Reactive, lo 
-    // que se hizo fue que el formulario se dividio en 2 partes (en realidad 3, 
-    // debido a que la parte que captura los archivos esta en medio de las 
-    // otras dos), uno donde se capturan los archivos de imagenes y que se 
-    // programa utilizando formularios estandares de HTML5 y la otra donde se 
-    // encuentran todos los demas datos de captura y se emplea usando las 
-    // interfaces de formularios de Reactive; al final, cuando el usuario envia 
-    // el reporte, se concatenaran los datos de los 3 formularios en una sola 
-    // interfaz que sera enviada al servidor
+  onReportProblemFormSubmit(): void {
+    // mostramos el modal que le indica al servidor que se esta procesando su 
+    // peticion
+    let modal = this.modalManager.open(
+      ProgressModalComponent
+    )
 
     // cramos una instancia que contenga los datos del formulario, utilizando 
     // como base el formulario que capturo las imagenes subidas por el usuario
-    let data = new FormData(
-      <HTMLFormElement>document.getElementById('filesForm')
-    )
+    let data = new FormData()
 
-    // agregamos a esta instancia, los valores de los campos de los formularios 
-    // de la parte superior e inferior de la pantalla 
+    // Debido a que el autor no pudo encontrar una forma de emplear campos de 
+    // entrada de archivos con las interfaces de formularios de Reactive, lo 
+    // que se hizo fue que el formulario se dividio en 2 partes (en realidad 
+    // 3, debido a que la parte que captura los archivos esta en medio de las 
+    // otras dos), uno donde se capturan los archivos de imagenes y que se 
+    // programa utilizando formularios estandares de HTML5 y la otra donde se 
+    // encuentran todos los demas datos de captura y se emplea usando las 
+    // interfaces de formularios de Reactive; al final, cuando el usuario 
+    // envia el reporte, se concatenaran los datos de los 3 formularios en 
+    // una sola interfaz que sera enviada al servidor
+
+    // obtenemos el campo de archivos
+    let fileInput: HTMLInputElement = 
+      <HTMLInputElement>document.getElementById('screenshot-attachment')
+
+    // revisamos si el usuario capturo archivos en este campo
+    if (fileInput.files.length > 0) {
+      // si lo hizo, las adjuntamos una por una a los datos que seran enviados 
+      // al servidor
+      for (let i = 0; i < fileInput.files.length; ++i) {
+        data.append(`screenshot-attachment[${ i }]`, fileInput.files[i])
+      }
+    }
+
+    // agregamos a esta instancia, los valores de los campos de los 
+    // formularios de la parte superior e inferior de la pantalla 
     data.append(
       'problem-zone-selection', this.infoForm.controls['zone'].value
     )
@@ -188,27 +206,27 @@ export class ReportProblemComponent implements OnInit
     data.append(
       'reality', this.summaryForm.controls['reality'].value
     )
-    let modal = this.modalManager.open(
-      ProgressModalComponent
-    )
 
     // finalmente, enviamos los datos al servidor 
     this.server.update(
       'send-bug-report',
       data,
-      (response: Response) => {
-        // convertimos la respuesta en un JSON
-        let result = JSON.parse(response['_body'].toString())
-
+      (response: any) => {
         // cerramos el modal con el icono de progreso
         modal.instance.modalComponent.close()
 
         // damos retroalimentacion al usuario del resultado obtenido
         this.toastManager.showText(
           this.langManager.getServiceMessage(
-            'send-bug-report', result.meta.return_code
+            'send-bug-report', response.meta.return_code
           )
         )
+
+        // si el servidor respondio con exito...
+        if (response.meta.return_code == 0) {
+          // redireccionamos al usuario a otra pantalla
+          this.router.go('edit-profile')
+        }
       } // (response: Response)
     ) // this.server.update
   } // onReportProblemFormSubmit()

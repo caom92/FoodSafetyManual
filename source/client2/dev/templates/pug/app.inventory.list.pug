@@ -9,7 +9,7 @@ div.row
         +link()
           ='{{ log }}'
 
-  div.col.s12('*ngIf'='hasInventory == false')
-    h4
-      i.mdi.mdi-information
+  div.col.s12.center-align('*ngIf'='hasInventory == false')
+    h5
+      i.mdi.mdi-alert-octagon.red-text
       ='{{ langManager.messages.inventoryList.noInventory }}'

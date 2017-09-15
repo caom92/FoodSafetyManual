@@ -156,6 +156,13 @@ export class LanguageService
       inventoryList: {
         noInventory: 'No hay inventarios en éste módulo'
       },
+      authorizationList: {
+        title: 'Bitácoras pendientes de revisión',
+        noPendings: 'No hay bitácoras pendientes',
+        logLabel: 'Bitácora',
+        employeeLabel: 'Empleado',
+        dateLabel: 'Fecha'
+      },
       login: {
         0: 'Sesión iniciada exitosamente',
         1: 'Las credenciales son incorrectas'
@@ -179,6 +186,15 @@ export class LanguageService
       'send-bug-report': {
         0: 'Se envió el reporte de error exitosamente',
         1: 'Hubo un problema al enviar el reporte de error'
+      },
+      'approve-log': {
+        0: 'Bitácora aprovada con éxito',
+        1: 'No esta autorizado para aprovar esta bitácora'
+      },
+      'reject-log': {
+        0: 'Bitácora rechazada con éxito',
+        1: 'No está autorizado para rechazar esta bitácora',
+        2: 'Esta bitácora ya fue aprovada'
       },
       101: 'Faltó enviar una entrada al servidor',
       102: 'Una entrada enviada al servidor no es un valor numérico',
@@ -349,6 +365,13 @@ export class LanguageService
       inventoryList: {
         noInventory: 'There is no inventory in this module'
       },
+      authorizationList: {
+        title: 'Logs pending review',
+        noPendings: 'There are no logs pending',
+        logLabel: 'Log',
+        employeeLabel: 'Employee',
+        dateLabel: 'Date'
+      },
       login: {
         0: 'Logged in successfully',
         1: 'Log in credentials are incorrect'
@@ -372,6 +395,15 @@ export class LanguageService
       'send-bug-report': {
         0: 'The bug report was sent successfully',
         1: 'There was a problem sending the bug report'
+      },
+      'approve-log': {
+        0: 'Log approved successfully',
+        1: 'You are not allowed to approve this log'
+      },
+      'reject-log': {
+        0: 'Log rejected successfully',
+        1: 'You are not allowed to reject this log',
+        2: 'The log has already been approved'
       },
       101: 'A server input argument was not send',
       102: 'A server input argument is not a numeric value',
@@ -527,12 +559,19 @@ export class LanguageService
     },
     inventoryList: {
       noInventory: null
+    },
+    authorizationList: {
+      title: null,
+      noPendings: null,
+      logLabel: null,
+      employeeLabel: null,
+      dateLabel: null
     }
   }
 
   // Inicializa todos los textos de la aplicacion con el idioma que este 
   // seleccionado en ese momento, cualquiera que sea
-  initMessages() {
+  initMessages(): void {
     for (let msg in this.messages) {
       this.messages[msg] = this.translations[localStorage.lang][msg]
     }
@@ -541,7 +580,7 @@ export class LanguageService
   // Cambia los textos del sistema para que correspondan al idioma especificado
   // [in]   lang: el idioma elegido por el usuario, debe ser una opcion de:
   //        'en' o 'es'
-  changeLanguage(lang: string) {
+  changeLanguage(lang: string): void {
     localStorage.lang = lang
     for (let msg in this.messages) {
       this.messages[msg] = this.translations[lang][msg]
@@ -554,7 +593,7 @@ export class LanguageService
   // [in]   code: el codigo de resultado obtenido tras solicitar dicho servicio
   // [out]  return: el texto correspondiente al resultado obtenido por el 
   //        servicio especificado en el idioma seleccionado
-  getServiceMessage(service: string, code: number) {
+  getServiceMessage(service: string, code: number): string {
     // inicializamos el almacenamiento temporal para el mensaje resultante
     let message = null
     

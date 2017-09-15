@@ -84,7 +84,9 @@ include globals.pug
 
   //- Menu de navegacion para el supervisor
   mz-sidenav-link('*ngIf'="home.roleName === 'Supervisor'")
-    +link()(class='side-menu-link waves-effect waves-green')
+    +uiRouterLink('pending-authorizations-list')(
+      class='side-menu-link waves-effect waves-green'
+    )
       i.mdi.mdi-comment-check.mdi-24px.mdi-dark
       ='{{ langManager.messages.sideNavOptions.authorizations }}'
       mz-badge(

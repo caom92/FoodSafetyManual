@@ -58,8 +58,7 @@ export class MyApp {
     this.server.update(
       'logout', 
       new FormData(), 
-      (response: Response) => {
-        let result = JSON.parse(response['_body'].toString())
+      (response: any) => {
         if (result.meta.return_code == 0) {
           // si la sesion fue cerrada correctamente, desactivamos la bandera y 
           // redireccionamos al usuario a la pantalla de inicio de sesion

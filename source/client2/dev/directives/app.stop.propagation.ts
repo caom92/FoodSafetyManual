@@ -11,7 +11,7 @@ export class ClickStopPropagationDirective
   // Esta funcion se ejecuta cuando el usuario hizo clic en el componente y 
   // bloquea la propagacion de dicho evento
   @HostListener("click", ["$event"])
-  public onClick(event: any) {
+  public onClick(event: any): void {
     event.stopPropagation()
   }
 }

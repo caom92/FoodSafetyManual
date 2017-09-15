@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core'
 import { HomeElementsService } from '../services/app.home'
 import { BackendService } from '../services/app.backend'
-import { StateService } from '@uirouter/angular'
 import { ToastService } from '../services/app.toast'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { LanguageService } from '../services/app.language'
+import { MzModalService, MzBaseModal } from 'ng2-materialize'
+import { ProgressModalComponent } from './app.please.wait'
 
 // Componente que define el comportamiento de la pagina de editar perfil de 
 // usuario
@@ -26,15 +27,15 @@ export class EditProfileComponent implements OnInit
   constructor(
     private home: HomeElementsService,
     private server: BackendService,
-    private router: StateService,
     private toastManager: ToastService,
     private formBuilder: FormBuilder,
-    private langManager: LanguageService
+    private langManager: LanguageService,
+    private modalManager: MzModalService
   ) {
   }
 
   // Esta funcion se invoca cuando el componente es inicializado
-  ngOnInit() {
+  ngOnInit(): void {
     // inicializamos las reglas de validacion del formulario de edicion de 
     // contraseña
     this.passwordEditionForm = this.formBuilder.group({
@@ -82,7 +83,10 @@ export class EditProfileComponent implements OnInit
 
   // Esta funcion es invocada cada vez que se hace clic en el boton de enviar 
   // del formulario de edicion de contraseña
-  onPasswordEditionFormSubmit() {
+  onPasswordEditionFormSubmit(): void {
+    // desplegamos el modal de progreso
+    let modal = this.modalManager.open(ProgressModalComponent)
+
     // recuperamos los datos capturados en el formulario
     let data = new FormData()
     data.append('user_id', this.home.userID.toString())
@@ -93,15 +97,15 @@ export class EditProfileComponent implements OnInit
     this.server.update(
       'change-password',
       data,
-      (response: Response) => {
-        // convertimos el resultado en JSON 
-        let result = JSON.parse(response['_body'].toString())
+      (response: any) => {
+        // cerramos el modal
+        modal.instance.modalComponent.close()
 
         // damos retroalimentacion al usuario del resultado de esta opreacion
         this.toastManager.showText(
           this.langManager.getServiceMessage(
             'change-password', 
-            result.meta.return_code
+            response.meta.return_code
           )
         )
       } // (response: Response)
@@ -110,7 +114,10 @@ export class EditProfileComponent implements OnInit
 
   // Esta funcion es invocada cada vez que se hace clic en el boton de enviar 
   // del formulario de edicion de nombre de usuario
-  onUsernameEditionFormSubmit() {
+  onUsernameEditionFormSubmit(): void {
+    // desplegamos el modal de progreso
+    let modal = this.modalManager.open(ProgressModalComponent)
+
     // primero recuperamos los datos capturados del formulario
     let newUsername = this.usernameEditionForm.value.newUsername
     let data = new FormData()
@@ -121,22 +128,22 @@ export class EditProfileComponent implements OnInit
     this.server.update(
       'change-username',
       data,
-      (response: Response) => {
-        // convertimos la respuesta en un JSON
-        let result = JSON.parse(response['_body'].toString())
+      (response: any) => {
+        // cerramos el modal
+        modal.instance.modalComponent.close()
 
-        // si el cambio se realizo con exito en la base de datos, hay que 
-        // actualizar la copia que tenemos en memoria local
-        if (result.meta.return_code == 0) {
-          this.home.loginName = newUsername
-        }
-        
         // damos retroalimentacion al usuario del resultado de esta operacion
         this.toastManager.showText(
           this.langManager.getServiceMessage(
-            'change-username', result.meta.return_code
+            'change-username', response.meta.return_code
           )
         )
+
+        // si el cambio se realizo con exito en la base de datos, hay que 
+        // actualizar la copia que tenemos en memoria local
+        if (response.meta.return_code == 0) {
+          this.home.loginName = newUsername
+        }
       } // (response: Response)
     ) // this.server.update
   } // onUsernameEditionFormSubmit()

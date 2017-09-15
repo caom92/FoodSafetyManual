@@ -132,7 +132,7 @@ function isDocumentFile($file)
 // returning true if this is the case or false otherwise
 function isBitmapFile($file)
 {
-  if (isset($file)) {
+  if (isset($file) && strlen($file) > 0) {
     // check the contents of the file and deduce the file type from there
     $fileType = exif_imagetype($file);
 

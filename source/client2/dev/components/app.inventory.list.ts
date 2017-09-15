@@ -28,7 +28,7 @@ export class InventoryListComponent implements OnInit
   }
 
   // Esta funcion se invoca cuando el componente es inicializado
-  ngOnInit() {
+  ngOnInit(): void {
     // utilizando la zona, el programa y el modulo, obtenemos la lista de 
     // bitacoras de los permisos del usuario
     let zone = this.home.zone.name
