@@ -29,7 +29,8 @@ $service = [
     if (!$hasEmployeeAssigned) {
       throw new \Exception(
         'This supervisor is not allowed to authorize this log; the '.
-        'employee that captured the log is not assigned to her.'
+        'employee that captured the log is not assigned to her.',
+        1
       );
     }
 

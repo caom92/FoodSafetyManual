@@ -30,7 +30,7 @@ export class LogInComponent implements OnInit
 
   // Almacena los datos recuperados del servidor al momento de iniciar sesion 
   // para ser utilizados mas adelante
-  private storeUserData(userData) {
+  private storeUserData(userData): void {
     this.home.userID = userData.user_id
     this.home.roleName = userData.role_name
     this.home.employeeNum = userData.employee_num
@@ -59,7 +59,7 @@ export class LogInComponent implements OnInit
   }
 
   // Esta funcion se invoca cuando el componente es inicializado
-  ngOnInit() {
+  ngOnInit(): void {
     // indicamos que esta es la pagina de inicio de sesion
     this.home.hideSideNav()
 
@@ -82,10 +82,9 @@ export class LogInComponent implements OnInit
     this.server.update(
       'check-session', 
       new FormData(), 
-      (response: Response) => {
-        let result = JSON.parse(response['_body'].toString())
-        if (result.meta.return_code == 0) {
-          if (result.data) {
+      (response: any) => {
+        if (response.meta.return_code == 0) {
+          if (response.data) {
             // si el usuario ya inicio sesion hay que redireccionar al usuario 
             // a la pagina principal
             localStorage.is_logged_in = true
@@ -100,7 +99,7 @@ export class LogInComponent implements OnInit
           // notificar al usuario
           this.toastManager.showText(
             this.langManager.getServiceMessage(
-              'check-session', result.meta.return_code
+              'check-session', response.meta.return_code
             )
           )
         }
@@ -110,7 +109,7 @@ export class LogInComponent implements OnInit
 
   // Esta funcion es invocada cuando el usuario hace clic en el boton de enviar
   // en el formulario de captura
-  onLogInFormSubmit() {
+  onLogInFormSubmit(): void {
     // guardamos los datos ingresados por el usuario en el formulario en una 
     // instancia de FormData
     let formData = new FormData()
@@ -121,14 +120,13 @@ export class LogInComponent implements OnInit
     this.server.update(
       'login', 
       formData, 
-      (response: Response) => {
-        let result = JSON.parse(response['_body'].toString())
-        if (result.meta.return_code == 0) {
+      (response: any) => {
+        if (response.meta.return_code == 0) {
           // si el usuario logro iniciar sesion exitosamente, guardamos los 
           // datos retornados por el servidor y activamos la bandera que indica 
           // que iniciamos sesion
           localStorage.is_logged_in = true
-          this.storeUserData(result.data)
+          this.storeUserData(response.data)
 
           // dependiendo del rol del usuario, se deben mostrar diferentes 
           // opciones en la aplicacion
@@ -151,7 +149,8 @@ export class LogInComponent implements OnInit
 
           // indicamos al usuario que ha iniciado sesion
           this.toastManager.showText(
-            this.langManager.getServiceMessage('login', result.meta.return_code)
+            this.langManager.getServiceMessage('login', 
+            response.meta.return_code)
           )
           this.home.displaySideNav()
           this.router.go('edit-profile')
@@ -159,7 +158,8 @@ export class LogInComponent implements OnInit
           // si hubo un problema con la conexion del servidor, desplegamos un 
           // mensaje de error al usuario
           this.toastManager.showText(
-            this.langManager.getServiceMessage('login', result.meta.return_code)
+            this.langManager.getServiceMessage('login', 
+            response.meta.return_code)
           )
         } // if (result.meta.return_code == 0)
       } // (response: Response)

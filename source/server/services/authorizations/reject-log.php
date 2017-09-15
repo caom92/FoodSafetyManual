@@ -24,7 +24,8 @@ $service = [
     if (!$hasEmployeeAssigned) {
       throw new \Exception(
         'This supervisor is not allowed to reject this log; the '.
-        'employee that captured the log is not assigned to her.'
+        'employee that captured the log is not assigned to her.',
+        1
       );
     }
 
@@ -34,7 +35,8 @@ $service = [
     if ($isApproved) {
       // if it is, prevent the status change and notify the user
       throw new \Exception(
-        'The log is already approved and it cannot be changed.'
+        'The log is already approved and it cannot be changed.',
+        2
       );
     }
 

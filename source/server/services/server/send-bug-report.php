@@ -56,7 +56,7 @@ $service = [
     ],
     'files' => [
       'name' => 'screenshot-attachment',
-      'optional' => true,
+      'optional' => TRUE,
       'format' => 'bitmap'
     ],
     // 'lang' => [

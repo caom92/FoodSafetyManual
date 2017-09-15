@@ -13,11 +13,14 @@ import { LogInComponent } from './app.login'
 import { EditProfileComponent } from './app.edit.profile'
 import { ReportProblemComponent } from './app.report.problem'
 import { ProgressModalComponent } from './app.please.wait'
+import { LogListComponent } from './app.log.list'
+import { InventoryListComponent } from './app.inventory.list'
+import { AuthorizationListComponent } from './app.authorizations'
 
 // Importamos los servicios que van a ser necesitados por cada pagina del 
 // sistema
-import { uiRouterConfigFn } from '../services/ui.router.config'
-import { KeysPipe } from '../services/app.keys'
+import { uiRouterConfigFn } from '../functions/ui.router.config'
+import { KeysPipe } from '../pipes/app.keys'
 import { ClickStopPropagationDirective } from '../directives/app.stop.propagation'
 import { HomeElementsService } from '../services/app.home'
 import { BackendService } from '../services/app.backend'
@@ -53,6 +56,21 @@ import { ToastService } from '../services/app.toast'
           name: 'report-problem',
           url: '/report-problem',
           component: ReportProblemComponent
+        },
+        {
+          name: 'log-selection',
+          url: '/log-selection/:program/:module',
+          component: LogListComponent
+        },
+        {
+          name: 'inventory-selection',
+          url: '/inventory-selection/:program/:module',
+          component: InventoryListComponent
+        },
+        {
+          name: 'pending-authorizations-list',
+          url: '/pending-authorizations-list',
+          component: AuthorizationListComponent
         }
       ],
       useHash: true,
@@ -74,8 +92,12 @@ import { ToastService } from '../services/app.toast'
     EditProfileComponent,
     KeysPipe,
     ReportProblemComponent,
-    ProgressModalComponent
+    ProgressModalComponent,
+    LogListComponent,
+    InventoryListComponent,
+    AuthorizationListComponent
   ],
+  // declaramos cualquier componente que sera inyectado dinamicamente
   entryComponents: [
     ProgressModalComponent
   ],
@@ -83,6 +105,8 @@ import { ToastService } from '../services/app.toast'
   bootstrap: [ HomeComponent ]
 })
 export class RootModule { 
+  // Constructor del modulo raiz importa aquellos servicios que seran globales 
+  // para todos los demas modulos
   constructor(
     private home: HomeElementsService,
     private langManager: LanguageService
