@@ -212,6 +212,20 @@ export class HomeElementsService
     return this._programs
   }
 
+  // Almacenamiento temporal utilizado para comunicar informacion entre 
+  // componentes
+  private _temp: any = 
+    (localStorage.temp !== undefined) ?
+      JSON.parse(localStorage.temp)
+      : null
+  set tempStorage(value: any) {
+    this._temp = value
+    localStorage.temp = JSON.stringify(value)
+  }
+  get tempStorage() {
+    return this._temp
+  }
+
   // El numero de autorizaciones pendientes de revisar por el supervisor
   numPendingAuthorizations: number = 0
 

@@ -1,0 +1,22 @@
+include globals.pug
+
+mz-modal('[options]'='modalOptions')
+  mz-modal-header
+    ='{{ langManager.messages.logFootersLabels.titles[1] }}'
+  mz-modal-content
+    h6
+      ='{{ zone }} - {{ log }}'
+    +textArea(
+      'pdf-footer',
+      65535,
+      'langManager.messages.logFootersLabels.tableHeaders[1]'
+    )(
+      value='{{ home.tempStorage.pdf }}'
+    )
+    +textArea(
+      'html-footer',
+      65535,
+      'langManager.messages.logFootersLabels.tableHeaders[2]'
+    )(
+      value='{{ home.tempStorage.html }}'
+    )

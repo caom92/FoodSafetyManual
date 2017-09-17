@@ -17,7 +17,7 @@ export class LanguageService
       sideNavOptions: {
         users: 'Usuarios',
         zones: 'Zonas',
-        programs: 'Programas',
+        programs: 'Bitácoras',
         supervisors: 'Supervisores',
         signatures: 'Firmas',
         reportProblem: 'Reportar Problema',
@@ -163,6 +163,20 @@ export class LanguageService
         employeeLabel: 'Empleado',
         dateLabel: 'Fecha'
       },
+      logFootersLabels: {
+        titles: [
+          'Pies de Página de Bitácoras',
+          'Editar pie de página'
+        ],
+        program: 'Programa',
+        module: 'Módulo',
+        tableHeaders: [
+          'Programa',
+          'Pie de pág. PDF',
+          'Pie de pág. HTML',
+          ''
+        ],
+      },
       login: {
         0: 'Sesión iniciada exitosamente',
         1: 'Las credenciales son incorrectas'
@@ -226,7 +240,7 @@ export class LanguageService
       sideNavOptions: {
         users: 'Users',
         zones: 'Zones',
-        programs: 'Programs',
+        programs: 'Logs',
         supervisors: 'Supervisors',
         signatures: 'Signatures',
         reportProblem: 'Report Problem',
@@ -371,6 +385,20 @@ export class LanguageService
         logLabel: 'Log',
         employeeLabel: 'Employee',
         dateLabel: 'Date'
+      },
+      logFootersLabels: {
+        titles: [
+          "Log's Page Footers",
+          'Edit page footer'
+        ],
+        program: 'Program',
+        module: 'Module',
+        tableHeaders: [
+          'Program',
+          'PDF Footer',
+          'HTML Footer',
+          ''
+        ]
       },
       login: {
         0: 'Logged in successfully',
@@ -566,6 +594,12 @@ export class LanguageService
       logLabel: null,
       employeeLabel: null,
       dateLabel: null
+    },
+    logFootersLabels: {
+      titles: [ null, null ],
+      program: null,
+      module: null,
+      tableHeaders: [ null, null, null, null ]
     }
   }
 

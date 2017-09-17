@@ -4,7 +4,7 @@ import { BackendService } from '../services/app.backend'
 import { ToastService } from '../services/app.toast'
 import { LanguageService } from '../services/app.language'
 import { MzModalService, MzBaseModal } from 'ng2-materialize'
-import { ProgressModalComponent } from './app.please.wait'
+import { ProgressModalComponent } from './modal.please.wait'
 
 // Componente que define el comportamiento de la pagina que despliega una lista 
 // de las bitacoras que estan pendientes de revision

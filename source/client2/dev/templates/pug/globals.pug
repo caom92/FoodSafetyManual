@@ -271,3 +271,11 @@ mixin fileInput(name, label, buttonLabel, isMultiple = false)
           input(id=name name=name type='file')
       div.file-path-wrapper
         input.file-path.validate(type='text' placeholder=label)
+
+mixin responsiveTable(headers)
+  table.highlight.responsive-table
+    thead
+      th('*ngFor'='let header of ' + headers) 
+        ='{{ header }}'
+    tbody
+      block
