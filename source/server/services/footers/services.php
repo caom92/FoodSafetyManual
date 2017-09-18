@@ -6,7 +6,7 @@ $footers = [
   ],
   'services' => [
     'add-report-footer' => realpath(dirname(__FILE__).'/add-report-footer.php'),
-    'edit-report-footer' => 
+    'edit-report-footers' => 
       realpath(dirname(__FILE__).'/edit-report-footers.php'),
     'list-report-footers' => 
       realpath(dirname(__FILE__).'/list-report-footers.php'),

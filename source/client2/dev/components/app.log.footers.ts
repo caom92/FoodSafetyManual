@@ -94,14 +94,14 @@ export class LogFootersComponent
   // Esta funcion se invoca cuando el usuario hace clic en el boton para editar 
   // el pie de pagina de una de las bitacoras de la tabla
   onEditButtonClick(footer) {
-    console.log(footer)
-    this.home.tempStorage = {
-      id: footer.id,
+    // Invocamos el modal de edicion de pies de pagina pasandole como 
+    // parametros los pies de pagina de la bitacora elegida 
+    this.modalManager.open(EditFooterModalComponent, {
+      footerID: footer.id,
       log: footer.log_name,
       zone: footer.zone_name,
-      pdf: footer.pdf_footer,
-      html: footer.html_footer
-    }
-    this.modalManager.open(EditFooterModalComponent)
+      footerPDF: footer.pdf_footer,
+      footerHTML: footer.html_footer
+    })
   }
 }

@@ -35,6 +35,10 @@ export class ReportProblemComponent implements OnInit
   // La lista de las bitacoras que el usuario puede elegir en el formulario
   logs = []
 
+  // Un diccionario que contiene las bitacoras accesibles por el usuario 
+  // organizadas en zonas, programas, modulos y bitacoras
+  accesibleLogs: any = {}
+
   // La lista de los navegadores web que el usuario puede elegir en el 
   // formulario
   browsers = [
@@ -109,7 +113,7 @@ export class ReportProblemComponent implements OnInit
             }
           }
         }
-        this.home.tempStorage = zones
+        this.accesibleLogs = zones
         this.zones = this.home.zones
       break
 
@@ -133,7 +137,7 @@ export class ReportProblemComponent implements OnInit
             }
           }
         }
-        this.home.tempStorage = zones
+        this.accesibleLogs = zones
         this.zones = this.home.zones
       break
 
@@ -158,7 +162,7 @@ export class ReportProblemComponent implements OnInit
             }
           }
         }
-        this.home.tempStorage = zones
+        this.accesibleLogs = zones
       break
     }
   }
@@ -169,7 +173,7 @@ export class ReportProblemComponent implements OnInit
     // cargamos la lista de programas a las cuales el usuario tiene permiso de 
     // acceder en la lista de seleccion de programas del formulario
     let zone = this.infoForm.controls['zone'].value
-    this.programs = Object.keys(this.home.tempStorage[zone])
+    this.programs = Object.keys(this.accesibleLogs[zone])
   }
 
   // Esta funcion se invoca cuando el usuario selecciona un programa de la 
@@ -179,7 +183,7 @@ export class ReportProblemComponent implements OnInit
     // acceder en la lista de seleccion de modulos del formulario
     let zone = this.infoForm.controls['zone'].value
     let program = this.infoForm.controls['program'].value
-    this.modules = Object.keys(this.home.tempStorage[zone][program])
+    this.modules = Object.keys(this.accesibleLogs[zone][program])
   }
 
   // Esta funcion se invoca cuando el usuario selecciona un modulo de la 
@@ -190,7 +194,7 @@ export class ReportProblemComponent implements OnInit
     let zone = this.infoForm.controls['zone'].value
     let program = this.infoForm.controls['program'].value
     let module = this.infoForm.controls['module'].value
-    this.logs = this.home.tempStorage[zone][program][module]
+    this.logs = this.accesibleLogs[zone][program][module]
   }
 
   // Esta funcion se invoca cuando el usuario hace clic en el boton para enviar 

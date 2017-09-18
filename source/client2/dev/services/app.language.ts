@@ -176,6 +176,10 @@ export class LanguageService
           'Pie de pág. HTML',
           ''
         ],
+        newFooter: { 
+          required: 'Este campo es obligatorio',
+          maxlength: 'Este campo no debe ser mas de 65535 caracteres de largo'
+        }
       },
       login: {
         0: 'Sesión iniciada exitosamente',
@@ -209,6 +213,9 @@ export class LanguageService
         0: 'Bitácora rechazada con éxito',
         1: 'No está autorizado para rechazar esta bitácora',
         2: 'Esta bitácora ya fue aprovada'
+      },
+      'edit-report-footers': {
+        0: 'Se editaron los pies de pagina exitosamente'
       },
       101: 'Faltó enviar una entrada al servidor',
       102: 'Una entrada enviada al servidor no es un valor numérico',
@@ -398,7 +405,11 @@ export class LanguageService
           'PDF Footer',
           'HTML Footer',
           ''
-        ]
+        ],
+        newFooter: {
+          required: 'This field is required',
+          maxlength: 'This filed must not be more than 65535 characters long'
+        }
       },
       login: {
         0: 'Logged in successfully',
@@ -432,6 +443,9 @@ export class LanguageService
         0: 'Log rejected successfully',
         1: 'You are not allowed to reject this log',
         2: 'The log has already been approved'
+      },
+      'edit-report-footers': {
+        0: 'The footers were edited successfully'
       },
       101: 'A server input argument was not send',
       102: 'A server input argument is not a numeric value',
@@ -599,7 +613,11 @@ export class LanguageService
       titles: [ null, null ],
       program: null,
       module: null,
-      tableHeaders: [ null, null, null, null ]
+      tableHeaders: [ null, null, null, null ],
+      newFooter: {
+        required: null,
+        maxlength: null
+      }
     }
   }
 

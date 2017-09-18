@@ -47,8 +47,14 @@ div.row('*ngIf'='showTable != false')
     )
       tr('*ngFor'='let log of logs')
         td: ='{{ log.log_name }}'
-        td: ='{{ log.html_footer }}'
-        td: ='{{ log.pdf_footer }}'
+        td 
+          i.mdi.mdi-check.mdi-24px.green-text(
+            '*ngIf'='log.pdf_footer.length > 0'
+          )
+        td
+          i.mdi.mdi-check.mdi-24px.green-text(
+            '*ngIf'='log.html_footer.length > 0'
+          )
         td
           +button(
             'button', 
