@@ -1,0 +1,66 @@
+include globals.pug
+
+div.row
+  div.col.s12
+    h4
+      i.mdi.mdi-note-multiple
+      ='{{ langManager.messages.logFootersLabels.titles[0] }}'
+
+div.row
+  div.col.s12.m4
+    +select(
+      'zone',
+      'langManager.messages.navBar.zone',
+      'langManager.messages.reportProblemFormLabels.selectLabel',
+      'home.zones',
+      '.name', '.id',
+      'onZoneSelected()'
+    )(
+      '[(ngModel)]'='selectedZoneID'
+    )
+  div.col.s12.m4
+    +select(
+      'program',
+      'langManager.messages.logFootersLabels.program',
+      'langManager.messages.reportProblemFormLabels.selectLabel',
+      'home.logs',
+      '.name', '.modules'
+    )(
+      '[(ngModel)]'='modules'
+    )
+  div.col.s12.m4
+    +select(
+      'module',
+      'langManager.messages.logFootersLabels.module',
+      'langManager.messages.reportProblemFormLabels.selectLabel',
+      'modules',
+      '.name', '.id',
+      'onModuleSelected()'
+    )(
+      '[(ngModel)]'='selectedModuleID'
+    )
+
+div.row('*ngIf'='showTable != false')
+  div.col.s12
+    +responsiveTable(
+      'langManager.messages.logFootersLabels.tableHeaders'
+    )
+      tr('*ngFor'='let log of logs')
+        td: ='{{ log.log_name }}'
+        td 
+          i.mdi.mdi-check.mdi-24px.green-text(
+            '*ngIf'='log.pdf_footer.length > 0'
+          )
+        td
+          i.mdi.mdi-check.mdi-24px.green-text(
+            '*ngIf'='log.html_footer.length > 0'
+          )
+        td
+          +button(
+            'button', 
+            'edit-footer-button', 
+            '{{ langManager.messages.editPasswordFormLabels.submit }}',
+            'mdi mdi-pencil'
+          )(
+            '(click)'='onEditButtonClick(log)'
+          )

@@ -5,7 +5,7 @@ import { ToastService } from '../services/app.toast'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { LanguageService } from '../services/app.language'
 import { MzModalService, MzBaseModal } from 'ng2-materialize'
-import { ProgressModalComponent } from './app.please.wait'
+import { ProgressModalComponent } from './modal.please.wait'
 
 // Componente que define el comportamiento de la pagina de editar perfil de 
 // usuario

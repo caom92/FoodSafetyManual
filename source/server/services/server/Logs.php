@@ -108,6 +108,18 @@ class Logs extends db\DataBaseTable
       ]
     );
   }
+
+  // Returns all the rows that have the specified ID
+  // [in]   moduleID (uint): the ID of the module which logs are going to be 
+  //        returned
+  // [out]  return (dictionary): the list of logs in the specified module 
+  //        organized by rows and columns
+  function selectByModuleID($moduleID) {
+    return parent::select(
+      [ 'id', 'name' ],
+      [ 'module_id' => $moduleID ]
+    );
+  }
 }
 
 ?>

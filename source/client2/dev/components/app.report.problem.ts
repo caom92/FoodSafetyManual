@@ -6,7 +6,7 @@ import { ToastService } from '../services/app.toast'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { LanguageService } from '../services/app.language'
 import { MzModalService, MzBaseModal } from 'ng2-materialize'
-import { ProgressModalComponent } from './app.please.wait'
+import { ProgressModalComponent } from './modal.please.wait'
 
 // Componente que define el comportamiento de la pagina donde se pueden enviar 
 // reportes de error
@@ -34,6 +34,10 @@ export class ReportProblemComponent implements OnInit
 
   // La lista de las bitacoras que el usuario puede elegir en el formulario
   logs = []
+
+  // Un diccionario que contiene las bitacoras accesibles por el usuario 
+  // organizadas en zonas, programas, modulos y bitacoras
+  accesibleLogs: any = {}
 
   // La lista de los navegadores web que el usuario puede elegir en el 
   // formulario
@@ -94,10 +98,72 @@ export class ReportProblemComponent implements OnInit
     })
 
     // Llenamos la lista de zonas dependiendo del rol del usuario
-    if (this.home.roleName != 'Director') {
-      this.zones.push(this.home.zone)
-    } else {
-      this.zones = this.home.zones
+    let zones = {}
+    switch (this.home.roleName) {
+      case 'Administrator':
+        for (let z of this.home.zones) {
+          zones[z['name']] = {}
+          for (let p of this.home.logs) {
+            zones[z['name']][p['name']] = {}
+            for (let m of p['modules']) {
+              zones[z['name']][p['name']][m['name']] = []
+              for (let l of m['logs']) {
+                zones[z['name']][p['name']][m['name']].push(l['name'])
+              }
+            }
+          }
+        }
+        this.accesibleLogs = zones
+        this.zones = this.home.zones
+      break
+
+      case 'Director':
+        for (let z of this.home.zones) {
+          zones[z['name']] = {}
+          for (let p of Object.keys(this.home.privileges[z['name']])) {
+            zones[z['name']][p] = {}
+            for (
+              let m of Object.keys(this.home.privileges[z['name']][p]['names'])
+            ) {
+              zones[z['name']][p][m] = []
+              for (
+                let log of 
+                Object.keys(this.home.privileges[z['name']][p]['names'][m])
+              ) {
+                if (log != 'suffix') {
+                  zones[z['name']][p][m].push(log)
+                }
+              }
+            }
+          }
+        }
+        this.accesibleLogs = zones
+        this.zones = this.home.zones
+      break
+
+      default:
+        this.zones.push(this.home.zone)
+        for (let z of this.zones) {
+          zones[z['name']] = {}
+          for (let p of Object.keys(this.home.privileges[z['name']])) {
+            zones[z['name']][p] = {}
+            for (
+              let m of Object.keys(this.home.privileges[z['name']][p]['names'])
+            ) {
+              zones[z['name']][p][m] = []
+              for (
+                let log of 
+                Object.keys(this.home.privileges[z['name']][p]['names'][m])
+              ) {
+                if (log != 'suffix') {
+                  zones[z['name']][p][m].push(log)
+                }
+              }
+            }
+          }
+        }
+        this.accesibleLogs = zones
+      break
     }
   }
 
@@ -107,7 +173,7 @@ export class ReportProblemComponent implements OnInit
     // cargamos la lista de programas a las cuales el usuario tiene permiso de 
     // acceder en la lista de seleccion de programas del formulario
     let zone = this.infoForm.controls['zone'].value
-    this.programs = Object.keys(this.home.privileges[zone])
+    this.programs = Object.keys(this.accesibleLogs[zone])
   }
 
   // Esta funcion se invoca cuando el usuario selecciona un programa de la 
@@ -117,7 +183,7 @@ export class ReportProblemComponent implements OnInit
     // acceder en la lista de seleccion de modulos del formulario
     let zone = this.infoForm.controls['zone'].value
     let program = this.infoForm.controls['program'].value
-    this.modules = Object.keys(this.home.privileges[zone][program].names)
+    this.modules = Object.keys(this.accesibleLogs[zone][program])
   }
 
   // Esta funcion se invoca cuando el usuario selecciona un modulo de la 
@@ -128,10 +194,7 @@ export class ReportProblemComponent implements OnInit
     let zone = this.infoForm.controls['zone'].value
     let program = this.infoForm.controls['program'].value
     let module = this.infoForm.controls['module'].value
-    this.logs = Object.keys(
-      this.home.privileges[zone][program].names[module]
-    )
-    this.logs.splice(0, 1)
+    this.logs = this.accesibleLogs[zone][program][module]
   }
 
   // Esta funcion se invoca cuando el usuario hace clic en el boton para enviar 

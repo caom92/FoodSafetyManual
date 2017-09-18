@@ -271,3 +271,14 @@ mixin fileInput(name, label, buttonLabel, isMultiple = false)
           input(id=name name=name type='file')
       div.file-path-wrapper
         input.file-path.validate(type='text' placeholder=label)
+
+//- Crea una tabla responsiva
+//- [in]  headers (string): el nombre del atributo del componente Angular que 
+//-       contiene la lista de encabezados de la tabla
+mixin responsiveTable(headers)
+  table.highlight.responsive-table
+    thead
+      th('*ngFor'='let header of ' + headers) 
+        ='{{ header }}'
+    tbody
+      block

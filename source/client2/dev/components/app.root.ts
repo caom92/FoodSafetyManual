@@ -12,10 +12,14 @@ import { HomeComponent } from './app.home'
 import { LogInComponent } from './app.login'
 import { EditProfileComponent } from './app.edit.profile'
 import { ReportProblemComponent } from './app.report.problem'
-import { ProgressModalComponent } from './app.please.wait'
 import { LogListComponent } from './app.log.list'
 import { InventoryListComponent } from './app.inventory.list'
 import { AuthorizationListComponent } from './app.authorizations'
+import { LogFootersComponent } from './app.log.footers'
+
+// Importamos los componentes de los modales
+import { ProgressModalComponent } from './modal.please.wait'
+import { EditFooterModalComponent } from './modal.edit.footers'
 
 // Importamos los servicios que van a ser necesitados por cada pagina del 
 // sistema
@@ -71,6 +75,11 @@ import { ToastService } from '../services/app.toast'
           name: 'pending-authorizations-list',
           url: '/pending-authorizations-list',
           component: AuthorizationListComponent
+        },
+        {
+          name: 'log-footers',
+          url: '/log-footers',
+          component: LogFootersComponent
         }
       ],
       useHash: true,
@@ -95,11 +104,14 @@ import { ToastService } from '../services/app.toast'
     ProgressModalComponent,
     LogListComponent,
     InventoryListComponent,
-    AuthorizationListComponent
+    AuthorizationListComponent,
+    LogFootersComponent,
+    EditFooterModalComponent
   ],
   // declaramos cualquier componente que sera inyectado dinamicamente
   entryComponents: [
-    ProgressModalComponent
+    ProgressModalComponent,
+    EditFooterModalComponent
   ],
   // indicamos cual es el componente raiz
   bootstrap: [ HomeComponent ]

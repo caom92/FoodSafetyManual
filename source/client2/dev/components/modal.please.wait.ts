@@ -5,7 +5,7 @@ import { LanguageService } from '../services/app.language'
 // El componente del modal que aparece para mostrar un icono de que se esta 
 // cargando la pagina
 @Component({
-  templateUrl: '../templates/app.please.wait.html'
+  templateUrl: '../templates/modal.please.wait.html'
 })
 export class ProgressModalComponent extends MzBaseModal 
 {

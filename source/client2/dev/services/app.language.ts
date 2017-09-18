@@ -17,7 +17,7 @@ export class LanguageService
       sideNavOptions: {
         users: 'Usuarios',
         zones: 'Zonas',
-        programs: 'Programas',
+        programs: 'Bitácoras',
         supervisors: 'Supervisores',
         signatures: 'Firmas',
         reportProblem: 'Reportar Problema',
@@ -163,6 +163,24 @@ export class LanguageService
         employeeLabel: 'Empleado',
         dateLabel: 'Fecha'
       },
+      logFootersLabels: {
+        titles: [
+          'Pies de Página de Bitácoras',
+          'Editar pie de página'
+        ],
+        program: 'Programa',
+        module: 'Módulo',
+        tableHeaders: [
+          'Programa',
+          'Pie de pág. PDF',
+          'Pie de pág. HTML',
+          ''
+        ],
+        newFooter: { 
+          required: 'Este campo es obligatorio',
+          maxlength: 'Este campo no debe ser mas de 65535 caracteres de largo'
+        }
+      },
       login: {
         0: 'Sesión iniciada exitosamente',
         1: 'Las credenciales son incorrectas'
@@ -196,6 +214,9 @@ export class LanguageService
         1: 'No está autorizado para rechazar esta bitácora',
         2: 'Esta bitácora ya fue aprovada'
       },
+      'edit-report-footers': {
+        0: 'Se editaron los pies de pagina exitosamente'
+      },
       101: 'Faltó enviar una entrada al servidor',
       102: 'Una entrada enviada al servidor no es un valor numérico',
       103: 'Una entrada enviada al servidor esta fuera del intervalo correcto',
@@ -226,7 +247,7 @@ export class LanguageService
       sideNavOptions: {
         users: 'Users',
         zones: 'Zones',
-        programs: 'Programs',
+        programs: 'Logs',
         supervisors: 'Supervisors',
         signatures: 'Signatures',
         reportProblem: 'Report Problem',
@@ -372,6 +393,24 @@ export class LanguageService
         employeeLabel: 'Employee',
         dateLabel: 'Date'
       },
+      logFootersLabels: {
+        titles: [
+          "Log's Page Footers",
+          'Edit page footer'
+        ],
+        program: 'Program',
+        module: 'Module',
+        tableHeaders: [
+          'Program',
+          'PDF Footer',
+          'HTML Footer',
+          ''
+        ],
+        newFooter: {
+          required: 'This field is required',
+          maxlength: 'This filed must not be more than 65535 characters long'
+        }
+      },
       login: {
         0: 'Logged in successfully',
         1: 'Log in credentials are incorrect'
@@ -404,6 +443,9 @@ export class LanguageService
         0: 'Log rejected successfully',
         1: 'You are not allowed to reject this log',
         2: 'The log has already been approved'
+      },
+      'edit-report-footers': {
+        0: 'The footers were edited successfully'
       },
       101: 'A server input argument was not send',
       102: 'A server input argument is not a numeric value',
@@ -566,6 +608,16 @@ export class LanguageService
       logLabel: null,
       employeeLabel: null,
       dateLabel: null
+    },
+    logFootersLabels: {
+      titles: [ null, null ],
+      program: null,
+      module: null,
+      tableHeaders: [ null, null, null, null ],
+      newFooter: {
+        required: null,
+        maxlength: null
+      }
     }
   }
 

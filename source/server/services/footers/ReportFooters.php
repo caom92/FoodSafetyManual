@@ -46,17 +46,21 @@ class ReportFooters extends db\InsertableTable
 
   // Retorna una lista de todos los pies de pagina registrados en la zona
   // con el ID especificado 
-  function selectByZoneID($zoneID) {
+  function selectByZoneIDAndModuleID($zoneID, $moduleID) {
     return parent::select(
       [
         "$this->table.id(id)",
         'z.name(zone_name)',
+        'l.id(log_id)',
         'l.name(log_name)',
         'capture_form_footer(html_footer)',
         'report_document_footer(pdf_footer)'
       ],
       [
-        'zone_id' => $zoneID
+        'AND' => [
+          'zone_id' => $zoneID,
+          'l.module_id' => $moduleID
+        ]
       ],
       [
         '[><]zones(z)' => [

@@ -70,8 +70,10 @@ include globals.pug
       i.mdi.mdi-domain.mdi-24px
       ='{{ langManager.messages.sideNavOptions.zones }}'
   mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
-    +link()(class='side-menu-link waves-effect waves-green')
-      i.mdi.mdi-note-multiple-outline.mdi-24px
+    +uiRouterLink('log-footers')(
+      class='side-menu-link waves-effect waves-green'
+    )
+      i.mdi.mdi-note-multiple.mdi-24px
       ='{{ langManager.messages.sideNavOptions.programs }}'
   mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
     +link()(class='side-menu-link waves-effect waves-green')
