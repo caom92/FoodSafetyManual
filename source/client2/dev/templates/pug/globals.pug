@@ -276,7 +276,7 @@ mixin fileInput(name, label, buttonLabel, isMultiple = false)
 //- [in]  headers (string): el nombre del atributo del componente Angular que 
 //-       contiene la lista de encabezados de la tabla
 mixin responsiveTable(headers)
-  table.highlight.responsive-table
+  table.highlight.responsive-table&attributes(attributes)
     thead
       th('*ngFor'='let header of ' + headers) 
         ='{{ header }}'

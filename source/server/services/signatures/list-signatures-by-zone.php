@@ -23,7 +23,8 @@ $service = [
         'employee_num' => $row['employee_num'],
         'username' => $row['username'],
         'full_name' => "{$row['first_name']} {$row['last_name']}",
-        'signature_path' => $row['signature_path']
+        'signature_path' => (strlen($row['signature_path']) > 0) ?
+          $row['signature_path'] : 'default.png'
       ]);
     }
 

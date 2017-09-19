@@ -445,7 +445,19 @@ function constructUserProfileArray($scope, $userData) {
       $userDataToSend['exclusive_access'] =
         strtolower($userData['role_name']).'/';
       $userDataToSend['log_list'] = $finalLogs;
-      $userDataToSend['zone_list'] = $zones;
+      $userDataToSend['zone_list'] = [];
+      
+      foreach ($zones as $zone) {
+        array_push($userDataToSend['zone_list'], [
+          'id' => $zone['id'],
+          'name' => $zone['name'],
+          'company_name' => $zone['company_name'],
+          'address' => $zone['address'],
+          'logo_path' => (strlen($zone['logo_path']) > 0) ?
+            $zone['logo_path'] : 'default.png'
+        ]);
+      }
+      
       return $userDataToSend;
     break;
   }

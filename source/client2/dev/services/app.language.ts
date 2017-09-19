@@ -181,6 +181,34 @@ export class LanguageService
           maxlength: 'Este campo no debe ser mas de 65535 caracteres de largo'
         }
       },
+      supervisorsFormLabels: {
+        title: 'Supervisores',
+        zone: 'Zona',
+        supervisor: 'Supervisor',
+        noSupervisors: 'No hay supervisores registrados en esta zona',
+        noEmployees: 'No hay empleados asignados a este supervisor',
+        tableHeaders: [
+          'ID de empleado',
+          'Nombre'
+        ]
+      },
+      signaturesFormLabels: {
+        title: 'Firmas de supervisores',
+        tableHeaders: [
+          'ID de empleado',
+          'Nombre',
+          'Firma'
+        ]
+      },
+      zonesFormLabels: {
+        title: 'Información de Zonas',
+        tableHeaders: [
+          'Zona',
+          'Compañía',
+          'Dirección',
+          'Logo'
+        ]
+      },
       login: {
         0: 'Sesión iniciada exitosamente',
         1: 'Las credenciales son incorrectas'
@@ -411,6 +439,34 @@ export class LanguageService
           maxlength: 'This filed must not be more than 65535 characters long'
         }
       },
+      supervisorsFormLabels: {
+        title: 'Supervisors',
+        zone: 'Zone',
+        supervisor: 'Supervisor',
+        noSupervisors: 'There are no supervisors registered in this zone',
+        noEmployees: 'There are no employees assigned to this supervisor',
+        tableHeaders: [
+          'Employee ID',
+          'Name'
+        ]
+      },
+      signaturesFormLabels: {
+        title: "Supervisors' Signatures",
+        tableHeaders: [
+          'Employee ID',
+          'Name',
+          'Signature'
+        ]
+      },
+      zonesFormLabels: {
+        title: "Zones' Information",
+        tableHeaders: [
+          'Zone',
+          'Company',
+          'Address',
+          'Logo'
+        ]
+      },
       login: {
         0: 'Logged in successfully',
         1: 'Log in credentials are incorrect'
@@ -618,6 +674,22 @@ export class LanguageService
         required: null,
         maxlength: null
       }
+    },
+    supervisorsFormLabels: {
+      title: null,
+      zone: null,
+      supervisor: null,
+      noSupervisors: null,
+      noEmployees: null,
+      tableHeaders: [ null, null ]
+    },
+    signaturesFormLabels: {
+      title: null,
+      tableHeaders: [ null, null, null ]
+    },
+    zonesFormLabels: {
+      title: null,
+      tableHeaders: [ null, null, null, null ]
     }
   }
 

@@ -66,7 +66,9 @@ include globals.pug
       i.mdi.mdi-account-multiple.mdi-24px
       ='{{ langManager.messages.sideNavOptions.users }}'
   mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
-    +link()(class='side-menu-link waves-effect waves-green')
+    +uiRouterLink('zones')(
+      class='side-menu-link waves-effect waves-green'
+    )
       i.mdi.mdi-domain.mdi-24px
       ='{{ langManager.messages.sideNavOptions.zones }}'
   mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
@@ -76,11 +78,15 @@ include globals.pug
       i.mdi.mdi-note-multiple.mdi-24px
       ='{{ langManager.messages.sideNavOptions.programs }}'
   mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
-    +link()(class='side-menu-link waves-effect waves-green')
+    +uiRouterLink('supervisors')(
+      class='side-menu-link waves-effect waves-green'
+    )
       i.mdi.mdi-account-star.mdi-24px
       ='{{ langManager.messages.sideNavOptions.supervisors }}'
   mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
-    +link()(class='side-menu-link waves-effect waves-green')
+    +uiRouterLink('signatures')(
+      class='side-menu-link waves-effect waves-green'
+    )
       i.mdi.mdi-pen.mdi-24px
       ='{{ langManager.messages.sideNavOptions.signatures }}'
 

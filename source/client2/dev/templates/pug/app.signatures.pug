@@ -1,0 +1,37 @@
+include globals.pug
+
+div.row
+  div.col.s12
+    h4
+      i.mdi.mdi-pen
+      ='{{ langManager.messages.signaturesFormLabels.title }}'
+
+div.row
+  div.col.s12.m6
+    +select(
+      'zone',
+      'langManager.messages.supervisorsFormLabels.zone',
+      'langManager.messages.reportProblemFormLabels.selectLabel',
+      'home.zones', '.name', '.id',
+      'onZoneSelected()'
+    )(
+      '[(ngModel)]'='selectedZoneID'
+    )
+
+div.row
+  div.col.s12
+    +responsiveTable('langManager.messages.signaturesFormLabels.tableHeaders')(
+      '*ngIf'='signatures.length > 0'
+    )
+      tr('*ngFor'='let supervisor of signatures')
+        td: ='{{ supervisor.employee_num }}'
+        td: ='{{ supervisor.full_name }}'
+        td: img(
+          src="{{ 'http://localhost/espresso/data/signatures/' + supervisor.signature_path }}"
+          height='42'
+        )
+    h5.center-align(
+      '*ngIf'='signatures.length == 0 && selectedZoneID != null && showNoSupervisorsWarning != false'
+    )
+      i.mdi.mdi-alert-octagon.red-text
+      ='{{ langManager.messages.supervisorsFormLabels.noSupervisors }}'

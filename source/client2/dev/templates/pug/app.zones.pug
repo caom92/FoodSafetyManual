@@ -1,0 +1,19 @@
+include globals.pug
+
+div.row
+  div.col.s12
+    h4
+      i.mdi.mdi-domain
+      ='{{ langManager.messages.zonesFormLabels.title }}'
+    
+div.row
+  div.col.s12
+    +responsiveTable('langManager.messages.zonesFormLabels.tableHeaders')
+      tr('*ngFor'='let zone of home.zones')
+        td: ='{{ zone.name }}'
+        td: ='{{ zone.company_name }}'
+        td: ='{{ zone.company_address }}'
+        td: img(
+          src="{{ 'http://localhost/espresso/data/logos/' + zone.logo_path }}"
+          height='42'
+        )
