@@ -47,7 +47,7 @@ export class SupervisorsComponent
 
   // Esta funcion se invoca cuando el usuario selecciona una zona de la lista 
   // de seleccion
-  onZoneSelected() {
+  onZoneSelected(): void {
     // apagamos la bandera de advertencia para que no se despliegue mientras se 
     // recuperan los datos del servidor
     this.showNoSupervisorsWarning = false
@@ -95,7 +95,7 @@ export class SupervisorsComponent
 
   // Esta funcion es invocada cuando un supervisor es elegido de la lista de 
   // seleccion
-  onSupervisorSelected() {
+  onSupervisorSelected(): void {
     // apagamos la bandera que muestra la bandera para que no se despliegue 
     // mientras se recuperan los datos del servidor
     this.showNoEmployeesWarning = false

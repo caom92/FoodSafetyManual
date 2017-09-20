@@ -266,9 +266,9 @@ mixin fileInput(name, label, buttonLabel, isMultiple = false)
       div.btn
         span: =buttonLabel
         if (isMultiple)
-          input(id=name name=name type='file' multiple)
+          input(id=name name=name type='file' multiple)&attributes(attributes)
         else
-          input(id=name name=name type='file')
+          input(id=name name=name type='file')&attributes(attributes)
       div.file-path-wrapper
         input.file-path.validate(type='text' placeholder=label)
 

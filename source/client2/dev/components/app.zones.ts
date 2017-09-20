@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { LanguageService } from '../services/app.language'
 import { MzModalService, MzBaseModal } from 'ng2-materialize'
 import { ProgressModalComponent } from './modal.please.wait'
+import { ZoneInfoModalComponent } from './modal.zone.info'
 
 // Este componente describe el comportamiento de la pagina donde el usuario 
 // administra la informacion de las zonas
@@ -23,5 +24,26 @@ export class ZonesComponent
     private server: BackendService,
     private toastManager: ToastService
   ) {
+  }
+
+  // Esta funcion se invoca cuando el usuario hace clic en el boton de agregar 
+  // una zona nueva
+  onNewZoneButtonClick(): void {
+    // invocamos el modal de editar informacion de zona, pero sin pasarle 
+    // ningun argumento para que se maneje como un formulario en blanco
+    this.modalManager.open(ZoneInfoModalComponent)
+  }
+
+  // Esta funcion se invoca cuando el usuario hace clic en el boton para editar 
+  // una zona existente
+  onEditZoneButtonClick(zone: any): void {
+    // invocamos el modal de editar informacion ce zona pasandole como 
+    // argumentos los datos de la zona cuya informacion sera editada
+    this.modalManager.open(ZoneInfoModalComponent, {
+      zoneID: zone.id,
+      zoneName: zone.name,
+      companyName: zone.company_name,
+      address: zone.address
+    })
   }
 }

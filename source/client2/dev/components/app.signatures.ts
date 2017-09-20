@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { LanguageService } from '../services/app.language'
 import { MzModalService, MzBaseModal } from 'ng2-materialize'
 import { ProgressModalComponent } from './modal.please.wait'
+import { EditSignatureModalComponent } from './modal.edit.signature'
 
 // Este componente defie el comportamiento de la pantalla donde el usuario 
 // administra las firmas de los supervisores
@@ -37,7 +38,7 @@ export class SignaturesComponent
 
   // Esta funcion se invoca cuando el usuario selecciona una zona de la lista 
   // de seleccion
-  onZoneSelected() {
+  onZoneSelected(): void {
     // apagamos la bandera de advertencia para que no se despliegue mientras se 
     // recuperan los datos del servidor
     this.showNoSupervisorsWarning = false
@@ -61,7 +62,6 @@ export class SignaturesComponent
         if (response.meta.return_code == 0) {
           // guardamos la lista de supervisores recuperada
           this.signatures = response.data
-          console.log(response.data)
 
           // y encendemos la bandera de mostrar la advertencia de no 
           // supervisores
@@ -79,4 +79,15 @@ export class SignaturesComponent
       } // (response: any)
     ) // this.server.update
   } // onZoneSelected()
+
+  // Esta funcion se invoca cuando el usuario hace clic en el boton de editar 
+  // la firma de un supervisor
+  onEditButtonClick(supervisor: any): void {
+    // desplegamos el modal donde el usuario podra subir el archivo de la firma 
+    // pasandole los datos del supervisor
+    this.modalManager.open(EditSignatureModalComponent, {
+      supervisorID: supervisor.id,
+      supervisorName: supervisor.full_name
+    })
+  } // onEditButtonClick(supervisor: any): void
 } // export class SupervisorsComponent

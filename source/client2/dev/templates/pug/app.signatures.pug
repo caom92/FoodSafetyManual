@@ -4,7 +4,7 @@ div.row
   div.col.s12
     h4
       i.mdi.mdi-pen
-      ='{{ langManager.messages.signaturesFormLabels.title }}'
+      ='{{ langManager.messages.signaturesFormLabels.titles[0] }}'
 
 div.row
   div.col.s12.m6
@@ -29,6 +29,14 @@ div.row
         td: img(
           src="{{ 'http://localhost/espresso/data/signatures/' + supervisor.signature_path }}"
           height='42'
+        )
+        td: +button(
+          'button',
+          'upload-signature',
+          '{{ langManager.messages.editPasswordFormLabels.submit }}',
+          'mdi mdi-pencil'
+        )(
+          '(click)'='onEditButtonClick(supervisor)'
         )
     h5.center-align(
       '*ngIf'='signatures.length == 0 && selectedZoneID != null && showNoSupervisorsWarning != false'

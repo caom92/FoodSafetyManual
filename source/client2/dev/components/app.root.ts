@@ -23,6 +23,8 @@ import { ZonesComponent } from './app.zones'
 // Importamos los componentes de los modales
 import { ProgressModalComponent } from './modal.please.wait'
 import { EditFooterModalComponent } from './modal.edit.footers'
+import { EditSignatureModalComponent } from './modal.edit.signature'
+import { ZoneInfoModalComponent } from './modal.zone.info'
 
 // Importamos los servicios que van a ser necesitados por cada pagina del 
 // sistema
@@ -127,12 +129,16 @@ import { ToastService } from '../services/app.toast'
     EditFooterModalComponent,
     SupervisorsComponent,
     SignaturesComponent,
-    ZonesComponent
+    ZonesComponent,
+    EditSignatureModalComponent,
+    ZoneInfoModalComponent
   ],
   // declaramos cualquier componente que sera inyectado dinamicamente
   entryComponents: [
     ProgressModalComponent,
-    EditFooterModalComponent
+    EditFooterModalComponent,
+    EditSignatureModalComponent,
+    ZoneInfoModalComponent
   ],
   // indicamos cual es el componente raiz
   bootstrap: [ HomeComponent ]

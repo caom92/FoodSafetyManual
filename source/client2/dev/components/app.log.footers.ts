@@ -93,7 +93,7 @@ export class LogFootersComponent
 
   // Esta funcion se invoca cuando el usuario hace clic en el boton para editar 
   // el pie de pagina de una de las bitacoras de la tabla
-  onEditButtonClick(footer) {
+  onEditButtonClick(footer): void {
     // Invocamos el modal de edicion de pies de pagina pasandole como 
     // parametros los pies de pagina de la bitacora elegida 
     this.modalManager.open(EditFooterModalComponent, {

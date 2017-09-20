@@ -193,12 +193,21 @@ export class LanguageService
         ]
       },
       signaturesFormLabels: {
-        title: 'Firmas de supervisores',
+        titles: [
+          'Firmas de supervisores',
+          'Editar Firma'
+        ],
         tableHeaders: [
           'ID de empleado',
           'Nombre',
-          'Firma'
-        ]
+          'Firma',
+          ''
+        ],
+        upload: 'Subir imágen de firma',
+        uploadButton: 'Subir',
+        newSignature: {
+          required: 'Este campo es obligatorio'
+        }
       },
       zonesFormLabels: {
         title: 'Información de Zonas',
@@ -206,8 +215,28 @@ export class LanguageService
           'Zona',
           'Compañía',
           'Dirección',
-          'Logo'
-        ]
+          'Logo',
+          ''
+        ],
+        addButton: 'Nuevo',
+        zoneName: 'Nombre de la zona',
+        companyName: 'Nombre de la compañía',
+        address: 'Dirección de la compañía'
+      },
+      zonesForm: {
+        zoneName: {
+          required: 'Este campo es obligatorio',
+          minlength: 'Este campo debe ser 3 caracteres de largo',
+          maxlength: 'Este campo debe ser 3 caracteres de largo'
+        },
+        companyName: {
+          required: 'Este campo es obligatorio',
+          maxlength: 'Este campo no debe ser más de 255 caracteres de largo'
+        },
+        address: {
+          required: 'Este campo es obligatorio',
+          maxlength: 'Este campo no debe ser más de 255 caracteres de largo'
+        }
       },
       login: {
         0: 'Sesión iniciada exitosamente',
@@ -244,6 +273,20 @@ export class LanguageService
       },
       'edit-report-footers': {
         0: 'Se editaron los pies de pagina exitosamente'
+      },
+      'add-signature': {
+        0: 'La firma se subió exitosamente',
+        1: 'Hubo un problema al subir la firma'
+      },
+      'add-zone': {
+        0: 'Zona agregada exitosamente',
+        1: 'El nombre de la zona ya está tomado',
+        2: 'Falló al subirse la imágen del logo'
+      },
+      'edit-zone': {
+        0: 'Zona editada exitosamente',
+        1: 'El nombre de la zona ya está tomado',
+        2: 'Falló al subirse la imágen del logo'
       },
       101: 'Faltó enviar una entrada al servidor',
       102: 'Una entrada enviada al servidor no es un valor numérico',
@@ -451,12 +494,21 @@ export class LanguageService
         ]
       },
       signaturesFormLabels: {
-        title: "Supervisors' Signatures",
+        titles: [
+          "Supervisors' Signatures",
+          'Edit Signature'
+        ],
         tableHeaders: [
           'Employee ID',
           'Name',
-          'Signature'
-        ]
+          'Signature',
+          ''
+        ],
+        upload: 'Upload signature image file',
+        uploadButton: 'Upload',
+        newSignature: {
+          required: 'This filed is required'
+        }
       },
       zonesFormLabels: {
         title: "Zones' Information",
@@ -464,8 +516,28 @@ export class LanguageService
           'Zone',
           'Company',
           'Address',
-          'Logo'
-        ]
+          'Logo',
+          ''
+        ],
+        addButton: 'New',
+        zoneName: "Zone's name",
+        companyName: "Company's name",
+        address: "Company's address"
+      },
+      zonesForm: {
+        zoneName: {
+          required: 'This field is required',
+          minlength: 'This field must be 3 characters long',
+          maxlength: 'This field must be 3 characters long'
+        },
+        companyName: {
+          required: 'This field is required',
+          maxlength: 'This field must not be more than 255 characters long'
+        },
+        address: {
+          required: 'This field is required',
+          maxlength: 'This field must not be more than 255 characters long'
+        }
       },
       login: {
         0: 'Logged in successfully',
@@ -502,6 +574,20 @@ export class LanguageService
       },
       'edit-report-footers': {
         0: 'The footers were edited successfully'
+      },
+      'add-signature': {
+        0: 'Signature uploaded successfully',
+        1: 'There was an error uploading the signature'
+      },
+      'add-zone': {
+        0: 'Zone added successfully',
+        1: 'The zone name is already taken',
+        2: 'Failed to upload the logo image file'
+      },
+      'edit-zone': {
+        0: 'Zone edited successfully',
+        1: 'The zone name is already taken',
+        2: 'Failed to upload the logo image file'
       },
       101: 'A server input argument was not send',
       102: 'A server input argument is not a numeric value',
@@ -684,12 +770,36 @@ export class LanguageService
       tableHeaders: [ null, null ]
     },
     signaturesFormLabels: {
-      title: null,
-      tableHeaders: [ null, null, null ]
+      titles: [ null, null ],
+      tableHeaders: [ null, null, null, null ],
+      upload: null,
+      uploadButton: null,
+      newSignature: {
+        required: null
+      }
     },
     zonesFormLabels: {
       title: null,
-      tableHeaders: [ null, null, null, null ]
+      tableHeaders: [ null, null, null, null, null ],
+      addButton: null,
+      zoneName: null,
+      companyName: null,
+      address: null
+    },
+    zonesForm: {
+      zoneName: {
+        required: null,
+        minlength: null,
+        maxlength: null
+      },
+      companyName: {
+        required: null,
+        maxlength: null
+      },
+      address: {
+        required: null,
+        maxlength: null
+      }
     }
   }
 
