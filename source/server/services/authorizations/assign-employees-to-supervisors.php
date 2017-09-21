@@ -33,7 +33,7 @@ $service = [
       if (!$isSupervisorRole || !$isEmployeeRole) {
         throw new \Exception(
           'The users do not have the proper roles for one of the '.
-          'assignments'
+          'assignments', 1
         );
       }
 
@@ -46,7 +46,7 @@ $service = [
       if (!$haveSameZone) {
         throw new \Exception(
           'The users do not share the same zone for one of the '.
-          'assignments'
+          'assignments', 2
         );
       }
     }

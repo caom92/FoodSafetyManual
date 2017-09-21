@@ -34,21 +34,51 @@ div.row
       i.mdi.mdi-alert-octagon.red-text
       = '{{ langManager.messages.supervisorsFormLabels.noSupervisors }}'
 
-div.row
+div.row('*ngIf'='employees.length > 0')
   div.col.s12
-    div('*ngIf'='employees.length > 0')
-      table.responsive-table
-        thead
-          th: input(type='checkbox')
-          th: ='{{ langManager.messages.supervisorsFormLabels.tableHeaders[0] }}'
-          th: ='{{ langManager.messages.supervisorsFormLabels.tableHeaders[1] }}'
-        tbody
-          tr('*ngFor'='let employee of employees')
-            td: input(type='checkbox')
-            td: ='{{ employee.employee_num }}'
-            td: ='{{ employee.full_name }}'
-    h5.center-align(
-      '*ngIf'='employees.length == 0 && selectedSupervisorID != null && showNoEmployeesWarning != false'
+    table.responsive-table
+      thead
+        th: +checkbox('select-all-employees')(
+          '[filledIn]'='true'
+          '(click)'='onSelectAllEmployeesCheck($event.target.checked)'
+        )
+        th: ='{{ langManager.messages.supervisorsFormLabels.tableHeaders[0] }}'
+        th: ='{{ langManager.messages.supervisorsFormLabels.tableHeaders[1] }}'
+      tbody
+        tr('*ngFor'='let e of employees | keys')
+          td: +checkbox('{{ "select-employee-" + e }}')(
+            '[filledIn]'='true'
+            '(change)'='onEmployeeChecked(e, $event.target.checked)'
+            '[checked]'='employees[e].checked'
+          )
+          td: ='{{ employees[e].employee_num }}'
+          td: ='{{ employees[e].full_name }}'
+
+div.row('*ngIf'='employees.length > 0')
+  div.col.s12.m6
+    +select(
+      'target-supervisor',
+      'langManager.messages.supervisorsFormLabels.targetSupervisor',
+      'langManager.messages.reportProblemFormLabels.selectLabel',
+      'supervisors', '.full_name', '.id'
+    )(
+      '[(ngModel)]'='targetSupervisorID'
     )
+  div.col.s6
+    +button(
+      'button',
+      'transfer-employees-button',
+      '{{ langManager.messages.supervisorsFormLabels.transferEmployeesButton }}',
+      'mdi mdi-send'
+    )(
+      '[disabled]'='targetSupervisorID == selectedSupervisorID || selectedSupervisorID == null || targetSupervisorID == null'
+      '(click)'='onTransferEmployeesButtonClick()'
+    )
+    
+div.row(
+  '*ngIf'='employees.length == 0 && selectedSupervisorID != null && showNoEmployeesWarning != false'
+) 
+  div.col.s12
+    h5.center-align
       i.mdi.mdi-alert-octagon.red-text
       = '{{ langManager.messages.supervisorsFormLabels.noEmployees }}'

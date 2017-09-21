@@ -282,3 +282,15 @@ mixin responsiveTable(headers)
         ='{{ header }}'
     tbody
       block
+
+//- Crea una caja de seleccion
+//- [in]  name (string): el nombre del campo con el cual podra ser referenciado 
+//-       en el componente
+mixin checkbox(name)
+  mz-checkbox-container
+    input(
+      id=name
+      name=name
+      type='checkbox'
+      mz-checkbox
+    )&attributes(attributes)

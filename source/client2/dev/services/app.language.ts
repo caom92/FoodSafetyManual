@@ -190,7 +190,9 @@ export class LanguageService
         tableHeaders: [
           'ID de empleado',
           'Nombre'
-        ]
+        ],
+        targetSupervisor: 'Supervisor a quien transferir los empleados',
+        transferEmployeesButton: 'Transferir'
       },
       signaturesFormLabels: {
         titles: [
@@ -287,6 +289,11 @@ export class LanguageService
         0: 'Zona editada exitosamente',
         1: 'El nombre de la zona ya está tomado',
         2: 'Falló al subirse la imágen del logo'
+      },
+      'assign-employees-to-supervisors': {
+        0: 'Empleado(s) transferidos exitosamente',
+        1: 'Los roles de usuario no son apropiados para la transferencia',
+        2: 'Los empleados y el supervisor no estan en la misma zona'
       },
       101: 'Faltó enviar una entrada al servidor',
       102: 'Una entrada enviada al servidor no es un valor numérico',
@@ -491,7 +498,9 @@ export class LanguageService
         tableHeaders: [
           'Employee ID',
           'Name'
-        ]
+        ],
+        targetSupervisor: 'Supervisor to which transfer the employees',
+        transferEmployeesButton: 'Transfer'
       },
       signaturesFormLabels: {
         titles: [
@@ -588,6 +597,11 @@ export class LanguageService
         0: 'Zone edited successfully',
         1: 'The zone name is already taken',
         2: 'Failed to upload the logo image file'
+      },
+      'assign-employees-to-supervisors': {
+        0: 'Employee(s) transfered successfully',
+        1: 'The user roles are not correct for the transfer',
+        2: 'Employee(s) to transfer and supervisor are not in the same zone'
       },
       101: 'A server input argument was not send',
       102: 'A server input argument is not a numeric value',
@@ -767,7 +781,9 @@ export class LanguageService
       supervisor: null,
       noSupervisors: null,
       noEmployees: null,
-      tableHeaders: [ null, null ]
+      tableHeaders: [ null, null ],
+      targetSupervisor: null,
+      transferEmployeesButton: null
     },
     signaturesFormLabels: {
       titles: [ null, null ],

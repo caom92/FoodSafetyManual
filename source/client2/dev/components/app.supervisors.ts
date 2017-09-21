@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { LanguageService } from '../services/app.language'
 import { MzModalService, MzBaseModal } from 'ng2-materialize'
 import { ProgressModalComponent } from './modal.please.wait'
+import { StateService } from '@uirouter/angular'
 
 // Este componente defie el comportamiento de la pantalla donde el usuario 
 // administra supervisores
@@ -28,11 +29,17 @@ export class SupervisorsComponent
   // El ID del supervisor seleccionado de la lista de seleccion
   selectedSupervisorID: number = null
 
+  // El ID del supervisor a quien seran transferidos los empleados seleccionados
+  targetSupervisorID: number = null
+
   // La lista de supervisores de la zona elegida
   supervisors = []
 
   // La lista de empleados del supervisor elegido
   employees = []
+
+  // La lita de empleados elegidos para ser transferidos
+  selectedEmployees = []
 
   // El constructor del componente donde importamos todos los servicios 
   // requeridos
@@ -41,7 +48,8 @@ export class SupervisorsComponent
     private home: HomeElementsService,
     private modalManager: MzModalService,
     private server: BackendService,
-    private toastManager: ToastService
+    private toastManager: ToastService,
+    private router: StateService
   ) {
   }
 
@@ -55,6 +63,10 @@ export class SupervisorsComponent
     // apagamos esta otra bandera en caso de que el usuario este cambiando de 
     // zona tras haber elegido un supervisor sin empleados
     this.showNoEmployeesWarning = false
+
+    // limpiamos la lista de empleados en caso de que el usuario haya elegido 
+    // una zona anteriormente
+    this.employees = []
 
     // preparamos los datos que seran enviados al servidor
     let data = new FormData()
@@ -121,6 +133,12 @@ export class SupervisorsComponent
           // almacenamos la lista de empleados recuperada
           this.employees = response.data
 
+          // agregamos un control adicional para controlar cuales empleados 
+          // fueron elegidos por el usuario
+          for (let i = 0; i < this.employees.length; ++i) {
+            this.employees[i].checked = false
+          }
+
           // encendemos la bandera de mostrar advertencia de no empleados
           this.showNoEmployeesWarning = true
         } else {
@@ -136,4 +154,60 @@ export class SupervisorsComponent
       } // (response: any)
     ) // this.server.update
   } // onSupervisorSelected()
+
+  // Esta funcion se invoca cuando el usuario hace clic en la caja de seleccion 
+  // de uno de los empleados
+  onEmployeeChecked(employeeIdx: number, wasChecked: boolean): void {
+    this.employees[employeeIdx].checked = wasChecked
+  } // onEmployeeChecked(employee: any, wasChecked: boolean): void
+
+  // Esta funcion es invocada cuando el usuario hace clic en el boton de 
+  // transferir empleados a otro supervisor
+  onTransferEmployeesButtonClick(): void {
+    // preaparamos los datos que seran enviados al servidor
+    let data = new FormData()
+    for (let i = 0; i < this.employees.length; ++i) {
+      if (this.employees[i].checked) {
+        data.append('assignments[]', ({
+          employee_id: this.employees[i].id,
+          supervisor_id: this.selectedSupervisorID
+        }).toString())
+      }
+    }
+  
+    // desplegamos el modal de espera
+    let modal = this.modalManager.open(ProgressModalComponent)
+
+    // enviamos los datos al servidor
+    this.server.update(
+      'assign-employees-to-supervisors',
+      data,
+      (response: any) => {
+        // cuando el servidor responda, cerramos el modal de espera
+        modal.instance.modalComponent.close()
+
+        // notificamos al usuario de la respuesta obtenida
+        this.toastManager.showText(
+          this.langManager.getServiceMessage(
+            'assign-employees-to-supervisors',
+            response.meta.return_code
+          )
+        )
+
+        // si el servidor respondio de forma exitosa, recargamos la pagina para 
+        // reflejar los cambios realizados
+        if (response.meta.return_code == 0) {
+          this.router.reload()
+        }
+      } // (response: any)
+    ) // this.server.update
+  } // onTransferEmployeesButtonClick(): void
+
+  // Esta funcion se invoca cuando el usuario hace clic en la caja de seleccion 
+  // que marca todos los empleados del supervisor mostrados en la pantalla
+  onSelectAllEmployeesCheck(wasChecked: boolean): void {
+    for (let i = 0; i < this.employees.length; ++i) {
+      this.employees[i].checked = wasChecked
+    }
+  } // onSelectAllEmployeesCheck(wasChecked: boolean): void
 } // export class SupervisorsComponent
