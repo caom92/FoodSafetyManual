@@ -22,6 +22,14 @@ function loadLogForm(htmlElement){
                         sendGmpPackingPreopReport();
                     }
                 });
+                $('.timepicker').pickatime({
+                    autoclose: false,
+                    vibrate: true,
+                    twelvehour: false,
+                    afterDone: function(Element, Time) {
+                        
+                    }
+                });
                 $('.log_title').html(report.log_name);
                 $("input").characterCounter();
                 $("textarea").characterCounter();
@@ -56,6 +64,14 @@ function loadPrefilledLogForm(htmlElement, data){
                 });
                 bindAuthorizationButtonsFunctionality(htmlElement, data.report_id);
                 changeLanguage();
+                $('.timepicker').pickatime({
+                    autoclose: false,
+                    vibrate: true,
+                    twelvehour: false,
+                    afterDone: function(Element, Time) {
+                        
+                    }
+                });
                 $("input").characterCounter();
                 $("textarea").characterCounter();
                 $("textarea").trigger("autoresize");
@@ -256,9 +272,10 @@ function gmpPackingPreopLog(data, htmlElement, isPrefilled){
     var log = $("<div>");
     var additionalData = $("<div>");
     var buttonRow = $("<div>");
+    var actions = data.areas.corrective_actions;
 
-    for(var area of data.areas){
-        log.append(gmpPackingPreopArea(area));
+    for(var area of data.areas.logs){
+        log.append(gmpPackingPreopArea(area, actions));
     }
 
     additionalData.addClass("card-panel white");
@@ -316,7 +333,7 @@ function sendButton(){
     return button;
 }
 
-function gmpPackingPreopArea(area){
+function gmpPackingPreopArea(area, actions){
     var areaCard = $("<div>");
     var title = $("<div>");
 
@@ -332,10 +349,10 @@ function gmpPackingPreopArea(area){
         var typeTitle = $("<div>");
         typeTitle.addClass("card-title");
         typeTitle.attr("style", "font-weight: bold;");
-        typeTitle.append(createText({"type":"text","text":type.name}));
+        typeTitle.append(createText({"type":"text","text":type[localStorage.defaultLanguage]}));
         areaCard.append(typeTitle);
         for(var item of type.items){
-            areaCard.append(gmpPackingPreopItem(item, area.id));
+            areaCard.append(gmpPackingPreopItem(item, area.id, actions));
         }
     }
 
@@ -347,7 +364,7 @@ function gmpPackingPreopArea(area){
 
 function gmpPackingPreopAreaTime(areaID, time){
     var timeLabel = {"type":"label","contents":{"type":"text","classes":"time_title"},"for":"time_" + areaID,"classes":"active"};
-    var timeInput = {"type":"input","id": "time_" + areaID, "classes": "validate", "fieldType":"text","disabled":true,"data":{"area_id":areaID},"value":getISOTime(new Date()),"isClearable":false};
+    var timeInput = {"type":"input","id": "time_" + areaID, "classes": "validate timepicker", "fieldType":"text"/*,"disabled":true*/,"data":{"area_id":areaID},"value":getISOTime(new Date()),"isClearable":false};
     var timeFullInput = {"id":"timeWrapper_" + areaID,"classes":"input-field col s12 m12 l12","field":timeInput,"label":timeLabel};
 
     if(time){
@@ -383,12 +400,12 @@ function gmpPackingPreopAreaSanitation(areaID, person){
     return sanitationFullInput;
 }
 
-function gmpPackingPreopItem(item, areaID){
+function gmpPackingPreopItem(item, areaID, actions){
     var itemCard = $("<div>");    
     var itemRow = new Object();
     var commentRow = new Object();
 
-    itemRow.columns = [gmpPackingPreopItemTitle(item, areaID), gmpPackingPreopItemStatus(item, areaID), gmpPackingPreopItemCorrectiveAction(item, areaID)];
+    itemRow.columns = [gmpPackingPreopItemTitle(item, areaID), gmpPackingPreopItemStatus(item, areaID), gmpPackingPreopItemCorrectiveAction(item, areaID, actions)];
     commentRow.columns = [gmpPackingPreopItemComment(item, areaID)];
 
     itemCard.append(createInputRow(itemRow));
@@ -423,10 +440,10 @@ function gmpPackingPreopItemStatus(item, areaID){
     return groupInput;
 }
 
-function gmpPackingPreopItemCorrectiveAction(item, areaID){
+function gmpPackingPreopItemCorrectiveAction(item, areaID, actions){
     var actionOptions = new Array();
 
-    var correctiveActions = JSON.parse(localStorage.correctiveActionsGMPSSOP);
+    var correctiveActions = actions;
 
     for(var action of correctiveActions){
         var tempOption = {"value":action.id,"text":action[localStorage.defaultLanguage],"classes":"timeChanger","data":{"area_id":areaID,"item_id":item.id}};
@@ -513,10 +530,10 @@ function gmpPackingPreopFunctionality(data){
         /*$("div[id^='commentWrapper_']").show();
         $("div[id^='correctiveActionWrapper_']").show();*/
     } else {
-        $(".timeChanger").change(function(){
+        /*$(".timeChanger").change(function(){
             if($(this).data().area_id)
                 $("#time_" + $(this).data().area_id).val(getISOTime(new Date()));
-        });
+        });*/
 
         $("input[id^='acceptable_']").change(function(){
             if($(this).is(":checked")){
@@ -592,10 +609,10 @@ function gmpPackingPreopReportBody(data){
                 }
                 row.columns.push(gmpPackingPreopReportAreaName(area.name, rowspan));
                 row.columns.push(gmpPackingPreopReportAreaTime(area.time, rowspan));
-                row.columns.push(gmpPackingPreopReportTypeTitle(type.name, 5));
+                row.columns.push(gmpPackingPreopReportTypeTitle(type[localStorage.defaultLanguage], 5));
                 firstRowFlag = false;
             } else {
-                row.columns.push(gmpPackingPreopReportTypeTitle(type.name, 5));
+                row.columns.push(gmpPackingPreopReportTypeTitle(type[localStorage.defaultLanguage], 5));
             }
             body.rows.push(row);
             for(var item of type.items){
