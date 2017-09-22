@@ -165,6 +165,10 @@ function pdfReportFontsize(){
     return "8";
 }
 
+function loadImageArray(data){
+    return null;
+}
+
 /******************************************************************************
 A collection of functions to display the Log Form. This will be related to the
 name of the log, located in the name_suffix field on the database. Usually, we
