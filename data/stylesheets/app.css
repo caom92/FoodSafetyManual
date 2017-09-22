@@ -203,3 +203,12 @@ li#zone-menu {
 .modal-80 {
     height: 80%;
 }
+
+label {
+    font-weight: 900;
+    color: black !important;
+}
+
+.collapsible-body a {
+    font-weight: 900 !important;
+}
