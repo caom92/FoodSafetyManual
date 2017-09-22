@@ -22,14 +22,14 @@ class Thermometers extends db\OrderedItemsTable
   //        se encuentren activos organizados en renglones y columnas
   function selectActiveByZoneID($zoneID) {
     return parent::select(
-      ['id', 'serial_num(name)', 'position(order)'],
+      ['id', 'serial_num(name)', 'position'],
       [
         'AND' => [
           'zone_id' => $zoneID,
           'is_active' => TRUE
         ],
         'ORDER' => [
-          'order'
+          'position'
         ]
       ]
     );
@@ -48,15 +48,23 @@ class Thermometers extends db\OrderedItemsTable
         'id',
         'serial_num(name)',
         'is_active',
-        'position(order)'
+        'position'
       ],
       [
         'zone_id' => $zoneID,
         'ORDER' => [
-          'order'
+          'position'
         ]
       ]
     );
+  }
+
+  // Retorna el numero de renglones que poseen el ID especificado
+  // [in]   zoneID (uint): el ID de la zona cuyos elementos van a ser contados
+  // [out]  return (uint): el numero de elementos en la tabla que tienen 
+  //        registrado el ID de zona especificada
+  function countByZoneID($zoneID) {
+    return parent::count([ 'zone_id' => $zoneID]);
   }
 }
 
