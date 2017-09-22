@@ -1,12 +1,12 @@
 <?php
 
 namespace fsm\database\gmp\packing\thermometers;
-require_once realpath(dirname(__FILE__).'/../../../../dao/ToggableItemsTable.php');
+require_once realpath(dirname(__FILE__).'/../../../../dao/OrderedItemsTable.php');
 use fsm\database as db;
 
 
 // Interfaz para la tabla gmp_packing_thermometers_thermometers
-class Thermometers extends db\ToggableItemsTable
+class Thermometers extends db\OrderedItemsTable
 {
   // Crea una instancia de una interfaz a la base de datos para modificar 
   // la tabla gmp_packing_thermometers_thermometers
@@ -22,11 +22,14 @@ class Thermometers extends db\ToggableItemsTable
   //        se encuentren activos organizados en renglones y columnas
   function selectActiveByZoneID($zoneID) {
     return parent::select(
-      ['id', 'serial_num(name)'],
+      ['id', 'serial_num(name)', 'position(order)'],
       [
         'AND' => [
           'zone_id' => $zoneID,
           'is_active' => TRUE
+        ],
+        'ORDER' => [
+          'order'
         ]
       ]
     );
@@ -44,10 +47,14 @@ class Thermometers extends db\ToggableItemsTable
       [
         'id',
         'serial_num(name)',
-        'is_active'
+        'is_active',
+        'position(order)'
       ],
       [
-        'zone_id' => $zoneID
+        'zone_id' => $zoneID,
+        'ORDER' => [
+          'order'
+        ]
       ]
     );
   }
