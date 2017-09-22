@@ -16,10 +16,15 @@ import { LogListComponent } from './app.log.list'
 import { InventoryListComponent } from './app.inventory.list'
 import { AuthorizationListComponent } from './app.authorizations'
 import { LogFootersComponent } from './app.log.footers'
+import { SupervisorsComponent } from './app.supervisors'
+import { SignaturesComponent } from './app.signatures'
+import { ZonesComponent } from './app.zones'
 
 // Importamos los componentes de los modales
 import { ProgressModalComponent } from './modal.please.wait'
 import { EditFooterModalComponent } from './modal.edit.footers'
+import { EditSignatureModalComponent } from './modal.edit.signature'
+import { ZoneInfoModalComponent } from './modal.zone.info'
 
 // Importamos los servicios que van a ser necesitados por cada pagina del 
 // sistema
@@ -80,6 +85,21 @@ import { ToastService } from '../services/app.toast'
           name: 'log-footers',
           url: '/log-footers',
           component: LogFootersComponent
+        },
+        {
+          name: 'supervisors',
+          url: '/supervisors',
+          component: SupervisorsComponent
+        },
+        {
+          name: 'signatures',
+          url: '/signatures',
+          component: SignaturesComponent
+        },
+        {
+          name: 'zones',
+          url: '/zones',
+          component: ZonesComponent
         }
       ],
       useHash: true,
@@ -106,12 +126,19 @@ import { ToastService } from '../services/app.toast'
     InventoryListComponent,
     AuthorizationListComponent,
     LogFootersComponent,
-    EditFooterModalComponent
+    EditFooterModalComponent,
+    SupervisorsComponent,
+    SignaturesComponent,
+    ZonesComponent,
+    EditSignatureModalComponent,
+    ZoneInfoModalComponent
   ],
   // declaramos cualquier componente que sera inyectado dinamicamente
   entryComponents: [
     ProgressModalComponent,
-    EditFooterModalComponent
+    EditFooterModalComponent,
+    EditSignatureModalComponent,
+    ZoneInfoModalComponent
   ],
   // indicamos cual es el componente raiz
   bootstrap: [ HomeComponent ]

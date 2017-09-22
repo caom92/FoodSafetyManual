@@ -1,0 +1,60 @@
+include globals.pug
+
+mz-modal('[fixedFooter]'='true')
+  mz-modal-header
+    ='{{ langManager.messages.zonesFormLabels.title }}'
+  mz-modal-content
+    h6
+      ='{{ zoneName }}'
+    form(
+      '[formGroup]'='zoneInfoForm'
+      novalidate
+    )
+      +textInput(
+        'zone-name',
+        'langManager.messages.zonesFormLabels.zoneName'
+      )(
+        formControlName='zoneName'
+        '[length]'='3'
+        required
+        mz-validation
+        '[errorMessageResource]'='langManager.messages.zonesForm.zoneName'
+      )
+      +textInput(
+        'company-name',
+        'langManager.messages.zonesFormLabels.companyName'
+      )(
+        formControlName='companyName'
+        '[length]'='255'
+        required
+        mz-validation
+        '[errorMessageResource]'='langManager.messages.zonesForm.companyName'
+      )
+      +textInput(
+        'address',
+        'langManager.messages.zonesFormLabels.address'
+      )(
+        formControlName='address'
+        '[length]'='255'
+        required
+        mz-validation
+        '[errorMessageResource]'='langManager.messages.zonesForm.address'
+      )
+      +fileInput(
+        'logo-file',
+        '{{ langManager.messages.signaturesFormLabels.upload }}',
+        '{{ langManager.messages.signaturesFormLabels.uploadButton }}'
+      )(
+        '(change)'='onFileSelected($event)'
+      )
+  mz-modal-footer
+    +button(
+      'submit',
+      'send-zone-info',
+      '{{ langManager.messages.editPasswordFormLabels.submit }}',
+      'mdi mdi-send'
+    )(
+      mz-modal-close
+      '[disabled]'='!zoneInfoForm.valid'
+      '(click)'='onSendZoneInfoButtonClick()'
+    )

@@ -266,9 +266,9 @@ mixin fileInput(name, label, buttonLabel, isMultiple = false)
       div.btn
         span: =buttonLabel
         if (isMultiple)
-          input(id=name name=name type='file' multiple)
+          input(id=name name=name type='file' multiple)&attributes(attributes)
         else
-          input(id=name name=name type='file')
+          input(id=name name=name type='file')&attributes(attributes)
       div.file-path-wrapper
         input.file-path.validate(type='text' placeholder=label)
 
@@ -276,9 +276,21 @@ mixin fileInput(name, label, buttonLabel, isMultiple = false)
 //- [in]  headers (string): el nombre del atributo del componente Angular que 
 //-       contiene la lista de encabezados de la tabla
 mixin responsiveTable(headers)
-  table.highlight.responsive-table
+  table.highlight.responsive-table&attributes(attributes)
     thead
       th('*ngFor'='let header of ' + headers) 
         ='{{ header }}'
     tbody
       block
+
+//- Crea una caja de seleccion
+//- [in]  name (string): el nombre del campo con el cual podra ser referenciado 
+//-       en el componente
+mixin checkbox(name)
+  mz-checkbox-container
+    input(
+      id=name
+      name=name
+      type='checkbox'
+      mz-checkbox
+    )&attributes(attributes)

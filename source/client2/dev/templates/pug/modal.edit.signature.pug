@@ -1,0 +1,26 @@
+include globals.pug
+
+mz-modal('[fixedFooter]'='true')
+  mz-modal-header
+    ='{{ langManager.messages.signaturesFormLabels.titles[1] }}'
+  mz-modal-content
+    h6
+      ='{{ supervisorName }}'
+    +fileInput(
+      'signature-file',
+      '{{ langManager.messages.signaturesFormLabels.upload }}',
+      '{{ langManager.messages.signaturesFormLabels.uploadButton }}'
+    )(
+      '(change)'='onFileSelected($event)'
+    )
+  mz-modal-footer
+    +button(
+      'submit',
+      'edit-footers-submit',
+      '{{ langManager.messages.editPasswordFormLabels.submit }}',
+      'mdi mdi-send'
+    )(
+      '[disabled]'='disableSendButton'
+      '(click)'='onSendButtonClick()'
+      mz-modal-close
+    )
