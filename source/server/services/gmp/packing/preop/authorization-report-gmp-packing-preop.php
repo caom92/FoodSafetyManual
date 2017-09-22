@@ -34,7 +34,8 @@ $service = fsm\createAuthorizationReportService(
         $currentType = $items[0]['type_id'];
         $tempItems = [
           'id' => $items[0]['type_id'],
-          'name' => $items[0]['type_name'],
+          'en' => $items[0]['type_name_en'],
+          'es' => $items[0]['type_name_es'],
           'items' => []
         ];
 
@@ -55,7 +56,8 @@ $service = fsm\createAuthorizationReportService(
             array_push($tempAreaLogEntry['types'], $tempItems);
             $tempItems = [
               'id' => $item['type_id'],
-              'name' => $item['type_name'],
+              'en' => $item['type_name_en'],
+              'es' => $item['type_name_es'],
               'items' => [[
                 'id' => $item['item_id'],
                 'order' => $item['position'],
@@ -74,7 +76,12 @@ $service = fsm\createAuthorizationReportService(
         array_push($areasLogEntries, $tempAreaLogEntry);
       }
 
-      return $areasLogEntries;
+      return [
+        'corrective_actions' => 
+          $scope->daoFactory->get('gmp\packing\preop\CorrectiveActions')
+            ->selectAllButOptionOther(),
+        'logs' => $areasLogEntries
+      ];
     }
   ]
 );
