@@ -20,6 +20,17 @@ import { SupervisorsComponent } from './app.supervisors'
 import { SignaturesComponent } from './app.signatures'
 import { ZonesComponent } from './app.zones'
 
+// Importamos el cargador de bitácoras
+
+import { LogLoaderComponent } from './app.log.loader.component'
+
+// Importamos los componentes de las bitácoras
+import { GMPPackingPreopItemComponent } from './gmp.packing.preop.item.component'
+import { GMPPackingPreopTypeComponent } from './gmp.packing.preop.type.component'
+import { GMPPackingPreopAreaComponent } from './gmp.packing.preop.area.component'
+import { GMPPackingPreopLogComponent } from './gmp.packing.preop.log.component'
+import { ReportLoaderCard } from './report.loader.card.component'
+
 // Importamos los componentes de los modales
 import { ProgressModalComponent } from './modal.please.wait'
 import { EditFooterModalComponent } from './modal.edit.footers'
@@ -70,6 +81,11 @@ import { ToastService } from '../services/app.toast'
           name: 'log-selection',
           url: '/log-selection/:program/:module',
           component: LogListComponent
+        },
+        {
+          name: 'log-view',
+          url: '/log-selection/:program/:module/:log',
+          component: LogLoaderComponent
         },
         {
           name: 'inventory-selection',
@@ -131,7 +147,13 @@ import { ToastService } from '../services/app.toast'
     SignaturesComponent,
     ZonesComponent,
     EditSignatureModalComponent,
-    ZoneInfoModalComponent
+    ZoneInfoModalComponent,
+    LogLoaderComponent,
+    ReportLoaderCard,
+    GMPPackingPreopItemComponent,
+    GMPPackingPreopTypeComponent,
+    GMPPackingPreopAreaComponent,
+    GMPPackingPreopLogComponent
   ],
   // declaramos cualquier componente que sera inyectado dinamicamente
   entryComponents: [

@@ -11,6 +11,8 @@ export class LogListComponent implements OnInit
 {
   // La lista de bitacoras que seran desplegadas en pantalla
   logs = []
+  program: string
+  module: string
 
   // El constructor del componente importando los servicios y componentes 
   // necesarios
@@ -27,6 +29,8 @@ export class LogListComponent implements OnInit
     let zone = this.home.zone.name
     let program = this.router.params.program
     let module = this.router.params.module
+    this.program = program
+    this.module = module
     this.logs = Object.keys(
       this.home.privileges[zone][program].suffixes[module]
     )
