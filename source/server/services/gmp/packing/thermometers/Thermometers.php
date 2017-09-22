@@ -1,12 +1,12 @@
 <?php
 
 namespace fsm\database\gmp\packing\thermometers;
-require_once realpath(dirname(__FILE__).'/../../../../dao/ToggableItemsTable.php');
+require_once realpath(dirname(__FILE__).'/../../../../dao/OrderedItemsTable.php');
 use fsm\database as db;
 
 
 // Interfaz para la tabla gmp_packing_thermometers_thermometers
-class Thermometers extends db\ToggableItemsTable
+class Thermometers extends db\OrderedItemsTable
 {
   // Crea una instancia de una interfaz a la base de datos para modificar 
   // la tabla gmp_packing_thermometers_thermometers
@@ -22,11 +22,14 @@ class Thermometers extends db\ToggableItemsTable
   //        se encuentren activos organizados en renglones y columnas
   function selectActiveByZoneID($zoneID) {
     return parent::select(
-      ['id', 'serial_num(name)'],
+      ['id', 'serial_num(name)', 'position'],
       [
         'AND' => [
           'zone_id' => $zoneID,
           'is_active' => TRUE
+        ],
+        'ORDER' => [
+          'position'
         ]
       ]
     );
@@ -44,12 +47,24 @@ class Thermometers extends db\ToggableItemsTable
       [
         'id',
         'serial_num(name)',
-        'is_active'
+        'is_active',
+        'position'
       ],
       [
-        'zone_id' => $zoneID
+        'zone_id' => $zoneID,
+        'ORDER' => [
+          'position'
+        ]
       ]
     );
+  }
+
+  // Retorna el numero de renglones que poseen el ID especificado
+  // [in]   zoneID (uint): el ID de la zona cuyos elementos van a ser contados
+  // [out]  return (uint): el numero de elementos en la tabla que tienen 
+  //        registrado el ID de zona especificada
+  function countByZoneID($zoneID) {
+    return parent::count([ 'zone_id' => $zoneID]);
   }
 }
 

@@ -34,7 +34,8 @@ class Logs extends db\LogTable
       FROM $this->table
       INNER JOIN gmp_packing_thermometers_thermometers AS t
         ON $this->table.thermometer_id = t.id
-      WHERE capture_date_id = $dateID"
+      WHERE capture_date_id = $dateID
+      ORDER BY t.position"
     )->fetchAll();
   }
 
