@@ -7,7 +7,7 @@ $service = fsm\createReorderService(
   'GMP',
   'Packing',
   'Daily Thermometer Calibration Verification Check',
-  'gmp\packing\thermometers'
+  'gmp\packing\thermometers\Thermometers'
 );
 
 ?>
