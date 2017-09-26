@@ -19,6 +19,7 @@ import { LogFootersComponent } from './app.log.footers'
 import { SupervisorsComponent } from './app.supervisors'
 import { SignaturesComponent } from './app.signatures'
 import { ZonesComponent } from './app.zones'
+import { UsersComponent } from './app.users'
 
 // Importamos los componentes de los modales
 import { ProgressModalComponent } from './modal.please.wait'
@@ -100,6 +101,11 @@ import { ToastService } from '../services/app.toast'
           name: 'zones',
           url: '/zones',
           component: ZonesComponent
+        },
+        {
+          name: 'users',
+          url: '/users',
+          component: UsersComponent
         }
       ],
       useHash: true,
@@ -131,7 +137,8 @@ import { ToastService } from '../services/app.toast'
     SignaturesComponent,
     ZonesComponent,
     EditSignatureModalComponent,
-    ZoneInfoModalComponent
+    ZoneInfoModalComponent,
+    UsersComponent
   ],
   // declaramos cualquier componente que sera inyectado dinamicamente
   entryComponents: [

@@ -25,7 +25,7 @@ $service = [
       // if she does, prevent the role change
       $hasEmployeesAssigned = $numEmployees > 0;
       if ($hasEmployeesAssigned) {
-        throw new \Exception('Supervisor has employees assigned.');
+        throw new \Exception('Supervisor has employees assigned.', 1);
       }
     }
 
