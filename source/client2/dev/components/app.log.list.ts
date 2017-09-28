@@ -31,9 +31,17 @@ export class LogListComponent implements OnInit
     let module = this.router.params.module
     this.program = program
     this.module = module
-    this.logs = Object.keys(
+    for (let i in this.home.privileges[zone][program].suffixes[module]) {
+      this.logs.push({
+        name: i,
+        suffix: this.home.privileges[zone][program].suffixes[module][i].suffix
+      })
+    }
+    /*this.logs = Object.keys(
       this.home.privileges[zone][program].suffixes[module]
     )
+    console.log(this.home.privileges[zone][program].suffixes[module])*/
     this.logs.splice(0, 1)
+    console.log(this.logs)
   }
 }

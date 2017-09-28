@@ -25,6 +25,8 @@ export class GMPPackingPreopItemComponent {
     @Input('itemGroup')
     public itemForm: FormGroup;
 
+    lang: string = localStorage.lang
+
     is_acceptable: string = null
     is_true_checked: boolean = false
 

@@ -1,4 +1,4 @@
-import { Component, Input, NgModule } from '@angular/core'
+import { Component, Input, NgModule, OnInit } from '@angular/core'
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
 import { MaterializeModule } from 'ng2-materialize'
 
@@ -17,5 +17,19 @@ export class GMPPackingPreopAreaComponent {
     actions: Array<{name: string}>
 
     @Input('group')
-    public areaForm: FormGroup;
+    public areaForm: FormGroup
+
+    ngOnInit(){
+        $('.timepicker').pickatime({
+            /*default: 0,
+            fromnow: 0,
+            twelvehour: false,
+            donetext: 'OK',
+            cleartext: 'Clear',
+            canceltext: 'Cancel',
+            autoclose: false,
+            ampmclickable: true,
+            aftershow: function(){}*/
+        });
+    }
 }

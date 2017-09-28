@@ -814,6 +814,36 @@
         <spanish>Empacado °F</spanish>
     </translation>
 
+    <translation id="warehouse_title">
+        <english>Warehouse</english>
+        <spanish>Bodega</spanish>
+    </translation>
+
+    <translation id="zone_provider">
+        <english>Zone, Provider</english>
+        <spanish>Zona, Proveedor</spanish>
+    </translation>
+
+    <translation id="item_title">
+        <english>Item</english>
+        <spanish>Item</spanish>
+    </translation>
+
+    <translation id="days_old">
+        <english>Days old</english>
+        <spanish>Días de viejo</spanish>
+    </translation>
+
+    <translation id="quantity_long_title">
+        <english>Quantity</english>
+        <spanish>Cantidad</spanish>
+    </translation>
+
+    <translation id="location">
+        <english>Location</english>
+        <spanish>Localidad</spanish>
+    </translation>
+
     <translation id="quality_title">
         <english>Quality</english>
         <spanish>Calidad</spanish>

@@ -98,8 +98,8 @@ function gmpPackingThermoCalibrationInventoryRow(item){
 
     // Add information columns. Remember the class "search-column" for dynamic
     // search binding
-    inventoryRow.columns.push({"type":"td","contents":item.id,"classes":"id-column search-column"});
-    inventoryRow.columns.push({"type":"td","contents":item.position,"classes":"position-column search-column"});
+    inventoryRow.columns.push({"type":"td","contents":item.position,"classes":"id-column search-column"});
+    inventoryRow.columns.push({"type":"td","contents":item.id,"classes":"position-column search-column"});
     inventoryRow.columns.push({"type":"td","contents":item.name,"classes":"name-column search-column"});
 
     // Add switch to toggle activaction or deactivation of the item

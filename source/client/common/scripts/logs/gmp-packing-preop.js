@@ -165,7 +165,7 @@ function sendGmpPackingPreopReport(){
     report.album_url = $("#report_url").val();
     report.areas = new Array();
 
-    if(validateLog()){
+    if(validateLog() || true){
         $(".area-card").each(function(){
             var area = new Object();
             var areaID = $(this).data("id");
@@ -191,7 +191,9 @@ function sendGmpPackingPreopReport(){
             report.areas.push(area);
         });
 
-        $server.request({
+        console.log(report)
+
+        /*$server.request({
             service: 'capture-gmp-packing-preop',
             data: report,
             success: function(response){
@@ -206,7 +208,7 @@ function sendGmpPackingPreopReport(){
                 $("#send_report").data("waiting", false);
                 $("#sending_log").hide();
             }
-        });
+        });*/
     } else {
         $("#send_report").removeAttr("disabled");
         $("#send_report").data("waiting", false);

@@ -759,7 +759,7 @@ function gmpPackingFinishedProductReport(data){
 // languages.xml, not strings
 
 function gmpPackingFinishedProductHeader(){
-    var header = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"batch_title batchColumn"},{"type":"th","classes":"area_title areaColumn"},{"type":"th","classes":"suppliers suppliersColumn"},{"type":"th","classes":"products productsColumn"},{"type":"th","classes":"clients clientsColumn"},{"type":"th","classes":"quality_title qualityColumn"},{"type":"th","classes":"origin_title originColumn"},{"type":"th","classes":"expires_title expiresColumn"},{"type":"th","classes":"water_temperature_short waterColumn"},{"type":"th","classes":"packing_temperature_short packingColumn"},{"type":"th","classes":"correct_weight_title weightColumn"},{"type":"th","classes":"correct_label_title labelColumn"},{"type":"th","classes":"traceability_title traceabilityColumn"},{"type":"th","classes":"url_title urlColumn"}]}]};
+    var header = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"batch_title batchColumn"},{"type":"th","classes":"area_title areaColumn"},{"type":"th","classes":"suppliers suppliersColumn"},{"type":"th","classes":"products productsColumn"},{"type":"th","classes":"clients clientsColumn"},{"type":"th","classes":"quality_title qualityColumn"},{"type":"th","classes":"origin_title originColumn"},{"type":"th","classes":"expires_title expiresColumn"},{"type":"th","classes":"water_temperature_short waterColumn"},{"type":"th","classes":"packing_temperature_short packingColumn"},{"type":"th","classes":"correct_weight_title weightColumn"},{"type":"th","classes":"correct_label_title labelColumn"},{"type":"th","classes":"traceability_title traceabilityColumn"},{"type":"th","classes":"url_title urlColumn"},{"type":"th","classes":"notes_title notesColumn"}]}]};
 
     return header;
 }
@@ -809,10 +809,10 @@ function gmpPackingFinishedProductReportItem(itemData){
     secondRowTitles.columns.push({"type":"td","classes":"qualityColumn pseudo-th","contents":"<span class='correct_label_title'></span>"});
     secondRowTitles.columns.push({"type":"td","classes":"batchColumn pseudo-th","contents":"<span class='traceability_title'></span>"});*/
 
-    firstRowContent.columns.push({"type":"td","classes":"batchColumn","contents":itemData.origin});
-    firstRowContent.columns.push({"type":"td","classes":"areaColumn","contents":itemData.expiration_date});
-    firstRowContent.columns.push({"type":"td","classes":"suppliersColumn","contents":itemData.water_temperature});
-    firstRowContent.columns.push({"type":"td","classes":"productsColumn","contents":itemData.product_temperature});
+    firstRowContent.columns.push({"type":"td","classes":"originColumn","contents":itemData.origin});
+    firstRowContent.columns.push({"type":"td","classes":"expiresColumn","contents":itemData.expiration_date});
+    firstRowContent.columns.push({"type":"td","classes":"waterColumn","contents":itemData.water_temperature});
+    firstRowContent.columns.push({"type":"td","classes":"packingColumn","contents":itemData.product_temperature});
     if(itemData.is_weight_correct == 1){
         firstRowContent.columns.push({"type":"td","classes":"weightColumn","contents":"<span class='yes_tag'></span>"});
     } else {
@@ -828,14 +828,14 @@ function gmpPackingFinishedProductReportItem(itemData){
     } else {
         firstRowContent.columns.push({"type":"td","classes":"traceabilityColumn","contents":"<span class='no_tag'></span>"});
     }
-    notesRow.columns.push({"type":"td","classes":"notesColumn","contents":"<span class='notes_title'></span>: " + itemData.notes,"colspan":14});
-    firstRowContent.columns.push({"type":"td","classes":"notesColumn","contents":"<a href='" + itemData.album_url + "' >" + "View Report" + "</a>"});
+    firstRowContent.columns.push({"type":"td","classes":"urlColumn","contents":"<a href='" + itemData.album_url + "' >" + "View Report" + "</a>"});
+    firstRowContent.columns.push({"type":"td","classes":"notesColumn","contents":itemData.notes});
 
     //item.push(firstRowTitles);
     item.push(firstRowContent);
     //item.push(secondRowTitles);
     //item.push(secondRowContent);
-    item.push(notesRow);
+    //item.push(notesRow);
 
     return item;
 }
@@ -847,5 +847,84 @@ function gmpPackingFinishedProductFooter(data){
 }
 
 function getCSS(){
-    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}td { border: 1px solid #000000; text-align: left;}th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50;}.even { background-color: #b8e0b9;}.typeTitle{ background-color: yellow; width:588px;}.fullColumn{ background-color: #D3D3D3;width:631px;}.testColumn{ width:147px;}.numberColumn{ width:147px;}.timeColumn{ width:43px;}.statusColumn{ width:147px;}.sanitizedColumn{ width:147px;} .pseudo-th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50;}</style>';
+    return `<style>
+        table { 
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td {
+            border: 1px solid #000000;
+            text-align: left;
+        }
+
+        th { 
+            border: 1px solid #000000;
+            text-align: left;
+            font-weight: bold;
+            background-color: #4CAF50;
+        }
+
+        .batchColumn {
+            width: 60px;
+        }
+
+        .areaColumn {
+            width: 60px;
+        }
+
+        .suppliersColumn {
+            width: 60px;
+        }
+
+        .productsColumn {
+            width: 60px;
+        }
+
+        .clientsColumn {
+            width: 60px;
+        }
+
+        .qualityColumn {
+            width: 60px;
+        }
+
+        .originColumn{
+            width: 50px;
+        }
+
+        .expiresColumn {
+            width: 60px;
+        }
+
+        .waterColumn {
+            width: 42px;
+        }
+
+        .packingColumn {
+            width: 52px;
+        }
+
+        .weightColumn {
+            width: 52px;
+        }
+
+        .labelColumn {
+            width: 52px;
+        }
+
+        .traceabilityColumn {
+            width: 52px;
+        }
+
+        .urlColumn {
+            width: 67px;
+        }
+
+        .notesColumn {
+            width: 152px;
+        }
+
+        </style>`;
 }

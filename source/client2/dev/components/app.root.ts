@@ -30,6 +30,7 @@ import { GMPPackingPreopTypeComponent } from './gmp.packing.preop.type.component
 import { GMPPackingPreopAreaComponent } from './gmp.packing.preop.area.component'
 import { GMPPackingPreopLogComponent } from './gmp.packing.preop.log.component'
 import { ReportLoaderCard } from './report.loader.card.component'
+import { LogHeaderComponent } from './app.log.header'
 
 // Importamos los componentes de los modales
 import { ProgressModalComponent } from './modal.please.wait'
@@ -46,6 +47,7 @@ import { HomeElementsService } from '../services/app.home'
 import { BackendService } from '../services/app.backend'
 import { LanguageService } from '../services/app.language'
 import { ToastService } from '../services/app.toast'
+import { DateTimeService } from '../services/app.time'
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -84,7 +86,7 @@ import { ToastService } from '../services/app.toast'
         },
         {
           name: 'log-view',
-          url: '/log-selection/:program/:module/:log',
+          url: '/log/:suffix',
           component: LogLoaderComponent
         },
         {
@@ -127,7 +129,8 @@ import { ToastService } from '../services/app.toast'
     HomeElementsService,
     BackendService,
     ToastService,
-    LanguageService
+    LanguageService,
+    DateTimeService
   ],
   // declaramos los componentes que va a utilizar nuestro sistema
   declarations: [
@@ -153,7 +156,8 @@ import { ToastService } from '../services/app.toast'
     GMPPackingPreopItemComponent,
     GMPPackingPreopTypeComponent,
     GMPPackingPreopAreaComponent,
-    GMPPackingPreopLogComponent
+    GMPPackingPreopLogComponent,
+    LogHeaderComponent
   ],
   // declaramos cualquier componente que sera inyectado dinamicamente
   entryComponents: [

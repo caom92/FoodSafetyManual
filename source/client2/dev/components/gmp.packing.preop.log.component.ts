@@ -1,9 +1,14 @@
 import { Component, Input, NgModule, OnInit } from '@angular/core'
+import { DatePipe } from '@angular/common';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
 import { MaterializeModule } from 'ng2-materialize'
 
-import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms';
-import { Report, Area, Item } from '../interfaces/gmp.packing.preop.interface';
+import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
+import { Report, Area, Item } from '../interfaces/gmp.packing.preop.interface'
+import { LogHeaderComponent } from '../components/app.log.header'
+
+import { DateTimeService } from '../services/app.time'
+import { BackendService } from '../services/app.backend'
 
 @Component({
     selector: 'gmp-packing-preop-log',
@@ -18,43 +23,52 @@ export class GMPPackingPreopLogComponent {
         module_name: string,
         log_name: string,
         html_footer: string,
-        areas: Array<{
-            id: number,
-            name: string,
-            types: Array<{
+        areas: {
+            corrective_actions: Array<{
+                id: number,
+                code: string,
+                en: string,
+                es: string
+            }>
+            logs: Array<{
                 id: number,
                 name: string,
-                items: Array<{
+                types: Array<{
                     id: number,
                     name: string,
-                    order: number
+                    items: Array<{
+                        id: number,
+                        name: string,
+                        order: number
+                    }>
                 }>
             }>
-        }>
+        }
     }
 
-    public gmpPackingPreopForm: FormGroup
+    public gmpPackingPreopForm: FormGroup = new FormBuilder().group({})
 
-    constructor(private _fb: FormBuilder){
+    constructor(private _fb: FormBuilder, private timeService: DateTimeService, private server: BackendService,){
 
     }
 
-    ngOnInit(){
+    ngOnChanges(){
         this.gmpPackingPreopForm = this._fb.group({
-            date: [new Date().getUTCDate(), [Validators.required, Validators.minLength(1)]],
-            notes: ['Default Notes', [Validators.required, Validators.minLength(1)]],
-            album_url: ['http://manual.jfdc.tech', [Validators.required, Validators.minLength(1)]],
+            date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
+            notes: ['', [Validators.required, Validators.minLength(1)]],
+            album_url: ['', [Validators.required, Validators.minLength(1)]],
             areas: this._fb.array([])
         })
         const control = <FormArray>this.gmpPackingPreopForm.controls['areas'];
-        for (let area of this.log.areas) {
-            var itemControl = []
+        let currentTime = this.timeService.getISOTime(new Date())
+        for (let area of this.log.areas.logs) {
+            let itemControl = []
             for(let type of area.types){
                 for(let item of type.items){
-                    itemControl.push(this.initItem({id:item.id,is_acceptable:null,corrective_action:0,comment:"default item comments"}))
+                    itemControl.push(this.initItem({id:item.id,is_acceptable:true,corrective_action:1,comment:""}))
                 }
             }
-            control.push(this.initArea({id:area.id,time:"",notes:"default note",person_performing_sanitation:"default person",items:itemControl}))
+            control.push(this.initArea({id:area.id,time:currentTime,notes:"",person_performing_sanitation:"",items:itemControl}))
         }
     }
 
@@ -71,13 +85,58 @@ export class GMPPackingPreopLogComponent {
     initItem(item: Item){
         return this._fb.group({
             id:[item.id, [Validators.required]],
-            is_acceptable:[item.is_acceptable, [Validators.required, Validators.minLength(1)]],
-            corrective_action: [item.corrective_action, [Validators.required, Validators.minLength(1)]],
-            comment: [item.comment, [Validators.required, Validators.minLength(1)]]
+            is_acceptable:[item.is_acceptable, [Validators.required]],
+            corrective_action_id: [item.corrective_action, [Validators.required]],
+            comment: [item.comment, [Validators.required]]
         })
     }
 
     save(model: Report){
-        console.log(this.gmpPackingPreopForm.value)
+        if(this.gmpPackingPreopForm.valid){
+            let form_data = new FormData();
+            
+            let flatObj = this.flatten(this.gmpPackingPreopForm.value)
+
+            for ( let key in flatObj ) {
+                let tempKey = key + "]"
+                tempKey = tempKey.replace(']', '')
+                form_data.append(tempKey, flatObj[key]);
+            }
+    
+            this.server.update(
+                'capture-gmp-packing-preop',
+                form_data,
+                (response: any) => {
+                  console.log(response)
+                  console.log(JSON.stringify(response))
+                } // (response: Response)
+            ) // this.server.update
+        } else {
+            console.log("Log is not valid")
+        }
     }
+
+    flatten(data) {
+        var result = {};
+    
+        function recurse(cur, prop) {
+            if (Object(cur) !== cur) {
+                result[prop] = cur;
+            } else if (Array.isArray(cur)) {
+                for (var i = 0, l = cur.length; i < l; i++)
+                recurse(cur[i], prop + "][" + i + "][");
+                if (l == 0) result[prop] = [];
+            } else {
+                var isEmpty = true;
+                for (var p in cur) {
+                    isEmpty = false;
+                    recurse(cur[p], prop ? prop + p : p);
+                }
+                if (isEmpty && prop) result[prop] = {};
+            }
+        }
+        
+        recurse(data, "");
+        return result;
+    };
 }
