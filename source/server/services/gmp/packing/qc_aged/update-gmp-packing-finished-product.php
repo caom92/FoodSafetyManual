@@ -13,12 +13,14 @@ $service = fsm\createUpdateService(
       'values' => [
         'batch' => [
           'type' => 'string',
-          'min_length' => 1
+          'min_length' => 1,
+          'optional' => TRUE
         ],
         'warehouse' => [
           'type' => 'string',
           'min_length' => 1,
-          'max_length' => 255
+          'max_length' => 255,
+          'optional' => TRUE
         ],
         'vendor' => [
           'type' => 'string',
@@ -30,13 +32,17 @@ $service = fsm\createUpdateService(
           'min_length' => 1,
           'max_length' => 255
         ],
+        'age' => [
+          'type' => 'int'
+        ],
         'quality_type_id' => [
           'type' => 'int',
           'min' => 1
         ],
         'origin' => [
           'type' => 'string',
-          'length' => 3
+          'length' => 3,
+          'optional' => TRUE
         ],
         'packed_date' => [
           'type' => 'datetime',
@@ -49,16 +55,20 @@ $service = fsm\createUpdateService(
         'location' => [
           'type' => 'string',
           'min_length' => 1,
-          'max_length' => 255
+          'max_length' => 255  ,
+          'optional' => TRUE
         ],
         'is_weight_correct' => [
-          'type' => 'bool'
+          'type' => 'bool',
+          'optional' => TRUE
         ],
         'is_label_correct' => [
-          'type' => 'bool'
+          'type' => 'bool',
+          'optional' => TRUE
         ],
         'is_trackable' => [
-          'type' => 'bool'
+          'type' => 'bool',
+          'optional' => TRUE
         ],
         'notes' => [
           'type' => 'string',
