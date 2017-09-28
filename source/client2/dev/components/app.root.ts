@@ -26,6 +26,7 @@ import { ProgressModalComponent } from './modal.please.wait'
 import { EditFooterModalComponent } from './modal.edit.footers'
 import { EditSignatureModalComponent } from './modal.edit.signature'
 import { ZoneInfoModalComponent } from './modal.zone.info'
+import { UserInfoModalComponent } from './modal.user.info'
 
 // Importamos los servicios que van a ser necesitados por cada pagina del 
 // sistema
@@ -138,14 +139,16 @@ import { ToastService } from '../services/app.toast'
     ZonesComponent,
     EditSignatureModalComponent,
     ZoneInfoModalComponent,
-    UsersComponent
+    UsersComponent,
+    UserInfoModalComponent
   ],
   // declaramos cualquier componente que sera inyectado dinamicamente
   entryComponents: [
     ProgressModalComponent,
     EditFooterModalComponent,
     EditSignatureModalComponent,
-    ZoneInfoModalComponent
+    ZoneInfoModalComponent,
+    UserInfoModalComponent
   ],
   // indicamos cual es el componente raiz
   bootstrap: [ HomeComponent ]

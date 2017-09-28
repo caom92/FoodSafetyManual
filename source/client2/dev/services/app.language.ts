@@ -241,12 +241,16 @@ export class LanguageService
         }
       },
       usersFormLabels: {
-        title: 'Lista de usuarios',
+        titles: [
+          'Lista de usuarios',
+          'Información del Usuario'
+        ],
         tableHeaders: [
           'ID de Empleado',
           'Nombre',
           'Rol',
-          '¿Activo?'
+          '¿Activo?',
+          'Editar'
         ],
         active: 'Sí',
         inactive: 'No'
@@ -563,12 +567,16 @@ export class LanguageService
         }
       },
       usersFormLabels: {
-        title: 'List of users',
+        titles: [
+          'List of users',
+          'User Information'
+        ],
         tableHeaders: [
           'Employee ID',
           'Name',
           'Role',
-          'Active?'
+          'Active?',
+          'Edit'
         ],
         active: 'Yes',
         inactive: 'No'
@@ -846,8 +854,8 @@ export class LanguageService
       }
     },
     usersFormLabels: {
-      title: null,
-      tableHeaders: [ null, null, null, null ],
+      titles: [ null, null ],
+      tableHeaders: [ null, null, null, null, null ],
       active: null,
       inactive: null
     }

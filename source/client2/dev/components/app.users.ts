@@ -5,7 +5,7 @@ import { ToastService } from '../services/app.toast'
 import { LanguageService } from '../services/app.language'
 import { MzModalService, MzBaseModal } from 'ng2-materialize'
 import { ProgressModalComponent } from './modal.please.wait'
-import { ZoneInfoModalComponent } from './modal.zone.info'
+import { UserInfoModalComponent } from './modal.user.info'
 
 // Este componente describe el comportamiento de la pagina donde el usuario 
 // administra la informacion de los usuarios
@@ -97,4 +97,10 @@ export class UsersComponent implements OnInit
       } // (response: any)
     ) // this.server.update
   } // onToggleUserActivation(userIdx: number, isActive: boolean): void
+
+  // Este evento se invoca cuando el usuario hace clic en el boton de agregar 
+  // un nuevo usuario
+  onAddUserButtonClick(): void {
+    this.modalManager.open(UserInfoModalComponent)
+  }
 } // export class UsersComponent implements OnInit

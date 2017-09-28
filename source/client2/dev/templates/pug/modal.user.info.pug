@@ -1,0 +1,15 @@
+include globals.pug
+
+mz-modal('[fixedFooter]'='true')
+  mz-modal-header
+    ='{{ langManager.messages.usersFormLabels.titles[1] }}'
+  mz-modal-content
+  mz-modal-footer
+    +button(
+      'submit',
+      'edit-user-submit',
+      '{{ langManager.messages.editPasswordFormLabels.submit }}',
+      'mdi mdi-send'
+    )(
+      mz-modal-close
+    )

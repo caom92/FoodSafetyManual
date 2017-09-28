@@ -38,6 +38,8 @@ export class HomeElementsService
     this._showZoneMenu = false
   }
 
+  // Bandera que indica si se debe desplegar la animacion de carga en la 
+  // pantalla o no
   private _showSpinner = true
   get showSpinner() {
     return this._showSpinner
