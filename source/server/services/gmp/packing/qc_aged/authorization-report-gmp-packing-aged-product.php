@@ -13,6 +13,9 @@ $service = fsm\createAuthorizationReportService(
       // NULL
     ],
     'function' => function($scope, $segment, $logDate) {
+      // and then, obtain the list of quality types
+      $qualityTypes = $scope->daoFactory->get('QualityTypes')->selectAll();
+      
       // get the list of all entries from the database
       $entries = $scope->daoFactory->get('gmp\packing\agedProduct\Logs')
         ->selectByCaptureDateID(
