@@ -35,7 +35,7 @@ $service = fsm\createCaptureService(
         'age' => [
           'type' => 'int'
         ],
-        'quality_type_id' => [
+        'quality_id' => [
           'type' => 'int',
           'min' => 1
         ],
