@@ -129,7 +129,7 @@ function specialClearLog(){
 function dateActivator(){
     $('.expires_datepicker').each(function(index, element){
         var itemID = $(this).data("item_id");
-        var dateObj = datePicker("expiresHidden_" + itemID, null, new Date());
+        var dateObj = datePicker("expiresHidden_" + itemID, null, null);
         $(this).pickadate(dateObj);
     });
 }
@@ -191,7 +191,7 @@ function sendgmpPackingFinishedProductReport(){
             item.vendor = $("#supplier_" + itemID).val();
             item.item = $("#product_" + itemID).val();
             item.age = $("#client_" + itemID).val();
-            item.quality_type_id = parseInt($("#quality_" + itemID).val());
+            item.quality_id = parseInt($("#quality_" + itemID).val());
             if($("#origin_" + itemID).val() != ""){
                 item.origin = $("#origin_" + itemID).val();
             }
@@ -257,7 +257,7 @@ function updateGmpPackingFinishedProductReport(reportID){
             item.vendor = $("#supplier_" + itemID).val();
             item.item = $("#product_" + itemID).val();
             item.age = $("#client_" + itemID).val();
-            item.quality_type_id = parseInt($("#quality_" + itemID).val());
+            item.quality_id = parseInt($("#quality_" + itemID).val());
             if($("#origin_" + itemID).val() != ""){
                 item.origin = $("#origin_" + itemID).val();
             }
