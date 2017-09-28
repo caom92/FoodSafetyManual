@@ -14,6 +14,8 @@ $agedProduct = [
       realpath(dirname(__FILE__).'/report-gmp-packing-aged-product.php'),
     'update-gmp-packing-aged-product' =>
       realpath(dirname(__FILE__).'/update-gmp-packing-aged-product.php'),
+    'log-gmp-packing-aged-product' =>
+      realpath(dirname(__FILE__).'/log-gmp-packing-aged-product.php'),
     'authorization-report-gmp-packing-aged-product' =>
       realpath(dirname(__FILE__).'/authorization-report-gmp-packing-aged-product.php')
   ]
