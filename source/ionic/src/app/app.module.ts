@@ -9,6 +9,8 @@ import { IonicStorageModule } from '@ionic/storage';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { EditProfile } from '../pages/edit-profile/edit-profile';
+import { ModulesPage } from '../pages/modules/modules';
+import { LogsPage } from '../pages/logs/logs';
 
 import { TranslationModule, LocaleService, TranslationService } from 'angular-l10n';
 
@@ -16,7 +18,9 @@ import { TranslationModule, LocaleService, TranslationService } from 'angular-l1
   declarations: [
     MyApp,
     HomePage,
-    EditProfile
+    EditProfile,
+    ModulesPage,
+    LogsPage
   ],
   imports: [
     BrowserModule,
@@ -32,7 +36,9 @@ import { TranslationModule, LocaleService, TranslationService } from 'angular-l1
   entryComponents: [
     MyApp,
     HomePage,
-    EditProfile
+    EditProfile,
+    ModulesPage,
+    LogsPage
   ],
   providers: [
     StatusBar,

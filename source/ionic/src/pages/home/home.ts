@@ -64,12 +64,9 @@ export class HomePage implements OnInit {
     if (userData.log_list !== undefined) {
       this.storage.set("log_list", JSON.stringify(userData.log_list))
     }
-    this.storage.forEach(function(value, key, iterationNumber){
-      console.log("key: " + key + ", value: " + value);
-    })
   }
 
-  ngOnInit() {
+  ionViewCanEnter() {
     // Configuramos el formulario con valores iniciales vacios y las reglas de 
     // validacion correspondientes
     /*if(localStorage["__mydb/_ionickv/is_logged_in"] == "true"){
@@ -87,11 +84,13 @@ export class HomePage implements OnInit {
           if (!result.data) {
             // si el usuario no ha iniciado sesion, desactivamos la bandera y 
             // redireccionamos a la pantalla de inicio de sesion
-            this.menuCtrl.enable(false)
+            this.menuCtrl.enable(false, "es")
+            this.menuCtrl.enable(false, "en")
             //this.app.getRootNav().setRoot(HomePage)
           } else {
             this.app.getRootNav().setRoot(EditProfile)
-            this.menuCtrl.enable(true)
+            this.menuCtrl.enable(true, "es")
+            this.menuCtrl.enable(true, "en")
             // de lo contrario, permitimos la navegacion
             /*localStorage.is_logged_in = true
             this.home.roleName = localStorage.role_name
@@ -123,7 +122,9 @@ export class HomePage implements OnInit {
         }
       }
     )
+  }
 
+  ngOnInit() {
     this.userLogInInfo = this.formBuilder.group({
       username: [ null, Validators.compose([
         Validators.required,
@@ -175,7 +176,8 @@ export class HomePage implements OnInit {
           this.storage.set("is_logged_in", true)
           this.mapUserDataToLocalStorage(result.data)
           rootNav.setRoot(EditProfile)
-          menuCtrl.enable(true)
+          menuCtrl.enable(true, "es")
+          menuCtrl.enable(true, "en")
         } else {
           toasts.showServiceErrorText("login", result.meta)
           console.log(result.meta.message)
