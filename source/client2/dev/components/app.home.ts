@@ -12,6 +12,7 @@ import { LanguageService } from '../services/app.language'
 })
 export class HomeComponent implements OnInit
 {
+  // La zona elegida por el director
   selectedZoneID: any = null
   
   // El constructor de este componente, inyectando los servicios requeridos

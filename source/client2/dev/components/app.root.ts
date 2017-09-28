@@ -19,6 +19,7 @@ import { LogFootersComponent } from './app.log.footers'
 import { SupervisorsComponent } from './app.supervisors'
 import { SignaturesComponent } from './app.signatures'
 import { ZonesComponent } from './app.zones'
+import { UsersComponent } from './app.users'
 
 // Importamos el cargador de bitácoras
 
@@ -37,6 +38,7 @@ import { ProgressModalComponent } from './modal.please.wait'
 import { EditFooterModalComponent } from './modal.edit.footers'
 import { EditSignatureModalComponent } from './modal.edit.signature'
 import { ZoneInfoModalComponent } from './modal.zone.info'
+import { UserInfoModalComponent } from './modal.user.info'
 
 // Importamos los servicios que van a ser necesitados por cada pagina del 
 // sistema
@@ -118,6 +120,11 @@ import { DateTimeService } from '../services/app.time'
           name: 'zones',
           url: '/zones',
           component: ZonesComponent
+        },
+        {
+          name: 'users',
+          url: '/users',
+          component: UsersComponent
         }
       ],
       useHash: true,
@@ -151,6 +158,8 @@ import { DateTimeService } from '../services/app.time'
     ZonesComponent,
     EditSignatureModalComponent,
     ZoneInfoModalComponent,
+    UsersComponent,
+    UserInfoModalComponent
     LogLoaderComponent,
     ReportLoaderCard,
     GMPPackingPreopItemComponent,
@@ -164,7 +173,8 @@ import { DateTimeService } from '../services/app.time'
     ProgressModalComponent,
     EditFooterModalComponent,
     EditSignatureModalComponent,
-    ZoneInfoModalComponent
+    ZoneInfoModalComponent,
+    UserInfoModalComponent
   ],
   // indicamos cual es el componente raiz
   bootstrap: [ HomeComponent ]

@@ -62,7 +62,7 @@ include globals.pug
   
   //- Menu de navegacion para el administrador
   mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
-    +link()(class='side-menu-link waves-effect waves-green')
+    +uiRouterLink('users')(class='side-menu-link waves-effect waves-green')
       i.mdi.mdi-account-multiple.mdi-24px
       ='{{ langManager.messages.sideNavOptions.users }}'
   mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")

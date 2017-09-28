@@ -53,7 +53,7 @@ export class EditFooterModalComponent extends MzBaseModal implements OnInit
   }
 
   // Esta funcion se invoca cuando el componente es inicializado
-  ngOnInit() {
+  ngOnInit(): void {
     this.footerEditionForm = this.formBuilder.group({
       newFooterPDF: [ this.footerPDF, Validators.compose([
         Validators.required,
@@ -68,7 +68,7 @@ export class EditFooterModalComponent extends MzBaseModal implements OnInit
 
   // Esta funcion se invoca cuando el boton de editar los pies de pagina es
   // presionado
-  onFooterEditionFormSubmit() {
+  onFooterEditionFormSubmit(): void {
     // preparamos los datos que seran enviados al servidor
     let data = new FormData()
     data.append('footer_id', this.footerID.toString())

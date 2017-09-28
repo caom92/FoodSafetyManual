@@ -240,6 +240,21 @@ export class LanguageService
           maxlength: 'Este campo no debe ser más de 255 caracteres de largo'
         }
       },
+      usersFormLabels: {
+        titles: [
+          'Lista de usuarios',
+          'Información del Usuario'
+        ],
+        tableHeaders: [
+          'ID de Empleado',
+          'Nombre',
+          'Rol',
+          '¿Activo?',
+          'Editar'
+        ],
+        active: 'Sí',
+        inactive: 'No'
+      },
       login: {
         0: 'Sesión iniciada exitosamente',
         1: 'Las credenciales son incorrectas'
@@ -294,6 +309,9 @@ export class LanguageService
         0: 'Empleado(s) transferidos exitosamente',
         1: 'Los roles de usuario no son apropiados para la transferencia',
         2: 'Los empleados y el supervisor no estan en la misma zona'
+      },
+      'toggle-account-activation': {
+        1: 'Supervisor tiene empleados asignados'
       },
       101: 'Faltó enviar una entrada al servidor',
       102: 'Una entrada enviada al servidor no es un valor numérico',
@@ -548,6 +566,21 @@ export class LanguageService
           maxlength: 'This field must not be more than 255 characters long'
         }
       },
+      usersFormLabels: {
+        titles: [
+          'List of users',
+          'User Information'
+        ],
+        tableHeaders: [
+          'Employee ID',
+          'Name',
+          'Role',
+          'Active?',
+          'Edit'
+        ],
+        active: 'Yes',
+        inactive: 'No'
+      },
       login: {
         0: 'Logged in successfully',
         1: 'Log in credentials are incorrect'
@@ -602,6 +635,9 @@ export class LanguageService
         0: 'Employee(s) transfered successfully',
         1: 'The user roles are not correct for the transfer',
         2: 'Employee(s) to transfer and supervisor are not in the same zone'
+      },
+      'toggle-account-activation': {
+        1: 'Supervisor has employees assigned'
       },
       101: 'A server input argument was not send',
       102: 'A server input argument is not a numeric value',
@@ -816,6 +852,12 @@ export class LanguageService
         required: null,
         maxlength: null
       }
+    },
+    usersFormLabels: {
+      titles: [ null, null ],
+      tableHeaders: [ null, null, null, null, null ],
+      active: null,
+      inactive: null
     }
   }
 
