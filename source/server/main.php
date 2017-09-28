@@ -109,7 +109,7 @@ $controller = new ServiceProvider(
       $atp, $calibration, $finishedProduct, $glass, $handWash, $preop, 
       $scissors, $thermometers, $gmpOthersUnusualOccurrences, 
       $gapOthersUnusualOccurrences, $selfInspection, $footers, $gapPreop, 
-      $docControl, $coldRoomTemp) {
+      $docControl, $coldRoomTemp, $agedProduct) {
       return new db\TableFactory(
         'fsm\database\\',
         $zone['tables'] +
@@ -133,6 +133,7 @@ $controller = new ServiceProvider(
         $gapPreop['tables'] +
         $docControl['tables'] +
         $coldRoomTemp['tables'] +
+        $agedProduct['tables'] +
         [
           'Shifts' =>
             realpath(dirname(__FILE__).'/services/Shifts.php'),
@@ -166,7 +167,8 @@ $controller = new ServiceProvider(
       $gapPreop['services'] +
       $signatures['services'] +
       $docControl['services'] +
-      $coldRoomTemp['services']
+      $coldRoomTemp['services'] +
+      $agedProduct['services']
   ]
 );
 
