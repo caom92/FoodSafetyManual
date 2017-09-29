@@ -13,8 +13,15 @@ $service = fsm\createLogService(
       // and then, obtain the list of quality types
       $qualityTypes = $scope->daoFactory->get('QualityTypes')->selectAll();
 
+      // then obtain the list of actions
+      $actions = $scope->daoFactory->get('gmp\packing\agedProduct\Actions')
+        ->selectAll();
+
       // finally, return the log info
-      return $qualityTypes;
+      return [
+        'actions' => $actions,
+        'quality_types' => $qualityTypes
+      ];
     }
   ]
 );
