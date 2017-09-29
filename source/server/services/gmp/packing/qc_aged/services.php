@@ -3,7 +3,9 @@
 $agedProduct = [
   'tables' => [
     'gmp\packing\agedProduct\Logs' =>
-      realpath(dirname(__FILE__).'/Logs.php')
+      realpath(dirname(__FILE__).'/Logs.php'),
+    'gmp\packing\agedProduct\Actions' =>
+      realpath(dirname(__FILE__).'/Actions.php')
   ],
   'services' => [
     'upload-manual-gmp-packing-aged-product' =>

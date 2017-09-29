@@ -58,17 +58,9 @@ $service = fsm\createUpdateService(
           'max_length' => 255  ,
           'optional' => TRUE
         ],
-        'is_weight_correct' => [
-          'type' => 'bool',
-          'optional' => TRUE
-        ],
-        'is_label_correct' => [
-          'type' => 'bool',
-          'optional' => TRUE
-        ],
-        'is_trackable' => [
-          'type' => 'bool',
-          'optional' => TRUE
+        'action_id' => [
+          'type' => 'int',
+          'min' => 1
         ],
         'notes' => [
           'type' => 'string',

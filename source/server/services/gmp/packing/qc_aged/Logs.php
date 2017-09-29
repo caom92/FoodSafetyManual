@@ -45,9 +45,8 @@ class Logs extends db\LogTable
         'packed_date',
         'quantity',
         'location',
-        'is_weight_correct',
-        'is_label_correct',
-        'is_trackable',
+        'a.id(action_id)',
+        'a.name(action_name)',
         'notes',
         'album_url'
       ],
@@ -57,6 +56,9 @@ class Logs extends db\LogTable
       [
         '[><]quality_types(q)' => [
           'quality_type_id' => 'id'
+        ],
+        '[><]gmp_packing_qc_aged_actions' => [
+          'action_id' => 'id'
         ]
       ]
     );
