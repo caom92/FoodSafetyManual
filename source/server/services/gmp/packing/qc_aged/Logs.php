@@ -57,7 +57,7 @@ class Logs extends db\LogTable
         '[><]quality_types(q)' => [
           'quality_type_id' => 'id'
         ],
-        '[><]gmp_packing_qc_aged_actions' => [
+        '[><]gmp_packing_qc_aged_actions(a)' => [
           'action_id' => 'id'
         ]
       ]
