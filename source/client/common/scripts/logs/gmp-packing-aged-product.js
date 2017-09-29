@@ -8,11 +8,8 @@ function loadLogForm(htmlElement){
                 var header = {"rows":[{"columns":[{"styleClasses":"col s12 m12 l12", "columnText":report.log_name, "id":"log_name"}]},{"columns":[{"styleClasses":"col s4 m4 l4","textClasses":"zone_name","columnText":report.zone_name},{"styleClasses":"col s4 m4 l4","textClasses":"program_name","columnText":report.program_name},{"styleClasses":"col s4 m4 l4","textClasses":"module_name","columnText":report.module_name}]},{"columns":[{"styleClasses":"col s6 m6 l6","textClasses":"date_name","columnText":getISODate(new Date())},{"styleClasses":"col s6 m6 l6","textClasses":"made_by","columnText":localStorage.first_name + " " + localStorage.last_name}]}]};
                 $(htmlElement).append(logHeader(header));
                 item.id = 1;
-                item.production_areas = report.log_info.production_areas;
-                item.suppliers = report.log_info.suppliers;
-                item.product_codes = report.log_info.product_codes;
-                item.customers = report.log_info.customers;
-                item.quality_types = report.log_info;
+                item.quality_types = report.log_info.quality_types;
+                item.actions = report.log_info.actions;
                 gmpPackingFinishedProductLog(item, htmlElement, false, true);
                 $("#send_report").click(function(){
                     $(this).attr("disabled", true);
@@ -52,6 +49,7 @@ function loadPrefilledLogForm(htmlElement, data){
                 for(var item of report.items.entries){
                     item.id = itemID;
                     item.quality_types = report.items.quality_types;
+                    item.actions = report.items.actions;
                     gmpPackingFinishedProductLog(item, htmlElement, true, (itemID == report.items.entries.length));
                     itemID++;
                 }
@@ -200,12 +198,7 @@ function sendgmpPackingFinishedProductReport(){
             }
             item.quantity = parseInt($("#water_" + itemID).val());
             item.location = $("#packing_" + itemID).val();
-            if(getBoolFromString($("input:radio[name='weight_radio_" + itemID + "']:checked").val()) !=  null)
-                item.is_weight_correct = getBoolFromString($("input:radio[name='weight_radio_" + itemID + "']:checked").val());
-            if(getBoolFromString($("input:radio[name='label_radio_" + itemID + "']:checked").val()) !=  null)
-                item.is_label_correct = getBoolFromString($("input:radio[name='label_radio_" + itemID + "']:checked").val());
-            if(getBoolFromString($("input:radio[name='traceability_radio_" + itemID + "']:checked").val()) !=  null)
-                item.is_trackable = getBoolFromString($("input:radio[name='traceability_radio_" + itemID + "']:checked").val());
+            item.action_id = ($("input:radio[name='action_radio_" + itemID + "']:checked").val());
             if($("#comment_" + itemID).val().length != 0){
                 item.notes = $("#comment_" + itemID).val();
             }
@@ -266,12 +259,7 @@ function updateGmpPackingFinishedProductReport(reportID){
             }
             item.quantity = parseInt($("#water_" + itemID).val());
             item.location = $("#packing_" + itemID).val();
-            if(getBoolFromString($("input:radio[name='weight_radio_" + itemID + "']:checked").val()) !=  null)
-                item.is_weight_correct = getBoolFromString($("input:radio[name='weight_radio_" + itemID + "']:checked").val());
-            if(getBoolFromString($("input:radio[name='label_radio_" + itemID + "']:checked").val()) !=  null)
-                item.is_label_correct = getBoolFromString($("input:radio[name='label_radio_" + itemID + "']:checked").val());
-            if(getBoolFromString($("input:radio[name='traceability_radio_" + itemID + "']:checked").val()) !=  null)
-                item.is_trackable = getBoolFromString($("input:radio[name='traceability_radio_" + itemID + "']:checked").val());
+            item.action_id = ($("input:radio[name='action_radio_" + itemID + "']:checked").val());
             if($("#comment_" + itemID).val().length != 0){
                 item.notes = $("#comment_" + itemID).val();
             }
@@ -314,6 +302,7 @@ function gmpPackingFinishedProductLog(data, htmlElement, isPrefilled, isLast){
 
     addRow.columns = [gmpPackingFinishedProductItemAddButton(data), gmpPackingFinishedProductItemDelButton(data)];
 
+    console.log(data);
     itemsCard.append(gmpPackingFinishedProductItem(data));
 
     log.append(itemsCard);
@@ -381,7 +370,8 @@ function gmpPackingFinishedProductItem(item){
     codesRow.columns = [gmpPackingFinishedProductItemSupplier(item), gmpPackingFinishedProductItemProduct(item), gmpPackingFinishedProductItemClient(item)];
     qualityRow.columns = [gmpPackingFinishedProductItemQuality(item), gmpPackingFinishedProductItemOrigin(item), gmpPackingFinishedProductItemExpires(item)];
     temperatureRow.columns = [gmpPackingFinishedProductItemWater(item), gmpPackingFinishedProductItemPacking(item)];
-    infoRow.columns = [gmpPackingFinishedProductItemWeight(item), gmpPackingFinishedProductItemLabel(item), gmpPackingFinishedProductItemTrazable(item)];
+    //infoRow.columns = [gmpPackingFinishedProductItemWeight(item), gmpPackingFinishedProductItemLabel(item), gmpPackingFinishedProductItemTrazable(item)];
+    infoRow.columns = [gmpPackingFinishedProductActions(item)];
     notesRow.columns = [gmpPackingFinishedProductItemNotes(item)];
     urlRow.columns = [gmpPackingFinishedProductItemAlbumURL(item)];
 
@@ -470,6 +460,8 @@ function gmpPackingFinishedProductItemClient(item){
 function gmpPackingFinishedProductItemQuality(item){
     var qualitys = new Array();
 
+    console.log(item)
+
     for(var quality of item.quality_types){
         var tempOption = {"value":quality.id,"text":quality.name,"data":{"quality_code":quality.id}};
         if(item.quality_id == quality.id){
@@ -537,62 +529,30 @@ function gmpPackingFinishedProductItemPacking(item){
     return packingFullInput;
 }
 
-function gmpPackingFinishedProductItemWeight(item){
-    var statusLabel = {"type": "label","contents": {"type":"text","classes":"correct_weight_title"}};
-    var acceptableIcon = {"type":"text","classes":"yes_tag big"};
-    var unacceptableIcon = {"type":"text","classes":"no_tag big"};
-    var notApplicableIcon = {"type":"text","classes":"na_tag big"};
-    var radioAcceptable = {"type":"radio","id":"correct_weight_" + item.id,"classes":"timeChanger","value":"true","label":{"type":"label","classes":"black-text","for":"correct_weight_" + item.id,"contents": acceptableIcon},"data":{"item_id":item.id}};
-    var radioUnacceptable = {"type":"radio","id":"incorrect_weight" + item.id,"classes":"timeChanger","value":"false","label":{"type":"label","classes":"black-text","for":"incorrect_weight" + item.id,"contents": unacceptableIcon},"data":{"item_id":item.id}};
-    var radioNotApplicable = {"type":"radio","id":"not_applicable_weight" + item.id,"classes":"timeChanger","value":"null","checked":true,"label":{"type":"label","classes":"black-text","for":"not_applicable_weight" + item.id,"contents": notApplicableIcon},"data":{"item_id":item.id}};
-    var itemRadioGroup = {"type": "radioGroup", "id":"weight_radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"weight_radio_" + item.id,"radioArray":[radioAcceptable, radioUnacceptable, radioNotApplicable],"validations":{"type":"radio","required":{"value":true,"toast":"gmp-packing-finished-product-weight"},"groupName":"weight_radio_" + item.id},"label":statusLabel};
-    var groupInput = {"id":"weight_radioWrapper_" + item.id,"classes":"col s4 m4 l4","field":itemRadioGroup};
+function gmpPackingFinishedProductActions(item, selectedValue){
+    var actions = new Array();
 
-    if(item.is_weight_correct == 1){
-        radioAcceptable.checked = true;
-    } else if (item.is_weight_correct == 0){
-        radioUnacceptable.checked = true;
+    var statusLabel = {"type": "label","contents": {"type":"text","classes":"aged_product_action"}};
+
+    var isFirst = true;
+
+    for(var action of item.actions){
+        var tempLabel = {"type":"text","classes":"big","text":action.name};
+        var tempRadio = {"type":"radio","id":"action_" + item.id + "_" + action.id,"classes":"timeChanger","value":action.id,"label":{"type":"label","classes":"black-text","for":"action_" + item.id + "_" + action.id,"contents": tempLabel},"data":{"item_id":item.id}};;
+        if(isFirst){
+            tempRadio.checked = true;
+            isFirst = false;
+        }
+        if(item.action_id == action.id){
+            tempRadio.checked = true;
+        }
+        actions.push(tempRadio);
     }
 
-    return groupInput;
-}
+    var itemRadioGroup = {"type": "radioGroup", "id":"action_radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"action_radio_" + item.id,"radioArray":actions,"validations":{"type":"radio","required":{"value":true,"toast":"gmp-packing-finished-product-weight"},"groupName":"action_radio_" + item.id},"label":statusLabel};
+    var groupInput = {"id":"weight_radioWrapper_" + item.id,"classes":"col s12 m12 l12","field":itemRadioGroup};
 
-function gmpPackingFinishedProductItemLabel(item){
-    var statusLabel = {"type": "label","contents": {"type":"text","classes":"correct_label_title"}};
-    var acceptableIcon = {"type":"text","classes":"yes_tag big"};
-    var unacceptableIcon = {"type":"text","classes":"no_tag big"};
-    var notApplicableIcon = {"type":"text","classes":"na_tag big"};
-    var radioAcceptable = {"type":"radio","id":"correct_label_" + item.id,"classes":"timeChanger","value":"true","label":{"type":"label","classes":"black-text","for":"correct_label_" + item.id,"contents": acceptableIcon},"data":{"item_id":item.id}};
-    var radioUnacceptable = {"type":"radio","id":"incorrect_label" + item.id,"classes":"timeChanger","value":"false","label":{"type":"label","classes":"black-text","for":"incorrect_label" + item.id,"contents": unacceptableIcon},"data":{"item_id":item.id}};
-    var radioNotApplicable = {"type":"radio","id":"not_applicable_label" + item.id,"classes":"timeChanger","value":"null","checked":true,"label":{"type":"label","classes":"black-text","for":"not_applicable_label" + item.id,"contents": notApplicableIcon},"data":{"item_id":item.id}};
-    var itemRadioGroup = {"type": "radioGroup", "id":"label_radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"label_radio_" + item.id,"radioArray":[radioAcceptable, radioUnacceptable, radioNotApplicable],"validations":{"type":"radio","required":{"value":true,"toast":"gmp-packing-finished-product-label"},"groupName":"label_radio_" + item.id},"label":statusLabel};
-    var groupInput = {"id":"label_radioWrapper_" + item.id,"classes":"col s4 m4 l4","field":itemRadioGroup};
-
-    if(item.is_label_correct == 1){
-        radioAcceptable.checked = true;
-    } else if (item.is_label_correct == 0){
-        radioUnacceptable.checked = true;
-    }
-
-    return groupInput;
-}
-
-function gmpPackingFinishedProductItemTrazable(item){
-    var statusLabel = {"type": "label","contents": {"type":"text","classes":"traceability_title"}};
-    var acceptableIcon = {"type":"text","classes":"yes_tag big"};
-    var unacceptableIcon = {"type":"text","classes":"no_tag big"};
-    var notApplicableIcon = {"type":"text","classes":"na_tag big"};
-    var radioAcceptable = {"type":"radio","id":"correct_traceability_" + item.id,"classes":"timeChanger","value":"true","label":{"type":"label","classes":"black-text","for":"correct_traceability_" + item.id,"contents": acceptableIcon},"data":{"item_id":item.id}};
-    var radioUnacceptable = {"type":"radio","id":"incorrect_traceability" + item.id,"classes":"timeChanger","value":"false","label":{"type":"label","classes":"black-text","for":"incorrect_traceability" + item.id,"contents": unacceptableIcon},"data":{"item_id":item.id}};
-    var radioNotApplicable = {"type":"radio","id":"not_applicable_traceability" + item.id,"classes":"timeChanger","value":"null","checked":true,"label":{"type":"label","classes":"black-text","for":"not_applicable_traceability" + item.id,"contents": notApplicableIcon},"data":{"item_id":item.id}};
-    var itemRadioGroup = {"type": "radioGroup", "id":"traceability_radioGroup_"  + item.id,"classes":"col s12 m12 l12","group":"traceability_radio_" + item.id,"radioArray":[radioAcceptable, radioUnacceptable, radioNotApplicable],"validations":{"type":"radio","required":{"value":true,"toast":"gmp-packing-finished-product-trace"},"groupName":"traceability_radio_" + item.id},"label":statusLabel};
-    var groupInput = {"id":"traceability_radioWrapper_" + item.id,"classes":"col s4 m4 l4","field":itemRadioGroup};
-
-    if(item.is_trackable == 1){
-        radioAcceptable.checked = true;
-    } else if (item.is_trackable == 0){
-        radioUnacceptable.checked = true;
-    }
+    // TODO: Assign value for auth report
 
     return groupInput;
 }
