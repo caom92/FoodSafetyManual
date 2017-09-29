@@ -5,7 +5,7 @@ require_once realpath(dirname(__FILE__).'/../../../../dao/DataBaseTable.php');
 use fsm\database as db;
 
 // Interfaz para la tabla gmp_packing_qc_aged_actions
-class Logs extends db\DataBaseTable
+class Actions extends db\DataBaseTable
 {
   // Crea una instancia de una interfaz a la base de datos para modificar 
   // la tabla gmp_packing_qc_aged_actions
