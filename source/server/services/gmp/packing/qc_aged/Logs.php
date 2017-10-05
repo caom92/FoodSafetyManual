@@ -51,7 +51,10 @@ class Logs extends db\LogTable
         'album_url'
       ],
       [
-        'capture_date_id' => $dateID
+        'capture_date_id' => $dateID,
+        'ORDER' => [
+          'packed_date'
+        ]
       ],
       [
         '[><]quality_types(q)' => [
