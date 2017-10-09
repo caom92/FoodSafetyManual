@@ -198,7 +198,7 @@ function sendgmpPackingFinishedProductReport(){
             }
             item.quantity = parseInt($("#water_" + itemID).val());
             item.location = $("#packing_" + itemID).val();
-            item.action_id = ($("input:radio[name='action_radio_" + itemID + "']:checked").val());
+            item.action_id = parseInt($("#action_" + itemID).val());
             if($("#comment_" + itemID).val().length != 0){
                 item.notes = $("#comment_" + itemID).val();
             }
@@ -259,7 +259,7 @@ function updateGmpPackingFinishedProductReport(reportID){
             }
             item.quantity = parseInt($("#water_" + itemID).val());
             item.location = $("#packing_" + itemID).val();
-            item.action_id = ($("input:radio[name='action_radio_" + itemID + "']:checked").val());
+            item.action_id = parseInt($("#action_" + itemID).val());
             if($("#comment_" + itemID).val().length != 0){
                 item.notes = $("#comment_" + itemID).val();
             }
@@ -366,22 +366,21 @@ function gmpPackingFinishedProductItem(item){
     var notesRow = new Object();
     var urlRow = new Object();
 
-    batchRow.columns = [gmpPackingFinishedProductItemBatch(item), gmpPackingFinishedProductItemProductionArea(item)];
-    codesRow.columns = [gmpPackingFinishedProductItemSupplier(item), gmpPackingFinishedProductItemProduct(item), gmpPackingFinishedProductItemClient(item)];
-    qualityRow.columns = [gmpPackingFinishedProductItemQuality(item), gmpPackingFinishedProductItemOrigin(item), gmpPackingFinishedProductItemExpires(item)];
-    temperatureRow.columns = [gmpPackingFinishedProductItemWater(item), gmpPackingFinishedProductItemPacking(item)];
+    batchRow.columns = [gmpPackingFinishedProductItemBatch(item), gmpPackingFinishedProductItemProductionArea(item), gmpPackingFinishedProductItemSupplier(item), gmpPackingFinishedProductItemProduct(item), gmpPackingFinishedProductItemClient(item), gmpPackingFinishedProductItemOrigin(item)];
+    qualityRow.columns = [gmpPackingFinishedProductItemQuality(item), gmpPackingFinishedProductItemExpires(item), gmpPackingFinishedProductItemWater(item), gmpPackingFinishedProductItemPacking(item), gmpPackingFinishedProductActions(item)];
+    //temperatureRow.columns = [gmpPackingFinishedProductItemWater(item), gmpPackingFinishedProductItemPacking(item)];
     //infoRow.columns = [gmpPackingFinishedProductItemWeight(item), gmpPackingFinishedProductItemLabel(item), gmpPackingFinishedProductItemTrazable(item)];
-    infoRow.columns = [gmpPackingFinishedProductActions(item)];
-    notesRow.columns = [gmpPackingFinishedProductItemNotes(item)];
-    urlRow.columns = [gmpPackingFinishedProductItemAlbumURL(item)];
+    //infoRow.columns = [gmpPackingFinishedProductActions(item)];
+    notesRow.columns = [gmpPackingFinishedProductItemNotes(item), gmpPackingFinishedProductItemAlbumURL(item)];
+    //urlRow.columns = [gmpPackingFinishedProductItemAlbumURL(item)];
 
     itemCard.append(createInputRow(batchRow));
-    itemCard.append(createInputRow(codesRow));
+    //itemCard.append(createInputRow(codesRow));
     itemCard.append(createInputRow(qualityRow));
-    itemCard.append(createInputRow(temperatureRow));
-    itemCard.append(createInputRow(infoRow));
+    //itemCard.append(createInputRow(temperatureRow));
+    //itemCard.append(createInputRow(infoRow));
     itemCard.append(createInputRow(notesRow));
-    itemCard.append(createInputRow(urlRow));
+    //itemCard.append(createInputRow(urlRow));
 
     itemCard.addClass("card-panel white item-card");
     itemCard.attr("id", "item_" + item.id);
@@ -393,7 +392,7 @@ function gmpPackingFinishedProductItem(item){
 function gmpPackingFinishedProductItemBatch(item){
     var batchLabel = {"type":"label","contents":{"type":"text","classes":"batch_title"}};
     var batchInput = {"type":"input","id": "batch_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":255}}};
-    var batchFullInput = {"id":"batchWrapper","classes":"input-field col s6 m6 l6","field":batchInput,"label":batchLabel};
+    var batchFullInput = {"id":"batchWrapper","classes":"input-field col s2 m2 l2","field":batchInput,"label":batchLabel};
 
     if(item.batch){
         batchInput.value = item.batch;
@@ -408,7 +407,7 @@ function gmpPackingFinishedProductItemBatch(item){
 function gmpPackingFinishedProductItemProductionArea(item){
     var batchLabel = {"type":"label","contents":{"type":"text","classes":"warehouse_title"}};
     var batchInput = {"type":"input","id": "productionArea_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":255}}};
-    var batchFullInput = {"id":"productionAreaWrapper_" + item.id,"classes":"input-field col s6 m6 l6","field":batchInput,"label":batchLabel};
+    var batchFullInput = {"id":"productionAreaWrapper_" + item.id,"classes":"input-field col s2 m2 l2","field":batchInput,"label":batchLabel};
 
     if(item.warehouse){
         batchInput.value = item.warehouse;
@@ -421,7 +420,7 @@ function gmpPackingFinishedProductItemProductionArea(item){
 function gmpPackingFinishedProductItemSupplier(item){
     var batchLabel = {"type":"label","contents":{"type":"text","classes":"zone_provider"}};
     var batchInput = {"type":"input","id": "supplier_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":255}}};
-    var batchFullInput = {"id":"supplierWrapper_" + item.id,"classes":"input-field col s4 m4 l4","field":batchInput,"label":batchLabel};
+    var batchFullInput = {"id":"supplierWrapper_" + item.id,"classes":"input-field col s2 m2 l2","field":batchInput,"label":batchLabel};
 
     if(item.vendor){
         batchInput.value = item.vendor;
@@ -434,7 +433,7 @@ function gmpPackingFinishedProductItemSupplier(item){
 function gmpPackingFinishedProductItemProduct(item){
     var batchLabel = {"type":"label","contents":{"type":"text","classes":"item_title"}};
     var batchInput = {"type":"input","id": "product_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":255},"min":{"value":1,"toast":"gmp-packing-finished-product-product"}}};
-    var batchFullInput = {"id":"productWrapper_" + item.id,"classes":"input-field col s4 m4 l4","field":batchInput,"label":batchLabel};
+    var batchFullInput = {"id":"productWrapper_" + item.id,"classes":"input-field col s2 m2 l2","field":batchInput,"label":batchLabel};
 
     if(item.item){
         batchInput.value = item.item;
@@ -447,7 +446,7 @@ function gmpPackingFinishedProductItemProduct(item){
 function gmpPackingFinishedProductItemClient(item){
     var batchLabel = {"type":"label","contents":{"type":"text","classes":"days_old"}};
     var batchInput = {"type":"input","id": "client_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"number"}};
-    var batchFullInput = {"id":"clientWrapper_" + item.id,"classes":"input-field col s4 m4 l4","field":batchInput,"label":batchLabel};
+    var batchFullInput = {"id":"clientWrapper_" + item.id,"classes":"input-field col s2 m2 l2","field":batchInput,"label":batchLabel};
 
     if(item.age){
         batchInput.value = item.age;
@@ -472,7 +471,7 @@ function gmpPackingFinishedProductItemQuality(item){
 
     var selectLabel = {"type":"label","contents":{"type":"text","classes":"quality_title"}};
     var actionSelect =  {"type": "select", "id": "quality_" + item.id, "options": qualitys,"data":{"item_id":item.id},"validations":{"type":"select","required":{"value":true},"wrapper":"qualityWrapper_" + item.id}};
-    var actionSelectInput = {"id":"qualityWrapper_" + item.id,"classes":"input-field col s4 m4 l4","field":actionSelect,"label":selectLabel,"data":{"item_id":item.id}};
+    var actionSelectInput = {"id":"qualityWrapper_" + item.id,"classes":"input-field col s3 m3 l3","field":actionSelect,"label":selectLabel,"data":{"item_id":item.id}};
 
     return actionSelectInput;
 }
@@ -480,7 +479,7 @@ function gmpPackingFinishedProductItemQuality(item){
 function gmpPackingFinishedProductItemOrigin(item){
     var origingLabel = {"type":"label","contents":{"type":"text","classes":"origin_title"}};
     var originInput = {"type":"input","id": "origin_" + item.id, "classes": "validate autocomplete", "fieldType":"text","validations":{"type":"text","max":{"value":3}}};
-    var originFullInput = {"id":"originWrapper","classes":"input-field col s4 m4 l4","field":originInput,"label":origingLabel};
+    var originFullInput = {"id":"originWrapper","classes":"input-field col s2 m2 l2","field":originInput,"label":origingLabel};
 
     if(item.origin){
         originInput.value = item.origin;
@@ -493,7 +492,7 @@ function gmpPackingFinishedProductItemOrigin(item){
 function gmpPackingFinishedProductItemExpires(item){
     var expiresLabel = {"type":"label","contents":{"type":"text","classes":"date_name"}};
     var expiresInput = {"type":"date","id": "expires_" + item.id, "classes":"expires_datepicker validate", "fieldType":"text","validations":{"type":"text","max":{"value":255}},"data":{"item_id":item.id}};
-    var expiresFullInput = {"id":"expiresWrapper_" + item.id,"classes":"input-field col s4 m4 l4","field":expiresInput,"label":expiresLabel};
+    var expiresFullInput = {"id":"expiresWrapper_" + item.id,"classes":"input-field col s2 m2 l2","field":expiresInput,"label":expiresLabel};
 
     if(item.packed_date){
         expiresInput.value = item.packed_date;
@@ -506,7 +505,7 @@ function gmpPackingFinishedProductItemExpires(item){
 function gmpPackingFinishedProductItemWater(item){
     var waterLabel = {"type":"label","contents":{"type":"text","classes":"quantity_long_title"}};
     var waterInput = {"type":"input","id": "water_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"number","required":{"value":true,"toast":"gmp-packing-finished-product-water"}}};
-    var waterFullInput = {"id":"waterWrapper","classes":"input-field col s6 m6 l6","field":waterInput,"label":waterLabel};
+    var waterFullInput = {"id":"waterWrapper","classes":"input-field col s2 m2 l2","field":waterInput,"label":waterLabel};
 
     if(item.quantity){
         waterInput.value = item.quantity;
@@ -519,7 +518,7 @@ function gmpPackingFinishedProductItemWater(item){
 function gmpPackingFinishedProductItemPacking(item){
     var packingLabel = {"type":"label","contents":{"type":"text","classes":"location"}};
     var packingInput = {"type":"input","id": "packing_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":255}}};
-    var packingFullInput = {"id":"packingWrapper","classes":"input-field col s6 m6 l6","field":packingInput,"label":packingLabel};
+    var packingFullInput = {"id":"packingWrapper","classes":"input-field col s2 m2 l2","field":packingInput,"label":packingLabel};
 
     if(item.location){
         packingInput.value = item.location;
@@ -532,7 +531,23 @@ function gmpPackingFinishedProductItemPacking(item){
 function gmpPackingFinishedProductActions(item, selectedValue){
     var actions = new Array();
 
-    var statusLabel = {"type": "label","contents": {"type":"text","classes":"aged_product_action"}};
+    for(let action of item.actions){
+        var tempOption = {"value":action.id,"text":action.name,"data":{"action_code":action.id}};
+        if(selectedValue == action.id){
+            tempOption.selected = true;
+        }
+        actions.push(tempOption);
+    }
+
+    var selectLabel = {"type": "label","contents": {"type":"text","classes":"aged_product_action"}};
+    var actionSelect =  {"type": "select", "id": "action_" + item.id, "options": actions,"data":{"item_id":item.id},"validations":{"type":"select","required":{"value":true},"wrapper":"actionWrapper_" + item.id}};
+    var actionSelectInput = {"id":"actionWrapper_" + item.id,"classes":"input-field col s3 m3 l3","field":actionSelect,"label":selectLabel,"data":{"item_id":item.id}};
+
+    return actionSelectInput;
+
+    /*var actions = new Array();
+
+    var statusLabel = {"type": "label","contents": {"type":"text","classes":"aged_product_action"},"for":"action_radioGroup_"  + item.id};
 
     var isFirst = true;
 
@@ -554,13 +569,13 @@ function gmpPackingFinishedProductActions(item, selectedValue){
 
     // TODO: Assign value for auth report
 
-    return groupInput;
+    return groupInput;*/
 }
 
 function gmpPackingFinishedProductItemNotes(item){
     var commentLabel = {"type":"label","contents":{"type":"text","classes":"comment_title"},"for":"comment_" + item.id};
     var commentInput = {"type":"textarea","id": "comment_" + item.id, "classes": "validate timeChanger", "fieldType":"text","data":{"id":item.id},"validations":{"type":"text","max":{"value":65535,"toast":"gmp-packing-preop-item-comment"}}};
-    var commentFullInput = {"id":"commentWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":commentInput,"label":commentLabel};
+    var commentFullInput = {"id":"commentWrapper_" + item.id,"classes":"input-field col s6 m6 l6","field":commentInput,"label":commentLabel};
 
     if(item.notes){
         commentInput.value = item.notes;
@@ -573,7 +588,7 @@ function gmpPackingFinishedProductItemNotes(item){
 function gmpPackingFinishedProductItemAlbumURL(item){
     var urlLabel = {"type":"label","contents":{"type":"text","classes":"url_title"}};
     var urlInput = {"type":"textarea","id": "report_url_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":65535,"toast":"gmp-packing-preop-report-url"}}};
-    var urlFullInput = {"id":"reportUrlWrapper_" + item.id,"classes":"input-field col s12 m12 l12","field":urlInput,"label":urlLabel};
+    var urlFullInput = {"id":"reportUrlWrapper_" + item.id,"classes":"input-field col s6 m6 l6","field":urlInput,"label":urlLabel};
 
     if(item.album_url){
         urlInput.value = item.album_url;
@@ -651,7 +666,7 @@ function gmpPackingFinishedProductReport(data){
 // languages.xml, not strings
 
 function gmpPackingFinishedProductHeader(){
-    var header = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"batch_title batchColumn"},{"type":"th","classes":"warehouse_title areaColumn"},{"type":"th","classes":"zone_provider suppliersColumn"},{"type":"th","classes":"item_title productsColumn"},{"type":"th","classes":"days_old clientsColumn"},{"type":"th","classes":"quality_title qualityColumn"},{"type":"th","classes":"origin_title originColumn"},{"type":"th","classes":"date_name expiresColumn"},{"type":"th","classes":"quantity_long_title waterColumn"},{"type":"th","classes":"location packingColumn"},{"type":"th","classes":"correct_weight_title weightColumn"},{"type":"th","classes":"correct_label_title labelColumn"},{"type":"th","classes":"traceability_title traceabilityColumn"},{"type":"th","classes":"url_title urlColumn"},{"type":"th","classes":"notes_title notesColumn"}]}]};
+    var header = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"batch_title batchColumn"},{"type":"th","classes":"warehouse_title areaColumn"},{"type":"th","classes":"zone_provider suppliersColumn"},{"type":"th","classes":"item_title productsColumn"},{"type":"th","classes":"days_old clientsColumn"},{"type":"th","classes":"quality_title qualityColumn"},{"type":"th","classes":"origin_title originColumn"},{"type":"th","classes":"date_name expiresColumn"},{"type":"th","classes":"quantity_long_title waterColumn"},{"type":"th","classes":"location packingColumn"},{"type":"th","classes":"aged_product_action actionColumn"},{"type":"th","classes":"url_title urlColumn"},{"type":"th","classes":"notes_title notesColumn"}]}]};
 
     return header;
 }
@@ -682,21 +697,7 @@ function gmpPackingFinishedProductReportItem(itemData){
     firstRowContent.columns.push({"type":"td","classes":"expiresColumn","contents":itemData.packed_date});
     firstRowContent.columns.push({"type":"td","classes":"waterColumn","contents":itemData.quantity});
     firstRowContent.columns.push({"type":"td","classes":"packingColumn","contents":itemData.location});
-    if(itemData.is_weight_correct == 1){
-        firstRowContent.columns.push({"type":"td","classes":"weightColumn","contents":"<span class='yes_tag'></span>"});
-    } else {
-        firstRowContent.columns.push({"type":"td","classes":"weightColumn","contents":"<span class='no_tag'></span>"});
-    }
-    if(itemData.is_label_correct == 1){
-        firstRowContent.columns.push({"type":"td","classes":"labelColumn","contents":"<span class='yes_tag'></span>"});
-    } else {
-        firstRowContent.columns.push({"type":"td","classes":"labelColumn","contents":"<span class='no_tag'></span>"});
-    }
-    if(itemData.is_trackable == 1){
-        firstRowContent.columns.push({"type":"td","classes":"traceabilityColumn","contents":"<span class='yes_tag'></span>"});
-    } else {
-        firstRowContent.columns.push({"type":"td","classes":"traceabilityColumn","contents":"<span class='no_tag'></span>"});
-    }
+    firstRowContent.columns.push({"type":"td","classes":"actionColumn","contents":itemData.action_name});
     firstRowContent.columns.push({"type":"td","classes":"urlColumn","contents":"<a href='" + itemData.album_url + "' >" + "View Report" + "</a>"});
     firstRowContent.columns.push({"type":"td","classes":"notesColumn","contents":itemData.notes});
 
@@ -736,7 +737,7 @@ function getCSS(){
         }
 
         .areaColumn {
-            width: 60px;
+            width: 65px;
         }
 
         .suppliersColumn {
@@ -752,7 +753,7 @@ function getCSS(){
         }
 
         .qualityColumn {
-            width: 60px;
+            width: 65px;
         }
 
         .originColumn{
@@ -764,23 +765,15 @@ function getCSS(){
         }
 
         .waterColumn {
-            width: 42px;
+            width: 50px;
         }
 
         .packingColumn {
             width: 52px;
         }
 
-        .weightColumn {
-            width: 52px;
-        }
-
-        .labelColumn {
-            width: 52px;
-        }
-
-        .traceabilityColumn {
-            width: 52px;
+        .actionColumn {
+            width: 60px;
         }
 
         .urlColumn {
@@ -788,7 +781,7 @@ function getCSS(){
         }
 
         .notesColumn {
-            width: 152px;
+            width: 231px;
         }
 
         </style>`;
