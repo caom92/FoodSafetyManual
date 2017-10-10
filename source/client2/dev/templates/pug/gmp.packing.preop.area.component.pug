@@ -1,0 +1,19 @@
+div([formgroup]='areaForm')
+  mz-card
+    mz-card-title.blue-text
+      | {{area.name}}
+      i(mz-icon-mdi='', [icon]="'cube-outline'")
+    mz-card-content
+      .row
+        mz-input-container.col.s12.m12.l12
+          i(mz-icon-mdi='', mz-input-prefix='', [icon]="'clock'")
+          input.timepicker(mz-input='', type='text', id='time_{{area.id}}', [label]="'Hora'", formControlName='time')
+      gmp-packing-preop-type(*ngfor='let type of area.types; let i = index', [type]='type', [actions]='actions', [itemgroup]='areaForm.controls.items.controls[i]')
+      .row
+        mz-textarea-container.col.s12.m12.l12
+          i(mz-icon-mdi='', mz-textarea-prefix='', [icon]="'clipboard-text'")
+          textarea#notes-textarea(mz-textarea='', [label]="'Notas de ' + area.name", length='65535', formControlName='notes')
+      .row
+        mz-input-container.col.s12.m12.l12
+          i(mz-icon-mdi='', mz-input-prefix='', [icon]="'broom'")
+          textarea#person-textarea(mz-textarea='', [label]="'Persona a cargo de la sanitización de ' + area.name", length='255', formControlName='person_performing_sanitation')
