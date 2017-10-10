@@ -1,23 +1,35 @@
 import { Injectable } from '@angular/core'
-import { ToastController } from 'ionic-angular';
+import { ToastController, Events } from 'ionic-angular';
+
+import { Storage } from '@ionic/storage';
+
+import { Language } from 'angular-l10n'
 
 // Servicio que despliega mensajes en la pantalla para informar al usuario 
 // sobre los resultados que sus acciones tuvieron
 @Injectable()
 export class ToastService
 {
+  @Language() lang: string
+
   // La lista de los diferentes mensajes informativos que se pueden desplegar, 
   // tanto en ingles como en español
   private static infoMessages = {
     es: {
       loggedIn: 'Sesión iniciada correctamente',
       passwordChanged: 'La contraseña se cambió exitosamente',
-      usernameChanged: 'El nombre de usuario se cambió exitosamente'
+      usernameChanged: 'El nombre de usuario se cambió exitosamente',
+      capturedLog: 'Se ha enviado la bitácora exitosamente',
+      incompleteLog: 'Error; hay algunos campos sin llenar',
+      serverUnreachable: 'Servidor inalcanzable'
     },
     en: {
       loggedIn: 'Logged in successfully',
       passwordChanged: 'The password was changed successfully',
-      usernameChanged: 'The user name was changed successfully'
+      usernameChanged: 'The user name was changed successfully',
+      capturedLog: 'The log has been sent succesfully',
+      incompleteLog: 'Error; some fields aren\'t filled',
+      serverUnreachable: 'Server Unreachable'
     }
   }
 
@@ -90,7 +102,14 @@ export class ToastService
 
   // El constructor de este servicio
   // hacemos uso del servicio de materialize para desplegar toasts
-  constructor(private toastService: ToastController) {
+  constructor(private toastService: ToastController, public events: Events, public storage: Storage) {
+    this.events.subscribe("language:changed", (lang, time) => {
+      this.lang = lang
+    })
+
+    this.storage.get('lang').then((lang) => {
+      this.lang = lang;
+    })
   }
 
   // Esta funcion despliega el texto que este asociado con el indice ingresado, 
@@ -100,7 +119,8 @@ export class ToastService
   //        desplegar
   showText(text: string) {
     // primero, recuperamos el idioma del sistema
-    let lang = "en" //localStorage.lang
+    let lang = this.lang //localStorage.lang
+    console.log("Idioma de toast showText " + this.lang)
     var toast
 
     // luego revisamos si el texto ingresado corresponde a algun indice en la 
@@ -135,7 +155,8 @@ export class ToastService
   //        servicio
   showServiceErrorText(service: string, meta: any) {
     // primero recuperamos el idioma del sistema
-    let lang = "en" //localStorage.lang
+    let lang = this.lang //localStorage.lang
+    console.log("Idioma de toast showText " + this.lang)
     var toast
 
     // luego recuperamos el codigo de error retornado por el servidor

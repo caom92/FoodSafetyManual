@@ -1,13 +1,15 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { NavController, NavParams, Select, Events } from 'ionic-angular';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Storage } from '@ionic/storage';
+import { Component, ViewChild, OnInit } from '@angular/core'
+import { NavController, NavParams, Select, Events } from 'ionic-angular'
+import { FormBuilder, FormGroup, Validators } from "@angular/forms"
+import { Storage } from '@ionic/storage'
 
-import { Language } from 'angular-l10n';
+import { Language } from 'angular-l10n'
 
-import { BackendService } from '../../services/app.backend';
-import { TranslationService } from '../../services/app.translation';
-import { ToastService } from '../../services/app.toasts';
+import { GMPPackingPreopReportComponent } from '../reports/gmp-packing-preop/report/gmp.packing.preop.report'
+
+import { BackendService } from '../../services/app.backend'
+import { TranslationService } from '../../services/app.translation'
+import { ToastService } from '../../services/app.toasts'
 
 @Component({
   selector: 'edit-profile',
@@ -109,15 +111,14 @@ export class EditProfile /*implements OnInit*/ {
         this.server.update(
           'change-password', 
           formData, 
-          (response: Response) => {
-            let result = JSON.parse(response['_body'].toString())
-            if (result.meta.return_code == 0) {
+          (response: any) => {
+            if (response.meta.return_code == 0) {
               this.toasts.showText("passwordChanged")
               this.changePassword.reset()
             } else {
               // si algo ocurrio con la comunicacion con el servidor, desplegamos 
               // un mensaje de error al usuario
-              this.toasts.showServiceErrorText("login", result.meta)
+              this.toasts.showServiceErrorText("login", response.meta)
             }
           }
         )
@@ -133,9 +134,8 @@ export class EditProfile /*implements OnInit*/ {
     this.server.update(
       'change-username',
       data,
-      (response: Response) => {
-        let result = JSON.parse(response['_body'].toString())
-        if (result.meta.return_code == 0) {
+      (response: any) => {
+        if (response.meta.return_code == 0) {
           this.toasts.showText("usernameChanged")
           this.changeUsername.reset()
           this.storage.set("login_name", newUsername)
@@ -143,7 +143,7 @@ export class EditProfile /*implements OnInit*/ {
         } else {
           // si algo ocurrio con la comunicacion con el servidor, desplegamos 
           // un mensaje de error al usuario
-          this.toasts.showServiceErrorText('change-username', result.meta)
+          this.toasts.showServiceErrorText('change-username', response.meta)
         }
       }
     )
@@ -167,6 +167,9 @@ export class EditProfile /*implements OnInit*/ {
 
   openLanguageSelector() {
     this.language_select.open();
+    console.log("Mostrar HTML Interno")
+    console.log(document.getElementById("tableWrapper").innerHTML)
+    this.lstorage = document.getElementById("tableWrapper").innerHTML
   }
 
   onLanguageChange(selectedValue) {

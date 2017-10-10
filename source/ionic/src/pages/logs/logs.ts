@@ -8,6 +8,8 @@ import { BackendService } from '../../services/app.backend';
 import { TranslationService } from '../../services/app.translation';
 import { ToastService } from '../../services/app.toasts';
 
+import { GMPPackingPreopPage } from './gmp-packing-preop/gmp.packing.preop'
+
 @Component({
   selector: 'logs',
   templateUrl: 'logs.html'
@@ -19,7 +21,7 @@ export class LogsPage {
 
   selectedProgram: any
   selectedModule: any
-  logs: Array<{title: string, icon: string}>
+  logs: Array<{title: string, icon: string, program: any, module: any}>
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private translationService: TranslationService, public events: Events, private storage: Storage) {
     // Tenemos que ver desde qué programa se llamó esta vista
@@ -35,7 +37,9 @@ export class LogsPage {
           for(var mod of tempArray){
             this.logs.push({
               title: mod,
-              icon: "clipboard"
+              icon: "clipboard",
+              program: this.selectedProgram,
+              module: this.selectedModule
             });
           }
         }
@@ -43,6 +47,21 @@ export class LogsPage {
   }
 
   itemTapped(event, item) {
+    console.log("item tapped")
+    console.log(event)
+    console.log(item)
+    this.storage.get("privileges").then(
+      data => {
+        data = JSON.parse(data)
+        console.log(data)
+        var tempArray = data[data.zones[0].name][this.selectedProgram.title].names[this.selectedModule.title]
+        console.log(tempArray[item.title])
+        if(tempArray[item.title].suffix == "gmp-packing-preop"){
+          this.navCtrl.push(GMPPackingPreopPage);
+        }
+      }
+    )
+    
     /*TODO: Cargar las pantallas de cada bitácora individual*/
   }
 

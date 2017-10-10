@@ -40,9 +40,19 @@ $colors: (
   secondary:  #488aff,
   danger:     #f53d3d,
   light:      #f4f4f4,
-  dark:       #222
+  dark:       #222,
+  open:       #4caf50,
+  close:      #f53d3d,
+  pdf:        #B71C1C
 );
 
+$table: (
+  header: map-get($colors, primary),
+  evenrow: #9CBEFE,
+  oddrow: white,
+  typetitle: #FFCF00,
+  fullcolumn: #9CBEFE
+);
 
 // App iOS Variables
 // --------------------------------------------------
