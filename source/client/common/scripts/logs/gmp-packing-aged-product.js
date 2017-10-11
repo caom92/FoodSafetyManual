@@ -1,3 +1,5 @@
+var agedProductCountryCodes = null;
+
 function loadLogForm(htmlElement){
     $server.request({
         service: 'log-gmp-packing-aged-product',
@@ -57,7 +59,7 @@ function loadPrefilledLogForm(htmlElement, data){
                 $("#send_report").click(function(){
                     $(this).attr("disabled", true);
                     $("#sending_log").show();
-                    updateGmpPackingFinishedProductReport(parseInt(data.report_id));
+                    updateGmpPackingFinishedProductReport(parseInt(data.report_id), report.creation_date);
                 });
                 bindAuthorizationButtonsFunctionality(htmlElement, data.report_id);
                 loadFunctionality({"isPrefilled":true});
@@ -126,9 +128,15 @@ function specialClearLog(){
 
 function dateActivator(){
     $('.expires_datepicker').each(function(index, element){
-        var itemID = $(this).data("item_id");
-        var dateObj = datePicker("expiresHidden_" + itemID, null, null);
-        $(this).pickadate(dateObj);
+        if(!$(this).hasClass("date_active")){
+            console.log("activates date")
+            $(this).addClass("date_active");
+            var itemID = $(this).data("item_id");
+            var dateObj = datePicker("expiresHidden_" + itemID, null, null);
+            var datePickerObj = $(this).pickadate(dateObj);
+            datePickerObj = datePickerObj.pickadate('picker');
+            datePickerObj.set('select', $(this).val(), { format: 'yyyy-mm-dd' });
+        }
     });
 }
 
@@ -137,8 +145,11 @@ function autocompleteActivator(){
         $("input.autocomplete").each(function(index, element){
             var autocomplete = $(this);
             if(!autocomplete.hasClass("autocomplete_active")){
+                if(agedProductCountryCodes == null){
+                    agedProductCountryCodes = JSON.parse(localStorage.country_codes)
+                }
                 autocomplete.autocomplete({
-                    data: JSON.parse(localStorage.country_codes)
+                    data: agedProductCountryCodes
                 });
                 autocomplete.addClass("autocomplete_active");
             }
@@ -150,6 +161,7 @@ function autocompleteActivator(){
     } else {
         $.getJSON( "data/files/countries.json", function( data ) {
             localStorage.country_codes = JSON.stringify(data);
+            agedProductCountryCodes = data;
             autocompleteInit();
         });
     }
@@ -188,7 +200,7 @@ function sendgmpPackingFinishedProductReport(){
             item.warehouse = $("#productionArea_" + itemID).val();
             item.vendor = $("#supplier_" + itemID).val();
             item.item = $("#product_" + itemID).val();
-            item.age = $("#client_" + itemID).val();
+            item.age = (new Date(report.date) - new Date($("input[name='expiresHidden_" + itemID + "']").val())) / (1000 * 60 * 60 * 24);
             item.quality_id = parseInt($("#quality_" + itemID).val());
             if($("#origin_" + itemID).val() != ""){
                 item.origin = $("#origin_" + itemID).val();
@@ -234,11 +246,13 @@ function sendgmpPackingFinishedProductReport(){
     }
 }
 
-function updateGmpPackingFinishedProductReport(reportID){
+function updateGmpPackingFinishedProductReport(reportID, creationDate){
     var report = new Object();
 
     report.report_id = reportID;
     report.entries = [];
+
+    console.log(creationDate);
 
     if(validateLog()){
         $(".item-card").each(function(){
@@ -249,7 +263,7 @@ function updateGmpPackingFinishedProductReport(reportID){
             item.warehouse = $("#productionArea_" + itemID).val();
             item.vendor = $("#supplier_" + itemID).val();
             item.item = $("#product_" + itemID).val();
-            item.age = $("#client_" + itemID).val();
+            item.age = (new Date(creationDate) - new Date($("input[name='expiresHidden_" + itemID + "']").val())) / (1000 * 60 * 60 * 24);
             item.quality_id = parseInt($("#quality_" + itemID).val());
             if($("#origin_" + itemID).val() != ""){
                 item.origin = $("#origin_" + itemID).val();
@@ -366,7 +380,7 @@ function gmpPackingFinishedProductItem(item){
     var notesRow = new Object();
     var urlRow = new Object();
 
-    batchRow.columns = [gmpPackingFinishedProductItemBatch(item), gmpPackingFinishedProductItemProductionArea(item), gmpPackingFinishedProductItemSupplier(item), gmpPackingFinishedProductItemProduct(item), gmpPackingFinishedProductItemClient(item), gmpPackingFinishedProductItemOrigin(item)];
+    batchRow.columns = [gmpPackingFinishedProductItemBatch(item), gmpPackingFinishedProductItemProductionArea(item), gmpPackingFinishedProductItemSupplier(item), gmpPackingFinishedProductItemProduct(item), /*gmpPackingFinishedProductItemClient(item),*/ gmpPackingFinishedProductItemOrigin(item)];
     qualityRow.columns = [gmpPackingFinishedProductItemQuality(item), gmpPackingFinishedProductItemExpires(item), gmpPackingFinishedProductItemWater(item), gmpPackingFinishedProductItemPacking(item), gmpPackingFinishedProductActions(item)];
     //temperatureRow.columns = [gmpPackingFinishedProductItemWater(item), gmpPackingFinishedProductItemPacking(item)];
     //infoRow.columns = [gmpPackingFinishedProductItemWeight(item), gmpPackingFinishedProductItemLabel(item), gmpPackingFinishedProductItemTrazable(item)];
@@ -392,7 +406,7 @@ function gmpPackingFinishedProductItem(item){
 function gmpPackingFinishedProductItemBatch(item){
     var batchLabel = {"type":"label","contents":{"type":"text","classes":"batch_title"}};
     var batchInput = {"type":"input","id": "batch_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":255}}};
-    var batchFullInput = {"id":"batchWrapper","classes":"input-field col s2 m2 l2","field":batchInput,"label":batchLabel};
+    var batchFullInput = {"id":"batchWrapper","classes":"input-field col s3 m3 l3","field":batchInput,"label":batchLabel};
 
     if(item.batch){
         batchInput.value = item.batch;
@@ -407,7 +421,7 @@ function gmpPackingFinishedProductItemBatch(item){
 function gmpPackingFinishedProductItemProductionArea(item){
     var batchLabel = {"type":"label","contents":{"type":"text","classes":"warehouse_title"}};
     var batchInput = {"type":"input","id": "productionArea_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"text","max":{"value":255}}};
-    var batchFullInput = {"id":"productionAreaWrapper_" + item.id,"classes":"input-field col s2 m2 l2","field":batchInput,"label":batchLabel};
+    var batchFullInput = {"id":"productionAreaWrapper_" + item.id,"classes":"input-field col s3 m3 l3","field":batchInput,"label":batchLabel};
 
     if(item.warehouse){
         batchInput.value = item.warehouse;
@@ -443,7 +457,7 @@ function gmpPackingFinishedProductItemProduct(item){
     return batchFullInput;
 }
 
-function gmpPackingFinishedProductItemClient(item){
+/*function gmpPackingFinishedProductItemClient(item){
     var batchLabel = {"type":"label","contents":{"type":"text","classes":"days_old"}};
     var batchInput = {"type":"input","id": "client_" + item.id, "classes": "validate", "fieldType":"text","validations":{"type":"number"}};
     var batchFullInput = {"id":"clientWrapper_" + item.id,"classes":"input-field col s2 m2 l2","field":batchInput,"label":batchLabel};
@@ -454,7 +468,7 @@ function gmpPackingFinishedProductItemClient(item){
     }
 
     return batchFullInput;
-}
+}*/
 
 function gmpPackingFinishedProductItemQuality(item){
     var qualitys = new Array();
@@ -490,7 +504,7 @@ function gmpPackingFinishedProductItemOrigin(item){
 }
 
 function gmpPackingFinishedProductItemExpires(item){
-    var expiresLabel = {"type":"label","contents":{"type":"text","classes":"date_name"}};
+    var expiresLabel = {"type":"label","contents":{"type":"text","classes":"date_name"},"for":"expires_" + item.id,"classes":"active"};
     var expiresInput = {"type":"date","id": "expires_" + item.id, "classes":"expires_datepicker validate", "fieldType":"text","validations":{"type":"text","max":{"value":255}},"data":{"item_id":item.id}};
     var expiresFullInput = {"id":"expiresWrapper_" + item.id,"classes":"input-field col s2 m2 l2","field":expiresInput,"label":expiresLabel};
 
@@ -530,10 +544,12 @@ function gmpPackingFinishedProductItemPacking(item){
 
 function gmpPackingFinishedProductActions(item, selectedValue){
     var actions = new Array();
+    console.log("ITEM");
+    console.log(item);
 
     for(let action of item.actions){
         var tempOption = {"value":action.id,"text":action.name,"data":{"action_code":action.id}};
-        if(selectedValue == action.id){
+        if(parseInt(item.action_id) == parseInt(action.id)){
             tempOption.selected = true;
         }
         actions.push(tempOption);

@@ -1,4 +1,4 @@
-div([formgroup]='areaForm')
+div([formGroup]='areaForm')
   mz-card
     mz-card-title.blue-text
       | {{area.name}}
@@ -8,7 +8,7 @@ div([formgroup]='areaForm')
         mz-input-container.col.s12.m12.l12
           i(mz-icon-mdi='', mz-input-prefix='', [icon]="'clock'")
           input.timepicker(mz-input='', type='text', id='time_{{area.id}}', [label]="'Hora'", formControlName='time')
-      gmp-packing-preop-type(*ngfor='let type of area.types; let i = index', [type]='type', [actions]='actions', [itemgroup]='areaForm.controls.items.controls[i]')
+      gmp-packing-preop-type(*ngFor='let type of area.types; let i = index', [type]='type', [actions]='actions', [itemGroup]='areaForm.controls.items.controls[i]')
       .row
         mz-textarea-container.col.s12.m12.l12
           i(mz-icon-mdi='', mz-textarea-prefix='', [icon]="'clipboard-text'")
