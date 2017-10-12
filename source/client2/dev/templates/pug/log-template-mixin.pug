@@ -1,0 +1,20 @@
+//-
+    Log template mixin containts all the HTML elements common to all logs,
+    namely the PDF viewer, the date picker for requesting PDF reports and the
+    header for the logs, as well as the tabs containing them.
+
+    Since this Pug file only provides the mixins that are to be used in each
+    individual log, you can add/remove other components as you please, such
+    as specific filters for requesting reports.
+
+
+//- Tabs Mixin - Last updated on creation
+    Creates the <li> elements that are part of the Materialize Tabs
+
+mixin mz-tabs(tabsObject)
+    div(class= "col s12")
+        ul(class= "tabs tabs-fixed-width")
+            each tab in tabsObject.tabs
+                li(class= "tab")
+                    a(href= tab.href)
+                        = tab.text
