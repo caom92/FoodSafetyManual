@@ -12,6 +12,21 @@ import { EditProfile } from '../pages/edit-profile/edit-profile';
 import { ModulesPage } from '../pages/modules/modules';
 import { LogsPage } from '../pages/logs/logs';
 
+import { GMPPackingPreopPage } from '../pages/logs/gmp-packing-preop/gmp.packing.preop'
+import { GMPPackingPreopLogComponent } from '../pages/logs/gmp-packing-preop/log/gmp.packing.preop.log'
+import { GMPPackingPreopAreaComponent } from '../pages/logs/gmp-packing-preop/area/gmp.packing.preop.area'
+import { GMPPackingPreopTypeComponent } from '../pages/logs/gmp-packing-preop/type/gmp.packing.preop.type'
+import { GMPPackingPreopItemComponent } from '../pages/logs/gmp-packing-preop/item/gmp.packing.preop.item'
+
+import { GMPPackingPreopReportComponent } from '../pages/reports/gmp-packing-preop/report/gmp.packing.preop.report'
+import { GMPPackingPreopReportAreaComponent } from '../pages/reports/gmp-packing-preop/area/gmp.packing.preop.area'
+import { GMPPackingPreopReportTypeComponent } from '../pages/reports/gmp-packing-preop/type/gmp.packing.preop.type'
+import { GMPPackingPreopReportItemComponent } from '../pages/reports/gmp-packing-preop/item/gmp.packing.preop.item'
+import { GMPPackingPreopReportLoader } from '../pages/reports/gmp-packing-preop/loader/gmp.packing.preop.report.loader'
+
+import { ManualTab } from '../pages/manual/manual'
+import { ReportTab } from '../pages/reports/reports'
+
 import { TranslationModule, LocaleService, TranslationService } from 'angular-l10n';
 
 @NgModule({
@@ -20,7 +35,19 @@ import { TranslationModule, LocaleService, TranslationService } from 'angular-l1
     HomePage,
     EditProfile,
     ModulesPage,
-    LogsPage
+    LogsPage,
+    ManualTab,
+    ReportTab,
+    GMPPackingPreopPage,
+    GMPPackingPreopLogComponent,
+    GMPPackingPreopAreaComponent,
+    GMPPackingPreopTypeComponent,
+    GMPPackingPreopItemComponent,
+    GMPPackingPreopReportComponent,
+    GMPPackingPreopReportAreaComponent,
+    GMPPackingPreopReportTypeComponent,
+    GMPPackingPreopReportItemComponent,
+    GMPPackingPreopReportLoader
   ],
   imports: [
     BrowserModule,
@@ -38,7 +65,19 @@ import { TranslationModule, LocaleService, TranslationService } from 'angular-l1
     HomePage,
     EditProfile,
     ModulesPage,
-    LogsPage
+    LogsPage,
+    ManualTab,
+    ReportTab,
+    GMPPackingPreopPage,
+    GMPPackingPreopLogComponent,
+    GMPPackingPreopAreaComponent,
+    GMPPackingPreopTypeComponent,
+    GMPPackingPreopItemComponent,
+    GMPPackingPreopReportComponent,
+    GMPPackingPreopReportAreaComponent,
+    GMPPackingPreopReportTypeComponent,
+    GMPPackingPreopReportItemComponent,
+    GMPPackingPreopReportLoader
   ],
   providers: [
     StatusBar,

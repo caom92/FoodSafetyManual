@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { Nav, NavController, Select, App, MenuController, ToastController } from 'ionic-angular';
+import { Nav, NavController, Select, App, MenuController, ToastController, Events } from 'ionic-angular';
 import { StateService } from '@uirouter/angular'
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Storage } from '@ionic/storage';
@@ -30,8 +30,8 @@ export class HomePage implements OnInit {
   nav: Nav
   userLogInInfo: FormGroup
   
-  constructor(public navCtrl: NavController, private server: BackendService, private translationService: TranslationService, private formBuilder: FormBuilder, private storage: Storage, protected app: App, public menuCtrl: MenuController, private toasts: ToastService) {
-
+  constructor(public navCtrl: NavController, private server: BackendService, private translationService: TranslationService, private formBuilder: FormBuilder, private storage: Storage, protected app: App, public menuCtrl: MenuController, private toasts: ToastService, public events: Events) {
+    this.onLanguageChange("es")
   }
 
   private mapUserDataToLocalStorage(userData) {
@@ -78,10 +78,9 @@ export class HomePage implements OnInit {
     this.server.update(
       'check-session', 
       new FormData(), 
-      (response: Response) => {
-        let result = JSON.parse(response['_body'].toString())
-        if (result.meta.return_code == 0) {
-          if (!result.data) {
+      (response: any) => {
+        if (response.meta.return_code == 0) {
+          if (!response.data) {
             // si el usuario no ha iniciado sesion, desactivamos la bandera y 
             // redireccionamos a la pantalla de inicio de sesion
             this.menuCtrl.enable(false, "es")
@@ -98,17 +97,16 @@ export class HomePage implements OnInit {
               this.server.update(
                 'list-zones',
                 new FormData(),
-                (response: Response) => {
-                  let result = JSON.parse(response['_body'].toString())
-                  if (result.meta.return_code == 0) {
-                    this.home.zones = result.data
+                (response: any) => {
+                  if (response.meta.return_code == 0) {
+                    this.home.zones = response.data
                     this.home.displayZoneMenu()
                   } else {
                     // si algo ocurrio con la comunicacion con el servidor, 
                     // desplegamos un mensaje de error al usuario
                     this.toastManager.showServiceErrorText(
                       'list-zones', 
-                      result.meta
+                      response.meta
                     )
                   }
                 }
@@ -118,7 +116,7 @@ export class HomePage implements OnInit {
         } else {
           // si hubo un problema con la comunicacion con el servidor 
           // desplegamos un mensaje de error al usuario 
-          this.toasts.showServiceErrorText('check-session', result.meta)
+          this.toasts.showServiceErrorText('check-session', response.meta)
         }
       }
     )
@@ -147,6 +145,7 @@ export class HomePage implements OnInit {
 
   onLanguageChange(selectedValue) {
     this.selectLocale(selectedValue);
+    this.events.publish('language:changed', selectedValue, Date.now());
   }
 
   selectLocale(lang) {
@@ -169,18 +168,17 @@ export class HomePage implements OnInit {
     this.server.update(
       'login', 
       formData, 
-      (response: Response) => {
-        let result = JSON.parse(response['_body'].toString())
-        if (result.meta.return_code == 0) {
+      (response: any) => {
+        if (response.meta.return_code == 0) {
           toasts.showText("loggedIn");
           this.storage.set("is_logged_in", true)
-          this.mapUserDataToLocalStorage(result.data)
+          this.mapUserDataToLocalStorage(response.data)
           rootNav.setRoot(EditProfile)
           menuCtrl.enable(true, "es")
           menuCtrl.enable(true, "en")
         } else {
-          toasts.showServiceErrorText("login", result.meta)
-          console.log(result.meta.message)
+          toasts.showServiceErrorText("login", response.meta)
+          console.log(response.meta.message)
         }
       }
     )

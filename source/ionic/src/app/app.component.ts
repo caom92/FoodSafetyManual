@@ -10,6 +10,7 @@ import { Language } from 'angular-l10n';
 import { HomePage } from '../pages/home/home';
 import { BackendService } from '../services/app.backend';
 import { TranslationService } from '../services/app.translation';
+import { DateTimeService } from '../services/app.time';
 import { EditProfile } from '../pages/edit-profile/edit-profile';
 
 import { ModulesPage } from '../pages/modules/modules';
@@ -19,7 +20,8 @@ import { LogsPage } from '../pages/logs/logs';
   templateUrl: 'app.html',
   providers: [
     BackendService,
-    TranslationService
+    TranslationService,
+    DateTimeService
   ]
 })
 export class MyApp implements AfterViewInit{
@@ -139,11 +141,14 @@ export class MyApp implements AfterViewInit{
       'logout', 
       new FormData(), 
       (response: any) => {
-        if (result.meta.return_code == 0) {
+        console.log(response)
+        console.log(response.meta.return_code)
+        if (response.meta.return_code == 0) {
           // si la sesion fue cerrada correctamente
           // redireccionamos al usuario a la pantalla de inicio de sesion
           // y limpiamos el contenido del Storage
           this.storage.clear()
+          console.log("cierre de sesión")
           this.nav.setRoot(HomePage)
           this.menuCtrl.enable(false, "es")
           this.menuCtrl.enable(false, "en")

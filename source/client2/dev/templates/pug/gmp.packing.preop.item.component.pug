@@ -1,45 +1,17 @@
-mz-card()
-    mz-card-content()
-        div.row
-            div(class= "col s4 m4 l4")
-                span()= "{{item.name}}"
-            div(class= "col s4 m4 l4")
-                mz-radio-button-container(class= "col s4 m4 l4")
-                    input('mz-radio-button' type="radio" '[label]'= "Acceptable" '[withGap]'= true id= "acceptable_{{item.id}}")
-                mz-radio-button-container(class= "col s4 m4 l4")
-                    input('mz-radio-button' type="radio" '[label]'= "Unacceptable" '[withGap]'= true id= "unacceptable_{{item.id}}")
-            mz-select-container(class= "col s4 m4 l4")
-                select('mz-select' '[label]'= "Acción correctiva" id= "correctiveAction_{{item.id}}" name= "correctiveAction_{{item.id}}")
-                    option('*ngFor'='#action of item.correctiveActions')= "{{action.name}}"
-
-//- <option data-icon="assets/select-icon-1.jpg" class="left circle">Option 1</option>
-                
-//-
-    <div class="card-panel white item-card">
-        <div class="row no-margin-bottom">
-            <div id="titleWrapper_5" class="card-title col s4 m4 l4"><span id="title_5" class="clearable">Stainless Table (5)</span></div>
-            <div id="radioWrapper_5" class="col s8 m8 l4">
-                <div id="radioGroup_5" class="col s12 m12 l12 clearable formValidator">
-                    <div><input id="acceptable_5" class="timeChanger clearable" name="radio_5" value="true" type="radio"><label class="black-text"
-                            for="acceptable_5"><span class="acceptable_tag big">Acceptable</span></label></div>
-                    <div><input id="unacceptable_5" class="timeChanger clearable" name="radio_5" value="false" type="radio">
-                        <label
-                            class="black-text" for="unacceptable_5"><span class="unacceptable_tag big">Unacceptable</span></label>
-                    </div>
-                </div>
-            </div>
-            <div id="correctiveActionWrapper_5" class="input-field col s12 m12 l4" style="display: none;">
-                <div class="select-wrapper timeChanger clearable formValidator"><span class="caret">▼</span><input class="select-dropdown" readonly="true" data-activates="select-options-fbe88c72-c9eb-57b0-2651-1f0aafca0e54"
-                        value="None" type="text">
-                    <ul id="select-options-fbe88c72-c9eb-57b0-2651-1f0aafca0e54" class="dropdown-content select-dropdown ">
-                        <li class=""><span>None</span></li>
-                        <li class=""><span>Re-clean</span></li>
-                        <li class=""><span>Wash/Rinse/Sanitize</span></li>
-                    </ul><select id="correctiveAction_5" class="timeChanger clearable formValidator initialized"><option class="timeChanger" value="1">None</option><option class="timeChanger" value="2">Re-clean</option><option class="timeChanger" value="3">Wash/Rinse/Sanitize</option></select></div><label><span class="action_title">Corrective action</span></label></div>
-        </div>
-        <div class="row no-margin-bottom">
-            <div id="commentWrapper_5" class="input-field col s12 m12 l12" style="display: none;"><textarea type="text" id="comment_5" class="validate timeChanger clearable materialize-textarea formValidator" length="65535"></textarea>
-                <label
-                    for="comment_5"><span class="comment_title">Comments</span></label><span class="character-counter" style="float: right; font-size: 12px; height: 1px;"></span></div>
-        </div>
-    </div>
+div([formGroup]='itemForm')
+  mz-card
+    mz-card-content
+      .row
+        .col.s12.m6.l4
+          span {{item.name}}
+        .col.s12.m6.l4
+          mz-radio-button-container.col.s12.m12.l12
+            input(mz-radio-button='', type='radio', [label]="'Acceptable'", name='is_acceptable', id='acceptable_{{item.id}}', (click)='acceptable()', formControlName='is_acceptable', [value]='true')
+          mz-radio-button-container.col.s12.m12.l12
+            input(mz-radio-button='', type='radio', [label]="'Unacceptable'", name='is_acceptable', id='unacceptable_{{item.id}}', (click)='unacceptable()', formControlName='is_acceptable', [value]='false')
+        mz-select-container.col.s12.m12.l4([hidden]='!visibleAction')
+          select(mz-select='mz-select', [label]="'Acción correctiva'", id='correctiveAction_{{item.id}}', name='correctiveAction_{{item.id}}', formControlName='corrective_action_id')
+            option(*ngFor='let action of actions', [value]='action.id') {{action[lang]}}
+        mz-textarea-container.col.s12.m12.l12([hidden]='!visibleComment')
+          i(mz-icon-mdi='', mz-textarea-prefix='', [icon]="'comment-text-outline'")
+          textarea(mz-textarea='', [label]="'Comentarios de ' + item.name", id='comment_{{item.id}}', length='65535', formControlName='comment')

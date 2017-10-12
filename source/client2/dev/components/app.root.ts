@@ -159,7 +159,7 @@ import { DateTimeService } from '../services/app.time'
     EditSignatureModalComponent,
     ZoneInfoModalComponent,
     UsersComponent,
-    UserInfoModalComponent
+    UserInfoModalComponent,
     LogLoaderComponent,
     ReportLoaderCard,
     GMPPackingPreopItemComponent,

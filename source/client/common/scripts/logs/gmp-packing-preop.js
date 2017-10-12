@@ -193,7 +193,7 @@ function sendGmpPackingPreopReport(){
 
         console.log(report)
 
-        /*$server.request({
+        $server.request({
             service: 'capture-gmp-packing-preop',
             data: report,
             success: function(response){
@@ -208,7 +208,7 @@ function sendGmpPackingPreopReport(){
                 $("#send_report").data("waiting", false);
                 $("#sending_log").hide();
             }
-        });*/
+        });
     } else {
         $("#send_report").removeAttr("disabled");
         $("#send_report").data("waiting", false);
@@ -456,7 +456,7 @@ function gmpPackingPreopItemCorrectiveAction(item, areaID, actions){
     }
 
     var selectLabel = {"type":"label","contents":{"type":"text","classes":"action_title"}};
-    var actionSelect =  {"type": "select", "id": "correctiveAction_" + item.id,"classes":"timeChanger", "options": actionOptions,"data":{"area_id":areaID,"item_id":item.id},"validations":{"type":"select","required":{"value":true,"toast":"gmp-packing-preop-item-corrective-action"},"wrapper":"correctiveActionWrapper_" + item.id,"invalidValues":[1]}};
+    var actionSelect =  {"type": "select", "id": "correctiveAction_" + item.id,"classes":"timeChanger", "options": actionOptions,"data":{"area_id":areaID,"item_id":item.id},"validations":{"type":"select","required":{"value":true,"toast":"gmp-packing-preop-item-corrective-action"},"wrapper":"correctiveActionWrapper_" + item.id}};
     var actionSelectInput = {"id":"correctiveActionWrapper_" + item.id,"classes":"input-field col s12 m12 l4","hidden": true,"field":actionSelect,"label":selectLabel,"data":{"area_id":areaID,"item_id":item.id}};
 
     return actionSelectInput;
