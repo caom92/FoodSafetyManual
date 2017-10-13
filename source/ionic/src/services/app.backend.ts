@@ -9,8 +9,9 @@ export class BackendService
 {
   // El URL a donde se enviaran las peticiones de servicio al backend de la 
   // aplicacion
-  private static url = 'http://manual.jfdc.tech/services/'
-  //private static url = 'http://localhost/espresso/services/'
+  //private static url = 'http://manual.jfdc.tech/services/'
+  private static url = 'http://localhost/espresso/services/'
+  //private static url = 'http://10.0.0.18/espresso/services/'
 
   // Los encabezados del paquete HTTP que sera enviado
   private static headers = new Headers({ 

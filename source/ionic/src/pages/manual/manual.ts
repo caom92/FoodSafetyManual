@@ -22,7 +22,7 @@ export class ManualTab {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private translationService: TranslationService, public events: Events, private storage: Storage, private sanitizer: DomSanitizer) {
     this.manualSource = navParams.get('manualSource');
-    this.manualDirectory=this.sanitizer.bypassSecurityTrustResourceUrl("http://manual.jfdc.tech/external/ViewerJS/#../../data/documents/manuals/" +  this.manualSource + "actual_manual.pdf")
+    this.manualDirectory=this.sanitizer.bypassSecurityTrustResourceUrl("http://manual.jfdc.tech/external/ViewerJS/#../../" +  this.manualSource + "actual_manual.pdf")
     //"gmp/packing/preop/law/"
   }
 

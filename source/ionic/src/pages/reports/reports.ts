@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ComponentFactoryResolver } from '@angular/core';
 import { NavController, NavParams, Select, Events, LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -12,18 +12,26 @@ import { BackendService } from '../../services/app.backend';
 import { TranslationService } from '../../services/app.translation';
 import { ToastService } from '../../services/app.toasts';
 
+import { DynamicComponentResolver } from '../../app/dynamic.resolver'
+
 import { Report } from './gmp-packing-preop/gmp.packing.preop.interface'
-import { GMPPackingPreopReportLoader } from './gmp-packing-preop/loader/gmp.packing.preop.report.loader'
+import { GMPPackingPreopReportDisplayer } from './gmp-packing-preop/displayer/gmp.packing.preop.report.displayer'
+import { GMPPackingHandWashingReportDisplayer } from './gmp-packing-hand-washing/displayer/gmp.packing.hand.washing.report.displayer'
+import { GMPPackingGlassBrittleReportDisplayer } from './gmp-packing-glass-brittle/displayer/gmp.packing.glass.brittle.report.displayer'
 
 @Component({
   selector: 'report',
   templateUrl: 'reports.html'
 })
-export class ReportTab {
+export class ReportTab extends DynamicComponentResolver {
   @Language() lang: string
+
+  // Componente lanzador de reporte
+  loaderComponent: any = null
 
   startDate: string = ""
   endDate: string = ""
+  reportSuffix: string = ""
   reports: Array<Report> = []
   activeReport: string = "any"
 
@@ -32,10 +40,13 @@ export class ReportTab {
     endDate: [ this.endDate ]
   })
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private translationService: TranslationService, public events: Events, private storage: Storage, private sanitizer: DomSanitizer, private server: BackendService, private formBuilder: FormBuilder, public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private translationService: TranslationService, public events: Events, private storage: Storage, private sanitizer: DomSanitizer, private server: BackendService, private formBuilder: FormBuilder, public loadingCtrl: LoadingController, factoryResolver: ComponentFactoryResolver) {
+    super(factoryResolver)
     events.subscribe("reportEvent", (activeReport, time) => {
       this.activeReport = activeReport
+      console.log("reporte activo: " + activeReport)
     })
+    this.reportSuffix = this.navParams.get('log_suffix')
   }
 
   getReportData(){
@@ -47,7 +58,7 @@ export class ReportTab {
 
     console.log("Get Report Data")
     this.server.update(
-      'report-' + 'gmp-packing-preop',//suffix,
+      'report-' + this.reportSuffix,//suffix,
       dateRange, 
       (response: any) => {
         if (response.meta.return_code == 0) {
@@ -56,6 +67,31 @@ export class ReportTab {
             this.reports = response.data.reports
             this.activeReport = "any"
             tempLoader.dismiss()
+            switch(this.reportSuffix){
+              case 'gmp-packing-preop': this.loaderComponent = this.loadComponent(GMPPackingPreopReportDisplayer, {
+                parent: this,
+                reports: this.reports,
+                activeReport: this.activeReport
+              }).instance
+                break
+              case 'gmp-packing-hand-washing': this.loaderComponent = this.loadComponent(GMPPackingHandWashingReportDisplayer, {
+                parent: this,
+                reports: this.reports,
+                activeReport: this.activeReport
+              }).instance
+                break
+              case 'gmp-packing-glass-brittle': this.loaderComponent = this.loadComponent(GMPPackingGlassBrittleReportDisplayer, {
+                parent: this,
+                reports: this.reports,
+                activeReport: this.activeReport
+              }).instance
+                break
+              default: this.loaderComponent = this.loadComponent(GMPPackingPreopReportDisplayer, {
+                parent: this,
+                reports: this.reports,
+                activeReport: this.activeReport
+              }).instance
+            }
             //this.logData.data = response.data
           }
         } else {

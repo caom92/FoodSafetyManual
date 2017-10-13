@@ -16,6 +16,8 @@ import { ReportTab } from '../../reports/reports'
 import { DateTimeService } from '../../../services/app.time'
 
 import { GMPPackingPreopLogComponent } from './log/gmp.packing.preop.log'
+import { GMPPackingHandWashingLogComponent } from '../gmp-packing-hand-washing/log/gmp.packing.hand.washing.log'
+import { GMPPackingGlassBrittleLogComponent } from '../gmp-packing-glass-brittle/log/gmp.packing.glass.brittle.log'
 
 @Component({
   selector: 'gmp-packing-preop-page',
@@ -29,12 +31,18 @@ export class GMPPackingPreopPage implements OnInit {
   @ViewChild('language_select') language_select: Select
   @Language() lang: string
 
+  log_suffix: string = ""
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private translationService: TranslationService, public events: Events, private storage: Storage, private server: BackendService, public loadingCtrl: LoadingController, private toastService: ToastService) {
     console.log(this.manualSource)
+    console.log("PRINTING LOG SUFFIX")
+    this.log_suffix = this.navParams.get('log_suffix')
+    this.reportData.log_suffix = this.navParams.get('log_suffix')
+    console.log(this.log_suffix)
   }
 
   logData: any = {}
-
+  reportData: any = {}
   manualSource: any = {}
   
   tab1Root: any
@@ -44,11 +52,20 @@ export class GMPPackingPreopPage implements OnInit {
   ngOnInit(){
     this.tab1Root = ManualTab
     this.tab2Root = ReportTab
-    this.tab3Root = GMPPackingPreopLogComponent
+
+    switch(this.log_suffix){
+      case 'gmp-packing-preop': this.tab3Root = GMPPackingPreopLogComponent
+        break
+      case 'gmp-packing-hand-washing': this.tab3Root = GMPPackingHandWashingLogComponent
+        break
+      case 'gmp-packing-glass-brittle': this.tab3Root = GMPPackingGlassBrittleLogComponent
+        break
+      default: this.tab3Root = GMPPackingPreopLogComponent
+    }
 
     let tempLoader = this.presentLoadingCustom()
     this.server.update(
-      'log-' + 'gmp-packing-preop',//suffix,
+      'log-' + this.log_suffix,
       new FormData, 
       (response: any) => {
         if (response.meta.return_code == 0) {
@@ -70,7 +87,25 @@ export class GMPPackingPreopPage implements OnInit {
     )
 
     this.storage.get("zone_name").then((zone_name) => {
-      this.manualSource.manualSource = "gmp/packing/preop/" + zone_name.toLowerCase() + "/"
+      let manualFormData = new FormData()
+
+      manualFormData.append("log-suffix", this.log_suffix)
+      this.server.update(
+        'get-log-manual-url',
+        manualFormData, 
+        (response: any) => {
+          if (response.meta.return_code == 0) {
+            if (response.data) {
+              this.manualSource.manualSource = response.data.manual_location + zone_name.toLowerCase() + "/"
+            }
+          } else {
+            
+          }
+        },
+        (error: any, caught: Observable<void>) => {
+          return []
+        }
+      )
     })
 
     //this.manualSource.manualSource = "gmp/packing/preop/law/"

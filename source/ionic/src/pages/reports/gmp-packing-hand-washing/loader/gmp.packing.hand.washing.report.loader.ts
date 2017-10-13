@@ -4,16 +4,16 @@ import { Events } from 'ionic-angular'
 
 import { Language } from 'angular-l10n'
 
-import { Report } from '../gmp.packing.preop.interface'
+import { Report } from '../interfaces/gmp.packing.hand.washing.report.interface'
 
-import { GMPPackingPreopReportComponent } from '../report/gmp.packing.preop.report'
+import { GMPPackingHandWashingReportComponent } from '../report/gmp.packing.hand.washing.report'
 
 @Component({
-    selector: 'gmp-packing-preop-report-loader',
-    templateUrl: './gmp.packing.preop.report.loader.html'
+    selector: 'gmp-packing-hand-washing-report-loader',
+    templateUrl: './gmp.packing.hand.washing.report.loader.html'
 })
 
-export class GMPPackingPreopReportLoader {
+export class GMPPackingHandWashingReportLoader {
     @Input()
     report: Report = null
 

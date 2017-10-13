@@ -56,8 +56,8 @@ export class LogsPage {
         console.log(data)
         var tempArray = data[data.zones[0].name][this.selectedProgram.title].names[this.selectedModule.title]
         console.log(tempArray[item.title])
-        if(tempArray[item.title].suffix == "gmp-packing-preop"){
-          this.navCtrl.push(GMPPackingPreopPage);
+        if(tempArray[item.title].suffix == "gmp-packing-preop" || tempArray[item.title].suffix == "gmp-packing-hand-washing" || tempArray[item.title].suffix == "gmp-packing-glass-brittle"){
+          this.navCtrl.push(GMPPackingPreopPage, {log_suffix: tempArray[item.title].suffix});
         }
       }
     )

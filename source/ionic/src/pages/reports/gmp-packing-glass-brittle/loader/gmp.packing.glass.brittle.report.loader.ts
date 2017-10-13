@@ -4,16 +4,16 @@ import { Events } from 'ionic-angular'
 
 import { Language } from 'angular-l10n'
 
-import { Report } from '../gmp.packing.preop.interface'
+import { Report } from '../interfaces/gmp.packing.glass.brittle.report.interface'
 
-import { GMPPackingPreopReportComponent } from '../report/gmp.packing.preop.report'
+import { GMPPackingGlassBrittleReportComponent } from '../report/gmp.packing.glass.brittle.report'
 
 @Component({
-    selector: 'gmp-packing-preop-report-loader',
-    templateUrl: './gmp.packing.preop.report.loader.html'
+    selector: 'gmp-packing-glass-brittle-report-loader',
+    templateUrl: './gmp.packing.glass.brittle.report.loader.html'
 })
 
-export class GMPPackingPreopReportLoader {
+export class GMPPackingGlassBrittleReportLoader {
     @Input()
     report: Report = null
 
