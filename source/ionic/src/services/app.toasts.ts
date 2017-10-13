@@ -21,7 +21,8 @@ export class ToastService
       usernameChanged: 'El nombre de usuario se cambió exitosamente',
       capturedLog: 'Se ha enviado la bitácora exitosamente',
       incompleteLog: 'Error; hay algunos campos sin llenar',
-      serverUnreachable: 'Servidor inalcanzable'
+      serverUnreachable: 'Servidor inalcanzable',
+      notAvailableInMobile: 'Esta característica aun no está disponible en la versión móvil'
     },
     en: {
       loggedIn: 'Logged in successfully',
@@ -29,7 +30,8 @@ export class ToastService
       usernameChanged: 'The user name was changed successfully',
       capturedLog: 'The log has been sent succesfully',
       incompleteLog: 'Error; some fields aren\'t filled',
-      serverUnreachable: 'Server Unreachable'
+      serverUnreachable: 'Server Unreachable',
+      notAvailableInMobile: 'This feature is not yet available in the mobile version'
     }
   }
 
@@ -108,7 +110,12 @@ export class ToastService
     })
 
     this.storage.get('lang').then((lang) => {
-      this.lang = lang;
+      if(lang == 'en' || lang == 'es'){
+        this.lang = lang
+      } else {
+        this.lang = 'es'
+        this.storage.set('lang', 'es')
+      }
     })
   }
 
