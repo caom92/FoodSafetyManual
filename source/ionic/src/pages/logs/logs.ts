@@ -12,7 +12,12 @@ import { GMPPackingPreopPage } from './gmp-packing-preop/gmp.packing.preop'
 
 @Component({
   selector: 'logs',
-  templateUrl: 'logs.html'
+  templateUrl: 'logs.html',
+  providers: [
+    BackendService,
+    TranslationService,
+    ToastService
+  ]
 })
 export class LogsPage {
   @ViewChild('zone_select') zone_select: Select
@@ -23,7 +28,7 @@ export class LogsPage {
   selectedModule: any
   logs: Array<{title: string, icon: string, program: any, module: any}>
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private translationService: TranslationService, public events: Events, private storage: Storage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private translationService: TranslationService, public events: Events, private storage: Storage, private toastService: ToastService) {
     // Tenemos que ver desde qué programa se llamó esta vista
     this.selectedProgram = navParams.get('program');
     this.selectedModule = navParams.get('module');
@@ -58,6 +63,8 @@ export class LogsPage {
         console.log(tempArray[item.title])
         if(tempArray[item.title].suffix == "gmp-packing-preop" || tempArray[item.title].suffix == "gmp-packing-hand-washing" || tempArray[item.title].suffix == "gmp-packing-glass-brittle"){
           this.navCtrl.push(GMPPackingPreopPage, {log_suffix: tempArray[item.title].suffix});
+        } else {
+          this.toastService.showText("notAvailableInMobile")
         }
       }
     )

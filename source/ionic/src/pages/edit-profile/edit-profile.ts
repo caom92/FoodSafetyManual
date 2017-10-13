@@ -23,7 +23,7 @@ import { ToastService } from '../../services/app.toasts'
 export class EditProfile /*implements OnInit*/ {
   @ViewChild('zone_select') zone_select: Select;
   @ViewChild('language_select') language_select: Select;
-  @Language() lang: string;
+  @Language() lang: string = "es"
 
   selectedItem: any
   username: string = ""
@@ -167,9 +167,9 @@ export class EditProfile /*implements OnInit*/ {
 
   openLanguageSelector() {
     this.language_select.open();
-    console.log("Mostrar HTML Interno")
-    console.log(document.getElementById("tableWrapper").innerHTML)
-    this.lstorage = document.getElementById("tableWrapper").innerHTML
+    //console.log("Mostrar HTML Interno")
+    //console.log(document.getElementById("tableWrapper").innerHTML)
+    //this.lstorage = document.getElementById("tableWrapper").innerHTML
   }
 
   onLanguageChange(selectedValue) {
