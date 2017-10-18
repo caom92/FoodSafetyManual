@@ -49,6 +49,18 @@ import { GMPPackingGlassBrittleReportItemComponent } from '../pages/reports/gmp-
 import { GMPPackingGlassBrittleReportLoader } from '../pages/reports/gmp-packing-glass-brittle/loader/gmp.packing.glass.brittle.report.loader'
 import { GMPPackingGlassBrittleReportDisplayer } from '../pages/reports/gmp-packing-glass-brittle/displayer/gmp.packing.glass.brittle.report.displayer'
 
+// GMP Packing Scale Calibtration
+
+import { GMPPackingScaleCalibrationLogComponent } from '../pages/logs/gmp-packing-scale-calibration/log/gmp.packing.scale.calibration.log'
+import { GMPPackingScaleCalibrationTypeComponent } from '../pages/logs/gmp-packing-scale-calibration/type/gmp.packing.scale.calibration.type'
+import { GMPPackingScaleCalibrationItemComponent } from '../pages/logs/gmp-packing-scale-calibration/item/gmp.packing.scale.calibration.item'
+
+import { GMPPackingScaleCalibrationReportComponent } from '../pages/reports/gmp-packing-scale-calibration/report/gmp.packing.scale.calibration.report'
+import { GMPPackingScaleCalibrationReportTypeComponent } from '../pages/reports/gmp-packing-scale-calibration/type/gmp.packing.scale.calibration.report.type'
+import { GMPPackingScaleCalibrationReportItemComponent } from '../pages/reports/gmp-packing-scale-calibration/item/gmp.packing.scale.calibration.report.item'
+import { GMPPackingScaleCalibrationReportLoader } from '../pages/reports/gmp-packing-scale-calibration/loader/gmp.packing.scale.calibration.report.loader'
+import { GMPPackingScaleCalibrationReportDisplayer } from '../pages/reports/gmp-packing-scale-calibration/displayer/gmp.packing.scale.calibration.report.displayer'
+
 // Tabs
 
 import { ManualTab } from '../pages/manual/manual'
@@ -92,7 +104,15 @@ import { DynamicComponentContainerDirective } from '../directives/dynamic.contai
     GMPPackingGlassBrittleReportAreaComponent,
     GMPPackingGlassBrittleReportItemComponent,
     GMPPackingGlassBrittleReportLoader,
-    GMPPackingGlassBrittleReportDisplayer
+    GMPPackingGlassBrittleReportDisplayer,
+    GMPPackingScaleCalibrationLogComponent,
+    GMPPackingScaleCalibrationTypeComponent,
+    GMPPackingScaleCalibrationItemComponent,
+    GMPPackingScaleCalibrationReportComponent,
+    GMPPackingScaleCalibrationReportTypeComponent,
+    GMPPackingScaleCalibrationReportItemComponent,
+    GMPPackingScaleCalibrationReportLoader,
+    GMPPackingScaleCalibrationReportDisplayer
   ],
   imports: [
     BrowserModule,
@@ -137,7 +157,15 @@ import { DynamicComponentContainerDirective } from '../directives/dynamic.contai
     GMPPackingGlassBrittleReportAreaComponent,
     GMPPackingGlassBrittleReportItemComponent,
     GMPPackingGlassBrittleReportLoader,
-    GMPPackingGlassBrittleReportDisplayer
+    GMPPackingGlassBrittleReportDisplayer,
+    GMPPackingScaleCalibrationLogComponent,
+    GMPPackingScaleCalibrationTypeComponent,
+    GMPPackingScaleCalibrationItemComponent,
+    GMPPackingScaleCalibrationReportComponent,
+    GMPPackingScaleCalibrationReportTypeComponent,
+    GMPPackingScaleCalibrationReportItemComponent,
+    GMPPackingScaleCalibrationReportLoader,
+    GMPPackingScaleCalibrationReportDisplayer
   ],
   providers: [
     StatusBar,

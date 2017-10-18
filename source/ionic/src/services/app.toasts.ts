@@ -22,6 +22,7 @@ export class ToastService
       capturedLog: 'Se ha enviado la bitácora exitosamente',
       incompleteLog: 'Error; hay algunos campos sin llenar',
       serverUnreachable: 'Servidor inalcanzable',
+      serverTakingTooLong: 'Existe un error en la conexión o el servidor está tardando demasiado en responder',
       notAvailableInMobile: 'Esta característica aun no está disponible en la versión móvil'
     },
     en: {
@@ -31,6 +32,7 @@ export class ToastService
       capturedLog: 'The log has been sent succesfully',
       incompleteLog: 'Error; some fields aren\'t filled',
       serverUnreachable: 'Server Unreachable',
+      serverTakingTooLong: 'There is an error in your connection or the server is taking too long to respond',
       notAvailableInMobile: 'This feature is not yet available in the mobile version'
     }
   }

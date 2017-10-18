@@ -11,6 +11,9 @@
     "EmployeeID": "Employee ID",
     "Name": "Name",
     "Password": "Password",
+    "Checking Server": "Checking server...",
+    "Server Online": "Server Online",
+    "Server Offline": "Server Offline, press to check again",
     "New Username": "New username",
     "New Password": "New password",
     "Check Password": "Check password",
@@ -20,5 +23,14 @@
     "Change Password": "Change Password",
     "Change Username": "Change Username",
     "usernameMinLenght": "This field must be at least 3 characters long",
-    "passwordMinLenght": "This field must be at least 6 characters long"
+    "passwordMinLenght": "This field must be at least 6 characters long",
+    "GMP": {
+        "packing": {
+            "preop": {
+                "log": {
+                    "time": "Time"
+                }
+            }
+        }
+    }
 }

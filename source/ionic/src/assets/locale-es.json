@@ -11,6 +11,9 @@
     "EmployeeID": "ID de Empleado",
     "Name": "Nombre",
     "Password": "Contraseña",
+    "Checking Server": "Conectando con el servidor...",
+    "Server Online": "Servidor disponible",
+    "Server Offline": "Servidor no disponible, presione para reintentar",
     "New Username": "Nuevo nombre de usuario",
     "New Password": "Contraseña nueva",
     "Check Password": "Verifique su contraseña nueva",
@@ -20,5 +23,14 @@
     "Change Password": "Cambiar Contraseña",
     "Change Username": "Cambiar el nombre de usuario",
     "usernameMinLenght": "Este campo debe tener al menos 3 caracteres",
-    "passwordMinLenght": "Este campo debe tener al menos 6 caracteres"
+    "passwordMinLenght": "Este campo debe tener al menos 6 caracteres",
+    "GMP": {
+        "packing": {
+            "preop": {
+                "log": {
+                    "time": "Hora"
+                }
+            }
+        }
+    }
 }

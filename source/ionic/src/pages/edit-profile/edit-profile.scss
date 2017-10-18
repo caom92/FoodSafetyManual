@@ -1,0 +1,45 @@
+@import "../../theme/variables";
+    .tableWrapper {
+        width: 100%;
+        //display: block;
+        overflow-x: auto;
+    }
+        /*
+        Generic Styling, for Desktops/Laptops
+        */
+        table {
+            width: 100%;
+            //display: block;
+            //border-collapse: collapse;
+            overflow-x: scroll;
+    }
+    /* Zebra striping */
+    /*tr:nth-of-type(odd) {
+            background: map-get($table, oddrow);
+    }
+
+    tr:nth-of-type(even) {
+            background: map-get($table, evenrow);
+    }*/
+    th {
+            background: map-get($table, header) !important; 
+            color: white;
+            font-weight: bold;
+    }
+    td, th {
+            padding: 6px;
+            border: 1px solid #000;
+            text-align: left;
+    }
+
+    .areaColumn, .timeColumn {
+        background: map-get($table, oddrow);
+    }
+
+    .fullColumn {
+        background: map-get($table, fullcolumn) !important;
+    }
+
+    .typeTitle {
+        background: map-get($table, typetitle) !important;
+    }

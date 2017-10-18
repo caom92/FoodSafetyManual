@@ -1,11 +1,20 @@
 import { Component, Input, NgModule, OnInit } from '@angular/core'
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
 
-import { FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms'
+
+import { Language } from 'angular-l10n'
+
+import { TranslationService } from '../../../../services/app.translation'
+import { ToastService } from '../../../../services/app.toasts'
 
 @Component({
     selector: 'gmp-packing-preop-area',
-    templateUrl: './gmp.packing.preop.area.html'
+    templateUrl: './gmp.packing.preop.area.html',
+    providers: [
+        TranslationService,
+        ToastService
+    ]
 })
 
 export class GMPPackingPreopAreaComponent implements OnInit {
@@ -17,6 +26,9 @@ export class GMPPackingPreopAreaComponent implements OnInit {
 
     @Input('group')
     public areaForm: FormGroup
+
+    @Language() 
+    lang: string
 
     ngOnInit(){
 

@@ -1,16 +1,18 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { Nav, NavController, Select, App, MenuController, ToastController, Events } from 'ionic-angular';
+import { Component, ViewChild, OnInit } from '@angular/core'
+import { Nav, NavController, Select, App, MenuController, ToastController, Events } from 'ionic-angular'
 import { StateService } from '@uirouter/angular'
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Storage } from '@ionic/storage';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms"
+import { Storage } from '@ionic/storage'
 
-import { Language } from 'angular-l10n';
+import { Language } from 'angular-l10n'
 
-import { BackendService } from '../../services/app.backend';
-import { TranslationService } from '../../services/app.translation';
-import { ToastService } from '../../services/app.toasts';
+import { Observable } from 'rxjs/Rx'
 
-import { EditProfile } from '../edit-profile/edit-profile';
+import { BackendService } from '../../services/app.backend'
+import { TranslationService } from '../../services/app.translation'
+import { ToastService } from '../../services/app.toasts'
+
+import { EditProfile } from '../edit-profile/edit-profile'
 
 @Component({
   selector: 'page-home',
@@ -29,6 +31,7 @@ export class HomePage implements OnInit {
 
   nav: Nav
   userLogInInfo: FormGroup
+  serverOnline: boolean = null
   
   constructor(public navCtrl: NavController, private server: BackendService, private translationService: TranslationService, private formBuilder: FormBuilder, private storage: Storage, protected app: App, public menuCtrl: MenuController, private toasts: ToastService, public events: Events) {
     this.onLanguageChange("es")
@@ -69,12 +72,26 @@ export class HomePage implements OnInit {
   ionViewCanEnter() {
     // Configuramos el formulario con valores iniciales vacios y las reglas de 
     // validacion correspondientes
-    /*if(localStorage["__mydb/_ionickv/is_logged_in"] == "true"){
-      this.app.getRootNav().setRoot(EditProfile)
-      this.menuCtrl.enable(true)
-    }*/
 
-    // New Check Session
+    this.checkServer()
+
+    /*this.server.update(
+      'status',
+      new FormData(),
+      (response: any) => {
+        if (response.meta.return_code == 0) {
+          this.serverOnline = response.data
+        } else {
+          this.serverOnline = false
+        }
+      },
+      (error: any, caught: Observable<void>) => {
+        this.serverOnline = false
+        return []
+      }
+    )*/
+
+    // Revisar si el usuario se encuentra conectado
     this.server.update(
       'check-session', 
       new FormData(), 
@@ -180,6 +197,31 @@ export class HomePage implements OnInit {
           toasts.showServiceErrorText("login", response.meta)
           console.log(response.meta.message)
         }
+      },
+      (error: any, caught: Observable<void>) => {
+        this.serverOnline = false
+        this.toasts.showText("serverTakingTooLong")
+        return []
+      }
+    )
+  }
+
+  checkServer(){
+    console.log("Check server again...")
+    this.serverOnline = null
+    this.server.update(
+      'status',
+      new FormData(),
+      (response: any) => {
+        if (response.meta.return_code == 0) {
+          this.serverOnline = response.data
+        } else {
+          this.serverOnline = false
+        }
+      },
+      (error: any, caught: Observable<void>) => {
+        this.serverOnline = false
+        return []
       }
     )
   }

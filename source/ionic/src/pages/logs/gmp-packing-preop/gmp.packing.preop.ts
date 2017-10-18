@@ -18,6 +18,7 @@ import { DateTimeService } from '../../../services/app.time'
 import { GMPPackingPreopLogComponent } from './log/gmp.packing.preop.log'
 import { GMPPackingHandWashingLogComponent } from '../gmp-packing-hand-washing/log/gmp.packing.hand.washing.log'
 import { GMPPackingGlassBrittleLogComponent } from '../gmp-packing-glass-brittle/log/gmp.packing.glass.brittle.log'
+import { GMPPackingScaleCalibrationLogComponent } from '../gmp-packing-scale-calibration/log/gmp.packing.scale.calibration.log'
 
 @Component({
   selector: 'gmp-packing-preop-page',
@@ -59,6 +60,8 @@ export class GMPPackingPreopPage implements OnInit {
       case 'gmp-packing-hand-washing': this.tab3Root = GMPPackingHandWashingLogComponent
         break
       case 'gmp-packing-glass-brittle': this.tab3Root = GMPPackingGlassBrittleLogComponent
+        break
+      case 'gmp-packing-scale-calibration': this.tab3Root = GMPPackingScaleCalibrationLogComponent
         break
       default: this.tab3Root = GMPPackingPreopLogComponent
     }

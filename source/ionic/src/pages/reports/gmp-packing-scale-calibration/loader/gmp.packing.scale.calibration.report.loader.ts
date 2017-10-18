@@ -1,18 +1,19 @@
 import { Component, Input, NgModule } from '@angular/core'
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
 import { Events } from 'ionic-angular'
 
 import { Language } from 'angular-l10n'
 
-import { Report } from '../interfaces/gmp.packing.glass.brittle.report.interface'
+import { Report } from '../interfaces/gmp.packing.scale.calibration.report.interface'
 
-import { GMPPackingGlassBrittleReportComponent } from '../report/gmp.packing.glass.brittle.report'
+import { GMPPackingScaleCalibrationReportComponent } from '../report/gmp.packing.scale.calibration.report'
 
 @Component({
-    selector: 'gmp-packing-glass-brittle-report-loader',
-    templateUrl: './gmp.packing.glass.brittle.report.loader.html'
+    selector: 'gmp-packing-scale-calibration-report-loader',
+    templateUrl: './gmp.packing.scale.calibration.report.loader.html'
 })
 
-export class GMPPackingGlassBrittleReportLoader {
+export class GMPPackingScaleCalibrationReportLoader {
     @Input()
     report: Report = null
 
