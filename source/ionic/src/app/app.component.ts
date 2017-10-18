@@ -1,20 +1,20 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { NavController, Nav, Platform, MenuController, Events } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { HttpModule } from '@angular/http';
-import { Storage } from '@ionic/storage';
+import { Component, ViewChild, AfterViewInit } from '@angular/core'
+import { NavController, Nav, Platform, MenuController, Events } from 'ionic-angular'
+import { StatusBar } from '@ionic-native/status-bar'
+import { SplashScreen } from '@ionic-native/splash-screen'
+import { HttpModule } from '@angular/http'
+import { Storage } from '@ionic/storage'
 
-import { Language } from 'angular-l10n';
+import { Language } from 'angular-l10n'
 
-import { HomePage } from '../pages/home/home';
-import { BackendService } from '../services/app.backend';
-import { TranslationService } from '../services/app.translation';
-import { DateTimeService } from '../services/app.time';
-import { EditProfile } from '../pages/edit-profile/edit-profile';
+import { HomePage } from '../pages/home/home'
+import { BackendService } from '../services/app.backend'
+import { TranslationService } from '../services/app.translation'
+import { DateTimeService } from '../services/app.time'
+import { EditProfile } from '../pages/edit-profile/edit-profile'
 
-import { ModulesPage } from '../pages/modules/modules';
-import { LogsPage } from '../pages/logs/logs';
+import { ModulesPage } from '../pages/modules/modules'
+import { LogsPage } from '../pages/logs/logs'
 
 @Component({
   templateUrl: 'app.html',
@@ -24,11 +24,12 @@ import { LogsPage } from '../pages/logs/logs';
     DateTimeService
   ]
 })
-export class MyApp implements AfterViewInit{
-  @ViewChild(Nav) nav: Nav;
-  @Language() lang: string;
 
-  rootPage:any = HomePage;
+export class MyApp implements AfterViewInit {
+  @ViewChild(Nav) nav: Nav
+  @Language() lang: string
+
+  rootPage: any = HomePage
 
   menuLangEn: boolean = this.lang == "en"
   menuLangEs: boolean = this.lang == "es"
@@ -44,9 +45,9 @@ export class MyApp implements AfterViewInit{
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      statusBar.styleDefault();
-      splashScreen.hide();
-    });
+      statusBar.styleDefault()
+      splashScreen.hide()
+    })
 
     events.subscribe("user:loggedIn", (time, lang) => {
       this.assignAdminFlag()
@@ -64,18 +65,13 @@ export class MyApp implements AfterViewInit{
 
     this.pages_en = [
       { title: 'Edit Profile', component: EditProfile, icon: "contact" }
-    ];
+    ]
 
     this.pages_es = [
       { title: 'Editar Perfil', component: EditProfile, icon: "contact" }
-    ];
+    ]
 
     this.programPages = []
-
-    this.programPages = [
-      /*{ title: 'GMP', component: EditProfile, icon: "build" },
-      { title: 'GAP', component: EditProfile, icon: "build" }*/
-    ];
 
     this.adminPages_en = [
       { title: 'Users', component: HomePage, icon: "people" },
@@ -83,7 +79,7 @@ export class MyApp implements AfterViewInit{
       { title: 'Programs', component: HomePage, icon: "copy" },
       { title: 'Supervisors', component: HomePage, icon: "medal" },
       { title: 'Signatures', component: HomePage, icon: "create" }
-    ];
+    ]
 
     this.adminPages_es = [
       { title: 'Usuarios', component: HomePage, icon: "people" },
@@ -91,7 +87,7 @@ export class MyApp implements AfterViewInit{
       { title: 'Programas', component: HomePage, icon: "copy" },
       { title: 'Supervisores', component: HomePage, icon: "medal" },
       { title: 'Firmas', component: HomePage, icon: "create" }
-    ];
+    ]
   }
 
   updatePermissions(){
@@ -115,17 +111,25 @@ export class MyApp implements AfterViewInit{
   }
 
   ngAfterViewInit(){
-
+    this.storage.get("lang").then(
+      lang => {
+        console.log("Lang in storage: " + lang)
+        this.translationService.selectLanguage(lang)
+        this.events.publish('language:changed', lang, Date.now())
+        this.lang = lang
+      },
+      error => {
+        this.lang = "es"
+        this.translationService.selectLanguage("es")
+        this.events.publish('language:changed', "es", Date.now())
+        console.log("Error, no lang setted")
+      }
+    )
   }
 
   openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-    /*if(page.component == EditProfile && false){
-      this.nav.setRoot(page.component)
-    } else {*/
-      this.nav.push(page.component)
-    /*}*/
+    // Simplemente, hacemos uso del controlador del navegador para empujar una nueva página
+    this.nav.push(page.component)
   }
 
   openModules(event, program){
@@ -147,11 +151,30 @@ export class MyApp implements AfterViewInit{
           // si la sesion fue cerrada correctamente
           // redireccionamos al usuario a la pantalla de inicio de sesion
           // y limpiamos el contenido del Storage
-          this.storage.clear()
           console.log("cierre de sesión")
           this.nav.setRoot(HomePage)
           this.menuCtrl.enable(false, "es")
           this.menuCtrl.enable(false, "en")
+          this.storage.get("lang").then(
+            lang => {
+              this.storage.clear()
+              this.storage.set("lang", lang)
+              this.translationService.selectLanguage(lang)
+              this.events.publish('language:changed', lang, Date.now());
+              console.log("Set lang before logout: " + lang)
+              console.log("Lang in storage: " + lang)
+              this.lang = lang
+            },
+            error => {
+              this.lang = "es"
+              this.storage.clear()
+              this.storage.set("lang", this.lang)
+              this.translationService.selectLanguage(this.lang)
+              this.events.publish('language:changed', "es", Date.now());
+              console.log("Error, no lang setted")
+              console.log("Set lang before logout: " + this.lang)
+            }
+          )
         } else {
           // si hubo un problema con la comunicacion con el servidor, 
           // desplegamos un mensaje de error al usuario

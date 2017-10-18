@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { Injectable, OnInit } from '@angular/core'
 import { ToastController, Events } from 'ionic-angular';
 
 import { Storage } from '@ionic/storage';
@@ -8,7 +8,7 @@ import { Language } from 'angular-l10n'
 // Servicio que despliega mensajes en la pantalla para informar al usuario 
 // sobre los resultados que sus acciones tuvieron
 @Injectable()
-export class ToastService
+export class ToastService implements OnInit
 {
   @Language() lang: string
 
@@ -111,14 +111,37 @@ export class ToastService
       this.lang = lang
     })
 
-    this.storage.get('lang').then((lang) => {
-      if(lang == 'en' || lang == 'es'){
-        this.lang = lang
-      } else {
-        this.lang = 'es'
-        this.storage.set('lang', 'es')
-      }
+    this.events.subscribe("user:loggedIn", (time, lang) => {
+      this.lang = lang
     })
+
+    this.ngOnInit()
+  }
+
+  ngOnInit(){
+    console.log("ngOnInit in app.toasts.ts called")
+    this.storage.get('lang').then(
+      lang => {
+        console.log("Lang detected by toast service" + lang)
+        if(lang == 'en' || lang == 'es'){
+          this.lang = lang
+        } else {
+          console.log("lang undefined")
+          //console.log("Toast service changing language to es")
+          this.lang = 'es'
+          this.storage.set('lang', 'es')
+          this.events.publish("language:changed", "es", Date.now())
+        }
+      },
+      error => {
+        let tempToast = this.toastService.create({
+          message: "Lang completely undefined",
+          duration: 3500,
+          position: 'bottom'
+        })
+        console.log("Lang completely undefined")
+      }
+    )
   }
 
   // Esta funcion despliega el texto que este asociado con el indice ingresado, 

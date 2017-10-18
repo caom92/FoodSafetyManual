@@ -34,7 +34,7 @@ export class HomePage implements OnInit {
   serverOnline: boolean = null
   
   constructor(public navCtrl: NavController, private server: BackendService, private translationService: TranslationService, private formBuilder: FormBuilder, private storage: Storage, protected app: App, public menuCtrl: MenuController, private toasts: ToastService, public events: Events) {
-    this.onLanguageChange("es")
+    
   }
 
   private mapUserDataToLocalStorage(userData) {
@@ -105,8 +105,9 @@ export class HomePage implements OnInit {
             //this.app.getRootNav().setRoot(HomePage)
           } else {
             this.app.getRootNav().setRoot(EditProfile)
-            this.menuCtrl.enable(true, "es")
-            this.menuCtrl.enable(true, "en")
+            this.enableLocalizedMenu()
+            /*this.menuCtrl.enable(true, "es")
+            this.menuCtrl.enable(true, "en")*/
             // de lo contrario, permitimos la navegacion
             /*localStorage.is_logged_in = true
             this.home.roleName = localStorage.role_name
@@ -191,8 +192,9 @@ export class HomePage implements OnInit {
           this.storage.set("is_logged_in", true)
           this.mapUserDataToLocalStorage(response.data)
           rootNav.setRoot(EditProfile)
-          menuCtrl.enable(true, "es")
-          menuCtrl.enable(true, "en")
+          this.enableLocalizedMenu()
+          /*menuCtrl.enable(true, "es")
+          menuCtrl.enable(true, "en")*/
         } else {
           toasts.showServiceErrorText("login", response.meta)
           console.log(response.meta.message)
@@ -222,6 +224,23 @@ export class HomePage implements OnInit {
       (error: any, caught: Observable<void>) => {
         this.serverOnline = false
         return []
+      }
+    )
+  }
+
+  enableLocalizedMenu(){
+    this.storage.get("lang").then(
+      lang => {
+        console.log("Lang was set, reading value")
+        this.lang = lang
+        this.menuCtrl.enable(false)
+        this.menuCtrl.enable(true, lang)
+      },
+      error => {
+        console.log("Lang wasn't set, using default value")
+        this.lang = "es"
+        this.menuCtrl.enable(false)
+        this.menuCtrl.enable(true, this.lang)
       }
     )
   }
