@@ -1,7 +1,8 @@
 import { Component, Input, NgModule, OnInit } from '@angular/core'
 import { NavParams } from 'ionic-angular';
 import { DatePipe } from '@angular/common';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
+
+import { Language } from 'angular-l10n'
 
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
 import { CaptureLog, CaptureType, CaptureItem } from '../interfaces/gmp.packing.scale.calibration.capture.interface'
@@ -25,6 +26,9 @@ import { ToastService } from '../../../../services/app.toasts'
 export class GMPPackingScaleCalibrationLogComponent implements OnInit {
     @Input()
     log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, types: {units:[{id: null, symbol: null}], scales:[{id:null, name:null, items:[{id: null, name: null, order: null}]}]}}
+
+    @Language()
+    lang: string
 
     public gmpPackingScaleCalibrationForm: FormGroup = new FormBuilder().group({})
 

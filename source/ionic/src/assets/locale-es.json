@@ -32,22 +32,23 @@
     "Open Report": "Abrir reportes",
     "Start Date": "Seleccione una fecha de partida",
     "Close Date": "Seleccione una fecha de cierre",
-    "GMP": {
-        "packing": {
-            "preop": {
-                "log": {
-                    "time": "Hora",
-                    "complementary_information": "Información Complementaria del Reporte",
-                    "notes_of": "Notas de ",
-                    "external_link": "Enlace externo de ",
-                    "send_report": "Enviar Reporte",
-                    "comments_of": "Comentarios de",
-                    "sanitization_person": "Persona a cargo de la sanitización de",
-                    "acceptable": "Aceptable",
-                    "unacceptable": "No aceptable",
-                    "corrective_action": "Acción correctiva"
-                }
-            }
-        }
+    "Log": {
+        "time": "Hora",
+        "complementary_information": "Información Complementaria del Reporte",
+        "notes_of": "Notas de ",
+        "external_link": "Enlace externo de ",
+        "send_report": "Enviar Reporte",
+        "comments_of": "Comentarios de",
+        "sanitization_person": "Persona a cargo de la sanitización de",
+        "acceptable": "Aceptable",
+        "unacceptable": "No aceptable",
+        "corrective_action": "Acción correctiva",
+        "corrective_action_of": "Acción correctiva de",
+        "reading": "Lectura",
+        "units": "Unidades",
+        "status": "Estado",
+        "pass": "Pasó",
+        "fail": "Falló",
+        "sanitized_base": "Base sanitizada"
     }
 }
