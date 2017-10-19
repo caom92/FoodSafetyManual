@@ -1,7 +1,8 @@
 import { Component, Input, NgModule, OnInit } from '@angular/core'
 import { NavParams } from 'ionic-angular';
 import { DatePipe } from '@angular/common';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
+
+import { Language } from 'angular-l10n'
 
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
 import { CaptureLog, CaptureItem } from '../interfaces/gmp.packing.hand.washing.capture.interface'
@@ -26,6 +27,9 @@ import { ToastService } from '../../../../services/app.toasts'
 export class GMPPackingHandWashingLogComponent implements OnInit {
     @Input()
     log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, items: [{id: null, name: null}] }
+
+    @Language()
+    lang: string
 
     public gmpPackingHandWashingForm: FormGroup = new FormBuilder().group({})
 

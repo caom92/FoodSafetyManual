@@ -49,6 +49,9 @@
         "status": "Estado",
         "pass": "Pasó",
         "fail": "Falló",
-        "sanitized_base": "Base sanitizada"
+        "sanitized_base": "Base sanitizada",
+        "with": "con",
+        "elements": "elementos",
+        "element": "elemento"
     }
 }

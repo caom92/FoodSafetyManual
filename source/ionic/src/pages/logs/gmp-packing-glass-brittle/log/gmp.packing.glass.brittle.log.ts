@@ -1,7 +1,8 @@
 import { Component, Input, NgModule, OnInit } from '@angular/core'
 import { NavParams } from 'ionic-angular';
 import { DatePipe } from '@angular/common';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
+
+import { Language } from 'angular-l10n'
 
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
 import { CaptureLog, CaptureArea, CaptureItem } from '../interfaces/gmp.packing.glass.brittle.capture.interface'
@@ -25,6 +26,9 @@ import { ToastService } from '../../../../services/app.toasts'
 export class GMPPackingGlassBrittleLogComponent implements OnInit {
     @Input()
     log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, areas: [{id: null, name: null, items:[{id:null, name:null, order:null,quantity:null}]}] }
+
+    @Language()
+    lang: string
 
     public gmpPackingGlassBrittleForm: FormGroup = new FormBuilder().group({})
 

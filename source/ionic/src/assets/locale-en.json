@@ -49,6 +49,9 @@
         "status": "Status",
         "pass": "Pass",
         "fail": "Fail",
-        "sanitized_base": "Sanitized base"
+        "sanitized_base": "Sanitized base",
+        "with": "with",
+        "elements": "elements",
+        "element": "element"
     }
 }
