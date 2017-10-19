@@ -12,6 +12,7 @@
     "Name": "Nombre",
     "Password": "Contraseña",
     "Checking Server": "Conectando con el servidor...",
+    "Connecting to Server": "Conectándose al servidor...",
     "Server Online": "Servidor disponible",
     "Server Offline": "Servidor no disponible, presione para reintentar",
     "New Username": "Nuevo nombre de usuario",
@@ -24,11 +25,27 @@
     "Change Username": "Cambiar el nombre de usuario",
     "usernameMinLenght": "Este campo debe tener al menos 3 caracteres",
     "passwordMinLenght": "Este campo debe tener al menos 6 caracteres",
+    "View Manual": "Ver Manual",
+    "View Report": "Ver Reporte",
+    "Capture Log": "Capturar Bitácora",
+    "Report Request": "Solicitud de reporte",
+    "Open Report": "Abrir reportes",
+    "Start Date": "Seleccione una fecha de partida",
+    "Close Date": "Seleccione una fecha de cierre",
     "GMP": {
         "packing": {
             "preop": {
                 "log": {
-                    "time": "Hora"
+                    "time": "Hora",
+                    "complementary_information": "Información Complementaria del Reporte",
+                    "notes_of": "Notas de ",
+                    "external_link": "Enlace externo de ",
+                    "send_report": "Enviar Reporte",
+                    "comments_of": "Comentarios de",
+                    "sanitization_person": "Persona a cargo de la sanitización de",
+                    "acceptable": "Aceptable",
+                    "unacceptable": "No aceptable",
+                    "corrective_action": "Acción correctiva"
                 }
             }
         }

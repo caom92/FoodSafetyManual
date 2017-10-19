@@ -1,7 +1,8 @@
 import { Component, Input, NgModule, OnInit } from '@angular/core'
 import { NavParams } from 'ionic-angular';
 import { DatePipe } from '@angular/common';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
+
+import { Language } from 'angular-l10n'
 
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
 import { CapturedLog, Area, Item } from '../gmp.packing.preop.interface'
@@ -52,6 +53,9 @@ export class GMPPackingPreopLogComponent implements OnInit {
             }>
         }
     } = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, areas: { corrective_actions: [{ id: null, code: null, en: null, es: null }], logs: [{ id: null, name: null, types: [{ id: null, name: null, items: [{ id: null, name: null, order: null }] }] }] } }
+
+    @Language() 
+    lang: string
 
     public gmpPackingPreopForm: FormGroup = new FormBuilder().group({})
 

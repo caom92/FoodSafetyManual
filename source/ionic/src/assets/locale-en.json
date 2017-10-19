@@ -12,6 +12,7 @@
     "Name": "Name",
     "Password": "Password",
     "Checking Server": "Checking server...",
+    "Connecting to Server": "Connecting to server...",
     "Server Online": "Server Online",
     "Server Offline": "Server Offline, press to check again",
     "New Username": "New username",
@@ -24,11 +25,27 @@
     "Change Username": "Change Username",
     "usernameMinLenght": "This field must be at least 3 characters long",
     "passwordMinLenght": "This field must be at least 6 characters long",
+    "View Manual": "View Manual",
+    "View Report": "View Report",
+    "Capture Log": "Capture Log",
+    "Report Request": "Report Request",
+    "Open Report": "Open Reports",
+    "Start Date": "Select a start date",
+    "Close Date": "Select an end date",
     "GMP": {
         "packing": {
             "preop": {
                 "log": {
-                    "time": "Time"
+                    "time": "Time",
+                    "complementary_information": "Complementary Report Information",
+                    "notes_of": "Notes of ",
+                    "external_link": "External link of ",
+                    "send_report": "Send Report",
+                    "comments_of": "Comments of",
+                    "sanitization_person": "Person in charge of sanitization of",
+                    "acceptable": "Acceptable",
+                    "unacceptable": "Unacceptable",
+                    "corrective_action": "Corrective action"
                 }
             }
         }

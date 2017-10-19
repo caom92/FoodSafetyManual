@@ -49,6 +49,9 @@ export class MyApp implements AfterViewInit {
       splashScreen.hide()
     })
 
+    // Al efectuarse la conexión al servidor se deben asignar las banderas que
+    // permiten mostrar los menús y botones correspondientes a los permisos
+    // y roles del usuario conectado
     events.subscribe("user:loggedIn", (time, lang) => {
       this.assignAdminFlag()
       this.updatePermissions()
@@ -57,6 +60,7 @@ export class MyApp implements AfterViewInit {
       this.menuLangEs = this.lang == "es"
     })
 
+    // En caso de cambio de idioma, se debe cambiar el idioma del menu lateral
     events.subscribe("language:changed", (lang, time) => {
       this.lang = lang
       this.menuLangEn = this.lang == "en"
@@ -71,8 +75,11 @@ export class MyApp implements AfterViewInit {
       { title: 'Editar Perfil', component: EditProfile, icon: "contact" }
     ]
 
+    // Inicializar vacío el arreglo de programas; se llenará con la función
+    // updatePermissions
     this.programPages = []
 
+    // Menú de administrador, en idioma inglés y español
     this.adminPages_en = [
       { title: 'Users', component: HomePage, icon: "people" },
       { title: 'Zones', component: HomePage, icon: "map" },
@@ -90,6 +97,10 @@ export class MyApp implements AfterViewInit {
     ]
   }
 
+  /**
+   * Actualiza el arreglo de programas que pueden ser seleccionados por el
+   * usuario, dependiendo de sus permisos
+   */
   updatePermissions(){
     this.programPages = []
     this.storage.get("privileges").then(
@@ -97,10 +108,14 @@ export class MyApp implements AfterViewInit {
         console.log("Privilegios del usuario conectado")
         console.log(JSON.parse(data))
         data = JSON.parse(data)
-        console.log(data.zones[0])
-        console.log("Programas")
-        for(var program of data.zones[0].programs){
-          this.programPages.push({title: program.name, component: EditProfile, icon:"build"})
+        if(data){
+          if(data.zones){
+            console.log(data.zones[0])
+            console.log("Programas")
+            for(var program of data.zones[0].programs){
+              this.programPages.push({title: program.name, component: EditProfile, icon:"build"})
+            }
+          }
         }
       }
     )
@@ -126,15 +141,16 @@ export class MyApp implements AfterViewInit {
       }
     )
   }
-
-  openPage(page) {
+  
+  /**
+  * @input { title: string, component: any, icon: string } page
+  */
+  openPage(page: any) {
     // Simplemente, hacemos uso del controlador del navegador para empujar una nueva página
     this.nav.push(page.component)
   }
 
   openModules(event, program){
-    console.log("openModules")
-    console.log(program)
     this.nav.push(ModulesPage, {
       program: program
     })

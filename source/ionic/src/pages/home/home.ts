@@ -75,22 +75,6 @@ export class HomePage implements OnInit {
 
     this.checkServer()
 
-    /*this.server.update(
-      'status',
-      new FormData(),
-      (response: any) => {
-        if (response.meta.return_code == 0) {
-          this.serverOnline = response.data
-        } else {
-          this.serverOnline = false
-        }
-      },
-      (error: any, caught: Observable<void>) => {
-        this.serverOnline = false
-        return []
-      }
-    )*/
-
     // Revisar si el usuario se encuentra conectado
     this.server.update(
       'check-session', 
@@ -104,8 +88,15 @@ export class HomePage implements OnInit {
             this.menuCtrl.enable(false, "en")
             //this.app.getRootNav().setRoot(HomePage)
           } else {
-            this.app.getRootNav().setRoot(EditProfile)
-            this.enableLocalizedMenu()
+            this.storage.get("user_id").then(
+              user_id => {
+                console.log(user_id)
+                if(user_id != null){
+                  this.app.getRootNav().setRoot(EditProfile)
+                  this.enableLocalizedMenu()
+                }
+              }
+            )
             /*this.menuCtrl.enable(true, "es")
             this.menuCtrl.enable(true, "en")*/
             // de lo contrario, permitimos la navegacion

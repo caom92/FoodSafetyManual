@@ -4,7 +4,7 @@ import { Storage } from '@ionic/storage';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms"
 
-import { Language } from 'angular-l10n';
+import { Language, TranslationService as TService } from 'angular-l10n';
 
 import { Observable } from 'rxjs/Rx'
 
@@ -41,7 +41,7 @@ export class ReportTab extends DynamicComponentResolver {
     endDate: [ this.endDate ]
   })
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private translationService: TranslationService, public events: Events, private storage: Storage, private sanitizer: DomSanitizer, private server: BackendService, private formBuilder: FormBuilder, public loadingCtrl: LoadingController, factoryResolver: ComponentFactoryResolver) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private translationService: TranslationService, public events: Events, private storage: Storage, private sanitizer: DomSanitizer, private server: BackendService, private formBuilder: FormBuilder, public loadingCtrl: LoadingController, factoryResolver: ComponentFactoryResolver, public ts: TService) {
     super(factoryResolver)
     events.subscribe("reportEvent", (activeReport, time) => {
       this.activeReport = activeReport
@@ -120,9 +120,9 @@ export class ReportTab extends DynamicComponentResolver {
       spinner: 'hide',
       content: `
         <div text-center>
-          <img class="spinner" src="assets/images/koi_spinner.png" alt="" width="120" height="120">
+          <img class="spinner" src="assets/images/koi_spinner.png" alt="" width="240" height="240">
         </div>
-        <div text-center>Connecting to server...</div>`
+        <div text-center>` + this.ts.translate("Connecting to Server") + `</div>`
     });
 
     loading.present();

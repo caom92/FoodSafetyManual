@@ -2,7 +2,7 @@ import { Component, ViewChild, OnInit } from '@angular/core'
 import { NavController, NavParams, Select, Events, LoadingController } from 'ionic-angular'
 import { Storage } from '@ionic/storage'
 
-import { Language } from 'angular-l10n'
+import { Language, TranslationService as TService } from 'angular-l10n'
 
 import { Observable } from 'rxjs/Rx'
 
@@ -34,7 +34,7 @@ export class GMPPackingPreopPage implements OnInit {
 
   log_suffix: string = ""
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private translationService: TranslationService, public events: Events, private storage: Storage, private server: BackendService, public loadingCtrl: LoadingController, private toastService: ToastService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private translationService: TranslationService, public events: Events, private storage: Storage, private server: BackendService, public loadingCtrl: LoadingController, private toastService: ToastService, public ts: TService) {
     console.log(this.manualSource)
     console.log("PRINTING LOG SUFFIX")
     this.log_suffix = this.navParams.get('log_suffix')
@@ -119,9 +119,9 @@ export class GMPPackingPreopPage implements OnInit {
       spinner: 'hide',
       content: `
         <div text-center>
-          <img class="spinner" src="assets/images/koi_spinner.png" alt="" width="120" height="120">
+          <img class="spinner" src="assets/images/koi_spinner.png" alt="" width="240" height="240">
         </div>
-        <div text-center>Connecting to server...</div>`
+        <div text-center>` + this.ts.translate("Connecting to Server") + `</div>`
     });
 
     loading.present();
