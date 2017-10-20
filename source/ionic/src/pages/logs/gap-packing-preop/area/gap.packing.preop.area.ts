@@ -7,9 +7,11 @@ import { Language } from 'angular-l10n'
 import { TranslationService } from '../../../../services/app.translation'
 import { ToastService } from '../../../../services/app.toasts'
 
+import { LogArea, CorrectiveAction } from '../interfaces/gap.packing.preop.log.interface'
+
 @Component({
-    selector: 'gmp-packing-preop-area',
-    templateUrl: './gmp.packing.preop.area.html',
+    selector: 'gap-packing-preop-area',
+    templateUrl: './gap.packing.preop.area.html',
     providers: [
         TranslationService,
         ToastService
@@ -18,10 +20,10 @@ import { ToastService } from '../../../../services/app.toasts'
 
 export class GMPPackingPreopAreaComponent implements OnInit {
     @Input()
-    area: {id: number, name: string, types: Array<{id: number, name: string, items: Array<{id: number, name: string, order: number}>}>}
+    area: LogArea
 
     @Input()
-    actions: Array<{name: string, en: string, es: string}>
+    actions: Array<CorrectiveAction>
 
     @Input('group')
     public areaForm: FormGroup

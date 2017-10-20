@@ -1,5 +1,4 @@
 import { Component, Input, NgModule } from '@angular/core'
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
 import { Events } from 'ionic-angular'
 
 import { Language } from 'angular-l10n'

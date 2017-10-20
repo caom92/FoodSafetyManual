@@ -2,14 +2,14 @@ import { Component, Input, NgModule } from '@angular/core'
 
 import { Language } from 'angular-l10n'
 
-import { Report } from '../gmp.packing.preop.interface'
+import { Report } from '../interfaces/gap.packing.preop.report.interface'
 
 @Component({
-    selector: 'gmp-packing-preop-report',
-    templateUrl: './gmp.packing.preop.report.html'
+    selector: 'gap-packing-preop-report',
+    templateUrl: './gap.packing.preop.report.html'
 })
 
-export class GMPPackingPreopReportComponent {
+export class GAPPackingPreopReportComponent {
     @Input()
     report: Report
 

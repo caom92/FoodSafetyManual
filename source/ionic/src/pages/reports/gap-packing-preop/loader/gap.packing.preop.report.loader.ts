@@ -3,16 +3,16 @@ import { Events } from 'ionic-angular'
 
 import { Language } from 'angular-l10n'
 
-import { Report } from '../gmp.packing.preop.interface'
+import { Report } from '../interfaces/gap.packing.preop.report.interface'
 
-import { GMPPackingPreopReportComponent } from '../report/gmp.packing.preop.report'
+import { GAPPackingPreopReportComponent } from '../report/gap.packing.preop.report'
 
 @Component({
-    selector: 'gmp-packing-preop-report-loader',
-    templateUrl: './gmp.packing.preop.report.loader.html'
+    selector: 'gap-packing-preop-report-loader',
+    templateUrl: './gap.packing.preop.report.loader.html'
 })
 
-export class GMPPackingPreopReportLoader {
+export class GAPPackingPreopReportLoader {
     @Input()
     report: Report = null
 

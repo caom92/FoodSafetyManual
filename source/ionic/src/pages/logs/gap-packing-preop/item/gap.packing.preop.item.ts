@@ -5,24 +5,19 @@ import { Language } from 'angular-l10n'
 
 import { FormGroup } from '@angular/forms'
 
+import { LogItem, CorrectiveAction } from '../interfaces/gap.packing.preop.log.interface'
+
 @Component({
-    selector: 'gmp-packing-preop-item',
-    templateUrl: './gmp.packing.preop.item.html'
+    selector: 'gap-packing-preop-item',
+    templateUrl: './gap.packing.preop.item.html'
 })
 
-export class GMPPackingPreopItemComponent {
+export class GAPPackingPreopItemComponent {
     @Input()
-    item: {
-        id: number,
-        name: string,
-        order: number
-    }
+    item: LogItem
 
     @Input()
-    actions: Array<{
-        en: string,
-        es: string
-    }>
+    actions: Array<CorrectiveAction>
 
     @Input('itemGroup')
     public itemForm: FormGroup

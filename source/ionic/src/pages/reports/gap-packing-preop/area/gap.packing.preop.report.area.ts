@@ -2,14 +2,14 @@ import { Component, Input, NgModule, OnInit } from '@angular/core'
 
 import { Language } from 'angular-l10n'
 
-import { ReportArea } from '../gmp.packing.preop.interface'
+import { ReportArea } from '../interfaces/gap.packing.preop.report.interface'
 
 @Component({
-    selector: '[gmp-packing-preop-report-area]',
-    templateUrl: './gmp.packing.preop.area.html'
+    selector: '[gap-packing-preop-report-area]',
+    templateUrl: './gap.packing.preop.report.area.html'
 })
 
-export class GMPPackingPreopReportAreaComponent implements OnInit {
+export class GAPPackingPreopReportAreaComponent implements OnInit {
     @Input()
     area: ReportArea = {
         id: null,
@@ -38,7 +38,6 @@ export class GMPPackingPreopReportAreaComponent implements OnInit {
         for(let count of this.area.types){
             this.rowspan += count.items.length
         }
-        //this.rowspan = this.area.types.length
         console.log("rowspan = " + this.rowspan)
         this.rowspan += 1
     }
