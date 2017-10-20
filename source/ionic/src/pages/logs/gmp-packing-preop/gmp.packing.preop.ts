@@ -19,6 +19,7 @@ import { GMPPackingPreopLogComponent } from './log/gmp.packing.preop.log'
 import { GMPPackingHandWashingLogComponent } from '../gmp-packing-hand-washing/log/gmp.packing.hand.washing.log'
 import { GMPPackingGlassBrittleLogComponent } from '../gmp-packing-glass-brittle/log/gmp.packing.glass.brittle.log'
 import { GMPPackingScaleCalibrationLogComponent } from '../gmp-packing-scale-calibration/log/gmp.packing.scale.calibration.log'
+import { GAPPackingPreopLogComponent } from '../gap-packing-preop/log/gap.packing.preop.log'
 
 @Component({
   selector: 'gmp-packing-preop-page',
@@ -63,29 +64,66 @@ export class GMPPackingPreopPage implements OnInit {
         break
       case 'gmp-packing-scale-calibration': this.tab3Root = GMPPackingScaleCalibrationLogComponent
         break
+      case 'gap-packing-preop': this.tab3Root = GAPPackingPreopLogComponent
+        break
       default: this.tab3Root = GMPPackingPreopLogComponent
     }
 
+
     let tempLoader = this.presentLoadingCustom()
-    this.server.update(
-      'log-' + this.log_suffix,
-      new FormData, 
-      (response: any) => {
-        if (response.meta.return_code == 0) {
-          if (response.data) {
-            this.logData.data = response.data
-            tempLoader.dismiss()
-          }
-        } else {
+    this.storage.get("log-" + this.log_suffix).then(
+      data => {
+        if(data != null && data != undefined){
+          this.logData.data = data
           tempLoader.dismiss()
-          this.navCtrl.pop()
+        } else {
+          this.server.update(
+            'log-' + this.log_suffix,
+            new FormData, 
+            (response: any) => {
+              if (response.meta.return_code == 0) {
+                if (response.data) {
+                  this.logData.data = response.data
+                  this.storage.set("log-" + this.log_suffix, response.data)
+                  tempLoader.dismiss()
+                }
+              } else {
+                tempLoader.dismiss()
+                this.navCtrl.pop()
+              }
+            },
+            (error: any, caught: Observable<void>) => {
+              tempLoader.dismiss()
+              this.toastService.showText("serverUnreachable")
+              this.navCtrl.pop()
+              return []
+            }
+          )
         }
       },
-      (error: any, caught: Observable<void>) => {
-        tempLoader.dismiss()
-        this.toastService.showText("serverUnreachable")
-        this.navCtrl.pop()
-        return []
+      error => {
+        this.server.update(
+          'log-' + this.log_suffix,
+          new FormData, 
+          (response: any) => {
+            if (response.meta.return_code == 0) {
+              if (response.data) {
+                this.logData.data = response.data
+                this.storage.set("log-" + this.log_suffix, response.data)
+                tempLoader.dismiss()
+              }
+            } else {
+              tempLoader.dismiss()
+              this.navCtrl.pop()
+            }
+          },
+          (error: any, caught: Observable<void>) => {
+            tempLoader.dismiss()
+            this.toastService.showText("serverUnreachable")
+            this.navCtrl.pop()
+            return []
+          }
+        )
       }
     )
 

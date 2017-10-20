@@ -18,7 +18,7 @@ import { LogArea, CorrectiveAction } from '../interfaces/gap.packing.preop.log.i
     ]
 })
 
-export class GMPPackingPreopAreaComponent implements OnInit {
+export class GAPPackingPreopAreaComponent implements OnInit {
     @Input()
     area: LogArea
 

@@ -19,6 +19,7 @@ import { GMPPackingPreopReportDisplayer } from './gmp-packing-preop/displayer/gm
 import { GMPPackingHandWashingReportDisplayer } from './gmp-packing-hand-washing/displayer/gmp.packing.hand.washing.report.displayer'
 import { GMPPackingGlassBrittleReportDisplayer } from './gmp-packing-glass-brittle/displayer/gmp.packing.glass.brittle.report.displayer'
 import { GMPPackingScaleCalibrationReportDisplayer } from './gmp-packing-scale-calibration/displayer/gmp.packing.scale.calibration.report.displayer'
+import { GAPPackingPreopReportDisplayer } from './gap-packing-preop/displayer/gap.packing.preop.report.displayer'
 
 @Component({
   selector: 'report',
@@ -88,6 +89,12 @@ export class ReportTab extends DynamicComponentResolver {
               }).instance
                 break
               case 'gmp-packing-scale-calibration': this.loaderComponent = this.loadComponent(GMPPackingScaleCalibrationReportDisplayer, {
+                parent: this,
+                reports: this.reports,
+                activeReport: this.activeReport
+              }).instance
+                break
+              case 'gmp-packing-preop': this.loaderComponent = this.loadComponent(GAPPackingPreopReportDisplayer, {
                 parent: this,
                 reports: this.reports,
                 activeReport: this.activeReport

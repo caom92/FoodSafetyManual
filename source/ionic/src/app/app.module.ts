@@ -27,6 +27,20 @@ import { GMPPackingPreopReportItemComponent } from '../pages/reports/gmp-packing
 import { GMPPackingPreopReportLoader } from '../pages/reports/gmp-packing-preop/loader/gmp.packing.preop.report.loader'
 import { GMPPackingPreopReportDisplayer } from '../pages/reports/gmp-packing-preop/displayer/gmp.packing.preop.report.displayer'
 
+// GAP Packing Preop
+
+import { GAPPackingPreopLogComponent } from '../pages/logs/gap-packing-preop/log/gap.packing.preop.log'
+import { GAPPackingPreopAreaComponent } from '../pages/logs/gap-packing-preop/area/gap.packing.preop.area'
+import { GAPPackingPreopTypeComponent } from '../pages/logs/gap-packing-preop/type/gap.packing.preop.type'
+import { GAPPackingPreopItemComponent } from '../pages/logs/gap-packing-preop/item/gap.packing.preop.item'
+
+import { GAPPackingPreopReportComponent } from '../pages/reports/gap-packing-preop/report/gap.packing.preop.report'
+import { GAPPackingPreopReportAreaComponent } from '../pages/reports/gap-packing-preop/area/gap.packing.preop.report.area'
+import { GAPPackingPreopReportTypeComponent } from '../pages/reports/gap-packing-preop/type/gap.packing.preop.report.type'
+import { GAPPackingPreopReportItemComponent } from '../pages/reports/gap-packing-preop/item/gap.packing.preop.report.item'
+import { GAPPackingPreopReportLoader } from '../pages/reports/gap-packing-preop/loader/gap.packing.preop.report.loader'
+import { GAPPackingPreopReportDisplayer } from '../pages/reports/gap-packing-preop/displayer/gap.packing.preop.report.displayer'
+
 // GMP Packing Hand Washing
 
 import { GMPPackingHandWashingLogComponent } from '../pages/logs/gmp-packing-hand-washing/log/gmp.packing.hand.washing.log'
@@ -112,7 +126,17 @@ import { DynamicComponentContainerDirective } from '../directives/dynamic.contai
     GMPPackingScaleCalibrationReportTypeComponent,
     GMPPackingScaleCalibrationReportItemComponent,
     GMPPackingScaleCalibrationReportLoader,
-    GMPPackingScaleCalibrationReportDisplayer
+    GMPPackingScaleCalibrationReportDisplayer,
+    GAPPackingPreopLogComponent,
+    GAPPackingPreopAreaComponent,
+    GAPPackingPreopTypeComponent,
+    GAPPackingPreopItemComponent,
+    GAPPackingPreopReportComponent,
+    GAPPackingPreopReportAreaComponent,
+    GAPPackingPreopReportTypeComponent,
+    GAPPackingPreopReportItemComponent,
+    GAPPackingPreopReportLoader,
+    GAPPackingPreopReportDisplayer
   ],
   imports: [
     BrowserModule,
@@ -165,7 +189,17 @@ import { DynamicComponentContainerDirective } from '../directives/dynamic.contai
     GMPPackingScaleCalibrationReportTypeComponent,
     GMPPackingScaleCalibrationReportItemComponent,
     GMPPackingScaleCalibrationReportLoader,
-    GMPPackingScaleCalibrationReportDisplayer
+    GMPPackingScaleCalibrationReportDisplayer,
+    GAPPackingPreopLogComponent,
+    GAPPackingPreopAreaComponent,
+    GAPPackingPreopTypeComponent,
+    GAPPackingPreopItemComponent,
+    GAPPackingPreopReportComponent,
+    GAPPackingPreopReportAreaComponent,
+    GAPPackingPreopReportTypeComponent,
+    GAPPackingPreopReportItemComponent,
+    GAPPackingPreopReportLoader,
+    GAPPackingPreopReportDisplayer
   ],
   providers: [
     StatusBar,
