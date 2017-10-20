@@ -283,6 +283,14 @@ mixin responsiveTable(headers)
     tbody
       block
 
+mixin table(headers)
+  table.highlight&attributes(attributes)
+    thead
+      th('*ngFor'='let header of ' + headers) 
+        ='{{ header }}'
+    tbody
+      block
+
 //- Crea una caja de seleccion
 //- [in]  name (string): el nombre del campo con el cual podra ser referenciado 
 //-       en el componente
