@@ -102,7 +102,12 @@ $service = fsm\createLogService(
         array_push($areas, $area);
       }
 
-      return $areas;
+      return [
+        'corrective_actions' => 
+          $scope->daoFactory->get('gap\packing\preop\CorrectiveActions')
+            ->selectAllButOptionOther(),
+        'logs' => $areas
+      ];
     }
   ]
 );

@@ -20,7 +20,8 @@ const SERVER_ALLOW_CORS_CREDENTIALS = TRUE;
 const SERVER_CORS_CREDENTIALS_ALLOWED_ORIGINS = [
   'http://localhost:4200',
   'http://localhost:8100',
-  'http://manual.jfdc.tech'
+  'http://manual.jfdc.tech',
+  'http://documents.jfdc.tech'
 ];
 
 ?>

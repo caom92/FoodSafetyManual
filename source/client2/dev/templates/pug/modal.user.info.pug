@@ -1,9 +1,114 @@
 include globals.pug
 
-mz-modal('[fixedFooter]'='true')
+mz-modal(
+  '[fixedFooter]'='true'
+  '[fullscreen]'='true'
+)
   mz-modal-header
-    ='{{ langManager.messages.usersFormLabels.titles[1] }}'
+    div.container: div.row: div.col.s12
+      ='{{ langManager.messages.usersFormLabels.titles[1] }}'
   mz-modal-content
+    form(
+      '[formGroup]'='userForm'
+      novalidate
+    )
+      div.container
+        div.row
+          div.col.s12.m6
+            +textInput(
+              'login-name',
+              'langManager.messages.userProfileLabels.username'
+            )
+          div.col.s12.m6
+            +textInput(
+              'employee-id',
+              'langManager.messages.userProfileLabels.employeeNum'
+            )
+        
+        div.row
+          div.col.s12.m6
+            +textInput(
+              'first-name',
+              'langManager.messages.userProfileLabels.firstName'
+            )
+          div.col.s12.m6
+            +textInput(
+              'last-name',
+              'langManager.messages.userProfileLabels.lastName'
+            )
+
+        div.row
+          div.col.s12.m6
+            +select(
+              'role',
+              'langManager.messages.usersFormLabels.role',
+              'langManager.messages.reportProblemFormLabels.selectLabel',
+              'userRoles', '.name'
+            )
+          div.col.s12.m6
+            +select(
+              'supervisor',
+              'langManager.messages.supervisorsFormLabels.supervisor',
+              'langManager.messages.reportProblemFormLabels.selectLabel',
+              'supervisors', '.full_name'
+            )
+        
+        div.row
+          div.col.s12.m6
+            +passwordInput(
+              'password',
+              'langManager.messages.editPasswordFormLabels.newPassword'
+            )
+          div.col.s12.m6
+            +passwordInput(
+              'confirm-password',
+              'langManager.messages.editPasswordFormLabels.newPasswordConfirmation'
+            )
+
+        div.row
+          div.col.s12
+            h5='{{ langManager.messages.usersFormLabels.titles[2] }}'
+      
+        div.row
+          div.col.s12.m6
+            +select(
+              'zone',
+              'langManager.messages.supervisorsFormLabels.zone',
+              'langManager.messages.reportProblemFormLabels.selectLabel',
+              'zones', '.name'
+            )
+          div.col.s12.m6
+            +select(
+              'program',
+              'langManager.messages.usersFormLabels.program',
+              'langManager.messages.reportProblemFormLabels.selectLabel',
+              'programs', '.name'
+            )(
+              formControlName='program'
+              '(change)'='onProgramSelected()'
+            )
+
+        div.row
+          div.col.s12
+            i.mdi.mdi-settings
+            ='{{ langManager.messages.usersFormLabels.privileges }}'
+        
+        div.row
+          div.col.s12
+            mz-collapsible
+              mz-collapsible-item(
+                '*ngFor'='let module of selectedProgram.modules'
+              )
+                mz-collapsible-item-header
+                  ='{{ module.name }}'
+                mz-collapsible-item-body
+                  table.highlight
+                    thead
+                      th='Bitácora'
+                    tbody
+                      tr('*ngFor'='let log of module.logs')
+                        td='{{ log.name }}'
+
   mz-modal-footer
     +button(
       'submit',
@@ -11,5 +116,6 @@ mz-modal('[fixedFooter]'='true')
       '{{ langManager.messages.editPasswordFormLabels.submit }}',
       'mdi mdi-send'
     )(
+      '[disabled]'='!isFormValid'
       mz-modal-close
     )

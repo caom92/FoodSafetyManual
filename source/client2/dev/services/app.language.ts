@@ -46,7 +46,9 @@ export class LanguageService
         title: 'Su Perfil de Usuario',
         username: 'Nombre de usuario',
         employeeNum: 'ID de Empleado',
-        fullName: 'Nombre completo'
+        fullName: 'Nombre completo',
+        firstName: 'Nombre(s)',
+        lastName: 'Apellido(s)',
       },
       editPasswordFormLabels: {
         title: 'Cambiar la contraseña',
@@ -243,7 +245,8 @@ export class LanguageService
       usersFormLabels: {
         titles: [
           'Lista de usuarios',
-          'Información del Usuario'
+          'Información del Usuario',
+          'Privilegios de Usuario'
         ],
         tableHeaders: [
           'ID de Empleado',
@@ -253,7 +256,10 @@ export class LanguageService
           'Editar'
         ],
         active: 'Sí',
-        inactive: 'No'
+        inactive: 'No',
+        role: 'Rol de Usuario',
+        program: 'Programa',
+        privileges: 'Seleccione los permisos individuales del usuario'
       },
       login: {
         0: 'Sesión iniciada exitosamente',
@@ -372,7 +378,9 @@ export class LanguageService
         title: 'Your User Profile',
         username: 'Username',
         employeeNum: 'Employee ID',
-        fullName: 'Full Name'
+        fullName: 'Full Name',
+        firstName: 'First name',
+        lastName: 'Last name',
       },
       editPasswordFormLabels: {
         title: 'Change password',
@@ -569,7 +577,8 @@ export class LanguageService
       usersFormLabels: {
         titles: [
           'List of users',
-          'User Information'
+          'User Information',
+          'User Privileges'
         ],
         tableHeaders: [
           'Employee ID',
@@ -579,7 +588,10 @@ export class LanguageService
           'Edit'
         ],
         active: 'Yes',
-        inactive: 'No'
+        inactive: 'No',
+        role: 'User Role',
+        program: 'Program',
+        privileges: 'Select individual user privileges'
       },
       login: {
         0: 'Logged in successfully',
@@ -702,7 +714,9 @@ export class LanguageService
       title: null,
       username: null,
       employeeNum: null,
-      fullName: null
+      fullName: null,
+      firstName: null,
+      lastName: null,
     },
     editPasswordFormLabels: {
       title: null,
@@ -854,10 +868,13 @@ export class LanguageService
       }
     },
     usersFormLabels: {
-      titles: [ null, null ],
+      titles: [ null, null, null ],
       tableHeaders: [ null, null, null, null, null ],
       active: null,
-      inactive: null
+      inactive: null,
+      role: null,
+      program: null,
+      privileges: null
     }
   }
 
