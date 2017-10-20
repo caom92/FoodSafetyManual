@@ -35,11 +35,15 @@
     "Log": {
         "time": "Hora",
         "complementary_information": "Información Complementaria del Reporte",
-        "notes_of": "Notas de ",
-        "external_link": "Enlace externo de ",
+        "notes": "Notas",
+        "notes_of": "Notas de",
+        "external_link_of": "Enlace externo de",
         "send_report": "Enviar Reporte",
+        "comments": "Comentarios",
         "comments_of": "Comentarios de",
-        "sanitization_person": "Persona a cargo de la sanitización de",
+        "sanitization_person": "Persona a cargo de la sanitización",
+        "sanitization_person_of": "Persona a cargo de la sanitización de",
+        "conditions": "Condiciones",
         "acceptable": "Aceptable",
         "unacceptable": "No aceptable",
         "corrective_action": "Acción correctiva",
@@ -52,6 +56,15 @@
         "sanitized_base": "Base sanitizada",
         "with": "con",
         "elements": "elementos",
-        "element": "elemento"
+        "element": "elemento",
+        "area": "Área",
+        "name": "Nombre",
+        "number_abbr": "#",
+        "yes": "Si",
+        "no": "No",
+        "description": "Descripción",
+        "approved": "Aprobado",
+        "revised_area": "Area revisada y comentarios",
+        "inventory_abbr": "Inv"
     }
 }
