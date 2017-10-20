@@ -74,7 +74,12 @@ $service = fsm\createAuthorizationReportService(
         array_push($areasLogEntries, $tempAreaLogEntry);
       }
 
-      return $areasLogEntries;
+      return [
+        'corrective_actions' => 
+          $scope->daoFactory->get('gap\packing\preop\CorrectiveActions')
+            ->selectAllButOptionOther(),
+        'logs' => $areasLogEntries
+      ];
     }
   ]
 );
