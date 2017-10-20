@@ -260,9 +260,10 @@ function gmpPackingPreopLog(data, htmlElement, isPrefilled){
     var log = $("<div>");
     var additionalData = $("<div>");
     var buttonRow = $("<div>");
+    var actions = data.areas.corrective_actions;
 
-    for(var area of data.areas){
-        log.append(gmpPackingPreopArea(area));
+    for(var area of data.areas.logs){
+        log.append(gmpPackingPreopArea(area, actions));
     }
 
     additionalData.addClass("card-panel white");
@@ -320,7 +321,7 @@ function sendButton(){
     return button;
 }
 
-function gmpPackingPreopArea(area){
+function gmpPackingPreopArea(area, actions){
     var areaCard = $("<div>");
     var title = $("<div>");
 
@@ -339,7 +340,7 @@ function gmpPackingPreopArea(area){
         typeTitle.append(createText({"type":"text","text":type.name}));
         areaCard.append(typeTitle);
         for(var item of type.items){
-            areaCard.append(gmpPackingPreopItem(item, area.id));
+            areaCard.append(gmpPackingPreopItem(item, area.id, actions));
         }
     }
 
@@ -387,12 +388,12 @@ function gmpPackingPreopAreaSanitation(areaID, person){
     return sanitationFullInput;
 }
 
-function gmpPackingPreopItem(item, areaID){
+function gmpPackingPreopItem(item, areaID, actions){
     var itemCard = $("<div>");    
     var itemRow = new Object();
     var commentRow = new Object();
 
-    itemRow.columns = [gmpPackingPreopItemTitle(item, areaID), gmpPackingPreopItemStatus(item, areaID), gmpPackingPreopItemCorrectiveAction(item, areaID)];
+    itemRow.columns = [gmpPackingPreopItemTitle(item, areaID), gmpPackingPreopItemStatus(item, areaID), gmpPackingPreopItemCorrectiveAction(item, areaID, actions)];
     commentRow.columns = [gmpPackingPreopItemComment(item, areaID)];
 
     itemCard.append(createInputRow(itemRow));
@@ -431,10 +432,10 @@ function gmpPackingPreopItemStatus(item, areaID){
     return groupInput;
 }
 
-function gmpPackingPreopItemCorrectiveAction(item, areaID){
+function gmpPackingPreopItemCorrectiveAction(item, areaID, actions){
     var actionOptions = new Array();
 
-    var correctiveActions = JSON.parse(localStorage.correctiveActionsGAPSSOP);
+    var correctiveActions = actions;
 
     for(var action of correctiveActions){
         var tempOption = {"value":action.id,"text":action[localStorage.defaultLanguage],"classes":"timeChanger","data":{"area_id":areaID,"item_id":item.id}};
