@@ -5,10 +5,12 @@ div([formGroup]='areaForm')
       i(mz-icon-mdi='', [icon]="'cube-outline'")
     mz-card-content
       .row
-        mz-input-container.col.s12.m12.l12
+        mz-timepicker-container.col.s12.m12.l12
           i(mz-icon-mdi='', mz-input-prefix='', [icon]="'clock'")
-          input.timepicker(mz-input='', type='text', id='time_{{area.id}}', [label]="'Hora'", formControlName='time')
-      gmp-packing-preop-type(*ngFor='let type of area.types; let i = index', [type]='type', [actions]='actions', [itemGroup]='areaForm.controls.items.controls[i]')
+          input(mz-timepicker='', type='text', id='time_{{area.id}}', [label]="'Hora'", formControlName='time')
+      ng-template(ngFor='', let-j='index', let-type='', [ngForOf]='area.types')
+        gmp-packing-preop-type([type]='type')
+        gmp-packing-preop-item(*ngFor='let item of type.items; let i = index', [item]='item', [actions]='actions', [itemGroup]='areaForm.controls.items.controls[i + offset[j]]')
       .row
         mz-textarea-container.col.s12.m12.l12
           i(mz-icon-mdi='', mz-textarea-prefix='', [icon]="'clipboard-text'")

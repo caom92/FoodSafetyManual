@@ -6,7 +6,7 @@ import { FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'gmp-packing-preop-area',
-    templateUrl: '../templates/gmp.packing.preop.area.component.html'
+    templateUrl: '../../../../../templates/gmp.packing.preop.area.component.html'
 })
 
 export class GMPPackingPreopAreaComponent {
@@ -19,8 +19,27 @@ export class GMPPackingPreopAreaComponent {
     @Input('group')
     public areaForm: FormGroup
 
-    ngOnInit(){
-        $('.timepicker').pickatime({
+    offset: Array<number> = []
+
+    timeOptions = {
+        twelvehour: false,
+        /*donetext: 'OK',
+        cleartext: 'Clear',
+        canceltext: 'Cancel',
+        autoclose: false,*/
+        ampmclickable: true,
+        aftershow: function(){}
+    }
+
+    ngOnChanges(){
+        let accumulated = 0
+        this.offset.push(accumulated)
+        for(let type of this.area.types){
+            this.offset.push(accumulated + type.items.length)
+            accumulated = accumulated + type.items.length
+        }
+        console.log(this.offset)
+        /*$('.timepicker').pickatime({
             /*default: 0,
             fromnow: 0,
             twelvehour: false,
@@ -30,6 +49,6 @@ export class GMPPackingPreopAreaComponent {
             autoclose: false,
             ampmclickable: true,
             aftershow: function(){}*/
-        });
+        //});*/
     }
 }

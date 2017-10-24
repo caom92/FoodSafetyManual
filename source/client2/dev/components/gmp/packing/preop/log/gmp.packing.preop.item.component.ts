@@ -1,4 +1,4 @@
-import { Component, Input, NgModule } from '@angular/core'
+import { Component, Input, NgModule, OnInit } from '@angular/core'
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
 import { MaterializeModule } from 'ng2-materialize'
 
@@ -6,10 +6,10 @@ import { FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'gmp-packing-preop-item',
-    templateUrl: '../templates/gmp.packing.preop.item.component.html'
+    templateUrl: '../../../../../templates/gmp.packing.preop.item.component.html'
 })
 
-export class GMPPackingPreopItemComponent {
+export class GMPPackingPreopItemComponent implements OnInit{
     @Input()
     item: {
         id: number,
@@ -32,6 +32,10 @@ export class GMPPackingPreopItemComponent {
 
     visibleAction: boolean = false
     visibleComment: boolean = false
+
+    ngOnInit(){
+        console.log(this.itemForm.controls.id)
+    }
 
     acceptable(): void {
         this.visibleAction = false

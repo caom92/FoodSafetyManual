@@ -4,15 +4,15 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
 import { MaterializeModule } from 'ng2-materialize'
 
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
-import { Report, Area, Item } from '../interfaces/gmp.packing.preop.interface'
-import { LogHeaderComponent } from '../components/app.log.header'
+import { Report, Area, Item } from '../../../../../interfaces/gmp.packing.preop.interface'
+import { LogHeaderComponent } from '../../../../../components/app.log.header'
 
-import { DateTimeService } from '../services/app.time'
-import { BackendService } from '../services/app.backend'
+import { DateTimeService } from '../../../../../services/app.time'
+import { BackendService } from '../../../../../services/app.backend'
 
 @Component({
     selector: 'gmp-packing-preop-log',
-    templateUrl: '../templates/gmp.packing.preop.log.component.html'
+    templateUrl: '../../../../../templates/gmp.packing.preop.log.component.html'
 })
 
 export class GMPPackingPreopLogComponent {
@@ -86,12 +86,15 @@ export class GMPPackingPreopLogComponent {
         return this._fb.group({
             id:[item.id, [Validators.required]],
             is_acceptable:[item.is_acceptable, [Validators.required]],
-            corrective_action_id: [item.corrective_action, [Validators.required]],
-            comment: [item.comment, [Validators.required]]
+            corrective_action_id: [item.corrective_action],
+            comment: [item.comment]
         })
     }
 
     save(model: Report){
+        console.log(this.gmpPackingPreopForm)
+        console.log(this.gmpPackingPreopForm.valid)
+        console.log(this.gmpPackingPreopForm.value)
         if(this.gmpPackingPreopForm.valid){
             let form_data = new FormData();
             
@@ -102,15 +105,17 @@ export class GMPPackingPreopLogComponent {
                 tempKey = tempKey.replace(']', '')
                 form_data.append(tempKey, flatObj[key]);
             }
+
+            console.log(flatObj)
     
-            this.server.update(
+            /*this.server.update(
                 'capture-gmp-packing-preop',
                 form_data,
                 (response: any) => {
                   console.log(response)
                   console.log(JSON.stringify(response))
                 } // (response: Response)
-            ) // this.server.update
+            ) // this.server.update*/
         } else {
             console.log("Log is not valid")
         }

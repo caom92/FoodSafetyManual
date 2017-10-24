@@ -26,10 +26,10 @@ import { UsersComponent } from './app.users'
 import { LogLoaderComponent } from './app.log.loader.component'
 
 // Importamos los componentes de las bitácoras
-import { GMPPackingPreopItemComponent } from './gmp.packing.preop.item.component'
-import { GMPPackingPreopTypeComponent } from './gmp.packing.preop.type.component'
-import { GMPPackingPreopAreaComponent } from './gmp.packing.preop.area.component'
-import { GMPPackingPreopLogComponent } from './gmp.packing.preop.log.component'
+import { GMPPackingPreopItemComponent } from './gmp/packing/preop/log/gmp.packing.preop.item.component'
+import { GMPPackingPreopTypeComponent } from './gmp/packing/preop/log/gmp.packing.preop.type.component'
+import { GMPPackingPreopAreaComponent } from './gmp/packing/preop/log/gmp.packing.preop.area.component'
+import { GMPPackingPreopLogComponent } from './gmp/packing/preop/log/gmp.packing.preop.log.component'
 import { ReportLoaderCard } from './report.loader.card.component'
 import { LogHeaderComponent } from './app.log.header'
 
