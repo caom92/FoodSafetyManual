@@ -1,7 +1,9 @@
 <?php
 
 $service = [
-  'requirements_desc' => [],
+  'requirements_desc' => [
+    'logged_in' => 'any'
+  ],
   'callback' => function($scope, $request) {
     // obtenemos la lista de zonas
     $rows = $scope->daoFactory->get('Zones')->selectAll();
