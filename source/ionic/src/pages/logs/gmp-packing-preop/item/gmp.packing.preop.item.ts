@@ -43,14 +43,10 @@ export class GMPPackingPreopItemComponent {
     acceptable(): void {
         this.visibleAction = false
         this.visibleComment = false
-        console.log(this.itemForm)
-        console.log(this.itemForm.value)
     }
 
     unacceptable(): void {
         this.visibleAction = true
         this.visibleComment = true
-        console.log(this.itemForm)
-        console.log(this.itemForm.value)
     }
 }

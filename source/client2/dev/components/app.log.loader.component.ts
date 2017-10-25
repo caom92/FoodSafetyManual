@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms'
 
 import { BackendService } from '../services/app.backend'
+import { LanguageService } from '../services/app.language'
 
 @Component({
     templateUrl: '../templates/app.log.loader.component.html'
@@ -17,8 +18,9 @@ export class LogLoaderComponent implements OnInit{
     public reportDateRangeForm: FormGroup = new FormBuilder().group({})
     start_date: string = ""
     end_date: string = ""
+    suffix: string = ""
 
-    constructor(private router: StateService, private server: BackendService, private sanitizer: DomSanitizer, private _fb: FormBuilder) {
+    constructor(private router: StateService, private server: BackendService, private sanitizer: DomSanitizer, private _fb: FormBuilder, private langManager: LanguageService) {
     }
 
     ngOnInit(){
@@ -39,10 +41,10 @@ export class LogLoaderComponent implements OnInit{
           closeOnSelect: true // Close upon selecting a date,
         });*/
 
-        let suffix = this.router.params.suffix
+        this.suffix = this.router.params.suffix
 
         let logManualFormData = new FormData
-        logManualFormData.append("log-suffix", suffix)
+        logManualFormData.append("log-suffix", this.suffix)
 
         this.server.update(
           'get-log-manual-url', 
@@ -60,12 +62,12 @@ export class LogLoaderComponent implements OnInit{
         )
 
         this.server.update(
-            'log-' + suffix, 
+            'log-' + this.suffix, 
             new FormData, 
             (response: any) => {
               if (response.meta.return_code == 0) {
                 if (response.data) {
-                  console.log("Respuesta del servidor para log-" + suffix)
+                  console.log("Respuesta del servidor para log-" + this.suffix)
                   console.log(response.data)
                   console.log(JSON.stringify(response.data))
                   this.logData = response.data

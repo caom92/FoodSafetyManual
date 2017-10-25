@@ -152,8 +152,9 @@ export class GMPPackingPreopLogComponent implements OnInit {
     }
 
     save(model: CapturedLog){
-        if(this.gmpPackingPreopForm.valid){
-            this.gmpPackingPreopForm.reset()
+        console.log(this.gmpPackingPreopForm.value)
+        /*if(this.gmpPackingPreopForm.valid){
+            //this.gmpPackingPreopForm.reset()
             this.toasts.showText("capturedLog")
             console.log("Log is valid")
             console.log(this.gmpPackingPreopForm.value)
@@ -181,7 +182,7 @@ export class GMPPackingPreopLogComponent implements OnInit {
             ) // this.server.update
         } else {
             this.toasts.showText("incompleteLog")
-        }
+        }*/
     }
 
     flatten(data) {
