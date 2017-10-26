@@ -1,0 +1,24 @@
+div([formGroup]='areaForm')
+  ion-grid
+    ion-row
+      ion-col
+        | {{area.name}}
+  ion-item
+    ion-label {{ 'Log.time' | translate:lang }}
+    ion-datetime(displayFormat='HH:mm', pickerFormat='HH:mm', formControlName='time')
+  ng-template(ngFor, let-type, [ngForOf]='area.types')
+    gap-packing-preop-type([type]='type')
+    gap-packing-preop-item(*ngFor='let item of type.items; let i = index', [item]='item', [actions]='actions', [itemGroup]='areaForm.controls.items.controls[i]')
+  ion-grid
+    ion-row
+      ion-col
+        ion-item
+          ion-label(color='primary', floating) {{ 'Log.comments_of' | translate:lang }} {{area.name}}
+          ion-textarea(formControlName='notes')
+    ion-row
+      ion-col
+        ion-item
+          ion-label(color='primary', floating) {{ 'Log.sanitization_person_of' | translate:lang }} {{area.name}}
+          ion-textarea(formControlName='person_performing_sanitation')
+        ion-item(*ngIf='!areaForm.controls.person_performing_sanitation.valid && (areaForm.controls.person_performing_sanitation.dirty)')
+          small(style='color:red;') {{ 'usernameMinLenght' | translate:lang }}

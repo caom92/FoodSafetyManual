@@ -1,0 +1,9 @@
+include ../logmaster-common-mixins.pug
+
++espressoNavbar(true)
+
+ion-content
+  ion-list
+    button(text-wrap, ion-item, *ngFor='let log of logs', (click)='itemTapped($event, log)')
+      ion-icon([name]='log.icon', item-left)
+      | {{log.title}}

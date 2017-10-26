@@ -1,0 +1,9 @@
+include ../../logmaster-common-mixins.pug
+
++espressoNavbar(true)
+
+ion-content
+  ion-tabs(tabsPlacement='top', selectedIndex='1')
+    ion-tab([root]='tab1Root', [rootParams]='manualSource', tabTitle="{{ 'View Manual' | translate:lang }}")
+    ion-tab([root]='tab2Root', [rootParams]='reportData', tabTitle="{{ 'View Report' | translate:lang }}")
+    ion-tab([root]='tab3Root', [rootParams]='logData', tabTitle="{{ 'Capture Log' | translate:lang }}")

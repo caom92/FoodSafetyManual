@@ -1,0 +1,24 @@
+form([formGroup]='itemForm')
+  ion-grid
+    ion-row
+      ion-col
+        ion-item
+          ion-label(color='primary') {{item.name}}
+          ion-input(placeholder="{{ 'Log.reading' | translate:lang }}", formControlName='test')
+    ion-row
+      ion-col
+        ion-item
+          ion-label {{ 'Log.units' | translate:lang }}
+          ion-select(formControlName='unit_id', interface='popover')
+            ion-option(*ngFor='let unit of units', [value]='unit.id') {{unit.symbol}}
+      ion-col
+        ion-item
+          ion-label {{ 'Log.status' | translate:lang }}
+          ion-select(formControlName='status', interface='popover')
+            ion-option([value]='true') {{ 'Log.pass' | translate:lang }}
+            ion-option([value]='false') {{ 'Log.fail' | translate:lang }}
+    ion-row
+      ion-item
+        ion-label {{ 'Log.sanitized_base' | translate:lang }}
+        ion-checkbox(formControlName='is_sanitized')
+  .divider
