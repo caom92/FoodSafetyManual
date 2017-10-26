@@ -1,24 +1,7 @@
-ion-header
-  ion-navbar(color='secondary')
-    ion-grid
-      ion-row
-        ion-col
-          ion-list
-            ion-item([hidden]='true')
-              ion-select(#zone_select, interface='popover')
-                ion-option(value='BCN', selected) BCN
-                ion-option(value='LAW') LAW
-                ion-option(value='PES') PES
-                ion-option(value='ZAR') ZAR
-                ion-option(value='ETC') ETC
-        ion-col
-          ion-list
-            ion-item([hidden]='true')
-              ion-select(#language_select, interface='action-sheet', (ionChange)='onLanguageChange($event)')
-                ion-option(value='en') {{ 'English' | translate:lang }}
-                ion-option(value='es') {{ 'Spanish' | translate:lang }}
-        button(ion-button, icon-24, clear, color='light', (click)='openLanguageSelector()')
-          ion-icon(name='globe')
+include ../logmaster-common-mixins.pug
+
++espressoNavbar(false)
+
 ion-content
   ion-card
     img(src='assets/images/logo.jpg')
