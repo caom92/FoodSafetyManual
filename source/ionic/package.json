@@ -9,7 +9,9 @@
         "build": "ionic-app-scripts build",
         "lint": "ionic-app-scripts lint",
         "ionic:build": "ionic-app-scripts build",
-        "ionic:serve": "ionic-app-scripts serve"
+        "ionic:serve": "ionic-app-scripts serve",
+        "dev-build-win": "pug src\\ -o src --hierarchy --doctype html",
+        "dev-build-win-pretty": "pug src\\ -o src --hierarchy --doctype html --pretty"
     },
     "dependencies": {
         "@angular/common": "4.1.3",

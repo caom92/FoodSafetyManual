@@ -1,7 +1,30 @@
+mixin commonLoader()
+  ion-card([hidden]="!(activeReport == 'any' || activeReport == report.report_id)")
+    ion-card-content
+      ion-grid
+        ion-row(center)
+          ion-col(col-12, col-sm-6, col-md-6, col-lg-9)
+            h1 {{report.creation_date}}
+          ion-col.flexcontainer(col-4, col-sm-2, col-md-2, col-lg-1)
+            button(ion-fab, mini, color='primary', [hidden]='hasEmail == undefined')
+              ion-icon(name='mail')
+          ion-col.flexcontainer(col-4, col-sm-2, col-md-2, col-lg-1)
+            button(ion-fab, mini, color='pdf')
+              ion-icon(name='paper')
+          ion-col.flexcontainer(col-4, col-sm-2, col-md-2, col-lg-1, *ngIf='!showReport')
+            button(ion-fab, mini, color='open', (click)='openHTMLReport()')
+              ion-icon(name='open')
+          ion-col.flexcontainer(col-4, col-sm-2, col-md-2, col-lg-1, *ngIf='showReport')
+            button(ion-fab, mini, color='close', (click)='closeHTMLReport()')
+              ion-icon(name='close')
+
 mixin espressoNavbar()
   ion-header
+
+//-mixin espressoNavbar()
+  ion-header
     ion-navbar(color='secondary')
-      button(ion-button='', menutoggle='')
+      button(ion-button, menutoggle)
         ion-icon(name='menu')
       ion-grid
         ion-row
@@ -11,8 +34,8 @@ mixin espressoNavbar()
           ion-col
             ion-list
               ion-item([hidden]='true')
-                ion-select(#zone_select='', interface='popover')
-                  ion-option(value='BCN', selected='') BCN
+                ion-select(#zone_select, interface='popover')
+                  ion-option(value='BCN', selected) BCN
                   ion-option(value='LAW') LAW
                   ion-option(value='PES') PES
                   ion-option(value='ZAR') ZAR
@@ -20,10 +43,10 @@ mixin espressoNavbar()
           ion-col
             ion-list
               ion-item([hidden]='true')
-                ion-select(#language_select='', interface='action-sheet', (ionchange)='onLanguageChange($event)')
+                ion-select(#language_select, interface='action-sheet', (ionchange)='onLanguageChange($event)')
                   ion-option(value='en') English
                   ion-option(value='es') Español
-          button(ion-button='', icon-24='', clear='', color='light', (click)='openZoneSelector()')
+          button(ion-button, icon-24, clear, color='light', (click)='openZoneSelector()')
             ion-icon(name='map')
-          button(ion-button='', icon-24='', clear='', color='light', (click)='openLanguageSelector()')
+          button(ion-button, icon-24, clear, color='light', (click)='openLanguageSelector()')
             ion-icon(name='globe')

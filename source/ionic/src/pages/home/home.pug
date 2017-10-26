@@ -1,0 +1,53 @@
+ion-header
+  ion-navbar(color='secondary')
+    ion-grid
+      ion-row
+        ion-col
+          ion-list
+            ion-item([hidden]='true')
+              ion-select(#zone_select, interface='popover')
+                ion-option(value='BCN', selected) BCN
+                ion-option(value='LAW') LAW
+                ion-option(value='PES') PES
+                ion-option(value='ZAR') ZAR
+                ion-option(value='ETC') ETC
+        ion-col
+          ion-list
+            ion-item([hidden]='true')
+              ion-select(#language_select, interface='action-sheet', (ionChange)='onLanguageChange($event)')
+                ion-option(value='en') {{ 'English' | translate:lang }}
+                ion-option(value='es') {{ 'Spanish' | translate:lang }}
+        button(ion-button, icon-24, clear, color='light', (click)='openLanguageSelector()')
+          ion-icon(name='globe')
+ion-content
+  ion-card
+    img(src='assets/images/logo.jpg')
+    ion-card-content
+      ion-card-title
+        | {{ 'Login' | translate:lang }}
+      form([formGroup]='userLogInInfo', (ngSubmit)='onLogInFormSubmit()')
+        ion-list
+          ion-item
+            ion-label(floating) {{ 'Username' | translate:lang }}
+            ion-input(type='text', formControlName='username')
+          ion-item(*ngIf='!userLogInInfo.controls.username.valid && (userLogInInfo.controls.username.dirty)')
+            small(style='color:red;') {{ 'usernameMinLenght' | translate:lang }}
+          ion-item
+            ion-label(floating) {{ 'Password' | translate:lang }}
+            ion-input(type='password', formControlName='password')
+          ion-item(*ngIf='!userLogInInfo.controls.password.valid && (userLogInInfo.controls.password.dirty)')
+            small(style='color:red;') {{ 'passwordMinLenght' | translate:lang }}
+          ion-item([hidden]='serverOnline != null')
+            ion-icon(name='wifi', style='font-size: 25px;')
+            span  {{ 'Checking Server' | translate:lang }}
+          ion-item([hidden]='serverOnline == false || serverOnline == null')
+            ion-icon(name='wifi', style='font-size: 25px;', color='open')
+            span.serverOnline  {{ 'Server Online' | translate:lang }}
+          ion-item([hidden]='serverOnline == true || serverOnline == null', (click)='checkServer()')
+            ion-icon(name='wifi', style='font-size: 25px;', color='close')
+            span.serverOffline  {{ 'Server Offline' | translate:lang }}
+          ion-item
+            div(text-center)
+              button(ion-button, icon-end, type='submit', default, [disabled]='!userLogInInfo.valid || !userLogInInfo.dirty')
+                | {{ 'Login' | translate:lang }}
+                ion-icon(name='log-in')
