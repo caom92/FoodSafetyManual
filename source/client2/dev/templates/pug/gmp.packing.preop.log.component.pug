@@ -1,7 +1,7 @@
 form([formGroup]='gmpPackingPreopForm', (ngSubmit)='save(myForm)')
   log-header([log]='log')
   gmp-packing-preop-area(*ngFor='let area of log.areas.logs; let i=index', [area]='area', [actions]='log.areas.corrective_actions', [group]='gmpPackingPreopForm.controls.areas.controls[i]')
-  mz-card
+  mz-card([hoverable]='true')
     mz-card-title
       | Información complementaria del reporte
     mz-card-content

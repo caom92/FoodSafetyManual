@@ -15,7 +15,7 @@ ion-menu#en([content]='nav', [persistent]='true', [enabled]='menuLangEn')
         button(menuClose, ion-item, *ngFor='let p of adminPages_en', (click)='openPage(p)')
           ion-icon(name='{{p.icon}}', item-start)
           |         {{p.title}}
-      button(menuClose, ion-item, (click)='openPage(HomeComponent)')
+      button(menuClose, ion-item)
         ion-icon(name='warning', item-start)
         |           Report Problem
       button(menuClose, ion-item, (click)='closeSession()')
@@ -37,7 +37,7 @@ ion-menu#es([content]='nav', [persistent]='true', [enabled]='menuLangEs')
         button(menuClose, ion-item, *ngFor='let p of adminPages_es', (click)='openPage(p)')
           ion-icon(name='{{p.icon}}', item-start)
           |         {{p.title}}
-      button(menuClose, ion-item, (click)='openPage(HomeComponent)')
+      button(menuClose, ion-item)
         ion-icon(name='warning', item-start)
         |           Reportar Problema
       button(menuClose, ion-item, (click)='closeSession()')

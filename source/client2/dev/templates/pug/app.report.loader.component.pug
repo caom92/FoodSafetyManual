@@ -1,19 +1,16 @@
 #report_tab.col.s12.m12.l12
   .card-panel.white
-    form([formGroup]='reportDateRangeForm', (ngSubmit)='requestReports(myForm)')
+    form([formGroup]='dateRangeForm', (ngSubmit)='getReportData()')
       .row
-        mz-input-container.s12.m12.l12
+        mz-datepicker-container.s12.m12.l12
           i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
-          input#start_date.datepicker(mz-input, [label]="'Fecha de inicio'", type='text', formControlName='start_date', [(ngModel)]='start_date')
+          input(mz-datepicker, [label]="'Fecha de inicio'", type='text', formControlName='startDate', [options]='langManager.messages.global.datePickerConfig')
       .row
-        mz-input-container.s12.m12.l12
+        mz-datepicker-container.s12.m12.l12
           i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
-          input#end_date.datepicker(mz-input, [label]="'Fecha de cierre'", type='text', formControlName='end_date', [(ngModel)]='end_date')
+          input(mz-datepicker, [label]="'Fecha de cierre'", type='text', formControlName='endDate', [options]='langManager.messages.global.datePickerConfig')
       .row
         button(mz-button, type='submit') Open Report
         button(mz-button) View in PDF
-  report-loader-card([displayDate]="'2017-12-05'")
-  report-loader-card([displayDate]="'2017-11-05'")
-  report-loader-card([displayDate]="'2017-10-05'")
-  report-loader-card([displayDate]="'2017-09-05'")
-  report-loader-card([displayDate]="'2017-08-05'")
+  div(dynamicComponentContainer)
+  //-(ngSubmit)='requestReports(myForm)')

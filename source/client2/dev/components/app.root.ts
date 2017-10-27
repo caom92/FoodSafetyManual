@@ -21,6 +21,14 @@ import { SignaturesComponent } from './app.signatures'
 import { ZonesComponent } from './app.zones'
 import { UsersComponent } from './app.users'
 
+// Importamos el cargador de reportes
+
+import { DynamicComponentContainerDirective } from '../directives/dynamic.container'
+
+import { ReportLoaderComponent } from './app.report.loader.component'
+
+import { ReportDisplayer } from './app.report.displayer.component'
+
 // Importamos el cargador de bitácoras
 
 import { LogLoaderComponent } from './app.log.loader.component'
@@ -160,7 +168,10 @@ import { DateTimeService } from '../services/app.time'
     ZoneInfoModalComponent,
     UsersComponent,
     UserInfoModalComponent,
+    DynamicComponentContainerDirective,
     LogLoaderComponent,
+    ReportLoaderComponent,
+    ReportDisplayer,
     ReportLoaderCard,
     GMPPackingPreopItemComponent,
     GMPPackingPreopTypeComponent,
@@ -170,6 +181,7 @@ import { DateTimeService } from '../services/app.time'
   ],
   // declaramos cualquier componente que sera inyectado dinamicamente
   entryComponents: [
+    ReportDisplayer,
     ProgressModalComponent,
     EditFooterModalComponent,
     EditSignatureModalComponent,
