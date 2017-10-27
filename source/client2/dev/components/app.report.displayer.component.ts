@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Rx'
 
 import { LanguageService } from '../services/app.language'
 
+import { ReportLoader } from './app.report.loader.component'
+
 @Component({
     selector: 'report-displayer',
     templateUrl: '../templates/app.report.displayer.component.html'
@@ -13,6 +15,6 @@ export class ReportDisplayer implements OnInit {
   reports: any
 
   ngOnInit(){
-    this.reports = JSON.stringify(this.reports)
+    //this.reports = JSON.stringify(this.reports)
   }
 }
