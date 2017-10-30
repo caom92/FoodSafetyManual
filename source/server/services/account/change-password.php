@@ -42,9 +42,7 @@ $service = [
 
     // check if the user is intending to update the password of another user
     $isUpdatingOtherPassword = 
-      isset($request['user_id'])
-      && array_key_exists('user_id', $request)
-      && $segment->get('role_name') === 'Administrator';
+      isset($request['user_id']) != $segment->get('user_id');
 
     // store the new password in the data base 
     $scope->daoFactory->get('Users')->updatePasswordByUserID(
