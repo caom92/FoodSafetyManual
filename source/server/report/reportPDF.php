@@ -1,6 +1,57 @@
 <?php
 
 require_once realpath(dirname(__FILE__)."/PDFCreator.php");
+require_once realpath(__DIR__.'/../config/site_config.php');
+
+// revisamos si el servidor esta configurado para ejercer CORS
+if (SERVER_ALLOW_CORS_REQUESTS) {
+    // si asi se, configuramos los encabezados necesarios
+    header(
+      'Access-Control-Allow-Headers: Content-Type'
+    );
+    header(
+      'Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS'
+    );
+    
+    // revisamos si el usuario necesita usar credenciales de 
+    // identificacion de sesion junto con la comunicacion CORS 
+    if (SERVER_ALLOW_CORS_CREDENTIALS) {
+      // si es asi, necesitamos asegurarnos de que el cliente proviene 
+      // de un origen autorizado, asi que primero obtenemos el origen
+      $currentOrigin = rtrim($_SERVER['HTTP_REFERER'], '/');
+
+      // inicializamos la bandera que indica si este origen esta 
+      // autorizado
+      $isOriginAllowed = FALSE;
+
+      // tenemos que comparar el origen actual con la lista de origenes 
+      // autorizados uno por uno
+      foreach (SERVER_CORS_CREDENTIALS_ALLOWED_ORIGINS as $origin) {
+        if ($currentOrigin == $origin) {
+          $isOriginAllowed = TRUE;
+          break;
+        }
+      }
+
+      // si el origen actual esta autorizado para usar credenciales de 
+      // autentificacion con CORS, inicializamos el resto de los 
+      // encabezados necesarios
+      if ($isOriginAllowed) {
+        header(
+          "Access-Control-Allow-Origin: $currentOrigin"
+        );
+        header(
+          "Access-Control-Allow-Credentials: true"
+        );
+      }
+    } else {
+      // si no es necesario permitir CORS con credenciales de 
+      // autentificacion, permitimos el acceso a cualquier origen
+      $response = $response->withHeader(
+        'Access-Control-Allow-Origin: *'
+      );
+    }
+}
 
 // get the language that is going to be used to print the PDF file
 $lang = (isset($_POST['lang']) && array_key_exists('lang', $_POST)) ?
@@ -27,6 +78,10 @@ $pdf = new PDFCreator(
     $fontsize,
     $orientation
 );
+
+// header('Content-Type: text/plain');
+// $json = json_encode($_POST);
+// echo "<pre>$json<pre>";
 
 // initialize the storage for the HTML that will be displayed in the PDF file
 $html = '';
