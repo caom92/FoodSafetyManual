@@ -154,7 +154,10 @@ try {
 
         // print the result to the document
         $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
-        $pdf->closing($_POST['supervisor']);
+
+        if (strlen($_POST['signature']) > 0) {
+            $pdf->closing($_POST['supervisor']);
+        }
 
         if(isset($_POST["images"])){
             if($_POST["images"] != "null"){
