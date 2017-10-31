@@ -75,6 +75,21 @@ import { GMPPackingScaleCalibrationReportItemComponent } from '../pages/reports/
 import { GMPPackingScaleCalibrationReportLoader } from '../pages/reports/gmp-packing-scale-calibration/loader/gmp.packing.scale.calibration.report.loader'
 import { GMPPackingScaleCalibrationReportDisplayer } from '../pages/reports/gmp-packing-scale-calibration/displayer/gmp.packing.scale.calibration.report.displayer'
 
+// GMP Packing Scissors Knives
+
+import { GMPPackingScissorsKnivesLogComponent } from '../pages/logs/gmp-packing-scissors-knives/log/gmp.packing.scissors.knives.log'
+import { GMPPackingScissorsKnivesItemComponent } from '../pages/logs/gmp-packing-scissors-knives/item/gmp.packing.scissors.knives.item'
+
+// GMP Packing Thermo Calibration
+
+import { GMPPackingThermoCalibrationLogComponent } from '../pages/logs/gmp-packing-thermo-calibration/log/gmp.packing.thermo.calibration.log'
+import { GMPPackingThermoCalibrationItemComponent } from '../pages/logs/gmp-packing-thermo-calibration/item/gmp.packing.thermo.calibration.item'
+
+// GMP Packing Cold Room Temp
+
+import { GMPPackingColdRoomTempLogComponent } from '../pages/logs/gmp-packing-cold-room-temp/log/gmp.packing.cold.room.temp.log'
+import { GMPPackingColdRoomTempItemComponent } from '../pages/logs/gmp-packing-cold-room-temp/item/gmp.packing.cold.room.temp.item'
+
 // Tabs
 
 import { ManualTab } from '../pages/manual/manual'
@@ -136,7 +151,13 @@ import { DynamicComponentContainerDirective } from '../directives/dynamic.contai
     GAPPackingPreopReportTypeComponent,
     GAPPackingPreopReportItemComponent,
     GAPPackingPreopReportLoader,
-    GAPPackingPreopReportDisplayer
+    GAPPackingPreopReportDisplayer,
+    GMPPackingScissorsKnivesLogComponent,
+    GMPPackingScissorsKnivesItemComponent,
+    GMPPackingThermoCalibrationLogComponent,
+    GMPPackingThermoCalibrationItemComponent,
+    GMPPackingColdRoomTempLogComponent,
+    GMPPackingColdRoomTempItemComponent
   ],
   imports: [
     BrowserModule,
@@ -199,7 +220,13 @@ import { DynamicComponentContainerDirective } from '../directives/dynamic.contai
     GAPPackingPreopReportTypeComponent,
     GAPPackingPreopReportItemComponent,
     GAPPackingPreopReportLoader,
-    GAPPackingPreopReportDisplayer
+    GAPPackingPreopReportDisplayer,
+    GMPPackingScissorsKnivesLogComponent,
+    GMPPackingScissorsKnivesItemComponent,
+    GMPPackingThermoCalibrationLogComponent,
+    GMPPackingThermoCalibrationItemComponent,
+    GMPPackingColdRoomTempLogComponent,
+    GMPPackingColdRoomTempItemComponent
   ],
   providers: [
     StatusBar,

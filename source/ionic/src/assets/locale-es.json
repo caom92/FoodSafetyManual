@@ -65,6 +65,12 @@
         "description": "Descripción",
         "approved": "Aprobado",
         "revised_area": "Area revisada y comentarios",
-        "inventory_abbr": "Inv"
+        "inventory_abbr": "Inv",
+        "returned_good_conditions": "Regresado en buenas condiciones",
+        "sanitized_lubricated": "Sanitizado / Lubricado (Aceite Mineral)",
+        "ice_point_test":"Prueba del método del punto de hielo",
+        "thermo_calibration":"Calibración de termómetro",
+        "sanitized":"Sanitizado",
+        "deficiencies_of":"Deficiencias notadas de"
     }
 }

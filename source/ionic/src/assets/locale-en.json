@@ -65,6 +65,12 @@
         "description": "Description",
         "approved": "Approved",
         "revised_area": "Revised Area & Comments",
-        "inventory_abbr": "Inv"
+        "inventory_abbr": "Inv",
+        "returned_good_conditions": "Returned on Good Conditions",
+        "sanitized_lubricated": "Sanitized / Lubricated (Mineral Oil)",
+        "ice_point_test":"Ice point method thermometer test",
+        "thermo_calibration":"Thermometer Calibration",
+        "sanitized":"Sanitized",
+        "deficiencies_of":"Deficiencies noted of"
     }
 }

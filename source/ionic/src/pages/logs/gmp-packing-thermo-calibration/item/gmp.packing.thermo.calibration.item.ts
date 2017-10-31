@@ -5,14 +5,14 @@ import { Language } from 'angular-l10n'
 
 import { FormGroup } from '@angular/forms'
 
-import { LogItem } from '../interfaces/gmp.packing.hand.washing.log.interface'
+import { LogItem } from '../interfaces/gmp.packing.thermo.calibration.log.interface'
 
 @Component({
-    selector: 'gmp-packing-hand-washing-item',
-    templateUrl: './gmp.packing.hand.washing.item.html'
+    selector: 'gmp-packing-thermo-calibration-item',
+    templateUrl: './gmp.packing.thermo.calibration.item.html'
 })
 
-export class GMPPackingHandWashingItemComponent {
+export class GMPPackingThermoCalibrationItemComponent {
     @Input()
     item: LogItem
 

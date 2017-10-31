@@ -20,6 +20,9 @@ import { GMPPackingHandWashingLogComponent } from '../gmp-packing-hand-washing/l
 import { GMPPackingGlassBrittleLogComponent } from '../gmp-packing-glass-brittle/log/gmp.packing.glass.brittle.log'
 import { GMPPackingScaleCalibrationLogComponent } from '../gmp-packing-scale-calibration/log/gmp.packing.scale.calibration.log'
 import { GAPPackingPreopLogComponent } from '../gap-packing-preop/log/gap.packing.preop.log'
+import { GMPPackingScissorsKnivesLogComponent } from '../gmp-packing-scissors-knives/log/gmp.packing.scissors.knives.log'
+import { GMPPackingThermoCalibrationLogComponent } from '../gmp-packing-thermo-calibration/log/gmp.packing.thermo.calibration.log'
+import { GMPPackingColdRoomTempLogComponent } from '../gmp-packing-cold-room-temp/log/gmp.packing.cold.room.temp.log'
 
 @Component({
   selector: 'gmp-packing-preop-page',
@@ -65,6 +68,12 @@ export class GMPPackingPreopPage implements OnInit {
       case 'gmp-packing-scale-calibration': this.tab3Root = GMPPackingScaleCalibrationLogComponent
         break
       case 'gap-packing-preop': this.tab3Root = GAPPackingPreopLogComponent
+        break
+      case 'gmp-packing-scissors-knives': this.tab3Root = GMPPackingScissorsKnivesLogComponent
+        break
+      case 'gmp-packing-thermo-calibration': this.tab3Root = GMPPackingThermoCalibrationLogComponent
+        break
+      case 'gmp-packing-cold-room-temp': this.tab3Root = GMPPackingColdRoomTempLogComponent
         break
       default: this.tab3Root = GMPPackingPreopLogComponent
     }
