@@ -8,6 +8,10 @@ ion-menu#en([content]='nav', [persistent]='true', [enabled]='menuLangEn')
         ion-icon(name='{{p.icon}}', item-start)
         |         {{ p.title }}
       div(*ngIf='!isAdminFlag')
+        button(menuClose, ion-item, *ngFor='let i of inventoryPages', (click)='openInventories($event, i)')
+          ion-icon(name='{{i.icon}}', item-start)
+          |           {{ i.title }}
+      div(*ngIf='!isAdminFlag')
         button(menuClose, ion-item, *ngFor='let p of programPages', (click)='openModules($event, p)')
           ion-icon(name='{{p.icon}}', item-start)
           |           {{ p.title }}

@@ -39,6 +39,7 @@ export class MyApp implements AfterViewInit {
   adminPages_en: Array<{title: string, component: any, icon: string}>
   adminPages_es: Array<{title: string, component: any, icon: string}>
   programPages: Array<{title: string, component: any, icon: string}>
+  inventoryPages: Array<{title: string, component: any, icon: string}>
   isAdminFlag: boolean = false
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private storage: Storage, public menuCtrl: MenuController, private server: BackendService, public events: Events, private translationService: TranslationService) {
@@ -55,6 +56,7 @@ export class MyApp implements AfterViewInit {
     events.subscribe("user:loggedIn", (time, lang) => {
       this.assignAdminFlag()
       this.updatePermissions()
+      this.updateInventories()
       this.lang = lang
       this.menuLangEn = this.lang == "en"
       this.menuLangEs = this.lang == "es"
@@ -78,6 +80,10 @@ export class MyApp implements AfterViewInit {
     // Inicializar vacío el arreglo de programas; se llenará con la función
     // updatePermissions
     this.programPages = []
+
+    // Inicializar vacío el arreglo de programas; se llenará con la función
+    // updatePermissions
+    this.inventoryPages = []
 
     // Menú de administrador, en idioma inglés y español
     this.adminPages_en = [
@@ -121,8 +127,46 @@ export class MyApp implements AfterViewInit {
     )
   }
 
+  /**
+   * Actualiza el arreglo de programas que pueden ser seleccionados por los supervisores,
+   * siempre y cuando estos cuenten con inventarios editables
+   */
+  updateInventories(){
+    console.log("Update Inventories called")
+    this.inventoryPages = []
+    this.storage.get("role_name").then(
+      role_name => {
+        if(role_name == "Supervisor"){
+          console.log("IM A SUPERVISOR, LOOK AT ME")
+          this.storage.get("privileges").then(
+            data => {
+              console.log("Privilegios del usuario conectado")
+              console.log(JSON.parse(data))
+              data = JSON.parse(data)
+              if(data){
+                if(data.zones){
+                  console.log(data.zones[0])
+                  console.log("Programas")
+                  for(var program of data.zones[0].programs){
+                    this.inventoryPages.push({title: program.name, component: EditProfile, icon:"list"})
+                  }
+                }
+              }
+            }
+          )
+        } else {
+          console.log("NOT A SUPERVISOR, YOU CAN IGNORE ME")
+        }
+      },
+      error => {
+
+      }
+    )
+  }
+
   ionViewDidLoad() {
     this.updatePermissions()
+    this.updateInventories()
   }
 
   ngAfterViewInit(){
@@ -151,6 +195,12 @@ export class MyApp implements AfterViewInit {
   }
 
   openModules(event, program){
+    this.nav.push(ModulesPage, {
+      program: program
+    })
+  }
+
+  openInventories(event, program){
     this.nav.push(ModulesPage, {
       program: program
     })

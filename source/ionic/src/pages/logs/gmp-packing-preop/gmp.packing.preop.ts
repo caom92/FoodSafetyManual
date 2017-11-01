@@ -37,6 +37,7 @@ export class GMPPackingPreopPage implements OnInit {
   @Language() lang: string
 
   log_suffix: string = ""
+  isEmployeeFlag: boolean = false
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private translationService: TranslationService, public events: Events, private storage: Storage, private server: BackendService, public loadingCtrl: LoadingController, private toastService: ToastService, public ts: TService) {
     console.log(this.manualSource)
@@ -58,81 +59,89 @@ export class GMPPackingPreopPage implements OnInit {
     this.tab1Root = ManualTab
     this.tab2Root = ReportTab
 
-    switch(this.log_suffix){
-      case 'gmp-packing-preop': this.tab3Root = GMPPackingPreopLogComponent
-        break
-      case 'gmp-packing-hand-washing': this.tab3Root = GMPPackingHandWashingLogComponent
-        break
-      case 'gmp-packing-glass-brittle': this.tab3Root = GMPPackingGlassBrittleLogComponent
-        break
-      case 'gmp-packing-scale-calibration': this.tab3Root = GMPPackingScaleCalibrationLogComponent
-        break
-      case 'gap-packing-preop': this.tab3Root = GAPPackingPreopLogComponent
-        break
-      case 'gmp-packing-scissors-knives': this.tab3Root = GMPPackingScissorsKnivesLogComponent
-        break
-      case 'gmp-packing-thermo-calibration': this.tab3Root = GMPPackingThermoCalibrationLogComponent
-        break
-      case 'gmp-packing-cold-room-temp': this.tab3Root = GMPPackingColdRoomTempLogComponent
-        break
-      default: this.tab3Root = GMPPackingPreopLogComponent
-    }
-
-
-    let tempLoader = this.presentLoadingCustom()
-    this.storage.get("log-" + this.log_suffix).then(
-      data => {
-        if(data != null && data != undefined){
-          this.logData.data = data
-          tempLoader.dismiss()
-        } else {
-          this.server.update(
-            'log-' + this.log_suffix,
-            new FormData, 
-            (response: any) => {
-              if (response.meta.return_code == 0) {
-                if (response.data) {
-                  this.logData.data = response.data
-                  this.storage.set("log-" + this.log_suffix, response.data)
-                  tempLoader.dismiss()
-                }
-              } else {
-                tempLoader.dismiss()
-                this.navCtrl.pop()
-              }
-            },
-            (error: any, caught: Observable<void>) => {
-              tempLoader.dismiss()
-              this.toastService.showText("serverUnreachable")
-              this.navCtrl.pop()
-              return []
-            }
-          )
+    this.storage.get("role_name").then(
+      role_name => {
+        this.isEmployeeFlag = role_name == "Employee"
+        switch(this.log_suffix){
+          case 'gmp-packing-preop': this.tab3Root = GMPPackingPreopLogComponent
+            break
+          case 'gmp-packing-hand-washing': this.tab3Root = GMPPackingHandWashingLogComponent
+            break
+          case 'gmp-packing-glass-brittle': this.tab3Root = GMPPackingGlassBrittleLogComponent
+            break
+          case 'gmp-packing-scale-calibration': this.tab3Root = GMPPackingScaleCalibrationLogComponent
+            break
+          case 'gap-packing-preop': this.tab3Root = GAPPackingPreopLogComponent
+            break
+          case 'gmp-packing-scissors-knives': this.tab3Root = GMPPackingScissorsKnivesLogComponent
+            break
+          case 'gmp-packing-thermo-calibration': this.tab3Root = GMPPackingThermoCalibrationLogComponent
+            break
+          case 'gmp-packing-cold-room-temp': this.tab3Root = GMPPackingColdRoomTempLogComponent
+            break
+          default: this.tab3Root = GMPPackingPreopLogComponent
         }
-      },
-      error => {
-        this.server.update(
-          'log-' + this.log_suffix,
-          new FormData, 
-          (response: any) => {
-            if (response.meta.return_code == 0) {
-              if (response.data) {
-                this.logData.data = response.data
-                this.storage.set("log-" + this.log_suffix, response.data)
-                tempLoader.dismiss()
-              }
-            } else {
+    
+    
+        let tempLoader = this.presentLoadingCustom()
+        this.storage.get("log-" + this.log_suffix).then(
+          data => {
+            if(data != null && data != undefined){
+              this.logData.data = data
               tempLoader.dismiss()
-              this.navCtrl.pop()
+            } else {
+              this.server.update(
+                'log-' + this.log_suffix,
+                new FormData, 
+                (response: any) => {
+                  if (response.meta.return_code == 0) {
+                    if (response.data) {
+                      this.logData.data = response.data
+                      this.storage.set("log-" + this.log_suffix, response.data)
+                      tempLoader.dismiss()
+                    }
+                  } else {
+                    tempLoader.dismiss()
+                    this.navCtrl.pop()
+                  }
+                },
+                (error: any, caught: Observable<void>) => {
+                  tempLoader.dismiss()
+                  this.toastService.showText("serverUnreachable")
+                  this.navCtrl.pop()
+                  return []
+                }
+              )
             }
           },
-          (error: any, caught: Observable<void>) => {
-            tempLoader.dismiss()
-            this.toastService.showText("serverUnreachable")
-            this.navCtrl.pop()
-            return []
+          error => {
+            this.server.update(
+              'log-' + this.log_suffix,
+              new FormData, 
+              (response: any) => {
+                if (response.meta.return_code == 0) {
+                  if (response.data) {
+                    this.logData.data = response.data
+                    this.storage.set("log-" + this.log_suffix, response.data)
+                    tempLoader.dismiss()
+                  }
+                } else {
+                  tempLoader.dismiss()
+                  this.navCtrl.pop()
+                }
+              },
+              (error: any, caught: Observable<void>) => {
+                tempLoader.dismiss()
+                this.toastService.showText("serverUnreachable")
+                this.navCtrl.pop()
+                return []
+              }
+            )
           }
         )
+      },
+      error => {
+
       }
     )
 
