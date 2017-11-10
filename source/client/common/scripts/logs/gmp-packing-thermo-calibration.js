@@ -437,7 +437,7 @@ function gmpPackingThermoCalibrationReportItem(itemData){
 
     item.push({"type":"td","classes":"numberColumn","contents":itemData.name});
     item.push({"type":"td","classes":"testColumn","contents":itemData.test});
-    if(itemData.calibration){
+    if(itemData.calibration == 1){
         item.push({"type":"td","classes":"calibrationColumn yes_tag"});
     } else {
         item.push({"type":"td","classes":"calibrationColumn no_tag"});
