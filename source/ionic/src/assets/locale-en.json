@@ -32,6 +32,29 @@
     "Open Report": "Open Reports",
     "Start Date": "Select a start date",
     "Close Date": "Select an end date",
+    "Date":"Date",
+    "Employee":"Employee",
+    "Log Title":"Log",
+    "Approve":"Approve",
+    "Reject":"Reject",
+    "Open":"Open",
+    "NavbarTitles":{
+        "Authorizations":"Authorizations",
+        "Modules":"Modules",
+        "Logs":"Logs"
+    },
+    "Options": {
+        "accept": "Accept",
+        "cancel": "Cancel"
+    },
+    "Titles": {
+        "approve_log":"Approve log",
+        "reject_log":"Reject log"
+    },
+    "Messages": {
+        "approve_log":"Are you sure you want to approve this log?",
+        "reject_log":"Are you sure you want to reject this log?"
+    },
     "Log": {
         "time": "Time",
         "complementary_information": "Complementary Report Information",

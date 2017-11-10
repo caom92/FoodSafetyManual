@@ -1,0 +1,9 @@
+ion-list
+  ion-item(ion-list-header)
+    ion-icon(item-start)
+    ion-label Orden
+    ion-label Nombre
+    ion-label Tipo
+    ion-toggle(item-end, style='visibility: hidden;')
+  div([dragula]='type.name', [dragulaModel]='type.items', item-content)
+    gmp-packing-scale-calibration-inventory-item(*ngFor='let item of type.items', [item]='item', [type]='type.name')

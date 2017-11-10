@@ -5,12 +5,15 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { HttpModule } from '@angular/http';
 import { IonicStorageModule } from '@ionic/storage';
+import { DragulaModule } from 'ng2-dragula'
+import { LocalNotifications } from '@ionic-native/local-notifications'
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { EditProfile } from '../pages/edit-profile/edit-profile';
 import { ModulesPage } from '../pages/modules/modules';
 import { LogsPage } from '../pages/logs/logs';
+import { LogHeaderComponent } from '../pages/logs/log-header/log.header'
 
 // GMP Packing Preop
 
@@ -46,6 +49,8 @@ import { GAPPackingPreopReportDisplayer } from '../pages/reports/gap-packing-pre
 import { GMPPackingHandWashingLogComponent } from '../pages/logs/gmp-packing-hand-washing/log/gmp.packing.hand.washing.log'
 import { GMPPackingHandWashingItemComponent } from '../pages/logs/gmp-packing-hand-washing/item/gmp.packing.hand.washing.item'
 
+import { GMPPackingHandWashingAuthorizationComponent } from '../pages/logs/gmp-packing-hand-washing/authorization/gmp.packing.hand.washing.authorization'
+
 import { GMPPackingHandWashingReportComponent } from '../pages/reports/gmp-packing-hand-washing/report/gmp.packing.hand.washing.report'
 import { GMPPackingHandWashingReportItemComponent } from '../pages/reports/gmp-packing-hand-washing/item/gmp.packing.hand.washing.item'
 import { GMPPackingHandWashingReportLoader } from '../pages/reports/gmp-packing-hand-washing/loader/gmp.packing.hand.washing.report.loader'
@@ -75,6 +80,11 @@ import { GMPPackingScaleCalibrationReportItemComponent } from '../pages/reports/
 import { GMPPackingScaleCalibrationReportLoader } from '../pages/reports/gmp-packing-scale-calibration/loader/gmp.packing.scale.calibration.report.loader'
 import { GMPPackingScaleCalibrationReportDisplayer } from '../pages/reports/gmp-packing-scale-calibration/displayer/gmp.packing.scale.calibration.report.displayer'
 
+import { GMPPackingScaleCalibrationInventoryComponent } from '../pages/inventories/gmp-packing-scale-calibration/inventory/gmp.packing.scale.calibration.inventory'
+import { GMPPackingScaleCalibrationInventoryItemComponent } from '../pages/inventories/gmp-packing-scale-calibration/item/gmp.packing.scale.calibration.inventory.item'
+import { GMPPackingScaleCalibrationInventoryListComponent } from '../pages/inventories/gmp-packing-scale-calibration/list/gmp.packing.scale.calibration.inventory.list'
+import { GMPPackingScaleCalibrationAddItemComponent } from '../pages/inventories/gmp-packing-scale-calibration/add-item/gmp.packing.scale.calibration.add.item'
+
 // GMP Packing Scissors Knives
 
 import { GMPPackingScissorsKnivesLogComponent } from '../pages/logs/gmp-packing-scissors-knives/log/gmp.packing.scissors.knives.log'
@@ -90,6 +100,11 @@ import { GMPPackingThermoCalibrationItemComponent } from '../pages/logs/gmp-pack
 import { GMPPackingColdRoomTempLogComponent } from '../pages/logs/gmp-packing-cold-room-temp/log/gmp.packing.cold.room.temp.log'
 import { GMPPackingColdRoomTempItemComponent } from '../pages/logs/gmp-packing-cold-room-temp/item/gmp.packing.cold.room.temp.item'
 
+// Authorizations
+
+import { AuthorizationCardComponent } from '../pages/authorizations/authorization-card/authorization.card.component'
+import { AuthorizationCardListComponent } from '../pages/authorizations/authorization-card-list/authorization.card.list.component'
+
 // Tabs
 
 import { ManualTab } from '../pages/manual/manual'
@@ -98,6 +113,7 @@ import { ReportTab } from '../pages/reports/reports'
 import { TranslationModule, LocaleService, TranslationService } from 'angular-l10n';
 
 import { DynamicComponentContainerDirective } from '../directives/dynamic.container'
+import { HideFabDirective } from "../directives/hide.fab";
 
 @NgModule({
   declarations: [
@@ -109,6 +125,10 @@ import { DynamicComponentContainerDirective } from '../directives/dynamic.contai
     ManualTab,
     ReportTab,
     DynamicComponentContainerDirective,
+    HideFabDirective,
+    LogHeaderComponent,
+    AuthorizationCardComponent,
+    AuthorizationCardListComponent,
     GMPPackingPreopPage,
     GMPPackingPreopLogComponent,
     GMPPackingPreopAreaComponent,
@@ -122,6 +142,7 @@ import { DynamicComponentContainerDirective } from '../directives/dynamic.contai
     GMPPackingPreopReportDisplayer,
     GMPPackingHandWashingLogComponent,
     GMPPackingHandWashingItemComponent,
+    GMPPackingHandWashingAuthorizationComponent,
     GMPPackingHandWashingReportComponent,
     GMPPackingHandWashingReportItemComponent,
     GMPPackingHandWashingReportLoader,
@@ -142,6 +163,10 @@ import { DynamicComponentContainerDirective } from '../directives/dynamic.contai
     GMPPackingScaleCalibrationReportItemComponent,
     GMPPackingScaleCalibrationReportLoader,
     GMPPackingScaleCalibrationReportDisplayer,
+    GMPPackingScaleCalibrationInventoryComponent,
+    GMPPackingScaleCalibrationInventoryItemComponent,
+    GMPPackingScaleCalibrationInventoryListComponent,
+    GMPPackingScaleCalibrationAddItemComponent,
     GAPPackingPreopLogComponent,
     GAPPackingPreopAreaComponent,
     GAPPackingPreopTypeComponent,
@@ -163,6 +188,7 @@ import { DynamicComponentContainerDirective } from '../directives/dynamic.contai
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpModule,
+    DragulaModule,
     TranslationModule.forRoot(),
     IonicStorageModule.forRoot({
       name: '__mydb',
@@ -178,6 +204,9 @@ import { DynamicComponentContainerDirective } from '../directives/dynamic.contai
     LogsPage,
     ManualTab,
     ReportTab,
+    LogHeaderComponent,
+    AuthorizationCardComponent,
+    AuthorizationCardListComponent,
     GMPPackingPreopPage,
     GMPPackingPreopLogComponent,
     GMPPackingPreopAreaComponent,
@@ -191,6 +220,7 @@ import { DynamicComponentContainerDirective } from '../directives/dynamic.contai
     GMPPackingPreopReportDisplayer,
     GMPPackingHandWashingLogComponent,
     GMPPackingHandWashingItemComponent,
+    GMPPackingHandWashingAuthorizationComponent,
     GMPPackingHandWashingReportComponent,
     GMPPackingHandWashingReportItemComponent,
     GMPPackingHandWashingReportLoader,
@@ -211,6 +241,10 @@ import { DynamicComponentContainerDirective } from '../directives/dynamic.contai
     GMPPackingScaleCalibrationReportItemComponent,
     GMPPackingScaleCalibrationReportLoader,
     GMPPackingScaleCalibrationReportDisplayer,
+    GMPPackingScaleCalibrationInventoryComponent,
+    GMPPackingScaleCalibrationInventoryItemComponent,
+    GMPPackingScaleCalibrationInventoryListComponent,
+    GMPPackingScaleCalibrationAddItemComponent,
     GAPPackingPreopLogComponent,
     GAPPackingPreopAreaComponent,
     GAPPackingPreopTypeComponent,
@@ -231,7 +265,8 @@ import { DynamicComponentContainerDirective } from '../directives/dynamic.contai
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    LocalNotifications
   ]
 })
 export class AppModule {

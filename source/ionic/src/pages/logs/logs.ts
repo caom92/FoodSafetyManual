@@ -38,14 +38,28 @@ export class LogsPage {
     storage.get("privileges").then(
         data => {
           data = JSON.parse(data)
-          var tempArray = Object.getOwnPropertyNames(data[data.zones[0].name][this.selectedProgram.title].names[this.selectedModule.title])
+          var tempArray = Object.getOwnPropertyNames(data[data.zones[0].name][this.selectedProgram.code].names[this.selectedModule.title])
+          let invArray = data[data.zones[0].name][this.selectedProgram.code].names[this.selectedModule.title]
+          console.log("AQUI LINCE")
+          console.log(tempArray)
           for(var mod of tempArray){
-            this.logs.push({
-              title: mod,
-              icon: "clipboard",
-              program: this.selectedProgram,
-              module: this.selectedModule
-            });
+            if(this.selectedProgram.target == "log"){
+              this.logs.push({
+                title: mod,
+                icon: "clipboard",
+                program: this.selectedProgram,
+                module: this.selectedModule
+              });
+            } else {
+              if(invArray[mod].has_inventory == "1"){
+                this.logs.push({
+                  title: mod,
+                  icon: "clipboard",
+                  program: this.selectedProgram,
+                  module: this.selectedModule
+                });
+              }
+            }
           }
         }
       )
@@ -59,10 +73,20 @@ export class LogsPage {
       data => {
         data = JSON.parse(data)
         console.log(data)
-        var tempArray = data[data.zones[0].name][this.selectedProgram.title].names[this.selectedModule.title]
+        var tempArray = data[data.zones[0].name][this.selectedProgram.code].names[this.selectedModule.title]
         console.log(tempArray[item.title])
         if(tempArray[item.title].suffix == "gmp-packing-preop" || tempArray[item.title].suffix == "gmp-packing-hand-washing" || tempArray[item.title].suffix == "gmp-packing-glass-brittle" || tempArray[item.title].suffix == "gmp-packing-scale-calibration" || tempArray[item.title].suffix == "gap-packing-preop" || tempArray[item.title].suffix == "gmp-packing-scissors-knives" || tempArray[item.title].suffix == "gmp-packing-thermo-calibration" || tempArray[item.title].suffix == "gmp-packing-cold-room-temp"){
-          this.navCtrl.push(GMPPackingPreopPage, {log_suffix: tempArray[item.title].suffix});
+          if(this.selectedProgram.target == "log"){
+            this.navCtrl.push(GMPPackingPreopPage, {log_suffix: tempArray[item.title].suffix, log_title: item.title})
+          }
+          else{
+            if(tempArray[item.title].suffix == "gmp-packing-scale-calibration"){
+              console.log("ScaleCalibration paps")
+            }
+            console.log("No tan rápido, lince") // Aqui añadiremos una página genérica para cargar inventarios
+            console.log(tempArray)
+            console.log("-No tan rápido, lince") // Aqui añadiremos una página genérica para cargar inventarios
+          }
         } else {
           this.toastService.showText("notAvailableInMobile")
         }

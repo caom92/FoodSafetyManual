@@ -32,6 +32,29 @@
     "Open Report": "Abrir reportes",
     "Start Date": "Seleccione una fecha de partida",
     "Close Date": "Seleccione una fecha de cierre",
+    "Date":"Fecha",
+    "Employee":"Empleado",
+    "Log Title":"Bitácora",
+    "Approve":"Aprobar",
+    "Reject":"Rechazar",
+    "Open":"Abrir",
+    "NavbarTitles":{
+        "Authorizations":"Autorizaciones",
+        "Modules":"Módulos",
+        "Logs":"Bitácoras"
+    },
+    "Options": {
+        "accept": "Aceptar",
+        "cancel": "Cancelar"
+    },
+    "Titles": {
+        "approve_log":"Aprobar bitácora",
+        "reject_log":"Rechazar bitácora"
+    },
+    "Messages": {
+        "approve_log":"¿Está seguro que desea autorizar esta bitácora?",
+        "reject_log":"¿Está seguro que desea rechazar esta bitácora?"
+    },
     "Log": {
         "time": "Hora",
         "complementary_information": "Información Complementaria del Reporte",

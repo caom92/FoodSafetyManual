@@ -4,6 +4,9 @@ import { StatusBar } from '@ionic-native/status-bar'
 import { SplashScreen } from '@ionic-native/splash-screen'
 import { HttpModule } from '@angular/http'
 import { Storage } from '@ionic/storage'
+import { LocalNotifications } from '@ionic-native/local-notifications'
+
+import { Observable } from 'rxjs/Rx'
 
 import { Language } from 'angular-l10n'
 
@@ -15,6 +18,7 @@ import { EditProfile } from '../pages/edit-profile/edit-profile'
 
 import { ModulesPage } from '../pages/modules/modules'
 import { LogsPage } from '../pages/logs/logs'
+import { AuthorizationCardListComponent } from '../pages/authorizations/authorization-card-list/authorization.card.list.component'
 
 @Component({
   templateUrl: 'app.html',
@@ -38,11 +42,13 @@ export class MyApp implements AfterViewInit {
   pages_es: Array<{title: string, component: any, icon: string}>
   adminPages_en: Array<{title: string, component: any, icon: string}>
   adminPages_es: Array<{title: string, component: any, icon: string}>
-  programPages: Array<{title: string, component: any, icon: string}>
-  inventoryPages: Array<{title: string, component: any, icon: string}>
+  programPages: Array<{title: string, component: any, icon: string, code: string, target: string}>
+  inventoryPages: Array<{title: string, component: any, icon: string, code: string, target: string}>
   isAdminFlag: boolean = false
+  isSupervisorFlag: boolean = false
+  pendingAuthorizations: number = null
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private storage: Storage, public menuCtrl: MenuController, private server: BackendService, public events: Events, private translationService: TranslationService) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private storage: Storage, public menuCtrl: MenuController, private server: BackendService, public events: Events, private translationService: TranslationService, private localNotifications: LocalNotifications) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -54,12 +60,16 @@ export class MyApp implements AfterViewInit {
     // permiten mostrar los menús y botones correspondientes a los permisos
     // y roles del usuario conectado
     events.subscribe("user:loggedIn", (time, lang) => {
-      this.assignAdminFlag()
+      this.assignRoleFlags()
       this.updatePermissions()
       this.updateInventories()
       this.lang = lang
       this.menuLangEn = this.lang == "en"
       this.menuLangEs = this.lang == "es"
+      this.checkPendingAuthorizations()
+      if(this.isSupervisorFlag || true){
+        this.bindAuthorizationsChecking()
+      }
     })
 
     // En caso de cambio de idioma, se debe cambiar el idioma del menu lateral
@@ -67,7 +77,16 @@ export class MyApp implements AfterViewInit {
       this.lang = lang
       this.menuLangEn = this.lang == "en"
       this.menuLangEs = this.lang == "es"
+      this.localNotifications.schedule({
+        id: 1,
+        text: 'Single ILocalNotification',
+        at: new Date(new Date().getTime() + 1000)
+      })
     })
+
+    /*events.subscribe("scroll:stop", (message) => {
+      console.log("Sienteme el pedazo")
+    })*/
 
     this.pages_en = [
       { title: 'Edit Profile', component: EditProfile, icon: "contact" }
@@ -119,7 +138,7 @@ export class MyApp implements AfterViewInit {
             console.log(data.zones[0])
             console.log("Programas")
             for(var program of data.zones[0].programs){
-              this.programPages.push({title: program.name, component: EditProfile, icon:"build"})
+              this.programPages.push({title: program.name, component: EditProfile, icon:"build", code: program.name, target: "log"})
             }
           }
         }
@@ -148,7 +167,7 @@ export class MyApp implements AfterViewInit {
                   console.log(data.zones[0])
                   console.log("Programas")
                   for(var program of data.zones[0].programs){
-                    this.inventoryPages.push({title: program.name, component: EditProfile, icon:"list"})
+                    this.inventoryPages.push({title: program.name, component: EditProfile, icon:"list", code: program.name, target: "inventory"})
                   }
                 }
               }
@@ -185,6 +204,24 @@ export class MyApp implements AfterViewInit {
       }
     )
   }
+
+  bindAuthorizationsChecking(){
+    console.log("bindAuthorizationsChecking")
+    Observable.interval(60000).subscribe(x => {
+      this.checkPendingAuthorizations()
+    })
+  }
+
+  checkPendingAuthorizations(){
+    this.server.update(
+      'get-num-pending-logs',
+      new FormData,
+      (response: any) => {
+        console.log("AUTORIZACIONES PENDIENTES: " + response.data)
+        this.pendingAuthorizations = response.data
+      }
+    )
+  }
   
   /**
   * @input { title: string, component: any, icon: string } page
@@ -192,6 +229,15 @@ export class MyApp implements AfterViewInit {
   openPage(page: any) {
     // Simplemente, hacemos uso del controlador del navegador para empujar una nueva página
     this.nav.push(page.component)
+  }
+
+  openAuthorizations(){
+    this.nav.push(AuthorizationCardListComponent)
+    this.localNotifications.schedule({
+      id: 1,
+      text: 'Single ILocalNotification',
+      at: new Date(new Date().getTime() + 1000)
+    })
   }
 
   openModules(event, program){
@@ -258,14 +304,18 @@ export class MyApp implements AfterViewInit {
     )*/
   }
 
-  assignAdminFlag(){
+  assignRoleFlags(){
     this.storage.get("role_name").then(
       data => {
         if(data == "Administrator")
           this.isAdminFlag = true
         else
           this.isAdminFlag = false
-        console.log(this.isAdminFlag)
+
+        if(data == "Supervisor")
+          this.isSupervisorFlag = true
+        else
+          this.isSupervisorFlag = false
       }
     )
   }

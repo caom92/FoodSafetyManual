@@ -184,6 +184,7 @@ export class HomePage implements OnInit {
           this.mapUserDataToLocalStorage(response.data)
           rootNav.setRoot(EditProfile)
           this.enableLocalizedMenu()
+          this.events.publish('user:loggedIn', Date.now(), this.lang);
           /*menuCtrl.enable(true, "es")
           menuCtrl.enable(true, "en")*/
         } else {

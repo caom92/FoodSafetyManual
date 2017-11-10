@@ -1,0 +1,6 @@
+ion-item([class.gray-text]='item.is_active == 0')
+  ion-icon.handle(name='move', item-start)
+  ion-label {{item.order}}
+  ion-label {{item.name}}
+  ion-label {{type}}
+  ion-toggle(#item_toggle, (ionChange)='toggleItem()')

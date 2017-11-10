@@ -30,13 +30,39 @@ export class ModulesPage {
     storage.get("privileges").then(
         data => {
           data = JSON.parse(data)
-          var tempArray = Object.getOwnPropertyNames(data[data.zones[0].name][this.selectedProgram.title].names)
-          for(var mod of tempArray){
-            this.modules.push({
-              title: mod,
-              icon:"cube",
-              program: this.selectedProgram
-            });
+          let tempArray = Object.getOwnPropertyNames(data[data.zones[0].name][this.selectedProgram.code].names)
+          let invArray = data[data.zones[0].name][this.selectedProgram.code].names
+          if(this.selectedProgram.target == "log"){
+            for(var mod of tempArray){
+              this.modules.push({
+                title: mod,
+                icon:"cube",
+                program: this.selectedProgram
+              })
+            }
+          } else {
+            let hasInventoryFlag = false;
+            console.log("HERE WE ADD PROGRAMS TO MODULES DISPLAY")
+            console.log(invArray)
+            for(let inv in invArray){
+              hasInventoryFlag = false
+              console.log("HERE WE CHECK IF A MODULE HAS LOGS WITH INVENTORIES")
+              console.log(invArray[inv])
+              for(let log in invArray[inv]){
+                console.log("HAAAANDS")
+                console.log(invArray[inv][log])
+                if(invArray[inv][log].has_inventory == 1){
+                  hasInventoryFlag = true
+                }
+              }
+              if(hasInventoryFlag){
+                this.modules.push({
+                  title: inv,
+                  icon:"cube",
+                  program: this.selectedProgram
+                })
+              }
+            }
           }
         }
       )

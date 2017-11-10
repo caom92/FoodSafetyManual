@@ -18,7 +18,35 @@ mixin commonLoader()
             button(ion-fab, mini, color='close', (click)='closeHTMLReport()')
               ion-icon(name='close')
 
-mixin espressoNavbar(isConnected)
+mixin espressoNavbar(isConnected, title)
+  ion-header
+    ion-navbar(color='secondary')
+      if title
+        ion-title()= title
+      if isConnected
+        button(ion-button, menuToggle='en', [hidden]='!isEnglish()')
+          ion-icon(name='menu')
+        button(ion-button, menuToggle='es', [hidden]='!isSpanish()')
+          ion-icon(name='menu')
+      ion-item([hidden]='true')
+        ion-select(#zone_select, interface='popover')
+          ion-option(value='BCN', selected) BCN
+          ion-option(value='LAW') LAW
+          ion-option(value='PES') PES
+          ion-option(value='ZAR') ZAR
+          ion-option(value='ETC') ETC
+      ion-item([hidden]='true')
+        ion-select(#language_select, interface='action-sheet', (ionChange)='onLanguageChange($event)')
+          ion-option(value='en') {{ 'English' | translate:lang }}
+          ion-option(value='es') {{ 'Spanish' | translate:lang }}
+      ion-buttons(end)
+        if isConnected
+          button(ion-button, icon-24, clear, color='light', (click)='openZoneSelector()', [hidden]='!isDirector()')
+            ion-icon(name='map')
+        button(ion-button, icon-24, clear, color='light', (click)='openLanguageSelector()')
+          ion-icon(name='globe')
+
+mixin oldEspressoNavbar(isConnected, title)
   ion-header
     ion-navbar(color='secondary')
       if isConnected

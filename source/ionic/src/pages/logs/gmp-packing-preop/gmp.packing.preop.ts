@@ -36,6 +36,7 @@ export class GMPPackingPreopPage implements OnInit {
   @ViewChild('language_select') language_select: Select
   @Language() lang: string
 
+  logTitle: string = ""
   log_suffix: string = ""
   isEmployeeFlag: boolean = false
 
@@ -43,6 +44,7 @@ export class GMPPackingPreopPage implements OnInit {
     console.log(this.manualSource)
     console.log("PRINTING LOG SUFFIX")
     this.log_suffix = this.navParams.get('log_suffix')
+    this.logTitle = this.navParams.get('log_title')
     this.reportData.log_suffix = this.navParams.get('log_suffix')
     console.log(this.log_suffix)
   }

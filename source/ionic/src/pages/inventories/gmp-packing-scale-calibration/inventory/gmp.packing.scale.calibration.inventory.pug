@@ -1,0 +1,5 @@
+ion-content(hide-fab, [class.no-scroll]='!scrollAllowed')
+  gmp-packing-scale-calibration-inventory-list(*ngFor='let type of inventory', [type]='type')
+  ion-fab(right, bottom)
+    button(ion-fab, color='open', (click)='addItem()')
+      ion-icon(name='add')

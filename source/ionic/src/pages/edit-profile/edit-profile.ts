@@ -7,6 +7,8 @@ import { Language } from 'angular-l10n'
 
 import { GMPPackingPreopReportComponent } from '../reports/gmp-packing-preop/report/gmp.packing.preop.report'
 
+import { GMPPackingScaleCalibrationInventoryComponent } from '../inventories/gmp-packing-scale-calibration/inventory/gmp.packing.scale.calibration.inventory'
+
 import { BackendService } from '../../services/app.backend'
 import { TranslationService } from '../../services/app.translation'
 import { ToastService } from '../../services/app.toasts'
@@ -65,7 +67,7 @@ export class EditProfile /*implements OnInit*/ {
       Validators.minLength(6)
     ])]
   })
-  
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private server: BackendService, private translationService: TranslationService, private formBuilder: FormBuilder, private storage: Storage, private toasts: ToastService, public events: Events) {
     this.selectedItem = navParams.get('item');
   }
