@@ -1,6 +1,6 @@
 include ../../../logmaster-common-mixins.pug
 
-+espressoNavbar(true)
++espressoNavbar(true, "{{log.log_name}}")
 
 ion-content
   log-header([log]="logHeaderData")

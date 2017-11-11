@@ -5,9 +5,14 @@ import { Platform, NavParams, ViewController } from 'ionic-angular'
 
 import { InventoryItem } from '../interfaces/gmp.packing.scale.calibration.inventory.interface'
 
+import { BackendService } from '../../../../services/app.backend'
+
 @Component({
   selector: 'gmp-packing-scale-calibration-add-item',
-  templateUrl: './gmp.packing.scale.calibration.add.item.html'
+  templateUrl: './gmp.packing.scale.calibration.add.item.html',
+  providers: [
+    BackendService
+  ]
 })
 
 export class GMPPackingScaleCalibrationAddItemComponent implements OnInit {
@@ -15,7 +20,7 @@ export class GMPPackingScaleCalibrationAddItemComponent implements OnInit {
 
   newItem: FormGroup = new FormBuilder().group({})
 
-  constructor(public platform: Platform, public params: NavParams, public viewCtrl: ViewController, private _fb: FormBuilder){
+  constructor(public platform: Platform, public params: NavParams, public viewCtrl: ViewController, private _fb: FormBuilder, public server: BackendService){
 
   }
 
@@ -35,8 +40,18 @@ export class GMPPackingScaleCalibrationAddItemComponent implements OnInit {
 
   addItem(){
     if(this.newItem.valid){
-      let data: {type:number, item:InventoryItem} = {type:this.newItem.value.type,item:{ id: 90, is_active: 1, name: this.newItem.value.name, order: 0 }}
-      this.viewCtrl.dismiss(data)
+      let data: {type:number, item:InventoryItem} = {type:this.newItem.value.type,item:{ id: 0, is_active: 1, name: this.newItem.value.name, order: 0 }}
+      let item = new FormData()
+      item.append("type_id", "" + data.type)
+      item.append("scale_name", data.item.name)
+      this.server.update(
+        'add-gmp-packing-scale-calibration',
+        item,
+        (response: any) => {
+          data.item.id = response.data
+          this.viewCtrl.dismiss(data)
+        }
+      )
     } else {
       console.log("New item not valid")
     }

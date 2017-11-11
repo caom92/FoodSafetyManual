@@ -5,7 +5,7 @@ import { Storage } from '@ionic/storage'
 
 import { Language } from 'angular-l10n'
 
-import { GMPPackingPreopReportComponent } from '../reports/gmp-packing-preop/report/gmp.packing.preop.report'
+import { NavbarPageComponent } from '../super-components/navbar.component'
 
 import { GMPPackingScaleCalibrationInventoryComponent } from '../inventories/gmp-packing-scale-calibration/inventory/gmp.packing.scale.calibration.inventory'
 
@@ -22,12 +22,7 @@ import { ToastService } from '../../services/app.toasts'
     ToastService
   ]
 })
-export class EditProfile /*implements OnInit*/ {
-  @ViewChild('zone_select') zone_select: Select;
-  @ViewChild('language_select') language_select: Select;
-  @Language() lang: string
-
-  selectedItem: any
+export class EditProfile extends NavbarPageComponent /*implements OnInit*/ {
   username: string = ""
   employeeID: string = ""
   realname: string = ""
@@ -68,8 +63,8 @@ export class EditProfile /*implements OnInit*/ {
     ])]
   })
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private server: BackendService, private translationService: TranslationService, private formBuilder: FormBuilder, private storage: Storage, private toasts: ToastService, public events: Events) {
-    this.selectedItem = navParams.get('item');
+  constructor(public navCtrl: NavController, public navParams: NavParams, private server: BackendService, public translationService: TranslationService, private formBuilder: FormBuilder, private storage: Storage, private toasts: ToastService, public events: Events) {
+    super(translationService, events)
   }
 
   ionViewWillEnter() {
@@ -149,34 +144,5 @@ export class EditProfile /*implements OnInit*/ {
         }
       }
     )
-  }
-
-  isEnglish(){
-    return this.lang == "en"
-  }
-
-  isSpanish(){
-    return this.lang == "es"
-  }
-
-  isDirector(){
-    return localStorage["__mydb/_ionickv/role_name"] == '"Director"';
-  }
-
-  openZoneSelector() {
-    this.zone_select.open();
-  }
-
-  openLanguageSelector() {
-    this.language_select.open();
-  }
-
-  onLanguageChange(selectedValue) {
-    this.selectLocale(selectedValue);
-    this.events.publish('language:changed', selectedValue, Date.now());
-  }
-
-  selectLocale(lang) {
-    this.translationService.selectLanguage(lang);
   }
 }

@@ -7,6 +7,8 @@ import { HideFabDirective } from '../../../../directives/hide.fab'
 
 import { GMPPackingScaleCalibrationAddItemComponent } from '../add-item/gmp.packing.scale.calibration.add.item'
 
+import { BackendService } from '../../../../services/app.backend'
+
 @Component({
   selector: 'gmp-packing-scale-calibration-inventory',
   templateUrl: './gmp.packing.scale.calibration.inventory.html'
@@ -14,11 +16,13 @@ import { GMPPackingScaleCalibrationAddItemComponent } from '../add-item/gmp.pack
 
 export class GMPPackingScaleCalibrationInventoryComponent implements OnInit {
   @Input()
-  inventory: Array<InventoryType>
+  inventory: Array<InventoryType> = []
+
+  emptyInventoryFlag: boolean = null
 
   scrollAllowed: boolean = true
 
-  constructor(public events: Events, public modalController: ModalController){
+  constructor(public events: Events, public modalController: ModalController, public server: BackendService){
 
   }
 
@@ -32,6 +36,15 @@ export class GMPPackingScaleCalibrationInventoryComponent implements OnInit {
       this.scrollAllowed = true
       console.log("Message: " + message)
     })
+
+    this.server.update(
+      'inventory-gmp-packing-scale-calibration',
+      new FormData(),
+      (response: any) => {
+        this.inventory = response.data
+        this.checkEmptyInventory()
+      }
+    )
   }
 
   addItem(){
@@ -47,9 +60,27 @@ export class GMPPackingScaleCalibrationInventoryComponent implements OnInit {
           if(this.inventory[type].id == data.type){
             data.item.order = this.inventory[type].items.length + 1
             this.inventory[type].items.push(data.item)
+            this.emptyInventoryFlag = false
           }
         }
       }
     })
+  }
+
+  checkEmptyInventory(){
+    let emptyCount = 0
+    for(let type of this.inventory){
+      if(type.items.length == 0){
+        emptyCount++
+      }
+    }
+
+    if(emptyCount == this.inventory.length){
+      this.emptyInventoryFlag = true
+      return true
+    } else {
+      this.emptyInventoryFlag = false
+      return false
+    }
   }
 }

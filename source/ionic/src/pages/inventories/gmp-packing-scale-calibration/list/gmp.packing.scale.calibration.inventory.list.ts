@@ -1,20 +1,28 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input, OnInit, OnDestroy } from '@angular/core'
 import { Events } from 'ionic-angular'
 
 import { InventoryType } from '../interfaces/gmp.packing.scale.calibration.inventory.interface'
 
 import { DragulaService } from 'ng2-dragula'
 
+import { BackendService } from '../../../../services/app.backend'
+
 @Component({
   selector: 'gmp-packing-scale-calibration-inventory-list',
-  templateUrl: './gmp.packing.scale.calibration.inventory.list.html'
+  templateUrl: './gmp.packing.scale.calibration.inventory.list.html',
+  providers: [
+    BackendService
+  ]
 })
 
-export class GMPPackingScaleCalibrationInventoryListComponent implements OnInit {
+export class GMPPackingScaleCalibrationInventoryListComponent implements OnInit, OnDestroy {
   @Input()
   type: InventoryType
 
-  constructor(private dragulaService: DragulaService, public events: Events) {
+  @Input()
+  printHeader: boolean = false
+
+  constructor(private dragulaService: DragulaService, public events: Events, public server: BackendService) {
     
   }
 
@@ -27,38 +35,37 @@ export class GMPPackingScaleCalibrationInventoryListComponent implements OnInit 
     })
 
     this.dragulaService.drag.subscribe((value) => {
-      //console.log(`drag: ${value[0]}`);
       this.events.publish("scroll:stop", "Scroll Stopped")
       this.onDrag(value.slice(1));
     })
 
     this.dragulaService.dragend.subscribe((value) => {
-      //console.log(`drag: ${value[0]}`);
       this.events.publish("scroll:start", "Scroll Started")
       this.onDrag(value.slice(1))
       let index = 1
       for(let item in this.type.items){
         this.type.items[item].order = index++
+        let reorderForm = new FormData()
+        reorderForm.append("item_id", "" + this.type.items[item].id)
+        reorderForm.append("position", "" + this.type.items[item].order)
+        this.server.update(
+          'reorder-gmp-packing-scale-calibration',
+          reorderForm,
+          (response: any) => {
+            console.log("Item reordered")
+          }
+        )
       }
-      console.log("New order")
-      console.log(this.type.items)
     })
+  }
 
-    /*this.dragulaService.drop.subscribe((value) => {
-      const [bagName, e, el] = value;
-      //console.log('id is:', e.dataset.id);
-      //console.log('order is:', e.dataset.order);
-      //console.log(el)
-      //console.log(value)
-      this.events.publish("scroll:start", "Scroll Started")
-      this.onDrop(value.slice(1))
-      let index = 1
-      for(let item in this.type.items){
-        this.type.items[item].order = index++
-      }
-      console.log("New order")
-      console.log(this.type.items)
-    })*/
+  ngOnDestroy(){
+    if (this.dragulaService.find(this.type.name) !== undefined){
+      console.warn("Dragula bag " + this.type.name + " destroyed")
+      this.dragulaService.destroy(this.type.name)
+    } else {
+      console.error("No Dragula bag present on gmp-packing-scale-calibration Inventory")
+    }
   }
 
   onDrop(args) {

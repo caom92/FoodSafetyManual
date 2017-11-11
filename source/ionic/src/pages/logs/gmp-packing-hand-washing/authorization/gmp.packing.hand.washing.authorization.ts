@@ -40,7 +40,6 @@ export class GMPPackingHandWashingAuthorizationComponent implements OnInit {
     zone_name: null,
     program_name: null,
     module_name: null,
-    log_name: null,
     date: null,
     created_by: null
   }
@@ -67,7 +66,6 @@ export class GMPPackingHandWashingAuthorizationComponent implements OnInit {
   assignHeaderData(){
     this.logHeaderData.created_by = this.log.created_by
     this.logHeaderData.date = this.log.creation_date
-    this.logHeaderData.log_name = this.log.log_name
     this.logHeaderData.module_name = this.log.module_name
     this.logHeaderData.program_name = this.log.program_name
     this.logHeaderData.zone_name = this.log.zone_name
