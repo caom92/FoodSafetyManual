@@ -49,11 +49,13 @@
     },
     "Titles": {
         "approve_log":"Approve log",
-        "reject_log":"Reject log"
+        "reject_log":"Reject log",
+        "add_item":"Add Item"
     },
     "Messages": {
         "approve_log":"Are you sure you want to approve this log?",
-        "reject_log":"Are you sure you want to reject this log?"
+        "reject_log":"Are you sure you want to reject this log?",
+        "add_item":"Are you sure you want to add this item?"
     },
     "Log": {
         "time": "Time",

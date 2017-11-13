@@ -1,10 +1,10 @@
-import { Component, ComponentFactoryResolver } from '@angular/core';
-import { NavController, NavParams, Select, Events, LoadingController } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
-import { DomSanitizer } from '@angular/platform-browser';
+import { Component, ComponentFactoryResolver } from '@angular/core'
+import { NavController, NavParams, Select, Events, LoadingController } from 'ionic-angular'
+import { Storage } from '@ionic/storage'
+import { DomSanitizer } from '@angular/platform-browser'
 import { FormBuilder, FormGroup, Validators } from "@angular/forms"
 
-import { Language, TranslationService as TService } from 'angular-l10n';
+import { Language, TranslationService as TService } from 'angular-l10n'
 
 import { Observable } from 'rxjs/Rx'
 

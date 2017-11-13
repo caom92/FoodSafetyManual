@@ -36,12 +36,10 @@ export class GMPPackingScaleCalibrationInventoryListComponent implements OnInit,
 
     this.dragulaService.drag.subscribe((value) => {
       this.events.publish("scroll:stop", "Scroll Stopped")
-      this.onDrag(value.slice(1));
     })
 
     this.dragulaService.dragend.subscribe((value) => {
       this.events.publish("scroll:start", "Scroll Started")
-      this.onDrag(value.slice(1))
       let index = 1
       for(let item in this.type.items){
         this.type.items[item].order = index++
@@ -66,15 +64,5 @@ export class GMPPackingScaleCalibrationInventoryListComponent implements OnInit,
     } else {
       console.error("No Dragula bag present on gmp-packing-scale-calibration Inventory")
     }
-  }
-
-  onDrop(args) {
-    let [e, el] = args;
-    // do something
-  }
-
-  onDrag(args) {
-    let [e, el] = args;
-    // do something
   }
 }

@@ -110,6 +110,10 @@ import { AuthorizationCardListComponent } from '../pages/authorizations/authoriz
 import { ManualTab } from '../pages/manual/manual'
 import { ReportTab } from '../pages/reports/reports'
 
+// Other Loaders
+
+import { InventoryLoaderComponent } from '../pages/inventories/inventories'
+
 import { TranslationModule, LocaleService, TranslationService } from 'angular-l10n';
 
 import { DynamicComponentContainerDirective } from '../directives/dynamic.container'
@@ -124,6 +128,7 @@ import { HideFabDirective } from "../directives/hide.fab";
     LogsPage,
     ManualTab,
     ReportTab,
+    InventoryLoaderComponent,
     DynamicComponentContainerDirective,
     HideFabDirective,
     LogHeaderComponent,
@@ -204,6 +209,7 @@ import { HideFabDirective } from "../directives/hide.fab";
     LogsPage,
     ManualTab,
     ReportTab,
+    InventoryLoaderComponent,
     LogHeaderComponent,
     AuthorizationCardComponent,
     AuthorizationCardListComponent,

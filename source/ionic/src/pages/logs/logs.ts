@@ -10,6 +10,8 @@ import { ToastService } from '../../services/app.toasts';
 
 import { GMPPackingPreopPage } from './gmp-packing-preop/gmp.packing.preop'
 
+import { InventoryLoaderComponent } from '../inventories/inventories'
+
 @Component({
   selector: 'logs',
   templateUrl: 'logs.html',
@@ -82,10 +84,8 @@ export class LogsPage {
           else{
             if(tempArray[item.title].suffix == "gmp-packing-scale-calibration"){
               console.log("ScaleCalibration paps")
+              this.navCtrl.push(InventoryLoaderComponent, {log_suffix: tempArray[item.title].suffix, log_title: item.title})
             }
-            console.log("No tan rápido, lince") // Aqui añadiremos una página genérica para cargar inventarios
-            console.log(tempArray)
-            console.log("-No tan rápido, lince") // Aqui añadiremos una página genérica para cargar inventarios
           }
         } else {
           this.toastService.showText("notAvailableInMobile")

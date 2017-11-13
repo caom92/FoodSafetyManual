@@ -49,11 +49,13 @@
     },
     "Titles": {
         "approve_log":"Aprobar bitácora",
-        "reject_log":"Rechazar bitácora"
+        "reject_log":"Rechazar bitácora",
+        "add_item":"Añadir elemento"
     },
     "Messages": {
         "approve_log":"¿Está seguro que desea autorizar esta bitácora?",
-        "reject_log":"¿Está seguro que desea rechazar esta bitácora?"
+        "reject_log":"¿Está seguro que desea rechazar esta bitácora?",
+        "add_item":"¿Está seguro de que desea añadir este elemento?"
     },
     "Log": {
         "time": "Hora",
