@@ -28,6 +28,8 @@ import { GMPPackingColdRoomTempLogComponent } from '../gmp-packing-cold-room-tem
   selector: 'gmp-packing-preop-page',
   templateUrl: 'gmp.packing.preop.html',
   providers: [
+    BackendService,
+    TranslationService,
     ToastService
   ]
 })

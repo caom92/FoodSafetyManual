@@ -32,30 +32,38 @@
     "Open Report": "Open Reports",
     "Start Date": "Select a start date",
     "Close Date": "Select an end date",
-    "Date":"Date",
-    "Employee":"Employee",
-    "Log Title":"Log",
-    "Approve":"Approve",
-    "Reject":"Reject",
-    "Open":"Open",
-    "NavbarTitles":{
-        "Authorizations":"Authorizations",
-        "Modules":"Modules",
-        "Logs":"Logs"
+    "Date": "Date",
+    "Employee": "Employee",
+    "Log Title": "Log",
+    "Approve": "Approve",
+    "Reject": "Reject",
+    "Open": "Open",
+    "Inventory": "Inventory",
+    "Manage Inventory": "Manage Inventory",
+    "Manage Areas": "Manage Areas",
+    "InventoryLists": {
+        "order":"Order",
+        "name":"Name",
+        "type":"Type"
+    },
+    "NavbarTitles": {
+        "Authorizations": "Authorizations",
+        "Modules": "Modules",
+        "Logs": "Logs"
     },
     "Options": {
         "accept": "Accept",
         "cancel": "Cancel"
     },
     "Titles": {
-        "approve_log":"Approve log",
-        "reject_log":"Reject log",
-        "add_item":"Add Item"
+        "approve_log": "Approve log",
+        "reject_log": "Reject log",
+        "add_item": "Add Item"
     },
     "Messages": {
-        "approve_log":"Are you sure you want to approve this log?",
-        "reject_log":"Are you sure you want to reject this log?",
-        "add_item":"Are you sure you want to add this item?"
+        "approve_log": "Are you sure you want to approve this log?",
+        "reject_log": "Are you sure you want to reject this log?",
+        "add_item": "Are you sure you want to add this item?"
     },
     "Log": {
         "time": "Time",
@@ -93,9 +101,9 @@
         "inventory_abbr": "Inv",
         "returned_good_conditions": "Returned on Good Conditions",
         "sanitized_lubricated": "Sanitized / Lubricated (Mineral Oil)",
-        "ice_point_test":"Ice point method thermometer test",
-        "thermo_calibration":"Thermometer Calibration",
-        "sanitized":"Sanitized",
-        "deficiencies_of":"Deficiencies noted of"
+        "ice_point_test": "Ice point method thermometer test",
+        "thermo_calibration": "Thermometer Calibration",
+        "sanitized": "Sanitized",
+        "deficiencies_of": "Deficiencies noted of"
     }
 }

@@ -30,6 +30,15 @@ import { GMPPackingPreopReportItemComponent } from '../pages/reports/gmp-packing
 import { GMPPackingPreopReportLoader } from '../pages/reports/gmp-packing-preop/loader/gmp.packing.preop.report.loader'
 import { GMPPackingPreopReportDisplayer } from '../pages/reports/gmp-packing-preop/displayer/gmp.packing.preop.report.displayer'
 
+import { GMPPackingPreopInventoryManagerComponent } from '../pages/inventories/gmp-packing-preop/manager/gmp.packing.preop.inventory.manager'
+import { GMPPackingPreopInventoryComponent } from '../pages/inventories/gmp-packing-preop/inventory/gmp.packing.preop.inventory'
+import { GMPPackingPreopInventoryItemComponent } from '../pages/inventories/gmp-packing-preop/item/gmp.packing.preop.inventory.item'
+import { GMPPackingPreopInventoryListComponent } from '../pages/inventories/gmp-packing-preop/list/gmp.packing.preop.inventory.list'
+import { GMPPackingPreopAreaInventoryComponent } from '../pages/inventories/gmp-packing-preop/area-inventory/gmp.packing.preop.area.inventory'
+import { GMPPackingPreopAreaInventoryAreaComponent } from '../pages/inventories/gmp-packing-preop/area/gmp.packing.preop.area.inventory.area'
+import { GMPPackingPreopAddAreaComponent } from '../pages/inventories/gmp-packing-preop/add-area/gmp.packing.preop.add.area'
+import { GMPPackingPreopAddItemComponent } from '../pages/inventories/gmp-packing-preop/add-item/gmp.packing.preop.add.item'
+
 // GAP Packing Preop
 
 import { GAPPackingPreopLogComponent } from '../pages/logs/gap-packing-preop/log/gap.packing.preop.log'
@@ -145,6 +154,14 @@ import { HideFabDirective } from "../directives/hide.fab";
     GMPPackingPreopReportItemComponent,
     GMPPackingPreopReportLoader,
     GMPPackingPreopReportDisplayer,
+    GMPPackingPreopInventoryManagerComponent,
+    GMPPackingPreopInventoryComponent,
+    GMPPackingPreopInventoryItemComponent,
+    GMPPackingPreopInventoryListComponent,
+    GMPPackingPreopAreaInventoryComponent,
+    GMPPackingPreopAreaInventoryAreaComponent,
+    GMPPackingPreopAddAreaComponent,
+    GMPPackingPreopAddItemComponent,
     GMPPackingHandWashingLogComponent,
     GMPPackingHandWashingItemComponent,
     GMPPackingHandWashingAuthorizationComponent,
@@ -224,6 +241,14 @@ import { HideFabDirective } from "../directives/hide.fab";
     GMPPackingPreopReportItemComponent,
     GMPPackingPreopReportLoader,
     GMPPackingPreopReportDisplayer,
+    GMPPackingPreopInventoryManagerComponent,
+    GMPPackingPreopInventoryComponent,
+    GMPPackingPreopInventoryItemComponent,
+    GMPPackingPreopInventoryListComponent,
+    GMPPackingPreopAreaInventoryComponent,
+    GMPPackingPreopAreaInventoryAreaComponent,
+    GMPPackingPreopAddAreaComponent,
+    GMPPackingPreopAddItemComponent,
     GMPPackingHandWashingLogComponent,
     GMPPackingHandWashingItemComponent,
     GMPPackingHandWashingAuthorizationComponent,

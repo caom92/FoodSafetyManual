@@ -1,17 +1,19 @@
 import { Component, Input, ViewChild, OnInit } from '@angular/core'
 import { Toggle } from 'ionic-angular'
 
+import { Language } from 'angular-l10n'
+
 import { Observable } from 'rxjs/Rx'
 
-import { InventoryItem } from '../interfaces/gmp.packing.scale.calibration.inventory.interface'
+import { InventoryItem } from '../interfaces/gmp.packing.preop.inventory.interface'
 
 import { BackendService } from '../../../../services/app.backend'
 import { ToastService } from '../../../../services/app.toasts'
 import { LoaderService } from '../../../../services/app.loaders'
 
 @Component({
-  selector: 'gmp-packing-scale-calibration-inventory-item',
-  templateUrl: './gmp.packing.scale.calibration.inventory.item.html',
+  selector: 'gmp-packing-preop-inventory-item',
+  templateUrl: './gmp.packing.preop.inventory.item.html',
   providers: [
     BackendService,
     ToastService,
@@ -19,14 +21,17 @@ import { LoaderService } from '../../../../services/app.loaders'
   ]
 })
 
-export class GMPPackingScaleCalibrationInventoryItemComponent implements OnInit {
+export class GMPPackingPreopInventoryItemComponent implements OnInit {
   @ViewChild('item_toggle') item_toggle: Toggle
 
   @Input()
   item: InventoryItem
 
   @Input()
-  type: string
+  type: {en: string, es: string}
+
+  @Language()
+  lang: string
 
   toggleError: boolean = false
   previousValue: boolean = null
@@ -51,7 +56,7 @@ export class GMPPackingScaleCalibrationInventoryItemComponent implements OnInit 
       item.append("id", "" + this.item.id)
       loaderToggle.present()
       this.server.update(
-        'toggle-gmp-packing-scale-calibration',
+        'toggle-gmp-packing-preop',
         item,
         (response: any) => {
           if(this.item_toggle.value){

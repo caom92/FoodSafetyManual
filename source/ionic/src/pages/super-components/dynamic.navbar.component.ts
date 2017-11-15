@@ -1,4 +1,4 @@
-import { ViewChild, ComponentFactoryResolver } from '@angular/core'
+import { Component, ViewChild, ComponentFactoryResolver } from '@angular/core'
 
 import { NavController, NavParams, Select, Events } from 'ionic-angular'
 
@@ -7,6 +7,12 @@ import { Language } from 'angular-l10n'
 import { TranslationService } from '../../services/app.translation'
 
 import { DynamicComponentResolver } from '../../app/dynamic.resolver'
+
+@Component({
+  providers:[
+    TranslationService
+  ]
+})
 
 export class DynamicNavbarPageComponent extends DynamicComponentResolver{
   @ViewChild('zone_select') zone_select: Select = null
@@ -38,8 +44,9 @@ export class DynamicNavbarPageComponent extends DynamicComponentResolver{
   }
 
   onLanguageChange(selectedValue) {
-    this.selectLocale(selectedValue);
-    this.events.publish('language:changed', selectedValue, Date.now());
+    this.selectLocale(selectedValue)
+    this.events.publish('language:changed', selectedValue, Date.now())
+    console.log("Language changed from DynamicNavbarPageComponent super-component")
   }
 
   selectLocale(lang) {

@@ -6,15 +6,15 @@ import { Observable } from 'rxjs/Rx'
 
 import { Language, TranslationService as TService } from 'angular-l10n'
 
-import { InventoryItem } from '../interfaces/gmp.packing.scale.calibration.inventory.interface'
+import { InventoryArea } from '../interfaces/gmp.packing.preop.area.inventory.interface'
 
 import { BackendService } from '../../../../services/app.backend'
 import { ToastService } from '../../../../services/app.toasts'
 import { LoaderService } from '../../../../services/app.loaders'
 
 @Component({
-  selector: 'gmp-packing-scale-calibration-add-item',
-  templateUrl: './gmp.packing.scale.calibration.add.item.html',
+  selector: 'gmp-packing-preop-add-area',
+  templateUrl: './gmp.packing.preop.add.area.html',
   providers: [
     BackendService,
     ToastService,
@@ -22,23 +22,21 @@ import { LoaderService } from '../../../../services/app.loaders'
   ]
 })
 
-export class GMPPackingScaleCalibrationAddItemComponent implements OnInit {
-  types: Array<any> =[]
+export class GMPPackingPreopAddAreaComponent implements OnInit {
+  @Language()
+  lang: string
 
-  newItem: FormGroup = new FormBuilder().group({})
+  newArea: FormGroup = new FormBuilder().group({})
 
   constructor(public platform: Platform, public params: NavParams, public viewCtrl: ViewController, public alertCtrl: AlertController, public ts: TService, private _fb: FormBuilder, public server: BackendService, private toastService: ToastService, public loaderService: LoaderService){
 
   }
 
   ngOnInit(){
-    this.types = this.params.get("type_array")
-    this.newItem = this._fb.group({
+    this.newArea = this._fb.group({
       name: ["", [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
-      type: [null,[Validators.required]]
     })
     console.log("Modal inicializado")
-    console.log(this.types)
   }
 
   dismiss() {
@@ -46,11 +44,11 @@ export class GMPPackingScaleCalibrationAddItemComponent implements OnInit {
   }
 
   addItem(){
-    if(this.newItem.valid){
+    if(this.newArea.valid){
       let loaderAdd = this.loaderService.koiLoader("")
       let confirmAdd = this.alertCtrl.create({
         title: this.ts.translate("Titles.add_item"),
-        message: this.ts.translate("Messages.add_item") + "<br><br>" + this.newItem.value.name,
+        message: this.ts.translate("Messages.add_item") + "<br><br>" + this.newArea.value.name,
         buttons: [
           {
           text: this.ts.translate("Options.cancel"),
@@ -62,18 +60,18 @@ export class GMPPackingScaleCalibrationAddItemComponent implements OnInit {
             text:  this.ts.translate("Options.accept"),
             handler: () => {
               loaderAdd.present()
-              let data: {type:number, item:InventoryItem} = {type:this.newItem.value.type,item:{ id: 0, is_active: 1, name: this.newItem.value.name, order: 0 }}
+              let data: {area:InventoryArea} = {area:{ id: 0, name: this.newArea.value.name, position: 0 }}
               let item = new FormData()
-              item.append("type_id", "" + data.type)
-              item.append("scale_name", data.item.name)
+              item.append("area_name", data.area.name)
               this.server.update(
-                'add-gmp-packing-scale-calibration',
+                'add-workplace-area-gmp-packing-preop',
                 item,
                 (response: any) => {
                   if(response.meta.return_code == 0){
-                    data.item.id = response.data
+                    data.area.id = response.data.id
+                    data.area.position = response.data.position
                     loaderAdd.dismiss()
-                    this.toastService.showText("itemAddSuccess")
+                    this.toastService.showText("areaAddSuccess")
                     this.viewCtrl.dismiss(data)
                   }
                 },
@@ -88,15 +86,6 @@ export class GMPPackingScaleCalibrationAddItemComponent implements OnInit {
         ]
       })
       confirmAdd.present()
-      
-      /*this.server.update(
-        'add-gmp-packing-scale-calibration',
-        item,
-        (response: any) => {
-          data.item.id = response.data
-          this.viewCtrl.dismiss(data)
-        }
-      )*/
     } else {
       console.log("New item not valid")
     }

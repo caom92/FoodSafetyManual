@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core'
 import { Events } from 'ionic-angular'
 
+import { Language } from 'angular-l10n'
+
 import { InventoryType } from '../interfaces/gmp.packing.scale.calibration.inventory.interface'
 
 import { DragulaService } from 'ng2-dragula'
@@ -16,6 +18,9 @@ import { BackendService } from '../../../../services/app.backend'
 })
 
 export class GMPPackingScaleCalibrationInventoryListComponent implements OnInit, OnDestroy {
+  @Language()
+  lang: string
+
   @Input()
   type: InventoryType
 
@@ -60,6 +65,8 @@ export class GMPPackingScaleCalibrationInventoryListComponent implements OnInit,
   ngOnDestroy(){
     if (this.dragulaService.find(this.type.name) !== undefined){
       console.warn("Dragula bag " + this.type.name + " destroyed")
+      this.dragulaService.drag.unsubscribe()
+      this.dragulaService.dragend.unsubscribe()
       this.dragulaService.destroy(this.type.name)
     } else {
       console.error("No Dragula bag present on gmp-packing-scale-calibration Inventory")

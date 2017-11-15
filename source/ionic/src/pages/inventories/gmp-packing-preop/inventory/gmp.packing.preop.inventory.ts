@@ -4,19 +4,19 @@ import { ModalController, Events, NavController } from 'ionic-angular'
 import { Language, TranslationService as TService } from 'angular-l10n'
 import { Observable } from 'rxjs/Rx'
 
-import { InventoryType } from '../interfaces/gmp.packing.scale.calibration.inventory.interface'
+import { InventoryType } from '../interfaces/gmp.packing.preop.inventory.interface'
 
 import { HideFabDirective } from '../../../../directives/hide.fab'
 
-import { GMPPackingScaleCalibrationAddItemComponent } from '../add-item/gmp.packing.scale.calibration.add.item'
+import { GMPPackingPreopAddItemComponent } from '../add-item/gmp.packing.preop.add.item'
 
 import { BackendService } from '../../../../services/app.backend'
 import { ToastService } from '../../../../services/app.toasts'
 import { LoaderService } from '../../../../services/app.loaders'
 
 @Component({
-  selector: 'gmp-packing-scale-calibration-inventory',
-  templateUrl: './gmp.packing.scale.calibration.inventory.html',
+  selector: 'gmp-packing-preop-inventory',
+  templateUrl: './gmp.packing.preop.inventory.html',
   providers: [
     BackendService,
     ToastService,
@@ -24,12 +24,16 @@ import { LoaderService } from '../../../../services/app.loaders'
   ]
 })
 
-export class GMPPackingScaleCalibrationInventoryComponent implements OnInit {
+export class GMPPackingPreopInventoryComponent implements OnInit {
   @Language()
   lang: string
 
   @Input()
-  inventory: Array<InventoryType> = []
+  inventory: Array<InventoryType> = [{id: null, en: null, es: null, inventory: []}]
+
+  areas: Array<{id:number,position:number,name:string}>
+
+  selectedArea: number = null
 
   emptyInventoryFlag: boolean = null
 
@@ -38,7 +42,7 @@ export class GMPPackingScaleCalibrationInventoryComponent implements OnInit {
   constructor(public events: Events, public modalController: ModalController, public server: BackendService, public navCtrl: NavController, public loaderService: LoaderService, public ts: TService, private toastService: ToastService){
 
   }
-
+  
   ngOnInit(){
     this.events.subscribe("scroll:stop", (message) => {
       this.scrollAllowed = false
@@ -50,11 +54,37 @@ export class GMPPackingScaleCalibrationInventoryComponent implements OnInit {
       console.log("Message: " + message)
     })
 
+    this.events.subscribe("area:add", (data) => {
+      this.areas.push(data)
+      this.areas.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)
+    })
+
     let loader = this.loaderService.koiLoader(this.ts.translate("Connecting to Server"))
     loader.present()
     this.server.update(
-      'inventory-gmp-packing-scale-calibration',
+      'get-areas-of-zone-gmp-packing-preop',
       new FormData(),
+      (response: any) => {
+        this.areas = response.data
+        loader.dismiss()
+      },
+      (error: any, caught: Observable<void>) => {
+        loader.dismiss()
+        this.toastService.showText("serverUnreachable")
+        this.navCtrl.pop()
+        return []
+      }
+    )
+  }
+
+  loadAreaInventory(event){
+    let loader = this.loaderService.koiLoader(this.ts.translate("Connecting to Server"))
+    loader.present()
+    let tempForm = new FormData()
+    tempForm.append("area_id", event)
+    this.server.update(
+      'get-items-of-area-gmp-packing-preop',
+      tempForm,
       (response: any) => {
         if (response.meta.return_code == 0) {
           if (response.data) {
@@ -78,18 +108,18 @@ export class GMPPackingScaleCalibrationInventoryComponent implements OnInit {
   }
 
   addItem(){
-    let type_array: Array<{id:number,name:string}> = []
+    let type_array: Array<{id:number,en:string,es:string}> = []
     for(let temp of this.inventory){
-      type_array.push({id:temp.id,name:temp.name})
+      type_array.push({id:temp.id,en:temp.en,es:temp.es})
     }
-    let modal = this.modalController.create(GMPPackingScaleCalibrationAddItemComponent, {type_array:type_array})
+    let modal = this.modalController.create(GMPPackingPreopAddItemComponent, {type_array:type_array,area_id:this.selectedArea})
     modal.present()
     modal.onDidDismiss(data => {
       if(data){
         for(let type in this.inventory){
           if(this.inventory[type].id == data.type){
-            data.item.order = this.inventory[type].items.length + 1
-            this.inventory[type].items.push(data.item)
+            data.item.position = this.inventory[type].inventory.length + 1
+            this.inventory[type].inventory.push(data.item)
             this.emptyInventoryFlag = false
           }
         }
@@ -99,8 +129,11 @@ export class GMPPackingScaleCalibrationInventoryComponent implements OnInit {
 
   checkEmptyInventory(){
     let emptyCount = 0
+    console.log("Inventory on checkEmptyInventory")
+    console.log(this.inventory)
+    
     for(let type of this.inventory){
-      if(type.items.length == 0){
+      if(type.inventory.length == 0){
         emptyCount++
       }
     }

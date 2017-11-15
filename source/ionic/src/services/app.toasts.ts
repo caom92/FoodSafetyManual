@@ -22,6 +22,9 @@ export class ToastService implements OnInit
       capturedLog: 'Se ha enviado la bitácora exitosamente',
       incompleteLog: 'Error; hay algunos campos sin llenar',
       serverUnreachable: 'Servidor inalcanzable',
+      itemAddSuccess: 'Elemento añadido con éxito',
+      itemChargeSuccess: 'Elemento activado exitosamente',
+      itemDischargeSuccess: 'Elemento desactivado exitosamente',
       serverTakingTooLong: 'Existe un error en la conexión o el servidor está tardando demasiado en responder',
       notAvailableInMobile: 'Esta característica aun no está disponible en la versión móvil'
     },
@@ -32,6 +35,9 @@ export class ToastService implements OnInit
       capturedLog: 'The log has been sent succesfully',
       incompleteLog: 'Error; some fields aren\'t filled',
       serverUnreachable: 'Server Unreachable',
+      itemAddSuccess: 'Item added successfully',
+      itemChargeSuccess: 'Item activated successfully',
+      itemDischargeSuccess: 'Item deactivated successfully',
       serverTakingTooLong: 'There is an error in your connection or the server is taking too long to respond',
       notAvailableInMobile: 'This feature is not yet available in the mobile version'
     }

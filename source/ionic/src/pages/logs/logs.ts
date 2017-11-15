@@ -82,7 +82,7 @@ export class LogsPage {
             this.navCtrl.push(GMPPackingPreopPage, {log_suffix: tempArray[item.title].suffix, log_title: item.title})
           }
           else{
-            if(tempArray[item.title].suffix == "gmp-packing-scale-calibration"){
+            if(tempArray[item.title].suffix == "gmp-packing-scale-calibration" || tempArray[item.title].suffix == "gmp-packing-preop"){
               console.log("ScaleCalibration paps")
               this.navCtrl.push(InventoryLoaderComponent, {log_suffix: tempArray[item.title].suffix, log_title: item.title})
             }

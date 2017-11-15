@@ -2,6 +2,8 @@ import { Component, ComponentFactoryResolver, OnInit } from '@angular/core'
 
 import { NavParams, Events } from 'ionic-angular'
 
+import { Language } from 'angular-l10n'
+
 import { Observable } from 'rxjs/Rx'
 
 import { BackendService } from '../../services/app.backend'
@@ -11,6 +13,8 @@ import { ToastService } from '../../services/app.toasts'
 import { DynamicNavbarPageComponent } from '../super-components/dynamic.navbar.component'
 
 import { GMPPackingScaleCalibrationInventoryComponent } from './gmp-packing-scale-calibration/inventory/gmp.packing.scale.calibration.inventory'
+import { GMPPackingPreopInventoryComponent } from './gmp-packing-preop/inventory/gmp.packing.preop.inventory'
+import { GMPPackingPreopInventoryManagerComponent } from './gmp-packing-preop/manager/gmp.packing.preop.inventory.manager'
 
 @Component({
   selector: 'inventories',
@@ -23,6 +27,9 @@ import { GMPPackingScaleCalibrationInventoryComponent } from './gmp-packing-scal
 })
 
 export class InventoryLoaderComponent extends DynamicNavbarPageComponent implements OnInit {
+  @Language()
+  lang: string
+
   loaderComponent: any = null
   inventorySuffix: string = ""
   title: string = ""
@@ -30,7 +37,7 @@ export class InventoryLoaderComponent extends DynamicNavbarPageComponent impleme
   constructor(public translationService: TranslationService, public events: Events, factoryResolver: ComponentFactoryResolver, public navParams: NavParams) {
     super(translationService, events, factoryResolver)
     this.inventorySuffix = this.navParams.get('log_suffix')
-    this.title = "Inventario " + this.navParams.get('log_title')
+    this.title = this.navParams.get('log_title')
   }
 
   ngOnInit(){
@@ -39,6 +46,10 @@ export class InventoryLoaderComponent extends DynamicNavbarPageComponent impleme
         parent: this
       }).instance
         break
+      case 'gmp-packing-preop': this.loaderComponent = this.loadComponent(GMPPackingPreopInventoryManagerComponent, {
+          parent: this
+        }).instance
+          break
     }
   }
 }

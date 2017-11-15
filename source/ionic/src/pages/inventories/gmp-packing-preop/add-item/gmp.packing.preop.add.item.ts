@@ -6,15 +6,15 @@ import { Observable } from 'rxjs/Rx'
 
 import { Language, TranslationService as TService } from 'angular-l10n'
 
-import { InventoryItem } from '../interfaces/gmp.packing.scale.calibration.inventory.interface'
+import { InventoryItem } from '../interfaces/gmp.packing.preop.inventory.interface'
 
 import { BackendService } from '../../../../services/app.backend'
 import { ToastService } from '../../../../services/app.toasts'
 import { LoaderService } from '../../../../services/app.loaders'
 
 @Component({
-  selector: 'gmp-packing-scale-calibration-add-item',
-  templateUrl: './gmp.packing.scale.calibration.add.item.html',
+  selector: 'gmp-packing-preop-add-item',
+  templateUrl: './gmp.packing.preop.add.item.html',
   providers: [
     BackendService,
     ToastService,
@@ -22,8 +22,12 @@ import { LoaderService } from '../../../../services/app.loaders'
   ]
 })
 
-export class GMPPackingScaleCalibrationAddItemComponent implements OnInit {
+export class GMPPackingPreopAddItemComponent implements OnInit {
+  @Language()
+  lang: string
+
   types: Array<any> =[]
+  area_id: number = null
 
   newItem: FormGroup = new FormBuilder().group({})
 
@@ -33,6 +37,7 @@ export class GMPPackingScaleCalibrationAddItemComponent implements OnInit {
 
   ngOnInit(){
     this.types = this.params.get("type_array")
+    this.area_id = this.params.get("area_id")
     this.newItem = this._fb.group({
       name: ["", [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
       type: [null,[Validators.required]]
@@ -62,12 +67,13 @@ export class GMPPackingScaleCalibrationAddItemComponent implements OnInit {
             text:  this.ts.translate("Options.accept"),
             handler: () => {
               loaderAdd.present()
-              let data: {type:number, item:InventoryItem} = {type:this.newItem.value.type,item:{ id: 0, is_active: 1, name: this.newItem.value.name, order: 0 }}
+              let data: {type:number, item:InventoryItem} = {type:this.newItem.value.type,item:{ id: 0, is_active: 1, name: this.newItem.value.name, position: 0 }}
               let item = new FormData()
               item.append("type_id", "" + data.type)
-              item.append("scale_name", data.item.name)
+              item.append("name", data.item.name)
+              item.append("area_id", "" + this.area_id)
               this.server.update(
-                'add-gmp-packing-scale-calibration',
+                'add-gmp-packing-preop',
                 item,
                 (response: any) => {
                   if(response.meta.return_code == 0){
@@ -90,7 +96,7 @@ export class GMPPackingScaleCalibrationAddItemComponent implements OnInit {
       confirmAdd.present()
       
       /*this.server.update(
-        'add-gmp-packing-scale-calibration',
+        'add-gmp-packing-preop',
         item,
         (response: any) => {
           data.item.id = response.data

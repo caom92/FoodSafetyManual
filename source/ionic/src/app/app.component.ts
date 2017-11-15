@@ -7,6 +7,7 @@ import { Storage } from '@ionic/storage'
 import { LocalNotifications } from '@ionic-native/local-notifications'
 
 import { Observable } from 'rxjs/Rx'
+import 'rxjs/add/operator/takeUntil'
 
 import { Language } from 'angular-l10n'
 
