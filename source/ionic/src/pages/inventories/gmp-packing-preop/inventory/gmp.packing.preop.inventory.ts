@@ -59,6 +59,14 @@ export class GMPPackingPreopInventoryComponent implements OnInit {
       this.areas.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)
     })
 
+    this.events.subscribe("area:edit", (oldData, newData) => {
+      console.log(oldData)
+      console.log(newData)
+      let index = this.areas.findIndex((x => x.id==oldData.id))
+      this.areas[index].name = newData.name
+      this.areas.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)
+    })
+
     let loader = this.loaderService.koiLoader(this.ts.translate("Connecting to Server"))
     loader.present()
     this.server.update(

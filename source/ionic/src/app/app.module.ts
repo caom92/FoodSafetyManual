@@ -37,6 +37,7 @@ import { GMPPackingPreopInventoryListComponent } from '../pages/inventories/gmp-
 import { GMPPackingPreopAreaInventoryComponent } from '../pages/inventories/gmp-packing-preop/area-inventory/gmp.packing.preop.area.inventory'
 import { GMPPackingPreopAreaInventoryAreaComponent } from '../pages/inventories/gmp-packing-preop/area/gmp.packing.preop.area.inventory.area'
 import { GMPPackingPreopAddAreaComponent } from '../pages/inventories/gmp-packing-preop/add-area/gmp.packing.preop.add.area'
+import { GMPPackingPreopEditAreaComponent } from '../pages/inventories/gmp-packing-preop/edit-area/gmp.packing.preop.edit.area'
 import { GMPPackingPreopAddItemComponent } from '../pages/inventories/gmp-packing-preop/add-item/gmp.packing.preop.add.item'
 
 // GAP Packing Preop
@@ -161,6 +162,7 @@ import { HideFabDirective } from "../directives/hide.fab";
     GMPPackingPreopAreaInventoryComponent,
     GMPPackingPreopAreaInventoryAreaComponent,
     GMPPackingPreopAddAreaComponent,
+    GMPPackingPreopEditAreaComponent,
     GMPPackingPreopAddItemComponent,
     GMPPackingHandWashingLogComponent,
     GMPPackingHandWashingItemComponent,
@@ -248,6 +250,7 @@ import { HideFabDirective } from "../directives/hide.fab";
     GMPPackingPreopAreaInventoryComponent,
     GMPPackingPreopAreaInventoryAreaComponent,
     GMPPackingPreopAddAreaComponent,
+    GMPPackingPreopEditAreaComponent,
     GMPPackingPreopAddItemComponent,
     GMPPackingHandWashingLogComponent,
     GMPPackingHandWashingItemComponent,
