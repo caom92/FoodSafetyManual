@@ -92,6 +92,7 @@ export class HomePage implements OnInit {
               user_id => {
                 console.log(user_id)
                 if(user_id != null){
+                  this.events.publish('user:loggedIn', Date.now(), this.lang)
                   this.app.getRootNav().setRoot(EditProfile)
                   this.enableLocalizedMenu()
                 }

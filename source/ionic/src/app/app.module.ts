@@ -122,6 +122,8 @@ import { ReportTab } from '../pages/reports/reports'
 
 // Other Loaders
 
+import { ManualUploadComponent } from '../pages/manual/manual-upload/manual.upload'
+
 import { InventoryLoaderComponent } from '../pages/inventories/inventories'
 
 import { TranslationModule, LocaleService, TranslationService } from 'angular-l10n';
@@ -137,6 +139,7 @@ import { HideFabDirective } from "../directives/hide.fab";
     ModulesPage,
     LogsPage,
     ManualTab,
+    ManualUploadComponent,
     ReportTab,
     InventoryLoaderComponent,
     DynamicComponentContainerDirective,
@@ -227,6 +230,7 @@ import { HideFabDirective } from "../directives/hide.fab";
     ModulesPage,
     LogsPage,
     ManualTab,
+    ManualUploadComponent,
     ReportTab,
     InventoryLoaderComponent,
     LogHeaderComponent,

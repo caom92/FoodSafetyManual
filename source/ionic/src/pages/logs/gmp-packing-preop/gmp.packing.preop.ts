@@ -160,6 +160,7 @@ export class GMPPackingPreopPage implements OnInit {
           if (response.meta.return_code == 0) {
             if (response.data) {
               this.manualSource.manualSource = response.data.manual_location + zone_name.toLowerCase() + "/"
+              this.manualSource.logSuffix = this.log_suffix
             }
           } else {
             
@@ -170,8 +171,6 @@ export class GMPPackingPreopPage implements OnInit {
         }
       )
     })
-
-    //this.manualSource.manualSource = "gmp/packing/preop/law/"
   }
 
   presentLoadingCustom() {

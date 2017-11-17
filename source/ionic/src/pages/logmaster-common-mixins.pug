@@ -43,6 +43,12 @@ mixin espressoNavbar(isConnected, title)
         if isConnected
           button(ion-button, icon-24, clear, color='light', (click)='openZoneSelector()', [hidden]='!isDirector()')
             ion-icon(name='map')
+          button(ion-button, icon-24, clear, color='light')
+            ion-icon(name='clipboard')
+              ion-badge(*ngIf='pendingLogs > 0 && pendingLogs < 10', color='danger', class='notifications_badge')
+                span() {{pendingLogs}}
+              ion-badge(*ngIf='pendingLogs >= 10', color='danger', class='notifications_badge') 
+                span() 9+
         button(ion-button, icon-24, clear, color='light', (click)='openLanguageSelector()')
           ion-icon(name='globe')
 

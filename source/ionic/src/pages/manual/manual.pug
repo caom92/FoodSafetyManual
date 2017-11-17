@@ -1,2 +1,5 @@
 ion-content
-  iframe([src]='manualDirectory', allowfullscreen, webkitallowfullscreen, width='100%', height='100%')
+  iframe([src]='manualDirectory', width='100%', height='100%')
+  ion-fab(bottom, right, [hidden]='true')
+    button(ion-fab, color='open', (click)='openUploadModal()')
+      ion-icon(name='add')

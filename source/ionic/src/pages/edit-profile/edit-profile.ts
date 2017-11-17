@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core'
+import { Component, ViewChild } from '@angular/core'
 import { NavController, NavParams, Select, Events } from 'ionic-angular'
 import { FormBuilder, FormGroup, Validators } from "@angular/forms"
 import { Storage } from '@ionic/storage'
@@ -22,11 +22,11 @@ import { ToastService } from '../../services/app.toasts'
     ToastService
   ]
 })
-export class EditProfile extends NavbarPageComponent /*implements OnInit*/ {
+
+export class EditProfile extends NavbarPageComponent {
   username: string = ""
   employeeID: string = ""
   realname: string = ""
-  lstorage: string
 
   // Configuramos el formulario con valores iniciales vacios y las reglas de 
   // validacion correspondientes
@@ -68,21 +68,6 @@ export class EditProfile extends NavbarPageComponent /*implements OnInit*/ {
   }
 
   ionViewWillEnter() {
-    this.storage.get("privileges").then(
-      data => {
-        console.log("Resultado de la promesa")
-        console.log(JSON.parse(data))
-        console.log("Fin resultado de la promesa")
-      },
-      error => {
-        console.log("Error")
-      }
-    )
-
-    this.events.publish('user:loggedIn', Date.now(), this.lang);
-
-    this.lstorage = JSON.stringify(localStorage)
-
     this.storage.get('login_name').then((login_name) => {
       this.username = login_name;
     })

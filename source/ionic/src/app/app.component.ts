@@ -39,12 +39,12 @@ export class MyApp implements AfterViewInit {
   menuLangEn: boolean = this.lang == "en"
   menuLangEs: boolean = this.lang == "es"
 
-  pages_en: Array<{title: string, component: any, icon: string}>
-  pages_es: Array<{title: string, component: any, icon: string}>
-  adminPages_en: Array<{title: string, component: any, icon: string}>
-  adminPages_es: Array<{title: string, component: any, icon: string}>
-  programPages: Array<{title: string, component: any, icon: string, code: string, target: string}>
-  inventoryPages: Array<{title: string, component: any, icon: string, code: string, target: string}>
+  pages_en: Array<{ title: string, component: any, icon: string }>
+  pages_es: Array<{ title: string, component: any, icon: string }>
+  adminPages_en: Array<{ title: string, component: any, icon: string }>
+  adminPages_es: Array<{ title: string, component: any, icon: string }>
+  programPages: Array<{ title: string, component: any, icon: string, code: string, target: string }>
+  inventoryPages: Array<{ title: string, component: any, icon: string, code: string, target: string }>
   isAdminFlag: boolean = false
   isSupervisorFlag: boolean = false
   pendingAuthorizations: number = null
@@ -61,16 +61,24 @@ export class MyApp implements AfterViewInit {
     // permiten mostrar los menús y botones correspondientes a los permisos
     // y roles del usuario conectado
     events.subscribe("user:loggedIn", (time, lang) => {
+      console.error("USER LOGGED IN")
       this.assignRoleFlags()
       this.updatePermissions()
       this.updateInventories()
-      this.lang = lang
+      if(lang == "en" || lang == "es"){
+        this.lang = lang
+      }
       this.menuLangEn = this.lang == "en"
       this.menuLangEs = this.lang == "es"
       this.checkPendingAuthorizations()
-      if(this.isSupervisorFlag || true){
+      /*if(this.isSupervisorFlag || true){
         this.bindAuthorizationsChecking()
-      }
+        this.bindPendingLogProcessing()
+      }*/
+    })
+
+    events.subscribe("user:loggedOut", (time) => {
+
     })
 
     // En caso de cambio de idioma, se debe cambiar el idioma del menu lateral
@@ -127,19 +135,19 @@ export class MyApp implements AfterViewInit {
    * Actualiza el arreglo de programas que pueden ser seleccionados por el
    * usuario, dependiendo de sus permisos
    */
-  updatePermissions(){
+  updatePermissions() {
     this.programPages = []
     this.storage.get("privileges").then(
       data => {
         console.log("Privilegios del usuario conectado")
         console.log(JSON.parse(data))
         data = JSON.parse(data)
-        if(data){
-          if(data.zones){
+        if (data) {
+          if (data.zones) {
             console.log(data.zones[0])
             console.log("Programas")
-            for(var program of data.zones[0].programs){
-              this.programPages.push({title: program.name, component: EditProfile, icon:"build", code: program.name, target: "log"})
+            for (var program of data.zones[0].programs) {
+              this.programPages.push({ title: program.name, component: EditProfile, icon: "build", code: program.name, target: "log" })
             }
           }
         }
@@ -151,24 +159,24 @@ export class MyApp implements AfterViewInit {
    * Actualiza el arreglo de programas que pueden ser seleccionados por los supervisores,
    * siempre y cuando estos cuenten con inventarios editables
    */
-  updateInventories(){
+  updateInventories() {
     console.log("Update Inventories called")
     this.inventoryPages = []
     this.storage.get("role_name").then(
       role_name => {
-        if(role_name == "Supervisor"){
+        if (role_name == "Supervisor") {
           console.log("IM A SUPERVISOR, LOOK AT ME")
           this.storage.get("privileges").then(
             data => {
               console.log("Privilegios del usuario conectado")
               console.log(JSON.parse(data))
               data = JSON.parse(data)
-              if(data){
-                if(data.zones){
+              if (data) {
+                if (data.zones) {
                   console.log(data.zones[0])
                   console.log("Programas")
-                  for(var program of data.zones[0].programs){
-                    this.inventoryPages.push({title: program.name, component: EditProfile, icon:"list", code: program.name, target: "inventory"})
+                  for (var program of data.zones[0].programs) {
+                    this.inventoryPages.push({ title: program.name, component: EditProfile, icon: "list", code: program.name, target: "inventory" })
                   }
                 }
               }
@@ -189,7 +197,7 @@ export class MyApp implements AfterViewInit {
     this.updateInventories()
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.storage.get("lang").then(
       lang => {
         console.log("Lang in storage: " + lang)
@@ -206,14 +214,14 @@ export class MyApp implements AfterViewInit {
     )
   }
 
-  bindAuthorizationsChecking(){
+  bindAuthorizationsChecking() {
     console.log("bindAuthorizationsChecking")
     Observable.interval(60000).subscribe(x => {
       this.checkPendingAuthorizations()
     })
   }
 
-  checkPendingAuthorizations(){
+  checkPendingAuthorizations() {
     this.server.update(
       'get-num-pending-logs',
       new FormData,
@@ -223,7 +231,104 @@ export class MyApp implements AfterViewInit {
       }
     )
   }
-  
+
+  bindPendingLogProcessing() {
+    let interval = 5000
+    console.log("Checking for pending logs on " + interval + "intervals")
+    Observable.interval(interval).subscribe(x => {
+      this.events.publish("pendingLog:add", null)
+      //this.processPendingLog()
+    })
+  }
+
+  processPendingLog() {
+    this.storage.get("pendingLogQueue").then((logs) => {
+      if (logs != null && logs != undefined && Array.isArray(logs)) {
+        if(logs.length > 0){
+          let logToProcess = logs.shift()
+          console.error("Logs con 1 elemento menos")
+          console.error(logs)
+          this.storage.set("pendingLogQueue", logs)
+          console.log("Next object in queue: ")
+          console.log(logToProcess)
+          this.sendLog(logToProcess.log, logToProcess.service)
+          //logs.push(logToProcess)
+          //this.storage.set("pendingLogQueue", logs)
+        } else {
+          console.log("No pending Logs")  
+        }
+      } else {
+        console.log("No pending Logs")
+      }
+    })
+  }
+
+  sendLog(log: any, service: string) {
+    let form_data = new FormData()
+    let filled_log = log
+    let flatObj = this.flatten(filled_log)
+
+    for (let key in flatObj) {
+      let tempKey = key + "]"
+      tempKey = tempKey.replace(']', '')
+      if (flatObj[key] == true) {
+        form_data.append(tempKey, "1")
+      } else if (flatObj[key] == false) {
+        form_data.append(tempKey, "0")
+      } else {
+        form_data.append(tempKey, flatObj[key])
+      }
+    }
+
+    this.server.update(
+      service,
+      form_data,
+      (response: any) => {
+        console.log("BITACORA EN LA COLA ENVIADA")
+        console.log(response)
+        console.log(JSON.stringify(response))
+      }, (error: any, caught: Observable<void>) => {
+        console.log("BITACORA EN LA COLA FALLADA")
+        this.storage.get("pendingLogQueue").then((val) => {
+          let pendingLog: { service: string, log: any } = { service: null, log: null }
+          pendingLog.service = service
+          pendingLog.log = filled_log
+          if (val == null || val == undefined) {
+            this.storage.set("pendingLogQueue", [pendingLog])
+          } else {
+            val.push(pendingLog)
+            this.storage.set("pendingLogQueue", val)
+          }
+        })
+        return []
+      }
+    )
+  }
+
+  flatten(data) {
+    var result = {}
+
+    function recurse(cur, prop) {
+      if (Object(cur) !== cur) {
+        result[prop] = cur
+      } else if (Array.isArray(cur)) {
+        for (var i = 0, l = cur.length; i < l; i++)
+          recurse(cur[i], prop + "][" + i + "][")
+        if (l == 0) result[prop] = []
+      } else {
+        var isEmpty = true
+        for (var p in cur) {
+          isEmpty = false
+          recurse(cur[p], prop ? prop + p : p)
+        }
+        if (isEmpty && prop) result[prop] = {}
+      }
+    }
+
+    recurse(data, "")
+    return result
+  }
+
   /**
   * @input { title: string, component: any, icon: string } page
   */
@@ -232,7 +337,7 @@ export class MyApp implements AfterViewInit {
     this.nav.push(page.component)
   }
 
-  openAuthorizations(){
+  openAuthorizations() {
     this.nav.push(AuthorizationCardListComponent)
     this.localNotifications.schedule({
       id: 1,
@@ -241,22 +346,22 @@ export class MyApp implements AfterViewInit {
     })
   }
 
-  openModules(event, program){
+  openModules(event, program) {
     this.nav.push(ModulesPage, {
       program: program
     })
   }
 
-  openInventories(event, program){
+  openInventories(event, program) {
     this.nav.push(ModulesPage, {
       program: program
     })
   }
 
-  closeSession(){
+  closeSession() {
     this.server.update(
-      'logout', 
-      new FormData(), 
+      'logout',
+      new FormData(),
       (response: any) => {
         console.log(response)
         console.log(response.meta.return_code)
@@ -268,6 +373,7 @@ export class MyApp implements AfterViewInit {
           this.nav.setRoot(HomePage)
           this.menuCtrl.enable(false, "es")
           this.menuCtrl.enable(false, "en")
+          this.events.publish("user:loggedOut")
           this.storage.get("lang").then(
             lang => {
               this.storage.clear()
@@ -297,7 +403,7 @@ export class MyApp implements AfterViewInit {
     )
   }
 
-  isAdmin(){
+  isAdmin() {
     /*this.storage.get("role_name").then(
       data => {
         //this.isAdminFlag = (data == "Administrator")
@@ -305,29 +411,39 @@ export class MyApp implements AfterViewInit {
     )*/
   }
 
-  assignRoleFlags(){
+  assignRoleFlags() {
     this.storage.get("role_name").then(
       data => {
-        if(data == "Administrator")
+        if (data == "Administrator") {
+          console.error("ADMINISTRADOR CONECTADO")
           this.isAdminFlag = true
-        else
+        } else {
           this.isAdminFlag = false
+        }
 
-        if(data == "Supervisor")
+        if (data == "Supervisor") {
           this.isSupervisorFlag = true
-        else
+          console.error("SUPERVISOR CONECTADO")
+          this.bindAuthorizationsChecking()
+        } else {
           this.isSupervisorFlag = false
+        }
+
+        if (data == "Employee") {
+          console.error("EMPLEADO CONECTADO")
+          this.bindPendingLogProcessing()
+        }
       }
     )
   }
 
-  isEnglish(){
+  isEnglish() {
     this.menuLangEn = true
     this.menuLangEs = false
     return this.lang == "en"
   }
 
-  isSpanish(){
+  isSpanish() {
     this.menuLangEn = false
     this.menuLangEs = true
     return this.lang == "es"
