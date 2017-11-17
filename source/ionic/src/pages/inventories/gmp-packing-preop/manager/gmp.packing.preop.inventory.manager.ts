@@ -28,18 +28,20 @@ import { GMPPackingPreopAreaInventoryComponent } from '../area-inventory/gmp.pac
 })
 
 export class GMPPackingPreopInventoryManagerComponent extends NavbarPageComponent implements OnInit {
-  @Language()
-  lang: string
+  @Language() lang: string
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public translationService: TranslationService, public events: Events, private storage: Storage, private server: BackendService, public loadingCtrl: LoadingController, private toastService: ToastService, public ts: TService) {
-    super(translationService, events)
-    console.log(this.lang)
+  constructor(public navCtrl: NavController, public navParams: NavParams, public translationService: TranslationService, public events: Events, public storage: Storage, private server: BackendService, public loadingCtrl: LoadingController, private toastService: ToastService, public ts: TService) {
+    super(translationService, events, storage)
   }
   
   tab1Root: any
   tab2Root: any
 
   ngOnInit(){
+    // Siempre se llama primero al ngOnInit del padre para suscribirse a la situación actual
+    // de los pendientes
+    super.ngOnInit()
+
     // Asignamos los componentes de inventario de elementos y de áreas a las pestañas
     this.tab1Root = GMPPackingPreopInventoryComponent
     this.tab2Root = GMPPackingPreopAreaInventoryComponent

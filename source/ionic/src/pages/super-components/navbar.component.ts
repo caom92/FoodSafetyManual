@@ -1,6 +1,7 @@
 import { ViewChild, OnInit } from '@angular/core'
 
 import { NavController, NavParams, Select, Events } from 'ionic-angular'
+import { Storage } from '@ionic/storage'
 
 import { Language } from 'angular-l10n'
 
@@ -13,33 +14,41 @@ export class NavbarPageComponent implements OnInit {
 
   pendingLogs: number = 0
 
-  constructor(public translationService: TranslationService, public events: Events) {
-    
+  constructor(public translationService: TranslationService, public events: Events, public storage: Storage) {
+
   }
 
-  ngOnInit(){
-    this.events.subscribe("pendingLog:add", (val)=>{
-      this.pendingLogs++
-    })
+  ngOnInit() {
+    this.updatePendingLogs()
 
-    this.events.subscribe("pendingLog:total", (val)=>{
+    this.events.subscribe("pendingLog:total", (val) => {
       this.pendingLogs = val
     })
+  }
 
-    this.events.subscribe("pendingLog:substract", (val)=>{
-      this.pendingLogs--
+  updatePendingLogs(){
+    this.storage.get("user_id").then(user_id => {
+      if(user_id != null && user_id != undefined){
+        this.storage.get("pendingLogQueue").then(pending => {
+          if(pending != undefined && pending != null){
+            if(pending[user_id] != null && pending[user_id] != undefined){
+              this.pendingLogs = pending[user_id].length
+            }
+          }
+        })
+      }
     })
   }
 
-  isEnglish(){
+  isEnglish() {
     return this.lang == "en"
   }
 
-  isSpanish(){
+  isSpanish() {
     return this.lang == "es"
   }
 
-  isDirector(){
+  isDirector() {
     return localStorage["__mydb/_ionickv/role_name"] == '"Director"';
   }
 

@@ -12,6 +12,8 @@ import { BackendService } from '../../services/app.backend'
 import { TranslationService } from '../../services/app.translation'
 import { ToastService } from '../../services/app.toasts'
 
+import { NavbarPageComponent } from '../super-components/navbar.component'
+
 import { EditProfile } from '../edit-profile/edit-profile'
 
 @Component({
@@ -23,18 +25,15 @@ import { EditProfile } from '../edit-profile/edit-profile'
     ToastService
   ]
 })
-export class HomePage implements OnInit {
-  //@ViewChild(Nav) nav: Nav;
-  @ViewChild('zone_select') zone_select: Select;
-  @ViewChild('language_select') language_select: Select;
+export class HomePage extends NavbarPageComponent implements OnInit {
   @Language() lang: string;
 
   nav: Nav
   userLogInInfo: FormGroup
   serverOnline: boolean = null
-  
-  constructor(public navCtrl: NavController, private server: BackendService, private translationService: TranslationService, private formBuilder: FormBuilder, private storage: Storage, protected app: App, public menuCtrl: MenuController, private toasts: ToastService, public events: Events) {
-    
+
+  constructor(public navCtrl: NavController, private server: BackendService, public translationService: TranslationService, private formBuilder: FormBuilder, public storage: Storage, protected app: App, public menuCtrl: MenuController, private toasts: ToastService, public events: Events) {
+    super(translationService, events, storage)
   }
 
   private mapUserDataToLocalStorage(userData) {
@@ -77,8 +76,8 @@ export class HomePage implements OnInit {
 
     // Revisar si el usuario se encuentra conectado
     this.server.update(
-      'check-session', 
-      new FormData(), 
+      'check-session',
+      new FormData(),
       (response: any) => {
         if (response.meta.return_code == 0) {
           if (!response.data) {
@@ -90,38 +89,14 @@ export class HomePage implements OnInit {
           } else {
             this.storage.get("user_id").then(
               user_id => {
-                console.log(user_id)
-                if(user_id != null){
+                // El usuario ya se encontraba conectado, así que se le da acceso a la aplicación
+                if (user_id != null) {
                   this.events.publish('user:loggedIn', Date.now(), this.lang)
                   this.app.getRootNav().setRoot(EditProfile)
                   this.enableLocalizedMenu()
                 }
               }
             )
-            /*this.menuCtrl.enable(true, "es")
-            this.menuCtrl.enable(true, "en")*/
-            // de lo contrario, permitimos la navegacion
-            /*localStorage.is_logged_in = true
-            this.home.roleName = localStorage.role_name
-            if (localStorage.role_name == 'Director') {
-              this.server.update(
-                'list-zones',
-                new FormData(),
-                (response: any) => {
-                  if (response.meta.return_code == 0) {
-                    this.home.zones = response.data
-                    this.home.displayZoneMenu()
-                  } else {
-                    // si algo ocurrio con la comunicacion con el servidor, 
-                    // desplegamos un mensaje de error al usuario
-                    this.toastManager.showServiceErrorText(
-                      'list-zones', 
-                      response.meta
-                    )
-                  }
-                }
-              )
-            }*/
           }
         } else {
           // si hubo un problema con la comunicacion con el servidor 
@@ -133,33 +108,17 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    super.ngOnInit()
     this.userLogInInfo = this.formBuilder.group({
-      username: [ null, Validators.compose([
+      username: [null, Validators.compose([
         Validators.required,
         Validators.minLength(3)
       ])],
-      password: [ null, Validators.compose([
+      password: [null, Validators.compose([
         Validators.required,
         Validators.minLength(6)
       ])]
     })
-  }
-
-  openZoneSelector() {
-    this.zone_select.open();
-  }
-
-  openLanguageSelector() {
-    this.language_select.open();
-  }
-
-  onLanguageChange(selectedValue) {
-    this.selectLocale(selectedValue);
-    this.events.publish('language:changed', selectedValue, Date.now());
-  }
-
-  selectLocale(lang) {
-    this.translationService.selectLanguage(lang);
   }
 
   // Esta funcion es invocada cuando el usuario hace clic en el boton de enviar
@@ -176,8 +135,8 @@ export class HomePage implements OnInit {
 
     // enviamos los datos al servidor
     this.server.update(
-      'login', 
-      formData, 
+      'login',
+      formData,
       (response: any) => {
         if (response.meta.return_code == 0) {
           toasts.showText("loggedIn");
@@ -201,7 +160,7 @@ export class HomePage implements OnInit {
     )
   }
 
-  checkServer(){
+  checkServer() {
     console.log("Check server again...")
     this.serverOnline = null
     this.server.update(
@@ -221,7 +180,7 @@ export class HomePage implements OnInit {
     )
   }
 
-  enableLocalizedMenu(){
+  enableLocalizedMenu() {
     this.storage.get("lang").then(
       lang => {
         console.log("Lang was set, reading value")
@@ -236,5 +195,13 @@ export class HomePage implements OnInit {
         this.menuCtrl.enable(true, this.lang)
       }
     )
+  }
+  
+  // Reimplementamos la función de cambio de idioma para indicarle a
+  // app.component que no debe de mostrar el sidenav al cambiar de idioma
+  // en la pantalla de inicio de sesión
+  onLanguageChange(selectedValue) {
+    this.selectLocale(selectedValue);
+    this.events.publish('language:changed', selectedValue, Date.now(), true);
   }
 }

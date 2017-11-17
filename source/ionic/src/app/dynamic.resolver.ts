@@ -22,8 +22,6 @@ export class DynamicComponentResolver
   //        creado
   // [out]  return: la instancia al componente creado 
   loadComponent(component: Type<any>, data: any): any {
-    console.log(component)
-    console.log(this.container)
     // primero instanciamos una fabrica para el componente a inyectar
     let factory = this.factoryResolver.resolveComponentFactory(component)
 

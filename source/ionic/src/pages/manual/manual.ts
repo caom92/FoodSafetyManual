@@ -29,7 +29,6 @@ export class ManualTab {
     //let urlBase = "http://manual.jfdc.tech/"
     let urlBase = "http://localhost/espresso/"
     this.manualDirectory = this.sanitizer.bypassSecurityTrustResourceUrl(urlBase + "external/ViewerJS/#../../" +  this.manualSource + "actual_manual.pdf")
-    //"gmp/packing/preop/law/"
   }
 
   openUploadModal(){

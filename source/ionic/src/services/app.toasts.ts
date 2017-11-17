@@ -127,14 +127,12 @@ export class ToastService implements OnInit
   }
 
   ngOnInit(){
-    console.log("ngOnInit in app.toasts.ts called")
     this.storage.get('lang').then(
       lang => {
-        console.log("Lang detected by toast service" + lang)
         if(lang == 'en' || lang == 'es'){
           this.lang = lang
         } else {
-          console.log("lang undefined")
+
           //console.log("Toast service changing language to es")
           this.lang = 'es'
           this.storage.set('lang', 'es')
@@ -147,7 +145,6 @@ export class ToastService implements OnInit
           duration: 3500,
           position: 'bottom'
         })
-        console.log("Lang completely undefined")
       }
     )
   }
@@ -159,8 +156,7 @@ export class ToastService implements OnInit
   //        desplegar
   showText(text: string) {
     // primero, recuperamos el idioma del sistema
-    let lang = this.lang //localStorage.lang
-    console.log("Idioma de toast showText " + this.lang)
+    let lang = this.lang
     var toast
 
     // luego revisamos si el texto ingresado corresponde a algun indice en la 
@@ -195,8 +191,7 @@ export class ToastService implements OnInit
   //        servicio
   showServiceErrorText(service: string, meta: any) {
     // primero recuperamos el idioma del sistema
-    let lang = this.lang //localStorage.lang
-    console.log("Idioma de toast showText " + this.lang)
+    let lang = this.lang
     var toast
 
     // luego recuperamos el codigo de error retornado por el servidor

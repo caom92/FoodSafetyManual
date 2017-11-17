@@ -24,7 +24,7 @@ export class LoaderService implements OnInit {
           <img class="spinner" src="assets/images/koi_spinner.png" alt="" width="240" height="240">
         </div>
         <div text-center>` + message + `</div>`
-    });
+    })
 
     return loading
   }

@@ -70,7 +70,6 @@ export class MyApp implements AfterViewInit {
       }
       this.menuLangEn = this.lang == "en"
       this.menuLangEs = this.lang == "es"
-      this.checkPendingAuthorizations()
       /*if(this.isSupervisorFlag || true){
         this.bindAuthorizationsChecking()
         this.bindPendingLogProcessing()
@@ -82,20 +81,18 @@ export class MyApp implements AfterViewInit {
     })
 
     // En caso de cambio de idioma, se debe cambiar el idioma del menu lateral
-    events.subscribe("language:changed", (lang, time) => {
+    events.subscribe("language:changed", (lang, time, hideSideMenu) => {
       this.lang = lang
-      this.menuLangEn = this.lang == "en"
-      this.menuLangEs = this.lang == "es"
+      if(hideSideMenu !== true){
+        this.menuLangEn = this.lang == "en"
+        this.menuLangEs = this.lang == "es"
+      }
       this.localNotifications.schedule({
         id: 1,
         text: 'Single ILocalNotification',
         at: new Date(new Date().getTime() + 1000)
       })
     })
-
-    /*events.subscribe("scroll:stop", (message) => {
-      console.log("Sienteme el pedazo")
-    })*/
 
     this.pages_en = [
       { title: 'Edit Profile', component: EditProfile, icon: "contact" }
@@ -139,13 +136,9 @@ export class MyApp implements AfterViewInit {
     this.programPages = []
     this.storage.get("privileges").then(
       data => {
-        console.log("Privilegios del usuario conectado")
-        console.log(JSON.parse(data))
         data = JSON.parse(data)
         if (data) {
           if (data.zones) {
-            console.log(data.zones[0])
-            console.log("Programas")
             for (var program of data.zones[0].programs) {
               this.programPages.push({ title: program.name, component: EditProfile, icon: "build", code: program.name, target: "log" })
             }
@@ -160,7 +153,6 @@ export class MyApp implements AfterViewInit {
    * siempre y cuando estos cuenten con inventarios editables
    */
   updateInventories() {
-    console.log("Update Inventories called")
     this.inventoryPages = []
     this.storage.get("role_name").then(
       role_name => {
@@ -168,13 +160,9 @@ export class MyApp implements AfterViewInit {
           console.log("IM A SUPERVISOR, LOOK AT ME")
           this.storage.get("privileges").then(
             data => {
-              console.log("Privilegios del usuario conectado")
-              console.log(JSON.parse(data))
               data = JSON.parse(data)
               if (data) {
                 if (data.zones) {
-                  console.log(data.zones[0])
-                  console.log("Programas")
                   for (var program of data.zones[0].programs) {
                     this.inventoryPages.push({ title: program.name, component: EditProfile, icon: "list", code: program.name, target: "inventory" })
                   }
@@ -232,8 +220,8 @@ export class MyApp implements AfterViewInit {
     )
   }
 
-  bindPendingLogProcessing() {
-    let interval = 5000
+  /*bindPendingLogProcessing() {
+    let interval = 500
     console.log("Checking for pending logs on " + interval + "intervals")
     Observable.interval(interval).subscribe(x => {
       this.events.publish("pendingLog:add", null)
@@ -327,7 +315,7 @@ export class MyApp implements AfterViewInit {
 
     recurse(data, "")
     return result
-  }
+  }*/
 
   /**
   * @input { title: string, component: any, icon: string } page
@@ -376,22 +364,32 @@ export class MyApp implements AfterViewInit {
           this.events.publish("user:loggedOut")
           this.storage.get("lang").then(
             lang => {
-              this.storage.clear()
-              this.storage.set("lang", lang)
-              this.translationService.selectLanguage(lang)
-              this.events.publish('language:changed', lang, Date.now());
-              console.log("Set lang before logout: " + lang)
-              console.log("Lang in storage: " + lang)
-              this.lang = lang
+              this.storage.get("pendingLogQueue").then(logQueue => {
+                this.storage.clear()
+                this.storage.set("lang", lang)
+                if(logQueue != null && logQueue != undefined){
+                  this.storage.set("pendingLogQueue", logQueue)
+                }
+                this.translationService.selectLanguage(lang)
+                this.events.publish('language:changed', lang, Date.now());
+                console.log("Set lang before logout: " + lang)
+                console.log("Lang in storage: " + lang)
+                this.lang = lang
+              })
             },
             error => {
-              this.lang = "es"
-              this.storage.clear()
-              this.storage.set("lang", this.lang)
-              this.translationService.selectLanguage(this.lang)
-              this.events.publish('language:changed', "es", Date.now());
-              console.log("Error, no lang setted")
-              console.log("Set lang before logout: " + this.lang)
+              this.storage.get("pendingLogQueue").then(logQueue => {
+                this.lang = "es"
+                this.storage.clear()
+                this.storage.set("lang", this.lang)
+                if(logQueue != null && logQueue != undefined){
+                  this.storage.set("pendingLogQueue", logQueue)
+                }
+                this.translationService.selectLanguage(this.lang)
+                this.events.publish('language:changed', "es", Date.now());
+                console.log("Error, no lang setted")
+                console.log("Set lang before logout: " + this.lang)
+              })
             }
           )
         } else {
@@ -403,19 +401,10 @@ export class MyApp implements AfterViewInit {
     )
   }
 
-  isAdmin() {
-    /*this.storage.get("role_name").then(
-      data => {
-        //this.isAdminFlag = (data == "Administrator")
-      }
-    )*/
-  }
-
   assignRoleFlags() {
     this.storage.get("role_name").then(
       data => {
         if (data == "Administrator") {
-          console.error("ADMINISTRADOR CONECTADO")
           this.isAdminFlag = true
         } else {
           this.isAdminFlag = false
@@ -423,15 +412,14 @@ export class MyApp implements AfterViewInit {
 
         if (data == "Supervisor") {
           this.isSupervisorFlag = true
-          console.error("SUPERVISOR CONECTADO")
+          this.checkPendingAuthorizations()
           this.bindAuthorizationsChecking()
         } else {
           this.isSupervisorFlag = false
         }
 
         if (data == "Employee") {
-          console.error("EMPLEADO CONECTADO")
-          this.bindPendingLogProcessing()
+          //this.bindPendingLogProcessing()
         }
       }
     )

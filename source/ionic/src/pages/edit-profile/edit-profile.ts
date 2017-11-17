@@ -24,6 +24,8 @@ import { ToastService } from '../../services/app.toasts'
 })
 
 export class EditProfile extends NavbarPageComponent {
+  @Language() lang: string
+
   username: string = ""
   employeeID: string = ""
   realname: string = ""
@@ -63,8 +65,8 @@ export class EditProfile extends NavbarPageComponent {
     ])]
   })
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private server: BackendService, public translationService: TranslationService, private formBuilder: FormBuilder, private storage: Storage, private toasts: ToastService, public events: Events) {
-    super(translationService, events)
+  constructor(public navCtrl: NavController, public navParams: NavParams, private server: BackendService, public translationService: TranslationService, private formBuilder: FormBuilder, public storage: Storage, private toasts: ToastService, public events: Events) {
+    super(translationService, events, storage)
   }
 
   ionViewWillEnter() {

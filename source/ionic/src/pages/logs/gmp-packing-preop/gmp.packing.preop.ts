@@ -9,11 +9,12 @@ import { Observable } from 'rxjs/Rx'
 import { BackendService } from '../../../services/app.backend'
 import { TranslationService } from '../../../services/app.translation'
 import { ToastService } from '../../../services/app.toasts'
+import { DateTimeService } from '../../../services/app.time'
 
 import { ManualTab } from '../../manual/manual'
 import { ReportTab } from '../../reports/reports'
 
-import { DateTimeService } from '../../../services/app.time'
+import { NavbarPageComponent } from '../../super-components/navbar.component'
 
 import { GMPPackingPreopLogComponent } from './log/gmp.packing.preop.log'
 import { GMPPackingHandWashingLogComponent } from '../gmp-packing-hand-washing/log/gmp.packing.hand.washing.log'
@@ -33,22 +34,19 @@ import { GMPPackingColdRoomTempLogComponent } from '../gmp-packing-cold-room-tem
     ToastService
   ]
 })
-export class GMPPackingPreopPage implements OnInit {
-  @ViewChild('zone_select') zone_select: Select
-  @ViewChild('language_select') language_select: Select
+
+export class GMPPackingPreopPage extends NavbarPageComponent implements OnInit {
   @Language() lang: string
 
   logTitle: string = ""
   log_suffix: string = ""
   isEmployeeFlag: boolean = false
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private translationService: TranslationService, public events: Events, private storage: Storage, private server: BackendService, public loadingCtrl: LoadingController, private toastService: ToastService, public ts: TService) {
-    console.log(this.manualSource)
-    console.log("PRINTING LOG SUFFIX")
+  constructor(public navCtrl: NavController, public navParams: NavParams, public translationService: TranslationService, public events: Events, public storage: Storage, private server: BackendService, public loadingCtrl: LoadingController, private toastService: ToastService, public ts: TService) {
+    super(translationService, events, storage)
     this.log_suffix = this.navParams.get('log_suffix')
     this.logTitle = this.navParams.get('log_title')
     this.reportData.log_suffix = this.navParams.get('log_suffix')
-    console.log(this.log_suffix)
   }
 
   logData: any = {}
@@ -60,6 +58,10 @@ export class GMPPackingPreopPage implements OnInit {
   tab3Root: any
 
   ngOnInit(){
+    // Siempre se llama primero al ngOnInit del padre para suscribirse a la situación actual
+    // de los pendientes
+    super.ngOnInit()
+
     this.tab1Root = ManualTab
     this.tab2Root = ReportTab
 
@@ -186,34 +188,5 @@ export class GMPPackingPreopPage implements OnInit {
     loading.present();
 
     return loading
-  }
-
-  isEnglish(){
-    return this.lang == "en"
-  }
-
-  isSpanish(){
-    return this.lang == "es"
-  }
-
-  isDirector(){
-    return localStorage["__mydb/_ionickv/role_name"] == '"Director"';
-  }
-
-  openZoneSelector() {
-    this.zone_select.open();
-  }
-
-  openLanguageSelector() {
-    this.language_select.open();
-  }
-
-  onLanguageChange(selectedValue) {
-    this.selectLocale(selectedValue);
-    this.events.publish('language:changed', selectedValue, Date.now());
-  }
-
-  selectLocale(lang) {
-    this.translationService.selectLanguage(lang);
   }
 }

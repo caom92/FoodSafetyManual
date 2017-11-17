@@ -1,5 +1,5 @@
 import { Component, Input, NgModule, OnInit } from '@angular/core'
-import { NavParams } from 'ionic-angular';
+import { NavParams, Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage'
 import { DatePipe } from '@angular/common';
 
@@ -35,7 +35,7 @@ export class GMPPackingScaleCalibrationLogComponent implements OnInit {
 
     public gmpPackingScaleCalibrationForm: FormGroup = new FormBuilder().group({})
 
-    constructor(private _fb: FormBuilder, private timeService: DateTimeService, private server: BackendService, private translationService: TranslationService, private toasts: ToastService, private navParams: NavParams, private storage: Storage) {
+    constructor(private _fb: FormBuilder, private timeService: DateTimeService, private server: BackendService, private translationService: TranslationService, private toasts: ToastService, private navParams: NavParams, private storage: Storage, private events: Events) {
         this.log = navParams.get('data');
         console.log(this.log)
     }
@@ -108,24 +108,31 @@ export class GMPPackingScaleCalibrationLogComponent implements OnInit {
                     console.log(JSON.stringify(response))
                 }, (error: any, caught: Observable<void>) => {
                     this.toasts.showText("failedLogToQueue")
-                    this.storage.get("pendingLogQueue").then((val)=>{
+                    this.storage.get("pendingLogQueue").then((val) => {
                         console.log("Pending queue: ")
                         console.log(val)
-                        let pendingLog: {service:string, log: any} = {service:null, log: null}
+                        let pendingLog: { service: string, log: any } = { service: null, log: null }
                         pendingLog.service = 'capture-gmp-packing-scale-calibration'
                         pendingLog.log = filled_log
-                        if(val == null){
-                            this.storage.set("pendingLogQueue", [pendingLog])
-                            console.log("Log added: ")
-                            console.log(pendingLog)
-                        } else {
-                            val.push(pendingLog)
-                            this.storage.set("pendingLogQueue", val)
-                            console.log("Log added: ")
-                            console.log(pendingLog)
-                        }
+                        this.storage.get("user_id").then((user_id) => {
+                            if (val == null || val == undefined) {
+                                let temp = {}
+                                temp[user_id] = [pendingLog]
+                                this.storage.set("pendingLogQueue", temp)
+                                this.events.publish("pendingLog:total", 1)
+                            } else {
+                                if (Array.isArray(val[user_id])) {
+                                    val[user_id].push(pendingLog)
+                                    this.events.publish("pendingLog:total", val[user_id].length)
+                                    this.storage.set("pendingLogQueue", val)
+                                } else {
+                                    val[user_id] = [pendingLog]
+                                    this.storage.set("pendingLogQueue", val)
+                                    this.events.publish("pendingLog:total", 1)
+                                }
+                            }
+                        })
                     })
-                    //this.storage.set("log-" + this.log_suffix, response.data)
                     return []
                 }
             )
