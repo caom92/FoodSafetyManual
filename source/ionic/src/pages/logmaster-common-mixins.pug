@@ -43,7 +43,7 @@ mixin espressoNavbar(isConnected, title)
         if isConnected
           button(ion-button, icon-24, clear, color='light', (click)='openZoneSelector()', [hidden]='!isDirector()')
             ion-icon(name='map')
-          button(ion-button, icon-24, clear, color='light')
+          button(ion-button, icon-24, clear, color='light', (click)='openPendingLogsPage()')
             ion-icon(name='clipboard')
               ion-badge(*ngIf='pendingLogs > 0 && pendingLogs < 10', color='danger', class='notifications_badge')
                 span() {{pendingLogs}}

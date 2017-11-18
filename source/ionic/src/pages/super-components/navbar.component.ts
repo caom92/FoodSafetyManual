@@ -40,6 +40,20 @@ export class NavbarPageComponent implements OnInit {
     })
   }
 
+  openPendingLogsPage(){
+    this.storage.get("user_id").then(user_id => {
+      if(user_id != null && user_id != undefined){
+        this.storage.get("pendingLogQueue").then(pending => {
+          if(pending != undefined && pending != null){
+            if(pending[user_id] != null && pending[user_id] != undefined){
+              console.log(pending)
+            }
+          }
+        })
+      }
+    })
+  }
+
   isEnglish() {
     return this.lang == "en"
   }
