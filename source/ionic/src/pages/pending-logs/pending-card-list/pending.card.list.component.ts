@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core'
+import { Component, Input, OnInit, ViewChild, OnDestroy } from '@angular/core'
 import { NavController, AlertController, Select, Events } from 'ionic-angular'
 
 import { Storage } from '@ionic/storage'
@@ -29,7 +29,7 @@ import { LoaderService } from '../../../services/app.loaders'
   ]
 })
 
-export class PendingCardListComponent extends NavbarPageComponent implements OnInit {
+export class PendingCardListComponent extends NavbarPageComponent implements OnInit, OnDestroy {
   @Language() lang: string
 
   @Input()
@@ -44,10 +44,10 @@ export class PendingCardListComponent extends NavbarPageComponent implements OnI
     // Al incializar el componente, cargamos la lista de bitácoras pendientes de envío
     // para el usuario conectado
     this.storage.get("user_id").then(user_id => {
-      if(user_id != null && user_id != undefined){
+      if (user_id != null && user_id != undefined) {
         this.storage.get("pendingLogQueue").then(pending => {
-          if(pending != undefined && pending != null){
-            if(pending[user_id] != null && pending[user_id] != undefined){
+          if (pending != undefined && pending != null) {
+            if (pending[user_id] != null && pending[user_id] != undefined) {
               this.logs = pending[user_id]
             }
           }
@@ -55,27 +55,16 @@ export class PendingCardListComponent extends NavbarPageComponent implements OnI
       }
     })
 
-    // Escuchamos el evento que nos indica si una bitácora fue aprobada/rechazada
-    /*this.events.subscribe("log:approved", (logID) => {
-      for (let log of this.logs) {
-        if (log.captured_log_id == logID) {
-          let index = this.logs.indexOf(log, 0)
-          if (index > -1) {
-            this.logs.splice(index, 1)
-          }
-        }
-      }
+    // Escuchamos cuando una bitácoras es aprobada y la retiramos del arreglo actual
+    // Además, actualizamos el número de bitácoras pendientes
+    this.events.subscribe("log:resent", (index) => {
+      this.logs.splice(index, 1)
+      this.events.publish("pendingLog:total", this.logs.length)
     })
+  }
 
-    this.events.subscribe("log:rejected", (logID) => {
-      for (let log of this.logs) {
-        if (log.captured_log_id == logID) {
-          let index = this.logs.indexOf(log, 0)
-          if (index > -1) {
-            this.logs.splice(index, 1)
-          }
-        }
-      }
-    })*/
+  ngOnDestroy() {
+    // Terminamos la subscripción
+    this.events.unsubscribe("log:resent")
   }
 }

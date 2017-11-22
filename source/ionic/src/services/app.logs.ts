@@ -31,9 +31,15 @@ export class LogService {
           if(pending != undefined && pending != null){
             if(pending[user_id] != null && pending[user_id] != undefined){
               let logToProcess: PendingLog = pending[user_id][index]
-              console.log("Splice")
-              pending[user_id].splice(index, 1)
-              this.storage.set("pendingLogQueue", pending)
+              this.send(logToProcess.log, logToProcess.service, { zone_name: logToProcess.zone_name, program_name: logToProcess.program_name, module_name: logToProcess.module_name, log_name: logToProcess.log_name }, false).then(success => {
+                pending[user_id].splice(index, 1)
+                this.storage.set("pendingLogQueue", pending)
+                this.events.publish("log:resent", index)
+              }, error => {
+                // TODO: Ni se, en si no tenemos que hacer nada v:
+                console.log("fail")
+                console.log(error)
+              })
             }
           }
           /*if (logs != null && logs != undefined && Array.isArray(logs)) {
@@ -58,7 +64,7 @@ export class LogService {
     })
   }
 
-  send(data: any, service: string, details: { zone_name: string, program_name: string, module_name: string, log_name: string }) {
+  send(data: any, service: string, details: { zone_name: string, program_name: string, module_name: string, log_name: string }, isFirstTry: boolean = true) {
     let sentPromise = new Promise<string>((resolve, reject) => {
       let loader = this.loaderService.koiLoader("")
       let form_data = new FormData()
@@ -96,38 +102,46 @@ export class LogService {
           console.log(response)
           console.log(JSON.stringify(response))
         }, (error: any, caught: Observable<void>) => {
-          this.storage.get("pendingLogQueue").then((val) => {
-            console.log("Pending queue: ")
-            console.log(val)
-            let pendingLog: { service: string, log: any, zone_name: string, program_name: string, module_name: string, log_name: string } = { service: null, log: null, zone_name: null, program_name: null, module_name: null, log_name: null }
-            pendingLog.service = service
-            pendingLog.log = filled_log
-            pendingLog.zone_name = details.zone_name
-            pendingLog.program_name = details.program_name
-            pendingLog.module_name = details.module_name
-            pendingLog.log_name = details.log_name
-            this.storage.get("user_id").then((user_id) => {
-              if (val == null || val == undefined) {
-                let temp = {}
-                temp[user_id] = [pendingLog]
-                this.storage.set("pendingLogQueue", temp)
-                this.events.publish("pendingLog:total", 1)
-              } else {
-                if (Array.isArray(val[user_id])) {
-                  val[user_id].push(pendingLog)
-                  this.storage.set("pendingLogQueue", val)
-                  this.events.publish("pendingLog:total", val[user_id].length)
-                } else {
-                  val[user_id] = [pendingLog]
-                  this.storage.set("pendingLogQueue", val)
+          if(isFirstTry == true){
+            // Si se trata del primer intento (enviado desde una pantalla de bitácora)
+            // es necesario guardar la bitácora en la lista de pendientes
+            this.storage.get("pendingLogQueue").then((val) => {
+              console.log("Pending queue: ")
+              console.log(val)
+              let pendingLog: { service: string, log: any, zone_name: string, program_name: string, module_name: string, log_name: string } = { service: null, log: null, zone_name: null, program_name: null, module_name: null, log_name: null }
+              pendingLog.service = service
+              pendingLog.log = filled_log
+              pendingLog.zone_name = details.zone_name
+              pendingLog.program_name = details.program_name
+              pendingLog.module_name = details.module_name
+              pendingLog.log_name = details.log_name
+              this.storage.get("user_id").then((user_id) => {
+                if (val == null || val == undefined) {
+                  let temp = {}
+                  temp[user_id] = [pendingLog]
+                  this.storage.set("pendingLogQueue", temp)
                   this.events.publish("pendingLog:total", 1)
+                } else {
+                  if (Array.isArray(val[user_id])) {
+                    val[user_id].push(pendingLog)
+                    this.storage.set("pendingLogQueue", val)
+                    this.events.publish("pendingLog:total", val[user_id].length)
+                  } else {
+                    val[user_id] = [pendingLog]
+                    this.storage.set("pendingLogQueue", val)
+                    this.events.publish("pendingLog:total", 1)
+                  }
                 }
-              }
+              })
             })
-          })
-          loader.dismiss()
-          this.toastService.showText("failedLogToQueue")
-          resolve("local")
+            loader.dismiss()
+            this.toastService.showText("failedLogToQueue")
+            resolve("local")
+          } else {
+            // Caso contrario, se rechaza junto con el error devuelto por la petición HTTP
+            loader.dismiss()
+            reject(error)
+          }
           return []
         }
       )
