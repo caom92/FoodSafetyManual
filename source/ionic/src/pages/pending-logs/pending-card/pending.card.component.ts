@@ -42,6 +42,9 @@ export class PendingCardComponent {
     log_name: '',
   }
 
+  @Input()
+  index: number
+
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, public ts: TService, public event: Events, private toastService: ToastService, private server: BackendService, public timeService: DateTimeService, public loaderService: LoaderService, public logService: LogService) {
   }
 
@@ -63,7 +66,8 @@ export class PendingCardComponent {
             console.log('Aceptar')
             let details: LogDetails = {zone_name: this.log.zone_name, program_name: this.log.program_name, module_name: this.log.module_name, log_name: this.log.log_name}
             console.log(this.log)
-            //this.logService.send(this.log.log, this.log.service, details)
+            console.log(this.index)
+            this.logService.processPendingLog(this.index)
           }
         }
       ]

@@ -5,6 +5,8 @@ import { Storage } from '@ionic/storage'
 
 import { Observable } from 'rxjs/Rx'
 
+import { PendingLog } from '../pages/pending-logs/pending-card/pending.card.interface'
+
 import { ToastService } from './app.toasts'
 import { LoaderService } from './app.loaders'
 import { BackendService } from './app.backend'
@@ -20,6 +22,40 @@ export class LogService {
     private storage: Storage,
     private events: Events) {
 
+  }
+
+  processPendingLog(index: number) {
+    this.storage.get("user_id").then(user_id => {
+      if (user_id != null && user_id != undefined) {
+        this.storage.get("pendingLogQueue").then((pending) => {
+          if(pending != undefined && pending != null){
+            if(pending[user_id] != null && pending[user_id] != undefined){
+              let logToProcess: PendingLog = pending[user_id][index]
+              console.log("Splice")
+              pending[user_id].splice(index, 1)
+              this.storage.set("pendingLogQueue", pending)
+            }
+          }
+          /*if (logs != null && logs != undefined && Array.isArray(logs)) {
+            if (logs.length > 0) {
+              let logToProcess: PendingLog = logs[index]
+              //this.storage.set("pendingLogQueue", logs)
+              //this.send(logToProcess.log, logToProcess.service, { zone_name: logToProcess.zone_name, program_name: logToProcess.program_name, module_name: logToProcess.module_name, log_name: logToProcess.log_name }).then(success => {
+              // Here we delete the pending log
+              // Then we update the pending logs list
+              console.log("Splice")
+              logs.splice(index, 1)
+              this.storage.set("pendingLogQueue", logs)
+              //})
+            } else {
+              console.log("No pending Logs")
+            }
+          } else {
+            console.log("No pending Logs")
+          }*/
+        })
+      }
+    })
   }
 
   send(data: any, service: string, details: { zone_name: string, program_name: string, module_name: string, log_name: string }) {
