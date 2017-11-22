@@ -1,0 +1,10 @@
+ion-card
+  ion-item
+    h2
+      | {{ 'Log Title' | translate:lang }}: {{log.log_name}}
+    h2
+      | {{ 'Date' | translate:lang }}: {{log.log.date}}
+    div(text-center)
+      button(ion-button, round, icon-left, small, color="open", (click)="sendLog()")
+        ion-icon(name="checkmark-circle")
+        | Enviar

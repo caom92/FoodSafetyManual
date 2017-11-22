@@ -41,9 +41,9 @@ mixin espressoNavbar(isConnected, title)
           ion-option(value='es') {{ 'Spanish' | translate:lang }}
       ion-buttons(end)
         if isConnected
-          button(ion-button, icon-24, clear, color='light', (click)='openZoneSelector()', [hidden]='!isDirector()')
+          button(ion-button, icon-24, clear, color='light', (click)='openZoneSelector()', [hidden]='!isDirector')
             ion-icon(name='map')
-          button(ion-button, icon-24, clear, color='light', (click)='openPendingLogsPage()')
+          button(ion-button, icon-24, clear, color='light', (click)='openPendingLogsPage()', [hidden]='!isEmployee')
             ion-icon(name='clipboard')
               ion-badge(*ngIf='pendingLogs > 0 && pendingLogs < 10', color='danger', class='notifications_badge')
                 span() {{pendingLogs}}
@@ -78,7 +78,7 @@ mixin oldEspressoNavbar(isConnected, title)
                   ion-option(value='en') {{ 'English' | translate:lang }}
                   ion-option(value='es') {{ 'Spanish' | translate:lang }}
           if isConnected
-            button(ion-button, icon-24, clear, color='light', (click)='openZoneSelector()', [hidden]='!isDirector()')
+            button(ion-button, icon-24, clear, color='light', (click)='openZoneSelector()', [hidden]='!isDirector')
               ion-icon(name='map')
           button(ion-button, icon-24, clear, color='light', (click)='openLanguageSelector()')
             ion-icon(name='globe')

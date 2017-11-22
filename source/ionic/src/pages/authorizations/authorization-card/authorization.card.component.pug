@@ -11,17 +11,17 @@ ion-card
         ion-row
           ion-col
             div(text-center)
-              button(ion-button, block, icon-left, color="open", (click)="approveLog()")
+              button(ion-button, block, default, icon-left, color="open", (click)="approveLog()")
                 ion-icon(name="checkmark-circle")
                 //- div {{ 'Approve' | translate:lang }}
           ion-col
             div(text-center)
-              button(ion-button, block, icon-left, color="close", (click)="rejectLog()")
+              button(ion-button, block, default, icon-left, color="close", (click)="rejectLog()")
                 ion-icon(name="close-circle")
                 //-div {{ 'Reject' | translate:lang }}
           ion-col
             div(text-center)
-              button(ion-button, block, (click)="openLog()")
+              button(ion-button, block, default, (click)="openLog()")
                 ion-icon(name="open")
                 //-div {{ 'Open' | translate:lang }}
 //-      div(text-center)      

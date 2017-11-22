@@ -20,6 +20,7 @@ import { EditProfile } from '../pages/edit-profile/edit-profile'
 import { ModulesPage } from '../pages/modules/modules'
 import { LogsPage } from '../pages/logs/logs'
 import { AuthorizationCardListComponent } from '../pages/authorizations/authorization-card-list/authorization.card.list.component'
+import { PendingCardListComponent } from '../pages/pending-logs/pending-card-list/pending.card.list.component'
 
 @Component({
   templateUrl: 'app.html',
@@ -74,6 +75,10 @@ export class MyApp implements AfterViewInit {
         this.bindAuthorizationsChecking()
         this.bindPendingLogProcessing()
       }*/
+    })
+
+    events.subscribe("open:pendingLogs", (time) => {
+      this.openPendingLogs()
     })
 
     events.subscribe("user:loggedOut", (time) => {
@@ -292,30 +297,7 @@ export class MyApp implements AfterViewInit {
       }
     )
   }
-
-  flatten(data) {
-    var result = {}
-
-    function recurse(cur, prop) {
-      if (Object(cur) !== cur) {
-        result[prop] = cur
-      } else if (Array.isArray(cur)) {
-        for (var i = 0, l = cur.length; i < l; i++)
-          recurse(cur[i], prop + "][" + i + "][")
-        if (l == 0) result[prop] = []
-      } else {
-        var isEmpty = true
-        for (var p in cur) {
-          isEmpty = false
-          recurse(cur[p], prop ? prop + p : p)
-        }
-        if (isEmpty && prop) result[prop] = {}
-      }
-    }
-
-    recurse(data, "")
-    return result
-  }*/
+*/
 
   /**
   * @input { title: string, component: any, icon: string } page
@@ -332,6 +314,10 @@ export class MyApp implements AfterViewInit {
       text: 'Single ILocalNotification',
       at: new Date(new Date().getTime() + 1000)
     })
+  }
+
+  openPendingLogs(){
+    this.nav.push(PendingCardListComponent)
   }
 
   openModules(event, program) {

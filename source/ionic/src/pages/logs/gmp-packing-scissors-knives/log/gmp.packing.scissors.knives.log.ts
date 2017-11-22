@@ -89,14 +89,14 @@ export class GMPPackingScissorsKnivesLogComponent implements OnInit {
             console.log(this.gmpPackingScissorsKnivesForm.value)
             console.log(flatObj)
     
-            /*this.server.update(
+            this.server.update(
                 'capture-gmp-packing-scissors-knives',
                 form_data,
                 (response: any) => {
                   console.log(response)
                   console.log(JSON.stringify(response))
                 } // (response: any)
-            )*/ // this.server.update
+            ) // this.server.update
         } else {
             this.toasts.showText("incompleteLog")
         }

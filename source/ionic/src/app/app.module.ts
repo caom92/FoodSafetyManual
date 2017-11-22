@@ -115,6 +115,11 @@ import { GMPPackingColdRoomTempItemComponent } from '../pages/logs/gmp-packing-c
 import { AuthorizationCardComponent } from '../pages/authorizations/authorization-card/authorization.card.component'
 import { AuthorizationCardListComponent } from '../pages/authorizations/authorization-card-list/authorization.card.list.component'
 
+// Pending Logs
+
+import { PendingCardComponent } from '../pages/pending-logs/pending-card/pending.card.component'
+import { PendingCardListComponent } from '../pages/pending-logs/pending-card-list/pending.card.list.component'
+
 // Tabs
 
 import { ManualTab } from '../pages/manual/manual'
@@ -126,10 +131,19 @@ import { ManualUploadComponent } from '../pages/manual/manual-upload/manual.uplo
 
 import { InventoryLoaderComponent } from '../pages/inventories/inventories'
 
-import { TranslationModule, LocaleService, TranslationService } from 'angular-l10n';
+import { TranslationModule, LocaleService, TranslationService as TService } from 'angular-l10n';
 
 import { DynamicComponentContainerDirective } from '../directives/dynamic.container'
 import { HideFabDirective } from "../directives/hide.fab";
+
+// Services
+
+import { DateTimeService } from '../services/app.time'
+import { BackendService } from '../services/app.backend'
+import { TranslationService } from '../services/app.translation'
+import { ToastService } from '../services/app.toasts'
+import { LoaderService } from '../services/app.loaders'
+import { LogService } from '../services/app.logs'
 
 @NgModule({
   declarations: [
@@ -147,6 +161,8 @@ import { HideFabDirective } from "../directives/hide.fab";
     LogHeaderComponent,
     AuthorizationCardComponent,
     AuthorizationCardListComponent,
+    PendingCardComponent,
+    PendingCardListComponent,
     GMPPackingPreopPage,
     GMPPackingPreopLogComponent,
     GMPPackingPreopAreaComponent,
@@ -236,6 +252,8 @@ import { HideFabDirective } from "../directives/hide.fab";
     LogHeaderComponent,
     AuthorizationCardComponent,
     AuthorizationCardListComponent,
+    PendingCardComponent,
+    PendingCardListComponent,
     GMPPackingPreopPage,
     GMPPackingPreopLogComponent,
     GMPPackingPreopAreaComponent,
@@ -304,11 +322,15 @@ import { HideFabDirective } from "../directives/hide.fab";
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    LocalNotifications
+    LocalNotifications,
+    BackendService,
+    LoaderService,
+    ToastService,
+    LogService
   ]
 })
 export class AppModule {
-  constructor(public locale: LocaleService, public translation: TranslationService) {
+  constructor(public locale: LocaleService, public translation: TService) {
     this.locale.addConfiguration()
         .addLanguages(['en', 'es'])
         .setCookieExpiration(30)

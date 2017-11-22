@@ -48,6 +48,7 @@
     },
     "NavbarTitles": {
         "Authorizations": "Autorizaciones",
+        "Pending": "Pendientes",
         "Modules": "Módulos",
         "Logs": "Bitácoras"
     },
@@ -58,11 +59,13 @@
     "Titles": {
         "approve_log": "Aprobar bitácora",
         "reject_log": "Rechazar bitácora",
+        "resend_log": "Enviar bitácora",
         "add_item": "Añadir elemento"
     },
     "Messages": {
         "approve_log": "¿Está seguro que desea autorizar esta bitácora?",
         "reject_log": "¿Está seguro que desea rechazar esta bitácora?",
+        "resend_log": "¿Está seguro que desea reintentar el envío de esta bitácora?",
         "add_item": "¿Está seguro de que desea añadir este elemento?"
     },
     "Log": {

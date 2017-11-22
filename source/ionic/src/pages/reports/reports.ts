@@ -136,25 +136,4 @@ export class ReportTab extends DynamicComponentResolver {
 
     return loading
   }
-
-  isEnglish(){
-    return this.lang == "en"
-  }
-
-  isSpanish(){
-    return this.lang == "es"
-  }
-
-  isDirector(){
-    return localStorage["__mydb/_ionickv/role_name"] == '"Director"';
-  }
-
-  onLanguageChange(selectedValue) {
-    this.selectLocale(selectedValue);
-    this.events.publish('language:changed', selectedValue, Date.now());
-  }
-
-  selectLocale(lang) {
-    this.translationService.selectLanguage(lang);
-  }
 }

@@ -1,4 +1,5 @@
 ion-content
+  log-header([log]="logHeaderData")
   form([formGroup]='gmpPackingScaleCalibrationForm', (ngSubmit)='save(myForm)')
     gmp-packing-scale-calibration-type(*ngFor='let type of log.types.scales; let i=index', [type]='type', [units]='log.types.units', [group]='gmpPackingScaleCalibrationForm.controls.types.controls[i]')
     ion-card
@@ -17,6 +18,6 @@ ion-content
                 ion-label(color='primary', floating) {{ 'Log.corrective_action_of' | translate:lang }} {{log.log_name}}
                 ion-textarea(formControlName='corrective_action')
     div(text-center)
-      button(ion-button, icon-end, round)
+      button(ion-button, icon-end, round, [disabled]="!gmpPackingScaleCalibrationForm.valid")
         | {{ 'Log.send_report' | translate:lang }}
         ion-icon(name='send')

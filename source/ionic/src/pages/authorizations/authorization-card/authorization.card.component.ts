@@ -1,4 +1,4 @@
-import { Component, Input, NgModule } from '@angular/core'
+import { Component, Input } from '@angular/core'
 import { NavController, AlertController, Events } from 'ionic-angular'
 
 import { Storage } from '@ionic/storage'
@@ -57,7 +57,7 @@ export class AuthorizationCardComponent {
         {
         text: this.ts.translate("Options.cancel"),
           handler: () => {
-            console.log('Cancelar');
+            console.log('Cancelar')
           }
         },
         {
