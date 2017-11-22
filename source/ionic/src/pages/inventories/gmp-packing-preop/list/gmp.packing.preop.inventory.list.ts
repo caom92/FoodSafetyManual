@@ -17,7 +17,8 @@ import { TranslationService } from '../../../../services/app.translation'
   templateUrl: './gmp.packing.preop.inventory.list.html',
   providers: [
     BackendService,
-    TranslationService
+    TranslationService,
+    DragulaService
   ]
 })
 

@@ -77,7 +77,7 @@ export class LogsPage extends NavbarPageComponent {
             this.navCtrl.push(GMPPackingPreopPage, { log_suffix: tempArray[item.title].suffix, log_title: item.title })
           }
           else {
-            if (tempArray[item.title].suffix == "gmp-packing-scale-calibration" || tempArray[item.title].suffix == "gmp-packing-preop") {
+            if (tempArray[item.title].suffix == "gmp-packing-scale-calibration" || tempArray[item.title].suffix == "gmp-packing-preop" || tempArray[item.title].suffix == "gmp-packing-scissors-knives" || tempArray[item.title].suffix == "gmp-packing-thermo-calibration") {
               this.navCtrl.push(InventoryLoaderComponent, { log_suffix: tempArray[item.title].suffix, log_title: item.title })
             }
           }

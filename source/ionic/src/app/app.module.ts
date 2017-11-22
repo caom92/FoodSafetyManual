@@ -100,10 +100,20 @@ import { GMPPackingScaleCalibrationAddItemComponent } from '../pages/inventories
 import { GMPPackingScissorsKnivesLogComponent } from '../pages/logs/gmp-packing-scissors-knives/log/gmp.packing.scissors.knives.log'
 import { GMPPackingScissorsKnivesItemComponent } from '../pages/logs/gmp-packing-scissors-knives/item/gmp.packing.scissors.knives.item'
 
+import { GMPPackingScissorsKnivesInventoryComponent } from '../pages/inventories/gmp-packing-scissors-knives/inventory/gmp.packing.scissors.knives.inventory'
+import { GMPPackingScissorsKnivesInventoryItemComponent } from '../pages/inventories/gmp-packing-scissors-knives/item/gmp.packing.scissors.knives.inventory.item'
+import { GMPPackingScissorsKnivesInventoryListComponent } from '../pages/inventories/gmp-packing-scissors-knives/list/gmp.packing.scissors.knives.inventory.list'
+import { GMPPackingScissorsKnivesAddItemComponent } from '../pages/inventories/gmp-packing-scissors-knives/add-item/gmp.packing.scissors.knives.add.item'
+
 // GMP Packing Thermo Calibration
 
 import { GMPPackingThermoCalibrationLogComponent } from '../pages/logs/gmp-packing-thermo-calibration/log/gmp.packing.thermo.calibration.log'
 import { GMPPackingThermoCalibrationItemComponent } from '../pages/logs/gmp-packing-thermo-calibration/item/gmp.packing.thermo.calibration.item'
+
+import { GMPPackingThermoCalibrationInventoryComponent } from '../pages/inventories/gmp-packing-thermo-calibration/inventory/gmp.packing.thermo.calibration.inventory'
+import { GMPPackingThermoCalibrationInventoryItemComponent } from '../pages/inventories/gmp-packing-thermo-calibration/item/gmp.packing.thermo.calibration.inventory.item'
+import { GMPPackingThermoCalibrationInventoryListComponent } from '../pages/inventories/gmp-packing-thermo-calibration/list/gmp.packing.thermo.calibration.inventory.list'
+import { GMPPackingThermoCalibrationAddItemComponent } from '../pages/inventories/gmp-packing-thermo-calibration/add-item/gmp.packing.thermo.calibration.add.item'
 
 // GMP Packing Cold Room Temp
 
@@ -222,8 +232,16 @@ import { LogService } from '../services/app.logs'
     GAPPackingPreopReportDisplayer,
     GMPPackingScissorsKnivesLogComponent,
     GMPPackingScissorsKnivesItemComponent,
+    GMPPackingScissorsKnivesInventoryComponent,
+    GMPPackingScissorsKnivesInventoryItemComponent,
+    GMPPackingScissorsKnivesInventoryListComponent,
+    GMPPackingScissorsKnivesAddItemComponent,
     GMPPackingThermoCalibrationLogComponent,
     GMPPackingThermoCalibrationItemComponent,
+    GMPPackingThermoCalibrationInventoryComponent,
+    GMPPackingThermoCalibrationInventoryItemComponent,
+    GMPPackingThermoCalibrationInventoryListComponent,
+    GMPPackingThermoCalibrationAddItemComponent,
     GMPPackingColdRoomTempLogComponent,
     GMPPackingColdRoomTempItemComponent
   ],
@@ -313,8 +331,16 @@ import { LogService } from '../services/app.logs'
     GAPPackingPreopReportDisplayer,
     GMPPackingScissorsKnivesLogComponent,
     GMPPackingScissorsKnivesItemComponent,
+    GMPPackingScissorsKnivesInventoryComponent,
+    GMPPackingScissorsKnivesInventoryItemComponent,
+    GMPPackingScissorsKnivesInventoryListComponent,
+    GMPPackingScissorsKnivesAddItemComponent,
     GMPPackingThermoCalibrationLogComponent,
     GMPPackingThermoCalibrationItemComponent,
+    GMPPackingThermoCalibrationInventoryComponent,
+    GMPPackingThermoCalibrationInventoryItemComponent,
+    GMPPackingThermoCalibrationInventoryListComponent,
+    GMPPackingThermoCalibrationAddItemComponent,
     GMPPackingColdRoomTempLogComponent,
     GMPPackingColdRoomTempItemComponent
   ],
