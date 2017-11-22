@@ -83,10 +83,16 @@ export class LogService {
         service,
         form_data,
         (response: any) => {
-          //this.resetForm()
+          if(response.meta.return_code == 0){
+            this.toastService.showText("capturedLog")
+            resolve("server")
+          } else {
+            // TODO: Toast para caso en que haya fallado
+            // Regresamos la promesa como erronea con el código de error del servidor
+            reject(response.meta.return_code)
+          }
+          // Sin importar el resultado, desactivamos el spinner
           loader.dismiss()
-          this.toastService.showText("capturedLog")
-          resolve("server")
           console.log(response)
           console.log(JSON.stringify(response))
         }, (error: any, caught: Observable<void>) => {
@@ -119,7 +125,6 @@ export class LogService {
               }
             })
           })
-          //this.resetForm()
           loader.dismiss()
           this.toastService.showText("failedLogToQueue")
           resolve("local")

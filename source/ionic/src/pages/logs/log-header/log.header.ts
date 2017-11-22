@@ -34,7 +34,7 @@ export class LogHeaderComponent implements OnInit {
     if (this.log.created_by != null && this.log.created_by != undefined){
       this.username = this.log.created_by
     } else {
-      this.storage.get("fullname").then(
+      this.storage.get("full_name").then(
         full_name => {
           this.username = full_name
         }

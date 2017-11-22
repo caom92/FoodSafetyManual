@@ -1,4 +1,5 @@
 ion-content
+  log-header([log]="logHeaderData")
   form([formGroup]='gmpPackingHandWashingForm', (ngSubmit)='save(myForm)')
     ion-list
       gmp-packing-hand-washing-item(*ngFor='let item of log.items; let i = index', [item]='item', [itemGroup]='gmpPackingHandWashingForm.controls.items.controls[i]')

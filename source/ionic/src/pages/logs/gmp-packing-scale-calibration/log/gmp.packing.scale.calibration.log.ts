@@ -6,13 +6,11 @@ import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
 
 // Ionic
 
-import { NavParams, Events } from 'ionic-angular';
-import { Storage } from '@ionic/storage'
+import { NavParams } from 'ionic-angular'
 
 // Other
 
 import { Language } from 'angular-l10n'
-import { Observable } from 'rxjs/Rx'
 
 // Interfaces
 
@@ -46,11 +44,25 @@ export class GMPPackingScaleCalibrationLogComponent implements OnInit {
   logHeaderData: LogHeaderData = { zone_name: null, program_name: null, module_name: null, date: null, created_by: null }
   public gmpPackingScaleCalibrationForm: FormGroup = new FormBuilder().group({})
 
-  constructor(private _fb: FormBuilder, private timeService: DateTimeService, private server: BackendService, private translationService: TranslationService, private toasts: ToastService, private navParams: NavParams, private storage: Storage, private events: Events, private loaderService: LoaderService, public logService: LogService) {
-    this.log = navParams.get('data');
+  constructor(private _fb: FormBuilder,
+    private timeService: DateTimeService,
+    private server: BackendService,
+    private translationService: TranslationService,
+    private toasts: ToastService,
+    private navParams: NavParams,
+    private loaderService: LoaderService,
+    public logService: LogService) {
+    this.log = navParams.get('data')
   }
 
   ngOnInit() {
+    // Llenamos los datos del encabezado que saldrá desplegado en la tarjeta; los datos de fecha y
+    // elaborador son llenados automáticamente por el componente de encabezado
+    this.logHeaderData.zone_name = this.log.zone_name
+    this.logHeaderData.program_name = this.log.program_name
+    this.logHeaderData.module_name = this.log.module_name
+
+    // Creamos el formulario, utilizando validaciones equivalentes a las usadas en el servidor
     this.gmpPackingScaleCalibrationForm = this._fb.group({
       date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
       notes: ['', [Validators.required, Validators.minLength(1)]],
