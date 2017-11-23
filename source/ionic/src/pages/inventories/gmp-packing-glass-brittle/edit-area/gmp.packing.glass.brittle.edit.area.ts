@@ -6,15 +6,15 @@ import { Observable } from 'rxjs/Rx'
 
 import { Language, TranslationService as TService } from 'angular-l10n'
 
-import { InventoryItem } from '../interfaces/gmp.packing.cold.room.temp.inventory.interface'
+import { InventoryArea } from '../interfaces/gmp.packing.glass.brittle.area.inventory.interface'
 
 import { BackendService } from '../../../../services/app.backend'
 import { ToastService } from '../../../../services/app.toasts'
 import { LoaderService } from '../../../../services/app.loaders'
 
 @Component({
-  selector: 'gmp-packing-cold-room-temp-add-item',
-  templateUrl: './gmp.packing.cold.room.temp.add.item.html',
+  selector: 'gmp-packing-glass-brittle-edit-area',
+  templateUrl: './gmp.packing.glass.brittle.edit.area.html',
   providers: [
     BackendService,
     ToastService,
@@ -22,18 +22,23 @@ import { LoaderService } from '../../../../services/app.loaders'
   ]
 })
 
-export class GMPPackingColdRoomTempAddItemComponent implements OnInit {
-  newItem: FormGroup = new FormBuilder().group({})
+export class GMPPackingGlassBrittleEditAreaComponent implements OnInit {
+  @Language()
+  lang: string
+
+  area_id: number = null
+
+  newArea: FormGroup = new FormBuilder().group({})
 
   constructor(public platform: Platform, public params: NavParams, public viewCtrl: ViewController, public alertCtrl: AlertController, public ts: TService, private _fb: FormBuilder, public server: BackendService, private toastService: ToastService, public loaderService: LoaderService){
 
   }
 
   ngOnInit(){
-    this.newItem = this._fb.group({
+    this.area_id = this.params.get("area_id")
+    this.newArea = this._fb.group({
       name: ["", [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
     })
-    console.log("Modal inicializado")
   }
 
   dismiss() {
@@ -41,11 +46,11 @@ export class GMPPackingColdRoomTempAddItemComponent implements OnInit {
   }
 
   addItem(){
-    if(this.newItem.valid){
+    if(this.newArea.valid){
       let loaderAdd = this.loaderService.koiLoader("")
       let confirmAdd = this.alertCtrl.create({
         title: this.ts.translate("Titles.add_item"),
-        message: this.ts.translate("Messages.add_item") + "<br><br>" + this.newItem.value.name,
+        message: this.ts.translate("Messages.add_item") + "<br><br>" + this.newArea.value.name,
         buttons: [
           {
           text: this.ts.translate("Options.cancel"),
@@ -57,17 +62,17 @@ export class GMPPackingColdRoomTempAddItemComponent implements OnInit {
             text:  this.ts.translate("Options.accept"),
             handler: () => {
               loaderAdd.present()
-              let data: {item:InventoryItem} = {item:{ id: 0, is_active: 1, name: this.newItem.value.name }}
+              let data: {area:InventoryArea} = {area:{ id: this.area_id, name: this.newArea.value.name, position: 0 }}
               let item = new FormData()
-              item.append("name", data.item.name)
+              item.append("area_id", "" + data.area.id)
+              item.append("area_name", data.area.name)
               this.server.update(
-                'add-gmp-packing-cold-room-temp',
+                'edit-workplace-area-gmp-packing-preop',
                 item,
                 (response: any) => {
-                  if(response.meta.return_code == 0){
-                    data.item.id = response.data
+                  if(response.meta.return_code == 0){                    
                     loaderAdd.dismiss()
-                    this.toastService.showText("itemAddSuccess")
+                    this.toastService.showText("areaEditSuccess")
                     this.viewCtrl.dismiss(data)
                   }
                 },

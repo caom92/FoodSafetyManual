@@ -83,6 +83,16 @@ import { GMPPackingGlassBrittleReportItemComponent } from '../pages/reports/gmp-
 import { GMPPackingGlassBrittleReportLoader } from '../pages/reports/gmp-packing-glass-brittle/loader/gmp.packing.glass.brittle.report.loader'
 import { GMPPackingGlassBrittleReportDisplayer } from '../pages/reports/gmp-packing-glass-brittle/displayer/gmp.packing.glass.brittle.report.displayer'
 
+import { GMPPackingGlassBrittleInventoryManagerComponent } from '../pages/inventories/gmp-packing-glass-brittle/manager/gmp.packing.glass.brittle.inventory.manager'
+import { GMPPackingGlassBrittleInventoryComponent } from '../pages/inventories/gmp-packing-glass-brittle/inventory/gmp.packing.glass.brittle.inventory'
+import { GMPPackingGlassBrittleInventoryItemComponent } from '../pages/inventories/gmp-packing-glass-brittle/item/gmp.packing.glass.brittle.inventory.item'
+import { GMPPackingGlassBrittleInventoryListComponent } from '../pages/inventories/gmp-packing-glass-brittle/list/gmp.packing.glass.brittle.inventory.list'
+import { GMPPackingGlassBrittleAreaInventoryComponent } from '../pages/inventories/gmp-packing-glass-brittle/area-inventory/gmp.packing.glass.brittle.area.inventory'
+import { GMPPackingGlassBrittleAreaInventoryAreaComponent } from '../pages/inventories/gmp-packing-glass-brittle/area/gmp.packing.glass.brittle.area.inventory.area'
+import { GMPPackingGlassBrittleAddAreaComponent } from '../pages/inventories/gmp-packing-glass-brittle/add-area/gmp.packing.glass.brittle.add.area'
+import { GMPPackingGlassBrittleEditAreaComponent } from '../pages/inventories/gmp-packing-glass-brittle/edit-area/gmp.packing.glass.brittle.edit.area'
+import { GMPPackingGlassBrittleAddItemComponent } from '../pages/inventories/gmp-packing-glass-brittle/add-item/gmp.packing.glass.brittle.add.item'
+
 // GMP Packing Scale Calibtration
 
 import { GMPPackingScaleCalibrationLogComponent } from '../pages/logs/gmp-packing-scale-calibration/log/gmp.packing.scale.calibration.log'
@@ -124,6 +134,11 @@ import { GMPPackingThermoCalibrationAddItemComponent } from '../pages/inventorie
 
 import { GMPPackingColdRoomTempLogComponent } from '../pages/logs/gmp-packing-cold-room-temp/log/gmp.packing.cold.room.temp.log'
 import { GMPPackingColdRoomTempItemComponent } from '../pages/logs/gmp-packing-cold-room-temp/item/gmp.packing.cold.room.temp.item'
+
+import { GMPPackingColdRoomTempInventoryComponent } from '../pages/inventories/gmp-packing-cold-room-temp/inventory/gmp.packing.cold.room.temp.inventory'
+import { GMPPackingColdRoomTempInventoryItemComponent } from '../pages/inventories/gmp-packing-cold-room-temp/item/gmp.packing.cold.room.temp.inventory.item'
+import { GMPPackingColdRoomTempInventoryListComponent } from '../pages/inventories/gmp-packing-cold-room-temp/list/gmp.packing.cold.room.temp.inventory.list'
+import { GMPPackingColdRoomTempAddItemComponent } from '../pages/inventories/gmp-packing-cold-room-temp/add-item/gmp.packing.cold.room.temp.add.item'
 
 // Authorizations
 
@@ -217,6 +232,15 @@ import { LogService } from '../services/app.logs'
     GMPPackingGlassBrittleReportItemComponent,
     GMPPackingGlassBrittleReportLoader,
     GMPPackingGlassBrittleReportDisplayer,
+    GMPPackingGlassBrittleInventoryManagerComponent,
+    GMPPackingGlassBrittleInventoryComponent,
+    GMPPackingGlassBrittleInventoryItemComponent,
+    GMPPackingGlassBrittleInventoryListComponent,
+    GMPPackingGlassBrittleAreaInventoryComponent,
+    GMPPackingGlassBrittleAreaInventoryAreaComponent,
+    GMPPackingGlassBrittleAddAreaComponent,
+    GMPPackingGlassBrittleEditAreaComponent,
+    GMPPackingGlassBrittleAddItemComponent,
     GMPPackingScaleCalibrationLogComponent,
     GMPPackingScaleCalibrationTypeComponent,
     GMPPackingScaleCalibrationItemComponent,
@@ -252,7 +276,11 @@ import { LogService } from '../services/app.logs'
     GMPPackingThermoCalibrationInventoryListComponent,
     GMPPackingThermoCalibrationAddItemComponent,
     GMPPackingColdRoomTempLogComponent,
-    GMPPackingColdRoomTempItemComponent
+    GMPPackingColdRoomTempItemComponent,
+    GMPPackingColdRoomTempInventoryComponent,
+    GMPPackingColdRoomTempInventoryItemComponent,
+    GMPPackingColdRoomTempInventoryListComponent,
+    GMPPackingColdRoomTempAddItemComponent
   ],
   imports: [
     BrowserModule,
@@ -320,6 +348,15 @@ import { LogService } from '../services/app.logs'
     GMPPackingGlassBrittleReportItemComponent,
     GMPPackingGlassBrittleReportLoader,
     GMPPackingGlassBrittleReportDisplayer,
+    GMPPackingGlassBrittleInventoryManagerComponent,
+    GMPPackingGlassBrittleInventoryComponent,
+    GMPPackingGlassBrittleInventoryItemComponent,
+    GMPPackingGlassBrittleInventoryListComponent,
+    GMPPackingGlassBrittleAreaInventoryComponent,
+    GMPPackingGlassBrittleAreaInventoryAreaComponent,
+    GMPPackingGlassBrittleAddAreaComponent,
+    GMPPackingGlassBrittleEditAreaComponent,
+    GMPPackingGlassBrittleAddItemComponent,
     GMPPackingScaleCalibrationLogComponent,
     GMPPackingScaleCalibrationTypeComponent,
     GMPPackingScaleCalibrationItemComponent,
@@ -355,7 +392,11 @@ import { LogService } from '../services/app.logs'
     GMPPackingThermoCalibrationInventoryListComponent,
     GMPPackingThermoCalibrationAddItemComponent,
     GMPPackingColdRoomTempLogComponent,
-    GMPPackingColdRoomTempItemComponent
+    GMPPackingColdRoomTempItemComponent,
+    GMPPackingColdRoomTempInventoryComponent,
+    GMPPackingColdRoomTempInventoryItemComponent,
+    GMPPackingColdRoomTempInventoryListComponent,
+    GMPPackingColdRoomTempAddItemComponent
   ],
   providers: [
     StatusBar,

@@ -4,19 +4,19 @@ import { App, ModalController, Events, NavController } from 'ionic-angular'
 import { Language, TranslationService as TService } from 'angular-l10n'
 import { Observable } from 'rxjs/Rx'
 
-import { InventoryType } from '../interfaces/gmp.packing.preop.inventory.interface'
+import { InventoryItem } from '../interfaces/gmp.packing.glass.brittle.inventory.interface'
 
 import { HideFabDirective } from '../../../../directives/hide.fab'
 
-import { GMPPackingPreopAddItemComponent } from '../add-item/gmp.packing.preop.add.item'
+import { GMPPackingGlassBrittleAddItemComponent } from '../add-item/gmp.packing.glass.brittle.add.item'
 
 import { BackendService } from '../../../../services/app.backend'
 import { ToastService } from '../../../../services/app.toasts'
 import { LoaderService } from '../../../../services/app.loaders'
 
 @Component({
-  selector: 'gmp-packing-preop-inventory',
-  templateUrl: './gmp.packing.preop.inventory.html',
+  selector: 'gmp-packing-glass-brittle-inventory',
+  templateUrl: './gmp.packing.glass.brittle.inventory.html',
   providers: [
     BackendService,
     ToastService,
@@ -24,12 +24,12 @@ import { LoaderService } from '../../../../services/app.loaders'
   ]
 })
 
-export class GMPPackingPreopInventoryComponent implements OnInit {
+export class GMPPackingGlassBrittleInventoryComponent implements OnInit {
   @Language()
   lang: string
 
   @Input()
-  inventory: Array<InventoryType> = [{id: null, en: null, es: null, inventory: []}]
+  inventory: Array<InventoryItem> = [{id: null, quantity: null, name: null, order: null, is_active: null}]
 
   areas: Array<{id:number,position:number,name:string}>
 
@@ -91,7 +91,7 @@ export class GMPPackingPreopInventoryComponent implements OnInit {
     let tempForm = new FormData()
     tempForm.append("area_id", event)
     this.server.update(
-      'get-items-of-area-gmp-packing-preop',
+      'inventory-gmp-packing-glass-brittle',
       tempForm,
       (response: any) => {
         if (response.meta.return_code == 0) {
@@ -116,18 +116,14 @@ export class GMPPackingPreopInventoryComponent implements OnInit {
   }
 
   addItem(){
-    let type_array: Array<{id:number,en:string,es:string}> = []
-    for(let temp of this.inventory){
-      type_array.push({id:temp.id,en:temp.en,es:temp.es})
-    }
-    let modal = this.modalController.create(GMPPackingPreopAddItemComponent, {type_array:type_array,area_id:this.selectedArea})
+    let modal = this.modalController.create(GMPPackingGlassBrittleAddItemComponent, {area_id:this.selectedArea})
     modal.present()
     modal.onDidDismiss(data => {
       if(data){
-        for(let type in this.inventory){
-          if(this.inventory[type].id == data.type){
-            data.item.position = this.inventory[type].inventory.length + 1
-            this.inventory[type].inventory.push(data.item)
+        for(let item in this.inventory){
+          if(this.inventory[item].id == data.item){
+            data.item.position = this.inventory.length + 1
+            this.inventory.push(data.item)
             this.emptyInventoryFlag = false
           }
         }
@@ -136,7 +132,7 @@ export class GMPPackingPreopInventoryComponent implements OnInit {
   }
 
   checkEmptyInventory(){
-    let emptyCount = 0
+    /*let emptyCount = 0
     console.log("Inventory on checkEmptyInventory")
     console.log(this.inventory)
     
@@ -152,6 +148,8 @@ export class GMPPackingPreopInventoryComponent implements OnInit {
     } else {
       this.emptyInventoryFlag = false
       return false
-    }
+    }*/
+    this.emptyInventoryFlag = this.inventory.length == 0
+    return this.inventory.length == 0
   }
 }

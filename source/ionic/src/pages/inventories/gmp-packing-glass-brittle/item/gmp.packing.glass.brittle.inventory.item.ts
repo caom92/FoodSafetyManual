@@ -1,17 +1,19 @@
 import { Component, Input, ViewChild, OnInit } from '@angular/core'
 import { Toggle } from 'ionic-angular'
 
+import { Language } from 'angular-l10n'
+
 import { Observable } from 'rxjs/Rx'
 
-import { InventoryItem } from '../interfaces/gmp.packing.cold.room.temp.inventory.interface'
+import { InventoryItem } from '../interfaces/gmp.packing.glass.brittle.inventory.interface'
 
 import { BackendService } from '../../../../services/app.backend'
 import { ToastService } from '../../../../services/app.toasts'
 import { LoaderService } from '../../../../services/app.loaders'
 
 @Component({
-  selector: 'gmp-packing-cold-room-temp-inventory-item',
-  templateUrl: './gmp.packing.cold.room.temp.inventory.item.html',
+  selector: 'gmp-packing-glass-brittle-inventory-item',
+  templateUrl: './gmp.packing.glass.brittle.inventory.item.html',
   providers: [
     BackendService,
     ToastService,
@@ -19,11 +21,14 @@ import { LoaderService } from '../../../../services/app.loaders'
   ]
 })
 
-export class GMPPackingColdRoomTempInventoryItemComponent implements OnInit {
+export class GMPPackingGlassBrittleInventoryItemComponent implements OnInit {
   @ViewChild('item_toggle') item_toggle: Toggle
 
   @Input()
   item: InventoryItem
+  
+  @Language()
+  lang: string
 
   toggleError: boolean = false
   previousValue: boolean = null
@@ -48,7 +53,7 @@ export class GMPPackingColdRoomTempInventoryItemComponent implements OnInit {
       item.append("id", "" + this.item.id)
       loaderToggle.present()
       this.server.update(
-        'toggle-gmp-packing-cold-room-temp',
+        'toggle-gmp-packing-glass-brittle',
         item,
         (response: any) => {
           if(this.item_toggle.value){
@@ -63,6 +68,7 @@ export class GMPPackingColdRoomTempInventoryItemComponent implements OnInit {
           loaderToggle.dismiss()
         },
         (error: any, caught: Observable<void>) => {
+          //this.item_toggle.value = previousValue
           this.toggleError = true
           this.toggleItem()
           this.toastService.showText("serverUnreachable")

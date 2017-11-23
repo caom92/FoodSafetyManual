@@ -6,15 +6,15 @@ import { Observable } from 'rxjs/Rx'
 
 import { Language, TranslationService as TService } from 'angular-l10n'
 
-import { InventoryItem } from '../interfaces/gmp.packing.cold.room.temp.inventory.interface'
+import { InventoryItem } from '../interfaces/gmp.packing.glass.brittle.inventory.interface'
 
 import { BackendService } from '../../../../services/app.backend'
 import { ToastService } from '../../../../services/app.toasts'
 import { LoaderService } from '../../../../services/app.loaders'
 
 @Component({
-  selector: 'gmp-packing-cold-room-temp-add-item',
-  templateUrl: './gmp.packing.cold.room.temp.add.item.html',
+  selector: 'gmp-packing-glass-brittle-add-item',
+  templateUrl: './gmp.packing.glass.brittle.add.item.html',
   providers: [
     BackendService,
     ToastService,
@@ -22,7 +22,12 @@ import { LoaderService } from '../../../../services/app.loaders'
   ]
 })
 
-export class GMPPackingColdRoomTempAddItemComponent implements OnInit {
+export class GMPPackingGlassBrittleAddItemComponent implements OnInit {
+  @Language()
+  lang: string
+
+  area_id: number = null
+
   newItem: FormGroup = new FormBuilder().group({})
 
   constructor(public platform: Platform, public params: NavParams, public viewCtrl: ViewController, public alertCtrl: AlertController, public ts: TService, private _fb: FormBuilder, public server: BackendService, private toastService: ToastService, public loaderService: LoaderService){
@@ -30,8 +35,10 @@ export class GMPPackingColdRoomTempAddItemComponent implements OnInit {
   }
 
   ngOnInit(){
+    this.area_id = this.params.get("area_id")
     this.newItem = this._fb.group({
       name: ["", [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
+      quantity: ["",[Validators.required]]
     })
     console.log("Modal inicializado")
   }
@@ -57,11 +64,13 @@ export class GMPPackingColdRoomTempAddItemComponent implements OnInit {
             text:  this.ts.translate("Options.accept"),
             handler: () => {
               loaderAdd.present()
-              let data: {item:InventoryItem} = {item:{ id: 0, is_active: 1, name: this.newItem.value.name }}
+              let data: {item:InventoryItem} = {item:{ id: 0, is_active: 1, name: this.newItem.value.name, order: 0, quantity: this.newItem.value.quantity }}
               let item = new FormData()
               item.append("name", data.item.name)
+              item.append("area_id", "" + this.area_id)
+              item.append("quantity", "" + data.item.quantity)
               this.server.update(
-                'add-gmp-packing-cold-room-temp',
+                'add-gmp-packing-glass-brittle',
                 item,
                 (response: any) => {
                   if(response.meta.return_code == 0){

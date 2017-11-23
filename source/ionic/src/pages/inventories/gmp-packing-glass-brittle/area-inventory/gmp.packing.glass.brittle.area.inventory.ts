@@ -5,21 +5,21 @@ import { Language, TranslationService as TService } from 'angular-l10n'
 import { Observable } from 'rxjs/Rx'
 import { ISubscription } from 'rxjs/Subscription'
 
-import { InventoryArea } from '../interfaces/gmp.packing.preop.area.inventory.interface'
+import { InventoryArea } from '../interfaces/gmp.packing.glass.brittle.area.inventory.interface'
 
 import { HideFabDirective } from '../../../../directives/hide.fab'
 
 import { DragulaService } from 'ng2-dragula'
 
-import { GMPPackingPreopAddAreaComponent } from '../add-area/gmp.packing.preop.add.area'
+import { GMPPackingGlassBrittleAddAreaComponent } from '../add-area/gmp.packing.glass.brittle.add.area'
 
 import { BackendService } from '../../../../services/app.backend'
 import { ToastService } from '../../../../services/app.toasts'
 import { LoaderService } from '../../../../services/app.loaders'
 
 @Component({
-  selector: 'gmp-packing-preop-area-inventory',
-  templateUrl: './gmp.packing.preop.area.inventory.html',
+  selector: 'gmp-packing-glass-brittle-area-inventory',
+  templateUrl: './gmp.packing.glass.brittle.area.inventory.html',
   providers: [
     BackendService,
     ToastService,
@@ -28,7 +28,7 @@ import { LoaderService } from '../../../../services/app.loaders'
   ]
 })
 
-export class GMPPackingPreopAreaInventoryComponent implements OnInit, OnDestroy {
+export class GMPPackingGlassBrittleAreaInventoryComponent implements OnInit, OnDestroy {
   @Language()
   lang: string
 
@@ -75,7 +75,7 @@ export class GMPPackingPreopAreaInventoryComponent implements OnInit, OnDestroy 
       }
     )
 
-    this.dragulaService.setOptions("preopAreasBag", {
+    this.dragulaService.setOptions("glassBrittleAreasBag", {
       moves: function (el, container, handle) {
         return (handle.classList.contains('handle'))
       },
@@ -109,35 +109,23 @@ export class GMPPackingPreopAreaInventoryComponent implements OnInit, OnDestroy 
   }
 
   ngOnDestroy(){
-    if (this.dragulaService.find("preopAreasBag") !== undefined){
-      console.warn("Dragula bag " + "preopAreasBag" + " destroyed")
+    if (this.dragulaService.find("glassBrittleAreasBag") !== undefined){
+      console.warn("Dragula bag " + "glassBrittleAreasBag" + " destroyed")
       this.drag.unsubscribe()
       this.dragend.unsubscribe()
-      this.dragulaService.destroy("preopAreasBag")
+      this.dragulaService.destroy("glassBrittleAreasBag")
     } else {
       console.error("No Dragula bag present on gmp-packing-preop Inventory")
     }
   }
 
-  /*addItem(){
-    console.log("clicked")
-  }*/
-
   addItem(){
-    let modal = this.modalController.create(GMPPackingPreopAddAreaComponent)
+    let modal = this.modalController.create(GMPPackingGlassBrittleAddAreaComponent)
     modal.present()
     modal.onDidDismiss(data => {
       if(data){
         this.areaInventory.push(data.area)
         this.events.publish("area:add", data.area)
-        /*
-        for(let type in this.inventory){
-          if(this.inventory[type].id == data.type){
-            data.item.position = this.inventory[type].inventory.length + 1
-            this.inventory[type].inventory.push(data.item)
-            this.emptyInventoryFlag = false
-          }
-        }*/
       }
     })
   }

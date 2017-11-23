@@ -79,7 +79,7 @@ export class LogsPage extends NavbarPageComponent {
             this.toastService.showText("notAvailableInMobile")
           }
         } else {
-          if (tempArray[item.title].suffix == "gmp-packing-scale-calibration" || tempArray[item.title].suffix == "gmp-packing-preop" || tempArray[item.title].suffix == "gmp-packing-scissors-knives" || tempArray[item.title].suffix == "gmp-packing-thermo-calibration" || tempArray[item.title].suffix == "gmp-packing-hand-washing") {
+          if (tempArray[item.title].suffix == "gmp-packing-scale-calibration" || tempArray[item.title].suffix == "gmp-packing-preop" || tempArray[item.title].suffix == "gmp-packing-scissors-knives" || tempArray[item.title].suffix == "gmp-packing-thermo-calibration" || tempArray[item.title].suffix == "gmp-packing-hand-washing" || tempArray[item.title].suffix == "gmp-packing-cold-room-temp" || tempArray[item.title].suffix == "gmp-packing-glass-brittle") {
             this.navCtrl.push(InventoryLoaderComponent, { log_suffix: tempArray[item.title].suffix, log_title: item.title })
           } else {
             this.toastService.showText("notAvailableInMobile")
