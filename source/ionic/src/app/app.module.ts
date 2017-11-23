@@ -66,6 +66,11 @@ import { GMPPackingHandWashingReportItemComponent } from '../pages/reports/gmp-p
 import { GMPPackingHandWashingReportLoader } from '../pages/reports/gmp-packing-hand-washing/loader/gmp.packing.hand.washing.report.loader'
 import { GMPPackingHandWashingReportDisplayer } from '../pages/reports/gmp-packing-hand-washing/displayer/gmp.packing.hand.washing.report.displayer'
 
+import { GMPPackingHandWashingInventoryComponent } from '../pages/inventories/gmp-packing-hand-washing/inventory/gmp.packing.hand.washing.inventory'
+import { GMPPackingHandWashingInventoryItemComponent } from '../pages/inventories/gmp-packing-hand-washing/item/gmp.packing.hand.washing.inventory.item'
+import { GMPPackingHandWashingInventoryListComponent } from '../pages/inventories/gmp-packing-hand-washing/list/gmp.packing.hand.washing.inventory.list'
+import { GMPPackingHandWashingAddItemComponent } from '../pages/inventories/gmp-packing-hand-washing/add-item/gmp.packing.hand.washing.add.item'
+
 // GMP Packing Glass Brittle
 
 import { GMPPackingGlassBrittleLogComponent } from '../pages/logs/gmp-packing-glass-brittle/log/gmp.packing.glass.brittle.log'
@@ -200,6 +205,10 @@ import { LogService } from '../services/app.logs'
     GMPPackingHandWashingReportItemComponent,
     GMPPackingHandWashingReportLoader,
     GMPPackingHandWashingReportDisplayer,
+    GMPPackingHandWashingInventoryComponent,
+    GMPPackingHandWashingInventoryItemComponent,
+    GMPPackingHandWashingInventoryListComponent,
+    GMPPackingHandWashingAddItemComponent,
     GMPPackingGlassBrittleLogComponent,
     GMPPackingGlassBrittleAreaComponent,
     GMPPackingGlassBrittleItemComponent,
@@ -299,6 +308,10 @@ import { LogService } from '../services/app.logs'
     GMPPackingHandWashingReportItemComponent,
     GMPPackingHandWashingReportLoader,
     GMPPackingHandWashingReportDisplayer,
+    GMPPackingHandWashingInventoryComponent,
+    GMPPackingHandWashingInventoryItemComponent,
+    GMPPackingHandWashingInventoryListComponent,
+    GMPPackingHandWashingAddItemComponent,
     GMPPackingGlassBrittleLogComponent,
     GMPPackingGlassBrittleAreaComponent,
     GMPPackingGlassBrittleItemComponent,

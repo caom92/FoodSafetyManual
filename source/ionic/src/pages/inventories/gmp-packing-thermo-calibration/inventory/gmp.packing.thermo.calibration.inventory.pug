@@ -1,6 +1,7 @@
 ion-content(hide-fab, [class.no-scroll]='!scrollAllowed')
   ion-list
     ion-item(ion-list-header, *ngIf='emptyInventoryFlag == false')
+      ion-icon(item-start)
       ion-label {{ 'InventoryLists.order' | translate:lang }}
       ion-label {{ 'InventoryLists.name' | translate:lang }}
       ion-toggle(item-end, style='visibility: hidden;')
