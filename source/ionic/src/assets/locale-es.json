@@ -107,6 +107,8 @@
         "ice_point_test": "Prueba del método del punto de hielo",
         "thermo_calibration": "Calibración de termómetro",
         "sanitized": "Sanitizado",
-        "deficiencies_of": "Deficiencias notadas de"
+        "calibrated": "Calibrado",
+        "deficiencies_of": "Deficiencias notadas de",
+        "deficiencies": "Deficiencias notadas"
     }
 }

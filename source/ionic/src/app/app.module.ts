@@ -135,6 +135,11 @@ import { GMPPackingScissorsKnivesAddItemComponent } from '../pages/inventories/g
 import { GMPPackingThermoCalibrationLogComponent } from '../pages/logs/gmp-packing-thermo-calibration/log/gmp.packing.thermo.calibration.log'
 import { GMPPackingThermoCalibrationItemComponent } from '../pages/logs/gmp-packing-thermo-calibration/item/gmp.packing.thermo.calibration.item'
 
+import { GMPPackingThermoCalibrationReportComponent } from '../pages/reports/gmp-packing-thermo-calibration/report/gmp.packing.thermo.calibration.report'
+import { GMPPackingThermoCalibrationReportItemComponent } from '../pages/reports/gmp-packing-thermo-calibration/item/gmp.packing.thermo.calibration.report.item'
+import { GMPPackingThermoCalibrationReportLoader } from '../pages/reports/gmp-packing-thermo-calibration/loader/gmp.packing.thermo.calibration.report.loader'
+import { GMPPackingThermoCalibrationReportDisplayer } from '../pages/reports/gmp-packing-thermo-calibration/displayer/gmp.packing.thermo.calibration.report.displayer'
+
 import { GMPPackingThermoCalibrationInventoryComponent } from '../pages/inventories/gmp-packing-thermo-calibration/inventory/gmp.packing.thermo.calibration.inventory'
 import { GMPPackingThermoCalibrationInventoryItemComponent } from '../pages/inventories/gmp-packing-thermo-calibration/item/gmp.packing.thermo.calibration.inventory.item'
 import { GMPPackingThermoCalibrationInventoryListComponent } from '../pages/inventories/gmp-packing-thermo-calibration/list/gmp.packing.thermo.calibration.inventory.list'
@@ -144,6 +149,11 @@ import { GMPPackingThermoCalibrationAddItemComponent } from '../pages/inventorie
 
 import { GMPPackingColdRoomTempLogComponent } from '../pages/logs/gmp-packing-cold-room-temp/log/gmp.packing.cold.room.temp.log'
 import { GMPPackingColdRoomTempItemComponent } from '../pages/logs/gmp-packing-cold-room-temp/item/gmp.packing.cold.room.temp.item'
+
+import { GMPPackingColdRoomTempReportComponent } from '../pages/reports/gmp-packing-cold-room-temp/report/gmp.packing.cold.room.temp.report'
+import { GMPPackingColdRoomTempReportItemComponent } from '../pages/reports/gmp-packing-cold-room-temp/item/gmp.packing.cold.room.temp.report.item'
+import { GMPPackingColdRoomTempReportLoader } from '../pages/reports/gmp-packing-cold-room-temp/loader/gmp.packing.cold.room.temp.report.loader'
+import { GMPPackingColdRoomTempReportDisplayer } from '../pages/reports/gmp-packing-cold-room-temp/displayer/gmp.packing.cold.room.temp.report.displayer'
 
 import { GMPPackingColdRoomTempInventoryComponent } from '../pages/inventories/gmp-packing-cold-room-temp/inventory/gmp.packing.cold.room.temp.inventory'
 import { GMPPackingColdRoomTempInventoryItemComponent } from '../pages/inventories/gmp-packing-cold-room-temp/item/gmp.packing.cold.room.temp.inventory.item'
@@ -290,12 +300,20 @@ import { LogService } from '../services/app.logs'
     GMPPackingScissorsKnivesAddItemComponent,
     GMPPackingThermoCalibrationLogComponent,
     GMPPackingThermoCalibrationItemComponent,
+    GMPPackingThermoCalibrationReportComponent,
+    GMPPackingThermoCalibrationReportItemComponent,
+    GMPPackingThermoCalibrationReportLoader,
+    GMPPackingThermoCalibrationReportDisplayer,
     GMPPackingThermoCalibrationInventoryComponent,
     GMPPackingThermoCalibrationInventoryItemComponent,
     GMPPackingThermoCalibrationInventoryListComponent,
     GMPPackingThermoCalibrationAddItemComponent,
     GMPPackingColdRoomTempLogComponent,
     GMPPackingColdRoomTempItemComponent,
+    GMPPackingColdRoomTempReportComponent,
+    GMPPackingColdRoomTempReportItemComponent,
+    GMPPackingColdRoomTempReportLoader,
+    GMPPackingColdRoomTempReportDisplayer,
     GMPPackingColdRoomTempInventoryComponent,
     GMPPackingColdRoomTempInventoryItemComponent,
     GMPPackingColdRoomTempInventoryListComponent,
@@ -415,12 +433,20 @@ import { LogService } from '../services/app.logs'
     GMPPackingScissorsKnivesAddItemComponent,
     GMPPackingThermoCalibrationLogComponent,
     GMPPackingThermoCalibrationItemComponent,
+    GMPPackingThermoCalibrationReportComponent,
+    GMPPackingThermoCalibrationReportItemComponent,
+    GMPPackingThermoCalibrationReportLoader,
+    GMPPackingThermoCalibrationReportDisplayer,
     GMPPackingThermoCalibrationInventoryComponent,
     GMPPackingThermoCalibrationInventoryItemComponent,
     GMPPackingThermoCalibrationInventoryListComponent,
     GMPPackingThermoCalibrationAddItemComponent,
     GMPPackingColdRoomTempLogComponent,
     GMPPackingColdRoomTempItemComponent,
+    GMPPackingColdRoomTempReportComponent,
+    GMPPackingColdRoomTempReportItemComponent,
+    GMPPackingColdRoomTempReportLoader,
+    GMPPackingColdRoomTempReportDisplayer,
     GMPPackingColdRoomTempInventoryComponent,
     GMPPackingColdRoomTempInventoryItemComponent,
     GMPPackingColdRoomTempInventoryListComponent,

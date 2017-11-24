@@ -20,6 +20,8 @@ import { GMPPackingHandWashingReportDisplayer } from './gmp-packing-hand-washing
 import { GMPPackingGlassBrittleReportDisplayer } from './gmp-packing-glass-brittle/displayer/gmp.packing.glass.brittle.report.displayer'
 import { GMPPackingScaleCalibrationReportDisplayer } from './gmp-packing-scale-calibration/displayer/gmp.packing.scale.calibration.report.displayer'
 import { GAPPackingPreopReportDisplayer } from './gap-packing-preop/displayer/gap.packing.preop.report.displayer'
+import { GMPPackingColdRoomTempReportDisplayer } from './gmp-packing-cold-room-temp/displayer/gmp.packing.cold.room.temp.report.displayer'
+import { GMPPackingThermoCalibrationReportDisplayer } from './gmp-packing-thermo-calibration/displayer/gmp.packing.thermo.calibration.report.displayer'
 
 @Component({
   selector: 'report',
@@ -38,8 +40,8 @@ export class ReportTab extends DynamicComponentResolver {
   activeReport: string = "any"
 
   dateRangeForm: FormGroup = this.formBuilder.group({
-    startDate: [ this.startDate ],
-    endDate: [ this.endDate ]
+    startDate: [this.startDate],
+    endDate: [this.endDate]
   })
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private translationService: TranslationService, public events: Events, private storage: Storage, private sanitizer: DomSanitizer, private server: BackendService, private formBuilder: FormBuilder, public loadingCtrl: LoadingController, factoryResolver: ComponentFactoryResolver, public ts: TService) {
@@ -51,7 +53,7 @@ export class ReportTab extends DynamicComponentResolver {
     this.reportSuffix = this.navParams.get('log_suffix')
   }
 
-  getReportData(){
+  getReportData() {
     let tempLoader = this.presentLoadingCustom()
 
     let dateRange = new FormData()
@@ -61,7 +63,7 @@ export class ReportTab extends DynamicComponentResolver {
     console.log("Get Report Data")
     this.server.update(
       'report-' + this.reportSuffix,//suffix,
-      dateRange, 
+      dateRange,
       (response: any) => {
         if (response.meta.return_code == 0) {
           if (response.data) {
@@ -69,7 +71,7 @@ export class ReportTab extends DynamicComponentResolver {
             this.reports = response.data.reports
             this.activeReport = "any"
             tempLoader.dismiss()
-            switch(this.reportSuffix){
+            switch (this.reportSuffix) {
               case 'gmp-packing-preop': this.loaderComponent = this.loadComponent(GMPPackingPreopReportDisplayer, {
                 parent: this,
                 reports: this.reports,
@@ -94,7 +96,19 @@ export class ReportTab extends DynamicComponentResolver {
                 activeReport: this.activeReport
               }).instance
                 break
-              case 'gmp-packing-preop': this.loaderComponent = this.loadComponent(GAPPackingPreopReportDisplayer, {
+              case 'gap-packing-preop': this.loaderComponent = this.loadComponent(GAPPackingPreopReportDisplayer, {
+                parent: this,
+                reports: this.reports,
+                activeReport: this.activeReport
+              }).instance
+                break
+              case 'gmp-packing-cold-room-temp': this.loaderComponent = this.loadComponent(GMPPackingColdRoomTempReportDisplayer, {
+                parent: this,
+                reports: this.reports,
+                activeReport: this.activeReport
+              }).instance
+                break
+              case 'gmp-packing-thermo-calibration': this.loaderComponent = this.loadComponent(GMPPackingThermoCalibrationReportDisplayer, {
                 parent: this,
                 reports: this.reports,
                 activeReport: this.activeReport

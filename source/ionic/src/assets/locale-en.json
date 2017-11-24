@@ -107,6 +107,8 @@
         "ice_point_test": "Ice point method thermometer test",
         "thermo_calibration": "Thermometer Calibration",
         "sanitized": "Sanitized",
-        "deficiencies_of": "Deficiencies noted of"
+        "calibrated": "Calibrated",
+        "deficiencies_of": "Deficiencies noted of",
+        "deficiencies": "Deficiencies noted"
     }
 }
