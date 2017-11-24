@@ -109,6 +109,8 @@
         "sanitized": "Sanitizado",
         "calibrated": "Calibrado",
         "deficiencies_of": "Deficiencias notadas de",
-        "deficiencies": "Deficiencias notadas"
+        "deficiencies": "Deficiencias notadas",
+        "group": "Grupo",
+        "quantity_abbr": "QTY"
     }
 }

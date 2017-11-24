@@ -109,6 +109,8 @@
         "sanitized": "Sanitized",
         "calibrated": "Calibrated",
         "deficiencies_of": "Deficiencies noted of",
-        "deficiencies": "Deficiencies noted"
+        "deficiencies": "Deficiencies noted",
+        "group": "Group",
+        "quantity_abbr": "QTY"
     }
 }

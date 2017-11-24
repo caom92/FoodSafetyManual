@@ -125,6 +125,11 @@ import { GMPPackingScaleCalibrationAddItemComponent } from '../pages/inventories
 import { GMPPackingScissorsKnivesLogComponent } from '../pages/logs/gmp-packing-scissors-knives/log/gmp.packing.scissors.knives.log'
 import { GMPPackingScissorsKnivesItemComponent } from '../pages/logs/gmp-packing-scissors-knives/item/gmp.packing.scissors.knives.item'
 
+import { GMPPackingScissorsKnivesReportComponent } from '../pages/reports/gmp-packing-scissors-knives/report/gmp.packing.scissors.knives.report'
+import { GMPPackingScissorsKnivesReportItemComponent } from '../pages/reports/gmp-packing-scissors-knives/item/gmp.packing.scissors.knives.report.item'
+import { GMPPackingScissorsKnivesReportLoader } from '../pages/reports/gmp-packing-scissors-knives/loader/gmp.packing.scissors.knives.report.loader'
+import { GMPPackingScissorsKnivesReportDisplayer } from '../pages/reports/gmp-packing-scissors-knives/displayer/gmp.packing.scissors.knives.report.displayer'
+
 import { GMPPackingScissorsKnivesInventoryComponent } from '../pages/inventories/gmp-packing-scissors-knives/inventory/gmp.packing.scissors.knives.inventory'
 import { GMPPackingScissorsKnivesInventoryItemComponent } from '../pages/inventories/gmp-packing-scissors-knives/item/gmp.packing.scissors.knives.inventory.item'
 import { GMPPackingScissorsKnivesInventoryListComponent } from '../pages/inventories/gmp-packing-scissors-knives/list/gmp.packing.scissors.knives.inventory.list'
@@ -294,6 +299,10 @@ import { LogService } from '../services/app.logs'
     GAPPackingPreopAddItemComponent,
     GMPPackingScissorsKnivesLogComponent,
     GMPPackingScissorsKnivesItemComponent,
+    GMPPackingScissorsKnivesReportComponent,
+    GMPPackingScissorsKnivesReportItemComponent,
+    GMPPackingScissorsKnivesReportLoader,
+    GMPPackingScissorsKnivesReportDisplayer,
     GMPPackingScissorsKnivesInventoryComponent,
     GMPPackingScissorsKnivesInventoryItemComponent,
     GMPPackingScissorsKnivesInventoryListComponent,
@@ -427,6 +436,10 @@ import { LogService } from '../services/app.logs'
     GAPPackingPreopAddItemComponent,
     GMPPackingScissorsKnivesLogComponent,
     GMPPackingScissorsKnivesItemComponent,
+    GMPPackingScissorsKnivesReportComponent,
+    GMPPackingScissorsKnivesReportItemComponent,
+    GMPPackingScissorsKnivesReportLoader,
+    GMPPackingScissorsKnivesReportDisplayer,
     GMPPackingScissorsKnivesInventoryComponent,
     GMPPackingScissorsKnivesInventoryItemComponent,
     GMPPackingScissorsKnivesInventoryListComponent,
