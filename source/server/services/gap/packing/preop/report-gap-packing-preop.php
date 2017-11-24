@@ -35,6 +35,8 @@ $service = fsm\createReportService(
         $tempItems = [
           'id' => $items[0]['type_id'],
           'name' => $items[0]['type_name'],
+          'es' => $item[0]['type_name'],
+          'en' => $item[0]['type_name'],
           'items' => []
         ];
 
@@ -56,6 +58,8 @@ $service = fsm\createReportService(
             $tempItems = [
               'id' => $item['type_id'],
               'name' => $item['type_name'],
+              'es' => $item['type_name'],
+              'en' => $item['type_name'],
               'items' => [[
                 'id' => $item['item_id'],
                 'order' => $item['position'],

@@ -35,6 +35,8 @@ $service = fsm\createAuthorizationReportService(
         $tempItems = [
           'id' => $items[0]['type_id'],
           'name' => $items[0]['type_name'],
+          'es' => $item[0]['type_name'],
+          'en' => $item[0]['type_name'],
           'items' => []
         ];
 
@@ -60,6 +62,8 @@ $service = fsm\createAuthorizationReportService(
                 'id' => $item['item_id'],
                 'order' => $item['position'],
                 'name' => $item['item_name'],
+                'es' => $item['type_name'],
+                'en' => $item['type_name'],
                 'status' => $item['is_acceptable'],
                 'corrective_action_id' => 
                   $item['corrective_action_id'],

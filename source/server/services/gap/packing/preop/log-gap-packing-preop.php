@@ -27,6 +27,8 @@ $service = fsm\createLogService(
       $type = [
         'id' => 0,
         'name' => '',
+        'es' => '',
+        'en' => '',
         'items' => []
       ];
 
@@ -53,6 +55,8 @@ $service = fsm\createLogService(
           $type = [
             'id' => $row['type_id'],
             'name' => $row['type_name'],
+            'es' => $row['type_name'],
+            'en' => $row['type_name'],
             'items' => [ $item ]
           ];
           $area = [
@@ -79,6 +83,8 @@ $service = fsm\createLogService(
             $type = [
               'id' => $row['type_id'],
               'name' => $row['type_name'],
+              'es' => $row['type_name'],
+              'en' => $row['type_name'],
               'items' => [ $item ]
             ];
           } else {

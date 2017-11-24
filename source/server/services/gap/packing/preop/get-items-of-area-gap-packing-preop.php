@@ -20,6 +20,8 @@ $service = [
     $type = [
       'id' => 0,
       'name' => '',
+      'es' => '',
+      'en' => '',
       'inventory' => []
     ]; 
 
@@ -48,6 +50,8 @@ $service = [
         $type = [
           'id' => $item['type_id'],
           'name' => $item['type_name'],
+          'es' => $item['type_name'],
+          'en' => $item['type_name'],
           'inventory' => (isset($item['id'])) ? [
             $inventoryItem
           ] : []

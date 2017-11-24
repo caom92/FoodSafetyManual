@@ -54,6 +54,16 @@ import { GAPPackingPreopReportItemComponent } from '../pages/reports/gap-packing
 import { GAPPackingPreopReportLoader } from '../pages/reports/gap-packing-preop/loader/gap.packing.preop.report.loader'
 import { GAPPackingPreopReportDisplayer } from '../pages/reports/gap-packing-preop/displayer/gap.packing.preop.report.displayer'
 
+import { GAPPackingPreopInventoryManagerComponent } from '../pages/inventories/gap-packing-preop/manager/gap.packing.preop.inventory.manager'
+import { GAPPackingPreopInventoryComponent } from '../pages/inventories/gap-packing-preop/inventory/gap.packing.preop.inventory'
+import { GAPPackingPreopInventoryItemComponent } from '../pages/inventories/gap-packing-preop/item/gap.packing.preop.inventory.item'
+import { GAPPackingPreopInventoryListComponent } from '../pages/inventories/gap-packing-preop/list/gap.packing.preop.inventory.list'
+import { GAPPackingPreopAreaInventoryComponent } from '../pages/inventories/gap-packing-preop/area-inventory/gap.packing.preop.area.inventory'
+import { GAPPackingPreopAreaInventoryAreaComponent } from '../pages/inventories/gap-packing-preop/area/gap.packing.preop.area.inventory.area'
+import { GAPPackingPreopAddAreaComponent } from '../pages/inventories/gap-packing-preop/add-area/gap.packing.preop.add.area'
+import { GAPPackingPreopEditAreaComponent } from '../pages/inventories/gap-packing-preop/edit-area/gap.packing.preop.edit.area'
+import { GAPPackingPreopAddItemComponent } from '../pages/inventories/gap-packing-preop/add-item/gap.packing.preop.add.item'
+
 // GMP Packing Hand Washing
 
 import { GMPPackingHandWashingLogComponent } from '../pages/logs/gmp-packing-hand-washing/log/gmp.packing.hand.washing.log'
@@ -263,6 +273,15 @@ import { LogService } from '../services/app.logs'
     GAPPackingPreopReportItemComponent,
     GAPPackingPreopReportLoader,
     GAPPackingPreopReportDisplayer,
+    GAPPackingPreopInventoryManagerComponent,
+    GAPPackingPreopInventoryComponent,
+    GAPPackingPreopInventoryItemComponent,
+    GAPPackingPreopInventoryListComponent,
+    GAPPackingPreopAreaInventoryComponent,
+    GAPPackingPreopAreaInventoryAreaComponent,
+    GAPPackingPreopAddAreaComponent,
+    GAPPackingPreopEditAreaComponent,
+    GAPPackingPreopAddItemComponent,
     GMPPackingScissorsKnivesLogComponent,
     GMPPackingScissorsKnivesItemComponent,
     GMPPackingScissorsKnivesInventoryComponent,
@@ -379,6 +398,15 @@ import { LogService } from '../services/app.logs'
     GAPPackingPreopReportItemComponent,
     GAPPackingPreopReportLoader,
     GAPPackingPreopReportDisplayer,
+    GAPPackingPreopInventoryManagerComponent,
+    GAPPackingPreopInventoryComponent,
+    GAPPackingPreopInventoryItemComponent,
+    GAPPackingPreopInventoryListComponent,
+    GAPPackingPreopAreaInventoryComponent,
+    GAPPackingPreopAreaInventoryAreaComponent,
+    GAPPackingPreopAddAreaComponent,
+    GAPPackingPreopEditAreaComponent,
+    GAPPackingPreopAddItemComponent,
     GMPPackingScissorsKnivesLogComponent,
     GMPPackingScissorsKnivesItemComponent,
     GMPPackingScissorsKnivesInventoryComponent,
