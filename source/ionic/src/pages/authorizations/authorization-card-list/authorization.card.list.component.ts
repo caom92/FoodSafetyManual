@@ -36,7 +36,7 @@ export class AuthorizationCardListComponent extends NavbarPageComponent implemen
   logs: Array<WaitingLog> = []
 
   constructor(public navCtrl: NavController, public server: BackendService, public translationService: TranslationService, public events: Events, public loaderService: LoaderService, public ts: TService, private toastService: ToastService, public storage: Storage) {
-    super(translationService, events, storage)
+    super(translationService, events, storage, server)
   }
 
   ngOnInit() {

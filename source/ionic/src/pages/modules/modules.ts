@@ -28,8 +28,8 @@ export class ModulesPage extends NavbarPageComponent {
   selectedProgram: any
   modules: Array<{ title: string, icon: string, program: any }>
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public translationService: TranslationService, public events: Events, public storage: Storage) {
-    super(translationService, events, storage)
+  constructor(public navCtrl: NavController, public navParams: NavParams, public translationService: TranslationService, public events: Events, public storage: Storage, public server: BackendService) {
+    super(translationService, events, storage, server)
     // Tenemos que ver desde qué programa se llamó esta vista
     this.selectedProgram = navParams.get('program')
 

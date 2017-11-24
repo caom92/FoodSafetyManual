@@ -32,8 +32,8 @@ export class HomePage extends NavbarPageComponent implements OnInit {
   userLogInInfo: FormGroup
   serverOnline: boolean = null
 
-  constructor(public navCtrl: NavController, private server: BackendService, public translationService: TranslationService, private formBuilder: FormBuilder, public storage: Storage, protected app: App, public menuCtrl: MenuController, private toasts: ToastService, public events: Events) {
-    super(translationService, events, storage)
+  constructor(public navCtrl: NavController, public server: BackendService, public translationService: TranslationService, private formBuilder: FormBuilder, public storage: Storage, protected app: App, public menuCtrl: MenuController, private toasts: ToastService, public events: Events) {
+    super(translationService, events, storage, server)
   }
 
   private mapUserDataToLocalStorage(userData) {

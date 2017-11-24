@@ -44,8 +44,8 @@ export class GMPPackingHandWashingAuthorizationComponent extends NavbarPageCompo
     created_by: null
   }
 
-  constructor(private _fb: FormBuilder, private timeService: DateTimeService, private server: BackendService, public translationService: TranslationService, private toasts: ToastService, private navParams: NavParams, public events: Events, public storage: Storage) {
-    super(translationService, events, storage)
+  constructor(private _fb: FormBuilder, private timeService: DateTimeService, public server: BackendService, public translationService: TranslationService, private toasts: ToastService, private navParams: NavParams, public events: Events, public storage: Storage) {
+    super(translationService, events, storage, server)
     this.log = navParams.get('data');
   }
 

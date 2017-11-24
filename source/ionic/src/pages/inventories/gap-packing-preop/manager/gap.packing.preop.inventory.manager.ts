@@ -30,8 +30,8 @@ import { GAPPackingPreopAreaInventoryComponent } from '../area-inventory/gap.pac
 export class GAPPackingPreopInventoryManagerComponent extends NavbarPageComponent implements OnInit {
   @Language() lang: string
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public translationService: TranslationService, public events: Events, public storage: Storage, private server: BackendService, public loadingCtrl: LoadingController, private toastService: ToastService, public ts: TService) {
-    super(translationService, events, storage)
+  constructor(public navCtrl: NavController, public navParams: NavParams, public translationService: TranslationService, public events: Events, public storage: Storage, public server: BackendService, public loadingCtrl: LoadingController, private toastService: ToastService, public ts: TService) {
+    super(translationService, events, storage, server)
   }
   
   tab1Root: any

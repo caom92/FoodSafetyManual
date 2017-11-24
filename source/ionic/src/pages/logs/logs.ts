@@ -31,8 +31,8 @@ export class LogsPage extends NavbarPageComponent {
   selectedModule: any
   logs: Array<{ title: string, icon: string, program: any, module: any }>
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public translationService: TranslationService, public events: Events, public storage: Storage, private toastService: ToastService) {
-    super(translationService, events, storage)
+  constructor(public navCtrl: NavController, public navParams: NavParams, public translationService: TranslationService, public events: Events, public storage: Storage, private toastService: ToastService, public server: BackendService) {
+    super(translationService, events, storage, server)
     // Tenemos que ver desde qué programa se llamó esta vista
     this.selectedProgram = navParams.get('program');
     this.selectedModule = navParams.get('module');

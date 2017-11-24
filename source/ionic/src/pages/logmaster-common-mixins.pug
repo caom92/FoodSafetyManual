@@ -29,12 +29,13 @@ mixin espressoNavbar(isConnected, title)
         button(ion-button, menuToggle='es', [hidden]='!isSpanish()')
           ion-icon(name='menu')
       ion-item([hidden]='true')
-        ion-select(#zone_select, interface='popover')
-          ion-option(value='BCN', selected) BCN
-          ion-option(value='LAW') LAW
-          ion-option(value='PES') PES
-          ion-option(value='ZAR') ZAR
-          ion-option(value='ETC') ETC
+        ion-select(#zone_select, interface='popover', (ionChange)='onZoneChange($event)')
+          ion-option(*ngFor='let zone of zone_array; let isFirst = first', [value]='zone.id', [selected]='isFirst') {{zone.name}}
+          //-ion-option(value='BCN', selected) BCN
+            ion-option(value='LAW') LAW
+            ion-option(value='PES') PES
+            ion-option(value='ZAR') ZAR
+            ion-option(value='ETC') ETC
       ion-item([hidden]='true')
         ion-select(#language_select, interface='action-sheet', (ionChange)='onLanguageChange($event)')
           ion-option(value='en') {{ 'English' | translate:lang }}

@@ -41,8 +41,8 @@ export class InventoryLoaderComponent extends DynamicNavbarPageComponent impleme
   inventorySuffix: string = ""
   title: string = ""
 
-  constructor(public translationService: TranslationService, public events: Events, public storage: Storage, factoryResolver: ComponentFactoryResolver, public navParams: NavParams) {
-    super(translationService, events, storage, factoryResolver)
+  constructor(public translationService: TranslationService, public events: Events, public storage: Storage, factoryResolver: ComponentFactoryResolver, public navParams: NavParams, public server: BackendService) {
+    super(translationService, events, storage, server, factoryResolver)
     this.inventorySuffix = this.navParams.get('log_suffix')
     this.title = this.navParams.get('log_title')
   }

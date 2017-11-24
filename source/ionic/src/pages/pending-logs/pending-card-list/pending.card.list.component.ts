@@ -36,7 +36,7 @@ export class PendingCardListComponent extends NavbarPageComponent implements OnI
   logs: Array<PendingLog> = []
 
   constructor(public navCtrl: NavController, public server: BackendService, public translationService: TranslationService, public events: Events, public ts: TService, private toastService: ToastService, public storage: Storage) {
-    super(translationService, events, storage)
+    super(translationService, events, storage, server)
   }
 
   ngOnInit() {

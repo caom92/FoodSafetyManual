@@ -65,8 +65,8 @@ export class EditProfile extends NavbarPageComponent {
     ])]
   })
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private server: BackendService, public translationService: TranslationService, private formBuilder: FormBuilder, public storage: Storage, private toasts: ToastService, public events: Events) {
-    super(translationService, events, storage)
+  constructor(public navCtrl: NavController, public navParams: NavParams, public server: BackendService, public translationService: TranslationService, private formBuilder: FormBuilder, public storage: Storage, private toasts: ToastService, public events: Events) {
+    super(translationService, events, storage, server)
   }
 
   ionViewWillEnter() {

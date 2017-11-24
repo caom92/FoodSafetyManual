@@ -42,8 +42,8 @@ export class GMPPackingPreopPage extends NavbarPageComponent implements OnInit {
   log_suffix: string = ""
   isEmployeeFlag: boolean = false
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public translationService: TranslationService, public events: Events, public storage: Storage, private server: BackendService, public loadingCtrl: LoadingController, private toastService: ToastService, public ts: TService) {
-    super(translationService, events, storage)
+  constructor(public navCtrl: NavController, public navParams: NavParams, public translationService: TranslationService, public events: Events, public storage: Storage, public server: BackendService, public loadingCtrl: LoadingController, private toastService: ToastService, public ts: TService) {
+    super(translationService, events, storage, server)
     this.log_suffix = this.navParams.get('log_suffix')
     this.logTitle = this.navParams.get('log_title')
     this.reportData.log_suffix = this.navParams.get('log_suffix')
@@ -52,12 +52,12 @@ export class GMPPackingPreopPage extends NavbarPageComponent implements OnInit {
   logData: any = {}
   reportData: any = {}
   manualSource: any = {}
-  
+
   tab1Root: any
   tab2Root: any
   tab3Root: any
 
-  ngOnInit(){
+  ngOnInit() {
     // Siempre se llama primero al ngOnInit del padre para suscribirse a la situación actual
     // de los pendientes
     super.ngOnInit()
@@ -68,7 +68,7 @@ export class GMPPackingPreopPage extends NavbarPageComponent implements OnInit {
     this.storage.get("role_name").then(
       role_name => {
         this.isEmployeeFlag = role_name == "Employee"
-        switch(this.log_suffix){
+        switch (this.log_suffix) {
           case 'gmp-packing-preop': this.tab3Root = GMPPackingPreopLogComponent
             break
           case 'gmp-packing-hand-washing': this.tab3Root = GMPPackingHandWashingLogComponent
@@ -87,18 +87,44 @@ export class GMPPackingPreopPage extends NavbarPageComponent implements OnInit {
             break
           default: this.tab3Root = GMPPackingPreopLogComponent
         }
-    
-    
-        let tempLoader = this.presentLoadingCustom()
-        this.storage.get("log-" + this.log_suffix).then(
-          data => {
-            if(data != null && data != undefined){
-              this.logData.data = data
-              tempLoader.dismiss()
-            } else {
+
+
+        if (role_name == "Employee") {
+          let tempLoader = this.presentLoadingCustom()
+          this.storage.get("log-" + this.log_suffix).then(
+            data => {
+              if (data != null && data != undefined) {
+                this.logData.data = data
+                tempLoader.dismiss()
+              } else {
+                this.server.update(
+                  'log-' + this.log_suffix,
+                  new FormData,
+                  (response: any) => {
+                    if (response.meta.return_code == 0) {
+                      if (response.data) {
+                        this.logData.data = response.data
+                        this.storage.set("log-" + this.log_suffix, response.data)
+                        tempLoader.dismiss()
+                      }
+                    } else {
+                      tempLoader.dismiss()
+                      this.navCtrl.pop()
+                    }
+                  },
+                  (error: any, caught: Observable<void>) => {
+                    tempLoader.dismiss()
+                    this.toastService.showText("serverUnreachable")
+                    this.navCtrl.pop()
+                    return []
+                  }
+                )
+              }
+            },
+            error => {
               this.server.update(
                 'log-' + this.log_suffix,
-                new FormData, 
+                new FormData,
                 (response: any) => {
                   if (response.meta.return_code == 0) {
                     if (response.data) {
@@ -119,32 +145,8 @@ export class GMPPackingPreopPage extends NavbarPageComponent implements OnInit {
                 }
               )
             }
-          },
-          error => {
-            this.server.update(
-              'log-' + this.log_suffix,
-              new FormData, 
-              (response: any) => {
-                if (response.meta.return_code == 0) {
-                  if (response.data) {
-                    this.logData.data = response.data
-                    this.storage.set("log-" + this.log_suffix, response.data)
-                    tempLoader.dismiss()
-                  }
-                } else {
-                  tempLoader.dismiss()
-                  this.navCtrl.pop()
-                }
-              },
-              (error: any, caught: Observable<void>) => {
-                tempLoader.dismiss()
-                this.toastService.showText("serverUnreachable")
-                this.navCtrl.pop()
-                return []
-              }
-            )
-          }
-        )
+          )
+        }
       },
       error => {
 
@@ -157,7 +159,7 @@ export class GMPPackingPreopPage extends NavbarPageComponent implements OnInit {
       manualFormData.append("log-suffix", this.log_suffix)
       this.server.update(
         'get-log-manual-url',
-        manualFormData, 
+        manualFormData,
         (response: any) => {
           if (response.meta.return_code == 0) {
             if (response.data) {
@@ -165,7 +167,7 @@ export class GMPPackingPreopPage extends NavbarPageComponent implements OnInit {
               this.manualSource.logSuffix = this.log_suffix
             }
           } else {
-            
+
           }
         },
         (error: any, caught: Observable<void>) => {
