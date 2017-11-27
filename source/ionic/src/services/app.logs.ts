@@ -161,9 +161,9 @@ export class LogService {
       for (let key in flatObj) {
         let tempKey = key + "]"
         tempKey = tempKey.replace(']', '')
-        if (flatObj[key] == true) {
+        if (flatObj[key] === true) {
           form_data.append(tempKey, "1")
-        } else if (flatObj[key] == false) {
+        } else if (flatObj[key] === false) {
           form_data.append(tempKey, "0")
         } else {
           form_data.append(tempKey, flatObj[key])

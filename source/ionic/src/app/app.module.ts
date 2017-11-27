@@ -144,6 +144,8 @@ import { GMPPackingScissorsKnivesAddItemComponent } from '../pages/inventories/g
 import { GMPPackingThermoCalibrationLogComponent } from '../pages/logs/gmp-packing-thermo-calibration/log/gmp.packing.thermo.calibration.log'
 import { GMPPackingThermoCalibrationItemComponent } from '../pages/logs/gmp-packing-thermo-calibration/item/gmp.packing.thermo.calibration.item'
 
+import { GMPPackingThermoCalibrationAuthorizationComponent } from '../pages/logs/gmp-packing-thermo-calibration/authorization/gmp.packing.thermo.calibration.authorization'
+
 import { GMPPackingThermoCalibrationReportComponent } from '../pages/reports/gmp-packing-thermo-calibration/report/gmp.packing.thermo.calibration.report'
 import { GMPPackingThermoCalibrationReportItemComponent } from '../pages/reports/gmp-packing-thermo-calibration/item/gmp.packing.thermo.calibration.report.item'
 import { GMPPackingThermoCalibrationReportLoader } from '../pages/reports/gmp-packing-thermo-calibration/loader/gmp.packing.thermo.calibration.report.loader'
@@ -315,6 +317,7 @@ import { LogService } from '../services/app.logs'
     GMPPackingScissorsKnivesAddItemComponent,
     GMPPackingThermoCalibrationLogComponent,
     GMPPackingThermoCalibrationItemComponent,
+    GMPPackingThermoCalibrationAuthorizationComponent,
     GMPPackingThermoCalibrationReportComponent,
     GMPPackingThermoCalibrationReportItemComponent,
     GMPPackingThermoCalibrationReportLoader,
@@ -454,6 +457,7 @@ import { LogService } from '../services/app.logs'
     GMPPackingScissorsKnivesAddItemComponent,
     GMPPackingThermoCalibrationLogComponent,
     GMPPackingThermoCalibrationItemComponent,
+    GMPPackingThermoCalibrationAuthorizationComponent,
     GMPPackingThermoCalibrationReportComponent,
     GMPPackingThermoCalibrationReportItemComponent,
     GMPPackingThermoCalibrationReportLoader,
