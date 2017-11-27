@@ -50,7 +50,7 @@ export class GMPPackingHandWashingLogComponent implements OnInit {
     private toasts: ToastService,
     private navParams: NavParams,
     public logService: LogService) {
-    this.log = navParams.get('data');
+    this.log = navParams.get('data')
   }
 
   ngOnInit() {

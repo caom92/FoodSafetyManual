@@ -23,6 +23,8 @@ import { GMPPackingPreopAreaComponent } from '../pages/logs/gmp-packing-preop/ar
 import { GMPPackingPreopTypeComponent } from '../pages/logs/gmp-packing-preop/type/gmp.packing.preop.type'
 import { GMPPackingPreopItemComponent } from '../pages/logs/gmp-packing-preop/item/gmp.packing.preop.item'
 
+import { GMPPackingPreopAuthorizationComponent } from '../pages/logs/gmp-packing-preop/authorization/gmp.packing.preop.authorization'
+
 import { GMPPackingPreopReportComponent } from '../pages/reports/gmp-packing-preop/report/gmp.packing.preop.report'
 import { GMPPackingPreopReportAreaComponent } from '../pages/reports/gmp-packing-preop/area/gmp.packing.preop.area'
 import { GMPPackingPreopReportTypeComponent } from '../pages/reports/gmp-packing-preop/type/gmp.packing.preop.type'
@@ -223,6 +225,7 @@ import { LogService } from '../services/app.logs'
     GMPPackingPreopAreaComponent,
     GMPPackingPreopTypeComponent,
     GMPPackingPreopItemComponent,
+    GMPPackingPreopAuthorizationComponent,
     GMPPackingPreopReportComponent,
     GMPPackingPreopReportAreaComponent,
     GMPPackingPreopReportTypeComponent,
@@ -360,6 +363,7 @@ import { LogService } from '../services/app.logs'
     GMPPackingPreopAreaComponent,
     GMPPackingPreopTypeComponent,
     GMPPackingPreopItemComponent,
+    GMPPackingPreopAuthorizationComponent,
     GMPPackingPreopReportComponent,
     GMPPackingPreopReportAreaComponent,
     GMPPackingPreopReportTypeComponent,

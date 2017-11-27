@@ -16,6 +16,7 @@ import { ToastService } from '../../../services/app.toasts'
 import { LoaderService } from '../../../services/app.loaders'
 
 import { GMPPackingHandWashingAuthorizationComponent } from '../../logs/gmp-packing-hand-washing/authorization/gmp.packing.hand.washing.authorization'
+import { GMPPackingPreopAuthorizationComponent } from '../../logs/gmp-packing-preop/authorization/gmp.packing.preop.authorization'
 
 @Component({
   selector: 'authorization-card',
@@ -49,19 +50,19 @@ export class AuthorizationCardComponent {
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, public ts: TService, public event: Events, private toastService: ToastService, private server: BackendService, public timeService: DateTimeService, public loaderService: LoaderService) {
   }
 
-  approveLog(){
+  approveLog() {
     let confirm = this.alertCtrl.create({
       title: this.ts.translate("Titles.approve_log"),
       message: this.ts.translate("Messages.approve_log") + "<br><br>" + this.log.log_name + "<br>" + this.log.first_name + " " + this.log.last_name + "<br>" + this.log.capture_date,
       buttons: [
         {
-        text: this.ts.translate("Options.cancel"),
+          text: this.ts.translate("Options.cancel"),
           handler: () => {
             console.log('Cancelar')
           }
         },
         {
-          text:  this.ts.translate("Options.accept"),
+          text: this.ts.translate("Options.accept"),
           handler: () => {
             let data = new FormData()
             data.append("captured_log_id", "" + this.log.captured_log_id)
@@ -91,19 +92,19 @@ export class AuthorizationCardComponent {
     confirm.present();
   }
 
-  rejectLog(){
+  rejectLog() {
     let confirm = this.alertCtrl.create({
       title: this.ts.translate("Titles.reject_log"),
       message: this.ts.translate("Messages.reject_log") + "<br><br>" + this.log.log_name + "<br>" + this.log.first_name + " " + this.log.last_name + "<br>" + this.log.capture_date,
       buttons: [
         {
-        text: this.ts.translate("Options.cancel"),
+          text: this.ts.translate("Options.cancel"),
           handler: () => {
             console.log('Cancelado');
           }
         },
         {
-          text:  this.ts.translate("Options.accept"),
+          text: this.ts.translate("Options.accept"),
           handler: () => {
             console.log('Rechazado');
             let data = new FormData()
@@ -133,9 +134,9 @@ export class AuthorizationCardComponent {
     confirm.present();
   }
 
-  openLog(){
+  openLog() {
     let suffix = this.log.service_name
-    if(suffix == "gmp-packing-hand-washing"){
+    if (suffix == "gmp-packing-hand-washing" || suffix == suffix) {
       let authorizationData = new FormData()
       authorizationData.append("start_date", this.log.capture_date)
       authorizationData.append("end_date", this.log.capture_date)
@@ -146,14 +147,24 @@ export class AuthorizationCardComponent {
         "authorization-report-" + suffix,
         authorizationData,
         (response: any) => {
-          if(response.meta.return_code == 0){
+          if (response.meta.return_code == 0) {
             let logData = response.data
-            switch(suffix){
+            switch (suffix) {
               case "gmp-packing-hand-washing":
                 loader.dismiss()
                 this.navCtrl.push(GMPPackingHandWashingAuthorizationComponent, {
                   data: logData
                 })
+                break
+              case "gmp-packing-preop":
+                loader.dismiss()
+                this.navCtrl.push(GMPPackingPreopAuthorizationComponent, {
+                  data: logData
+                })
+                break
+              default:
+                loader.dismiss()
+                console.log(logData)
                 break
             }
           }

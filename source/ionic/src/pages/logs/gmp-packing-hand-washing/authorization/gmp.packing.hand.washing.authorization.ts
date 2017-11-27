@@ -1,4 +1,4 @@
-import { Component, Input, NgModule, OnInit, ViewChild } from '@angular/core'
+import { Component, Input, OnInit, ViewChild } from '@angular/core'
 import { NavParams, Select, Events } from 'ionic-angular'
 import { Storage } from '@ionic/storage'
 import { DatePipe } from '@angular/common'
@@ -8,15 +8,14 @@ import { Language } from 'angular-l10n'
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
 import { UpdateLog, UpdateItem } from '../interfaces/gmp.packing.hand.washing.update.interface'
 import { Authorization, AuthorizationItem } from '../interfaces/gmp.packing.hand.washing.authorization.interface'
-//import { LogHeaderComponent } from '../components/app.log.header'
 
-import { DateTimeService } from '../../../../services/app.time'
 import { BackendService } from '../../../../services/app.backend'
 import { TranslationService } from '../../../../services/app.translation'
 import { ToastService } from '../../../../services/app.toasts'
 import { LoaderService } from '../../../../services/app.loaders'
 
 import { NavbarPageComponent } from '../../../super-components/navbar.component'
+import { LogService } from '../../../../services/app.logs'
 
 @Component({
   selector: 'gmp-packing-hand-washing-authorization',
@@ -24,7 +23,8 @@ import { NavbarPageComponent } from '../../../super-components/navbar.component'
   providers: [
     BackendService,
     TranslationService,
-    ToastService
+    ToastService,
+    LogService
   ]
 })
 
@@ -44,7 +44,14 @@ export class GMPPackingHandWashingAuthorizationComponent extends NavbarPageCompo
     created_by: null
   }
 
-  constructor(private _fb: FormBuilder, private timeService: DateTimeService, public server: BackendService, public translationService: TranslationService, private toasts: ToastService, private navParams: NavParams, public events: Events, public storage: Storage) {
+  constructor(private _fb: FormBuilder,
+    public server: BackendService,
+    public translationService: TranslationService,
+    private toasts: ToastService,
+    private navParams: NavParams,
+    public events: Events,
+    public storage: Storage,
+    public logService: LogService) {
     super(translationService, events, storage, server)
     this.log = navParams.get('data');
   }
@@ -82,62 +89,14 @@ export class GMPPackingHandWashingAuthorizationComponent extends NavbarPageCompo
 
   save(model: UpdateLog) {
     if (this.gmpPackingHandWashingForm.valid) {
-      console.log(this.gmpPackingHandWashingForm.value)
-      this.toasts.showText("capturedLog")
-      let form_data = new FormData()
-      let filled_log = this.gmpPackingHandWashingForm.value
-
-      let flatObj = this.flatten(filled_log)
-
-      for (let key in flatObj) {
-        let tempKey = key + "]"
-        tempKey = tempKey.replace(']', '')
-        if (flatObj[key] == true) {
-          form_data.append(tempKey, "1")
-        } else if (flatObj[key] == false) {
-          form_data.append(tempKey, "0")
-        } else {
-          form_data.append(tempKey, flatObj[key])
-        }
-      }
-
-      console.log(filled_log)
-      console.log(flatObj)
-
-      this.server.update(
-        'update-gmp-packing-hand-washing',
-        form_data,
-        (response: any) => {
-          console.log(response)
-          console.log(JSON.stringify(response))
-        } // (response: any)
-      ) // this.server.update
+      this.logService.update(this.gmpPackingHandWashingForm.value, 'update-gmp-packing-hand-washing').then(success => {
+        // Si la promesa regresa como valida, quiere decir que la bitácora fue enviada con éxito
+        
+      }, error => {
+        // Caso contrario, se le notifica al usuario
+      })
     } else {
       this.toasts.showText("incompleteLog")
     }
-  }
-
-  flatten(data) {
-    var result = {}
-
-    function recurse(cur, prop) {
-      if (Object(cur) !== cur) {
-        result[prop] = cur
-      } else if (Array.isArray(cur)) {
-        for (var i = 0, l = cur.length; i < l; i++)
-          recurse(cur[i], prop + "][" + i + "][")
-        if (l == 0) result[prop] = []
-      } else {
-        var isEmpty = true
-        for (var p in cur) {
-          isEmpty = false
-          recurse(cur[p], prop ? prop + p : p)
-        }
-        if (isEmpty && prop) result[prop] = {}
-      }
-    }
-
-    recurse(data, "")
-    return result
   }
 }

@@ -150,6 +150,53 @@ export class LogService {
     return sentPromise
   }
 
+  update(data: any, service: string){
+    let updatePromise = new Promise<string>((resolve, reject) => {
+      let loader = this.loaderService.koiLoader("")
+      let form_data = new FormData()
+      let filled_log = data
+
+      let flatObj = this.flatten(filled_log)
+
+      for (let key in flatObj) {
+        let tempKey = key + "]"
+        tempKey = tempKey.replace(']', '')
+        if (flatObj[key] == true) {
+          form_data.append(tempKey, "1")
+        } else if (flatObj[key] == false) {
+          form_data.append(tempKey, "0")
+        } else {
+          form_data.append(tempKey, flatObj[key])
+        }
+      }
+
+      loader.present()
+      this.server.update(
+        service,
+        form_data,
+        (response: any) => {
+          if(response.meta.return_code == 0){
+            this.toastService.showText("capturedLog")
+            resolve("server")
+          } else {
+            // TODO: Toast para caso en que haya fallado
+            // Regresamos la promesa como erronea con el código de error del servidor
+            reject(response.meta.return_code)
+          }
+          // Sin importar el resultado, desactivamos el spinner
+          loader.dismiss()
+          console.log(response)
+          console.log(JSON.stringify(response))
+        }, (error: any, caught: Observable<void>) => {
+          // TODO Mensaje de error
+          return []
+        }
+      )
+    })
+
+    return updatePromise
+  }
+
   // Esta función "aplana" y da formato de datos de formulario a un objeto
   // producido por cualquier componente de una bitácora particular
   private flatten(data) {
