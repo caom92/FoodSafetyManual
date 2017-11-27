@@ -111,6 +111,8 @@ import { GMPPackingScaleCalibrationLogComponent } from '../pages/logs/gmp-packin
 import { GMPPackingScaleCalibrationTypeComponent } from '../pages/logs/gmp-packing-scale-calibration/type/gmp.packing.scale.calibration.type'
 import { GMPPackingScaleCalibrationItemComponent } from '../pages/logs/gmp-packing-scale-calibration/item/gmp.packing.scale.calibration.item'
 
+import { GMPPackingScaleCalibrationAuthorizationComponent } from '../pages/logs/gmp-packing-scale-calibration/authorization/gmp.packing.scale.calibration.authorization'
+
 import { GMPPackingScaleCalibrationReportComponent } from '../pages/reports/gmp-packing-scale-calibration/report/gmp.packing.scale.calibration.report'
 import { GMPPackingScaleCalibrationReportTypeComponent } from '../pages/reports/gmp-packing-scale-calibration/type/gmp.packing.scale.calibration.report.type'
 import { GMPPackingScaleCalibrationReportItemComponent } from '../pages/reports/gmp-packing-scale-calibration/item/gmp.packing.scale.calibration.report.item'
@@ -272,6 +274,7 @@ import { LogService } from '../services/app.logs'
     GMPPackingScaleCalibrationLogComponent,
     GMPPackingScaleCalibrationTypeComponent,
     GMPPackingScaleCalibrationItemComponent,
+    GMPPackingScaleCalibrationAuthorizationComponent,
     GMPPackingScaleCalibrationReportComponent,
     GMPPackingScaleCalibrationReportTypeComponent,
     GMPPackingScaleCalibrationReportItemComponent,
@@ -410,6 +413,7 @@ import { LogService } from '../services/app.logs'
     GMPPackingScaleCalibrationLogComponent,
     GMPPackingScaleCalibrationTypeComponent,
     GMPPackingScaleCalibrationItemComponent,
+    GMPPackingScaleCalibrationAuthorizationComponent,
     GMPPackingScaleCalibrationReportComponent,
     GMPPackingScaleCalibrationReportTypeComponent,
     GMPPackingScaleCalibrationReportItemComponent,

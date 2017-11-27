@@ -17,6 +17,7 @@ import { LoaderService } from '../../../services/app.loaders'
 
 import { GMPPackingHandWashingAuthorizationComponent } from '../../logs/gmp-packing-hand-washing/authorization/gmp.packing.hand.washing.authorization'
 import { GMPPackingPreopAuthorizationComponent } from '../../logs/gmp-packing-preop/authorization/gmp.packing.preop.authorization'
+import { GMPPackingScaleCalibrationAuthorizationComponent } from '../../logs/gmp-packing-scale-calibration/authorization/gmp.packing.scale.calibration.authorization'
 
 @Component({
   selector: 'authorization-card',
@@ -159,6 +160,12 @@ export class AuthorizationCardComponent {
               case "gmp-packing-preop":
                 loader.dismiss()
                 this.navCtrl.push(GMPPackingPreopAuthorizationComponent, {
+                  data: logData
+                })
+                break
+              case "gmp-packing-scale-calibration":
+                loader.dismiss()
+                this.navCtrl.push(GMPPackingScaleCalibrationAuthorizationComponent, {
                   data: logData
                 })
                 break
