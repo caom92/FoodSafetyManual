@@ -161,6 +161,8 @@ import { GMPPackingThermoCalibrationAddItemComponent } from '../pages/inventorie
 import { GMPPackingColdRoomTempLogComponent } from '../pages/logs/gmp-packing-cold-room-temp/log/gmp.packing.cold.room.temp.log'
 import { GMPPackingColdRoomTempItemComponent } from '../pages/logs/gmp-packing-cold-room-temp/item/gmp.packing.cold.room.temp.item'
 
+import { GMPPackingColdRoomTempAuthorizationComponent } from '../pages/logs/gmp-packing-cold-room-temp/authorization/gmp.packing.cold.room.temp.authorization'
+
 import { GMPPackingColdRoomTempReportComponent } from '../pages/reports/gmp-packing-cold-room-temp/report/gmp.packing.cold.room.temp.report'
 import { GMPPackingColdRoomTempReportItemComponent } from '../pages/reports/gmp-packing-cold-room-temp/item/gmp.packing.cold.room.temp.report.item'
 import { GMPPackingColdRoomTempReportLoader } from '../pages/reports/gmp-packing-cold-room-temp/loader/gmp.packing.cold.room.temp.report.loader'
@@ -328,6 +330,7 @@ import { LogService } from '../services/app.logs'
     GMPPackingThermoCalibrationAddItemComponent,
     GMPPackingColdRoomTempLogComponent,
     GMPPackingColdRoomTempItemComponent,
+    GMPPackingColdRoomTempAuthorizationComponent,
     GMPPackingColdRoomTempReportComponent,
     GMPPackingColdRoomTempReportItemComponent,
     GMPPackingColdRoomTempReportLoader,
@@ -468,6 +471,7 @@ import { LogService } from '../services/app.logs'
     GMPPackingThermoCalibrationAddItemComponent,
     GMPPackingColdRoomTempLogComponent,
     GMPPackingColdRoomTempItemComponent,
+    GMPPackingColdRoomTempAuthorizationComponent,
     GMPPackingColdRoomTempReportComponent,
     GMPPackingColdRoomTempReportItemComponent,
     GMPPackingColdRoomTempReportLoader,
