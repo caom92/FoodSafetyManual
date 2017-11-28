@@ -89,6 +89,8 @@ import { GMPPackingGlassBrittleLogComponent } from '../pages/logs/gmp-packing-gl
 import { GMPPackingGlassBrittleAreaComponent } from '../pages/logs/gmp-packing-glass-brittle/area/gmp.packing.glass.brittle.area'
 import { GMPPackingGlassBrittleItemComponent } from '../pages/logs/gmp-packing-glass-brittle/item/gmp.packing.glass.brittle.item'
 
+import { GMPPackingGlassBrittleAuthorizationComponent } from '../pages/logs/gmp-packing-glass-brittle/authorization/gmp.packing.glass.brittle.authorization'
+
 import { GMPPackingGlassBrittleReportComponent } from '../pages/reports/gmp-packing-glass-brittle/report/gmp.packing.glass.brittle.report'
 import { GMPPackingGlassBrittleReportAreaComponent } from '../pages/reports/gmp-packing-glass-brittle/area/gmp.packing.glass.brittle.area'
 import { GMPPackingGlassBrittleReportItemComponent } from '../pages/reports/gmp-packing-glass-brittle/item/gmp.packing.glass.brittle.item'
@@ -261,6 +263,7 @@ import { LogService } from '../services/app.logs'
     GMPPackingGlassBrittleLogComponent,
     GMPPackingGlassBrittleAreaComponent,
     GMPPackingGlassBrittleItemComponent,
+    GMPPackingGlassBrittleAuthorizationComponent,
     GMPPackingGlassBrittleReportComponent,
     GMPPackingGlassBrittleReportAreaComponent,
     GMPPackingGlassBrittleReportItemComponent,
@@ -402,6 +405,7 @@ import { LogService } from '../services/app.logs'
     GMPPackingGlassBrittleLogComponent,
     GMPPackingGlassBrittleAreaComponent,
     GMPPackingGlassBrittleItemComponent,
+    GMPPackingGlassBrittleAuthorizationComponent,
     GMPPackingGlassBrittleReportComponent,
     GMPPackingGlassBrittleReportAreaComponent,
     GMPPackingGlassBrittleReportItemComponent,
