@@ -31,4 +31,13 @@ export class GMPPackingPreopItemComponent {
   constructor(private storage: Storage) {
 
   }
+
+  stringify(str: any){
+    let val = JSON.stringify(str)
+    return val
+  }
+
+  onChange(){
+    console.log(this.itemForm.value)
+  }
 }

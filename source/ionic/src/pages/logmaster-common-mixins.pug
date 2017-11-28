@@ -53,6 +53,10 @@ mixin espressoNavbar(isConnected, title)
         button(ion-button, icon-24, clear, color='light', (click)='openLanguageSelector()')
           ion-icon(name='globe')
 
+mixin errorMessage(condition, message)
+  ion-item(text-wrap, *ngIf=condition)
+    small(style='color:red;')= message
+
 mixin oldEspressoNavbar(isConnected, title)
   ion-header
     ion-navbar(color='secondary')

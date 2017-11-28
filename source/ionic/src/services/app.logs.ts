@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core'
 import { Events } from 'ionic-angular'
 import { Storage } from '@ionic/storage'
 
+import { FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms'
+
 import { Observable } from 'rxjs/Rx'
 
 import { PendingLog } from '../pages/pending-logs/pending-card/pending.card.interface'
@@ -195,6 +197,18 @@ export class LogService {
     })
 
     return updatePromise
+  }
+
+  // https://stackoverflow.com/questions/43551221/angular-2-mark-nested-formbuilder-as-touched
+  setAsDirty(group: FormGroup | FormArray) {
+    group.markAsDirty()
+    for (let i in group.controls) {
+      if (group.controls[i] instanceof FormControl) {
+        group.controls[i].markAsDirty();
+      } else {
+        this.setAsDirty(group.controls[i]);
+      }
+    }
   }
 
   // Esta función "aplana" y da formato de datos de formulario a un objeto

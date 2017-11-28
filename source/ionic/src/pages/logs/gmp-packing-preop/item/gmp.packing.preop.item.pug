@@ -1,3 +1,5 @@
+include ../../../logmaster-common-mixins.pug
+
 form([formGroup]='itemForm')
   ion-card
     ion-card-content
@@ -12,6 +14,7 @@ form([formGroup]='itemForm')
           ion-item
             ion-label {{ 'Log.unacceptable' | translate:lang }}
             ion-radio([value]='false')
+          +errorMessage('!itemForm.controls.is_acceptable.valid && itemForm.controls.is_acceptable.dirty', 'Debe marcar un elemento como Aceptable o No Aceptable')
         ion-row
           ion-col
             ion-item([hidden]='itemForm.controls.is_acceptable.value !== false')
@@ -23,3 +26,4 @@ form([formGroup]='itemForm')
             ion-item([hidden]='itemForm.controls.is_acceptable.value !== false')
               ion-label(color='primary', floating) {{ 'Log.comments_of' | translate:lang }} {{item.name}}
               ion-textarea(formControlName='comment')
+            +errorMessage('!itemForm.controls.comment.valid && itemForm.controls.comment.dirty', 'Comentario demasiado largo')

@@ -29,7 +29,14 @@ export class GMPPackingPreopAreaComponent implements OnInit {
     @Language() 
     lang: string
 
-    ngOnInit(){
+    offset: Array<number> = []
 
+    ngOnInit(){
+        let accumulated = 0
+        this.offset.push(accumulated)
+        for(let type of this.area.types){
+            this.offset.push(accumulated + type.items.length)
+            accumulated = accumulated + type.items.length
+        }
     }
 }

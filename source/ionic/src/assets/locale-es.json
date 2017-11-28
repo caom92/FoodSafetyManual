@@ -112,5 +112,13 @@
         "deficiencies": "Deficiencias notadas",
         "group": "Grupo",
         "quantity_abbr": "QTY"
+    },
+    "LogErrors": {
+        "gmp-packing-preop": {
+            "item_status": "Debe marcar un elemento como Aceptable o No Aceptable",
+            "comment_length": "El comentario no puede exceder 65535 caracteres",
+            "person_length": "El nombre de la persona a cargo de la sanitización no puede exceder 255 caracteres",
+            "album_length": "El enlace del album no puede exceder 2000 caracteres"
+        }
     }
 }
