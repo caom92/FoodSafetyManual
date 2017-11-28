@@ -21,6 +21,7 @@ import { GMPPackingScaleCalibrationAuthorizationComponent } from '../../logs/gmp
 import { GMPPackingThermoCalibrationAuthorizationComponent } from '../../logs/gmp-packing-thermo-calibration/authorization/gmp.packing.thermo.calibration.authorization'
 import { GMPPackingColdRoomTempAuthorizationComponent } from '../../logs/gmp-packing-cold-room-temp/authorization/gmp.packing.cold.room.temp.authorization'
 import { GMPPackingGlassBrittleAuthorizationComponent } from '../../logs/gmp-packing-glass-brittle/authorization/gmp.packing.glass.brittle.authorization'
+import { GMPPackingScissorsKnivesAuthorizationComponent } from '../../logs/gmp-packing-scissors-knives/authorization/gmp.packing.scissors.knives.authorization'
 
 @Component({
   selector: 'authorization-card',
@@ -187,6 +188,12 @@ export class AuthorizationCardComponent {
               case "gmp-packing-glass-brittle":
                 loader.dismiss()
                 this.navCtrl.push(GMPPackingGlassBrittleAuthorizationComponent, {
+                  data: logData
+                })
+                break
+              case "gmp-packing-scissors-knives":
+                loader.dismiss()
+                this.navCtrl.push(GMPPackingScissorsKnivesAuthorizationComponent, {
                   data: logData
                 })
                 break

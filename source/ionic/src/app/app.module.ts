@@ -131,6 +131,8 @@ import { GMPPackingScaleCalibrationAddItemComponent } from '../pages/inventories
 import { GMPPackingScissorsKnivesLogComponent } from '../pages/logs/gmp-packing-scissors-knives/log/gmp.packing.scissors.knives.log'
 import { GMPPackingScissorsKnivesItemComponent } from '../pages/logs/gmp-packing-scissors-knives/item/gmp.packing.scissors.knives.item'
 
+import { GMPPackingScissorsKnivesAuthorizationComponent } from '../pages/logs/gmp-packing-scissors-knives/authorization/gmp.packing.scissors.knives.authorization'
+
 import { GMPPackingScissorsKnivesReportComponent } from '../pages/reports/gmp-packing-scissors-knives/report/gmp.packing.scissors.knives.report'
 import { GMPPackingScissorsKnivesReportItemComponent } from '../pages/reports/gmp-packing-scissors-knives/item/gmp.packing.scissors.knives.report.item'
 import { GMPPackingScissorsKnivesReportLoader } from '../pages/reports/gmp-packing-scissors-knives/loader/gmp.packing.scissors.knives.report.loader'
@@ -312,6 +314,7 @@ import { LogService } from '../services/app.logs'
     GAPPackingPreopAddItemComponent,
     GMPPackingScissorsKnivesLogComponent,
     GMPPackingScissorsKnivesItemComponent,
+    GMPPackingScissorsKnivesAuthorizationComponent,
     GMPPackingScissorsKnivesReportComponent,
     GMPPackingScissorsKnivesReportItemComponent,
     GMPPackingScissorsKnivesReportLoader,
@@ -454,6 +457,7 @@ import { LogService } from '../services/app.logs'
     GAPPackingPreopAddItemComponent,
     GMPPackingScissorsKnivesLogComponent,
     GMPPackingScissorsKnivesItemComponent,
+    GMPPackingScissorsKnivesAuthorizationComponent,
     GMPPackingScissorsKnivesReportComponent,
     GMPPackingScissorsKnivesReportItemComponent,
     GMPPackingScissorsKnivesReportLoader,
