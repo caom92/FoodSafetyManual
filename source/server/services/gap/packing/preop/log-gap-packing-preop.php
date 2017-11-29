@@ -26,7 +26,8 @@ $service = fsm\createLogService(
       // temporary storage for a single item type
       $type = [
         'id' => 0,
-        'name' => '',
+        'en' => '',
+        'es' => '',
         'items' => []
       ];
 
@@ -52,7 +53,8 @@ $service = fsm\createLogService(
           ];
           $type = [
             'id' => $row['type_id'],
-            'name' => $row['type_name'],
+            'en' => $row['type_name_en'],
+            'es' => $row['type_name_es'],
             'items' => [ $item ]
           ];
           $area = [
@@ -78,7 +80,8 @@ $service = fsm\createLogService(
             ];
             $type = [
               'id' => $row['type_id'],
-              'name' => $row['type_name'],
+              'en' => $row['type_name_en'],
+              'es' => $row['type_name_es'],
               'items' => [ $item ]
             ];
           } else {

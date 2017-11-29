@@ -440,19 +440,54 @@ function createReorderService($program, $module, $log, $daoName) {
         'module' => $module,
         'log' => $log
       ],
-      'item_id' => [
-        'type' => 'int',
-        'min' => 1
-      ],
-      'position' => [
-        'type' => 'int'
+      'items' => [
+        'type' => 'array',
+        'items' => [
+          'item_id' => [
+            'type' => 'int',
+            'min' => 1
+          ],
+          'position' => [
+            'type' => 'int'
+          ]
+        ]
       ]
     ],
     'callback' => function($scope, $request) use ($daoName) {
-      return $scope->daoFactory->get($daoName)->updatePositionByID(
-        $request['item_id'], 
-        $request['position']
-      );
+      // obtenemos el valor de la maxima posicion que esta permitida
+      $max = count($request['items']); 
+
+      // arreglo temporal donde almacenaremos los valores de posicion repetidos
+      $positions = [];
+
+      // visitamos cada elemento a actualizar
+      foreach ($request['items'] as $item) {
+        // revisamos que su valor de posicion este dentro del intervalo esperado
+        if ($item['position'] < 1 || $item['position'] > $max) {
+          throw new \Exception(
+            "Invalid position value for item with ID: {$item['item_id']}", 
+            1
+          );
+        }
+
+        // revisamos que el valor de la posicion no este repetida
+        if (!in_array($item['position'], $positions)) {
+          array_push($positions, $item['position']);
+        } else {
+          throw new \Exception(
+            "Repeated position value for item with ID: {$item['item_id']}",
+            2
+          );
+        }
+      }
+
+      // obtenemos el DAO de la tabla que va a ser actualizada
+      $dao = $scope->daoFactory->get($daoName);
+
+      // actualizamos cada elemento en la tabla
+      foreach ($request['items'] as $item) {
+        $dao->updatePositionByID($item['item_id'], $item['position']);
+      }
     }
   ];
 }

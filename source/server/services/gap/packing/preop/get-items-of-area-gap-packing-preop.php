@@ -19,7 +19,8 @@ $service = [
     // temporal storage for each individual type's items
     $type = [
       'id' => 0,
-      'name' => '',
+      'en' => '',
+      'es' => '',
       'inventory' => []
     ]; 
 
@@ -47,7 +48,8 @@ $service = [
         // the current item to its inventory
         $type = [
           'id' => $item['type_id'],
-          'name' => $item['type_name'],
+          'en' => $item['type_name_en'],
+          'es' => $item['type_name_es'],
           'inventory' => (isset($item['id'])) ? [
             $inventoryItem
           ] : []

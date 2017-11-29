@@ -32,7 +32,8 @@ class ItemTypes extends db\DataBaseTable
         i.position AS position, 
         i.name AS name, 
         t.id AS type_id, 
-        t.name AS type_name 
+        t.es_name AS type_name_es,
+        t.en_name AS type_name_en 
       FROM $this->table AS t
       LEFT JOIN gap_packing_preop_items AS i 
         ON i.type_id = t.id AND i.area_id = $areaID
