@@ -13,6 +13,15 @@ import { GMPPackingHandWashingAddItemComponent } from '../add-item/gmp.packing.h
 import { BackendService } from '../../../../services/app.backend'
 import { ToastService } from '../../../../services/app.toasts'
 import { LoaderService } from '../../../../services/app.loaders'
+import { InventoryService } from '../../../../services/app.inventory'
+
+/**
+ * Componente que administra el inventario de GMP Packing Hand Washing
+ * 
+ * @export
+ * @class GMPPackingHandWashingInventoryComponent
+ * @implements {OnInit}
+ */
 
 @Component({
   selector: 'gmp-packing-hand-washing-inventory',
@@ -25,17 +34,19 @@ import { LoaderService } from '../../../../services/app.loaders'
 })
 
 export class GMPPackingHandWashingInventoryComponent implements OnInit {
-  @Language()
-  lang: string
-
-  @Input()
-  inventory: Array<InventoryItem> = []
-
+  @Language() lang: string
+  @Input() inventory: Array<InventoryItem> = []
   emptyInventoryFlag: boolean = null
-
   scrollAllowed: boolean = true
 
-  constructor(public events: Events, public modalController: ModalController, public server: BackendService, public navCtrl: NavController, public loaderService: LoaderService, public ts: TService, private toastService: ToastService) {
+  constructor(public events: Events,
+    public modalController: ModalController,
+    public server: BackendService,
+    public navCtrl: NavController,
+    public loaderService: LoaderService,
+    public ts: TService,
+    private toastService: ToastService,
+    private inventoryService: InventoryService) {
 
   }
 
@@ -50,32 +61,19 @@ export class GMPPackingHandWashingInventoryComponent implements OnInit {
       console.log("Message: " + message)
     })
 
-    let loader = this.loaderService.koiLoader(this.ts.translate("Connecting to Server"))
-    loader.present()
-    this.server.update(
-      'inventory-gmp-packing-hand-washing',
-      new FormData(),
-      (response: any) => {
-        if (response.meta.return_code == 0) {
-          if (response.data) {
-            this.inventory = response.data
-            this.checkEmptyInventory()
-            loader.dismiss()
-          } else {
-            loader.dismiss()
-            this.toastService.showText("serverUnreachable")
-            this.navCtrl.pop()
-          }
-        }
-      },
-      (error: any, caught: Observable<void>) => {
-        loader.dismiss()
-        this.toastService.showText("serverUnreachable")
-        this.navCtrl.pop()
-        return []
-      }
-    )
+    this.inventoryService.getInventory("inventory-gmp-packing-hand-washing").then(success => {
+      this.inventory = success
+      this.checkEmptyInventory()
+    }, error => {
+      //this.navCtrl.pop()
+    })
   }
+
+  /**
+   * Crea un modal para agregar un elemento para este inventario
+   * 
+   * @memberof GMPPackingHandWashingInventoryComponent
+   */
 
   addItem() {
     let type_array: Array<{ id: number, name: string }> = []
@@ -86,34 +84,23 @@ export class GMPPackingHandWashingInventoryComponent implements OnInit {
     modal.present()
     modal.onDidDismiss(data => {
       if (data) {
-        //for(let item in this.inventory){
         this.inventory.push(data.item)
         this.emptyInventoryFlag = false
-        /*if(this.inventory[type].id == data.type){
-          data.item.order = this.inventory[type].items.length + 1
-          this.inventory[type].items.push(data.item)
-          this.emptyInventoryFlag = false
-        }*/
-        //}
       }
     })
   }
 
-  checkEmptyInventory() {
-    /*let emptyCount = 0
-    //for(let type of this.inventory){
-      if(this.inventory.length == 0){
-        emptyCount++
-      }
-    //}
+  /**
+   * Actualiza una bandera que indica si el inventario se encuentra vacío
+   * para permitirle a la vista mostrar un mensaje en consecuencia
+   * 
+   * @returns 
+   * @memberof GMPPackingHandWashingInventoryComponent
+   */
 
-    if(emptyCount == this.inventory.length){
-      this.emptyInventoryFlag = true
-      return true
-    } else {
-      this.emptyInventoryFlag = false
-      return false
-    }*/
+  checkEmptyInventory() {
+    // Para revisar si el inventario está vacío o no, simplemente verificamos
+    // el tamaño del array de inventario
     this.emptyInventoryFlag = this.inventory.length == 0
     return this.inventory.length == 0
   }

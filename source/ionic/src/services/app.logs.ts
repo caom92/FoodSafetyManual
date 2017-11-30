@@ -44,23 +44,6 @@ export class LogService {
               })
             }
           }
-          /*if (logs != null && logs != undefined && Array.isArray(logs)) {
-            if (logs.length > 0) {
-              let logToProcess: PendingLog = logs[index]
-              //this.storage.set("pendingLogQueue", logs)
-              //this.send(logToProcess.log, logToProcess.service, { zone_name: logToProcess.zone_name, program_name: logToProcess.program_name, module_name: logToProcess.module_name, log_name: logToProcess.log_name }).then(success => {
-              // Here we delete the pending log
-              // Then we update the pending logs list
-              console.log("Splice")
-              logs.splice(index, 1)
-              this.storage.set("pendingLogQueue", logs)
-              //})
-            } else {
-              console.log("No pending Logs")
-            }
-          } else {
-            console.log("No pending Logs")
-          }*/
         })
       }
     })
@@ -204,9 +187,9 @@ export class LogService {
     group.markAsDirty()
     for (let i in group.controls) {
       if (group.controls[i] instanceof FormControl) {
-        group.controls[i].markAsDirty();
+        group.controls[i].markAsDirty()
       } else {
-        this.setAsDirty(group.controls[i]);
+        this.setAsDirty(group.controls[i])
       }
     }
   }

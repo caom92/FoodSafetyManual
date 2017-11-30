@@ -149,6 +149,17 @@ export class ToastService implements OnInit
     )
   }
 
+  showString(text: string) {
+    // si asi es, desplegamos el mensaje en el idioma elegido
+    let toast = this.toastService.create({
+      message: text,
+      duration: 3500, 
+      position: 'bottom'
+    })
+
+    toast.present()
+  }
+
   // Esta funcion despliega el texto que este asociado con el indice ingresado, 
   // si ningun texto esta asociado a dicho indice, entonces despliega el indice 
   // como si fuera el texto a desplegar

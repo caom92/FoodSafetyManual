@@ -211,6 +211,7 @@ import { TranslationService } from '../services/app.translation'
 import { ToastService } from '../services/app.toasts'
 import { LoaderService } from '../services/app.loaders'
 import { LogService } from '../services/app.logs'
+import { InventoryService } from '../services/app.inventory'
 
 @NgModule({
   declarations: [
@@ -497,7 +498,8 @@ import { LogService } from '../services/app.logs'
     BackendService,
     LoaderService,
     ToastService,
-    LogService
+    LogService,
+    InventoryService
   ]
 })
 export class AppModule {
