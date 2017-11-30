@@ -18,6 +18,8 @@ import { BackendService } from './app.backend'
  * Servicio que agrupa las funciones en común que pueden ser utilizadas por
  * inventarios de items y áreas
  * 
+ * @function getInventory
+ * 
  * @export
  * @class InventoryService
  */
@@ -35,17 +37,21 @@ export class InventoryService {
   }
 
   /**
+   * @function getInventory
+   * 
    * Recupera los contenidos del inventario del servidor cuya dirección está
    * especificada en 'app.backend'.
    * 
    * De tener éxito regresa una promesa que contiene la respuesta del servidor,
    * en el caso contrario regresa un error.
    * 
-   * @param {string} service 
-   * @returns {Promise<*>}
+   * @param {string} service - El nombre del servicio de inventario a solicitar
+   * @returns {Promise<*>} Promesa que puede contener la respuesta del servidor
+   * o un mensaje de error
    * @memberof InventoryService
    */
-  getInventory(service: string) {
+
+  public getInventory(service: string): Promise<any> {
     let inventoryPromise = new Promise<any>((resolve, reject) => {
       let loader = this.loaderService.koiLoader(this.ts.translate("Connecting to Server"))
       loader.present()
@@ -84,15 +90,20 @@ export class InventoryService {
   }
 
   /**
+   * @function toggleItem
+   * 
    * Activa/Desactiva un elemento de inventario dentro del servidor 
    * 
-   * @param {*} data 
-   * @param {string} service 
-   * @returns {Promise<*>}
+   * @param {*} data - Información del elemento a dar de baja. Aunque existen
+   * diferentes tipos, se espera mínimamente que este parámetro sea un objeto
+   * con un atributo 'id' que sea un entero
+   * @param {string} service - Nombre del servicio de activación/desactivación
+   * @returns {Promise<void>} Promesa que informa del éxito/error de la 
+   * petición al servidor
    * @memberof InventoryService
    */
 
-  toggleItem(data: any, service: string) {
+  public toggleItem(data: any, service: string): Promise<void> {
     let togglePromise = new Promise<any>((resolve, reject) => {
       let loaderToggle = this.loaderService.koiLoader("")
       let item = new FormData()
@@ -115,5 +126,19 @@ export class InventoryService {
     })
 
     return togglePromise
+  }
+
+
+  /**
+   * Reordena los elementos del inventario de una bitácora, de 1 hasta n
+   * 
+   * @param {*} data 
+   * @param {string} service 
+   * @returns {Promise<any>} 
+   * @memberof InventoryService
+   */
+  public reorderInventory(data: any, service: string): Promise<any> {
+    
+    return
   }
 }
