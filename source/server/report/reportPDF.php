@@ -98,11 +98,15 @@ try {
 
     // throw an exception if no content is available
     if (!$hasContent) {
-        throw new \Exception();
+        throw new \Exception('No content JSON was provided');
     }
 
     // parse the content sent from the client
     $reportData = json_decode($_POST['content']);
+    $jsonError = json_last_error();
+    if ($jsonError != JSON_ERROR_NONE) {
+        throw new \Exception(json_last_error_msg());
+    }
 
     // for every report to print...
     foreach ($reportData as $report) {
@@ -115,7 +119,7 @@ try {
         if ($hasHeader) {
             if (!isString($report->header, 1, \PHP_INT_MAX)) 
             {
-                throw new \Exception();
+                throw new \Exception('No header was provided inside the content JSON');
             }
         }
 
@@ -123,7 +127,7 @@ try {
         if ($hasFooter) {
             if (!isString($report->footer, 1, \PHP_INT_MAX))
             {
-                throw new \Exception();
+                throw new \Exception('No footer was provided inside the content JSON');
             }
         }
 
@@ -132,10 +136,10 @@ try {
         if ($hasBody) {
             if (!stringHasLengthInterval($report->body, 1, \PHP_INT_MAX)) 
             {
-                throw new \Exception();
+                throw new \Exception('The body in the content JSON is an empty string');
             }
         } else {
-            throw new \Exception();
+            throw new \Exception('No body was provided inside the content JSON');
         }
     }
 
@@ -201,7 +205,8 @@ try {
     $html = 
         '<h1>Error trying to create the PDF document!</h1>'.
         '<p>Your PDF document could not be created because the information '.
-        'required to write it was not provided correctly.</p>';
+        'required to write it was not provided correctly.</p>'.
+        '<p>Exception: '.$e->getMessage().'</p>';
 
     // add a new page 
     $pdf->AddPage();

@@ -23,9 +23,8 @@ $service = fsm\createInventoryService(
     // temporal storage for each individual type's items
     $type = [
       'id' => 0,
-      'name' => '',
-      'es' => '',
       'en' => '',
+      'es' => '',
       'inventory' => []
     ]; 
 
@@ -53,9 +52,8 @@ $service = fsm\createInventoryService(
         // the current item to its inventory
         $type = [
           'id' => $item['type_id'],
-          'name' => $item['type_name'],
-          'es' => $item['type_name'],
-          'en' => $item['type_name'],
+          'en' => $item['type_name_en'],
+          'es' => $item['type_name_es'],
           'inventory' => (isset($item['id'])) ? [
             $inventoryItem
           ] : []

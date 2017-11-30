@@ -61,7 +61,7 @@ class Scales extends db\OrderedItemsTable
         "$this->table.id(id)",
         'is_active',
         'serial_num(name)',
-        'position(order)'
+        'position'
       ],
       [
         'AND' => [
@@ -70,7 +70,7 @@ class Scales extends db\OrderedItemsTable
         ],
         'ORDER' => [
           'type_id',
-          'order'
+          'position'
         ]
       ]
     );

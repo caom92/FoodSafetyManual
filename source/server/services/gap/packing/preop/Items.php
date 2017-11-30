@@ -32,7 +32,8 @@ class Items extends db\OrderedItemsTable
         'a.id(area_id)',
         'a.name(area_name)',
         't.id(type_id)',
-        't.name(type_name)',
+        't.en_name(type_name_en)',
+        't.es_name(type_name_es)',
         "$this->table.id(item_id)",
         "$this->table.name(item_name)",
         "$this->table.position(item_order)"
