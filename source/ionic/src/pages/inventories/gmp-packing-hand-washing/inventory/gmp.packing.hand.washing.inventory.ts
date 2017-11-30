@@ -36,8 +36,8 @@ import { InventoryService } from '../../../../services/app.inventory'
 export class GMPPackingHandWashingInventoryComponent implements OnInit {
   @Language() lang: string
   @Input() inventory: Array<InventoryItem> = []
-  emptyInventoryFlag: boolean = null
-  scrollAllowed: boolean = true
+  public emptyInventoryFlag: boolean = null
+  public scrollAllowed: boolean = true
 
   constructor(public events: Events,
     public modalController: ModalController,
@@ -50,12 +50,23 @@ export class GMPPackingHandWashingInventoryComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  /**
+   * Se suscribe a los eventos de control de scroll y recupera el inventario
+   * del servicio de inventarios al inicializar el componente
+   * 
+   * @memberof GMPPackingHandWashingInventoryComponent
+   */
+
+  public ngOnInit(): void {
+    // Nos suscribimos al evento scroll:stop que indica que se debe inhabilitar
+    // el scroll durante un reordenamiento de inventario
     this.events.subscribe("scroll:stop", (message) => {
       this.scrollAllowed = false
       console.log("Message: " + message)
     })
 
+    // Nos suscribimos al evento scroll:start que indica que se debe habilitar
+    // el scroll al terminar un reordenamiento de inventario
     this.events.subscribe("scroll:start", (message) => {
       this.scrollAllowed = true
       console.log("Message: " + message)
@@ -65,7 +76,8 @@ export class GMPPackingHandWashingInventoryComponent implements OnInit {
       this.inventory = success
       this.checkEmptyInventory()
     }, error => {
-      //this.navCtrl.pop()
+      // Por el momento, no se necesita ninguna acción adicional en caso de
+      // un error durante la recuperación de datos
     })
   }
 
@@ -75,7 +87,7 @@ export class GMPPackingHandWashingInventoryComponent implements OnInit {
    * @memberof GMPPackingHandWashingInventoryComponent
    */
 
-  addItem() {
+  public addItem(): void {
     let type_array: Array<{ id: number, name: string }> = []
     for (let temp of this.inventory) {
       type_array.push({ id: temp.id, name: temp.name })
@@ -98,7 +110,7 @@ export class GMPPackingHandWashingInventoryComponent implements OnInit {
    * @memberof GMPPackingHandWashingInventoryComponent
    */
 
-  checkEmptyInventory() {
+  public checkEmptyInventory(): boolean {
     // Para revisar si el inventario está vacío o no, simplemente verificamos
     // el tamaño del array de inventario
     this.emptyInventoryFlag = this.inventory.length == 0

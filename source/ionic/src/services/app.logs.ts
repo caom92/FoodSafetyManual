@@ -196,6 +196,8 @@ export class LogService {
 
   // Esta función "aplana" y da formato de datos de formulario a un objeto
   // producido por cualquier componente de una bitácora particular
+
+  // https://stackoverflow.com/questions/19098797/fastest-way-to-flatten-un-flatten-nested-json-objects
   private flatten(data) {
     var result = {}
 

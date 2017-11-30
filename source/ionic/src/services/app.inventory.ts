@@ -107,7 +107,7 @@ export class InventoryService {
     let togglePromise = new Promise<any>((resolve, reject) => {
       let loaderToggle = this.loaderService.koiLoader("")
       let item = new FormData()
-      item.append("id", "" + data.id)
+      item.append("id", String(data.id))
       loaderToggle.present()
       this.server.update(
         service,
@@ -138,7 +138,6 @@ export class InventoryService {
    * @memberof InventoryService
    */
   public reorderInventory(data: any, service: string): Promise<any> {
-    
     return
   }
 }
