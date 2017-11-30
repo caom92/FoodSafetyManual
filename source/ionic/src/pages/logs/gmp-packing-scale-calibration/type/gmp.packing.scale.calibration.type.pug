@@ -1,0 +1,8 @@
+ion-card([formGroup]='typeForm')
+  ion-card-header
+    | {{type.name}}
+  ion-item
+    ion-label {{ 'Log.time' | translate:lang }}
+    ion-datetime(displayFormat='HH:mm', pickerFormat='HH:mm', formControlName='time')
+  .divider
+  gmp-packing-scale-calibration-item(*ngFor='let item of type.items; let i = index', [item]='item', [units]='units', [itemGroup]='typeForm.controls.items.controls[i]')

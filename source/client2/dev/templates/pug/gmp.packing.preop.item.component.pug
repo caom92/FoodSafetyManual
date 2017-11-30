@@ -1,17 +1,17 @@
 div([formGroup]='itemForm')
-  mz-card
+  mz-card([hoverable]='true')
     mz-card-content
       .row
         .col.s12.m6.l4
           span {{item.name}}
         .col.s12.m6.l4
           mz-radio-button-container.col.s12.m12.l12
-            input(mz-radio-button='', type='radio', [label]="'Acceptable'", name='is_acceptable', id='acceptable_{{item.id}}', (click)='acceptable()', formControlName='is_acceptable', [value]='true')
+            input(mz-radio-button, type='radio', [label]="'Acceptable'", name='is_acceptable_{{item.id}}', id='acceptable_{{item.id}}', (click)='acceptable()', [formControl]='itemForm.controls.is_acceptable', [value]='true')
           mz-radio-button-container.col.s12.m12.l12
-            input(mz-radio-button='', type='radio', [label]="'Unacceptable'", name='is_acceptable', id='unacceptable_{{item.id}}', (click)='unacceptable()', formControlName='is_acceptable', [value]='false')
+            input(mz-radio-button, type='radio', [label]="'Unacceptable'", name='is_acceptable_{{item.id}}', id='unacceptable_{{item.id}}', (click)='unacceptable()', [formControl]='itemForm.controls.is_acceptable', [value]='false')
         mz-select-container.col.s12.m12.l4([hidden]='!visibleAction')
           select(mz-select='mz-select', [label]="'Acción correctiva'", id='correctiveAction_{{item.id}}', name='correctiveAction_{{item.id}}', formControlName='corrective_action_id')
             option(*ngFor='let action of actions', [value]='action.id') {{action[lang]}}
         mz-textarea-container.col.s12.m12.l12([hidden]='!visibleComment')
-          i(mz-icon-mdi='', mz-textarea-prefix='', [icon]="'comment-text-outline'")
-          textarea(mz-textarea='', [label]="'Comentarios de ' + item.name", id='comment_{{item.id}}', length='65535', formControlName='comment')
+          i(mz-icon-mdi, mz-textarea-prefix, [icon]="'comment-text-outline'")
+          textarea(mz-textarea, [label]="'Comentarios de ' + item.name", id='comment_{{item.id}}', length='65535', formControlName='comment')

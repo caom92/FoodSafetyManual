@@ -1,0 +1,6 @@
+ion-item([formGroup]='itemForm')
+  ion-label(*ngIf='item.quantity == 1')
+    | {{item.name}} {{ 'Log.with' | translate:lang }} {{item.quantity}} {{ 'Log.element' | translate:lang }}
+  ion-label(*ngIf='item.quantity != 1')
+    | {{item.name}} {{ 'Log.with' | translate:lang }} {{item.quantity}} {{ 'Log.elements' | translate:lang }}
+  ion-checkbox(formControlName='is_acceptable')

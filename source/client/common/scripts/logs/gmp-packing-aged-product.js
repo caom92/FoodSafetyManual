@@ -682,7 +682,7 @@ function gmpPackingFinishedProductReport(data){
 // languages.xml, not strings
 
 function gmpPackingFinishedProductHeader(){
-    var header = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"batch_title batchColumn"},{"type":"th","classes":"warehouse_title areaColumn"},{"type":"th","classes":"zone_provider suppliersColumn"},{"type":"th","classes":"item_title productsColumn"},{"type":"th","classes":"days_old clientsColumn"},{"type":"th","classes":"quality_title qualityColumn"},{"type":"th","classes":"origin_title originColumn"},{"type":"th","classes":"date_name expiresColumn"},{"type":"th","classes":"quantity_long_title waterColumn"},{"type":"th","classes":"location packingColumn"},{"type":"th","classes":"aged_product_action actionColumn"},{"type":"th","classes":"url_title urlColumn"},{"type":"th","classes":"notes_title notesColumn"}]}]};
+    var header = {"type":"thead","rows":[{"type":"tr","columns":[{"type":"th","classes":"item_title productsColumn"},{"type":"th","classes":"zone_provider suppliersColumn"},{"type":"th","classes":"days_old clientsColumn"},{"type":"th","classes":"quantity_long_title waterColumn"},{"type":"th","classes":"batch_title batchColumn"},{"type":"th","classes":"warehouse_title areaColumn"},{"type":"th","classes":"quality_title qualityColumn"},{"type":"th","classes":"origin_title originColumn"},{"type":"th","classes":"date_name expiresColumn"},{"type":"th","classes":"location packingColumn"},{"type":"th","classes":"aged_product_action actionColumn"},{"type":"th","classes":"url_title urlColumn"},{"type":"th","classes":"notes_title notesColumn"}]}]};
 
     return header;
 }
@@ -702,6 +702,21 @@ function gmpPackingFinishedProductReportItem(itemData){
 
     var firstRowContent  = {"type":"tr","columns":[]};
 
+    firstRowContent.columns.push({"type":"td","classes":"productsColumn","contents":itemData.item});
+    firstRowContent.columns.push({"type":"td","classes":"suppliersColumn","contents":itemData.vendor});
+    firstRowContent.columns.push({"type":"td","classes":"clientsColumn","contents":itemData.age});
+    firstRowContent.columns.push({"type":"td","classes":"waterColumn","contents":itemData.quantity});
+    firstRowContent.columns.push({"type":"td","classes":"batchColumn","contents":itemData.batch});
+    firstRowContent.columns.push({"type":"td","classes":"areaColumn","contents":itemData.warehouse});
+    firstRowContent.columns.push({"type":"td","classes":"qualityColumn","contents":itemData.quality});
+    firstRowContent.columns.push({"type":"td","classes":"originColumn","contents":itemData.origin});
+    firstRowContent.columns.push({"type":"td","classes":"expiresColumn","contents":itemData.packed_date});
+    firstRowContent.columns.push({"type":"td","classes":"packingColumn","contents":itemData.location});
+    firstRowContent.columns.push({"type":"td","classes":"actionColumn","contents":itemData.action_name});
+    firstRowContent.columns.push({"type":"td","classes":"urlColumn","contents":"<a href='" + itemData.album_url + "' >" + "View Report" + "</a>"});
+    firstRowContent.columns.push({"type":"td","classes":"notesColumn","contents":itemData.notes});
+
+    /*
     firstRowContent.columns.push({"type":"td","classes":"batchColumn","contents":itemData.batch});
     firstRowContent.columns.push({"type":"td","classes":"areaColumn","contents":itemData.warehouse});
     firstRowContent.columns.push({"type":"td","classes":"suppliersColumn","contents":itemData.vendor});
@@ -716,6 +731,7 @@ function gmpPackingFinishedProductReportItem(itemData){
     firstRowContent.columns.push({"type":"td","classes":"actionColumn","contents":itemData.action_name});
     firstRowContent.columns.push({"type":"td","classes":"urlColumn","contents":"<a href='" + itemData.album_url + "' >" + "View Report" + "</a>"});
     firstRowContent.columns.push({"type":"td","classes":"notesColumn","contents":itemData.notes});
+    */
 
     item.push(firstRowContent);
 

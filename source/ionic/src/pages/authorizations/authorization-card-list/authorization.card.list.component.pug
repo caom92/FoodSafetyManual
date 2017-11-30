@@ -1,0 +1,6 @@
+include ../../logmaster-common-mixins.pug
+
++espressoNavbar(true, "{{ 'NavbarTitles.Authorizations' | translate:lang }}")
+
+ion-content
+  authorization-card(*ngFor="let log of logs", [log]="log")

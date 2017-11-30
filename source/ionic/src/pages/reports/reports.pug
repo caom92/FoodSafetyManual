@@ -1,0 +1,17 @@
+ion-content
+  ion-card
+    ion-card-header
+      | {{ 'Report Request' | translate:lang }}
+    ion-card-content
+      form([formGroup]='dateRangeForm', (ngSubmit)='getReportData()')
+        ion-item
+          ion-label {{ 'Start Date' | translate:lang }}
+          ion-datetime(displayFormat='YYYY-MM-DD', formControlName='startDate')
+        ion-item
+          ion-label {{ 'Close Date' | translate:lang }}
+          ion-datetime(displayFormat='YYYY-MM-DD', formControlName='endDate')
+        div(text-center)
+          button(ion-button, icon-end, round)
+            | {{ 'Open Report' | translate:lang }}
+            ion-icon(name='send')
+  div(dynamicComponentContainer)

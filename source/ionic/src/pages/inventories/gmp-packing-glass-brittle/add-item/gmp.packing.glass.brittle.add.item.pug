@@ -1,0 +1,24 @@
+ion-header
+  ion-toolbar(color='primary')
+    ion-title
+      | Añadir inventario
+    ion-buttons(start)
+      button(ion-button, icon-only, (click)='dismiss()')
+        ion-icon(name='close')
+
+ion-content
+  form([formGroup]='newItem')
+    ion-item
+      ion-label(color='primary', floating) Nombre
+      ion-input(formControlName='name')
+
+    ion-item
+      ion-label(color='primary', floating) Cantidad
+      ion-input(formControlName='quantity', type='number')
+
+    br
+
+    div(text-right)
+      button(ion-button, icon-end, (click)='addItem()')
+        | Añadir
+        ion-icon(name='add')

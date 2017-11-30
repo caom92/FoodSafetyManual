@@ -6,8 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "lint": "ng lint",
-    "dev-build": "lessc --clean-css='--s1 --advanced --compatibility=ie8' dev/stylesheets/less/main.less dev/stylesheets/app.style.css && pug dev/templates/pug -o dev/templates/",
-    "dev-build-win": "lessc --clean-css=\"--s1 --advanced --compatibility=ie8\" dev\\stylesheets\\less\\main.less dev\\stylesheets\\app.style.css && pug dev\\templates\\pug -o dev\\templates\\"
+    "dev-build": "lessc --clean-css='--s1 --advanced --compatibility=ie8' dev/stylesheets/less/main.less dev/stylesheets/app.style.css && pug dev/templates/pug -o dev/templates/ --obj {'doctype':'html'}",
+    "dev-build-win": "lessc --clean-css=\"--s1 --advanced --compatibility=ie8\" dev\\stylesheets\\less\\main.less dev\\stylesheets\\app.style.css && pug dev\\templates\\pug -o dev\\templates\\ --obj {'doctype':'html'}"
   },
   "private": true,
   "dependencies": {
@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
     "@uirouter/angular": "^1.0.0-beta.7",
+    "angular2-pubsub": "^4.0.0",
     "core-js": "^2.4.1",
     "jquery": "^3.2.1",
     "materialize-css": "^0.100.1",

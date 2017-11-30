@@ -1,0 +1,55 @@
+include ../logmaster-common-mixins.pug
+
++espressoNavbar(true, "{{ 'Edit Profile' | translate:lang }}")
+
+ion-content(padding)
+  ion-item(text-wrap)
+    ion-icon(name='contact', item-start)
+    h1 {{ 'User Profile' | translate:lang }}
+  ion-list
+    ion-item
+      ion-label(floating) {{ 'Username' | translate:lang }}
+      ion-input(type='text', [(ngModel)]='username', [readonly]='true')
+    ion-item
+      ion-label(floating) {{ 'EmployeeID' | translate:lang }}
+      ion-input(type='text', [(ngModel)]='employeeID', [readonly]='true')
+    ion-item
+      ion-label(floating) {{ 'Name' | translate:lang }}
+      ion-input(type='text', [(ngModel)]='realname', [readonly]='true')
+  ion-item-divider
+  ion-item(text-wrap)
+    ion-icon(name='lock', item-start)
+    h1 {{ 'Change Password' | translate:lang }}
+  form([formGroup]='changePassword', (ngSubmit)='onChangePasswordFormSubmit()')
+    ion-list
+      ion-item
+        ion-label(floating) {{ 'New Password' | translate:lang }}
+        ion-input(type='password', formControlName='newPassword')
+      ion-item
+        ion-label(floating) {{ 'Check Password' | translate:lang }}
+        ion-input(type='password', formControlName='checkPassword')
+      ion-item
+        ion-label(floating) {{ 'Current Password' | translate:lang }}
+        ion-input(type='password', formControlName='currentPassword')
+      ion-item
+        div(text-center)
+          button(ion-button, icon-end, type='submit', default)
+            | {{ 'Change' | translate:lang }}
+            ion-icon(name='send')
+  ion-item-divider
+  ion-item(text-wrap)
+    ion-icon(name='person', item-start)
+    h1 {{ 'Change Username' | translate:lang }}
+  form([formGroup]='changeUsername', (ngSubmit)='onChangeUsernameFormSubmit()')
+    ion-list
+      ion-item
+        ion-label(floating) {{ 'New Username' | translate:lang }}
+        ion-input(type='text', formControlName='newUsername')
+      ion-item
+        ion-label(floating) {{ 'Current Password' | translate:lang }}
+        ion-input(type='password', formControlName='currentPassword')
+      ion-item
+        div(text-center)
+          button(ion-button, icon-end, type='submit', default)
+            | {{ 'Change' | translate:lang }}
+            ion-icon(name='send')

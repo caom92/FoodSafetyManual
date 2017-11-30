@@ -418,7 +418,7 @@ function gmpPackingAtpTestingAreaTitle(item){
 
 function gmpPackingAtpTestingAreaTime(area, time){
     var timeLabel = {"type":"label","contents":{"type":"text","classes":"time_title"},"for":"time_" + area.id,"classes":"active"};
-    var timeInput = {"type":"input","id": "time_" + area.id, "classes": "validate", "fieldType":"text","disabled":true,"data":{"area_id":area.id},"value":getISOTime(new Date()),"isClearable":false};
+    var timeInput = {"type":"input","id": "time_" + area.id, "classes": "validate", "fieldType":"text","readonly":true,"data":{"area_id":area.id},"value":getISOTime(new Date()),"isClearable":false};
     var timeFullInput = {"id":"timeWrapper_" + area.id,"classes":"input-field col s6 m6 l6","field":timeInput,"label":timeLabel};
 
     if(area.time){

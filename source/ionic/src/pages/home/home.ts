@@ -1,16 +1,20 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { Nav, NavController, Select, App, MenuController, ToastController, Events } from 'ionic-angular';
+import { Component, ViewChild, OnInit } from '@angular/core'
+import { Nav, NavController, Select, App, MenuController, ToastController, Events } from 'ionic-angular'
 import { StateService } from '@uirouter/angular'
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Storage } from '@ionic/storage';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms"
+import { Storage } from '@ionic/storage'
 
-import { Language } from 'angular-l10n';
+import { Language } from 'angular-l10n'
 
-import { BackendService } from '../../services/app.backend';
-import { TranslationService } from '../../services/app.translation';
-import { ToastService } from '../../services/app.toasts';
+import { Observable } from 'rxjs/Rx'
 
-import { EditProfile } from '../edit-profile/edit-profile';
+import { BackendService } from '../../services/app.backend'
+import { TranslationService } from '../../services/app.translation'
+import { ToastService } from '../../services/app.toasts'
+
+import { NavbarPageComponent } from '../super-components/navbar.component'
+
+import { EditProfile } from '../edit-profile/edit-profile'
 
 @Component({
   selector: 'page-home',
@@ -21,17 +25,15 @@ import { EditProfile } from '../edit-profile/edit-profile';
     ToastService
   ]
 })
-export class HomePage implements OnInit {
-  //@ViewChild(Nav) nav: Nav;
-  @ViewChild('zone_select') zone_select: Select;
-  @ViewChild('language_select') language_select: Select;
+export class HomePage extends NavbarPageComponent implements OnInit {
   @Language() lang: string;
 
   nav: Nav
   userLogInInfo: FormGroup
-  
-  constructor(public navCtrl: NavController, private server: BackendService, private translationService: TranslationService, private formBuilder: FormBuilder, private storage: Storage, protected app: App, public menuCtrl: MenuController, private toasts: ToastService, public events: Events) {
-    this.onLanguageChange("es")
+  serverOnline: boolean = null
+
+  constructor(public navCtrl: NavController, public server: BackendService, public translationService: TranslationService, private formBuilder: FormBuilder, public storage: Storage, protected app: App, public menuCtrl: MenuController, private toasts: ToastService, public events: Events) {
+    super(translationService, events, storage, server)
   }
 
   private mapUserDataToLocalStorage(userData) {
@@ -69,15 +71,13 @@ export class HomePage implements OnInit {
   ionViewCanEnter() {
     // Configuramos el formulario con valores iniciales vacios y las reglas de 
     // validacion correspondientes
-    /*if(localStorage["__mydb/_ionickv/is_logged_in"] == "true"){
-      this.app.getRootNav().setRoot(EditProfile)
-      this.menuCtrl.enable(true)
-    }*/
 
-    // New Check Session
+    this.checkServer()
+
+    // Revisar si el usuario se encuentra conectado
     this.server.update(
-      'check-session', 
-      new FormData(), 
+      'check-session',
+      new FormData(),
       (response: any) => {
         if (response.meta.return_code == 0) {
           if (!response.data) {
@@ -87,31 +87,16 @@ export class HomePage implements OnInit {
             this.menuCtrl.enable(false, "en")
             //this.app.getRootNav().setRoot(HomePage)
           } else {
-            this.app.getRootNav().setRoot(EditProfile)
-            this.menuCtrl.enable(true, "es")
-            this.menuCtrl.enable(true, "en")
-            // de lo contrario, permitimos la navegacion
-            /*localStorage.is_logged_in = true
-            this.home.roleName = localStorage.role_name
-            if (localStorage.role_name == 'Director') {
-              this.server.update(
-                'list-zones',
-                new FormData(),
-                (response: any) => {
-                  if (response.meta.return_code == 0) {
-                    this.home.zones = response.data
-                    this.home.displayZoneMenu()
-                  } else {
-                    // si algo ocurrio con la comunicacion con el servidor, 
-                    // desplegamos un mensaje de error al usuario
-                    this.toastManager.showServiceErrorText(
-                      'list-zones', 
-                      response.meta
-                    )
-                  }
+            this.storage.get("user_id").then(
+              user_id => {
+                // El usuario ya se encontraba conectado, así que se le da acceso a la aplicación
+                if (user_id != null) {
+                  this.events.publish('user:loggedIn', Date.now(), this.lang)
+                  this.app.getRootNav().setRoot(EditProfile)
+                  this.enableLocalizedMenu()
                 }
-              )
-            }*/
+              }
+            )
           }
         } else {
           // si hubo un problema con la comunicacion con el servidor 
@@ -123,33 +108,17 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    super.ngOnInit()
     this.userLogInInfo = this.formBuilder.group({
-      username: [ null, Validators.compose([
+      username: [null, Validators.compose([
         Validators.required,
         Validators.minLength(3)
       ])],
-      password: [ null, Validators.compose([
+      password: [null, Validators.compose([
         Validators.required,
         Validators.minLength(6)
       ])]
     })
-  }
-
-  openZoneSelector() {
-    this.zone_select.open();
-  }
-
-  openLanguageSelector() {
-    this.language_select.open();
-  }
-
-  onLanguageChange(selectedValue) {
-    this.selectLocale(selectedValue);
-    this.events.publish('language:changed', selectedValue, Date.now());
-  }
-
-  selectLocale(lang) {
-    this.translationService.selectLanguage(lang);
   }
 
   // Esta funcion es invocada cuando el usuario hace clic en el boton de enviar
@@ -166,21 +135,73 @@ export class HomePage implements OnInit {
 
     // enviamos los datos al servidor
     this.server.update(
-      'login', 
-      formData, 
+      'login',
+      formData,
       (response: any) => {
         if (response.meta.return_code == 0) {
           toasts.showText("loggedIn");
           this.storage.set("is_logged_in", true)
           this.mapUserDataToLocalStorage(response.data)
           rootNav.setRoot(EditProfile)
-          menuCtrl.enable(true, "es")
-          menuCtrl.enable(true, "en")
+          this.enableLocalizedMenu()
+          this.events.publish('user:loggedIn', Date.now(), this.lang);
+          /*menuCtrl.enable(true, "es")
+          menuCtrl.enable(true, "en")*/
         } else {
           toasts.showServiceErrorText("login", response.meta)
           console.log(response.meta.message)
         }
+      },
+      (error: any, caught: Observable<void>) => {
+        this.serverOnline = false
+        this.toasts.showText("serverTakingTooLong")
+        return []
       }
     )
+  }
+
+  checkServer() {
+    console.log("Check server again...")
+    this.serverOnline = null
+    this.server.update(
+      'status',
+      new FormData(),
+      (response: any) => {
+        if (response.meta.return_code == 0) {
+          this.serverOnline = response.data
+        } else {
+          this.serverOnline = false
+        }
+      },
+      (error: any, caught: Observable<void>) => {
+        this.serverOnline = false
+        return []
+      }
+    )
+  }
+
+  enableLocalizedMenu() {
+    this.storage.get("lang").then(
+      lang => {
+        console.log("Lang was set, reading value")
+        this.lang = lang
+        this.menuCtrl.enable(false)
+        this.menuCtrl.enable(true, lang)
+      },
+      error => {
+        console.log("Lang wasn't set, using default value")
+        this.lang = "es"
+        this.menuCtrl.enable(false)
+        this.menuCtrl.enable(true, this.lang)
+      }
+    )
+  }
+  
+  // Reimplementamos la función de cambio de idioma para indicarle a
+  // app.component que no debe de mostrar el sidenav al cambiar de idioma
+  // en la pantalla de inicio de sesión
+  onLanguageChange(selectedValue) {
+    this.selectLocale(selectedValue);
+    this.events.publish('language:changed', selectedValue, Date.now(), true);
   }
 }

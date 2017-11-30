@@ -62,6 +62,8 @@ $service = fsm\createAuthorizationReportService(
                 'id' => $item['item_id'],
                 'order' => $item['position'],
                 'name' => $item['item_name'],
+                'es' => $item['type_name'],
+                'en' => $item['type_name'],
                 'status' => $item['is_acceptable'],
                 'corrective_action_id' => 
                   $item['corrective_action_id'],

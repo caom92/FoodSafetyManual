@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { Injectable, OnInit } from '@angular/core'
 import { ToastController, Events } from 'ionic-angular';
 
 import { Storage } from '@ionic/storage';
@@ -8,7 +8,7 @@ import { Language } from 'angular-l10n'
 // Servicio que despliega mensajes en la pantalla para informar al usuario 
 // sobre los resultados que sus acciones tuvieron
 @Injectable()
-export class ToastService
+export class ToastService implements OnInit
 {
   @Language() lang: string
 
@@ -21,7 +21,13 @@ export class ToastService
       usernameChanged: 'El nombre de usuario se cambió exitosamente',
       capturedLog: 'Se ha enviado la bitácora exitosamente',
       incompleteLog: 'Error; hay algunos campos sin llenar',
-      serverUnreachable: 'Servidor inalcanzable'
+      failedLogToQueue: 'La bitácora no pudo ser enviada, se enviará en cuanto se conecte nuevamente a una red',
+      serverUnreachable: 'Servidor inalcanzable',
+      itemAddSuccess: 'Elemento añadido con éxito',
+      itemChargeSuccess: 'Elemento activado exitosamente',
+      itemDischargeSuccess: 'Elemento desactivado exitosamente',
+      serverTakingTooLong: 'Existe un error en la conexión o el servidor está tardando demasiado en responder',
+      notAvailableInMobile: 'Esta característica aun no está disponible en la versión móvil'
     },
     en: {
       loggedIn: 'Logged in successfully',
@@ -29,7 +35,13 @@ export class ToastService
       usernameChanged: 'The user name was changed successfully',
       capturedLog: 'The log has been sent succesfully',
       incompleteLog: 'Error; some fields aren\'t filled',
-      serverUnreachable: 'Server Unreachable'
+      failedLogToQueue: 'The log could not be send, it will be added when you connect again to a network',
+      serverUnreachable: 'Server Unreachable',
+      itemAddSuccess: 'Item added successfully',
+      itemChargeSuccess: 'Item activated successfully',
+      itemDischargeSuccess: 'Item deactivated successfully',
+      serverTakingTooLong: 'There is an error in your connection or the server is taking too long to respond',
+      notAvailableInMobile: 'This feature is not yet available in the mobile version'
     }
   }
 
@@ -107,9 +119,45 @@ export class ToastService
       this.lang = lang
     })
 
-    this.storage.get('lang').then((lang) => {
-      this.lang = lang;
+    this.events.subscribe("user:loggedIn", (time, lang) => {
+      this.lang = lang
     })
+
+    this.ngOnInit()
+  }
+
+  ngOnInit(){
+    this.storage.get('lang').then(
+      lang => {
+        if(lang == 'en' || lang == 'es'){
+          this.lang = lang
+        } else {
+
+          //console.log("Toast service changing language to es")
+          this.lang = 'es'
+          this.storage.set('lang', 'es')
+          this.events.publish("language:changed", "es", Date.now())
+        }
+      },
+      error => {
+        let tempToast = this.toastService.create({
+          message: "Lang completely undefined",
+          duration: 3500,
+          position: 'bottom'
+        })
+      }
+    )
+  }
+
+  showString(text: string) {
+    // si asi es, desplegamos el mensaje en el idioma elegido
+    let toast = this.toastService.create({
+      message: text,
+      duration: 3500, 
+      position: 'bottom'
+    })
+
+    toast.present()
   }
 
   // Esta funcion despliega el texto que este asociado con el indice ingresado, 
@@ -119,8 +167,7 @@ export class ToastService
   //        desplegar
   showText(text: string) {
     // primero, recuperamos el idioma del sistema
-    let lang = this.lang //localStorage.lang
-    console.log("Idioma de toast showText " + this.lang)
+    let lang = this.lang
     var toast
 
     // luego revisamos si el texto ingresado corresponde a algun indice en la 
@@ -155,8 +202,7 @@ export class ToastService
   //        servicio
   showServiceErrorText(service: string, meta: any) {
     // primero recuperamos el idioma del sistema
-    let lang = this.lang //localStorage.lang
-    console.log("Idioma de toast showText " + this.lang)
+    let lang = this.lang
     var toast
 
     // luego recuperamos el codigo de error retornado por el servidor

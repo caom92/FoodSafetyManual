@@ -1,0 +1,6 @@
+include ../../../logmaster-common-mixins.pug
+
++commonLoader()
+
+#tableWrapper.tableWrapper(*ngIf='showReport')
+  gmp-packing-thermo-calibration-report([report]='report')

@@ -317,7 +317,7 @@ function gmpPackingScissorKnivesTitle(group){
 
 function gmpPackingScissorsKnivesTime(group, time){
     var timeLabel = {"type":"label","contents":{"type":"text","classes":"time_title"},"for":"time_" + group.id,"classes":"active"};
-    var timeInput = {"type":"input","id": "time_" + group.id, "classes": "validate", "fieldType":"text","disabled":true,"data":{"group_id":group.id},"value":getISOTime(new Date()),"isClearable":false};
+    var timeInput = {"type":"input","id": "time_" + group.id, "classes": "validate", "fieldType":"text","readonly":true,"data":{"group_id":group.id},"value":getISOTime(new Date()),"isClearable":false};
     var timeFullInput = {"id":"timeWrapper_" + group.id,"classes":"input-field col s4 m4 l4","field":timeInput,"label":timeLabel};
 
     if(time){
