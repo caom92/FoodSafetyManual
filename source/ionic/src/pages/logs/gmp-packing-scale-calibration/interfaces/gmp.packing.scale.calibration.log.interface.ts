@@ -26,5 +26,5 @@ export interface LogScale {
 export interface LogItem {
     id: number,
     name: string,
-    order: number
+    position: number
 }

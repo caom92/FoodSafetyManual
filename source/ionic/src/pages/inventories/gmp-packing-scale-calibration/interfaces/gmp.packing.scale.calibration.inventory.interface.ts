@@ -2,7 +2,7 @@ export interface InventoryItem {
   id: number
   is_active: number
   name: string
-  order: number
+  position: number
 }
 
 export interface InventoryType {

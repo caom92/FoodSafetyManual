@@ -39,7 +39,7 @@ import { LogService } from '../../../../services/app.logs'
 })
 
 export class GMPPackingScaleCalibrationLogComponent implements OnInit {
-  @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, types: { units: [{ id: null, symbol: null }], scales: [{ id: null, name: null, items: [{ id: null, name: null, order: null }] }] } }
+  @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, types: { units: [{ id: null, symbol: null }], scales: [{ id: null, name: null, items: [{ id: null, name: null, position: null }] }] } }
   @Language() lang: string
   logHeaderData: LogHeaderData = { zone_name: null, program_name: null, module_name: null, date: null, created_by: null }
   public gmpPackingScaleCalibrationForm: FormGroup = new FormBuilder().group({})

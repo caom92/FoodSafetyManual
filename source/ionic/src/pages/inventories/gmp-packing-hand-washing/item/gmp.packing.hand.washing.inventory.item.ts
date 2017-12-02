@@ -12,12 +12,7 @@ import { InventoryService } from '../../../../services/app.inventory'
 
 @Component({
   selector: 'gmp-packing-hand-washing-inventory-item',
-  templateUrl: './gmp.packing.hand.washing.inventory.item.html',
-  providers: [
-    BackendService,
-    ToastService,
-    LoaderService
-  ]
+  templateUrl: './gmp.packing.hand.washing.inventory.item.html'
 })
 
 export class GMPPackingHandWashingInventoryItemComponent implements OnInit {

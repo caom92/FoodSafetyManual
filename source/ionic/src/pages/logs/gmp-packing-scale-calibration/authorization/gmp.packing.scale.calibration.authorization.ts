@@ -53,7 +53,7 @@ export class GMPPackingScaleCalibrationAuthorizationComponent extends NavbarPage
         time: null,
         items: [{
           id: null,
-          order: null,
+          position: null,
           name: null,
           test: null,
           unit: null,

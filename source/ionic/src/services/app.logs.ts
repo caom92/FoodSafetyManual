@@ -174,6 +174,7 @@ export class LogService {
           console.log(JSON.stringify(response))
         }, (error: any, caught: Observable<void>) => {
           // TODO Mensaje de error
+          reject()
           return []
         }
       )

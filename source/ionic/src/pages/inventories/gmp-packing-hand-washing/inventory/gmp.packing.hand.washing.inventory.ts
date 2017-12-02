@@ -25,19 +25,14 @@ import { InventoryService } from '../../../../services/app.inventory'
 
 @Component({
   selector: 'gmp-packing-hand-washing-inventory',
-  templateUrl: './gmp.packing.hand.washing.inventory.html',
-  providers: [
-    BackendService,
-    ToastService,
-    LoaderService
-  ]
+  templateUrl: './gmp.packing.hand.washing.inventory.html'
 })
 
 export class GMPPackingHandWashingInventoryComponent implements OnInit {
-  @Language() lang: string
-  @Input() inventory: Array<InventoryItem> = []
-  public emptyInventoryFlag: boolean = null
-  public scrollAllowed: boolean = true
+  @Language() private lang: string
+  @Input() private inventory: Array<InventoryItem> = []
+  private emptyInventoryFlag: boolean = null
+  private scrollAllowed: boolean = true
 
   constructor(public events: Events,
     public modalController: ModalController,
@@ -72,6 +67,8 @@ export class GMPPackingHandWashingInventoryComponent implements OnInit {
       console.log("Message: " + message)
     })
 
+    // Utilizamos el servicio de inventarios para recuperar el inventario,
+    // indicando el nombre del servicio para esta bitácora en particular
     this.inventoryService.getInventory("inventory-gmp-packing-hand-washing").then(success => {
       this.inventory = success
       this.checkEmptyInventory()

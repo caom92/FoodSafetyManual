@@ -13,12 +13,11 @@ import { PendingLog } from '../pages/pending-logs/pending-card/pending.card.inte
 import { ToastService } from './app.toasts'
 import { LoaderService } from './app.loaders'
 import { BackendService } from './app.backend'
+import { errorHandler } from '@angular/platform-browser/src/browser';
 
 /**
  * Servicio que agrupa las funciones en común que pueden ser utilizadas por
  * inventarios de items y áreas
- * 
- * @function getInventory
  * 
  * @export
  * @class InventoryService
@@ -128,16 +127,134 @@ export class InventoryService {
     return togglePromise
   }
 
-
   /**
    * Reordena los elementos del inventario de una bitácora, de 1 hasta n
    * 
-   * @param {*} data 
-   * @param {string} service 
+   * @param {Array<{id: number, position: number}>} data - El arreglo de 
+   * objetos con ID y posición de la lista de elementos a reordenar
+   * @param {string} service - Nombre del servicio de reordenamiento
    * @returns {Promise<any>} 
    * @memberof InventoryService
    */
-  public reorderInventory(data: any, service: string): Promise<any> {
-    return
+
+  public reorderInventory(data: Array<{ id: number, position: number }>, service: string): Promise<any> {
+    let reorderPromise = new Promise<any>((resolve, reject) => {
+      let loaderReorder = this.loaderService.koiLoader("")
+      let reorderForm = new FormData()
+      let flatData = this.flatten({ items: data })
+
+      loaderReorder.present()
+      for (let key in flatData) {
+        let tempKey = key + "]"
+        tempKey = tempKey.replace(']', '')
+        reorderForm.append(tempKey, flatData[key])
+      }
+
+      this.server.update(
+        service,
+        reorderForm,
+        (response: any) => {
+          if (response.meta.return_code == 0) {
+            console.log(response)
+            loaderReorder.dismiss()
+            resolve("server")
+          } else {
+            loaderReorder.dismiss()
+            this.toastService.showText("lastActionReverseBadRequest")
+            reject(response.meta.return_code)
+          }
+        }, (error: any, caught: Observable<void>) => {
+          loaderReorder.dismiss()
+          this.toastService.showText("lastActionReverseNetwork")
+          reject()
+          return []
+        }
+      )
+    })
+
+    return reorderPromise
+  }
+
+  /**
+   * Añade un nuevo elemento de inventario y se envía al servidor
+   * 
+   * @param {*} data - Objeto que representa el elemento a agregar el inventario 
+   * @param {string} service 
+   * @returns {Promise<*>} 
+   * @memberof InventoryService
+   */
+
+  public addItem(data: any, service: string): Promise<any> {
+    let addPromise = new Promise<any>((resolve, reject) => {
+      let loaderAdd = this.loaderService.koiLoader("")
+      let itemForm = new FormData()
+      let flatData = this.flatten({items: data})
+
+      loaderAdd.present()
+
+      for (let key in flatData) {
+        let tempKey = key + "]"
+        tempKey = tempKey.replace(']', '')
+        itemForm.append(tempKey, flatData[key])
+      }
+
+      this.server.update(
+        service,
+        itemForm,
+        (response: any) => {
+          if (response.meta.return_code == 0) {
+            loaderAdd.dismiss()
+            this.toastService.showText("itemAddSuccess")
+            resolve(response.data)
+          } else {
+            loaderAdd.dismiss()
+            reject()
+          }
+        },
+        (error: any, caught: Observable<void>) => {
+          loaderAdd.dismiss()
+          reject()
+          this.toastService.showText("serverUnreachable")
+          return []
+        }
+      )
+    })
+
+    return addPromise
+  }
+
+  /**
+   * Aplana un objeto de cualquier profundidad para darle un formato adecuado
+   * para usarse con Form Data y recibirlo en el servidor
+   * 
+   * @private
+   * @param {*} data - Objeto que debe ser convertido a un formato utilizable
+   * por el servidor al recibir un Form Data
+   * @returns {*} 
+   * @memberof InventoryService
+   */
+
+  private flatten(data: any): any {
+    var result = {}
+
+    function recurse(cur, prop) {
+      if (Object(cur) !== cur) {
+        result[prop] = cur
+      } else if (Array.isArray(cur)) {
+        for (var i = 0, l = cur.length; i < l; i++)
+          recurse(cur[i], prop + "][" + i + "][")
+        if (l == 0) result[prop] = []
+      } else {
+        var isEmpty = true
+        for (var p in cur) {
+          isEmpty = false
+          recurse(cur[p], prop ? prop + p : p)
+        }
+        if (isEmpty && prop) result[prop] = {}
+      }
+    }
+
+    recurse(data, "")
+    return result
   }
 }

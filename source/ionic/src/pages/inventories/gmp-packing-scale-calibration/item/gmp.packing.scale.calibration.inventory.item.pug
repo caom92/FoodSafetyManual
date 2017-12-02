@@ -1,6 +1,6 @@
 ion-item(text-wrap, [class.gray-text]='item_toggle.value == false')
   ion-icon.handle(name='move', item-start)
-  ion-label {{item.order}}
+  ion-label {{item.position}}
   ion-label {{item.name}}
   ion-label {{type}}
   ion-toggle(#item_toggle, (ionChange)='toggleItem()')

@@ -11,10 +11,7 @@ import { BackendService } from '../../../../services/app.backend'
 
 @Component({
   selector: 'gmp-packing-hand-washing-inventory-list',
-  templateUrl: './gmp.packing.hand.washing.inventory.list.html',
-  providers: [
-    BackendService
-  ]
+  templateUrl: './gmp.packing.hand.washing.inventory.list.html'
 })
 
 export class GMPPackingHandWashingInventoryListComponent implements OnInit, OnDestroy {

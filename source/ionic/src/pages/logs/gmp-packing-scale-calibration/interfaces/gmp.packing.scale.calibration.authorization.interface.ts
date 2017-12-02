@@ -30,7 +30,7 @@ export interface AuthorizationType {
 
 export interface AuthorizationItem {
   id: number
-  order: number
+  position: number
   name: string
   test: number
   unit: number
