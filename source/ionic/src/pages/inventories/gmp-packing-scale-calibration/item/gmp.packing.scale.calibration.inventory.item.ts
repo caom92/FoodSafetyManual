@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Rx'
 
 import { InventoryItem } from '../interfaces/gmp.packing.scale.calibration.inventory.interface'
 
-import { BackendService } from '../../../../services/app.backend'
 import { ToastService } from '../../../../services/app.toasts'
 import { InventoryService } from '../../../../services/app.inventory'
 
@@ -30,8 +29,7 @@ export class GMPPackingScaleCalibrationInventoryItemComponent implements OnInit 
   private toggleError: boolean = false
   private previousValue: boolean = null
 
-  constructor(public server: BackendService,
-    private toastService: ToastService,
+  constructor(private toastService: ToastService,
     private inventoryService: InventoryService) {
 
   }

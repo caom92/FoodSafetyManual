@@ -10,9 +10,6 @@ import { HideFabDirective } from '../../../../directives/hide.fab'
 
 import { GMPPackingScaleCalibrationAddItemComponent } from '../add-item/gmp.packing.scale.calibration.add.item'
 
-import { BackendService } from '../../../../services/app.backend'
-import { ToastService } from '../../../../services/app.toasts'
-import { LoaderService } from '../../../../services/app.loaders'
 import { InventoryService } from '../../../../services/app.inventory'
 
 /**
@@ -36,11 +33,8 @@ export class GMPPackingScaleCalibrationInventoryComponent implements OnInit {
 
   constructor(public events: Events,
     public modalController: ModalController,
-    public server: BackendService,
     public navCtrl: NavController,
-    public loaderService: LoaderService,
     public ts: TService,
-    private toastService: ToastService,
     private inventoryService: InventoryService) {
 
   }

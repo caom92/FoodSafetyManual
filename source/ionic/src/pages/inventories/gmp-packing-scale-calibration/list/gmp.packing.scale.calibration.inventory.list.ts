@@ -9,7 +9,6 @@ import { InventoryType } from '../interfaces/gmp.packing.scale.calibration.inven
 
 import { DragulaService } from 'ng2-dragula'
 
-import { BackendService } from '../../../../services/app.backend'
 import { InventoryService } from '../../../../services/app.inventory'
 
 @Component({
@@ -30,14 +29,25 @@ export class GMPPackingScaleCalibrationInventoryListComponent implements OnInit,
 
   constructor(private dragulaService: DragulaService,
     public events: Events,
-    public server: BackendService,
-    private inventoryService: InventoryService){
+    private inventoryService: InventoryService) {
 
   }
 
-  ngOnInit() {
+  /**
+   * Inicializa el servicio de Dragula para reordenar el inventario y gestiona
+   * las peticiones al servicio de inventario para reflejar el reordenamiento
+   * en el servidor
+   * 
+   * @memberof GMPPackingScaleCalibrationInventoryListComponent
+   */
+
+  public ngOnInit(): void {
+    // Guardamos el inventario original 
     this.originalInventory = this.type.items.map(x => Object.assign({}, x))
 
+    // Activamos las opciones de Dragula; en este caso nos interesa que el
+    // elemento se pueda mover solo al hacer click sobre el ícono de la cruz
+    // con flechas
     this.dragulaService.setOptions(this.type.name, {
       moves: function (el, container, handle) {
         return (handle.classList.contains('handle'))
@@ -45,19 +55,23 @@ export class GMPPackingScaleCalibrationInventoryListComponent implements OnInit,
       revertOnSpill: true
     })
 
+    // Al comenzar el desplazamiento de un elemento de inventario, se detiene
+    // la posibilidad de realizar scroll
     this.drag = this.dragulaService.drag.subscribe((value) => {
-      if(value[0] == this.type.name){
+      if (value[0] == this.type.name) {
         this.events.publish("scroll:stop", "Scroll Stopped")
       }
     })
 
+    // Al terminar el desplazamiento de un elemento de inventario, se habilita
+    // la posibilidad de realizar scroll
     this.dragend = this.dragulaService.dragend.subscribe((value) => {
-      if(value[0] == this.type.name){ 
+      if (value[0] == this.type.name) {
         this.events.publish("scroll:start", "Scroll Started")
         let index = 1
-        let reorderedItemArray: Array<{id: number, position: number}> = []
-        
-        for(let item in this.type.items){
+        let reorderedItemArray: Array<{ id: number, position: number }> = []
+
+        for (let item in this.type.items) {
           this.type.items[item].position = index++
           reorderedItemArray.push({
             id: this.type.items[item].id,
@@ -66,17 +80,22 @@ export class GMPPackingScaleCalibrationInventoryListComponent implements OnInit,
         }
 
         this.inventoryService.reorderInventory(reorderedItemArray, "reorder-gmp-packing-scale-calibration").then(success => {
-          //console.log("exito de promesa de reordenamiento")
           this.originalInventory = this.type.items.map(x => Object.assign({}, x))
         }, error => {
-          //console.log("fallo de promesa de reordenamiento")
           this.type.items = this.originalInventory.map(x => Object.assign({}, x))
         })
       }
     })
   }
 
-  ngOnDestroy() {
+  /**
+   * Desuscribe el servicio de Dragula para que este no interfiera al volver a
+   * abrir este u otros inventarios
+   * 
+   * @memberof GMPPackingScaleCalibrationInventoryListComponent
+   */
+
+  public ngOnDestroy(): void {
     if (this.dragulaService.find(this.type.name) !== undefined) {
       console.warn("Dragula bag " + this.type.name + " destroyed")
       this.drag.unsubscribe()

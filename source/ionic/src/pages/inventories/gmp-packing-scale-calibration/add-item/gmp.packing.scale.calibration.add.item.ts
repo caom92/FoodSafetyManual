@@ -10,7 +10,7 @@ import { InventoryService } from '../../../../services/app.inventory'
 
 /**
  * Componente que despliega y controla el funcionamiento del modal para añadir
- * inventario de Scale Calibration
+ * inventario de GMP Packing Scale Calibration
  * 
  * @export
  * @class GMPPackingScaleCalibrationAddItemComponent
