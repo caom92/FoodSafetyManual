@@ -1,3 +1,5 @@
+include ../../../logmaster-common-mixins.pug
+
 ion-header
   ion-toolbar(color='primary')
     ion-title
@@ -11,11 +13,14 @@ ion-content
     ion-item
       ion-label(color='primary', floating) Nombre
       ion-input(formControlName='name')
+    +errorMessage('!newItem.controls.name.valid && newItem.controls.name.dirty && newItem.controls.name.value.length == 0', "{{ 'InventoryErrors.gmp-packing-scale-calibration.item_required' | translate:lang }}")
+    +errorMessage('!newItem.controls.name.valid && newItem.controls.name.dirty && newItem.controls.name.value.length > 0', "{{ 'InventoryErrors.gmp-packing-scale-calibration.item_length' | translate:lang }}")
 
     ion-item
       ion-label Tipo
       ion-select(interface='popover', formControlName='type')
         ion-option(*ngFor="let type of types", [value]='type.id') {{type.name}}
+    +errorMessage('!newItem.controls.type.valid && newItem.controls.type.dirty', "{{ 'InventoryErrors.gmp-packing-scale-calibration.item_type' | translate:lang }}")
 
     br
 

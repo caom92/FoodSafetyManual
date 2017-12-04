@@ -120,5 +120,12 @@
             "person_length": "The name of the person performing sanitation can't exceed 255 characters",
             "album_length": "The album URL can't exceed 2000 characters"
         }
+    },
+    "InventoryErrors": {
+        "gmp-packing-scale-calibration": {
+            "item_required": "You need to enter a name for this item",
+            "item_length": "The item's name can't exceed 255 characters",
+            "item_type": "You need to indicate the type of the item"
+        }
     }
 }

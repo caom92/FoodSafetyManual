@@ -1,32 +1,31 @@
 import { Component, OnInit } from '@angular/core'
-import { Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms'
+import { Validators, FormGroup, FormBuilder } from '@angular/forms'
 import { Platform, NavParams, ViewController, AlertController } from 'ionic-angular'
-
-import { Observable } from 'rxjs/Rx'
 
 import { Language, TranslationService as TService } from 'angular-l10n'
 
 import { InventoryItem } from '../interfaces/gmp.packing.scale.calibration.inventory.interface'
 
-import { BackendService } from '../../../../services/app.backend'
-import { ToastService } from '../../../../services/app.toasts'
-import { LoaderService } from '../../../../services/app.loaders'
 import { InventoryService } from '../../../../services/app.inventory'
+
+/**
+ * Componente que despliega y controla el funcionamiento del modal para añadir
+ * inventario de Scale Calibration
+ * 
+ * @export
+ * @class GMPPackingScaleCalibrationAddItemComponent
+ * @implements {OnInit}
+ */
 
 @Component({
   selector: 'gmp-packing-scale-calibration-add-item',
-  templateUrl: './gmp.packing.scale.calibration.add.item.html',
-  providers: [
-    BackendService,
-    ToastService,
-    LoaderService
-  ]
+  templateUrl: './gmp.packing.scale.calibration.add.item.html'
 })
 
 export class GMPPackingScaleCalibrationAddItemComponent implements OnInit {
-  types: Array<any> = []
-
-  newItem: FormGroup = new FormBuilder().group({})
+  @Language() private lang: string
+  private types: Array<any> = []
+  private newItem: FormGroup = new FormBuilder().group({})
 
   constructor(public platform: Platform,
     public params: NavParams,
@@ -34,30 +33,44 @@ export class GMPPackingScaleCalibrationAddItemComponent implements OnInit {
     public alertCtrl: AlertController,
     public ts: TService,
     private _fb: FormBuilder,
-    public server: BackendService,
-    private toastService: ToastService,
-    public loaderService: LoaderService,
     private inventoryService: InventoryService) {
 
   }
 
-  ngOnInit() {
+  /**
+   * Obtiene los parámetros pasados por el Nav e inicializa el FormGroup de
+   * adición de inventario
+   * 
+   * @memberof GMPPackingScaleCalibrationAddItemComponent
+   */
+
+  public ngOnInit(): void {
     this.types = this.params.get("type_array")
     this.newItem = this._fb.group({
       name: ["", [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
       type: [null, [Validators.required]]
     })
-    console.log("Modal inicializado")
-    console.log(this.types)
   }
 
-  dismiss() {
+  /**
+   * Cierra el modal sin regresar datos
+   * 
+   * @memberof GMPPackingScaleCalibrationAddItemComponent
+   */
+
+  public dismiss(): void {
     this.viewCtrl.dismiss();
   }
 
-  addItem() {
+  /**
+   * Envía una confirmación al usuario antes de enviar los datos del nuevo
+   * elemento de inventario al servicio de inventario
+   * 
+   * @memberof GMPPackingScaleCalibrationAddItemComponent
+   */
+
+  public addItem(): void {
     if (this.newItem.valid) {
-      let loaderAdd = this.loaderService.koiLoader("")
       let confirmAdd = this.alertCtrl.create({
         title: this.ts.translate("Titles.add_item"),
         message: this.ts.translate("Messages.add_item") + "<br><br>" + this.newItem.value.name,
@@ -71,7 +84,6 @@ export class GMPPackingScaleCalibrationAddItemComponent implements OnInit {
           {
             text: this.ts.translate("Options.accept"),
             handler: () => {
-              //loaderAdd.present()
               let data: { type: number, item: InventoryItem } = { type: this.newItem.value.type, item: { id: 0, is_active: 1, name: this.newItem.value.name, position: 0 } }
               let itemData = { type_id: String(data.type), scale_name: String(data.item.name) }
 
@@ -79,28 +91,8 @@ export class GMPPackingScaleCalibrationAddItemComponent implements OnInit {
                 data.item.id = success
                 this.viewCtrl.dismiss(data)
               }, error => {
-                
+                this.viewCtrl.dismiss()
               })
-              /*let item = new FormData()
-              item.append("type_id", "" + data.type)
-              item.append("scale_name", data.item.name)
-              this.server.update(
-                'add-gmp-packing-scale-calibration',
-                item,
-                (response: any) => {
-                  if(response.meta.return_code == 0){
-                    data.item.id = response.data
-                    loaderAdd.dismiss()
-                    this.toastService.showText("itemAddSuccess")
-                    this.viewCtrl.dismiss(data)
-                  }
-                },
-                (error: any, caught: Observable<void>) => {
-                  loaderAdd.dismiss()
-                  this.toastService.showText("serverUnreachable")
-                  return []
-                }
-              )*/
             }
           }
         ]

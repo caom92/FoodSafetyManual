@@ -120,5 +120,12 @@
             "person_length": "El nombre de la persona a cargo de la sanitización no puede exceder 255 caracteres",
             "album_length": "El enlace del album no puede exceder 2000 caracteres"
         }
+    },
+    "InventoryErrors": {
+        "gmp-packing-scale-calibration": {
+            "item_required": "Debe introducir un nombre para el elemento",
+            "item_length": "El nombre del elemento no puede exceder 255 caracteres",
+            "item_type": "Debe indicar el tipo de elemento"
+        }
     }
 }

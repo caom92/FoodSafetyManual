@@ -58,14 +58,12 @@ export class LogService {
       let flatObj = this.flatten(filled_log)
 
       for (let key in flatObj) {
-        let tempKey = key + "]"
-        tempKey = tempKey.replace(']', '')
         if (flatObj[key] == true) {
-          form_data.append(tempKey, "1")
+          form_data.append(key, "1")
         } else if (flatObj[key] == false) {
-          form_data.append(tempKey, "0")
+          form_data.append(key, "0")
         } else {
-          form_data.append(tempKey, flatObj[key])
+          form_data.append(key, flatObj[key])
         }
       }
 
@@ -144,14 +142,12 @@ export class LogService {
       let flatObj = this.flatten(filled_log)
 
       for (let key in flatObj) {
-        let tempKey = key + "]"
-        tempKey = tempKey.replace(']', '')
         if (flatObj[key] === true) {
-          form_data.append(tempKey, "1")
+          form_data.append(key, "1")
         } else if (flatObj[key] === false) {
-          form_data.append(tempKey, "0")
+          form_data.append(key, "0")
         } else {
-          form_data.append(tempKey, flatObj[key])
+          form_data.append(key, flatObj[key])
         }
       }
 
@@ -200,26 +196,31 @@ export class LogService {
 
   // https://stackoverflow.com/questions/19098797/fastest-way-to-flatten-un-flatten-nested-json-objects
   private flatten(data) {
-    var result = {}
-
-    function recurse(cur, prop) {
-      if (Object(cur) !== cur) {
-        result[prop] = cur
-      } else if (Array.isArray(cur)) {
-        for (var i = 0, l = cur.length; i < l; i++)
-          recurse(cur[i], prop + "][" + i + "][")
-        if (l == 0) result[prop] = []
+    let result = {}
+  
+    function recurse(value, key) {
+      if (Object(value) !== value) {
+        result[key] = value
+      } else if (Array.isArray(value)) {
+        for (var i = 0, l = value.length; i < l; i++)
+          recurse(value[i], key + "[" + i + "]")
+        if (l == 0) result[key] = []
       } else {
         var isEmpty = true
-        for (var p in cur) {
+        for (var k in value) {
           isEmpty = false
-          recurse(cur[p], prop ? prop + p : p)
+          recurse(value[k], key ? key + "[" + k + "]": k)
         }
-        if (isEmpty && prop) result[prop] = {}
+        if (isEmpty && key) result[key] = {}
       }
     }
-
-    recurse(data, "")
+  
+    if(Object(data) !== data){
+      throw Error("Non-object parameter can't be flattened")
+    } else {
+      recurse(data, "")
+    }
+  
     return result
   }
 }

@@ -128,6 +128,8 @@ export class InventoryService {
   }
 
   /**
+   * @function reorderInventory
+   * 
    * Reordena los elementos del inventario de una bitácora, de 1 hasta n
    * 
    * @param {Array<{id: number, position: number}>} data - El arreglo de 
@@ -145,9 +147,7 @@ export class InventoryService {
 
       loaderReorder.present()
       for (let key in flatData) {
-        let tempKey = key + "]"
-        tempKey = tempKey.replace(']', '')
-        reorderForm.append(tempKey, flatData[key])
+        reorderForm.append(key, flatData[key])
       }
 
       this.server.update(
@@ -176,6 +176,8 @@ export class InventoryService {
   }
 
   /**
+   * @function addItem
+   * 
    * Añade un nuevo elemento de inventario y se envía al servidor
    * 
    * @param {*} data - Objeto que representa el elemento a agregar el inventario 
@@ -188,14 +190,12 @@ export class InventoryService {
     let addPromise = new Promise<any>((resolve, reject) => {
       let loaderAdd = this.loaderService.koiLoader("")
       let itemForm = new FormData()
-      let flatData = this.flatten({items: data})
+      let flatData = this.flatten(data)
 
       loaderAdd.present()
 
       for (let key in flatData) {
-        let tempKey = key + "]"
-        tempKey = tempKey.replace(']', '')
-        itemForm.append(tempKey, flatData[key])
+        itemForm.append(key, flatData[key])
       }
 
       this.server.update(
@@ -208,6 +208,7 @@ export class InventoryService {
             resolve(response.data)
           } else {
             loaderAdd.dismiss()
+            this.toastService.showText("badRequest")
             reject()
           }
         },
@@ -224,37 +225,44 @@ export class InventoryService {
   }
 
   /**
+   * @function flatten
+   * 
    * Aplana un objeto de cualquier profundidad para darle un formato adecuado
    * para usarse con Form Data y recibirlo en el servidor
    * 
    * @private
    * @param {*} data - Objeto que debe ser convertido a un formato utilizable
    * por el servidor al recibir un Form Data
-   * @returns {*} 
+   * @returns {Object} 
    * @memberof InventoryService
    */
 
-  private flatten(data: any): any {
-    var result = {}
+  private flatten(data: any): Object {
+    let result = {}
 
-    function recurse(cur, prop) {
-      if (Object(cur) !== cur) {
-        result[prop] = cur
-      } else if (Array.isArray(cur)) {
-        for (var i = 0, l = cur.length; i < l; i++)
-          recurse(cur[i], prop + "][" + i + "][")
-        if (l == 0) result[prop] = []
+    function recurse(value, key) {
+      if (Object(value) !== value) {
+        result[key] = value
+      } else if (Array.isArray(value)) {
+        for (var i = 0, l = value.length; i < l; i++)
+          recurse(value[i], key + "[" + i + "]")
+        if (l == 0) result[key] = []
       } else {
         var isEmpty = true
-        for (var p in cur) {
+        for (var k in value) {
           isEmpty = false
-          recurse(cur[p], prop ? prop + p : p)
+          recurse(value[k], key ? key + "[" + k + "]" : k)
         }
-        if (isEmpty && prop) result[prop] = {}
+        if (isEmpty && key) result[key] = {}
       }
     }
 
-    recurse(data, "")
+    if (Object(data) !== data) {
+      throw Error("Non-object parameter can't be flattened")
+    } else {
+      recurse(data, "")
+    }
+
     return result
   }
 }
