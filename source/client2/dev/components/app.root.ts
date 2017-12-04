@@ -4,8 +4,13 @@ import { BrowserModule } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { UIRouterModule } from "@uirouter/angular"
 import { MaterializeModule } from 'ng2-materialize'
-import { FormsModule, ReactiveFormsModule }   from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { HttpModule } from '@angular/http'
+
+// https://www.npmjs.com/package/angular2-pubsub
+import { PubSubModule } from 'angular2-pubsub'
+
+import { TranslationModule, LocaleService, TranslationService as TService } from 'angular-l10n'
 
 // Importamos los componentes de cada pagina de nuestra aplicacion
 import { HomeComponent } from './app.home'
@@ -71,6 +76,8 @@ import { BackendService } from '../services/app.backend'
 import { LanguageService } from '../services/app.language'
 import { ToastService } from '../services/app.toast'
 import { DateTimeService } from '../services/app.time'
+import { LoaderService, KoiLoader } from '../services/app.loaders'
+import { InventoryService } from '../services/app.inventory'
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -81,7 +88,9 @@ import { DateTimeService } from '../services/app.time'
     ReactiveFormsModule,
     HttpModule,
     BrowserAnimationsModule,
+    TranslationModule.forRoot(),
     MaterializeModule.forRoot(),
+    PubSubModule.forRoot(),
     UIRouterModule.forRoot({
       // hay que configurar ui-router para poder redireccionar al usuario 
       // dependiendo si la sesion esta iniciada o no
@@ -158,7 +167,9 @@ import { DateTimeService } from '../services/app.time'
     BackendService,
     ToastService,
     LanguageService,
-    DateTimeService
+    DateTimeService,
+    LoaderService,
+    InventoryService
   ],
   // declaramos los componentes que va a utilizar nuestro sistema
   declarations: [
@@ -169,6 +180,7 @@ import { DateTimeService } from '../services/app.time'
     KeysPipe,
     ReportProblemComponent,
     ProgressModalComponent,
+    KoiLoader,
     LogListComponent,
     InventoryListComponent,
     AuthorizationListComponent,
@@ -201,6 +213,7 @@ import { DateTimeService } from '../services/app.time'
   entryComponents: [
     ReportDisplayer,
     ProgressModalComponent,
+    KoiLoader,
     EditFooterModalComponent,
     EditSignatureModalComponent,
     ZoneInfoModalComponent,
@@ -208,14 +221,25 @@ import { DateTimeService } from '../services/app.time'
     UserInfoModalComponent
   ],
   // indicamos cual es el componente raiz
-  bootstrap: [ HomeComponent ]
+  bootstrap: [HomeComponent]
 })
-export class RootModule { 
+export class RootModule {
   // Constructor del modulo raiz importa aquellos servicios que seran globales 
   // para todos los demas modulos
   constructor(
     private home: HomeElementsService,
-    private langManager: LanguageService
+    private langManager: LanguageService,
+    public locale: LocaleService,
+    public translation: TService
   ) {
+    this.locale.addConfiguration()
+      .addLanguages(['en', 'es'])
+      .setCookieExpiration(30)
+      .defineLanguage('es');
+
+    this.translation.addConfiguration()
+      .addProvider('./assets/locale-');
+
+    this.translation.init()
   }
 }
