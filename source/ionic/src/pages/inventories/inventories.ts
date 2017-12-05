@@ -11,10 +11,15 @@ import { BackendService } from '../../services/app.backend'
 import { TranslationService } from '../../services/app.translation'
 import { ToastService } from '../../services/app.toasts'
 
+// Clase padre
+
 import { DynamicNavbarPageComponent } from '../super-components/dynamic.navbar.component'
 
+// Se deben importar los componentes de Inventario para los inventarios simples
+// y los Administradores de Inventario y Áreas para los inventarios que los
+// posean
+
 import { GMPPackingScaleCalibrationInventoryComponent } from './gmp-packing-scale-calibration/inventory/gmp.packing.scale.calibration.inventory'
-//import { GMPPackingPreopInventoryComponent } from './gmp-packing-preop/inventory/gmp.packing.preop.inventory'
 import { GMPPackingScissorsKnivesInventoryComponent } from './gmp-packing-scissors-knives/inventory/gmp.packing.scissors.knives.inventory'
 import { GMPPackingHandWashingInventoryComponent } from './gmp-packing-hand-washing/inventory/gmp.packing.hand.washing.inventory'
 import { GMPPackingThermoCalibrationInventoryComponent } from './gmp-packing-thermo-calibration/inventory/gmp.packing.thermo.calibration.inventory'
@@ -25,29 +30,34 @@ import { GMPPackingGlassBrittleInventoryManagerComponent } from './gmp-packing-g
 
 @Component({
   selector: 'inventories',
-  templateUrl: 'inventories.html',
-  providers: [
-    BackendService,
-    TranslationService,
-    ToastService
-  ]
+  templateUrl: 'inventories.html'
 })
 
 export class InventoryLoaderComponent extends DynamicNavbarPageComponent implements OnInit {
-  @Language()
-  lang: string
+  @Language() lang: string
+  private loaderComponent: any = null
+  private inventorySuffix: string = ""
+  private title: string = ""
 
-  loaderComponent: any = null
-  inventorySuffix: string = ""
-  title: string = ""
-
-  constructor(public translationService: TranslationService, public events: Events, public storage: Storage, factoryResolver: ComponentFactoryResolver, public navParams: NavParams, public server: BackendService) {
+  constructor(public translationService: TranslationService,
+    public events: Events,
+    public storage: Storage,
+    factoryResolver: ComponentFactoryResolver,
+    public navParams: NavParams,
+    public server: BackendService) {
     super(translationService, events, storage, server, factoryResolver)
     this.inventorySuffix = this.navParams.get('log_suffix')
     this.title = this.navParams.get('log_title')
   }
 
-  ngOnInit() {
+  /**
+   * En base al sufijo recibido por el Nav, asigna el componente dinámico a
+   * inyectar, siempre y cuando este se encuentre soportado
+   * 
+   * @memberof InventoryLoaderComponent
+   */
+
+  public ngOnInit(): void {
     switch (this.inventorySuffix) {
       case 'gmp-packing-scale-calibration': this.loaderComponent = this.loadComponent(GMPPackingScaleCalibrationInventoryComponent, {
         parent: this

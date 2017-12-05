@@ -1,28 +1,30 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core'
 import { Events } from 'ionic-angular'
 
+//import { ISubscription } from 'rxjs/Subscription'
+
 import { Language } from 'angular-l10n'
 
 import { InventoryItem } from '../interfaces/gmp.packing.scissors.knives.inventory.interface'
 
 import { DragulaService } from 'ng2-dragula'
 
-import { BackendService } from '../../../../services/app.backend'
+import { InventoryService } from '../../../../services/app.inventory'
 
 @Component({
   selector: 'gmp-packing-scissors-knives-inventory-list',
   templateUrl: './gmp.packing.scissors.knives.inventory.list.html',
   providers: [
-    BackendService
+    DragulaService
   ]
 })
 
 export class GMPPackingScissorsKnivesInventoryListComponent implements OnInit, OnDestroy {
-  @Language()
-  lang: string
-
-  @Input()
-  items: Array<InventoryItem>
+  @Language() private lang: string
+  @Input() private items: Array<InventoryItem>
+  //private drag: ISubscription = null
+  //private dragend: ISubscription = null
+  //private originalInventory = null
 
   constructor(private dragulaService: DragulaService, public events: Events, public server: BackendService) {
     

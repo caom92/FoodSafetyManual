@@ -5,72 +5,68 @@ import { Observable } from 'rxjs/Rx'
 
 import { InventoryItem } from '../interfaces/gmp.packing.scissors.knives.inventory.interface'
 
-import { BackendService } from '../../../../services/app.backend'
 import { ToastService } from '../../../../services/app.toasts'
-import { LoaderService } from '../../../../services/app.loaders'
+import { InventoryService } from '../../../../services/app.inventory'
+
+/**
+ * Componente que controla un elemento de inventario de GMP Packing Scissors
+ * Knives
+ * 
+ * @export
+ * @class GMPPackingScissorsKnivesInventoryItemComponent
+ * @implements {OnInit}
+ */
 
 @Component({
   selector: 'gmp-packing-scissors-knives-inventory-item',
-  templateUrl: './gmp.packing.scissors.knives.inventory.item.html',
-  providers: [
-    BackendService,
-    ToastService,
-    LoaderService
-  ]
+  templateUrl: './gmp.packing.scissors.knives.inventory.item.html'
 })
 
 export class GMPPackingScissorsKnivesInventoryItemComponent implements OnInit {
-  @ViewChild('item_toggle') item_toggle: Toggle
+  @ViewChild('item_toggle') private item_toggle: Toggle
+  @Input() private item: InventoryItem
+  private toggleError: boolean = false
+  private previousValue: boolean = null
 
-  @Input()
-  item: InventoryItem
-
-  toggleError: boolean = false
-  previousValue: boolean = null
-
-  constructor(public server: BackendService, public loaderService: LoaderService, private toastService: ToastService){
+  constructor(private toastService: ToastService,
+    private inventoryService: InventoryService) {
 
   }
 
-  ngOnInit(){
+  /**
+   * Asigna el valor activo/inactivo del elemento en el componente Toggle
+   * 
+   * @memberof GMPPackingScissorsKnivesInventoryItemComponent
+   */
+
+  public ngOnInit(): void {
     this.item_toggle.value = this.item.is_active == 1
   }
 
-  toggleItem(){
-    if(this.toggleError){
+  /**
+   * Activa/desactiva un elemento a través del servicio de inventarios
+   * 
+   * @memberof GMPPackingScissorsKnivesInventoryItemComponent
+   */
+
+  public toggleItem(): void {
+    if (this.toggleError) {
       this.item_toggle.value = this.previousValue
-      console.log("OnError " + this.toggleError)
       this.toggleError = false
     } else {
-      let loaderToggle = this.loaderService.koiLoader("")
       this.previousValue = !this.item_toggle.value
-      let item = new FormData()
-      item.append("id", "" + this.item.id)
-      loaderToggle.present()
-      this.server.update(
-        'toggle-gmp-packing-scissors-knives',
-        item,
-        (response: any) => {
-          if(this.item_toggle.value){
-            console.log("Item activated: " + this.item.name)
-            this.toastService.showText("itemChargeSuccess")
-            this.item.is_active = 1
-          } else {
-            console.log("Item deactivated: " + this.item.name)
-            this.toastService.showText("itemDischargeSuccess")
-            this.item.is_active = 0
-          }
-          loaderToggle.dismiss()
-        },
-        (error: any, caught: Observable<void>) => {
-          //this.item_toggle.value = previousValue
-          this.toggleError = true
-          this.toggleItem()
-          this.toastService.showText("serverUnreachable")
-          loaderToggle.dismiss()
-          return []
+      this.inventoryService.toggleItem(this.item, "toggle-gmp-packing-scissors-knives").then(success => {
+        if (this.item_toggle.value) {
+          this.toastService.showText("itemChargeSuccess")
+          this.item.is_active = 1
+        } else {
+          this.toastService.showText("itemDischargeSuccess")
+          this.item.is_active = 0
         }
-      )
+      }, error => {
+        this.toggleError = true
+        this.toggleItem()
+      })
     }
   }
 }

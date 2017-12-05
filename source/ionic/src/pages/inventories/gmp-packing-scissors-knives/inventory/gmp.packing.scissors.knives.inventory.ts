@@ -10,36 +10,43 @@ import { HideFabDirective } from '../../../../directives/hide.fab'
 
 import { GMPPackingScissorsKnivesAddItemComponent } from '../add-item/gmp.packing.scissors.knives.add.item'
 
-import { BackendService } from '../../../../services/app.backend'
-import { ToastService } from '../../../../services/app.toasts'
-import { LoaderService } from '../../../../services/app.loaders'
+import { InventoryService } from '../../../../services/app.inventory'
+
+/**
+ * Componente que administra el inventario de GMP Packing Scissors Knives
+ * 
+ * @export
+ * @class GMPPackingScissorsKnivesInventoryComponent
+ * @implements {OnInit}
+ */
 
 @Component({
   selector: 'gmp-packing-scissors-knives-inventory',
-  templateUrl: './gmp.packing.scissors.knives.inventory.html',
-  providers: [
-    BackendService,
-    ToastService,
-    LoaderService
-  ]
+  templateUrl: './gmp.packing.scissors.knives.inventory.html'
 })
 
 export class GMPPackingScissorsKnivesInventoryComponent implements OnInit {
-  @Language()
-  lang: string
+  @Language() private lang: string
+  @Input() private inventory: Array<InventoryItem> = []
+  private emptyInventoryFlag: boolean = null
+  private scrollAllowed: boolean = true
 
-  @Input()
-  inventory: Array<InventoryItem> = []
-
-  emptyInventoryFlag: boolean = null
-
-  scrollAllowed: boolean = true
-
-  constructor(public events: Events, public modalController: ModalController, public server: BackendService, public navCtrl: NavController, public loaderService: LoaderService, public ts: TService, private toastService: ToastService) {
+  constructor(public events: Events,
+    public modalController: ModalController,
+    public navCtrl: NavController,
+    public ts: TService,
+    private inventoryService: InventoryService) {
 
   }
 
-  ngOnInit() {
+  /**
+   * Se suscribe a los eventos de control de scroll y recupera el inventario
+   * del servicio de inventarios al inicializar el componente
+   * 
+   * @memberof GMPPackingScissorsKnivesInventoryComponent
+   */
+  
+  public ngOnInit(): void {
     this.events.subscribe("scroll:stop", (message) => {
       this.scrollAllowed = false
       console.log("Message: " + message)
@@ -50,34 +57,24 @@ export class GMPPackingScissorsKnivesInventoryComponent implements OnInit {
       console.log("Message: " + message)
     })
 
-    let loader = this.loaderService.koiLoader(this.ts.translate("Connecting to Server"))
-    loader.present()
-    this.server.update(
-      'inventory-gmp-packing-scissors-knives',
-      new FormData(),
-      (response: any) => {
-        if (response.meta.return_code == 0) {
-          if (response.data) {
-            this.inventory = response.data
-            this.checkEmptyInventory()
-            loader.dismiss()
-          } else {
-            loader.dismiss()
-            this.toastService.showText("serverUnreachable")
-            this.navCtrl.pop()
-          }
-        }
-      },
-      (error: any, caught: Observable<void>) => {
-        loader.dismiss()
-        this.toastService.showText("serverUnreachable")
-        this.navCtrl.pop()
-        return []
-      }
-    )
+    this.inventoryService.getInventory("inventory-gmp-packing-scissors-knives").then(success => {
+      this.inventory = success
+      this.checkEmptyInventory()
+    }, error => {
+      // Por el momento, no se necesita ninguna acción adicional en caso de
+      // un error durante la recuperación de datos, ya que este caso se maneja
+      // dentro del servicio de inventarios
+    })
   }
 
-  addItem() {
+  /**
+   * Crea un modal para agregar un elemento de inventario de GMP Packing
+   * Scissors Knives
+   * 
+   * @memberof GMPPackingScissorsKnivesInventoryComponent
+   */
+
+  public addItem(): void {
     let type_array: Array<{ id: number, name: string }> = []
     for (let temp of this.inventory) {
       type_array.push({ id: temp.id, name: temp.name })
@@ -85,35 +82,24 @@ export class GMPPackingScissorsKnivesInventoryComponent implements OnInit {
     let modal = this.modalController.create(GMPPackingScissorsKnivesAddItemComponent, { type_array: type_array })
     modal.present()
     modal.onDidDismiss(data => {
-      if (data) {
-        //for(let item in this.inventory){
+      if (data !== undefined && data !== null) {
         this.inventory.push(data.item)
         this.emptyInventoryFlag = false
-        /*if(this.inventory[type].id == data.type){
-          data.item.order = this.inventory[type].items.length + 1
-          this.inventory[type].items.push(data.item)
-          this.emptyInventoryFlag = false
-        }*/
-        //}
       }
     })
   }
 
-  checkEmptyInventory() {
-    /*let emptyCount = 0
-    //for(let type of this.inventory){
-      if(this.inventory.length == 0){
-        emptyCount++
-      }
-    //}
+  /**
+   * Actualiza una bandera que indica si el inventario se encuentra vacío
+   * para permitirle a la vista mostrar un mensaje en consecuencia
+   * 
+   * @returns {boolean} 
+   * @memberof GMPPackingScissorsKnivesInventoryComponent
+   */
 
-    if(emptyCount == this.inventory.length){
-      this.emptyInventoryFlag = true
-      return true
-    } else {
-      this.emptyInventoryFlag = false
-      return false
-    }*/
+  public checkEmptyInventory(): boolean {
+    // Para verificar que el inventario esté vacío, simplemente se revisa la
+    // longitud del arreglo de inventario
     this.emptyInventoryFlag = this.inventory.length == 0
     return this.inventory.length == 0
   }

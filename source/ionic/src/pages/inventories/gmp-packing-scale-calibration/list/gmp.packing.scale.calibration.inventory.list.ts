@@ -20,12 +20,12 @@ import { InventoryService } from '../../../../services/app.inventory'
 })
 
 export class GMPPackingScaleCalibrationInventoryListComponent implements OnInit, OnDestroy {
-  @Language() lang: string
-  @Input() type: InventoryType
-  @Input() printHeader: boolean = false
-  drag: ISubscription = null
-  dragend: ISubscription = null
-  originalInventory = null
+  @Language() private lang: string
+  @Input() private type: InventoryType
+  @Input() private printHeader: boolean = false
+  private drag: ISubscription = null
+  private dragend: ISubscription = null
+  private originalInventory = null
 
   constructor(private dragulaService: DragulaService,
     public events: Events,

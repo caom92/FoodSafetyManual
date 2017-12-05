@@ -68,7 +68,8 @@ export class GMPPackingScaleCalibrationInventoryComponent implements OnInit {
   }
 
   /**
-   * Crea un modal para agregar un elemento para este inventario
+   * Crea un modal para agregar un elemento de inventario de GMP Packing Scale
+   * Calibration
    * 
    * @memberof GMPPackingScaleCalibrationInventoryComponent
    */
@@ -83,8 +84,6 @@ export class GMPPackingScaleCalibrationInventoryComponent implements OnInit {
     let modal = this.modalController.create(GMPPackingScaleCalibrationAddItemComponent, { type_array: type_array })
     modal.present()
     modal.onDidDismiss(data => {
-      console.log("data del modal cerrado")
-      console.log(data)
       if (data !== undefined && data !== null) {
         for (let type in this.inventory) {
           if (this.inventory[type].id == data.type) {
@@ -101,7 +100,7 @@ export class GMPPackingScaleCalibrationInventoryComponent implements OnInit {
    * Actualiza una bandera que indica si el inventario se encuentra vacío
    * para permitirle a la vista mostrar un mensaje en consecuencia
    * 
-   * @returns 
+   * @returns {boolean}
    * @memberof GMPPackingScaleCalibrationInventoryComponent
    */
 
