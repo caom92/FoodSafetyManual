@@ -112,8 +112,21 @@ export class InventoryService {
         service,
         item,
         (response: any) => {
-          resolve()
-          loaderToggle.dismiss()
+          if(response.meta.return_code == 0){
+            if(data.is_active == 0){
+              this.toastService.showText("itemChargeSuccess")
+              data.is_active = 1
+            } else {
+              this.toastService.showText("itemDischargeSuccess")
+              data.is_active = 0
+            }
+            resolve()
+            loaderToggle.dismiss()
+          } else {
+            reject()
+            this.toastService.showText("lastActionReverseBadRequest")
+            loaderToggle.dismiss()
+          }
         },
         (error: any, caught: Observable<void>) => {
           reject()

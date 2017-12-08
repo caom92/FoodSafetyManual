@@ -1,11 +1,7 @@
-import { Component, Input, ViewChild, OnInit } from '@angular/core'
-import { Toggle } from 'ionic-angular'
-
+import { Component, Input, OnInit } from '@angular/core'
 import { Observable } from 'rxjs/Rx'
-
 import { InventoryItem } from '../interfaces/gmp.packing.scale.calibration.inventory.interface'
-
-import { ToastService } from '../../../../services/app.toasts'
+import { SuperInventoryItemComponent } from '../../super-inventory/super.inventory.item'
 import { InventoryService } from '../../../../services/app.inventory'
 
 /**
@@ -22,52 +18,24 @@ import { InventoryService } from '../../../../services/app.inventory'
   templateUrl: './gmp.packing.scale.calibration.inventory.item.html'
 })
 
-export class GMPPackingScaleCalibrationInventoryItemComponent implements OnInit {
-  @ViewChild('item_toggle') private item_toggle: Toggle = null
-  @Input() private item: InventoryItem = null
+export class GMPPackingScaleCalibrationInventoryItemComponent extends SuperInventoryItemComponent implements OnInit {
   @Input() private type: string = ""
-  private toggleError: boolean = false
-  private previousValue: boolean = null
+  @Input() item: InventoryItem = null
 
-  constructor(private toastService: ToastService,
-    private inventoryService: InventoryService) {
-
+  constructor(inventoryService: InventoryService) {
+    super(inventoryService)
   }
 
   /**
-   * Asigna el valor activo/inactivo del elemento en el componente Toggle
+   * Asigna el sufijo de la bitácora, que identifica a los servicios que serán
+   * invocados del servidor, así como el valor activo/inactivo del elemento en
+   * el componente Toggle
    * 
    * @memberof GMPPackingScaleCalibrationInventoryItemComponent
    */
 
   public ngOnInit(): void {
-    this.item_toggle.value = this.item.is_active == 1
-  }
-
-  /**
-   * Activa/desactiva un elemento a través del servicio de inventarios
-   * 
-   * @memberof GMPPackingScaleCalibrationInventoryItemComponent
-   */
-
-  public toggleItem(): void {
-    if (this.toggleError) {
-      this.item_toggle.value = this.previousValue
-      this.toggleError = false
-    } else {
-      this.previousValue = !this.item_toggle.value
-      this.inventoryService.toggleItem(this.item, "toggle-gmp-packing-scale-calibration").then(success => {
-        if (this.item_toggle.value) {
-          this.toastService.showText("itemChargeSuccess")
-          this.item.is_active = 1
-        } else {
-          this.toastService.showText("itemDischargeSuccess")
-          this.item.is_active = 0
-        }
-      }, error => {
-        this.toggleError = true
-        this.toggleItem()
-      })
-    }
+    this.setSuffix("gmp-packing-scale-calibration")
+    this.setToggleValue(this.item.is_active == 1)
   }
 }

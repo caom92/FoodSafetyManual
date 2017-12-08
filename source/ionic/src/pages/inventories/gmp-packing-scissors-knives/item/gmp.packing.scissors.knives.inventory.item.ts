@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Rx'
 
 import { InventoryItem } from '../interfaces/gmp.packing.scissors.knives.inventory.interface'
 
-import { ToastService } from '../../../../services/app.toasts'
 import { InventoryService } from '../../../../services/app.inventory'
 
 /**
@@ -28,8 +27,7 @@ export class GMPPackingScissorsKnivesInventoryItemComponent implements OnInit {
   private toggleError: boolean = false
   private previousValue: boolean = null
 
-  constructor(private toastService: ToastService,
-    private inventoryService: InventoryService) {
+  constructor(private inventoryService: InventoryService) {
 
   }
 
@@ -56,13 +54,7 @@ export class GMPPackingScissorsKnivesInventoryItemComponent implements OnInit {
     } else {
       this.previousValue = !this.item_toggle.value
       this.inventoryService.toggleItem(this.item, "toggle-gmp-packing-scissors-knives").then(success => {
-        if (this.item_toggle.value) {
-          this.toastService.showText("itemChargeSuccess")
-          this.item.is_active = 1
-        } else {
-          this.toastService.showText("itemDischargeSuccess")
-          this.item.is_active = 0
-        }
+        
       }, error => {
         this.toggleError = true
         this.toggleItem()

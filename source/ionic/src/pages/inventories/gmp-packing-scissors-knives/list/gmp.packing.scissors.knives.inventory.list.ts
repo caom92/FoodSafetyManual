@@ -26,7 +26,7 @@ export class GMPPackingScissorsKnivesInventoryListComponent implements OnInit, O
   //private dragend: ISubscription = null
   //private originalInventory = null
 
-  constructor(private dragulaService: DragulaService, public events: Events, public server: BackendService) {
+  constructor(private dragulaService: DragulaService, public events: Events) {
     
   }
 

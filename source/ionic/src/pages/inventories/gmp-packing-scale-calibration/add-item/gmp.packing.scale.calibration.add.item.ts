@@ -7,6 +7,7 @@ import { Language, TranslationService as TService } from 'angular-l10n'
 import { InventoryItem } from '../interfaces/gmp.packing.scale.calibration.inventory.interface'
 
 import { InventoryService } from '../../../../services/app.inventory'
+import { SuperInventoryAddItemComponent } from '../../super-inventory/super.inventory.add.item'
 
 /**
  * Componente que despliega y controla el funcionamiento del modal para añadir
@@ -22,19 +23,18 @@ import { InventoryService } from '../../../../services/app.inventory'
   templateUrl: './gmp.packing.scale.calibration.add.item.html'
 })
 
-export class GMPPackingScaleCalibrationAddItemComponent implements OnInit {
+export class GMPPackingScaleCalibrationAddItemComponent extends SuperInventoryAddItemComponent implements OnInit {
   @Language() private lang: string
   private types: Array<any> = []
-  private newItem: FormGroup = new FormBuilder().group({})
+  newItem: FormGroup = new FormBuilder().group({})
 
-  constructor(public platform: Platform,
-    public params: NavParams,
-    public viewCtrl: ViewController,
-    public alertCtrl: AlertController,
-    public ts: TService,
-    private _fb: FormBuilder,
-    private inventoryService: InventoryService) {
-
+  constructor(public params: NavParams,
+    viewCtrl: ViewController,
+    alertCtrl: AlertController,
+    ts: TService,
+    _fb: FormBuilder,
+    inventoryService: InventoryService) {
+    super(viewCtrl, _fb, alertCtrl, ts, inventoryService)
   }
 
   /**
@@ -46,20 +46,11 @@ export class GMPPackingScaleCalibrationAddItemComponent implements OnInit {
 
   public ngOnInit(): void {
     this.types = this.params.get("type_array")
-    this.newItem = this._fb.group({
+    this.setSuffix("gmp-packing-scale-calibration")
+    this.createItemForm({
       name: ["", [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
       type: [null, [Validators.required]]
     })
-  }
-
-  /**
-   * Cierra el modal sin regresar datos
-   * 
-   * @memberof GMPPackingScaleCalibrationAddItemComponent
-   */
-
-  public dismiss(): void {
-    this.viewCtrl.dismiss();
   }
 
   /**
@@ -70,36 +61,8 @@ export class GMPPackingScaleCalibrationAddItemComponent implements OnInit {
    */
 
   public addItem(): void {
-    if (this.newItem.valid) {
-      let confirmAdd = this.alertCtrl.create({
-        title: this.ts.translate("Titles.add_item"),
-        message: this.ts.translate("Messages.add_item") + "<br><br>" + this.newItem.value.name,
-        buttons: [
-          {
-            text: this.ts.translate("Options.cancel"),
-            handler: () => {
-              console.log('Cancelar');
-            }
-          },
-          {
-            text: this.ts.translate("Options.accept"),
-            handler: () => {
-              let data: { type: number, item: InventoryItem } = { type: this.newItem.value.type, item: { id: 0, is_active: 1, name: this.newItem.value.name, position: 0 } }
-              let itemData = { type_id: String(data.type), scale_name: String(data.item.name) }
-
-              this.inventoryService.addItem(itemData, "add-gmp-packing-scale-calibration").then(success => {
-                data.item.id = success
-                this.viewCtrl.dismiss(data)
-              }, error => {
-                this.viewCtrl.dismiss()
-              })
-            }
-          }
-        ]
-      })
-      confirmAdd.present()
-    } else {
-      console.log("New item not valid")
-    }
+    let data = { type: this.newItem.value.type, item: { id: 0, is_active: 1, name: this.newItem.value.name, position: 0 } }
+    let itemData = { type_id: String(this.newItem.value.type), scale_name: String(this.newItem.value.name) }
+    super.addItem(data, itemData)
   }
 }
