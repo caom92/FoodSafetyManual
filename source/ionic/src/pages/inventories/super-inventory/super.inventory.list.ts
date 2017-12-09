@@ -130,7 +130,13 @@ export class SuperInventoryListComponent implements OnInit, OnDestroy {
         this.inventoryService.reorderInventory(reorderedItemArray, "reorder-" + this.suffix).then(success => {
           this.originalInventory = this.currentInventory.map(x => Object.assign({}, x))
         }, error => {
-          this.currentInventory = this.originalInventory.map(x => Object.assign({}, x))
+          let temp = this.originalInventory.map(x => Object.assign({}, x))
+          for(let index in temp){
+            for(let prop in this.currentInventory[index]){
+              this.currentInventory[index][prop] = temp[index][prop]
+            }
+          }
+          //this.currentInventory = this.originalInventory.map(x => Object.assign({}, x))
         })
       }
     })

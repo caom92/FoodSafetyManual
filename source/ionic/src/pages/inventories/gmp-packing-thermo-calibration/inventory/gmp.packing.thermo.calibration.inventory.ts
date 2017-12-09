@@ -1,98 +1,75 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { ModalController, Events, NavController } from 'ionic-angular'
+import { Component, Input, OnInit, OnDestroy } from '@angular/core'
+import { ModalController, Events } from 'ionic-angular'
 
-import { Language, TranslationService as TService } from 'angular-l10n'
-import { Observable } from 'rxjs/Rx'
+import { Language } from 'angular-l10n'
 
 import { InventoryItem } from '../interfaces/gmp.packing.thermo.calibration.inventory.interface'
 
 import { HideFabDirective } from '../../../../directives/hide.fab'
 
 import { GMPPackingThermoCalibrationAddItemComponent } from '../add-item/gmp.packing.thermo.calibration.add.item'
+import { InventoryService } from '../../../../services/app.inventory'
+import { SuperInventoryComponent } from '../../super-inventory/super.inventory'
 
-import { BackendService } from '../../../../services/app.backend'
-import { ToastService } from '../../../../services/app.toasts'
-import { LoaderService } from '../../../../services/app.loaders'
+/**
+ * Componente que administra el inventario de GMP Packing Thermo Calibration
+ * 
+ * @export
+ * @class GMPPackingThermoCalibrationInventoryComponent
+ * @implements {OnInit}
+ */
 
 @Component({
   selector: 'gmp-packing-thermo-calibration-inventory',
-  templateUrl: './gmp.packing.thermo.calibration.inventory.html',
-  providers: [
-    BackendService,
-    ToastService,
-    LoaderService
-  ]
+  templateUrl: './gmp.packing.thermo.calibration.inventory.html'
 })
 
-export class GMPPackingThermoCalibrationInventoryComponent implements OnInit {
-  @Language()
-  lang: string
+export class GMPPackingThermoCalibrationInventoryComponent extends SuperInventoryComponent implements OnInit, OnDestroy {
+  @Language() private lang: string
+  @Input() inventory: Array<InventoryItem> = []
 
-  @Input()
-  inventory: Array<InventoryItem> = []
-
-  emptyInventoryFlag: boolean = null
-
-  scrollAllowed: boolean = true
-
-  constructor(public events: Events, public modalController: ModalController, public server: BackendService, public navCtrl: NavController, public loaderService: LoaderService, public ts: TService, private toastService: ToastService) {
-
+  constructor(events: Events,
+    inventoryService: InventoryService,
+    modalController: ModalController) {
+    super(events, inventoryService, modalController)
   }
 
-  ngOnInit() {
-    this.events.subscribe("scroll:stop", (message) => {
-      this.scrollAllowed = false
-      console.log("Message: " + message)
-    })
+  /**
+   * Se suscribe a los eventos de control de scroll y recupera el inventario
+   * del servicio de inventarios al inicializar el componente
+   * 
+   * @memberof GMPPackingThermoCalibrationInventoryComponent
+   */
 
-    this.events.subscribe("scroll:start", (message) => {
-      this.scrollAllowed = true
-      console.log("Message: " + message)
-    })
-
-    let loader = this.loaderService.koiLoader(this.ts.translate("Connecting to Server"))
-    loader.present()
-    this.server.update(
-      'inventory-gmp-packing-thermo-calibration',
-      new FormData(),
-      (response: any) => {
-        if (response.meta.return_code == 0) {
-          if (response.data) {
-            this.inventory = response.data
-            this.checkEmptyInventory()
-            loader.dismiss()
-          } else {
-            loader.dismiss()
-            this.toastService.showText("serverUnreachable")
-            this.navCtrl.pop()
-          }
-        }
-      },
-      (error: any, caught: Observable<void>) => {
-        loader.dismiss()
-        this.toastService.showText("serverUnreachable")
-        this.navCtrl.pop()
-        return []
-      }
-    )
+  public ngOnInit(): void {
+    this.setSuffix("gmp-packing-thermo-calibration")
+    super.ngOnInit()
   }
 
-  addItem() {
-    let type_array: Array<{ id: number, name: string }> = []
-    for (let temp of this.inventory) {
-      type_array.push({ id: temp.id, name: temp.name })
-    }
-    let modal = this.modalController.create(GMPPackingThermoCalibrationAddItemComponent, { type_array: type_array })
-    modal.present()
-    modal.onDidDismiss(data => {
-      if (data) {
-        this.inventory.push(data.item)
-        this.emptyInventoryFlag = false
-      }
+  /**
+   * Crea un modal para agregar un elemento de inventario de GMP Packing Thermo
+   * Calibration
+   * 
+   * @memberof GMPPackingThermoCalibrationInventoryComponent
+   */
+
+  public addItem(): void {
+    super.addItem(GMPPackingThermoCalibrationAddItemComponent, null, (data) => {
+      data.item.position = this.inventory.length + 1
+      this.inventory.push(data.item)
+      this.emptyInventoryFlag = false
     })
   }
 
-  checkEmptyInventory() {
+  /**
+   * Actualiza una bandera que indica si el inventario se encuentra vacío
+   * para permitirle a la vista mostrar un mensaje en consecuencia
+   * 
+   * @returns {boolean}
+   * @memberof GMPPackingThermoCalibrationInventoryComponent
+   */
+
+  public checkEmptyInventory(): boolean {
     this.emptyInventoryFlag = this.inventory.length == 0
     return this.inventory.length == 0
   }

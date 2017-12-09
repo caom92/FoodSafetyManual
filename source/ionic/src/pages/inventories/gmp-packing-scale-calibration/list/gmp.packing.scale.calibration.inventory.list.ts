@@ -41,4 +41,15 @@ export class GMPPackingScaleCalibrationInventoryListComponent extends SuperInven
     this.setInventory(this.type.items)
     super.ngOnInit()
   }
+
+  /**
+   * En caso de algún cambio en el modelo, se debe actualizar el inventario que
+   * es utilizado para el reordenamiento de esta modificación
+   * 
+   * @memberof GMPPackingThermoCalibrationInventoryListComponent
+   */
+
+  public ngOnChanges(): void{
+    this.setInventory(this.type.items)
+  }
 }

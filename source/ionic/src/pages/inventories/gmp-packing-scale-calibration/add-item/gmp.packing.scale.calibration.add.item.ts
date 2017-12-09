@@ -38,8 +38,8 @@ export class GMPPackingScaleCalibrationAddItemComponent extends SuperInventoryAd
   }
 
   /**
-   * Obtiene los parámetros pasados por el Nav e inicializa el FormGroup de
-   * adición de inventario
+   * Obtiene los parámetros pasados por el Nav, asigna el sufijo de esta
+   * bitácora e inicializa el FormGroup de adición de inventario
    * 
    * @memberof GMPPackingScaleCalibrationAddItemComponent
    */
@@ -54,8 +54,9 @@ export class GMPPackingScaleCalibrationAddItemComponent extends SuperInventoryAd
   }
 
   /**
-   * Envía una confirmación al usuario antes de enviar los datos del nuevo
-   * elemento de inventario al servicio de inventario
+   * Envía un objeto que corresponde al item que se agrega en la lista de esta
+   * bitácora, y otro que corresponde al objeto que es recibido por el servidor
+   * para añadir dicho elemento al inventario localizado en el servidor
    * 
    * @memberof GMPPackingScaleCalibrationAddItemComponent
    */
