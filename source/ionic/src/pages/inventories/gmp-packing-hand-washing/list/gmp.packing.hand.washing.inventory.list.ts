@@ -45,7 +45,7 @@ export class GMPPackingHandWashingInventoryListComponent extends SuperInventoryL
    * En caso de algún cambio en el modelo, se debe actualizar el inventario que
    * es utilizado para el reordenamiento de esta modificación
    * 
-   * @memberof GMPPackingThermoCalibrationInventoryListComponent
+   * @memberof GMPPackingColdRoomTempInventoryListComponent
    */
 
   public ngOnChanges(): void{
