@@ -1,0 +1,13 @@
+mixin inventoryHandler()
+  ion-icon.handle(name='move', item-start)
+
+mixin inventoryColumn(content)
+  ion-label()= content
+
+mixin inventoryToggle()
+  ion-toggle(#item_toggle, (ionChange)='toggleItem()')
+
+mixin inventoryItemWrapper()
+  ion-item(text-wrap, [class.gray-text]='item_toggle.value == false')
+    if block
+      block
