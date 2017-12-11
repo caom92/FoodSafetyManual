@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core'
 import { Events } from 'ionic-angular'
-import { ISubscription } from 'rxjs/Subscription'
 import { Language } from 'angular-l10n'
 import { InventoryType } from '../interfaces/gmp.packing.scale.calibration.inventory.interface'
 import { DragulaService } from 'ng2-dragula'
@@ -51,5 +50,6 @@ export class GMPPackingScaleCalibrationInventoryListComponent extends SuperInven
 
   public ngOnChanges(): void{
     this.setInventory(this.type.items)
+    this.setOriginalInventory(this.type.items)
   }
 }

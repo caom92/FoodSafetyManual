@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { Observable } from 'rxjs/Rx'
 import { InventoryItem } from '../interfaces/gmp.packing.scale.calibration.inventory.interface'
 import { SuperInventoryItemComponent } from '../../super-inventory/super.inventory.item'
 import { InventoryService } from '../../../../services/app.inventory'
