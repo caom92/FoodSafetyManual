@@ -1,30 +1,16 @@
 include ../../../logmaster-common-mixins.pug
+include ../../../inventory-ionic-materialize.pug
 
-ion-header
-  ion-toolbar(color='primary')
-    ion-title
-      | Añadir inventario
-    ion-buttons(start)
-      button(ion-button, icon-only, (click)='dismiss()')
-        ion-icon(name='close')
++addItemModalTitle()
 
-ion-content
-  form([formGroup]='newItem')
-    ion-item
-      ion-label(color='primary', floating) Nombre
-      ion-input(formControlName='name')
-    +errorMessage('!newItem.controls.name.valid && newItem.controls.name.dirty && newItem.controls.name.value.length == 0', "{{ 'InventoryErrors.gmp-packing-scale-calibration.item_required' | translate:lang }}")
-    +errorMessage('!newItem.controls.name.valid && newItem.controls.name.dirty && newItem.controls.name.value.length > 0', "{{ 'InventoryErrors.gmp-packing-scale-calibration.item_length' | translate:lang }}")
++addItemFormWrapper()
+  +addItemTextInput('name', 'Nombre')
+  +errorMessage('!newItem.controls.name.valid && newItem.controls.name.dirty && newItem.controls.name.value.length == 0', "{{ 'InventoryErrors.gmp-packing-scale-calibration.item_required' | translate:lang }}")
+  +errorMessage('!newItem.controls.name.valid && newItem.controls.name.dirty && newItem.controls.name.value.length > 0', "{{ 'InventoryErrors.gmp-packing-scale-calibration.item_length' | translate:lang }}")
 
-    ion-item
-      ion-label Tipo
-      ion-select(interface='popover', formControlName='type')
-        ion-option(*ngFor="let type of types", [value]='type.id') {{type.name}}
-    +errorMessage('!newItem.controls.type.valid && newItem.controls.type.dirty', "{{ 'InventoryErrors.gmp-packing-scale-calibration.item_type' | translate:lang }}")
+  +addItemSelectInput('type', 'Tipo', 'types')
+  +errorMessage('!newItem.controls.type.valid && newItem.controls.type.dirty', "{{ 'InventoryErrors.gmp-packing-scale-calibration.item_type' | translate:lang }}")
 
-    br
+  br
 
-    div(text-right)
-      button(ion-button, icon-end, (click)='addItem()')
-        | Añadir
-        ion-icon(name='add')
+  +addItemConfirmButton()

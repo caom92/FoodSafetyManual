@@ -77,6 +77,7 @@ export class SuperInventoryAddItemComponent implements OnInit {
       })
       confirmAdd.present()
     } else {
+      this.inventoryService.setAsDirty(this.newItem)
       console.log("New item not valid")
     }
   }

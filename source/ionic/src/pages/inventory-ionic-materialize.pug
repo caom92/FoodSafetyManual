@@ -1,13 +1,56 @@
-mixin inventoryHandler()
+mixin inventoryItemHandler()
   ion-icon.handle(name='move', item-start)
 
-mixin inventoryColumn(content)
+mixin inventoryItemColumn(content)
   ion-label()= content
 
-mixin inventoryToggle()
+mixin inventoryItemToggle()
   ion-toggle(#item_toggle, (ionChange)='toggleItem()')
 
 mixin inventoryItemWrapper()
   ion-item(text-wrap, [class.gray-text]='item_toggle.value == false')
     if block
       block
+
+//-mixin inventoryTitleHandler()
+
+//-mixin inventoryTitleColumn()
+
+//-mixin inventoryTitleToggle()
+
+//-mixin inventoryTitleWrapper()
+
+mixin addItemModalTitle()
+  ion-header
+    ion-toolbar(color='primary')
+      ion-title
+        | Añadir inventario
+      ion-buttons(start)
+        button(ion-button, icon-only, (click)='dismiss()')
+          ion-icon(name='close')
+
+mixin addItemFormWrapper()
+  ion-content
+    form([formGroup]='newItem')
+      if block
+        block
+
+mixin addItemTextInput(controlName, label)
+  ion-item
+    ion-label(color='primary', floating)= label
+    ion-input(formControlName=controlName)
+
+mixin addItemSelectInput(controlName, label, options)
+  ion-item
+    ion-label()= label
+    ion-select(interface='popover', formControlName=controlName)
+      ion-option(*ngFor="let option of " + options, [value]='option.id') {{option.name}}
+
+mixin addItemConfirmButton()
+  div(text-right)
+    button(ion-button, icon-end, (click)='addItem()')
+      | Añadir
+      ion-icon(name='add')
+
+mixin inventoryItemComponent(suffix, ngForSource)
+  #{suffix + '-inventory-item'}(*ngFor=ngForSource)&attributes(attributes)

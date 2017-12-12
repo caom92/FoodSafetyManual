@@ -54,7 +54,7 @@ mixin espressoNavbar(isConnected, title)
           ion-icon(name='globe')
 
 mixin errorMessage(condition, message)
-  ion-item(text-wrap, *ngIf=condition)
+  ion-item(text-wrap, no-lines, *ngIf!=condition)
     small(style='color:red;')= message
 
 mixin oldEspressoNavbar(isConnected, title)
