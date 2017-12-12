@@ -64,7 +64,7 @@ $fontsize = (isset($_POST['fontsize'])) ? (is_numeric($_POST['fontsize']) ? $_PO
 
 // Check if page orientation was sent from client; if not, default to portrait
 
-$orientation = (isset($_POST['orientation'])) ? (isString($_POST['orientation']) ? $_POST['orientation'] : 'P' ) : 'P';
+$orientation = (isset($_POST['orientation'])) ? ((isString($_POST['orientation']) && ($_POST['orientation'] == 'P' || $_POST['orientation'] == 'L')) ? $_POST['orientation'] : 'P' ) : 'P';
 
 // create new PDF document
 $pdf = new PDFCreator(
@@ -146,9 +146,10 @@ try {
     // for each report to display in the document ...
     foreach ($reportData as $report) {
         $hasImages = false;
-        // add a new page 
-        $pdf->AddPage($orientation);
-
+        // add a new page, check if current report has a set orientation
+        $reportOrientation = (isset($report->orientation)) ? ((isString($report->orientation) && ($report->orientation == 'P' || $report->orientation == 'L')) ? $report->orientation : $orientation ) : $orientation;
+        $pdf->AddPage($reportOrientation);
+        
         // check if the header and the footer are set
         $header = (isset($report->header)) ? $report->header.'<br><br>' : '';
         $footer = (isset($report->footer)) ? '<br><br>'.$report->footer : '';
@@ -184,7 +185,7 @@ try {
                     }
 
                     $pdf->setPrintHeader(false);
-                    $pdf->AddPage($orientation);
+                    $pdf->AddPage($reportOrientation);
                     $pdf->setPrintFooter(false);
                     $bMargin = $pdf->getBreakMargin();
                     // disable auto-page-break
@@ -195,7 +196,7 @@ try {
                     $pdf->setPageMark();
                 }
                 /*$pdf->setPrintHeader(true);
-                $pdf->AddPage($orientation);
+                $pdf->AddPage($reportOrientation);
                 $pdf->setPrintFooter(true);*/
             }
         }
