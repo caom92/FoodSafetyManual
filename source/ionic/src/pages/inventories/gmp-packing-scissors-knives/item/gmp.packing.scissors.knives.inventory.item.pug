@@ -1,4 +1,9 @@
-ion-item(text-wrap, [class.gray-text]='item_toggle.value == false')
-  ion-label {{item.name}}
-  ion-label {{item.quantity}}
-  ion-toggle(#item_toggle, (ionChange)='toggleItem()')
+include ../../../inventory-ionic-materialize.pug
+
++inventoryItemWrapper()
+  //-+inventoryItemHandler()
+  +inventoryItemColumn('{{item.id}}')
+  //-+inventoryItemColumn('{{item.position}}')
+  +inventoryItemColumn('{{item.name}}')
+  +inventoryItemColumn('{{item.quantity}}')
+  +inventoryItemToggle()

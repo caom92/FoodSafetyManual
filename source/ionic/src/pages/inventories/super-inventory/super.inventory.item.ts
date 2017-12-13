@@ -48,7 +48,7 @@ export class SuperInventoryItemComponent {
   /**
    * Activa/desactiva un elemento a través del servicio de inventarios
    * 
-   * @memberof GMPPackingScaleCalibrationInventoryItemComponent
+   * @memberof SuperInventoryItemComponent
    */
 
   public toggleItem(): void {

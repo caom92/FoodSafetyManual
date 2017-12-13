@@ -45,7 +45,8 @@
         "id":"ID",
         "order":"Order",
         "name":"Name",
-        "type":"Type"
+        "type":"Type",
+        "quantity":"Quantity"
     },
     "NavbarTitles": {
         "Authorizations": "Authorizations",
