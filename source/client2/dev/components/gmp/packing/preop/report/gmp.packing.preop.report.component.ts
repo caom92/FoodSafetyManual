@@ -1,5 +1,7 @@
 import { Component, Input, NgModule } from '@angular/core'
 
+import { Language } from 'angular-l10n'
+
 import { Report } from './gmp.packing.preop.report.interface'
 
 @Component({
@@ -8,8 +10,9 @@ import { Report } from './gmp.packing.preop.report.interface'
 })
 
 export class GMPPackingPreopReportComponent {
-    @Input()
-    report: Report
+    @Language() lang: string = "en"
+
+    @Input() report: Report
 
     constructor() {
         

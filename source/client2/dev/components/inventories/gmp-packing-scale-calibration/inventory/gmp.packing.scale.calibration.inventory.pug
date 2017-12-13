@@ -1,0 +1,33 @@
+include ../../../inventory-ionic-materialize.pug
+
++inventoryWrapper()
+  +inventoryListsWrapper()
+    +inventoryTitleWrapper()
+      +inventoryTitleHandler()
+      +inventoryTitleColumn("ID")
+      +inventoryTitleColumn("Posición")
+      +inventoryTitleColumn("Nombre")
+      +inventoryTitleColumn("Tipo")
+      +inventoryTitleToggle()
+    ng-template(ngFor, let-type, [ngForOf]='inventory')
+      tbody(gmp-packing-scale-calibration-inventory-list, [dragula]='type.name', [dragulaModel]='type.items', [type]='type')
+  +inventoryEmptyMessage()
+  +inventoryAddButton()
+
+//-table(*ngIf='emptyInventoryFlag == false')
+  thead
+    tr
+      th
+      th ID
+      th Posición
+      th Nombre
+      th Tipo
+      th Estado
+  ng-template(ngFor, let-type, [ngForOf]='inventory')
+    tbody(gmp-packing-scale-calibration-inventory-list, [dragula]='type.name', [dragulaModel]='type.items', [type]='type')
+//-div(*ngIf='emptyInventoryFlag == true')
+  h3
+    i.red-text(mz-icon-mdi, [align]="'center'", [icon]="'alert-circle'", [size]="'42px'")
+    | No items for this log. Add some by using the 
+    i.green-text(mz-icon-mdi, [align]="'center'", [icon]="'plus-circle'", [size]="'36px'")
+    |  button below

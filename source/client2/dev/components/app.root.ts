@@ -44,15 +44,28 @@ import { LogLoaderComponent } from './app.log.loader.component'
 
 // GMP Packing Preop
 
+// Bitácora
+
 import { GMPPackingPreopItemComponent } from './gmp/packing/preop/log/gmp.packing.preop.item.component'
 import { GMPPackingPreopTypeComponent } from './gmp/packing/preop/log/gmp.packing.preop.type.component'
 import { GMPPackingPreopAreaComponent } from './gmp/packing/preop/log/gmp.packing.preop.area.component'
 import { GMPPackingPreopLogComponent } from './gmp/packing/preop/log/gmp.packing.preop.log.component'
 
+// Reporte
+
 import { GMPPackingPreopReportComponent } from './gmp/packing/preop/report/gmp.packing.preop.report.component'
 import { GMPPackingPreopReportAreaComponent } from './gmp/packing/preop/report/gmp.packing.preop.report.area.component'
 import { GMPPackingPreopReportTypeComponent } from './gmp/packing/preop/report/gmp.packing.preop.report.type.component'
 import { GMPPackingPreopReportItemComponent } from './gmp/packing/preop/report/gmp.packing.preop.report.item.component'
+
+// GMP Packing Scale Calibration
+
+// Inventario
+
+import { GMPPackingScaleCalibrationInventoryComponent } from '../components/inventories/gmp-packing-scale-calibration/inventory/gmp.packing.scale.calibration.inventory'
+import { GMPPackingScaleCalibrationInventoryItemComponent } from '../components/inventories/gmp-packing-scale-calibration/item/gmp.packing.scale.calibration.inventory.item'
+import { GMPPackingScaleCalibrationInventoryListComponent } from '../components/inventories/gmp-packing-scale-calibration/list/gmp.packing.scale.calibration.inventory.list'
+//import { GMPPackingScaleCalibrationAddItemComponent } from '../components/inventories/gmp-packing-scale-calibration/add-item/gmp.packing.scale.calibration.add.item'
 
 // Genericos
 
@@ -78,6 +91,9 @@ import { ToastService } from '../services/app.toast'
 import { DateTimeService } from '../services/app.time'
 import { LoaderService, KoiLoader } from '../services/app.loaders'
 import { InventoryService } from '../services/app.inventory'
+import { AlertComponent } from '../services/alert/app.alert.component'
+import { AlertController } from '../services/alert/app.alert'
+import { DragulaModule } from 'ng2-dragula/components/dragular.module';
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -88,6 +104,7 @@ import { InventoryService } from '../services/app.inventory'
     ReactiveFormsModule,
     HttpModule,
     BrowserAnimationsModule,
+    DragulaModule,
     TranslationModule.forRoot(),
     MaterializeModule.forRoot(),
     PubSubModule.forRoot(),
@@ -169,7 +186,8 @@ import { InventoryService } from '../services/app.inventory'
     LanguageService,
     DateTimeService,
     LoaderService,
-    InventoryService
+    InventoryService,
+    AlertController
   ],
   // declaramos los componentes que va a utilizar nuestro sistema
   declarations: [
@@ -181,6 +199,7 @@ import { InventoryService } from '../services/app.inventory'
     ReportProblemComponent,
     ProgressModalComponent,
     KoiLoader,
+    AlertComponent,
     LogListComponent,
     InventoryListComponent,
     AuthorizationListComponent,
@@ -207,6 +226,10 @@ import { InventoryService } from '../services/app.inventory'
     GMPPackingPreopReportAreaComponent,
     GMPPackingPreopReportTypeComponent,
     GMPPackingPreopReportItemComponent,
+    GMPPackingScaleCalibrationInventoryComponent,
+    GMPPackingScaleCalibrationInventoryItemComponent,
+    GMPPackingScaleCalibrationInventoryListComponent,
+    //GMPPackingScaleCalibrationAddItemComponent,
     LogHeaderComponent
   ],
   // declaramos cualquier componente que sera inyectado dinamicamente
@@ -214,6 +237,7 @@ import { InventoryService } from '../services/app.inventory'
     ReportDisplayer,
     ProgressModalComponent,
     KoiLoader,
+    AlertComponent,
     EditFooterModalComponent,
     EditSignatureModalComponent,
     ZoneInfoModalComponent,
