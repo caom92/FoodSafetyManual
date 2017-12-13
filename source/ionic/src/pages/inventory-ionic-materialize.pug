@@ -81,6 +81,9 @@ mixin inventoryEmptyMessage()
           ion-icon(name='add-circle', color='open')
           |  button below
 
+mixin inventoryMultipleList()
+  //- Empty
+
 mixin inventoryListsWrapper()
   ion-list(*ngIf='emptyInventoryFlag == false')
     if block
