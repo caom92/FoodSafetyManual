@@ -1,4 +1,18 @@
-ion-content(hide-fab, [class.no-scroll]='!scrollAllowed')
+include ../../../inventory-ionic-materialize.pug
+
++inventoryWrapper()
+  +inventoryListsWrapper()
+    +inventoryTitleWrapper()
+      +inventoryTitleHandler()
+      +inventoryTitleColumn("{{ 'InventoryLists.id' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.order' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.name' | translate:lang }}")
+      +inventoryTitleToggle()
+    gmp-packing-thermo-calibration-inventory-list([items]='inventory')
+  +inventoryEmptyMessage()
+  +inventoryAddButton()
+
+//-ion-content(hide-fab, [class.no-scroll]='!scrollAllowed')
   ion-list
     ion-item(ion-list-header, *ngIf='emptyInventoryFlag == false')
       ion-icon(item-start)

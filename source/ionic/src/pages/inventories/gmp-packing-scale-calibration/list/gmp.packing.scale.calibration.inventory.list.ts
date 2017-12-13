@@ -17,7 +17,6 @@ import { SuperInventoryListComponent } from '../../super-inventory/super.invento
 export class GMPPackingScaleCalibrationInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnDestroy {
   @Language() private lang: string
   @Input() type: InventoryType
-  @Input() private printHeader: boolean = false
 
   constructor(dragulaService: DragulaService,
     events: Events,

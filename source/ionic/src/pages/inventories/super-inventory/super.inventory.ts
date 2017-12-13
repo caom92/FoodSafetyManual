@@ -47,6 +47,7 @@ export class SuperInventoryComponent implements OnInit, OnDestroy {
     modal.onDidDismiss(data => {
       if (data !== undefined && data !== null) {
         handler(data)
+        this.emptyInventoryFlag = false
       }
     })
   }

@@ -65,7 +65,6 @@ export class GMPPackingScaleCalibrationInventoryComponent extends SuperInventory
         if (this.inventory[type].id == data.type) {
           data.item.position = this.inventory[type].items.length + 1
           this.inventory[type].items.push(data.item)
-          this.emptyInventoryFlag = false
         }
       }
     })

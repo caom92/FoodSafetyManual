@@ -42,6 +42,7 @@
     "Manage Inventory": "Gestión de Inventario",
     "Manage Areas": "Gestión de Áreas",
     "InventoryLists": {
+        "id":"ID",
         "order":"Orden",
         "name":"Nombre",
         "type":"Tipo"

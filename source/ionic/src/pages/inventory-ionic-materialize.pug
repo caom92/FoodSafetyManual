@@ -12,13 +12,19 @@ mixin inventoryItemWrapper()
     if block
       block
 
-//-mixin inventoryTitleHandler()
+mixin inventoryTitleHandler()
+  ion-icon(item-start)
 
-//-mixin inventoryTitleColumn()
+mixin inventoryTitleColumn(content)
+  ion-label()= content
 
-//-mixin inventoryTitleToggle()
+mixin inventoryTitleToggle()
+  ion-toggle(item-end, style='visibility: hidden;')
 
-//-mixin inventoryTitleWrapper()
+mixin inventoryTitleWrapper()
+  ion-item(ion-list-header)
+    if block
+      block
 
 mixin addItemModalTitle()
   ion-header
@@ -52,5 +58,35 @@ mixin addItemConfirmButton()
       | Añadir
       ion-icon(name='add')
 
-mixin inventoryItemComponent(suffix, ngForSource)
-  #{suffix + '-inventory-item'}(*ngFor=ngForSource)&attributes(attributes)
+mixin inventoryItemComponent(suffix, ngForLet, ngForSource)
+  #{suffix + '-inventory-item'}(*ngFor='let ' + ngForLet + ' of ' + ngForSource)&attributes(attributes)
+
+mixin inventoryListWrapper()
+  div(item-content)&attributes(attributes)
+    if block
+        block
+
+mixin inventoryAddButton()
+  ion-fab(right, bottom)
+    button(ion-fab, color='open', (click)='addItem()')
+      ion-icon(name='add')
+
+mixin inventoryEmptyMessage()
+  div(*ngIf='emptyInventoryFlag == true')
+    ion-item(text-wrap)
+      ion-icon(item-start, name='warning', color='danger')
+      ion-label
+        h1
+          | No items for this log. Add some by using the 
+          ion-icon(name='add-circle', color='open')
+          |  button below
+
+mixin inventoryListsWrapper()
+  ion-list(*ngIf='emptyInventoryFlag == false')
+    if block
+      block
+
+mixin inventoryWrapper()
+  ion-content(hide-fab, [class.no-scroll]='!scrollAllowed')
+    if block
+      block

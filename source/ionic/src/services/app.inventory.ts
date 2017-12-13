@@ -237,6 +237,18 @@ export class InventoryService {
     return addPromise
   }
 
+  // https://stackoverflow.com/questions/43551221/angular-2-mark-nested-formbuilder-as-touched
+  public  setAsDirty(group: FormGroup | FormArray): void {
+    group.markAsDirty()
+    for (let i in group.controls) {
+      if (group.controls[i] instanceof FormControl) {
+        group.controls[i].markAsDirty()
+      } else {
+        this.setAsDirty(group.controls[i])
+      }
+    }
+  }
+
   /**
    * @function flatten
    * 
