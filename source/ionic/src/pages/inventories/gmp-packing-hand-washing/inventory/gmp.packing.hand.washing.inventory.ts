@@ -57,7 +57,6 @@ export class GMPPackingHandWashingInventoryComponent extends SuperInventoryCompo
     super.addItem(GMPPackingHandWashingAddItemComponent, null, (data) => {
       data.item.position = this.inventory.length + 1
       this.inventory.push(data.item)
-      this.emptyInventoryFlag = false
     })
   }
 

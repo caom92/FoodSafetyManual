@@ -1,15 +1,11 @@
-import { Component, Input, ViewChild, OnInit } from '@angular/core'
-import { Toggle } from 'ionic-angular'
-
-import { Observable } from 'rxjs/Rx'
-
+import { Component, Input, OnInit } from '@angular/core'
 import { InventoryItem } from '../interfaces/gmp.packing.scissors.knives.inventory.interface'
-
+import { SuperInventoryItemComponent } from '../../super-inventory/super.inventory.item'
 import { InventoryService } from '../../../../services/app.inventory'
 
 /**
- * Componente que controla un elemento de inventario de GMP Packing Scissors
- * Knives
+ * Componente que controla un elemento de inventario de GMP Packing Scale
+ * Calibration
  * 
  * @export
  * @class GMPPackingScissorsKnivesInventoryItemComponent
@@ -21,44 +17,24 @@ import { InventoryService } from '../../../../services/app.inventory'
   templateUrl: './gmp.packing.scissors.knives.inventory.item.html'
 })
 
-export class GMPPackingScissorsKnivesInventoryItemComponent implements OnInit {
-  @ViewChild('item_toggle') private item_toggle: Toggle
-  @Input() private item: InventoryItem
-  private toggleError: boolean = false
-  private previousValue: boolean = null
+export class GMPPackingScissorsKnivesInventoryItemComponent extends SuperInventoryItemComponent implements OnInit {
+  @Input() private type: string = ""
+  @Input() item: InventoryItem = null
 
-  constructor(private inventoryService: InventoryService) {
-
+  constructor(inventoryService: InventoryService) {
+    super(inventoryService)
   }
 
   /**
-   * Asigna el valor activo/inactivo del elemento en el componente Toggle
+   * Asigna el sufijo de la bitácora, que identifica a los servicios que serán
+   * invocados del servidor, así como el valor activo/inactivo del elemento en
+   * el componente Toggle
    * 
    * @memberof GMPPackingScissorsKnivesInventoryItemComponent
    */
 
   public ngOnInit(): void {
-    this.item_toggle.value = this.item.is_active == 1
-  }
-
-  /**
-   * Activa/desactiva un elemento a través del servicio de inventarios
-   * 
-   * @memberof GMPPackingScissorsKnivesInventoryItemComponent
-   */
-
-  public toggleItem(): void {
-    if (this.toggleError) {
-      this.item_toggle.value = this.previousValue
-      this.toggleError = false
-    } else {
-      this.previousValue = !this.item_toggle.value
-      this.inventoryService.toggleItem(this.item, "toggle-gmp-packing-scissors-knives").then(success => {
-        
-      }, error => {
-        this.toggleError = true
-        this.toggleItem()
-      })
-    }
+    this.setSuffix("gmp-packing-scissors-knives")
+    this.setToggleValue(this.item.is_active == 1)
   }
 }

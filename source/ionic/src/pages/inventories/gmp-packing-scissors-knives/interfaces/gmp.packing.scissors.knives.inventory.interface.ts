@@ -1,13 +1,5 @@
-/**
- * Representa un elemento de inventario de GMP Packing Scissors Knives
- * 
- * @export
- * @interface InventoryItem
- */
+import { SuperInventoryItemInterface } from "../../super-inventory/super.inventory.interface"
 
-export interface InventoryItem {
-  id: number
-  name: string
+export interface InventoryItem extends SuperInventoryItemInterface {
   quantity: number
-  is_active: number
 }

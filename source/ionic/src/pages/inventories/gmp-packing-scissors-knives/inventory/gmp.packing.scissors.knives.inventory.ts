@@ -1,19 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { ModalController, Events, NavController } from 'ionic-angular'
+import { Component, Input, OnInit, OnDestroy } from '@angular/core'
+import { ModalController, Events } from 'ionic-angular'
 
-import { Language, TranslationService as TService } from 'angular-l10n'
-import { Observable } from 'rxjs/Rx'
+import { Language } from 'angular-l10n'
 
 import { InventoryItem } from '../interfaces/gmp.packing.scissors.knives.inventory.interface'
 
 import { HideFabDirective } from '../../../../directives/hide.fab'
 
 import { GMPPackingScissorsKnivesAddItemComponent } from '../add-item/gmp.packing.scissors.knives.add.item'
-
 import { InventoryService } from '../../../../services/app.inventory'
+import { SuperInventoryComponent } from '../../super-inventory/super.inventory'
 
 /**
- * Componente que administra el inventario de GMP Packing Scissors Knives
+ * Componente que administra el inventario de GMP Packing Thermo Calibration
  * 
  * @export
  * @class GMPPackingScissorsKnivesInventoryComponent
@@ -25,18 +24,14 @@ import { InventoryService } from '../../../../services/app.inventory'
   templateUrl: './gmp.packing.scissors.knives.inventory.html'
 })
 
-export class GMPPackingScissorsKnivesInventoryComponent implements OnInit {
+export class GMPPackingScissorsKnivesInventoryComponent extends SuperInventoryComponent implements OnInit, OnDestroy {
   @Language() private lang: string
-  @Input() private inventory: Array<InventoryItem> = []
-  private emptyInventoryFlag: boolean = null
-  private scrollAllowed: boolean = true
+  @Input() inventory: Array<InventoryItem> = []
 
-  constructor(public events: Events,
-    public modalController: ModalController,
-    public navCtrl: NavController,
-    public ts: TService,
-    private inventoryService: InventoryService) {
-
+  constructor(events: Events,
+    inventoryService: InventoryService,
+    modalController: ModalController) {
+    super(events, inventoryService, modalController)
   }
 
   /**
@@ -45,47 +40,23 @@ export class GMPPackingScissorsKnivesInventoryComponent implements OnInit {
    * 
    * @memberof GMPPackingScissorsKnivesInventoryComponent
    */
-  
+
   public ngOnInit(): void {
-    this.events.subscribe("scroll:stop", (message) => {
-      this.scrollAllowed = false
-      console.log("Message: " + message)
-    })
-
-    this.events.subscribe("scroll:start", (message) => {
-      this.scrollAllowed = true
-      console.log("Message: " + message)
-    })
-
-    this.inventoryService.getInventory("inventory-gmp-packing-scissors-knives").then(success => {
-      this.inventory = success
-      this.checkEmptyInventory()
-    }, error => {
-      // Por el momento, no se necesita ninguna acción adicional en caso de
-      // un error durante la recuperación de datos, ya que este caso se maneja
-      // dentro del servicio de inventarios
-    })
+    this.setSuffix("gmp-packing-scissors-knives")
+    super.ngOnInit()
   }
 
   /**
-   * Crea un modal para agregar un elemento de inventario de GMP Packing
-   * Scissors Knives
+   * Crea un modal para agregar un elemento de inventario de GMP Packing Thermo
+   * Calibration
    * 
    * @memberof GMPPackingScissorsKnivesInventoryComponent
    */
 
   public addItem(): void {
-    let type_array: Array<{ id: number, name: string }> = []
-    for (let temp of this.inventory) {
-      type_array.push({ id: temp.id, name: temp.name })
-    }
-    let modal = this.modalController.create(GMPPackingScissorsKnivesAddItemComponent, { type_array: type_array })
-    modal.present()
-    modal.onDidDismiss(data => {
-      if (data !== undefined && data !== null) {
-        this.inventory.push(data.item)
-        this.emptyInventoryFlag = false
-      }
+    super.addItem(GMPPackingScissorsKnivesAddItemComponent, null, (data) => {
+      data.item.position = this.inventory.length + 1
+      this.inventory.push(data.item)
     })
   }
 
@@ -93,13 +64,11 @@ export class GMPPackingScissorsKnivesInventoryComponent implements OnInit {
    * Actualiza una bandera que indica si el inventario se encuentra vacío
    * para permitirle a la vista mostrar un mensaje en consecuencia
    * 
-   * @returns {boolean} 
+   * @returns {boolean}
    * @memberof GMPPackingScissorsKnivesInventoryComponent
    */
 
   public checkEmptyInventory(): boolean {
-    // Para verificar que el inventario esté vacío, simplemente se revisa la
-    // longitud del arreglo de inventario
     this.emptyInventoryFlag = this.inventory.length == 0
     return this.inventory.length == 0
   }

@@ -7,10 +7,11 @@ import { Language, TranslationService as TService } from 'angular-l10n'
 import { InventoryItem } from '../interfaces/gmp.packing.scissors.knives.inventory.interface'
 
 import { InventoryService } from '../../../../services/app.inventory'
+import { SuperInventoryAddItemComponent } from '../../super-inventory/super.inventory.add.item'
 
 /**
  * Componente que despliega y controla el funcionamiento del modal para añadir
- * inventario de GMP Packing Scissors Knives
+ * inventario de GMP Packing Thermo Calibration
  * 
  * @export
  * @class GMPPackingScissorsKnivesAddItemComponent
@@ -22,82 +23,45 @@ import { InventoryService } from '../../../../services/app.inventory'
   templateUrl: './gmp.packing.scissors.knives.add.item.html'
 })
 
-export class GMPPackingScissorsKnivesAddItemComponent implements OnInit {
+export class GMPPackingScissorsKnivesAddItemComponent extends SuperInventoryAddItemComponent implements OnInit {
   @Language() private lang: string
-  private newItem: FormGroup = new FormBuilder().group({})
+  newItem: FormGroup = new FormBuilder().group({})
 
-  constructor(public platform: Platform,
-    public params: NavParams,
-    public viewCtrl: ViewController,
-    public alertCtrl: AlertController,
-    public ts: TService,
-    private _fb: FormBuilder,
-    private inventoryService: InventoryService) {
-
+  constructor(public params: NavParams,
+    viewCtrl: ViewController,
+    alertCtrl: AlertController,
+    ts: TService,
+    _fb: FormBuilder,
+    inventoryService: InventoryService) {
+    super(viewCtrl, _fb, alertCtrl, ts, inventoryService)
   }
 
   /**
-   * Obtiene los parámetros pasados por el Nav e inicializa el FormGroup de
-   * adición de inventario
+   * Obtiene los parámetros pasados por el Nav, asigna el sufijo de esta
+   * bitácora e inicializa el FormGroup de adición de inventario
    * 
    * @memberof GMPPackingScissorsKnivesAddItemComponent
    */
 
   public ngOnInit(): void {
-    this.newItem = this._fb.group({
+    this.setSuffix("gmp-packing-scissors-knives")
+    this.createItemForm({
       name: ["", [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
       quantity: ["", [Validators.required]]
     })
   }
 
   /**
-   * Cierra el modal sin regresar datos
-   * 
-   * @memberof GMPPackingScissorsKnivesAddItemComponent
-   */
-
-  public dismiss(): void {
-    this.viewCtrl.dismiss();
-  }
-
-  /**
-   * Envía una confirmación al usuario antes de enviar los datos del nuevo
-   * elemento de inventario al servicio de inventario
+   * Envía un objeto que corresponde al item que se agrega en la lista de esta
+   * bitácora, y otro que corresponde al objeto que es recibido por el servidor
+   * para añadir dicho elemento al inventario localizado en el servidor
    * 
    * @memberof GMPPackingScissorsKnivesAddItemComponent
    */
 
   public addItem(): void {
-    if (this.newItem.valid) {
-      let confirmAdd = this.alertCtrl.create({
-        title: this.ts.translate("Titles.add_item"),
-        message: this.ts.translate("Messages.add_item") + "<br><br>" + this.newItem.value.name,
-        buttons: [
-          {
-            text: this.ts.translate("Options.cancel"),
-            handler: () => {
-              console.log('Cancelar');
-            }
-          },
-          {
-            text: this.ts.translate("Options.accept"),
-            handler: () => {
-              let data: { item: InventoryItem } = { item: { id: 0, is_active: 1, name: this.newItem.value.name, quantity: this.newItem.value.quantity } }
-              let itemData = { name: String(data.item.name), quantity: String(data.item.quantity) }
-
-              this.inventoryService.addItem(itemData, "add-gmp-packing-scissors-knives").then(success => {
-                data.item.id = success
-                this.viewCtrl.dismiss(data)
-              }, error => {
-                this.viewCtrl.dismiss()
-              })
-            }
-          }
-        ]
-      })
-      confirmAdd.present()
-    } else {
-      console.log("New item not valid")
-    }
+    let data = {item:{ id: 0, is_active: 1, name: this.newItem.value.name, position: 0, quantity: this.newItem.value.quantity }}
+    let itemData = { name: this.newItem.value.name, quantity: this.newItem.value.quantity }
+    super.addItem(data, itemData)
   }
 }
