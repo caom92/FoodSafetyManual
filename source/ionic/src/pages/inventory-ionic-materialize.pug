@@ -81,8 +81,16 @@ mixin inventoryEmptyMessage()
           ion-icon(name='add-circle', color='open')
           |  button below
 
-mixin inventoryMultipleList()
+mixin inventoryList(suffix)
+  #{suffix + '-inventory-list'}()&attributes(attributes)
   //- Empty
+
+mixin inventoryListMultiplier(ngForLet, ngForSource)
+  - let temp = {}
+  - temp['let-' + ngForLet] = true
+  ng-template(ngFor, [ngForOf]=ngForSource)&attributes(temp)
+    if block
+      block
 
 mixin inventoryListsWrapper()
   ion-list(*ngIf='emptyInventoryFlag == false')
