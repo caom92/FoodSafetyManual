@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, OnInit } from '@angular/core'
+import { Component, Input } from '@angular/core'
 import { Events, ModalController } from 'ionic-angular'
 
 import { Language } from 'angular-l10n'
@@ -9,38 +9,22 @@ import { InventoryArea } from '../interfaces/gap.packing.preop.area.inventory.in
 
 import { GAPPackingPreopEditAreaComponent } from '../edit-area/gap.packing.preop.edit.area'
 
-import { BackendService } from '../../../../services/app.backend'
-import { ToastService } from '../../../../services/app.toasts'
-import { LoaderService } from '../../../../services/app.loaders'
-
 @Component({
   selector: 'gap-packing-preop-area-inventory-area',
-  templateUrl: './gap.packing.preop.area.inventory.area.html',
-  providers: [
-    BackendService,
-    ToastService,
-    LoaderService
-  ]
+  templateUrl: './gap.packing.preop.area.inventory.area.html'
 })
 
-export class GAPPackingPreopAreaInventoryAreaComponent implements OnInit {
-  @Input()
-  area: InventoryArea
+export class GAPPackingPreopAreaInventoryAreaComponent {
+  @Input() area: InventoryArea
+  @Language() lang: string
 
-  @Language()
-  lang: string
+  constructor(public modalController: ModalController,
+    public events: Events){
 
-  constructor(public server: BackendService, public loaderService: LoaderService, private toastService: ToastService, public modalController: ModalController, public events: Events){
-
-  }
-
-  ngOnInit(){
-    
   }
 
   editArea(){
-    console.log("Edit Area")
-    let editModal = this.modalController;
+    let editModal = this.modalController
 
     let modal = this.modalController.create(GAPPackingPreopEditAreaComponent, {area_id:this.area.id})
     modal.present()

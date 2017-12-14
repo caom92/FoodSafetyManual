@@ -1,5 +1,5 @@
-export interface InventoryArea {
-  id: number
-  position: number
-  name: string
+import { SuperInventoryAreaInterface } from "../../super-inventory/super.area.inventory.interface"
+
+export interface InventoryArea extends SuperInventoryAreaInterface {
+  
 }

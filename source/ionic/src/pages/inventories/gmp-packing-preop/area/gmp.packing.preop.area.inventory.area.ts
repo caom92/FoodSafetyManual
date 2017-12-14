@@ -1,54 +1,31 @@
-import { Component, Input, ViewChild, OnInit } from '@angular/core'
+import { Component, Input } from '@angular/core'
 import { Events, ModalController } from 'ionic-angular'
 
 import { Language } from 'angular-l10n'
 
-import { Observable } from 'rxjs/Rx'
-
 import { InventoryArea } from '../interfaces/gmp.packing.preop.area.inventory.interface'
 
+import { SuperInventoryAreaComponent } from '../../super-inventory/super.area.inventory.area'
 import { GMPPackingPreopEditAreaComponent } from '../edit-area/gmp.packing.preop.edit.area'
-
-import { BackendService } from '../../../../services/app.backend'
-import { ToastService } from '../../../../services/app.toasts'
-import { LoaderService } from '../../../../services/app.loaders'
 
 @Component({
   selector: 'gmp-packing-preop-area-inventory-area',
-  templateUrl: './gmp.packing.preop.area.inventory.area.html',
-  providers: [
-    BackendService,
-    ToastService,
-    LoaderService
-  ]
+  templateUrl: './gmp.packing.preop.area.inventory.area.html'
 })
 
-export class GMPPackingPreopAreaInventoryAreaComponent implements OnInit {
-  @Input()
-  area: InventoryArea
+export class GMPPackingPreopAreaInventoryAreaComponent extends SuperInventoryAreaComponent {
+  @Input() area: InventoryArea
+  @Language() lang: string
 
-  @Language()
-  lang: string
-
-  constructor(public server: BackendService, public loaderService: LoaderService, private toastService: ToastService, public modalController: ModalController, public events: Events){
-
-  }
-
-  ngOnInit(){
-    
+  constructor(modalController: ModalController,
+    events: Events){
+    super(modalController, events)
   }
 
   editArea(){
-    console.log("Edit Area")
-    let editModal = this.modalController;
-
-    let modal = this.modalController.create(GMPPackingPreopEditAreaComponent, {area_id:this.area.id})
-    modal.present()
-    modal.onDidDismiss(data => {
-      if(data){
-        this.events.publish("area:edit", this.area, data.area)
-        this.area.name = data.area.name
-      }
+    super.editArea(GMPPackingPreopEditAreaComponent, {area_id:this.area.id}, (data) => {
+      this.events.publish("area:edit", this.area, data.area)
+      this.area.name = data.area.name
     })
   }
 }
