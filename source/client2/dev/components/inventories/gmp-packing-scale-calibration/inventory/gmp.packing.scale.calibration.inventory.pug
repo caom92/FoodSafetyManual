@@ -4,30 +4,15 @@ include ../../../inventory-ionic-materialize.pug
   +inventoryListsWrapper()
     +inventoryTitleWrapper()
       +inventoryTitleHandler()
-      +inventoryTitleColumn("ID")
-      +inventoryTitleColumn("Posición")
-      +inventoryTitleColumn("Nombre")
-      +inventoryTitleColumn("Tipo")
+      +inventoryTitleColumn("{{ 'InventoryLists.id' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.order' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.name' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.type' | translate:lang }}")
       +inventoryTitleToggle()
-    ng-template(ngFor, let-type, [ngForOf]='inventory')
-      tbody(gmp-packing-scale-calibration-inventory-list, [dragula]='type.name', [dragulaModel]='type.items', [type]='type')
+    +inventoryListMultiplier('type', 'inventory')
+      //-For Ionic version uncomment the next line, Dragula variables are found inside the .list.pug file
+      //-+inventoryList('gmp-packing-scale-calibration')([type]='type')
+      //-For ng2-Materialize version uncomment the next line, we have to pass Dragula variables here
+      +inventoryList('gmp-packing-scale-calibration')([type]='type', [dragula]='type.name', [dragulaModel]='type.items')
   +inventoryEmptyMessage()
   +inventoryAddButton()
-
-//-table(*ngIf='emptyInventoryFlag == false')
-  thead
-    tr
-      th
-      th ID
-      th Posición
-      th Nombre
-      th Tipo
-      th Estado
-  ng-template(ngFor, let-type, [ngForOf]='inventory')
-    tbody(gmp-packing-scale-calibration-inventory-list, [dragula]='type.name', [dragulaModel]='type.items', [type]='type')
-//-div(*ngIf='emptyInventoryFlag == true')
-  h3
-    i.red-text(mz-icon-mdi, [align]="'center'", [icon]="'alert-circle'", [size]="'42px'")
-    | No items for this log. Add some by using the 
-    i.green-text(mz-icon-mdi, [align]="'center'", [icon]="'plus-circle'", [size]="'36px'")
-    |  button below

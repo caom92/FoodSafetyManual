@@ -1,9 +1,9 @@
 include ../../../inventory-ionic-materialize.pug
 
 +inventoryItemWrapper()
-  +inventoryHandler()
-  +inventoryColumn('{{item.id}}')  
-  +inventoryColumn('{{item.position}}')
-  +inventoryColumn('{{item.name}}')
-  +inventoryColumn('{{type}}')
-  +inventoryToggle()
+  +inventoryItemHandler()
+  +inventoryItemColumn('{{item.id}}')  
+  +inventoryItemColumn('{{item.position}}')
+  +inventoryItemColumn('{{item.name}}')
+  +inventoryItemColumn('{{type}}')
+  +inventoryItemToggle()

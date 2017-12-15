@@ -42,6 +42,7 @@
     "Manage Inventory": "Manage Inventory",
     "Manage Areas": "Manage Areas",
     "InventoryLists": {
+        "id":"ID",
         "order":"Order",
         "name":"Name",
         "type":"Type"

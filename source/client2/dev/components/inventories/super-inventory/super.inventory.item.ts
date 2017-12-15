@@ -53,20 +53,20 @@ export class SuperInventoryItemComponent {
   /**
    * Activa/desactiva un elemento a través del servicio de inventarios
    * 
-   * @memberof GMPPackingScaleCalibrationInventoryItemComponent
+   * @memberof SuperInventoryItemComponent
    */
 
-  public toggleItem(item: SuperInventoryItemInterface): void {
+  public toggleItem(): void {
     if (this.toggleError) {
       this.toggleValue = this.previousValue
       this.toggleError = false
     } else {
       this.previousValue = this.toggleValue
-      this.inventoryService.toggleItem(item, "toggle-" + this.suffix).then(success => {
+      this.inventoryService.toggleItem(this.item, "toggle-" + this.suffix).then(success => {
         console.log("Toggle llamado desde la Super Clase")
       }, error => {
         this.toggleError = true
-        this.toggleItem(item)
+        this.toggleItem()
       })
     }
   }

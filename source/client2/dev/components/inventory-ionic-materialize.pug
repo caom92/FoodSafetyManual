@@ -1,11 +1,11 @@
-mixin inventoryHandler()
+mixin inventoryItemHandler()
   td.handle
     i.handle(mz-icon-mdi, [align]="'center'", [icon]="'cursor-move'")
 
-mixin inventoryColumn(content)
+mixin inventoryItemColumn(content)
   td()= content
 
-mixin inventoryToggle()
+mixin inventoryItemToggle()
   td
     mz-switch-container
       input(mz-switch, type="checkbox", [(ngModel)]="toggleValue", (click)="toggleItem(item)")
@@ -36,10 +36,20 @@ mixin inventoryItemComponent(suffix, ngForLet, ngForSource)
   ng-template(ngFor, [ngForOf]=ngForSource)&attributes(temp)
     tr()&attributes(attributes)
 
+mixin inventoryList(suffix)
+  - attributes[suffix + "-inventory-list"] = true
+  tbody()&attributes(attributes)
+
+mixin inventoryListMultiplier(ngForLet, ngForSource)
+  - let temp = {}
+  - temp['let-' + ngForLet] = true
+  ng-template(ngFor, [ngForOf]=ngForSource)&attributes(temp)
+    if block
+      block
+
 mixin inventoryListWrapper()
   if block
     block
-
 
 mixin inventoryAddButton()
   //- Empty

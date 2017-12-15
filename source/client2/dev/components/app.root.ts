@@ -94,6 +94,7 @@ import { InventoryService } from '../services/app.inventory'
 import { AlertComponent } from '../services/alert/app.alert.component'
 import { AlertController } from '../services/alert/app.alert'
 import { DragulaModule } from 'ng2-dragula/components/dragular.module';
+import { TabLogLoaderComponent } from './logs/log.loader';
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -230,7 +231,8 @@ import { DragulaModule } from 'ng2-dragula/components/dragular.module';
     GMPPackingScaleCalibrationInventoryItemComponent,
     GMPPackingScaleCalibrationInventoryListComponent,
     //GMPPackingScaleCalibrationAddItemComponent,
-    LogHeaderComponent
+    LogHeaderComponent,
+    TabLogLoaderComponent
   ],
   // declaramos cualquier componente que sera inyectado dinamicamente
   entryComponents: [
