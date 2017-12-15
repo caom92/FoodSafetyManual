@@ -21,9 +21,6 @@ import { LoaderService } from '../../../../services/app.loaders'
   selector: 'gap-packing-preop-area-inventory',
   templateUrl: './gap.packing.preop.area.inventory.html',
   providers: [
-    BackendService,
-    ToastService,
-    LoaderService,
     DragulaService
   ]
 })

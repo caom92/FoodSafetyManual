@@ -21,9 +21,6 @@ import { LoaderService } from '../../../../services/app.loaders'
   selector: 'gmp-packing-glass-brittle-area-inventory',
   templateUrl: './gmp.packing.glass.brittle.area.inventory.html',
   providers: [
-    BackendService,
-    ToastService,
-    LoaderService,
     DragulaService
   ]
 })

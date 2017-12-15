@@ -28,19 +28,29 @@ export class GMPPackingGlassBrittleAddAreaComponent implements OnInit {
 
   newArea: FormGroup = new FormBuilder().group({})
 
-  constructor(public platform: Platform, public params: NavParams, public viewCtrl: ViewController, public alertCtrl: AlertController, public ts: TService, private _fb: FormBuilder, public server: BackendService, private toastService: ToastService, public loaderService: LoaderService){
+  constructor(public params: NavParams,
+    public viewCtrl: ViewController,
+    public alertCtrl: AlertController,
+    public ts: TService,
+    private _fb: FormBuilder,
+    public server: BackendService,
+    private toastService: ToastService,
+    public loaderService: LoaderService){
 
   }
 
   ngOnInit(){
-    this.newArea = this._fb.group({
+    /*this.newArea = this._fb.group({
       name: ["", [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
-    })
-    console.log("Modal inicializado")
+    })*/
   }
 
   dismiss() {
     this.viewCtrl.dismiss();
+  }
+
+  public createItemForm(controlsConfig: { [key: string]: any }): void {
+    this.newArea = this._fb.group(controlsConfig)
   }
 
   addItem(){
