@@ -1,22 +1,17 @@
-import { Component, Input, NgModule } from '@angular/core'
-
+import { Component, Input } from '@angular/core'
 import { Language } from 'angular-l10n'
-
 import { Report } from '../interfaces/gmp.packing.preop.interface'
 
 @Component({
-    selector: 'gmp-packing-preop-report',
-    templateUrl: './gmp.packing.preop.report.html'
+  selector: 'gmp-packing-preop-report',
+  templateUrl: './gmp.packing.preop.report.html'
 })
 
 export class GMPPackingPreopReportComponent {
-    @Input()
-    report: Report
+  @Input() report: Report
+  @Language() lang: string
 
-    @Language()
-    lang: string
+  constructor() {
 
-    constructor() {
-        
-    }
+  }
 }
