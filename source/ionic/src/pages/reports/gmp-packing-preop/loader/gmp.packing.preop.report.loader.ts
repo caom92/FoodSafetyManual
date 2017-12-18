@@ -3,7 +3,7 @@ import { Events } from 'ionic-angular'
 
 import { Language } from 'angular-l10n'
 
-import { Report } from '../gmp.packing.preop.interface'
+import { Report } from '../interfaces/gmp.packing.preop.interface'
 
 import { GMPPackingPreopReportComponent } from '../report/gmp.packing.preop.report'
 

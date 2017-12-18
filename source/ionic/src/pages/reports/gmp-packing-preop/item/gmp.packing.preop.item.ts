@@ -2,7 +2,7 @@ import { Component, Input, NgModule } from '@angular/core'
 
 import { Language } from 'angular-l10n'
 
-import { ReportItem } from '../gmp.packing.preop.interface'
+import { ReportItem } from '../interfaces/gmp.packing.preop.interface'
 
 @Component({
     selector: '[gmp-packing-preop-report-item]',
