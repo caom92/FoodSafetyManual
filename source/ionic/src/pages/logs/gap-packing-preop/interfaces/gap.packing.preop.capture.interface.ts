@@ -1,21 +1,22 @@
-export interface CaptureLog {
-    date: string,
-    notes: string,
-    album_url: string,
-    areas: Array<CaptureArea>
+import { SuperCaptureLog } from "../../super-logs/super.logs.capture.interface"
+
+export interface CaptureLog extends SuperCaptureLog {
+  notes: string
+  album_url: string
+  areas: Array<CaptureArea>
 }
 
 export interface CaptureArea {
-    id: number
-    time: string
-    notes: string
-    person_performing_sanitation: string
-    items: Array<CaptureItem>
+  id: number
+  time: string
+  notes: string
+  person_performing_sanitation: string
+  items: Array<CaptureItem>
 }
 
 export interface CaptureItem {
-    id: number
-    is_acceptable: boolean
-    corrective_action: number
-    comment: string
+  id: number
+  is_acceptable: boolean
+  corrective_action: number
+  comment: string
 }
