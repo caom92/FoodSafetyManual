@@ -41,21 +41,20 @@ import { LogService } from '../../../../services/app.logs'
 export class GMPPackingScaleCalibrationLogComponent implements OnInit {
   @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, types: { units: [{ id: null, symbol: null }], scales: [{ id: null, name: null, items: [{ id: null, name: null, position: null }] }] } }
   @Language() lang: string
-  logHeaderData: LogHeaderData = { zone_name: null, program_name: null, module_name: null, date: null, created_by: null }
+  public logHeaderData: LogHeaderData = { zone_name: null, program_name: null, module_name: null, date: null, created_by: null }
   public gmpPackingScaleCalibrationForm: FormGroup = new FormBuilder().group({})
 
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
-    private server: BackendService,
     private translationService: TranslationService,
     private toasts: ToastService,
     private navParams: NavParams,
-    private loaderService: LoaderService,
     public logService: LogService) {
-    this.log = navParams.get('data')
+    
   }
 
   ngOnInit() {
+    this.log = this.navParams.get('data')
     // Llenamos los datos del encabezado que saldrá desplegado en la tarjeta; los datos de fecha y
     // elaborador son llenados automáticamente por el componente de encabezado
     this.logHeaderData.zone_name = this.log.zone_name
