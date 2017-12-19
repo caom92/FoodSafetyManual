@@ -1,13 +1,10 @@
-export interface Log {
-    zone_name: string,
-    program_name: string,
-    module_name: string,
-    log_name: string,
-    html_footer: string,
+import { SuperLog } from "../../super-logs/super.logs.log.interface"
+
+export interface Log extends SuperLog {
     items: Array<LogItem>
 }
 
 export interface LogItem {
-    id: number,
+    id: number
     name: string
 }
