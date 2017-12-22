@@ -1,0 +1,26 @@
+mixin typeTitle(contents)
+  mz-card-title
+    span(style='font-weight: bold;')= contents
+
+mixin card()
+  mz-card()&attributes(attributes)
+    if block
+      block
+
+mixin cardHeader(contents)
+  mz-card-title()&attributes(attributes)= contents
+    if block
+      block
+
+mixin icon()
+  ion-icon()&attributes(attributes)
+
+mixin cardContent()
+  ion-card-content
+    if block
+      block
+
+mixin timeInput(label)
+  ion-item
+    ion-label()= label
+    ion-datetime(displayFormat='HH:mm', pickerFormat='HH:mm', formControlName='time')
