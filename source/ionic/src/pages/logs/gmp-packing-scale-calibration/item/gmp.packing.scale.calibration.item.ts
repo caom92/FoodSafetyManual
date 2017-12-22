@@ -25,6 +25,9 @@ export class GMPPackingScaleCalibrationItemComponent {
     @Language()
     lang: string
 
+    @Input()
+    last: boolean
+
     constructor(private storage: Storage) {
         
     }

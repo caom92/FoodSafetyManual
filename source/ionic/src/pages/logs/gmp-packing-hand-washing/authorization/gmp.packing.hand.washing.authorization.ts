@@ -30,7 +30,7 @@ import { LogService } from '../../../../services/app.logs'
 
 export class GMPPackingHandWashingAuthorizationComponent extends NavbarPageComponent implements OnInit {
   @Input()
-  log: Authorization = { report_id: null, created_by: null, approved_by: null, creation_date: null, approval_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, notes: null, items: [{ id: null, 0: null, name: null, 1: null, is_acceptable: null, 2: null }] }
+  log: Authorization = { report_id: null, created_by: null, approved_by: null, creation_date: null, approval_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, notes: null, items: [{ id: null, name: null, is_acceptable: null }] }
 
   @Language() lang: string
 

@@ -1,6 +1,4 @@
-import { Component, Input, NgModule } from '@angular/core'
-import { Storage } from '@ionic/storage'
-
+import { Component, Input } from '@angular/core'
 import { Language } from 'angular-l10n'
 
 import { FormGroup } from '@angular/forms'
@@ -13,19 +11,12 @@ import { LogItem, CorrectiveAction } from '../interfaces/gap.packing.preop.log.i
 })
 
 export class GAPPackingPreopItemComponent {
-    @Input()
-    item: LogItem
+    @Input() item: LogItem
+    @Input() actions: Array<CorrectiveAction>
+    @Input('itemGroup') public itemForm: FormGroup
+    @Language() lang: string
 
-    @Input()
-    actions: Array<CorrectiveAction>
-
-    @Input('itemGroup')
-    public itemForm: FormGroup
-
-    @Language()
-    lang: string
-
-    constructor(private storage: Storage) {
+    constructor() {
         
     }
 

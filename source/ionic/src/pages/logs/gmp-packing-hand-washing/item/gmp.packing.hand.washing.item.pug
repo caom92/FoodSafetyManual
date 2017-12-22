@@ -1,3 +1,3 @@
-ion-item([formGroup]='itemForm')
-  ion-label {{item.name}}
-  ion-checkbox(formControlName='is_acceptable')
+include ../../../log-ionic-materialize.pug
+
++checkbox("{{item.name}}", false, "is_acceptable")([formGroup]='itemForm')

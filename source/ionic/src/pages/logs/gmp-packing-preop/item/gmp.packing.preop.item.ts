@@ -1,9 +1,7 @@
-import { Component, Input, NgModule } from '@angular/core'
-import { Storage } from '@ionic/storage'
-
+import { Component, Input } from '@angular/core'
 import { Language } from 'angular-l10n'
-
 import { FormGroup } from '@angular/forms'
+import { LogItem, CorrectiveAction } from '../interfaces/gmp.packing.preop.log.interface'
 
 @Component({
   selector: 'gmp-packing-preop-item',
@@ -11,33 +9,12 @@ import { FormGroup } from '@angular/forms'
 })
 
 export class GMPPackingPreopItemComponent {
-  @Input()
-  item: {
-    id: number,
-    name: string,
-    order: number
-  }
-
-  @Input()
-  actions: Array<{
-    en: string,
-    es: string
-  }>
-
+  @Input() item: LogItem
+  @Input() actions: CorrectiveAction
   @Input('itemGroup') public itemForm: FormGroup
-
   @Language() lang: string
 
-  constructor(private storage: Storage) {
+  constructor() {
 
-  }
-
-  stringify(str: any){
-    let val = JSON.stringify(str)
-    return val
-  }
-
-  onChange(){
-    console.log(this.itemForm.value)
   }
 }

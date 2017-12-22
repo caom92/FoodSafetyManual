@@ -1,76 +1,34 @@
-import { Component, Input, NgModule, OnInit } from '@angular/core'
-import { NavParams } from 'ionic-angular';
-import { DatePipe } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core'
+import { NavParams } from 'ionic-angular'
+import { DatePipe } from '@angular/common'
 
 import { Language } from 'angular-l10n'
 
 import { Validators, FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms'
-import { CapturedLog, Area, Item } from '../gmp.packing.preop.interface'
+import { Log } from '../interfaces/gmp.packing.preop.log.interface'
+import { CaptureArea, CaptureItem } from '../interfaces/gmp.packing.preop.capture.interface'
+
 import { LogDetails, LogHeaderData } from '../../log.interfaces'
 
 import { DateTimeService } from '../../../../services/app.time'
-import { BackendService } from '../../../../services/app.backend'
 import { TranslationService } from '../../../../services/app.translation'
 import { ToastService } from '../../../../services/app.toasts'
 import { LogService } from '../../../../services/app.logs'
 
 @Component({
   selector: 'gmp-packing-preop-log',
-  templateUrl: './gmp.packing.preop.log.html',
-  providers: [
-    BackendService,
-    TranslationService,
-    ToastService
-  ]
+  templateUrl: './gmp.packing.preop.log.html'
 })
 
 export class GMPPackingPreopLogComponent implements OnInit {
-  @Input()
-  log: {
-    zone_name: string,
-    program_name: string,
-    module_name: string,
-    log_name: string,
-    html_footer: string,
-    areas: {
-      corrective_actions: Array<{
-        id: number,
-        code: string,
-        en: string,
-        es: string
-      }>
-      logs: Array<{
-        id: number,
-        name: string,
-        types: Array<{
-          id: number,
-          name: string,
-          items: Array<{
-            id: number,
-            name: string,
-            order: number
-          }>
-        }>
-      }>
-    }
-  } = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, areas: { corrective_actions: [{ id: null, code: null, en: null, es: null }], logs: [{ id: null, name: null, types: [{ id: null, name: null, items: [{ id: null, name: null, order: null }] }] }] } }
-
-  logHeaderData: LogHeaderData = {
-    zone_name: null,
-    program_name: null,
-    module_name: null,
-    date: null,
-    created_by: null
-  }
-
-  @Language()
-  lang: string
+  @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, areas: { corrective_actions: [{ id: null, code: null, en: null, es: null }], logs: [{ id: null, name: null, types: [{ id: null, en: null, es: null, items: [{ id: null, name: null, order: null }] }] }] } }
+  logHeaderData: LogHeaderData = { zone_name: null, program_name: null, module_name: null, date: null, created_by: null }
+  @Language() lang: string
 
   public gmpPackingPreopForm: FormGroup = new FormBuilder().group({})
 
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
-    private server: BackendService,
     private translationService: TranslationService,
     private toasts: ToastService,
     private navParams: NavParams,
@@ -126,7 +84,7 @@ export class GMPPackingPreopLogComponent implements OnInit {
     })
   }
 
-  initArea(area: Area) {
+  initArea(area: CaptureArea) {
     return this._fb.group({
       id: [area.id, [Validators.required]],
       time: [area.time, [Validators.required]],
@@ -136,7 +94,7 @@ export class GMPPackingPreopLogComponent implements OnInit {
     })
   }
 
-  initItem(item: Item) {
+  initItem(item: CaptureItem) {
     return this._fb.group({
       id: [item.id, [Validators.required]],
       is_acceptable: [item.is_acceptable, [Validators.required]],

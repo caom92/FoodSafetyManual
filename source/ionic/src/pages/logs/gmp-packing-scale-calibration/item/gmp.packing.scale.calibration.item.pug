@@ -1,4 +1,35 @@
+include ../../../log-ionic-materialize.pug
+
 form([formGroup]='itemForm')
+  //-+grid()
+  +row()
+    +col()
+      ion-item
+        ion-label {{item.name}}
+      ion-item
+        ion-label(color='primary', floating) {{ 'Log.reading' | translate:lang }}
+        ion-input(formControlName='test')
+  +row()
+    +col()
+      ion-item
+        ion-label {{ 'Log.units' | translate:lang }}
+        ion-select(formControlName='unit_id', interface='popover')
+          ion-option(*ngFor='let unit of units', [value]='unit.id') {{unit.symbol}}
+    +col()
+      ion-item
+        ion-label {{ 'Log.status' | translate:lang }}
+        ion-select(formControlName='status', interface='popover')
+          ion-option([value]='true') {{ 'Log.pass' | translate:lang }}
+          ion-option([value]='false') {{ 'Log.fail' | translate:lang }}
+  +row()
+    +col()
+      ion-item
+        ion-label {{ 'Log.sanitized_base' | translate:lang }}
+        ion-checkbox(formControlName='is_sanitized')
+  .divider(*ngIf="!last")
+
+
+//-form([formGroup]='itemForm')
   ion-grid
     ion-row
       ion-col
@@ -21,4 +52,4 @@ form([formGroup]='itemForm')
       ion-item
         ion-label {{ 'Log.sanitized_base' | translate:lang }}
         ion-checkbox(formControlName='is_sanitized')
-  .divider
+  .divider(*ngIf="!last")

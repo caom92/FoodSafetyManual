@@ -8,19 +8,18 @@ ion-content
       ion-card-header
         | {{ 'Log.complementary_information' | translate:lang }}
       ion-card-content
-        ion-grid
-          ion-row
-            ion-col
-              ion-item
-                ion-label(color='primary', floating) {{ 'Log.notes_of' | translate:lang }} {{log.log_name}}
-                ion-textarea(formControlName='notes')
-              +errorMessage('!gmpPackingPreopForm.controls.notes.valid && gmpPackingPreopForm.controls.notes.dirty', "{{ 'LogErrors.gmp-packing-preop.comment_length' | translate:lang }}")
-          ion-row
-            ion-col
-              ion-item
-                ion-label(color='primary', floating) {{ 'Log.external_link_of' | translate:lang }} {{log.log_name}}
-                ion-textarea(formControlName='album_url')
-              +errorMessage('!gmpPackingPreopForm.controls.album_url.valid && gmpPackingPreopForm.controls.album_url.dirty', "{{ 'LogErrors.gmp-packing-preop.album_length' | translate:lang }}")
+        ion-item
+          ion-label(color='primary', floating) 
+            ion-icon(name="clipboard")
+            |  {{ 'Log.notes_of' | translate:lang }} {{log.log_name}}
+          ion-textarea(formControlName='notes')
+        +errorMessage('!gmpPackingPreopForm.controls.notes.valid && gmpPackingPreopForm.controls.notes.dirty', "{{ 'LogErrors.gmp-packing-preop.comment_length' | translate:lang }}")
+        ion-item
+          ion-label(color='primary', floating)
+            ion-icon(name="ios-link")
+            |  {{ 'Log.external_link_of' | translate:lang }} {{log.log_name}}
+          ion-textarea(formControlName='album_url')
+        +errorMessage('!gmpPackingPreopForm.controls.album_url.valid && gmpPackingPreopForm.controls.album_url.dirty', "{{ 'LogErrors.gmp-packing-preop.album_length' | translate:lang }}")
     div(text-center)
       button(ion-button, icon-end, round)
         | {{ 'Log.send_report' | translate:lang }}

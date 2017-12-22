@@ -1,7 +1,8 @@
 div([formGroup]='itemForm')
-  ion-list-header
-    | {{item.name}}
-  ion-item()
+  ion-item
+    ion-label(color='primary') {{item.name}}
+    ion-input(placeholder="{{ 'Log.ice_point_test' | translate:lang }}", formControlName='test', type='number')
+  //-ion-item()
     ion-label(color='primary', floating) {{ 'Log.ice_point_test' | translate:lang }}
     ion-input(formControlName='test')
   ion-item()
