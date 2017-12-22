@@ -93,10 +93,12 @@ class PDFCreator extends TCPDF
 
         if($w > ($h*2)){
             $width = 36;
+            $titlePadding = 18;
             $height = 0;
             $padding_x = 0;
         } else {
             $height = 18;
+            $titlePadding = 30;
             $width = 0;
             $padding_x = (integer)(((18 * $h) / $w) / 2);
         }
@@ -108,11 +110,14 @@ class PDFCreator extends TCPDF
         $this->SetFont('helvetica', 'B', 15);
         $this->SetX(5);
         $this->SetY(5);
-        $this->Cell(0, 12, $companyName, 0, false, 'C', 0, '', 0, false, 
+        $margin = $this->getMargins();
+        $this->SetX($margin['left'] + $titlePadding);
+        $this->Cell(0, 12, $companyName, 0, false, 'C', 0, '', 1, false, 
             'T', 'M');
         $this->ln(5);
         $this->SetFont('helvetica', 'B', 10);
-        $this->Cell(0, 12, $companyAddress, 0, false, 'C', 0, '', 0, false, 
+        $this->SetX($margin['left'] + $titlePadding);
+        $this->Cell(0, 12, $companyAddress.$companyAddress, 0, false, 'C', 0, '', 1, false, 
             'T', 'M');
         $this->ln(9);
     }

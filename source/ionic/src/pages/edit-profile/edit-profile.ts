@@ -1,11 +1,13 @@
-import { Component, ViewChild, OnInit } from '@angular/core'
+import { Component, ViewChild } from '@angular/core'
 import { NavController, NavParams, Select, Events } from 'ionic-angular'
 import { FormBuilder, FormGroup, Validators } from "@angular/forms"
 import { Storage } from '@ionic/storage'
 
 import { Language } from 'angular-l10n'
 
-import { GMPPackingPreopReportComponent } from '../reports/gmp-packing-preop/report/gmp.packing.preop.report'
+import { NavbarPageComponent } from '../super-components/navbar.component'
+
+import { GMPPackingScaleCalibrationInventoryComponent } from '../inventories/gmp-packing-scale-calibration/inventory/gmp.packing.scale.calibration.inventory'
 
 import { BackendService } from '../../services/app.backend'
 import { TranslationService } from '../../services/app.translation'
@@ -20,16 +22,13 @@ import { ToastService } from '../../services/app.toasts'
     ToastService
   ]
 })
-export class EditProfile /*implements OnInit*/ {
-  @ViewChild('zone_select') zone_select: Select;
-  @ViewChild('language_select') language_select: Select;
-  @Language() lang: string;
 
-  selectedItem: any
+export class EditProfile extends NavbarPageComponent {
+  @Language() lang: string
+
   username: string = ""
   employeeID: string = ""
   realname: string = ""
-  lstorage: string
 
   // Configuramos el formulario con valores iniciales vacios y las reglas de 
   // validacion correspondientes
@@ -65,27 +64,12 @@ export class EditProfile /*implements OnInit*/ {
       Validators.minLength(6)
     ])]
   })
-  
-  constructor(public navCtrl: NavController, public navParams: NavParams, private server: BackendService, private translationService: TranslationService, private formBuilder: FormBuilder, private storage: Storage, private toasts: ToastService, public events: Events) {
-    this.selectedItem = navParams.get('item');
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public server: BackendService, public translationService: TranslationService, private formBuilder: FormBuilder, public storage: Storage, private toasts: ToastService, public events: Events) {
+    super(translationService, events, storage, server)
   }
 
   ionViewWillEnter() {
-    this.storage.get("privileges").then(
-      data => {
-        console.log("Resultado de la promesa")
-        console.log(JSON.parse(data))
-        console.log("Fin resultado de la promesa")
-      },
-      error => {
-        console.log("Error")
-      }
-    )
-
-    this.events.publish('user:loggedIn', Date.now(), this.lang);
-
-    this.lstorage = JSON.stringify(localStorage)
-
     this.storage.get('login_name').then((login_name) => {
       this.username = login_name;
     })
@@ -147,37 +131,5 @@ export class EditProfile /*implements OnInit*/ {
         }
       }
     )
-  }
-
-  isEnglish(){
-    return this.lang == "en"
-  }
-
-  isSpanish(){
-    return this.lang == "es"
-  }
-
-  isDirector(){
-    return localStorage["__mydb/_ionickv/role_name"] == '"Director"';
-  }
-
-  openZoneSelector() {
-    this.zone_select.open();
-  }
-
-  openLanguageSelector() {
-    this.language_select.open();
-    console.log("Mostrar HTML Interno")
-    console.log(document.getElementById("tableWrapper").innerHTML)
-    this.lstorage = document.getElementById("tableWrapper").innerHTML
-  }
-
-  onLanguageChange(selectedValue) {
-    this.selectLocale(selectedValue);
-    this.events.publish('language:changed', selectedValue, Date.now());
-  }
-
-  selectLocale(lang) {
-    this.translationService.selectLanguage(lang);
   }
 }

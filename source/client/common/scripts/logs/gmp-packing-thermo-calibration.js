@@ -259,7 +259,7 @@ function gmpPackingThermoCalibrationLog(data, htmlElement, isPrefilled){
 
 function gmpPackingThermoCalibrationTime(time){
     var timeLabel = {"type":"label","contents":{"type":"text","classes":"time_title"},"for":"time","classes":"active"};
-    var timeInput = {"type":"input","id": "time", "classes": "validate", "fieldType":"text","disabled":true,"value":getISOTime(new Date()),"isClearable":false};
+    var timeInput = {"type":"input","id": "time", "classes": "validate", "fieldType":"text","readonly":true,"value":getISOTime(new Date()),"isClearable":false};
     var timeFullInput = {"id":"timeWrapper","classes":"input-field col s12 m12 l12","field":timeInput,"label":timeLabel};
 
     if(time){
@@ -437,7 +437,7 @@ function gmpPackingThermoCalibrationReportItem(itemData){
 
     item.push({"type":"td","classes":"numberColumn","contents":itemData.name});
     item.push({"type":"td","classes":"testColumn","contents":itemData.test});
-    if(itemData.calibration){
+    if(itemData.calibration == 1){
         item.push({"type":"td","classes":"calibrationColumn yes_tag"});
     } else {
         item.push({"type":"td","classes":"calibrationColumn no_tag"});

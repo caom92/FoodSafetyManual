@@ -1,0 +1,27 @@
+include ../../../logmaster-common-mixins.pug
+
++espressoNavbar(true, "{{log.log_name}}")
+
+ion-content
+  log-header([log]="logHeaderData")
+  form([formGroup]='gmpPackingScaleCalibrationForm', (ngSubmit)='save(myForm)')
+    gmp-packing-scale-calibration-type(*ngFor='let type of log.types.scales; let i=index', [type]='type', [units]='log.types.units', [group]='gmpPackingScaleCalibrationForm.controls.types.controls[i]')
+    ion-card
+      ion-card-header
+        | {{ 'Log.complementary_information' | translate:lang }}
+      ion-card-content
+        ion-grid
+          ion-row
+            ion-col
+              ion-item
+                ion-label(color='primary', floating) {{ 'Log.notes_of' | translate:lang }} {{log.log_name}}
+                ion-textarea(formControlName='notes')
+          ion-row
+            ion-col
+              ion-item
+                ion-label(color='primary', floating) {{ 'Log.corrective_action_of' | translate:lang }} {{log.log_name}}
+                ion-textarea(formControlName='corrective_action')
+    div(text-center)
+      button(ion-button, icon-end, round, [disabled]="!gmpPackingScaleCalibrationForm.valid")
+        | {{ 'Log.send_report' | translate:lang }}
+        ion-icon(name='send')

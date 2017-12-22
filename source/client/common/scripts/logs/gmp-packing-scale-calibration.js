@@ -334,7 +334,7 @@ function scaleCalibrationType(type, units){
 
 function scaleCalibrationTypeTime(typeID, time){
     var timeLabel = {"type":"label","contents":{"type":"text","classes":"time_title"},"for":"time_" + typeID,"classes":"active"};
-    var timeInput = {"type":"input","id": "time_" + typeID, "classes": "validate", "fieldType":"text","disabled":true,"data":{"type_id":typeID},"value":getISOTime(new Date()),"isClearable":false};
+    var timeInput = {"type":"input","id": "time_" + typeID, "classes": "validate", "fieldType":"text","readonly":true,"data":{"type_id":typeID},"value":getISOTime(new Date()),"isClearable":false};
     var timeFullInput = {"id":"timeWrapper_" + typeID,"classes":"input-field col s12 m12 l12","field":timeInput,"label":timeLabel};
 
     if(time){

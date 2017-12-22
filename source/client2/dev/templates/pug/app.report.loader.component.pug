@@ -1,0 +1,20 @@
+mz-card([hidden]="!(activeReport == 'any' || activeReport == report.report_id)")
+  mz-card-content
+    .row
+      .col.s9.m9.l9
+        h1 {{report.creation_date}}
+      .col.s1.m1.l1
+        button(mz-button, float='true', [hidden]='hasEmail == undefined')
+          i(mz-icon-mdi, [icon]="'email'", [size]="'36px'")
+      .col.s1.m1.l1
+        button(ion-fab, mini, color='pdf')
+          i(mz-icon-mdi, [icon]="'file-pdf-box'", [size]="'36px'")
+      .col.s1.m1.l1(*ngIf='!showReport')
+        button(ion-fab, mini, color='open', (click)='openHTMLReport()')
+          i(mz-icon-mdi, [icon]="'file-document-box'", [size]="'36px'")
+      .col.s1.m1.l1(*ngIf='showReport')
+        button(ion-fab, mini, color='close', (click)='closeHTMLReport()')
+          i(mz-icon-mdi, [icon]="'close-box'", [size]="'36px'")
+
+//-#tableWrapper.tableWrapper(*ngIf='showReport')
+  gmp-packing-preop-report([report]='report')

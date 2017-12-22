@@ -870,8 +870,8 @@
     </translation>
 
     <translation id="thermometer_test_title">
-        <english>Ice point method thermometer test</english>
-        <spanish>Prueba del método del punto de hielo</spanish>
+        <english>Ice point method thermometer test (°F)</english>
+        <spanish>Metodo de Prueba con Hielo (°F)</spanish>
     </translation>
 
     <translation id="thermometer_calibration_title">

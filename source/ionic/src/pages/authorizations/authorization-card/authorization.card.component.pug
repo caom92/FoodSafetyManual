@@ -1,0 +1,37 @@
+ion-card
+  ion-item
+    h2
+      | {{ 'Log Title' | translate:lang }}: {{log.log_name}}
+    h2
+      | {{ 'Employee' | translate:lang }}: {{log.first_name + " " + log.last_name}}
+    h2
+      | {{ 'Date' | translate:lang }}: {{log.capture_date}}
+    ion-item
+      ion-grid(no-padding)
+        ion-row
+          ion-col
+            div(text-center)
+              button(ion-button, block, default, icon-left, color="open", (click)="approveLog()")
+                ion-icon(name="checkmark-circle")
+                //- div {{ 'Approve' | translate:lang }}
+          ion-col
+            div(text-center)
+              button(ion-button, block, default, icon-left, color="close", (click)="rejectLog()")
+                ion-icon(name="close-circle")
+                //-div {{ 'Reject' | translate:lang }}
+          ion-col
+            div(text-center)
+              button(ion-button, block, default, (click)="openLog()")
+                ion-icon(name="open")
+                //-div {{ 'Open' | translate:lang }}
+//-      div(text-center)      
+        ion-buttons
+          button(ion-button, icon-left, outline, color="open")
+            ion-icon(name="checkmark-circle")
+            div Approve
+          button(ion-button, icon-left, outline, color="close")
+            ion-icon(name="close-circle")
+            div Reject
+          button(ion-button, outline)
+            ion-icon(name="open")
+            div Open

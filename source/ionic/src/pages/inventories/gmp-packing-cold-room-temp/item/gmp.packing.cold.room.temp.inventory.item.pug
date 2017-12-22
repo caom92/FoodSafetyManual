@@ -1,0 +1,3 @@
+ion-item(text-wrap, [class.gray-text]='item_toggle.value == false')
+  ion-label {{item.name}}
+  ion-toggle(#item_toggle, (ionChange)='toggleItem()')

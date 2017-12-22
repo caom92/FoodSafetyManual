@@ -1,0 +1,36 @@
+include ../logmaster-common-mixins.pug
+
++espressoNavbar(false)
+
+ion-content
+  ion-card
+    img(src='assets/images/logo.jpg')
+    ion-card-content
+      ion-card-title
+        | {{ 'Login' | translate:lang }}
+      form([formGroup]='userLogInInfo', (ngSubmit)='onLogInFormSubmit()')
+        ion-list
+          ion-item
+            ion-label(floating) {{ 'Username' | translate:lang }}
+            ion-input(type='text', formControlName='username')
+          ion-item(*ngIf='!userLogInInfo.controls.username.valid && (userLogInInfo.controls.username.dirty)')
+            small(style='color:red;') {{ 'usernameMinLenght' | translate:lang }}
+          ion-item
+            ion-label(floating) {{ 'Password' | translate:lang }}
+            ion-input(type='password', formControlName='password')
+          ion-item(*ngIf='!userLogInInfo.controls.password.valid && (userLogInInfo.controls.password.dirty)')
+            small(style='color:red;') {{ 'passwordMinLenght' | translate:lang }}
+          ion-item([hidden]='serverOnline != null')
+            ion-icon(name='wifi', style='font-size: 25px;')
+            span  {{ 'Checking Server' | translate:lang }}
+          ion-item([hidden]='serverOnline == false || serverOnline == null')
+            ion-icon(name='wifi', style='font-size: 25px;', color='open')
+            span.serverOnline  {{ 'Server Online' | translate:lang }}
+          ion-item([hidden]='serverOnline == true || serverOnline == null', (click)='checkServer()')
+            ion-icon(name='wifi', style='font-size: 25px;', color='close')
+            span.serverOffline  {{ 'Server Offline' | translate:lang }}
+          ion-item
+            div(text-center)
+              button(ion-button, icon-end, type='submit', default, [disabled]='!userLogInInfo.valid || !userLogInInfo.dirty')
+                | {{ 'Login' | translate:lang }}
+                ion-icon(name='log-in')

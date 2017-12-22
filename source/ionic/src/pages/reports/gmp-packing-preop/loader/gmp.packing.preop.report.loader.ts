@@ -1,5 +1,4 @@
 import { Component, Input, NgModule } from '@angular/core'
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
 import { Events } from 'ionic-angular'
 
 import { Language } from 'angular-l10n'
@@ -26,7 +25,10 @@ export class GMPPackingPreopReportLoader {
     showReport: boolean = false
 
     constructor(public events: Events) {
-        
+        events.subscribe("reportEvent", (activeReport, time) => {
+            this.activeReport = activeReport
+            console.log("reporte activo: " + activeReport)
+        })
     }
 
     openHTMLReport(){

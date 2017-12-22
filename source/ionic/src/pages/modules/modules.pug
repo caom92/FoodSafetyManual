@@ -1,0 +1,9 @@
+include ../logmaster-common-mixins.pug
+
++espressoNavbar(true, "{{selectedProgram.title}}: {{ 'NavbarTitles.Modules' | translate:lang }}")
+
+ion-content
+  ion-list
+    button(ion-item, *ngFor='let module of modules', (click)='itemTapped($event, module.program, module)')
+      ion-icon([name]='module.icon', item-left)
+      | {{module.title}}

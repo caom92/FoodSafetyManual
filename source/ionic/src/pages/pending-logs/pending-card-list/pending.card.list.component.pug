@@ -1,0 +1,6 @@
+include ../../logmaster-common-mixins.pug
+
++espressoNavbar(true, "{{ 'NavbarTitles.Pending' | translate:lang }}")
+
+ion-content
+  pending-card(*ngFor="let log of logs; let i = index", [log]="log", [index]="i")

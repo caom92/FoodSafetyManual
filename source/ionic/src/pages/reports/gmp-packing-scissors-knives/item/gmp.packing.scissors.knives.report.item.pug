@@ -1,0 +1,10 @@
+td.timeColumn {{item.time}}
+td.groupColumn {{item.name}}
+td.quantityColumn {{item.quantity}}
+td.approvedColumn.acceptable_tag(*ngIf='item.approved == 1') {{ 'Log.yes' | translate:lang }}
+td.approvedColumn.unnaceptable_tag(*ngIf='item.approved == 0') {{ 'Log.no' | translate:lang }}
+td.returnedColumn.acceptable_tag(*ngIf='item.condition == 1') {{ 'Log.yes' | translate:lang }}
+td.returnedColumn.unnaceptable_tag(*ngIf='item.condition == 0') {{ 'Log.no' | translate:lang }}
+td.actionColumn {{item.corrective_action}}
+td.sanitationColumn.acceptable_tag(*ngIf='item.is_sanitized == 1') {{ 'Log.yes' | translate:lang }}
+td.sanitationColumn.unnaceptable_tag(*ngIf='item.is_sanitized == 0') {{ 'Log.no' | translate:lang }}

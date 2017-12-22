@@ -1,5 +1,4 @@
 import { Component, Input, NgModule, OnInit } from '@angular/core'
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
 
 import { Language } from 'angular-l10n'
 

@@ -21,15 +21,36 @@ import { SignaturesComponent } from './app.signatures'
 import { ZonesComponent } from './app.zones'
 import { UsersComponent } from './app.users'
 
+// Importamos el cargador de reportes
+
+import { DynamicComponentContainerDirective } from '../directives/dynamic.container'
+
+import { ReportTab } from './app.reports'
+
+import { ReportDisplayer } from './app.report.displayer.component'
+
+import { ReportLoader } from './app.report.loader.component'
+
 // Importamos el cargador de bitácoras
 
 import { LogLoaderComponent } from './app.log.loader.component'
 
 // Importamos los componentes de las bitácoras
-import { GMPPackingPreopItemComponent } from './gmp.packing.preop.item.component'
-import { GMPPackingPreopTypeComponent } from './gmp.packing.preop.type.component'
-import { GMPPackingPreopAreaComponent } from './gmp.packing.preop.area.component'
-import { GMPPackingPreopLogComponent } from './gmp.packing.preop.log.component'
+
+// GMP Packing Preop
+
+import { GMPPackingPreopItemComponent } from './gmp/packing/preop/log/gmp.packing.preop.item.component'
+import { GMPPackingPreopTypeComponent } from './gmp/packing/preop/log/gmp.packing.preop.type.component'
+import { GMPPackingPreopAreaComponent } from './gmp/packing/preop/log/gmp.packing.preop.area.component'
+import { GMPPackingPreopLogComponent } from './gmp/packing/preop/log/gmp.packing.preop.log.component'
+
+import { GMPPackingPreopReportComponent } from './gmp/packing/preop/report/gmp.packing.preop.report.component'
+import { GMPPackingPreopReportAreaComponent } from './gmp/packing/preop/report/gmp.packing.preop.report.area.component'
+import { GMPPackingPreopReportTypeComponent } from './gmp/packing/preop/report/gmp.packing.preop.report.type.component'
+import { GMPPackingPreopReportItemComponent } from './gmp/packing/preop/report/gmp.packing.preop.report.item.component'
+
+// Genericos
+
 import { ReportLoaderCard } from './report.loader.card.component'
 import { LogHeaderComponent } from './app.log.header'
 
@@ -160,20 +181,30 @@ import { DateTimeService } from '../services/app.time'
     ZoneInfoModalComponent,
     UsersComponent,
     UserInfoModalComponent,
+    DynamicComponentContainerDirective,
     LogLoaderComponent,
+    ReportTab,
+    ReportDisplayer,
+    ReportLoader,
     ReportLoaderCard,
     GMPPackingPreopItemComponent,
     GMPPackingPreopTypeComponent,
     GMPPackingPreopAreaComponent,
     GMPPackingPreopLogComponent,
+    GMPPackingPreopReportComponent,
+    GMPPackingPreopReportAreaComponent,
+    GMPPackingPreopReportTypeComponent,
+    GMPPackingPreopReportItemComponent,
     LogHeaderComponent
   ],
   // declaramos cualquier componente que sera inyectado dinamicamente
   entryComponents: [
+    ReportDisplayer,
     ProgressModalComponent,
     EditFooterModalComponent,
     EditSignatureModalComponent,
     ZoneInfoModalComponent,
+    GMPPackingPreopReportComponent,
     UserInfoModalComponent
   ],
   // indicamos cual es el componente raiz

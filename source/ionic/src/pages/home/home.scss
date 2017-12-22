@@ -1,5 +1,11 @@
-page-home {
+@import "../../theme/variables";
 
+.serverOnline {
+    color: map-get($colors, open)
+}
+
+.serverOffline {
+    color: map-get($colors, close)
 }
 
 [icon-96] {

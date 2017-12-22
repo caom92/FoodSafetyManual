@@ -1,0 +1,10 @@
+table
+  thead
+    tr
+      th.nameColumn {{ 'Log.description' | translate:lang }}
+      th.approvedColumn {{ 'Log.approved' | translate:lang }}
+  tbody
+    ng-template(ngFor, let-item, [ngForOf]='report.items')
+      tr(gmp-packing-hand-washing-report-item, [item]='item')
+    tr
+      td.fullColumn(colspan='2') {{ 'Log.revised_area' | translate:lang }}: {{report.notes}}

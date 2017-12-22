@@ -1,0 +1,23 @@
+ion-content(hide-fab, [class.no-scroll]='!scrollAllowed')
+  ion-list
+    div(*ngIf='emptyInventoryFlag == true')
+      ion-item(text-wrap)
+        ion-icon(item-start, name='warning', color='danger')
+        ion-label
+          h1
+            | No items for this log. Add some by using the 
+            ion-icon(name='add-circle', color='open')
+            |  button below
+    div(*ngIf='emptyInventoryFlag == false')
+      ion-item(ion-list-header)
+        ion-icon(item-start)
+        ion-label {{ 'InventoryLists.order' | translate:lang }}
+        ion-label {{ 'InventoryLists.name' | translate:lang }}
+        button(ion-fab, mini, item-end, style='visibility: hidden;')
+      div([dragula]='"preopAreasBag"', [dragulaModel]='areaInventory')
+        ng-template(ngFor, let-area, [ngForOf]='areaInventory', let-isFirst='first')
+          div(*ngIf='!emptyInventoryFlag')
+            gap-packing-preop-area-inventory-area([area]='area')
+  ion-fab(right, bottom)
+    button(ion-fab, color='open', (click)='addItem()')
+      ion-icon(name='add')
