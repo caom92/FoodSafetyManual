@@ -36,6 +36,11 @@ mixin list()
     if block
       block
 
+mixin listHeader(contents)
+  ion-list-header()= contents
+    if block
+      block
+
 mixin notesInput(showIcon, label, formControlName)
   ion-item()&attributes(attributes)
     ion-label(color='primary', floating)

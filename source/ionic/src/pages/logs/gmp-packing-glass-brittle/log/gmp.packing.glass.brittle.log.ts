@@ -1,6 +1,6 @@
-import { Component, Input, NgModule, OnInit } from '@angular/core'
-import { NavParams } from 'ionic-angular';
-import { DatePipe } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core'
+import { NavParams } from 'ionic-angular'
+import { DatePipe } from '@angular/common'
 
 import { Language } from 'angular-l10n'
 
@@ -12,35 +12,45 @@ import { DateTimeService } from '../../../../services/app.time'
 import { BackendService } from '../../../../services/app.backend'
 import { TranslationService } from '../../../../services/app.translation'
 import { ToastService } from '../../../../services/app.toasts'
+import { LogHeaderData, LogDetails } from '../../log.interfaces'
+import { LogService } from '../../../../services/app.logs'
 
 @Component({
     selector: 'gmp-packing-glass-brittle-log',
-    templateUrl: './gmp.packing.glass.brittle.log.html',
-    providers: [
-        BackendService,
-        TranslationService,
-        ToastService
-    ]
+    templateUrl: './gmp.packing.glass.brittle.log.html'
 })
 
 export class GMPPackingGlassBrittleLogComponent implements OnInit {
-    @Input()
-    log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, areas: [{id: null, name: null, items:[{id:null, name:null, order:null,quantity:null}]}] }
-
-    @Language()
-    lang: string
+    @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, areas: [{ id: null, name: null, items: [{ id: null, name: null, order: null, quantity: null }] }] }
+    @Language() lang: string
+    logHeaderData: LogHeaderData = { zone_name: null, program_name: null, module_name: null, date: null, created_by: null }
 
     public gmpPackingGlassBrittleForm: FormGroup = new FormBuilder().group({})
 
-    constructor(private _fb: FormBuilder, private timeService: DateTimeService, private server: BackendService, private translationService: TranslationService, private toasts: ToastService, private navParams: NavParams){
-        this.log = navParams.get('data');
-        console.log(this.log)
+    constructor(private _fb: FormBuilder,
+        private timeService: DateTimeService,
+        private translationService: TranslationService,
+        private toasts: ToastService,
+        private navParams: NavParams,
+        public logService: LogService) {
+
     }
 
-    ngOnInit(){
+    ngOnInit() {
+        this.log = this.navParams.get('data')
+        // Llenamos los datos del encabezado que saldrá desplegado en la tarjeta; los datos de fecha y
+        // elaborador son llenados automáticamente por el componente de encabezado
+        this.logHeaderData.zone_name = this.log.zone_name
+        this.logHeaderData.program_name = this.log.program_name
+        this.logHeaderData.module_name = this.log.module_name
+
+        this.initForm()
+    }
+
+    initForm() {
         this.gmpPackingGlassBrittleForm = this._fb.group({
             date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
-            time:[this.timeService.getISOTime(new Date()), [Validators.required, Validators.minLength(1)]],
+            time: [this.timeService.getISOTime(new Date()), [Validators.required, Validators.minLength(1)]],
             notes: ['', [Validators.required, Validators.minLength(1)]],
             areas: this._fb.array([])
         })
@@ -49,86 +59,55 @@ export class GMPPackingGlassBrittleLogComponent implements OnInit {
         for (let area of this.log.areas) {
             console.log("area of log")
             let itemControl = []
-            for(let item of area.items){
+            for (let item of area.items) {
                 console.log("item of area")
-                itemControl.push(this.initItem({id:item.id,is_acceptable:null}))
+                itemControl.push(this.initItem({ id: item.id, is_acceptable: null }))
             }
-            control.push(this.initArea({id:area.id,items:itemControl}))
+            control.push(this.initArea({ id: area.id, items: itemControl }))
         }
     }
 
-    ngOnChanges(){
-        this.ngOnInit()
+    resetForm() {
+        let areas = []
+        let currentTime = this.timeService.getISOTime(new Date())
+        for (let area of this.log.areas) {
+            let items = []
+            for (let item of area.items) {
+                items.push({ id: item.id, is_acceptable: null })
+            }
+            areas.push({ id: area.id, items: items })
+        }
+        this.gmpPackingGlassBrittleForm.reset({
+            date: this.timeService.getISODate(new Date()),
+            time: currentTime,
+            notes: '',
+            areas: areas
+        })
     }
 
     initArea(area: CaptureArea) {
         return this._fb.group({
-            id:[area.id, [Validators.required]],
+            id: [area.id, [Validators.required]],
             items: this._fb.array(area.items)
         })
     }
 
-    initItem(item: CaptureItem){
+    initItem(item: CaptureItem) {
         return this._fb.group({
-            id:[item.id, [Validators.required]],
-            is_acceptable:[item.is_acceptable, [Validators.required]]
+            id: [item.id, [Validators.required]],
+            is_acceptable: [item.is_acceptable, [Validators.required]]
         })
     }
 
-    save(model: CaptureLog){
-        if(this.gmpPackingGlassBrittleForm.valid){
-            this.toasts.showText("capturedLog")
-            let form_data = new FormData()
-            let filled_log = this.gmpPackingGlassBrittleForm.value
-            
-            let flatObj = this.flatten(filled_log)
-
-            for ( let key in flatObj ) {
-                let tempKey = key + "]"
-                tempKey = tempKey.replace(']', '')
-                if(flatObj[key] == true){
-                    form_data.append(tempKey, "1")
-                } else if(flatObj[key] == false){
-                    form_data.append(tempKey, "0")
-                } else {
-                    form_data.append(tempKey, flatObj[key])
-                }
-            }
-    
-            this.server.update(
-                'capture-gmp-packing-glass-brittle',
-                form_data,
-                (response: any) => {
-                  console.log(response)
-                  console.log(JSON.stringify(response))
-                } // (response: any)
-            ) // this.server.update
+    save() {
+        if (this.gmpPackingGlassBrittleForm.valid) {
+            let logDetails: LogDetails = { zone_name: this.log.zone_name, program_name: this.log.program_name, module_name: this.log.module_name, log_name: this.log.log_name }
+            this.logService.send(this.gmpPackingGlassBrittleForm.value, 'capture-gmp-packing-glass-brittle', logDetails).then(success => {
+                // Una vez que la promesa fue cumplida, reiniciamos el formulario
+                this.resetForm()
+            })
         } else {
             this.toasts.showText("incompleteLog")
         }
-    }
-
-    flatten(data) {
-        var result = {}
-    
-        function recurse(cur, prop) {
-            if (Object(cur) !== cur) {
-                result[prop] = cur
-            } else if (Array.isArray(cur)) {
-                for (var i = 0, l = cur.length; i < l; i++)
-                recurse(cur[i], prop + "][" + i + "][")
-                if (l == 0) result[prop] = []
-            } else {
-                var isEmpty = true
-                for (var p in cur) {
-                    isEmpty = false
-                    recurse(cur[p], prop ? prop + p : p)
-                }
-                if (isEmpty && prop) result[prop] = {}
-            }
-        }
-        
-        recurse(data, "")
-        return result
     }
 }

@@ -1,3 +1,4 @@
-ion-list-header
-  | {{area.name}}
+include ../../../log-ionic-materialize.pug
+
++listHeader("{{area.name}}")
 gmp-packing-glass-brittle-item(*ngFor='let item of area.items; let i = index', [item]='item', [itemGroup]='areaForm.controls.items.controls[i]')

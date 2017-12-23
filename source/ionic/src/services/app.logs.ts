@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 
-import { Events } from 'ionic-angular'
+import { App, Events } from 'ionic-angular'
 import { Storage } from '@ionic/storage'
 
 import { FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms'
@@ -12,13 +12,15 @@ import { PendingLog } from '../pages/pending-logs/pending-card/pending.card.inte
 import { ToastService } from './app.toasts'
 import { LoaderService } from './app.loaders'
 import { BackendService } from './app.backend'
+import { LogDetails } from '../pages/logs/log.interfaces';
 
 // Servicio que agrupa las funciones en común que pueden ser utilizadas por
 // bitácoras y autorizaciones
 
 @Injectable()
 export class LogService {
-  constructor(private loaderService: LoaderService,
+  constructor(public app: App,
+    private loaderService: LoaderService,
     private toastService: ToastService,
     private server: BackendService,
     private storage: Storage,
@@ -30,8 +32,8 @@ export class LogService {
     this.storage.get("user_id").then(user_id => {
       if (user_id != null && user_id != undefined) {
         this.storage.get("pendingLogQueue").then((pending) => {
-          if(pending != undefined && pending != null){
-            if(pending[user_id] != null && pending[user_id] != undefined){
+          if (pending != undefined && pending != null) {
+            if (pending[user_id] != null && pending[user_id] != undefined) {
               let logToProcess: PendingLog = pending[user_id][index]
               this.send(logToProcess.log, logToProcess.service, { zone_name: logToProcess.zone_name, program_name: logToProcess.program_name, module_name: logToProcess.module_name, log_name: logToProcess.log_name }, false).then(success => {
                 pending[user_id].splice(index, 1)
@@ -49,7 +51,46 @@ export class LogService {
     })
   }
 
-  send(data: any, service: string, details: { zone_name: string, program_name: string, module_name: string, log_name: string }, isFirstTry: boolean = true) {
+  public log(suffix: string): Promise<any> {
+    let logPromise = new Promise<any>((resolve, reject) => {
+      let logLoader = this.loaderService.koiLoader("")
+      
+      logLoader.present()
+      this.server.update(
+        'log-' + suffix,
+        new FormData(),
+        (response: any) => {
+          if (response.meta.return_code == 0) {
+            if (response.data) {
+              resolve(response.data)
+              this.storage.set("log-" + suffix, response.data)
+              logLoader.dismiss()
+            } else {
+              reject("bad request")
+              logLoader.dismiss()
+              this.app.getRootNav().pop()
+              this.toastService.showText("serverUnreachable")
+            }
+          } else {
+            reject("bad request")
+            logLoader.dismiss()
+            this.app.getRootNav().pop()
+            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+          }
+        }, (error: any, caught: Observable<void>) => {
+          reject("network error")
+          logLoader.dismiss()
+          this.app.getRootNav().pop()
+          this.toastService.showText("serverUnreachable")
+          return []
+        }
+      )
+    })
+
+    return logPromise
+  }
+
+  public send(data: any, service: string, details: LogDetails, isFirstTry: boolean = true): Promise<string> {
     let sentPromise = new Promise<string>((resolve, reject) => {
       let loader = this.loaderService.koiLoader("")
       let form_data = new FormData()
@@ -72,7 +113,7 @@ export class LogService {
         service,
         form_data,
         (response: any) => {
-          if(response.meta.return_code == 0){
+          if (response.meta.return_code == 0) {
             this.toastService.showText("capturedLog")
             resolve("server")
           } else {
@@ -85,7 +126,7 @@ export class LogService {
           console.log(response)
           console.log(JSON.stringify(response))
         }, (error: any, caught: Observable<void>) => {
-          if(isFirstTry == true){
+          if (isFirstTry == true) {
             // Si se trata del primer intento (enviado desde una pantalla de bitácora)
             // es necesario guardar la bitácora en la lista de pendientes
             this.storage.get("pendingLogQueue").then((val) => {
@@ -133,7 +174,7 @@ export class LogService {
     return sentPromise
   }
 
-  update(data: any, service: string){
+  update(data: any, service: string) {
     let updatePromise = new Promise<string>((resolve, reject) => {
       let loader = this.loaderService.koiLoader("")
       let form_data = new FormData()
@@ -156,7 +197,7 @@ export class LogService {
         service,
         form_data,
         (response: any) => {
-          if(response.meta.return_code == 0){
+          if (response.meta.return_code == 0) {
             this.toastService.showText("capturedLog")
             resolve("server")
           } else {
@@ -197,7 +238,7 @@ export class LogService {
   // https://stackoverflow.com/questions/19098797/fastest-way-to-flatten-un-flatten-nested-json-objects
   private flatten(data) {
     let result = {}
-  
+
     function recurse(value, key) {
       if (Object(value) !== value) {
         result[key] = value
@@ -209,18 +250,18 @@ export class LogService {
         var isEmpty = true
         for (var k in value) {
           isEmpty = false
-          recurse(value[k], key ? key + "[" + k + "]": k)
+          recurse(value[k], key ? key + "[" + k + "]" : k)
         }
         if (isEmpty && key) result[key] = {}
       }
     }
-  
-    if(Object(data) !== data){
+
+    if (Object(data) !== data) {
       throw Error("Non-object parameter can't be flattened")
     } else {
       recurse(data, "")
     }
-  
+
     return result
   }
 }
