@@ -1,12 +1,13 @@
-export interface UpdateLog {
-  report_id: string,
-  notes: string,
+import { SuperUpdateLog } from "../../super-logs/super.logs.update.interface"
+
+export interface UpdateLog extends SuperUpdateLog {
+  notes: string
   album_url: string
   areas: Array<UpdateArea>
 }
 
 export interface UpdateArea {
-  id: number,
+  id: number
   time: string
   notes: string
   person_performing_sanitation: string

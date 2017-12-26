@@ -1,5 +1,6 @@
-export interface UpdateLog {
-  report_id: string
+import { SuperUpdateLog } from "../../super-logs/super.logs.update.interface"
+
+export interface UpdateLog extends SuperUpdateLog {
   notes: string
   corrective_action: string
   types: Array<UpdateType>

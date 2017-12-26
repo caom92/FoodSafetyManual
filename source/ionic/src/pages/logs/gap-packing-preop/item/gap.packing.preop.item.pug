@@ -8,20 +8,20 @@ form([formGroup]='itemForm')
         ion-col
           ion-item
             ion-label {{ 'Log.acceptable' | translate:lang }}
-            ion-radio([value]='true', (click)='acceptable()')
+            ion-radio([value]='true')
         ion-col
           ion-item
             ion-label {{ 'Log.unacceptable' | translate:lang }}
-            ion-radio([value]='false', (click)='unacceptable()')
+            ion-radio([value]='false')
     ion-row
       ion-col
-        ion-item([hidden]='!visibleAction')
+        ion-item([hidden]='itemForm.controls.is_acceptable.value !== false')
           ion-label {{ 'Log.corrective_action' | translate:lang }}
           ion-select(formControlName='corrective_action_id')
             ion-option(*ngFor='let action of actions', [value]='action.id') {{action[lang]}}
     ion-row
       ion-col
-        ion-item([hidden]='!visibleComment')
+        ion-item([hidden]='itemForm.controls.is_acceptable.value !== false')
           ion-label(color='primary', floating) {{ 'Log.comments_of' | translate:lang }} {{item.name}}
           ion-textarea(formControlName='comment')
   .divider

@@ -19,13 +19,7 @@ import { LogService } from '../../../../services/app.logs'
 
 @Component({
   selector: 'gmp-packing-cold-room-temp-authorization',
-  templateUrl: './gmp.packing.cold.room.temp.authorization.html',
-  providers: [
-    BackendService,
-    TranslationService,
-    ToastService,
-    LogService
-  ]
+  templateUrl: './gmp.packing.cold.room.temp.authorization.html'
 })
 
 export class GMPPackingColdRoomTempAuthorizationComponent extends NavbarPageComponent implements OnInit {

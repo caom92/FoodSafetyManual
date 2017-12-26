@@ -1,4 +1,4 @@
-import { Component, Input, NgModule, OnInit } from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
 import { NavParams } from 'ionic-angular'
 import { DatePipe } from '@angular/common'
 
@@ -7,7 +7,6 @@ import { Language } from 'angular-l10n'
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
 import { CaptureLog, CaptureItem } from '../interfaces/gmp.packing.cold.room.temp.capture.interface'
 import { Log, LogItem } from '../interfaces/gmp.packing.cold.room.temp.log.interface'
-//import { LogHeaderComponent } from '../components/app.log.header'
 
 import { DateTimeService } from '../../../../services/app.time'
 import { BackendService } from '../../../../services/app.backend'
