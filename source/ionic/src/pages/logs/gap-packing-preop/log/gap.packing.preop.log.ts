@@ -1,4 +1,4 @@
-import { Component, Input, NgModule, OnInit } from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
 import { NavParams } from 'ionic-angular'
 import { DatePipe } from '@angular/common'
 
