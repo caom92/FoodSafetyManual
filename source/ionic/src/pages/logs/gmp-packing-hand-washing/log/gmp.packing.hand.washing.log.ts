@@ -23,8 +23,7 @@ import { LogService } from '../../../../services/app.logs'
 export class GMPPackingHandWashingLogComponent implements OnInit {
   @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, items: [{ id: null, name: null }] }
   @Language() lang: string
-  logHeaderData: LogHeaderData = { zone_name: null, program_name: null, module_name: null, date: null, created_by: null }
-
+  public logHeaderData: LogHeaderData = { zone_name: null, program_name: null, module_name: null, date: null, created_by: null }
   public gmpPackingHandWashingForm: FormGroup = new FormBuilder().group({})
 
   constructor(private _fb: FormBuilder,

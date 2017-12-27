@@ -7,25 +7,18 @@ import { Language } from 'angular-l10n'
 
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
 import { UpdateLog, UpdateItem } from '../interfaces/gmp.packing.thermo.calibration.update.interface'
-import { Authorization, AuthorizationItem } from '../interfaces/gmp.packing.thermo.calibration.authorization.interface'
+import { Authorization } from '../interfaces/gmp.packing.thermo.calibration.authorization.interface'
 
 import { BackendService } from '../../../../services/app.backend'
 import { TranslationService } from '../../../../services/app.translation'
 import { ToastService } from '../../../../services/app.toasts'
-import { LoaderService } from '../../../../services/app.loaders'
 
 import { NavbarPageComponent } from '../../../super-components/navbar.component'
 import { LogService } from '../../../../services/app.logs'
 
 @Component({
   selector: 'gmp-packing-thermo-calibration-authorization',
-  templateUrl: './gmp.packing.thermo.calibration.authorization.html',
-  providers: [
-    BackendService,
-    TranslationService,
-    ToastService,
-    LogService
-  ]
+  templateUrl: './gmp.packing.thermo.calibration.authorization.html'
 })
 
 export class GMPPackingThermoCalibrationAuthorizationComponent extends NavbarPageComponent implements OnInit {
