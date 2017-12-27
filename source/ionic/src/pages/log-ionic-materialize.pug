@@ -72,6 +72,15 @@ mixin textInput(label, icon, formControlName, type)
       = label
     ion-input(formControlName=formControlName, type=type)
 
+mixin textInputLine(label, placeholder, icon, formControlName, type)
+  ion-item()&attributes(attributes)
+    ion-label(color='primary')
+      if (icon != null && icon != undefined && icon != false)
+        ion-icon(name=icon)
+        - label = " " + label
+      = label
+    ion-input(formControlName=formControlName, type=type)
+
 mixin textArea(label, icon, formControlName)
   ion-item()&attributes(attributes)
     ion-label(color='primary', floating)
