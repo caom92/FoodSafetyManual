@@ -1,6 +1,7 @@
 include ../../../log-ionic-materialize.pug
 
 +fullLogWrapper
+  log-header([log]="logHeaderData")
   form([formGroup]='gmpPackingColdRoomTempForm', (ngSubmit)='save(myForm)')
     +card()
       +cardContent()

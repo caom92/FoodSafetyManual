@@ -1,18 +1,9 @@
+include ../../../log-ionic-materialize.pug
+
 div([formGroup]='itemForm')
-  ion-list-header
-    | {{item.name}}
-  ion-item()
-    ion-label {{ 'Log.time' | translate:lang }}
-    ion-datetime(displayFormat='HH:mm', pickerFormat='HH:mm', formControlName='time')
-  ion-item()
-    ion-label {{ 'Log.approved' | translate:lang }}
-    ion-checkbox(formControlName='approved')
-  ion-item()
-    ion-label {{ 'Log.returned_good_conditions' | translate:lang }}
-    ion-checkbox(formControlName='condition')
-  ion-item()
-    ion-label {{ 'Log.sanitized_lubricated' | translate:lang }}
-    ion-checkbox(formControlName='is_sanitized')
-  ion-item()
-    ion-label(color='primary', floating) {{ 'Log.corrective_action_of' | translate:lang }} {{item.name}}
-    ion-textarea(formControlName='corrective_action')
+  +listHeader("{{item.name}}")
+  +timeInput(true, "{{ 'Log.time' | translate:lang }}", "time")
+  +checkbox("{{ 'Log.approved' | translate:lang }}", false, "approved")
+  +checkbox("{{ 'Log.returned_good_conditions' | translate:lang }}", false, "condition")
+  +checkbox("{{ 'Log.sanitized_lubricated' | translate:lang }}", false, "is_sanitized")
+  +textArea("{{ 'Log.corrective_action_of' | translate:lang }} {{item.name}}", "clipboard", "corrective_action")

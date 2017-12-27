@@ -24,7 +24,7 @@ mixin cardContent()
 
 mixin timeInput(showIcon, label, formControlName)
   ion-item()&attributes(attributes)
-    ion-label
+    ion-label(color="primary")
       if showIcon == true
         ion-icon(name="time")
         - label = " " + label
