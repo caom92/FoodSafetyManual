@@ -5,14 +5,6 @@ include ../../../log-ionic-materialize.pug
   form([formGroup]='gmpPackingThermoCalibrationForm', (ngSubmit)='save(myForm)')
     +card()
       +cardContent()
-        +timeInput(true, "{{ 'Log.time' | translate:lang }}", "time")
-        //-ion-item
-          ion-label {{ 'Log.time' | translate:lang }}
-          ion-datetime(displayFormat='HH:mm', pickerFormat='HH:mm', formControlName='time')
-        +list()
-          gmp-packing-thermo-calibration-item(*ngFor='let item of log.items; let i = index', [item]='item', [itemGroup]='gmpPackingThermoCalibrationForm.controls.items.controls[i]')
+        +timeInput(true, "{{ 'Log.time' | translate:lang }}", "time")      
+    gmp-packing-thermo-calibration-item(*ngFor='let item of log.items; let i = index', [item]='item', [itemGroup]='gmpPackingThermoCalibrationForm.controls.items.controls[i]')
     +sendLogButton("{{ 'Log.send_report' | translate:lang }}")
-    //-div(text-center)
-      button(ion-button, icon-end, round)
-        | {{ 'Log.send_report' | translate:lang }}
-        ion-icon(name='send')

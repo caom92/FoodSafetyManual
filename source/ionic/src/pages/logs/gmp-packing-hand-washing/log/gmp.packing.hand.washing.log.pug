@@ -8,6 +8,7 @@ include ../../../log-ionic-materialize.pug
         +list
           gmp-packing-hand-washing-item(*ngFor='let item of log.items; let i = index', [item]='item', [itemGroup]='gmpPackingHandWashingForm.controls.items.controls[i]')
     +card(true)
+      +cardHeader("{{ 'Log.complementary_information' | translate:lang }}")
       +cardContent()
         +textArea("{{ 'Log.notes_of' | translate:lang }} {{log.log_name}}", "clipboard", "notes")
     +sendLogButton("{{ 'Log.send_report' | translate:lang }}")

@@ -3,13 +3,22 @@ include ../../../log-ionic-materialize.pug
 +fullLogWrapper()
   log-header([log]="logHeaderData")
   form([formGroup]='gmpPackingScissorsKnivesForm', (ngSubmit)='save(myForm)')
+    gmp-packing-scissors-knives-item(*ngFor='let item of log.items; let i = index', [item]='item', [itemGroup]='gmpPackingScissorsKnivesForm.controls.items.controls[i]')
     +card
+      +cardHeader("{{ 'Log.complementary_information' | translate:lang }}")
       +cardContent
-        +list
-          gmp-packing-scissors-knives-item(*ngFor='let item of log.items; let i = index', [item]='item', [itemGroup]='gmpPackingScissorsKnivesForm.controls.items.controls[i]')
+        +textArea("{{ 'Log.notes_of' | translate:lang }} {{log.log_name}}", "clipboard", "notes")
+    +sendLogButton("{{ 'Log.send_report' | translate:lang }}")
+
+//-+fullLogWrapper()
+  log-header([log]="logHeaderData")
+  form([formGroup]='gmpPackingScissorsKnivesForm', (ngSubmit)='save(myForm)')
+    +card()(*ngFor='let item of log.items; let i = index')
+      +cardHeader("{{item.name}}")
+      +cardContent
+        gmp-packing-scissors-knives-item([item]='item', [itemGroup]='gmpPackingScissorsKnivesForm.controls.items.controls[i]')
     +card
+      +cardHeader("{{ 'Log.complementary_information' | translate:lang }}")
       +cardContent
-        ion-item
-          ion-label(color='primary', floating) {{ 'Log.notes_of' | translate:lang }} {{log.log_name}}
-          ion-textarea(formControlName='notes')
+        +textArea("{{ 'Log.notes_of' | translate:lang }} {{log.log_name}}", "clipboard", "notes")
     +sendLogButton("{{ 'Log.send_report' | translate:lang }}")

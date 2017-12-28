@@ -117,6 +117,13 @@
         "group": "Group",
         "quantity_abbr": "QTY"
     },
+    "LogHeader": {
+        "zone": "Zone",
+        "program": "Program",
+        "module": "Module",
+        "date": "Date",
+        "made_by": "Made by"
+    },
     "LogErrors": {
         "gmp-packing-preop": {
             "item_status": "You must mark an item as either acceptable or unnaceptable",

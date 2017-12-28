@@ -63,6 +63,14 @@ mixin sendLogButton(label)
 
 //- User Input
 
+mixin label(label, icon, color)
+  ion-item()&attributes(attributes)
+    ion-label(color=color)
+      if (icon != null && icon != undefined && icon != false)
+        ion-icon(name=icon)
+        - label = " " + label
+      = label
+
 mixin textInput(label, icon, formControlName, type)
   ion-item()&attributes(attributes)
     ion-label(color='primary', floating)
@@ -79,7 +87,7 @@ mixin textInputLine(label, placeholder, icon, formControlName, type)
         ion-icon(name=icon)
         - label = " " + label
       = label
-    ion-input(formControlName=formControlName, type=type)
+    ion-input(placeholder=placeholder, formControlName=formControlName, type=type)
 
 mixin textArea(label, icon, formControlName)
   ion-item()&attributes(attributes)
@@ -98,6 +106,40 @@ mixin checkbox(label, icon, formControlName)
         - label = " " + label
       = label
     ion-checkbox(formControlName=formControlName)
+
+mixin radioGroup(label, icon, formControlName)
+  ion-list(radio-group, formControlName=formControlName)
+    if (label != null && label != undefined && label != false)
+      ion-list-header
+        if (icon != null && icon != undefined && icon != false)
+          ion-icon(name=icon)
+          - label = " " + label
+        = label
+    if block
+      block
+
+mixin radio(label, icon, value, checked, disabled)
+  ion-item
+    ion-label()
+      if (icon != null && icon != undefined && icon != false)
+        ion-icon(name=icon)
+        - label = " " + label
+      = label
+    ion-radio(disabled=disabled, [value]=value)
+
+mixin select(label, icon, formControlName)
+  ion-item
+    ion-label()
+      if (icon != null && icon != undefined && icon != false)
+        ion-icon(name=icon)
+        - label = " " + label
+      = label
+    ion-select(formControlName=formControlName)&attributes(attributes)
+      if block
+        block
+
+mixin option(label, value, selected, disabled)
+  ion-option([value]=value, selected=selected, disabled=disabled)&attributes(attributes)= label
 
 //- Grid
 

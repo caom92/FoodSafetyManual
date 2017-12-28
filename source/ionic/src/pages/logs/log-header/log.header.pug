@@ -2,12 +2,12 @@ ion-card
   ion-card-content
     ion-grid
       ion-row
-        | Zona: {{log.zone_name}}
+        ion-col {{ 'LogHeader.zone' | translate:lang }}: {{log.zone_name}}
       ion-row
-        | Programa: {{log.program_name}}
+        ion-col {{ 'LogHeader.program' | translate:lang }}: {{log.program_name}}
       ion-row
-        | Módulo: {{log.module_name}}
+        ion-col {{ 'LogHeader.module' | translate:lang }}: {{log.module_name}}
       ion-row
-        | Fecha: {{date}}
+        ion-col {{ 'LogHeader.date' | translate:lang }}: {{date}}
       ion-row
-        | Elaborado por: {{username}}
+        ion-col {{ 'LogHeader.made_by' | translate:lang }}: {{username}}

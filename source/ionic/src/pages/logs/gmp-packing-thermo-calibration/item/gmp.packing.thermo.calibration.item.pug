@@ -1,20 +1,9 @@
 include ../../../log-ionic-materialize.pug
 
-div([formGroup]='itemForm')
-  +textInputLine("{{item.name}}", "{{ 'Log.ice_point_test' | translate:lang }}", "ios-thermometer", "test", "number")
-  +checkbox("{{ 'Log.thermo_calibration' | translate:lang }}", false, "calibration")
-  //-ion-item()
-    ion-label {{ 'Log.thermo_calibration' | translate:lang }}
-    ion-checkbox(formControlName='calibration')
-  +checkbox("{{ 'Log.sanitized' | translate:lang }}", false, "sanitization")
-  //-ion-item()
-    ion-label {{ 'Log.sanitized' | translate:lang }}
-    ion-checkbox(formControlName='sanitization')
-  +textArea("{{ 'Log.deficiencies_of' | translate:lang }} {{log.log_name}}", "clipboard", "deficiencies")
-  //-ion-item()
-    ion-label(color='primary', floating) {{ 'Log.deficiencies_of' | translate:lang }} {{item.name}}
-    ion-textarea(formControlName='deficiencies')
-  +textArea("{{ 'Log.corrective_action_of' | translate:lang }} {{log.log_name}}", "clipboard", "corrective_action")
-  //-ion-item()
-    ion-label(color='primary', floating) {{ 'Log.corrective_action_of' | translate:lang }} {{item.name}}
-    ion-textarea(formControlName='corrective_action')
++card()([formGroup]='itemForm')
+  +cardContent()
+    +textInputLine("{{item.name}}", "{{ 'Log.ice_point_test' | translate:lang }}", "ios-thermometer", "test", "number")
+    +checkbox("{{ 'Log.thermo_calibration' | translate:lang }}", false, "calibration")
+    +checkbox("{{ 'Log.sanitized' | translate:lang }}", false, "sanitization")
+    +textArea("{{ 'Log.deficiencies_of' | translate:lang }} {{item.name}}", "clipboard", "deficiencies")
+    +textArea("{{ 'Log.corrective_action_of' | translate:lang }} {{item.name}}", "clipboard", "corrective_action")

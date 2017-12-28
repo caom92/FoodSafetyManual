@@ -5,12 +5,3 @@ include ../../../log-ionic-materialize.pug
   +cardContent()
     +timeInput(true, "{{ 'Log.time' | translate:lang }}", "time")
     gmp-packing-scale-calibration-item(*ngFor='let item of type.items; let i = index; let last = last', [item]='item', [units]='units', [itemGroup]='typeForm.controls.items.controls[i]', [last]="last")
-
-//-ion-card([formGroup]='typeForm')
-  ion-card-header
-    | {{type.name}}
-  ion-item
-    ion-label {{ 'Log.time' | translate:lang }}
-    ion-datetime(displayFormat='HH:mm', pickerFormat='HH:mm', formControlName='time')
-  .divider
-  gmp-packing-scale-calibration-item(*ngFor='let item of type.items; let i = index', [item]='item', [units]='units', [itemGroup]='typeForm.controls.items.controls[i]')

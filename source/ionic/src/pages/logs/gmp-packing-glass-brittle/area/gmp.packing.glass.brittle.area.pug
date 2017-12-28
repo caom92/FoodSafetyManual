@@ -1,4 +1,6 @@
 include ../../../log-ionic-materialize.pug
 
-+listHeader("{{area.name}}")
-gmp-packing-glass-brittle-item(*ngFor='let item of area.items; let i = index', [item]='item', [itemGroup]='areaForm.controls.items.controls[i]')
++card()
+  +cardHeader("{{area.name}}")
+  +cardContent()
+    gmp-packing-glass-brittle-item(*ngFor='let item of area.items; let i = index', [item]='item', [itemGroup]='areaForm.controls.items.controls[i]')
