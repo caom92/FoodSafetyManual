@@ -1,0 +1,14 @@
+include ./log-materialize.pug
+
++card()
+  +cardHeader("Test Header")
+  +cardContent()
+    | Lmao
+    +timeInput(true, "'time test'", false, "time_id", "select time", null)
+    +sendLogButton("Enviar Bitácora")
+    +label("lmao", "owl", false)
+    +textInput("Input sin placeholder", "clipboard", false, "text", "input_1", false)
+    +textInput("Input con placeholder", "clipboard", false, "password", "input_2", "hermoso placeholder")
+    +textInput("Input numerico con placeholder", "thermometer", false, "number", "input_3", "numerin")
+    +textArea("Area de texto", "paperclip", false, "text_1", "placeholder de area de texto")
+    +checkbox("Checkbokkusu", false, false, "checkbox_1")

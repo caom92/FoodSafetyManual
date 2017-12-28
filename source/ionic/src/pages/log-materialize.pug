@@ -1,0 +1,90 @@
+mixin card(isHoverable)
+  mz-card([hoverable]=isHoverable)&attributes(attributes)
+    if block
+      block
+
+mixin cardHeader(contents)
+  mz-card-title()&attributes(attributes)= contents
+    if block
+      block
+
+mixin cardContent()
+  mz-card-content
+    if block
+      block
+
+mixin icon()
+  i(mz-icon)&attributes(attributes)
+
+mixin timeInput(showIcon, label, formControlName, id, placeholder, options)
+  mz-timepicker-container()&attributes(attributes)
+    if (showIcon == true)
+      i(mz-icon-mdi, mz-input-prefix, [icon]="'clock'")
+    input(mz-timepicker, [label]=label, type="text", id=id, placeholder=placeholder, [options]=options)
+
+mixin list()
+  if block
+    block
+
+mixin listHeader(contents)
+  h2()&attributes(attributes)= contents
+
+mixin fullLogWrapper()
+  if block
+    block
+
+mixin sendLogButton(label)
+  button(mz-button)&attributes(attributes)= label
+
+//- User Input
+
+mixin label(label, icon, color)
+  span(style="font-size: 24px;")
+    if (icon)
+      - label = label + " "
+      = label
+      i(mz-icon-mdi, mz-input-prefix, icon=icon)
+    else
+      = label
+
+mixin textInput(label, icon, formControlName, type, id, placeholder)
+  mz-input-container
+    if (icon)
+      i(mz-icon-mdi, mz-input-prefix, icon=icon)
+    input(mz-input, label=label, formControlName=formControlName, id=id, placeholder=placeholder, type=type)
+
+mixin textInputLine(label, placeholder, icon, formControlName, type, id)
+  +textInput(label, icon, formControlName, type, placeholder, id)
+
+mixin textArea(label, icon, formControlName, id, placeholder)
+  mz-textarea-container
+    if (icon)
+      i(mz-icon-mdi, mz-input-prefix, icon=icon)
+    textarea(mz-textarea, label=label, formControlName=formControlName, id=id, placeholder=placeholder)
+
+mixin checkbox(label, icon, formControlName, id)
+  mz-checkbox-container
+    input(mz-checkbox, label=label, formControlName=formControlName, type="checkbox", id=id, filledIn="true")
+
+mixin radioGroup(label, icon, formControlName)
+  //-
+
+mixin radio(label, icon, value, checked, disabled)
+  //-
+
+mixin select(label, icon, formControlName, interface)
+  //-
+
+mixin option(label, value, selected, disabled)
+  //-
+
+//- Grid
+
+mixin grid()
+  //-
+
+mixin row()
+  //-
+
+mixin col()
+  //-
