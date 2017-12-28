@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core'
 import { FormGroup } from '@angular/forms'
 import { Language } from 'angular-l10n'
 import { TranslationService } from '../../../../services/app.translation'
-import { LogArea } from '../interfaces/gmp.packing.preop.log.interface'
+import { LogArea, CorrectiveAction } from '../interfaces/gmp.packing.preop.log.interface'
 
 @Component({
   selector: 'gmp-packing-preop-area',
@@ -11,10 +11,14 @@ import { LogArea } from '../interfaces/gmp.packing.preop.log.interface'
 
 export class GMPPackingPreopAreaComponent implements OnInit {
   @Input() area: LogArea
-  @Input() actions: Array<{ name: string, en: string, es: string }>
+  @Input() actions: Array<CorrectiveAction>
   @Input('group') public areaForm: FormGroup
   @Language() lang: string
   offset: Array<number> = []
+
+  constructor() {
+
+  }
 
   ngOnInit() {
     let accumulated = 0

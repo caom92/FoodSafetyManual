@@ -1,9 +1,3 @@
-mixin typeTitle(contents)
-  ion-card-header(style="font-weight: bold;")= contents
-
-mixin logHeader(data)
-  log-header([log]=data)
-
 mixin card(isHoverable)
   ion-card(class=isHoverable ? 'hoverable' : false)&attributes(attributes)
     if block
@@ -14,13 +8,13 @@ mixin cardHeader(contents)
     if block
       block
 
-mixin icon()
-  ion-icon()&attributes(attributes)
-
 mixin cardContent()
   ion-card-content
     if block
       block
+
+mixin icon()
+  ion-icon()&attributes(attributes)
 
 mixin timeInput(showIcon, label, formControlName)
   ion-item()&attributes(attributes)
@@ -127,14 +121,14 @@ mixin radio(label, icon, value, checked, disabled)
       = label
     ion-radio(disabled=disabled, [value]=value)
 
-mixin select(label, icon, formControlName)
-  ion-item
+mixin select(label, icon, formControlName, interface)
+  ion-item()&attributes(attributes)
     ion-label()
       if (icon != null && icon != undefined && icon != false)
         ion-icon(name=icon)
         - label = " " + label
       = label
-    ion-select(formControlName=formControlName)&attributes(attributes)
+    ion-select(formControlName=formControlName, interface=interface)
       if block
         block
 
@@ -144,16 +138,16 @@ mixin option(label, value, selected, disabled)
 //- Grid
 
 mixin grid()
-  ion-grid
+  ion-grid()&attributes(attributes)
     if block
       block
 
 mixin row()
-  ion-row
+  ion-row()&attributes(attributes)
     if block
       block
 
 mixin col()
-  ion-col
+  ion-col()&attributes(attributes)
     if block
       block

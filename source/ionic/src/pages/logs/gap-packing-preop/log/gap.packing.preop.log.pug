@@ -1,4 +1,20 @@
-ion-content
+include ../../../logmaster-common-mixins.pug
+include ../../../log-ionic-materialize.pug
+
++fullLogWrapper()
+  log-header([log]="logHeaderData")
+  form([formGroup]='gapPackingPreopForm', (ngSubmit)='save(myForm)')
+    gap-packing-preop-area(*ngFor='let area of log.areas.logs; let i=index', [area]='area', [actions]='log.areas.corrective_actions', [group]='gapPackingPreopForm.controls.areas.controls[i]')
+    +card()
+      +cardHeader("{{ 'Log.complementary_information' | translate:lang }}")
+      +cardContent()
+        +textArea("{{ 'Log.notes_of' | translate:lang }} {{log.log_name}}", "clipboard", "notes")
+        +errorMessage('!gapPackingPreopForm.controls.notes.valid && gapPackingPreopForm.controls.notes.dirty', "{{ 'LogErrors.gmp-packing-preop.comment_length' | translate:lang }}")
+        +textArea("{{ 'Log.external_link_of' | translate:lang }} {{log.log_name}}", "ios-link", "album_url")
+        +errorMessage('!gapPackingPreopForm.controls.album_url.valid && gapPackingPreopForm.controls.album_url.dirty', "{{ 'LogErrors.gmp-packing-preop.album_length' | translate:lang }}")
+    +sendLogButton("{{ 'Log.send_report' | translate:lang }}")
+
+//-ion-content
   form([formGroup]='gapPackingPreopForm', (ngSubmit)='save(myForm)')
     gap-packing-preop-area(*ngFor='let area of log.areas.logs; let i=index', [area]='area', [actions]='log.areas.corrective_actions', [group]='gapPackingPreopForm.controls.areas.controls[i]')
     ion-grid

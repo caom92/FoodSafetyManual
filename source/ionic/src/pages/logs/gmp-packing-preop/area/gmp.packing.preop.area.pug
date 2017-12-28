@@ -3,6 +3,19 @@ include ../../../log-ionic-materialize.pug
 
 div([formGroup]='areaForm')
   +card(true)
+    +cardHeader("{{area.name}}")
+    +cardContent()
+      +timeInput(true, "{{ 'Log.time' | translate:lang }}", "time")
+      ng-template(ngFor, let-j='index', let-type, [ngForOf]='area.types')
+        gmp-packing-preop-type([type]='type')
+        gmp-packing-preop-item(*ngFor='let item of type.items; let i = index', [item]='item', [actions]='actions', [itemGroup]='areaForm.controls.items.controls[i + offset[j]]')
+      +textArea("{{ 'Log.comments_of' | translate:lang }} {{area.name}}", "clipboard", "notes")
+      +errorMessage('!areaForm.controls.notes.valid && areaForm.controls.notes.dirty', "{{ 'LogErrors.gmp-packing-preop.comment_length' | translate:lang }}")
+      +textArea("{{ 'Log.sanitization_person_of' | translate:lang }} {{area.name}}", "brush", "person_performing_sanitation")
+      +errorMessage('!areaForm.controls.person_performing_sanitation.valid && (areaForm.controls.person_performing_sanitation.dirty)', "{{ 'LogErrors.gmp-packing-preop.person_length' | translate:lang }}")
+
+//-div([formGroup]='areaForm')
+  +card(true)
     +cardHeader("{{area.name}} ")(color="primary", style="font-size: 24px; font-weight: 300;")
       +icon()(name="ios-cube-outline")
     +cardContent()
@@ -10,17 +23,19 @@ div([formGroup]='areaForm')
       ng-template(ngFor, let-j='index', let-type, [ngForOf]='area.types')
         gmp-packing-preop-type([type]='type')
         gmp-packing-preop-item(*ngFor='let item of type.items; let i = index', [item]='item', [actions]='actions', [itemGroup]='areaForm.controls.items.controls[i + offset[j]]')
-      ion-item
+      //-ion-item
         ion-label(color='primary', floating)
           ion-icon(name="clipboard")
           |  {{ 'Log.comments_of' | translate:lang }} {{area.name}}
         ion-textarea(formControlName='notes')
+      +textArea("{{ 'Log.comments_of' | translate:lang }} {{area.name}}", "clipboard", "notes")
       +errorMessage('!areaForm.controls.notes.valid && areaForm.controls.notes.dirty', "{{ 'LogErrors.gmp-packing-preop.comment_length' | translate:lang }}")
-      ion-item
+      //-ion-item
         ion-label(color='primary', floating)
           ion-icon(name="brush")
           |  {{ 'Log.sanitization_person_of' | translate:lang }} {{area.name}}
         ion-textarea(formControlName='person_performing_sanitation')
+      +textArea("{{ '{{ 'Log.sanitization_person_of' | translate:lang }} {{area.name}}", "brush", "person_performing_sanitation")
       +errorMessage('!areaForm.controls.person_performing_sanitation.valid && (areaForm.controls.person_performing_sanitation.dirty)', "{{ 'LogErrors.gmp-packing-preop.person_length' | translate:lang }}")
 
 //-div([formGroup]='areaForm')

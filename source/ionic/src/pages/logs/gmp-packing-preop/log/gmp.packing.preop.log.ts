@@ -33,16 +33,21 @@ export class GMPPackingPreopLogComponent implements OnInit {
     private toasts: ToastService,
     private navParams: NavParams,
     private logService: LogService) {
-    this.log = navParams.get('data')
+    
   }
 
   ngOnInit() {
+    this.log = this.navParams.get('data')
     // Llenamos los datos del encabezado que saldrá desplegado en la tarjeta; los datos de fecha y
     // elaborador son llenados automáticamente por el componente de encabezado
     this.logHeaderData.zone_name = this.log.zone_name
     this.logHeaderData.program_name = this.log.program_name
     this.logHeaderData.module_name = this.log.module_name
 
+    this.initForm()
+  }
+
+  initForm() {
     // Creamos el formulario, utilizando validaciones equivalentes a las usadas en el servidor
     this.gmpPackingPreopForm = this._fb.group({
       date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
@@ -61,7 +66,6 @@ export class GMPPackingPreopLogComponent implements OnInit {
       }
       control.push(this.initArea({ id: area.id, time: currentTime, notes: "", person_performing_sanitation: "", items: itemControl }))
     }
-    console.log(this.gmpPackingPreopForm)
   }
 
   resetForm() {
@@ -106,7 +110,7 @@ export class GMPPackingPreopLogComponent implements OnInit {
   save() {
     if (this.gmpPackingPreopForm.valid) {
       let logDetails: LogDetails = { zone_name: this.log.zone_name, program_name: this.log.program_name, module_name: this.log.module_name, log_name: this.log.log_name }
-      this.logService.send(this.gmpPackingPreopForm.value, 'capture-gmp-packing-scale-calibration', logDetails).then(success => {
+      this.logService.send(this.gmpPackingPreopForm.value, 'capture-gmp-packing-preop', logDetails).then(success => {
         // Una vez que la promesa fue cumplida, reiniciamos el formulario
         this.resetForm()
       })

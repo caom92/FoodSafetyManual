@@ -10,7 +10,7 @@ import { LogItem, CorrectiveAction } from '../interfaces/gmp.packing.preop.log.i
 
 export class GMPPackingPreopItemComponent {
   @Input() item: LogItem
-  @Input() actions: CorrectiveAction
+  @Input() actions: Array<CorrectiveAction>
   @Input('itemGroup') public itemForm: FormGroup
   @Language() lang: string
 
