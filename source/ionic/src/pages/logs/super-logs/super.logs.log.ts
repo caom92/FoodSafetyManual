@@ -62,13 +62,13 @@ export class SuperLogComponent implements OnInit {
    * 
    * Dado que se trata de un formulario diferente para cada bitácora, esta
    * función debe redefinirse en las clases derivadas para funcionar
-   * correctamente
+   * correctamente, caso contrario se lanza un error
    * 
    * @memberof SuperLogComponent
    */
 
   public initForm(): void {
-    throw "initForm() function must be overridden in child class"
+    throw "Notify system developer: initForm() function must be overridden in child class for " + this.suffix
   }
 
   /**
@@ -76,13 +76,13 @@ export class SuperLogComponent implements OnInit {
    * 
    * Dado que se trata de un formulario diferente para cada bitácora, esta
    * función debe redefinirse en las clases derivadas para funcionar
-   * correctamente
+   * correctamente, caso contrario se lanza un error
    * 
    * @memberof SuperLogComponent
    */
 
   public resetForm(): void {
-    throw "resetForm() function must be overridden in child class"
+    throw "Notify system developer: resetForm() function must be overridden in child class for " + this.suffix
   }
 
   /**
