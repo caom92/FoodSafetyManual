@@ -45,7 +45,8 @@
         "id":"ID",
         "order":"Orden",
         "name":"Nombre",
-        "type":"Tipo"
+        "type":"Tipo",
+        "quantity":"Cantidad"
     },
     "NavbarTitles": {
         "Authorizations": "Autorizaciones",
@@ -61,13 +62,15 @@
         "approve_log": "Aprobar bitácora",
         "reject_log": "Rechazar bitácora",
         "resend_log": "Enviar bitácora",
-        "add_item": "Añadir elemento"
+        "add_item": "Añadir elemento",
+        "add_area": "Añadir área"
     },
     "Messages": {
         "approve_log": "¿Está seguro que desea autorizar esta bitácora?",
         "reject_log": "¿Está seguro que desea rechazar esta bitácora?",
         "resend_log": "¿Está seguro que desea reintentar el envío de esta bitácora?",
-        "add_item": "¿Está seguro de que desea añadir este elemento?"
+        "add_item": "¿Está seguro de que desea añadir este elemento?",
+        "add_area": "¿Está seguro de que desea añadir esta área?"
     },
     "Log": {
         "time": "Hora",
@@ -114,12 +117,26 @@
         "group": "Grupo",
         "quantity_abbr": "QTY"
     },
+    "LogHeader": {
+        "zone": "Zona",
+        "program": "Programa",
+        "module": "Módulo",
+        "date": "Fecha",
+        "made_by": "Elaborado por"
+    },
     "LogErrors": {
         "gmp-packing-preop": {
             "item_status": "Debe marcar un elemento como Aceptable o No Aceptable",
             "comment_length": "El comentario no puede exceder 65535 caracteres",
             "person_length": "El nombre de la persona a cargo de la sanitización no puede exceder 255 caracteres",
             "album_length": "El enlace del album no puede exceder 2000 caracteres"
+        }
+    },
+    "InventoryErrors": {
+        "gmp-packing-scale-calibration": {
+            "item_required": "Debe introducir un nombre para el elemento",
+            "item_length": "El nombre del elemento no puede exceder 255 caracteres",
+            "item_type": "Debe indicar el tipo de elemento"
         }
     }
 }
