@@ -56,33 +56,74 @@ export class LogService {
       let logLoader = this.loaderService.koiLoader("")
       
       logLoader.present()
-      this.server.update(
-        'log-' + suffix,
-        new FormData(),
-        (response: any) => {
-          if (response.meta.return_code == 0) {
-            if (response.data) {
-              resolve(response.data)
-              this.storage.set("log-" + suffix, response.data)
-              logLoader.dismiss()
-            } else {
-              reject("bad request")
+      this.storage.get("log-" + suffix).then(
+        data => {
+          if (data != null && data != undefined) {
+            console.log("recuperado del servidor")
+            resolve(data)
+            logLoader.dismiss()
+          } else {
+            this.server.update(
+              'log-' + suffix,
+              new FormData(),
+              (response: any) => {
+                if (response.meta.return_code == 0) {
+                  if (response.data) {
+                    resolve(response.data)
+                    this.storage.set("log-" + suffix, response.data)
+                    logLoader.dismiss()
+                  } else {
+                    reject("bad request")
+                    logLoader.dismiss()
+                    this.app.getRootNav().pop()
+                    this.toastService.showText("serverUnreachable")
+                  }
+                } else {
+                  reject("bad request")
+                  logLoader.dismiss()
+                  this.app.getRootNav().pop()
+                  this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+                }
+              }, (error: any, caught: Observable<void>) => {
+                reject("network error")
+                logLoader.dismiss()
+                this.app.getRootNav().pop()
+                this.toastService.showText("serverUnreachable")
+                return []
+              }
+            )
+          }
+        },
+        error => {
+          this.server.update(
+            'log-' + suffix,
+            new FormData(),
+            (response: any) => {
+              if (response.meta.return_code == 0) {
+                if (response.data) {
+                  resolve(response.data)
+                  this.storage.set("log-" + suffix, response.data)
+                  logLoader.dismiss()
+                } else {
+                  reject("bad request")
+                  logLoader.dismiss()
+                  this.app.getRootNav().pop()
+                  this.toastService.showText("serverUnreachable")
+                }
+              } else {
+                reject("bad request")
+                logLoader.dismiss()
+                this.app.getRootNav().pop()
+                this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+              }
+            }, (error: any, caught: Observable<void>) => {
+              reject("network error")
               logLoader.dismiss()
               this.app.getRootNav().pop()
               this.toastService.showText("serverUnreachable")
+              return []
             }
-          } else {
-            reject("bad request")
-            logLoader.dismiss()
-            this.app.getRootNav().pop()
-            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
-          }
-        }, (error: any, caught: Observable<void>) => {
-          reject("network error")
-          logLoader.dismiss()
-          this.app.getRootNav().pop()
-          this.toastService.showText("serverUnreachable")
-          return []
+          )
         }
       )
     })

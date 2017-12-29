@@ -63,7 +63,7 @@ mixin textArea(label, icon, formControlName, id, placeholder)
     textarea(mz-textarea, label=label, formControlName=formControlName, id=id, placeholder=placeholder)
 
 mixin checkbox(label, icon, formControlName, id)
-  mz-checkbox-container
+  mz-checkbox-container()&attributes(attributes)
     input(mz-checkbox, [label]=label, formControlName=formControlName, type="checkbox", id=id, filledIn="true")
 
 mixin radioGroup(label, icon, formControlName)
