@@ -2,13 +2,10 @@ import { Component, Input, OnInit } from '@angular/core'
 import { DatePipe } from '@angular/common'
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
 
-import { NavParams } from 'ionic-angular'
-
 import { Language } from 'angular-l10n'
 
 import { CaptureItem } from '../interfaces/gmp.packing.hand.washing.capture.interface'
 import { Log } from '../interfaces/gmp.packing.hand.washing.log.interface'
-import { LogDetails, LogHeaderData } from '../../log.interfaces'
 
 import { DateTimeService } from '../../../../services/app.time'
 import { TranslationService } from '../../../../services/app.translation'
@@ -24,12 +21,10 @@ import { SuperLogComponent } from '../../super-logs/super.logs.log'
 export class GMPPackingHandWashingLogComponent extends SuperLogComponent implements OnInit {
   @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, items: [{ id: null, name: null }] }
   @Language() lang: string
-  //captureForm: FormGroup = new FormBuilder().group({})
 
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
     private translationService: TranslationService,
-    private navParams: NavParams,
     logService: LogService,
     toasts: ToastService) {
     super(logService, toasts)

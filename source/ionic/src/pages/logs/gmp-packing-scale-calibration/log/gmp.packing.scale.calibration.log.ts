@@ -1,22 +1,11 @@
-// Angular
-
 import { Component, Input, OnInit } from '@angular/core'
 import { DatePipe } from '@angular/common'
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
 
-// Ionic
-
-import { NavParams } from 'ionic-angular'
-
-// Other
-
 import { Language } from 'angular-l10n'
 
-// Interfaces
-
-import { CaptureLog, CaptureType, CaptureItem } from '../interfaces/gmp.packing.scale.calibration.capture.interface'
-import { Log, LogItem, LogType, LogUnit } from '../interfaces/gmp.packing.scale.calibration.log.interface'
-import { LogDetails, LogHeaderData } from '../../log.interfaces'
+import { CaptureType, CaptureItem } from '../interfaces/gmp.packing.scale.calibration.capture.interface'
+import { Log } from '../interfaces/gmp.packing.scale.calibration.log.interface'
 
 import { DateTimeService } from '../../../../services/app.time'
 import { TranslationService } from '../../../../services/app.translation'
