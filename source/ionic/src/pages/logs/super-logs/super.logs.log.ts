@@ -17,6 +17,14 @@ export class SuperLogComponent implements OnInit {
 
   }
 
+  /**
+   * Inicializa el componente, recuperando los datos del servidor o del
+   * almacenamiento local. Una vez recuperados, asigna esos datos a la bitácora
+   * actual y actualiza el encabezado
+   * 
+   * @memberof SuperLogComponent
+   */
+
   public ngOnInit(): void {
     this.logService.log(this.suffix).then(success => {
       this.log = success
@@ -77,8 +85,17 @@ export class SuperLogComponent implements OnInit {
     throw "resetForm() function must be overridden in child class"
   }
 
+  /**
+   * Realiza la captura de la bitácora, invocando al servicio de bitácoras.
+   * 
+   * @memberof SuperLogComponent
+   */
+
   public save(): void {
+    // Solo enviamos bitácoras válidas
     if (this.captureForm.valid) {
+      // Información adicional, necesaria en el caso de que la bitácora no pueda
+      // enviarse
       let logDetails: LogDetails = { zone_name: this.log.zone_name, program_name: this.log.program_name, module_name: this.log.module_name, log_name: this.log.log_name }
       this.logService.send(this.captureForm.value, 'capture-' + this.suffix, logDetails).then(success => {
         // Una vez que la promesa fue cumplida, reiniciamos el formulario

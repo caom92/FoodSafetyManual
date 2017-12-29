@@ -12,7 +12,7 @@ import { PendingLog } from '../pages/pending-logs/pending-card/pending.card.inte
 import { ToastService } from './app.toasts'
 import { LoaderService } from './app.loaders'
 import { BackendService } from './app.backend'
-import { LogDetails } from '../pages/logs/log.interfaces';
+import { LogDetails } from '../pages/logs/log.interfaces'
 
 // Servicio que agrupa las funciones en común que pueden ser utilizadas por
 // bitácoras y autorizaciones
