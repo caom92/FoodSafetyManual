@@ -90,8 +90,8 @@ export class GMPPackingPreopPage extends NavbarPageComponent implements OnInit {
 
 
         if (role_name == "Employee") {
-          let tempLoader = this.presentLoadingCustom()
-          this.storage.get("log-" + this.log_suffix).then(
+          //let tempLoader = this.presentLoadingCustom()
+          /*this.storage.get("log-" + this.log_suffix).then(
             data => {
               if (data != null && data != undefined) {
                 this.logData.data = data
@@ -145,7 +145,7 @@ export class GMPPackingPreopPage extends NavbarPageComponent implements OnInit {
                 }
               )
             }
-          )
+          )*/
         }
       },
       error => {

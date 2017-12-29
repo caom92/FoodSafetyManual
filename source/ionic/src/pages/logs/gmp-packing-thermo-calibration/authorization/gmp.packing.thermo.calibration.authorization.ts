@@ -47,7 +47,7 @@ export class GMPPackingThermoCalibrationAuthorizationComponent extends NavbarPag
 
   @Language() lang: string
 
-  public gmpPackingThermoCalibrationForm: FormGroup = new FormBuilder().group({})
+  public captureForm: FormGroup = new FormBuilder().group({})
 
   logHeaderData = {
     zone_name: null,
@@ -74,12 +74,12 @@ export class GMPPackingThermoCalibrationAuthorizationComponent extends NavbarPag
 
     this.assignHeaderData()
 
-    this.gmpPackingThermoCalibrationForm = this._fb.group({
+    this.captureForm = this._fb.group({
       report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
       time: [this.log.time, [Validators.required, Validators.minLength(1)]],
       items: this._fb.array([])
     })
-    const control = <FormArray>this.gmpPackingThermoCalibrationForm.controls['items'];
+    const control = <FormArray>this.captureForm.controls['items'];
     for (let item of this.log.items) {
       control.push(this.initItem({ id: item.id, test: item.test, calibration: (item.calibration == 1) ? true : false, sanitization: (item.sanitization == 1) ? true : false, deficiencies: item.deficiencies, corrective_action: item.corrective_action }))
     }
@@ -105,8 +105,8 @@ export class GMPPackingThermoCalibrationAuthorizationComponent extends NavbarPag
   }
 
   save(model: UpdateLog) {
-    if (this.gmpPackingThermoCalibrationForm.valid) {
-      this.logService.update(this.gmpPackingThermoCalibrationForm.value, 'update-gmp-packing-thermo-calibration').then(success => {
+    if (this.captureForm.valid) {
+      this.logService.update(this.captureForm.value, 'update-gmp-packing-thermo-calibration').then(success => {
         // Si la promesa regresa como valida, quiere decir que la bitácora fue enviada con éxito
 
       }, error => {

@@ -46,7 +46,7 @@ export class GMPPackingColdRoomTempAuthorizationComponent extends NavbarPageComp
 
   @Language() lang: string
 
-  public gmpPackingColdRoomTempForm: FormGroup = new FormBuilder().group({})
+  public captureForm: FormGroup = new FormBuilder().group({})
 
   logHeaderData = {
     zone_name: null,
@@ -73,12 +73,12 @@ export class GMPPackingColdRoomTempAuthorizationComponent extends NavbarPageComp
 
     this.assignHeaderData()
 
-    this.gmpPackingColdRoomTempForm = this._fb.group({
+    this.captureForm = this._fb.group({
       report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
       time: [this.log.time, [Validators.required, Validators.minLength(1)]],
       items: this._fb.array([])
     })
-    const control = <FormArray>this.gmpPackingColdRoomTempForm.controls['items'];
+    const control = <FormArray>this.captureForm.controls['items'];
     for (let item of this.log.items) {
       control.push(this.initItem({ id: item.id, test: item.test, deficiencies: item.deficiencies, corrective_action: item.corrective_action }))
     }
@@ -102,8 +102,8 @@ export class GMPPackingColdRoomTempAuthorizationComponent extends NavbarPageComp
   }
 
   save(model: UpdateLog) {
-    if (this.gmpPackingColdRoomTempForm.valid) {
-      this.logService.update(this.gmpPackingColdRoomTempForm.value, 'update-gmp-packing-cold-room-temp').then(success => {
+    if (this.captureForm.valid) {
+      this.logService.update(this.captureForm.value, 'update-gmp-packing-cold-room-temp').then(success => {
         // Si la promesa regresa como valida, quiere decir que la bitácora fue enviada con éxito
 
       }, error => {

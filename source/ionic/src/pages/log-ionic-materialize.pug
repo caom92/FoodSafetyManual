@@ -45,7 +45,7 @@ mixin notesInput(showIcon, label, formControlName)
     ion-textarea(formControlName=formControlName)
 
 mixin fullLogWrapper()
-  ion-content
+  ion-content()&attributes(attributes)
     if block
       block
 

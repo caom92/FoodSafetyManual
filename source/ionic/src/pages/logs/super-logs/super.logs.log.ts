@@ -1,48 +1,35 @@
 import { OnInit } from '@angular/core'
-
+import { FormGroup, FormBuilder } from '@angular/forms'
 import { SuperLog } from './super.logs.log.interface'
-
 import { LogService } from '../../../services/app.logs'
 import { LoaderService } from '../../../services/app.loaders'
-import { NavController } from 'ionic-angular/navigation/nav-controller'
-import { Storage } from '@ionic/storage'
+import { LogHeaderData, LogDetails } from '../log.interfaces'
+import { ToastService } from '../../../services/app.toasts'
 
 export class SuperLogComponent implements OnInit {
   protected log: SuperLog
+  public logHeaderData: LogHeaderData = { zone_name: null, program_name: null, module_name: null, date: null, created_by: null }
+  public captureForm: FormGroup = new FormBuilder().group({})
   private suffix: string = null
+  public showLog: boolean = null
 
-  constructor(protected logService: LogService, private storage: Storage) {
+  constructor(protected logService: LogService, protected toasts: ToastService) {
 
   }
 
   public ngOnInit(): void {
-    this.storage.get("log-" + this.suffix).then(
-      data => {
-        if (data != null && data != undefined) {
-          this.log = data
-          this.initForm()
-        } else {
-          this.logService.log(this.suffix).then(success => {
-            this.log = success
-            this.initForm()
-          }, error => {
-            // Por el momento, no se necesita ninguna acción adicional en caso de
-            // un error durante la recuperación de datos, ya que este caso se maneja
-            // dentro del servicio de inventarios
-          })
-        }
-      },
-      error => {
-        this.logService.log(this.suffix).then(success => {
-          this.log = success
-          this.initForm()
-        }, error => {
-          // Por el momento, no se necesita ninguna acción adicional en caso de
-          // un error durante la recuperación de datos, ya que este caso se maneja
-          // dentro del servicio de inventarios
-        })
-      }
-    )
+    this.logService.log(this.suffix).then(success => {
+      this.log = success
+      this.logHeaderData.zone_name = this.log.zone_name
+      this.logHeaderData.program_name = this.log.program_name
+      this.logHeaderData.module_name = this.log.module_name
+      this.initForm()
+      this.showLog = true
+    }, error => {
+      // Por el momento, no se necesita ninguna acción adicional en caso de
+      // un error durante la recuperación de datos, ya que este caso se maneja
+      // dentro del servicio de inventarios
+    })
   }
 
   /**
@@ -57,7 +44,51 @@ export class SuperLogComponent implements OnInit {
     this.suffix = suffix
   }
 
-  public initForm(): void {
+  /**
+   * Inicializa el FormGroup de la bitácora. Típicamente, se debe llamar en 2
+   * momentos: 
+   * 
+   * -Al inicializar el componente
+   * -Al obtener los datos de la bitácora, ya sea del servidor o del
+   * localStorage
+   * 
+   * Dado que se trata de un formulario diferente para cada bitácora, esta
+   * función debe redefinirse en las clases derivadas para funcionar
+   * correctamente
+   * 
+   * @memberof SuperLogComponent
+   */
 
+  public initForm(): void {
+    throw "initForm() function must be overridden in child class"
+  }
+
+  /**
+   * "Limpia" el formulario para prepararlo para una segunda entrada.
+   * 
+   * Dado que se trata de un formulario diferente para cada bitácora, esta
+   * función debe redefinirse en las clases derivadas para funcionar
+   * correctamente
+   * 
+   * @memberof SuperLogComponent
+   */
+
+  public resetForm(): void {
+    throw "resetForm() function must be overridden in child class"
+  }
+
+  public save(): void {
+    if (this.captureForm.valid) {
+      let logDetails: LogDetails = { zone_name: this.log.zone_name, program_name: this.log.program_name, module_name: this.log.module_name, log_name: this.log.log_name }
+      this.logService.send(this.captureForm.value, 'capture-' + this.suffix, logDetails).then(success => {
+        // Una vez que la promesa fue cumplida, reiniciamos el formulario
+        this.resetForm()
+      })
+    } else {
+      // Marcamos el formulario completo como "sucio" para que aparezcan los
+      // mensajes de error en la vista donde sea pertinente
+      this.logService.setAsDirty(this.captureForm)
+      this.toasts.showText("incompleteLog")
+    }
   }
 }

@@ -57,7 +57,7 @@ export class GMPPackingGlassBrittleAuthorizationComponent extends NavbarPageComp
 
   @Language() lang: string
 
-  public gmpPackingGlassBrittleForm: FormGroup = new FormBuilder().group({})
+  public captureForm: FormGroup = new FormBuilder().group({})
 
   logHeaderData = {
     zone_name: null,
@@ -84,13 +84,13 @@ export class GMPPackingGlassBrittleAuthorizationComponent extends NavbarPageComp
 
     this.assignHeaderData()
 
-    this.gmpPackingGlassBrittleForm = this._fb.group({
+    this.captureForm = this._fb.group({
       report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
       time: [this.log.time, [Validators.required, Validators.minLength(1)]],
       notes: [this.log.notes, [Validators.required, Validators.minLength(1)]],
       areas: this._fb.array([])
     })
-    const control = <FormArray>this.gmpPackingGlassBrittleForm.controls['areas'];
+    const control = <FormArray>this.captureForm.controls['areas'];
     for (let area of this.log.areas) {
       let itemControl = []
       for (let item of area.items) {
@@ -123,8 +123,8 @@ export class GMPPackingGlassBrittleAuthorizationComponent extends NavbarPageComp
   }
 
   save(model: UpdateLog) {
-    if (this.gmpPackingGlassBrittleForm.valid) {
-      this.logService.update(this.gmpPackingGlassBrittleForm.value, 'update-gmp-packing-glass-brittle').then(success => {
+    if (this.captureForm.valid) {
+      this.logService.update(this.captureForm.value, 'update-gmp-packing-glass-brittle').then(success => {
         // Si la promesa regresa como valida, quiere decir que la bitácora fue enviada con éxito
 
       }, error => {

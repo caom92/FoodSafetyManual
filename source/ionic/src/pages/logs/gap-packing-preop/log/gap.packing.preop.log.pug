@@ -2,36 +2,15 @@ include ../../../logmaster-common-mixins.pug
 include ../../../log-ionic-materialize.pug
 
 +fullLogWrapper()
-  log-header([log]="logHeaderData")
-  form([formGroup]='gapPackingPreopForm', (ngSubmit)='save(myForm)')
-    gap-packing-preop-area(*ngFor='let area of log.areas.logs; let i=index', [area]='area', [actions]='log.areas.corrective_actions', [group]='gapPackingPreopForm.controls.areas.controls[i]')
-    +card()
-      +cardHeader("{{ 'Log.complementary_information' | translate:lang }}")
-      +cardContent()
-        +textArea("{{ 'Log.notes_of' | translate:lang }} {{log.log_name}}", "clipboard", "notes")
-        +errorMessage('!gapPackingPreopForm.controls.notes.valid && gapPackingPreopForm.controls.notes.dirty', "{{ 'LogErrors.gmp-packing-preop.comment_length' | translate:lang }}")
-        +textArea("{{ 'Log.external_link_of' | translate:lang }} {{log.log_name}}", "ios-link", "album_url")
-        +errorMessage('!gapPackingPreopForm.controls.album_url.valid && gapPackingPreopForm.controls.album_url.dirty', "{{ 'LogErrors.gmp-packing-preop.album_length' | translate:lang }}")
-    +sendLogButton("{{ 'Log.send_report' | translate:lang }}")
-
-//-ion-content
-  form([formGroup]='gapPackingPreopForm', (ngSubmit)='save(myForm)')
-    gap-packing-preop-area(*ngFor='let area of log.areas.logs; let i=index', [area]='area', [actions]='log.areas.corrective_actions', [group]='gapPackingPreopForm.controls.areas.controls[i]')
-    ion-grid
-      ion-row
-        ion-col
-          | {{ 'Log.complementary_information' | translate:lang }}
-      ion-row
-        ion-col
-          ion-item
-            ion-label(color='primary', floating) {{ 'Log.notes_of' | translate:lang }} {{log.log_name}}
-            ion-textarea(formControlName='notes')
-      ion-row
-        ion-col
-          ion-item
-            ion-label(color='primary', floating) {{ 'Log.external_link_of' | translate:lang }} {{log.log_name}}
-            ion-textarea(formControlName='album_url')
-    div(text-center)
-      button(ion-button, icon-end, round)
-        | {{ 'Log.send_report' | translate:lang }}
-        ion-icon(name='send')
+  div(*ngIf="showLog == true")()
+    log-header([log]="logHeaderData")
+    form([formGroup]='captureForm', (ngSubmit)='save(myForm)')
+      gap-packing-preop-area(*ngFor='let area of log.areas.logs; let i=index', [area]='area', [actions]='log.areas.corrective_actions', [group]='captureForm.controls.areas.controls[i]')
+      +card()
+        +cardHeader("{{ 'Log.complementary_information' | translate:lang }}")
+        +cardContent()
+          +textArea("{{ 'Log.notes_of' | translate:lang }} {{log.log_name}}", "clipboard", "notes")
+          +errorMessage('!captureForm.controls.notes.valid && captureForm.controls.notes.dirty', "{{ 'LogErrors.gmp-packing-preop.comment_length' | translate:lang }}")
+          +textArea("{{ 'Log.external_link_of' | translate:lang }} {{log.log_name}}", "ios-link", "album_url")
+          +errorMessage('!captureForm.controls.album_url.valid && captureForm.controls.album_url.dirty', "{{ 'LogErrors.gmp-packing-preop.album_length' | translate:lang }}")
+      +sendLogButton("{{ 'Log.send_report' | translate:lang }}")

@@ -25,7 +25,7 @@ import { LogService } from '../../../../services/app.logs'
 export class GMPPackingPreopAuthorizationComponent extends NavbarPageComponent implements OnInit {
   @Input() log: Authorization =  { report_id: null, created_by: null, approved_by: null, creation_date: null, approval_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, notes: null, album_url: null, areas: { corrective_actions: [{ id: null, code: null, en: null, es: null }], logs: [{ id: null, name: null, person_performing_sanitation: null, notes: null, time: null, types: [{ id: null, en: null, es: null, items: [{ id: null, order: null, name: null, status: null, corrective_action_id: null, corrective_action: null, comment: null }] }] }] } }
   @Language() lang: string
-  public gmpPackingPreopForm: FormGroup = new FormBuilder().group({})
+  public captureForm: FormGroup = new FormBuilder().group({})
 
   logHeaderData = {
     zone_name: null,
@@ -52,13 +52,13 @@ export class GMPPackingPreopAuthorizationComponent extends NavbarPageComponent i
 
     this.assignHeaderData()
 
-    this.gmpPackingPreopForm = this._fb.group({
+    this.captureForm = this._fb.group({
       report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
       notes: [this.log.notes, [Validators.required, Validators.minLength(1)]],
       album_url: [this.log.album_url, [Validators.required, Validators.minLength(1)]],
       areas: this._fb.array([])
     })
-    const control = <FormArray>this.gmpPackingPreopForm.controls['areas'];
+    const control = <FormArray>this.captureForm.controls['areas'];
     for (let area of this.log.areas.logs) {
       let itemControl = []
       for (let type of area.types) {
@@ -98,8 +98,8 @@ export class GMPPackingPreopAuthorizationComponent extends NavbarPageComponent i
   }
 
   save(model: UpdateLog) {
-    if (this.gmpPackingPreopForm.valid) {
-      this.logService.update(this.gmpPackingPreopForm.value, 'update-gmp-packing-preop').then(success => {
+    if (this.captureForm.valid) {
+      this.logService.update(this.captureForm.value, 'update-gmp-packing-preop').then(success => {
         // Si la promesa regresa como valida, quiere decir que la bitácora fue enviada con éxito
 
       }, error => {

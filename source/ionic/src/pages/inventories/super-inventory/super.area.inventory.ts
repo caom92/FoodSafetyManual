@@ -86,6 +86,6 @@ export class SuperAreaInventoryComponent implements OnInit, OnDestroy {
    */
 
   public checkEmptyInventory(): boolean {
-    throw "checkEmptyInventory() function must be overridden in child class" + this.constructor.toString().match(/\w+/g)[1]
+    throw "checkEmptyInventory() function must be overridden in child class"
   }
 }

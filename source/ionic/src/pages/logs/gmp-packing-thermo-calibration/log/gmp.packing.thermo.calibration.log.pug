@@ -1,10 +1,11 @@
 include ../../../log-ionic-materialize.pug
 
 +fullLogWrapper()
-  log-header([log]="logHeaderData")
-  form([formGroup]='gmpPackingThermoCalibrationForm', (ngSubmit)='save(myForm)')
-    +card()
-      +cardContent()
-        +timeInput(true, "{{ 'Log.time' | translate:lang }}", "time")      
-    gmp-packing-thermo-calibration-item(*ngFor='let item of log.items; let i = index', [item]='item', [itemGroup]='gmpPackingThermoCalibrationForm.controls.items.controls[i]')
-    +sendLogButton("{{ 'Log.send_report' | translate:lang }}")
+  div(*ngIf="showLog == true")()
+    log-header([log]="logHeaderData")
+    form([formGroup]='captureForm', (ngSubmit)='save(myForm)')
+      +card()
+        +cardContent()
+          +timeInput(true, "{{ 'Log.time' | translate:lang }}", "time")      
+      gmp-packing-thermo-calibration-item(*ngFor='let item of log.items; let i = index', [item]='item', [itemGroup]='captureForm.controls.items.controls[i]')
+      +sendLogButton("{{ 'Log.send_report' | translate:lang }}")

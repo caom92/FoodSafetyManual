@@ -55,7 +55,7 @@ export class GMPPackingScissorsKnivesAuthorizationComponent extends NavbarPageCo
 
   @Language() lang: string
 
-  public gmpPackingScissorsKnivesForm: FormGroup = new FormBuilder().group({})
+  public captureForm: FormGroup = new FormBuilder().group({})
 
   logHeaderData = {
     zone_name: null,
@@ -82,12 +82,12 @@ export class GMPPackingScissorsKnivesAuthorizationComponent extends NavbarPageCo
 
     this.assignHeaderData()
 
-    this.gmpPackingScissorsKnivesForm = this._fb.group({
+    this.captureForm = this._fb.group({
       report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
       notes: [this.log.notes, [Validators.required, Validators.minLength(1)]],
       items: this._fb.array([])
     })
-    const control = <FormArray>this.gmpPackingScissorsKnivesForm.controls['items'];
+    const control = <FormArray>this.captureForm.controls['items'];
     for (let item of this.log.items) {
       control.push(this.initItem({id:item.id,time:item.time,approved: (item.approved == 1) ? true : false,condition:(item.condition == 1) ? true : false,is_sanitized:(item.is_sanitized == 1) ? true : false,corrective_action:item.corrective_action}))
     }
@@ -113,8 +113,8 @@ export class GMPPackingScissorsKnivesAuthorizationComponent extends NavbarPageCo
   }
 
   save(model: UpdateLog) {
-    if (this.gmpPackingScissorsKnivesForm.valid) {
-      this.logService.update(this.gmpPackingScissorsKnivesForm.value, 'update-gmp-packing-scissors-knives').then(success => {
+    if (this.captureForm.valid) {
+      this.logService.update(this.captureForm.value, 'update-gmp-packing-scissors-knives').then(success => {
         // Si la promesa regresa como valida, quiere decir que la bitácora fue enviada con éxito
 
       }, error => {

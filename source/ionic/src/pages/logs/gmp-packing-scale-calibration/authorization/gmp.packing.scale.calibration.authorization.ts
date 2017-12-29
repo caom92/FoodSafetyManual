@@ -66,7 +66,7 @@ export class GMPPackingScaleCalibrationAuthorizationComponent extends NavbarPage
 
   @Language() lang: string
 
-  public gmpPackingScaleCalibrationForm: FormGroup = new FormBuilder().group({})
+  public captureForm: FormGroup = new FormBuilder().group({})
 
   logHeaderData = {
     zone_name: null,
@@ -93,13 +93,13 @@ export class GMPPackingScaleCalibrationAuthorizationComponent extends NavbarPage
 
     this.assignHeaderData()
 
-    this.gmpPackingScaleCalibrationForm = this._fb.group({
+    this.captureForm = this._fb.group({
       report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
       notes: [this.log.notes, [Validators.required, Validators.minLength(1)]],
       corrective_action: [this.log.corrective_action, [Validators.required, Validators.minLength(1)]],
       types: this._fb.array([])
     })
-    const control = <FormArray>this.gmpPackingScaleCalibrationForm.controls['types'];
+    const control = <FormArray>this.captureForm.controls['types'];
     for (let type of this.log.types.scales) {
       let itemControl = []
       for (let item of type.items) {
@@ -136,8 +136,8 @@ export class GMPPackingScaleCalibrationAuthorizationComponent extends NavbarPage
   }
 
   save(model: UpdateLog) {
-    if (this.gmpPackingScaleCalibrationForm.valid) {
-      this.logService.update(this.gmpPackingScaleCalibrationForm.value, 'update-gmp-packing-scale-calibration').then(success => {
+    if (this.captureForm.valid) {
+      this.logService.update(this.captureForm.value, 'update-gmp-packing-scale-calibration').then(success => {
         // Si la promesa regresa como valida, quiere decir que la bitácora fue enviada con éxito
 
       }, error => {
