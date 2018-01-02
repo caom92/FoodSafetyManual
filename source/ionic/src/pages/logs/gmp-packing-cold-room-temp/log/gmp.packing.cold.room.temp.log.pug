@@ -1,7 +1,7 @@
 include ../../../log-ionic-materialize.pug
 
 +fullLogWrapper()
-  div(*ngIf="showLog == true")
+  div(*ngIf="showLog == true || showLog == undefined")
     log-header([log]="logHeaderData")
     form([formGroup]='captureForm', (ngSubmit)='save(myForm)')
       +card()

@@ -1,7 +1,7 @@
 include ../../../log-ionic-materialize.pug
 
 +fullLogWrapper()
-  div(*ngIf="showLog == true")()
+  div(*ngIf="showLog == true || showLog == undefined")()
     log-header([log]="logHeaderData")
     form([formGroup]='captureForm', (ngSubmit)='save(myForm)')
       gmp-packing-scissors-knives-item(*ngFor='let item of log.items; let i = index', [item]='item', [itemGroup]='captureForm.controls.items.controls[i]')

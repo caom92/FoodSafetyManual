@@ -16,7 +16,7 @@ import { ReportTab } from '../../reports/reports'
 
 import { NavbarPageComponent } from '../../super-components/navbar.component'
 
-import { GMPPackingPreopLogComponent } from './log/gmp.packing.preop.log'
+import { GMPPackingPreopLogComponent } from '../gmp-packing-preop/log/gmp.packing.preop.log'
 import { GMPPackingHandWashingLogComponent } from '../gmp-packing-hand-washing/log/gmp.packing.hand.washing.log'
 import { GMPPackingGlassBrittleLogComponent } from '../gmp-packing-glass-brittle/log/gmp.packing.glass.brittle.log'
 import { GMPPackingScaleCalibrationLogComponent } from '../gmp-packing-scale-calibration/log/gmp.packing.scale.calibration.log'
@@ -26,8 +26,8 @@ import { GMPPackingThermoCalibrationLogComponent } from '../gmp-packing-thermo-c
 import { GMPPackingColdRoomTempLogComponent } from '../gmp-packing-cold-room-temp/log/gmp.packing.cold.room.temp.log'
 
 @Component({
-  selector: 'gmp-packing-preop-page',
-  templateUrl: 'gmp.packing.preop.html',
+  selector: 'log-tabs-page',
+  templateUrl: 'log.tabs.page.html',
   providers: [
     BackendService,
     TranslationService,
@@ -35,7 +35,7 @@ import { GMPPackingColdRoomTempLogComponent } from '../gmp-packing-cold-room-tem
   ]
 })
 
-export class GMPPackingPreopPage extends NavbarPageComponent implements OnInit {
+export class LogTabsPage extends NavbarPageComponent implements OnInit {
   @Language() lang: string
 
   logTitle: string = ""
@@ -86,66 +86,6 @@ export class GMPPackingPreopPage extends NavbarPageComponent implements OnInit {
           case 'gmp-packing-cold-room-temp': this.tab3Root = GMPPackingColdRoomTempLogComponent
             break
           default: this.tab3Root = GMPPackingPreopLogComponent
-        }
-
-
-        if (role_name == "Employee") {
-          //let tempLoader = this.presentLoadingCustom()
-          /*this.storage.get("log-" + this.log_suffix).then(
-            data => {
-              if (data != null && data != undefined) {
-                this.logData.data = data
-                tempLoader.dismiss()
-              } else {
-                this.server.update(
-                  'log-' + this.log_suffix,
-                  new FormData,
-                  (response: any) => {
-                    if (response.meta.return_code == 0) {
-                      if (response.data) {
-                        this.logData.data = response.data
-                        this.storage.set("log-" + this.log_suffix, response.data)
-                        tempLoader.dismiss()
-                      }
-                    } else {
-                      tempLoader.dismiss()
-                      this.navCtrl.pop()
-                    }
-                  },
-                  (error: any, caught: Observable<void>) => {
-                    tempLoader.dismiss()
-                    this.toastService.showText("serverUnreachable")
-                    this.navCtrl.pop()
-                    return []
-                  }
-                )
-              }
-            },
-            error => {
-              this.server.update(
-                'log-' + this.log_suffix,
-                new FormData,
-                (response: any) => {
-                  if (response.meta.return_code == 0) {
-                    if (response.data) {
-                      this.logData.data = response.data
-                      this.storage.set("log-" + this.log_suffix, response.data)
-                      tempLoader.dismiss()
-                    }
-                  } else {
-                    tempLoader.dismiss()
-                    this.navCtrl.pop()
-                  }
-                },
-                (error: any, caught: Observable<void>) => {
-                  tempLoader.dismiss()
-                  this.toastService.showText("serverUnreachable")
-                  this.navCtrl.pop()
-                  return []
-                }
-              )
-            }
-          )*/
         }
       },
       error => {

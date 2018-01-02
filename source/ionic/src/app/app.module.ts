@@ -17,7 +17,7 @@ import { LogHeaderComponent } from '../pages/logs/log-header/log.header'
 
 // GMP Packing Preop
 
-import { GMPPackingPreopPage } from '../pages/logs/gmp-packing-preop/gmp.packing.preop'
+import { LogTabsPage } from '../pages/logs/log-tabs/log.tabs.page'
 import { GMPPackingPreopLogComponent } from '../pages/logs/gmp-packing-preop/log/gmp.packing.preop.log'
 import { GMPPackingPreopAreaComponent } from '../pages/logs/gmp-packing-preop/area/gmp.packing.preop.area'
 import { GMPPackingPreopTypeComponent } from '../pages/logs/gmp-packing-preop/type/gmp.packing.preop.type'
@@ -243,7 +243,7 @@ import { AreaManagerService } from '../services/app.area.manager'
     AuthorizationCardListComponent,
     PendingCardComponent,
     PendingCardListComponent,
-    GMPPackingPreopPage,
+    LogTabsPage,
     GMPPackingPreopLogComponent,
     GMPPackingPreopAreaComponent,
     GMPPackingPreopTypeComponent,
@@ -392,7 +392,7 @@ import { AreaManagerService } from '../services/app.area.manager'
     AuthorizationCardListComponent,
     PendingCardComponent,
     PendingCardListComponent,
-    GMPPackingPreopPage,
+    LogTabsPage,
     GMPPackingPreopLogComponent,
     GMPPackingPreopAreaComponent,
     GMPPackingPreopTypeComponent,

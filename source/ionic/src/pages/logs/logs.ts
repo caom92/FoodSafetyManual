@@ -10,7 +10,7 @@ import { ToastService } from '../../services/app.toasts'
 
 import { NavbarPageComponent } from '../super-components/navbar.component'
 
-import { GMPPackingPreopPage } from './gmp-packing-preop/gmp.packing.preop'
+import { LogTabsPage } from './log-tabs/log.tabs.page'
 
 import { InventoryLoaderComponent } from '../inventories/inventories'
 
@@ -74,7 +74,7 @@ export class LogsPage extends NavbarPageComponent {
         var tempArray = data[data.zones[0].name][this.selectedProgram.code].names[this.selectedModule.title]
         if(this.selectedProgram.target == "log"){
           if (tempArray[item.title].suffix == "gmp-packing-preop" || tempArray[item.title].suffix == "gmp-packing-hand-washing" || tempArray[item.title].suffix == "gmp-packing-glass-brittle" || tempArray[item.title].suffix == "gmp-packing-scale-calibration" || tempArray[item.title].suffix == "gap-packing-preop" || tempArray[item.title].suffix == "gmp-packing-scissors-knives" || tempArray[item.title].suffix == "gmp-packing-thermo-calibration" || tempArray[item.title].suffix == "gmp-packing-cold-room-temp") {
-            this.navCtrl.push(GMPPackingPreopPage, { log_suffix: tempArray[item.title].suffix, log_title: item.title })
+            this.navCtrl.push(LogTabsPage, { log_suffix: tempArray[item.title].suffix, log_title: item.title })
           } else {
             this.toastService.showText("notAvailableInMobile")
           }
