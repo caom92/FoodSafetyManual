@@ -214,6 +214,8 @@ import { TranslationModule, LocaleService, TranslationService as TService } from
 import { DynamicComponentContainerDirective } from '../directives/dynamic.container'
 import { HideFabDirective } from "../directives/hide.fab";
 
+import { AuthorizationLoader } from '../pages/authorizations/authorization-loader/authorization.loader.component'
+
 // Services
 
 import { DateTimeService } from '../services/app.time'
@@ -241,6 +243,7 @@ import { AreaManagerService } from '../services/app.area.manager'
     LogHeaderComponent,
     AuthorizationCardComponent,
     AuthorizationCardListComponent,
+    AuthorizationLoader,
     PendingCardComponent,
     PendingCardListComponent,
     LogTabsPage,
@@ -390,6 +393,7 @@ import { AreaManagerService } from '../services/app.area.manager'
     LogHeaderComponent,
     AuthorizationCardComponent,
     AuthorizationCardListComponent,
+    AuthorizationLoader,
     PendingCardComponent,
     PendingCardListComponent,
     LogTabsPage,

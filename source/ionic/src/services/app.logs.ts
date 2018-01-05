@@ -140,9 +140,9 @@ export class LogService {
       let flatObj = this.flatten(filled_log)
 
       for (let key in flatObj) {
-        if (flatObj[key] == true) {
+        if (flatObj[key] === true) {
           form_data.append(key, "1")
-        } else if (flatObj[key] == false) {
+        } else if (flatObj[key] === false) {
           form_data.append(key, "0")
         } else {
           form_data.append(key, flatObj[key])
@@ -215,6 +215,76 @@ export class LogService {
     return sentPromise
   }
 
+  /**
+   * Solicita al servidor un reporte de autorización, el cual contiene el estado
+   * de una bitácora enviada por un empleado en espera por la aprobación de un
+   * supervisor.
+   * 
+   * Utilización:
+   * 
+   * ```ts
+   * // Añadir servicio en el constructor
+   * 
+   * constructor(private logService: LogService){
+   * }
+   * 
+   * // Para realizar una solicitud de reporte de autorización
+   * 
+   * this.logService.authorization(suffix, report_id).then(success => {
+   * 
+   * }, error => {
+   * 
+   * })
+   * 
+   * ```
+   * 
+   * @param {string} suffix - El sufijo de la bitácora a solicitar
+   * @param {number} report_id - El ID del reporte a solicitar
+   * @returns {Promise<any>}
+   * @memberof LogService
+   */
+
+  public authorization(suffix: string, report_id: number): Promise<any> {
+    let authorizationPromise = new Promise<any>((resolve, reject) => {
+      let authorizationLoader = this.loaderService.koiLoader("")
+      let authorizationForm = new FormData()
+
+      authorizationForm.append("report_id", String(report_id))
+
+      authorizationLoader.present()
+      this.server.update(
+        'authorization-report-' + suffix,
+        authorizationForm,
+        (response: any) => {
+          if (response.meta.return_code == 0) {
+            if (response.data) {
+              resolve(response.data)
+              authorizationLoader.dismiss()
+            } else {
+              reject("bad request")
+              authorizationLoader.dismiss()
+              this.app.getRootNav().pop()
+              this.toastService.showText("serverUnreachable")
+            }
+          } else {
+            reject("bad request")
+            authorizationLoader.dismiss()
+            this.app.getRootNav().pop()
+            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+          }
+        }, (error: any, caught: Observable<void>) => {
+          reject("network error")
+          authorizationLoader.dismiss()
+          this.app.getRootNav().pop()
+          this.toastService.showText("serverUnreachable")
+          return []
+        }
+      )
+    })
+
+    return authorizationPromise
+  }
+
   update(data: any, service: string) {
     let updatePromise = new Promise<string>((resolve, reject) => {
       let loader = this.loaderService.koiLoader("")
@@ -248,8 +318,6 @@ export class LogService {
           }
           // Sin importar el resultado, desactivamos el spinner
           loader.dismiss()
-          console.log(response)
-          console.log(JSON.stringify(response))
         }, (error: any, caught: Observable<void>) => {
           // TODO Mensaje de error
           reject()

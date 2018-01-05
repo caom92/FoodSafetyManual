@@ -27,12 +27,7 @@ import { GMPPackingColdRoomTempLogComponent } from '../gmp-packing-cold-room-tem
 
 @Component({
   selector: 'log-tabs-page',
-  templateUrl: 'log.tabs.page.html',
-  providers: [
-    BackendService,
-    TranslationService,
-    ToastService
-  ]
+  templateUrl: 'log.tabs.page.html'
 })
 
 export class LogTabsPage extends NavbarPageComponent implements OnInit {

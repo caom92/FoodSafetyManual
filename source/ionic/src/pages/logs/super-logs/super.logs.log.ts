@@ -11,7 +11,7 @@ export class SuperLogComponent implements OnInit {
   public logHeaderData: LogHeaderData = { zone_name: null, program_name: null, module_name: null, date: null, created_by: null }
   public captureForm: FormGroup = new FormBuilder().group({})
   private suffix: string = null
-  public showLog: boolean = null
+  public showLog: boolean = false
 
   constructor(protected logService: LogService, protected toasts: ToastService) {
 
@@ -36,7 +36,7 @@ export class SuperLogComponent implements OnInit {
     }, error => {
       // Por el momento, no se necesita ninguna acción adicional en caso de
       // un error durante la recuperación de datos, ya que este caso se maneja
-      // dentro del servicio de inventarios
+      // dentro del servicio de bitácoras
     })
   }
 
