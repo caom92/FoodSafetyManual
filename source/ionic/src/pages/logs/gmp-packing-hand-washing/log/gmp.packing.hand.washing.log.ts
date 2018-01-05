@@ -8,7 +8,6 @@ import { CaptureItem } from '../interfaces/gmp.packing.hand.washing.capture.inte
 import { Log } from '../interfaces/gmp.packing.hand.washing.log.interface'
 
 import { DateTimeService } from '../../../../services/app.time'
-import { TranslationService } from '../../../../services/app.translation'
 import { ToastService } from '../../../../services/app.toasts'
 import { LogService } from '../../../../services/app.logs'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
@@ -24,7 +23,6 @@ export class GMPPackingHandWashingLogComponent extends SuperLogComponent impleme
 
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
-    private translationService: TranslationService,
     logService: LogService,
     toasts: ToastService) {
     super(logService, toasts)
