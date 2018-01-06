@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core'
+import { Component } from '@angular/core'
 import { NavController, NavParams, Select, Events } from 'ionic-angular'
 import { Storage } from '@ionic/storage'
 
@@ -16,12 +16,7 @@ import { InventoryLoaderComponent } from '../inventories/inventories'
 
 @Component({
   selector: 'logs',
-  templateUrl: 'logs.html',
-  providers: [
-    BackendService,
-    TranslationService,
-    ToastService
-  ]
+  templateUrl: 'logs.html'
 })
 
 export class LogsPage extends NavbarPageComponent {
