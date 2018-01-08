@@ -14,8 +14,15 @@ import { LoaderService } from './app.loaders'
 import { BackendService } from './app.backend'
 import { LogDetails } from '../pages/logs/log.interfaces'
 
-// Servicio que agrupa las funciones en común que pueden ser utilizadas por
-// bitácoras y autorizaciones
+/**
+ * LogService, también referido como el servicio de bitácoras, es el servicio
+ * encargado de realizar las peticiones al servidor relacionadas con las
+ * bitácoras, tanto las enviadas por empleados como aquellas modificadas por los
+ * supervisores previo a su autorización
+ * 
+ * @export
+ * @class LogService
+ */
 
 @Injectable()
 export class LogService {
@@ -28,38 +35,68 @@ export class LogService {
 
   }
 
+  /**
+   * Este servicio accede a las bitácoras pendientes (aquellas que no pudieron
+   * ser enviadas por un error en la red) del usuario con rol de Empleado
+   * conectado, e intenta reenviarla. En caso de éxito, retira la bitácora de la
+   * lista de pendientes. En caso de fallo, notifica, la función de envío
+   * notifica al usuario
+   * 
+   * @param {number} index - El índice de la bitácora a enviar
+   * @memberof LogService
+   */
+
   processPendingLog(index: number) {
     this.storage.get("user_id").then(user_id => {
       if (user_id != null && user_id != undefined) {
         this.storage.get("pendingLogQueue").then((pending) => {
           if (pending != undefined && pending != null) {
             if (pending[user_id] != null && pending[user_id] != undefined) {
-              let logToProcess: PendingLog = pending[user_id][index]
-              this.send(logToProcess.log, logToProcess.service, { zone_name: logToProcess.zone_name, program_name: logToProcess.program_name, module_name: logToProcess.module_name, log_name: logToProcess.log_name }, false).then(success => {
-                pending[user_id].splice(index, 1)
-                this.storage.set("pendingLogQueue", pending)
-                this.events.publish("log:resent", index)
-              }, error => {
-                // TODO: Ni se, en si no tenemos que hacer nada v:
-                console.log("fail")
-                console.log(error)
-              })
+              if (pending[user_id][index] != undefined && pending[user_id][index] != null) {
+                let logToProcess: PendingLog = pending[user_id][index]
+                this.send(logToProcess.log, logToProcess.service, { zone_name: logToProcess.zone_name, program_name: logToProcess.program_name, module_name: logToProcess.module_name, log_name: logToProcess.log_name }, false).then(success => {
+                  pending[user_id].splice(index, 1)
+                  this.storage.set("pendingLogQueue", pending)
+                  this.events.publish("log:resent", index)
+                }, error => {
+                  // TODO: Ni se, en si no tenemos que hacer nada v:
+                  console.log("fail")
+                  console.log(error)
+                })
+              } else {
+                throw "Error while processing pending log: log index is out of range"
+              }
+            } else {
+              throw "Error while processing pending log: user has no pending logs"
             }
+          } else {
+            throw "Error while processing pending log: no pending logs in storage"
           }
         })
       }
     })
   }
 
+  /**
+   * Realiza una petición al servidor/almacenamiento local para recuperar los
+   * datos de una bitácora. En caso de que recupere los datos del servidor,
+   * también guarda en el almacenamiento local una copia de estos datos para
+   * acelerar futuras peticiones
+   * 
+   * @param {string} suffix - Sufijo de la bitácora, utilizado para invocar el
+   * servicio de bitácora correspondiente a una bitácora específica
+   * @returns {Promise<any>}
+   * @memberof LogService
+   */
+
   public log(suffix: string): Promise<any> {
     let logPromise = new Promise<any>((resolve, reject) => {
       let logLoader = this.loaderService.koiLoader("")
-      
+
       logLoader.present()
       this.storage.get("log-" + suffix).then(
         data => {
           if (data != null && data != undefined) {
-            console.log("recuperado del servidor")
             resolve(data)
             logLoader.dismiss()
           } else {
@@ -131,7 +168,18 @@ export class LogService {
     return logPromise
   }
 
-  public send(data: any, service: string, details: LogDetails, isFirstTry: boolean = true): Promise<string> {
+  /**
+   * Envía una petición de captura al servidor. 
+   * 
+   * @param {*} data 
+   * @param {string} service 
+   * @param {LogDetails} details 
+   * @param {boolean} [isFirstTry=true] 
+   * @returns {Promise<string>} 
+   * @memberof LogService
+   */
+
+  public send(data: any, suffix: string, details: LogDetails, isFirstTry: boolean = true): Promise<string> {
     let sentPromise = new Promise<string>((resolve, reject) => {
       let loader = this.loaderService.koiLoader("")
       let form_data = new FormData()
@@ -151,7 +199,7 @@ export class LogService {
 
       loader.present()
       this.server.update(
-        service,
+        'capture-' + suffix,
         form_data,
         (response: any) => {
           if (response.meta.return_code == 0) {
@@ -174,7 +222,7 @@ export class LogService {
               console.log("Pending queue: ")
               console.log(val)
               let pendingLog: { service: string, log: any, zone_name: string, program_name: string, module_name: string, log_name: string } = { service: null, log: null, zone_name: null, program_name: null, module_name: null, log_name: null }
-              pendingLog.service = service
+              pendingLog.service = suffix
               pendingLog.log = filled_log
               pendingLog.zone_name = details.zone_name
               pendingLog.program_name = details.program_name
