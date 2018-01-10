@@ -11,7 +11,7 @@ import { HideFabDirective } from '../../../../directives/hide.fab'
 import { GAPPackingPreopAddItemComponent } from '../add-item/gap.packing.preop.add.item'
 
 import { BackendService } from '../../../../services/app.backend'
-import { ToastService } from '../../../../services/app.toasts'
+import { ToastsService } from '../../../../services/app.toasts'
 import { LoaderService } from '../../../../services/app.loaders'
 
 @Component({
@@ -19,7 +19,7 @@ import { LoaderService } from '../../../../services/app.loaders'
   templateUrl: './gap.packing.preop.inventory.html',
   providers: [
     BackendService,
-    ToastService,
+    ToastsService,
     LoaderService
   ]
 })
@@ -39,7 +39,7 @@ export class GAPPackingPreopInventoryComponent implements OnInit {
 
   scrollAllowed: boolean = true
 
-  constructor(public events: Events, public modalController: ModalController, public server: BackendService, public navCtrl: NavController, public loaderService: LoaderService, public ts: TService, private toastService: ToastService, public app: App){
+  constructor(public events: Events, public modalController: ModalController, public server: BackendService, public navCtrl: NavController, public loaderService: LoaderService, public ts: TService, private toastService: ToastsService, public app: App){
 
   }
   

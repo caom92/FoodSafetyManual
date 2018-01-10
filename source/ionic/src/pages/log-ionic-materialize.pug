@@ -1,0 +1,153 @@
+mixin card(isHoverable)
+  ion-card(class=isHoverable ? 'hoverable' : false)&attributes(attributes)
+    if block
+      block
+
+mixin cardHeader(contents)
+  ion-card-header()&attributes(attributes)= contents
+    if block
+      block
+
+mixin cardContent()
+  ion-card-content
+    if block
+      block
+
+mixin icon()
+  ion-icon()&attributes(attributes)
+
+mixin timeInput(showIcon, label, formControlName)
+  ion-item()&attributes(attributes)
+    ion-label(color="primary")
+      if showIcon == true
+        ion-icon(name="time")
+        - label = " " + label
+      = label
+    ion-datetime(displayFormat='HH:mm', pickerFormat='HH:mm', formControlName=formControlName)
+
+mixin list()
+  ion-list
+    if block
+      block
+
+mixin listHeader(contents)
+  ion-list-header()= contents
+    if block
+      block
+
+mixin notesInput(showIcon, label, formControlName)
+  ion-item()&attributes(attributes)
+    ion-label(color='primary', floating)
+      if showIcon == true
+        ion-icon(name="clipboard")
+        - label = " " + label
+      = label
+    ion-textarea(formControlName=formControlName)
+
+mixin fullLogWrapper()
+  ion-content()&attributes(attributes)
+    if block
+      block
+
+mixin sendLogButton(label)
+  div(text-center)
+    button(ion-button, icon-end, round)
+      = label
+      ion-icon(name='send')
+
+//- User Input
+
+mixin label(label, icon, color)
+  ion-item()&attributes(attributes)
+    ion-label(color=color)
+      if (icon != null && icon != undefined && icon != false)
+        ion-icon(name=icon)
+        - label = " " + label
+      = label
+
+mixin textInput(label, icon, formControlName, type)
+  ion-item()&attributes(attributes)
+    ion-label(color='primary', floating)
+      if (icon != null && icon != undefined && icon != false)
+        ion-icon(name=icon)
+        - label = " " + label
+      = label
+    ion-input(formControlName=formControlName, type=type)
+
+mixin textInputLine(label, placeholder, icon, formControlName, type)
+  ion-item()&attributes(attributes)
+    ion-label(color='primary')
+      if (icon != null && icon != undefined && icon != false)
+        ion-icon(name=icon)
+        - label = " " + label
+      = label
+    ion-input(placeholder=placeholder, formControlName=formControlName, type=type)
+
+mixin textArea(label, icon, formControlName)
+  ion-item()&attributes(attributes)
+    ion-label(color='primary', floating)
+      if (icon != null && icon != undefined && icon != false)
+        ion-icon(name=icon)
+        - label = " " + label
+      = label
+    ion-textarea(formControlName=formControlName)
+
+mixin checkbox(label, icon, formControlName)
+  ion-item()&attributes(attributes)
+    ion-label()
+      if (icon != null && icon != undefined && icon != false)
+        ion-icon(name=icon)
+        - label = " " + label
+      = label
+    ion-checkbox(formControlName=formControlName)
+
+mixin radioGroup(label, icon, formControlName)
+  ion-list(radio-group, formControlName=formControlName)
+    if (label != null && label != undefined && label != false)
+      ion-list-header
+        if (icon != null && icon != undefined && icon != false)
+          ion-icon(name=icon)
+          - label = " " + label
+        = label
+    if block
+      block
+
+mixin radio(label, icon, value, checked, disabled)
+  ion-item
+    ion-label()
+      if (icon != null && icon != undefined && icon != false)
+        ion-icon(name=icon)
+        - label = " " + label
+      = label
+    ion-radio(disabled=disabled, [value]=value)
+
+mixin select(label, icon, formControlName, interface)
+  ion-item()&attributes(attributes)
+    ion-label()
+      if (icon != null && icon != undefined && icon != false)
+        ion-icon(name=icon)
+        - label = " " + label
+      = label
+    ion-select(formControlName=formControlName, interface=interface)
+      if block
+        block
+
+mixin option(label, value, selected, disabled)
+  ion-option([value]=value, selected=selected, disabled=disabled)&attributes(attributes)= label
+
+//- Grid
+
+mixin grid()
+  ion-grid()&attributes(attributes)
+    if block
+      block
+
+mixin row()
+  ion-row()&attributes(attributes)
+    if block
+      block
+
+mixin col()
+  ion-col()&attributes(attributes)
+    if block
+      block

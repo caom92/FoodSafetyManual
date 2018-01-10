@@ -1,37 +1,31 @@
-import { Component, Input, NgModule, OnInit } from '@angular/core'
-
+import { Component, Input, OnInit } from '@angular/core'
 import { FormGroup } from '@angular/forms'
-
 import { Language } from 'angular-l10n'
-
 import { TranslationService } from '../../../../services/app.translation'
-import { ToastService } from '../../../../services/app.toasts'
-
 import { LogArea, CorrectiveAction } from '../interfaces/gap.packing.preop.log.interface'
 
 @Component({
-    selector: 'gap-packing-preop-area',
-    templateUrl: './gap.packing.preop.area.html',
-    providers: [
-        TranslationService,
-        ToastService
-    ]
+  selector: 'gap-packing-preop-area',
+  templateUrl: './gap.packing.preop.area.html'
 })
 
 export class GAPPackingPreopAreaComponent implements OnInit {
-    @Input()
-    area: LogArea
+  @Input() area: LogArea
+  @Input() actions: Array<CorrectiveAction>
+  @Input('group') public areaForm: FormGroup
+  @Language() lang: string
+  offset: Array<number> = []
 
-    @Input()
-    actions: Array<CorrectiveAction>
+  constructor() {
 
-    @Input('group')
-    public areaForm: FormGroup
+  }
 
-    @Language() 
-    lang: string
-
-    ngOnInit(){
-
+  ngOnInit() {
+    let accumulated = 0
+    this.offset.push(accumulated)
+    for (let type of this.area.types) {
+      this.offset.push(accumulated + type.items.length)
+      accumulated = accumulated + type.items.length
     }
+  }
 }

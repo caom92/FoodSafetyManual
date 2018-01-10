@@ -1,26 +1,18 @@
-import { Component, Input, NgModule } from '@angular/core'
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
-
+import { Component, Input } from '@angular/core'
 import { Language } from 'angular-l10n'
-
-import { ReportType } from '../gmp.packing.preop.interface'
+import { ReportType } from '../interfaces/gmp.packing.preop.interface'
 
 @Component({
-    selector: '[gmp-packing-preop-report-type]',
-    templateUrl: './gmp.packing.preop.type.html'
+  selector: '[gmp-packing-preop-report-type]',
+  templateUrl: './gmp.packing.preop.type.html'
 })
 
 export class GMPPackingPreopReportTypeComponent {
-    @Input()
-    type: ReportType
+  @Input() type: ReportType
+  @Input() visible: boolean
+  @Language() lang: string
 
-    @Input()
-    visible: boolean
+  constructor() {
 
-    @Language()
-    lang: string
-
-    constructor() {
-        
-    }
+  }
 }

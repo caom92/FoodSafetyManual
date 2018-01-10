@@ -1,43 +1,21 @@
-import { Component, Input, NgModule } from '@angular/core'
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
+import { Component, Input, OnInit, OnDestroy } from '@angular/core'
 import { Events } from 'ionic-angular'
-
 import { Language } from 'angular-l10n'
-
 import { Report } from '../interfaces/gmp.packing.thermo.calibration.report.interface'
-
-import { GMPPackingThermoCalibrationReportComponent } from '../report/gmp.packing.thermo.calibration.report'
+import { SuperReportLoader } from '../../super-report/super.report.loader'
 
 @Component({
-    selector: 'gmp-packing-thermo-calibration-report-loader',
-    templateUrl: './gmp.packing.thermo.calibration.report.loader.html'
+  selector: 'gmp-packing-thermo-calibration-report-loader',
+  templateUrl: './gmp.packing.thermo.calibration.report.loader.html'
 })
 
-export class GMPPackingThermoCalibrationReportLoader {
-    @Input()
-    report: Report = null
+export class GMPPackingThermoCalibrationReportLoader extends SuperReportLoader implements OnInit, OnDestroy {
+  @Input() report: Report = null
+  @Input() activeReport: string = "any"
+  @Language() lang: string
+  showReport: boolean = false
 
-    @Input()
-    activeReport: string = "any"
-
-    @Language()
-    lang: string
-
-    showReport: boolean = false
-
-    constructor(public events: Events) {
-        events.subscribe("reportEvent", (activeReport, time) => {
-            this.activeReport = activeReport
-        })
-    }
-
-    openHTMLReport(){
-        this.showReport = true
-        this.events.publish('reportEvent', this.report.report_id, Date.now());
-    }
-
-    closeHTMLReport(){
-        this.showReport = false
-        this.events.publish('reportEvent', "any", Date.now());
-    }
+  constructor(events: Events) {
+    super(events)
+  }
 }

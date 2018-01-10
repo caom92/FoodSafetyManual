@@ -1,22 +1,17 @@
-import { Component, Input, NgModule } from '@angular/core'
-
+import { Component, Input } from '@angular/core'
 import { Language } from 'angular-l10n'
-
 import { Report } from '../interfaces/gmp.packing.glass.brittle.report.interface'
 
 @Component({
-    selector: 'gmp-packing-glass-brittle-report',
-    templateUrl: './gmp.packing.glass.brittle.report.html'
+  selector: 'gmp-packing-glass-brittle-report',
+  templateUrl: './gmp.packing.glass.brittle.report.html'
 })
 
 export class GMPPackingGlassBrittleReportComponent {
-    @Input()
-    report: Report
+  @Input() report: Report
+  @Language() lang: string
 
-    @Language()
-    lang: string
+  constructor() {
 
-    constructor() {
-        
-    }
+  }
 }

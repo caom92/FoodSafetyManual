@@ -14,7 +14,7 @@ import { PendingLog } from '../pending-card/pending.card.interface'
 import { DateTimeService } from '../../../services/app.time'
 import { BackendService } from '../../../services/app.backend'
 import { TranslationService } from '../../../services/app.translation'
-import { ToastService } from '../../../services/app.toasts'
+import { ToastsService } from '../../../services/app.toasts'
 import { LoaderService } from '../../../services/app.loaders'
 
 @Component({
@@ -24,7 +24,7 @@ import { LoaderService } from '../../../services/app.loaders'
     DateTimeService,
     BackendService,
     TranslationService,
-    ToastService,
+    ToastsService,
     LoaderService
   ]
 })
@@ -35,7 +35,7 @@ export class PendingCardListComponent extends NavbarPageComponent implements OnI
   @Input()
   logs: Array<PendingLog> = []
 
-  constructor(public navCtrl: NavController, public server: BackendService, public translationService: TranslationService, public events: Events, public ts: TService, private toastService: ToastService, public storage: Storage) {
+  constructor(public navCtrl: NavController, public server: BackendService, public translationService: TranslationService, public events: Events, public ts: TService, private toastService: ToastsService, public storage: Storage) {
     super(translationService, events, storage, server)
   }
 

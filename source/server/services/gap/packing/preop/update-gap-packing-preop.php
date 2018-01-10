@@ -86,7 +86,7 @@ $service = [
             'person_performing_sanitation' => 
               (isset($area['person_performing_sanitation']) 
               && array_key_exists('person_performing_sanitation', $area)) ? 
-                $area['person_perforing_sanitation'] : NULL
+                $area['person_performing_sanitation'] : NULL
           ],
           $request['report_id'],
           $area['id']

@@ -1,29 +1,21 @@
-export interface Report {
-    report_id: number,
-    created_by: string,
-    approved_by: string,
-    signature_path: string,
-    creation_date: string,
-    approval_date: string,
-    zone_name: string,
-    program_name: string,
-    module_name: string,
-    log_name: string,
-    time: string,
-    notes: string,
-    areas: ReportArea[]
+import { SuperReport } from "../../super-report/super.report.interface"
+
+export interface Report extends SuperReport {
+  time: string
+  notes: string
+  areas: Array<ReportArea>
 }
 
 export interface ReportArea {
-    id: number,
-    name: string,
-    items: ReportItem[]
+  id: number
+  name: string
+  items: Array<ReportItem>
 }
 
 export interface ReportItem {
-    id: number,
-    order: number,
-    name: string,
-    quantity: number,
-    status: number
+  id: number
+  order: number
+  name: string
+  quantity: number
+  status: number
 }

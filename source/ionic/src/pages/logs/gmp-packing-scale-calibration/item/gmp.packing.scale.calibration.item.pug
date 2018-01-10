@@ -1,24 +1,16 @@
-form([formGroup]='itemForm')
-  ion-grid
-    ion-row
-      ion-col
-        ion-item
-          ion-label(color='primary') {{item.name}}
-          ion-input(placeholder="{{ 'Log.reading' | translate:lang }}", formControlName='test')
-    ion-row
-      ion-col
-        ion-item
-          ion-label {{ 'Log.units' | translate:lang }}
-          ion-select(formControlName='unit_id', interface='popover')
-            ion-option(*ngFor='let unit of units', [value]='unit.id') {{unit.symbol}}
-      ion-col
-        ion-item
-          ion-label {{ 'Log.status' | translate:lang }}
-          ion-select(formControlName='status', interface='popover')
-            ion-option([value]='true') {{ 'Log.pass' | translate:lang }}
-            ion-option([value]='false') {{ 'Log.fail' | translate:lang }}
-    ion-row
-      ion-item
-        ion-label {{ 'Log.sanitized_base' | translate:lang }}
-        ion-checkbox(formControlName='is_sanitized')
-  .divider
+include ../../../log-ionic-materialize.pug
+
++card()([formGroup]='itemForm')
+  //-+cardHeader("{{item.name}}")
+  +cardContent()
+    //-+textInput("{{ 'Log.reading' | translate:lang }}", false, "test", "number")
+    +textInputLine("{{item.name}}", "{{ 'Log.reading' | translate:lang }}", false, "test", "number")
+    +row()
+      +col()
+        +select("{{ 'Log.units' | translate:lang }}", false, "unit_id", "popover")
+          +option("{{unit.symbol}}", "unit.id", false, false)(*ngFor='let unit of units')
+      +col()
+        +select("{{ 'Log.status' | translate:lang }}", false, "status", "popover")
+          +option("{{ 'Log.pass' | translate:lang }}", "true", false, false)
+          +option("{{ 'Log.fail' | translate:lang }}", "false", false, false)
+    +checkbox("{{ 'Log.sanitized_base' | translate:lang }}", false, "is_sanitized")

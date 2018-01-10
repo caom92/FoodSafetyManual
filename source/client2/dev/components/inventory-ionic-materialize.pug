@@ -1,0 +1,72 @@
+mixin inventoryItemHandler()
+  td.handle
+    i.handle(mz-icon-mdi, [align]="'center'", [icon]="'cursor-move'")
+
+mixin inventoryItemColumn(content)
+  td()= content
+
+mixin inventoryItemToggle()
+  td
+    mz-switch-container
+      input(mz-switch, type="checkbox", [(ngModel)]="toggleValue", (click)="toggleItem(item)")
+
+mixin inventoryItemWrapper()
+  if block
+    block
+
+mixin inventoryTitleHandler()
+  th
+
+mixin inventoryTitleColumn(content)
+  th()= content
+
+mixin inventoryTitleToggle()
+  th Estado
+
+mixin inventoryTitleWrapper()
+  thead
+    tr
+      if block
+        block
+
+mixin inventoryItemComponent(suffix, ngForLet, ngForSource)
+  - attributes[suffix + '-inventory-item'] = true
+  - let temp = {}
+  - temp['let-' + ngForLet] = true
+  ng-template(ngFor, [ngForOf]=ngForSource)&attributes(temp)
+    tr()&attributes(attributes)
+
+mixin inventoryList(suffix)
+  - attributes[suffix + "-inventory-list"] = true
+  tbody()&attributes(attributes)
+
+mixin inventoryListMultiplier(ngForLet, ngForSource)
+  - let temp = {}
+  - temp['let-' + ngForLet] = true
+  ng-template(ngFor, [ngForOf]=ngForSource)&attributes(temp)
+    if block
+      block
+
+mixin inventoryListWrapper()
+  if block
+    block
+
+mixin inventoryAddButton()
+  //- Empty
+
+mixin inventoryEmptyMessage()
+  div(*ngIf='emptyInventoryFlag == true')
+    h3
+      i.red-text(mz-icon-mdi, [align]="'center'", [icon]="'alert-circle'", [size]="'42px'")
+      | No items for this log. Add some by using the 
+      i.green-text(mz-icon-mdi, [align]="'center'", [icon]="'plus-circle'", [size]="'36px'")
+      |  button below
+
+mixin inventoryListsWrapper()
+  table(*ngIf='emptyInventoryFlag == false')
+    if block
+      block
+
+mixin inventoryWrapper()
+  if block
+    block

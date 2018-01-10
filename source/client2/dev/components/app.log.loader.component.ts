@@ -10,7 +10,7 @@ import { BackendService } from '../services/app.backend'
 import { LanguageService } from '../services/app.language'
 
 @Component({
-    templateUrl: '../templates/app.log.loader.component.html'
+  templateUrl: '../templates/app.log.loader.component.html'
 })
 
 export class LogLoaderComponent implements OnInit{
@@ -26,6 +26,7 @@ export class LogLoaderComponent implements OnInit{
   }
 
   ngOnInit(){
+    console.log("Init of app.log.loader.component.ts")
     this.reportDateRangeForm = this._fb.group({
       start_date: [this.start_date, [Validators.required, Validators.minLength(1)]],
       end_date: [this.end_date, [Validators.required, Validators.minLength(1)]]
@@ -57,24 +58,6 @@ export class LogLoaderComponent implements OnInit{
           }
         } else {
                             
-        }
-      }
-    )
-
-    this.server.update(
-      'log-' + this.suffix, 
-      new FormData, 
-      (response: any) => {
-        if (response.meta.return_code == 0) {
-          if (response.data) {
-            console.log("Respuesta del servidor para log-" + this.suffix)
-            console.log(response.data)
-            console.log(JSON.stringify(response.data))
-            this.logData = response.data
-            //this.logData = { "zone_name":"LAW", "program_name":"GMP", "module_name":"Packing", "log_name":"Pre-Operational Inspection", "html_footer":"", "areas":[ { "id":1, "name":"Warehouse", "types":[ { "id":2, "name":"Non Food Contact - Daily", "items":[ { "id":5, "name":"Stainless Table (5)", "order":5 }, { "id":6, "name":"Roll Up Loading Doors", "order":6 }, { "id":7, "name":"Forklift\/Palletjack\/Wave", "order":7 } ] } ] } ] }
-          }
-        } else {
-                        
         }
       }
     )

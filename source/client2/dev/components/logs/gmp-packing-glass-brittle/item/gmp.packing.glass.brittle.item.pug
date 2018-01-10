@@ -1,0 +1,4 @@
+include ../../../log-ionic-materialize.pug
+
++checkbox("{{item.name}} {{ 'Log.with' | translate:lang }} {{item.quantity}} {{ 'Log.element' | translate:lang }}", false, 'is_acceptable', "acceptable_{{item.id}}")([formGroup]='itemForm', *ngIf='item.quantity == 1')
++checkbox("{{item.name}} {{ 'Log.with' | translate:lang }} {{item.quantity}} {{ 'Log.elements' | translate:lang }}", false, 'is_acceptable', "acceptable_{{item.id}}")([formGroup]='itemForm', *ngIf='item.quantity != 1')

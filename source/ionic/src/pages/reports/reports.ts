@@ -10,11 +10,10 @@ import { Observable } from 'rxjs/Rx'
 
 import { BackendService } from '../../services/app.backend';
 import { TranslationService } from '../../services/app.translation';
-import { ToastService } from '../../services/app.toasts';
+import { ToastsService } from '../../services/app.toasts';
 
 import { DynamicComponentResolver } from '../../app/dynamic.resolver'
 
-import { Report } from './gmp-packing-preop/gmp.packing.preop.interface'
 import { GMPPackingPreopReportDisplayer } from './gmp-packing-preop/displayer/gmp.packing.preop.report.displayer'
 import { GMPPackingHandWashingReportDisplayer } from './gmp-packing-hand-washing/displayer/gmp.packing.hand.washing.report.displayer'
 import { GMPPackingGlassBrittleReportDisplayer } from './gmp-packing-glass-brittle/displayer/gmp.packing.glass.brittle.report.displayer'
@@ -37,7 +36,7 @@ export class ReportTab extends DynamicComponentResolver {
   startDate: string = ""
   endDate: string = ""
   reportSuffix: string = ""
-  reports: Array<Report> = []
+  reports: Array<any> = []
   activeReport: string = "any"
 
   dateRangeForm: FormGroup = this.formBuilder.group({

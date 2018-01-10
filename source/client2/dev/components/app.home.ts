@@ -5,6 +5,9 @@ import { StateService } from '@uirouter/angular'
 import { HomeElementsService } from '../services/app.home'
 import { LanguageService } from '../services/app.language'
 
+import { Language } from 'angular-l10n'
+import { TranslationService } from '../services/app.translation'
+
 // Componente que define el comportamiento de la pagina de inicio de sesion
 @Component({
   selector: 'app-root',
@@ -12,6 +15,7 @@ import { LanguageService } from '../services/app.language'
 })
 export class HomeComponent implements OnInit
 {
+  @Language() lang: string
   // La zona elegida por el director
   selectedZoneID: any = null
   
@@ -21,7 +25,8 @@ export class HomeComponent implements OnInit
     private toastManager: ToastService,
     private router: StateService,
     private home: HomeElementsService,
-    private langManager: LanguageService
+    private langManager: LanguageService,
+    private translationService: TranslationService
   ) {
   }
 
@@ -30,6 +35,7 @@ export class HomeComponent implements OnInit
     // si no hay ningun idioma definimo, definimos el idioma español por defecto
     if (localStorage.lang == null) {
       localStorage.lang = 'es'
+      this.translationService.selectLanguage("es")
     }
 
     // inicializamos los mensajes en el idioma adecuado
@@ -97,6 +103,9 @@ export class HomeComponent implements OnInit
   // Esta funcion se ejecuta cuando el usuario cambio el idioma de la pagina
   onLanguageButtonClicked(lang): void {
     this.langManager.changeLanguage(lang)
+    //console.log("idioma cambiado: " + lang)
+    this.translationService.selectLanguage(lang)
+    $('select').material_select()
   }
 
   // Esta es la funcion que se invoca cuando el usuario hace clic en el boton 

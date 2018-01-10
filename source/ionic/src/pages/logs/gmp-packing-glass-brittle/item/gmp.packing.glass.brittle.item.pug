@@ -1,6 +1,4 @@
-ion-item([formGroup]='itemForm')
-  ion-label(*ngIf='item.quantity == 1')
-    | {{item.name}} {{ 'Log.with' | translate:lang }} {{item.quantity}} {{ 'Log.element' | translate:lang }}
-  ion-label(*ngIf='item.quantity != 1')
-    | {{item.name}} {{ 'Log.with' | translate:lang }} {{item.quantity}} {{ 'Log.elements' | translate:lang }}
-  ion-checkbox(formControlName='is_acceptable')
+include ../../../log-ionic-materialize.pug
+
++checkbox("{{item.name}} {{ 'Log.with' | translate:lang }} {{item.quantity}} {{ 'Log.element' | translate:lang }}", false, 'is_acceptable')([formGroup]='itemForm', *ngIf='item.quantity == 1')
++checkbox("{{item.name}} {{ 'Log.with' | translate:lang }} {{item.quantity}} {{ 'Log.elements' | translate:lang }}", false, 'is_acceptable')([formGroup]='itemForm', *ngIf='item.quantity != 1')

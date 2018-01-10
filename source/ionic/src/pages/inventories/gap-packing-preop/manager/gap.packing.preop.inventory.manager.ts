@@ -10,7 +10,7 @@ import { NavbarPageComponent } from '../../../super-components/navbar.component'
 
 import { BackendService } from '../../../../services/app.backend'
 import { TranslationService } from '../../../../services/app.translation'
-import { ToastService } from '../../../../services/app.toasts'
+import { ToastsService } from '../../../../services/app.toasts'
 
 // Import the components for the tabs
 
@@ -21,7 +21,7 @@ import { GAPPackingPreopAreaInventoryComponent } from '../area-inventory/gap.pac
   selector: 'gap-packing-preop-inventory-manager',
   templateUrl: 'gap.packing.preop.inventory.manager.html',
   providers: [
-    ToastService,
+    ToastsService,
     BackendService,
     TranslationService
   ]
@@ -30,7 +30,7 @@ import { GAPPackingPreopAreaInventoryComponent } from '../area-inventory/gap.pac
 export class GAPPackingPreopInventoryManagerComponent extends NavbarPageComponent implements OnInit {
   @Language() lang: string
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public translationService: TranslationService, public events: Events, public storage: Storage, public server: BackendService, public loadingCtrl: LoadingController, private toastService: ToastService, public ts: TService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public translationService: TranslationService, public events: Events, public storage: Storage, public server: BackendService, public loadingCtrl: LoadingController, private toastService: ToastsService, public ts: TService) {
     super(translationService, events, storage, server)
   }
   

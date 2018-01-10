@@ -1,25 +1,16 @@
-ion-header
-  ion-toolbar(color='primary')
-    ion-title
-      | Añadir inventario
-    ion-buttons(start)
-      button(ion-button, icon-only, (click)='dismiss()')
-        ion-icon(name='close')
+include ../../../logmaster-common-mixins.pug
+include ../../../inventory-ionic-materialize.pug
 
-ion-content
-  form([formGroup]='newItem')
-    ion-item
-      ion-label(color='primary', floating) Nombre
-      ion-input(formControlName='name')
++addItemModalTitle()
 
-    ion-item
-      ion-label Tipo
-      ion-select(interface='popover', formControlName='type')
-        ion-option(*ngFor="let type of types", [value]='type.id') {{type.name}}
++addItemFormWrapper()
+  +addItemTextInput('name', 'Nombre')
+  +errorMessage('!newItem.controls.name.valid && newItem.controls.name.dirty && newItem.controls.name.value.length == 0', "{{ 'InventoryErrors.gmp-packing-scale-calibration.item_required' | translate:lang }}")
+  +errorMessage('!newItem.controls.name.valid && newItem.controls.name.dirty && newItem.controls.name.value.length > 0', "{{ 'InventoryErrors.gmp-packing-scale-calibration.item_length' | translate:lang }}")
 
-    br
+  +addItemSelectInput('type', 'Tipo', 'types')
+  +errorMessage('!newItem.controls.type.valid && newItem.controls.type.dirty', "{{ 'InventoryErrors.gmp-packing-scale-calibration.item_type' | translate:lang }}")
 
-    div(text-right)
-      button(ion-button, icon-end, (click)='addItem()')
-        | Añadir
-        ion-icon(name='add')
+  br
+
+  +addItemConfirmButton()

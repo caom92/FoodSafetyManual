@@ -1,0 +1,15 @@
+include ../../../log-ionic-materialize.pug
+
++fullLogWrapper()
+  div(*ngIf="showLog == true || showLog == undefined")
+    log-header([log]="logHeaderData")
+    form([formGroup]='captureForm', (ngSubmit)='save(myForm)')
+      +card()
+        +cardContent()
+          +timeInput(true, "{{ 'Log.time' | translate:lang }}", "time")
+      gmp-packing-glass-brittle-area(*ngFor='let area of log.areas; let i = index', [area]='area', [group]='captureForm.controls.areas.controls[i]')
+      +card()
+        +cardHeader("{{ 'Log.complementary_information' | translate:lang }}")
+        +cardContent()
+          +textArea("{{ 'Log.notes_of' | translate:lang }} {{log.log_name}}", "clipboard", "notes")
+      +sendLogButton("{{ 'Log.send_report' | translate:lang }}")

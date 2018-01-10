@@ -1,28 +1,18 @@
-import { Component, Input, NgModule } from '@angular/core'
-import { Events } from 'ionic-angular'
-
+import { Component, Input } from '@angular/core'
 import { Language } from 'angular-l10n'
-
 import { Report } from '../interfaces/gmp.packing.hand.washing.report.interface'
 
-import { GMPPackingHandWashingReportLoader } from '../loader/gmp.packing.hand.washing.report.loader'
-
 @Component({
-    selector: 'gmp-packing-hand-washing-report-displayer',
-    templateUrl: './gmp.packing.hand.washing.report.displayer.html'
+  selector: 'gmp-packing-hand-washing-report-displayer',
+  templateUrl: './gmp.packing.hand.washing.report.displayer.html'
 })
 
 export class GMPPackingHandWashingReportDisplayer {
-    @Input()
-    reports: Array<Report> = null
+  @Input() reports: Array<Report> = null
+  @Input() activeReport: string = "any"
+  @Language() lang: string
 
-    @Input()
-    activeReport: string = "any"
+  constructor() {
 
-    @Language()
-    lang: string
-
-    constructor(public events: Events) {
-        
-    }
+  }
 }

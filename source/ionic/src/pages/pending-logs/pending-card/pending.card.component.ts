@@ -13,7 +13,7 @@ import { LogDetails } from '../../logs/log.interfaces'
 import { DateTimeService } from '../../../services/app.time'
 import { BackendService } from '../../../services/app.backend'
 import { TranslationService } from '../../../services/app.translation'
-import { ToastService } from '../../../services/app.toasts'
+import { ToastsService } from '../../../services/app.toasts'
 import { LoaderService } from '../../../services/app.loaders'
 import { LogService } from '../../../services/app.logs'
 
@@ -23,7 +23,7 @@ import { LogService } from '../../../services/app.logs'
   providers: [
     BackendService,
     TranslationService,
-    ToastService,
+    ToastsService,
     LoaderService
   ]
 })
@@ -45,7 +45,7 @@ export class PendingCardComponent {
   @Input()
   index: number
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public ts: TService, public event: Events, private toastService: ToastService, private server: BackendService, public timeService: DateTimeService, public loaderService: LoaderService, public logService: LogService) {
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public ts: TService, public event: Events, private toastService: ToastsService, private server: BackendService, public timeService: DateTimeService, public loaderService: LoaderService, public logService: LogService) {
   }
 
   sendLog(){

@@ -1,17 +1,15 @@
-ion-content(hide-fab, [class.no-scroll]='!scrollAllowed')
-  ion-list
-    ion-item(ion-list-header, *ngIf='emptyInventoryFlag == false')
-      ion-label {{ 'InventoryLists.name' | translate:lang }}
-      ion-toggle(item-end, style='visibility: hidden;')
-    gmp-packing-hand-washing-inventory-list([items]='inventory')
-    div(*ngIf='emptyInventoryFlag == true')
-      ion-item(text-wrap)
-        ion-icon(item-start, name='warning', color='danger')
-        ion-label
-          h1
-            | No items for this log. Add some by using the 
-            ion-icon(name='add-circle', color='open')
-            |  button below
-  ion-fab(right, bottom)
-    button(ion-fab, color='open', (click)='addItem()')
-      ion-icon(name='add')
+include ../../../inventory-ionic-materialize.pug
+
++inventoryWrapper()
+  +inventoryListsWrapper()
+    +inventoryTitleWrapper()
+      //-+inventoryTitleHandler()
+      +inventoryTitleColumn("{{ 'InventoryLists.id' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.name' | translate:lang }}")
+      +inventoryTitleToggle()
+    //-For Ionic version uncomment the next line, Dragula variables are found inside the .list.pug file
+    +inventoryList('gmp-packing-hand-washing')([items]='inventory')
+    //-For ng2-Materialize version uncomment the next line, we have to pass Dragula variables here
+    //-+inventoryList('gmp-packing-hand-washing')([items]='inventory', [dragula]='bagName', [dragulaModel]='inventory')
+  +inventoryEmptyMessage()
+  +inventoryAddButton()

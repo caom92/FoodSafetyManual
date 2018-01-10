@@ -1,3 +1,8 @@
-div()
-  gmp-packing-scissors-knives-inventory-item(*ngFor='let item of items', [item]='item')
-//-div([dragula]='type.name', [dragulaModel]='type.items', item-content)
+include ../../../inventory-ionic-materialize.pug
+
+//-For Ionic version uncomment the next line, Dragula variables are found here
++inventoryListWrapper()([dragula]='bagName', [dragulaModel]='items')
+  +inventoryItemComponent('gmp-packing-scissors-knives', 'item', 'items')([item]='item')
+//-For ng2-Materialize version uncomment the next line, Dragula variables were placed on the inventory.pug file of this log
+//-+inventoryListWrapper()
+  +inventoryItemComponent('gmp-packing-scissors-knives', 'item', 'items')([item]='item')

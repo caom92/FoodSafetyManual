@@ -17,7 +17,7 @@ import { LogHeaderComponent } from '../pages/logs/log-header/log.header'
 
 // GMP Packing Preop
 
-import { GMPPackingPreopPage } from '../pages/logs/gmp-packing-preop/gmp.packing.preop'
+import { LogTabsPage } from '../pages/logs/log-tabs/log.tabs.page'
 import { GMPPackingPreopLogComponent } from '../pages/logs/gmp-packing-preop/log/gmp.packing.preop.log'
 import { GMPPackingPreopAreaComponent } from '../pages/logs/gmp-packing-preop/area/gmp.packing.preop.area'
 import { GMPPackingPreopTypeComponent } from '../pages/logs/gmp-packing-preop/type/gmp.packing.preop.type'
@@ -177,6 +177,17 @@ import { GMPPackingColdRoomTempInventoryItemComponent } from '../pages/inventori
 import { GMPPackingColdRoomTempInventoryListComponent } from '../pages/inventories/gmp-packing-cold-room-temp/list/gmp.packing.cold.room.temp.inventory.list'
 import { GMPPackingColdRoomTempAddItemComponent } from '../pages/inventories/gmp-packing-cold-room-temp/add-item/gmp.packing.cold.room.temp.add.item'
 
+// GMP Packing Self Inspection Pest Control
+
+import { GMPSelfInspectionPestControlAreaInventoryComponent } from '../pages/inventories/gmp-self-inspection-pest-control/area-inventory/gmp.self.inspection.pest.control.area.inventory'
+import { GMPSelfInspectionPestControlAreaInventoryAreaComponent } from '../pages/inventories/gmp-self-inspection-pest-control/area/gmp.self.inspection.pest.control.area.inventory.area'
+import { GMPSelfInspectionPestControlAreaInventoryListComponent } from '../pages/inventories/gmp-self-inspection-pest-control/area-list/gmp.self.inspection.pest.control.area.inventory.list'
+
+import { GMPSelfInspectionPestControlInventoryComponent } from '../pages/inventories/gmp-self-inspection-pest-control/inventory/gmp.self.inspection.pest.control.inventory'
+import { GMPSelfInspectionPestControlInventoryItemComponent } from '../pages/inventories/gmp-self-inspection-pest-control/item/gmp.self.inspection.pest.control.inventory.item'
+import { GMPSelfInspectionPestControlInventoryListComponent } from '../pages/inventories/gmp-self-inspection-pest-control/list/gmp.self.inspection.pest.control.inventory.list'
+//import { GMPSelfInspectionPestControlAddItemComponent } from '../pages/inventories/gmp-self-inspection-pest-control/add-item/gmp.self.inspection.pest.control.add.item'
+
 // Authorizations
 
 import { AuthorizationCardComponent } from '../pages/authorizations/authorization-card/authorization.card.component'
@@ -203,15 +214,18 @@ import { TranslationModule, LocaleService, TranslationService as TService } from
 import { DynamicComponentContainerDirective } from '../directives/dynamic.container'
 import { HideFabDirective } from "../directives/hide.fab";
 
+import { AuthorizationLoader } from '../pages/authorizations/authorization-loader/authorization.loader.component'
+
 // Services
 
 import { DateTimeService } from '../services/app.time'
 import { BackendService } from '../services/app.backend'
 import { TranslationService } from '../services/app.translation'
-import { ToastService } from '../services/app.toasts'
+import { ToastsService } from '../services/app.toasts'
 import { LoaderService } from '../services/app.loaders'
 import { LogService } from '../services/app.logs'
 import { InventoryService } from '../services/app.inventory'
+import { AreaManagerService } from '../services/app.area.manager'
 
 @NgModule({
   declarations: [
@@ -229,9 +243,10 @@ import { InventoryService } from '../services/app.inventory'
     LogHeaderComponent,
     AuthorizationCardComponent,
     AuthorizationCardListComponent,
+    AuthorizationLoader,
     PendingCardComponent,
     PendingCardListComponent,
-    GMPPackingPreopPage,
+    LogTabsPage,
     GMPPackingPreopLogComponent,
     GMPPackingPreopAreaComponent,
     GMPPackingPreopTypeComponent,
@@ -345,7 +360,13 @@ import { InventoryService } from '../services/app.inventory'
     GMPPackingColdRoomTempInventoryComponent,
     GMPPackingColdRoomTempInventoryItemComponent,
     GMPPackingColdRoomTempInventoryListComponent,
-    GMPPackingColdRoomTempAddItemComponent
+    GMPPackingColdRoomTempAddItemComponent,
+    GMPSelfInspectionPestControlInventoryComponent,
+    GMPSelfInspectionPestControlInventoryItemComponent,
+    GMPSelfInspectionPestControlInventoryListComponent,
+    GMPSelfInspectionPestControlAreaInventoryComponent,
+    GMPSelfInspectionPestControlAreaInventoryAreaComponent,
+    GMPSelfInspectionPestControlAreaInventoryListComponent
   ],
   imports: [
     BrowserModule,
@@ -372,9 +393,10 @@ import { InventoryService } from '../services/app.inventory'
     LogHeaderComponent,
     AuthorizationCardComponent,
     AuthorizationCardListComponent,
+    AuthorizationLoader,
     PendingCardComponent,
     PendingCardListComponent,
-    GMPPackingPreopPage,
+    LogTabsPage,
     GMPPackingPreopLogComponent,
     GMPPackingPreopAreaComponent,
     GMPPackingPreopTypeComponent,
@@ -488,7 +510,13 @@ import { InventoryService } from '../services/app.inventory'
     GMPPackingColdRoomTempInventoryComponent,
     GMPPackingColdRoomTempInventoryItemComponent,
     GMPPackingColdRoomTempInventoryListComponent,
-    GMPPackingColdRoomTempAddItemComponent
+    GMPPackingColdRoomTempAddItemComponent,
+    GMPSelfInspectionPestControlInventoryComponent,
+    GMPSelfInspectionPestControlInventoryItemComponent,
+    GMPSelfInspectionPestControlInventoryListComponent,
+    GMPSelfInspectionPestControlAreaInventoryComponent,
+    GMPSelfInspectionPestControlAreaInventoryAreaComponent,
+    GMPSelfInspectionPestControlAreaInventoryListComponent
   ],
   providers: [
     StatusBar,
@@ -497,9 +525,10 @@ import { InventoryService } from '../services/app.inventory'
     LocalNotifications,
     BackendService,
     LoaderService,
-    ToastService,
+    ToastsService,
     LogService,
-    InventoryService
+    InventoryService,
+    AreaManagerService
   ]
 })
 export class AppModule {

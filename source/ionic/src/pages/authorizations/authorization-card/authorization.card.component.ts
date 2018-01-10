@@ -12,7 +12,7 @@ import { WaitingLog } from './authorization.card.interface'
 import { DateTimeService } from '../../../services/app.time'
 import { BackendService } from '../../../services/app.backend'
 import { TranslationService } from '../../../services/app.translation'
-import { ToastService } from '../../../services/app.toasts'
+import { ToastsService } from '../../../services/app.toasts'
 import { LoaderService } from '../../../services/app.loaders'
 
 import { GMPPackingHandWashingAuthorizationComponent } from '../../logs/gmp-packing-hand-washing/authorization/gmp.packing.hand.washing.authorization'
@@ -22,6 +22,7 @@ import { GMPPackingThermoCalibrationAuthorizationComponent } from '../../logs/gm
 import { GMPPackingColdRoomTempAuthorizationComponent } from '../../logs/gmp-packing-cold-room-temp/authorization/gmp.packing.cold.room.temp.authorization'
 import { GMPPackingGlassBrittleAuthorizationComponent } from '../../logs/gmp-packing-glass-brittle/authorization/gmp.packing.glass.brittle.authorization'
 import { GMPPackingScissorsKnivesAuthorizationComponent } from '../../logs/gmp-packing-scissors-knives/authorization/gmp.packing.scissors.knives.authorization'
+import { AuthorizationLoader } from '../authorization-loader/authorization.loader.component';
 
 @Component({
   selector: 'authorization-card',
@@ -29,7 +30,7 @@ import { GMPPackingScissorsKnivesAuthorizationComponent } from '../../logs/gmp-p
   providers: [
     BackendService,
     TranslationService,
-    ToastService,
+    ToastsService,
     LoaderService
   ]
 })
@@ -52,7 +53,7 @@ export class AuthorizationCardComponent {
     service_name: null
   }
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public ts: TService, public event: Events, private toastService: ToastService, private server: BackendService, public timeService: DateTimeService, public loaderService: LoaderService) {
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public ts: TService, public event: Events, private toastService: ToastsService, private server: BackendService, public timeService: DateTimeService, public loaderService: LoaderService) {
   }
 
   approveLog() {
@@ -141,73 +142,22 @@ export class AuthorizationCardComponent {
 
   openLog() {
     let suffix = this.log.service_name
-    if (suffix == "gmp-packing-hand-washing" || suffix == suffix) {
-      let authorizationData = new FormData()
-      authorizationData.append("start_date", this.log.capture_date)
-      authorizationData.append("end_date", this.log.capture_date)
-      authorizationData.append("report_id", "" + this.log.captured_log_id)
-      let loader = this.loaderService.koiLoader("")
-      loader.present()
-      this.server.update(
-        "authorization-report-" + suffix,
-        authorizationData,
-        (response: any) => {
-          if (response.meta.return_code == 0) {
-            let logData = response.data
-            switch (suffix) {
-              case "gmp-packing-hand-washing":
-                loader.dismiss()
-                this.navCtrl.push(GMPPackingHandWashingAuthorizationComponent, {
-                  data: logData
-                })
-                break
-              case "gmp-packing-preop":
-                loader.dismiss()
-                this.navCtrl.push(GMPPackingPreopAuthorizationComponent, {
-                  data: logData
-                })
-                break
-              case "gmp-packing-scale-calibration":
-                loader.dismiss()
-                this.navCtrl.push(GMPPackingScaleCalibrationAuthorizationComponent, {
-                  data: logData
-                })
-                break
-              case "gmp-packing-thermo-calibration":
-                loader.dismiss()
-                this.navCtrl.push(GMPPackingThermoCalibrationAuthorizationComponent, {
-                  data: logData
-                })
-                break
-              case "gmp-packing-cold-room-temp":
-                loader.dismiss()
-                this.navCtrl.push(GMPPackingColdRoomTempAuthorizationComponent, {
-                  data: logData
-                })
-                break
-              case "gmp-packing-glass-brittle":
-                loader.dismiss()
-                this.navCtrl.push(GMPPackingGlassBrittleAuthorizationComponent, {
-                  data: logData
-                })
-                break
-              case "gmp-packing-scissors-knives":
-                loader.dismiss()
-                this.navCtrl.push(GMPPackingScissorsKnivesAuthorizationComponent, {
-                  data: logData
-                })
-                break
-              default:
-                loader.dismiss()
-                console.log(logData)
-                break
-            }
-          }
-        }
-      )
+    if (suffix == "gmp-packing-hand-washing" ||
+      suffix == "gmp-packing-preop" ||
+      suffix == "gmp-packing-scale-calibration" ||
+      suffix == "gmp-packing-thermo-calibration" ||
+      suffix == "gmp-packing-cold-room-temp" ||
+      suffix == "gmp-packing-glass-brittle" ||
+      suffix == "gmp-packing-scissors-knives") {
+      let reportID = this.log.captured_log_id
+      let log_name = this.log.log_name
+      this.navCtrl.push(AuthorizationLoader, {
+        suffix: suffix,
+        report_id: reportID,
+        log_name: log_name
+      })
     } else {
       this.toastService.showText("notAvailableInMobile")
     }
-    //this.navCtrl.push(GMPPackingPreopLogComponent)
   }
 }
