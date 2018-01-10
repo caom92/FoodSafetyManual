@@ -46,10 +46,10 @@ import { LogLoaderComponent } from './app.log.loader.component'
 
 // Bitácora
 
-import { GMPPackingPreopItemComponent } from './gmp/packing/preop/log/gmp.packing.preop.item.component'
-import { GMPPackingPreopTypeComponent } from './gmp/packing/preop/log/gmp.packing.preop.type.component'
-import { GMPPackingPreopAreaComponent } from './gmp/packing/preop/log/gmp.packing.preop.area.component'
-import { GMPPackingPreopLogComponent } from './gmp/packing/preop/log/gmp.packing.preop.log.component'
+import { GMPPackingPreopItemComponent } from '../components/logs/gmp-packing-preop/item/gmp.packing.preop.item'
+import { GMPPackingPreopTypeComponent } from '../components/logs/gmp-packing-preop/type/gmp.packing.preop.type'
+import { GMPPackingPreopAreaComponent } from '../components/logs/gmp-packing-preop/area/gmp.packing.preop.area'
+import { GMPPackingPreopLogComponent } from '../components/logs/gmp-packing-preop/log/gmp.packing.preop.log'
 
 // Reporte
 
@@ -67,10 +67,42 @@ import { GMPPackingScaleCalibrationInventoryItemComponent } from '../components/
 import { GMPPackingScaleCalibrationInventoryListComponent } from '../components/inventories/gmp-packing-scale-calibration/list/gmp.packing.scale.calibration.inventory.list'
 //import { GMPPackingScaleCalibrationAddItemComponent } from '../components/inventories/gmp-packing-scale-calibration/add-item/gmp.packing.scale.calibration.add.item'
 
+// GMP Packing Hand Washing
+
+import { GMPPackingHandWashingLogComponent } from '../components/logs/gmp-packing-hand-washing/log/gmp.packing.hand.washing.log'
+import { GMPPackingHandWashingItemComponent } from '../components/logs/gmp-packing-hand-washing/item/gmp.packing.hand.washing.item'
+
+// GMP Packing Thermo Calibration
+
+import { GMPPackingThermoCalibrationLogComponent } from '../components/logs/gmp-packing-thermo-calibration/log/gmp.packing.thermo.calibration.log'
+import { GMPPackingThermoCalibrationItemComponent } from '../components/logs/gmp-packing-thermo-calibration/item/gmp.packing.thermo.calibration.item'
+
+// GMP Packing Scale Calibration
+
+import { GMPPackingScaleCalibrationLogComponent } from '../components/logs/gmp-packing-scale-calibration/log/gmp.packing.scale.calibration.log'
+import { GMPPackingScaleCalibrationTypeComponent } from '../components/logs/gmp-packing-scale-calibration/type/gmp.packing.scale.calibration.type'
+import { GMPPackingScaleCalibrationItemComponent } from '../components/logs/gmp-packing-scale-calibration/item/gmp.packing.scale.calibration.item'
+
+// GMP Packing Scissors Knives
+
+import { GMPPackingScissorsKnivesLogComponent } from '../components/logs/gmp-packing-scissors-knives/log/gmp.packing.scissors.knives.log'
+import { GMPPackingScissorsKnivesItemComponent } from '../components/logs/gmp-packing-scissors-knives/item/gmp.packing.scissors.knives.item'
+
+// GMP Packing Glass Brittle
+
+import { GMPPackingGlassBrittleLogComponent } from '../components/logs/gmp-packing-glass-brittle/log/gmp.packing.glass.brittle.log'
+import { GMPPackingGlassBrittleAreaComponent } from '../components/logs/gmp-packing-glass-brittle/area/gmp.packing.glass.brittle.area'
+import { GMPPackingGlassBrittleItemComponent } from '../components/logs/gmp-packing-glass-brittle/item/gmp.packing.glass.brittle.item'
+
+// GMP Packing Cold Room Temp
+
+import { GMPPackingColdRoomTempLogComponent } from '../components/logs/gmp-packing-cold-room-temp/log/gmp.packing.cold.room.temp.log'
+import { GMPPackingColdRoomTempItemComponent } from '../components/logs/gmp-packing-cold-room-temp/item/gmp.packing.cold.room.temp.item'
+
 // Genericos
 
 import { ReportLoaderCard } from './report.loader.card.component'
-import { LogHeaderComponent } from './app.log.header'
+//import { LogHeaderComponent } from './app.log.header'
 
 // Importamos los componentes de los modales
 import { ProgressModalComponent } from './modal.please.wait'
@@ -95,6 +127,12 @@ import { AlertComponent } from '../services/alert/app.alert.component'
 import { AlertController } from '../services/alert/app.alert'
 import { DragulaModule } from 'ng2-dragula/components/dragular.module';
 import { TabLogLoaderComponent } from './logs/log.loader';
+import { LogTabsPage } from '../components/logs/log-tabs/log.tabs.page'
+import { LogHeaderComponent } from '../components/logs/log-header/log.header'
+import { LogService } from '../services/app.logs'
+import { ToastsService } from '../services/app.toasts'
+import { TranslationService } from '../services/app.translation'
+import { AuthorizationLoader } from './authorizations/authorization-loader/authorization.loader.component';
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -136,8 +174,18 @@ import { TabLogLoaderComponent } from './logs/log.loader';
         },
         {
           name: 'log-view',
-          url: '/log/:suffix',
+          url: '/log-view/:suffix',
           component: LogLoaderComponent
+        },
+        {
+          name: 'log',
+          url: '/log/:suffix',
+          component: LogTabsPage
+        },
+        {
+          name: 'authorizations',
+          url: '/authorizations/:suffix/:report_id',
+          component: AuthorizationLoader
         },
         {
           name: 'inventory-selection',
@@ -188,7 +236,10 @@ import { TabLogLoaderComponent } from './logs/log.loader';
     DateTimeService,
     LoaderService,
     InventoryService,
-    AlertController
+    AlertController,
+    LogService,
+    ToastsService,
+    TranslationService
   ],
   // declaramos los componentes que va a utilizar nuestro sistema
   declarations: [
@@ -231,6 +282,22 @@ import { TabLogLoaderComponent } from './logs/log.loader';
     GMPPackingScaleCalibrationInventoryItemComponent,
     GMPPackingScaleCalibrationInventoryListComponent,
     //GMPPackingScaleCalibrationAddItemComponent,
+    GMPPackingHandWashingLogComponent,
+    GMPPackingHandWashingItemComponent,
+    GMPPackingThermoCalibrationLogComponent,
+    GMPPackingThermoCalibrationItemComponent,
+    GMPPackingScaleCalibrationLogComponent,
+    GMPPackingScaleCalibrationTypeComponent,
+    GMPPackingScaleCalibrationItemComponent,
+    GMPPackingScissorsKnivesLogComponent,
+    GMPPackingScissorsKnivesItemComponent,
+    GMPPackingGlassBrittleLogComponent,
+    GMPPackingGlassBrittleAreaComponent,
+    GMPPackingGlassBrittleItemComponent,
+    GMPPackingColdRoomTempLogComponent,
+    GMPPackingColdRoomTempItemComponent,
+    LogTabsPage,
+    AuthorizationLoader,
     LogHeaderComponent,
     TabLogLoaderComponent
   ],
@@ -244,7 +311,14 @@ import { TabLogLoaderComponent } from './logs/log.loader';
     EditSignatureModalComponent,
     ZoneInfoModalComponent,
     GMPPackingPreopReportComponent,
-    UserInfoModalComponent
+    UserInfoModalComponent,
+    GMPPackingPreopLogComponent,
+    GMPPackingHandWashingLogComponent,
+    GMPPackingThermoCalibrationLogComponent,
+    GMPPackingScaleCalibrationLogComponent,
+    GMPPackingScissorsKnivesLogComponent,
+    GMPPackingGlassBrittleLogComponent,
+    GMPPackingColdRoomTempLogComponent,
   ],
   // indicamos cual es el componente raiz
   bootstrap: [HomeComponent]

@@ -7,7 +7,7 @@ import { Language } from 'angular-l10n';
 
 import { BackendService } from '../../services/app.backend';
 import { TranslationService } from '../../services/app.translation';
-import { ToastService } from '../../services/app.toasts';
+import { ToastsService } from '../../services/app.toasts';
 
 import { ManualUploadComponent } from './manual-upload/manual.upload'
 

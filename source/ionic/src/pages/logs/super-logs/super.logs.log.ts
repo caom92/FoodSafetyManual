@@ -4,7 +4,7 @@ import { SuperLog } from './super.logs.log.interface'
 import { LogService } from '../../../services/app.logs'
 import { LoaderService } from '../../../services/app.loaders'
 import { LogHeaderData, LogDetails } from '../log.interfaces'
-import { ToastService } from '../../../services/app.toasts'
+import { ToastsService } from '../../../services/app.toasts'
 
 export class SuperLogComponent implements OnInit {
   protected log: SuperLog
@@ -13,7 +13,7 @@ export class SuperLogComponent implements OnInit {
   private suffix: string = null
   public showLog: boolean = false
 
-  constructor(protected logService: LogService, protected toasts: ToastService) {
+  constructor(protected logService: LogService, protected toasts: ToastsService) {
 
   }
 

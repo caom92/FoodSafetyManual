@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Rx'
 import { InventoryItem } from '../interfaces/gmp.packing.preop.inventory.interface'
 
 import { BackendService } from '../../../../services/app.backend'
-import { ToastService } from '../../../../services/app.toasts'
+import { ToastsService } from '../../../../services/app.toasts'
 import { LoaderService } from '../../../../services/app.loaders'
 
 @Component({
@@ -16,7 +16,7 @@ import { LoaderService } from '../../../../services/app.loaders'
   templateUrl: './gmp.packing.preop.inventory.item.html',
   providers: [
     BackendService,
-    ToastService,
+    ToastsService,
     LoaderService
   ]
 })
@@ -36,7 +36,7 @@ export class GMPPackingPreopInventoryItemComponent implements OnInit {
   toggleError: boolean = false
   previousValue: boolean = null
 
-  constructor(public server: BackendService, public loaderService: LoaderService, private toastService: ToastService){
+  constructor(public server: BackendService, public loaderService: LoaderService, private toastService: ToastsService){
 
   }
 

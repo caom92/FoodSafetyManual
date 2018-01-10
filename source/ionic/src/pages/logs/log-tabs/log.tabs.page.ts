@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Rx'
 
 import { BackendService } from '../../../services/app.backend'
 import { TranslationService } from '../../../services/app.translation'
-import { ToastService } from '../../../services/app.toasts'
+import { ToastsService } from '../../../services/app.toasts'
 import { DateTimeService } from '../../../services/app.time'
 
 import { ManualTab } from '../../manual/manual'
@@ -37,7 +37,7 @@ export class LogTabsPage extends NavbarPageComponent implements OnInit {
   log_suffix: string = ""
   isEmployeeFlag: boolean = false
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public translationService: TranslationService, public events: Events, public storage: Storage, public server: BackendService, public loadingCtrl: LoadingController, private toastService: ToastService, public ts: TService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public translationService: TranslationService, public events: Events, public storage: Storage, public server: BackendService, public loadingCtrl: LoadingController, private toastService: ToastsService, public ts: TService) {
     super(translationService, events, storage, server)
     this.log_suffix = this.navParams.get('log_suffix')
     this.logTitle = this.navParams.get('log_title')

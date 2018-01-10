@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Rx'
 
 import { PendingLog } from '../pages/pending-logs/pending-card/pending.card.interface'
 
-import { ToastService } from './app.toasts'
+import { ToastsService } from './app.toasts'
 import { LoaderService } from './app.loaders'
 import { BackendService } from './app.backend'
 import { LogDetails } from '../pages/logs/log.interfaces'
@@ -28,7 +28,7 @@ import { LogDetails } from '../pages/logs/log.interfaces'
 export class LogService {
   constructor(public app: App,
     private loaderService: LoaderService,
-    private toastService: ToastService,
+    private toastService: ToastsService,
     private server: BackendService,
     private storage: Storage,
     private events: Events) {

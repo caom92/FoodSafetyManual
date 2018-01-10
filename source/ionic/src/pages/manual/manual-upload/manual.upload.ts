@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Rx'
 import { Language, TranslationService as TService } from 'angular-l10n'
 
 import { BackendService } from '../../../services/app.backend'
-import { ToastService } from '../../../services/app.toasts'
+import { ToastsService } from '../../../services/app.toasts'
 import { LoaderService } from '../../../services/app.loaders'
 
 @Component({
@@ -15,7 +15,7 @@ import { LoaderService } from '../../../services/app.loaders'
   templateUrl: './manual.upload.html',
   providers: [
     BackendService,
-    ToastService,
+    ToastsService,
     LoaderService
   ]
 })
@@ -37,7 +37,7 @@ export class ManualUploadComponent implements OnInit {
     public ts: TService, 
     private _fb: FormBuilder, 
     public server: BackendService, 
-    private toastService: ToastService, 
+    private toastService: ToastsService, 
     public loaderService: LoaderService){
     this.logSuffix = navParams.get('log_suffix');
   }

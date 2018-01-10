@@ -8,7 +8,7 @@ import { FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms'
 import { Language, TranslationService as TService } from 'angular-l10n'
 import { Observable } from 'rxjs/Rx'
 
-import { ToastService } from './app.toasts'
+import { ToastsService } from './app.toasts'
 import { LoaderService } from './app.loaders'
 import { BackendService } from './app.backend'
 import { errorHandler } from '@angular/platform-browser/src/browser'
@@ -25,7 +25,7 @@ import { errorHandler } from '@angular/platform-browser/src/browser'
 export class InventoryService {
   constructor(public app: App,
     private loaderService: LoaderService,
-    private toastService: ToastService,
+    private toastService: ToastsService,
     private server: BackendService,
     public ts: TService,
     private storage: Storage,

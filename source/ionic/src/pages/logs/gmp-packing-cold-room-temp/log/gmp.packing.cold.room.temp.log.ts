@@ -8,7 +8,7 @@ import { CaptureLog, CaptureItem } from '../interfaces/gmp.packing.cold.room.tem
 import { Log } from '../interfaces/gmp.packing.cold.room.temp.log.interface'
 
 import { DateTimeService } from '../../../../services/app.time'
-import { ToastService } from '../../../../services/app.toasts'
+import { ToastsService } from '../../../../services/app.toasts'
 import { LogService } from '../../../../services/app.logs'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
 
@@ -24,7 +24,7 @@ export class GMPPackingColdRoomTempLogComponent extends SuperLogComponent implem
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
     logService: LogService,
-    toasts: ToastService) {
+    toasts: ToastsService) {
     super(logService, toasts)
   }
 

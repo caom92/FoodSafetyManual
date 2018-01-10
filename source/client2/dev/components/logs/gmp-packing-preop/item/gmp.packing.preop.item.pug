@@ -1,0 +1,70 @@
+//-include ../../../logmaster-common-mixins.pug
+include ../../../log-ionic-materialize.pug
+
++card()([formGroup]='itemForm')
+  +cardHeader("{{item.name}}")
+  +cardContent()
+    +row()
+      +col()
+        +radioGroup(false, false, "is_acceptable")
+          +radio("{{ 'Log.acceptable' | translate:lang }}", false, "true", false, false, "acceptable_{{item.id}}", "conditions_{{item.id}}")([formControl]='itemForm.controls.is_acceptable', [value]='true')
+          +radio("{{ 'Log.unacceptable' | translate:lang }}", false, "false", false, false, "unacceptable_{{item.id}}", "conditions_{{item.id}}")([formControl]='itemForm.controls.is_acceptable', [value]='true')
+          //-+errorMessage('!itemForm.controls.is_acceptable.valid && itemForm.controls.is_acceptable.dirty', 'Debe marcar un elemento como Aceptable o No Aceptable')
+      +col()(*ngIf='itemForm.controls.is_acceptable.value == false')
+        +select("{{ 'Log.corrective_action' | translate:lang }}", false, "corrective_action_id", "popover")([hidden]='itemForm.controls.is_acceptable.value !== false')
+          +option("{{action[lang]}}", "action.id", false, false)(*ngFor='let action of actions')
+        +textArea("{{ 'Log.comments_of' | translate:lang }} {{item.name}}", "text", "comment")([hidden]='itemForm.controls.is_acceptable.value !== false')
+        //-+errorMessage('!itemForm.controls.comment.valid && itemForm.controls.comment.dirty', 'Comentario demasiado largo')
+
+//-+card()([formGroup]='itemForm')
+  +cardHeader("{{item.name}}")
+  +cardContent()
+    +radioGroup(false, false, "is_acceptable")
+      +radio("{{ 'Log.acceptable' | translate:lang }}", false, "true", false, false)
+      +radio("{{ 'Log.unacceptable' | translate:lang }}", false, "false", false, false)
+      +errorMessage('!itemForm.controls.is_acceptable.valid && itemForm.controls.is_acceptable.dirty', 'Debe marcar un elemento como Aceptable o No Aceptable')
+    //-ion-list(radio-group, formControlName='is_acceptable')
+      ion-item
+        ion-label {{ 'Log.acceptable' | translate:lang }}
+        ion-radio([value]='true')
+      ion-item
+        ion-label {{ 'Log.unacceptable' | translate:lang }}
+        ion-radio([value]='false')
+      +errorMessage('!itemForm.controls.is_acceptable.valid && itemForm.controls.is_acceptable.dirty', 'Debe marcar un elemento como Aceptable o No Aceptable')
+    +select("{{ 'Log.corrective_action' | translate:lang }}", false, "corrective_action_id", "popover")([hidden]='itemForm.controls.is_acceptable.value !== false')
+      +option("{{action[lang]}}", "action.id", false, false)(*ngFor='let action of actions')
+    //-ion-item([hidden]='itemForm.controls.is_acceptable.value !== false')
+      ion-label {{ 'Log.corrective_action' | translate:lang }}
+      ion-select(formControlName='corrective_action_id')
+        ion-option(*ngFor='let action of actions', [value]='action.id') {{action[lang]}}
+    +textArea("{{ 'Log.comments_of' | translate:lang }} {{item.name}}", "text", "comment")([hidden]='itemForm.controls.is_acceptable.value !== false')
+    //-ion-item([hidden]='itemForm.controls.is_acceptable.value !== false')
+      ion-label(color='primary', floating)
+        ion-icon(name="text")
+        |  {{ 'Log.comments_of' | translate:lang }} {{item.name}}
+      ion-textarea(formControlName='comment')
+    +errorMessage('!itemForm.controls.comment.valid && itemForm.controls.comment.dirty', 'Comentario demasiado largo')
+
+//-form([formGroup]='itemForm')
+  ion-card.hoverable
+    ion-card-content
+      ion-item
+        ion-label {{item.name}}
+      ion-list(radio-group, formControlName='is_acceptable')
+        ion-item
+          ion-label {{ 'Log.acceptable' | translate:lang }}
+          ion-radio([value]='true')
+        ion-item
+          ion-label {{ 'Log.unacceptable' | translate:lang }}
+          ion-radio([value]='false')
+        +errorMessage('!itemForm.controls.is_acceptable.valid && itemForm.controls.is_acceptable.dirty', 'Debe marcar un elemento como Aceptable o No Aceptable')
+      ion-item([hidden]='itemForm.controls.is_acceptable.value !== false')
+        ion-label {{ 'Log.corrective_action' | translate:lang }}
+        ion-select(formControlName='corrective_action_id')
+          ion-option(*ngFor='let action of actions', [value]='action.id') {{action[lang]}}
+      ion-item([hidden]='itemForm.controls.is_acceptable.value !== false')
+        ion-label(color='primary', floating)
+          ion-icon(name="ios-text")
+          |  {{ 'Log.comments_of' | translate:lang }} {{item.name}}
+        ion-textarea(formControlName='comment')
+      +errorMessage('!itemForm.controls.comment.valid && itemForm.controls.comment.dirty', 'Comentario demasiado largo')

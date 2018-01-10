@@ -20,7 +20,7 @@ mixin timeInput(showIcon, label, formControlName, id, placeholder, options)
   mz-timepicker-container()&attributes(attributes)
     if (showIcon == true)
       i(mz-icon-mdi, mz-input-prefix, [icon]="'clock'")
-    input(mz-timepicker, [label]=label, type="text", id=id, placeholder=placeholder, [options]=options)
+    input(mz-timepicker, label=label, type="text", id=id, placeholder=placeholder, [options]=options)
 
 mixin list()
   if block
@@ -64,32 +64,32 @@ mixin textArea(label, icon, formControlName, id, placeholder)
 
 mixin checkbox(label, icon, formControlName, id)
   mz-checkbox-container()&attributes(attributes)
-    input(mz-checkbox, [label]=label, formControlName=formControlName, type="checkbox", id=id, filledIn="true")
+    input(mz-checkbox, label=label, formControlName=formControlName, type="checkbox", id=id, filledIn="true")
 
 mixin radioGroup(label, icon, formControlName)
   div
-    span(style="font-size: 24px;")
-      if (icon)
+    //-span(style="font-size: 24px;")
+      //-if (icon)
         - label = label + " "
         = label
         i(mz-icon-mdi, mz-input-prefix, icon=icon)
-      else
+      //-else
         = label
     if block
       block
 
 mixin radio(label, icon, value, checked, disabled, id, name)
   mz-radio-button-container
-    input(mz-radio-button, [label]=label, value=value, checked=checked, disabled=disabled, id=id, name=name, type="radio")
+    input(mz-radio-button, label=label, value=value, checked=checked, disabled=disabled, id=id, name=name, type="radio")&attributes(attributes)
 
 mixin select(label, icon, formControlName, interface, id, placeholder)
   mz-select-container
-    select(mz-select, [label]=label, id=id, [placeholder]=placeholder, formControlName=formControlName)
+    select(mz-select, label=label, id=id, [placeholder]=placeholder, formControlName=formControlName)
       if block
         block
 
 mixin option(label, value, selected, disabled)
-  option(value=value, selected=selected, disabled=disabled)= label
+  option(value=value, selected=selected, disabled=disabled)&attributes(attributes)= label
 
 //- Grid
 

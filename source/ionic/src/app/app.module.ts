@@ -221,7 +221,7 @@ import { AuthorizationLoader } from '../pages/authorizations/authorization-loade
 import { DateTimeService } from '../services/app.time'
 import { BackendService } from '../services/app.backend'
 import { TranslationService } from '../services/app.translation'
-import { ToastService } from '../services/app.toasts'
+import { ToastsService } from '../services/app.toasts'
 import { LoaderService } from '../services/app.loaders'
 import { LogService } from '../services/app.logs'
 import { InventoryService } from '../services/app.inventory'
@@ -525,7 +525,7 @@ import { AreaManagerService } from '../services/app.area.manager'
     LocalNotifications,
     BackendService,
     LoaderService,
-    ToastService,
+    ToastsService,
     LogService,
     InventoryService,
     AreaManagerService

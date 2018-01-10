@@ -5,7 +5,7 @@ import { FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms'
 import { Language, TranslationService as TService } from 'angular-l10n'
 import { Observable } from 'rxjs/Rx'
 
-import { ToastService } from './app.toast'
+import { ToastsService } from './app.toasts'
 import { LoaderService } from './app.loaders'
 import { BackendService } from './app.backend'
 import { errorHandler } from '@angular/platform-browser/src/browser';
@@ -21,7 +21,7 @@ import { errorHandler } from '@angular/platform-browser/src/browser';
 @Injectable()
 export class InventoryService {
   constructor(private loaderService: LoaderService,
-    private toastService: ToastService,
+    private toastService: ToastsService,
     private server: BackendService,
     public ts: TService) {
 
@@ -53,23 +53,23 @@ export class InventoryService {
           if (response.meta.return_code == 0) {
             if (response.data) {
               resolve(response.data)
-              loader.instance.modalComponent.close()
+              loader.close()
             } else {
               reject("bad request")
-              loader.instance.modalComponent.close()
+              loader.close()
               //this.app.getRootNav().pop()
               this.toastService.showText("serverUnreachable")
             }
           } else {
             reject("bad request")
-            loader.instance.modalComponent.close()
+            loader.close()
             //this.app.getRootNav().pop()
             //this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
           }
         },
         (error: any, caught: Observable<void>) => {
           reject("network error")
-          loader.instance.modalComponent.close()
+          loader.close()
           //this.app.getRootNav().pop()
           this.toastService.showText("serverUnreachable")
           return []
@@ -105,12 +105,12 @@ export class InventoryService {
         item,
         (response: any) => {
           resolve()
-          loaderToggle.instance.modalComponent.close()
+          loaderToggle.close()
         },
         (error: any, caught: Observable<void>) => {
           reject()
           this.toastService.showText("serverUnreachable")
-          loaderToggle.instance.modalComponent.close()
+          loaderToggle.close()
           return []
         }
       )
@@ -148,15 +148,15 @@ export class InventoryService {
         (response: any) => {
           if (response.meta.return_code == 0) {
             console.log(response)
-            loaderReorder.instance.modalComponent.close()
+            loaderReorder.close()
             resolve("server")
           } else {
-            loaderReorder.instance.modalComponent.close()
+            loaderReorder.close()
             this.toastService.showText("lastActionReverseBadRequest")
             reject(response.meta.return_code)
           }
         }, (error: any, caught: Observable<void>) => {
-          loaderReorder.instance.modalComponent.close()
+          loaderReorder.close()
           this.toastService.showText("lastActionReverseNetwork")
           reject()
           return []
@@ -195,17 +195,17 @@ export class InventoryService {
         itemForm,
         (response: any) => {
           if (response.meta.return_code == 0) {
-            loaderAdd.instance.modalComponent.close()
+            loaderAdd.close()
             this.toastService.showText("itemAddSuccess")
             resolve(response.data)
           } else {
-            loaderAdd.instance.modalComponent.close()
+            loaderAdd.close()
             this.toastService.showText("badRequest")
             reject()
           }
         },
         (error: any, caught: Observable<void>) => {
-          loaderAdd.instance.modalComponent.close()
+          loaderAdd.close()
           reject()
           this.toastService.showText("serverUnreachable")
           return []

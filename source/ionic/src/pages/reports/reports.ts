@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Rx'
 
 import { BackendService } from '../../services/app.backend';
 import { TranslationService } from '../../services/app.translation';
-import { ToastService } from '../../services/app.toasts';
+import { ToastsService } from '../../services/app.toasts';
 
 import { DynamicComponentResolver } from '../../app/dynamic.resolver'
 

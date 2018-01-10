@@ -1,6 +1,6 @@
 import { Component, Injectable, OnInit } from '@angular/core'
 
-import { MzBaseModal, MzModalService } from 'ng2-materialize'
+import { MzBaseModal, MzModalService, MzModalComponent } from 'ng2-materialize'
 
 import { Language, TranslationService as TService } from 'angular-l10n'
 
@@ -19,7 +19,7 @@ export class LoaderService implements OnInit {
   koiLoader(message) {
     let loading = this.modalService.open(KoiLoader)
 
-    return loading
+    return loading.instance.modalComponent
   }
 }
 

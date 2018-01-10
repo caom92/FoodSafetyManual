@@ -6,7 +6,7 @@ import { Language } from 'angular-l10n'
 
 import { BackendService } from '../../services/app.backend'
 import { TranslationService } from '../../services/app.translation'
-import { ToastService } from '../../services/app.toasts'
+import { ToastsService } from '../../services/app.toasts'
 
 import { NavbarPageComponent } from '../super-components/navbar.component'
 
@@ -26,7 +26,7 @@ export class LogsPage extends NavbarPageComponent {
   selectedModule: any
   logs: Array<{ title: string, icon: string, program: any, module: any }>
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public translationService: TranslationService, public events: Events, public storage: Storage, private toastService: ToastService, public server: BackendService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public translationService: TranslationService, public events: Events, public storage: Storage, private toastService: ToastsService, public server: BackendService) {
     super(translationService, events, storage, server)
     // Tenemos que ver desde qué programa se llamó esta vista
     this.selectedProgram = navParams.get('program');

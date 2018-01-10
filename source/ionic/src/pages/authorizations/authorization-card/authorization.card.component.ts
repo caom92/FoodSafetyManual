@@ -12,7 +12,7 @@ import { WaitingLog } from './authorization.card.interface'
 import { DateTimeService } from '../../../services/app.time'
 import { BackendService } from '../../../services/app.backend'
 import { TranslationService } from '../../../services/app.translation'
-import { ToastService } from '../../../services/app.toasts'
+import { ToastsService } from '../../../services/app.toasts'
 import { LoaderService } from '../../../services/app.loaders'
 
 import { GMPPackingHandWashingAuthorizationComponent } from '../../logs/gmp-packing-hand-washing/authorization/gmp.packing.hand.washing.authorization'
@@ -30,7 +30,7 @@ import { AuthorizationLoader } from '../authorization-loader/authorization.loade
   providers: [
     BackendService,
     TranslationService,
-    ToastService,
+    ToastsService,
     LoaderService
   ]
 })
@@ -53,7 +53,7 @@ export class AuthorizationCardComponent {
     service_name: null
   }
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public ts: TService, public event: Events, private toastService: ToastService, private server: BackendService, public timeService: DateTimeService, public loaderService: LoaderService) {
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public ts: TService, public event: Events, private toastService: ToastsService, private server: BackendService, public timeService: DateTimeService, public loaderService: LoaderService) {
   }
 
   approveLog() {

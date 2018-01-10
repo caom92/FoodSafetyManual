@@ -11,7 +11,7 @@ import { GMPPackingScaleCalibrationInventoryComponent } from '../inventories/gmp
 
 import { BackendService } from '../../services/app.backend'
 import { TranslationService } from '../../services/app.translation'
-import { ToastService } from '../../services/app.toasts'
+import { ToastsService } from '../../services/app.toasts'
 
 @Component({
   selector: 'edit-profile',
@@ -19,7 +19,7 @@ import { ToastService } from '../../services/app.toasts'
   providers: [
     BackendService,
     TranslationService,
-    ToastService
+    ToastsService
   ]
 })
 
@@ -65,7 +65,7 @@ export class EditProfile extends NavbarPageComponent {
     ])]
   })
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public server: BackendService, public translationService: TranslationService, private formBuilder: FormBuilder, public storage: Storage, private toasts: ToastService, public events: Events) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public server: BackendService, public translationService: TranslationService, private formBuilder: FormBuilder, public storage: Storage, private toasts: ToastsService, public events: Events) {
     super(translationService, events, storage, server)
   }
 

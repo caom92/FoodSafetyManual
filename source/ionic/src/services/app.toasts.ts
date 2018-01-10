@@ -8,7 +8,7 @@ import { Language } from 'angular-l10n'
 // Servicio que despliega mensajes en la pantalla para informar al usuario 
 // sobre los resultados que sus acciones tuvieron
 @Injectable()
-export class ToastService implements OnInit
+export class ToastsService implements OnInit
 {
   @Language() lang: string
 
@@ -178,8 +178,8 @@ export class ToastService implements OnInit
 
     // luego revisamos si el texto ingresado corresponde a algun indice en la 
     // lista de mensajes
-    if (ToastService.infoMessages[lang][text] !== undefined) {
-      var toastMessage = ToastService.infoMessages[lang][text]
+    if (ToastsService.infoMessages[lang][text] !== undefined) {
+      var toastMessage = ToastsService.infoMessages[lang][text]
       // si asi es, desplegamos el mensaje en el idioma elegido
       toast = this.toastService.create({
         message: toastMessage,
@@ -220,8 +220,8 @@ export class ToastService implements OnInit
 
     // revisamos si el codigo de error retornado corresponde a algun mensaje de 
     // error configurado para el servicio solicitado
-    if (ToastService.errorMessages[lang][service][code] !== undefined) {
-      var toastMessage = ToastService.errorMessages[lang][service][code]
+    if (ToastsService.errorMessages[lang][service][code] !== undefined) {
+      var toastMessage = ToastsService.errorMessages[lang][service][code]
       // si asi fue, lo desplegamos
       toast = this.toastService.create({
         message: toastMessage,
@@ -234,8 +234,8 @@ export class ToastService implements OnInit
 
     // si no, revisamos si el codigo de error retornado corresponde a algun 
     // mensaje de error generico configurado
-    else if (ToastService.errorMessages[lang][code] !== undefined) {
-      var toastMessage = ToastService.errorMessages[lang][code]
+    else if (ToastsService.errorMessages[lang][code] !== undefined) {
+      var toastMessage = ToastsService.errorMessages[lang][code]
       // si asi fue, lo desplegamos
       toast = this.toastService.create({
         message: toastMessage,

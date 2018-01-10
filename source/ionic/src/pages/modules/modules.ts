@@ -8,7 +8,7 @@ import { NavbarPageComponent } from '../super-components/navbar.component'
 
 import { BackendService } from '../../services/app.backend'
 import { TranslationService } from '../../services/app.translation'
-import { ToastService } from '../../services/app.toasts'
+import { ToastsService } from '../../services/app.toasts'
 
 import { LogsPage } from '../logs/logs'
 
@@ -18,7 +18,7 @@ import { LogsPage } from '../logs/logs'
   providers: [
     BackendService,
     TranslationService,
-    ToastService
+    ToastsService
   ]
 })
 

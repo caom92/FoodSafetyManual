@@ -14,7 +14,7 @@ import { DragulaService } from 'ng2-dragula'
 import { GAPPackingPreopAddAreaComponent } from '../add-area/gap.packing.preop.add.area'
 
 import { BackendService } from '../../../../services/app.backend'
-import { ToastService } from '../../../../services/app.toasts'
+import { ToastsService } from '../../../../services/app.toasts'
 import { LoaderService } from '../../../../services/app.loaders'
 
 @Component({
@@ -39,7 +39,7 @@ export class GAPPackingPreopAreaInventoryComponent implements OnInit, OnDestroy 
   drag: ISubscription = null
   dragend: ISubscription = null
 
-  constructor(public events: Events, public modalController: ModalController, public server: BackendService, public navCtrl: NavController, public loaderService: LoaderService, public ts: TService, private toastService: ToastService, private dragulaService: DragulaService){
+  constructor(public events: Events, public modalController: ModalController, public server: BackendService, public navCtrl: NavController, public loaderService: LoaderService, public ts: TService, private toastService: ToastsService, private dragulaService: DragulaService){
 
   }
   

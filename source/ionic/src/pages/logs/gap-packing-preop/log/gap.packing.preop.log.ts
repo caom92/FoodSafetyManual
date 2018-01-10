@@ -8,7 +8,7 @@ import { Log } from '../interfaces/gap.packing.preop.log.interface'
 import { CaptureArea, CaptureItem } from '../interfaces/gap.packing.preop.capture.interface'
 
 import { DateTimeService } from '../../../../services/app.time'
-import { ToastService } from '../../../../services/app.toasts'
+import { ToastsService } from '../../../../services/app.toasts'
 import { LogService } from '../../../../services/app.logs'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
 
@@ -24,7 +24,7 @@ export class GAPPackingPreopLogComponent extends SuperLogComponent implements On
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
     logService: LogService,
-    toasts: ToastService) {
+    toasts: ToastsService) {
     super(logService, toasts)
   }
 

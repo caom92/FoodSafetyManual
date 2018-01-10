@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Rx'
 
 import { BackendService } from '../../services/app.backend'
 import { TranslationService } from '../../services/app.translation'
-import { ToastService } from '../../services/app.toasts'
+import { ToastsService } from '../../services/app.toasts'
 
 import { NavbarPageComponent } from '../super-components/navbar.component'
 
@@ -22,7 +22,7 @@ import { EditProfile } from '../edit-profile/edit-profile'
   providers: [
     BackendService,
     TranslationService,
-    ToastService
+    ToastsService
   ]
 })
 export class HomePage extends NavbarPageComponent implements OnInit {
@@ -32,7 +32,7 @@ export class HomePage extends NavbarPageComponent implements OnInit {
   userLogInInfo: FormGroup
   serverOnline: boolean = null
 
-  constructor(public navCtrl: NavController, public server: BackendService, public translationService: TranslationService, private formBuilder: FormBuilder, public storage: Storage, protected app: App, public menuCtrl: MenuController, private toasts: ToastService, public events: Events) {
+  constructor(public navCtrl: NavController, public server: BackendService, public translationService: TranslationService, private formBuilder: FormBuilder, public storage: Storage, protected app: App, public menuCtrl: MenuController, private toasts: ToastsService, public events: Events) {
     super(translationService, events, storage, server)
   }
 

@@ -9,7 +9,7 @@ import { Language, TranslationService as TService } from 'angular-l10n'
 import { InventoryArea } from '../interfaces/gap.packing.preop.area.inventory.interface'
 
 import { BackendService } from '../../../../services/app.backend'
-import { ToastService } from '../../../../services/app.toasts'
+import { ToastsService } from '../../../../services/app.toasts'
 import { LoaderService } from '../../../../services/app.loaders'
 
 @Component({
@@ -17,7 +17,7 @@ import { LoaderService } from '../../../../services/app.loaders'
   templateUrl: './gap.packing.preop.add.area.html',
   providers: [
     BackendService,
-    ToastService,
+    ToastsService,
     LoaderService
   ]
 })
@@ -28,7 +28,7 @@ export class GAPPackingPreopAddAreaComponent implements OnInit {
 
   newArea: FormGroup = new FormBuilder().group({})
 
-  constructor(public platform: Platform, public params: NavParams, public viewCtrl: ViewController, public alertCtrl: AlertController, public ts: TService, private _fb: FormBuilder, public server: BackendService, private toastService: ToastService, public loaderService: LoaderService){
+  constructor(public platform: Platform, public params: NavParams, public viewCtrl: ViewController, public alertCtrl: AlertController, public ts: TService, private _fb: FormBuilder, public server: BackendService, private toastService: ToastsService, public loaderService: LoaderService){
 
   }
 
