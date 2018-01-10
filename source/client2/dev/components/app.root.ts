@@ -51,7 +51,7 @@ import { GMPPackingPreopTypeComponent } from '../components/logs/gmp-packing-pre
 import { GMPPackingPreopAreaComponent } from '../components/logs/gmp-packing-preop/area/gmp.packing.preop.area'
 import { GMPPackingPreopLogComponent } from '../components/logs/gmp-packing-preop/log/gmp.packing.preop.log'
 
-// Reporte
+import { GMPPackingPreopAuthorizationComponent } from '../components/logs/gmp-packing-preop/authorization/gmp.packing.preop.authorization'
 
 import { GMPPackingPreopReportComponent } from './gmp/packing/preop/report/gmp.packing.preop.report.component'
 import { GMPPackingPreopReportAreaComponent } from './gmp/packing/preop/report/gmp.packing.preop.report.area.component'
@@ -72,10 +72,14 @@ import { GMPPackingScaleCalibrationInventoryListComponent } from '../components/
 import { GMPPackingHandWashingLogComponent } from '../components/logs/gmp-packing-hand-washing/log/gmp.packing.hand.washing.log'
 import { GMPPackingHandWashingItemComponent } from '../components/logs/gmp-packing-hand-washing/item/gmp.packing.hand.washing.item'
 
+import { GMPPackingHandWashingAuthorizationComponent } from '../components/logs/gmp-packing-hand-washing/authorization/gmp.packing.hand.washing.authorization'
+
 // GMP Packing Thermo Calibration
 
 import { GMPPackingThermoCalibrationLogComponent } from '../components/logs/gmp-packing-thermo-calibration/log/gmp.packing.thermo.calibration.log'
 import { GMPPackingThermoCalibrationItemComponent } from '../components/logs/gmp-packing-thermo-calibration/item/gmp.packing.thermo.calibration.item'
+
+import { GMPPackingThermoCalibrationAuthorizationComponent } from '../components/logs/gmp-packing-thermo-calibration/authorization/gmp.packing.thermo.calibration.authorization'
 
 // GMP Packing Scale Calibration
 
@@ -83,10 +87,14 @@ import { GMPPackingScaleCalibrationLogComponent } from '../components/logs/gmp-p
 import { GMPPackingScaleCalibrationTypeComponent } from '../components/logs/gmp-packing-scale-calibration/type/gmp.packing.scale.calibration.type'
 import { GMPPackingScaleCalibrationItemComponent } from '../components/logs/gmp-packing-scale-calibration/item/gmp.packing.scale.calibration.item'
 
+import { GMPPackingScaleCalibrationAuthorizationComponent } from '../components/logs/gmp-packing-scale-calibration/authorization/gmp.packing.scale.calibration.authorization'
+
 // GMP Packing Scissors Knives
 
 import { GMPPackingScissorsKnivesLogComponent } from '../components/logs/gmp-packing-scissors-knives/log/gmp.packing.scissors.knives.log'
 import { GMPPackingScissorsKnivesItemComponent } from '../components/logs/gmp-packing-scissors-knives/item/gmp.packing.scissors.knives.item'
+
+import { GMPPackingScissorsKnivesAuthorizationComponent } from '../components/logs/gmp-packing-scissors-knives/authorization/gmp.packing.scissors.knives.authorization'
 
 // GMP Packing Glass Brittle
 
@@ -94,10 +102,14 @@ import { GMPPackingGlassBrittleLogComponent } from '../components/logs/gmp-packi
 import { GMPPackingGlassBrittleAreaComponent } from '../components/logs/gmp-packing-glass-brittle/area/gmp.packing.glass.brittle.area'
 import { GMPPackingGlassBrittleItemComponent } from '../components/logs/gmp-packing-glass-brittle/item/gmp.packing.glass.brittle.item'
 
+import { GMPPackingGlassBrittleAuthorizationComponent } from '../components/logs/gmp-packing-glass-brittle/authorization/gmp.packing.glass.brittle.authorization'
+
 // GMP Packing Cold Room Temp
 
 import { GMPPackingColdRoomTempLogComponent } from '../components/logs/gmp-packing-cold-room-temp/log/gmp.packing.cold.room.temp.log'
 import { GMPPackingColdRoomTempItemComponent } from '../components/logs/gmp-packing-cold-room-temp/item/gmp.packing.cold.room.temp.item'
+
+import { GMPPackingColdRoomTempAuthorizationComponent } from '../components/logs/gmp-packing-cold-room-temp/authorization/gmp.packing.cold.room.temp.authorization'
 
 // Genericos
 
@@ -274,6 +286,7 @@ import { AuthorizationLoader } from './authorizations/authorization-loader/autho
     GMPPackingPreopTypeComponent,
     GMPPackingPreopAreaComponent,
     GMPPackingPreopLogComponent,
+    GMPPackingPreopAuthorizationComponent,
     GMPPackingPreopReportComponent,
     GMPPackingPreopReportAreaComponent,
     GMPPackingPreopReportTypeComponent,
@@ -284,18 +297,24 @@ import { AuthorizationLoader } from './authorizations/authorization-loader/autho
     //GMPPackingScaleCalibrationAddItemComponent,
     GMPPackingHandWashingLogComponent,
     GMPPackingHandWashingItemComponent,
+    GMPPackingHandWashingAuthorizationComponent,
     GMPPackingThermoCalibrationLogComponent,
     GMPPackingThermoCalibrationItemComponent,
+    GMPPackingThermoCalibrationAuthorizationComponent,
     GMPPackingScaleCalibrationLogComponent,
     GMPPackingScaleCalibrationTypeComponent,
     GMPPackingScaleCalibrationItemComponent,
+    GMPPackingScaleCalibrationAuthorizationComponent,
     GMPPackingScissorsKnivesLogComponent,
     GMPPackingScissorsKnivesItemComponent,
+    GMPPackingScissorsKnivesAuthorizationComponent,
     GMPPackingGlassBrittleLogComponent,
     GMPPackingGlassBrittleAreaComponent,
     GMPPackingGlassBrittleItemComponent,
+    GMPPackingGlassBrittleAuthorizationComponent,
     GMPPackingColdRoomTempLogComponent,
     GMPPackingColdRoomTempItemComponent,
+    GMPPackingColdRoomTempAuthorizationComponent,
     LogTabsPage,
     AuthorizationLoader,
     LogHeaderComponent,
@@ -319,6 +338,13 @@ import { AuthorizationLoader } from './authorizations/authorization-loader/autho
     GMPPackingScissorsKnivesLogComponent,
     GMPPackingGlassBrittleLogComponent,
     GMPPackingColdRoomTempLogComponent,
+    GMPPackingPreopAuthorizationComponent,
+    GMPPackingHandWashingAuthorizationComponent,
+    GMPPackingThermoCalibrationAuthorizationComponent,
+    GMPPackingScaleCalibrationAuthorizationComponent,
+    GMPPackingScissorsKnivesAuthorizationComponent,
+    GMPPackingGlassBrittleAuthorizationComponent,
+    GMPPackingColdRoomTempAuthorizationComponent
   ],
   // indicamos cual es el componente raiz
   bootstrap: [HomeComponent]

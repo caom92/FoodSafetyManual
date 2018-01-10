@@ -12,12 +12,13 @@ import { GMPPackingThermoCalibrationAuthorizationComponent } from '../../logs/gm
 import { GMPPackingColdRoomTempAuthorizationComponent } from '../../logs/gmp-packing-cold-room-temp/authorization/gmp.packing.cold.room.temp.authorization'
 import { GMPPackingGlassBrittleAuthorizationComponent } from '../../logs/gmp-packing-glass-brittle/authorization/gmp.packing.glass.brittle.authorization'
 import { GMPPackingScissorsKnivesAuthorizationComponent } from '../../logs/gmp-packing-scissors-knives/authorization/gmp.packing.scissors.knives.authorization'
-import { DynamicNavbarPageComponent } from '../../super-components/dynamic.navbar.component';
-import { TranslationService } from '../../../services/app.translation';
-import { Events } from 'ionic-angular/util/events';
-import { BackendService } from '../../../services/app.backend';
-import { Storage } from '@ionic/storage';
-import { NavParams } from 'ionic-angular/navigation/nav-params';
+
+import { DynamicNavbarPageComponent } from '../../super-components/dynamic.navbar.component'
+import { TranslationService } from '../../../services/app.translation'
+import { Events } from 'ionic-angular/util/events'
+import { BackendService } from '../../../services/app.backend'
+import { Storage } from '@ionic/storage'
+import { NavParams } from 'ionic-angular/navigation/nav-params'
 
 @Component({
   selector: 'authorization-loader',

@@ -20,7 +20,7 @@ mixin timeInput(showIcon, label, formControlName, id, placeholder, options)
   mz-timepicker-container()&attributes(attributes)
     if (showIcon == true)
       i(mz-icon-mdi, mz-input-prefix, [icon]="'clock'")
-    input(mz-timepicker, label=label, type="text", id=id, placeholder=placeholder, [options]=options)
+    input(mz-timepicker, label=label, type="text", id=id, placeholder=placeholder, [options]=options, formControlName=formControlName)
 
 mixin list()
   if block
