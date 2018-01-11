@@ -1,8 +1,8 @@
-import { OnInit, OnDestroy } from '@angular/core'
+import { Type, OnInit, OnDestroy } from '@angular/core'
 import { InventoryService } from '../../../services/app.inventory'
 import { ModalController, Events } from 'ionic-angular'
 import { SuperInventoryItemInterface } from './super.inventory.interface'
-import { SuperInventoryAddItemComponent } from './super.inventory.add.item';
+import { SuperInventoryAddItemComponent } from './super.inventory.add.item'
 
 export class SuperInventoryComponent implements OnInit, OnDestroy {
   protected inventory: any = null
@@ -10,7 +10,7 @@ export class SuperInventoryComponent implements OnInit, OnDestroy {
   protected scrollAllowed: boolean = true
   private suffix: string = null
 
-  constructor(private events: Events, private inventoryService: InventoryService, protected modalController: ModalController) {
+  constructor(private events: Events, private inventoryService: InventoryService, private modalController: ModalController) {
 
   }
 
@@ -41,7 +41,7 @@ export class SuperInventoryComponent implements OnInit, OnDestroy {
     })
   }
 
-  public addItem(addItemComponet: any, data: any, handler: Function): void {
+  public addItem(addItemComponet: Type<SuperInventoryAddItemComponent>, data: any, handler: Function): void {
     let modal = this.modalController.create(addItemComponet, data)
     modal.present()
     modal.onDidDismiss(data => {

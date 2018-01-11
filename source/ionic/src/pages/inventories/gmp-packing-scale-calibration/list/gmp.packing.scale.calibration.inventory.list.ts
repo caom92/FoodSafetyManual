@@ -1,10 +1,10 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core'
+import { Component, Input, OnInit, OnChanges, OnDestroy } from '@angular/core'
 import { Events } from 'ionic-angular'
 import { Language } from 'angular-l10n'
 import { InventoryType } from '../interfaces/gmp.packing.scale.calibration.inventory.interface'
 import { DragulaService } from 'ng2-dragula'
 import { InventoryService } from '../../../../services/app.inventory'
-import { SuperInventoryListComponent } from '../../super-inventory/super.inventory.list';
+import { SuperInventoryListComponent } from '../../super-inventory/super.inventory.list'
 
 @Component({
   selector: 'gmp-packing-scale-calibration-inventory-list',
@@ -14,7 +14,7 @@ import { SuperInventoryListComponent } from '../../super-inventory/super.invento
   ]
 })
 
-export class GMPPackingScaleCalibrationInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnDestroy {
+export class GMPPackingScaleCalibrationInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnChanges, OnDestroy {
   @Language() private lang: string
   @Input() type: InventoryType
 
