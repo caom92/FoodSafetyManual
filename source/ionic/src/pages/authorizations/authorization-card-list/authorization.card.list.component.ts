@@ -19,14 +19,7 @@ import { LoaderService } from '../../../services/app.loaders'
 
 @Component({
   selector: 'authorization-card-list-component',
-  templateUrl: './authorization.card.list.component.html',
-  providers: [
-    DateTimeService,
-    BackendService,
-    TranslationService,
-    ToastsService,
-    LoaderService
-  ]
+  templateUrl: './authorization.card.list.component.html'
 })
 
 export class AuthorizationCardListComponent extends NavbarPageComponent implements OnInit {

@@ -23,12 +23,7 @@ import { AuthorizationCardListComponent } from '../pages/authorizations/authoriz
 import { PendingCardListComponent } from '../pages/pending-logs/pending-card-list/pending.card.list.component'
 
 @Component({
-  templateUrl: 'app.html',
-  providers: [
-    BackendService,
-    TranslationService,
-    DateTimeService
-  ]
+  templateUrl: 'app.html'
 })
 
 export class MyApp implements AfterViewInit {

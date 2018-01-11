@@ -19,12 +19,7 @@ import { GMPPackingGlassBrittleAreaInventoryComponent } from '../area-inventory/
 
 @Component({
   selector: 'gmp-packing-glass-brittle-inventory-manager',
-  templateUrl: 'gmp.packing.glass.brittle.inventory.manager.html',
-  providers: [
-    ToastsService,
-    BackendService,
-    TranslationService
-  ]
+  templateUrl: 'gmp.packing.glass.brittle.inventory.manager.html'
 })
 
 export class GMPPackingGlassBrittleInventoryManagerComponent extends NavbarPageComponent implements OnInit {

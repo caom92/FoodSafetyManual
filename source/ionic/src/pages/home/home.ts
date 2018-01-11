@@ -18,12 +18,7 @@ import { EditProfile } from '../edit-profile/edit-profile'
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html',
-  providers: [
-    BackendService,
-    TranslationService,
-    ToastsService
-  ]
+  templateUrl: 'home.html'
 })
 export class HomePage extends NavbarPageComponent implements OnInit {
   @Language() lang: string;

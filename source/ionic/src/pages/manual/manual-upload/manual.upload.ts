@@ -12,12 +12,7 @@ import { LoaderService } from '../../../services/app.loaders'
 
 @Component({
   selector: 'manual-upload',
-  templateUrl: './manual.upload.html',
-  providers: [
-    BackendService,
-    ToastsService,
-    LoaderService
-  ]
+  templateUrl: './manual.upload.html'
 })
 
 export class ManualUploadComponent implements OnInit {

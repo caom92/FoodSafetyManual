@@ -16,8 +16,6 @@ import { TranslationService } from '../../../../services/app.translation'
   selector: 'gmp-packing-glass-brittle-inventory-list',
   templateUrl: './gmp.packing.glass.brittle.inventory.list.html',
   providers: [
-    BackendService,
-    TranslationService,
     DragulaService
   ]
 })

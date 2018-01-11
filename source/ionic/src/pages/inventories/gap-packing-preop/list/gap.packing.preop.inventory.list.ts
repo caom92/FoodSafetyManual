@@ -16,8 +16,6 @@ import { TranslationService } from '../../../../services/app.translation'
   selector: 'gap-packing-preop-inventory-list',
   templateUrl: './gap.packing.preop.inventory.list.html',
   providers: [
-    BackendService,
-    TranslationService,
     DragulaService
   ]
 })

@@ -19,12 +19,7 @@ import { GMPPackingPreopAreaInventoryComponent } from '../area-inventory/gmp.pac
 
 @Component({
   selector: 'gmp-packing-preop-inventory-manager',
-  templateUrl: 'gmp.packing.preop.inventory.manager.html',
-  providers: [
-    ToastsService,
-    BackendService,
-    TranslationService
-  ]
+  templateUrl: 'gmp.packing.preop.inventory.manager.html'
 })
 
 export class GMPPackingPreopInventoryManagerComponent extends NavbarPageComponent implements OnInit {

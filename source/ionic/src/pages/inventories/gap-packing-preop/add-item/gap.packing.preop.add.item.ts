@@ -14,12 +14,7 @@ import { LoaderService } from '../../../../services/app.loaders'
 
 @Component({
   selector: 'gap-packing-preop-add-item',
-  templateUrl: './gap.packing.preop.add.item.html',
-  providers: [
-    BackendService,
-    ToastsService,
-    LoaderService
-  ]
+  templateUrl: './gap.packing.preop.add.item.html'
 })
 
 export class GAPPackingPreopAddItemComponent implements OnInit {

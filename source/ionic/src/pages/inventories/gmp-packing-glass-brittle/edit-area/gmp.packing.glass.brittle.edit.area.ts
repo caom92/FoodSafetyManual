@@ -14,12 +14,7 @@ import { LoaderService } from '../../../../services/app.loaders'
 
 @Component({
   selector: 'gmp-packing-glass-brittle-edit-area',
-  templateUrl: './gmp.packing.glass.brittle.edit.area.html',
-  providers: [
-    BackendService,
-    ToastsService,
-    LoaderService
-  ]
+  templateUrl: './gmp.packing.glass.brittle.edit.area.html'
 })
 
 export class GMPPackingGlassBrittleEditAreaComponent implements OnInit {

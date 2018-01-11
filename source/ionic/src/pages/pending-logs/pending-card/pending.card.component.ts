@@ -19,13 +19,7 @@ import { LogService } from '../../../services/app.logs'
 
 @Component({
   selector: 'pending-card',
-  templateUrl: './pending.card.component.html',
-  providers: [
-    BackendService,
-    TranslationService,
-    ToastsService,
-    LoaderService
-  ]
+  templateUrl: './pending.card.component.html'
 })
 
 export class PendingCardComponent {

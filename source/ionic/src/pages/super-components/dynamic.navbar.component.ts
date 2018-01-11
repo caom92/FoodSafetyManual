@@ -11,9 +11,7 @@ import { BackendService } from '../../services/app.backend'
 import { DynamicComponentResolver } from '../../app/dynamic.resolver'
 
 @Component({
-  providers: [
-    TranslationService
-  ]
+  
 })
 
 export class DynamicNavbarPageComponent extends DynamicComponentResolver implements OnInit {

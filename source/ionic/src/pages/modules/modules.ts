@@ -14,12 +14,7 @@ import { LogsPage } from '../logs/logs'
 
 @Component({
   selector: 'modules',
-  templateUrl: 'modules.html',
-  providers: [
-    BackendService,
-    TranslationService,
-    ToastsService
-  ]
+  templateUrl: 'modules.html'
 })
 
 export class ModulesPage extends NavbarPageComponent {

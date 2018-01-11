@@ -209,10 +209,10 @@ import { ManualUploadComponent } from '../pages/manual/manual-upload/manual.uplo
 
 import { InventoryLoaderComponent } from '../pages/inventories/inventories'
 
-import { TranslationModule, LocaleService, TranslationService as TService } from 'angular-l10n';
+import { TranslationModule, LocaleService, TranslationService as TService } from 'angular-l10n'
 
 import { DynamicComponentContainerDirective } from '../directives/dynamic.container'
-import { HideFabDirective } from "../directives/hide.fab";
+import { HideFabDirective } from "../directives/hide.fab"
 
 import { AuthorizationLoader } from '../pages/authorizations/authorization-loader/authorization.loader.component'
 
@@ -528,7 +528,10 @@ import { AreaManagerService } from '../services/app.area.manager'
     ToastsService,
     LogService,
     InventoryService,
-    AreaManagerService
+    AreaManagerService,
+    TranslationService,
+    DateTimeService,
+    TService
   ]
 })
 export class AppModule {

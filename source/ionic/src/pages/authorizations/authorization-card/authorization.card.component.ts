@@ -26,13 +26,7 @@ import { AuthorizationLoader } from '../authorization-loader/authorization.loade
 
 @Component({
   selector: 'authorization-card',
-  templateUrl: './authorization.card.component.html',
-  providers: [
-    BackendService,
-    TranslationService,
-    ToastsService,
-    LoaderService
-  ]
+  templateUrl: './authorization.card.component.html'
 })
 
 export class AuthorizationCardComponent {

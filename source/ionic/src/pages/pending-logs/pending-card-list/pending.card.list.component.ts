@@ -19,14 +19,7 @@ import { LoaderService } from '../../../services/app.loaders'
 
 @Component({
   selector: 'pending-card-list-component',
-  templateUrl: './pending.card.list.component.html',
-  providers: [
-    DateTimeService,
-    BackendService,
-    TranslationService,
-    ToastsService,
-    LoaderService
-  ]
+  templateUrl: './pending.card.list.component.html'
 })
 
 export class PendingCardListComponent extends NavbarPageComponent implements OnInit, OnDestroy {

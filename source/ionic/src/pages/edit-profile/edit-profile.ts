@@ -15,12 +15,7 @@ import { ToastsService } from '../../services/app.toasts'
 
 @Component({
   selector: 'edit-profile',
-  templateUrl: 'edit-profile.html',
-  providers: [
-    BackendService,
-    TranslationService,
-    ToastsService
-  ]
+  templateUrl: 'edit-profile.html'
 })
 
 export class EditProfile extends NavbarPageComponent {

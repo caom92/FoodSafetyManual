@@ -19,12 +19,7 @@ import { GAPPackingPreopAreaInventoryComponent } from '../area-inventory/gap.pac
 
 @Component({
   selector: 'gap-packing-preop-inventory-manager',
-  templateUrl: 'gap.packing.preop.inventory.manager.html',
-  providers: [
-    ToastsService,
-    BackendService,
-    TranslationService
-  ]
+  templateUrl: 'gap.packing.preop.inventory.manager.html'
 })
 
 export class GAPPackingPreopInventoryManagerComponent extends NavbarPageComponent implements OnInit {

@@ -14,12 +14,7 @@ import { LoaderService } from '../../../../services/app.loaders'
 
 @Component({
   selector: 'gap-packing-preop-edit-area',
-  templateUrl: './gap.packing.preop.edit.area.html',
-  providers: [
-    BackendService,
-    ToastsService,
-    LoaderService
-  ]
+  templateUrl: './gap.packing.preop.edit.area.html'
 })
 
 export class GAPPackingPreopEditAreaComponent implements OnInit {

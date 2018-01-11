@@ -21,9 +21,6 @@ import { LoaderService } from '../../../../services/app.loaders'
   selector: 'gmp-packing-preop-area-inventory',
   templateUrl: './gmp.packing.preop.area.inventory.html',
   providers: [
-    BackendService,
-    ToastsService,
-    LoaderService,
     DragulaService
   ]
 })

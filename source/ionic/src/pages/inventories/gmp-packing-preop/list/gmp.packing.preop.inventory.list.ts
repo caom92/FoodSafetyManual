@@ -16,8 +16,6 @@ import { TranslationService } from '../../../../services/app.translation'
   selector: 'gmp-packing-preop-inventory-list',
   templateUrl: './gmp.packing.preop.inventory.list.html',
   providers: [
-    BackendService,
-    TranslationService,
     DragulaService
   ]
 })
