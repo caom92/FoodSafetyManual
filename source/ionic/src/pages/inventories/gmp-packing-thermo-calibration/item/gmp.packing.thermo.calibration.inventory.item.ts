@@ -1,17 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { Observable } from 'rxjs/Rx'
 import { InventoryItem } from '../interfaces/gmp.packing.thermo.calibration.inventory.interface'
 import { SuperInventoryItemComponent } from '../../super-inventory/super.inventory.item'
 import { InventoryService } from '../../../../services/app.inventory'
-
-/**
- * Componente que controla un elemento de inventario de GMP Packing Thermo
- * Calibration
- * 
- * @export
- * @class GMPPackingThermoCalibrationInventoryItemComponent
- * @implements {OnInit}
- */
 
 @Component({
   selector: 'gmp-packing-thermo-calibration-inventory-item',
@@ -24,14 +14,6 @@ export class GMPPackingThermoCalibrationInventoryItemComponent extends SuperInve
   constructor(inventoryService: InventoryService) {
     super(inventoryService)
   }
-
-  /**
-   * Asigna el sufijo de la bitácora, que identifica a los servicios que serán
-   * invocados del servidor, así como el valor activo/inactivo del elemento en
-   * el componente Toggle
-   * 
-   * @memberof GMPPackingThermoCalibrationInventoryItemComponent
-   */
 
   public ngOnInit(): void {
     this.setSuffix("gmp-packing-thermo-calibration")

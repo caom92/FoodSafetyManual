@@ -13,12 +13,7 @@ import { LoaderService } from '../../../../services/app.loaders'
 
 @Component({
   selector: 'gmp-packing-preop-inventory-item',
-  templateUrl: './gmp.packing.preop.inventory.item.html',
-  providers: [
-    BackendService,
-    ToastsService,
-    LoaderService
-  ]
+  templateUrl: './gmp.packing.preop.inventory.item.html'
 })
 
 export class GMPPackingPreopInventoryItemComponent implements OnInit {

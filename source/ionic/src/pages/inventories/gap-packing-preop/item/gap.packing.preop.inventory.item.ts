@@ -13,12 +13,7 @@ import { LoaderService } from '../../../../services/app.loaders'
 
 @Component({
   selector: 'gap-packing-preop-inventory-item',
-  templateUrl: './gap.packing.preop.inventory.item.html',
-  providers: [
-    BackendService,
-    ToastsService,
-    LoaderService
-  ]
+  templateUrl: './gap.packing.preop.inventory.item.html'
 })
 
 export class GAPPackingPreopInventoryItemComponent implements OnInit {
