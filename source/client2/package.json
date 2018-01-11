@@ -6,8 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "lint": "ng lint",
-    "dev-build": "lessc --clean-css='--s1 --advanced --compatibility=ie8' dev/stylesheets/less/main.less dev/stylesheets/app.style.css && pug dev/templates/pug -o dev/templates/ --obj {'doctype':'html'}",
-    "dev-build-win": "lessc --clean-css=\"--s1 --advanced --compatibility=ie8\" dev\\stylesheets\\less\\main.less dev\\stylesheets\\app.style.css && pug dev\\templates\\pug -o dev\\templates\\ --obj {'doctype':'html'}"
+    "dev-build": "lessc --clean-css='--s1 --advanced --compatibility=ie8' dev/stylesheets/less/main.less dev/stylesheets/app.style.css && pug dev/templates/pug -o dev/templates/",
+    "dev-build-win": "lessc --clean-css=\"--s1 --advanced --compatibility=ie8\" dev\\stylesheets\\less\\main.less dev\\stylesheets\\app.style.css && pug dev\\templates\\pug -o dev\\templates\\",
+    "pug-compile": "pug ./dev/components -o ./dev/components --doctype html"
   },
   "private": true,
   "dependencies": {
