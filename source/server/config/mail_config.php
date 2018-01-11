@@ -5,8 +5,8 @@ namespace fsm\mail;
 
 // Mail content information
 const CHARSET = "UTF-8";
-const USER_NAME_EN = "VirtualFSM mailing system";
-const USER_NAME_ES = "Sistema de mensajería de VirtualFSM";
+const USER_NAME_EN = "Food Safety Manual mailing system";
+const USER_NAME_ES = "Sistema de mensajería de Food Safety Manual";
 
 // Email host information
 const HOST = "gator3063.hostgator.com";

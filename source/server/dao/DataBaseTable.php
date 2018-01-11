@@ -120,19 +120,6 @@ class DataBaseTable
   protected function update($newValues, $where) {
     return self::$dataBase->update($this->table, $newValues, $where);
   }
-
-  // Reemplaza los datos existentes en las columnas especificadas con los datos
-  // especificados
-  // [in]   columns (array<string>): la lista de los nombres de las columnas 
-  //        que van a ser modificados
-  // [in]   [where] (dictionary): un arreglo asociativo que define las
-  //        condiciones con las que los datos seran filtrados ordenados por
-  //        nombre de la operacion y nombre del valor al cual le sera aplicada
-  //        dicha operacion
-  // [out]  return (uint): el numero de renglones que fueron modificados
-  protected function replace($columns, $where = []) {
-    return self::$dataBase->replace($this->table, $columns, $where);
-  }
   
   // Borra de la tabla todos los renglones que cumplan con las condiciones 
   // especificadas
@@ -161,84 +148,6 @@ class DataBaseTable
     return ($hasJoins) ?
       self::$dataBase->count($this->table, $joins, $column, $where) :
       self::$dataBase->count($this->table, $where);
-  }
-
-  // Obtiene el valor mas chico de la columna especificada de entre todos los 
-  // renglones de la tabla
-  // [in]   column (string): el nombre de la columna que va a ser buscada
-  // [in]   [where] (dictionary): un arreglo asociativo que define las
-  //        condiciones con las que los datos seran filtrados ordenados por
-  //        nombre de la operacion y nombre del valor al cual le sera aplicada
-  //        dicha operacion
-  // [in]   [joins] (dictionary): un arreglo asociativo que define las tablas 
-  //        con las que los datos leidos seran mezclados organizados por nombre
-  //        de las tablas y tipo de mezclado y la condicion que debe cumplirse 
-  //        para que la mezcla se lleve a cabo
-  // [out]  return (any): el valor mas chico que fue encontrado en la tabla 
-  protected function min($column, $where = [], $joins = NULL) {
-    $hasJoins = isset($joins);
-    return ($hasJoins) ?
-      self::$dataBase->min($this->table, $joins, $column, $where) :
-      self::$dataBase->min($this->table, $column, $where);
-  }
-
-  // Obtiene el valor mas grande de la columna especificada de entre todos los 
-  // renglones de la tabla
-  // [in]   column (string): el nombre de la columna que va a ser buscada
-  // [in]   [where] (dictionary): un arreglo asociativo que define las
-  //        condiciones con las que los datos seran filtrados ordenados por
-  //        nombre de la operacion y nombre del valor al cual le sera aplicada
-  //        dicha operacion
-  // [in]   [joins] (dictionary): un arreglo asociativo que define las tablas 
-  //        con las que los datos leidos seran mezclados organizados por nombre
-  //        de las tablas y tipo de mezclado y la condicion que debe cumplirse 
-  //        para que la mezcla se lleve a cabo
-  // [out]  return (any): el valor mas grande que fue encontrado en la tabla 
-  protected function max($column, $where = [], $joins = NULL) {
-    $hasJoins = isset($joins);
-    return ($hasJoins) ?
-      self::$dataBase->max($this->table, $joins, $column, $where) :
-      self::$dataBase->max($this->table, $column, $where);
-  }
-
-  // Calcula la suma de los valores de la columna especificada de entre 
-  // todos los renglones de la tabla
-  // [in]   column (string): el nombre de la columna que va a ser buscada
-  // [in]   [where] (dictionary): un arreglo asociativo que define las
-  //        condiciones con las que los datos seran filtrados ordenados por
-  //        nombre de la operacion y nombre del valor al cual le sera aplicada
-  //        dicha operacion
-  // [in]   [joins] (dictionary): un arreglo asociativo que define las tablas 
-  //        con las que los datos leidos seran mezclados organizados por nombre
-  //        de las tablas y tipo de mezclado y la condicion que debe cumplirse 
-  //        para que la mezcla se lleve a cabo
-  // [out]  return (any): la suma de todos los valores de la columna 
-  //        especificada
-  protected function sum($column, $where = [], $joins = NULL) {
-    $hasJoins = isset($joins);
-    return ($hasJoins) ?
-      self::$dataBase->sum($this->table, $joins, $column, $where) :
-      self::$dataBase->sum($this->table, $column, $where);
-  }
-
-  // Calcula el promedio de los valores de la columna especificada de
-  // entre todos los renglones de la tabla
-  // [in]   column (string): el nombre de la columna que va a ser buscada
-  // [in]   [where] (dictionary): un arreglo asociativo que define las
-  //        condiciones con las que los datos seran filtrados ordenados por
-  //        nombre de la operacion y nombre del valor al cual le sera aplicada
-  //        dicha operacion
-  // [in]   [joins] (dictionary): un arreglo asociativo que define las tablas 
-  //        con las que los datos leidos seran mezclados organizados por nombre
-  //        de las tablas y tipo de mezclado y la condicion que debe cumplirse 
-  //        para que la mezcla se lleve a cabo
-  // [out]  return (any): el promedio de todos los valores de la columna 
-  //        especificada
-  protected function avg($column, $where = [], $joins = NULL) {
-    $hasJoins = isset($joins);
-    return ($hasJoins) ?
-      self::$dataBase->avg($this->table, $joins, $column, $where) :
-      self::$dataBase->avg($this->table, $column, $where);
   }
 }   // class DataBaseTable
 
