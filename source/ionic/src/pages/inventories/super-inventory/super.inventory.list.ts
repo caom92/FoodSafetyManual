@@ -89,7 +89,6 @@ export class SuperInventoryListComponent implements OnInit, OnDestroy {
    */
 
   public ngOnInit(): void {
-    console.log("Super component bag name: " + this.bagName)
     // Guardamos el inventario original 
     this.originalInventory = this.currentInventory.map(x => Object.assign({}, x))
 

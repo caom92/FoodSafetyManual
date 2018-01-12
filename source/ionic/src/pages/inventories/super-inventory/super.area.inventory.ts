@@ -31,7 +31,7 @@ export class SuperAreaInventoryComponent implements OnInit, OnDestroy {
       console.log("Message: " + message)
     })
 
-    this.areaManagerService.getAreaInventory(this.suffix, true).then(success => {
+    this.areaManagerService.getAreaInventoryByPosition(this.suffix).then(success => {
       this.inventory = success
       this.checkEmptyInventory()
     }, error => {

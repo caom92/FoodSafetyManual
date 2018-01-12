@@ -1,14 +1,10 @@
-import { ViewChild, OnInit } from '@angular/core'
-
-import { NavController, NavParams, Select, Events } from 'ionic-angular'
+import { OnInit, ViewChild } from '@angular/core'
 import { Storage } from '@ionic/storage'
-
 import { Language } from 'angular-l10n'
+import { Events, Select } from 'ionic-angular'
 
-import { TranslationService } from '../../services/app.translation'
 import { BackendService } from '../../services/app.backend'
-
-import { PendingCardListComponent } from '../pending-logs/pending-card-list/pending.card.list.component'
+import { TranslationService } from '../../services/app.translation'
 
 export class NavbarPageComponent implements OnInit {
   @ViewChild('zone_select') zone_select: Select = null

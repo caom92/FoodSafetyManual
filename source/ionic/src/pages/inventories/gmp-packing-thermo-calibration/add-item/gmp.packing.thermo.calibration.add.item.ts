@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core'
-import { Validators, FormGroup, FormBuilder } from '@angular/forms'
-import { Platform, NavParams, ViewController, AlertController } from 'ionic-angular'
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Language, TranslationService as TService } from 'angular-l10n'
-
-import { InventoryItem } from '../interfaces/gmp.packing.thermo.calibration.inventory.interface'
+import { AlertController, NavParams, ViewController } from 'ionic-angular'
 
 import { InventoryService } from '../../../../services/app.inventory'
 import { SuperInventoryAddItemComponent } from '../../super-inventory/super.inventory.add.item'

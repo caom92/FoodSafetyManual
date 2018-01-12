@@ -1,9 +1,9 @@
-import { OnInit } from "@angular/core"
-import { Validators, FormGroup, FormBuilder } from "@angular/forms"
+import { OnInit } from '@angular/core'
+import { FormGroup, FormBuilder } from "@angular/forms"
 import { ViewController, AlertController } from "ionic-angular"
 import { TranslationService as TService } from 'angular-l10n'
 import { AreaManagerService } from '../../../services/app.area.manager'
-import { SuperInventoryItemInterface } from "./super.inventory.interface";
+import { SuperInventoryItemInterface } from './super.inventory.interface'
 
 export class SuperInventoryAddItemComponent implements OnInit {
   protected newItem: FormGroup = new FormBuilder().group({})
@@ -56,7 +56,7 @@ export class SuperInventoryAddItemComponent implements OnInit {
           {
             text: this.ts.translate("Options.cancel"),
             handler: () => {
-              console.log('Cancelar');
+              
             }
           },
           {

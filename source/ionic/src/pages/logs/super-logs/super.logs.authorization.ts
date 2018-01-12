@@ -1,9 +1,10 @@
 import { OnInit } from '@angular/core'
-import { FormGroup, FormBuilder } from '@angular/forms'
-import { SuperAuthorization } from './super.logs.authorization.interface'
+import { FormBuilder, FormGroup } from '@angular/forms'
+
 import { LogService } from '../../../services/app.logs'
-import { LogHeaderData } from '../log.interfaces'
 import { ToastsService } from '../../../services/app.toasts'
+import { LogHeaderData } from '../log.interfaces'
+import { SuperAuthorization } from './super.logs.authorization.interface'
 
 export class SuperAuthorizationComponent implements OnInit {
   protected log: SuperAuthorization

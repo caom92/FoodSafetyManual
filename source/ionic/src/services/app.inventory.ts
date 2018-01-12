@@ -1,17 +1,13 @@
 import { Injectable } from '@angular/core'
-
-import { App, Events } from 'ionic-angular'
+import { FormArray, FormControl, FormGroup } from '@angular/forms'
 import { Storage } from '@ionic/storage'
-
-import { FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms'
-
-import { Language, TranslationService as TService } from 'angular-l10n'
+import { TranslationService as TService } from 'angular-l10n'
+import { App, Events } from 'ionic-angular'
 import { Observable } from 'rxjs/Rx'
 
-import { ToastsService } from './app.toasts'
-import { LoaderService } from './app.loaders'
 import { BackendService } from './app.backend'
-import { errorHandler } from '@angular/platform-browser/src/browser'
+import { LoaderService } from './app.loaders'
+import { ToastsService } from './app.toasts'
 
 /**
  * Servicio que agrupa las funciones en común que pueden ser utilizadas por

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { Storage } from '@ionic/storage'
-import { LocaleService, Language } from 'angular-l10n'
+import { Language, LocaleService } from 'angular-l10n'
 
 @Component({
 

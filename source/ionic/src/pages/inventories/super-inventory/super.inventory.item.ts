@@ -58,7 +58,7 @@ export class SuperInventoryItemComponent {
     } else {
       this.previousValue = !this.item_toggle.value
       this.inventoryService.toggleItem(this.item, "toggle-" + this.suffix).then(success => {
-        console.log("Toggle llamado desde la Super Clase")
+        
       }, error => {
         this.toggleError = true
         this.toggleItem()

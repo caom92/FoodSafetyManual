@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core'
 
 import { App } from 'ionic-angular'
 
-import { FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms'
+import { FormGroup, FormArray, FormControl } from '@angular/forms'
 
-import { Language, TranslationService as TService } from 'angular-l10n'
+import { TranslationService as TService } from 'angular-l10n'
 import { Observable } from 'rxjs/Rx'
 
 import { ToastsService } from './app.toasts'
@@ -29,18 +29,50 @@ export class AreaManagerService {
 
   }
 
-  public getAreaInventory(suffix: string, orderByPosition?: boolean): Promise<any> {
+  public getAreaInventory(suffix: string): Promise<any> {
     let areaInventoryPromise = new Promise<any>((resolve, reject) => {
-      let prefix: string = ""
-      if (orderByPosition === true) {
-        prefix = 'get-areas-of-zone-by-position-'
-      } else {
-        prefix = 'get-areas-of-zone-'
-      }
       let loader = this.loaderService.koiLoader("")
       loader.present()
       this.server.update(
-        prefix + suffix,
+        'get-areas-of-zone-' + suffix,
+        new FormData(),
+        (response: any) => {
+          if (response.meta.return_code == 0) {
+            if (response.data) {
+              resolve(response.data)
+              loader.dismiss()
+            } else {
+              reject("bad request")
+              loader.dismiss()
+              this.app.getRootNav().pop()
+              this.toastService.showText("serverUnreachable")
+            }
+          } else {
+            reject("bad request")
+            loader.dismiss()
+            this.app.getRootNav().pop()
+            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+          }
+        },
+        (error: any, caught: Observable<void>) => {
+          reject("network error")
+          loader.dismiss()
+          this.app.getRootNav().pop()
+          this.toastService.showText("serverUnreachable")
+          return []
+        }
+      )
+    })
+
+    return areaInventoryPromise
+  }
+
+  public getAreaInventoryByPosition(suffix: string): Promise<any> {
+    let areaInventoryPromise = new Promise<any>((resolve, reject) => {
+      let loader = this.loaderService.koiLoader("")
+      loader.present()
+      this.server.update(
+        'get-areas-of-zone-by-position-' + suffix,
         new FormData(),
         (response: any) => {
           if (response.meta.return_code == 0) {

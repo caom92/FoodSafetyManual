@@ -1,9 +1,7 @@
 import { Injectable, OnInit } from '@angular/core'
-import { ToastController, Events } from 'ionic-angular';
-
-import { Storage } from '@ionic/storage';
-
+import { Storage } from '@ionic/storage'
 import { Language } from 'angular-l10n'
+import { Events, ToastController } from 'ionic-angular'
 
 // Servicio que despliega mensajes en la pantalla para informar al usuario 
 // sobre los resultados que sus acciones tuvieron
