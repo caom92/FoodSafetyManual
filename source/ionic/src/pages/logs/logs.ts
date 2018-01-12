@@ -1,18 +1,14 @@
 import { Component } from '@angular/core'
-import { NavController, NavParams, Select, Events } from 'ionic-angular'
 import { Storage } from '@ionic/storage'
-
 import { Language } from 'angular-l10n'
+import { Events, NavController, NavParams } from 'ionic-angular'
 
 import { BackendService } from '../../services/app.backend'
-import { TranslationService } from '../../services/app.translation'
 import { ToastsService } from '../../services/app.toasts'
-
-import { NavbarPageComponent } from '../super-components/navbar.component'
-
-import { LogTabsPage } from './log-tabs/log.tabs.page'
-
+import { TranslationService } from '../../services/app.translation'
 import { InventoryLoaderComponent } from '../inventories/inventories'
+import { NavbarPageComponent } from '../super-components/navbar.component'
+import { LogTabsPage } from './log-tabs/log.tabs.page'
 
 @Component({
   selector: 'logs',

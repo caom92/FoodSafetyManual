@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core'
-import { Language } from 'angular-l10n'
 import { FormGroup } from '@angular/forms'
+import { Language } from 'angular-l10n'
+
 import { LogType } from '../interfaces/gmp.packing.preop.log.interface'
 
 @Component({

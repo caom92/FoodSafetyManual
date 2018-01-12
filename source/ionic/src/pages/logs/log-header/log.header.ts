@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { Storage } from '@ionic/storage'
 import { Language } from 'angular-l10n'
+
 import { DateTimeService } from '../../../services/app.time'
 
 @Component({

@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { FormGroup } from '@angular/forms'
 import { Language } from 'angular-l10n'
-import { TranslationService } from '../../../../services/app.translation'
-import { LogArea, CorrectiveAction } from '../interfaces/gap.packing.preop.log.interface'
+
+import { CorrectiveAction, LogArea } from '../interfaces/gap.packing.preop.log.interface'
 
 @Component({
   selector: 'gap-packing-preop-area',

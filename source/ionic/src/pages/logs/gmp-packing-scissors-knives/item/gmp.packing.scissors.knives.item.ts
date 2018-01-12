@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core'
-import { Language } from 'angular-l10n'
 import { FormGroup } from '@angular/forms'
+import { Language } from 'angular-l10n'
+
 import { LogItem } from '../interfaces/gmp.packing.scissors.knives.log.interface'
 
 @Component({

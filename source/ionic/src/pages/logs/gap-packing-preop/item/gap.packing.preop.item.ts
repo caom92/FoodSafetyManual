@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core'
-import { Language } from 'angular-l10n'
 import { FormGroup } from '@angular/forms'
-import { LogItem, CorrectiveAction } from '../interfaces/gap.packing.preop.log.interface'
+import { Language } from 'angular-l10n'
+
+import { CorrectiveAction, LogItem } from '../interfaces/gap.packing.preop.log.interface'
 
 @Component({
   selector: 'gap-packing-preop-item',

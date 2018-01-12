@@ -1,29 +1,23 @@
-import { Component, ViewChild, OnInit } from '@angular/core'
-import { NavController, NavParams, Select, Events, LoadingController } from 'ionic-angular'
+import { Component, OnInit } from '@angular/core'
 import { Storage } from '@ionic/storage'
-
 import { Language, TranslationService as TService } from 'angular-l10n'
-
+import { Events, LoadingController, NavController, NavParams } from 'ionic-angular'
 import { Observable } from 'rxjs/Rx'
 
 import { BackendService } from '../../../services/app.backend'
-import { TranslationService } from '../../../services/app.translation'
 import { ToastsService } from '../../../services/app.toasts'
-import { DateTimeService } from '../../../services/app.time'
-
+import { TranslationService } from '../../../services/app.translation'
 import { ManualTab } from '../../manual/manual'
 import { ReportTab } from '../../reports/reports'
-
 import { NavbarPageComponent } from '../../super-components/navbar.component'
-
-import { GMPPackingPreopLogComponent } from '../gmp-packing-preop/log/gmp.packing.preop.log'
-import { GMPPackingHandWashingLogComponent } from '../gmp-packing-hand-washing/log/gmp.packing.hand.washing.log'
-import { GMPPackingGlassBrittleLogComponent } from '../gmp-packing-glass-brittle/log/gmp.packing.glass.brittle.log'
-import { GMPPackingScaleCalibrationLogComponent } from '../gmp-packing-scale-calibration/log/gmp.packing.scale.calibration.log'
 import { GAPPackingPreopLogComponent } from '../gap-packing-preop/log/gap.packing.preop.log'
+import { GMPPackingColdRoomTempLogComponent } from '../gmp-packing-cold-room-temp/log/gmp.packing.cold.room.temp.log'
+import { GMPPackingGlassBrittleLogComponent } from '../gmp-packing-glass-brittle/log/gmp.packing.glass.brittle.log'
+import { GMPPackingHandWashingLogComponent } from '../gmp-packing-hand-washing/log/gmp.packing.hand.washing.log'
+import { GMPPackingPreopLogComponent } from '../gmp-packing-preop/log/gmp.packing.preop.log'
+import { GMPPackingScaleCalibrationLogComponent } from '../gmp-packing-scale-calibration/log/gmp.packing.scale.calibration.log'
 import { GMPPackingScissorsKnivesLogComponent } from '../gmp-packing-scissors-knives/log/gmp.packing.scissors.knives.log'
 import { GMPPackingThermoCalibrationLogComponent } from '../gmp-packing-thermo-calibration/log/gmp.packing.thermo.calibration.log'
-import { GMPPackingColdRoomTempLogComponent } from '../gmp-packing-cold-room-temp/log/gmp.packing.cold.room.temp.log'
 
 @Component({
   selector: 'log-tabs-page',
