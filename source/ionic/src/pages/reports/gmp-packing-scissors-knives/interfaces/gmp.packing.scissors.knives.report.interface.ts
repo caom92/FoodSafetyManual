@@ -2,7 +2,7 @@ import { SuperReport } from "../../super-report/super.report.interface"
 
 export interface Report extends SuperReport {
   notes: string
-  itemss: Array<ReportItem>
+  items: Array<ReportItem>
 }
 
 export interface ReportItem {

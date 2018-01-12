@@ -1,8 +1,9 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core'
-import { Events } from 'ionic-angular'
+import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { Language } from 'angular-l10n'
-import { Report } from '../interfaces/gmp.packing.preop.interface'
+import { Events } from 'ionic-angular'
+
 import { SuperReportLoader } from '../../super-report/super.report.loader'
+import { Report } from '../interfaces/gmp.packing.preop.interface'
 
 @Component({
   selector: 'gmp-packing-preop-report-loader',
