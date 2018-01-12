@@ -26,15 +26,17 @@ $selfInspection = [
       realpath(dirname(__FILE__).'/toggle-gmp-self-inspection-pest-control.php'),
     'reorder-gmp-self-inspection-pest-control' =>
       realpath(dirname(__FILE__).'/reorder-gmp-self-inspection-pest-control.php'),
-    'add-room-gmp-self-inspection-pest-control' =>
+    'add-workplace-area-gmp-self-inspection-pest-control' =>
       realpath(dirname(__FILE__).'/add-room-gmp-self-inspection-pest-control.php'),
-    'rooms-gmp-self-inspection-pest-control' =>
+    'get-areas-of-zone-gmp-self-inspection-pest-control' =>
+      realpath(dirname(__FILE__).'/rooms-gmp-self-inspection-pest-control.php'),
+    'get-areas-of-zone-by-position-gmp-self-inspection-pest-control' =>
       realpath(dirname(__FILE__).'/rooms-gmp-self-inspection-pest-control.php'),
     'update-gmp-self-inspection-pest-control' =>
       realpath(dirname(__FILE__).'/update-gmp-self-inspection-pest-control.php'),
     'authorization-report-gmp-self-inspection-pest-control' =>
       realpath(dirname(__FILE__).'/authorization-report-gmp-self-inspection-pest-control.php'),
-    'edit-room-gmp-self-inspection-pest-control' =>
+    'edit-workplace-area-gmp-self-inspection-pest-control' =>
       realpath(dirname(__FILE__).'/edit-room-gmp-self-inspection-pest-control.php')
   ]
 ];

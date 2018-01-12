@@ -27,7 +27,14 @@ $glass = [
     'update-gmp-packing-glass-brittle' =>
       realpath(dirname(__FILE__).'/update-gmp-packing-glass-brittle.php'),
     'authorization-report-gmp-packing-glass-brittle' =>
-      realpath(dirname(__FILE__).'/authorization-report-gmp-packing-glass-brittle.php'),
+      realpath(dirname(__FILE__)
+      .'/authorization-report-gmp-packing-glass-brittle.php'),
+    'get-areas-of-zone-gmp-packing-glass-brittle' => 
+      realpath(__DIR__.'/../preop/get-areas-gmp-packing-preop.php'),
+    'get-areas-of-zone-gmp-packing-glass-brittle' => 
+      realpath(__DIR__.'/../preop/get-areas-gmp-packing-preop.php'),
+    'add-workplace-area-gmp-packing-glass-brittle' => 
+      realpath(__DIR__.'/../preop/get-areas-gmp-packing-preop.php')
   ]
 ];
 

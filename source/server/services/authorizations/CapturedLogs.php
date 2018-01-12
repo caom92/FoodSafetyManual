@@ -279,6 +279,23 @@ class CapturedLogs extends db\InsertableTable
   function updateByID($changes, $id) {
     return parent::update($changes, ['id' => $id]);
   }
+
+  function getStatusName($id) {
+    $rows = parent::select(
+      [
+        'name(status_name)'
+      ],
+      [
+        's.id' => $id
+      ],
+      [
+        'log_status[><]' => [
+          'id' => 'status_id'
+        ]
+      ]
+    );
+    return $rows[0]['status_name'];
+  }
 }
 
 ?>

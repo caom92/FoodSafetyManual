@@ -286,7 +286,10 @@ export class LanguageService
         inactive: 'No',
         role: 'Rol de Usuario',
         program: 'Programa',
-        privileges: 'Seleccione los permisos individuales del usuario'
+        privileges: 'Seleccione los permisos individuales del usuario',
+        logsTableHeaders: [
+          'Bitácora'
+        ]
       },
       login: {
         0: 'Sesión iniciada exitosamente',
@@ -624,7 +627,10 @@ export class LanguageService
         inactive: 'No',
         role: 'User Role',
         program: 'Program',
-        privileges: 'Select individual user privileges'
+        privileges: 'Select individual user privileges',
+        logsTableHeaders: [
+          'Log'
+        ]
       },
       login: {
         0: 'Logged in successfully',
@@ -907,7 +913,10 @@ export class LanguageService
       inactive: null,
       role: null,
       program: null,
-      privileges: null
+      privileges: null,
+      logsTableHeaders: [
+        null
+      ]
     }
   }
 
