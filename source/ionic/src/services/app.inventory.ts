@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core'
 import { FormArray, FormControl, FormGroup } from '@angular/forms'
-import { Storage } from '@ionic/storage'
 import { TranslationService as TService } from 'angular-l10n'
-import { App, Events } from 'ionic-angular'
+import { App } from 'ionic-angular'
 import { Observable } from 'rxjs/Rx'
 
 import { BackendService } from './app.backend'
@@ -23,9 +22,7 @@ export class InventoryService {
     private loaderService: LoaderService,
     private toastService: ToastsService,
     private server: BackendService,
-    public ts: TService,
-    private storage: Storage,
-    private events: Events) {
+    public ts: TService) {
 
   }
 

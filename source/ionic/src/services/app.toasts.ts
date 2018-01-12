@@ -149,6 +149,8 @@ export class ToastsService implements OnInit
           duration: 3500,
           position: 'bottom'
         })
+
+        tempToast.present()
       }
     )
   }
@@ -172,12 +174,12 @@ export class ToastsService implements OnInit
   showText(text: string) {
     // primero, recuperamos el idioma del sistema
     let lang = this.lang
-    var toast
+    let toast
 
     // luego revisamos si el texto ingresado corresponde a algun indice en la 
     // lista de mensajes
     if (ToastsService.infoMessages[lang][text] !== undefined) {
-      var toastMessage = ToastsService.infoMessages[lang][text]
+      let toastMessage = ToastsService.infoMessages[lang][text]
       // si asi es, desplegamos el mensaje en el idioma elegido
       toast = this.toastService.create({
         message: toastMessage,
@@ -207,7 +209,8 @@ export class ToastsService implements OnInit
   showServiceErrorText(service: string, meta: any) {
     // primero recuperamos el idioma del sistema
     let lang = this.lang
-    var toast
+    let toast
+    let toastMessage
 
     // luego recuperamos el codigo de error retornado por el servidor
     let code = meta.return_code
@@ -219,7 +222,7 @@ export class ToastsService implements OnInit
     // revisamos si el codigo de error retornado corresponde a algun mensaje de 
     // error configurado para el servicio solicitado
     if (ToastsService.errorMessages[lang][service][code] !== undefined) {
-      var toastMessage = ToastsService.errorMessages[lang][service][code]
+      toastMessage = ToastsService.errorMessages[lang][service][code]
       // si asi fue, lo desplegamos
       toast = this.toastService.create({
         message: toastMessage,
@@ -233,7 +236,7 @@ export class ToastsService implements OnInit
     // si no, revisamos si el codigo de error retornado corresponde a algun 
     // mensaje de error generico configurado
     else if (ToastsService.errorMessages[lang][code] !== undefined) {
-      var toastMessage = ToastsService.errorMessages[lang][code]
+      toastMessage = ToastsService.errorMessages[lang][code]
       // si asi fue, lo desplegamos
       toast = this.toastService.create({
         message: toastMessage,
