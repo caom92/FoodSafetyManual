@@ -1,21 +1,14 @@
 import { Component, Input } from '@angular/core'
-import { NavController, AlertController, Events } from 'ionic-angular'
-
-import { Storage } from '@ionic/storage'
-
 import { Language, TranslationService as TService } from 'angular-l10n'
+import { AlertController, Events, NavController } from 'ionic-angular'
 
-import { Observable } from 'rxjs/Rx'
-
-import { PendingLog } from './pending.card.interface'
-import { LogDetails } from '../../logs/log.interfaces'
-
-import { DateTimeService } from '../../../services/app.time'
 import { BackendService } from '../../../services/app.backend'
-import { TranslationService } from '../../../services/app.translation'
-import { ToastsService } from '../../../services/app.toasts'
 import { LoaderService } from '../../../services/app.loaders'
 import { LogService } from '../../../services/app.logs'
+import { DateTimeService } from '../../../services/app.time'
+import { ToastsService } from '../../../services/app.toasts'
+import { LogDetails } from '../../logs/log.interfaces'
+import { PendingLog } from './pending.card.interface'
 
 @Component({
   selector: 'pending-card',

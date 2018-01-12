@@ -1,12 +1,8 @@
 import { Component, Input } from '@angular/core'
-import { NavController, NavParams, ModalController, Select, Events } from 'ionic-angular'
-import { Storage } from '@ionic/storage'
 import { DomSanitizer } from '@angular/platform-browser'
-
-import { Language } from 'angular-l10n';
-
-import { BackendService } from '../../services/app.backend'
-import { ToastsService } from '../../services/app.toasts'
+import { Storage } from '@ionic/storage'
+import { Language } from 'angular-l10n'
+import { Events, ModalController, NavController, NavParams } from 'ionic-angular'
 
 import { ManualUploadComponent } from './manual-upload/manual.upload'
 
@@ -14,6 +10,7 @@ import { ManualUploadComponent } from './manual-upload/manual.upload'
   selector: 'manual',
   templateUrl: 'manual.html'
 })
+
 export class ManualTab {
   @Language() lang: string
   @Input() manualSource: string

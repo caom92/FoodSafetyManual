@@ -1,21 +1,13 @@
-import { Component, Input, OnInit, ViewChild, OnDestroy } from '@angular/core'
-import { NavController, AlertController, Select, Events } from 'ionic-angular'
-
+import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { Storage } from '@ionic/storage'
-
 import { Language, TranslationService as TService } from 'angular-l10n'
+import { Events, NavController } from 'ionic-angular'
 
-import { Observable } from 'rxjs/Rx'
-
-import { NavbarPageComponent } from '../../super-components/navbar.component'
-
-import { PendingLog } from '../pending-card/pending.card.interface'
-
-import { DateTimeService } from '../../../services/app.time'
 import { BackendService } from '../../../services/app.backend'
-import { TranslationService } from '../../../services/app.translation'
 import { ToastsService } from '../../../services/app.toasts'
-import { LoaderService } from '../../../services/app.loaders'
+import { TranslationService } from '../../../services/app.translation'
+import { NavbarPageComponent } from '../../super-components/navbar.component'
+import { PendingLog } from '../pending-card/pending.card.interface'
 
 @Component({
   selector: 'pending-card-list-component',

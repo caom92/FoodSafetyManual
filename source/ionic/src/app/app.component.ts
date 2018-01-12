@@ -1,27 +1,22 @@
-import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core'
-import { NavController, Nav, Platform, MenuController, Events } from 'ionic-angular'
-import { StatusBar } from '@ionic-native/status-bar'
-import { SplashScreen } from '@ionic-native/splash-screen'
-import { HttpModule } from '@angular/http'
-import { Storage } from '@ionic/storage'
-import { LocalNotifications } from '@ionic-native/local-notifications'
-
-import { Observable } from 'rxjs/Rx'
 import 'rxjs/add/operator/takeUntil'
+
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core'
+import { LocalNotifications } from '@ionic-native/local-notifications'
+import { SplashScreen } from '@ionic-native/splash-screen'
+import { StatusBar } from '@ionic-native/status-bar'
+import { Storage } from '@ionic/storage'
+import { Language } from 'angular-l10n'
+import { Events, MenuController, Nav, Platform } from 'ionic-angular'
+import { Observable } from 'rxjs/Rx'
 import { Subscription } from 'rxjs/Subscription'
 
-import { Language } from 'angular-l10n'
-
+import { AuthorizationCardListComponent } from '../pages/authorizations/authorization-card-list/authorization.card.list.component'
+import { EditProfile } from '../pages/edit-profile/edit-profile'
 import { HomePage } from '../pages/home/home'
+import { ModulesPage } from '../pages/modules/modules'
+import { PendingCardListComponent } from '../pages/pending-logs/pending-card-list/pending.card.list.component'
 import { BackendService } from '../services/app.backend'
 import { TranslationService } from '../services/app.translation'
-import { DateTimeService } from '../services/app.time'
-import { EditProfile } from '../pages/edit-profile/edit-profile'
-
-import { ModulesPage } from '../pages/modules/modules'
-import { LogsPage } from '../pages/logs/logs'
-import { AuthorizationCardListComponent } from '../pages/authorizations/authorization-card-list/authorization.card.list.component'
-import { PendingCardListComponent } from '../pages/pending-logs/pending-card-list/pending.card.list.component'
 
 @Component({
   templateUrl: 'app.html'

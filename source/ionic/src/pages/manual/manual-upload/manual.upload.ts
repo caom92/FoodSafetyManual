@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core'
-import { Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms'
-import { Platform, NavParams, ViewController, AlertController } from 'ionic-angular'
-
-import { Observable } from 'rxjs/Rx'
-
+import { FormBuilder, FormGroup } from '@angular/forms'
 import { Language, TranslationService as TService } from 'angular-l10n'
+import { AlertController, NavParams, Platform, ViewController } from 'ionic-angular'
 
 import { BackendService } from '../../../services/app.backend'
-import { ToastsService } from '../../../services/app.toasts'
 import { LoaderService } from '../../../services/app.loaders'
+import { ToastsService } from '../../../services/app.toasts'
 
 @Component({
   selector: 'manual-upload',

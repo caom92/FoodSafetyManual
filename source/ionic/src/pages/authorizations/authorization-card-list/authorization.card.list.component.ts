@@ -1,21 +1,15 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core'
-import { NavController, AlertController, Select, Events } from 'ionic-angular'
-
+import { Component, Input, OnInit } from '@angular/core'
 import { Storage } from '@ionic/storage'
-
 import { Language, TranslationService as TService } from 'angular-l10n'
-
+import { Events, NavController } from 'ionic-angular'
 import { Observable } from 'rxjs/Rx'
 
-import { NavbarPageComponent } from '../../super-components/navbar.component'
-
-import { WaitingLog } from '../authorization-card/authorization.card.interface'
-
-import { DateTimeService } from '../../../services/app.time'
 import { BackendService } from '../../../services/app.backend'
-import { TranslationService } from '../../../services/app.translation'
-import { ToastsService } from '../../../services/app.toasts'
 import { LoaderService } from '../../../services/app.loaders'
+import { ToastsService } from '../../../services/app.toasts'
+import { TranslationService } from '../../../services/app.translation'
+import { NavbarPageComponent } from '../../super-components/navbar.component'
+import { WaitingLog } from '../authorization-card/authorization.card.interface'
 
 @Component({
   selector: 'authorization-card-list-component',
