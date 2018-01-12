@@ -6,6 +6,7 @@ import { BackendService } from '../services/app.backend'
 import { ToastService } from '../services/app.toast'
 import { StateService } from '@uirouter/angular'
 import { ProgressModalComponent } from './modal.please.wait'
+import { ChangeDetectorRef } from '@angular/core'
 
 type SimpleServerArrayElement = {
   id: number,
@@ -56,6 +57,16 @@ export class UserInfoModalComponent extends MzBaseModal implements OnInit
 
   userForm: FormGroup = null
 
+  selectedZone: SimpleServerArrayElement = {
+    id: 0,
+    name: ''
+  }
+
+  selectedRole: SimpleServerArrayElement = {
+    id: 0,
+    name: ''
+  }
+
   // Constructor del componente donde importaremos una instancia del servicio 
   // de idioma
   constructor(
@@ -64,7 +75,8 @@ export class UserInfoModalComponent extends MzBaseModal implements OnInit
     private server: BackendService,
     private toastManager: ToastService,
     private router: StateService,
-    private modalManager: MzModalService
+    private modalManager: MzModalService,
+    private changeDetector: ChangeDetectorRef
   ) {
     super() // invocamos el constructor de la clase padre
   }
@@ -72,7 +84,9 @@ export class UserInfoModalComponent extends MzBaseModal implements OnInit
   // Esta funcion se invoca cuando el componente es inicializado
   ngOnInit(): void {
     this.userForm = this.formBuilder.group({
-      program: [ null ]
+      program: [ null ],
+      role: [ null, Validators.required ],
+      zone: [ null, Validators.required ]
     })
 
     // recuperamos la lista de roles del servidor
@@ -139,9 +153,51 @@ export class UserInfoModalComponent extends MzBaseModal implements OnInit
     ) // this.server.update
   } // ngOnInit(): void
 
+  onRoleSelected(): void {
+    this.selectedRole = 
+      <SimpleServerArrayElement>this.userForm.controls.role.value
+
+    if (this.selectedZone.id > 0) {
+      this.retrieveSupervisorsList()
+    }
+  }
+
+  onZoneSelected(): void {
+    this.selectedZone = 
+      <SimpleServerArrayElement>this.userForm.controls.zone.value
+
+    if (this.selectedRole.id > 0) {
+      this.retrieveSupervisorsList()
+    }
+  }
+
+  retrieveSupervisorsList(): void {
+    let data: FormData = new FormData()
+    data.append('zone_id', this.selectedZone.id.toString())
+
+    this.server.update(
+      'list-supervisors-by-zone',
+      data,
+      (response: any) => {
+        if (response.meta.return_code == 0) {
+          this.supervisors = response.data
+        } else {
+          this.toastManager.showText(
+            this.langManager.getServiceMessage(
+              'list-supervisors-by-zone',
+              response.meta.return_code
+            )
+          )
+        } // if (response.meta.return_code == 0)
+      } // (response: any)
+    ) // this.server.update
+  } // retrieveSupervisorsList(): void
+
   onProgramSelected(): void {
-    this.selectedProgram = null
+    // $('.collapsible').collapsible('destroy')
+    this.selectedProgram.modules = []
+    this.changeDetector.detectChanges()
     this.selectedProgram = <ProgramElement>this.userForm.controls.program.value
-    console.log(this.selectedProgram)
+    this.changeDetector.detectChanges()
   }
 } // export class UserInfoModalComponent extends MzBaseModal implements OnInit

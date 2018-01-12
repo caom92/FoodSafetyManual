@@ -527,6 +527,16 @@ function createUpdateService($program, $module, $log, $requirements, $strategy,
     ] + $requirements,
     'callback' => (!$useCustom) ? 
       function($scope, $request) use ($strategy) {
+        $statusName = $scope->daoFactory->
+          get('CapturedLogs')->getStatusName($request['report_id']);
+        
+        if ($status == 'Approved') {
+          throw new \Exception(
+            'Requested report cannot be edited; it was already approved', 
+            9
+          );
+        } 
+
         // update the extra info of the log if there is any
         $hasExtraInfo = isset($strategy['extra_info'][0]);
         if ($hasExtraInfo) {
