@@ -104,7 +104,8 @@ $service = [
       } else {
         // if the zone ID was not provided, notify the user
         throw new \Exception(
-          'The zone ID was not provided.'
+          'The zone ID was not provided.',
+          1
         );
       }
     } else {
@@ -149,7 +150,8 @@ $service = [
           $users->deleteByID($userID);
           throw new \Exception(
             'The employee is in a different zone than the '.
-            'supervisor'
+            'supervisor',
+            2
           );
         }
 
@@ -159,7 +161,8 @@ $service = [
           $users->deleteByID($userID);
           throw new \Exception(
             'The provided supervisor ID does not correspond to a '.
-            'user with supervisor role'
+            'user with supervisor role',
+            3
           );
         }
 
@@ -174,7 +177,8 @@ $service = [
         $users->deleteByID($userID);
         throw new \Exception(
           'Employees must be assigned to a supervisor; no supervisor ID '.
-          'was provided.'
+          'was provided.',
+          4
         );
       }
     }
@@ -187,7 +191,7 @@ $service = [
       if (!$hasPrivileges) {
         // if it was not provided, throw an exception
         $users->deleteByID($userID);
-        throw new \Exception('privileges array was not provided.');
+        throw new \Exception('Privileges array was not provided.', 5);
       }
 
       // supervisor and employees get their permissions assigned by the 

@@ -168,6 +168,7 @@ mixin select(name, label, placeholder, options, optionName = '', optionValue = '
       if multiple
         select&attributes(attributes)(
           id=name
+          name=name
           '[label]'=label
           '[placeholder]'=placeholder
           mz-select
@@ -297,8 +298,16 @@ mixin table(headers)
 mixin checkbox(name)
   mz-checkbox-container
     input(
-      id=name
       name=name
       type='checkbox'
       mz-checkbox
+    )&attributes(attributes)
+
+mixin radioButton(id, name)
+  mz-radio-button-container
+    input(mz-radio-button
+      id=id
+      name=name
+      type='radio'
+      '[withGap]'='true'
     )&attributes(attributes)

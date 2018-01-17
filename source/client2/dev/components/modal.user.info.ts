@@ -6,7 +6,7 @@ import { BackendService } from '../services/app.backend'
 import { ToastService } from '../services/app.toast'
 import { StateService } from '@uirouter/angular'
 import { ProgressModalComponent } from './modal.please.wait'
-import { ChangeDetectorRef } from '@angular/core'
+import { AbstractControl } from '@angular/forms/src/model';
 
 type SimpleServerArrayElement = {
   id: number,
@@ -55,6 +55,8 @@ export class UserInfoModalComponent extends MzBaseModal implements OnInit
   // La lista de bitacoras organizadas por programas y modulos
   programs: Array<ProgramElement> = []
 
+  privileges: Array<SimpleServerArrayElement> = []
+
   userForm: FormGroup = null
 
   selectedZone: SimpleServerArrayElement = {
@@ -67,6 +69,10 @@ export class UserInfoModalComponent extends MzBaseModal implements OnInit
     name: ''
   }
 
+  selectedPrivileges: any = {}
+
+  selectedSupervisorID: number = null
+
   // Constructor del componente donde importaremos una instancia del servicio 
   // de idioma
   constructor(
@@ -75,8 +81,7 @@ export class UserInfoModalComponent extends MzBaseModal implements OnInit
     private server: BackendService,
     private toastManager: ToastService,
     private router: StateService,
-    private modalManager: MzModalService,
-    private changeDetector: ChangeDetectorRef
+    private modalManager: MzModalService
   ) {
     super() // invocamos el constructor de la clase padre
   }
@@ -84,9 +89,36 @@ export class UserInfoModalComponent extends MzBaseModal implements OnInit
   // Esta funcion se invoca cuando el componente es inicializado
   ngOnInit(): void {
     this.userForm = this.formBuilder.group({
-      program: [ null ],
+      employeeID: [ null, Validators.required ],
+      firstName: [ null, Validators.compose([
+        Validators.required,
+        Validators.maxLength(255)
+      ])],
+      lastName: [ null, Validators.compose([
+        Validators.required,
+        Validators.maxLength(255)
+      ]) ],
       role: [ null, Validators.required ],
-      zone: [ null, Validators.required ]
+      zone: [ null, Validators.required ],
+      username: [ null, Validators.compose([
+        Validators.required,
+        Validators.minLength(3)
+      ]) ],
+      password: [ null, Validators.compose([
+        Validators.required,
+        Validators.minLength(6)
+      ]) ],
+      passwordConfirmation: [ null, Validators.compose([
+        Validators.required,
+        Validators.minLength(6)
+      ]) ]
+    }, {
+      validator: (form: FormGroup) => {
+        let password = form.controls.password.value 
+        let passwordConfirmation = form.controls.passwordConfirmation.value
+        return (password === passwordConfirmation) ?
+          null : { arePasswordsDifferent: true}
+      }
     })
 
     // recuperamos la lista de roles del servidor
@@ -131,26 +163,53 @@ export class UserInfoModalComponent extends MzBaseModal implements OnInit
       } // (response: any)
     ) // this.server.update
 
-    // recuperamos la lista de bitacoras del servidor
     this.server.update(
-      'list-programs-modules-logs',
+      'list-privileges',
       new FormData(),
       (response: any) => {
-        // revisamos si el servidor respondio de forma exitosa
         if (response.meta.return_code == 0) {
-          // si asi fue, guardamos la lista recuperada
-          this.programs = response.data
+          this.privileges = response.data
+
+          // recuperamos la lista de bitacoras del servidor
+          this.server.update(
+            'list-programs-modules-logs',
+            new FormData(),
+            (response: any) => {
+              // revisamos si el servidor respondio de forma exitosa
+              if (response.meta.return_code == 0) {
+                // si asi fue, guardamos la lista recuperada
+                this.programs = response.data
+                for (let program of this.programs) {
+                  for (let module of program.modules) {
+                    for (let log of module.logs) {
+                      this.selectedPrivileges[log.name] = {
+                        logID: log.id,
+                        privilegeID: this.privileges[0].id
+                      }
+                    }
+                  }
+                }
+              } else {
+                // si el servidor respondio con un error, notificamos al usuario
+                this.toastManager.showText(
+                  this.langManager.getServiceMessage(
+                    'list-programs-modules-logs',
+                    response.meta.return_code
+                  )
+                )
+              } // if (response.meta.return_code == 0)
+            } // (response: any)
+          ) // this.server.update
         } else {
-          // si el servidor respondio con un error, notificamos al usuario
           this.toastManager.showText(
             this.langManager.getServiceMessage(
-              'list-programs-modules-logs',
+              'list-privileges',
               response.meta.return_code
             )
           )
-        } // if (response.meta.return_code == 0)
-      } // (response: any)
-    ) // this.server.update
+        }
+      }
+    )
   } // ngOnInit(): void
 
   onRoleSelected(): void {
@@ -193,11 +252,56 @@ export class UserInfoModalComponent extends MzBaseModal implements OnInit
     ) // this.server.update
   } // retrieveSupervisorsList(): void
 
-  onProgramSelected(): void {
-    // $('.collapsible').collapsible('destroy')
-    this.selectedProgram.modules = []
-    this.changeDetector.detectChanges()
-    this.selectedProgram = <ProgramElement>this.userForm.controls.program.value
-    this.changeDetector.detectChanges()
+  onPrivilegeSelected(logName: string, privilegeID: number): void {
+    this.selectedPrivileges[logName].privilegeID = privilegeID
+  }
+
+  onFormSubmit(): void {
+    let data = new FormData()
+    data.append('employee_num', this.userForm.controls.employeeID.value.toString())
+    data.append('first_name', this.userForm.controls.firstName.value)
+    data.append('last_name', this.userForm.controls.lastName.value)
+    data.append('role_id', this.userForm.controls.role.value.id.toString())
+    data.append('login_name', this.userForm.controls.username.value)
+    data.append('login_password', this.userForm.controls.password.value)
+    data.append('zone_id', this.userForm.controls.zone.value.id.toString())
+
+    if (this.selectedRole.name == 'Employee') {
+      data.append('supervisor_id', this.selectedSupervisorID.toString())
+    }
+
+    if (
+      this.selectedRole.name == 'Employee' 
+      || this.selectedRole.name == 'Supervisor'
+    ) {
+      let i = 0
+      for (let p in this.selectedPrivileges) {
+        let privilege = this.selectedPrivileges[p]
+        data.append(`privileges[${ i }][log_id]`, privilege.logID.toString())
+        data.append(
+          `privileges[${ i++ }][privilege_id]`, 
+          privilege.privilegeID.toString()
+        )
+      }
+    }
+
+    let modal = this.modalManager.open(ProgressModalComponent)
+    this.server.update(
+      'add-user',
+      data,
+      (response: any) => {
+        modal.instance.modalComponent.close()
+        this.toastManager.showText(
+          this.langManager.getServiceMessage(
+            'add-user',
+            response.meta.return_code
+          )
+        )
+
+        if (response.meta.return_code == 0) {
+          this.modalComponent.close()
+        }
+      }
+    )
   }
 } // export class UserInfoModalComponent extends MzBaseModal implements OnInit
