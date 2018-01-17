@@ -86,7 +86,7 @@ export class GAPPackingPreopInventoryComponent implements OnInit {
     let tempForm = new FormData()
     tempForm.append("area_id", event)
     this.server.update(
-      'get-items-of-area-gap-packing-preop',
+      'inventory-gap-packing-preop',
       tempForm,
       (response: any) => {
         if (response.meta.return_code == 0) {

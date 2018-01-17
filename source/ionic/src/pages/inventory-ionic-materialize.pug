@@ -67,7 +67,7 @@ mixin inventoryListWrapper()
         block
 
 mixin inventoryAddButton()
-  ion-fab(right, bottom)
+  ion-fab(right, bottom)&attributes(attributes)
     button(ion-fab, color='open', (click)='addItem()')
       ion-icon(name='add')
 

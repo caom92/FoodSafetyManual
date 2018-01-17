@@ -1,18 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { App, ModalController, Events, NavController } from 'ionic-angular'
-
 import { Language, TranslationService as TService } from 'angular-l10n'
+import { App, Events, ModalController, NavController } from 'ionic-angular'
 import { Observable } from 'rxjs/Rx'
 
-import { InventoryType } from '../interfaces/gmp.packing.preop.inventory.interface'
-
-import { HideFabDirective } from '../../../../directives/hide.fab'
-
-import { GMPPackingPreopAddItemComponent } from '../add-item/gmp.packing.preop.add.item'
-
 import { BackendService } from '../../../../services/app.backend'
-import { ToastsService } from '../../../../services/app.toasts'
 import { LoaderService } from '../../../../services/app.loaders'
+import { ToastsService } from '../../../../services/app.toasts'
+import { GMPPackingPreopAddItemComponent } from '../add-item/gmp.packing.preop.add.item'
+import { InventoryType } from '../interfaces/gmp.packing.preop.inventory.interface'
+import { InventoryArea } from '../interfaces/gmp.packing.preop.area.inventory.interface';
 
 @Component({
   selector: 'gmp-packing-preop-inventory',
@@ -26,7 +22,7 @@ export class GMPPackingPreopInventoryComponent implements OnInit {
   @Input()
   inventory: Array<InventoryType> = [{id: null, en: null, es: null, inventory: []}]
 
-  areas: Array<{id:number,position:number,name:string}>
+  areas: Array<InventoryArea>
 
   selectedArea: number = null
 
@@ -86,7 +82,7 @@ export class GMPPackingPreopInventoryComponent implements OnInit {
     let tempForm = new FormData()
     tempForm.append("area_id", event)
     this.server.update(
-      'get-items-of-area-gmp-packing-preop',
+      'inventory-gmp-packing-preop',
       tempForm,
       (response: any) => {
         if (response.meta.return_code == 0) {

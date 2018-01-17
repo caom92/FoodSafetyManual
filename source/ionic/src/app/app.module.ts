@@ -183,6 +183,7 @@ import { GMPSelfInspectionPestControlAreaInventoryComponent } from '../pages/inv
 import { GMPSelfInspectionPestControlAreaInventoryAreaComponent } from '../pages/inventories/gmp-self-inspection-pest-control/area/gmp.self.inspection.pest.control.area.inventory.area'
 import { GMPSelfInspectionPestControlAreaInventoryListComponent } from '../pages/inventories/gmp-self-inspection-pest-control/area-list/gmp.self.inspection.pest.control.area.inventory.list'
 
+import { GMPSelfInspectionPestControlInventoryManagerComponent } from '../pages/inventories/gmp-self-inspection-pest-control/manager/gmp.self.inspection.pest.control.inventory.manager'
 import { GMPSelfInspectionPestControlInventoryComponent } from '../pages/inventories/gmp-self-inspection-pest-control/inventory/gmp.self.inspection.pest.control.inventory'
 import { GMPSelfInspectionPestControlInventoryItemComponent } from '../pages/inventories/gmp-self-inspection-pest-control/item/gmp.self.inspection.pest.control.inventory.item'
 import { GMPSelfInspectionPestControlInventoryListComponent } from '../pages/inventories/gmp-self-inspection-pest-control/list/gmp.self.inspection.pest.control.inventory.list'
@@ -361,6 +362,7 @@ import { AreaManagerService } from '../services/app.area.manager'
     GMPPackingColdRoomTempInventoryItemComponent,
     GMPPackingColdRoomTempInventoryListComponent,
     GMPPackingColdRoomTempAddItemComponent,
+    GMPSelfInspectionPestControlInventoryManagerComponent,
     GMPSelfInspectionPestControlInventoryComponent,
     GMPSelfInspectionPestControlInventoryItemComponent,
     GMPSelfInspectionPestControlInventoryListComponent,
@@ -511,6 +513,7 @@ import { AreaManagerService } from '../services/app.area.manager'
     GMPPackingColdRoomTempInventoryItemComponent,
     GMPPackingColdRoomTempInventoryListComponent,
     GMPPackingColdRoomTempAddItemComponent,
+    GMPSelfInspectionPestControlInventoryManagerComponent,
     GMPSelfInspectionPestControlInventoryComponent,
     GMPSelfInspectionPestControlInventoryItemComponent,
     GMPSelfInspectionPestControlInventoryListComponent,

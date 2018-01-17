@@ -41,13 +41,75 @@ export class InventoryService {
    * @memberof InventoryService
    */
 
-  public getInventory(service: string): Promise<any> {
+  public getInventory(suffix: string): Promise<any> {
     let inventoryPromise = new Promise<any>((resolve, reject) => {
       let loader = this.loaderService.koiLoader(this.ts.translate("Connecting to Server"))
       loader.present()
       this.server.update(
-        service,
+        'inventory-' + suffix,
         new FormData(),
+        (response: any) => {
+          if (response.meta.return_code == 0) {
+            if (response.data) {
+              resolve(response.data)
+              loader.dismiss()
+            } else {
+              reject("bad request")
+              loader.dismiss()
+              this.app.getRootNav().pop()
+              this.toastService.showText("serverUnreachable")
+            }
+          } else {
+            reject("bad request")
+            loader.dismiss()
+            this.app.getRootNav().pop()
+            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+          }
+        },
+        (error: any, caught: Observable<void>) => {
+          reject("network error")
+          loader.dismiss()
+          this.app.getRootNav().pop()
+          this.toastService.showText("serverUnreachable")
+          return []
+        }
+      )
+    })
+
+    return inventoryPromise
+  }
+
+  /**
+   * 
+   * 
+   * @param {string} suffix 
+   * @param {*} data 
+   * @returns {void} 
+   * @memberof InventoryService
+   */
+
+  public getInventoryByArea(suffix: string, data: any): Promise<any> {
+    let inventoryPromise = new Promise<any>((resolve, reject) => {
+      let loader = this.loaderService.koiLoader(this.ts.translate("Connecting to Server"))
+      let form_data = new FormData()
+      let area_data = data
+
+      let flatObj = this.flatten(area_data)
+
+      for (let key in flatObj) {
+        if (flatObj[key] === true) {
+          form_data.append(key, "1")
+        } else if (flatObj[key] === false) {
+          form_data.append(key, "0")
+        } else {
+          form_data.append(key, flatObj[key])
+        }
+      }
+      
+      loader.present()
+      this.server.update(
+        'inventory-' + suffix,
+        form_data,
         (response: any) => {
           if (response.meta.return_code == 0) {
             if (response.data) {

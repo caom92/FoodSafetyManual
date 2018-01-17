@@ -1,16 +1,13 @@
 import { Component, OnInit } from '@angular/core'
-import { Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms'
-import { Platform, NavParams, ViewController, AlertController } from 'ionic-angular'
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { Language, TranslationService as TService } from 'angular-l10n'
+import { AlertController, NavParams, Platform, ViewController } from 'ionic-angular'
 import { Observable } from 'rxjs/Rx'
 
-import { Language, TranslationService as TService } from 'angular-l10n'
-
-import { InventoryArea } from '../interfaces/gap.packing.preop.area.inventory.interface'
-
 import { BackendService } from '../../../../services/app.backend'
-import { ToastsService } from '../../../../services/app.toasts'
 import { LoaderService } from '../../../../services/app.loaders'
+import { ToastsService } from '../../../../services/app.toasts'
+import { InventoryArea } from '../interfaces/gap.packing.preop.area.inventory.interface'
 
 @Component({
   selector: 'gap-packing-preop-edit-area',
@@ -18,11 +15,8 @@ import { LoaderService } from '../../../../services/app.loaders'
 })
 
 export class GAPPackingPreopEditAreaComponent implements OnInit {
-  @Language()
-  lang: string
-
+  @Language() lang: string
   area_id: number = null
-
   newArea: FormGroup = new FormBuilder().group({})
 
   constructor(public platform: Platform, public params: NavParams, public viewCtrl: ViewController, public alertCtrl: AlertController, public ts: TService, private _fb: FormBuilder, public server: BackendService, private toastService: ToastsService, public loaderService: LoaderService){
@@ -37,7 +31,7 @@ export class GAPPackingPreopEditAreaComponent implements OnInit {
   }
 
   dismiss() {
-    this.viewCtrl.dismiss();
+    this.viewCtrl.dismiss()
   }
 
   addItem(){

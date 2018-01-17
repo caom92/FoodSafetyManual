@@ -27,7 +27,7 @@ import { GMPPackingColdRoomTempInventoryComponent } from './gmp-packing-cold-roo
 import { GMPPackingPreopInventoryManagerComponent } from './gmp-packing-preop/manager/gmp.packing.preop.inventory.manager'
 import { GAPPackingPreopInventoryManagerComponent } from './gap-packing-preop/manager/gap.packing.preop.inventory.manager'
 import { GMPPackingGlassBrittleInventoryManagerComponent } from './gmp-packing-glass-brittle/manager/gmp.packing.glass.brittle.inventory.manager'
-import { GMPSelfInspectionPestControlAreaInventoryComponent } from './gmp-self-inspection-pest-control/area-inventory/gmp.self.inspection.pest.control.area.inventory'
+import { GMPSelfInspectionPestControlInventoryManagerComponent } from './gmp-self-inspection-pest-control/manager/gmp.self.inspection.pest.control.inventory.manager'
 
 @Component({
   selector: 'inventories',
@@ -92,7 +92,7 @@ export class InventoryLoaderComponent extends DynamicNavbarPageComponent impleme
         parent: this
       }).instance
         break
-      case 'gmp-self-inspection-pest-control': this.loaderComponent = this.loadComponent(GMPSelfInspectionPestControlAreaInventoryComponent, {
+      case 'gmp-self-inspection-pest-control': this.loaderComponent = this.loadComponent(GMPSelfInspectionPestControlInventoryManagerComponent, {
           parent: this
         }).instance
           break

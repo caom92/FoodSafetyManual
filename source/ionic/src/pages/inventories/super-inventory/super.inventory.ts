@@ -1,16 +1,16 @@
-import { Type, OnInit, OnDestroy } from '@angular/core'
+import { OnDestroy, OnInit, Type } from '@angular/core'
+import { Events, ModalController } from 'ionic-angular'
+
 import { InventoryService } from '../../../services/app.inventory'
-import { ModalController, Events } from 'ionic-angular'
-import { SuperInventoryItemInterface } from './super.inventory.interface'
 import { SuperInventoryAddItemComponent } from './super.inventory.add.item'
 
 export class SuperInventoryComponent implements OnInit, OnDestroy {
   protected inventory: any = null
   protected emptyInventoryFlag: boolean = null
   protected scrollAllowed: boolean = true
-  private suffix: string = null
+  protected suffix: string = null
 
-  constructor(private events: Events, private inventoryService: InventoryService, private modalController: ModalController) {
+  constructor(protected events: Events, protected inventoryService: InventoryService, protected modalController: ModalController) {
 
   }
 
@@ -31,7 +31,7 @@ export class SuperInventoryComponent implements OnInit, OnDestroy {
       console.log("Message: " + message)
     })
 
-    this.inventoryService.getInventory("inventory-" + this.suffix).then(success => {
+    this.inventoryService.getInventory(this.suffix).then(success => {
       this.inventory = success
       this.checkEmptyInventory()
     }, error => {
