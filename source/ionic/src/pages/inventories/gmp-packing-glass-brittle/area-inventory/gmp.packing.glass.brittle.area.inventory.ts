@@ -1,21 +1,15 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core'
-import { ModalController, Events, NavController } from 'ionic-angular'
-
+import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { Language, TranslationService as TService } from 'angular-l10n'
+import { Events, ModalController, NavController } from 'ionic-angular'
+import { DragulaService } from 'ng2-dragula'
 import { Observable } from 'rxjs/Rx'
 import { ISubscription } from 'rxjs/Subscription'
 
-import { InventoryArea } from '../interfaces/gmp.packing.glass.brittle.area.inventory.interface'
-
-import { HideFabDirective } from '../../../../directives/hide.fab'
-
-import { DragulaService } from 'ng2-dragula'
-
-import { GMPPackingGlassBrittleAddAreaComponent } from '../add-area/gmp.packing.glass.brittle.add.area'
-
 import { BackendService } from '../../../../services/app.backend'
-import { ToastsService } from '../../../../services/app.toasts'
 import { LoaderService } from '../../../../services/app.loaders'
+import { ToastsService } from '../../../../services/app.toasts'
+import { GMPPackingGlassBrittleAddAreaComponent } from '../add-area/gmp.packing.glass.brittle.add.area'
+import { InventoryArea } from '../interfaces/gmp.packing.glass.brittle.area.inventory.interface'
 
 @Component({
   selector: 'gmp-packing-glass-brittle-area-inventory',
@@ -80,12 +74,12 @@ export class GMPPackingGlassBrittleAreaInventoryComponent implements OnInit, OnD
     })
 
     this.drag = this.dragulaService.drag.subscribe((value) => {
-      console.log("Dragula Drag Sunscription")
+      console.log("Dragula Drag Subscription")
       this.events.publish("scroll:stop", "Scroll Stopped")
     })
 
     this.dragend = this.dragulaService.dragend.subscribe((value) => {
-      console.log("Dragula Dragend Sunscription")
+      console.log("Dragula Dragend Subscription")
       this.events.publish("scroll:start", "Scroll Started")
       let index = 1
       for(let item in this.areaInventory){

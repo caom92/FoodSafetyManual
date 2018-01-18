@@ -247,12 +247,12 @@ export class InventoryService {
    * Añade un nuevo elemento de inventario y se envía al servidor
    * 
    * @param {*} data - Objeto que representa el elemento a agregar el inventario 
-   * @param {string} service 
+   * @param {string} suffix 
    * @returns {Promise<*>} 
    * @memberof InventoryService
    */
 
-  public addItem(data: any, service: string): Promise<any> {
+  public addItem(data: any, suffix: string): Promise<any> {
     let addPromise = new Promise<any>((resolve, reject) => {
       let loaderAdd = this.loaderService.koiLoader("")
       let itemForm = new FormData()
@@ -265,7 +265,7 @@ export class InventoryService {
       }
 
       this.server.update(
-        service,
+        "add-" + suffix,
         itemForm,
         (response: any) => {
           if (response.meta.return_code == 0) {

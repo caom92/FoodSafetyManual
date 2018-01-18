@@ -47,12 +47,12 @@ export class GMPPackingGlassBrittleInventoryListComponent implements OnInit, OnD
     })
 
     this.drag = this.dragulaService.drag.subscribe((value) => {
-      console.log("Dragula Drag Sunscription")
+      console.log("Dragula Drag Subscription")
       this.events.publish("scroll:stop", "Scroll Stopped")
     })
 
     this.dragend = this.dragulaService.dragend.subscribe((value) => {
-      console.log("Dragula Dragend Sunscription")
+      console.log("Dragula Dragend Subscription")
       this.events.publish("scroll:start", "Scroll Started")
       let index = 1
       for(let item in this.items){

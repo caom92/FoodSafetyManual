@@ -1,16 +1,13 @@
 import { Component, OnInit } from '@angular/core'
-import { Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms'
-import { Platform, NavParams, ViewController, AlertController } from 'ionic-angular'
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { Language, TranslationService as TService } from 'angular-l10n'
+import { AlertController, NavParams, Platform, ViewController } from 'ionic-angular'
 import { Observable } from 'rxjs/Rx'
 
-import { Language, TranslationService as TService } from 'angular-l10n'
-
-import { InventoryArea } from '../interfaces/gmp.packing.preop.area.inventory.interface'
-
 import { BackendService } from '../../../../services/app.backend'
-import { ToastsService } from '../../../../services/app.toasts'
 import { LoaderService } from '../../../../services/app.loaders'
+import { ToastsService } from '../../../../services/app.toasts'
+import { InventoryArea } from '../interfaces/gmp.packing.preop.area.inventory.interface'
 
 @Component({
   selector: 'gmp-packing-preop-add-area',
@@ -35,7 +32,7 @@ export class GMPPackingPreopAddAreaComponent implements OnInit {
   }
 
   dismiss() {
-    this.viewCtrl.dismiss();
+    this.viewCtrl.dismiss()
   }
 
   addItem(){
@@ -48,7 +45,7 @@ export class GMPPackingPreopAddAreaComponent implements OnInit {
           {
           text: this.ts.translate("Options.cancel"),
             handler: () => {
-              console.log('Cancelar');
+              console.log('Cancelar')
             }
           },
           {

@@ -1,16 +1,11 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core'
+import { Component, Input, OnDestroy, OnInit } from '@angular/core'
+import { Language } from 'angular-l10n'
 import { Events } from 'ionic-angular'
-
+import { DragulaService } from 'ng2-dragula'
 import { ISubscription } from 'rxjs/Subscription'
 
-import { Language } from 'angular-l10n'
-
-import { InventoryType } from '../interfaces/gmp.packing.preop.inventory.interface'
-
-import { DragulaService } from 'ng2-dragula'
-
 import { BackendService } from '../../../../services/app.backend'
-import { TranslationService } from '../../../../services/app.translation'
+import { InventoryType } from '../interfaces/gmp.packing.preop.inventory.interface'
 
 @Component({
   selector: 'gmp-packing-preop-inventory-list',
@@ -21,15 +16,9 @@ import { TranslationService } from '../../../../services/app.translation'
 })
 
 export class GMPPackingPreopInventoryListComponent implements OnInit, OnDestroy {
-  @Input()
-  type: InventoryType
-
-  @Input()
-  printHeader: boolean = false
-
-  @Language()
-  lang: string
-
+  @Input() type: InventoryType
+  @Input() printHeader: boolean = false
+  @Language() lang: string
   drag: ISubscription = null
   dragend: ISubscription = null
 
@@ -47,12 +36,12 @@ export class GMPPackingPreopInventoryListComponent implements OnInit, OnDestroy 
     })
 
     this.drag = this.dragulaService.drag.subscribe((value) => {
-      console.log("Dragula Drag Sunscription")
+      console.log("Dragula Drag Subscription")
       this.events.publish("scroll:stop", "Scroll Stopped")
     })
 
     this.dragend = this.dragulaService.dragend.subscribe((value) => {
-      console.log("Dragula Dragend Sunscription")
+      console.log("Dragula Dragend Subscription")
       this.events.publish("scroll:start", "Scroll Started")
       let index = 1
       for(let item in this.type.inventory){

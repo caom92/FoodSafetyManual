@@ -6,14 +6,7 @@ import { AreaManagerService } from '../../../../services/app.area.manager'
 import { InventoryService } from '../../../../services/app.inventory'
 import { SuperInventoryByAreaComponent } from '../../super-inventory/super.inventory.by.area'
 import { InventoryItem } from '../interfaces/gmp.self.inspection.pest.control.inventory.interface'
-
-/**
- * Componente que administra el inventario de GMP Packing Thermo Calibration
- * 
- * @export
- * @class GMPSelfInspectionPestControlInventoryComponent
- * @implements {OnInit}
- */
+import { GMPSelfInspectionPestControlAddItemComponent } from '../add-item/gmp.self.inspection.pest.control.add.item'
 
 @Component({
   selector: 'gmp-self-inspection-pest-control-inventory',
@@ -31,41 +24,18 @@ export class GMPSelfInspectionPestControlInventoryComponent extends SuperInvento
     super(events, inventoryService, modalController, areaManagerService)
   }
 
-  /**
-   * Se suscribe a los eventos de control de scroll y recupera el inventario
-   * del servicio de inventarios al inicializar el componente
-   * 
-   * @memberof GMPSelfInspectionPestControlInventoryComponent
-   */
-
   public ngOnInit(): void {
     this.setSuffix("gmp-self-inspection-pest-control")
     super.ngOnInit()
   }
 
-  /**
-   * Crea un modal para agregar un elemento de inventario de GMP Packing Thermo
-   * Calibration
-   * 
-   * @memberof GMPSelfInspectionPestControlInventoryComponent
-   */
-
   public addItem(): void {
-    console.log("Add item pest control")
-    /*super.addItem(GMPSelfInspectionPestControlAddItemComponent, null, (data) => {
+    super.addItem(GMPSelfInspectionPestControlAddItemComponent, { area_id: this.selectedArea }, (data) => {
       data.item.position = this.inventory.length + 1
       this.inventory.push(data.item)
       this.emptyInventoryFlag = false
-    })*/
+    })
   }
-
-  /**
-   * Actualiza una bandera que indica si el inventario se encuentra vacío
-   * para permitirle a la vista mostrar un mensaje en consecuencia
-   * 
-   * @returns {boolean}
-   * @memberof GMPSelfInspectionPestControlInventoryComponent
-   */
 
   public checkEmptyInventory(): boolean {
     this.emptyInventoryFlag = this.inventory.length == 0

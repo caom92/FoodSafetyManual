@@ -187,7 +187,7 @@ import { GMPSelfInspectionPestControlInventoryManagerComponent } from '../pages/
 import { GMPSelfInspectionPestControlInventoryComponent } from '../pages/inventories/gmp-self-inspection-pest-control/inventory/gmp.self.inspection.pest.control.inventory'
 import { GMPSelfInspectionPestControlInventoryItemComponent } from '../pages/inventories/gmp-self-inspection-pest-control/item/gmp.self.inspection.pest.control.inventory.item'
 import { GMPSelfInspectionPestControlInventoryListComponent } from '../pages/inventories/gmp-self-inspection-pest-control/list/gmp.self.inspection.pest.control.inventory.list'
-//import { GMPSelfInspectionPestControlAddItemComponent } from '../pages/inventories/gmp-self-inspection-pest-control/add-item/gmp.self.inspection.pest.control.add.item'
+import { GMPSelfInspectionPestControlAddItemComponent } from '../pages/inventories/gmp-self-inspection-pest-control/add-item/gmp.self.inspection.pest.control.add.item'
 
 // Authorizations
 
@@ -368,7 +368,8 @@ import { AreaManagerService } from '../services/app.area.manager'
     GMPSelfInspectionPestControlInventoryListComponent,
     GMPSelfInspectionPestControlAreaInventoryComponent,
     GMPSelfInspectionPestControlAreaInventoryAreaComponent,
-    GMPSelfInspectionPestControlAreaInventoryListComponent
+    GMPSelfInspectionPestControlAreaInventoryListComponent,
+    GMPSelfInspectionPestControlAddItemComponent
   ],
   imports: [
     BrowserModule,
@@ -519,7 +520,8 @@ import { AreaManagerService } from '../services/app.area.manager'
     GMPSelfInspectionPestControlInventoryListComponent,
     GMPSelfInspectionPestControlAreaInventoryComponent,
     GMPSelfInspectionPestControlAreaInventoryAreaComponent,
-    GMPSelfInspectionPestControlAreaInventoryListComponent
+    GMPSelfInspectionPestControlAreaInventoryListComponent,
+    GMPSelfInspectionPestControlAddItemComponent
   ],
   providers: [
     StatusBar,

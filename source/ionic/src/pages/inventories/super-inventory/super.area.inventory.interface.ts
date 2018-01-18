@@ -3,3 +3,8 @@ export interface SuperInventoryAreaInterface {
   position: number
   name: string
 }
+
+export interface SuperInventoryEditAreaInterface {
+  area_id: number
+  area_name: string
+}

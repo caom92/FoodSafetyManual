@@ -56,21 +56,28 @@
     },
     "Options": {
         "accept": "Accept",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "edit": "Edit"
     },
     "Titles": {
         "approve_log": "Approve log",
         "reject_log": "Reject log",
         "resend_log": "Resend log",
         "add_item": "Add Item",
-        "add_area": "Add Item"
+        "add_area": "Add Area",
+        "edit_area": "Edit Area"
     },
     "Messages": {
         "approve_log": "Are you sure you want to approve this log?",
         "reject_log": "Are you sure you want to reject this log?",
         "resend_log": "Are you sure you want to retry sending this log?",
         "add_item": "Are you sure you want to add this item?",
-        "add_area": "Are you sure you want to add this item?"
+        "add_area": "Are you sure you want to add this area?",
+        "edit_area": "Are you sure you want to change this area's name?"
+    },
+    "Adverbs": {
+        "before": "Before",
+        "after": "After"
     },
     "Log": {
         "time": "Time",

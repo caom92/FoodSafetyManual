@@ -7,8 +7,8 @@ import { BackendService } from '../../../../services/app.backend'
 import { LoaderService } from '../../../../services/app.loaders'
 import { ToastsService } from '../../../../services/app.toasts'
 import { GMPPackingPreopAddItemComponent } from '../add-item/gmp.packing.preop.add.item'
+import { InventoryArea } from '../interfaces/gmp.packing.preop.area.inventory.interface'
 import { InventoryType } from '../interfaces/gmp.packing.preop.inventory.interface'
-import { InventoryArea } from '../interfaces/gmp.packing.preop.area.inventory.interface';
 
 @Component({
   selector: 'gmp-packing-preop-inventory',
@@ -16,18 +16,11 @@ import { InventoryArea } from '../interfaces/gmp.packing.preop.area.inventory.in
 })
 
 export class GMPPackingPreopInventoryComponent implements OnInit {
-  @Language()
-  lang: string
-
-  @Input()
-  inventory: Array<InventoryType> = [{id: null, en: null, es: null, inventory: []}]
-
+  @Language() lang: string
+  @Input() inventory: Array<InventoryType> = [{id: null, en: null, es: null, inventory: []}]
   areas: Array<InventoryArea>
-
   selectedArea: number = null
-
   emptyInventoryFlag: boolean = null
-
   scrollAllowed: boolean = true
 
   constructor(public events: Events, public modalController: ModalController, public server: BackendService, public navCtrl: NavController, public loaderService: LoaderService, public ts: TService, private toastService: ToastsService, public app: App){
@@ -128,8 +121,6 @@ export class GMPPackingPreopInventoryComponent implements OnInit {
 
   checkEmptyInventory(){
     let emptyCount = 0
-    console.log("Inventory on checkEmptyInventory")
-    console.log(this.inventory)
     
     for(let type of this.inventory){
       if(type.inventory.length == 0){

@@ -1,23 +1,11 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core'
-import { ModalController, Events } from 'ionic-angular'
-
+import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { Language } from 'angular-l10n'
+import { Events, ModalController } from 'ionic-angular'
 
-import { InventoryItem } from '../interfaces/gmp.packing.hand.washing.inventory.interface'
-
-import { HideFabDirective } from '../../../../directives/hide.fab'
-
-import { GMPPackingHandWashingAddItemComponent } from '../add-item/gmp.packing.hand.washing.add.item'
 import { InventoryService } from '../../../../services/app.inventory'
 import { SuperInventoryComponent } from '../../super-inventory/super.inventory'
-
-/**
- * Componente que administra el inventario de GMP Packing Thermo Calibration
- * 
- * @export
- * @class GMPPackingHandWashingInventoryComponent
- * @implements {OnInit}
- */
+import { GMPPackingHandWashingAddItemComponent } from '../add-item/gmp.packing.hand.washing.add.item'
+import { InventoryItem } from '../interfaces/gmp.packing.hand.washing.inventory.interface'
 
 @Component({
   selector: 'gmp-packing-hand-washing-inventory',
@@ -34,24 +22,10 @@ export class GMPPackingHandWashingInventoryComponent extends SuperInventoryCompo
     super(events, inventoryService, modalController)
   }
 
-  /**
-   * Se suscribe a los eventos de control de scroll y recupera el inventario
-   * del servicio de inventarios al inicializar el componente
-   * 
-   * @memberof GMPPackingHandWashingInventoryComponent
-   */
-
   public ngOnInit(): void {
     this.setSuffix("gmp-packing-hand-washing")
     super.ngOnInit()
   }
-
-  /**
-   * Crea un modal para agregar un elemento de inventario de GMP Packing Thermo
-   * Calibration
-   * 
-   * @memberof GMPPackingHandWashingInventoryComponent
-   */
 
   public addItem(): void {
     super.addItem(GMPPackingHandWashingAddItemComponent, null, (data) => {
@@ -59,14 +33,6 @@ export class GMPPackingHandWashingInventoryComponent extends SuperInventoryCompo
       this.inventory.push(data.item)
     })
   }
-
-  /**
-   * Actualiza una bandera que indica si el inventario se encuentra vacío
-   * para permitirle a la vista mostrar un mensaje en consecuencia
-   * 
-   * @returns {boolean}
-   * @memberof GMPPackingHandWashingInventoryComponent
-   */
 
   public checkEmptyInventory(): boolean {
     this.emptyInventoryFlag = this.inventory.length == 0

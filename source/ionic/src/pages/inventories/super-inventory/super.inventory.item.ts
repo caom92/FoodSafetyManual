@@ -1,5 +1,6 @@
-import { ViewChild, OnInit } from '@angular/core'
+import { ViewChild } from '@angular/core'
 import { Toggle } from 'ionic-angular'
+
 import { InventoryService } from '../../../services/app.inventory'
 import { SuperInventoryItemInterface } from './super.inventory.interface'
 
