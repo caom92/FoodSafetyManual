@@ -14,7 +14,7 @@ ion-content(hide-fab, [class.no-scroll]='!scrollAllowed')
         ion-label {{ 'InventoryLists.order' | translate:lang }}
         ion-label {{ 'InventoryLists.name' | translate:lang }}
         button(ion-fab, mini, item-end, style='visibility: hidden;')
-      div([dragula]='bagName', [dragulaModel]='areaInventory')
+      div([dragula]='"preopAreasBag"', [dragulaModel]='areaInventory')
         ng-template(ngFor, let-area, [ngForOf]='areaInventory', let-isFirst='first')
           div(*ngIf='!emptyInventoryFlag')
             gmp-packing-preop-area-inventory-area([area]='area')
