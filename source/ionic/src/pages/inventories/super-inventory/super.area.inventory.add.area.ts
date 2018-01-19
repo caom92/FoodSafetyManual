@@ -4,8 +4,8 @@ import { AlertController, ViewController } from 'ionic-angular'
 
 import { AreaManagerService } from '../../../services/app.area.manager'
 
-export class SuperInventoryAddItemComponent {
-  protected newItem: FormGroup = new FormBuilder().group({})
+export class SuperInventoryAddAreaComponent {
+  protected newArea: FormGroup = new FormBuilder().group({})
   private suffix: string = null
 
   constructor(protected viewCtrl: ViewController,
@@ -25,14 +25,14 @@ export class SuperInventoryAddItemComponent {
   }
 
   public createItemForm(controlsConfig: { [key: string]: any }): void {
-    this.newItem = this._fb.group(controlsConfig)
+    this.newArea = this._fb.group(controlsConfig)
   }
 
-  public addItem(listData: any, itemData: any) {
-    if (this.newItem.valid) {
+  public addArea(listData: any, itemData: any) {
+    if (this.newArea.valid) {
       let confirmAdd = this.alertCtrl.create({
         title: this.ts.translate("Titles.add_area"),
-        message: this.ts.translate("Messages.add_area") + "<br><br>" + this.newItem.value.name,
+        message: this.ts.translate("Messages.add_area") + "<br><br>" + this.newArea.value.name,
         buttons: [
           {
             text: this.ts.translate("Options.cancel"),
@@ -56,7 +56,7 @@ export class SuperInventoryAddItemComponent {
       })
       confirmAdd.present()
     } else {
-      this.areaManagerService.setAsDirty(this.newItem)
+      this.areaManagerService.setAsDirty(this.newArea)
       console.log("New item not valid")
     }
   }

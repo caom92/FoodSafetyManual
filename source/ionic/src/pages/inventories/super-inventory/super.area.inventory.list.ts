@@ -1,23 +1,10 @@
-import { OnInit, OnDestroy } from '@angular/core'
-import { AreaManagerService } from '../../../services/app.area.manager'
+import { OnDestroy, OnInit } from '@angular/core'
+import { Events } from 'ionic-angular'
 import { DragulaService } from 'ng2-dragula'
 import { ISubscription } from 'rxjs/Subscription'
-import { Events } from 'ionic-angular'
-import { SuperInventoryAreaInterface } from './super.area.inventory.interface'
 
-/**
- * Clase padre que pueden usar los componentes de cualquier inventario para
- * desplegar y controlar una lista de inventario.
- * 
- * Una lista puede ser:
- * 
- * 1) La totalidad del inventario de una bitácora
- * 2) Un conjunto de elementos de inventario, separados por tipo o algún otro
- *    método de distinción
- * 
- * @export
- * @class SuperAreaInventoryListComponent
- */
+import { AreaManagerService } from '../../../services/app.area.manager'
+import { SuperInventoryAreaInterface } from './super.area.inventory.interface'
 
 export class SuperAreaInventoryListComponent implements OnInit, OnDestroy {
   protected drag: ISubscription = null
@@ -33,60 +20,21 @@ export class SuperAreaInventoryListComponent implements OnInit, OnDestroy {
 
   }
 
-  /**
-   * Asigna el sufijo que identifica a la bitácora, necesario para llamar a los
-   * servicios correspondientes a la bitácora particular
-   * 
-   * @param {string} suffix 
-   * @memberof SuperAreaInventoryListComponent
-   */
-
   public setSuffix(suffix: string): void {
     this.suffix = suffix
   }
-
-  /**
-   * Asigna un nombre a la bolsa de Dragula, el cual debe ser único
-   * 
-   * @param {string} name 
-   * @memberof SuperAreaInventoryListComponent
-   */
 
   public setBagName(name: string): void {
     this.bagName = name
   }
 
-  /**
-   * Asigna el inventario que será administrado en la pantalla de inventario
-   * 
-   * @param {Array<SuperInventoryAreaInterface>} inventory 
-   * @memberof SuperAreaInventoryListComponent
-   */
-
   public setInventory(inventory: Array<SuperInventoryAreaInterface>) {
     this.currentInventory = inventory
   }
 
-  /**
-   * Asigna un inventario temporal, necesario para revertir los cambios de
-   * reordenamiento durante un error en la comunicación con el servidor o debido
-   * a una petición mal formulada
-   * 
-   * @param {Array<SuperInventoryAreaInterface>} inventory 
-   * @memberof SuperAreaInventoryListComponent
-   */
-
   public setOriginalInventory(inventory: Array<SuperInventoryAreaInterface>) {
     this.originalInventory = this.currentInventory.map(x => Object.assign({}, x))
   }
-
-  /**
-   * Inicializa la configuración de Dragula y de los eventos relacionados con el
-   * reordenamiento, tales como habilitar/inhabilitar el scroll y mandar al
-   * servicio de inventarios la petición para reordenar el inventario
-   * 
-   * @memberof SuperAreaInventoryListComponent
-   */
 
   public ngOnInit(): void {
     // Guardamos el inventario original 
@@ -139,13 +87,6 @@ export class SuperAreaInventoryListComponent implements OnInit, OnDestroy {
       }
     })
   }
-
-  /**
-   * Desuscribe el servicio de Dragula para que este no interfiera al volver a
-   * abrir este u otros inventarios
-   * 
-   * @memberof SuperAreaInventoryListComponent
-   */
 
   public ngOnDestroy(): void {
     if (this.dragulaService.find(this.bagName) !== undefined) {

@@ -1,7 +1,7 @@
 ion-header
   ion-toolbar(color='primary')
     ion-title
-      | {{ 'Titles.add_area' | translate:lang }}
+      | {{ 'Titles.edit_area' | translate:lang }}
     ion-buttons(start)
       button(ion-button, icon-only, (click)='dismiss()')
         ion-icon(name='close')
@@ -16,5 +16,5 @@ ion-content
 
     div(text-right)
       button(ion-button, icon-end, (click)='addItem()')
-        | {{ 'Options.add' | translate:lang }}
-        ion-icon(name='add')
+        | {{ 'Options.edit' | translate:lang }}
+        ion-icon(name='send')

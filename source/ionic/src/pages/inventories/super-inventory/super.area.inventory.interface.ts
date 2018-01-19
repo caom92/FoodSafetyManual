@@ -7,4 +7,6 @@ export interface SuperInventoryAreaInterface {
 export interface SuperInventoryEditAreaInterface {
   area_id: number
   area_name: string
+  room_id?: number
+  name?: string
 }

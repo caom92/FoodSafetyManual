@@ -57,7 +57,8 @@
     "Options": {
         "accept": "Aceptar",
         "cancel": "Cancelar",
-        "edit": "Editar"
+        "edit": "Editar",
+        "add": "Añadir"
     },
     "Titles": {
         "approve_log": "Aprobar bitácora",

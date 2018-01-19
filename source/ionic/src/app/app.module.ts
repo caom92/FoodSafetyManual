@@ -187,6 +187,8 @@ import { GMPSelfInspectionPestControlInventoryManagerComponent } from '../pages/
 import { GMPSelfInspectionPestControlInventoryComponent } from '../pages/inventories/gmp-self-inspection-pest-control/inventory/gmp.self.inspection.pest.control.inventory'
 import { GMPSelfInspectionPestControlInventoryItemComponent } from '../pages/inventories/gmp-self-inspection-pest-control/item/gmp.self.inspection.pest.control.inventory.item'
 import { GMPSelfInspectionPestControlInventoryListComponent } from '../pages/inventories/gmp-self-inspection-pest-control/list/gmp.self.inspection.pest.control.inventory.list'
+import { GMPSelfInspectionPestControlAddAreaComponent } from '../pages/inventories/gmp-self-inspection-pest-control/add-area/gmp.self.inspection.pest.control.add.area'
+import { GMPSelfInspectionPestControlEditAreaComponent } from '../pages/inventories/gmp-self-inspection-pest-control/edit-area/gmp.self.inspection.pest.control.edit.area'
 import { GMPSelfInspectionPestControlAddItemComponent } from '../pages/inventories/gmp-self-inspection-pest-control/add-item/gmp.self.inspection.pest.control.add.item'
 
 // Authorizations
@@ -369,6 +371,8 @@ import { AreaManagerService } from '../services/app.area.manager'
     GMPSelfInspectionPestControlAreaInventoryComponent,
     GMPSelfInspectionPestControlAreaInventoryAreaComponent,
     GMPSelfInspectionPestControlAreaInventoryListComponent,
+    GMPSelfInspectionPestControlAddAreaComponent,
+    GMPSelfInspectionPestControlEditAreaComponent,
     GMPSelfInspectionPestControlAddItemComponent
   ],
   imports: [
@@ -521,6 +525,8 @@ import { AreaManagerService } from '../services/app.area.manager'
     GMPSelfInspectionPestControlAreaInventoryComponent,
     GMPSelfInspectionPestControlAreaInventoryAreaComponent,
     GMPSelfInspectionPestControlAreaInventoryListComponent,
+    GMPSelfInspectionPestControlAddAreaComponent,
+    GMPSelfInspectionPestControlEditAreaComponent,
     GMPSelfInspectionPestControlAddItemComponent
   ],
   providers: [
