@@ -1,26 +1,22 @@
-ion-content(hide-fab, [class.no-scroll]='!scrollAllowed')
+include ../../../inventory-ionic-materialize.pug
+
++inventoryWrapper()
   ion-item
     ion-label {{ 'Log.area' | translate:lang }}
     ion-select([(ngModel)]='selectedArea', (ionChange)='loadAreaInventory($event)')
       ion-option(*ngFor='let area of areas; let first = first', [value]='area.id') {{area.name}}
-  ion-list
-    div(*ngIf='emptyInventoryFlag == true')
-      ion-item(text-wrap)
-        ion-icon(item-start, name='warning', color='danger')
-        ion-label
-          h1
-            | No items for this log. Add some by using the 
-            ion-icon(name='add-circle', color='open')
-            |  button below
-    div(*ngIf='emptyInventoryFlag == false')
-      ion-item(ion-list-header)
-        ion-icon(item-start)
-        ion-label {{ 'InventoryLists.order' | translate:lang }}
-        ion-label {{ 'InventoryLists.name' | translate:lang }}
-        ion-label {{ 'InventoryLists.type' | translate:lang }}
-        ion-toggle(item-end, style='visibility: hidden;')
-      ng-template(ngFor, let-type, [ngForOf]='inventory', let-isFirst='first')
-        gmp-packing-preop-inventory-list([type]='type', [printHeader]='isFirst')
-  ion-fab(right, bottom)
-    button(ion-fab, color='open', (click)='addItem()')
-      ion-icon(name='add')
+  +inventoryListsWrapper()
+    +inventoryTitleWrapper()
+      +inventoryTitleHandler()
+      +inventoryTitleColumn("{{ 'InventoryLists.id' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.order' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.name' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.type' | translate:lang }}")
+      +inventoryTitleToggle()
+    +inventoryListMultiplier('type', 'inventory')
+      //-For Ionic version uncomment the next line, Dragula variables are found inside the .list.pug file
+      +inventoryList('gmp-packing-preop')([type]='type')
+      //-For ng2-Materialize version uncomment the next line, we have to pass Dragula variables here
+      //-+inventoryList('gmp-packing-preop')([items]='inventory', [dragula]='type.name', [dragulaModel]='type.items')
+  +inventoryEmptyMessage()
+  +inventoryAddButton()([hidden]="selectedArea == null || selectedArea == undefined")

@@ -74,7 +74,7 @@ export class SuperAreaInventoryListComponent implements OnInit, OnDestroy {
           })
         }
 
-        this.areaManagerService.reorderAreaInventory(reorderedItemArray, "reorder-" + this.suffix).then(success => {
+        this.areaManagerService.reorderAreaInventory(reorderedItemArray, this.suffix).then(success => {
           this.originalInventory = this.currentInventory.map(x => Object.assign({}, x))
         }, error => {
           let temp = this.originalInventory.map(x => Object.assign({}, x))

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { TranslationService as TService } from 'angular-l10n'
+import { Language, TranslationService as TService } from 'angular-l10n'
 import { AlertController, NavParams, ViewController } from 'ionic-angular'
 
 import { InventoryService } from '../../../../services/app.inventory'
@@ -12,6 +12,7 @@ import { SuperInventoryAddItemComponent } from '../../super-inventory/super.inve
 })
 
 export class GMPSelfInspectionPestControlAddItemComponent extends SuperInventoryAddItemComponent implements OnInit {
+  @Language() lang: string
   newItem: FormGroup = new FormBuilder().group({})
   area_id: number
 

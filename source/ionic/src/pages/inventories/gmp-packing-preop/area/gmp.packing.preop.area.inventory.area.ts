@@ -1,12 +1,10 @@
 import { Component, Input } from '@angular/core'
-import { Events, ModalController } from 'ionic-angular'
-
 import { Language } from 'angular-l10n'
-
-import { InventoryArea } from '../interfaces/gmp.packing.preop.area.inventory.interface'
+import { Events, ModalController } from 'ionic-angular'
 
 import { SuperInventoryAreaComponent } from '../../super-inventory/super.area.inventory.area'
 import { GMPPackingPreopEditAreaComponent } from '../edit-area/gmp.packing.preop.edit.area'
+import { InventoryArea } from '../interfaces/gmp.packing.preop.area.inventory.interface'
 
 @Component({
   selector: 'gmp-packing-preop-area-inventory-area',

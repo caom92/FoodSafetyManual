@@ -442,8 +442,8 @@ function createReorderService($program, $module, $log, $daoName) {
       ],
       'items' => [
         'type' => 'array',
-        'items' => [
-          'item_id' => [
+        'values' => [
+          'id' => [
             'type' => 'int',
             'min' => 1
           ],
@@ -486,7 +486,7 @@ function createReorderService($program, $module, $log, $daoName) {
 
       // actualizamos cada elemento en la tabla
       foreach ($request['items'] as $item) {
-        $dao->updatePositionByID($item['item_id'], $item['position']);
+        $dao->updatePositionByID($item['id'], $item['position']);
       }
     }
   ];

@@ -106,7 +106,7 @@ export class AreaManagerService {
     let reorderPromise = new Promise<any>((resolve, reject) => {
       let loaderReorder = this.loaderService.koiLoader("")
       let reorderForm = new FormData()
-      let flatData = this.flatten({ items: data })
+      let flatData = this.flatten({ areas: data })
 
       loaderReorder.present()
       for (let key in flatData) {

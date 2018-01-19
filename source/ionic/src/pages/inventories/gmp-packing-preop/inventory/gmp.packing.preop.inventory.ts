@@ -1,134 +1,56 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { Language, TranslationService as TService } from 'angular-l10n'
-import { App, Events, ModalController, NavController } from 'ionic-angular'
-import { Observable } from 'rxjs/Rx'
+import { Component, Input, OnDestroy, OnInit } from '@angular/core'
+import { Language } from 'angular-l10n'
+import { Events, ModalController } from 'ionic-angular'
 
-import { BackendService } from '../../../../services/app.backend'
-import { LoaderService } from '../../../../services/app.loaders'
-import { ToastsService } from '../../../../services/app.toasts'
+import { AreaManagerService } from '../../../../services/app.area.manager'
+import { InventoryService } from '../../../../services/app.inventory'
+import { SuperInventoryByAreaComponent } from '../../super-inventory/super.inventory.by.area'
 import { GMPPackingPreopAddItemComponent } from '../add-item/gmp.packing.preop.add.item'
-import { InventoryArea } from '../interfaces/gmp.packing.preop.area.inventory.interface'
-import { InventoryType } from '../interfaces/gmp.packing.preop.inventory.interface'
+import { InventoryItem, InventoryType } from '../interfaces/gmp.packing.preop.inventory.interface'
 
 @Component({
   selector: 'gmp-packing-preop-inventory',
   templateUrl: './gmp.packing.preop.inventory.html'
 })
 
-export class GMPPackingPreopInventoryComponent implements OnInit {
-  @Language() lang: string
-  @Input() inventory: Array<InventoryType> = [{id: null, en: null, es: null, inventory: []}]
-  areas: Array<InventoryArea>
-  selectedArea: number = null
-  emptyInventoryFlag: boolean = null
-  scrollAllowed: boolean = true
+export class GMPPackingPreopInventoryComponent extends SuperInventoryByAreaComponent implements OnInit, OnDestroy {
+  @Language() private lang: string
+  @Input() inventory: Array<InventoryType> = []
 
-  constructor(public events: Events, public modalController: ModalController, public server: BackendService, public navCtrl: NavController, public loaderService: LoaderService, public ts: TService, private toastService: ToastsService, public app: App){
-
-  }
-  
-  ngOnInit(){
-    this.events.subscribe("scroll:stop", (message) => {
-      this.scrollAllowed = false
-      console.log("Message: " + message)
-    })
-
-    this.events.subscribe("scroll:start", (message)=>{
-      this.scrollAllowed = true
-      console.log("Message: " + message)
-    })
-
-    this.events.subscribe("area:add", (data) => {
-      this.areas.push(data)
-      this.areas.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)
-    })
-
-    this.events.subscribe("area:edit", (oldData, newData) => {
-      console.log(oldData)
-      console.log(newData)
-      let index = this.areas.findIndex((x => x.id==oldData.id))
-      this.areas[index].name = newData.name
-      this.areas.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)
-    })
-
-    let loader = this.loaderService.koiLoader(this.ts.translate("Connecting to Server"))
-    loader.present()
-    this.server.update(
-      'get-areas-of-zone-gmp-packing-preop',
-      new FormData(),
-      (response: any) => {
-        this.areas = response.data
-        loader.dismiss()
-      },
-      (error: any, caught: Observable<void>) => {
-        loader.dismiss()
-        this.toastService.showText("serverUnreachable")
-        this.app.getRootNav().pop()
-        return []
-      }
-    )
+  constructor(events: Events,
+    inventoryService: InventoryService,
+    modalController: ModalController,
+    areaManagerService: AreaManagerService) {
+    super(events, inventoryService, modalController, areaManagerService)
   }
 
-  loadAreaInventory(event){
-    let loader = this.loaderService.koiLoader(this.ts.translate("Connecting to Server"))
-    loader.present()
-    let tempForm = new FormData()
-    tempForm.append("area_id", event)
-    this.server.update(
-      'inventory-gmp-packing-preop',
-      tempForm,
-      (response: any) => {
-        if (response.meta.return_code == 0) {
-          if (response.data) {
-            this.inventory = response.data
-            this.checkEmptyInventory()
-            loader.dismiss()
-          } else {
-            loader.dismiss()
-            this.toastService.showText("serverUnreachable")
-            this.app.getRootNav().pop()
-          }
-        }
-      },
-      (error: any, caught: Observable<void>) => {
-        loader.dismiss()
-        this.toastService.showText("serverUnreachable")
-        this.app.getRootNav().pop()
-        return []
-      }
-    )
+  public ngOnInit(): void {
+    this.setSuffix("gmp-packing-preop")
+    super.ngOnInit()
   }
 
-  addItem(){
-    let type_array: Array<{id:number,en:string,es:string}> = []
-    for(let temp of this.inventory){
-      type_array.push({id:temp.id,en:temp.en,es:temp.es})
+  public addItem(): void {
+    let type_array: Array<{ id: number, en: string, es: string }> = []
+    for (let temp of this.inventory) {
+      type_array.push({ id: temp.id, en: temp.en, es: temp.es })
     }
-    let modal = this.modalController.create(GMPPackingPreopAddItemComponent, {type_array:type_array,area_id:this.selectedArea})
-    modal.present()
-    modal.onDidDismiss(data => {
-      if(data){
-        for(let type in this.inventory){
-          if(this.inventory[type].id == data.type){
-            data.item.position = this.inventory[type].inventory.length + 1
-            this.inventory[type].inventory.push(data.item)
-            this.emptyInventoryFlag = false
-          }
-        }
-      }
+    super.addItem(GMPPackingPreopAddItemComponent, { type_array: type_array, area_id: this.selectedArea }, (data) => {
+      data.item.position = this.inventory.length + 1
+      this.inventory.push(data.item)
+      this.emptyInventoryFlag = false
     })
   }
 
-  checkEmptyInventory(){
+  public checkEmptyInventory(): boolean {
     let emptyCount = 0
-    
-    for(let type of this.inventory){
-      if(type.inventory.length == 0){
+
+    for (let type of this.inventory) {
+      if (type.inventory.length == 0) {
         emptyCount++
       }
     }
 
-    if(emptyCount == this.inventory.length){
+    if (emptyCount == this.inventory.length) {
       this.emptyInventoryFlag = true
       return true
     } else {
