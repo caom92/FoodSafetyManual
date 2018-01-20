@@ -10,7 +10,6 @@ import { InventoryItem } from '../interfaces/gmp.self.inspection.pest.control.in
 })
 
 export class GMPSelfInspectionPestControlInventoryItemComponent extends SuperInventoryItemComponent implements OnInit {
-  @Input() private type: string = ""
   @Input() item: InventoryItem = null
 
   constructor(inventoryService: InventoryService) {

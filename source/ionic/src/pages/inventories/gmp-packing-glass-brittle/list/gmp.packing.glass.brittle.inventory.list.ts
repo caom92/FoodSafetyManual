@@ -1,16 +1,11 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core'
-import { Events } from 'ionic-angular'
-
-import { ISubscription } from 'rxjs/Subscription'
-
+import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core'
 import { Language } from 'angular-l10n'
-
-import { InventoryItem } from '../interfaces/gmp.packing.glass.brittle.inventory.interface'
-
+import { Events } from 'ionic-angular'
 import { DragulaService } from 'ng2-dragula'
 
-import { BackendService } from '../../../../services/app.backend'
-import { TranslationService } from '../../../../services/app.translation'
+import { InventoryService } from '../../../../services/app.inventory'
+import { SuperInventoryListComponent } from '../../super-inventory/super.inventory.list'
+import { InventoryItem } from '../interfaces/gmp.packing.glass.brittle.inventory.interface'
 
 @Component({
   selector: 'gmp-packing-glass-brittle-inventory-list',
@@ -20,65 +15,25 @@ import { TranslationService } from '../../../../services/app.translation'
   ]
 })
 
-export class GMPPackingGlassBrittleInventoryListComponent implements OnInit, OnDestroy {
-  @Input()
-  items: Array<InventoryItem>
+export class GMPPackingGlassBrittleInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnDestroy, OnChanges {
+  @Language() private lang: string
+  @Input() items: Array<InventoryItem> = null
 
-  @Input()
-  printHeader: boolean = false
-
-  @Language()
-  lang: string
-
-  drag: ISubscription = null
-  dragend: ISubscription = null
-
-  constructor(private dragulaService: DragulaService, public events: Events, public server: BackendService) {
-    
+  constructor(dragulaService: DragulaService,
+    events: Events,
+    inventoryService: InventoryService) {
+    super(dragulaService, events, inventoryService)
   }
 
-  ngOnInit(){
-    console.log("NgOnInit of Preop Inventory List")
-    this.dragulaService.setOptions("glassBrittleItemsBag", {
-      moves: function (el, container, handle) {
-        return (handle.classList.contains('handle'))
-      },
-      revertOnSpill: true
-    })
-
-    this.drag = this.dragulaService.drag.subscribe((value) => {
-      console.log("Dragula Drag Subscription")
-      this.events.publish("scroll:stop", "Scroll Stopped")
-    })
-
-    this.dragend = this.dragulaService.dragend.subscribe((value) => {
-      console.log("Dragula Dragend Subscription")
-      this.events.publish("scroll:start", "Scroll Started")
-      let index = 1
-      for(let item in this.items){
-        this.items[item].order = index++
-        let reorderForm = new FormData()
-        reorderForm.append("item_id", "" + this.items[item].id)
-        reorderForm.append("position", "" + this.items[item].order)
-        this.server.update(
-          'reorder-gmp-packing-glass-brittle',
-          reorderForm,
-          (response: any) => {
-            console.log("Item reordered")
-          }
-        )
-      }
-    })
+  public ngOnInit(): void {
+    this.setBagName("gmp-packing-glass-brittle-bag")
+    this.setSuffix("gmp-packing-glass-brittle")
+    this.setInventory(this.items)
+    super.ngOnInit()
   }
 
-  ngOnDestroy(){
-    if (this.dragulaService.find("glassBrittleItemBag") !== undefined){
-      console.warn("Dragula bag " + "glassBrittleItemBag" + " destroyed")
-      this.drag.unsubscribe()
-      this.dragend.unsubscribe()
-      this.dragulaService.destroy("glassBrittleItemBag")
-    } else {
-      console.error("No Dragula bag present on gmp-packing-glass-brittle Inventory")
-    }
+  public ngOnChanges(): void{
+    this.setInventory(this.items)
+    this.setOriginalInventory(this.items)
   }
 }

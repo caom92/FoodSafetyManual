@@ -104,6 +104,7 @@ import { GMPPackingGlassBrittleInventoryItemComponent } from '../pages/inventori
 import { GMPPackingGlassBrittleInventoryListComponent } from '../pages/inventories/gmp-packing-glass-brittle/list/gmp.packing.glass.brittle.inventory.list'
 import { GMPPackingGlassBrittleAreaInventoryComponent } from '../pages/inventories/gmp-packing-glass-brittle/area-inventory/gmp.packing.glass.brittle.area.inventory'
 import { GMPPackingGlassBrittleAreaInventoryAreaComponent } from '../pages/inventories/gmp-packing-glass-brittle/area/gmp.packing.glass.brittle.area.inventory.area'
+import { GMPPackingGlassBrittleAreaInventoryListComponent } from '../pages/inventories/gmp-packing-glass-brittle/area-list/gmp.packing.glass.brittle.area.inventory.list'
 import { GMPPackingGlassBrittleAddAreaComponent } from '../pages/inventories/gmp-packing-glass-brittle/add-area/gmp.packing.glass.brittle.add.area'
 import { GMPPackingGlassBrittleEditAreaComponent } from '../pages/inventories/gmp-packing-glass-brittle/edit-area/gmp.packing.glass.brittle.edit.area'
 import { GMPPackingGlassBrittleAddItemComponent } from '../pages/inventories/gmp-packing-glass-brittle/add-item/gmp.packing.glass.brittle.add.item'
@@ -298,6 +299,7 @@ import { AreaManagerService } from '../services/app.area.manager'
     GMPPackingGlassBrittleInventoryListComponent,
     GMPPackingGlassBrittleAreaInventoryComponent,
     GMPPackingGlassBrittleAreaInventoryAreaComponent,
+    GMPPackingGlassBrittleAreaInventoryListComponent,
     GMPPackingGlassBrittleAddAreaComponent,
     GMPPackingGlassBrittleEditAreaComponent,
     GMPPackingGlassBrittleAddItemComponent,
@@ -453,6 +455,7 @@ import { AreaManagerService } from '../services/app.area.manager'
     GMPPackingGlassBrittleInventoryListComponent,
     GMPPackingGlassBrittleAreaInventoryComponent,
     GMPPackingGlassBrittleAreaInventoryAreaComponent,
+    GMPPackingGlassBrittleAreaInventoryListComponent,
     GMPPackingGlassBrittleAddAreaComponent,
     GMPPackingGlassBrittleEditAreaComponent,
     GMPPackingGlassBrittleAddItemComponent,
