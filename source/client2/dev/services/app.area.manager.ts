@@ -1,25 +1,22 @@
 import { Injectable } from '@angular/core'
-
-import { FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms'
-
-import { Language, TranslationService as TService } from 'angular-l10n'
+import { FormArray, FormControl, FormGroup } from '@angular/forms'
+import { TranslationService as TService } from 'angular-l10n'
 import { Observable } from 'rxjs/Rx'
 
-import { ToastsService } from './app.toasts'
-import { LoaderService } from './app.loaders'
 import { BackendService } from './app.backend'
-import { errorHandler } from '@angular/platform-browser/src/browser';
+import { LoaderService } from './app.loaders'
+import { ToastsService } from './app.toasts'
 
 /**
- * Servicio que agrupa las funciones en común que pueden ser utilizadas por
- * inventarios de items y áreas
+ * Servicio que agrupa las funciones en común que pueden ser utilizadas para el
+ * control de áreas, independientemente de la bitácora
  * 
  * @export
- * @class InventoryService
+ * @class AreaManagerService
  */
 
 @Injectable()
-export class InventoryService {
+export class AreaManagerService {
   constructor(private loaderService: LoaderService,
     private toastService: ToastsService,
     private server: BackendService,
@@ -27,27 +24,12 @@ export class InventoryService {
 
   }
 
-  /**
-   * @function getInventory
-   * 
-   * Recupera los contenidos del inventario del servidor cuya dirección está
-   * especificada en 'app.backend'.
-   * 
-   * De tener éxito regresa una promesa que contiene la respuesta del servidor,
-   * en el caso contrario regresa un error.
-   * 
-   * @param {string} service - El nombre del servicio de inventario a solicitar
-   * @returns {Promise<*>} Promesa que puede contener la respuesta del servidor
-   * o un mensaje de error
-   * @memberof InventoryService
-   */
-
-  public getInventory(service: string): Promise<any> {
-    let inventoryPromise = new Promise<any>((resolve, reject) => {
-      let loader = this.loaderService.koiLoader(this.ts.translate("Connecting to Server"))
-      //loader.present()
+  public getAreaInventory(suffix: string): Promise<any> {
+    let areaInventoryPromise = new Promise<any>((resolve, reject) => {
+      let loader = this.loaderService.koiLoader("")
+      
       this.server.update(
-        service,
+        'get-areas-of-zone-' + suffix,
         new FormData(),
         (response: any) => {
           if (response.meta.return_code == 0) {
@@ -57,59 +39,32 @@ export class InventoryService {
             } else {
               reject("bad request")
               loader.close()
-              //this.app.getRootNav().pop()
               this.toastService.showText("serverUnreachable")
             }
           } else {
             reject("bad request")
             loader.close()
-            //this.app.getRootNav().pop()
-            //this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
           }
         },
         (error: any, caught: Observable<void>) => {
           reject("network error")
           loader.close()
-          //this.app.getRootNav().pop()
           this.toastService.showText("serverUnreachable")
           return []
         }
       )
     })
 
-    return inventoryPromise
+    return areaInventoryPromise
   }
 
-    /**
-   * 
-   * 
-   * @param {string} suffix 
-   * @param {*} data 
-   * @returns {void} 
-   * @memberof InventoryService
-   */
-
-  public getInventoryByArea(suffix: string, data: any): Promise<any> {
-    let inventoryPromise = new Promise<any>((resolve, reject) => {
-      let loader = this.loaderService.koiLoader(this.ts.translate("Connecting to Server"))
-      let form_data = new FormData()
-      let area_data = data
-
-      let flatObj = this.flatten(area_data)
-
-      for (let key in flatObj) {
-        if (flatObj[key] === true) {
-          form_data.append(key, "1")
-        } else if (flatObj[key] === false) {
-          form_data.append(key, "0")
-        } else {
-          form_data.append(key, flatObj[key])
-        }
-      }
-      
+  public getAreaInventoryByPosition(suffix: string): Promise<any> {
+    let areaInventoryPromise = new Promise<any>((resolve, reject) => {
+      let loader = this.loaderService.koiLoader("")
       this.server.update(
-        'inventory-' + suffix,
-        form_data,
+        'get-areas-of-zone-by-position-' + suffix,
+        new FormData(),
         (response: any) => {
           if (response.meta.return_code == 0) {
             if (response.data) {
@@ -118,97 +73,41 @@ export class InventoryService {
             } else {
               reject("bad request")
               loader.close()
-              //this.app.getRootNav().pop()
               this.toastService.showText("serverUnreachable")
             }
           } else {
             reject("bad request")
             loader.close()
-            //this.app.getRootNav().pop()
             this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
           }
         },
         (error: any, caught: Observable<void>) => {
           reject("network error")
           loader.close()
-          //this.app.getRootNav().pop()
           this.toastService.showText("serverUnreachable")
           return []
         }
       )
     })
 
-    return inventoryPromise
+    return areaInventoryPromise
   }
 
-  /**
-   * @function toggleItem
-   * 
-   * Activa/Desactiva un elemento de inventario dentro del servidor 
-   * 
-   * @param {*} data - Información del elemento a dar de baja. Aunque existen
-   * diferentes tipos, se espera mínimamente que este parámetro sea un objeto
-   * con un atributo 'id' que sea un entero
-   * @param {string} service - Nombre del servicio de activación/desactivación
-   * @returns {Promise<void>} Promesa que informa del éxito/error de la 
-   * petición al servidor
-   * @memberof InventoryService
-   */
-
-  public toggleItem(data: any, service: string): Promise<void> {
-    let togglePromise = new Promise<any>((resolve, reject) => {
-      let loaderToggle = this.loaderService.koiLoader("")
-      let item = new FormData()
-      item.append("id", String(data.id))
-      //loaderToggle.present()
-      this.server.update(
-        service,
-        item,
-        (response: any) => {
-          resolve()
-          loaderToggle.close()
-        },
-        (error: any, caught: Observable<void>) => {
-          reject()
-          this.toastService.showText("serverUnreachable")
-          loaderToggle.close()
-          return []
-        }
-      )
-    })
-
-    return togglePromise
-  }
-
-  /**
-   * @function reorderInventory
-   * 
-   * Reordena los elementos del inventario de una bitácora, de 1 hasta n
-   * 
-   * @param {Array<{id: number, position: number}>} data - El arreglo de 
-   * objetos con ID y posición de la lista de elementos a reordenar
-   * @param {string} service - Nombre del servicio de reordenamiento
-   * @returns {Promise<any>} 
-   * @memberof InventoryService
-   */
-
-  public reorderInventory(data: Array<{ id: number, position: number }>, service: string): Promise<any> {
+  public reorderAreaInventory(data: Array<{ id: number, position: number }>, suffix: string): Promise<any> {
     let reorderPromise = new Promise<any>((resolve, reject) => {
       let loaderReorder = this.loaderService.koiLoader("")
       let reorderForm = new FormData()
-      let flatData = this.flatten({ items: data })
+      let flatData = this.flatten({ areas: data })
 
-      //loaderReorder.present()
       for (let key in flatData) {
         reorderForm.append(key, flatData[key])
       }
 
       this.server.update(
-        service,
+        'reorder-area-' + suffix,
         reorderForm,
         (response: any) => {
           if (response.meta.return_code == 0) {
-            console.log(response)
             loaderReorder.close()
             resolve("server")
           } else {
@@ -219,7 +118,7 @@ export class InventoryService {
         }, (error: any, caught: Observable<void>) => {
           loaderReorder.close()
           this.toastService.showText("lastActionReverseNetwork")
-          reject()
+          reject("network error")
           return []
         }
       )
@@ -228,46 +127,34 @@ export class InventoryService {
     return reorderPromise
   }
 
-  /**
-   * @function addItem
-   * 
-   * Añade un nuevo elemento de inventario y se envía al servidor
-   * 
-   * @param {*} data - Objeto que representa el elemento a agregar el inventario 
-   * @param {string} service 
-   * @returns {Promise<*>} 
-   * @memberof InventoryService
-   */
-
-  public addItem(data: any, suffix: string): Promise<any> {
+  public addArea(data: any, suffix: string): Promise<any> {
     let addPromise = new Promise<any>((resolve, reject) => {
       let loaderAdd = this.loaderService.koiLoader("")
       let itemForm = new FormData()
       let flatData = this.flatten(data)
 
-      //loaderAdd.present()
 
       for (let key in flatData) {
         itemForm.append(key, flatData[key])
       }
 
       this.server.update(
-        "add-" + suffix,
+        'add-workplace-area-' + suffix,
         itemForm,
         (response: any) => {
           if (response.meta.return_code == 0) {
             loaderAdd.close()
-            this.toastService.showText("itemAddSuccess")
+            this.toastService.showText("areaAddSuccess")
             resolve(response.data)
           } else {
             loaderAdd.close()
             this.toastService.showText("badRequest")
-            reject()
+            reject(response.meta.return_code)
           }
         },
         (error: any, caught: Observable<void>) => {
           loaderAdd.close()
-          reject()
+          reject("network error")
           this.toastService.showText("serverUnreachable")
           return []
         }
@@ -275,6 +162,43 @@ export class InventoryService {
     })
 
     return addPromise
+  }
+
+  public editArea(data: any, suffix: string): Promise<any> {
+    let editPromise = new Promise<any>((resolve, reject) => {
+      let loaderEdit = this.loaderService.koiLoader("")
+      let editForm = new FormData()
+      let flatData = this.flatten(data)
+
+
+      for (let key in flatData) {
+        editForm.append(key, flatData[key])
+      }
+
+      this.server.update(
+        'edit-workplace-area-' + suffix,
+        editForm,
+        (response: any) => {
+          if (response.meta.return_code == 0) {
+            loaderEdit.close()
+            this.toastService.showText("areaEditSuccess")
+            resolve(response.data)
+          } else {
+            loaderEdit.close()
+            this.toastService.showText("badRequest")
+            reject(response.meta.return_code)
+          }
+        },
+        (error: any, caught: Observable<void>) => {
+          loaderEdit.close()
+          reject("network error")
+          this.toastService.showText("serverUnreachable")
+          return []
+        }
+      )
+    })
+
+    return editPromise
   }
 
   // https://stackoverflow.com/questions/43551221/angular-2-mark-nested-formbuilder-as-touched
@@ -288,7 +212,6 @@ export class InventoryService {
       }
     }
   }
-
 
   /**
    * @function flatten

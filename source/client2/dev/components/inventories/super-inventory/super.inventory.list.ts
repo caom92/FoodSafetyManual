@@ -1,24 +1,10 @@
-import { OnInit, OnDestroy } from '@angular/core'
-import { InventoryService } from '../../../services/app.inventory'
+import { OnDestroy, OnInit } from '@angular/core'
+import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
 import { ISubscription } from 'rxjs/Subscription'
-//import { Events } from 'ionic-angular'
-import { PubSubService } from 'angular2-pubsub'
-import { SuperInventoryItemInterface } from './super.inventory.interface'
 
-/**
- * Clase padre que pueden usar los componentes de cualquier inventario para
- * desplegar y controlar una lista de inventario.
- * 
- * Una lista puede ser:
- * 
- * 1) La totalidad del inventario de una bitácora
- * 2) Un conjunto de elementos de inventario, separados por tipo o algún otro
- *    método de distinción
- * 
- * @export
- * @class SuperInventoryItemComponent
- */
+import { InventoryService } from '../../../services/app.inventory'
+import { SuperInventoryItemInterface } from './super.inventory.interface'
 
 export class SuperInventoryListComponent implements OnInit, OnDestroy {
   protected drag: ISubscription = null
@@ -94,6 +80,10 @@ export class SuperInventoryListComponent implements OnInit, OnDestroy {
     // Guardamos el inventario original 
     this.originalInventory = this.currentInventory.map(x => Object.assign({}, x))
 
+    this.events.$sub("item:add").subscribe((item) => {
+      this.onItemAdd(item)
+    })
+
     // Al comenzar el desplazamiento de un elemento de inventario, se detiene
     // la posibilidad de realizar scroll
     this.drag = this.dragulaService.drag.subscribe((value) => {
@@ -127,12 +117,9 @@ export class SuperInventoryListComponent implements OnInit, OnDestroy {
     })
   }
 
-  /**
-   * Desuscribe el servicio de Dragula para que este no interfiera al volver a
-   * abrir este u otros inventarios
-   * 
-   * @memberof SuperInventoryListComponent
-   */
+  public onItemAdd(item: any): void {
+    throw "onItemAdd() function must be overridden in child class" + this.constructor.toString().match(/\w+/g)[1]
+  }
 
   public ngOnDestroy(): void {
     if (this.dragulaService.find(this.bagName) !== undefined) {

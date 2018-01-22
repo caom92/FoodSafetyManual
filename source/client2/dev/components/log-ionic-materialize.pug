@@ -36,6 +36,10 @@ mixin fullLogWrapper()
 mixin sendLogButton(label)
   button(mz-button)&attributes(attributes)= label
 
+mixin addItemButton()
+  button(mz-button, float="true")&attributes(attributes)
+    i(mz-icon-mdi, [icon]="'plus'")
+
 //- User Input
 
 mixin label(label, icon, color)

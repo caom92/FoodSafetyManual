@@ -1,46 +1,24 @@
-/*import { OnInit } from "@angular/core"
-import { Validators, FormGroup, FormBuilder } from "@angular/forms"
-import { ViewController, AlertController } from "ionic-angular"
+import { FormBuilder, FormGroup } from '@angular/forms'
 import { TranslationService as TService } from 'angular-l10n'
-import { InventoryService } from '../../../services/app.inventory'
-import { SuperInventoryItemInterface } from "./super.inventory.interface";
 
-export class SuperInventoryAddItemComponent implements OnInit {
+import { AlertController } from '../../../services/alert/app.alert'
+import { InventoryService } from '../../../services/app.inventory'
+import { PubSubService } from 'angular2-pubsub'
+
+export class SuperInventoryAddItemComponent {
   protected newItem: FormGroup = new FormBuilder().group({})
   private suffix: string = null
 
-  constructor(protected viewCtrl: ViewController,
-    protected _fb: FormBuilder,
+  constructor(protected _fb: FormBuilder,
     public alertCtrl: AlertController,
     public ts: TService,
-    private inventoryService: InventoryService) {
+    private inventoryService: InventoryService,
+    private events: PubSubService) {
 
   }
 
-  public ngOnInit(): void {
-
-  }
-
-  /**
-   * Asigna el sufijo de la bitácora
-   * 
-   * @param {string} suffix - Sufijo de bitácora que corresponde al usado en la
-   * base de datos
-   * @memberof SuperInventoryItemComponent
-   */
-/*
   public setSuffix(suffix: string): void {
     this.suffix = suffix
-  }
-
-  /**
-   * Cierra el modal sin regresar datos
-   * 
-   * @memberof GMPPackingScaleCalibrationAddItemComponent
-   */
-/*
-  public dismiss(): void {
-    this.viewCtrl.dismiss();
   }
 
   public createItemForm(controlsConfig: { [key: string]: any }): void {
@@ -56,28 +34,26 @@ export class SuperInventoryAddItemComponent implements OnInit {
           {
             text: this.ts.translate("Options.cancel"),
             handler: () => {
-              console.log('Cancelar');
+              console.log('Cancelar')
             }
           },
           {
             text: this.ts.translate("Options.accept"),
             handler: () => {
-              let listData = data
-              let addData = itemData
+              console.log(data)
+              console.log(itemData)
 
-              this.inventoryService.addItem(itemData, "add-" + this.suffix).then(success => {
+              this.inventoryService.addItem(itemData, this.suffix).then(success => {
                 data.item.id = success
-                this.viewCtrl.dismiss(data)
-              }, error => {
-                this.viewCtrl.dismiss()
+                this.events.$pub("item:add", data)
               })
             }
           }
         ]
       })
-      confirmAdd.present()
     } else {
+      this.inventoryService.setAsDirty(this.newItem)
       console.log("New item not valid")
     }
   }
-}*/
+}
