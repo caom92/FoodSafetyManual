@@ -86,6 +86,11 @@ import { GMPPackingThermoCalibrationItemComponent } from '../components/logs/gmp
 
 import { GMPPackingThermoCalibrationAuthorizationComponent } from '../components/logs/gmp-packing-thermo-calibration/authorization/gmp.packing.thermo.calibration.authorization'
 
+import { GMPPackingThermoCalibrationInventoryComponent } from '../components/inventories/gmp-packing-thermo-calibration/inventory/gmp.packing.thermo.calibration.inventory'
+import { GMPPackingThermoCalibrationInventoryItemComponent } from '../components/inventories/gmp-packing-thermo-calibration/item/gmp.packing.thermo.calibration.inventory.item'
+import { GMPPackingThermoCalibrationInventoryListComponent } from '../components/inventories/gmp-packing-thermo-calibration/list/gmp.packing.thermo.calibration.inventory.list'
+import { GMPPackingThermoCalibrationAddItemComponent } from '../components/inventories/gmp-packing-thermo-calibration/add-item/gmp.packing.thermo.calibration.add.item'
+
 // GMP Packing Scale Calibration
 
 import { GMPPackingScaleCalibrationLogComponent } from '../components/logs/gmp-packing-scale-calibration/log/gmp.packing.scale.calibration.log'
@@ -310,6 +315,10 @@ import { AuthorizationLoader } from './authorizations/authorization-loader/autho
     GMPPackingThermoCalibrationLogComponent,
     GMPPackingThermoCalibrationItemComponent,
     GMPPackingThermoCalibrationAuthorizationComponent,
+    GMPPackingThermoCalibrationInventoryComponent,
+    GMPPackingThermoCalibrationInventoryItemComponent,
+    GMPPackingThermoCalibrationInventoryListComponent,
+    GMPPackingThermoCalibrationAddItemComponent,
     GMPPackingScaleCalibrationLogComponent,
     GMPPackingScaleCalibrationTypeComponent,
     GMPPackingScaleCalibrationItemComponent,
