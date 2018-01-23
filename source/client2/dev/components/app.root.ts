@@ -106,6 +106,11 @@ import { GMPPackingScissorsKnivesItemComponent } from '../components/logs/gmp-pa
 
 import { GMPPackingScissorsKnivesAuthorizationComponent } from '../components/logs/gmp-packing-scissors-knives/authorization/gmp.packing.scissors.knives.authorization'
 
+import { GMPPackingScissorsKnivesInventoryComponent } from '../components/inventories/gmp-packing-scissors-knives/inventory/gmp.packing.scissors.knives.inventory'
+import { GMPPackingScissorsKnivesInventoryItemComponent } from '../components/inventories/gmp-packing-scissors-knives/item/gmp.packing.scissors.knives.inventory.item'
+import { GMPPackingScissorsKnivesInventoryListComponent } from '../components/inventories/gmp-packing-scissors-knives/list/gmp.packing.scissors.knives.inventory.list'
+import { GMPPackingScissorsKnivesAddItemComponent } from '../components/inventories/gmp-packing-scissors-knives/add-item/gmp.packing.scissors.knives.add.item'
+
 // GMP Packing Glass Brittle
 
 import { GMPPackingGlassBrittleLogComponent } from '../components/logs/gmp-packing-glass-brittle/log/gmp.packing.glass.brittle.log'
@@ -120,6 +125,11 @@ import { GMPPackingColdRoomTempLogComponent } from '../components/logs/gmp-packi
 import { GMPPackingColdRoomTempItemComponent } from '../components/logs/gmp-packing-cold-room-temp/item/gmp.packing.cold.room.temp.item'
 
 import { GMPPackingColdRoomTempAuthorizationComponent } from '../components/logs/gmp-packing-cold-room-temp/authorization/gmp.packing.cold.room.temp.authorization'
+
+import { GMPPackingColdRoomTempInventoryComponent } from '../components/inventories/gmp-packing-cold-room-temp/inventory/gmp.packing.cold.room.temp.inventory'
+import { GMPPackingColdRoomTempInventoryItemComponent } from '../components/inventories/gmp-packing-cold-room-temp/item/gmp.packing.cold.room.temp.inventory.item'
+import { GMPPackingColdRoomTempInventoryListComponent } from '../components/inventories/gmp-packing-cold-room-temp/list/gmp.packing.cold.room.temp.inventory.list'
+import { GMPPackingColdRoomTempAddItemComponent } from '../components/inventories/gmp-packing-cold-room-temp/add-item/gmp.packing.cold.room.temp.add.item'
 
 // Genericos
 
@@ -326,6 +336,10 @@ import { AuthorizationLoader } from './authorizations/authorization-loader/autho
     GMPPackingScissorsKnivesLogComponent,
     GMPPackingScissorsKnivesItemComponent,
     GMPPackingScissorsKnivesAuthorizationComponent,
+    GMPPackingScissorsKnivesInventoryComponent,
+    GMPPackingScissorsKnivesInventoryItemComponent,
+    GMPPackingScissorsKnivesInventoryListComponent,
+    GMPPackingScissorsKnivesAddItemComponent,
     GMPPackingGlassBrittleLogComponent,
     GMPPackingGlassBrittleAreaComponent,
     GMPPackingGlassBrittleItemComponent,
@@ -333,6 +347,10 @@ import { AuthorizationLoader } from './authorizations/authorization-loader/autho
     GMPPackingColdRoomTempLogComponent,
     GMPPackingColdRoomTempItemComponent,
     GMPPackingColdRoomTempAuthorizationComponent,
+    GMPPackingColdRoomTempInventoryComponent,
+    GMPPackingColdRoomTempInventoryItemComponent,
+    GMPPackingColdRoomTempInventoryListComponent,
+    GMPPackingColdRoomTempAddItemComponent,
     LogTabsPage,
     AuthorizationLoader,
     LogHeaderComponent,

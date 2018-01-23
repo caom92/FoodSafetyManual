@@ -4,7 +4,7 @@ import { SuperInventoryItemComponent } from '../../super-inventory/super.invento
 import { InventoryService } from '../../../../services/app.inventory'
 
 @Component({
-  selector: 'gmp-packing-cold-room-temp-inventory-item',
+  selector: '[gmp-packing-cold-room-temp-inventory-item]',
   templateUrl: './gmp.packing.cold.room.temp.inventory.item.html'
 })
 

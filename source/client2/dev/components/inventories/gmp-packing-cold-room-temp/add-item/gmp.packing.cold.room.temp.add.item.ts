@@ -1,21 +1,23 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { TranslationService as TService } from 'angular-l10n'
-import { AlertController, NavParams, ViewController } from 'ionic-angular'
+import { Language, TranslationService as TService } from 'angular-l10n'
+import { PubSubService } from 'angular2-pubsub'
 
+import { AlertController } from '../../../../services/alert/app.alert'
 import { InventoryService } from '../../../../services/app.inventory'
 import { SuperInventoryAddItemComponent } from '../../super-inventory/super.inventory.add.item'
 
 @Component({
-  selector: 'gmp-packing-cold-room-temp-add-item',
+  selector: '[gmp-packing-cold-room-temp-add-item]',
   templateUrl: './gmp.packing.cold.room.temp.add.item.html'
 })
 
 export class GMPPackingColdRoomTempAddItemComponent extends SuperInventoryAddItemComponent implements OnInit {
+  @Language() private lang: string
   newItem: FormGroup = new FormBuilder().group({})
 
-  constructor(public params: NavParams, viewCtrl: ViewController, alertCtrl: AlertController, ts: TService, _fb: FormBuilder, inventoryService: InventoryService) {
-    super(viewCtrl, _fb, alertCtrl, ts, inventoryService)
+  constructor(alertCtrl: AlertController, ts: TService, _fb: FormBuilder, inventoryService: InventoryService, events: PubSubService) {
+    super(_fb, alertCtrl, ts, inventoryService, events)
   }
 
   public ngOnInit(): void {

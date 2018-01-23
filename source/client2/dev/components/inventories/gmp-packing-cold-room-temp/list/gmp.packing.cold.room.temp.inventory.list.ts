@@ -1,13 +1,14 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core'
-import { Events } from 'ionic-angular'
+import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { Language } from 'angular-l10n'
-import { InventoryItem } from '../interfaces/gmp.packing.cold.room.temp.inventory.interface'
+import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
+
 import { InventoryService } from '../../../../services/app.inventory'
-import { SuperInventoryListComponent } from '../../super-inventory/super.inventory.list';
+import { SuperInventoryListComponent } from '../../super-inventory/super.inventory.list'
+import { InventoryItem } from '../interfaces/gmp.packing.cold.room.temp.inventory.interface'
 
 @Component({
-  selector: 'gmp-packing-cold-room-temp-inventory-list',
+  selector: '[gmp-packing-cold-room-temp-inventory-list]',
   templateUrl: './gmp.packing.cold.room.temp.inventory.list.html',
   providers: [
     DragulaService
@@ -20,19 +21,10 @@ export class GMPPackingColdRoomTempInventoryListComponent extends SuperInventory
   @Input() private printHeader: boolean = false
 
   constructor(dragulaService: DragulaService,
-    events: Events,
+    events: PubSubService,
     inventoryService: InventoryService) {
     super(dragulaService, events, inventoryService)
   }
-
-  /**
-   * Informa a la clase padre del nombre que se le asignará a la bolsa de
-   * Dragula, el cual debe ser único. Con este nombre asignado, la
-   * inicialización del componente padre se encarga de inicializar las funciones
-   * de Dragula
-   * 
-   * @memberof GMPPackingColdRoomTempInventoryListComponent
-   */
 
   public ngOnInit(): void {
     this.setBagName("gmp-packing-cold-room-temp-bag")
@@ -41,12 +33,11 @@ export class GMPPackingColdRoomTempInventoryListComponent extends SuperInventory
     super.ngOnInit()
   }
 
-  /**
-   * En caso de algún cambio en el modelo, se debe actualizar el inventario que
-   * es utilizado para el reordenamiento de esta modificación
-   * 
-   * @memberof GMPPackingColdRoomTempInventoryListComponent
-   */
+  public onItemAdd(item: any): void {
+    item.item.position = this.currentInventory.length + 1
+    this.currentInventory.push(item.item)
+    this.originalInventory.push(item.item)
+  }
 
   public ngOnChanges(): void{
     this.setInventory(this.items)

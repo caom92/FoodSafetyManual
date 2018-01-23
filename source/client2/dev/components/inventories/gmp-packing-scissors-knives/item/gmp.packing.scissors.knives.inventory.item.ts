@@ -4,7 +4,7 @@ import { SuperInventoryItemComponent } from '../../super-inventory/super.invento
 import { InventoryService } from '../../../../services/app.inventory'
 
 @Component({
-  selector: 'gmp-packing-scissors-knives-inventory-item',
+  selector: '[gmp-packing-scissors-knives-inventory-item]',
   templateUrl: './gmp.packing.scissors.knives.inventory.item.html'
 })
 
