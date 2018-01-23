@@ -74,6 +74,11 @@ import { GMPPackingHandWashingItemComponent } from '../components/logs/gmp-packi
 
 import { GMPPackingHandWashingAuthorizationComponent } from '../components/logs/gmp-packing-hand-washing/authorization/gmp.packing.hand.washing.authorization'
 
+import { GMPPackingHandWashingInventoryComponent } from '../components/inventories/gmp-packing-hand-washing/inventory/gmp.packing.hand.washing.inventory'
+import { GMPPackingHandWashingInventoryItemComponent } from '../components/inventories/gmp-packing-hand-washing/item/gmp.packing.hand.washing.inventory.item'
+import { GMPPackingHandWashingInventoryListComponent } from '../components/inventories/gmp-packing-hand-washing/list/gmp.packing.hand.washing.inventory.list'
+import { GMPPackingHandWashingAddItemComponent } from '../components/inventories/gmp-packing-hand-washing/add-item/gmp.packing.hand.washing.add.item'
+
 // GMP Packing Thermo Calibration
 
 import { GMPPackingThermoCalibrationLogComponent } from '../components/logs/gmp-packing-thermo-calibration/log/gmp.packing.thermo.calibration.log'
@@ -298,6 +303,10 @@ import { AuthorizationLoader } from './authorizations/authorization-loader/autho
     GMPPackingHandWashingLogComponent,
     GMPPackingHandWashingItemComponent,
     GMPPackingHandWashingAuthorizationComponent,
+    GMPPackingHandWashingInventoryComponent,
+    GMPPackingHandWashingInventoryItemComponent,
+    GMPPackingHandWashingInventoryListComponent,
+    GMPPackingHandWashingAddItemComponent,
     GMPPackingThermoCalibrationLogComponent,
     GMPPackingThermoCalibrationItemComponent,
     GMPPackingThermoCalibrationAuthorizationComponent,

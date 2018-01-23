@@ -31,13 +31,7 @@ export class GMPPackingScaleCalibrationAddItemComponent extends SuperInventoryAd
     })
   }
 
-  public ngOnChanges(): void {
-    console.log(this.types)
-  }
-
   public addItem(): void {
-    console.log("add item")
-    console.log(this.newItem.value)
     let data = { type: this.newItem.value.type, item: { id: 0, is_active: 1, name: this.newItem.value.name, position: 0 } }
     //let data: { item: {id: number, is_active: number, name: string, position: number }, [key: string]: any, type?: string } = { type: this.newItem.value.type, item: { id: 0, is_active: 1, name: this.newItem.value.name, position: 0 } }
     let itemData = { type_id: String(this.newItem.value.type), scale_name: String(this.newItem.value.name) }
