@@ -164,7 +164,8 @@ import { LogHeaderComponent } from '../components/logs/log-header/log.header'
 import { LogService } from '../services/app.logs'
 import { ToastsService } from '../services/app.toasts'
 import { TranslationService } from '../services/app.translation'
-import { AuthorizationLoader } from './authorizations/authorization-loader/authorization.loader.component';
+import { AuthorizationLoader } from './authorizations/authorization-loader/authorization.loader.component'
+import { InventoryLoaderComponent } from './inventories/inventories'
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -223,6 +224,11 @@ import { AuthorizationLoader } from './authorizations/authorization-loader/autho
           name: 'inventory-selection',
           url: '/inventory-selection/:program/:module',
           component: InventoryListComponent
+        },
+        {
+          name: 'inventory',
+          url: '/inventory/:suffix/:name',
+          component: InventoryLoaderComponent
         },
         {
           name: 'pending-authorizations-list',
@@ -354,6 +360,7 @@ import { AuthorizationLoader } from './authorizations/authorization-loader/autho
     LogTabsPage,
     AuthorizationLoader,
     LogHeaderComponent,
+    InventoryLoaderComponent,
     TabLogLoaderComponent
   ],
   // declaramos cualquier componente que sera inyectado dinamicamente
@@ -380,7 +387,12 @@ import { AuthorizationLoader } from './authorizations/authorization-loader/autho
     GMPPackingScaleCalibrationAuthorizationComponent,
     GMPPackingScissorsKnivesAuthorizationComponent,
     GMPPackingGlassBrittleAuthorizationComponent,
-    GMPPackingColdRoomTempAuthorizationComponent
+    GMPPackingColdRoomTempAuthorizationComponent,
+    GMPPackingScaleCalibrationInventoryComponent,
+    GMPPackingHandWashingInventoryComponent,
+    GMPPackingThermoCalibrationInventoryComponent,
+    GMPPackingScissorsKnivesInventoryComponent,
+    GMPPackingColdRoomTempInventoryComponent,
   ],
   // indicamos cual es el componente raiz
   bootstrap: [HomeComponent]

@@ -12,7 +12,8 @@ include ../../../inventory-ionic-materialize.pug
     +inventoryListMultiplier('type', 'inventory')
       //-For Ionic version uncomment the next line, Dragula variables are found inside the .list.pug file
       //-+inventoryList('gmp-packing-scale-calibration')([type]='type')
-      //-For ng2-Materialize version uncomment the next line, we have to pass Dragula variables here
+      //-For ng2-Materialize version uncomment the next two lines, we have to pass Dragula variables here
       +inventoryList('gmp-packing-scale-calibration')([type]='type', [dragula]='type.name', [dragulaModel]='type.items', [dragulaOptions]='options')
+    +inventoryListAddItemFooter('gmp-packing-scale-calibration')([types]="type_array")
   +inventoryEmptyMessage()
   +inventoryAddButton()

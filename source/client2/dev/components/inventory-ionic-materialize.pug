@@ -62,10 +62,14 @@ mixin inventoryEmptyMessage()
       i.green-text(mz-icon-mdi, [align]="'center'", [icon]="'plus-circle'", [size]="'36px'")
       |  button below
 
-mixin inventoryListsWrapper()
+mixin inventoryListsWrapper(suffix)
   table(*ngIf='emptyInventoryFlag == false')
     if block
       block
+
+mixin inventoryListAddItemFooter(suffix)
+  - attributes[suffix + "-add-item"] = true
+  tfoot()&attributes(attributes)
 
 mixin inventoryWrapper()
   if block

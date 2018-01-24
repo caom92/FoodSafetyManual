@@ -11,7 +11,8 @@ include ../../../inventory-ionic-materialize.pug
       +inventoryTitleToggle()
     //-For Ionic version uncomment the next line, Dragula variables are found inside the .list.pug file
     //-+inventoryList('gmp-packing-scissors-knives')([items]='inventory')
-    //-For ng2-Materialize version uncomment the next line, we have to pass Dragula variables here
+    //-For ng2-Materialize version uncomment the next two lines, we have to pass Dragula variables here
     +inventoryList('gmp-packing-scissors-knives')([items]='inventory', [dragula]='bagName', [dragulaModel]='inventory', [dragulaOptions]='options')
+    +inventoryListAddItemFooter('gmp-packing-scissors-knives')
   +inventoryEmptyMessage()
   +inventoryAddButton()
