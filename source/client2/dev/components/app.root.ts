@@ -53,6 +53,16 @@ import { GMPPackingPreopLogComponent } from '../components/logs/gmp-packing-preo
 
 import { GMPPackingPreopAuthorizationComponent } from '../components/logs/gmp-packing-preop/authorization/gmp.packing.preop.authorization'
 
+//import { GMPPackingPreopInventoryManagerComponent } from '../components/inventories/gmp-packing-preop/manager/gmp.packing.preop.inventory.manager'
+import { GMPPackingPreopInventoryComponent } from '../components/inventories/gmp-packing-preop/inventory/gmp.packing.preop.inventory'
+import { GMPPackingPreopInventoryItemComponent } from '../components/inventories/gmp-packing-preop/item/gmp.packing.preop.inventory.item'
+import { GMPPackingPreopInventoryListComponent } from '../components/inventories/gmp-packing-preop/list/gmp.packing.preop.inventory.list'
+//import { GMPPackingPreopAreaInventoryComponent } from '../components/inventories/gmp-packing-preop/area-inventory/gmp.packing.preop.area.inventory'
+//import { GMPPackingPreopAreaInventoryAreaComponent } from '../components/inventories/gmp-packing-preop/area/gmp.packing.preop.area.inventory.area'
+//import { GMPPackingPreopAddAreaComponent } from '../components/inventories/gmp-packing-preop/add-area/gmp.packing.preop.add.area'
+//import { GMPPackingPreopEditAreaComponent } from '../components/inventories/gmp-packing-preop/edit-area/gmp.packing.preop.edit.area'
+import { GMPPackingPreopAddItemComponent } from '../components/inventories/gmp-packing-preop/add-item/gmp.packing.preop.add.item'
+
 import { GMPPackingPreopReportComponent } from './gmp/packing/preop/report/gmp.packing.preop.report.component'
 import { GMPPackingPreopReportAreaComponent } from './gmp/packing/preop/report/gmp.packing.preop.report.area.component'
 import { GMPPackingPreopReportTypeComponent } from './gmp/packing/preop/report/gmp.packing.preop.report.type.component'
@@ -166,6 +176,7 @@ import { ToastsService } from '../services/app.toasts'
 import { TranslationService } from '../services/app.translation'
 import { AuthorizationLoader } from './authorizations/authorization-loader/authorization.loader.component'
 import { InventoryLoaderComponent } from './inventories/inventories'
+import { AreaManagerService } from '../services/app.area.manager';
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -274,6 +285,7 @@ import { InventoryLoaderComponent } from './inventories/inventories'
     DateTimeService,
     LoaderService,
     InventoryService,
+    AreaManagerService,
     AlertController,
     LogService,
     ToastsService,
@@ -313,6 +325,10 @@ import { InventoryLoaderComponent } from './inventories/inventories'
     GMPPackingPreopAreaComponent,
     GMPPackingPreopLogComponent,
     GMPPackingPreopAuthorizationComponent,
+    GMPPackingPreopInventoryComponent,
+    GMPPackingPreopInventoryItemComponent,
+    GMPPackingPreopInventoryListComponent,
+    GMPPackingPreopAddItemComponent,
     GMPPackingPreopReportComponent,
     GMPPackingPreopReportAreaComponent,
     GMPPackingPreopReportTypeComponent,

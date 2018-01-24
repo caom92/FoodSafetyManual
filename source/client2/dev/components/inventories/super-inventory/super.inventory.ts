@@ -14,7 +14,7 @@ export class SuperInventoryComponent implements OnInit, OnDestroy {
     moves: function (el, container, handle) {
       return (handle.classList.contains('handle'))
     },
-    removeOnSpill: true
+    removeOnSpill: false
   }
   scrollStop: Subscription
   scrollStart: Subscription

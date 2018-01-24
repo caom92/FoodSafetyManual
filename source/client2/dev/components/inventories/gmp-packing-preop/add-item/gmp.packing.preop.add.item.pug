@@ -1,0 +1,14 @@
+include ../../../inventory-ionic-materialize.pug
+include ../../../log-ionic-materialize.pug
+
+tr([formGroup]="newItem")
+  td
+  td
+  td
+  td
+    +textInput(null, null, "name", "text", "new_item", "New item")
+  td
+    +select(null, null, "type", null, "new_type", "'New type'")
+      +option("{{type[lang]}}", "{{type.id}}", false, false)(*ngFor='let type of types')
+  td
+    +addItemButton()((click)="addItem()")
