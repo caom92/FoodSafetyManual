@@ -185,8 +185,9 @@ export class AreaManagerService {
             resolve(response.data)
           } else {
             loaderEdit.close()
-            this.toastService.showText("badRequest")
             reject(response.meta.return_code)
+            //this.toastService.showText("badRequest")
+            this.toastService.showString(response.meta.message)
           }
         },
         (error: any, caught: Observable<void>) => {

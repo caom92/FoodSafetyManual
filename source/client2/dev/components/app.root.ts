@@ -53,13 +53,14 @@ import { GMPPackingPreopLogComponent } from '../components/logs/gmp-packing-preo
 
 import { GMPPackingPreopAuthorizationComponent } from '../components/logs/gmp-packing-preop/authorization/gmp.packing.preop.authorization'
 
-//import { GMPPackingPreopInventoryManagerComponent } from '../components/inventories/gmp-packing-preop/manager/gmp.packing.preop.inventory.manager'
+import { GMPPackingPreopInventoryManagerComponent } from '../components/inventories/gmp-packing-preop/manager/gmp.packing.preop.inventory.manager'
 import { GMPPackingPreopInventoryComponent } from '../components/inventories/gmp-packing-preop/inventory/gmp.packing.preop.inventory'
 import { GMPPackingPreopInventoryItemComponent } from '../components/inventories/gmp-packing-preop/item/gmp.packing.preop.inventory.item'
 import { GMPPackingPreopInventoryListComponent } from '../components/inventories/gmp-packing-preop/list/gmp.packing.preop.inventory.list'
-//import { GMPPackingPreopAreaInventoryComponent } from '../components/inventories/gmp-packing-preop/area-inventory/gmp.packing.preop.area.inventory'
-//import { GMPPackingPreopAreaInventoryAreaComponent } from '../components/inventories/gmp-packing-preop/area/gmp.packing.preop.area.inventory.area'
-//import { GMPPackingPreopAddAreaComponent } from '../components/inventories/gmp-packing-preop/add-area/gmp.packing.preop.add.area'
+import { GMPPackingPreopAreaInventoryComponent } from '../components/inventories/gmp-packing-preop/area-inventory/gmp.packing.preop.area.inventory'
+import { GMPPackingPreopAreaInventoryListComponent } from '../components/inventories/gmp-packing-preop/area-list/gmp.packing.preop.area.inventory.list'
+import { GMPPackingPreopAreaInventoryAreaComponent } from '../components/inventories/gmp-packing-preop/area/gmp.packing.preop.area.inventory.area'
+import { GMPPackingPreopAddAreaComponent } from '../components/inventories/gmp-packing-preop/add-area/gmp.packing.preop.add.area'
 //import { GMPPackingPreopEditAreaComponent } from '../components/inventories/gmp-packing-preop/edit-area/gmp.packing.preop.edit.area'
 import { GMPPackingPreopAddItemComponent } from '../components/inventories/gmp-packing-preop/add-item/gmp.packing.preop.add.item'
 
@@ -325,10 +326,15 @@ import { AreaManagerService } from '../services/app.area.manager';
     GMPPackingPreopAreaComponent,
     GMPPackingPreopLogComponent,
     GMPPackingPreopAuthorizationComponent,
+    GMPPackingPreopInventoryManagerComponent,
     GMPPackingPreopInventoryComponent,
     GMPPackingPreopInventoryItemComponent,
     GMPPackingPreopInventoryListComponent,
+    GMPPackingPreopAreaInventoryComponent,
+    GMPPackingPreopAreaInventoryAreaComponent,
+    GMPPackingPreopAreaInventoryListComponent,
     GMPPackingPreopAddItemComponent,
+    GMPPackingPreopAddAreaComponent,
     GMPPackingPreopReportComponent,
     GMPPackingPreopReportAreaComponent,
     GMPPackingPreopReportTypeComponent,
@@ -404,6 +410,7 @@ import { AreaManagerService } from '../services/app.area.manager';
     GMPPackingScissorsKnivesAuthorizationComponent,
     GMPPackingGlassBrittleAuthorizationComponent,
     GMPPackingColdRoomTempAuthorizationComponent,
+    GMPPackingPreopInventoryManagerComponent,
     GMPPackingScaleCalibrationInventoryComponent,
     GMPPackingHandWashingInventoryComponent,
     GMPPackingThermoCalibrationInventoryComponent,

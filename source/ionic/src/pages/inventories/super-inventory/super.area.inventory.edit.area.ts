@@ -5,7 +5,7 @@ import { AlertController, ViewController } from 'ionic-angular'
 import { NavParams } from 'ionic-angular'
 
 import { AreaManagerService } from '../../../services/app.area.manager'
-import { SuperInventoryAreaInterface, SuperInventoryEditAreaInterface } from './super.area.inventory.interface';
+import { SuperInventoryAreaInterface, SuperInventoryEditAreaInterface } from './super.area.inventory.interface'
 
 export class SuperInventoryEditAreaComponent implements OnInit {
   protected area_id: number = null

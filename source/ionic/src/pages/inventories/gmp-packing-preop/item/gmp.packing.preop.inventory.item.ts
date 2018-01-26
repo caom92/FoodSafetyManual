@@ -12,7 +12,7 @@ import { Language } from 'angular-l10n'
 
 export class GMPPackingPreopInventoryItemComponent extends SuperInventoryItemComponent implements OnInit {
   @Language() lang: string
-  @Input() private type: {en: string, es: string} = null
+  @Input() private type: { en: string, es: string } = null
   @Input() item: InventoryItem = null
 
   constructor(inventoryService: InventoryService) {

@@ -30,13 +30,14 @@ export class SuperInventoryByAreaComponent extends SuperInventoryComponent imple
     })
 
     this.areaAdd = this.events.$sub("area:add", (data) => {
+      console.log(data)
       this.areas.push(data)
       this.areas.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)
     })
 
     this.areaEdit = this.events.$sub("area:edit", (data) => {
-      let index = this.areas.findIndex((x => x.id==data.oldData.id))
-      this.areas[index].name = data.newData.name
+      let index = this.areas.findIndex((x => x.id==data.id))
+      this.areas[index].name = data.name
       this.areas.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)
     })
 

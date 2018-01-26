@@ -17,6 +17,6 @@ include ../../../inventory-ionic-materialize.pug
       //-For Ionic version uncomment the next line, Dragula variables are found inside the .list.pug file
       +inventoryList('gmp-packing-preop')([type]='type')
       //-For ng2-Materialize version uncomment the next line, we have to pass Dragula variables here
-      //-+inventoryList('gmp-packing-preop')([items]='inventory', [dragula]='type.name', [dragulaModel]='type.items')
+      //-+inventoryList('gmp-packing-preop')([type]='type', [dragula]='type.name', [dragulaModel]='type.items')
   +inventoryEmptyMessage()
   +inventoryAddButton()([hidden]="selectedArea == null || selectedArea == undefined")
