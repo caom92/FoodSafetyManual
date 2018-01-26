@@ -36,6 +36,7 @@ export class SuperAreaInventoryComponent implements OnInit, OnDestroy {
     modal.onDidDismiss(data => {
       if (data !== undefined && data !== null) {
         handler(data)
+        this.events.publish("area:add", data.area)
         this.emptyInventoryFlag = false
       }
     })
