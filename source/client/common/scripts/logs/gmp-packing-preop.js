@@ -659,7 +659,7 @@ function gmpPackingPreopReportItem(itemData){
 
     item.push({"type":"td","classes":"numberColumn","contents":itemData.order});
     item.push({"type":"td","classes":"nameColumn","contents":itemData.name});
-    if(itemData.status){
+    if(itemData.status == 1){
         item.push({"type":"td","classes":"statusColumn acceptable_tag"});
     } else {
         item.push({"type":"td","classes":"statusColumn unacceptable_tag"});
