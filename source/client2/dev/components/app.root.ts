@@ -69,6 +69,18 @@ import { GMPPackingPreopReportAreaComponent } from './gmp/packing/preop/report/g
 import { GMPPackingPreopReportTypeComponent } from './gmp/packing/preop/report/gmp.packing.preop.report.type.component'
 import { GMPPackingPreopReportItemComponent } from './gmp/packing/preop/report/gmp.packing.preop.report.item.component'
 
+// GAP Packing Preop
+
+import { GAPPackingPreopInventoryManagerComponent } from '../components/inventories/gap-packing-preop/manager/gap.packing.preop.inventory.manager'
+import { GAPPackingPreopInventoryComponent } from '../components/inventories/gap-packing-preop/inventory/gap.packing.preop.inventory'
+import { GAPPackingPreopInventoryItemComponent } from '../components/inventories/gap-packing-preop/item/gap.packing.preop.inventory.item'
+import { GAPPackingPreopInventoryListComponent } from '../components/inventories/gap-packing-preop/list/gap.packing.preop.inventory.list'
+import { GAPPackingPreopAreaInventoryComponent } from '../components/inventories/gap-packing-preop/area-inventory/gap.packing.preop.area.inventory'
+import { GAPPackingPreopAreaInventoryListComponent } from '../components/inventories/gap-packing-preop/area-list/gap.packing.preop.area.inventory.list'
+import { GAPPackingPreopAreaInventoryAreaComponent } from '../components/inventories/gap-packing-preop/area/gap.packing.preop.area.inventory.area'
+import { GAPPackingPreopAddAreaComponent } from '../components/inventories/gap-packing-preop/add-area/gap.packing.preop.add.area'
+import { GAPPackingPreopAddItemComponent } from '../components/inventories/gap-packing-preop/add-item/gap.packing.preop.add.item'
+
 // GMP Packing Scale Calibration
 
 // Inventario
@@ -339,6 +351,15 @@ import { AreaManagerService } from '../services/app.area.manager';
     GMPPackingPreopReportAreaComponent,
     GMPPackingPreopReportTypeComponent,
     GMPPackingPreopReportItemComponent,
+    GAPPackingPreopInventoryManagerComponent,
+    GAPPackingPreopInventoryComponent,
+    GAPPackingPreopInventoryItemComponent,
+    GAPPackingPreopInventoryListComponent,
+    GAPPackingPreopAreaInventoryComponent,
+    GAPPackingPreopAreaInventoryListComponent,
+    GAPPackingPreopAreaInventoryAreaComponent,
+    GAPPackingPreopAddAreaComponent,
+    GAPPackingPreopAddItemComponent,
     GMPPackingScaleCalibrationInventoryComponent,
     GMPPackingScaleCalibrationInventoryItemComponent,
     GMPPackingScaleCalibrationInventoryListComponent,
@@ -411,6 +432,7 @@ import { AreaManagerService } from '../services/app.area.manager';
     GMPPackingGlassBrittleAuthorizationComponent,
     GMPPackingColdRoomTempAuthorizationComponent,
     GMPPackingPreopInventoryManagerComponent,
+    GAPPackingPreopInventoryManagerComponent,
     GMPPackingScaleCalibrationInventoryComponent,
     GMPPackingHandWashingInventoryComponent,
     GMPPackingThermoCalibrationInventoryComponent,

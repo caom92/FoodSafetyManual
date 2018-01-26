@@ -4,7 +4,7 @@ import { Language } from 'angular-l10n'
 
 import { BackendService } from '../../services/app.backend'
 import { TranslationService } from '../../services/app.translation'
-//import { GAPPackingPreopInventoryManagerComponent } from './gap-packing-preop/manager/gap.packing.preop.inventory.manager'
+import { GAPPackingPreopInventoryManagerComponent } from './gap-packing-preop/manager/gap.packing.preop.inventory.manager'
 import { GMPPackingColdRoomTempInventoryComponent } from './gmp-packing-cold-room-temp/inventory/gmp.packing.cold.room.temp.inventory'
 //import { GMPPackingGlassBrittleInventoryManagerComponent } from './gmp-packing-glass-brittle/manager/gmp.packing.glass.brittle.inventory.manager'
 import { GMPPackingHandWashingInventoryComponent } from './gmp-packing-hand-washing/inventory/gmp.packing.hand.washing.inventory'
@@ -64,10 +64,10 @@ export class InventoryLoaderComponent extends DynamicComponentResolver implement
       //  parent: this
       //}).instance
       //  break
-      //case 'gap-packing-preop': this.loaderComponent = this.loadComponent(GAPPackingPreopInventoryManagerComponent, {
-      //  parent: this
-      //}).instance
-      //  break
+      case 'gap-packing-preop': this.loaderComponent = this.loadComponent(GAPPackingPreopInventoryManagerComponent, {
+        parent: this
+      }).instance
+        break
       //case 'gmp-self-inspection-pest-control': this.loaderComponent = this.loadComponent(GMPSelfInspectionPestControlInventoryManagerComponent, {
       //    parent: this
       //  }).instance
