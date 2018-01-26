@@ -1,4 +1,21 @@
-ion-content(hide-fab, [class.no-scroll]='!scrollAllowed')
+include ../../../area-manager-ionic-materialize.pug
+
++inventoryWrapper()
+  +inventoryAreaListsWrapper()
+    +inventoryAreaTitleWrapper()
+      +inventoryAreaTitleHandler()
+      +inventoryAreaTitleColumn("{{ 'InventoryLists.order' | translate:lang }}")
+      +inventoryAreaTitleColumn("{{ 'InventoryLists.id' | translate:lang }}")
+      +inventoryAreaTitleColumn("{{ 'InventoryLists.name' | translate:lang }}")
+      +inventoryAreaTitleEdit()
+    //-For Ionic version uncomment the next line, Dragula variables are found inside the .list.pug file
+    +inventoryAreaList('gap-packing-preop')([areas]='inventory')
+    //-For ng2-Materialize version uncomment the next line, we have to pass Dragula variables here
+    //-+inventoryAreaList('gap-packing-preop')([items]='inventory', [dragula]='type.name', [dragulaModel]='type.items')
+  +inventoryAreaEmptyMessage()
+  +inventoryAreaAddButton()
+
+//-ion-content(hide-fab, [class.no-scroll]='!scrollAllowed')
   ion-list
     div(*ngIf='emptyInventoryFlag == true')
       ion-item(text-wrap)

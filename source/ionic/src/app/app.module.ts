@@ -62,6 +62,7 @@ import { GAPPackingPreopInventoryComponent } from '../pages/inventories/gap-pack
 import { GAPPackingPreopInventoryItemComponent } from '../pages/inventories/gap-packing-preop/item/gap.packing.preop.inventory.item'
 import { GAPPackingPreopInventoryListComponent } from '../pages/inventories/gap-packing-preop/list/gap.packing.preop.inventory.list'
 import { GAPPackingPreopAreaInventoryComponent } from '../pages/inventories/gap-packing-preop/area-inventory/gap.packing.preop.area.inventory'
+import { GAPPackingPreopAreaInventoryListComponent } from '../pages/inventories/gap-packing-preop/area-list/gap.packing.preop.area.inventory.list'
 import { GAPPackingPreopAreaInventoryAreaComponent } from '../pages/inventories/gap-packing-preop/area/gap.packing.preop.area.inventory.area'
 import { GAPPackingPreopAddAreaComponent } from '../pages/inventories/gap-packing-preop/add-area/gap.packing.preop.add.area'
 import { GAPPackingPreopEditAreaComponent } from '../pages/inventories/gap-packing-preop/edit-area/gap.packing.preop.edit.area'
@@ -332,6 +333,7 @@ import { AreaManagerService } from '../services/app.area.manager'
     GAPPackingPreopInventoryListComponent,
     GAPPackingPreopAreaInventoryComponent,
     GAPPackingPreopAreaInventoryAreaComponent,
+    GAPPackingPreopAreaInventoryListComponent,
     GAPPackingPreopAddAreaComponent,
     GAPPackingPreopEditAreaComponent,
     GAPPackingPreopAddItemComponent,
