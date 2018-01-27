@@ -142,6 +142,16 @@ import { GMPPackingGlassBrittleItemComponent } from '../components/logs/gmp-pack
 
 import { GMPPackingGlassBrittleAuthorizationComponent } from '../components/logs/gmp-packing-glass-brittle/authorization/gmp.packing.glass.brittle.authorization'
 
+import { GMPPackingGlassBrittleInventoryManagerComponent } from '../components/inventories/gmp-packing-glass-brittle/manager/gmp.packing.glass.brittle.inventory.manager'
+import { GMPPackingGlassBrittleInventoryComponent } from '../components/inventories/gmp-packing-glass-brittle/inventory/gmp.packing.glass.brittle.inventory'
+import { GMPPackingGlassBrittleInventoryItemComponent } from '../components/inventories/gmp-packing-glass-brittle/item/gmp.packing.glass.brittle.inventory.item'
+import { GMPPackingGlassBrittleInventoryListComponent } from '../components/inventories/gmp-packing-glass-brittle/list/gmp.packing.glass.brittle.inventory.list'
+import { GMPPackingGlassBrittleAreaInventoryComponent } from '../components/inventories/gmp-packing-glass-brittle/area-inventory/gmp.packing.glass.brittle.area.inventory'
+import { GMPPackingGlassBrittleAreaInventoryAreaComponent } from '../components/inventories/gmp-packing-glass-brittle/area/gmp.packing.glass.brittle.area.inventory.area'
+import { GMPPackingGlassBrittleAreaInventoryListComponent } from '../components/inventories/gmp-packing-glass-brittle/area-list/gmp.packing.glass.brittle.area.inventory.list'
+import { GMPPackingGlassBrittleAddAreaComponent } from '../components/inventories/gmp-packing-glass-brittle/add-area/gmp.packing.glass.brittle.add.area'
+import { GMPPackingGlassBrittleAddItemComponent } from '../components/inventories/gmp-packing-glass-brittle/add-item/gmp.packing.glass.brittle.add.item'
+
 // GMP Packing Cold Room Temp
 
 import { GMPPackingColdRoomTempLogComponent } from '../components/logs/gmp-packing-cold-room-temp/log/gmp.packing.cold.room.temp.log'
@@ -393,6 +403,15 @@ import { AreaManagerService } from '../services/app.area.manager';
     GMPPackingGlassBrittleAreaComponent,
     GMPPackingGlassBrittleItemComponent,
     GMPPackingGlassBrittleAuthorizationComponent,
+    GMPPackingGlassBrittleInventoryManagerComponent,
+    GMPPackingGlassBrittleInventoryComponent,
+    GMPPackingGlassBrittleInventoryItemComponent,
+    GMPPackingGlassBrittleInventoryListComponent,
+    GMPPackingGlassBrittleAreaInventoryComponent,
+    GMPPackingGlassBrittleAreaInventoryAreaComponent,
+    GMPPackingGlassBrittleAreaInventoryListComponent,
+    GMPPackingGlassBrittleAddAreaComponent,
+    GMPPackingGlassBrittleAddItemComponent,
     GMPPackingColdRoomTempLogComponent,
     GMPPackingColdRoomTempItemComponent,
     GMPPackingColdRoomTempAuthorizationComponent,
@@ -432,6 +451,7 @@ import { AreaManagerService } from '../services/app.area.manager';
     GMPPackingGlassBrittleAuthorizationComponent,
     GMPPackingColdRoomTempAuthorizationComponent,
     GMPPackingPreopInventoryManagerComponent,
+    GMPPackingGlassBrittleInventoryManagerComponent,
     GAPPackingPreopInventoryManagerComponent,
     GMPPackingScaleCalibrationInventoryComponent,
     GMPPackingHandWashingInventoryComponent,
