@@ -1,4 +1,4 @@
-export interface SuperReport {
+export interface SuperReportInterface {
   report_id: number
   created_by: string
   approved_by: string

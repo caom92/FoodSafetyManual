@@ -1,0 +1,17 @@
+ion-card
+  ion-card-content
+    | {{header.log}}
+    br
+    | {{ 'LogHeader.zone' | translate:lang }}: {{header.zone}}
+    br
+    | {{ 'LogHeader.program' | translate:lang }}: {{header.program}}
+    br
+    | {{ 'LogHeader.module' | translate:lang }}: {{header.module}}
+    br
+    | {{ 'LogHeader.date' | translate:lang }}: {{header.created_on}}
+    br
+    | {{ 'LogHeader.made_by' | translate:lang }}: {{header.created_by}}
+    br
+    | {{header.approved_on}}
+    br
+    | {{header.approved_by}}

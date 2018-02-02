@@ -1,18 +1,18 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { StatusBar } from '@ionic-native/status-bar';
-import { HttpModule } from '@angular/http';
-import { IonicStorageModule } from '@ionic/storage';
+import { BrowserModule } from '@angular/platform-browser'
+import { ErrorHandler, NgModule } from '@angular/core'
+import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular'
+import { SplashScreen } from '@ionic-native/splash-screen'
+import { StatusBar } from '@ionic-native/status-bar'
+import { HttpModule } from '@angular/http'
+import { IonicStorageModule } from '@ionic/storage'
 import { DragulaModule } from 'ng2-dragula'
 import { LocalNotifications } from '@ionic-native/local-notifications'
 
-import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
-import { EditProfile } from '../pages/edit-profile/edit-profile';
-import { ModulesPage } from '../pages/modules/modules';
-import { LogsPage } from '../pages/logs/logs';
+import { MyApp } from './app.component'
+import { HomePage } from '../pages/home/home'
+import { EditProfile } from '../pages/edit-profile/edit-profile'
+import { ModulesPage } from '../pages/modules/modules'
+import { LogsPage } from '../pages/logs/logs'
 import { LogHeaderComponent } from '../pages/logs/log-header/log.header'
 
 // GMP Packing Preop
@@ -232,6 +232,8 @@ import { LoaderService } from '../services/app.loaders'
 import { LogService } from '../services/app.logs'
 import { InventoryService } from '../services/app.inventory'
 import { AreaManagerService } from '../services/app.area.manager'
+import { ReportLoader } from '../pages/reports/loader/report.loader'
+import { ReportHeaderComponent } from '../pages/reports/report-header/report.header'
 
 @NgModule({
   declarations: [
@@ -247,9 +249,11 @@ import { AreaManagerService } from '../services/app.area.manager'
     DynamicComponentContainerDirective,
     HideFabDirective,
     LogHeaderComponent,
+    ReportHeaderComponent,
     AuthorizationCardComponent,
     AuthorizationCardListComponent,
     AuthorizationLoader,
+    ReportLoader,
     PendingCardComponent,
     PendingCardListComponent,
     LogTabsPage,
@@ -404,9 +408,11 @@ import { AreaManagerService } from '../services/app.area.manager'
     ReportTab,
     InventoryLoaderComponent,
     LogHeaderComponent,
+    ReportHeaderComponent,
     AuthorizationCardComponent,
     AuthorizationCardListComponent,
     AuthorizationLoader,
+    ReportLoader,
     PendingCardComponent,
     PendingCardListComponent,
     LogTabsPage,
@@ -558,11 +564,11 @@ export class AppModule {
     this.locale.addConfiguration()
         .addLanguages(['en', 'es'])
         .setCookieExpiration(30)
-        .defineLanguage('es');
+        .defineLanguage('es')
 
     this.translation.addConfiguration()
-        .addProvider('./assets/locale-');
+        .addProvider('./assets/locale-')
 
-    this.translation.init();
+    this.translation.init()
   }
 }

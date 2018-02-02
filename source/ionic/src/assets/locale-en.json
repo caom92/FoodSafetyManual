@@ -140,6 +140,16 @@
             "album_length": "The album URL can't exceed 2000 characters"
         }
     },
+    "ReportHeader": {
+        "zone":"Zone",
+        "program":"Program",
+        "module":"Module",
+        "log":"Log",
+        "made_on":"Made on",
+        "made_by":"Made by",
+        "approved_on":"Approved on",
+        "approved_by":"Approved by"
+    },
     "InventoryErrors": {
         "gmp-packing-scale-calibration": {
             "item_required": "You need to enter a name for this item",

@@ -140,6 +140,16 @@
             "album_length": "El enlace del album no puede exceder 2000 caracteres"
         }
     },
+    "ReportHeader": {
+        "zone":"Zona",
+        "program":"Programa",
+        "module":"Módulo",
+        "log":"Bitácora",
+        "made_on":"Elaborado el",
+        "made_by":"Elaborado por",
+        "approved_on":"Aprobado el",
+        "approved_by":"Aprobado por"
+    },
     "InventoryErrors": {
         "gmp-packing-scale-calibration": {
             "item_required": "Debe introducir un nombre para el elemento",
