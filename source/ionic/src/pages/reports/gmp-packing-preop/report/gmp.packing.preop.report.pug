@@ -1,22 +1,25 @@
-table
-  thead
-    tr
-      th.areaColumn {{ 'Log.area' | translate:lang }}
-      th.timeColumn {{ 'Log.time' | translate:lang }}
-      th.numberColumn {{ 'Log.number_abbr' | translate:lang }}
-      th.nameColumn {{ 'Log.name' | translate:lang }}
-      th.statusColumn {{ 'Log.conditions' | translate:lang }}
-      th.actionColumn {{ 'Log.corrective_action' | translate:lang }}
-      th.commentColumn {{ 'Log.comments' | translate:lang }}
-  tbody
-    ng-template(ngFor, let-area, [ngForOf]='report.areas')
-      tr(gmp-packing-preop-report-area, [area]='area')
-      ng-template(ngFor, let-type, [ngForOf]='area.types', let-i='index')
-        tr(gmp-packing-preop-report-type, [type]='type', [visible]='i != 0')
-        ng-template(ngFor, let-item, [ngForOf]='type.items')
-          tr(gmp-packing-preop-report-item, [item]='item')
-      tr
-        td.fullColumn(colspan='7') {{ 'Log.notes' | translate:lang }}: {{area.notes}}
-      tr
-        td.fullColumn(colspan='7')
-          | {{ 'Log.sanitization_person' | translate:lang }}: {{area.person_performing_sanitation}}
+report-header([header]="header")
+ion-card
+  ion-card-content
+    table(#report_body)
+      thead
+        tr
+          th.areaColumn {{ 'Log.area' | translate:lang }}
+          th.timeColumn {{ 'Log.time' | translate:lang }}
+          th.numberColumn {{ 'Log.number_abbr' | translate:lang }}
+          th.nameColumn {{ 'Log.name' | translate:lang }}
+          th.statusColumn {{ 'Log.conditions' | translate:lang }}
+          th.actionColumn {{ 'Log.corrective_action' | translate:lang }}
+          th.commentColumn {{ 'Log.comments' | translate:lang }}
+      tbody
+        ng-template(ngFor, let-area, [ngForOf]='report.areas')
+          tr(gmp-packing-preop-report-area, [area]='area')
+          ng-template(ngFor, let-type, [ngForOf]='area.types', let-i='index')
+            tr(gmp-packing-preop-report-type, [type]='type', [visible]='i != 0')
+            ng-template(ngFor, let-item, [ngForOf]='type.items')
+              tr(gmp-packing-preop-report-item, [item]='item')
+          tr
+            td.fullColumn(colspan='7') {{ 'Log.notes' | translate:lang }}: {{area.notes}}
+          tr
+            td.fullColumn(colspan='7')
+              | {{ 'Log.sanitization_person' | translate:lang }}: {{area.person_performing_sanitation}}

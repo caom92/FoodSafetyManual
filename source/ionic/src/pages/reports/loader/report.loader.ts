@@ -11,8 +11,9 @@ import { GMPPackingThermoCalibrationReportComponent } from '../gmp-packing-therm
 import { GMPPackingColdRoomTempReportComponent } from '../gmp-packing-cold-room-temp/report/gmp.packing.cold.room.temp.report'
 import { GMPPackingGlassBrittleReportComponent } from '../gmp-packing-glass-brittle/report/gmp.packing.glass.brittle.report'
 import { GMPPackingScissorsKnivesReportComponent } from '../gmp-packing-scissors-knives/report/gmp.packing.scissors.knives.report'
-import { ReportRequest } from '../reports.interface';
-import { SuperReport } from '../super-report/super.report';
+import { ReportRequest } from '../reports.interface'
+import { SuperReportComponent } from '../super-report/super.report'
+import { GAPPackingPreopReportComponent } from '../gap-packing-preop/report/gap.packing.preop.report'
 
 @Component({
   selector: 'report-loader',
@@ -26,7 +27,7 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
   @Input() private footer: string
   @Language() private lang: string
   private showReport: boolean = false
-  private loaderComponent: SuperReport = null
+  private loaderComponent: SuperReportComponent = null
   //private loaderComponent: any = null
   private pdfReport: ReportRequest = {
     lang: null,
@@ -89,6 +90,11 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
         parent: this
       }).instance
         break
+      case 'gap-packing-preop': this.loaderComponent = this.loadComponent(GAPPackingPreopReportComponent, {
+        report: this.report,
+        parent: this
+      }).instance
+        break
     }
   }
 
@@ -109,9 +115,10 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
   }
 
   public getPDFContent() {
-    return { header:this.pdfReportHeader(this.report),
-      footer:"",
-      body:this.loaderComponent.getPDFReportBody().replace(/\n/g, "").replace(/<!--(.*?)-->/g, "").replace(/>( *?)</g, "><").replace(/<tr (.*?)>/g, "<tr>")
+    return {
+      header: this.pdfReportHeader(this.report),
+      footer: "",
+      body: this.loaderComponent.getPDFReportBody().replace(/\n/g, "").replace(/<!--(.*?)-->/g, "").replace(/>( *?)</g, "><").replace(/<tr (.*?)>/g, "<tr>")
     }
   }
 
