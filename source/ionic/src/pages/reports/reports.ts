@@ -9,12 +9,13 @@ import { Observable } from 'rxjs/Rx'
 import { DynamicComponentResolver } from '../../app/dynamic.resolver'
 import { BackendService } from '../../services/app.backend'
 import { TranslationService } from '../../services/app.translation'
-import { ReportRequest } from './reports.interface';
+import { ReportRequest } from './reports.interface'
 
 @Component({
   selector: 'report',
   templateUrl: 'reports.html'
 })
+
 export class ReportTab extends DynamicComponentResolver {
   @Language() lang: string
   @ViewChildren("reports") pdfReports: any = {
