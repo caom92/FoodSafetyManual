@@ -6,8 +6,8 @@ div.row
   )
     mz-card('[hoverable]'='true')
       mz-card-content
-        +link()
-          ='{{ log }}'
+        +link("#/inventory/{{log.suffix}}/{{log.name}}")
+          ='{{ log.name }}'
 
   div.col.s12.center-align('*ngIf'='hasInventory == false')
     h5

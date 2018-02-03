@@ -12,5 +12,4 @@
       .row
         button(mz-button, type='submit') Open Report
         button(mz-button) View in PDF
-  div(dynamicComponentContainer)
-  //-(ngSubmit)='requestReports(myForm)')
+  report-loader(*ngfor='let report of reports', [report]='report')
