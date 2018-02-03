@@ -15,7 +15,7 @@ import { GMPPackingScaleCalibrationInventoryComponent } from './gmp-packing-scal
 import { GMPPackingScissorsKnivesInventoryComponent } from './gmp-packing-scissors-knives/inventory/gmp.packing.scissors.knives.inventory'
 import { GMPPackingThermoCalibrationInventoryComponent } from './gmp-packing-thermo-calibration/inventory/gmp.packing.thermo.calibration.inventory'
 import { GMPSelfInspectionPestControlInventoryManagerComponent } from './gmp-self-inspection-pest-control/manager/gmp.self.inspection.pest.control.inventory.manager'
-
+import { GMPDocControlDocControlInventoryComponent } from './gmp-doc-control-doc-control/inventory/gmp.doc.control.doc.control.inventory'
 
 @Component({
   selector: 'inventories',
@@ -74,9 +74,13 @@ export class InventoryLoaderComponent extends DynamicNavbarPageComponent impleme
       }).instance
         break
       case 'gmp-self-inspection-pest-control': this.loaderComponent = this.loadComponent(GMPSelfInspectionPestControlInventoryManagerComponent, {
-          parent: this
-        }).instance
-          break
+        parent: this
+      }).instance
+        break
+      case 'gmp-doc-control-doc-control': this.loaderComponent = this.loadComponent(GMPDocControlDocControlInventoryComponent, {
+        parent: this
+      }).instance
+        break
     }
   }
 }

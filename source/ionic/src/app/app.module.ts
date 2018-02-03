@@ -194,6 +194,13 @@ import { GMPSelfInspectionPestControlAddAreaComponent } from '../pages/inventori
 import { GMPSelfInspectionPestControlEditAreaComponent } from '../pages/inventories/gmp-self-inspection-pest-control/edit-area/gmp.self.inspection.pest.control.edit.area'
 import { GMPSelfInspectionPestControlAddItemComponent } from '../pages/inventories/gmp-self-inspection-pest-control/add-item/gmp.self.inspection.pest.control.add.item'
 
+//GMP Document Control
+
+import { GMPDocControlDocControlInventoryComponent } from '../pages/inventories/gmp-doc-control-doc-control/inventory/gmp.doc.control.doc.control.inventory'
+import { GMPDocControlDocControlInventoryItemComponent } from '../pages/inventories/gmp-doc-control-doc-control/item/gmp.doc.control.doc.control.inventory.item'
+import { GMPDocControlDocControlInventoryListComponent } from '../pages/inventories/gmp-doc-control-doc-control/list/gmp.doc.control.doc.control.inventory.list'
+import { GMPDocControlDocControlAddItemComponent } from '../pages/inventories/gmp-doc-control-doc-control/add-item/gmp.doc.control.doc.control.add.item'
+
 // Authorizations
 
 import { AuthorizationCardComponent } from '../pages/authorizations/authorization-card/authorization.card.component'
@@ -383,7 +390,11 @@ import { ReportHeaderComponent } from '../pages/reports/report-header/report.hea
     GMPSelfInspectionPestControlAreaInventoryListComponent,
     GMPSelfInspectionPestControlAddAreaComponent,
     GMPSelfInspectionPestControlEditAreaComponent,
-    GMPSelfInspectionPestControlAddItemComponent
+    GMPSelfInspectionPestControlAddItemComponent,
+    GMPDocControlDocControlInventoryComponent,
+    GMPDocControlDocControlInventoryItemComponent,
+    GMPDocControlDocControlInventoryListComponent,
+    GMPDocControlDocControlAddItemComponent
   ],
   imports: [
     BrowserModule,
@@ -541,7 +552,11 @@ import { ReportHeaderComponent } from '../pages/reports/report-header/report.hea
     GMPSelfInspectionPestControlAreaInventoryListComponent,
     GMPSelfInspectionPestControlAddAreaComponent,
     GMPSelfInspectionPestControlEditAreaComponent,
-    GMPSelfInspectionPestControlAddItemComponent
+    GMPSelfInspectionPestControlAddItemComponent,
+    GMPDocControlDocControlInventoryComponent,
+    GMPDocControlDocControlInventoryItemComponent,
+    GMPDocControlDocControlInventoryListComponent,
+    GMPDocControlDocControlAddItemComponent
   ],
   providers: [
     StatusBar,
