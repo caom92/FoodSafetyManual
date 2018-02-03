@@ -11,6 +11,8 @@ import { GMPPackingThermoCalibrationLogComponent } from '../gmp-packing-thermo-c
 import { GMPPackingColdRoomTempLogComponent } from '../gmp-packing-cold-room-temp/log/gmp.packing.cold.room.temp.log'
 import { GMPPackingGlassBrittleLogComponent } from '../gmp-packing-glass-brittle/log/gmp.packing.glass.brittle.log'
 import { GMPPackingScissorsKnivesLogComponent } from '../gmp-packing-scissors-knives/log/gmp.packing.scissors.knives.log'
+import { BackendService } from '../../../services/app.backend'
+import { DomSanitizer } from '@angular/platform-browser'
 
 @Component({
   selector: 'log-tabs-page',
@@ -22,14 +24,15 @@ export class LogTabsPage extends DynamicComponentResolver {
   log_name: string = "Loading..."
   suffix: string = ""
   loaderComponent: Type<any> = null
+  manualDirectory: any = null
 
-  constructor(factoryResolver: ComponentFactoryResolver, private router: StateService) {
+  constructor(factoryResolver: ComponentFactoryResolver, private router: StateService, private server: BackendService, private sanitizer: DomSanitizer) {
     super(factoryResolver)
   }
 
   ngOnInit() {
     //this.log_name = this.router.params.suffix
-    this.assignName()
+    //this.assignName()
     console.log("Log Tabs Page Init")
     this.suffix = this.router.params.suffix
     if (this.suffix == "gmp-packing-hand-washing" ||
@@ -70,6 +73,25 @@ export class LogTabsPage extends DynamicComponentResolver {
           break
       }
     }
+
+    let logManualFormData = new FormData
+    logManualFormData.append("log-suffix", this.suffix)
+
+    this.server.update(
+      'get-log-manual-url', 
+      logManualFormData, 
+      (response: any) => {
+        if (response.meta.return_code == 0) {
+          if (response.data) {
+            this.log_name = response.data.log_name
+            this.manualDirectory = this.sanitizer.bypassSecurityTrustResourceUrl("http://localhost/espresso/" + response.data.manual_location + "law/actual_manual.pdf")
+            console.log(this.manualDirectory)
+          }
+        } else {
+                            
+        }
+      }
+    )
   }
 
   assignName() {
