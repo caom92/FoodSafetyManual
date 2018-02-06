@@ -1,6 +1,6 @@
 td.numberColumn {{item.order}}
 td.nameColumn {{item.name}}
 td.statusColumn(*ngIf='item.status == 1') {{ 'Log.acceptable' | translate:lang }}
-td.statusColumn(*ngIf='item.status == 0') {{ 'Log.unacceptable' | translate:lang }}
+td.statusColumn(*ngIf='item.status != 1') {{ 'Log.unacceptable' | translate:lang }}
 td.actionColumn {{item.corrective_action}}
 td.commentColumn {{item.comment}}

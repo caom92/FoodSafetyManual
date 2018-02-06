@@ -26,6 +26,5 @@ export class GAPPackingPreopReportAreaComponent implements OnInit {
     for (let count of this.area.types) {
       this.rowspan += count.items.length
     }
-    this.rowspan += 1
   }
 }

@@ -10,7 +10,6 @@ import { ReportType } from '../interfaces/gmp.packing.preop.interface'
 
 export class GMPPackingPreopReportTypeComponent {
   @Input() type: ReportType
-  @Input() visible: boolean
   @Language() lang: string
 
   constructor() {

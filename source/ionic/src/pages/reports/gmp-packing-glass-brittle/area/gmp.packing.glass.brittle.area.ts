@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core'
 import { Language } from 'angular-l10n'
 
 import { ReportArea } from '../interfaces/gmp.packing.glass.brittle.report.interface'
+import { ReportItem } from '../interfaces/gmp.packing.glass.brittle.report.interface'
 
 @Component({
   selector: '[gmp-packing-glass-brittle-report-area]',
@@ -13,6 +14,7 @@ export class GMPPackingGlassBrittleReportAreaComponent implements OnInit {
   @Language() lang: string
   rowspan: number = 0
   @Input() time: string = ""
+  @Input() item: ReportItem
 
   constructor() {
 
@@ -24,6 +26,5 @@ export class GMPPackingGlassBrittleReportAreaComponent implements OnInit {
 
   calculateRowspan() {
     this.rowspan = this.area.items.length
-    this.rowspan = this.rowspan + 1
   }
 }

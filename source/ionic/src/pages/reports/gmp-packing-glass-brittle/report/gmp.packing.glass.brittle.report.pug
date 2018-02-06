@@ -12,8 +12,8 @@ ion-card
           th.statusColumn {{ 'Log.conditions' | translate:lang }}
       tbody
         ng-template(ngFor, let-area, [ngForOf]='report.areas')
-          tr(gmp-packing-glass-brittle-report-area, [area]='area', [time]='report.time')
-          ng-template(ngFor, let-item, [ngForOf]='area.items')
-            tr(gmp-packing-glass-brittle-report-item, [item]='item')
+          ng-template(ngFor, let-item, [ngForOf]='area.items', let-first='first')
+            tr(gmp-packing-glass-brittle-report-area, [area]='area', [time]='report.time', [item]='item', *ngIf='first')
+            tr(gmp-packing-glass-brittle-report-item, [item]='item', *ngIf='!first')
         tr
           td.fullColumn(colspan='6') {{ 'Log.notes' | translate:lang }}: {{report.notes}}

@@ -10,7 +10,6 @@ import { ReportType } from '../interfaces/gap.packing.preop.report.interface'
 
 export class GAPPackingPreopReportTypeComponent {
   @Input() type: ReportType
-  @Input() visible: boolean
   @Language() lang: string
 
   constructor() {
