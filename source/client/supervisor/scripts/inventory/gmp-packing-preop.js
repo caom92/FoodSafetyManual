@@ -239,10 +239,10 @@ function gmpPackingPreopInventoryTable(htmlElement, data){
 
     for(var type of data){
         var typeBody = {"type":"tbody","id":"type_" + type.id,"classes":"ui-sortable","rows":[]};
-        tableJSON.thead.rows[1].columns[3].contents.field.options.push({"value":type.name,"text":type.name});
-        tableJSON.tfoot.rows[0].columns[3].contents.field.options.push({"value":type.id,"text":type.name});
+        tableJSON.thead.rows[1].columns[3].contents.field.options.push({"value":type[localStorage.defaultLanguage],"text":type[localStorage.defaultLanguage]});
+        tableJSON.tfoot.rows[0].columns[3].contents.field.options.push({"value":type.id,"text":type[localStorage.defaultLanguage]});
         for(var item of type.inventory){
-            typeBody.rows.push(gmpPackingPreopInventoryRow(item, type.name));
+            typeBody.rows.push(gmpPackingPreopInventoryRow(item, type[localStorage.defaultLanguage]));
         }
         tableJSON.tbody.push(typeBody);
     }

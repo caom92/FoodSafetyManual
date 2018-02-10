@@ -17,7 +17,7 @@ function addInventoryManager(controlsWrapper, contentWrapper){
 
 function addAreaControlTable(areasWrapper){
     $server.request({
-        service: 'rooms-gmp-self-inspection-pest-control',
+        service: 'inventory-gmp-self-inspection-pest-control',
         success: function(response) {
             if (response.meta.return_code == 0) {
                 $(areasWrapper).append(gmpSelfInspectionPestControlAreasTable(areasWrapper, response.data));
@@ -33,7 +33,7 @@ function addAreaControlTable(areasWrapper){
 
 function addAreaSelect(controlsWrapper, contentWrapper, defaultValue){
     $server.request({
-        service: 'rooms-gmp-self-inspection-pest-control',
+        service: 'inventory-gmp-self-inspection-pest-control',
         success: function(response) {
             if (response.meta.return_code == 0) {
                 var areaSelectRow = {"columns":[]};

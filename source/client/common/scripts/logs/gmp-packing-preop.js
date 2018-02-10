@@ -723,7 +723,11 @@ function gmpPackingPreopReportNotes(notes, colspan){
 // number of columns
 
 function gmpPackingPreopReportAlbumURL(albumURL, colspan){
-    var reportURL = {"type":"td","classes":"fullColumn","colspan":colspan,"contents":"<span class='url_title'></span>: <a href='" + albumURL + "' >" + albumURL + "</a>"};
+    if(albumURL != null && albumURL != "" && albumURL != "null"){
+        var reportURL = {"type":"td","classes":"fullColumn","colspan":colspan,"contents":"<span class='url_title'></span>: <a href='" + albumURL + "' >" + albumURL + "</a>"};    
+    } else {
+        var reportURL = {"type":"td","classes":"fullColumn","colspan":colspan,"contents":"<span class='url_title'></span>: N/A"};    
+    }
 
     return reportURL;
 }
