@@ -164,6 +164,14 @@ import { GMPPackingColdRoomTempInventoryItemComponent } from '../components/inve
 import { GMPPackingColdRoomTempInventoryListComponent } from '../components/inventories/gmp-packing-cold-room-temp/list/gmp.packing.cold.room.temp.inventory.list'
 import { GMPPackingColdRoomTempAddItemComponent } from '../components/inventories/gmp-packing-cold-room-temp/add-item/gmp.packing.cold.room.temp.add.item'
 
+// GMP Packing Self Inspection Pest Control
+
+import { GMPSelfInspectionPestControlLogComponent } from '../components/logs/gmp-self-inspection-pest-control/log/gmp.self.inspection.pest.control.log'
+import { GMPSelfInspectionPestControlAreaComponent } from '../components/logs/gmp-self-inspection-pest-control/area/gmp.self.inspection.pest.control.area'
+import { GMPSelfInspectionPestControlItemComponent } from '../components/logs/gmp-self-inspection-pest-control/item/gmp.self.inspection.pest.control.item'
+
+//import { GMPSelfInspectionPestControlAuthorizationComponent } from '../components/logs/gmp-self-inspection-pest-control/authorization/gmp.self.inspection.pest.control.authorization'
+
 // Genericos
 
 import { ReportLoaderCard } from './report.loader.card.component'
@@ -200,6 +208,10 @@ import { TranslationService } from '../services/app.translation'
 import { AuthorizationLoader } from './authorizations/authorization-loader/authorization.loader.component'
 import { InventoryLoaderComponent } from './inventories/inventories'
 import { AreaManagerService } from '../services/app.area.manager';
+import { GAPOthersUnusualOccurrenceLogComponent } from './logs/gap-others-unusual-occurrence/log/gap.others.unusual.occurrence.log';
+import { GMPOthersUnusualOccurrenceLogComponent } from './logs/gmp-others-unusual-occurrence/log/gmp.others.unusual.occurrence.log';
+import { GMPPackingAgedProductLogComponent } from './logs/gmp-packing-aged-product/log/gmp.packing.aged.product.log';
+import { GMPDocControlDocControlLogComponent } from './logs/gmp-doc-control-doc-control/log/gmp.doc.control.doc.control.log';
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -419,6 +431,13 @@ import { AreaManagerService } from '../services/app.area.manager';
     GMPPackingColdRoomTempInventoryItemComponent,
     GMPPackingColdRoomTempInventoryListComponent,
     GMPPackingColdRoomTempAddItemComponent,
+    GMPSelfInspectionPestControlLogComponent,
+    GMPSelfInspectionPestControlAreaComponent,
+    GMPSelfInspectionPestControlItemComponent,
+    GAPOthersUnusualOccurrenceLogComponent,
+    GMPOthersUnusualOccurrenceLogComponent,
+    GMPPackingAgedProductLogComponent,
+    GMPDocControlDocControlLogComponent,
     LogTabsPage,
     AuthorizationLoader,
     LogHeaderComponent,
@@ -443,6 +462,11 @@ import { AreaManagerService } from '../services/app.area.manager';
     GMPPackingScissorsKnivesLogComponent,
     GMPPackingGlassBrittleLogComponent,
     GMPPackingColdRoomTempLogComponent,
+    GMPSelfInspectionPestControlLogComponent,
+    GAPOthersUnusualOccurrenceLogComponent,
+    GMPOthersUnusualOccurrenceLogComponent,
+    GMPPackingAgedProductLogComponent,
+    GMPDocControlDocControlLogComponent,
     GMPPackingPreopAuthorizationComponent,
     GMPPackingHandWashingAuthorizationComponent,
     GMPPackingThermoCalibrationAuthorizationComponent,

@@ -1,17 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { DatePipe } from '@angular/common'
-import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
-
+import { FormArray, FormBuilder, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
-import { Log } from '../interfaces/gmp.packing.glass.brittle.log.interface'
-import { CaptureArea, CaptureItem } from '../interfaces/gmp.packing.glass.brittle.capture.interface'
-
-import { DateTimeService } from '../../../../services/app.time'
-import { TranslationService } from '../../../../services/app.translation'
-import { ToastsService } from '../../../../services/app.toasts'
 import { LogService } from '../../../../services/app.logs'
+import { DateTimeService } from '../../../../services/app.time'
+import { ToastsService } from '../../../../services/app.toasts'
+import { TranslationService } from '../../../../services/app.translation'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
+import { CaptureArea, CaptureItem } from '../interfaces/gmp.packing.glass.brittle.capture.interface'
+import { Log } from '../interfaces/gmp.packing.glass.brittle.log.interface'
 
 @Component({
   selector: 'gmp-packing-glass-brittle-log',
@@ -43,7 +40,7 @@ export class GMPPackingGlassBrittleLogComponent extends SuperLogComponent implem
       notes: ['', [Validators.required, Validators.minLength(1)]],
       areas: this._fb.array([])
     })
-    const control = <FormArray>this.captureForm.controls['areas'];
+    const control = <FormArray>this.captureForm.controls['areas']
     let currentTime = this.timeService.getISOTime(new Date())
     for (let area of this.log.areas) {
       console.log("area of log")

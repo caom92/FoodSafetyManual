@@ -235,6 +235,17 @@ export class LogService {
     }
   }
 
+  refreshFormGroup(group: FormGroup | FormArray) {
+    group.updateValueAndValidity()
+    for (let i in group.controls) {
+      if (group.controls[i] instanceof FormControl) {
+        group.controls[i].updateValueAndValidity()
+      } else {
+        this.refreshFormGroup(group.controls[i])
+      }
+    }
+  }
+
   // Esta función "aplana" y da formato de datos de formulario a un objeto
   // producido por cualquier componente de una bitácora particular
 

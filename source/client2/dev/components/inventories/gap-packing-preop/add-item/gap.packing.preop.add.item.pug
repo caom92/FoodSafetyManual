@@ -9,6 +9,6 @@ tr([formGroup]="newItem")
     +textInput(null, null, "name", "text", "new_item", "New item")
   td
     +select(null, null, "type", null, "new_type", "'New type'")
-      +option("{{type[lang]}}", "{{type.id}}", false, false)(*ngFor='let type of types')
+      +option("{{type[lang]}}", "type.id", false, false)(*ngFor='let type of types')
   td
     +addItemButton()((click)="addItem()")
