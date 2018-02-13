@@ -71,6 +71,7 @@ export class GMPPackingAgedProductLogComponent extends SuperLogComponent impleme
 
   initForm() {
     this.captureForm = this._fb.group({
+      date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
       entries: this._fb.array([])
     })
     this.entries = []

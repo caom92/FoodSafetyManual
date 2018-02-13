@@ -38,19 +38,14 @@ export class GMPDocControlDocControlLogComponent extends SuperLogComponent imple
   }
 
   initForm() {
-    /*let currentTime = this.timeService.getISOTime(new Date())
+    let currentTime = this.timeService.getISOTime(new Date())
     this.captureForm = this._fb.group({
       date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
-      time: [currentTime, [Validators.required]],
-      incident_date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
-      shift_id: ["", [Validators.required]],
-      area_id: ["", [Validators.required, Validators.maxLength(255)]],
-      product_id: ["", [Validators.required, Validators.maxLength(255)]],
-      batch_id: ["", [Validators.required, Validators.maxLength(255)]],
-      description_id: ["", [Validators.required, Validators.maxLength(65535)]],
-      corrective_action: ["", [Validators.required, Validators.maxLength(65535)]],
+      capture_date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
+      users: ["", [Validators.required]],
+      notes: ["", [Validators.required, Validators.maxLength(65535)]],
       album_url: ["", [Validators.required, Validators.maxLength(65535)]],
-    })*/
+    })
   }
 
   resetForm() {
@@ -91,13 +86,11 @@ export class GMPDocControlDocControlLogComponent extends SuperLogComponent imple
 
     formData.append("date", this.timeService.getISODate(new Date()))
 
-    formData.append("documents[0][id]", "1")
+    formData.append("documents[0][id]", this.selectedDocument)
 
     formData.append("documents[0][entries][0][date]", this.timeService.getISODate(new Date()))
 
     formData.append("documents[0][entries][0][employee]", "Test")
-    //formData.append()
-    //formData.append()
 
     if(this.pdf != null){
       for(let pdf of this.pdf){

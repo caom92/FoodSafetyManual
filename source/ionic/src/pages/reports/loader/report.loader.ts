@@ -14,6 +14,9 @@ import { GMPPackingScissorsKnivesReportComponent } from '../gmp-packing-scissors
 import { ReportRequest } from '../reports.interface'
 import { SuperReportComponent } from '../super-report/super.report'
 import { GAPPackingPreopReportComponent } from '../gap-packing-preop/report/gap.packing.preop.report'
+import { GMPSelfInspectionPestControlReportComponent } from '../gmp-self-inspection-pest-control/report/gmp.self.inspection.pest.control.report';
+import { GMPOthersUnusualOccurrenceReportComponent } from '../gmp-others-unusual-occurrence/report/gmp.others.unusual.occurrence.report';
+import { GAPOthersUnusualOccurrenceReportComponent } from '../gap-others-unusual-occurrence/report/gap.others.unusual.occurrence.report';
 
 @Component({
   selector: 'report-loader',
@@ -91,6 +94,21 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
       }).instance
         break
       case 'gap-packing-preop': this.loaderComponent = this.loadComponent(GAPPackingPreopReportComponent, {
+        report: this.report,
+        parent: this
+      }).instance
+        break
+      case 'gmp-self-inspection-pest-control': this.loaderComponent = this.loadComponent(GMPSelfInspectionPestControlReportComponent, {
+        report: this.report,
+        parent: this
+      }).instance
+        break
+      case 'gmp-others-unusual-occurrence': this.loaderComponent = this.loadComponent(GMPOthersUnusualOccurrenceReportComponent, {
+        report: this.report,
+        parent: this
+      }).instance
+        break
+      case 'gap-others-unusual-occurrence': this.loaderComponent = this.loadComponent(GAPOthersUnusualOccurrenceReportComponent, {
         report: this.report,
         parent: this
       }).instance

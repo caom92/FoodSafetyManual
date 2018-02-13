@@ -117,10 +117,10 @@ mixin col()
     if block
       block
 
-mixin fileInput()
+mixin fileInput(label)
   div(class="file-field input-field")
     div(class="btn")
-      span() File
+      span()= label
       input(type="file")
     div(class="file-path-wrapper")
       input(class="file-path validate", type="text")

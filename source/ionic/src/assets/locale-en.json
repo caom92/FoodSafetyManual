@@ -92,7 +92,9 @@
         "sanitization_person": "Person in charge of sanitization",
         "sanitization_person_of": "Person in charge of sanitization of",
         "album_url": "External URL",
+        "secured": "Secured",
         "conditions": "Conditions",
+        "activity": "Activity",
         "acceptable": "Acceptable",
         "unacceptable": "Unacceptable",
         "corrective_action": "Corrective action",
@@ -124,7 +126,11 @@
         "deficiencies_of": "Deficiencies noted of",
         "deficiencies": "Deficiencies noted",
         "group": "Group",
-        "quantity_abbr": "QTY"
+        "quantity_abbr": "QTY",
+        "shift": "Shift",
+        "production_area": "Production area",
+        "products": "Products",
+        "batch": "Batch"
     },
     "LogHeader": {
         "zone": "Zone",

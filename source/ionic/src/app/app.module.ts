@@ -182,6 +182,10 @@ import { GMPPackingColdRoomTempAddItemComponent } from '../pages/inventories/gmp
 
 // GMP Packing Self Inspection Pest Control
 
+import { GMPSelfInspectionPestControlReportComponent } from '../pages/reports/gmp-self-inspection-pest-control/report/gmp.self.inspection.pest.control.report'
+import { GMPSelfInspectionPestControlReportAreaComponent } from '../pages/reports/gmp-self-inspection-pest-control/area/gmp.self.inspection.pest.control.area'
+import { GMPSelfInspectionPestControlReportItemComponent } from '../pages/reports/gmp-self-inspection-pest-control/item/gmp.self.inspection.pest.control.item'
+
 import { GMPSelfInspectionPestControlAreaInventoryComponent } from '../pages/inventories/gmp-self-inspection-pest-control/area-inventory/gmp.self.inspection.pest.control.area.inventory'
 import { GMPSelfInspectionPestControlAreaInventoryAreaComponent } from '../pages/inventories/gmp-self-inspection-pest-control/area/gmp.self.inspection.pest.control.area.inventory.area'
 import { GMPSelfInspectionPestControlAreaInventoryListComponent } from '../pages/inventories/gmp-self-inspection-pest-control/area-list/gmp.self.inspection.pest.control.area.inventory.list'
@@ -241,6 +245,8 @@ import { InventoryService } from '../services/app.inventory'
 import { AreaManagerService } from '../services/app.area.manager'
 import { ReportLoader } from '../pages/reports/loader/report.loader'
 import { ReportHeaderComponent } from '../pages/reports/report-header/report.header'
+import { GMPOthersUnusualOccurrenceReportComponent } from '../pages/reports/gmp-others-unusual-occurrence/report/gmp.others.unusual.occurrence.report';
+import { GAPOthersUnusualOccurrenceReportComponent } from '../pages/reports/gap-others-unusual-occurrence/report/gap.others.unusual.occurrence.report';
 
 @NgModule({
   declarations: [
@@ -381,6 +387,9 @@ import { ReportHeaderComponent } from '../pages/reports/report-header/report.hea
     GMPPackingColdRoomTempInventoryItemComponent,
     GMPPackingColdRoomTempInventoryListComponent,
     GMPPackingColdRoomTempAddItemComponent,
+    GMPSelfInspectionPestControlReportComponent,
+    GMPSelfInspectionPestControlReportAreaComponent,
+    GMPSelfInspectionPestControlReportItemComponent,
     GMPSelfInspectionPestControlInventoryManagerComponent,
     GMPSelfInspectionPestControlInventoryComponent,
     GMPSelfInspectionPestControlInventoryItemComponent,
@@ -394,7 +403,9 @@ import { ReportHeaderComponent } from '../pages/reports/report-header/report.hea
     GMPDocControlDocControlInventoryComponent,
     GMPDocControlDocControlInventoryItemComponent,
     GMPDocControlDocControlInventoryListComponent,
-    GMPDocControlDocControlAddItemComponent
+    GMPDocControlDocControlAddItemComponent,
+    GMPOthersUnusualOccurrenceReportComponent,
+    GAPOthersUnusualOccurrenceReportComponent
   ],
   imports: [
     BrowserModule,
@@ -543,6 +554,9 @@ import { ReportHeaderComponent } from '../pages/reports/report-header/report.hea
     GMPPackingColdRoomTempInventoryItemComponent,
     GMPPackingColdRoomTempInventoryListComponent,
     GMPPackingColdRoomTempAddItemComponent,
+    GMPSelfInspectionPestControlReportComponent,
+    GMPSelfInspectionPestControlReportAreaComponent,
+    GMPSelfInspectionPestControlReportItemComponent,
     GMPSelfInspectionPestControlInventoryManagerComponent,
     GMPSelfInspectionPestControlInventoryComponent,
     GMPSelfInspectionPestControlInventoryItemComponent,
@@ -556,7 +570,9 @@ import { ReportHeaderComponent } from '../pages/reports/report-header/report.hea
     GMPDocControlDocControlInventoryComponent,
     GMPDocControlDocControlInventoryItemComponent,
     GMPDocControlDocControlInventoryListComponent,
-    GMPDocControlDocControlAddItemComponent
+    GMPDocControlDocControlAddItemComponent,
+    GMPOthersUnusualOccurrenceReportComponent,
+    GAPOthersUnusualOccurrenceReportComponent
   ],
   providers: [
     StatusBar,
