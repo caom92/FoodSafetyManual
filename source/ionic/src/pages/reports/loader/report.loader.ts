@@ -156,6 +156,14 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
     return this.loaderComponent.getCSS()
   }
 
+  public getOrientation() {
+    return this.loaderComponent.getOrientation()
+  }
+
+  public getFontSize() {
+    return this.loaderComponent.getFontSize()
+  }
+
   public pdfReportHeader(report: SuperReportInterface) {
     return "<table><tr><td>" + this.ts.translate("ReportHeader.zone") + ": " + report.zone_name + "<br>" + this.ts.translate("ReportHeader.program") + ": " + report.program_name + "<br>" + this.ts.translate("ReportHeader.module") + ": " + report.module_name + "<br>" + this.ts.translate("ReportHeader.log") + ": " + report.log_name + "</td><td>" + this.ts.translate("ReportHeader.made_on") + ": " + report.creation_date + "<br>" + this.ts.translate("ReportHeader.made_by") + ": " + report.created_by + "<br>" + this.ts.translate("ReportHeader.approved_on") + ": " + report.approval_date + "<br>" + this.ts.translate("ReportHeader.approved_by") + ": " + report.approved_by + "</td></tr></table>"
   }

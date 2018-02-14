@@ -73,13 +73,13 @@ export class ReportTab extends DynamicComponentResolver {
     this.pdfReport.company = JSON.parse(localStorage["__mydb/_ionickv/company"])
     this.pdfReport.address = JSON.parse(localStorage["__mydb/_ionickv/address"])
     this.pdfReport.logo = JSON.parse(localStorage["__mydb/_ionickv/logo"])
-    this.pdfReport.orientation = "P"
+    this.pdfReport.orientation = this.pdfReports._results[0].getOrientation()
     this.pdfReport.footer = ""
     this.pdfReport.supervisor = this.pdfReports._results[0].report.approved_by
     this.pdfReport.signature = this.pdfReports._results[0].report.signature_path
     this.pdfReport.subject = ""
     this.pdfReport.images = null
-    this.pdfReport.fontsize = "8"
+    this.pdfReport.fontsize = this.pdfReports._results[0].getFontSize()
     //console.log(this.pdfReports)
     let tempContent = []
     for(let report of this.pdfReports._results){
