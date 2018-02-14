@@ -1,38 +1,18 @@
 import { Component, Input } from '@angular/core'
-import { NavController, AlertController, Events } from 'ionic-angular'
-
-import { Storage } from '@ionic/storage'
-
 import { Language, TranslationService as TService } from 'angular-l10n'
-
+import { AlertController, Events, NavController } from 'ionic-angular'
 import { Observable } from 'rxjs/Rx'
 
-import { WaitingLog } from './authorization.card.interface'
-
-import { DateTimeService } from '../../../services/app.time'
 import { BackendService } from '../../../services/app.backend'
-import { TranslationService } from '../../../services/app.translation'
-import { ToastsService } from '../../../services/app.toasts'
 import { LoaderService } from '../../../services/app.loaders'
-
-import { GMPPackingHandWashingAuthorizationComponent } from '../../logs/gmp-packing-hand-washing/authorization/gmp.packing.hand.washing.authorization'
-import { GMPPackingPreopAuthorizationComponent } from '../../logs/gmp-packing-preop/authorization/gmp.packing.preop.authorization'
-import { GMPPackingScaleCalibrationAuthorizationComponent } from '../../logs/gmp-packing-scale-calibration/authorization/gmp.packing.scale.calibration.authorization'
-import { GMPPackingThermoCalibrationAuthorizationComponent } from '../../logs/gmp-packing-thermo-calibration/authorization/gmp.packing.thermo.calibration.authorization'
-import { GMPPackingColdRoomTempAuthorizationComponent } from '../../logs/gmp-packing-cold-room-temp/authorization/gmp.packing.cold.room.temp.authorization'
-import { GMPPackingGlassBrittleAuthorizationComponent } from '../../logs/gmp-packing-glass-brittle/authorization/gmp.packing.glass.brittle.authorization'
-import { GMPPackingScissorsKnivesAuthorizationComponent } from '../../logs/gmp-packing-scissors-knives/authorization/gmp.packing.scissors.knives.authorization'
-import { AuthorizationLoader } from '../authorization-loader/authorization.loader.component';
+import { DateTimeService } from '../../../services/app.time'
+import { ToastsService } from '../../../services/app.toasts'
+import { AuthorizationLoader } from '../authorization-loader/authorization.loader.component'
+import { WaitingLog } from './authorization.card.interface'
 
 @Component({
   selector: 'authorization-card',
-  templateUrl: './authorization.card.component.html',
-  providers: [
-    BackendService,
-    TranslationService,
-    ToastsService,
-    LoaderService
-  ]
+  templateUrl: './authorization.card.component.html'
 })
 
 export class AuthorizationCardComponent {

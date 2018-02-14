@@ -1,18 +1,14 @@
 import { Injectable } from '@angular/core'
-
-import { App, Events } from 'ionic-angular'
+import { FormArray, FormControl, FormGroup } from '@angular/forms'
 import { Storage } from '@ionic/storage'
-
-import { FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms'
-
+import { App, Events } from 'ionic-angular'
 import { Observable } from 'rxjs/Rx'
 
-import { PendingLog } from '../pages/pending-logs/pending-card/pending.card.interface'
-
-import { ToastsService } from './app.toasts'
-import { LoaderService } from './app.loaders'
-import { BackendService } from './app.backend'
 import { LogDetails } from '../pages/logs/log.interfaces'
+import { PendingLog } from '../pages/pending-logs/pending-card/pending.card.interface'
+import { BackendService } from './app.backend'
+import { LoaderService } from './app.loaders'
+import { ToastsService } from './app.toasts'
 
 /**
  * LogService, también referido como el servicio de bitácoras, es el servicio

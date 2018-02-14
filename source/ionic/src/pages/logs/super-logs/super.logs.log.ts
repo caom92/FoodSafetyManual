@@ -1,10 +1,10 @@
 import { OnInit } from '@angular/core'
-import { FormGroup, FormBuilder } from '@angular/forms'
-import { SuperLog } from './super.logs.log.interface'
+import { FormBuilder, FormGroup } from '@angular/forms'
+
 import { LogService } from '../../../services/app.logs'
-import { LoaderService } from '../../../services/app.loaders'
-import { LogHeaderData, LogDetails } from '../log.interfaces'
 import { ToastsService } from '../../../services/app.toasts'
+import { LogDetails, LogHeaderData } from '../log.interfaces'
+import { SuperLog } from './super.logs.log.interface'
 
 export class SuperLogComponent implements OnInit {
   protected log: SuperLog

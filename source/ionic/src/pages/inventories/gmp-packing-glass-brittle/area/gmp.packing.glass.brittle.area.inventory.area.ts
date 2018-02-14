@@ -1,38 +1,28 @@
-import { Component, Input, ViewChild, OnInit } from '@angular/core'
+import { Component, Input } from '@angular/core'
+import { Language } from 'angular-l10n'
 import { Events, ModalController } from 'ionic-angular'
 
-import { Language } from 'angular-l10n'
-
-import { Observable } from 'rxjs/Rx'
-
-import { InventoryArea } from '../interfaces/gmp.packing.glass.brittle.area.inventory.interface'
-
+import { SuperInventoryAreaComponent } from '../../super-inventory/super.area.inventory.area'
 import { GMPPackingGlassBrittleEditAreaComponent } from '../edit-area/gmp.packing.glass.brittle.edit.area'
+import { InventoryArea } from '../interfaces/gmp.packing.glass.brittle.area.inventory.interface'
 
 @Component({
   selector: 'gmp-packing-glass-brittle-area-inventory-area',
   templateUrl: './gmp.packing.glass.brittle.area.inventory.area.html'
 })
 
-export class GMPPackingGlassBrittleAreaInventoryAreaComponent {
+export class GMPPackingGlassBrittleAreaInventoryAreaComponent extends SuperInventoryAreaComponent {
   @Input() area: InventoryArea
   @Language() lang: string
 
-  constructor(public modalController: ModalController,
-    public events: Events){
-
+  constructor(modalController: ModalController, events: Events) {
+    super(modalController, events)
   }
 
-  editArea(){
-    let editModal = this.modalController
-
-    let modal = this.modalController.create(GMPPackingGlassBrittleEditAreaComponent, {area_id:this.area.id})
-    modal.present()
-    modal.onDidDismiss(data => {
-      if(data){
-        this.events.publish("area:edit", this.area, data.area)
-        this.area.name = data.area.name
-      }
+  editArea() {
+    super.editArea(GMPPackingGlassBrittleEditAreaComponent, { area_id: this.area.id, area_name: this.area.name }, (data) => {
+      this.events.publish("area:edit", this.area, data.area)
+      this.area.name = data.area.name
     })
   }
 }

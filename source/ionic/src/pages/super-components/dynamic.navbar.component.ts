@@ -1,19 +1,14 @@
-import { Component, ViewChild, ComponentFactoryResolver, OnInit } from '@angular/core'
-
-import { NavController, NavParams, Select, Events } from 'ionic-angular'
+import { Component, ComponentFactoryResolver, OnInit, ViewChild } from '@angular/core'
 import { Storage } from '@ionic/storage'
-
 import { Language } from 'angular-l10n'
-
-import { TranslationService } from '../../services/app.translation'
-import { BackendService } from '../../services/app.backend'
+import { Events, Select } from 'ionic-angular'
 
 import { DynamicComponentResolver } from '../../app/dynamic.resolver'
+import { BackendService } from '../../services/app.backend'
+import { TranslationService } from '../../services/app.translation'
 
 @Component({
-  providers: [
-    TranslationService
-  ]
+  
 })
 
 export class DynamicNavbarPageComponent extends DynamicComponentResolver implements OnInit {

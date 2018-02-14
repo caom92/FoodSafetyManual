@@ -1,8 +1,6 @@
 import { Injectable, OnInit } from '@angular/core'
-
+import { Language } from 'angular-l10n'
 import { LoadingController } from 'ionic-angular'
-
-import { Language, TranslationService as TService } from 'angular-l10n'
 
 @Injectable()
 export class LoaderService implements OnInit {

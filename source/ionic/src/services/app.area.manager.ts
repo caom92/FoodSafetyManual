@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core'
-
+import { FormArray, FormControl, FormGroup } from '@angular/forms'
+import { TranslationService as TService } from 'angular-l10n'
 import { App } from 'ionic-angular'
-
-import { FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms'
-
-import { Language, TranslationService as TService } from 'angular-l10n'
 import { Observable } from 'rxjs/Rx'
 
-import { ToastsService } from './app.toasts'
-import { LoaderService } from './app.loaders'
 import { BackendService } from './app.backend'
+import { LoaderService } from './app.loaders'
+import { ToastsService } from './app.toasts'
 
 /**
  * Servicio que agrupa las funciones en común que pueden ser utilizadas para el
@@ -29,18 +26,50 @@ export class AreaManagerService {
 
   }
 
-  public getAreaInventory(suffix: string, orderByPosition?: boolean): Promise<any> {
+  public getAreaInventory(suffix: string): Promise<any> {
     let areaInventoryPromise = new Promise<any>((resolve, reject) => {
-      let prefix: string = ""
-      if (orderByPosition === true) {
-        prefix = 'get-areas-of-zone-by-position-'
-      } else {
-        prefix = 'get-areas-of-zone-'
-      }
       let loader = this.loaderService.koiLoader("")
       loader.present()
       this.server.update(
-        prefix + suffix,
+        'get-areas-of-zone-' + suffix,
+        new FormData(),
+        (response: any) => {
+          if (response.meta.return_code == 0) {
+            if (response.data) {
+              resolve(response.data)
+              loader.dismiss()
+            } else {
+              reject("bad request")
+              loader.dismiss()
+              this.app.getRootNav().pop()
+              this.toastService.showText("serverUnreachable")
+            }
+          } else {
+            reject("bad request")
+            loader.dismiss()
+            this.app.getRootNav().pop()
+            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+          }
+        },
+        (error: any, caught: Observable<void>) => {
+          reject("network error")
+          loader.dismiss()
+          this.app.getRootNav().pop()
+          this.toastService.showText("serverUnreachable")
+          return []
+        }
+      )
+    })
+
+    return areaInventoryPromise
+  }
+
+  public getAreaInventoryByPosition(suffix: string): Promise<any> {
+    let areaInventoryPromise = new Promise<any>((resolve, reject) => {
+      let loader = this.loaderService.koiLoader("")
+      loader.present()
+      this.server.update(
+        'get-areas-of-zone-by-position-' + suffix,
         new FormData(),
         (response: any) => {
           if (response.meta.return_code == 0) {
@@ -77,7 +106,7 @@ export class AreaManagerService {
     let reorderPromise = new Promise<any>((resolve, reject) => {
       let loaderReorder = this.loaderService.koiLoader("")
       let reorderForm = new FormData()
-      let flatData = this.flatten({ items: data })
+      let flatData = this.flatten({ areas: data })
 
       loaderReorder.present()
       for (let key in flatData) {

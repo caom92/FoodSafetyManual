@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { Language } from 'angular-l10n'
+
 import { ReportType } from '../interfaces/gmp.packing.scale.calibration.report.interface'
 
 @Component({

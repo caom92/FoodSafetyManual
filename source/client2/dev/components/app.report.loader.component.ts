@@ -1,47 +1,55 @@
-import { Component, Input, NgModule, OnDestroy } from '@angular/core'
+import { Component, Input, OnInit, OnDestroy } from '@angular/core'
 import { PubSubService } from 'angular2-pubsub'
 
-import { GMPPackingPreopReportComponent } from './gmp/packing/preop/report/gmp.packing.preop.report.component'
-
 @Component({
-    selector: 'report-loader',
-    templateUrl: '../templates/app.report.loader.component.html'
+  selector: 'report-loader',
+  templateUrl: '../templates/app.report.loader.component.html'
 })
 
-export class ReportLoader implements OnDestroy {
-    @Input()
-    report: any = null
+export class ReportLoader implements OnInit, OnDestroy {
+  @Input()
+  report: any = null
 
-    @Input()
-    activeReport: string = "any"
+  @Input()
+  activeReport: string = "any"
 
-    showReport: boolean = false
+  showReport: boolean = false
 
-    reportEvent: any = null
+  reportEvent: any = null
 
-    constructor(private events: PubSubService) {
-        this.reportEvent = this.events.$sub('reportEvent').subscribe((from) => {
-            this.activeReport = from.activeReport;
-        });
-        /*events.subscribe("reportEvent", (activeReport, time) => {
-            this.activeReport = activeReport
-            console.log("reporte activo: " + activeReport)
-        })*/
-    }
+  hasEmail: boolean = false
 
-    ngOnDestroy(){
-        
-    }
+  par: any = this
 
-    openHTMLReport(){
-        this.showReport = true
-        this.events.$pub('reportEvent', {activeReport:this.report.report_id, time:Date.now()});
-        /*this.events.publish('reportEvent', this.report.report_id, Date.now());*/
-    }
+  constructor(private events: PubSubService) {
+    this.reportEvent = this.events.$sub('reportEvent').subscribe((from) => {
+      this.activeReport = from.activeReport;
+    });
+    /*events.subscribe("reportEvent", (activeReport, time) => {
+        this.activeReport = activeReport
+        console.log("reporte activo: " + activeReport)
+    })*/
+  }
 
-    closeHTMLReport(){
-        this.showReport = false
-        this.events.$pub('reportEvent', {activeReport:"any", time:Date.now()});
-        /*this.events.publish('reportEvent', "any", Date.now());*/
-    }
+  ngOnInit() {
+    this.par = this
+    console.log(this.report)
+    console.log(this)
+  }
+
+  ngOnDestroy() {
+
+  }
+
+  openHTMLReport() {
+    this.showReport = true
+    this.events.$pub('reportEvent', { activeReport: this.report.report_id, time: Date.now() });
+    /*this.events.publish('reportEvent', this.report.report_id, Date.now());*/
+  }
+
+  closeHTMLReport() {
+    this.showReport = false
+    this.events.$pub('reportEvent', { activeReport: "any", time: Date.now() });
+    /*this.events.publish('reportEvent', "any", Date.now());*/
+  }
 }

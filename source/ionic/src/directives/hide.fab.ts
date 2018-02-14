@@ -1,7 +1,8 @@
 // Code obtained from http://pointdeveloper.com/ionic-hide-floating-action-button-fab-scroll/
 
-import { Directive, ElementRef, Renderer } from '@angular/core';
-import { Content } from "ionic-angular";
+import { Directive, ElementRef, Renderer } from '@angular/core'
+import { Content } from "ionic-angular"
+
 @Directive({
   selector: '[hide-fab]',
   host: {

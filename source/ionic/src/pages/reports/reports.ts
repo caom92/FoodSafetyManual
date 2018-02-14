@@ -1,41 +1,46 @@
-import { Component, ComponentFactoryResolver } from '@angular/core'
-import { NavController, NavParams, Select, Events, LoadingController } from 'ionic-angular'
-import { Storage } from '@ionic/storage'
+import { Component, ComponentFactoryResolver, ViewChildren } from '@angular/core'
+import { FormBuilder, FormGroup } from '@angular/forms'
 import { DomSanitizer } from '@angular/platform-browser'
-import { FormBuilder, FormGroup, Validators } from "@angular/forms"
-
+import { Storage } from '@ionic/storage'
 import { Language, TranslationService as TService } from 'angular-l10n'
-
+import { Events, LoadingController, NavController, NavParams } from 'ionic-angular'
 import { Observable } from 'rxjs/Rx'
 
-import { BackendService } from '../../services/app.backend';
-import { TranslationService } from '../../services/app.translation';
-import { ToastsService } from '../../services/app.toasts';
-
 import { DynamicComponentResolver } from '../../app/dynamic.resolver'
-
-import { GMPPackingPreopReportDisplayer } from './gmp-packing-preop/displayer/gmp.packing.preop.report.displayer'
-import { GMPPackingHandWashingReportDisplayer } from './gmp-packing-hand-washing/displayer/gmp.packing.hand.washing.report.displayer'
-import { GMPPackingGlassBrittleReportDisplayer } from './gmp-packing-glass-brittle/displayer/gmp.packing.glass.brittle.report.displayer'
-import { GMPPackingScaleCalibrationReportDisplayer } from './gmp-packing-scale-calibration/displayer/gmp.packing.scale.calibration.report.displayer'
-import { GAPPackingPreopReportDisplayer } from './gap-packing-preop/displayer/gap.packing.preop.report.displayer'
-import { GMPPackingColdRoomTempReportDisplayer } from './gmp-packing-cold-room-temp/displayer/gmp.packing.cold.room.temp.report.displayer'
-import { GMPPackingThermoCalibrationReportDisplayer } from './gmp-packing-thermo-calibration/displayer/gmp.packing.thermo.calibration.report.displayer'
-import { GMPPackingScissorsKnivesReportDisplayer } from './gmp-packing-scissors-knives/displayer/gmp.packing.scissors.knives.report.displayer'
+import { BackendService } from '../../services/app.backend'
+import { TranslationService } from '../../services/app.translation'
+import { ReportRequest } from './reports.interface'
 
 @Component({
   selector: 'report',
   templateUrl: 'reports.html'
 })
+
 export class ReportTab extends DynamicComponentResolver {
   @Language() lang: string
+  @ViewChildren("reports") pdfReports: any = {
+    _results: []
+  }
+  private pdfReport: ReportRequest = {
+    lang: null,
+    content: null,
+    style: null,
+    company: null,
+    address: null,
+    logo: null,
+    orientation: null,
+    footer: null,
+    supervisor: null,
+    signature: null
+  }
 
-  // Componente lanzador de reporte
+
+  private reportForm: any = null
   loaderComponent: any = null
-
   startDate: string = ""
   endDate: string = ""
   reportSuffix: string = ""
+  reportFooter: string = ""
   reports: Array<any> = []
   activeReport: string = "any"
 
@@ -51,6 +56,39 @@ export class ReportTab extends DynamicComponentResolver {
       console.log("reporte activo: " + activeReport)
     })
     this.reportSuffix = this.navParams.get('log_suffix')
+  }
+
+  ngOnInit() {
+    console.log(this.pdfReports)
+  }
+
+  printChildren() {
+    console.log(this.pdfReports)
+  }
+
+  showChildren() {
+    this.pdfReport.lang = this.lang
+    //this.pdfReport.content = JSON.stringify([this.getPDFContent()])
+    //this.pdfReport.style = this.loaderComponent.getCSS()
+    this.pdfReport.company = JSON.parse(localStorage["__mydb/_ionickv/company"])
+    this.pdfReport.address = JSON.parse(localStorage["__mydb/_ionickv/address"])
+    this.pdfReport.logo = JSON.parse(localStorage["__mydb/_ionickv/logo"])
+    this.pdfReport.orientation = this.pdfReports._results[0].getOrientation()
+    this.pdfReport.footer = ""
+    this.pdfReport.supervisor = this.pdfReports._results[0].report.approved_by
+    this.pdfReport.signature = this.pdfReports._results[0].report.signature_path
+    this.pdfReport.subject = ""
+    this.pdfReport.images = null
+    this.pdfReport.fontsize = this.pdfReports._results[0].getFontSize()
+    //console.log(this.pdfReports)
+    let tempContent = []
+    for(let report of this.pdfReports._results){
+      //console.log(report)
+      tempContent.push(report.getPDFContent())
+      //report.consoleReport()
+    }
+    this.pdfReport.content = JSON.stringify(tempContent)
+    this.pdfReport.style = this.pdfReports._results[0].getCSS()
   }
 
   getReportData() {
@@ -69,64 +107,10 @@ export class ReportTab extends DynamicComponentResolver {
           if (response.data) {
             console.log(response.data.reports)
             this.reports = response.data.reports
+            this.reportFooter = response.data.pdf_footer
+            this.reportFooter = '<table width="100%" ><tr><td width="30%" align="left">Jacobs Farms Delcabo, Inc </td><td width="40%">Pending</td><td width="30%" align="right">Rev. pend</td></tr></table>'
             this.activeReport = "any"
             tempLoader.dismiss()
-            switch (this.reportSuffix) {
-              case 'gmp-packing-preop': this.loaderComponent = this.loadComponent(GMPPackingPreopReportDisplayer, {
-                parent: this,
-                reports: this.reports,
-                activeReport: this.activeReport
-              }).instance
-                break
-              case 'gmp-packing-hand-washing': this.loaderComponent = this.loadComponent(GMPPackingHandWashingReportDisplayer, {
-                parent: this,
-                reports: this.reports,
-                activeReport: this.activeReport
-              }).instance
-                break
-              case 'gmp-packing-glass-brittle': this.loaderComponent = this.loadComponent(GMPPackingGlassBrittleReportDisplayer, {
-                parent: this,
-                reports: this.reports,
-                activeReport: this.activeReport
-              }).instance
-                break
-              case 'gmp-packing-scale-calibration': this.loaderComponent = this.loadComponent(GMPPackingScaleCalibrationReportDisplayer, {
-                parent: this,
-                reports: this.reports,
-                activeReport: this.activeReport
-              }).instance
-                break
-              case 'gap-packing-preop': this.loaderComponent = this.loadComponent(GAPPackingPreopReportDisplayer, {
-                parent: this,
-                reports: this.reports,
-                activeReport: this.activeReport
-              }).instance
-                break
-              case 'gmp-packing-cold-room-temp': this.loaderComponent = this.loadComponent(GMPPackingColdRoomTempReportDisplayer, {
-                parent: this,
-                reports: this.reports,
-                activeReport: this.activeReport
-              }).instance
-                break
-              case 'gmp-packing-thermo-calibration': this.loaderComponent = this.loadComponent(GMPPackingThermoCalibrationReportDisplayer, {
-                parent: this,
-                reports: this.reports,
-                activeReport: this.activeReport
-              }).instance
-                break
-              case 'gmp-packing-scissors-knives': this.loaderComponent = this.loadComponent(GMPPackingScissorsKnivesReportDisplayer, {
-                parent: this,
-                reports: this.reports,
-                activeReport: this.activeReport
-              }).instance
-                break
-              default: this.loaderComponent = this.loadComponent(GMPPackingPreopReportDisplayer, {
-                parent: this,
-                reports: this.reports,
-                activeReport: this.activeReport
-              }).instance
-            }
-            //this.logData.data = response.data
           }
         } else {
           //this.navCtrl.pop()
@@ -150,9 +134,9 @@ export class ReportTab extends DynamicComponentResolver {
           <img class="spinner" src="assets/images/koi_spinner.png" alt="" width="240" height="240">
         </div>
         <div text-center>` + this.ts.translate("Connecting to Server") + `</div>`
-    });
+    })
 
-    loading.present();
+    loading.present()
 
     return loading
   }

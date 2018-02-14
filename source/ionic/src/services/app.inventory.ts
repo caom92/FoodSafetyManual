@@ -1,17 +1,12 @@
 import { Injectable } from '@angular/core'
-
-import { App, Events } from 'ionic-angular'
-import { Storage } from '@ionic/storage'
-
-import { FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms'
-
-import { Language, TranslationService as TService } from 'angular-l10n'
+import { FormArray, FormControl, FormGroup } from '@angular/forms'
+import { TranslationService as TService } from 'angular-l10n'
+import { App } from 'ionic-angular'
 import { Observable } from 'rxjs/Rx'
 
-import { ToastsService } from './app.toasts'
-import { LoaderService } from './app.loaders'
 import { BackendService } from './app.backend'
-import { errorHandler } from '@angular/platform-browser/src/browser'
+import { LoaderService } from './app.loaders'
+import { ToastsService } from './app.toasts'
 
 /**
  * Servicio que agrupa las funciones en común que pueden ser utilizadas por
@@ -27,9 +22,7 @@ export class InventoryService {
     private loaderService: LoaderService,
     private toastService: ToastsService,
     private server: BackendService,
-    public ts: TService,
-    private storage: Storage,
-    private events: Events) {
+    public ts: TService) {
 
   }
 
@@ -48,13 +41,75 @@ export class InventoryService {
    * @memberof InventoryService
    */
 
-  public getInventory(service: string): Promise<any> {
+  public getInventory(suffix: string): Promise<any> {
     let inventoryPromise = new Promise<any>((resolve, reject) => {
       let loader = this.loaderService.koiLoader(this.ts.translate("Connecting to Server"))
       loader.present()
       this.server.update(
-        service,
+        'inventory-' + suffix,
         new FormData(),
+        (response: any) => {
+          if (response.meta.return_code == 0) {
+            if (response.data) {
+              resolve(response.data)
+              loader.dismiss()
+            } else {
+              reject("bad request")
+              loader.dismiss()
+              this.app.getRootNav().pop()
+              this.toastService.showText("serverUnreachable")
+            }
+          } else {
+            reject("bad request")
+            loader.dismiss()
+            this.app.getRootNav().pop()
+            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+          }
+        },
+        (error: any, caught: Observable<void>) => {
+          reject("network error")
+          loader.dismiss()
+          this.app.getRootNav().pop()
+          this.toastService.showText("serverUnreachable")
+          return []
+        }
+      )
+    })
+
+    return inventoryPromise
+  }
+
+  /**
+   * 
+   * 
+   * @param {string} suffix 
+   * @param {*} data 
+   * @returns {void} 
+   * @memberof InventoryService
+   */
+
+  public getInventoryByArea(suffix: string, data: any): Promise<any> {
+    let inventoryPromise = new Promise<any>((resolve, reject) => {
+      let loader = this.loaderService.koiLoader(this.ts.translate("Connecting to Server"))
+      let form_data = new FormData()
+      let area_data = data
+
+      let flatObj = this.flatten(area_data)
+
+      for (let key in flatObj) {
+        if (flatObj[key] === true) {
+          form_data.append(key, "1")
+        } else if (flatObj[key] === false) {
+          form_data.append(key, "0")
+        } else {
+          form_data.append(key, flatObj[key])
+        }
+      }
+      
+      loader.present()
+      this.server.update(
+        'inventory-' + suffix,
+        form_data,
         (response: any) => {
           if (response.meta.return_code == 0) {
             if (response.data) {
@@ -192,12 +247,12 @@ export class InventoryService {
    * Añade un nuevo elemento de inventario y se envía al servidor
    * 
    * @param {*} data - Objeto que representa el elemento a agregar el inventario 
-   * @param {string} service 
+   * @param {string} suffix 
    * @returns {Promise<*>} 
    * @memberof InventoryService
    */
 
-  public addItem(data: any, service: string): Promise<any> {
+  public addItem(data: any, suffix: string): Promise<any> {
     let addPromise = new Promise<any>((resolve, reject) => {
       let loaderAdd = this.loaderService.koiLoader("")
       let itemForm = new FormData()
@@ -210,7 +265,7 @@ export class InventoryService {
       }
 
       this.server.update(
-        service,
+        "add-" + suffix,
         itemForm,
         (response: any) => {
           if (response.meta.return_code == 0) {

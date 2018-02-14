@@ -1,26 +1,17 @@
-import { Component, ViewChild } from '@angular/core'
-import { NavController, NavParams, Select, Events } from 'ionic-angular'
-import { FormBuilder, FormGroup, Validators } from "@angular/forms"
+import { Component } from '@angular/core'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Storage } from '@ionic/storage'
-
 import { Language } from 'angular-l10n'
-
-import { NavbarPageComponent } from '../super-components/navbar.component'
-
-import { GMPPackingScaleCalibrationInventoryComponent } from '../inventories/gmp-packing-scale-calibration/inventory/gmp.packing.scale.calibration.inventory'
+import { Events, NavController, NavParams } from 'ionic-angular'
 
 import { BackendService } from '../../services/app.backend'
-import { TranslationService } from '../../services/app.translation'
 import { ToastsService } from '../../services/app.toasts'
+import { TranslationService } from '../../services/app.translation'
+import { NavbarPageComponent } from '../super-components/navbar.component'
 
 @Component({
   selector: 'edit-profile',
-  templateUrl: 'edit-profile.html',
-  providers: [
-    BackendService,
-    TranslationService,
-    ToastsService
-  ]
+  templateUrl: 'edit-profile.html'
 })
 
 export class EditProfile extends NavbarPageComponent {

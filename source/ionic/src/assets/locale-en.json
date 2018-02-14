@@ -56,21 +56,29 @@
     },
     "Options": {
         "accept": "Accept",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "edit": "Edit",
+        "add": "Add"
     },
     "Titles": {
         "approve_log": "Approve log",
         "reject_log": "Reject log",
         "resend_log": "Resend log",
         "add_item": "Add Item",
-        "add_area": "Add Item"
+        "add_area": "Add Area",
+        "edit_area": "Edit Area"
     },
     "Messages": {
         "approve_log": "Are you sure you want to approve this log?",
         "reject_log": "Are you sure you want to reject this log?",
         "resend_log": "Are you sure you want to retry sending this log?",
         "add_item": "Are you sure you want to add this item?",
-        "add_area": "Are you sure you want to add this item?"
+        "add_area": "Are you sure you want to add this area?",
+        "edit_area": "Are you sure you want to change this area's name?"
+    },
+    "Adverbs": {
+        "before": "Before",
+        "after": "After"
     },
     "Log": {
         "time": "Time",
@@ -83,7 +91,10 @@
         "comments_of": "Comments of",
         "sanitization_person": "Person in charge of sanitization",
         "sanitization_person_of": "Person in charge of sanitization of",
+        "album_url": "External URL",
+        "secured": "Secured",
         "conditions": "Conditions",
+        "activity": "Activity",
         "acceptable": "Acceptable",
         "unacceptable": "Unacceptable",
         "corrective_action": "Corrective action",
@@ -115,7 +126,11 @@
         "deficiencies_of": "Deficiencies noted of",
         "deficiencies": "Deficiencies noted",
         "group": "Group",
-        "quantity_abbr": "QTY"
+        "quantity_abbr": "QTY",
+        "shift": "Shift",
+        "production_area": "Production area",
+        "products": "Products",
+        "batch": "Batch"
     },
     "LogHeader": {
         "zone": "Zone",
@@ -131,6 +146,16 @@
             "person_length": "The name of the person performing sanitation can't exceed 255 characters",
             "album_length": "The album URL can't exceed 2000 characters"
         }
+    },
+    "ReportHeader": {
+        "zone":"Zone",
+        "program":"Program",
+        "module":"Module",
+        "log":"Log",
+        "made_on":"Made on",
+        "made_by":"Made by",
+        "approved_on":"Approved on",
+        "approved_by":"Approved by"
     },
     "InventoryErrors": {
         "gmp-packing-scale-calibration": {

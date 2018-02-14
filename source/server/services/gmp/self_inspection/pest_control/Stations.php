@@ -36,7 +36,7 @@ class Stations extends db\OrderedItemsTable
   function selectByRoomID($roomID) {
     return parent::select(
       [
-        'id', 'name', 'position(order)', 'is_active'
+        'id', 'name', 'position', 'is_active'
       ],
       [
         'room_id' => $roomID,

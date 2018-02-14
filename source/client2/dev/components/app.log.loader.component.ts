@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { StateService } from '@uirouter/angular'
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser'
 
 import { Validators, FormGroup, FormBuilder } from '@angular/forms'
 

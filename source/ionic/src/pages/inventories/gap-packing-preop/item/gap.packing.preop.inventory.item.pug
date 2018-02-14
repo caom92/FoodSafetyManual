@@ -1,4 +1,14 @@
-ion-item(text-wrap, [class.gray-text]='item_toggle.value == false')
+include ../../../inventory-ionic-materialize.pug
+
++inventoryItemWrapper()
+  +inventoryItemHandler()
+  +inventoryItemColumn('{{item.id}}')
+  +inventoryItemColumn('{{item.position}}')
+  +inventoryItemColumn('{{item.name}}')
+  +inventoryItemColumn('{{type[lang]}}')
+  +inventoryItemToggle()
+
+//-ion-item(text-wrap, [class.gray-text]='item_toggle.value == false')
   ion-icon.handle(name='move', item-start)
   ion-label {{item.position}}
   ion-label {{item.name}}

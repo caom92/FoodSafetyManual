@@ -1,6 +1,6 @@
-import { SuperReport } from "../../super-report/super.report.interface"
+import { SuperReportInterface } from "../../super-report/super.report.interface"
 
-export interface Report extends SuperReport {
+export interface Report extends SuperReportInterface {
   notes: string
   corrective_action: string
   areas: Array<ReportType>

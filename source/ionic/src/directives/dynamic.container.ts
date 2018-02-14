@@ -1,7 +1,7 @@
-import { Directive, ViewContainerRef } from '@angular/core';
+import { Directive, ViewContainerRef } from '@angular/core'
 
 // Diractiva que define el componente que la posea como el contenedor de un 
-// componente que sera inyectado dinamicamente
+// componente que sera inyectado dinámicamente
 @Directive({
   selector: '[dynamicComponentContainer]',
 })

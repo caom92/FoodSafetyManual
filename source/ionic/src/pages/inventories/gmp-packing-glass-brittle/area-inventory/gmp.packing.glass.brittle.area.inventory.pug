@@ -1,4 +1,21 @@
-ion-content(hide-fab, [class.no-scroll]='!scrollAllowed')
+include ../../../area-manager-ionic-materialize.pug
+
++inventoryWrapper()
+  +inventoryAreaListsWrapper()
+    +inventoryAreaTitleWrapper()
+      +inventoryAreaTitleHandler()
+      +inventoryAreaTitleColumn("{{ 'InventoryLists.id' | translate:lang }}")
+      +inventoryAreaTitleColumn("{{ 'InventoryLists.order' | translate:lang }}")
+      +inventoryAreaTitleColumn("{{ 'InventoryLists.name' | translate:lang }}")
+      +inventoryAreaTitleEdit()
+    //-For Ionic version uncomment the next line, Dragula variables are found inside the .list.pug file
+    +inventoryAreaList('gmp-packing-glass-brittle')([areas]='inventory')
+    //-For ng2-Materialize version uncomment the next line, we have to pass Dragula variables here
+    //-+inventoryAreaList('gmp-packing-glass-brittle')([items]='inventory', [dragula]='type.name', [dragulaModel]='type.items')
+  +inventoryAreaEmptyMessage()
+  +inventoryAreaAddButton()
+
+//-ion-content(hide-fab, [class.no-scroll]='!scrollAllowed')
   ion-list
     div(*ngIf='emptyInventoryFlag == true')
       ion-item(text-wrap)
@@ -11,6 +28,7 @@ ion-content(hide-fab, [class.no-scroll]='!scrollAllowed')
     div(*ngIf='emptyInventoryFlag == false')
       ion-item(ion-list-header)
         ion-icon(item-start)
+        ion-label {{ 'InventoryLists.id' | translate:lang }}
         ion-label {{ 'InventoryLists.order' | translate:lang }}
         ion-label {{ 'InventoryLists.name' | translate:lang }}
         button(ion-fab, mini, item-end, style='visibility: hidden;')

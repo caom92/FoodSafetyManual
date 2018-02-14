@@ -56,21 +56,29 @@
     },
     "Options": {
         "accept": "Aceptar",
-        "cancel": "Cancelar"
+        "cancel": "Cancelar",
+        "edit": "Editar",
+        "add": "Añadir"
     },
     "Titles": {
         "approve_log": "Aprobar bitácora",
         "reject_log": "Rechazar bitácora",
         "resend_log": "Enviar bitácora",
         "add_item": "Añadir elemento",
-        "add_area": "Añadir área"
+        "add_area": "Añadir área",
+        "edit_area": "Editar área"
     },
     "Messages": {
         "approve_log": "¿Está seguro que desea autorizar esta bitácora?",
         "reject_log": "¿Está seguro que desea rechazar esta bitácora?",
         "resend_log": "¿Está seguro que desea reintentar el envío de esta bitácora?",
         "add_item": "¿Está seguro de que desea añadir este elemento?",
-        "add_area": "¿Está seguro de que desea añadir esta área?"
+        "add_area": "¿Está seguro de que desea añadir esta área?",
+        "edit_area": "¿Está seguro que desea cambiar el nombre de esta área?"
+    },
+    "Adverbs": {
+        "before": "Antes",
+        "after": "Después"
     },
     "Log": {
         "time": "Hora",
@@ -83,7 +91,10 @@
         "comments_of": "Comentarios de",
         "sanitization_person": "Persona a cargo de la sanitización",
         "sanitization_person_of": "Persona a cargo de la sanitización de",
+        "album_url": "Enlace externo",
+        "secured": "Asegurado",
         "conditions": "Condiciones",
+        "activity": "Actividad",
         "acceptable": "Aceptable",
         "unacceptable": "No aceptable",
         "corrective_action": "Acción correctiva",
@@ -115,7 +126,11 @@
         "deficiencies_of": "Deficiencias notadas de",
         "deficiencies": "Deficiencias notadas",
         "group": "Grupo",
-        "quantity_abbr": "QTY"
+        "quantity_abbr": "QTY",
+        "shift": "Turno",
+        "production_area": "Área de producción",
+        "products": "Productos",
+        "batch": "Lote"
     },
     "LogHeader": {
         "zone": "Zona",
@@ -131,6 +146,16 @@
             "person_length": "El nombre de la persona a cargo de la sanitización no puede exceder 255 caracteres",
             "album_length": "El enlace del album no puede exceder 2000 caracteres"
         }
+    },
+    "ReportHeader": {
+        "zone":"Zona",
+        "program":"Programa",
+        "module":"Módulo",
+        "log":"Bitácora",
+        "made_on":"Elaborado el",
+        "made_by":"Elaborado por",
+        "approved_on":"Aprobado el",
+        "approved_by":"Aprobado por"
     },
     "InventoryErrors": {
         "gmp-packing-scale-calibration": {

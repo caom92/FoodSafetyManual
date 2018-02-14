@@ -59,7 +59,7 @@ export class GMPPackingPreopLogComponent {
             album_url: ['', [Validators.required, Validators.minLength(1)]],
             areas: this._fb.array([])
         })
-        const control = <FormArray>this.gmpPackingPreopForm.controls['areas'];
+        const control = <FormArray>this.gmpPackingPreopForm.controls['areas']
         let currentTime = this.timeService.getISOTime(new Date())
         for (let area of this.log.areas.logs) {
             let itemControl = []

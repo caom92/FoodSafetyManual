@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core'
-import { Language } from 'angular-l10n'
 import { FormGroup } from '@angular/forms'
+import { Language } from 'angular-l10n'
+
 import { LogItem, LogUnit } from '../interfaces/gmp.packing.scale.calibration.log.interface'
 
 @Component({

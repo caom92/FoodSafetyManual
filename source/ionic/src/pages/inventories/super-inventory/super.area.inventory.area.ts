@@ -1,19 +1,11 @@
 import { Events, ModalController } from 'ionic-angular'
-import { SuperInventoryAreaInterface } from './super.area.inventory.interface'
 
-/**
- * Clase padre que pueden usar los componentes de cualquier inventario para
- * desplegar y controlar un elemento de inventario
- * 
- * @export
- * @class SuperInventoryAreaComponent
- */
+import { SuperInventoryAreaInterface } from './super.area.inventory.interface'
 
 export class SuperInventoryAreaComponent {
   protected area: SuperInventoryAreaInterface
 
-  constructor(private modalController: ModalController,
-    protected events: Events) {
+  constructor(private modalController: ModalController, protected events: Events) {
 
   }
 

@@ -1,5 +1,6 @@
-import { ViewChild, OnInit } from '@angular/core'
+import { ViewChild } from '@angular/core'
 import { Toggle } from 'ionic-angular'
+
 import { InventoryService } from '../../../services/app.inventory'
 import { SuperInventoryItemInterface } from './super.inventory.interface'
 
@@ -58,7 +59,7 @@ export class SuperInventoryItemComponent {
     } else {
       this.previousValue = !this.item_toggle.value
       this.inventoryService.toggleItem(this.item, "toggle-" + this.suffix).then(success => {
-        console.log("Toggle llamado desde la Super Clase")
+        
       }, error => {
         this.toggleError = true
         this.toggleItem()

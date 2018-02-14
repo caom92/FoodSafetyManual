@@ -1,0 +1,6 @@
+include ../../../log-ionic-materialize.pug
+
++card()
+  +cardHeader("{{area.name}}")
+  +cardContent()
+    gmp-self-inspection-pest-control-item(*ngFor='let item of area.stations; let i = index', [item]='item', [itemGroup]='areaForm.controls.stations.controls[i + offset]')

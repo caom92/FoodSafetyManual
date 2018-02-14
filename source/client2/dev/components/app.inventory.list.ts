@@ -40,7 +40,10 @@ export class InventoryListComponent implements OnInit
     // inventario
     for (let i in logs) {
       if (i != 'suffix' && logs[i].has_inventory) {
-        this.logs.push(i)
+        let temp = logs[i]
+        temp.name = i
+        console.log(temp)
+        this.logs.push(temp)
       }
     }
 

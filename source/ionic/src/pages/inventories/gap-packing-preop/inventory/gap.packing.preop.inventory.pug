@@ -1,4 +1,27 @@
-ion-content(hide-fab, [class.no-scroll]='!scrollAllowed')
+include ../../../inventory-ionic-materialize.pug
+
++inventoryWrapper()
+  ion-item
+    ion-label {{ 'Log.area' | translate:lang }}
+    ion-select([(ngModel)]='selectedArea', (ionChange)='loadAreaInventory($event)')
+      ion-option(*ngFor='let area of areas; let first = first', [value]='area.id') {{area.name}}
+  +inventoryListsWrapper()
+    +inventoryTitleWrapper()
+      +inventoryTitleHandler()
+      +inventoryTitleColumn("{{ 'InventoryLists.id' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.order' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.name' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.type' | translate:lang }}")
+      +inventoryTitleToggle()
+    +inventoryListMultiplier('type', 'inventory')
+      //-For Ionic version uncomment the next line, Dragula variables are found inside the .list.pug file
+      +inventoryList('gap-packing-preop')([type]='type')
+      //-For ng2-Materialize version uncomment the next line, we have to pass Dragula variables here
+      //-+inventoryList('gap-packing-preop')([type]='type', [dragula]='type.name', [dragulaModel]='type.items')
+  +inventoryEmptyMessage()
+  +inventoryAddButton()([hidden]="selectedArea == null || selectedArea == undefined")
+
+//-ion-content(hide-fab, [class.no-scroll]='!scrollAllowed')
   ion-item
     ion-label {{ 'Log.area' | translate:lang }}
     ion-select([(ngModel)]='selectedArea', (ionChange)='loadAreaInventory($event)')
@@ -21,7 +44,7 @@ ion-content(hide-fab, [class.no-scroll]='!scrollAllowed')
         ion-toggle(item-end, style='visibility: hidden;')
       ng-template(ngFor, let-type, [ngForOf]='inventory', let-isFirst='first')
         div(*ngIf='type.inventory.length > 0')
-          gap-packing-preop-inventory-list([type]='type', [printHeader]='isFirst')
+          gap-packing-preop-inventory-list([type]='type')
   ion-fab(right, bottom)
     button(ion-fab, color='open', (click)='addItem()')
       ion-icon(name='add')

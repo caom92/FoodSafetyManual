@@ -1,7 +1,7 @@
 ion-header
   ion-toolbar(color='primary')
     ion-title
-      | Añadir area
+      | {{ 'Titles.add_area' | translate:lang }}
     ion-buttons(start)
       button(ion-button, icon-only, (click)='dismiss()')
         ion-icon(name='close')
@@ -9,12 +9,12 @@ ion-header
 ion-content
   form([formGroup]='newArea')
     ion-item
-      ion-label(color='primary', floating) Nombre
+      ion-label(color='primary', floating) {{ 'Name' | translate:lang }}
       ion-input(formControlName='name')
 
     br
 
     div(text-right)
-      button(ion-button, icon-end, (click)='addItem()')
-        | Añadir
+      button(ion-button, icon-end, (click)='addArea()')
+        | {{ 'Options.add' | translate:lang }}
         ion-icon(name='add')

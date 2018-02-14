@@ -1,28 +1,24 @@
-import { Component, Input, ComponentFactoryResolver, OnInit, Type } from '@angular/core'
-
+import { Component, ComponentFactoryResolver, Input, OnInit, Type } from '@angular/core'
+import { Storage } from '@ionic/storage'
 import { Language } from 'angular-l10n'
+import { NavParams } from 'ionic-angular/navigation/nav-params'
+import { Events } from 'ionic-angular/util/events'
 
-import { DynamicComponentResolver } from '../../../app/dynamic.resolver'
+import { BackendService } from '../../../services/app.backend'
 import { LogService } from '../../../services/app.logs'
-
+import { TranslationService } from '../../../services/app.translation'
+import { GMPPackingColdRoomTempAuthorizationComponent } from '../../logs/gmp-packing-cold-room-temp/authorization/gmp.packing.cold.room.temp.authorization'
+import { GMPPackingGlassBrittleAuthorizationComponent } from '../../logs/gmp-packing-glass-brittle/authorization/gmp.packing.glass.brittle.authorization'
 import { GMPPackingHandWashingAuthorizationComponent } from '../../logs/gmp-packing-hand-washing/authorization/gmp.packing.hand.washing.authorization'
 import { GMPPackingPreopAuthorizationComponent } from '../../logs/gmp-packing-preop/authorization/gmp.packing.preop.authorization'
 import { GMPPackingScaleCalibrationAuthorizationComponent } from '../../logs/gmp-packing-scale-calibration/authorization/gmp.packing.scale.calibration.authorization'
-import { GMPPackingThermoCalibrationAuthorizationComponent } from '../../logs/gmp-packing-thermo-calibration/authorization/gmp.packing.thermo.calibration.authorization'
-import { GMPPackingColdRoomTempAuthorizationComponent } from '../../logs/gmp-packing-cold-room-temp/authorization/gmp.packing.cold.room.temp.authorization'
-import { GMPPackingGlassBrittleAuthorizationComponent } from '../../logs/gmp-packing-glass-brittle/authorization/gmp.packing.glass.brittle.authorization'
 import { GMPPackingScissorsKnivesAuthorizationComponent } from '../../logs/gmp-packing-scissors-knives/authorization/gmp.packing.scissors.knives.authorization'
-
+import { GMPPackingThermoCalibrationAuthorizationComponent } from '../../logs/gmp-packing-thermo-calibration/authorization/gmp.packing.thermo.calibration.authorization'
 import { DynamicNavbarPageComponent } from '../../super-components/dynamic.navbar.component'
-import { TranslationService } from '../../../services/app.translation'
-import { Events } from 'ionic-angular/util/events'
-import { BackendService } from '../../../services/app.backend'
-import { Storage } from '@ionic/storage'
-import { NavParams } from 'ionic-angular/navigation/nav-params'
 
 @Component({
   selector: 'authorization-loader',
-  templateUrl: './authorization.loader.component.html',
+  templateUrl: './authorization.loader.component.html'
 })
 
 export class AuthorizationLoader extends DynamicNavbarPageComponent implements OnInit {

@@ -1,93 +1,35 @@
 import { Component, OnInit } from '@angular/core'
-import { Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms'
-import { Platform, NavParams, ViewController, AlertController } from 'ionic-angular'
+import { FormBuilder, Validators } from '@angular/forms'
+import { TranslationService as TService } from 'angular-l10n'
+import { AlertController, ViewController } from 'ionic-angular'
 
-import { Observable } from 'rxjs/Rx'
-
-import { Language, TranslationService as TService } from 'angular-l10n'
-
-import { InventoryArea } from '../interfaces/gmp.packing.preop.area.inventory.interface'
-
-import { BackendService } from '../../../../services/app.backend'
-import { ToastsService } from '../../../../services/app.toasts'
-import { LoaderService } from '../../../../services/app.loaders'
+import { AreaManagerService } from '../../../../services/app.area.manager'
+import { SuperInventoryAddAreaComponent } from '../../super-inventory/super.area.inventory.add.area'
 
 @Component({
   selector: 'gmp-packing-preop-add-area',
-  templateUrl: './gmp.packing.preop.add.area.html',
-  providers: [
-    BackendService,
-    ToastsService,
-    LoaderService
-  ]
+  templateUrl: './gmp.packing.preop.add.area.html'
 })
 
-export class GMPPackingPreopAddAreaComponent implements OnInit {
-  @Language()
-  lang: string
-
-  newArea: FormGroup = new FormBuilder().group({})
-
-  constructor(public platform: Platform, public params: NavParams, public viewCtrl: ViewController, public alertCtrl: AlertController, public ts: TService, private _fb: FormBuilder, public server: BackendService, private toastService: ToastsService, public loaderService: LoaderService){
-
+export class GMPPackingPreopAddAreaComponent extends SuperInventoryAddAreaComponent implements OnInit {
+  constructor(viewCtrl: ViewController,
+    _fb: FormBuilder,
+    alertCtrl: AlertController,
+    ts: TService,
+    areaManagerService: AreaManagerService) {
+    super(viewCtrl, _fb, alertCtrl, ts, areaManagerService)
   }
 
-  ngOnInit(){
-    this.newArea = this._fb.group({
+  public ngOnInit(): void {
+    this.setSuffix("gmp-packing-preop")
+    this.createItemForm({
       name: ["", [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
     })
-    console.log("Modal inicializado")
   }
 
-  dismiss() {
-    this.viewCtrl.dismiss();
-  }
-
-  addItem(){
-    if(this.newArea.valid){
-      let loaderAdd = this.loaderService.koiLoader("")
-      let confirmAdd = this.alertCtrl.create({
-        title: this.ts.translate("Titles.add_item"),
-        message: this.ts.translate("Messages.add_item") + "<br><br>" + this.newArea.value.name,
-        buttons: [
-          {
-          text: this.ts.translate("Options.cancel"),
-            handler: () => {
-              console.log('Cancelar');
-            }
-          },
-          {
-            text:  this.ts.translate("Options.accept"),
-            handler: () => {
-              loaderAdd.present()
-              let data: {area:InventoryArea} = {area:{ id: 0, name: this.newArea.value.name, position: 0 }}
-              let item = new FormData()
-              item.append("area_name", data.area.name)
-              this.server.update(
-                'add-workplace-area-gmp-packing-preop',
-                item,
-                (response: any) => {
-                  if(response.meta.return_code == 0){
-                    data.area.id = response.data.id
-                    data.area.position = response.data.position
-                    loaderAdd.dismiss()
-                    this.toastService.showText("areaAddSuccess")
-                    this.viewCtrl.dismiss(data)
-                  }
-                },
-                (error: any, caught: Observable<void>) => {
-                  loaderAdd.dismiss()
-                  this.toastService.showText("serverUnreachable")
-                  return []
-                }
-              )
-            }
-          }
-        ]
-      })
-      confirmAdd.present()
-    } else {
-      console.log("New item not valid")
-    }
+  public addArea(): void {
+    let data = { area: { id: 0, name: this.newArea.value.name, position: 0 } }
+    let itemData = { area_name: this.newArea.value.name }
+    super.addArea(data, itemData)
   }
 }

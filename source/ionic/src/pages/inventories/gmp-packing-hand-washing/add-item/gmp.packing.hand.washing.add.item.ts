@@ -1,22 +1,10 @@
 import { Component, OnInit } from '@angular/core'
-import { Validators, FormGroup, FormBuilder } from '@angular/forms'
-import { Platform, NavParams, ViewController, AlertController } from 'ionic-angular'
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Language, TranslationService as TService } from 'angular-l10n'
-
-import { InventoryItem } from '../interfaces/gmp.packing.hand.washing.inventory.interface'
+import { AlertController, ViewController } from 'ionic-angular'
 
 import { InventoryService } from '../../../../services/app.inventory'
 import { SuperInventoryAddItemComponent } from '../../super-inventory/super.inventory.add.item'
-
-/**
- * Componente que despliega y controla el funcionamiento del modal para añadir
- * inventario de GMP Packing Thermo Calibration
- * 
- * @export
- * @class GMPPackingHandWashingAddItemComponent
- * @implements {OnInit}
- */
 
 @Component({
   selector: 'gmp-packing-hand-washing-add-item',
@@ -27,21 +15,9 @@ export class GMPPackingHandWashingAddItemComponent extends SuperInventoryAddItem
   @Language() private lang: string
   newItem: FormGroup = new FormBuilder().group({})
 
-  constructor(public params: NavParams,
-    viewCtrl: ViewController,
-    alertCtrl: AlertController,
-    ts: TService,
-    _fb: FormBuilder,
-    inventoryService: InventoryService) {
+  constructor(viewCtrl: ViewController, alertCtrl: AlertController, ts: TService, _fb: FormBuilder, inventoryService: InventoryService) {
     super(viewCtrl, _fb, alertCtrl, ts, inventoryService)
   }
-
-  /**
-   * Obtiene los parámetros pasados por el Nav, asigna el sufijo de esta
-   * bitácora e inicializa el FormGroup de adición de inventario
-   * 
-   * @memberof GMPPackingHandWashingAddItemComponent
-   */
 
   public ngOnInit(): void {
     this.setSuffix("gmp-packing-hand-washing")
@@ -50,16 +26,8 @@ export class GMPPackingHandWashingAddItemComponent extends SuperInventoryAddItem
     })
   }
 
-  /**
-   * Envía un objeto que corresponde al item que se agrega en la lista de esta
-   * bitácora, y otro que corresponde al objeto que es recibido por el servidor
-   * para añadir dicho elemento al inventario localizado en el servidor
-   * 
-   * @memberof GMPPackingHandWashingAddItemComponent
-   */
-
   public addItem(): void {
-    let data = {item:{ id: 0, is_active: 1, name: this.newItem.value.name, position: 0 }}
+    let data = { item: { id: 0, is_active: 1, name: this.newItem.value.name, position: 0 } }
     let itemData = { name: this.newItem.value.name }
     super.addItem(data, itemData)
   }

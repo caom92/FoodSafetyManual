@@ -1,16 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { DatePipe } from '@angular/common'
-import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
-
+import { FormArray, FormBuilder, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
-import { CaptureType, CaptureItem } from '../interfaces/gmp.packing.scale.calibration.capture.interface'
-import { Log } from '../interfaces/gmp.packing.scale.calibration.log.interface'
-
+import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
-import { LogService } from '../../../../services/app.logs'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
+import { CaptureItem, CaptureType } from '../interfaces/gmp.packing.scale.calibration.capture.interface'
+import { Log } from '../interfaces/gmp.packing.scale.calibration.log.interface'
 
 @Component({
   selector: 'gmp-packing-scale-calibration-log',

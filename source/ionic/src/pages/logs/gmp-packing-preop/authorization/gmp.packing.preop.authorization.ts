@@ -1,15 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { DatePipe } from '@angular/common'
-import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
-
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
+import { LogService } from '../../../../services/app.logs'
+import { ToastsService } from '../../../../services/app.toasts'
+import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization } from '../interfaces/gmp.packing.preop.authorization.interface'
 import { UpdateArea, UpdateItem } from '../interfaces/gmp.packing.preop.update.interface'
-
-import { ToastsService } from '../../../../services/app.toasts'
-import { LogService } from '../../../../services/app.logs'
-import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 
 @Component({
   selector: 'gmp-packing-preop-authorization',

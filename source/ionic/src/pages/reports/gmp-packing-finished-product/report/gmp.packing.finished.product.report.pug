@@ -1,0 +1,40 @@
+report-header([header]="header")
+ion-card
+  ion-card-content
+    table(#report_body)
+      tbody(*ngIf="entry != null && entry != undefined")
+        tr
+          th.batchColumn Batch
+          th.areaColumn Area
+          th.suppliersColumn Suppliers
+          th.productsColumn Products
+          th.clientsColumn Customers
+          th.qualityColumn Quality
+          th.originColumn Origin
+          th.expiresColumn Expires
+          th.waterColumn Water °F
+          th.packingColumn Packed °F
+          th.weightColumn Correct Weight?
+          th.labelColumn Correct Label?
+          th.traceabilityColumn Traceability
+          th.urlColumn Link to Album
+          th.notesColumn Notes
+        tr
+          td.batchColumn {{entry.batch}}
+          td.areaColumn {{entry.production_area}}
+          td.suppliersColumn {{entry.supplier}}
+          td.productsColumn {{entry.product}}
+          td.clientsColumn {{entry.customer}}
+          td.qualityColumn {{entry.quality}}
+          td.originColumn {{entry.origin}}
+          td.expiresColumn {{entry.expiration_date}}
+          td.waterColumn {{entry.water_temperature}}
+          td.packingColumn {{entry.product_temperature}}
+          td.weightColumn(*ngIf='entry.is_weight_correct == 1') {{ 'Log.yes' | translate:lang }}
+          td.weightColumn(*ngIf='entry.is_weight_correct != 1') {{ 'Log.no' | translate:lang }}
+          td.labelColumn(*ngIf='entry.is_label_correct == 1') {{ 'Log.yes' | translate:lang }}
+          td.labelColumn(*ngIf='entry.is_label_correct != 1') {{ 'Log.yes' | translate:lang }}
+          td.traceabilityColumn(*ngIf='entry.is_trackable == 1') {{ 'Log.yes' | translate:lang }}
+          td.traceabilityColumn(*ngIf='entry.is_trackable != 1') {{ 'Log.yes' | translate:lang }}
+          td.urlColumn {{entry.album_url}}
+          td.notesColumn {{entry.notes}}

@@ -30,7 +30,7 @@ mixin addItemModalTitle()
   ion-header
     ion-toolbar(color='primary')
       ion-title
-        | Añadir inventario
+        | {{ 'Titles.add_item' | translate:lang }}
       ion-buttons(start)
         button(ion-button, icon-only, (click)='dismiss()')
           ion-icon(name='close')
@@ -55,7 +55,7 @@ mixin addItemSelectInput(controlName, label, options)
 mixin addItemConfirmButton()
   div(text-right)
     button(ion-button, icon-end, (click)='addItem()')
-      | Añadir
+      | {{ 'Options.add' | translate:lang }}
       ion-icon(name='add')
 
 mixin inventoryItemComponent(suffix, ngForLet, ngForSource)
@@ -67,7 +67,7 @@ mixin inventoryListWrapper()
         block
 
 mixin inventoryAddButton()
-  ion-fab(right, bottom)
+  ion-fab(right, bottom)&attributes(attributes)
     button(ion-fab, color='open', (click)='addItem()')
       ion-icon(name='add')
 

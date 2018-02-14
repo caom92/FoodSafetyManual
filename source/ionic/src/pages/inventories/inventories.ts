@@ -1,33 +1,21 @@
 import { Component, ComponentFactoryResolver, OnInit } from '@angular/core'
-
-import { NavParams, Events } from 'ionic-angular'
 import { Storage } from '@ionic/storage'
-
 import { Language } from 'angular-l10n'
-
-import { Observable } from 'rxjs/Rx'
+import { Events, NavParams } from 'ionic-angular'
 
 import { BackendService } from '../../services/app.backend'
 import { TranslationService } from '../../services/app.translation'
-import { ToastsService } from '../../services/app.toasts'
-
-// Clase padre
-
 import { DynamicNavbarPageComponent } from '../super-components/dynamic.navbar.component'
-
-// Se deben importar los componentes de Inventario para los inventarios simples
-// y los Administradores de Inventario y Áreas para los inventarios que los
-// posean
-
+import { GAPPackingPreopInventoryManagerComponent } from './gap-packing-preop/manager/gap.packing.preop.inventory.manager'
+import { GMPPackingColdRoomTempInventoryComponent } from './gmp-packing-cold-room-temp/inventory/gmp.packing.cold.room.temp.inventory'
+import { GMPPackingGlassBrittleInventoryManagerComponent } from './gmp-packing-glass-brittle/manager/gmp.packing.glass.brittle.inventory.manager'
+import { GMPPackingHandWashingInventoryComponent } from './gmp-packing-hand-washing/inventory/gmp.packing.hand.washing.inventory'
+import { GMPPackingPreopInventoryManagerComponent } from './gmp-packing-preop/manager/gmp.packing.preop.inventory.manager'
 import { GMPPackingScaleCalibrationInventoryComponent } from './gmp-packing-scale-calibration/inventory/gmp.packing.scale.calibration.inventory'
 import { GMPPackingScissorsKnivesInventoryComponent } from './gmp-packing-scissors-knives/inventory/gmp.packing.scissors.knives.inventory'
-import { GMPPackingHandWashingInventoryComponent } from './gmp-packing-hand-washing/inventory/gmp.packing.hand.washing.inventory'
 import { GMPPackingThermoCalibrationInventoryComponent } from './gmp-packing-thermo-calibration/inventory/gmp.packing.thermo.calibration.inventory'
-import { GMPPackingColdRoomTempInventoryComponent } from './gmp-packing-cold-room-temp/inventory/gmp.packing.cold.room.temp.inventory'
-import { GMPPackingPreopInventoryManagerComponent } from './gmp-packing-preop/manager/gmp.packing.preop.inventory.manager'
-import { GAPPackingPreopInventoryManagerComponent } from './gap-packing-preop/manager/gap.packing.preop.inventory.manager'
-import { GMPPackingGlassBrittleInventoryManagerComponent } from './gmp-packing-glass-brittle/manager/gmp.packing.glass.brittle.inventory.manager'
-import { GMPSelfInspectionPestControlAreaInventoryComponent } from './gmp-self-inspection-pest-control/area-inventory/gmp.self.inspection.pest.control.area.inventory'
+import { GMPSelfInspectionPestControlInventoryManagerComponent } from './gmp-self-inspection-pest-control/manager/gmp.self.inspection.pest.control.inventory.manager'
+import { GMPDocControlDocControlInventoryComponent } from './gmp-doc-control-doc-control/inventory/gmp.doc.control.doc.control.inventory'
 
 @Component({
   selector: 'inventories',
@@ -47,18 +35,11 @@ export class InventoryLoaderComponent extends DynamicNavbarPageComponent impleme
     public navParams: NavParams,
     public server: BackendService) {
     super(translationService, events, storage, server, factoryResolver)
-    this.inventorySuffix = this.navParams.get('log_suffix')
-    this.title = this.navParams.get('log_title')
   }
 
-  /**
-   * En base al sufijo recibido por el Nav, asigna el componente dinámico a
-   * inyectar, siempre y cuando este se encuentre soportado
-   * 
-   * @memberof InventoryLoaderComponent
-   */
-
   public ngOnInit(): void {
+    this.inventorySuffix = this.navParams.get('log_suffix')
+    this.title = this.navParams.get('log_title')
     switch (this.inventorySuffix) {
       case 'gmp-packing-scale-calibration': this.loaderComponent = this.loadComponent(GMPPackingScaleCalibrationInventoryComponent, {
         parent: this
@@ -92,10 +73,14 @@ export class InventoryLoaderComponent extends DynamicNavbarPageComponent impleme
         parent: this
       }).instance
         break
-      case 'gmp-self-inspection-pest-control': this.loaderComponent = this.loadComponent(GMPSelfInspectionPestControlAreaInventoryComponent, {
-          parent: this
-        }).instance
-          break
+      case 'gmp-self-inspection-pest-control': this.loaderComponent = this.loadComponent(GMPSelfInspectionPestControlInventoryManagerComponent, {
+        parent: this
+      }).instance
+        break
+      case 'gmp-doc-control-doc-control': this.loaderComponent = this.loadComponent(GMPDocControlDocControlInventoryComponent, {
+        parent: this
+      }).instance
+        break
     }
   }
 }

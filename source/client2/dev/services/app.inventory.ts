@@ -80,6 +80,67 @@ export class InventoryService {
     return inventoryPromise
   }
 
+    /**
+   * 
+   * 
+   * @param {string} suffix 
+   * @param {*} data 
+   * @returns {void} 
+   * @memberof InventoryService
+   */
+
+  public getInventoryByArea(suffix: string, data: any): Promise<any> {
+    let inventoryPromise = new Promise<any>((resolve, reject) => {
+      let loader = this.loaderService.koiLoader(this.ts.translate("Connecting to Server"))
+      let form_data = new FormData()
+      let area_data = data
+
+      let flatObj = this.flatten(area_data)
+
+      for (let key in flatObj) {
+        if (flatObj[key] === true) {
+          form_data.append(key, "1")
+        } else if (flatObj[key] === false) {
+          form_data.append(key, "0")
+        } else {
+          form_data.append(key, flatObj[key])
+        }
+      }
+      
+      this.server.update(
+        'inventory-' + suffix,
+        form_data,
+        (response: any) => {
+          if (response.meta.return_code == 0) {
+            if (response.data) {
+              resolve(response.data)
+              loader.close()
+            } else {
+              reject("bad request")
+              loader.close()
+              //this.app.getRootNav().pop()
+              this.toastService.showText("serverUnreachable")
+            }
+          } else {
+            reject("bad request")
+            loader.close()
+            //this.app.getRootNav().pop()
+            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+          }
+        },
+        (error: any, caught: Observable<void>) => {
+          reject("network error")
+          loader.close()
+          //this.app.getRootNav().pop()
+          this.toastService.showText("serverUnreachable")
+          return []
+        }
+      )
+    })
+
+    return inventoryPromise
+  }
+
   /**
    * @function toggleItem
    * 
@@ -178,7 +239,7 @@ export class InventoryService {
    * @memberof InventoryService
    */
 
-  public addItem(data: any, service: string): Promise<any> {
+  public addItem(data: any, suffix: string): Promise<any> {
     let addPromise = new Promise<any>((resolve, reject) => {
       let loaderAdd = this.loaderService.koiLoader("")
       let itemForm = new FormData()
@@ -191,7 +252,7 @@ export class InventoryService {
       }
 
       this.server.update(
-        service,
+        "add-" + suffix,
         itemForm,
         (response: any) => {
           if (response.meta.return_code == 0) {
@@ -215,6 +276,19 @@ export class InventoryService {
 
     return addPromise
   }
+
+  // https://stackoverflow.com/questions/43551221/angular-2-mark-nested-formbuilder-as-touched
+  public setAsDirty(group: FormGroup | FormArray): void {
+    group.markAsDirty()
+    for (let i in group.controls) {
+      if (group.controls[i] instanceof FormControl) {
+        group.controls[i].markAsDirty()
+      } else {
+        this.setAsDirty(group.controls[i])
+      }
+    }
+  }
+
 
   /**
    * @function flatten

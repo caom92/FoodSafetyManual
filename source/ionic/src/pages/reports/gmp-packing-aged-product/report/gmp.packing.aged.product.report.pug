@@ -1,0 +1,33 @@
+report-header([header]="header")
+ion-card
+  ion-card-content
+    table(#report_body)
+      tbody(*ngIf="entry != null && entry != undefined")
+        tr
+          th.productsColumn Item
+          th.suppliersColumn Zone, Provider
+          th.clientsColumn Days old
+          th.waterColumn Quantity
+          th.batchColumn Batch
+          th.areaColumn Warehouse
+          th.qualityColumn Qualtity
+          th.originColumn Origin
+          th.expiresColumn Date
+          th.packingColumn Location
+          th.actionColumn Action
+          th.urlColumn Link to album
+          th.notesColumn Notes
+        tr
+          td.productsColumn {{entry.item}}
+          td.suppliersColumn {{entry.vendor}}
+          td.clientsColumn {{entry.age}}
+          td.waterColumn {{entry.quantity}}
+          td.batchColumn {{entry.batch}}
+          td.areaColumn {{entry.warehouse}}
+          td.qualityColumn {{entry.quality}}
+          td.originColumn {{entry.origin}}
+          td.expiresColumn {{entry.packed_date}}
+          td.packingColumn {{entry.location}}
+          td.actionColumn {{entry.action}}
+          td.urlColumn {{entry.album_url}}
+          td.notesColumn {{entry.notes}}

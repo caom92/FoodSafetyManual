@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { Language } from 'angular-l10n'
+
 import { ReportArea } from '../interfaces/gap.packing.preop.report.interface'
 
 @Component({
@@ -25,6 +26,5 @@ export class GAPPackingPreopReportAreaComponent implements OnInit {
     for (let count of this.area.types) {
       this.rowspan += count.items.length
     }
-    this.rowspan += 1
   }
 }

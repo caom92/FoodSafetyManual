@@ -4,11 +4,11 @@ include ../../../inventory-ionic-materialize.pug
 +addItemModalTitle()
 
 +addItemFormWrapper()
-  +addItemTextInput('name', 'Nombre')
+  +addItemTextInput('name', "{{ 'Name' | translate:lang }}")
   +errorMessage('!newItem.controls.name.valid && newItem.controls.name.dirty && newItem.controls.name.value.length == 0', "{{ 'InventoryErrors.gmp-packing-scale-calibration.item_required' | translate:lang }}")
   +errorMessage('!newItem.controls.name.valid && newItem.controls.name.dirty && newItem.controls.name.value.length > 0', "{{ 'InventoryErrors.gmp-packing-scale-calibration.item_length' | translate:lang }}")
 
-  +addItemSelectInput('type', 'Tipo', 'types')
+  +addItemSelectInput('type', "{{ 'InventoryLists.type' | translate:lang }}", 'types')
   +errorMessage('!newItem.controls.type.valid && newItem.controls.type.dirty', "{{ 'InventoryErrors.gmp-packing-scale-calibration.item_type' | translate:lang }}")
 
   br

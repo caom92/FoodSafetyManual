@@ -1,29 +1,19 @@
-import { Component, ViewChild, OnInit } from '@angular/core'
-import { Nav, NavController, Select, App, MenuController, ToastController, Events } from 'ionic-angular'
-import { StateService } from '@uirouter/angular'
-import { FormBuilder, FormGroup, Validators } from "@angular/forms"
+import { Component, OnInit } from '@angular/core'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Storage } from '@ionic/storage'
-
 import { Language } from 'angular-l10n'
-
+import { App, Events, MenuController, Nav, NavController } from 'ionic-angular'
 import { Observable } from 'rxjs/Rx'
 
 import { BackendService } from '../../services/app.backend'
-import { TranslationService } from '../../services/app.translation'
 import { ToastsService } from '../../services/app.toasts'
-
-import { NavbarPageComponent } from '../super-components/navbar.component'
-
+import { TranslationService } from '../../services/app.translation'
 import { EditProfile } from '../edit-profile/edit-profile'
+import { NavbarPageComponent } from '../super-components/navbar.component'
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html',
-  providers: [
-    BackendService,
-    TranslationService,
-    ToastsService
-  ]
+  templateUrl: 'home.html'
 })
 export class HomePage extends NavbarPageComponent implements OnInit {
   @Language() lang: string;

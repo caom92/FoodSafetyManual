@@ -1,4 +1,5 @@
-import { ViewChild, ComponentFactoryResolver, Type } from '@angular/core'
+import { ComponentFactoryResolver, Type, ViewChild } from '@angular/core'
+
 import { DynamicComponentContainerDirective } from '../directives/dynamic.container'
 
 // Esta clase define la funcionalidad necesaria para que un componente pueda 

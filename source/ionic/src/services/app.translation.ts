@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { Storage } from '@ionic/storage'
-import { LocaleService, Language } from 'angular-l10n'
+import { Language, LocaleService } from 'angular-l10n'
 
 @Component({
 
@@ -19,6 +19,8 @@ export class TranslationService implements OnInit {
 
   public selectLanguage(language: string): void {
     this.locale.setCurrentLanguage(language)
+    this.locale.setDefaultLocale(language, "US");
+    this.locale.setCurrentCurrency("USD");
     this.storage.set("lang", language)
   }
 }

@@ -1,8 +1,7 @@
-export interface InventoryItem {
-  id: number
-  is_active: number
-  position: number
-  name: string
+import { SuperInventoryItemInterface } from "../../super-inventory/super.inventory.interface"
+
+export interface InventoryItem extends SuperInventoryItemInterface {
+
 }
 
 export interface InventoryType {

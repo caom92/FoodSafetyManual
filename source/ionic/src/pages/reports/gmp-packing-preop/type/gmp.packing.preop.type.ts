@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core'
 import { Language } from 'angular-l10n'
+
 import { ReportType } from '../interfaces/gmp.packing.preop.interface'
 
 @Component({
@@ -9,7 +10,6 @@ import { ReportType } from '../interfaces/gmp.packing.preop.interface'
 
 export class GMPPackingPreopReportTypeComponent {
   @Input() type: ReportType
-  @Input() visible: boolean
   @Language() lang: string
 
   constructor() {

@@ -62,11 +62,20 @@ mixin inventoryEmptyMessage()
       i.green-text(mz-icon-mdi, [align]="'center'", [icon]="'plus-circle'", [size]="'36px'")
       |  button below
 
-mixin inventoryListsWrapper()
-  table(*ngIf='emptyInventoryFlag == false')
+mixin inventoryListsWrapper(condition)
+  table(*ngIf=condition)
     if block
       block
+
+mixin inventoryListAddItemFooter(suffix)
+  - attributes[suffix + "-add-item"] = true
+  tfoot()&attributes(attributes)
 
 mixin inventoryWrapper()
   if block
     block
+
+mixin inventoryAreaSelect()
+  mz-select-container
+    select(mz-select, id="area-select", [placeholder]="'Select area'", [(ngModel)]="selectedArea", (change)="loadAreaInventory($event.detail)")
+      option(*ngFor='let area of areas; let first = first', [value]='area.id') {{area.name}}

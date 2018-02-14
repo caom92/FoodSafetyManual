@@ -1,25 +1,16 @@
-import { Component, ViewChild } from '@angular/core'
-import { NavController, NavParams, Select, Events } from 'ionic-angular'
+import { Component } from '@angular/core'
 import { Storage } from '@ionic/storage'
-
 import { Language } from 'angular-l10n'
-
-import { NavbarPageComponent } from '../super-components/navbar.component'
+import { Events, NavController, NavParams } from 'ionic-angular'
 
 import { BackendService } from '../../services/app.backend'
 import { TranslationService } from '../../services/app.translation'
-import { ToastsService } from '../../services/app.toasts'
-
 import { LogsPage } from '../logs/logs'
+import { NavbarPageComponent } from '../super-components/navbar.component'
 
 @Component({
   selector: 'modules',
-  templateUrl: 'modules.html',
-  providers: [
-    BackendService,
-    TranslationService,
-    ToastsService
-  ]
+  templateUrl: 'modules.html'
 })
 
 export class ModulesPage extends NavbarPageComponent {

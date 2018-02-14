@@ -1,9 +1,7 @@
 import { Injectable, OnInit } from '@angular/core'
-import { ToastController, Events } from 'ionic-angular';
-
-import { Storage } from '@ionic/storage';
-
+import { Storage } from '@ionic/storage'
 import { Language } from 'angular-l10n'
+import { Events, ToastController } from 'ionic-angular'
 
 // Servicio que despliega mensajes en la pantalla para informar al usuario 
 // sobre los resultados que sus acciones tuvieron
@@ -29,6 +27,7 @@ export class ToastsService implements OnInit
       itemAddSuccess: 'Elemento añadido con éxito',
       itemChargeSuccess: 'Elemento activado exitosamente',
       itemDischargeSuccess: 'Elemento desactivado exitosamente',
+      areaEditSuccess: 'Nombre de área cambiado exitosamente',
       serverTakingTooLong: 'Existe un error en la conexión o el servidor está tardando demasiado en responder',
       notAvailableInMobile: 'Esta característica aun no está disponible en la versión móvil'
     },
@@ -46,6 +45,7 @@ export class ToastsService implements OnInit
       itemAddSuccess: 'Item added successfully',
       itemChargeSuccess: 'Item activated successfully',
       itemDischargeSuccess: 'Item deactivated successfully',
+      areaEditSuccess: 'Area name changed succesfully',
       serverTakingTooLong: 'There is an error in your connection or the server is taking too long to respond',
       notAvailableInMobile: 'This feature is not yet available in the mobile version'
     }
@@ -151,6 +151,8 @@ export class ToastsService implements OnInit
           duration: 3500,
           position: 'bottom'
         })
+
+        tempToast.present()
       }
     )
   }
@@ -174,12 +176,12 @@ export class ToastsService implements OnInit
   showText(text: string) {
     // primero, recuperamos el idioma del sistema
     let lang = this.lang
-    var toast
+    let toast
 
     // luego revisamos si el texto ingresado corresponde a algun indice en la 
     // lista de mensajes
     if (ToastsService.infoMessages[lang][text] !== undefined) {
-      var toastMessage = ToastsService.infoMessages[lang][text]
+      let toastMessage = ToastsService.infoMessages[lang][text]
       // si asi es, desplegamos el mensaje en el idioma elegido
       toast = this.toastService.create({
         message: toastMessage,
@@ -209,7 +211,8 @@ export class ToastsService implements OnInit
   showServiceErrorText(service: string, meta: any) {
     // primero recuperamos el idioma del sistema
     let lang = this.lang
-    var toast
+    let toast
+    let toastMessage
 
     // luego recuperamos el codigo de error retornado por el servidor
     let code = meta.return_code
@@ -221,7 +224,7 @@ export class ToastsService implements OnInit
     // revisamos si el codigo de error retornado corresponde a algun mensaje de 
     // error configurado para el servicio solicitado
     if (ToastsService.errorMessages[lang][service][code] !== undefined) {
-      var toastMessage = ToastsService.errorMessages[lang][service][code]
+      toastMessage = ToastsService.errorMessages[lang][service][code]
       // si asi fue, lo desplegamos
       toast = this.toastService.create({
         message: toastMessage,
@@ -235,7 +238,7 @@ export class ToastsService implements OnInit
     // si no, revisamos si el codigo de error retornado corresponde a algun 
     // mensaje de error generico configurado
     else if (ToastsService.errorMessages[lang][code] !== undefined) {
-      var toastMessage = ToastsService.errorMessages[lang][code]
+      toastMessage = ToastsService.errorMessages[lang][code]
       // si asi fue, lo desplegamos
       toast = this.toastService.create({
         message: toastMessage,

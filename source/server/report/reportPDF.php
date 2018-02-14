@@ -165,7 +165,7 @@ try {
         }
 
         if(isset($_POST["images"])){
-            if($_POST["images"] != "null"){
+            if($_POST["images"] != "null" && $_POST["images"] != ""){
                 $hasImages = true;
                 
                 foreach(json_decode($_POST["images"]) as $image){

@@ -9,12 +9,18 @@ mixin cardHeader(contents)
       block
 
 mixin cardContent()
-  mz-card-content
+  mz-card-content()&attributes(attributes)
     if block
       block
 
 mixin icon()
   i(mz-icon)&attributes(attributes)
+
+mixin dateInput(showIcon, label, formControlName, id, placeholder, options)
+  mz-datepicker-container()&attributes(attributes)
+    if (showIcon == true)
+      i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
+    input(mz-datepicker, label=label, type="text", id=id, placeholder=placeholder, [options]=options, formControlName=formControlName)
 
 mixin timeInput(showIcon, label, formControlName, id, placeholder, options)
   mz-timepicker-container()&attributes(attributes)
@@ -35,6 +41,10 @@ mixin fullLogWrapper()
 
 mixin sendLogButton(label)
   button(mz-button)&attributes(attributes)= label
+
+mixin addItemButton()
+  button(mz-button, float="true")&attributes(attributes)
+    i(mz-icon-mdi, [icon]="'plus'")
 
 //- User Input
 
@@ -84,12 +94,12 @@ mixin radio(label, icon, value, checked, disabled, id, name)
 
 mixin select(label, icon, formControlName, interface, id, placeholder)
   mz-select-container
-    select(mz-select, label=label, id=id, [placeholder]=placeholder, formControlName=formControlName)
+    select(mz-select, label=label, id=id, [placeholder]=placeholder, formControlName=formControlName)&attributes(attributes)
       if block
         block
 
 mixin option(label, value, selected, disabled)
-  option(value=value, selected=selected, disabled=disabled)&attributes(attributes)= label
+  option([ngValue]=value, selected=selected, disabled=disabled)&attributes(attributes)= label
 
 //- Grid
 
@@ -106,3 +116,11 @@ mixin col()
   .col()&attributes(attributes)
     if block
       block
+
+mixin fileInput(label)
+  div(class="file-field input-field")
+    div(class="btn")
+      span()= label
+      input(type="file")
+    div(class="file-path-wrapper")
+      input(class="file-path validate", type="text")

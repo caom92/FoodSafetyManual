@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core'
 import { Language } from 'angular-l10n'
+
 import { ReportItem } from '../interfaces/gap.packing.preop.report.interface'
 
 @Component({

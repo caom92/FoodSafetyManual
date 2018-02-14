@@ -1,24 +1,18 @@
-import { OnInit, OnDestroy } from '@angular/core'
+import { OnDestroy, OnInit, Type } from '@angular/core'
+import { Events, ModalController } from 'ionic-angular'
+
 import { InventoryService } from '../../../services/app.inventory'
-import { ModalController, Events } from 'ionic-angular'
-import { SuperInventoryItemInterface } from './super.inventory.interface'
-import { SuperInventoryAddItemComponent } from './super.inventory.add.item';
+import { SuperInventoryAddItemComponent } from './super.inventory.add.item'
 
 export class SuperInventoryComponent implements OnInit, OnDestroy {
   protected inventory: any = null
   protected emptyInventoryFlag: boolean = null
   protected scrollAllowed: boolean = true
-  private suffix: string = null
+  protected suffix: string = null
 
-  constructor(private events: Events, private inventoryService: InventoryService, protected modalController: ModalController) {
+  constructor(protected events: Events, protected inventoryService: InventoryService, protected modalController: ModalController) {
 
   }
-
-  /**
-   * Se suscribe a los eventos 
-   * 
-   * @memberof SuperInventoryComponent
-   */
 
   public ngOnInit(): void {
     this.events.subscribe("scroll:stop", (message) => {
@@ -31,17 +25,13 @@ export class SuperInventoryComponent implements OnInit, OnDestroy {
       console.log("Message: " + message)
     })
 
-    this.inventoryService.getInventory("inventory-" + this.suffix).then(success => {
+    this.inventoryService.getInventory(this.suffix).then(success => {
       this.inventory = success
       this.checkEmptyInventory()
-    }, error => {
-      // Por el momento, no se necesita ninguna acción adicional en caso de
-      // un error durante la recuperación de datos, ya que este caso se maneja
-      // dentro del servicio de inventarios
     })
   }
 
-  public addItem(addItemComponet: any, data: any, handler: Function): void {
+  public addItem(addItemComponet: Type<SuperInventoryAddItemComponent>, data: any, handler: Function): void {
     let modal = this.modalController.create(addItemComponet, data)
     modal.present()
     modal.onDidDismiss(data => {
@@ -52,38 +42,14 @@ export class SuperInventoryComponent implements OnInit, OnDestroy {
     })
   }
 
-  /**
-   * Asigna el sufijo que identifica a la bitácora, necesario para llamar a los
-   * servicios correspondientes a la bitácora particular
-   * 
-   * @param {string} suffix 
-   * @memberof SuperInventoryListComponent
-   */
-
   public setSuffix(suffix: string): void {
     this.suffix = suffix
   }
-
-  /**
-   * Desuscribimos los eventos relacionados con este inventario
-   * 
-   * @memberof SuperInventoryComponent
-   */
 
   public ngOnDestroy(): void {
     this.events.unsubscribe("scroll:stop")
     this.events.unsubscribe("scroll:start")
   }
-
-  /**
-   * Función que verifica si el inventario se encuentra vacío, con el fin de
-   * informarle a la vista si debe o no desplegar un mensaje que informe de esto
-   * al usuario. Dado que cada inventario es diferente, la implementación de
-   * cualquier componente hijo está forzada a sobreescribir esta función
-   * 
-   * @returns {boolean} 
-   * @memberof SuperInventoryComponent
-   */
 
   public checkEmptyInventory(): boolean {
     throw "checkEmptyInventory() function must be overridden in child class"

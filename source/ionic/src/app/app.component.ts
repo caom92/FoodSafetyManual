@@ -1,37 +1,28 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core'
-import { NavController, Nav, Platform, MenuController, Events } from 'ionic-angular'
-import { StatusBar } from '@ionic-native/status-bar'
-import { SplashScreen } from '@ionic-native/splash-screen'
-import { HttpModule } from '@angular/http'
-import { Storage } from '@ionic/storage'
-import { LocalNotifications } from '@ionic-native/local-notifications'
-
-import { Observable } from 'rxjs/Rx'
 import 'rxjs/add/operator/takeUntil'
 
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core'
+import { LocalNotifications } from '@ionic-native/local-notifications'
+import { SplashScreen } from '@ionic-native/splash-screen'
+import { StatusBar } from '@ionic-native/status-bar'
+import { Storage } from '@ionic/storage'
 import { Language } from 'angular-l10n'
+import { Events, MenuController, Nav, Platform } from 'ionic-angular'
+import { Observable } from 'rxjs/Rx'
+import { Subscription } from 'rxjs/Subscription'
 
+import { AuthorizationCardListComponent } from '../pages/authorizations/authorization-card-list/authorization.card.list.component'
+import { EditProfile } from '../pages/edit-profile/edit-profile'
 import { HomePage } from '../pages/home/home'
+import { ModulesPage } from '../pages/modules/modules'
+import { PendingCardListComponent } from '../pages/pending-logs/pending-card-list/pending.card.list.component'
 import { BackendService } from '../services/app.backend'
 import { TranslationService } from '../services/app.translation'
-import { DateTimeService } from '../services/app.time'
-import { EditProfile } from '../pages/edit-profile/edit-profile'
-
-import { ModulesPage } from '../pages/modules/modules'
-import { LogsPage } from '../pages/logs/logs'
-import { AuthorizationCardListComponent } from '../pages/authorizations/authorization-card-list/authorization.card.list.component'
-import { PendingCardListComponent } from '../pages/pending-logs/pending-card-list/pending.card.list.component'
 
 @Component({
-  templateUrl: 'app.html',
-  providers: [
-    BackendService,
-    TranslationService,
-    DateTimeService
-  ]
+  templateUrl: 'app.html'
 })
 
-export class MyApp implements AfterViewInit {
+export class MyApp implements AfterViewInit, OnInit {
   @ViewChild(Nav) nav: Nav
   @Language() lang: string
 
@@ -49,6 +40,8 @@ export class MyApp implements AfterViewInit {
   isAdminFlag: boolean = false
   isSupervisorFlag: boolean = false
   pendingAuthorizations: number = null
+
+  authorizationObservable: Subscription = null
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private storage: Storage, public menuCtrl: MenuController, private server: BackendService, public events: Events, private translationService: TranslationService, private localNotifications: LocalNotifications) {
     platform.ready().then(() => {
@@ -133,6 +126,10 @@ export class MyApp implements AfterViewInit {
     ]
   }
 
+  ngOnInit() {
+    console.log("app.component.ts initialized")
+  }
+
   /**
    * Actualiza el arreglo de programas que pueden ser seleccionados por el
    * usuario, dependiendo de sus permisos
@@ -209,9 +206,11 @@ export class MyApp implements AfterViewInit {
 
   bindAuthorizationsChecking() {
     console.log("bindAuthorizationsChecking")
-    Observable.interval(60000).subscribe(x => {
+    this.authorizationObservable = Observable.interval(60000).subscribe(x => {
       this.checkPendingAuthorizations()
-    })
+      let d = new Date()
+      console.log(d.getUTCHours() + ":" + d.getUTCMinutes() + ":" + d.getUTCSeconds() + ":" + d.getUTCMilliseconds())
+    })    
   }
 
   checkPendingAuthorizations() {
@@ -224,80 +223,6 @@ export class MyApp implements AfterViewInit {
       }
     )
   }
-
-  /*bindPendingLogProcessing() {
-    let interval = 500
-    console.log("Checking for pending logs on " + interval + "intervals")
-    Observable.interval(interval).subscribe(x => {
-      this.events.publish("pendingLog:add", null)
-      //this.processPendingLog()
-    })
-  }
-
-  processPendingLog() {
-    this.storage.get("pendingLogQueue").then((logs) => {
-      if (logs != null && logs != undefined && Array.isArray(logs)) {
-        if(logs.length > 0){
-          let logToProcess = logs.shift()
-          console.error("Logs con 1 elemento menos")
-          console.error(logs)
-          this.storage.set("pendingLogQueue", logs)
-          console.log("Next object in queue: ")
-          console.log(logToProcess)
-          this.sendLog(logToProcess.log, logToProcess.service)
-          //logs.push(logToProcess)
-          //this.storage.set("pendingLogQueue", logs)
-        } else {
-          console.log("No pending Logs")  
-        }
-      } else {
-        console.log("No pending Logs")
-      }
-    })
-  }
-
-  sendLog(log: any, service: string) {
-    let form_data = new FormData()
-    let filled_log = log
-    let flatObj = this.flatten(filled_log)
-
-    for (let key in flatObj) {
-      let tempKey = key + "]"
-      tempKey = tempKey.replace(']', '')
-      if (flatObj[key] == true) {
-        form_data.append(tempKey, "1")
-      } else if (flatObj[key] == false) {
-        form_data.append(tempKey, "0")
-      } else {
-        form_data.append(tempKey, flatObj[key])
-      }
-    }
-
-    this.server.update(
-      service,
-      form_data,
-      (response: any) => {
-        console.log("BITACORA EN LA COLA ENVIADA")
-        console.log(response)
-        console.log(JSON.stringify(response))
-      }, (error: any, caught: Observable<void>) => {
-        console.log("BITACORA EN LA COLA FALLADA")
-        this.storage.get("pendingLogQueue").then((val) => {
-          let pendingLog: { service: string, log: any } = { service: null, log: null }
-          pendingLog.service = service
-          pendingLog.log = filled_log
-          if (val == null || val == undefined) {
-            this.storage.set("pendingLogQueue", [pendingLog])
-          } else {
-            val.push(pendingLog)
-            this.storage.set("pendingLogQueue", val)
-          }
-        })
-        return []
-      }
-    )
-  }
-*/
 
   /**
   * @input { title: string, component: any, icon: string } page
@@ -337,16 +262,15 @@ export class MyApp implements AfterViewInit {
       'logout',
       new FormData(),
       (response: any) => {
-        console.log(response)
-        console.log(response.meta.return_code)
         if (response.meta.return_code == 0) {
           // si la sesion fue cerrada correctamente
           // redireccionamos al usuario a la pantalla de inicio de sesion
           // y limpiamos el contenido del Storage
-          console.log("cierre de sesión")
           this.nav.setRoot(HomePage)
           this.menuCtrl.enable(false, "es")
           this.menuCtrl.enable(false, "en")
+          this.authorizationObservable.unsubscribe()
+          this.authorizationObservable = null
           this.events.publish("user:loggedOut")
           this.storage.get("lang").then(
             lang => {
