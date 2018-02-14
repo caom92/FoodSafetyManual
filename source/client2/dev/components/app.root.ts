@@ -183,6 +183,7 @@ import { EditFooterModalComponent } from './modal.edit.footers'
 import { EditSignatureModalComponent } from './modal.edit.signature'
 import { ZoneInfoModalComponent } from './modal.zone.info'
 import { UserInfoModalComponent } from './modal.user.info'
+import { EditUserInfoModalComponent } from './modal.user.info.edit'
 
 // Importamos los servicios que van a ser necesitados por cada pagina del 
 // sistema
@@ -349,6 +350,7 @@ import { GMPDocControlDocControlLogComponent } from './logs/gmp-doc-control-doc-
     ZoneInfoModalComponent,
     UsersComponent,
     UserInfoModalComponent,
+    EditUserInfoModalComponent,
     DynamicComponentContainerDirective,
     LogLoaderComponent,
     ReportTab,
@@ -455,6 +457,7 @@ import { GMPDocControlDocControlLogComponent } from './logs/gmp-doc-control-doc-
     ZoneInfoModalComponent,
     GMPPackingPreopReportComponent,
     UserInfoModalComponent,
+    EditUserInfoModalComponent,
     GMPPackingPreopLogComponent,
     GMPPackingHandWashingLogComponent,
     GMPPackingThermoCalibrationLogComponent,

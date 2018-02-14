@@ -7,7 +7,8 @@ $service = [
     'logged_in' => 'any',
     'password' => [
       'type' => 'string',
-      'min_length' => 6
+      'min_length' => 6,
+      'optional' => true
     ],
     'new_password' => [
       'type' => 'string',
@@ -22,6 +23,7 @@ $service = [
   'callback' => function($scope, $request) {
     // get the session segment
     $segment = $scope->session->getSegment('fsm');
+    $isAdmin = $segment->get('role_name') == 'Administrator';
 
     // check if the password is valid
     $isPasswordValid = password_verify(

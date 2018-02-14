@@ -288,8 +288,29 @@ export class LanguageService
         program: 'Programa',
         privileges: 'Seleccione los permisos individuales del usuario',
         logsTableHeaders: [
-          'Bitácora'
-        ]
+          'Bitácora',
+          'Ninguno',
+          'Lectura',
+          'Escritura'
+        ],
+        errors: {
+          required: {
+            required: 'Este campo es obligatorio'
+          },
+          requiredMaxLength: {
+            required: 'Este campo es obligatorio',
+            maxlength: 'Este campo no debe contener más de 255 caracteres'
+          },
+          username: {
+            required: 'Este campo es obligatorio',
+            minlength: 'Este campo debe contener al menos 3 caracteres'
+          },
+          password: {
+            required: 'Este campo es obligatorio',
+            minlength: 'Este campo debe contener al menos 6 caracteres'
+          },
+          supervisorMissing: 'Los empleados deben tener registrados un supervisor'
+        }
       },
       login: {
         0: 'Sesión iniciada exitosamente',
@@ -348,6 +369,14 @@ export class LanguageService
       },
       'toggle-account-activation': {
         1: 'Supervisor tiene empleados asignados'
+      },
+      'add-user': {
+        0: 'El usuario fue agregado exitosamente',
+        1: 'Hace falta proporcionar el ID de Zona',
+        2: 'El empleado esta en una zona diferente al supervisor elegido',
+        3: 'El se eligió un usuario sin el rol apropiado como supervisor',
+        4: 'Hace falta asignar un supervisor al empleado',
+        5: 'Hace falta proporcionar los privilegios de bitácoras'
       },
       101: 'Faltó enviar una entrada al servidor',
       102: 'Una entrada enviada al servidor no es un valor numérico',
@@ -629,8 +658,32 @@ export class LanguageService
         program: 'Program',
         privileges: 'Select individual user privileges',
         logsTableHeaders: [
-          'Log'
-        ]
+          'Log',
+          'None',
+          'Read',
+          'Write'
+        ],
+        errors: {
+          required: {
+            required: 'This field is required'
+          },
+          requiredMaxLength: {
+            required: 'This field is required',
+            maxlength: 'This field must not be more than 255 characters long'
+          },
+          username: {
+            required: 'This field is required',
+            minlength: 'This field must be at least 3 characters long'
+          },
+          password: {
+            required: 'This field is required',
+            minlength: 'This field must be at least 3 characters long'
+          },
+          passwordEdit: {
+            minlength: 'This field must be at least 3 characters long'
+          },
+          supervisorMissing: 'Employees must have a supervisor registered'
+        }
       },
       login: {
         0: 'Logged in successfully',
@@ -689,6 +742,14 @@ export class LanguageService
       },
       'toggle-account-activation': {
         1: 'Supervisor has employees assigned'
+      },
+      'add-user': {
+        0: 'User was added successfully',
+        1: 'No Zone ID was provided',
+        2: 'Employee and supervisor are on different zones',
+        3: 'User chosed as supervisor does not have the proper role',
+        4: 'No supervisor was assigned',
+        5: 'Log privileges were not provided'
       },
       101: 'A server input argument was not send',
       102: 'A server input argument is not a numeric value',
@@ -915,6 +976,9 @@ export class LanguageService
       program: null,
       privileges: null,
       logsTableHeaders: [
+        null,
+        null,
+        null,
         null
       ]
     }
