@@ -1,0 +1,13 @@
+include ../../../log-ionic-materialize.pug
+
++fullLogWrapper()
+  div(*ngIf="showLog == true || showLog == undefined")
+    log-header([log]="logHeaderData")
+    form([formGroup]='captureForm', (ngSubmit)='save(myForm)')
+      gmp-packing-scale-calibration-type(*ngFor='let type of log.types.scales; let i=index', [type]='type', [units]='log.types.units', [group]='captureForm.controls.types.controls[i]')
+      +card()
+        +cardHeader("{{ 'Log.complementary_information' | translate:lang }}")
+        +cardContent()
+          +textArea("{{ 'Log.notes_of' | translate:lang }} {{log.log_name}}", "clipboard", "notes")
+          +textArea("{{ 'Log.corrective_action_of' | translate:lang }} {{log.log_name}}", "checkmark-circle", "corrective_action")
+      +sendLogButton("{{ 'Log.send_report' | translate:lang }}")

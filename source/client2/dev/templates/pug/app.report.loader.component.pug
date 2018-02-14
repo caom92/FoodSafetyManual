@@ -1,0 +1,27 @@
+mz-card([hidden]="!(activeReport == 'any' || activeReport == report.report_id)")
+  mz-card-content
+    .row
+      .col.s9.m9.l9(style='font-size: 24px;')
+        | {{report.creation_date}}
+      .col.s1.m1.l1
+        div([hidden]='!(hasEmail === true && showReport === true)')
+          button(mz-button='mz-button', float='true')
+            i(mz-icon-mdi='mz-icon-mdi', [icon]="'email'", [size]="'24px'")
+      .col.s1.m1.l1
+        div([hidden]='!showReport')
+          button(mz-button='', float='true', style='background-color: #B71C1C;')
+            i(mz-icon-mdi='mz-icon-mdi', [icon]="'file-pdf-box'", [size]="'24px'")
+      .col.s1.m1.l1(*ngIf='!showReport')
+        button(mz-button='', float='true', (click)='openHTMLReport()', style='background-color: #4CAF50;')
+          i(mz-icon-mdi='mz-icon-mdi', [icon]="'file-document-box'", [size]="'24px'")
+      .col.s1.m1.l1(*ngIf='showReport')
+        button(mz-button='', float='true', (click)='closeHTMLReport()', style='background-color: #F44336;')
+          i(mz-icon-mdi='mz-icon-mdi', [icon]="'close-box'", [size]="'24px'")
+#tableWrapper.tableWrapper(*ngIf='showReport')
+  mz-card
+    mz-card-content
+      gmp-packing-preop-report([report]='report', [parent]='par')
+
+
+//-#tableWrapper.tableWrapper(*ngIf='showReport')
+  gmp-packing-preop-report([report]='report')

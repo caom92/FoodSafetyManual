@@ -1,0 +1,15 @@
+include globals.pug
+
+div.row
+  div.col.s12(
+    '*ngFor'='let log of logs'
+  )
+    mz-card('[hoverable]'='true')
+      mz-card-content
+        +link("#/inventory/{{log.suffix}}/{{log.name}}")
+          ='{{ log.name }}'
+
+  div.col.s12.center-align('*ngIf'='hasInventory == false')
+    h5
+      i.mdi.mdi-alert-octagon.red-text
+      ='{{ langManager.messages.inventoryList.noInventory }}'

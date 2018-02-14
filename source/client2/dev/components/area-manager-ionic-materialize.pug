@@ -1,0 +1,72 @@
+mixin inventoryAreaHandler()
+  td.handle
+    i.handle(mz-icon-mdi, [align]="'center'", [icon]="'cursor-move'")
+
+mixin inventoryAreaColumn(content)
+  td()= content
+
+mixin inventoryAreaEdit()
+  button(mz-button, float='true', (click)="editArea()")
+    i(mz-icon-mdi, [icon]="'pencil'")
+
+mixin inventoryAreaWrapper()
+  if block
+    block
+
+mixin inventoryAreaTitleHandler()
+  th()
+
+mixin inventoryAreaTitleColumn(content)
+  th()= content
+
+mixin inventoryAreaTitleEdit()
+  th()
+
+mixin inventoryAreaTitleWrapper()
+  thead
+    tr
+      if block
+        block
+
+mixin inventoryAreaComponent(suffix, ngForLet, ngForSource)
+  - attributes[suffix + '-area-inventory-area'] = true
+  - let temp = {}
+  - temp['let-' + ngForLet] = true
+  ng-template(ngFor, [ngForOf]=ngForSource)&attributes(temp)
+    tr()&attributes(attributes)
+
+mixin inventoryAreaListWrapper()
+  if block
+    block
+
+mixin inventoryAreaAddButton()
+  button(mz-button, float="true")&attributes(attributes)
+    i(mz-icon-mdi, [icon]="'plus'")
+
+mixin inventoryAreaEmptyMessage()
+  div(*ngIf='emptyInventoryFlag == true')
+    h3
+      i.red-text(mz-icon-mdi, [align]="'center'", [icon]="'alert-circle'", [size]="'42px'")
+      | No items for this log. Add some by using the 
+      i.green-text(mz-icon-mdi, [align]="'center'", [icon]="'plus-circle'", [size]="'36px'")
+      |  button below
+
+mixin inventoryAreaList(suffix)
+  - attributes[suffix + "-area-inventory-list"] = true
+  tbody()&attributes(attributes)
+
+mixin inventoryAreaListMultiplier(ngForLet, ngForSource)
+  - let temp = {}
+  - temp['let-' + ngForLet] = true
+  ng-template(ngFor, [ngForOf]=ngForSource)&attributes(temp)
+    if block
+      block
+
+mixin inventoryAreaListsWrapper(condition)
+  table(*ngIf=condition)
+    if block
+      block
+
+mixin inventoryWrapper()
+  if block
+    block

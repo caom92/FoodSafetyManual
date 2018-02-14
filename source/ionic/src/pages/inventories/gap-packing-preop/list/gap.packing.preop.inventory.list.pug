@@ -1,0 +1,11 @@
+include ../../../inventory-ionic-materialize.pug
+
+//-For Ionic version uncomment the next line, Dragula variables are found here
++inventoryListWrapper()([dragula]='bagName', [dragulaModel]='type.inventory')
+  +inventoryItemComponent('gap-packing-preop', 'item', 'type.inventory')([item]='item', [type]='{es: type.es, en: type.en}')
+//-For ng2-Materialize version uncomment the next line, Dragula variables were placed on the inventory.pug file of this log
+//-+inventoryListWrapper()
+  +inventoryItemComponent('gap-packing-preop', 'item', 'type.inventory')([item]='item')
+
+//-div([dragula]='type.en', [dragulaModel]='type.inventory', item-content)
+  gap-packing-preop-inventory-item(*ngFor='let item of type.inventory', [item]='item', [type]='{en:type.en,es:type.es}')

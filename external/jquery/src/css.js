@@ -70,6 +70,7 @@ function setPositiveNumber( elem, value, subtract ) {
 }
 
 function augmentWidthOrHeight( elem, name, extra, isBorderBox, styles ) {
+<<<<<<< HEAD
 	var i = extra === ( isBorderBox ? "border" : "content" ) ?
 
 		// If we already have the right measurement, avoid augmentation
@@ -79,6 +80,19 @@ function augmentWidthOrHeight( elem, name, extra, isBorderBox, styles ) {
 		name === "width" ? 1 : 0,
 
 		val = 0;
+=======
+	var i,
+		val = 0;
+
+	// If we already have the right measurement, avoid augmentation
+	if ( extra === ( isBorderBox ? "border" : "content" ) ) {
+		i = 4;
+
+	// Otherwise initialize for horizontal or vertical properties
+	} else {
+		i = name === "width" ? 1 : 0;
+	}
+>>>>>>> carlos
 
 	for ( ; i < 4; i += 2 ) {
 

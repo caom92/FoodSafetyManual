@@ -1,0 +1,19 @@
+include ../../../inventory-ionic-materialize.pug
+
++inventoryWrapper()
+  +inventoryListsWrapper('emptyInventoryFlag == false')
+    +inventoryTitleWrapper()
+      +inventoryTitleHandler()
+      +inventoryTitleColumn("{{ 'InventoryLists.id' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.order' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.name' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.type' | translate:lang }}")
+      +inventoryTitleToggle()
+    +inventoryListMultiplier('type', 'inventory')
+      //-For Ionic version uncomment the next line, Dragula variables are found inside the .list.pug file
+      //-+inventoryList('gmp-packing-scale-calibration')([type]='type')
+      //-For ng2-Materialize version uncomment the next two lines, we have to pass Dragula variables here
+      +inventoryList('gmp-packing-scale-calibration')([type]='type', [dragula]='type.name', [dragulaModel]='type.items', [dragulaOptions]='options')
+    +inventoryListAddItemFooter('gmp-packing-scale-calibration')([types]="type_array")
+  +inventoryEmptyMessage()
+  +inventoryAddButton()

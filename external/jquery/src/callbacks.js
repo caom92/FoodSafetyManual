@@ -1,14 +1,23 @@
 define( [
 	"./core",
+<<<<<<< HEAD
 	"./var/rnotwhite"
 ], function( jQuery, rnotwhite ) {
+=======
+	"./var/rnothtmlwhite"
+], function( jQuery, rnothtmlwhite ) {
+>>>>>>> carlos
 
 "use strict";
 
 // Convert String-formatted options into Object-formatted ones
 function createOptions( options ) {
 	var object = {};
+<<<<<<< HEAD
 	jQuery.each( options.match( rnotwhite ) || [], function( _, flag ) {
+=======
+	jQuery.each( options.match( rnothtmlwhite ) || [], function( _, flag ) {
+>>>>>>> carlos
 		object[ flag ] = true;
 	} );
 	return object;

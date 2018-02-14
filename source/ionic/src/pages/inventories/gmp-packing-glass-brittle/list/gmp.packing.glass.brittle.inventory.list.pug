@@ -1,0 +1,11 @@
+include ../../../inventory-ionic-materialize.pug
+
+//-For Ionic version uncomment the next line, Dragula variables are found here
++inventoryListWrapper()([dragula]='bagName', [dragulaModel]='items')
+  +inventoryItemComponent('gmp-packing-glass-brittle', 'item', 'items')([item]='item')
+//-For ng2-Materialize version uncomment the next line, Dragula variables were placed on the inventory.pug file of this log
+//-+inventoryListWrapper()
+  +inventoryItemComponent('gmp-packing-glass-brittle', 'item', 'items')([item]='item')
+
+//-div([dragula]='"glassBrittleItemsBag"', [dragulaModel]='items', item-content)
+  gmp-packing-glass-brittle-inventory-item(*ngFor='let item of items', [item]='item')

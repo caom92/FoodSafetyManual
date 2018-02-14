@@ -1,0 +1,10 @@
+include globals.pug
+
+div.row
+  div.col.s12(
+    '*ngFor'='let log of logs'
+  )
+    mz-card('[hoverable]'='true')
+      mz-card-content
+        +link(href='#/log/{{log.suffix}}')
+          ='{{ log.name }}'

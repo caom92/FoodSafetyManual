@@ -1,5 +1,6 @@
 {
     "name": "mdi",
+<<<<<<< HEAD
     "version": "1.6.50",
     "main": [
         "css/materialdesignicons.css",
@@ -8,6 +9,11 @@
         "scss/*",
         "package.json",
         "preview.html"
+=======
+    "version": "1.7.22",
+    "main": [
+        "scss/materialdesignicons.scss"
+>>>>>>> carlos
     ],
     "homepage": "http://materialdesignicons.com",
     "authors": [

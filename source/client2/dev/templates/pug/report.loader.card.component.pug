@@ -1,0 +1,16 @@
+mz-card.white([hoverable]='true')
+  mz-card-content
+    .row(style='margin-bottom: 0px;')
+      .col.s9.m9.l9(style='font-size: 24px;') {{displayDate}}
+      .col.s1.m1.l1
+        div([hidden]='false')
+          button.blue(mz-button, float='true')
+            i(mz-icon-mdi, [icon]="'email'")
+      .col.s1.m1.l1
+        div([hidden]='false')
+          button.red(mz-button, float='true')
+            i(mz-icon-mdi, [icon]="'file-pdf-box'")
+      .col.s1.m1.l1
+        div
+          button.green(mz-button, float='true')
+            i(mz-icon-mdi, [icon]="'file-document-box'")

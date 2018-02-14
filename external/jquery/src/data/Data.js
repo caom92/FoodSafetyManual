@@ -1,8 +1,14 @@
 define( [
 	"../core",
+<<<<<<< HEAD
 	"../var/rnotwhite",
 	"./var/acceptData"
 ], function( jQuery, rnotwhite, acceptData ) {
+=======
+	"../var/rnothtmlwhite",
+	"./var/acceptData"
+], function( jQuery, rnothtmlwhite, acceptData ) {
+>>>>>>> carlos
 
 "use strict";
 
@@ -127,7 +133,11 @@ Data.prototype = {
 				// Otherwise, create an array by matching non-whitespace
 				key = key in cache ?
 					[ key ] :
+<<<<<<< HEAD
 					( key.match( rnotwhite ) || [] );
+=======
+					( key.match( rnothtmlwhite ) || [] );
+>>>>>>> carlos
 			}
 
 			i = key.length;

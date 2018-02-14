@@ -1,0 +1,204 @@
+include globals.pug
+
+mz-modal(
+  '[fixedFooter]'='true'
+  '[fullscreen]'='true'
+)
+  mz-modal-header
+    div.container: div.row: div.col.s12
+      ='{{ langManager.messages.usersFormLabels.titles[1] }}'
+  mz-modal-content
+    div.container
+      form(
+        '[formGroup]'='userForm'
+        novalidate
+      )
+        div.row
+          div.col.s12.m4
+            +textInput(
+              'employee-id',
+              'langManager.messages.userProfileLabels.employeeNum'
+            )(
+              mz-validation
+              required
+              formControlName='employeeID'
+              '[errorMessageResource]'='langManager.messages.usersFormLabels.errors.required'
+            )
+          div.col.s12.m4
+            +textInput(
+              'first-name',
+              'langManager.messages.userProfileLabels.firstName'
+            )(
+              mz-validation
+              required
+              formControlName='firstName'
+              '[errorMessageResource]'='langManager.messages.usersFormLabels.errors.requiredMaxLength'
+            )
+          div.col.s12.m4
+            +textInput(
+              'last-name',
+              'langManager.messages.userProfileLabels.lastName'
+            )(
+              mz-validation
+              required
+              formControlName='lastName'
+              '[errorMessageResource]'='langManager.messages.usersFormLabels.errors.requiredMaxLength'
+            )
+
+        div.row
+          div.col.s12.m4
+            +select(
+              'zone',
+              'langManager.messages.supervisorsFormLabels.zone',
+              'langManager.messages.reportProblemFormLabels.selectLabel',
+              'zones', '.name', '.id', 'onZoneSelected()'
+            )(
+              mz-validation
+              required
+              formControlName='zone'
+              '[errorMessageResource]'='langManager.messages.usersFormLabels.errors.required'
+            )
+          div.col.s12.m4
+            +select(
+              'role',
+              'langManager.messages.usersFormLabels.role',
+              'langManager.messages.reportProblemFormLabels.selectLabel',
+              'userRoles', '.name', '.id', 'onRoleSelected()'
+            )(
+              mz-validation
+              required
+              formControlName='role'
+              '[errorMessageResource]'='langManager.messages.usersFormLabels.errors.required'
+            )
+          div.col.s12.m4(
+            '*ngIf'="selectedRole.name === 'Employee' && selectedZoneId > 0"
+          )
+            +select(
+              'supervisor',
+              'langManager.messages.supervisorsFormLabels.supervisor',
+              'langManager.messages.reportProblemFormLabels.selectLabel',
+              'supervisors', '.full_name', '.id'
+            )(
+              '[(ngModel)]'='selectedSupervisorID'
+              '[ngModelOptions]'='{ standalone: true }'
+            )
+        
+        div.row
+          div.col.s12.m4
+            +textInput(
+              'login-name',
+              'langManager.messages.userProfileLabels.username'
+            )(
+              mz-validation
+              required
+              formControlName='username'
+              '[errorMessageResource]'='langManager.messages.usersFormLabels.errors.username'
+            )
+          div.col.s12.m4
+            block Password
+              +passwordInput(
+                'password',
+                'langManager.messages.editPasswordFormLabels.newPassword'
+              )(
+                mz-validation
+                required
+                formControlName='password'
+                '[errorMessageResource]'='langManager.messages.usersFormLabels.errors.password'
+              )
+          div.col.s12.m4
+            block PasswordConfirmation
+              +passwordInput(
+                'confirm-password',
+                'langManager.messages.editPasswordFormLabels.newPasswordConfirmation'
+              )(
+                mz-validation
+                required
+                formControlName='passwordConfirmation'
+                '[errorMessageResource]'='langManager.messages.usersFormLabels.errors.password'
+              )
+        
+        div.row('*ngIf'="userForm.hasError('arePasswordsDifferent')")
+          div.col.s12.invalid.red-text(style='font-size: 0.8rem;')
+            ='{{ langManager.messages.editPasswordFormLabels.error }}'
+        
+        div.row('*ngIf'="selectedRole.name == 'Employee' && selectedSupervisorID <= 0")
+          div.col.s12.invalid.red-text(style='font-size: 0.8rem;')
+            ='{{ langManager.messages.usersFormLabels.errors.supervisorMissing }}'
+
+      ng-container(
+        '*ngIf'="selectedRole.name === 'Employee' || selectedRole.name === 'Supervisor'"
+      )
+        div.row
+          div.col.s12
+            h5='{{ langManager.messages.usersFormLabels.titles[2] }}'
+      
+        div.row
+          div.col.s12
+            +select(
+              'program',
+              'langManager.messages.usersFormLabels.program',
+              'langManager.messages.reportProblemFormLabels.selectLabel',
+              'programs', '.name'
+            )(
+              '[(ngModel)]'='selectedProgram'
+            )
+        
+        div.row('[hidden]'="selectedProgram.id <= 0")
+          div.col.s12
+            i.mdi.mdi-settings
+            ='{{ langManager.messages.usersFormLabels.privileges }}'
+
+        block Privileges
+          ng-container('*ngFor'='let program of programs')  
+            div.row('[hidden]'='selectedProgram.name != program.name')
+              div.col.s12
+                mz-collapsible
+                  mz-collapsible-item('*ngFor'='let module of program.modules')
+                    mz-collapsible-item-header
+                      ='{{ module.name }}'
+                    mz-collapsible-item-body
+                      table.highlight&attributes(attributes)
+                        thead
+                          th
+                            ='{{ langManager.messages.usersFormLabels.logsTableHeaders[0] }}'
+                          th
+                            ='{{ langManager.messages.usersFormLabels.logsTableHeaders[1] }}'
+                          th
+                            ='{{ langManager.messages.usersFormLabels.logsTableHeaders[2] }}'
+                          th('*ngIf'='selectedRole.name === "Employee"')
+                            ='{{ langManager.messages.usersFormLabels.logsTableHeaders[3] }}'
+                        tbody
+                          tr('*ngFor'='let log of module.logs')
+                            td='{{ log.name }}'
+                            td: +radioButton(
+                              '{{ "none-" + log.id }}', 
+                              '{{ log.name }}'
+                            )(
+                              '(click)'='onPrivilegeSelected(log.name, privileges[0].id)'
+                              checked
+                            )
+                            td: +radioButton(
+                              '{{ "read-" + log.id }}',
+                              '{{ log.name }}'
+                            )(
+                              '(click)'='onPrivilegeSelected(log.name, privileges[1].id)'
+                            )
+                            td: +radioButton(
+                              '{{ "write-" + log.id }}', 
+                              '{{ log.name }}'
+                            )(
+                              '*ngIf'='selectedRole.name === "Employee"'
+                              '(click)'='onPrivilegeSelected(log.name, privileges[2].id)'
+                            )
+
+  mz-modal-footer
+    block SubmitButton
+      +button(
+        'submit',
+        'edit-user-submit',
+        '{{ langManager.messages.editPasswordFormLabels.submit }}',
+        'mdi mdi-send'
+      )(
+        '[disabled]'='!userForm.valid'
+        '(click)'='onFormSubmit()'
+      )

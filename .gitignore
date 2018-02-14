@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 .vscode/settings.json
+=======
+>>>>>>> carlos
 data/documents
 *.bak
 *.*.bak
@@ -6,4 +9,22 @@ permisos.json
 privileges.json
 composer.lock
 error_log.txt
+<<<<<<< HEAD
 source/server/error_log.txt
+=======
+source/server/error_log.txt
+~/.vscode-root
+source/server/app.log
+app.log
+*.log
+tests/*
+external/*
+data/logos/
+data/signatures/
+data/manuals/
+data/images/
+source/client2/node_modules/
+source/client2/dev/templates/*.html
+source/client2/dev/stylesheets/*.css
+*.html
+>>>>>>> carlos

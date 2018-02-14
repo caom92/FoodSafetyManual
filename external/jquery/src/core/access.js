@@ -53,6 +53,7 @@ var access = function( elems, fn, key, value, chainable, emptyGet, raw ) {
 		}
 	}
 
+<<<<<<< HEAD
 	return chainable ?
 		elems :
 
@@ -60,6 +61,18 @@ var access = function( elems, fn, key, value, chainable, emptyGet, raw ) {
 		bulk ?
 			fn.call( elems ) :
 			len ? fn( elems[ 0 ], key ) : emptyGet;
+=======
+	if ( chainable ) {
+		return elems;
+	}
+
+	// Gets
+	if ( bulk ) {
+		return fn.call( elems );
+	}
+
+	return len ? fn( elems[ 0 ], key ) : emptyGet;
+>>>>>>> carlos
 };
 
 return access;

@@ -1,0 +1,13 @@
+ion-card
+  ion-card-content
+    ion-grid
+      ion-row
+        ion-col {{ 'LogHeader.zone' | translate:lang }}: {{log.zone_name}}
+      ion-row
+        ion-col {{ 'LogHeader.program' | translate:lang }}: {{log.program_name}}
+      ion-row
+        ion-col {{ 'LogHeader.module' | translate:lang }}: {{log.module_name}}
+      ion-row
+        ion-col {{ 'LogHeader.date' | translate:lang }}: {{date | localeDate:defaultLocale:'MMM d, y'}}
+      ion-row
+        ion-col {{ 'LogHeader.made_by' | translate:lang }}: {{username}}

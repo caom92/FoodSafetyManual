@@ -17,16 +17,47 @@ function isWhitespace(variable)
 // Stores in the local storage all the user profile data
 function storeUserDataInLocalStorage(userData)
 {
+<<<<<<< HEAD
     localStorage.role = userData.role;
+=======
+    console.log(userData);
+    localStorage.user_id = userData.user_id;
+    localStorage.role_id = userData.role_id;
+    localStorage.role_name = userData.role_name;
+>>>>>>> carlos
     localStorage.exclusive_access = userData.exclusive_access;
     localStorage.employee_num = userData.employee_num;
     localStorage.first_name = userData.first_name;
     localStorage.last_name = userData.last_name;
+<<<<<<< HEAD
     localStorage.email = userData.email;
     localStorage.login_name = userData.login_name;
     localStorage.recieve_email_notifications = 
         userData.recieve_email_notifications;
     localStorage.privileges = JSON.stringify(userData.privileges);
+=======
+    localStorage.login_name = userData.login_name;
+    localStorage.company = userData.company;
+    localStorage.logo = userData.logo;
+    localStorage.address = userData.address;
+
+    if (isDefined(userData.zone_id)) {
+        localStorage.zone_id = userData.zone_id;
+        localStorage.zone_name = userData.zone_name;
+    }
+
+    if (isDefined(userData.privileges)) {
+        localStorage.privileges = JSON.stringify(userData.privileges);
+    }
+
+    if (isDefined(userData.zone_list)) {
+        localStorage.zone_list = JSON.stringify(userData.zone_list);
+    }
+
+    if (isDefined(userData.log_list)) {
+        localStorage.log_list = JSON.stringify(userData.log_list);
+    }
+>>>>>>> carlos
 }
 
 

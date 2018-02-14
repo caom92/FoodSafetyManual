@@ -2,7 +2,11 @@ define( [
 	"./core",
 	"./var/document",
 	"./var/rcssNum",
+<<<<<<< HEAD
 	"./var/rnotwhite",
+=======
+	"./var/rnothtmlwhite",
+>>>>>>> carlos
 	"./css/var/cssExpand",
 	"./css/var/isHiddenWithinTree",
 	"./css/var/swap",
@@ -17,7 +21,11 @@ define( [
 	"./manipulation",
 	"./css",
 	"./effects/Tween"
+<<<<<<< HEAD
 ], function( jQuery, document, rcssNum, rnotwhite, cssExpand, isHiddenWithinTree, swap,
+=======
+], function( jQuery, document, rcssNum, rnothtmlwhite, cssExpand, isHiddenWithinTree, swap,
+>>>>>>> carlos
 	adjustCSS, dataPriv, showHide ) {
 
 "use strict";
@@ -415,7 +423,11 @@ jQuery.Animation = jQuery.extend( Animation, {
 			callback = props;
 			props = [ "*" ];
 		} else {
+<<<<<<< HEAD
 			props = props.match( rnotwhite );
+=======
+			props = props.match( rnothtmlwhite );
+>>>>>>> carlos
 		}
 
 		var prop,
@@ -453,9 +465,20 @@ jQuery.speed = function( speed, easing, fn ) {
 		opt.duration = 0;
 
 	} else {
+<<<<<<< HEAD
 		opt.duration = typeof opt.duration === "number" ?
 			opt.duration : opt.duration in jQuery.fx.speeds ?
 				jQuery.fx.speeds[ opt.duration ] : jQuery.fx.speeds._default;
+=======
+		if ( typeof opt.duration !== "number" ) {
+			if ( opt.duration in jQuery.fx.speeds ) {
+				opt.duration = jQuery.fx.speeds[ opt.duration ];
+
+			} else {
+				opt.duration = jQuery.fx.speeds._default;
+			}
+		}
+>>>>>>> carlos
 	}
 
 	// Normalize opt.queue - true/undefined/null -> "fx"

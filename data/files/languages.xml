@@ -9,8 +9,13 @@
     <!--Credentials-->
 
     <translation id="username_login">
+<<<<<<< HEAD
         <english>Username, e-mail or Employee ID</english>
         <spanish>Usuario, e-mail o ID de Empleado</spanish>
+=======
+        <english>Username or Employee ID</english>
+        <spanish>Usuario o ID de Empleado</spanish>
+>>>>>>> carlos
     </translation>
 
     <translation id="password">
@@ -28,6 +33,19 @@
         <spanish>Contraseña nueva</spanish>
     </translation>
 
+<<<<<<< HEAD
+=======
+    <translation id="new_user_password">
+        <english>New user's password</english>
+        <spanish>Contraseña nueva del usuario</spanish>
+    </translation>
+
+    <translation id="admin_password">
+        <english>Admin password</english>
+        <spanish>Contraseña del administrador</spanish>
+    </translation>
+
+>>>>>>> carlos
     <translation id="new_email">
         <english>New email address</english>
         <spanish>Nueva dirección de correo electrónico</spanish>
@@ -43,6 +61,14 @@
         <spanish>Verificar contraseña</spanish>
     </translation>
 
+<<<<<<< HEAD
+=======
+    <translation id="check_user_password">
+        <english>Check user's password</english>
+        <spanish>Verificar contraseña del usuario</spanish>
+    </translation>
+
+>>>>>>> carlos
     <translation id="email_password">
         <english>Password</english>
         <spanish>Contraseña</spanish>
@@ -53,11 +79,14 @@
         <spanish>Contraseña</spanish>
     </translation>
 
+<<<<<<< HEAD
     <translation id="password_forgotten">
         <english>I forgot my password</english>
         <spanish>Olvidé mi contraseña</spanish>
     </translation>
 
+=======
+>>>>>>> carlos
     <!--Sidenav-->
 
     <translation id="home">
@@ -95,11 +124,38 @@
         <spanish>Zonas</spanish>
     </translation>
 
+<<<<<<< HEAD
+=======
+    <translation id="programs">
+        <english>Programs</english>
+        <spanish>Programas</spanish>
+    </translation>
+
+>>>>>>> carlos
     <translation id="inventory">
         <english>Inventory</english>
         <spanish>Inventario</spanish>
     </translation>
 
+<<<<<<< HEAD
+=======
+    <translation id="supervisors">
+        <english>Supervisors</english>
+        <spanish>Supervisores</spanish>
+    </translation>
+
+    <translation id="signatures">
+        <english>Signatures</english>
+        <spanish>Firmas</spanish>
+    </translation>
+
+
+    <translation id="employee">
+        <english>Employee</english>
+        <spanish>Empleado</spanish>
+    </translation>
+
+>>>>>>> carlos
     <!--Interfaces-->
 
     <translation id="login">
@@ -137,21 +193,73 @@
         <spanish>Enviar</spanish>
     </translation>
 
+<<<<<<< HEAD
+=======
+    <translation id="approve_button">
+        <english>Approve</english>
+        <spanish>Aprobar</spanish>
+    </translation>
+
+    <translation id="reject_button">
+        <english>Delete</english>
+        <spanish>Borrar</spanish>
+    </translation>
+
+    <translation id="return_button">
+        <english>Back</english>
+        <spanish>Atrás</spanish>
+    </translation>
+
+>>>>>>> carlos
     <translation id="update_button">
         <english>Update</english>
         <spanish>Actualizar</spanish>
     </translation>
 
+<<<<<<< HEAD
+=======
+    <translation id="update_password">
+        <english>Update password</english>
+        <spanish>Actualizar contraseña</spanish>
+    </translation>
+
+>>>>>>> carlos
     <translation id="add_button">
         <english>Add</english>
         <spanish>Agregar</spanish>
     </translation>
 
+<<<<<<< HEAD
+=======
+    <translation id="open_report_button">
+        <english>Open report</english>
+        <spanish>Abrir reporte</spanish>
+    </translation>
+
+    <translation id="view_pdf">
+        <english>View in PDF</english>
+        <spanish>Ver en PDF</spanish>
+    </translation>
+
+>>>>>>> carlos
     <translation id="attach_file">
         <english>Attach</english>
         <spanish>Adjuntar</spanish>
     </translation>
 
+<<<<<<< HEAD
+=======
+    <translation id="attached_files">
+        <english>Attached PDF files</english>
+        <spanish>Archivos PDF adjuntos</spanish>
+    </translation>
+
+    <translation id="attached_images">
+        <english>Attached images</english>
+        <spanish>Imágenes adjuntas</spanish>
+    </translation>
+
+>>>>>>> carlos
     <translation id="general_information">
         <english>General Information</english>
         <spanish>Datos generales</spanish>
@@ -162,6 +270,19 @@
         <spanish>Catálogo de zonas</spanish>
     </translation>
 
+<<<<<<< HEAD
+=======
+    <translation id="signatures_catalog">
+        <english>Signature control</english>
+        <spanish>Control de firmas</spanish>
+    </translation>
+
+    <translation id="signature_title">
+        <english>Signature</english>
+        <spanish>Firma</spanish>
+    </translation>
+
+>>>>>>> carlos
     <translation id="mandatory_fields">
         <english>The fields with a * are mandatory</english>
         <spanish>Los campos marcados con * son obligatorios</spanish>
@@ -187,11 +308,27 @@
         <spanish>Apellido(s)</spanish>
     </translation>
 
+<<<<<<< HEAD
+=======
+    <translation id="supervisor_signature">
+        <english>Signature</english>
+        <spanish>Firma</spanish>
+    </translation>
+
+>>>>>>> carlos
     <translation id="email">
         <english>E-Mail</english>
         <spanish>Correo electrónico</spanish>
     </translation>
 
+<<<<<<< HEAD
+=======
+    <translation id="subject">
+        <english>E-Mail subject</english>
+        <spanish>Asunto del correo electrónico</spanish>
+    </translation>
+
+>>>>>>> carlos
     <translation id="employee_id">
         <english>Employee ID</english>
         <spanish>ID de Empleado</spanish>
@@ -207,6 +344,14 @@
         <spanish>Selecciona alguna opcion</spanish>
     </translation>
 
+<<<<<<< HEAD
+=======
+    <translation id="select_corrective_action">
+        <english>Select the corrective action</english>
+        <spanish>Seleccione la acción correctiva</spanish>
+    </translation>
+
+>>>>>>> carlos
     <translation id="description">
         <english>Description</english>
         <spanish>Descripción</spanish>
@@ -218,8 +363,23 @@
     </translation>
 
     <translation id="defective_process">
+<<<<<<< HEAD
         <english>Defective Process*</english>
         <spanish>Procedimiento Defectuoso*</spanish>
+=======
+        <english>Defective Program*</english>
+        <spanish>Programa Defectuoso*</spanish>
+    </translation>
+
+    <translation id="defective_module">
+        <english>Defective Module*</english>
+        <spanish>Módulo Defectuoso*</spanish>
+    </translation>
+
+    <translation id="defective_log">
+        <english>Defective Log*</english>
+        <spanish>Bitácora Defectuosa*</spanish>
+>>>>>>> carlos
     </translation>
 
     <translation id="web_browser">
@@ -279,8 +439,13 @@
     <!--Privilege levels-->
 
     <translation id="name">
+<<<<<<< HEAD
         <english>Module</english>
         <spanish>Módulo</spanish>
+=======
+        <english>Log</english>
+        <spanish>Bitácora</spanish>
+>>>>>>> carlos
     </translation>
 
     <translation id="none">
@@ -325,11 +490,28 @@
         <spanish>Lista de usuarios</spanish>
     </translation>
 
+<<<<<<< HEAD
+=======
+    <translation id="supervisor_list">
+        <english>Supervisors</english>
+        <spanish>Supervisores</spanish>
+    </translation>
+
+>>>>>>> carlos
     <translation id="change_password">
         <english>Change your password</english>
         <spanish>Cambiar su contraseña</spanish>
     </translation>
 
+<<<<<<< HEAD
+=======
+    <translation id="change_user_password">
+        <english>Change user's password</english>
+        <spanish>Cambiar contraseña del usuario</spanish>
+    </translation>
+
+
+>>>>>>> carlos
     <translation id="change_email">
         <english>Change your email</english>
         <spanish>Cambiar su dirección de correo electrónico</spanish>
@@ -345,6 +527,14 @@
         <spanish>Asignar permisos</spanish>
     </translation>
 
+<<<<<<< HEAD
+=======
+    <translation id="user_privileges">
+        <english>Select individual user privileges</english>
+        <spanish>Seleccione los permisos individuales del usuario</spanish>
+    </translation>
+
+>>>>>>> carlos
     <translation id="add_user">
         <english>New user</english>
         <spanish>Nuevo usuario</spanish>
@@ -365,9 +555,100 @@
         <spanish>Zona</spanish>
     </translation>
 
+<<<<<<< HEAD
     <translation id="manage_inventory">
         <english>Manage Inventory</english>
         <spanish>Gestión de inventario</spanish>
+=======
+    <translation id="company_zone_name">
+        <english>Company Name</english>
+        <spanish>Nombre</spanish>
+    </translation>
+
+    <translation id="address_zone_name">
+        <english>Address</english>
+        <spanish>Dirección</spanish>
+    </translation>
+
+    <translation id="program_name">
+        <english>Program</english>
+        <spanish>Programa</spanish>
+    </translation>
+
+    <translation id="module_name">
+        <english>Module</english>
+        <spanish>Módulo</spanish>
+    </translation>
+
+    <translation id="date_name">
+        <english>Date</english>
+        <spanish>Fecha</spanish>
+    </translation>
+
+    <translation id="incident_date">
+        <english>Incident date</english>
+        <spanish>Fecha de la ocurrencia</spanish>
+    </translation>
+
+    <translation id="shift_title">
+        <english>Shift</english>
+        <spanish>Turno</spanish>
+    </translation>
+
+    <translation id="made_by">
+        <english>Made by</english>
+        <spanish>Elaborado por</spanish>
+    </translation>
+
+    <translation id="elaborated_name">
+        <english>Made on</english>
+        <spanish>Elaborado el</spanish>
+    </translation>
+
+    <translation id="approved_name">
+        <english>Approved on</english>
+        <spanish>Aprobado el</spanish>
+    </translation>
+
+    <translation id="approved_by">
+        <english>Approved by</english>
+        <spanish>Aprobado por</spanish>
+    </translation>
+
+    <translation id="approve">
+        <english>Approve</english>
+        <spanish>Aprobar</spanish>
+    </translation>
+
+    <translation id="reject">
+        <english>Reject</english>
+        <spanish>Rechazar</spanish>
+    </translation>
+
+    <translation id="manage_inventory">
+        <english>Manage Inventory</english>
+        <spanish>Gestión de Inventario</spanish>
+    </translation>
+
+    <translation id="manage_areas">
+        <english>Manage Areas</english>
+        <spanish>Gestión de Areas</spanish>
+    </translation>
+
+    <translation id="logs">
+        <english>Logs</english>
+        <spanish>Bitácoras</spanish>
+    </translation>
+
+    <translation id="modules_title">
+        <english>Module</english>
+        <spanish>Módulo</spanish>
+    </translation>
+
+    <translation id="inventory_position">
+        <english>Position</english>
+        <spanish>Posición</spanish>
+>>>>>>> carlos
     </translation>
 
     <translation id="inventory_id">
@@ -380,6 +661,14 @@
         <spanish>Elemento</spanish>
     </translation>
 
+<<<<<<< HEAD
+=======
+    <translation id="inventory_type">
+        <english>Type</english>
+        <spanish>Tipo</spanish>
+    </translation>
+
+>>>>>>> carlos
     <translation id="inventory_dismiss">
         <english>Status</english>
         <spanish>Estado</spanish>
@@ -410,10 +699,525 @@
         <spanish>Seleccione un módulo</spanish>
     </translation>
 
+<<<<<<< HEAD
+=======
+    <translation id="select_area">
+        <english>Select an area</english>
+        <spanish>Seleccione un área</spanish>
+    </translation>
+
+    <translation id="select_supervisor">
+        <english>Select a supervisor</english>
+        <spanish>Seleccione un supervisor</spanish>
+    </translation>
+
+    <translation id="select_start_date">
+        <english>Select a start date</english>
+        <spanish>Seleccione un fecha de partida</spanish>
+    </translation>
+
+    <translation id="select_end_date">
+        <english>Select a end date</english>
+        <spanish>Seleccione un fecha de cierre</spanish>
+    </translation>
+
+    <translation id="any_type">
+        <english>Any type</english>
+        <spanish>Cualquier tipo</spanish>
+    </translation>
+
+    <translation id="any_document">
+        <english>All documents</english>
+        <spanish>Todos los documentos</spanish>
+    </translation>
+
+    <translation id="manual_tab">
+        <english>View manual</english>
+        <spanish>Ver manual</spanish>
+    </translation>
+
+    <translation id="report_tab">
+        <english>View report</english>
+        <spanish>Consultar reporte</spanish>
+    </translation>
+
+    <translation id="logs_tab">
+        <english>Capture log</english>
+        <spanish>Capturar bitácora</spanish>
+    </translation>
+
+>>>>>>> carlos
     <!--Template
     <translation id="">
         <english></english>
         <spanish></spanish>
     </translation>
     -->
+<<<<<<< HEAD
+=======
+
+    <translation id="area_title">
+        <english>Area</english>
+        <spanish>Área</spanish>
+    </translation>
+
+    <translation id="production_area_title">
+        <english>Production Area</english>
+        <spanish>Área de Producción</spanish>
+    </translation>
+
+    <translation id="item_place_equipment_title">
+        <english>Item/Place/Equipment, etc.</english>
+        <spanish>Objeto/Lugar/Equipo, etc.</spanish>
+    </translation>
+
+    <translation id="add_production_area">
+        <english>New Production Area...</english>
+        <spanish>Nueva Área de Producción</spanish>
+    </translation>
+
+    <translation id="time_title">
+        <english>Time</english>
+        <spanish>Hora</spanish>
+    </translation>
+
+    <translation id="number_title">
+        <english>#</english>
+        <spanish>#</spanish>
+    </translation>
+
+    <translation id="name_title">
+        <english>Name</english>
+        <spanish>Nombre</spanish>
+    </translation>
+
+    <translation id="group_title">
+        <english>Group</english>
+        <spanish>Grupo</spanish>
+    </translation>
+
+    <translation id="description_title">
+        <english>Description</english>
+        <spanish>Descripción</spanish>
+    </translation>
+
+    <translation id="quantity_title">
+        <english>QTY</english>
+        <spanish>QTY</spanish>
+    </translation>
+
+    <translation id="inventory_title">
+        <english>Inv</english>
+        <spanish>Inv</spanish>
+    </translation>
+
+    <translation id="status_title">
+        <english>Conditions</english>
+        <spanish>Condiciones</spanish>
+    </translation>
+
+    <translation id="action_title">
+        <english>Corrective action</english>
+        <spanish>Acción correctiva</spanish>
+    </translation>
+
+    <translation id="deficiencies_title">
+        <english>Deficiencies noted</english>
+        <spanish>Deficiencias notadas</spanish>
+    </translation>
+
+    <translation id="comment_title">
+        <english>Comments</english>
+        <spanish>Comentarios</spanish>
+    </translation>
+
+    <translation id="hw_comment_title">
+        <english>Revised Area &amp; Comments</english>
+        <spanish>Area Revisada y Comentarios</spanish>
+    </translation>
+
+    <translation id="test_title">
+        <english>Reading</english>
+        <spanish>Lectura</spanish>
+    </translation>
+
+    <translation id="batch_title">
+        <english>Batch</english>
+        <spanish>Lote</spanish>
+    </translation>
+
+    <translation id="origin_title">
+        <english>Origin</english>
+        <spanish>Origen</spanish>
+    </translation>
+
+    <translation id="expires_title">
+        <english>Expires</english>
+        <spanish>Expira</spanish>
+    </translation>
+
+    <translation id="correct_weight_title">
+        <english>Correct Weight?</english>
+        <spanish>¿Peso/Llenado correcto?</spanish>
+    </translation>
+
+    <translation id="unit_title">
+        <english>Units</english>
+        <spanish>Unidades</spanish>
+    </translation>
+
+    <translation id="correct_label_title">
+        <english>Correct Label?</english>
+        <spanish>¿Etiquetado correcto?</spanish>
+    </translation>
+
+    <translation id="traceability_title">
+        <english>Traceability</english>
+        <spanish>Trazabilidad</spanish>
+    </translation>
+
+    <translation id="water_temperature">
+        <english>Washing water temperature (°F)</english>
+        <spanish>Temperatura del agua de lavado (°F)</spanish>
+    </translation>
+
+    <translation id="water_temperature_short">
+        <english>Water °F</english>
+        <spanish>Agua °F</spanish>
+    </translation>
+
+    <translation id="packing_temperature">
+        <english>Packed product temperature (°F)</english>
+        <spanish>Temperatura del producto empacado (°F)</spanish>
+    </translation>
+
+    <translation id="packing_temperature_short">
+        <english>Packed °F</english>
+        <spanish>Empacado °F</spanish>
+    </translation>
+
+    <translation id="warehouse_title">
+        <english>Warehouse</english>
+        <spanish>Bodega</spanish>
+    </translation>
+
+    <translation id="zone_provider">
+        <english>Zone, Provider</english>
+        <spanish>Zona, Proveedor</spanish>
+    </translation>
+
+    <translation id="item_title">
+        <english>Item</english>
+        <spanish>Item</spanish>
+    </translation>
+
+    <translation id="days_old">
+        <english>Days old</english>
+        <spanish>Días de viejo</spanish>
+    </translation>
+
+    <translation id="quantity_long_title">
+        <english>Quantity</english>
+        <spanish>Cantidad</spanish>
+    </translation>
+
+    <translation id="location">
+        <english>Location</english>
+        <spanish>Localidad</spanish>
+    </translation>
+
+    <translation id="quality_title">
+        <english>Quality</english>
+        <spanish>Calidad</spanish>
+    </translation>
+
+    <translation id="aged_product_action">
+        <english>Action</english>
+        <spanish>Acción</spanish>
+    </translation>
+
+    <translation id="results_title">
+        <english>Results</english>
+        <spanish>Resultado</spanish>
+    </translation>
+
+    <translation id="retest_title">
+        <english>Retest</english>
+        <spanish>2da prueba</spanish>
+    </translation>
+
+    <translation id="cold_room_test_title">
+        <english>Actual Temp Reading</english>
+        <spanish>Lectura de temperatura</spanish>
+    </translation>
+
+    <translation id="thermometer_test_title">
+        <english>Ice point method thermometer test (°F)</english>
+        <spanish>Metodo de Prueba con Hielo (°F)</spanish>
+    </translation>
+
+    <translation id="thermometer_calibration_title">
+        <english>Thermometer calibration</english>
+        <spanish>Calibración de termómetro</spanish>
+    </translation>
+
+    <translation id="secured_title">
+        <english>Secured</english>
+        <spanish>Asegurado</spanish>
+    </translation>
+
+    <translation id="activity_title">
+        <english>Activity</english>
+        <spanish>Actividad</spanish>
+    </translation>
+
+    <translation id="pests_title">
+        <english>Pests / Insects</english>
+        <spanish>Plagas / Insectos</spanish>
+    </translation>
+
+    <translation id="other_title">
+        <english>Other</english>
+        <spanish>Otros</spanish>
+    </translation>
+
+    <translation id="sanitized_thermo">
+        <english>Sanitized</english>
+        <spanish>Sanitizado</spanish>
+    </translation>
+
+    <translation id="sanitized_title">
+        <english>Sanitized Base</english>
+        <spanish>Base limpiada</spanish>
+    </translation>
+
+    <translation id="sanitized_lubricated_title">
+        <english>Sanitized / Lubricated (Mineral Oil)</english>
+        <spanish>Sanitizado / Lubricado (Aceite Mineral)</spanish>
+    </translation>
+
+    <translation id="approved_title">
+        <english>Approved</english>
+        <spanish>Aprobado</spanish>
+    </translation>
+
+    <translation id="returned_conditions_title">
+        <english>Returned on good condition</english>
+        <spanish>Regresado en buenas condiciones</spanish>
+    </translation>
+
+    <translation id="yes_tag">
+        <english>Yes</english>
+        <spanish>Si</spanish>
+    </translation>
+
+    <translation id="no_tag">
+        <english>No</english>
+        <spanish>No</spanish>
+    </translation>
+
+    <translation id="acceptable_tag">
+        <english>Acceptable</english>
+        <spanish>Aceptable</spanish>
+    </translation>
+
+    <translation id="unacceptable_tag">
+        <english>Unacceptable</english>
+        <spanish>No aceptable</spanish>
+    </translation>
+
+    <translation id="na_tag">
+        <english>N/A</english>
+        <spanish>N/A</spanish>
+    </translation>
+
+    <translation id="pass_tag">
+        <english>Pass</english>
+        <spanish>Pasó</spanish>
+    </translation>
+
+    <translation id="fail_tag">
+        <english>Fail</english>
+        <spanish>Falló</spanish>
+    </translation>
+
+    <translation id="approved_tag">
+        <english>Approved</english>
+        <spanish>Aprobado</spanish>
+    </translation>
+
+    <translation id="unapproved_tag">
+        <english>Unapproved</english>
+        <spanish>No Aprobado</spanish>
+    </translation>
+
+    <translation id="notes_title">
+        <english>Notes</english>
+        <spanish>Notas</spanish>
+    </translation>
+
+    <translation id="person_performing_sanitation_title">
+        <english>Person performing sanitation</english>
+        <spanish>Persona a cargo de la sanitización</spanish>
+    </translation>
+
+    <translation id="report_notes_title">
+        <english>Report Notes</english>
+        <spanish>Notas del Reporte</spanish>
+    </translation>
+
+    <translation id="url_title">
+        <english>Link to Album</english>
+        <spanish>Enlace del Album</spanish>
+    </translation>
+
+    <translation id="open_url">
+        <english>Click to open</english>
+        <spanish>Presione para abrir</spanish>
+    </translation>
+
+    <translation id="open_file">
+        <english>Click to open file</english>
+        <spanish>Presione para abrir archivo</spanish>
+    </translation>   
+
+    <translation id="report_additional_info">
+        <english>Additional Report Information</english>
+        <spanish>Información complementaria del reporte</spanish>
+    </translation>
+
+    <translation id="no_supervisors">
+        <english>There are no supervisors in this zone</english>
+        <spanish>No hay supervisores en esta zona</spanish>
+    </translation>
+
+    <translation id="no_employees">
+        <english>There are no employees for this supervisor</english>
+        <spanish>No hay empleados asignados a este supervisor</spanish>
+    </translation>
+
+    <translation id="change_supervisor">
+        <english>Change</english>
+        <spanish>Cambiar</spanish>
+    </translation>
+
+    <translation id="authorization_list">
+        <english>Logs awaiting approval</english>
+        <spanish>Bitácoras en espera de revisión</spanish>
+    </translation>
+
+    <translation id="pending_list">
+        <english>Logs awaiting employee's corrections</english>
+        <spanish>Bitácoras en espera de correcciones del empleado</spanish>
+    </translation>
+
+    <translation id="no_waiting_reports">
+        <english>You don't have logs pending your approval</english>
+        <spanish>No tiene bitácoras en espera de aprobación</spanish>
+    </translation>
+
+    <translation id="no_rejected_reports">
+        <english>You don't have logs pending corrections</english>
+        <spanish>No tiene bitácoras en espera de correcciones</spanish>
+    </translation>
+
+    <!--Clients & Suppliers-->
+
+    <translation id="clients">
+        <english>Customers</english>
+        <spanish>Clientes</spanish>
+    </translation>
+
+    <translation id="suppliers">
+        <english>Suppliers</english>
+        <spanish>Proveedores</spanish>
+    </translation>
+
+    <translation id="products">
+        <english>Products</english>
+        <spanish>Productos</spanish>
+    </translation>
+
+    <translation id="supplier_id">
+        <english>ID</english>
+        <spanish>ID</spanish>
+    </translation>
+
+    <translation id="supplier_company">
+        <english>Company</english>
+        <spanish>Compañía</spanish>
+    </translation>
+
+    <translation id="supplier_contact">
+        <english>Contact</english>
+        <spanish>Contacto</spanish>
+    </translation>
+
+    <translation id="supplier_phone_number">
+        <english>Phone No.</english>
+        <spanish>Teléfono</spanish>
+    </translation>
+
+    <translation id="supplier_email">
+        <english>Email</english>
+        <spanish>Email</spanish>
+    </translation>
+
+    <translation id="supplier_code">
+        <english>Code</english>
+        <spanish>Código</spanish>
+    </translation>
+
+    <translation id="customer_city">
+        <english>City</english>
+        <spanish>Ciudad</spanish>
+    </translation>
+
+    <translation id="customer_salesman">
+        <english>Salesman</english>
+        <spanish>Vendedor</spanish>
+    </translation>
+
+    <!--Admin controls-->
+
+    <translation id="pdf_footer">
+        <english>PDF Footer</english>
+        <spanish>Pie de página en PDF</spanish>
+    </translation>
+
+    <translation id="html_footer">
+        <english>HTML Footer</english>
+        <spanish>Pie de página en HTML</spanish>
+    </translation>
+
+    <translation id="edit_button">
+        <english>Edit</english>
+        <spanish>Editar</spanish>
+    </translation>
+
+    <translation id="save_button">
+        <english>Save</english>
+        <spanish>Guardar</spanish>
+    </translation>
+
+    <translation id="upload_button">
+        <english>Upload</english>
+        <spanish>Cargar</spanish>
+    </translation>
+
+    <translation id="select_logo_button">
+        <english>Select Logo</english>
+        <spanish>Elegir Logo</spanish>
+    </translation>
+
+    <translation id="select_image_button">
+        <english>Select Image</english>
+        <spanish>Elegir Imagen</spanish>
+    </translation>
+
+    <translation id="select_file_button">
+        <english>Select File</english>
+        <spanish>Elegir Archivo</spanish>
+    </translation>
+>>>>>>> carlos
 </translations>

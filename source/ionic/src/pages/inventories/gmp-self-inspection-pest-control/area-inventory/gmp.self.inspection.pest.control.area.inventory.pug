@@ -1,0 +1,16 @@
+include ../../../area-manager-ionic-materialize.pug
+
++inventoryWrapper()
+  +inventoryAreaListsWrapper()
+    +inventoryAreaTitleWrapper()
+      //-+inventoryAreaTitleHandler()
+      +inventoryAreaTitleColumn("{{ 'InventoryLists.id' | translate:lang }}")
+      //-+inventoryAreaTitleColumn("{{ 'InventoryLists.order' | translate:lang }}")
+      +inventoryAreaTitleColumn("{{ 'InventoryLists.name' | translate:lang }}")
+      +inventoryAreaTitleEdit()
+    //-For Ionic version uncomment the next line, Dragula variables are found inside the .list.pug file
+    +inventoryAreaList('gmp-self-inspection-pest-control')([areas]='inventory')
+    //-For ng2-Materialize version uncomment the next line, we have to pass Dragula variables here
+    //-+inventoryAreaList('gmp-self-inspection-pest-control')([items]='inventory', [dragula]='type.name', [dragulaModel]='type.items')
+  +inventoryAreaEmptyMessage()
+  +inventoryAreaAddButton()

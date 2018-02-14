@@ -1,0 +1,11 @@
+mz-card([hoverable]='true')
+  mz-card-title
+    | {{log.log_name}}
+  mz-card-content
+    .row
+      .col.s4.m4.l4 Zona: {{log.zone_name}}
+      .col.s4.m4.l4 Programa: {{log.program_name}}
+      .col.s4.m4.l4 Módulo: {{log.module_name}}
+    .row
+      .col.s6.m6.l6 Fecha: {{date}}
+      .col.s6.m6.l6 Elaborado por: {{username}}

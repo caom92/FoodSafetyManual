@@ -15,7 +15,13 @@ LayoutManager = function(root, container)
         'edit-profile',
         'login',
         'report-problem',
+<<<<<<< HEAD
         'password-recovery'
+=======
+        'password-recovery',
+        'logs',
+        'modules'
+>>>>>>> carlos
     ];
 }
 
@@ -30,7 +36,12 @@ LayoutManager.prototype.load = function(layout, container = this.container)
     // compute the base URL where the layout is going to be requested for
     // depending if the layout is common or not
     var baseURL = this.root;
+<<<<<<< HEAD
     baseURL += (this.common.indexOf(layout) != -1) ? 
+=======
+    var layoutParts = layout.split('?');
+    baseURL += (this.common.indexOf(layoutParts[0]) != -1) ? 
+>>>>>>> carlos
         'common/' : localStorage.exclusive_access;
     var app = this;
 
@@ -52,7 +63,11 @@ LayoutManager.prototype.load = function(layout, container = this.container)
 
             $.ajax({
                 method: 'GET',
+<<<<<<< HEAD
                 url: baseURL + 'behaviors/' + layout + '.js',
+=======
+                url: baseURL + 'controllers/' + layout + '.js',
+>>>>>>> carlos
                 dataType: 'script',
                 cache: true,
                 error: function(xhr, status, message) {

@@ -31,6 +31,19 @@
         <spanish>Sólo se permite adjuntar imágenes</spanish>
     </translation>
 
+<<<<<<< HEAD
+=======
+    <translation id="invalid_file_format">
+        <english>Invalid file format</english>
+        <spanish>Formato de archivo no válido</spanish>
+    </translation>
+
+    <translation id="new_logo_uploaded">
+        <english>New logo uploaded</english>
+        <spanish>Nuevo logo actualizado</spanish>
+    </translation>
+
+>>>>>>> carlos
     <translation id="invalid_password">
         <english>The password is not valid</english>
         <spanish>La contraseña ingresada no es válida</spanish>
@@ -61,6 +74,44 @@
         <spanish>Su nombre de usuario ha sido modificado exitosamente</spanish>
     </translation>
 
+<<<<<<< HEAD
+=======
+    <translation id="supervisor_changed">
+        <english>The employees have been reassigned</english>
+        <spanish>Los empleados han sido reasignados</spanish>
+    </translation>
+
+    <translation id="supervisor_assign_success">
+        <english>The employee has been assigned a new supervisor</english>
+        <spanish>El empleado ha sido asignado a un nuevo supervisor</spanish>
+    </translation>
+
+    <translation id="supervisor_assign_fail">
+        <english>There was an error during the reassignment, retry</english>
+        <spanish>Hubo un error durante la reasignación, intente nuevamente</spanish>
+    </translation>
+
+    <translation id="finish_supervisor_assignation">
+        <english>Attention! The user must be assigned a supervisor to complete this action</english>
+        <spanish>¡Atención! Se debe asignar un supervisor al usuario para completar el cambio de rol</spanish>
+    </translation>
+
+    <translation id="duplicated_supervisor">
+        <english>You must select different supervisors reassign an employee</english>
+        <spanish>Debe escoger supervisores distintos para reasignar empleados</spanish>
+    </translation>
+
+    <translation id="no_supervisor_assigned">
+        <english>You must assign a supervisor to the employee</english>
+        <spanish>Debe asignar un supervisor al empleado</spanish>
+    </translation>
+
+    <translation id="supervisor_has_employees">
+        <english>You can't discharge a Supervisor with employees assigned</english>
+        <spanish>El supervisor no puede ser dado de baja mientras tenga empleados asignados</spanish>
+    </translation>
+
+>>>>>>> carlos
     <translation id="is-login-name-duplicated">
         <english>The username is already in use</english>
         <spanish>El nombre de usuario ya se encuentra registrado</spanish>
@@ -86,6 +137,19 @@
         <spanish>El nombre de la zona no puede encontrarse vacío</spanish>
     </translation>
 
+<<<<<<< HEAD
+=======
+    <translation id="required-zone-info">
+        <english>You must enter information for both the name and the address of the zone</english>
+        <spanish>Debe ingresar el nombre y dirección de la zona</spanish>
+    </translation>
+
+    <translation id="is-workplace-area-empty">
+        <english>Zone name can't be empty</english>
+        <spanish>El nombre de la zona no puede encontrarse vacío</spanish>
+    </translation>
+
+>>>>>>> carlos
     <translation id="duplicated_fields">
         <english>Please correct the duplicate fields</english>
         <spanish>Modifique los campos que ya se encuentran registrados</spanish>
@@ -101,13 +165,323 @@
         <spanish>La zona se ha registrado con éxito</spanish>
     </translation>
 
+<<<<<<< HEAD
+=======
+    <translation id="workplace_area_registered">
+        <english>Workplace area registered succesfully</english>
+        <spanish>Área de trabajo agregada con éxito</spanish>
+    </translation>
+
+>>>>>>> carlos
     <translation id="session_active">
         <english>Your session was already active</english>
         <spanish>La sesión ya está iniciada</spanish>
     </translation>
 
     <translation id="is-item-empty">
+<<<<<<< HEAD
         <english>Item name can't be empty</english>
         <spanish>El nombre del elemento no puede encontrarse vacío</spanish>
+=======
+        <english>You must provide an item name and type</english>
+        <spanish>Debe ingresar un nombre y tipo para el objeto</spanish>
+    </translation>
+
+    <translation id="min_length">
+        <english>The field must have a minimal length of </english>
+        <spanish>El campo debe tener una longitud mínima de </spanish>
+    </translation>
+
+    <translation id="item_add_success">
+        <english>The item was succesfully added</english>
+        <spanish>El elemento se añadió correctamente</spanish>
+    </translation>
+
+    <translation id="toggle_item_on_success">
+        <english>The item was charged</english>
+        <spanish>El elemento fue dado de alta</spanish>
+    </translation>
+
+    <translation id="toggle_item_off_success">
+        <english>The item was discharged</english>
+        <spanish>El elemento fue dado de baja</spanish>
+    </translation>
+
+    <translation id="email_report_success">
+        <english>Email sent successfully</english>
+        <spanish>Correo enviado con éxito</spanish>
+    </translation>
+
+    <translation id="approve_report">
+        <english>The log has been approved</english>
+        <spanish>La bitácora ha sido aprobada</spanish>
+    </translation>
+
+    <translation id="reject_report">
+        <english>The log has been sent to revision</english>
+        <spanish>La bitácora ha sido enviada a revisión</spanish>
+    </translation>
+
+    <translation id="pending_alert">
+        <english> new pending authorizations</english>
+        <spanish> nuevas autorizaciones pendientes</spanish>
+    </translation>
+
+    <translation id="user_zone_modified">
+        <english>The user zone has been changed to </english>
+        <spanish>La zona del usuario ha sido cambiada a </spanish>
+    </translation>
+
+    <translation id="supervisor_has_employees_zone">
+        <english>A supervisor can't change its zone while it has employees assigned</english>
+        <spanish>El supervisor no puede cambiar su zona mientras tenga empleados asignados</spanish>
+    </translation>
+
+    <translation id="supervisor_has_employees_role">
+        <english>A supervisor can't change its role while it has employees assigned</english>
+        <spanish>El supervisor no puede cambiar su role mientras tenga empleados asignados</spanish>
+    </translation>
+
+    <translation id="generic_error">
+        <english>There was an error; your action was not completed</english>
+        <spanish>Hubo un error; no se pudo completar la acción</spanish>
+    </translation>
+
+    <translation id="privileges_updated">
+        <english>Privileges updated</english>
+        <spanish>Permisos actualizados</spanish>
+    </translation>
+
+    <translation id="privileges_unchanged">
+        <english>You haven't changed the user privileges</english>
+        <spanish>No ha modificado los privilegios del usuario</spanish>
+    </translation>
+
+    <translation id="role_modified">
+        <english>User role has been modified to </english>
+        <spanish>El rol del usuario ha sido cambiado a </spanish>
+    </translation>
+
+    <translation id="new-atp-area-add">
+        <english>The area {{value}} has been added</english>
+        <spanish>El área {{value}} fue añadida</spanish>
+    </translation>
+
+    <!--Admin messages-->
+
+    <translation id="program_updated">
+        <english>Program footers updated</english>
+        <spanish>Pies de página actualizados</spanish>
+    </translation>
+
+    <translation id="zone_updated">
+        <english>Zone data updated</english>
+        <spanish>Información de zona actualizada</spanish>
+    </translation>
+
+    <!--Supervisor messages-->
+
+    <translation id="area_updated">
+        <english>Area name updated</english>
+        <spanish>Nombre de área actualizada</spanish>
+    </translation>
+
+    <translation id="area_name_repeated">
+        <english>Area name can't be changed; the name is already taken</english>
+        <spanish>El nombre del área no se puede cambiar; el nombre ya se encuentra en uso</spanish>
+    </translation>
+
+    <!--Logs.js Messages-->
+
+    <translation id="no_reports">
+        <english>There are no reports for those dates</english>
+        <spanish>No existen reportes para ese rango de fechas</spanish>
+    </translation>
+
+    <translation id="no_approved_reports">
+        <english>There are no approved reports for those dates</english>
+        <spanish>No existen reportes aprobados para ese periodo de fechas</spanish>
+    </translation>
+
+    <!--Form creator validation toasts-->
+
+    <!--Generic-->
+
+    <translation id="generic-text-max">
+        <english>Text must be no longer than {{value}} characters</english>
+        <spanish>El texto no debe superar los {{value}} caracteres</spanish>
+    </translation>
+
+    <translation id="generic-text-min">
+        <english>Text must be at least {{value}} characters long</english>
+        <spanish>El texto debe tener al menos {{value}} caracteres</spanish>
+    </translation>
+
+    <translation id="generic-text-required">
+        <english>You must enter a text value</english>
+        <spanish>Debe introducir un valor en el campo de texto</spanish>
+    </translation>
+
+    <translation id="generic-number-max">
+        <english>The number must be lower than {{value}}</english>
+        <spanish>El número debe ser menor a {{value}}</spanish>
+    </translation>
+
+    <translation id="generic-number-min">
+        <english>The number must be higher than {{value}}</english>
+        <spanish>El número debe ser mayor a {{value}}</spanish>
+    </translation>
+
+    <translation id="generic-number-required">
+        <english>The value must be a number</english>
+        <spanish>El valor del campo debe ser numérico</spanish>
+    </translation>
+
+    <translation id="generic-select-required">
+        <english>You must select a valid option</english>
+        <spanish>Debe seleccionar una opción válida</spanish>
+    </translation>
+
+    <translation id="generic-radio-required">
+        <english>You must select one option</english>
+        <spanish>Debe marcar una opción</spanish>
+    </translation>
+
+    <translation id="log-changed">
+        <english>Changes were made to the log, please save them by clicking "send" before approving</english>
+        <spanish>Se detectaron cambios en la bitácora, por favor guárdelos presionando "enviar" antes de aprobarlos</spanish>
+    </translation>
+
+    <!--GMP Packing Preop-->
+
+    <translation id="gmp-packing-preop-item-status">
+        <english>You must mark an item as either Acceptable or Unacceptable</english>
+        <spanish>Debe marcar el objeto como Aceptable o No Aceptable</spanish>
+    </translation>
+
+    <translation id="gmp-packing-preop-item-corrective-action">
+        <english>You must select a corrective action other than None</english>
+        <spanish>Debe seleccionar una acción correctiva diferente a None (ninguno)</spanish>
+    </translation>
+
+    <translation id="gmp-packing-preop-item-comment">
+        <english>The comment for an item must not exceed {{value}} characters</english>
+        <spanish>El comentario de un objeto no debe exceder {{value}} caracteres</spanish>
+    </translation>
+
+    <translation id="gmp-packing-preop-area-notes">
+        <english>The notes for an area must not exceed {{value}} characters</english>
+        <spanish>Las notas de área no deben exceder {{value}} caracteres</spanish>
+    </translation>
+
+    <translation id="gmp-packing-preop-area-sanitation">
+        <english>The name of the person performing sanitation must not exceed {{value}} characters</english>
+        <spanish>El nombre de la persona a cargo de la sanitización no debe exceder {{value}} caracteres</spanish>
+    </translation>
+
+    <translation id="gmp-packing-preop-report-notes">
+        <english>The notes of the report must not exceed {{value}} characters</english>
+        <spanish>Las notas del reporte no deben exceder {{value}} caracteres</spanish>
+    </translation>
+
+    <translation id="gmp-packing-preop-report-url">
+        <english>The URL of the Picasa Album must not exceed {{value}} characters</english>
+        <spanish>El URL del album de Picasa no debe exceder {{value}} caracteres</spanish>
+    </translation>
+
+    <translation id="gmp-packing-preop-repeated-area">
+        <english>Failed to add new area; the name is already taken</english>
+        <spanish>Error al añadir area; el nombre del área se encuentra repetido</spanish>
+    </translation>
+
+    <!--GMP Packing Scale Calibration-->
+
+    <translation id="gmp-packing-scale-calibration-test">
+        <english>The test result must be a number</english>
+        <spanish>El resultado de la prueba debe ser un número</spanish>
+    </translation>
+
+    <translation id="gmp-packing-scale-calibration-status">
+        <english>You must either select a scale to Pass or Fail</english>
+        <spanish>El resultado de la prueba debe marcarse como Pasó o Falló</spanish>
+    </translation>
+
+    <!--GMP Packing Thermometer Calibration-->
+
+    <translation id="gmp-packing-thermo-calibration-test">
+        <english>You must enter a value for the ice point method test</english>
+        <spanish>Debe ingresar un valor para la prueba del método del punto de hielo</spanish>
+    </translation>
+
+    <translation id="gmp-packing-thermo-calibration-status">
+        <english>You must indicate if the thermometer was calibrated or not</english>
+        <spanish>Debe indicar si el termómetro fue calibrado o no</spanish>
+    </translation>
+
+    <!--GMP Packing Scissors And Knives Inspection-->
+
+    <translation id="gmp-packing-scissors-knives-status">
+        <english>You must mark an item as either Approved or Unapproved</english>
+        <spanish>Debe marcar el objeto como Aprobado o No Aprobado</spanish>
+    </translation>
+
+    <!--GMP Packing ATP Testing-->
+
+    <translation id="gmp-packing-atp-testing-required-name">
+        <english>You must enter a name for the area tested</english>
+        <spanish>Debe indicar el nombre del area probada</spanish>
+    </translation>
+
+    <translation id="gmp-packing-atp-testing-max-name">
+        <english>The area's name must not exceed {{value}} characters</english>
+        <spanish>El nombre del area no debe exceder {{value}} caracteres</spanish>
+    </translation>
+
+    <translation id="gmp-packing-atp-testing-status">
+        <english>You must mark an item as either Pass or Fail</english>
+        <spanish>Debe marcar el objeto como Pasó o Falló</spanish>
+    </translation>
+
+    <!--GMP Packing Finished Product-->
+
+    <translation id="gmp-packing-finished-product-water">
+        <english>You must enter the washing water temperature</english>
+        <spanish>Debe indicar la temperatura del agua para lavado</spanish>
+    </translation>
+
+    <translation id="gmp-packing-finished-product-packing">
+        <english>You must enter the packing temperature</english>
+        <spanish>Debe indicar la temperatura de empacado</spanish>
+    </translation>
+
+    <translation id="gmp-packing-finished-product-weight">
+        <english>You must indicate if the weight was correct</english>
+        <spanish>Debe indicar si el peso fue correcto</spanish>
+    </translation>
+
+    <translation id="gmp-packing-finished-product-label">
+        <english>You must indicate if the product was correctly labeled</english>
+        <spanish>Debe indicar si el producto fue etiquetado adecuadamente</spanish>
+    </translation>
+
+    <translation id="gmp-packing-finished-product-trace">
+        <english>You must indicate if the product is traceable</english>
+        <spanish>Debe indicar la trazabilidad del producto</spanish>
+    </translation>
+
+    <translation id="gmp-packing-finished-product-supplier">
+        <english>You must enter the name of the supplier (at least 2 characters)</english>
+        <spanish>Debe ingresar el nombre del proveedor (al menos 2 caracteres)</spanish>
+    </translation>
+
+    <translation id="gmp-packing-finished-product-product">
+        <english>You must enter the name of the product (at least 2 characters)</english>
+        <spanish>Debe ingresar el nombre del producto (al menos 2 caracteres)</spanish>
+    </translation>
+
+    <translation id="gmp-packing-finished-product-client">
+        <english>You must enter the name of the cliente (at least 2 characters)</english>
+        <spanish>Debe ingresar el nombre del cliente (al menos 2 caracteres)</spanish>
+>>>>>>> carlos
     </translation>
 </translations>

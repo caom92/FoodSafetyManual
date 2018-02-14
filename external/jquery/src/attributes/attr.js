@@ -2,9 +2,15 @@ define( [
 	"../core",
 	"../core/access",
 	"./support",
+<<<<<<< HEAD
 	"../var/rnotwhite",
 	"../selector"
 ], function( jQuery, access, support, rnotwhite ) {
+=======
+	"../var/rnothtmlwhite",
+	"../selector"
+], function( jQuery, access, support, rnothtmlwhite ) {
+>>>>>>> carlos
 
 "use strict";
 
@@ -89,7 +95,14 @@ jQuery.extend( {
 	removeAttr: function( elem, value ) {
 		var name,
 			i = 0,
+<<<<<<< HEAD
 			attrNames = value && value.match( rnotwhite );
+=======
+
+			// Attribute names can contain non-HTML whitespace characters
+			// https://html.spec.whatwg.org/multipage/syntax.html#attributes-2
+			attrNames = value && value.match( rnothtmlwhite );
+>>>>>>> carlos
 
 		if ( attrNames && elem.nodeType === 1 ) {
 			while ( ( name = attrNames[ i++ ] ) ) {

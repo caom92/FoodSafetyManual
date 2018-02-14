@@ -1,0 +1,9 @@
+include ../../templates/pug/globals.pug
+
+mz-modal()
+  mz-modal-header
+    i.mdi.mdi-help-circle.red-text
+    ='{{ options.title }}'
+  mz-modal-content([innerHtml]="options.message")
+  mz-modal-footer
+    button(mz-button, mz-modal-close, [flat]='button.solid !== true', *ngFor="let button of options.buttons", (click)="btnClick(button)") {{button.text}}

@@ -15,8 +15,44 @@
         <spanish>Buscar por nombre...</spanish>
     </translation>
 
+<<<<<<< HEAD
+=======
+    <translation id="type_search">
+        <english>Search by type...</english>
+        <spanish>Buscar por tipo...</spanish>
+    </translation>
+
+>>>>>>> carlos
     <translation id="id_search">
         <english>Search by ID...</english>
         <spanish>Buscar por ID...</spanish>
     </translation>
+<<<<<<< HEAD
+=======
+
+    <translation id="quantity_search">
+        <english>Search by quantity...</english>
+        <spanish>Buscar por cantidad...</spanish>
+    </translation>
+
+    <translation id="add_item">
+        <english>Add item...</english>
+        <spanish>Añadir elemento...</spanish>
+    </translation>
+
+    <translation id="add_group">
+        <english>Add group...</english>
+        <spanish>Añadir grupo...</spanish>
+    </translation>
+
+    <translation id="add_quantity">
+        <english>Add quantity...</english>
+        <spanish>Añadir cantidad...</spanish>
+    </translation>
+
+    <translation id="add_workplace_area">
+        <english>Add workplace area...</english>
+        <spanish>Añadir área de trabajo...</spanish>
+    </translation>
+>>>>>>> carlos
 </translations>

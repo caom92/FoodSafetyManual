@@ -1,0 +1,22 @@
+include ../../../inventory-ionic-materialize.pug
+
++inventoryWrapper()
+  ion-item
+    ion-label {{ 'Log.area' | translate:lang }}
+    ion-select([(ngModel)]='selectedArea', (ionChange)='loadAreaInventory($event)')
+      ion-option(*ngFor='let area of areas; let first = first', [value]='area.id') {{area.name}}
+  +inventoryListsWrapper()
+    +inventoryTitleWrapper()
+      +inventoryTitleHandler()
+      +inventoryTitleColumn("{{ 'InventoryLists.id' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.order' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.name' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.type' | translate:lang }}")
+      +inventoryTitleToggle()
+    +inventoryListMultiplier('type', 'inventory')
+      //-For Ionic version uncomment the next line, Dragula variables are found inside the .list.pug file
+      +inventoryList('gmp-packing-preop')([type]='type')
+      //-For ng2-Materialize version uncomment the next line, we have to pass Dragula variables here
+      //-+inventoryList('gmp-packing-preop')([type]='type', [dragula]='type.name', [dragulaModel]='type.items')
+  +inventoryEmptyMessage()
+  +inventoryAddButton()([hidden]="selectedArea == null || selectedArea == undefined")

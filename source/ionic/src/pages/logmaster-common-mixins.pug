@@ -1,0 +1,89 @@
+mixin commonLoader()
+  ion-card([hidden]="!(activeReport == 'any' || activeReport == report.report_id)")
+    ion-card-content
+      ion-grid
+        ion-row(center)
+          ion-col(col-12, col-sm-6, col-md-6, col-lg-9)
+            h1 {{report.creation_date}}
+          ion-col.flexcontainer(col-4, col-sm-2, col-md-2, col-lg-1)
+            button(ion-fab, mini, color='primary', [hidden]='hasEmail == undefined')
+              ion-icon(name='mail')
+          ion-col.flexcontainer(col-4, col-sm-2, col-md-2, col-lg-1)
+            button(ion-fab, mini, color='pdf')
+              ion-icon(name='paper')
+          ion-col.flexcontainer(col-4, col-sm-2, col-md-2, col-lg-1, *ngIf='!showReport')
+            button(ion-fab, mini, color='open', (click)='openHTMLReport()')
+              ion-icon(name='open')
+          ion-col.flexcontainer(col-4, col-sm-2, col-md-2, col-lg-1, *ngIf='showReport')
+            button(ion-fab, mini, color='close', (click)='closeHTMLReport()')
+              ion-icon(name='close')
+
+mixin espressoNavbar(isConnected, title)
+  ion-header
+    ion-navbar(color='secondary')
+      if title
+        ion-title()= title
+      if isConnected
+        button(ion-button, menuToggle='en', [hidden]='!isEnglish()')
+          ion-icon(name='menu')
+        button(ion-button, menuToggle='es', [hidden]='!isSpanish()')
+          ion-icon(name='menu')
+      ion-item([hidden]='true')
+        ion-select(#zone_select, interface='popover', (ionChange)='onZoneChange($event)')
+          ion-option(*ngFor='let zone of zone_array; let isFirst = first', [value]='zone.id', [selected]='isFirst') {{zone.name}}
+          //-ion-option(value='BCN', selected) BCN
+            ion-option(value='LAW') LAW
+            ion-option(value='PES') PES
+            ion-option(value='ZAR') ZAR
+            ion-option(value='ETC') ETC
+      ion-item([hidden]='true')
+        ion-select(#language_select, interface='action-sheet', (ionChange)='onLanguageChange($event)')
+          ion-option(value='en') {{ 'English' | translate:lang }}
+          ion-option(value='es') {{ 'Spanish' | translate:lang }}
+      ion-buttons(end)
+        if isConnected
+          button(ion-button, icon-24, clear, color='light', (click)='openZoneSelector()', [hidden]='!isDirector')
+            ion-icon(name='map')
+          button(ion-button, icon-24, clear, color='light', (click)='openPendingLogsPage()', [hidden]='!isEmployee')
+            ion-icon(name='clipboard')
+              ion-badge(*ngIf='pendingLogs > 0 && pendingLogs < 10', color='danger', class='notifications_badge')
+                span() {{pendingLogs}}
+              ion-badge(*ngIf='pendingLogs >= 10', color='danger', class='notifications_badge') 
+                span() 9+
+        button(ion-button, icon-24, clear, color='light', (click)='openLanguageSelector()')
+          ion-icon(name='globe')
+
+mixin errorMessage(condition, message)
+  ion-item(text-wrap, no-lines, *ngIf!=condition)
+    small(style='color:red;')= message
+
+mixin oldEspressoNavbar(isConnected, title)
+  ion-header
+    ion-navbar(color='secondary')
+      if isConnected
+        button(ion-button, menuToggle='en', [hidden]='!isEnglish()')
+          ion-icon(name='menu')
+        button(ion-button, menuToggle='es', [hidden]='!isSpanish()')
+          ion-icon(name='menu')
+      ion-grid
+        ion-row
+          ion-col
+            ion-list
+              ion-item([hidden]='true')
+                ion-select(#zone_select, interface='popover')
+                  ion-option(value='BCN', selected) BCN
+                  ion-option(value='LAW') LAW
+                  ion-option(value='PES') PES
+                  ion-option(value='ZAR') ZAR
+                  ion-option(value='ETC') ETC
+          ion-col
+            ion-list
+              ion-item([hidden]='true')
+                ion-select(#language_select, interface='action-sheet', (ionChange)='onLanguageChange($event)')
+                  ion-option(value='en') {{ 'English' | translate:lang }}
+                  ion-option(value='es') {{ 'Spanish' | translate:lang }}
+          if isConnected
+            button(ion-button, icon-24, clear, color='light', (click)='openZoneSelector()', [hidden]='!isDirector')
+              ion-icon(name='map')
+          button(ion-button, icon-24, clear, color='light', (click)='openLanguageSelector()')
+            ion-icon(name='globe')

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* ExcludeStart */
 
 // This file is included in a different way from all the others
@@ -5,6 +6,13 @@
 /* eslint strict: "off" */
 
 /* ExcludeEnd */
+=======
+define( [
+	"../core"
+], function( jQuery, noGlobal ) {
+
+"use strict";
+>>>>>>> carlos
 
 var
 
@@ -32,3 +40,8 @@ jQuery.noConflict = function( deep ) {
 if ( !noGlobal ) {
 	window.jQuery = window.$ = jQuery;
 }
+<<<<<<< HEAD
+=======
+
+} );
+>>>>>>> carlos

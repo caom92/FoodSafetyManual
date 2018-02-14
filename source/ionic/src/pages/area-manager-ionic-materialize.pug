@@ -1,0 +1,72 @@
+mixin inventoryAreaHandler()
+  ion-icon.handle(name='move', item-start)
+
+mixin inventoryAreaColumn(content)
+  ion-label()= content
+
+mixin inventoryAreaEdit()
+  button(ion-fab, clear, mini, item-end, (click)="editArea()")
+    ion-icon(name='create')
+
+mixin inventoryAreaWrapper()
+  ion-item(text-wrap)
+    if block
+      block
+
+mixin inventoryAreaTitleHandler()
+  ion-icon(item-start)
+
+mixin inventoryAreaTitleColumn(content)
+  ion-label()= content
+
+mixin inventoryAreaTitleEdit()
+  button(ion-fab, clear, mini, item-end, (click)="editArea()", style='visibility: hidden;')
+
+mixin inventoryAreaTitleWrapper()
+  ion-item(ion-list-header)
+    if block
+      block
+
+mixin inventoryAreaComponent(suffix, ngForLet, ngForSource)
+  #{suffix + '-area-inventory-area'}(*ngFor='let ' + ngForLet + ' of ' + ngForSource)&attributes(attributes)
+
+mixin inventoryAreaListWrapper()
+  div(item-content)&attributes(attributes)
+    if block
+        block
+
+mixin inventoryAreaAddButton()
+  ion-fab(right, bottom)
+    button(ion-fab, color='open', (click)='addArea()')
+      ion-icon(name='add')
+
+mixin inventoryAreaEmptyMessage()
+  div(*ngIf='emptyInventoryFlag == true')
+    ion-item(text-wrap)
+      ion-icon(item-start, name='warning', color='danger')
+      ion-label
+        h1
+          | No items for this log. Add some by using the 
+          ion-icon(name='add-circle', color='open')
+          |  button below
+
+mixin inventoryAreaList(suffix)
+  #{suffix + '-area-inventory-list'}()&attributes(attributes)
+  //- Empty
+
+mixin inventoryAreaListMultiplier(ngForLet, ngForSource)
+  - let temp = {}
+  - temp['let-' + ngForLet] = true
+  ng-template(ngFor, [ngForOf]=ngForSource)&attributes(temp)
+    if block
+      block
+
+mixin inventoryAreaListsWrapper()
+  ion-list(*ngIf='emptyInventoryFlag == false')
+    if block
+      block
+
+mixin inventoryWrapper()
+  ion-content(hide-fab, [class.no-scroll]='!scrollAllowed')
+    if block
+      block

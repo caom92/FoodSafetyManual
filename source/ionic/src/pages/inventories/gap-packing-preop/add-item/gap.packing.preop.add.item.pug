@@ -1,0 +1,25 @@
+ion-header
+  ion-toolbar(color='primary')
+    ion-title
+      | {{ 'Titles.add_item' | translate:lang }}
+    ion-buttons(start)
+      button(ion-button, icon-only, (click)='dismiss()')
+        ion-icon(name='close')
+
+ion-content
+  form([formGroup]='newItem')
+    ion-item
+      ion-label(color='primary', floating) {{ 'Name' | translate:lang }}
+      ion-input(formControlName='name')
+
+    ion-item
+      ion-label {{ 'InventoryLists.type' | translate:lang }}
+      ion-select(interface='popover', formControlName='type')
+        ion-option(*ngFor="let type of types", [value]='type.id') {{type[lang]}}
+
+    br
+
+    div(text-right)
+      button(ion-button, icon-end, (click)='addItem()')
+        | {{ 'Options.add' | translate:lang }}
+        ion-icon(name='add')

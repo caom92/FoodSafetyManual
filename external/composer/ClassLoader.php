@@ -55,6 +55,10 @@ class ClassLoader
     private $classMap = array();
     private $classMapAuthoritative = false;
     private $missingClasses = array();
+<<<<<<< HEAD
+=======
+    private $apcuPrefix;
+>>>>>>> carlos
 
     public function getPrefixes()
     {
@@ -272,6 +276,29 @@ class ClassLoader
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * APCu prefix to use to cache found/not-found classes, if the extension is enabled.
+     *
+     * @param string|null $apcuPrefix
+     */
+    public function setApcuPrefix($apcuPrefix)
+    {
+        $this->apcuPrefix = function_exists('apcu_fetch') && ini_get('apc.enabled') ? $apcuPrefix : null;
+    }
+
+    /**
+     * The APCu prefix in use, or null if APCu caching is not enabled.
+     *
+     * @return string|null
+     */
+    public function getApcuPrefix()
+    {
+        return $this->apcuPrefix;
+    }
+
+    /**
+>>>>>>> carlos
      * Registers this instance as an autoloader.
      *
      * @param bool $prepend Whether to prepend the autoloader or not
@@ -313,11 +340,14 @@ class ClassLoader
      */
     public function findFile($class)
     {
+<<<<<<< HEAD
         // work around for PHP 5.3.0 - 5.3.2 https://bugs.php.net/50731
         if ('\\' == $class[0]) {
             $class = substr($class, 1);
         }
 
+=======
+>>>>>>> carlos
         // class map lookup
         if (isset($this->classMap[$class])) {
             return $this->classMap[$class];
@@ -325,6 +355,15 @@ class ClassLoader
         if ($this->classMapAuthoritative || isset($this->missingClasses[$class])) {
             return false;
         }
+<<<<<<< HEAD
+=======
+        if (null !== $this->apcuPrefix) {
+            $file = apcu_fetch($this->apcuPrefix.$class, $hit);
+            if ($hit) {
+                return $file;
+            }
+        }
+>>>>>>> carlos
 
         $file = $this->findFileWithExtension($class, '.php');
 
@@ -333,6 +372,13 @@ class ClassLoader
             $file = $this->findFileWithExtension($class, '.hh');
         }
 
+<<<<<<< HEAD
+=======
+        if (null !== $this->apcuPrefix) {
+            apcu_add($this->apcuPrefix.$class, $file);
+        }
+
+>>>>>>> carlos
         if (false === $file) {
             // Remember that this class does not exist.
             $this->missingClasses[$class] = true;

@@ -1,11 +1,19 @@
 define( [
 	"../core",
+<<<<<<< HEAD
+=======
+	"../core/stripAndCollapse",
+>>>>>>> carlos
 	"../core/parseHTML",
 	"../ajax",
 	"../traversing",
 	"../manipulation",
 	"../selector"
+<<<<<<< HEAD
 ], function( jQuery ) {
+=======
+], function( jQuery, stripAndCollapse ) {
+>>>>>>> carlos
 
 "use strict";
 
@@ -18,7 +26,11 @@ jQuery.fn.load = function( url, params, callback ) {
 		off = url.indexOf( " " );
 
 	if ( off > -1 ) {
+<<<<<<< HEAD
 		selector = jQuery.trim( url.slice( off ) );
+=======
+		selector = stripAndCollapse( url.slice( off ) );
+>>>>>>> carlos
 		url = url.slice( 0, off );
 	}
 

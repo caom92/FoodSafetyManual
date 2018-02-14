@@ -1,12 +1,20 @@
 /*!
+<<<<<<< HEAD
  * Sizzle CSS Selector Engine v2.3.0
+=======
+ * Sizzle CSS Selector Engine v2.3.3
+>>>>>>> carlos
  * https://sizzlejs.com/
  *
  * Copyright jQuery Foundation and other contributors
  * Released under the MIT license
  * http://jquery.org/license
  *
+<<<<<<< HEAD
  * Date: 2016-01-04
+=======
+ * Date: 2016-08-08
+>>>>>>> carlos
  */
 (function( window ) {
 
@@ -152,7 +160,11 @@ var i,
 
 	// CSS string/identifier serialization
 	// https://drafts.csswg.org/cssom/#common-serializing-idioms
+<<<<<<< HEAD
 	rcssescape = /([\0-\x1f\x7f]|^-?\d)|^-$|[^\x80-\uFFFF\w-]/g,
+=======
+	rcssescape = /([\0-\x1f\x7f]|^-?\d)|^-$|[^\0-\x1f\x7f-\uFFFF\w-]/g,
+>>>>>>> carlos
 	fcssescape = function( ch, asCodePoint ) {
 		if ( asCodePoint ) {
 
@@ -179,7 +191,11 @@ var i,
 
 	disabledAncestor = addCombinator(
 		function( elem ) {
+<<<<<<< HEAD
 			return elem.disabled === true;
+=======
+			return elem.disabled === true && ("form" in elem || "label" in elem);
+>>>>>>> carlos
 		},
 		{ dir: "parentNode", next: "legend" }
 	);
@@ -465,6 +481,7 @@ function createButtonPseudo( type ) {
  * @param {Boolean} disabled true for :disabled; false for :enabled
  */
 function createDisabledPseudo( disabled ) {
+<<<<<<< HEAD
 	// Known :disabled false positives:
 	// IE: *[disabled]:not(button, input, select, textarea, optgroup, option, menuitem, fieldset)
 	// not IE: fieldset[disabled] > legend:nth-of-type(n+2) :can-disable
@@ -485,6 +502,56 @@ function createDisabledPseudo( disabled ) {
 				elem.isDisabled !== !disabled &&
 					("label" in elem || !disabledAncestor( elem )) !== disabled
 			);
+=======
+
+	// Known :disabled false positives: fieldset[disabled] > legend:nth-of-type(n+2) :can-disable
+	return function( elem ) {
+
+		// Only certain elements can match :enabled or :disabled
+		// https://html.spec.whatwg.org/multipage/scripting.html#selector-enabled
+		// https://html.spec.whatwg.org/multipage/scripting.html#selector-disabled
+		if ( "form" in elem ) {
+
+			// Check for inherited disabledness on relevant non-disabled elements:
+			// * listed form-associated elements in a disabled fieldset
+			//   https://html.spec.whatwg.org/multipage/forms.html#category-listed
+			//   https://html.spec.whatwg.org/multipage/forms.html#concept-fe-disabled
+			// * option elements in a disabled optgroup
+			//   https://html.spec.whatwg.org/multipage/forms.html#concept-option-disabled
+			// All such elements have a "form" property.
+			if ( elem.parentNode && elem.disabled === false ) {
+
+				// Option elements defer to a parent optgroup if present
+				if ( "label" in elem ) {
+					if ( "label" in elem.parentNode ) {
+						return elem.parentNode.disabled === disabled;
+					} else {
+						return elem.disabled === disabled;
+					}
+				}
+
+				// Support: IE 6 - 11
+				// Use the isDisabled shortcut property to check for disabled fieldset ancestors
+				return elem.isDisabled === disabled ||
+
+					// Where there is no isDisabled, check manually
+					/* jshint -W018 */
+					elem.isDisabled !== !disabled &&
+						disabledAncestor( elem ) === disabled;
+			}
+
+			return elem.disabled === disabled;
+
+		// Try to winnow out elements that can't be disabled before trusting the disabled property.
+		// Some victims get caught in our net (label, legend, menu, track), but it shouldn't
+		// even exist on them, let alone have a boolean value.
+		} else if ( "label" in elem ) {
+			return elem.disabled === disabled;
+		}
+
+		// Remaining elements are neither :enabled nor :disabled
+		return false;
+>>>>>>> carlos
 	};
 }
 
@@ -600,6 +667,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 		return !document.getElementsByName || !document.getElementsByName( expando ).length;
 	});
 
+<<<<<<< HEAD
 	// ID find and filter
 	if ( support.getById ) {
 		Expr.find["ID"] = function( id, context ) {
@@ -608,17 +676,31 @@ setDocument = Sizzle.setDocument = function( node ) {
 				return m ? [ m ] : [];
 			}
 		};
+=======
+	// ID filter and find
+	if ( support.getById ) {
+>>>>>>> carlos
 		Expr.filter["ID"] = function( id ) {
 			var attrId = id.replace( runescape, funescape );
 			return function( elem ) {
 				return elem.getAttribute("id") === attrId;
 			};
 		};
+<<<<<<< HEAD
 	} else {
 		// Support: IE6/7
 		// getElementById is not reliable as a find shortcut
 		delete Expr.find["ID"];
 
+=======
+		Expr.find["ID"] = function( id, context ) {
+			if ( typeof context.getElementById !== "undefined" && documentIsHTML ) {
+				var elem = context.getElementById( id );
+				return elem ? [ elem ] : [];
+			}
+		};
+	} else {
+>>>>>>> carlos
 		Expr.filter["ID"] =  function( id ) {
 			var attrId = id.replace( runescape, funescape );
 			return function( elem ) {
@@ -627,6 +709,39 @@ setDocument = Sizzle.setDocument = function( node ) {
 				return node && node.value === attrId;
 			};
 		};
+<<<<<<< HEAD
+=======
+
+		// Support: IE 6 - 7 only
+		// getElementById is not reliable as a find shortcut
+		Expr.find["ID"] = function( id, context ) {
+			if ( typeof context.getElementById !== "undefined" && documentIsHTML ) {
+				var node, i, elems,
+					elem = context.getElementById( id );
+
+				if ( elem ) {
+
+					// Verify the id attribute
+					node = elem.getAttributeNode("id");
+					if ( node && node.value === id ) {
+						return [ elem ];
+					}
+
+					// Fall back on getElementsByName
+					elems = context.getElementsByName( id );
+					i = 0;
+					while ( (elem = elems[i++]) ) {
+						node = elem.getAttributeNode("id");
+						if ( node && node.value === id ) {
+							return [ elem ];
+						}
+					}
+				}
+
+				return [];
+			}
+		};
+>>>>>>> carlos
 	}
 
 	// Tag
@@ -1667,6 +1782,10 @@ function addCombinator( matcher, combinator, base ) {
 					return matcher( elem, context, xml );
 				}
 			}
+<<<<<<< HEAD
+=======
+			return false;
+>>>>>>> carlos
 		} :
 
 		// Check against all ancestor/preceding elements
@@ -1711,6 +1830,10 @@ function addCombinator( matcher, combinator, base ) {
 					}
 				}
 			}
+<<<<<<< HEAD
+=======
+			return false;
+>>>>>>> carlos
 		};
 }
 
@@ -2073,8 +2196,12 @@ select = Sizzle.select = function( selector, context, results, seed ) {
 		// Reduce context if the leading compound selector is an ID
 		tokens = match[0] = match[0].slice( 0 );
 		if ( tokens.length > 2 && (token = tokens[0]).type === "ID" &&
+<<<<<<< HEAD
 				support.getById && context.nodeType === 9 && documentIsHTML &&
 				Expr.relative[ tokens[1].type ] ) {
+=======
+				context.nodeType === 9 && documentIsHTML && Expr.relative[ tokens[1].type ] ) {
+>>>>>>> carlos
 
 			context = ( Expr.find["ID"]( token.matches[0].replace(runescape, funescape), context ) || [] )[0];
 			if ( !context ) {

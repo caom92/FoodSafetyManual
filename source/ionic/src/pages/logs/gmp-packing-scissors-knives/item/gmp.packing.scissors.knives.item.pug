@@ -1,0 +1,12 @@
+include ../../../log-ionic-materialize.pug
+
++card()([formGroup]='itemForm')
+  +cardHeader("{{item.name}}")
+  +cardContent
+    //-+listHeader("{{item.name}}")
+    //-+label("{{item.name}}", "ios-cut")
+    +timeInput(true, "{{ 'Log.time' | translate:lang }}", "time")
+    +checkbox("{{ 'Log.approved' | translate:lang }}", false, "approved")
+    +checkbox("{{ 'Log.returned_good_conditions' | translate:lang }}", false, "condition")
+    +checkbox("{{ 'Log.sanitized_lubricated' | translate:lang }}", false, "is_sanitized")
+    +textArea("{{ 'Log.corrective_action_of' | translate:lang }} {{item.name}}", "clipboard", "corrective_action")

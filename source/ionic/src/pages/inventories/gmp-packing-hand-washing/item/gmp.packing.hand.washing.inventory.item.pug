@@ -1,0 +1,10 @@
+include ../../../inventory-ionic-materialize.pug
+
++inventoryItemWrapper()
+  //- Uncomment when reordering for this log is supported
+  //-+inventoryItemHandler()
+  +inventoryItemColumn('{{item.id}}')
+  //- Uncomment when reordering for this log is supported
+  //-+inventoryItemColumn('{{item.position}}')
+  +inventoryItemColumn('{{item.name}}')
+  +inventoryItemToggle()

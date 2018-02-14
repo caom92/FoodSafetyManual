@@ -1,0 +1,20 @@
+ion-header
+  ion-toolbar(color='primary')
+    ion-title
+      | {{ 'Titles.edit_area' | translate:lang }}
+    ion-buttons(start)
+      button(ion-button, icon-only, (click)='dismiss()')
+        ion-icon(name='close')
+
+ion-content
+  form([formGroup]='newArea')
+    ion-item
+      ion-label(color='primary', floating) {{ 'Name' | translate:lang }}
+      ion-input(formControlName='name')
+
+    br
+
+    div(text-right)
+      button(ion-button, icon-end, (click)='addItem()')
+        | {{ 'Options.edit' | translate:lang }} area
+        ion-icon(name='add')

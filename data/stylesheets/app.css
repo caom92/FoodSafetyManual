@@ -122,7 +122,11 @@ main.with-side-menu, footer {
 }
 /* Square area with the company's logo */
 .logo-area {
+<<<<<<< HEAD
     background: white url("../images/logo.png") no-repeat center;
+=======
+    background: white url("../logos/default.png") no-repeat center;
+>>>>>>> carlos
     background-size: contain;
 }
 
@@ -180,4 +184,38 @@ main.container > div.row.center {
 
 ul#form-wrappers div.collapsible-body {
     margin: 10px 20px 0 20px;
+<<<<<<< HEAD
+=======
+}
+
+li#zone-menu {
+    padding-top: 10px;
+}
+
+/* Override bottom margin for compact layouts */
+.no-margin-bottom{
+    margin-bottom: 0px !important;
+}
+
+.big {
+    font-weight: bold;
+    font-size: 1.17rem;
+}
+
+.report_image {
+    width:100%;
+}
+
+.modal-80 {
+    height: 80%;
+}
+
+label {
+    font-weight: 900;
+    color: black !important;
+}
+
+.collapsible-body a {
+    font-weight: 900 !important;
+>>>>>>> carlos
 }

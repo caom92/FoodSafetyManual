@@ -6,7 +6,10 @@ define( [
 "use strict";
 
 var readyCallbacks = [],
+<<<<<<< HEAD
 	readyFiring = false,
+=======
+>>>>>>> carlos
 	whenReady = function( fn ) {
 		readyCallbacks.push( fn );
 	},
@@ -60,6 +63,7 @@ jQuery.extend( {
 		whenReady = function( fn ) {
 			readyCallbacks.push( fn );
 
+<<<<<<< HEAD
 			if ( !readyFiring ) {
 				readyFiring = true;
 
@@ -70,6 +74,13 @@ jQuery.extend( {
 					}
 				}
 				readyFiring = false;
+=======
+			while ( readyCallbacks.length ) {
+				fn = readyCallbacks.shift();
+				if ( jQuery.isFunction( fn ) ) {
+					executeReady( fn );
+				}
+>>>>>>> carlos
 			}
 		};
 

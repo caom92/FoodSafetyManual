@@ -1,0 +1,16 @@
+form([formGroup]='gmpPackingPreopForm', (ngSubmit)='save(myForm)')
+  log-header([log]='log')
+  gmp-packing-preop-area(*ngFor='let area of log.areas.logs; let i=index', [area]='area', [actions]='log.areas.corrective_actions', [group]='gmpPackingPreopForm.controls.areas.controls[i]')
+  mz-card([hoverable]='true')
+    mz-card-title
+      | Información complementaria del reporte
+    mz-card-content
+      .row
+        mz-textarea-container.col.s12.m12.l12
+          i(mz-icon-mdi, mz-textarea-prefix, [icon]="'clipboard-text'")
+          textarea#notes-textarea(mz-textarea, [label]="'Notas de ' + log.log_name", length='65535', formControlName='notes')
+      .row
+        mz-input-container.col.s12.m12.l12
+          i(mz-icon-mdi, mz-input-prefix, [icon]="'link-variant'")
+          textarea#notes-textarea(mz-textarea, [label]="'Enlace externo de ' + log.log_name", length='65535', formControlName='album_url')
+  button(mz-button, type='submit') Submit

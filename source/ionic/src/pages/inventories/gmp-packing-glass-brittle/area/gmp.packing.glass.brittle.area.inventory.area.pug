@@ -1,0 +1,15 @@
+include ../../../area-manager-ionic-materialize.pug
+
++inventoryAreaWrapper()
+  +inventoryAreaHandler()
+  +inventoryAreaColumn('{{area.id}}')
+  +inventoryAreaColumn('{{area.position}}')
+  +inventoryAreaColumn('{{area.name}}')
+  +inventoryAreaEdit()
+
+//-ion-item(text-wrap)
+  ion-icon.handle(name='move', item-start)
+  ion-label {{area.position}}
+  ion-label {{area.name}}
+  button(ion-fab, clear, mini, item-end, (click)="editArea()")
+    ion-icon(name='create')

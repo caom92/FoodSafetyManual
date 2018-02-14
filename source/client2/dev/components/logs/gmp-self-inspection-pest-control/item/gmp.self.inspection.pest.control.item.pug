@@ -1,0 +1,23 @@
+include ../../../log-ionic-materialize.pug
+
++card()([formGroup]='itemForm')
+  +cardHeader("{{item.name}}")
+  +cardContent()
+    +row()
+      +col()(class="s4 m4 l4")
+        +radioGroup(false, false, "is_secured")
+          +radio("Si", false, "true", false, false, "secured_{{item.id}}", "secured_{{item.id}}")([formControl]='itemForm.controls.is_secured', [value]='true')
+          +radio("No", false, "false", false, false, "unsecurred_{{item.id}}", "secured_{{item.id}}")([formControl]='itemForm.controls.is_secured', [value]='false')
+      +col()(class="s4 m4 l4")
+        +radioGroup(false, false, "condition")
+          +radio("Aceptable", false, "true", false, false, "acceptable_{{item.id}}", "is_acceptable_{{item.id}}")([formControl]='itemForm.controls.condition', [value]='true')
+          +radio("No aceptable", false, "false", false, false, "unacceptable_{{item.id}}", "is_acceptable_{{item.id}}")([formControl]='itemForm.controls.condition', [value]='false')
+      +col()(class="s4 m4 l4")
+        +radioGroup(false, false, "activity")
+          +radio("Si", false, "true", false, false, "activity_{{item.id}}", "activity_{{item.id}}")([formControl]='itemForm.controls.activity', [value]='true')
+          +radio("No", false, "false", false, false, "no_activity_{{item.id}}", "activity_{{item.id}}")([formControl]='itemForm.controls.activity', [value]='false')
+    +row()
+      +col()(class="s12 m12 l12")
+        +textArea("{{ 'Log.corrective_action_of' | translate:lang }} {{item.name}}", "comment", "corrective_actions")
+
+//-mixin radio(label, icon, value, checked, disabled, id, name)

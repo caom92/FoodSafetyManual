@@ -30,11 +30,20 @@ define( [
 	"./offset",
 	"./dimensions",
 	"./deprecated",
+<<<<<<< HEAD
 	"./exports/amd"
+=======
+	"./exports/amd",
+	"./exports/global"
+>>>>>>> carlos
 ], function( jQuery ) {
 
 "use strict";
 
+<<<<<<< HEAD
 return ( window.jQuery = window.$ = jQuery );
+=======
+return jQuery;
+>>>>>>> carlos
 
 } );

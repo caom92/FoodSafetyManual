@@ -1,0 +1,38 @@
+include globals.pug
+
+div.row
+  div.col.s12
+    h4
+      i.mdi.mdi-domain
+      ='{{ langManager.messages.zonesFormLabels.title }}'
+    
+div.row
+  div.col.s4
+    +button(
+      'button',
+      'add-zone',
+      '{{ langManager.messages.zonesFormLabels.addButton }}',
+      'mdi mdi-plus'
+    )(
+      '(click)'='onNewZoneButtonClick()'
+    )
+
+div.row
+  div.col.s12
+    +responsiveTable('langManager.messages.zonesFormLabels.tableHeaders')
+      tr('*ngFor'='let zone of home.zones')
+        td: ='{{ zone.name }}'
+        td: ='{{ zone.company_name }}'
+        td: ='{{ zone.address }}'
+        td: img(
+          src="{{ 'http://localhost/espresso/data/logos/' + zone.logo_path }}"
+          height='42'
+        )
+        td: +button(
+          'button',
+          'edit-zone-info',
+          '{{ langManager.messages.editPasswordFormLabels.submit }}',
+          'mdi mdi-pencil'
+        )(
+          '(click)'='onEditZoneButtonClick(zone)'
+        )

@@ -1,0 +1,87 @@
+// http://ionicframework.com/docs/theming/
+
+
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+
+// https://forum.ionicframework.com/t/nested-menu-in-ionic/58357/2
+
+#sidenav {
+    ion-item[submenu-item] {
+      padding-left: 25px; // maybe margin-left would work better to move the border as well
+    }
+  }
+
+#sidenav {
+    ion-item-group[submenu] {
+      overflow: hidden;
+      display: block;
+      height: 0;
+      transition: height .3s linear;
+      &.visible {
+          height: inherit;
+          // this is just sample value, calculate how much space you need for your menu items
+      }
+    }
+  }
+
+.gu-mirror {
+    position: fixed !important;
+    margin: 0 !important;
+    z-index: 9999 !important;
+    opacity: 0.8;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity=80);
+}
+.gu-hide {
+    display: none !important;
+}
+.gu-unselectable {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+}
+.gu-transit {
+    opacity: 0.2;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+    filter: alpha(opacity=20);
+}
+
+.no-scroll .scroll-content{
+    overflow: hidden;
+}
+
+.gray-text {
+    color: gray;
+}
+
+.notifications_badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: normal !important;
+    font-size: 1.1rem !important;
+    border-radius: 10px ;
+}
+
+.invalid-select {
+    border: 1px solid red;
+    border-radius: 10px;
+}
+
+.hoverable:hover {
+    box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}

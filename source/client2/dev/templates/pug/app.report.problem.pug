@@ -1,0 +1,180 @@
+include globals.pug
+
+div.row: div.col.s12.m12
+  h4
+    i.mdi.mdi-information
+    ='{{ langManager.messages.reportProblemFormLabels.titles[0] }}'
+
+form(
+  '[formGroup]'='infoForm'
+  novalidate
+)
+  div.row
+    div.col.s12.m6
+      +textInput(
+        'username',
+        'langManager.messages.reportProblemFormLabels.username'
+      )(
+        formControlName='username'
+      )
+    div.col.s12.m6
+      +textInput(
+        'employee-num',
+        'langManager.messages.reportProblemFormLabels.employeeNum'
+      )(
+        formControlName='employeeNum'
+      )
+
+  div.row
+    div.col.s12.m6
+      +select(
+        'zone', 
+        'langManager.messages.reportProblemFormLabels.zone',
+        'langManager.messages.reportProblemFormLabels.selectLabel',
+        'zones', '.name', '.name',
+        'onZoneSelected()'
+      )(
+        mz-validation
+        required
+        formControlName='zone'
+        '[errorMessageResource]'='langManager.messages.reportProblemForm.zone'
+      )
+    div.col.s12.m6
+      +select(
+        'program', 
+        'langManager.messages.reportProblemFormLabels.program',
+        'langManager.messages.reportProblemFormLabels.selectLabel',
+        'programs', '', '',
+        'onProgramSelected()'
+      )(
+        mz-validation
+        required
+        formControlName='program'
+        '[errorMessageResource]'='langManager.messages.reportProblemForm.program'
+      )
+    div.col.s12.m6
+      +select(
+        'module',
+        'langManager.messages.reportProblemFormLabels.module',
+        'langManager.messages.reportProblemFormLabels.selectLabel',
+        'modules', '', '',
+        'onModuleSelected()'
+      )(
+        mz-validation
+        required
+        formControlName='module'
+        '[errorMessageResource]'='langManager.messages.reportProblemForm.module'
+      )
+    div.col.s12.m6
+      +select(
+        'log',
+        'langManager.messages.reportProblemFormLabels.log',
+        'langManager.messages.reportProblemFormLabels.selectLabel',
+        'logs', '', ''
+      )(
+        mz-validation
+        required
+        formControlName='log'
+        '[errorMessageResource]'='langManager.messages.reportProblemForm.log'
+      )
+
+  div.row
+    div.col.s12.m6
+      +select(
+        'browser',
+        'langManager.messages.reportProblemFormLabels.browser',
+        'langManager.messages.reportProblemFormLabels.selectLabel',
+        'browsers', '', '', '', true
+      )(
+        mz-validation
+        required
+        formControlName='browser'
+        '[errorMessageResource]'='langManager.messages.reportProblemForm.browser'
+      )
+    div.col.s12.m6
+      +select(
+        'severity',
+        'langManager.messages.reportProblemFormLabels.severity',
+        'langManager.messages.reportProblemFormLabels.selectLabel',
+        'langManager.messages.reportProblemFormLabels.severityLevels', 
+        '', ''
+      )(
+        mz-validation
+        required
+        formControlName='severity'
+        '[errorMessageResource]'='langManager.messages.reportProblemForm.severity'
+      )
+
+form(
+  id='filesForm'
+)
+  div.row: div.col.s12.m12
+    h4
+      i.mdi.mdi-pencil
+      ='{{ langManager.messages.reportProblemFormLabels.titles[1] }}'
+
+  div.row
+    div.col.s12
+      +fileInput(
+        'screenshot-attachment',
+        '{{ langManager.messages.reportProblemFormLabels.screenshots[0] }}',
+        '{{ langManager.messages.reportProblemFormLabels.screenshots[1] }}',
+        true
+      )
+form(
+  '[formGroup]'='summaryForm'
+  '(ngSubmit)'='onReportProblemFormSubmit()'
+  novalidate
+)
+  div.row
+    div.col.s12
+      +textArea(
+        'summary', 
+        1024,
+        'langManager.messages.reportProblemFormLabels.summary'
+      )(
+        mz-validation
+        formControlName='summary'
+        '[errorMessageResource]'='langManager.messages.reportProblemForm.summary'
+      )
+    div.col.s12
+      +textArea(
+        'steps', 
+        1024,
+        'langManager.messages.reportProblemFormLabels.steps'
+      )(
+        mz-validation
+        formControlName='steps'
+        '[errorMessageResource]'='langManager.messages.reportProblemForm.steps'
+      )
+    div.col.s12
+      +textArea(
+        'expectation', 
+        1024,
+        'langManager.messages.reportProblemFormLabels.expectation'
+      )(
+        mz-validation
+        formControlName='expectation'
+        '[errorMessageResource]'='langManager.messages.reportProblemForm.expectation'
+      )
+    div.col.s12
+      +textArea(
+        'reality', 
+        1024,
+        'langManager.messages.reportProblemFormLabels.reality'
+      )(
+        mz-validation
+        formControlName='reality'
+        '[errorMessageResource]'='langManager.messages.reportProblemForm.reality'
+      )
+
+  div.row
+    div.col.s3
+      +button(
+        'submit', 
+        'reportProblemFormSubmit', 
+        '{{ langManager.messages.reportProblemFormLabels.submit }}', 
+        'mdi mdi-email'
+      )(
+        '[disabled]'="!infoForm.valid || !summaryForm.valid"
+      )

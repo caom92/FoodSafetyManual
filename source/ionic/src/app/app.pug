@@ -1,0 +1,61 @@
+ion-nav(#nav, [root]='rootPage')
+ion-menu#en([content]='nav', [persistent]='true', [enabled]='menuLangEn')
+  ion-content
+    ion-item
+      img(src='assets/images/logo.jpg')
+    ion-list
+      button(menuClose, ion-item, *ngFor='let p of pages_en', (click)='openPage(p)')
+        ion-icon(name='{{p.icon}}', item-start)
+        | {{ p.title }}
+      button(menuClose, ion-item, *ngIf='isSupervisorFlag', (click)='openAuthorizations()')
+        ion-icon(name='checkbox', item-start)
+        | Authorizations
+        ion-badge(item-end) {{pendingAuthorizations}}
+      div(*ngIf='!isAdminFlag')
+        button(menuClose, ion-item, *ngFor='let i of inventoryPages', (click)='openInventories($event, i)')
+          ion-icon(name='{{i.icon}}', item-start)
+          | Inventory {{ i.title }}
+      div(*ngIf='!isAdminFlag')
+        button(menuClose, ion-item, *ngFor='let p of programPages', (click)='openModules($event, p)')
+          ion-icon(name='{{p.icon}}', item-start)
+          | {{ p.title }}
+      div(*ngIf='isAdminFlag')
+        button(menuClose, ion-item, *ngFor='let p of adminPages_en', (click)='openPage(p)')
+          ion-icon(name='{{p.icon}}', item-start)
+          | {{p.title}}
+      button(menuClose, ion-item)
+        ion-icon(name='warning', item-start)
+        | Report Problem
+      button(menuClose, ion-item, (click)='closeSession()')
+        ion-icon(name='exit', item-start)
+        | Logout
+ion-menu#es([content]='nav', [persistent]='true', [enabled]='menuLangEs')
+  ion-content
+    ion-item
+      img(src='assets/images/logo.jpg')
+    ion-list
+      button(menuClose, ion-item, *ngFor='let p of pages_es', (click)='openPage(p)')
+        ion-icon(name='{{p.icon}}', item-start)
+        | {{p.title}}
+      button(menuClose, ion-item, *ngIf='isSupervisorFlag', (click)='openAuthorizations()')
+        ion-icon(name='checkbox', item-start)
+        | Autorizaciones
+        ion-badge(item-end) {{pendingAuthorizations}}
+      div(*ngIf='!isAdminFlag')
+        button(menuClose, ion-item, *ngFor='let i of inventoryPages', (click)='openInventories($event, i)')
+          ion-icon(name='{{i.icon}}', item-start)
+          | Inventario {{ i.title }}
+      div(*ngIf='!isAdminFlag')
+        button(menuClose, ion-item, *ngFor='let p of programPages', (click)='openModules($event, p)')
+          ion-icon(name='{{p.icon}}', item-start)
+          | {{p.title}}
+      div(*ngIf='isAdminFlag')
+        button(menuClose, ion-item, *ngFor='let p of adminPages_es', (click)='openPage(p)')
+          ion-icon(name='{{p.icon}}', item-start)
+          | {{p.title}}
+      button(menuClose, ion-item)
+        ion-icon(name='warning', item-start)
+        | Reportar Problema
+      button(menuClose, ion-item, (click)='closeSession()')
+        ion-icon(name='exit', item-start)
+        | Cerrar Sesión

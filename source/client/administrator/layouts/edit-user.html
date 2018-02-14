@@ -40,6 +40,7 @@
     </div>
 
     <!--Third row-->
+<<<<<<< HEAD
     <!--Email-->
     <div class="row">
         <div class="input-field col s12 m6 l6">
@@ -60,6 +61,69 @@
     <div class="row">
         <div class="col s12 m12 l12">
         <!--Header-->
+=======
+    <!--User role and supervisor when applicable-->
+    <div class="row">
+        <div class="input-field col s6 m6 l6">
+            <select id="user-role">
+                <option value="" class="user_role" selected></option>
+            </select>
+            <label class="user_role_label"></label>
+        </div>
+        <div id="supervisor_select_wrapper" class="input-field col s6 m6 l6">
+            
+        </div>
+    </div>
+
+     <ul id='form-wrappers' class="collapsible" data-collapsible="accordion">
+        <!--Change password-->
+        <li><div class="collapsible-header">
+            <i class="mdi mdi-lock field-icon"></i>
+            <div class="change_user_password" id="change_password"></div>
+        </div>
+        <div class="collapsible-body">
+            <div class="row">
+                <div class="input-field col s12 m12 l12">
+                    <input class="validate" type="password" value="" 
+                        id="admin-password" name="admin-password" >
+                    <label class="admin_password password" for="admin-password">
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m6 l6">
+                    <input class="validate" type="password" value="" 
+                        id="new-password" name="new-password" >
+                    <label class="new_user_password password" for="new-password">
+                    </label>
+                </div>
+                <div class="input-field col s12 m6 l6">
+                    <input class="validate" type="password" value="" 
+                        id="check-password" name="check-password" >
+                    <label class="check_user_password password" for="check-password">
+                    </label>
+                </div>
+                <!--Send button row-->
+                <div class="row">
+                    <div class="col s12 m12 l12 center">
+                        
+                    <!-- Update button -->
+                    <a class="green btn waves-effect waves-light" href="" 
+                        id="update_password">
+                        <span class="update_password"></span>
+                        <i class="mdi mdi-send right"></i>
+                    </a>        
+                    </div>
+                </div>
+            </div>
+        </div></li>
+    </ul>
+
+<!--Permissions for employees, must select Zone, Program, Modules and Logs-->
+
+    <div id="privilege_header" class="row" style="display: none;">
+        <div class="col s12 m12 l12">
+>>>>>>> carlos
             <h4><i class="mdi mdi-settings md-36 field-icon"></i>
                 <div class="assign_privileges"></div>
             </h4>
@@ -67,6 +131,7 @@
         </div>
     </div>
 
+<<<<<<< HEAD
     <div id="permissions_wrapper" >
         <div id="zones_wrapper" >
             <!--<div class="col s12">-->
@@ -76,6 +141,50 @@
             <!--</div>-->
         </div>
     </div>
+=======
+    <!--Fifth row-->
+    <!--Zone select Wrapper-->
+    <!--For directors and below-->
+    <div class="row" style="display: none;">
+        <div id="zone_select_wrapper" class="input-field col s12 m12 l12">
+            
+        </div>
+    </div>
+
+    <!--Sixth row-->
+    <!--Program select Wrapper-->
+    <!--For Supervisors and below-->
+    <div class="row" style="display: none;">
+        <div id="program_select_wrapper" class="input-field col s12 m12 l12">
+            
+        </div>
+    </div>
+
+    <!--Sixth row-->
+    <!--Program Wrapper-->
+    <!--For Supervisors and below-->
+    <div class="row" style="display: none;">
+        <div id="program_select_wrapper" class="input-field col s12 m12 l12">
+            
+        </div>
+    </div>
+
+    <!--Seventh row-->
+    <div class="row" style="display: none;">
+        <div id="log_select_wrapper" class="col s12 m12 l12">
+            <h6><i class="mdi mdi-settings md-18 field-icon"></i>
+                <div class="user_privileges"></div>
+            </h6>
+            <div class="divider"></div>
+        </div>
+    </div>
+    
+    <div class="row" style="display: none;">
+        <ul id="program_collapsible_wrapper" class="collapsible" data-collapsible="accordion">
+            
+        </ul>
+    </div>
+>>>>>>> carlos
 
     <!--Fifth row-->
     <!--Send button-->

@@ -1,12 +1,22 @@
 /* MaterialDesignIcons.com */
 @font-face {
   font-family: "Material Design Icons";
+<<<<<<< HEAD
   src: url("../fonts/materialdesignicons-webfont.eot?v=1.6.50");
   src: url("../fonts/materialdesignicons-webfont.eot?#iefix&v=1.6.50") format("embedded-opentype"), url("../fonts/materialdesignicons-webfont.woff2?v=1.6.50") format("woff2"), url("../fonts/materialdesignicons-webfont.woff?v=1.6.50") format("woff"), url("../fonts/materialdesignicons-webfont.ttf?v=1.6.50") format("truetype"), url("../fonts/materialdesignicons-webfont.svg?v=1.6.50#materialdesigniconsregular") format("svg");
   font-weight: normal;
   font-style: normal;
 }
 .mdi {
+=======
+  src: url("../fonts/materialdesignicons-webfont.eot?v=1.7.22");
+  src: url("../fonts/materialdesignicons-webfont.eot?#iefix&v=1.7.22") format("embedded-opentype"), url("../fonts/materialdesignicons-webfont.woff2?v=1.7.22") format("woff2"), url("../fonts/materialdesignicons-webfont.woff?v=1.7.22") format("woff"), url("../fonts/materialdesignicons-webfont.ttf?v=1.7.22") format("truetype"), url("../fonts/materialdesignicons-webfont.svg?v=1.7.22#materialdesigniconsregular") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+.mdi:before,
+.mdi-set {
+>>>>>>> carlos
   display: inline-block;
   font: normal normal normal 24px/1 "Material Design Icons";
   font-size: inherit;
@@ -180,6 +190,13 @@
   content: "\F024";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-alarm-snooze:before {
+  content: "\F68D";
+}
+
+>>>>>>> carlos
 .mdi-album:before {
   content: "\F025";
 }
@@ -252,6 +269,13 @@
   content: "\F034";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-angular:before {
+  content: "\F6B1";
+}
+
+>>>>>>> carlos
 .mdi-animation:before {
   content: "\F5D8";
 }
@@ -512,6 +536,13 @@
   content: "\F06C";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-baby-buggy:before {
+  content: "\F68E";
+}
+
+>>>>>>> carlos
 .mdi-backburger:before {
   content: "\F06D";
 }
@@ -524,6 +555,13 @@
   content: "\F06F";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-bandcamp:before {
+  content: "\F674";
+}
+
+>>>>>>> carlos
 .mdi-bank:before {
   content: "\F070";
 }
@@ -664,6 +702,13 @@
   content: "\F092";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-beaker:before {
+  content: "\F68F";
+}
+
+>>>>>>> carlos
 .mdi-beats:before {
   content: "\F097";
 }
@@ -800,6 +845,13 @@
   content: "\F0B8";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-bomb:before {
+  content: "\F690";
+}
+
+>>>>>>> carlos
 .mdi-bone:before {
   content: "\F0B9";
 }
@@ -920,6 +972,13 @@
   content: "\F0D2";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-bow-tie:before {
+  content: "\F677";
+}
+
+>>>>>>> carlos
 .mdi-bowl:before {
   content: "\F617";
 }
@@ -1076,6 +1135,17 @@
   content: "\F0F3";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-calendar-question:before {
+  content: "\F691";
+}
+
+.mdi-calendar-range:before {
+  content: "\F678";
+}
+
+>>>>>>> carlos
 .mdi-calendar-remove:before {
   content: "\F0F4";
 }
@@ -1128,6 +1198,13 @@
   content: "\F100";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-camera-burst:before {
+  content: "\F692";
+}
+
+>>>>>>> carlos
 .mdi-camera-enhance:before {
   content: "\F101";
 }
@@ -1668,6 +1745,13 @@
   content: "\F174";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-code-tags-check:before {
+  content: "\F693";
+}
+
+>>>>>>> carlos
 .mdi-codepen:before {
   content: "\F175";
 }
@@ -1684,6 +1768,13 @@
   content: "\F178";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-coins:before {
+  content: "\F694";
+}
+
+>>>>>>> carlos
 .mdi-collage:before {
   content: "\F640";
 }
@@ -1832,6 +1923,13 @@
   content: "\F19A";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-creation:before {
+  content: "\F1C9";
+}
+
+>>>>>>> carlos
 .mdi-credit-card:before {
   content: "\F19B";
 }
@@ -1844,6 +1942,13 @@
   content: "\F5E4";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-credit-card-plus:before {
+  content: "\F675";
+}
+
+>>>>>>> carlos
 .mdi-credit-card-scan:before {
   content: "\F19D";
 }
@@ -1864,6 +1969,13 @@
   content: "\F1A1";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-crop-rotate:before {
+  content: "\F695";
+}
+
+>>>>>>> carlos
 .mdi-crop-square:before {
   content: "\F1A2";
 }
@@ -1940,6 +2052,13 @@
   content: "\F1B3";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-currency-usd-off:before {
+  content: "\F679";
+}
+
+>>>>>>> carlos
 .mdi-cursor-default:before {
   content: "\F1B4";
 }
@@ -1996,6 +2115,13 @@
   content: "\F1C0";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-delete-circle:before {
+  content: "\F682";
+}
+
+>>>>>>> carlos
 .mdi-delete-forever:before {
   content: "\F5E8";
 }
@@ -2028,6 +2154,13 @@
   content: "\F1C6";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-developer-board:before {
+  content: "\F696";
+}
+
+>>>>>>> carlos
 .mdi-deviantart:before {
   content: "\F1C7";
 }
@@ -2120,10 +2253,32 @@
   content: "\F1D5";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-dna:before {
+  content: "\F683";
+}
+
+>>>>>>> carlos
 .mdi-dns:before {
   content: "\F1D6";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-do-not-disturb:before {
+  content: "\F697";
+}
+
+.mdi-do-not-disturb-off:before {
+  content: "\F698";
+}
+
+.mdi-dolby:before {
+  content: "\F6B2";
+}
+
+>>>>>>> carlos
 .mdi-domain:before {
   content: "\F1D7";
 }
@@ -2136,6 +2291,13 @@
   content: "\F1D9";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-douban:before {
+  content: "\F699";
+}
+
+>>>>>>> carlos
 .mdi-download:before {
   content: "\F1DA";
 }
@@ -2240,6 +2402,13 @@
   content: "\F5F0";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-emby:before {
+  content: "\F6B3";
+}
+
+>>>>>>> carlos
 .mdi-emoticon:before {
   content: "\F1F2";
 }
@@ -2248,10 +2417,24 @@
   content: "\F1F3";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-emoticon-dead:before {
+  content: "\F69A";
+}
+
+>>>>>>> carlos
 .mdi-emoticon-devil:before {
   content: "\F1F4";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-emoticon-excited:before {
+  content: "\F69B";
+}
+
+>>>>>>> carlos
 .mdi-emoticon-happy:before {
   content: "\F1F5";
 }
@@ -2596,6 +2779,13 @@
   content: "\F243";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-flash-red-eye:before {
+  content: "\F67A";
+}
+
+>>>>>>> carlos
 .mdi-flashlight:before {
   content: "\F244";
 }
@@ -2696,6 +2886,13 @@
   content: "\F258";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-folder-star:before {
+  content: "\F69C";
+}
+
+>>>>>>> carlos
 .mdi-folder-upload:before {
   content: "\F259";
 }
@@ -2764,6 +2961,13 @@
   content: "\F266";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-format-color-text:before {
+  content: "\F69D";
+}
+
+>>>>>>> carlos
 .mdi-format-float-center:before {
   content: "\F267";
 }
@@ -2880,6 +3084,13 @@
   content: "\F27E";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-format-section:before {
+  content: "\F69E";
+}
+
+>>>>>>> carlos
 .mdi-format-size:before {
   content: "\F27F";
 }
@@ -3084,6 +3295,13 @@
   content: "\F2AC";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-gondola:before {
+  content: "\F685";
+}
+
+>>>>>>> carlos
 .mdi-google:before {
   content: "\F2AD";
 }
@@ -3168,6 +3386,13 @@
   content: "\F2C0";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-gradient:before {
+  content: "\F69F";
+}
+
+>>>>>>> carlos
 .mdi-grease-pencil:before {
   content: "\F648";
 }
@@ -3200,6 +3425,13 @@
   content: "\F624";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-hamburger:before {
+  content: "\F684";
+}
+
+>>>>>>> carlos
 .mdi-hand-pointing-right:before {
   content: "\F2C7";
 }
@@ -3308,6 +3540,13 @@
   content: "\F2DD";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-home-outline:before {
+  content: "\F6A0";
+}
+
+>>>>>>> carlos
 .mdi-home-variant:before {
   content: "\F2DE";
 }
@@ -3449,9 +3688,23 @@
 }
 
 .mdi-inbox:before {
+<<<<<<< HEAD
   content: "\F2FB";
 }
 
+=======
+  content: "\F686";
+}
+
+.mdi-inbox-arrow-down:before {
+  content: "\F2FB";
+}
+
+.mdi-inbox-arrow-up:before {
+  content: "\F3D1";
+}
+
+>>>>>>> carlos
 .mdi-incognito:before {
   content: "\F5F9";
 }
@@ -3484,6 +3737,13 @@
   content: "\F301";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-itunes:before {
+  content: "\F676";
+}
+
+>>>>>>> carlos
 .mdi-jeepney:before {
   content: "\F302";
 }
@@ -3580,6 +3840,13 @@
   content: "\F627";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-lamp:before {
+  content: "\F6B4";
+}
+
+>>>>>>> carlos
 .mdi-lan:before {
   content: "\F317";
 }
@@ -3904,6 +4171,13 @@
   content: "\F35D";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-menu-down-outline:before {
+  content: "\F6B5";
+}
+
+>>>>>>> carlos
 .mdi-menu-left:before {
   content: "\F35E";
 }
@@ -3916,6 +4190,13 @@
   content: "\F360";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-menu-up-outline:before {
+  content: "\F6B6";
+}
+
+>>>>>>> carlos
 .mdi-message:before {
   content: "\F361";
 }
@@ -3924,6 +4205,17 @@
   content: "\F362";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-message-bulleted:before {
+  content: "\F6A1";
+}
+
+.mdi-message-bulleted-off:before {
+  content: "\F6A2";
+}
+
+>>>>>>> carlos
 .mdi-message-draw:before {
   content: "\F363";
 }
@@ -4184,6 +4476,17 @@
   content: "\F39A";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-note-multiple:before {
+  content: "\F6B7";
+}
+
+.mdi-note-multiple-outline:before {
+  content: "\F6B8";
+}
+
+>>>>>>> carlos
 .mdi-note-outline:before {
   content: "\F39B";
 }
@@ -4204,6 +4507,13 @@
   content: "\F39F";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-nuke:before {
+  content: "\F6A3";
+}
+
+>>>>>>> carlos
 .mdi-numeric:before {
   content: "\F3A0";
 }
@@ -4344,6 +4654,13 @@
   content: "\F3C2";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-oar:before {
+  content: "\F67B";
+}
+
+>>>>>>> carlos
 .mdi-octagon:before {
   content: "\F3C3";
 }
@@ -4404,10 +4721,13 @@
   content: "\F3D0";
 }
 
+<<<<<<< HEAD
 .mdi-outbox:before {
   content: "\F3D1";
 }
 
+=======
+>>>>>>> carlos
 .mdi-owl:before {
   content: "\F3D2";
 }
@@ -4620,6 +4940,13 @@
   content: "\F400";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-piano:before {
+  content: "\F67C";
+}
+
+>>>>>>> carlos
 .mdi-pig:before {
   content: "\F401";
 }
@@ -4656,6 +4983,13 @@
   content: "\F409";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-plane-shield:before {
+  content: "\F6BA";
+}
+
+>>>>>>> carlos
 .mdi-play:before {
   content: "\F40A";
 }
@@ -4704,6 +5038,13 @@
   content: "\F414";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-plex:before {
+  content: "\F6B9";
+}
+
+>>>>>>> carlos
 .mdi-plus:before {
   content: "\F415";
 }
@@ -4784,6 +5125,17 @@
   content: "\F425";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-power-plug:before {
+  content: "\F6A4";
+}
+
+.mdi-power-plug-off:before {
+  content: "\F6A5";
+}
+
+>>>>>>> carlos
 .mdi-power-settings:before {
   content: "\F426";
 }
@@ -4832,6 +5184,13 @@
   content: "\F42F";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-publish:before {
+  content: "\F6A6";
+}
+
+>>>>>>> carlos
 .mdi-pulse:before {
   content: "\F430";
 }
@@ -4988,6 +5347,17 @@
   content: "\F455";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-reorder-horizontal:before {
+  content: "\F687";
+}
+
+.mdi-reorder-vertical:before {
+  content: "\F688";
+}
+
+>>>>>>> carlos
 .mdi-repeat:before {
   content: "\F456";
 }
@@ -5024,6 +5394,13 @@
   content: "\F45E";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-restore:before {
+  content: "\F6A7";
+}
+
+>>>>>>> carlos
 .mdi-rewind:before {
   content: "\F45F";
 }
@@ -5040,6 +5417,13 @@
   content: "\F462";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-robot:before {
+  content: "\F6A8";
+}
+
+>>>>>>> carlos
 .mdi-rocket:before {
   content: "\F463";
 }
@@ -5048,6 +5432,13 @@
   content: "\F464";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-rotate-90:before {
+  content: "\F6A9";
+}
+
+>>>>>>> carlos
 .mdi-rotate-left:before {
   content: "\F465";
 }
@@ -5124,6 +5515,13 @@
   content: "\F473";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-scanner:before {
+  content: "\F6AA";
+}
+
+>>>>>>> carlos
 .mdi-school:before {
   content: "\F474";
 }
@@ -5188,6 +5586,13 @@
   content: "\F483";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-security-home:before {
+  content: "\F689";
+}
+
+>>>>>>> carlos
 .mdi-security-network:before {
   content: "\F484";
 }
@@ -5404,6 +5809,13 @@
   content: "\F664";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-skull:before {
+  content: "\F68B";
+}
+
+>>>>>>> carlos
 .mdi-skype:before {
   content: "\F4AF";
 }
@@ -5448,6 +5860,13 @@
   content: "\F4B9";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-solid:before {
+  content: "\F68C";
+}
+
+>>>>>>> carlos
 .mdi-sort:before {
   content: "\F4BA";
 }
@@ -5633,6 +6052,13 @@
 }
 
 .mdi-subway:before {
+<<<<<<< HEAD
+=======
+  content: "\F6AB";
+}
+
+.mdi-subway-variant:before {
+>>>>>>> carlos
   content: "\F4DF";
 }
 
@@ -5748,6 +6174,13 @@
   content: "\F4FA";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-tag-heart:before {
+  content: "\F68A";
+}
+
+>>>>>>> carlos
 .mdi-tag-multiple:before {
   content: "\F4FB";
 }
@@ -5908,6 +6341,13 @@
   content: "\F51F";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-timer-sand-empty:before {
+  content: "\F6AC";
+}
+
+>>>>>>> carlos
 .mdi-timetable:before {
   content: "\F520";
 }
@@ -5952,6 +6392,17 @@
   content: "\F52A";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-tower-beach:before {
+  content: "\F680";
+}
+
+.mdi-tower-fire:before {
+  content: "\F681";
+}
+
+>>>>>>> carlos
 .mdi-traffic-light:before {
   content: "\F52B";
 }
@@ -5976,6 +6427,13 @@
   content: "\F530";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-transit-transfer:before {
+  content: "\F6AD";
+}
+
+>>>>>>> carlos
 .mdi-translate:before {
   content: "\F5CA";
 }
@@ -6116,10 +6574,24 @@
   content: "\F550";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-unity:before {
+  content: "\F6AE";
+}
+
+>>>>>>> carlos
 .mdi-untappd:before {
   content: "\F551";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-update:before {
+  content: "\F6AF";
+}
+
+>>>>>>> carlos
 .mdi-upload:before {
   content: "\F552";
 }
@@ -6372,6 +6844,13 @@
   content: "\F58B";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-watch-vibrate:before {
+  content: "\F6B0";
+}
+
+>>>>>>> carlos
 .mdi-water:before {
   content: "\F58C";
 }
@@ -6408,6 +6887,13 @@
   content: "\F593";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-weather-lightning-rainy:before {
+  content: "\F67D";
+}
+
+>>>>>>> carlos
 .mdi-weather-night:before {
   content: "\F594";
 }
@@ -6428,6 +6914,13 @@
   content: "\F598";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-weather-snowy-rainy:before {
+  content: "\F67E";
+}
+
+>>>>>>> carlos
 .mdi-weather-sunny:before {
   content: "\F599";
 }
@@ -6608,6 +7101,13 @@
   content: "\F5C2";
 }
 
+<<<<<<< HEAD
+=======
+.mdi-yin-yang:before {
+  content: "\F67F";
+}
+
+>>>>>>> carlos
 .mdi-youtube-play:before {
   content: "\F5C3";
 }
@@ -6616,6 +7116,7 @@
   content: "\F5C4";
 }
 
+<<<<<<< HEAD
 .mdi-18px {
   font-size: 18px;
 }
@@ -6629,6 +7130,30 @@
 }
 
 .mdi-48px {
+=======
+.mdi-blank:before {
+  content: "\F68C";
+  visibility: hidden;
+}
+
+.mdi-set.mdi-18px,
+.mdi.mdi-18px:before {
+  font-size: 18px;
+}
+
+.mdi-set.mdi-24px,
+.mdi.mdi-24px:before {
+  font-size: 24px;
+}
+
+.mdi-set.mdi-36px,
+.mdi.mdi-36px:before {
+  font-size: 36px;
+}
+
+.mdi-set.mdi-48px,
+.mdi.mdi-48px:before {
+>>>>>>> carlos
   font-size: 48px;
 }
 

@@ -1,0 +1,40 @@
+{
+  "name": "cold_room",
+  "path": "/opt/lampp/htdocs/espresso/source/server/services/gmp/packing/cold_room_temp/",
+  "namespace": "gmp\\packing\\coldRoomTemp",
+  "program": "GMP",
+  "module": "Packing",
+  "log": "Cold Room Temperature Control",
+  "suffix": "gmp-packing-cold-room",
+  "manual_path": "gmp/packing/cold_room_temp/",
+  "tables": [
+    {
+      "class": "Rooms",
+      "table": "gmp_packing_cold_room_temp_rooms",
+      "parent": "ToggableItemsTable"
+    },
+    {
+      "class": "Logs",
+      "table": "gmp_packing_cold_room_temp_logs",
+      "parent": "LogTable"
+    }
+  ],
+  "services": {
+    "log": {
+      "items_name": "rooms"
+    },
+    "capture": {
+      "extra_info": null
+    },
+    "report": {
+      "items_name": "rooms",
+      "extra_info": null
+    },
+    "inventory": true,
+    "add": true,
+    "toggle": {
+      "dao_name": "gmp\\packing\\coldRoomTemp\\Rooms"
+    },
+    "reorder": null
+  }
+}

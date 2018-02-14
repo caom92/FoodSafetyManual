@@ -1,0 +1,81 @@
+extends modal.user.info.pug
+include globals.pug
+
+block Password
+  +passwordInput(
+    'password',
+    'langManager.messages.editPasswordFormLabels.newPassword'
+  )(
+    mz-validation
+    formControlName='password'
+    '[errorMessageResource]'='langManager.messages.usersFormLabels.errors.passwordEdit'
+  )
+
+block PasswordConfirmation
+  +passwordInput(
+    'confirm-password',
+    'langManager.messages.editPasswordFormLabels.newPasswordConfirmation'
+  )(
+    mz-validation
+    formControlName='passwordConfirmation'
+    '[errorMessageResource]'='langManager.messages.usersFormLabels.errors.passwordEdit'
+  )
+
+block SubmitButton
+  +button(
+    'submit',
+    'edit-user-submit',
+    '{{ langManager.messages.editPasswordFormLabels.submit }}',
+    'mdi mdi-send'
+  )(
+    '[disabled]'='!userForm.valid'
+    '(click)'='onEditFormSubmit()'
+  )
+
+block Privileges
+  ng-container('*ngFor'='let program of programs')  
+    div.row('[hidden]'='selectedProgram.name != program.name')
+      div.col.s12
+        mz-collapsible
+          mz-collapsible-item('*ngFor'='let module of program.modules')
+            mz-collapsible-item-header
+              ='{{ module.name }}'
+            mz-collapsible-item-body
+              table.highlight&attributes(attributes)
+                thead
+                  th
+                    ='{{ langManager.messages.usersFormLabels.logsTableHeaders[0] }}'
+                  th
+                    ='{{ langManager.messages.usersFormLabels.logsTableHeaders[1] }}'
+                  th
+                    ='{{ langManager.messages.usersFormLabels.logsTableHeaders[2] }}'
+                  th('*ngIf'='selectedRole.name === "Employee"')
+                    ='{{ langManager.messages.usersFormLabels.logsTableHeaders[3] }}'
+                tbody
+                  tr('*ngFor'='let log of module.logs')
+                    td='{{ log.name }}'
+                    td: +radioButton(
+                      '{{ "none-" + log.id }}', 
+                      '{{ log.name }}'
+                    )(
+                      name='{{ "privilege-" + log.id }}'
+                      '[value]'='privileges[0].id'
+                      '[(ngModel)]'='selectedPrivileges[log.name].privilegeID'
+                    )
+                    td: +radioButton(
+                      '{{ "read-" + log.id }}',
+                      '{{ log.name }}'
+                    )(
+                      name='{{ "privilege-" + log.id }}'
+                      '[value]'='privileges[1].id'
+                      '[(ngModel)]'='selectedPrivileges[log.name].privilegeID'
+                    )
+                    td: +radioButton(
+                      '{{ "write-" + log.id }}', 
+                      '{{ log.name }}'
+                    )(
+                      '*ngIf'='selectedRole.name === "Employee"'
+                      name='{{ "privilege-" + log.id }}'
+                      '[value]'='privileges[2].id'
+                      '[(ngModel)]'='selectedPrivileges[log.name].privilegeID'
+                    )

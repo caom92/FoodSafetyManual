@@ -18,7 +18,11 @@ function getDefaultDisplay( elem ) {
 		return display;
 	}
 
+<<<<<<< HEAD
 	temp = doc.body.appendChild( doc.createElement( nodeName ) ),
+=======
+	temp = doc.body.appendChild( doc.createElement( nodeName ) );
+>>>>>>> carlos
 	display = jQuery.css( temp, "display" );
 
 	temp.parentNode.removeChild( temp );

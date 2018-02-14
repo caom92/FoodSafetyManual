@@ -1,0 +1,15 @@
+#report_tab.col.s12.m12.l12
+  .card-panel.white
+    form([formGroup]='dateRangeForm', (ngSubmit)='getReportData()')
+      .row
+        mz-datepicker-container.s12.m12.l12
+          i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
+          input(mz-datepicker, [label]="'Fecha de inicio'", type='text', formControlName='startDate', [options]='langManager.messages.global.datePickerConfig')
+      .row
+        mz-datepicker-container.s12.m12.l12
+          i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
+          input(mz-datepicker, [label]="'Fecha de cierre'", type='text', formControlName='endDate', [options]='langManager.messages.global.datePickerConfig')
+      .row
+        button(mz-button, type='submit') Open Report
+        button(mz-button) View in PDF
+  report-loader(*ngfor='let report of reports', [report]='report')

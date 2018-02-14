@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Authorization Tests</title>
+    </head>
+    <body>
+        <!--<div id='list-supervisors-by-zone'>
+            <h1>List Supervisors By Zone</h1>
+            <pre class='output'></pre>
+        </div>
+        <div id='list-employees-of-supervisor'>
+            <h1>List Employees Of Supervisor</h1>
+            <pre class='output'></pre>
+        </div>
+        <div id='assign-employees-to-supervisors'>
+            <h1>Assign Employees</h1>
+            <pre class='output'></pre>
+        </div>
+        <div id='list-unapproved-logs'>
+            <h1>List Unnaproved Logs</h1>
+            <pre class='output'></pre>
+        </div>
+        <div id='list-unapproved-logs-of-employee'>
+            <h1>List Unnaproved Logs of Employee</h1>
+            <pre class='output'></pre>
+        </div>
+        <div id='get-supervisor-num-of-employees'>
+            <h1>Count number of employees</h1>
+            <pre class='output'></pre>
+        </div>
+        <div id='edit-user-zone'>
+            <h1>Edit user zone</h1>
+            <pre class='output'></pre>
+        </div>
+        <div id='get-num-pending-logs'>
+            <h1>Num Pending Logs</h1>
+            <pre class='output'></pre>
+        </div>-->
+        <div id='log-gmp-packing-preop'>
+            <h1>Log GMP</h1>
+            <pre class='output'></pre>
+        </div>
+    </body>
+    <script src="/espresso/external/jquery/dist/jquery.min.js"></script>
+    <script src='/espresso/scripts/config.js'></script>
+    <script src="/espresso/scripts/functions.js"></script>
+    <script src='/espresso/scripts/Controller.js'></script>
+    <script>
+        function test1() {
+            $server.request({
+                service: 'login',
+                data: {
+                    username: 'administrador',
+                    password: 'password'
+                },
+                success: function(response) {
+                    if (response.meta.return_code == 0) {
+                        listSupervisorsByZone();
+                    } else {
+                        alert(response.meta.message);
+                    }
+                }
+            });
+        }
+
+        function logout() {
+            $server.request({
+                service: 'logout',
+                success: function(response) {
+                    if (response.meta.return_code != 0) {
+                        alert(response.meta.message);
+                    }
+                }
+            })
+        }
+
+        function listSupervisorsByZone() {
+            $server.request({
+                service: 'list-supervisors-by-zone',
+                data: {
+                    zone_id: 5
+                },
+                success: function(response) {
+                    $('#list-supervisors-by-zone pre.output').append(
+                        JSON.stringify(response, null, 4)
+                    );
+                    logout();
+                }
+            });
+        }
+
+        function listEmployeesOfSupervisor() {
+            $server.request({
+                service: 'list-employees-of-supervisor',
+                data: {
+                    supervisor_id: 1
+                },
+                success: function(response) {
+                    $('#list-employees-of-supervisor pre.output').append(
+                        JSON.stringify(response, null, 4)
+                    );
+                    logout();
+                }
+            })
+        }
+
+        function test2() {
+            $server.request({
+                service: 'login',
+                data: {
+                    username: 'administrador',
+                    password: 'password'
+                },
+                success: function(response) {
+                    if (response.meta.return_code == 0) {
+                        listEmployeesOfSupervisor();
+                    } else {
+                        alert(response.meta.message);
+                    }
+                }
+            });
+        }
+
+        function assignEmployess()
+        {
+            $server.request({
+                service: 'assign-employees-to-supervisors',
+                data: {
+                    assignments: [
+                        {
+                            supervisor_id: 3,
+                            employee_id: 5
+                        },
+                        {
+                            supervisor_id: 3,
+                            employee_id: 6
+                        }
+                    ]
+                },
+                success: function(response) {
+                    $('#assign-employees-to-supervisors pre.output').append(
+                        JSON.stringify(response, null, 4)
+                    );
+                    logout();
+                }
+            })
+        }
+
+        function test3() {
+            $server.request({
+                service: 'login',
+                data: {
+                    username: 'administrador',
+                    password: 'password'
+                },
+                success: function(response) {
+                    if (response.meta.return_code == 0) {
+                        assignEmployess();
+                    } else {
+                        alert(response.meta.message);
+                    }
+                }
+            });
+        }
+
+        function getUnnaprovedLogs() {
+            $server.request({
+                service: 'list-unapproved-logs-of-supervisor',
+                data: {
+                    supervisor_id: 3
+                },
+                success: function(response) {
+                    $('#list-unapproved-logs pre.output').append(
+                        JSON.stringify(response, null, 4)
+                    );
+                    logout();
+                }
+            })
+        }
+
+        function test4() {
+            $server.request({
+                service: 'login',
+                data: {
+                    username: 'supervisor1',
+                    password: 'password'
+                },
+                success: function(response) {
+                    if (response.meta.return_code == 0) {
+                        getUnnaprovedLogs();
+                    } else {
+                        alert(response.meta.message);
+                    }
+                }
+            });
+        }
+
+        function getUnnaprovedLogsOfEmployee() {
+            $server.request({
+                service: 'list-unapproved-logs-of-employee',
+                data: {
+                    employee_id: 5
+                },
+                success: function(response) {
+                    $('#list-unapproved-logs-of-employee pre.output').append(
+                        JSON.stringify(response, null, 4)
+                    );
+                    logout();
+                }
+            })
+        }
+
+        function test5() {
+            $server.request({
+                service: 'login',
+                data: {
+                    username: 'empleado1',
+                    password: 'password'
+                },
+                success: function(response) {
+                    if (response.meta.return_code == 0) {
+                        getUnnaprovedLogsOfEmployee();
+                    } else {
+                        alert(response.meta.message);
+                    }
+                }
+            });
+        }
+
+        function getNumEmployees() {
+            $server.request({
+                service: 'get-supervisor-num-of-employees',
+                data: {
+                    supervisor_id: 1
+                },
+                success: function(response) {
+                    $('#get-supervisor-num-of-employees pre.output').append(
+                        JSON.stringify(response, null, 4)
+                    );
+                    logout();
+                }
+            })
+        }
+
+        function test6() {
+            $server.request({
+                service: 'login',
+                data: {
+                    username: 'administrador',
+                    password: 'password'
+                },
+                success: function(response) {
+                    if (response.meta.return_code == 0) {
+                        getNumEmployees();
+                    } else {
+                        alert(response.meta.message);
+                    }
+                }
+            });
+        }
+
+        function editZone() {
+            $server.request({
+                service: 'edit-user-zone',
+                data: {
+                    user_id: 3,
+                    zone_id: 2
+                },
+                success: function(response) {
+                    $('#edit-user-zone pre.output').append(
+                        JSON.stringify(response, null, 4)
+                    );
+                    logout();
+                }
+            })
+        }
+
+        function test7() {
+            $server.request({
+                service: 'login',
+                data: {
+                    username: 'administrador',
+                    password: 'password'
+                },
+                success: function(response) {
+                    if (response.meta.return_code == 0) {
+                        editZone();
+                    } else {
+                        alert(response.meta.message);
+                    }
+                }
+            });
+        }
+
+        function getNumPending() {
+            $server.request({
+                service: 'get-num-pending-logs',
+                success: function(response) {
+                    $('#get-num-pending-logs pre.output').append(
+                        JSON.stringify(response, null, 4)
+                    );
+                    logout();
+                }
+            })
+        }
+
+        function test8() {
+            $server.request({
+                service: 'login',
+                data: {
+                    username: 'supervisor1',
+                    password: 'password'
+                },
+                success: function(response) {
+                    if (response.meta.return_code == 0) {
+                        getNumPending();
+                    } else {
+                        alert(response.meta.message);
+                    }
+                }
+            });
+        }
+
+        function gmpLog() {
+            $server.request({
+                service: 'log-gmp-packing-preop',
+                success: function(response) {
+                    $('#log-gmp-packing-preop pre.output').append(
+                        JSON.stringify(response, null, 4)
+                    );
+                    logout();
+                }
+            })
+        }
+
+        function testLog() {
+            $server.request({
+                service: 'login',
+                data: {
+                    username: 'supervisor1',
+                    password: 'password'
+                },
+                success: function(response) {
+                    if (response.meta.return_code == 0) {
+                        gmpLog();
+                    } else {
+                        alert(response.meta.message);
+                    }
+                }
+            });
+        }
+
+        // test1();
+        // test2();
+        // test3();
+        // //test4();
+        // //test5();
+        // test6();
+        // test7();
+        // test8();
+        testLog();
+    </script>
+</html>

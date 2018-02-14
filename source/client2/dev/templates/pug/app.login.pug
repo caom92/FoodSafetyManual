@@ -1,0 +1,44 @@
+include globals.pug
+
+div.row
+  div.col.s12.m6.offset-m3
+    form(
+      '[formGroup]'='userLogInInfo'
+      '(ngSubmit)'='onLogInFormSubmit()'
+      novalidate
+    )
+      mz-card(
+        '[hoverable]'="'true'"
+      ).center-align
+        mz-card-title
+          ='{{ langManager.messages.loginFormLabels.title }}'
+        mz-card-content
+          +textInput(
+            'username',
+            "langManager.messages.loginFormLabels.username",
+            'mdi mdi-account-circle'
+          )(
+            mz-validation
+            required
+            '[errorMessageResource]'='langManager.messages.loginForm.username'
+            formControlName='username'
+          )
+          +passwordInput(
+            'password',
+            "langManager.messages.loginFormLabels.password",
+            'mdi mdi-lock'
+          )(
+            mz-validation
+            required
+            '[errorMessageResource]'='langManager.messages.loginForm.password'
+            formControlName='password'
+          )
+        mz-card-action
+          +button(
+            'submit', 
+            'submit-button', 
+            '{{ langManager.messages.loginFormLabels.submit }}'
+          )(
+            '[flat]'="'true'"
+            '[disabled]'="!userLogInInfo.valid"
+          )

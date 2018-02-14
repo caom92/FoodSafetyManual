@@ -1,0 +1,108 @@
+<div id="master_wrapper" style="display:none;">
+<div class="row">
+    <div class="col s12 m12 l12">
+    <!--Header-->
+        <h4><i class="mdi mdi-wrench md-36 field-icon"></i>
+            <div id="log_title" class="log_title"> </div>
+        </h4>
+        <div class="divider"></div>
+    </div>
+</div>
+
+<div class='row' id='upload-manual-section' style='display:none';>
+    <form id='upload-manual-form'>
+    <div class='s6 m3 l3 offset-m6 offset-m3 file-field input-field'>
+        <div class="btn">
+            <span>File</span>
+            <input type="file" id='manual_file' name='manual_file'>
+        </div>
+        <div class="file-path-wrapper">
+            <input class="file-path validate" type="text">
+        </div>
+    </div>
+    </form>
+</div>
+
+<div class='row' id='upload-manual-section-trigger' style='display:none';>
+    <div class="col s6 m3 l3 right">
+        <a class="green btn waves-effect waves-light" 
+            id="upload-manual" style='margin-top:20px;'>
+            <span>Upload</span>
+            <i class="mdi mdi-upload left"></i>
+        </a>
+    </div>
+</div>
+
+<div class='row' id='progress-bar' style='display: none;'>
+    <div class="progress">
+        <div class="indeterminate"></div>
+    </div>
+</div>
+
+<div id="content_wrapper">
+    <div id="tabs_wrapper">
+        <div class="row">
+            <div class="col s12">
+              <ul class="tabs">
+                <li class="tab col s4"><a class="green-text manual_tab" href="#manual_tab"></a></li>
+                <li class="tab col s4"><a class="green-text report_tab" href="#report_tab"></a></li>
+                <li class="tab col s4"><a class="green-text logs_tab" href="#logs_tab"></a></li>
+              </ul>
+            </div>
+            <div style="height: calc(100vh - 225px)" id="manual_tab" class="col s12">
+            </div>
+            <div id="report_tab" class="col s12">
+                <div class="card-panel white">
+                    <div class="row">
+                        <div id="report_date_start" class="input-field col s12">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="report_date_end" class="input-field col s12">
+
+                        </div>
+                    </div>
+                    <div id="additional_controls" class="row">
+
+                    </div>
+                    <div class="center-align">
+                        <a id="request_report" class="waves-effect waves-light btn"><span class="open_report_button"></span>  <i class="mdi mdi-send mdi-18px"></i></a>
+                        <a id='request_pdf' style='display:none' class="waves-effect waves-light btn"><span class="view_pdf"></span>  <i class="mdi mdi-file-pdf mdi-18px"></i></a>
+                    </div>
+                </div>
+                <div id="loading_reports" class="row center" style="display:none;">
+                    <div class="col s12 m12 l12">
+                      <div class="preloader-wrapper big active">
+                        <div class="spinner-layer spinner-blue-only">
+                          <div class="circle-clipper left">
+                            <div class="circle"></div>
+                          </div><div class="gap-patch">
+                            <div class="circle"></div>
+                          </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div id='report-tab-index'>
+                </div>
+                <div id='report-tab-subject' class="">
+                </div>
+                <div id='report-tab-content'>
+                </div>
+                <div id='report-tab-footer'>
+                </div>
+            </div>
+            <div id="logs_tab" class="col s12">
+                <div id="logs_wrapper">
+                </div>
+                <div id="sending_log" class="progress" style="display:none;">
+                    <div class="indeterminate"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

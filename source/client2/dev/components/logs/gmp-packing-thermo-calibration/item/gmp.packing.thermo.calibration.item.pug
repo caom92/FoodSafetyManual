@@ -1,0 +1,9 @@
+include ../../../log-ionic-materialize.pug
+
++card()([formGroup]='itemForm')
+  +cardContent()
+    +textInputLine("{{item.name}}", "{{ 'Log.ice_point_test' | translate:lang }}", "thermometer", "test", "number")
+    +checkbox("{{ 'Log.thermo_calibration' | translate:lang }}", false, "calibration", "calibration_{{item.id}}")
+    +checkbox("{{ 'Log.sanitized' | translate:lang }}", false, "sanitization", "sanitization_{{item.id}}")
+    +textArea("{{ 'Log.deficiencies_of' | translate:lang }} {{item.name}}", "clipboard", "deficiencies", "deficiencies_{{item.id}}")
+    +textArea("{{ 'Log.corrective_action_of' | translate:lang }} {{item.name}}", "clipboard", "corrective_action", "corrective_action_{{item.id}}")

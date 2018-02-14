@@ -1,0 +1,36 @@
+ion-content
+  ion-card
+    ion-card-header {{ 'Report Request' | translate:lang }}
+    ion-card-content
+      form#date-form([formGroup]='dateRangeForm', (ngSubmit)='getReportData()')
+        ion-item
+          ion-label {{ 'Start Date' | translate:lang }}
+          ion-datetime(displayFormat='YYYY-MM-DD', formControlName='startDate')
+        ion-item
+          ion-label {{ 'Close Date' | translate:lang }}
+          ion-datetime(displayFormat='YYYY-MM-DD', formControlName='endDate')
+      form#pdf-form(method='POST', target='_blank', action='http://localhost/espresso/source/server/report/reportPDF.php', ngNoForm='')
+        input(type='hidden', name='lang', [ngModel]='pdfReport.lang')
+        input(type='hidden', name='content', [ngModel]='pdfReport.content')
+        input(type='hidden', name='style', [ngModel]='pdfReport.style')
+        input(type='hidden', name='company', [ngModel]='pdfReport.company')
+        input(type='hidden', name='address', [ngModel]='pdfReport.address')
+        input(type='hidden', name='logo', [ngModel]='pdfReport.logo')
+        input(type='hidden', name='orientation', [ngModel]='pdfReport.orientation')
+        input(type='hidden', name='fontsize', [ngModel]='pdfReport.fontsize')
+        input(type='hidden', name='footer', [ngModel]='pdfReport.footer')
+        input(type='hidden', name='supervisor', [ngModel]='pdfReport.supervisor')
+        input(type='hidden', name='signature', [ngModel]='pdfReport.signature')
+      ion-grid
+        ion-row
+          ion-col
+            div(text-center='')
+              button(ion-button='', icon-end='', round='', form='date-form')
+                | {{ 'Open Report' | translate:lang }}
+                ion-icon(name='send')
+          ion-col
+            div(text-center='', *ngIf='reports.length != 0')
+              button(ion-button='', icon-end='', round='', (click)='showChildren()', form='pdf-form')
+                | Show PDF
+                ion-icon(name='ios-paper')
+  report-loader(#reports='', *ngFor='let report of reports', [report]='report', [activeReport]='activeReport', [suffix]='reportSuffix', [footer]='reportFooter')

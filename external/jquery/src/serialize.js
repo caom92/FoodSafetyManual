@@ -111,6 +111,7 @@ jQuery.fn.extend( {
 		.map( function( i, elem ) {
 			var val = jQuery( this ).val();
 
+<<<<<<< HEAD
 			return val == null ?
 				null :
 				jQuery.isArray( val ) ?
@@ -118,6 +119,19 @@ jQuery.fn.extend( {
 						return { name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
 					} ) :
 					{ name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
+=======
+			if ( val == null ) {
+				return null;
+			}
+
+			if ( jQuery.isArray( val ) ) {
+				return jQuery.map( val, function( val ) {
+					return { name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
+				} );
+			}
+
+			return { name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
+>>>>>>> carlos
 		} ).get();
 	}
 } );

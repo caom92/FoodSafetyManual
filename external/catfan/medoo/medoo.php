@@ -996,7 +996,11 @@ class medoo
 
 		if ($query)
 		{
+<<<<<<< HEAD
 			return $query->fetchColumn() === '1';
+=======
+			return $query->fetchColumn() == '1';
+>>>>>>> carlos
 		}
 		else
 		{

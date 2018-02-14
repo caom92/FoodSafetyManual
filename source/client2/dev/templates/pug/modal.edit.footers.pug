@@ -1,0 +1,46 @@
+include globals.pug
+
+mz-modal(
+  '[options]'='modalOptions'
+  '[fixedFooter]'='true'
+)
+  mz-modal-header
+    ='{{ langManager.messages.logFootersLabels.titles[1] }}'
+  mz-modal-content
+    h6
+      ='{{ zone }} - {{ log }}'
+    form(
+      '[formGroup]'='footerEditionForm'
+      novalidate
+    )
+      +textArea(
+        'pdf-footer',
+        65535,
+        'langManager.messages.logFootersLabels.tableHeaders[1]'
+      )(
+        formControlName='newFooterPDF'
+        required
+        mz-validation
+        '[errorMessageResource]'='langManager.messages.logFootersLabels.newFooter'
+      )
+      +textArea(
+        'html-footer',
+        65535,
+        'langManager.messages.logFootersLabels.tableHeaders[2]'
+      )(
+        formControlName='newFooterHTML'
+        required
+        mz-validation
+        '[errorMessageResource]'='langManager.messages.logFootersLabels.newFooter'
+      )
+  mz-modal-footer
+    +button(
+      'submit',
+      'edit-footers-submit',
+      '{{ langManager.messages.editPasswordFormLabels.submit }}',
+      'mdi mdi-send'
+    )(
+      mz-modal-close
+      '[disabled]'='!footerEditionForm.valid'
+      '(click)'='onFooterEditionFormSubmit()'
+    )

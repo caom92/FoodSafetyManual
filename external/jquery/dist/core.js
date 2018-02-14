@@ -1,5 +1,9 @@
 /* global Symbol */
+<<<<<<< HEAD
 // Defining this global in .eslintrc would create a danger of using the global
+=======
+// Defining this global in .eslintrc.json would create a danger of using the global
+>>>>>>> carlos
 // unguarded in another place, it seems safer to define global only for this module
 
 define( [
@@ -24,7 +28,11 @@ define( [
 "use strict";
 
 var
+<<<<<<< HEAD
 	version = "3.1.0",
+=======
+	version = "3.1.1",
+>>>>>>> carlos
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -64,6 +72,7 @@ jQuery.fn = jQuery.prototype = {
 	// Get the Nth element in the matched element set OR
 	// Get the whole matched element set as a clean array
 	get: function( num ) {
+<<<<<<< HEAD
 		return num != null ?
 
 			// Return just the one element from the set
@@ -71,6 +80,16 @@ jQuery.fn = jQuery.prototype = {
 
 			// Return all the elements in a clean array
 			slice.call( this );
+=======
+
+		// Return all the elements in a clean array
+		if ( num == null ) {
+			return slice.call( this );
+		}
+
+		// Return just the one element from the set
+		return num < 0 ? this[ num + this.length ] : this[ num ];
+>>>>>>> carlos
 	},
 
 	// Take an array of elements and push it onto the stack

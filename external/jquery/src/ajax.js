@@ -1,7 +1,11 @@
 define( [
 	"./core",
 	"./var/document",
+<<<<<<< HEAD
 	"./var/rnotwhite",
+=======
+	"./var/rnothtmlwhite",
+>>>>>>> carlos
 	"./ajax/var/location",
 	"./ajax/var/nonce",
 	"./ajax/var/rquery",
@@ -11,14 +15,22 @@ define( [
 	"./event/trigger",
 	"./deferred",
 	"./serialize" // jQuery.param
+<<<<<<< HEAD
 ], function( jQuery, document, rnotwhite, location, nonce, rquery ) {
+=======
+], function( jQuery, document, rnothtmlwhite, location, nonce, rquery ) {
+>>>>>>> carlos
 
 "use strict";
 
 var
 	r20 = /%20/g,
 	rhash = /#.*$/,
+<<<<<<< HEAD
 	rts = /([?&])_=[^&]*/,
+=======
+	rantiCache = /([?&])_=[^&]*/,
+>>>>>>> carlos
 	rheaders = /^(.*?):[ \t]*([^\r\n]*)$/mg,
 
 	// #7653, #8125, #8152: local protocol detection
@@ -64,7 +76,11 @@ function addToPrefiltersOrTransports( structure ) {
 
 		var dataType,
 			i = 0,
+<<<<<<< HEAD
 			dataTypes = dataTypeExpression.toLowerCase().match( rnotwhite ) || [];
+=======
+			dataTypes = dataTypeExpression.toLowerCase().match( rnothtmlwhite ) || [];
+>>>>>>> carlos
 
 		if ( jQuery.isFunction( func ) ) {
 
@@ -532,7 +548,11 @@ jQuery.extend( {
 		s.type = options.method || options.type || s.method || s.type;
 
 		// Extract dataTypes list
+<<<<<<< HEAD
 		s.dataTypes = ( s.dataType || "*" ).toLowerCase().match( rnotwhite ) || [ "" ];
+=======
+		s.dataTypes = ( s.dataType || "*" ).toLowerCase().match( rnothtmlwhite ) || [ "" ];
+>>>>>>> carlos
 
 		// A cross-domain request is in order when the origin doesn't match the current origin.
 		if ( s.crossDomain == null ) {
@@ -604,9 +624,15 @@ jQuery.extend( {
 				delete s.data;
 			}
 
+<<<<<<< HEAD
 			// Add anti-cache in uncached url if needed
 			if ( s.cache === false ) {
 				cacheURL = cacheURL.replace( rts, "" );
+=======
+			// Add or update anti-cache param if needed
+			if ( s.cache === false ) {
+				cacheURL = cacheURL.replace( rantiCache, "$1" );
+>>>>>>> carlos
 				uncached = ( rquery.test( cacheURL ) ? "&" : "?" ) + "_=" + ( nonce++ ) + uncached;
 			}
 

@@ -1,0 +1,17 @@
+report-header([header]="header")
+ion-card
+  ion-card-content
+    table(#report_body)
+      thead
+        tr
+          th.timeColumn {{ 'Log.time' | translate:lang }}
+          th.numberColumn {{ 'Log.number_abbr' | translate:lang }}
+          th.testColumn {{ 'Log.reading' | translate:lang }}
+          th.calibrationColumn {{ 'Log.calibrated' | translate:lang }}
+          th.sanitizationColumn {{ 'Log.sanitized' | translate:lang }}
+          th.deficienciesColumn {{ 'Log.deficiencies_of' | translate:lang }}
+          th.actionColumn {{ 'Log.corrective_action' | translate:lang }}
+      tbody
+        ng-template(ngFor, let-item, [ngForOf]='report.items', let-first='first')
+          tr(gmp-packing-thermo-calibration-report-item, [item]='item', [time]='report.time', [timeRowspan]='report.items.length', *ngIf='first')
+          tr(gmp-packing-thermo-calibration-report-item, [item]='item', *ngIf='!first')

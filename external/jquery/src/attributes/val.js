@@ -1,5 +1,6 @@
 define( [
 	"../core",
+<<<<<<< HEAD
 	"./support",
 	"../core/init"
 ], function( jQuery, support ) {
@@ -8,6 +9,16 @@ define( [
 
 var rreturn = /\r/g,
 	rspaces = /[\x20\t\r\n\f]+/g;
+=======
+	"../core/stripAndCollapse",
+	"./support",
+	"../core/init"
+], function( jQuery, stripAndCollapse, support ) {
+
+"use strict";
+
+var rreturn = /\r/g;
+>>>>>>> carlos
 
 jQuery.fn.extend( {
 	val: function( value ) {
@@ -28,6 +39,7 @@ jQuery.fn.extend( {
 
 				ret = elem.value;
 
+<<<<<<< HEAD
 				return typeof ret === "string" ?
 
 					// Handle most common string cases
@@ -35,6 +47,15 @@ jQuery.fn.extend( {
 
 					// Handle cases where value is null/undef or number
 					ret == null ? "" : ret;
+=======
+				// Handle most common string cases
+				if ( typeof ret === "string" ) {
+					return ret.replace( rreturn, "" );
+				}
+
+				// Handle cases where value is null/undef or number
+				return ret == null ? "" : ret;
+>>>>>>> carlos
 			}
 
 			return;
@@ -91,20 +112,39 @@ jQuery.extend( {
 					// option.text throws exceptions (#14686, #14858)
 					// Strip and collapse whitespace
 					// https://html.spec.whatwg.org/#strip-and-collapse-whitespace
+<<<<<<< HEAD
 					jQuery.trim( jQuery.text( elem ) ).replace( rspaces, " " );
+=======
+					stripAndCollapse( jQuery.text( elem ) );
+>>>>>>> carlos
 			}
 		},
 		select: {
 			get: function( elem ) {
+<<<<<<< HEAD
 				var value, option,
+=======
+				var value, option, i,
+>>>>>>> carlos
 					options = elem.options,
 					index = elem.selectedIndex,
 					one = elem.type === "select-one",
 					values = one ? null : [],
+<<<<<<< HEAD
 					max = one ? index + 1 : options.length,
 					i = index < 0 ?
 						max :
 						one ? index : 0;
+=======
+					max = one ? index + 1 : options.length;
+
+				if ( index < 0 ) {
+					i = max;
+
+				} else {
+					i = one ? index : 0;
+				}
+>>>>>>> carlos
 
 				// Loop through all the selected options
 				for ( ; i < max; i++ ) {

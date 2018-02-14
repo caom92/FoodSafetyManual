@@ -1,0 +1,150 @@
+include globals.pug
+
+//- Barra de navegacion en la parte superior de la pagina
+-
+  var navBarConfig = {
+    sideNavButton: {
+      id: "'sidenav-activation-btn'",
+      icon: 'mdi mdi-menu white-text',
+      showFlag: "this.home.showSideNav === true"
+    }
+  };
++navBar(navBarConfig)('[navbarClass]'="'green'")
+  mz-navbar-item
+    +select(
+      "'zone-selection'", 
+      '',
+      "langManager.messages.navBar.zone", 
+      'home.zones', 
+      '.name', 
+      '.id', 
+      'onZoneSelectionChanged()'
+    )(
+      '*ngIf'="home.showZoneMenu"
+      '[(ngModel)]'='selectedZoneID'
+    )
+  mz-navbar-item
+    +link('http://www.jfdc.tech/')
+      i.mdi.mdi-home
+  mz-navbar-item
+    +link()('[id]'="'translation-button'")
+      i.mdi.mdi-translate
+    +dropdownMenu("'language-options'", "'translation-button'")
+      mz-dropdown-item
+        +link()(
+          '(click)'='onLanguageButtonClicked("es")'
+          click-stop-propagation
+        )='Español'
+      mz-dropdown-item
+        +link()(
+          '(click)'='onLanguageButtonClicked("en")'
+          click-stop-propagation
+        )='English'
+
+//- Menu de navegacion lateral
++sideNav("'sidenav'", "'sidenav-activation-btn'")(
+  '[fixed]'="'true'"
+  '*ngIf'="this.home.showSideNav === true"
+)
+  div.logo-area
+  +sideNavCollapsible(
+    '{{home.userFullName}}', 'mdi mdi-account-circle white-text'
+  )(id='account-options')
+    mz-sidenav-link
+      +uiRouterLink('edit-profile')(class='waves-effect waves-green')
+        ='{{ langManager.messages.sideNavOptions.editProfile }}'
+    mz-sidenav-link
+      +link()(
+        class='waves-effect waves-green'
+        '(click)'='onLogOutButtonClicked()'
+      )
+        ='{{ langManager.messages.sideNavOptions.logout }}'
+  
+  //- Menu de navegacion para el administrador
+  mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
+    +uiRouterLink('users')(class='side-menu-link waves-effect waves-green')
+      i.mdi.mdi-account-multiple.mdi-24px
+      ='{{ langManager.messages.sideNavOptions.users }}'
+  mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
+    +uiRouterLink('zones')(
+      class='side-menu-link waves-effect waves-green'
+    )
+      i.mdi.mdi-domain.mdi-24px
+      ='{{ langManager.messages.sideNavOptions.zones }}'
+  mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
+    +uiRouterLink('log-footers')(
+      class='side-menu-link waves-effect waves-green'
+    )
+      i.mdi.mdi-note-multiple.mdi-24px
+      ='{{ langManager.messages.sideNavOptions.programs }}'
+  mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
+    +uiRouterLink('supervisors')(
+      class='side-menu-link waves-effect waves-green'
+    )
+      i.mdi.mdi-account-star.mdi-24px
+      ='{{ langManager.messages.sideNavOptions.supervisors }}'
+  mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
+    +uiRouterLink('signatures')(
+      class='side-menu-link waves-effect waves-green'
+    )
+      i.mdi.mdi-pen.mdi-24px
+      ='{{ langManager.messages.sideNavOptions.signatures }}'
+
+  //- Menu de navegacion para el supervisor
+  mz-sidenav-link('*ngIf'="home.roleName === 'Supervisor'")
+    +uiRouterLink('pending-authorizations-list')(
+      class='side-menu-link waves-effect waves-green'
+    )
+      i.mdi.mdi-comment-check.mdi-24px.mdi-dark
+      ='{{ langManager.messages.sideNavOptions.authorizations }}'
+      mz-badge(
+        '*ngIf'='home.numPendingAuthorizations != 0'
+        '[value]'='home.numPendingAuthorizations'
+        '[caption]'="' '"
+        '[badgeClass]'="'green'"
+      )
+  div('*ngIf'="home.roleName === 'Supervisor'")
+    +sideNavCollapsible(
+      "{{ langManager.messages.sideNavOptions.inventory + ' ' + program }}", 'mdi mdi-briefcase'
+    )(
+      '*ngFor'='let program of home.programs | keys'
+    )
+      mz-sidenav-link(
+        '*ngFor'='let module of home.programs[program].names | keys'
+      )
+        +uiRouterLink('inventory-selection')(
+          class='waves-effect waves-green'
+          '[uiParams]'="{ program: program, module: home.programs[program].names[module].suffix }"
+        )
+          ='{{ module }}'
+
+  //- Menu de navegacion para el empleado, el supervisor, gerente o director
+  div('*ngIf'="home.roleName != 'Administrator'")
+    +sideNavCollapsible(
+      '{{ program }}', 'mdi mdi-wrench'
+    )(
+      '*ngFor'='let program of home.programs | keys'
+    )
+      mz-sidenav-link(
+        '*ngFor'='let module of home.programs[program].names | keys'
+      )
+        +uiRouterLink('log-selection')(
+          class='waves-effect waves-green'
+          '[uiParams]'="{ program: program, module: home.programs[program].names[module].suffix }"
+        )
+          ='{{ module }}'
+
+  //- El boton para reportar errores del sistema
+  mz-sidenav-link
+    +uiRouterLink('report-problem')(class='side-menu-link waves-effect waves-green')
+      i.mdi.mdi-alert.mdi-24px.mdi-dark
+      ='{{ langManager.messages.sideNavOptions.reportProblem }}'
+
+//- Area principal de la pagina
+div.container(
+  '[ngClass]'="{ 'with-sidenav': home.showSideNav }"
+) 
+  ui-view('[hidden]'='home.showSpinner')
+  div.row('[hidden]'='!home.showSpinner')
+    div.col.s12.m12.center-align
+      mz-spinner('[size]'="'big'")
