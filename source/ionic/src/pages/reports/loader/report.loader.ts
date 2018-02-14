@@ -17,6 +17,8 @@ import { GAPPackingPreopReportComponent } from '../gap-packing-preop/report/gap.
 import { GMPSelfInspectionPestControlReportComponent } from '../gmp-self-inspection-pest-control/report/gmp.self.inspection.pest.control.report';
 import { GMPOthersUnusualOccurrenceReportComponent } from '../gmp-others-unusual-occurrence/report/gmp.others.unusual.occurrence.report';
 import { GAPOthersUnusualOccurrenceReportComponent } from '../gap-others-unusual-occurrence/report/gap.others.unusual.occurrence.report';
+import { GMPPackingAgedProductReportComponent } from '../gmp-packing-aged-product/report/gmp.packing.aged.product.report';
+import { GMPPackingFinishedProductReportComponent } from '../gmp-packing-finished-product/report/gmp.packing.finished.product.report';
 
 @Component({
   selector: 'report-loader',
@@ -113,6 +115,16 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
         parent: this
       }).instance
         break
+      case 'gmp-packing-aged-product': this.loaderComponent = this.loadComponent(GMPPackingAgedProductReportComponent, {
+        report: this.report,
+        parent: this
+      }).instance
+        break
+      case 'gmp-packing-finished-product': this.loaderComponent = this.loadComponent(GMPPackingFinishedProductReportComponent, {
+        report: this.report,
+        parent: this
+      }).instance
+        break
     }
   }
 
@@ -123,13 +135,13 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
     this.pdfReport.company = JSON.parse(localStorage["__mydb/_ionickv/company"])
     this.pdfReport.address = JSON.parse(localStorage["__mydb/_ionickv/address"])
     this.pdfReport.logo = JSON.parse(localStorage["__mydb/_ionickv/logo"])
-    this.pdfReport.orientation = "P"
+    this.pdfReport.orientation = this.loaderComponent.getOrientation()
     this.pdfReport.footer = this.footer
     this.pdfReport.supervisor = this.loaderComponent.report.approved_by
     this.pdfReport.signature = this.loaderComponent.report.signature_path
     this.pdfReport.subject = ""
     this.pdfReport.images = null
-    this.pdfReport.fontsize = 10
+    this.pdfReport.fontsize = this.loaderComponent.getFontSize()
   }
 
   public getPDFContent() {

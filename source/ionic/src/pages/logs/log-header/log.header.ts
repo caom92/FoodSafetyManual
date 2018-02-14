@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { Storage } from '@ionic/storage'
-import { Language } from 'angular-l10n'
+import { Language, DefaultLocale, Currency } from 'angular-l10n'
 
 import { DateTimeService } from '../../../services/app.time'
 
@@ -22,6 +22,8 @@ export class LogHeaderComponent implements OnInit {
   date: string = ""
   username: string = ""
   @Language() lang: string
+  @DefaultLocale() defaultLocale: string
+  @Currency() currency: string
 
   constructor(private timeService: DateTimeService, private storage: Storage) {
 

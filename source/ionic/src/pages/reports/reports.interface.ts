@@ -10,6 +10,6 @@ export interface ReportRequest {
   supervisor: string
   signature: string
   subject?: string
-  fontsize?: number
+  fontsize?: string
   images?: any
 }

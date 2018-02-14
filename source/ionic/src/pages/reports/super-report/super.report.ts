@@ -39,6 +39,15 @@ export class SuperReportComponent implements OnInit {
     return this.reportHTML.nativeElement.outerHTML
   }
 
+  public getOrientation(): string {
+    // Orientación del reporte, por defecto es "P" (Portrait) pero puede redefinirse en los reportes hijo para usar "L" (Landscape),
+    return "P"
+  }
+
+  public getFontSize(): string {
+    return "10"
+  }
+
   public getCSS(): string {
     throw "getCSS() function must be overridden in child class"
   }

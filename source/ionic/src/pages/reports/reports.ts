@@ -79,7 +79,7 @@ export class ReportTab extends DynamicComponentResolver {
     this.pdfReport.signature = this.pdfReports._results[0].report.signature_path
     this.pdfReport.subject = ""
     this.pdfReport.images = null
-    this.pdfReport.fontsize = 10
+    this.pdfReport.fontsize = "8"
     //console.log(this.pdfReports)
     let tempContent = []
     for(let report of this.pdfReports._results){

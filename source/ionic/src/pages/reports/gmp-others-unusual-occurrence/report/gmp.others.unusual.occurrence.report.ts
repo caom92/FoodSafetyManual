@@ -5,7 +5,7 @@ import { SuperReportComponent } from '../../super-report/super.report'
 import { Report } from '../interfaces/gmp.others.unusual.occurrence.report.interface'
 
 @Component({
-  selector: 'gmp-packing-preop-report',
+  selector: 'gmp-others-unusual-occurrence-report',
   templateUrl: './gmp.others.unusual.occurrence.report.html'
 })
 

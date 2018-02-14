@@ -8,6 +8,6 @@ ion-card
       ion-row
         ion-col {{ 'LogHeader.module' | translate:lang }}: {{log.module_name}}
       ion-row
-        ion-col {{ 'LogHeader.date' | translate:lang }}: {{date}}
+        ion-col {{ 'LogHeader.date' | translate:lang }}: {{date | localeDate:defaultLocale:'MMM d, y'}}
       ion-row
         ion-col {{ 'LogHeader.made_by' | translate:lang }}: {{username}}

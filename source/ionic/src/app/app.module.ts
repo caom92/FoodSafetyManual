@@ -226,7 +226,7 @@ import { ManualUploadComponent } from '../pages/manual/manual-upload/manual.uplo
 
 import { InventoryLoaderComponent } from '../pages/inventories/inventories'
 
-import { TranslationModule, LocaleService, TranslationService as TService } from 'angular-l10n'
+import { LocalizationModule, LocaleService, TranslationService as TService } from 'angular-l10n'
 
 import { DynamicComponentContainerDirective } from '../directives/dynamic.container'
 import { HideFabDirective } from "../directives/hide.fab"
@@ -247,6 +247,8 @@ import { ReportLoader } from '../pages/reports/loader/report.loader'
 import { ReportHeaderComponent } from '../pages/reports/report-header/report.header'
 import { GMPOthersUnusualOccurrenceReportComponent } from '../pages/reports/gmp-others-unusual-occurrence/report/gmp.others.unusual.occurrence.report';
 import { GAPOthersUnusualOccurrenceReportComponent } from '../pages/reports/gap-others-unusual-occurrence/report/gap.others.unusual.occurrence.report';
+import { GMPPackingAgedProductReportComponent } from '../pages/reports/gmp-packing-aged-product/report/gmp.packing.aged.product.report';
+import { GMPPackingFinishedProductReportComponent } from '../pages/reports/gmp-packing-finished-product/report/gmp.packing.finished.product.report';
 
 @NgModule({
   declarations: [
@@ -405,14 +407,16 @@ import { GAPOthersUnusualOccurrenceReportComponent } from '../pages/reports/gap-
     GMPDocControlDocControlInventoryListComponent,
     GMPDocControlDocControlAddItemComponent,
     GMPOthersUnusualOccurrenceReportComponent,
-    GAPOthersUnusualOccurrenceReportComponent
+    GAPOthersUnusualOccurrenceReportComponent,
+    GMPPackingAgedProductReportComponent,
+    GMPPackingFinishedProductReportComponent
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpModule,
     DragulaModule,
-    TranslationModule.forRoot(),
+    LocalizationModule.forRoot(),
     IonicStorageModule.forRoot({
       name: '__mydb',
          driverOrder: ['localstorage', 'sqlite', 'websql']
@@ -572,7 +576,9 @@ import { GAPOthersUnusualOccurrenceReportComponent } from '../pages/reports/gap-
     GMPDocControlDocControlInventoryListComponent,
     GMPDocControlDocControlAddItemComponent,
     GMPOthersUnusualOccurrenceReportComponent,
-    GAPOthersUnusualOccurrenceReportComponent
+    GAPOthersUnusualOccurrenceReportComponent,
+    GMPPackingAgedProductReportComponent,
+    GMPPackingFinishedProductReportComponent
   ],
   providers: [
     StatusBar,
