@@ -217,6 +217,8 @@ $service = [
       // store the user privileges in the data base 
       $scope->daoFactory->get('UsersLogsPrivileges')->insert($privileges);
     }
+
+    return $userID;
   }
 ];
 

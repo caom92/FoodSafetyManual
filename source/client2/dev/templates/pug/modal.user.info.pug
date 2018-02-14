@@ -51,7 +51,7 @@ mz-modal(
               'zone',
               'langManager.messages.supervisorsFormLabels.zone',
               'langManager.messages.reportProblemFormLabels.selectLabel',
-              'zones', '.name', '', 'onZoneSelected()'
+              'zones', '.name', '.id', 'onZoneSelected()'
             )(
               mz-validation
               required
@@ -63,7 +63,7 @@ mz-modal(
               'role',
               'langManager.messages.usersFormLabels.role',
               'langManager.messages.reportProblemFormLabels.selectLabel',
-              'userRoles', '.name', '', 'onRoleSelected()'
+              'userRoles', '.name', '.id', 'onRoleSelected()'
             )(
               mz-validation
               required
@@ -71,7 +71,7 @@ mz-modal(
               '[errorMessageResource]'='langManager.messages.usersFormLabels.errors.required'
             )
           div.col.s12.m4(
-            '*ngIf'="selectedRole.name === 'Employee' && selectedZone.id > 0"
+            '*ngIf'="selectedRole.name === 'Employee' && selectedZoneId > 0"
           )
             +select(
               'supervisor',
@@ -95,25 +95,27 @@ mz-modal(
               '[errorMessageResource]'='langManager.messages.usersFormLabels.errors.username'
             )
           div.col.s12.m4
-            +passwordInput(
-              'password',
-              'langManager.messages.editPasswordFormLabels.newPassword'
-            )(
-              mz-validation
-              required
-              formControlName='password'
-              '[errorMessageResource]'='langManager.messages.usersFormLabels.errors.password'
-            )
+            block Password
+              +passwordInput(
+                'password',
+                'langManager.messages.editPasswordFormLabels.newPassword'
+              )(
+                mz-validation
+                required
+                formControlName='password'
+                '[errorMessageResource]'='langManager.messages.usersFormLabels.errors.password'
+              )
           div.col.s12.m4
-            +passwordInput(
-              'confirm-password',
-              'langManager.messages.editPasswordFormLabels.newPasswordConfirmation'
-            )(
-              mz-validation
-              required
-              formControlName='passwordConfirmation'
-              '[errorMessageResource]'='langManager.messages.usersFormLabels.errors.password'
-            )
+            block PasswordConfirmation
+              +passwordInput(
+                'confirm-password',
+                'langManager.messages.editPasswordFormLabels.newPasswordConfirmation'
+              )(
+                mz-validation
+                required
+                formControlName='passwordConfirmation'
+                '[errorMessageResource]'='langManager.messages.usersFormLabels.errors.password'
+              )
         
         div.row('*ngIf'="userForm.hasError('arePasswordsDifferent')")
           div.col.s12.invalid.red-text(style='font-size: 0.8rem;')
@@ -146,55 +148,57 @@ mz-modal(
             i.mdi.mdi-settings
             ='{{ langManager.messages.usersFormLabels.privileges }}'
 
-        ng-container('*ngFor'='let program of programs')  
-          div.row('[hidden]'='selectedProgram.name != program.name')
-            div.col.s12
-              mz-collapsible
-                mz-collapsible-item('*ngFor'='let module of program.modules')
-                  mz-collapsible-item-header
-                    ='{{ module.name }}'
-                  mz-collapsible-item-body
-                    table.highlight&attributes(attributes)
-                      thead
-                        th
-                          ='{{ langManager.messages.usersFormLabels.logsTableHeaders[0] }}'
-                        th
-                          ='{{ langManager.messages.usersFormLabels.logsTableHeaders[1] }}'
-                        th
-                          ='{{ langManager.messages.usersFormLabels.logsTableHeaders[2] }}'
-                        th('*ngIf'='selectedRole.name === "Employee"')
-                          ='{{ langManager.messages.usersFormLabels.logsTableHeaders[3] }}'
-                      tbody
-                        tr('*ngFor'='let log of module.logs')
-                          td='{{ log.name }}'
-                          td: +radioButton(
-                            '{{ "none-" + log.id }}', 
-                            '{{ log.name }}'
-                          )(
-                            '(click)'='onPrivilegeSelected(log.name, privileges[0].id)'
-                            checked
-                          )
-                          td: +radioButton(
-                            '{{ "read-" + log.id }}',
-                            '{{ log.name }}'
-                          )(
-                            '(click)'='onPrivilegeSelected(log.name, privileges[1].id)'
-                          )
-                          td: +radioButton(
-                            '{{ "write" + log.id }}', 
-                            '{{ log.name }}'
-                          )(
-                            '*ngIf'='selectedRole.name === "Employee"'
-                            '(click)'='onPrivilegeSelected(log.name, privileges[2].id)'
-                          )
+        block Privileges
+          ng-container('*ngFor'='let program of programs')  
+            div.row('[hidden]'='selectedProgram.name != program.name')
+              div.col.s12
+                mz-collapsible
+                  mz-collapsible-item('*ngFor'='let module of program.modules')
+                    mz-collapsible-item-header
+                      ='{{ module.name }}'
+                    mz-collapsible-item-body
+                      table.highlight&attributes(attributes)
+                        thead
+                          th
+                            ='{{ langManager.messages.usersFormLabels.logsTableHeaders[0] }}'
+                          th
+                            ='{{ langManager.messages.usersFormLabels.logsTableHeaders[1] }}'
+                          th
+                            ='{{ langManager.messages.usersFormLabels.logsTableHeaders[2] }}'
+                          th('*ngIf'='selectedRole.name === "Employee"')
+                            ='{{ langManager.messages.usersFormLabels.logsTableHeaders[3] }}'
+                        tbody
+                          tr('*ngFor'='let log of module.logs')
+                            td='{{ log.name }}'
+                            td: +radioButton(
+                              '{{ "none-" + log.id }}', 
+                              '{{ log.name }}'
+                            )(
+                              '(click)'='onPrivilegeSelected(log.name, privileges[0].id)'
+                              checked
+                            )
+                            td: +radioButton(
+                              '{{ "read-" + log.id }}',
+                              '{{ log.name }}'
+                            )(
+                              '(click)'='onPrivilegeSelected(log.name, privileges[1].id)'
+                            )
+                            td: +radioButton(
+                              '{{ "write-" + log.id }}', 
+                              '{{ log.name }}'
+                            )(
+                              '*ngIf'='selectedRole.name === "Employee"'
+                              '(click)'='onPrivilegeSelected(log.name, privileges[2].id)'
+                            )
 
   mz-modal-footer
-    +button(
-      'submit',
-      'edit-user-submit',
-      '{{ langManager.messages.editPasswordFormLabels.submit }}',
-      'mdi mdi-send'
-    )(
-      '[disabled]'='!userForm.valid'
-      '(click)'='onFormSubmit()'
-    )
+    block SubmitButton
+      +button(
+        'submit',
+        'edit-user-submit',
+        '{{ langManager.messages.editPasswordFormLabels.submit }}',
+        'mdi mdi-send'
+      )(
+        '[disabled]'='!userForm.valid'
+        '(click)'='onFormSubmit()'
+      )

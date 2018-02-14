@@ -679,6 +679,9 @@ export class LanguageService
             required: 'This field is required',
             minlength: 'This field must be at least 3 characters long'
           },
+          passwordEdit: {
+            minlength: 'This field must be at least 3 characters long'
+          },
           supervisorMissing: 'Employees must have a supervisor registered'
         }
       },

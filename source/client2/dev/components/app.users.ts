@@ -6,6 +6,7 @@ import { LanguageService } from '../services/app.language'
 import { MzModalService, MzBaseModal } from 'ng2-materialize'
 import { ProgressModalComponent } from './modal.please.wait'
 import { UserInfoModalComponent } from './modal.user.info'
+import { EditUserInfoModalComponent } from './modal.user.info.edit'
 
 // Este componente describe el comportamiento de la pagina donde el usuario 
 // administra la informacion de los usuarios
@@ -101,6 +102,15 @@ export class UsersComponent implements OnInit
   // Este evento se invoca cuando el usuario hace clic en el boton de agregar 
   // un nuevo usuario
   onAddUserButtonClick(): void {
-    this.modalManager.open(UserInfoModalComponent)
+    this.modalManager.open(UserInfoModalComponent, {
+      callingComponent: this
+    })
+  }
+
+  onEditUserButtonClick(userIdx: number): void {
+    this.modalManager.open(EditUserInfoModalComponent, {
+      userIdx: userIdx,
+      callingComponent: this
+    })
   }
 } // export class UsersComponent implements OnInit

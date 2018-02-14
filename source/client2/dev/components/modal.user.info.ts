@@ -6,10 +6,17 @@ import { BackendService } from '../services/app.backend'
 import { ToastService } from '../services/app.toast'
 import { StateService } from '@uirouter/angular'
 import { ProgressModalComponent } from './modal.please.wait'
-import { AbstractControl } from '@angular/forms/src/model';
+import { UsersComponent } from './app.users'
+
 
 type SimpleServerArrayElement = {
   id: number,
+  name: string
+}
+
+type PrivilegeArrayElement = {
+  id: number,
+  privilege_id: number,
   name: string
 }
 
@@ -19,7 +26,7 @@ type ProgramElement = {
   modules: Array<{
     id: number,
     name: string,
-    logs: Array<SimpleServerArrayElement>
+    logs: Array<PrivilegeArrayElement>
   }>
 }
 
@@ -59,68 +66,41 @@ export class UserInfoModalComponent extends MzBaseModal implements OnInit
 
   userForm: FormGroup = null
 
-  selectedZone: SimpleServerArrayElement = {
-    id: 0,
-    name: ''
-  }
+  selectedZoneId: number = null
 
   selectedRole: SimpleServerArrayElement = {
-    id: 0,
-    name: ''
+    id: 0, name: ''
   }
 
   selectedPrivileges: any = {}
 
   selectedSupervisorID: number = null
 
+  @Input()
+  callingComponent: UsersComponent
+
+  userData: any = null
+
   // Constructor del componente donde importaremos una instancia del servicio 
   // de idioma
   constructor(
-    private langManager: LanguageService,
-    private formBuilder: FormBuilder,
-    private server: BackendService,
-    private toastManager: ToastService,
-    private router: StateService,
-    private modalManager: MzModalService
+    protected langManager: LanguageService,
+    protected formBuilder: FormBuilder,
+    protected server: BackendService,
+    protected toastManager: ToastService,
+    protected modalManager: MzModalService
   ) {
     super() // invocamos el constructor de la clase padre
   }
 
   // Esta funcion se invoca cuando el componente es inicializado
   ngOnInit(): void {
-    this.userForm = this.formBuilder.group({
-      employeeID: [ null, Validators.required ],
-      firstName: [ null, Validators.compose([
-        Validators.required,
-        Validators.maxLength(255)
-      ])],
-      lastName: [ null, Validators.compose([
-        Validators.required,
-        Validators.maxLength(255)
-      ]) ],
-      role: [ null, Validators.required ],
-      zone: [ null, Validators.required ],
-      username: [ null, Validators.compose([
-        Validators.required,
-        Validators.minLength(3)
-      ]) ],
-      password: [ null, Validators.compose([
-        Validators.required,
-        Validators.minLength(6)
-      ]) ],
-      passwordConfirmation: [ null, Validators.compose([
-        Validators.required,
-        Validators.minLength(6)
-      ]) ]
-    }, {
-      validator: (form: FormGroup) => {
-        let password = form.controls.password.value 
-        let passwordConfirmation = form.controls.passwordConfirmation.value
-        return (password === passwordConfirmation) ?
-          null : { arePasswordsDifferent: true}
-      }
-    })
+    this.initForm()
+    this.init()
+    this.initPrivileges()
+  } // ngOnInit(): void
 
+  init(): void {
     // recuperamos la lista de roles del servidor
     this.server.update(
       'list-user-roles',
@@ -162,7 +142,9 @@ export class UserInfoModalComponent extends MzBaseModal implements OnInit
         } // if (response.meta.return_code == 0)
       } // (response: any)
     ) // this.server.update
+  }
 
+  initPrivileges(): void {
     this.server.update(
       'list-privileges',
       new FormData(),
@@ -210,20 +192,57 @@ export class UserInfoModalComponent extends MzBaseModal implements OnInit
         }
       }
     )
-  } // ngOnInit(): void
+  }
+
+  initForm(): void {
+    this.userForm = this.formBuilder.group({
+      employeeID: [ null, Validators.required ],
+      firstName: [ null, Validators.compose([
+        Validators.required,
+        Validators.maxLength(255)
+      ])],
+      lastName: [ null, Validators.compose([
+        Validators.required,
+        Validators.maxLength(255)
+      ]) ],
+      role: [ null, Validators.required ],
+      zone: [ null, Validators.required ],
+      username: [ null, Validators.compose([
+        Validators.required,
+        Validators.minLength(3)
+      ]) ],
+      password: [ null, Validators.compose([
+        Validators.required,
+        Validators.minLength(6)
+      ]) ],
+      passwordConfirmation: [ null, Validators.compose([
+        Validators.required,
+        Validators.minLength(6)
+      ]) ]
+    }, {
+      validator: (form: FormGroup) => {
+        let password = form.controls.password.value 
+        let passwordConfirmation = form.controls.passwordConfirmation.value
+        return (password === passwordConfirmation) ?
+          null : { arePasswordsDifferent: true}
+      }
+    })
+  }
 
   onRoleSelected(): void {
-    this.selectedRole = 
-      <SimpleServerArrayElement>this.userForm.controls.role.value
+    this.selectedRole.id = <number>this.userForm.controls.role.value
+    this.selectedRole.name = this.getRoleNameByIdFromArray(
+      this.selectedRole.id,
+      this.userRoles
+    )
 
-    if (this.selectedZone.id > 0) {
+    if (this.selectedZoneId > 0) {
       this.retrieveSupervisorsList()
     }
   }
 
   onZoneSelected(): void {
-    this.selectedZone = 
-      <SimpleServerArrayElement>this.userForm.controls.zone.value
+    this.selectedZoneId = <number>this.userForm.controls.zone.value
 
     if (this.selectedRole.id > 0) {
       this.retrieveSupervisorsList()
@@ -232,7 +251,7 @@ export class UserInfoModalComponent extends MzBaseModal implements OnInit
 
   retrieveSupervisorsList(): void {
     let data: FormData = new FormData()
-    data.append('zone_id', this.selectedZone.id.toString())
+    data.append('zone_id', this.selectedZoneId.toString())
 
     this.server.update(
       'list-supervisors-by-zone',
@@ -265,6 +284,8 @@ export class UserInfoModalComponent extends MzBaseModal implements OnInit
     data.append('login_name', this.userForm.controls.username.value)
     data.append('login_password', this.userForm.controls.password.value)
     data.append('zone_id', this.userForm.controls.zone.value.id.toString())
+    let roleName = 
+      this.getRoleNameByIdFromArray(data.get('role_id'), this.userRoles)
 
     if (this.selectedRole.name == 'Employee') {
       data.append('supervisor_id', this.selectedSupervisorID.toString())
@@ -299,9 +320,30 @@ export class UserInfoModalComponent extends MzBaseModal implements OnInit
         )
 
         if (response.meta.return_code == 0) {
+          this.callingComponent.users.push({
+            user_id: response.data,
+            employee_num: data.get('employee_num'),
+            first_name: data.get('first_name'),
+            last_name: data.get('last_name'),
+            role_id: data.get('first_name'),
+            role_name: roleName,
+            login_name: data.get('login_name'),
+            zone_id: data.get('zone_id')
+          })
           this.modalComponent.close()
         }
       }
     )
+  }
+
+  getRoleNameByIdFromArray(
+    id: any, roles: Array<SimpleServerArrayElement>
+  ): string {
+    for (let role of roles) {
+      if (role.id == id) {
+        return role.name
+      }
+    }
+    return null
   }
 } // export class UserInfoModalComponent extends MzBaseModal implements OnInit

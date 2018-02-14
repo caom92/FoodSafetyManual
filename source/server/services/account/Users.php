@@ -72,6 +72,8 @@ class Users extends db\ToggableItemsTable
     return parent::$dataBase->query(
       "SELECT 
         $this->table.id,
+        zone_id,
+        z.name AS zone_name,
         role_id,
         r.name AS role_name,
         employee_num,
@@ -82,6 +84,8 @@ class Users extends db\ToggableItemsTable
       FROM $this->table 
       INNER JOIN roles AS r
       ON role_id = r.id
+      INNER JOIN zones AS z
+      ON zone_id = z.id
       WHERE $this->table.id != {$_SESSION['fsm']['user_id']}"
     )->fetchAll();
   }
