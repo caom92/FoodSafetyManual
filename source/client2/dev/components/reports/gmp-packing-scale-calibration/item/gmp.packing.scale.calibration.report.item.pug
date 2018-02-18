@@ -1,0 +1,7 @@
+td.numberColumn {{item.name}}
+td.testColumn {{item.test}}
+td.unitColumn {{item.unit}}
+td.statusColumn(*ngIf='item.status == 1') {{ 'Log.pass' | translate:lang }}
+td.statusColumn(*ngIf='item.status == 0') {{ 'Log.fail' | translate:lang }}
+td.sanitizedColumn(*ngIf='item.is_sanitized == 1') {{ 'Log.yes' | translate:lang }}
+td.sanitizedColumn(*ngIf='item.is_sanitized == 0') {{ 'Log.no' | translate:lang }}

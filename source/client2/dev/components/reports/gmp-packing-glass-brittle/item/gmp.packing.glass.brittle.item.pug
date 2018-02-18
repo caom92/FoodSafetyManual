@@ -1,0 +1,5 @@
+td.numberColumn {{item.order}}
+td.descriptionColumn {{item.name}}
+td.inventoryColumn {{item.quantity}}
+td.statusColumn(*ngIf='item.status == 1') {{ 'Log.acceptable' | translate:lang }}
+td.statusColumn(*ngIf='item.status == 0') {{ 'Log.unacceptable' | translate:lang }}

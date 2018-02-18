@@ -30,11 +30,9 @@ import { UsersComponent } from './app.users'
 
 import { DynamicComponentContainerDirective } from '../directives/dynamic.container'
 
-import { ReportTab } from './app.reports'
-
 import { ReportDisplayer } from './app.report.displayer.component'
 
-import { ReportLoader } from './app.report.loader.component'
+import { ReportLoader } from './reports/loader/report.loader'
 
 // Importamos el cargador de bitácoras
 
@@ -64,10 +62,10 @@ import { GMPPackingPreopAddAreaComponent } from '../components/inventories/gmp-p
 //import { GMPPackingPreopEditAreaComponent } from '../components/inventories/gmp-packing-preop/edit-area/gmp.packing.preop.edit.area'
 import { GMPPackingPreopAddItemComponent } from '../components/inventories/gmp-packing-preop/add-item/gmp.packing.preop.add.item'
 
-import { GMPPackingPreopReportComponent } from './gmp/packing/preop/report/gmp.packing.preop.report.component'
-import { GMPPackingPreopReportAreaComponent } from './gmp/packing/preop/report/gmp.packing.preop.report.area.component'
-import { GMPPackingPreopReportTypeComponent } from './gmp/packing/preop/report/gmp.packing.preop.report.type.component'
-import { GMPPackingPreopReportItemComponent } from './gmp/packing/preop/report/gmp.packing.preop.report.item.component'
+import { GMPPackingPreopReportComponent } from './reports/gmp-packing-preop/report/gmp.packing.preop.report'
+import { GMPPackingPreopReportAreaComponent } from './reports/gmp-packing-preop/area/gmp.packing.preop.area'
+import { GMPPackingPreopReportTypeComponent } from './reports/gmp-packing-preop/type/gmp.packing.preop.type'
+import { GMPPackingPreopReportItemComponent } from './reports/gmp-packing-preop/item/gmp.packing.preop.item'
 
 // GAP Packing Preop
 
@@ -81,14 +79,10 @@ import { GAPPackingPreopAreaInventoryAreaComponent } from '../components/invento
 import { GAPPackingPreopAddAreaComponent } from '../components/inventories/gap-packing-preop/add-area/gap.packing.preop.add.area'
 import { GAPPackingPreopAddItemComponent } from '../components/inventories/gap-packing-preop/add-item/gap.packing.preop.add.item'
 
-// GMP Packing Scale Calibration
-
-// Inventario
-
-import { GMPPackingScaleCalibrationInventoryComponent } from '../components/inventories/gmp-packing-scale-calibration/inventory/gmp.packing.scale.calibration.inventory'
-import { GMPPackingScaleCalibrationInventoryItemComponent } from '../components/inventories/gmp-packing-scale-calibration/item/gmp.packing.scale.calibration.inventory.item'
-import { GMPPackingScaleCalibrationInventoryListComponent } from '../components/inventories/gmp-packing-scale-calibration/list/gmp.packing.scale.calibration.inventory.list'
-import { GMPPackingScaleCalibrationAddItemComponent } from '../components/inventories/gmp-packing-scale-calibration/add-item/gmp.packing.scale.calibration.add.item'
+import { GAPPackingPreopReportComponent } from './reports/gap-packing-preop/report/gap.packing.preop.report'
+import { GAPPackingPreopReportAreaComponent } from './reports/gap-packing-preop/area/gap.packing.preop.report.area'
+import { GAPPackingPreopReportTypeComponent } from './reports/gap-packing-preop/type/gap.packing.preop.report.type'
+import { GAPPackingPreopReportItemComponent } from './reports/gap-packing-preop/item/gap.packing.preop.report.item'
 
 // GMP Packing Hand Washing
 
@@ -102,6 +96,9 @@ import { GMPPackingHandWashingInventoryItemComponent } from '../components/inven
 import { GMPPackingHandWashingInventoryListComponent } from '../components/inventories/gmp-packing-hand-washing/list/gmp.packing.hand.washing.inventory.list'
 import { GMPPackingHandWashingAddItemComponent } from '../components/inventories/gmp-packing-hand-washing/add-item/gmp.packing.hand.washing.add.item'
 
+import { GMPPackingHandWashingReportComponent } from './reports/gmp-packing-hand-washing/report/gmp.packing.hand.washing.report'
+import { GMPPackingHandWashingReportItemComponent } from './reports/gmp-packing-hand-washing/item/gmp.packing.hand.washing.item'
+
 // GMP Packing Thermo Calibration
 
 import { GMPPackingThermoCalibrationLogComponent } from '../components/logs/gmp-packing-thermo-calibration/log/gmp.packing.thermo.calibration.log'
@@ -114,6 +111,9 @@ import { GMPPackingThermoCalibrationInventoryItemComponent } from '../components
 import { GMPPackingThermoCalibrationInventoryListComponent } from '../components/inventories/gmp-packing-thermo-calibration/list/gmp.packing.thermo.calibration.inventory.list'
 import { GMPPackingThermoCalibrationAddItemComponent } from '../components/inventories/gmp-packing-thermo-calibration/add-item/gmp.packing.thermo.calibration.add.item'
 
+import { GMPPackingThermoCalibrationReportComponent } from './reports/gmp-packing-thermo-calibration/report/gmp.packing.thermo.calibration.report'
+import { GMPPackingThermoCalibrationReportItemComponent } from './reports/gmp-packing-thermo-calibration/item/gmp.packing.thermo.calibration.report.item'
+
 // GMP Packing Scale Calibration
 
 import { GMPPackingScaleCalibrationLogComponent } from '../components/logs/gmp-packing-scale-calibration/log/gmp.packing.scale.calibration.log'
@@ -121,6 +121,15 @@ import { GMPPackingScaleCalibrationTypeComponent } from '../components/logs/gmp-
 import { GMPPackingScaleCalibrationItemComponent } from '../components/logs/gmp-packing-scale-calibration/item/gmp.packing.scale.calibration.item'
 
 import { GMPPackingScaleCalibrationAuthorizationComponent } from '../components/logs/gmp-packing-scale-calibration/authorization/gmp.packing.scale.calibration.authorization'
+
+import { GMPPackingScaleCalibrationInventoryComponent } from '../components/inventories/gmp-packing-scale-calibration/inventory/gmp.packing.scale.calibration.inventory'
+import { GMPPackingScaleCalibrationInventoryItemComponent } from '../components/inventories/gmp-packing-scale-calibration/item/gmp.packing.scale.calibration.inventory.item'
+import { GMPPackingScaleCalibrationInventoryListComponent } from '../components/inventories/gmp-packing-scale-calibration/list/gmp.packing.scale.calibration.inventory.list'
+import { GMPPackingScaleCalibrationAddItemComponent } from '../components/inventories/gmp-packing-scale-calibration/add-item/gmp.packing.scale.calibration.add.item'
+
+import { GMPPackingScaleCalibrationReportComponent } from './reports/gmp-packing-scale-calibration/report/gmp.packing.scale.calibration.report'
+import { GMPPackingScaleCalibrationReportTypeComponent } from './reports/gmp-packing-scale-calibration/type/gmp.packing.scale.calibration.report.type'
+import { GMPPackingScaleCalibrationReportItemComponent } from './reports/gmp-packing-scale-calibration/item/gmp.packing.scale.calibration.report.item'
 
 // GMP Packing Scissors Knives
 
@@ -133,6 +142,9 @@ import { GMPPackingScissorsKnivesInventoryComponent } from '../components/invent
 import { GMPPackingScissorsKnivesInventoryItemComponent } from '../components/inventories/gmp-packing-scissors-knives/item/gmp.packing.scissors.knives.inventory.item'
 import { GMPPackingScissorsKnivesInventoryListComponent } from '../components/inventories/gmp-packing-scissors-knives/list/gmp.packing.scissors.knives.inventory.list'
 import { GMPPackingScissorsKnivesAddItemComponent } from '../components/inventories/gmp-packing-scissors-knives/add-item/gmp.packing.scissors.knives.add.item'
+
+import { GMPPackingScissorsKnivesReportComponent } from './reports/gmp-packing-scissors-knives/report/gmp.packing.scissors.knives.report'
+import { GMPPackingScissorsKnivesReportItemComponent } from './reports/gmp-packing-scissors-knives/item/gmp.packing.scissors.knives.report.item'
 
 // GMP Packing Glass Brittle
 
@@ -152,6 +164,10 @@ import { GMPPackingGlassBrittleAreaInventoryListComponent } from '../components/
 import { GMPPackingGlassBrittleAddAreaComponent } from '../components/inventories/gmp-packing-glass-brittle/add-area/gmp.packing.glass.brittle.add.area'
 import { GMPPackingGlassBrittleAddItemComponent } from '../components/inventories/gmp-packing-glass-brittle/add-item/gmp.packing.glass.brittle.add.item'
 
+import { GMPPackingGlassBrittleReportComponent } from './reports/gmp-packing-glass-brittle/report/gmp.packing.glass.brittle.report'
+import { GMPPackingGlassBrittleReportAreaComponent } from './reports/gmp-packing-glass-brittle/area/gmp.packing.glass.brittle.area'
+import { GMPPackingGlassBrittleReportItemComponent } from './reports/gmp-packing-glass-brittle/item/gmp.packing.glass.brittle.item'
+
 // GMP Packing Cold Room Temp
 
 import { GMPPackingColdRoomTempLogComponent } from '../components/logs/gmp-packing-cold-room-temp/log/gmp.packing.cold.room.temp.log'
@@ -164,6 +180,9 @@ import { GMPPackingColdRoomTempInventoryItemComponent } from '../components/inve
 import { GMPPackingColdRoomTempInventoryListComponent } from '../components/inventories/gmp-packing-cold-room-temp/list/gmp.packing.cold.room.temp.inventory.list'
 import { GMPPackingColdRoomTempAddItemComponent } from '../components/inventories/gmp-packing-cold-room-temp/add-item/gmp.packing.cold.room.temp.add.item'
 
+import { GMPPackingColdRoomTempReportComponent } from './reports/gmp-packing-cold-room-temp/report/gmp.packing.cold.room.temp.report'
+import { GMPPackingColdRoomTempReportItemComponent } from './reports/gmp-packing-cold-room-temp/item/gmp.packing.cold.room.temp.report.item'
+
 // GMP Packing Self Inspection Pest Control
 
 import { GMPSelfInspectionPestControlLogComponent } from '../components/logs/gmp-self-inspection-pest-control/log/gmp.self.inspection.pest.control.log'
@@ -171,6 +190,36 @@ import { GMPSelfInspectionPestControlAreaComponent } from '../components/logs/gm
 import { GMPSelfInspectionPestControlItemComponent } from '../components/logs/gmp-self-inspection-pest-control/item/gmp.self.inspection.pest.control.item'
 
 //import { GMPSelfInspectionPestControlAuthorizationComponent } from '../components/logs/gmp-self-inspection-pest-control/authorization/gmp.self.inspection.pest.control.authorization'
+
+import { GMPSelfInspectionPestControlReportComponent } from './reports/gmp-self-inspection-pest-control/report/gmp.self.inspection.pest.control.report'
+import { GMPSelfInspectionPestControlReportAreaComponent } from './reports/gmp-self-inspection-pest-control/area/gmp.self.inspection.pest.control.area'
+import { GMPSelfInspectionPestControlReportItemComponent } from './reports/gmp-self-inspection-pest-control/item/gmp.self.inspection.pest.control.item'
+
+// GAP Others Unusual Occurrence
+
+import { GAPOthersUnusualOccurrenceLogComponent } from './logs/gap-others-unusual-occurrence/log/gap.others.unusual.occurrence.log'
+
+import { GAPOthersUnusualOccurrenceReportComponent } from '../components/reports/gap-others-unusual-occurrence/report/gap.others.unusual.occurrence.report'
+
+// GMP Others Unusual Occurrence
+
+import { GMPOthersUnusualOccurrenceLogComponent } from './logs/gmp-others-unusual-occurrence/log/gmp.others.unusual.occurrence.log'
+
+import { GMPOthersUnusualOccurrenceReportComponent } from '../components/reports/gmp-others-unusual-occurrence/report/gmp.others.unusual.occurrence.report'
+
+// GMP Packing Aged Product
+
+import { GMPPackingAgedProductLogComponent } from './logs/gmp-packing-aged-product/log/gmp.packing.aged.product.log'
+
+import { GMPPackingAgedProductReportComponent } from '../components/reports/gmp-packing-aged-product/report/gmp.packing.aged.product.report'
+
+// GMP Packing Doc Control Doc Control
+
+import { GMPDocControlDocControlLogComponent } from './logs/gmp-doc-control-doc-control/log/gmp.doc.control.doc.control.log'
+
+// GMP Packing Finished Product Report Component
+
+import { GMPPackingFinishedProductReportComponent } from '../components/reports/gmp-packing-finished-product/report/gmp.packing.finished.product.report'
 
 // Genericos
 
@@ -209,10 +258,8 @@ import { TranslationService } from '../services/app.translation'
 import { AuthorizationLoader } from './authorizations/authorization-loader/authorization.loader.component'
 import { InventoryLoaderComponent } from './inventories/inventories'
 import { AreaManagerService } from '../services/app.area.manager';
-import { GAPOthersUnusualOccurrenceLogComponent } from './logs/gap-others-unusual-occurrence/log/gap.others.unusual.occurrence.log';
-import { GMPOthersUnusualOccurrenceLogComponent } from './logs/gmp-others-unusual-occurrence/log/gmp.others.unusual.occurrence.log';
-import { GMPPackingAgedProductLogComponent } from './logs/gmp-packing-aged-product/log/gmp.packing.aged.product.log';
-import { GMPDocControlDocControlLogComponent } from './logs/gmp-doc-control-doc-control/log/gmp.doc.control.doc.control.log';
+import { ReportHeaderComponent } from './reports/report-header/report.header';
+import { ReportTab } from './reports/reports';
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -384,10 +431,17 @@ import { GMPDocControlDocControlLogComponent } from './logs/gmp-doc-control-doc-
     GAPPackingPreopAreaInventoryAreaComponent,
     GAPPackingPreopAddAreaComponent,
     GAPPackingPreopAddItemComponent,
+    GAPPackingPreopReportComponent,
+    GAPPackingPreopReportItemComponent,
+    GAPPackingPreopReportAreaComponent,
+    GAPPackingPreopReportTypeComponent,
     GMPPackingScaleCalibrationInventoryComponent,
     GMPPackingScaleCalibrationInventoryItemComponent,
     GMPPackingScaleCalibrationInventoryListComponent,
     GMPPackingScaleCalibrationAddItemComponent,
+    GMPPackingScaleCalibrationReportComponent,
+    GMPPackingScaleCalibrationReportTypeComponent,
+    GMPPackingScaleCalibrationReportItemComponent,
     GMPPackingHandWashingLogComponent,
     GMPPackingHandWashingItemComponent,
     GMPPackingHandWashingAuthorizationComponent,
@@ -395,6 +449,8 @@ import { GMPDocControlDocControlLogComponent } from './logs/gmp-doc-control-doc-
     GMPPackingHandWashingInventoryItemComponent,
     GMPPackingHandWashingInventoryListComponent,
     GMPPackingHandWashingAddItemComponent,
+    GMPPackingHandWashingReportComponent,
+    GMPPackingHandWashingReportItemComponent,
     GMPPackingThermoCalibrationLogComponent,
     GMPPackingThermoCalibrationItemComponent,
     GMPPackingThermoCalibrationAuthorizationComponent,
@@ -402,10 +458,15 @@ import { GMPDocControlDocControlLogComponent } from './logs/gmp-doc-control-doc-
     GMPPackingThermoCalibrationInventoryItemComponent,
     GMPPackingThermoCalibrationInventoryListComponent,
     GMPPackingThermoCalibrationAddItemComponent,
+    GMPPackingThermoCalibrationReportComponent,
+    GMPPackingThermoCalibrationReportItemComponent,
     GMPPackingScaleCalibrationLogComponent,
     GMPPackingScaleCalibrationTypeComponent,
     GMPPackingScaleCalibrationItemComponent,
     GMPPackingScaleCalibrationAuthorizationComponent,
+    GMPPackingScaleCalibrationReportComponent,
+    GMPPackingScaleCalibrationReportItemComponent,
+    GMPPackingScaleCalibrationReportTypeComponent,
     GMPPackingScissorsKnivesLogComponent,
     GMPPackingScissorsKnivesItemComponent,
     GMPPackingScissorsKnivesAuthorizationComponent,
@@ -413,6 +474,8 @@ import { GMPDocControlDocControlLogComponent } from './logs/gmp-doc-control-doc-
     GMPPackingScissorsKnivesInventoryItemComponent,
     GMPPackingScissorsKnivesInventoryListComponent,
     GMPPackingScissorsKnivesAddItemComponent,
+    GMPPackingScissorsKnivesReportComponent,
+    GMPPackingScissorsKnivesReportItemComponent,
     GMPPackingGlassBrittleLogComponent,
     GMPPackingGlassBrittleAreaComponent,
     GMPPackingGlassBrittleItemComponent,
@@ -426,6 +489,9 @@ import { GMPDocControlDocControlLogComponent } from './logs/gmp-doc-control-doc-
     GMPPackingGlassBrittleAreaInventoryListComponent,
     GMPPackingGlassBrittleAddAreaComponent,
     GMPPackingGlassBrittleAddItemComponent,
+    GMPPackingGlassBrittleReportComponent,
+    GMPPackingGlassBrittleReportAreaComponent,
+    GMPPackingGlassBrittleReportItemComponent,
     GMPPackingColdRoomTempLogComponent,
     GMPPackingColdRoomTempItemComponent,
     GMPPackingColdRoomTempAuthorizationComponent,
@@ -433,16 +499,26 @@ import { GMPDocControlDocControlLogComponent } from './logs/gmp-doc-control-doc-
     GMPPackingColdRoomTempInventoryItemComponent,
     GMPPackingColdRoomTempInventoryListComponent,
     GMPPackingColdRoomTempAddItemComponent,
+    GMPPackingColdRoomTempReportComponent,
+    GMPPackingColdRoomTempReportItemComponent,
     GMPSelfInspectionPestControlLogComponent,
     GMPSelfInspectionPestControlAreaComponent,
     GMPSelfInspectionPestControlItemComponent,
+    GMPSelfInspectionPestControlReportComponent,
+    GMPSelfInspectionPestControlReportAreaComponent,
+    GMPSelfInspectionPestControlReportItemComponent,
     GAPOthersUnusualOccurrenceLogComponent,
+    GAPOthersUnusualOccurrenceReportComponent,
     GMPOthersUnusualOccurrenceLogComponent,
+    GMPOthersUnusualOccurrenceReportComponent,
     GMPPackingAgedProductLogComponent,
-    GMPDocControlDocControlLogComponent,
+    GMPPackingAgedProductReportComponent,
+    GMPDocControlDocControlLogComponent,    
+    GMPPackingFinishedProductReportComponent,
     LogTabsPage,
     AuthorizationLoader,
     LogHeaderComponent,
+    ReportHeaderComponent,
     InventoryLoaderComponent,
     TabLogLoaderComponent
   ],
@@ -485,6 +561,19 @@ import { GMPDocControlDocControlLogComponent } from './logs/gmp-doc-control-doc-
     GMPPackingThermoCalibrationInventoryComponent,
     GMPPackingScissorsKnivesInventoryComponent,
     GMPPackingColdRoomTempInventoryComponent,
+    GMPPackingPreopReportComponent,
+    GMPPackingHandWashingReportComponent,
+    GMPPackingGlassBrittleReportComponent,
+    GMPPackingScaleCalibrationReportComponent,
+    GAPPackingPreopReportComponent,
+    GMPPackingScissorsKnivesReportComponent,
+    GMPPackingThermoCalibrationReportComponent,
+    GMPPackingColdRoomTempReportComponent,
+    GMPSelfInspectionPestControlReportComponent,
+    GMPOthersUnusualOccurrenceReportComponent,
+    GAPOthersUnusualOccurrenceReportComponent,
+    GMPPackingAgedProductReportComponent,
+    GMPPackingFinishedProductReportComponent
   ],
   // indicamos cual es el componente raiz
   bootstrap: [HomeComponent]

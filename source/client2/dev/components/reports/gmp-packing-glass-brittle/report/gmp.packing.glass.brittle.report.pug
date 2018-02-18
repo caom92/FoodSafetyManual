@@ -1,0 +1,19 @@
+report-header([header]="header")
+mz-card
+  mz-card-content
+    table(#report_body)
+      thead
+        tr
+          th.areaColumn {{ 'Log.area' | translate:lang }}
+          th.timeColumn {{ 'Log.time' | translate:lang }}
+          th.numberColumn {{ 'Log.number_abbr' | translate:lang }}
+          th.descriptionColumn {{ 'Log.description' | translate:lang }}
+          th.inventoryColumn {{ 'Log.inventory_abbr' | translate:lang }}
+          th.statusColumn {{ 'Log.conditions' | translate:lang }}
+      tbody
+        ng-template(ngFor, let-area, [ngForOf]='report.areas')
+          ng-template(ngFor, let-item, [ngForOf]='area.items', let-first='first')
+            tr(gmp-packing-glass-brittle-report-area, [area]='area', [time]='report.time', [item]='item', *ngIf='first')
+            tr(gmp-packing-glass-brittle-report-item, [item]='item', *ngIf='!first')
+        tr
+          td.fullColumn(colspan='6') {{ 'Log.notes' | translate:lang }}: {{report.notes}}
