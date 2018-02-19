@@ -60,6 +60,20 @@ include globals.pug
       )
         ='{{ langManager.messages.sideNavOptions.logout }}'
   
+  //- Enlaces temporales
+  mz-sidenav-link
+    +link('http://documents.jfdc.tech')(
+      class='side-menu-link waves-effect waves-green'
+    )
+      i.mdi.mdi-file-document-box.mdi-24px
+      ='LAB'
+  mz-sidenav-link('*ngIf'='home.roleName === "Director"')
+    +link('http://score.jfdc.tech')(
+      class='side-menu-link waves-effect waves-green'
+    )
+      i.mdi.mdi-file-document-box.mdi-24px
+      ='QC Score Card'
+  
   //- Menu de navegacion para el administrador
   mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
     +uiRouterLink('users')(class='side-menu-link waves-effect waves-green')
