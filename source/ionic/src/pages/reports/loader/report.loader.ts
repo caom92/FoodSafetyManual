@@ -14,11 +14,12 @@ import { GMPPackingScissorsKnivesReportComponent } from '../gmp-packing-scissors
 import { ReportRequest } from '../reports.interface'
 import { SuperReportComponent } from '../super-report/super.report'
 import { GAPPackingPreopReportComponent } from '../gap-packing-preop/report/gap.packing.preop.report'
-import { GMPSelfInspectionPestControlReportComponent } from '../gmp-self-inspection-pest-control/report/gmp.self.inspection.pest.control.report';
-import { GMPOthersUnusualOccurrenceReportComponent } from '../gmp-others-unusual-occurrence/report/gmp.others.unusual.occurrence.report';
-import { GAPOthersUnusualOccurrenceReportComponent } from '../gap-others-unusual-occurrence/report/gap.others.unusual.occurrence.report';
-import { GMPPackingAgedProductReportComponent } from '../gmp-packing-aged-product/report/gmp.packing.aged.product.report';
-import { GMPPackingFinishedProductReportComponent } from '../gmp-packing-finished-product/report/gmp.packing.finished.product.report';
+import { GMPSelfInspectionPestControlReportComponent } from '../gmp-self-inspection-pest-control/report/gmp.self.inspection.pest.control.report'
+import { GMPOthersUnusualOccurrenceReportComponent } from '../gmp-others-unusual-occurrence/report/gmp.others.unusual.occurrence.report'
+import { GAPOthersUnusualOccurrenceReportComponent } from '../gap-others-unusual-occurrence/report/gap.others.unusual.occurrence.report'
+import { GMPPackingAgedProductReportComponent } from '../gmp-packing-aged-product/report/gmp.packing.aged.product.report'
+import { GMPPackingFinishedProductReportComponent } from '../gmp-packing-finished-product/report/gmp.packing.finished.product.report'
+import { GMPDocControlDocControlReportComponent } from '../gmp-doc-control-doc-control/report/gmp.doc.control.doc.control.report'
 
 @Component({
   selector: 'report-loader',
@@ -46,18 +47,23 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
     supervisor: null,
     signature: null
   }
+  _reportEventFunction
 
   constructor(factoryResolver: ComponentFactoryResolver, private events: Events, private ts: TS) {
     super(factoryResolver)
   }
 
   public ngOnInit(): void {
-    this.events.subscribe("reportEvent", (activeReport, time) => {
-      this.activeReport = activeReport
-    })
-
-    console.error("report-loader")
-    console.log(this.suffix)
+    this._reportEventFunction = (activeReport, previousReport, origin) => {
+      if(origin == this.suffix){
+        if(this.activeReport == "any" && activeReport != "any"){
+          this.activeReport = activeReport
+        } else if (this.activeReport == previousReport && activeReport == "any") {
+          this.activeReport = activeReport
+        }
+      }
+    }
+    this.events.subscribe("reportEvent", this._reportEventFunction)
 
     switch (this.suffix) {
       case 'gmp-packing-hand-washing': this.loaderComponent = this.loadComponent(GMPPackingHandWashingReportComponent, {
@@ -125,6 +131,11 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
         parent: this
       }).instance
         break
+      case 'gmp-doc-control-doc-control': this.loaderComponent = this.loadComponent(GMPDocControlDocControlReportComponent, {
+        report: this.report,
+        parent: this
+      }).instance
+        break
     }
   }
 
@@ -170,17 +181,15 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
 
   public openHTMLReport(): void {
     this.showReport = true
-    this.events.publish("reportEvent", this.report.report_id, Date.now())
+    this.events.publish("reportEvent", this.report.report_id, null, this.suffix)
   }
 
   public closeHTMLReport(): void {
     this.showReport = false
-    this.events.publish("reportEvent", "any", Date.now())
+    this.events.publish("reportEvent", "any", this.report.report_id, this.suffix)
   }
 
   public ngOnDestroy(): void {
-    this.events.unsubscribe("reportEvent", () => {
-      console.log("Report Event unsubscribed")
-    })
+    this.events.unsubscribe("reportEvent", this._reportEventFunction)
   }
 }
