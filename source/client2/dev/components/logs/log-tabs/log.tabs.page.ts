@@ -13,11 +13,12 @@ import { GMPPackingGlassBrittleLogComponent } from '../gmp-packing-glass-brittle
 import { GMPPackingScissorsKnivesLogComponent } from '../gmp-packing-scissors-knives/log/gmp.packing.scissors.knives.log'
 import { BackendService } from '../../../services/app.backend'
 import { DomSanitizer } from '@angular/platform-browser'
-import { GMPSelfInspectionPestControlLogComponent } from '../gmp-self-inspection-pest-control/log/gmp.self.inspection.pest.control.log';
-import { GAPOthersUnusualOccurrenceLogComponent } from '../gap-others-unusual-occurrence/log/gap.others.unusual.occurrence.log';
-import { GMPOthersUnusualOccurrenceLogComponent } from '../gmp-others-unusual-occurrence/log/gmp.others.unusual.occurrence.log';
-import { GMPPackingAgedProductLogComponent } from '../gmp-packing-aged-product/log/gmp.packing.aged.product.log';
-import { GMPDocControlDocControlLogComponent } from '../gmp-doc-control-doc-control/log/gmp.doc.control.doc.control.log';
+import { GMPSelfInspectionPestControlLogComponent } from '../gmp-self-inspection-pest-control/log/gmp.self.inspection.pest.control.log'
+import { GAPOthersUnusualOccurrenceLogComponent } from '../gap-others-unusual-occurrence/log/gap.others.unusual.occurrence.log'
+import { GMPOthersUnusualOccurrenceLogComponent } from '../gmp-others-unusual-occurrence/log/gmp.others.unusual.occurrence.log'
+import { GMPPackingAgedProductLogComponent } from '../gmp-packing-aged-product/log/gmp.packing.aged.product.log'
+import { GMPDocControlDocControlLogComponent } from '../gmp-doc-control-doc-control/log/gmp.doc.control.doc.control.log'
+import { GMPPackingATPTestingLogComponent } from '../gmp-packing-atp-testing/log/gmp.packing.atp.testing.log'
 
 @Component({
   selector: 'log-tabs-page',
@@ -51,7 +52,8 @@ export class LogTabsPage extends DynamicComponentResolver {
       this.suffix == "gap-others-unusual-occurrence" ||
       this.suffix == "gmp-others-unusual-occurrence" ||
       this.suffix == "gmp-packing-aged-product" ||
-      this.suffix == "gmp-doc-control-doc-control") {
+      this.suffix == "gmp-doc-control-doc-control" ||
+      this.suffix == "gmp-packing-atp-testing") {
       switch (this.suffix) {
         case 'gmp-packing-hand-washing': this.loaderComponent = this.loadComponent(GMPPackingHandWashingLogComponent, {
 
@@ -98,6 +100,10 @@ export class LogTabsPage extends DynamicComponentResolver {
         }).instance
           break
         case 'gmp-doc-control-doc-control': this.loaderComponent = this.loadComponent(GMPDocControlDocControlLogComponent, {
+
+        }).instance
+          break
+        case 'gmp-packing-atp-testing': this.loaderComponent = this.loadComponent(GMPPackingATPTestingLogComponent, {
 
         }).instance
           break

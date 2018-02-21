@@ -137,7 +137,7 @@ export class ReportTab extends DynamicComponentResolver {
             console.log(response.data.reports)
             this.reports = response.data.reports
             this.reportFooter = response.data.pdf_footer
-            this.reportFooter = '<table width="100%" ><tr><td width="30%" align="left">Jacobs Farms Delcabo, Inc </td><td width="40%">Pending</td><td width="30%" align="right">Rev. pend</td></tr></table>'
+            this.reportFooter = '<table width="100%"><tr><td width="30%" align="left">Jacobs Farms Delcabo, Inc </td><td width="40%">Pending</td><td width="30%" align="right">Rev. pend</td></tr></table>'
             this.activeReport = "any"
             //tempLoader.dismiss()
           }
