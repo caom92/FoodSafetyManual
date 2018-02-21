@@ -378,6 +378,21 @@ export class LanguageService
         4: 'Hace falta asignar un supervisor al empleado',
         5: 'Hace falta proporcionar los privilegios de bitácoras'
       },
+      'edit-user-info': {
+        1: 'El número de empleado ingresado ya está ocupado por otro usuario'
+      },
+      'edit-user-zone': {
+        1: 'No se puede cambiar la zona del supervisor; tiene empleados asignados en la zona actual'
+      },
+      'edit-user-role': {
+        1: 'No se puede cambiar el rol del supervisor; tiene empleados asignados',
+        2: 'No se puede cambiar el rol del usuario a Empleado; el usuario se encuentra en una zona diferente a la del supervisor elegido',
+        3: 'No se puede cambiar el rol del usuario a Empleado; no fue asignado a un supervisor válido',
+        4: 'No se puede cambiar el rol del usuario a Empleado; no fue asignado a un supervisor'
+      },
+      'edit-user-privileges': {
+        0: 'Los datos del usuario fueron editados con éxito'
+      },
       101: 'Faltó enviar una entrada al servidor',
       102: 'Una entrada enviada al servidor no es un valor numérico',
       103: 'Una entrada enviada al servidor esta fuera del intervalo correcto',
@@ -750,6 +765,21 @@ export class LanguageService
         3: 'User chosed as supervisor does not have the proper role',
         4: 'No supervisor was assigned',
         5: 'Log privileges were not provided'
+      },
+      'edit-user-info': {
+        1: 'The employee ID is already registered to another user'
+      },
+      'edit-user-zone': {
+        1: "Failed to change the supervisor's zone; employees are assigned to her"
+      },
+      'edit-user-role': {
+        1: "Failed to change the supervisor's role; employees are assigned to her",
+        2: "Failed to change the user's role to Employee; the user is in a different zone than her selected supervisor",
+        3: "Failed to change the user's role to Employee; her assigned supervisor is not a valid user",
+        4: "Failed to change the user's role to Employee; must be assigned to a supervisor"
+      },
+      'edit-user-privileges': {
+        0: 'User info. was edited successfully'
       },
       101: 'A server input argument was not send',
       102: 'A server input argument is not a numeric value',

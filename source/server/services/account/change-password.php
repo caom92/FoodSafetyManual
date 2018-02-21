@@ -44,7 +44,19 @@ $service = [
 
     // check if the user is intending to update the password of another user
     $isUpdatingOtherPassword = 
-      isset($request['user_id']) != $segment->get('user_id');
+      isset($request['user_id']) && array_key_exists('user_id', $request);
+    if ($isUpdatingOtherPassword) {
+      $isUpdatingOtherPassword = 
+        $request['user_id'] != $segment->get('user_id');
+    }
+
+    if ($isUpdatingOtherPassword && !$isAdmin) {
+      throw new \Exception(
+        'Password could not be changed; changing the password of another '.
+        'user is not allowed',
+        2
+      );
+    }
 
     // store the new password in the data base 
     $scope->daoFactory->get('Users')->updatePasswordByUserID(

@@ -229,6 +229,21 @@ class Users extends db\ToggableItemsTable
   function updateSignaturePathByID($userID, $path) {
     return parent::update(['signature_path' => $path], ['id' => $userID]);
   }
+
+  function updateNameAndEmployeeNumByID(
+    $userID, $employeeNum, $firstName, $lastName
+  ) {
+    return parent::update(
+      [
+        'employee_num' => $employeeNum, 
+        'first_name' => $firstName,
+        'last_name' => $lastName
+      ],
+      [
+        'id' => $userID
+      ]
+    );
+  }
 }
 
 ?>

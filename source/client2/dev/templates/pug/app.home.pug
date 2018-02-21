@@ -61,7 +61,7 @@ include globals.pug
         ='{{ langManager.messages.sideNavOptions.logout }}'
   
   //- Enlaces temporales
-  mz-sidenav-link
+  mz-sidenav-link('*ngIf'='home.roleName !== "Administrator"')
     +link('http://documents.jfdc.tech')(
       class='side-menu-link waves-effect waves-green'
     )

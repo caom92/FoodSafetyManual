@@ -94,8 +94,8 @@ mz-modal(
               formControlName='username'
               '[errorMessageResource]'='langManager.messages.usersFormLabels.errors.username'
             )
-          div.col.s12.m4
-            block Password
+          block Password
+            div.col.s12.m4
               +passwordInput(
                 'password',
                 'langManager.messages.editPasswordFormLabels.newPassword'
@@ -105,8 +105,7 @@ mz-modal(
                 formControlName='password'
                 '[errorMessageResource]'='langManager.messages.usersFormLabels.errors.password'
               )
-          div.col.s12.m4
-            block PasswordConfirmation
+            div.col.s12.m4
               +passwordInput(
                 'confirm-password',
                 'langManager.messages.editPasswordFormLabels.newPasswordConfirmation'
@@ -190,6 +189,8 @@ mz-modal(
                               '*ngIf'='selectedRole.name === "Employee"'
                               '(click)'='onPrivilegeSelected(log.name, privileges[2].id)'
                             )
+
+      block Username&PasswordEdit
 
   mz-modal-footer
     block SubmitButton

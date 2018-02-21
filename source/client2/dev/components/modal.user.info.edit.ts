@@ -1,10 +1,10 @@
 import { UserInfoModalComponent } from './modal.user.info'
-import { Component, OnInit, Input } from '@angular/core'
+import { Component, OnInit, Input, ComponentRef } from '@angular/core'
 import { LanguageService } from '../services/app.language'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { BackendService } from '../services/app.backend'
 import { ToastService } from '../services/app.toast'
-import { MzModalService } from 'ng2-materialize'
+import { MzModalService, MzBaseModal } from 'ng2-materialize'
 import { UsersComponent } from './app.users'
 import { ProgressModalComponent } from './modal.please.wait';
 
@@ -14,6 +14,10 @@ import { ProgressModalComponent } from './modal.please.wait';
 export class EditUserInfoModalComponent extends UserInfoModalComponent {
   @Input()
   userIdx: number
+
+  private passwordEditionForm: FormGroup
+  private usernameEditionForm: FormGroup
+  private progressModal: ComponentRef<MzBaseModal>
 
   constructor(
     langManager: LanguageService,
@@ -35,76 +39,115 @@ export class EditUserInfoModalComponent extends UserInfoModalComponent {
 
   initPrivileges(): void {
     this.server.update(
-      'list-privileges',
-      new FormData(),
-      (response: any) => {
-        if (response.meta.return_code == 0) {
-          this.privileges = response.data
+      'list-privileges', new FormData(), this.onListPrivilegesResponse
+    )
+  }
 
-          let data = new FormData()
-          data.append('user_id', this.callingComponent.users[this.userIdx].id)
-          this.server.update(
-            'get-privileges-of-employee',
-            data,
-            (response: any) => {
-              if (response.meta.return_code == 0) {
-                this.programs = response.data
-                for (let program of this.programs) {
-                  for (let module of program.modules) {
-                    for (let log of module.logs) {
-                      this.selectedPrivileges[log.name] = {
-                        logID: log.id,
-                        privilegeID: log.privilege_id
-                      }
-                    }
-                  }
-                }
-              } else {
-                this.toastManager.showText(
-                  this.langManager.getServiceMessage(
-                    'get-privileges-of-employee',
-                    response.meta.return_code
-                  )
-                )
+  private readonly onListPrivilegesResponse: (response: any) => void =
+    (response: any) => {
+      if (response.meta.return_code == 0) {
+        this.privileges = response.data
+
+        let data = new FormData()
+        data.append('user_id', this.callingComponent.users[this.userIdx].id)
+        this.server.update('get-privileges-of-employee', data,
+          this.onGetPrivilegesOfEmployeeResponse
+        )
+      } else {
+        this.toastManager.showText(this.langManager.getServiceMessage(
+          'list-privileges', response.meta.return_code
+        ))
+      }
+    }
+  
+  private readonly onGetPrivilegesOfEmployeeResponse: (response: any) => void =
+    (response: any) => {
+      if (response.meta.return_code == 0) {
+        this.programs = response.data
+        for (let program of this.programs)
+          for (let module of program.modules)
+            for (let log of module.logs)
+              this.selectedPrivileges[log.name] = {
+                logID: log.id,
+                privilegeID: log.privilege_id
               }
-            }
-          )
-        } else {
-          this.toastManager.showText(
-            this.langManager.getServiceMessage(
-              'list-privileges',
-              response.meta.return_code
-            )
-          )
+      } else {
+        this.toastManager.showText(this.langManager.getServiceMessage(
+          'get-privileges-of-employee', response.meta.return_code
+        ))
+      }
+    }
+
+  initForm(): void {
+    this.passwordEditionForm = this.getPasswordEditionForm()
+    this.usernameEditionForm = this.getUsernameEditionForm()
+    this.userForm = this.getUserInfoEditionForm()
+
+    this.selectedZoneId = this.userData.zone_id
+    this.selectedRole = {
+      id: this.userData.id,
+      name: this.userData.role_name
+    }
+
+    if (this.userData.role_name == 'Employee') {
+      let data = new FormData()
+      data.append('user_id', this.userData.id)
+      this.server.update('get-employee-info', data,
+        this.onGetEmployeeInfoResponse
+      )
+    }
+  }
+
+  private getPasswordEditionForm(): FormGroup {
+    return this.formBuilder.group(
+      {
+        oldPassword: [ null, Validators.compose([
+          Validators.required, Validators.minLength(6)
+        ])],
+        newPassword: [ null, Validators.compose([
+          Validators.minLength(6)
+        ])],
+        newPasswordConfirmation: [ null, Validators.compose([
+          Validators.minLength(6)
+        ])]
+      }, 
+      {
+        validator: (form: FormGroup) => {
+          const password = form.controls.newPassword.value 
+          const passwordConfirmation = 
+            form.controls.newPasswordConfirmation.value
+          return (password === passwordConfirmation) ?
+            null : { arePasswordsDifferent: true}
         }
       }
     )
   }
 
-  initForm(): void {
-    this.userForm = this.formBuilder.group({
-      employeeID: [ 
-        {
-          value: this.userData.employee_num,
-          disabled: true
-        }, 
+  private getUsernameEditionForm(): FormGroup {
+    return this.formBuilder.group({
+      newUsername: [ null, Validators.compose([
+        Validators.required,
+        Validators.minLength(3)
+      ])],
+      password: [ null, Validators.compose([
+        Validators.required,
+        Validators.minLength(6)
+      ])]
+    })
+  }
+
+  private getUserInfoEditionForm(): FormGroup {
+    return this.formBuilder.group({
+      employeeID: [ this.userData.employee_num, 
         Validators.required 
       ],
-      firstName: [ 
-        {
-          value: this.userData.first_name,
-          disabled: true
-        }, 
+      firstName: [ this.userData.first_name, 
         Validators.compose([
           Validators.required,
           Validators.maxLength(255)
         ])
       ],
-      lastName: [ 
-        {
-          value: this.userData.last_name,
-          disabled: true
-        }, 
+      lastName: [ this.userData.last_name, 
         Validators.compose([
           Validators.required,
           Validators.maxLength(255)
@@ -114,164 +157,201 @@ export class EditUserInfoModalComponent extends UserInfoModalComponent {
       zone: [ this.userData.zone_id, Validators.required ],
       username: [ 
         {
-          value: this.userData.login_name,
+          value: this.userData.login_name, 
           disabled: true
-        }, 
+        },
         Validators.compose([
           Validators.required,
           Validators.minLength(3)
         ]) 
-      ],
-      password: [ null, Validators.compose([
-        Validators.minLength(6)
-      ]) ],
-      passwordConfirmation: [ null, Validators.compose([
-        Validators.minLength(6)
-      ]) ]
-    }, {
-      validator: (form: FormGroup) => {
-        let password = form.controls.password.value 
-        let passwordConfirmation = form.controls.passwordConfirmation.value
-        return (password === passwordConfirmation) ?
-          null : { arePasswordsDifferent: true}
-      }
+      ]
     })
-    this.selectedRole = {
-      id: this.userData.id,
-      name: this.userData.role_name
-    }
-    this.selectedZoneId = this.userData.zone_id
-
-    if (this.userData.role_name == 'Employee') {
-      let data = new FormData()
-      data.append('user_id', this.userData.id)
-      this.server.update(
-        'get-employee-info',
-        data,
-        (response: any) => {
-          if (response.meta.return_code == 0) {
-            this.userData.supervisor_id = 
-              this.selectedSupervisorID = 
-                response.data.supervisor_id
-          } else {
-            this.langManager.getServiceMessage(
-              'get-employee-info', response.meta.return_code
-            )
-          }
-        }
-      )
-    }
   }
 
+  private readonly onGetEmployeeInfoResponse: (response: any) => void = 
+    (response: any) => {
+      if (response.meta.return_code == 0) {
+        this.userData.supervisor_id = this.selectedSupervisorID = 
+          response.data.supervisor_id
+      } else {
+        this.toastManager.showText(this.langManager.getServiceMessage(
+          'get-employee-info', response.meta.return_code
+        ))
+      }
+    }
+
   onEditFormSubmit(): void {
-    // change-password
-    const newPassword = this.userForm.controls.password.value
-    const newRoleId = this.userForm.controls.role.value
-    const newRole = this.getRoleNameByIdFromArray(newRoleId, this.userRoles)
-    const newZoneId = this.userForm.controls.zone.value
-    const isEmployee = newRole == 'Employee'
-    const isSupervisor = newRole == 'Supervisor'
-
-    let data = new FormData()
+    const data = new FormData()
     data.append('user_id', this.userData.id)
-    data.append('zone_id', newZoneId)
-    const modal = this.modalManager.open(ProgressModalComponent)
-    this.server.update('edit-user-zone', data,
-      (response: any) => {
-        if (response.meta.return_code == 0) {
-          data = new FormData()
+    data.append('first_name', this.userForm.controls.firstName.value)
+    data.append('last_name', this.userForm.controls.lastName.value)
+    data.append('employee_num', this.userForm.controls.employeeID.value)
+    this.progressModal = this.modalManager.open(ProgressModalComponent)
+    this.server.update('edit-user-info', data, this.onEditUserInfoResponse)
+  }
+
+  private readonly onEditUserInfoResponse: (response: any) => void =
+    (response: any) => {
+      if (response.meta.return_code == 0) {
+        this.callingComponent.users[this.userIdx].first_name = 
+          this.userForm.controls.firstName.value
+        this.callingComponent.users[this.userIdx].last_name =
+          this.userForm.controls.lastName.value
+        this.callingComponent.users[this.userIdx].employee_num = 
+          this.userForm.controls.employeeID.value
+
+        const data = new FormData()
+        data.append('user_id', this.userData.id)
+        data.append('zone_id', this.userForm.controls.zone.value)
+        this.server.update('edit-user-zone', data, this.onEditUserZoneResponse)
+      } else {
+        this.toastManager.showText(this.langManager.getServiceMessage(
+          'edit-user-info', response.meta.return_code
+        ))
+        this.progressModal.instance.modalComponent.close()
+      }
+    }
+  
+  private readonly onEditUserZoneResponse: (response: any) => void =
+    (response: any) => {
+      if (response.meta.return_code == 0) {
+        const newRoleId = this.userForm.controls.role.value
+        const newRole = this.getRoleNameByIdFromArray(newRoleId, this.userRoles)
+        const isEmployee = newRole == 'Employee'
+
+        const data = new FormData()
+        data.append('user_id', this.userData.id)
+        data.append('role_id', newRoleId)
+        if (isEmployee) {
+          data.append('supervisor_id', this.selectedSupervisorID.toString())
+        }
+        this.server.update('edit-user-role', data, this.onEditUserRoleResponse)
+      } else {
+        this.toastManager.showText(this.langManager.getServiceMessage(
+          'edit-user-zone', response.meta.return_code
+        ))
+        this.progressModal.instance.modalComponent.close()
+      }
+    }
+
+  private readonly onEditUserRoleResponse: (response: any) => void =
+    (response: any) => {
+      if (response.meta.return_code == 0) {
+        const newRoleId = this.userForm.controls.role.value
+        const newRole = this.getRoleNameByIdFromArray(newRoleId, this.userRoles)
+        const isSupervisor = newRole == 'Supervisor'
+        const isEmployee = newRole == 'Employee'
+
+        if (isEmployee || isSupervisor) {
+          const data = new FormData()
           data.append('user_id', this.userData.id)
-          data.append('role_id', newRoleId)
 
-          if (newRole == 'Employee') {
-            data.append('supervisor_id', this.selectedSupervisorID.toString())
+          let j = 0
+          for (let i in this.selectedPrivileges) {
+            data.append(
+              `privileges[${ j }][log_id]`, this.selectedPrivileges[i].logID
+            )
+            data.append(
+              `privileges[${ j++ }][privilege_id]`, 
+              this.selectedPrivileges[i].privilegeID
+            )
           }
-          
-          this.server.update('edit-user-role', data, 
-            (response: any) => {
-              if (response.meta.return_code == 0) {
-                if (isEmployee || isSupervisor) {
-                  data = new FormData()
-                  data.append('user_id', this.userData.id)
-                  
-                  let privileges = []
-                  let j = 0
-                  for (let i in this.selectedPrivileges) {
-                    data.append(
-                      `privileges[${ j }][log_id]`, 
-                      this.selectedPrivileges[i].logID
-                    )
-                    data.append(
-                      `privileges[${ j++ }][privilege_id]`,
-                      this.selectedPrivileges[i].privilegeID
-                    )
-                  }
 
-                  this.server.update('edit-user-privileges', data, 
-                    (response: any) => {
-                      if (response.meta.return_code == 0) {
-                        if (isEmployee) {
-                          data = new FormData()
-                          data.append(
-                            'assignments[0][employee_id]', 
-                            this.userData.id
-                          )
-                          data.append(
-                            'assignments[0][supervisor_id]',
-                            this.selectedSupervisorID.toString()
-                          )
-                          this.server.update(
-                            'assign-employees-to-supervisors',
-                            data,
-                            (response: any) => {
-                              if (response.meta.return_code == 0) {
-                                this.toastManager.showText(
-                                  'Datos del usuario editados con exito'
-                                )
-                                modal.instance.modalComponent.close()
-                                this.modalComponent.close()
-                              } else {
-                                this.toastManager.showText(
-                                  this.langManager.getServiceMessage(
-                                    'assign-employees-to-supervisors', 
-                                    response.meta.return_code
-                                  )
-                                )
-                              }
-                            }
-                          )
-                        } else {
-                          this.toastManager.showText(
-                            'Dato del usuario editados con exito'
-                          )
-                          modal.instance.modalComponent.close()
-                          this.modalComponent.close()
-                        }
-                      } 
-                    }
-                  )
-                } else {
-                  this.toastManager.showText(
-                    'Dato del usuario editados con exito'
-                  )
-                  modal.instance.modalComponent.close()
-                  this.modalComponent.close()
-                }
-              } else {
-                this.toastManager.showText(this.langManager.getServiceMessage(
-                  'edit-user-role', response.meta.return_code
-                ))      
-                modal.instance.modalComponent.close()
-              }
-            }
+          this.server.update('edit-user-privileges', data, 
+            this.onEditUserPrivilegesResponse
           )
         } else {
           this.toastManager.showText(this.langManager.getServiceMessage(
-            'edit-user-zone', response.meta.return_code
+            'edit-user-role', response.meta.return_code
           ))
-          modal.instance.modalComponent.close()
+          this.progressModal.instance.modalComponent.close()
+          this.modalComponent.close()
         }
+      } else {
+        this.toastManager.showText(this.langManager.getServiceMessage(
+          'edit-user-role', response.meta.return_code
+        ))      
+        this.progressModal.instance.modalComponent.close()
       }
+    }
+
+  private readonly onEditUserPrivilegesResponse: (response: any) => void =
+    (response: any) => {
+      if (response.meta.return_code == 0) {
+        const newRoleId = this.userForm.controls.role.value
+        const newRole = this.getRoleNameByIdFromArray(newRoleId, this.userRoles)
+        const isEmployee = newRole == 'Employee'
+
+        if (isEmployee) {
+          const data = new FormData()
+          data.append('assignments[0][employee_id]', this.userData.id)
+          data.append(
+            'assignments[0][supervisor_id]', 
+            this.selectedSupervisorID.toString()
+          )
+          this.server.update('assign-employees-to-supervisors', data,
+            this.onAssignEmployeesToSupervisors
+          )
+        } else {
+          this.toastManager.showText(this.langManager.getServiceMessage(
+            'edit-user-privileges', response.meta.return_code
+          ))
+          this.progressModal.instance.modalComponent.close()
+          this.modalComponent.close()
+        }
+      } 
+    }
+
+  private readonly onAssignEmployeesToSupervisors: (response: any) => void =
+    (response: any) => {
+      this.toastManager.showText(this.langManager.getServiceMessage(
+        'assign-employees-to-supervisors', response.meta.return_code
+      ))
+      if (response.meta.return_code == 0) {
+        this.progressModal.instance.modalComponent.close()
+        this.modalComponent.close()
+      }
+    }
+
+  private onPasswordEditionFormSubmit(): void {
+    const data = new FormData()
+    data.append('password', this.passwordEditionForm.controls.oldPassword.value)
+    data.append(
+      'new_password', this.passwordEditionForm.controls.newPassword.value
     )
+    data.append('user_id', this.userData.id)
+    this.progressModal = this.modalManager.open(ProgressModalComponent)
+    this.server.update('change-password', data, this.onChangePasswordResponse)
   }
+
+  private readonly onChangePasswordResponse: (response: any) => void =
+    (response: any) => {
+      this.progressModal.instance.modalComponent.close()
+      this.toastManager.showText(this.langManager.getServiceMessage(
+        'change-password', response.meta.return_code
+      ))
+    }
+
+  private onUsernameEditionFormSubmit(): void {
+    const data = new FormData()
+    data.append('password', this.usernameEditionForm.controls.password.value)
+    data.append('new_username', this.usernameEditionForm.controls.newUsername.value)
+    data.append('user_id', this.userData.id)
+    this.progressModal = this.modalManager.open(ProgressModalComponent)
+    this.server.update('change-username', data, this.onChangeUsernameResponse)
+  }
+
+  private readonly onChangeUsernameResponse: (response: any) => void =
+    (response: any) => {
+      this.progressModal.instance.modalComponent.close()
+      this.toastManager.showText(this.langManager.getServiceMessage(
+        'change-username', response.meta.return_code
+      ))
+
+      if (response.meta.return_code == 0) {
+        this.callingComponent.users[this.userIdx].login_name = 
+        this.userData.login_name = 
+          this.usernameEditionForm.controls.newUsername.value
+      }
+    }
 }
