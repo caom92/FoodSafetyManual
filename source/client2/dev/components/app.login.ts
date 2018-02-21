@@ -88,6 +88,7 @@ export class LogInComponent implements OnInit
             // si el usuario ya inicio sesion hay que redireccionar al usuario 
             // a la pagina principal
             localStorage.is_logged_in = true
+            this.home.displaySideNav()
             this.router.go('edit-profile')
           } else {
             // si el usuario no hay iniciado sesion, permitimos al usuario 
