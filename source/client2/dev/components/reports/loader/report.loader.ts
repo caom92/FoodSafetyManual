@@ -47,6 +47,7 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
     signature: null
   }
   reportEvent: Subscription
+  preview: string = null
 
   constructor(factoryResolver: ComponentFactoryResolver, private events: PubSubService, private ts: TS) {
     super(factoryResolver)
@@ -131,6 +132,8 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
       }).instance
         break
     }
+
+    this.preview = this.loaderComponent.getPreview()
   }
 
   public printPDFReport(): void {
@@ -138,9 +141,9 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
       lang: this.lang,
       content: JSON.stringify([this.getPDFContent()]),
       style: this.getCSS(),
-      company: JSON.parse(localStorage["__mydb/_ionickv/company"]),
-      address: JSON.parse(localStorage["__mydb/_ionickv/address"]),
-      logo: JSON.parse(localStorage["__mydb/_ionickv/logo"]),
+      company: localStorage["company_name"],
+      address: localStorage["company_address"],
+      logo: localStorage["company_logo"],
       orientation: this.loaderComponent.getOrientation(),
       footer: this.footer,
       supervisor: this.loaderComponent.report.approved_by,

@@ -6,14 +6,15 @@ export interface Authorization extends SuperAuthorization {
 }
 
 export interface AuthorizationItem {
-  shifts: LogShift
-  entry: LogEntry
+  shifts: Array<LogShift>
+  entry: AuthorizationEntry
 }
 
-export interface LogEntry {
+export interface AuthorizationEntry {
   incident_date: string
   time: string
   shift: string
+  shift_id: number
   area: string
   product_name: string
   batch: string

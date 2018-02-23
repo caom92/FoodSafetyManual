@@ -51,4 +51,9 @@ export class SuperReportComponent implements OnInit {
   public getCSS(): string {
     throw "getCSS() function must be overridden in child class"
   }
+
+  public getPreview(): string {
+    //throw "getPreview() function must be overridden in child class"
+    return null
+  }
 }

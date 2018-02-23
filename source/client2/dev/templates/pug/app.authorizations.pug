@@ -43,7 +43,7 @@ div.row
             )
               i.mdi.mdi-close-circle
           div.col.s4.center-align
-            +link()(
+            +link('#/authorizations/{{log.service_name}}/{{log.captured_log_id}}')(
               class='blue' 
               mz-button 
               '(click)'='onReviewButtonClick(log.captured_log_id)'

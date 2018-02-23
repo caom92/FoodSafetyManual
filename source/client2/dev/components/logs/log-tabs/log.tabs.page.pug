@@ -1,3 +1,5 @@
+h4 {{log_name}}
+.divider
 div
   mz-tab([fixedTabWidth]="'true'")
     mz-tab-item(label="{{ 'View Manual' | translate:lang }}")
@@ -7,19 +9,3 @@ div
       report
     mz-tab-item(label="{{ 'Capture Log' | translate:lang }}")
       div(dynamicComponentContainer)
-
-//-<mz-tab
-  [fixedTabWidth]="'true'"
-  [onShow]="callbackFunction()"
-  [responsiveThreshold]="'true'"
-  [swipeable]="'true'">
-    <mz-tab-item
-      [active]="'true'"
-      [disabled]="'true'"
-      [label]="'Tab 1'"
-    >
-      Tab 1
-    </mz-tab-item>
-    <mz-tab-item [label]="'Tab 2'">Tab 2</mz-tab-item>
-    <mz-tab-item [label]="'Tab 3'">Tab 3</mz-tab-item>
-  </mz-tab>

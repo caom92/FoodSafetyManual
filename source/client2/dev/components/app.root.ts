@@ -221,6 +221,12 @@ import { GMPDocControlDocControlLogComponent } from './logs/gmp-doc-control-doc-
 
 import { GMPPackingFinishedProductReportComponent } from '../components/reports/gmp-packing-finished-product/report/gmp.packing.finished.product.report'
 
+// GMP Packing ATP Testing
+
+import { GMPPackingATPTestingLogComponent } from './logs/gmp-packing-atp-testing/log/gmp.packing.atp.testing.log'
+import { GMPPackingATPTestingEntryComponent } from './logs/gmp-packing-atp-testing/entry/gmp.packing.atp.testing.entry'
+import { GMPPackingATPTestingTestComponent } from './logs/gmp-packing-atp-testing/test/gmp.packing.atp.testing.test'
+
 // Genericos
 
 import { ReportLoaderCard } from './report.loader.card.component'
@@ -248,8 +254,8 @@ import { LoaderService, KoiLoader } from '../services/app.loaders'
 import { InventoryService } from '../services/app.inventory'
 import { AlertComponent } from '../services/alert/app.alert.component'
 import { AlertController } from '../services/alert/app.alert'
-import { DragulaModule } from 'ng2-dragula/components/dragular.module';
-import { TabLogLoaderComponent } from './logs/log.loader';
+import { DragulaModule } from 'ng2-dragula/components/dragular.module'
+import { TabLogLoaderComponent } from './logs/log.loader'
 import { LogTabsPage } from '../components/logs/log-tabs/log.tabs.page'
 import { LogHeaderComponent } from '../components/logs/log-header/log.header'
 import { LogService } from '../services/app.logs'
@@ -257,9 +263,10 @@ import { ToastsService } from '../services/app.toasts'
 import { TranslationService } from '../services/app.translation'
 import { AuthorizationLoader } from './authorizations/authorization-loader/authorization.loader.component'
 import { InventoryLoaderComponent } from './inventories/inventories'
-import { AreaManagerService } from '../services/app.area.manager';
-import { ReportHeaderComponent } from './reports/report-header/report.header';
-import { ReportTab } from './reports/reports';
+import { AreaManagerService } from '../services/app.area.manager'
+import { ReportHeaderComponent } from './reports/report-header/report.header'
+import { ReportTab } from './reports/reports'
+import { GAPOthersUnusualOccurrenceAuthorizationComponent } from './logs/gap-others-unusual-occurrence/authorization/gap.others.unusual.occurrence.authorization'
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -508,6 +515,7 @@ import { ReportTab } from './reports/reports';
     GMPSelfInspectionPestControlReportAreaComponent,
     GMPSelfInspectionPestControlReportItemComponent,
     GAPOthersUnusualOccurrenceLogComponent,
+    GAPOthersUnusualOccurrenceAuthorizationComponent,
     GAPOthersUnusualOccurrenceReportComponent,
     GMPOthersUnusualOccurrenceLogComponent,
     GMPOthersUnusualOccurrenceReportComponent,
@@ -515,6 +523,9 @@ import { ReportTab } from './reports/reports';
     GMPPackingAgedProductReportComponent,
     GMPDocControlDocControlLogComponent,    
     GMPPackingFinishedProductReportComponent,
+    GMPPackingATPTestingLogComponent,
+    GMPPackingATPTestingEntryComponent,
+    GMPPackingATPTestingTestComponent,
     LogTabsPage,
     AuthorizationLoader,
     LogHeaderComponent,
@@ -554,6 +565,7 @@ import { ReportTab } from './reports/reports';
     GMPPackingGlassBrittleAuthorizationComponent,
     GMPPackingColdRoomTempAuthorizationComponent,
     GMPPackingPreopInventoryManagerComponent,
+    GAPOthersUnusualOccurrenceAuthorizationComponent,
     GMPPackingGlassBrittleInventoryManagerComponent,
     GAPPackingPreopInventoryManagerComponent,
     GMPPackingScaleCalibrationInventoryComponent,
@@ -573,7 +585,8 @@ import { ReportTab } from './reports/reports';
     GMPOthersUnusualOccurrenceReportComponent,
     GAPOthersUnusualOccurrenceReportComponent,
     GMPPackingAgedProductReportComponent,
-    GMPPackingFinishedProductReportComponent
+    GMPPackingFinishedProductReportComponent,
+    GMPPackingATPTestingLogComponent,
   ],
   // indicamos cual es el componente raiz
   bootstrap: [HomeComponent]

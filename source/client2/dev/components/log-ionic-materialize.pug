@@ -40,7 +40,9 @@ mixin fullLogWrapper()
     block
 
 mixin sendLogButton(label)
-  button(mz-button)&attributes(attributes)= label
+  div(class="row")
+    div(class="center col s12 m12 l12")
+      button(mz-button)&attributes(attributes)= label
 
 mixin addItemButton()
   button(mz-button, float="true")&attributes(attributes)
@@ -61,7 +63,7 @@ mixin textInput(label, icon, formControlName, type, id, placeholder)
   mz-input-container
     if (icon)
       i(mz-icon-mdi, mz-input-prefix, icon=icon)
-    input(mz-input, label=label, formControlName=formControlName, id=id, placeholder=placeholder, type=type)
+    input(mz-input, label=label, formControlName=formControlName, id=id, placeholder=placeholder, type=type)&attributes(attributes)
 
 mixin textInputLine(label, placeholder, icon, formControlName, type, id)
   +textInput(label, icon, formControlName, type, placeholder, id)
@@ -70,7 +72,7 @@ mixin textArea(label, icon, formControlName, id, placeholder)
   mz-textarea-container
     if (icon)
       i(mz-icon-mdi, mz-input-prefix, icon=icon)
-    textarea(mz-textarea, label=label, formControlName=formControlName, id=id, placeholder=placeholder)
+    textarea(mz-textarea, label=label, formControlName=formControlName, id=id, placeholder=placeholder)&attributes(attributes)
 
 mixin checkbox(label, icon, formControlName, id)
   mz-checkbox-container()&attributes(attributes)
@@ -117,3 +119,6 @@ mixin fileInput(label)
       input(type="file")
     div(class="file-path-wrapper")
       input(class="file-path validate", type="text")
+
+mixin errorMessage(condition, message)
+  small(style='color:red; font-weight: bold;', *ngIf!=condition)= message

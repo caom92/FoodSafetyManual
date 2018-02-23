@@ -60,7 +60,9 @@ export class ReportTab extends DynamicComponentResolver {
     clear: 'Borrar',
     close: 'Cerrar',
     format: 'dddd, dd mmmm, yyyy',
-    formatSubmit: "yyyy-mm-dd"
+    formatSubmit: "yyyy-mm-dd",
+    selectYears: true,
+    selectMonths: true,
   }
 
   private reportForm: any = null
@@ -97,11 +99,9 @@ export class ReportTab extends DynamicComponentResolver {
 
   showChildren() {
     this.pdfReport.lang = this.lang
-    //this.pdfReport.content = JSON.stringify([this.getPDFContent()])
-    //this.pdfReport.style = this.loaderComponent.getCSS()
-    this.pdfReport.company = JSON.parse(localStorage["__mydb/_ionickv/company"])
-    this.pdfReport.address = JSON.parse(localStorage["__mydb/_ionickv/address"])
-    this.pdfReport.logo = JSON.parse(localStorage["__mydb/_ionickv/logo"])
+    this.pdfReport.company = localStorage["company_company"]
+    this.pdfReport.address = localStorage["company_address"]
+    this.pdfReport.logo = localStorage["company_logo"]
     this.pdfReport.orientation = this.pdfReports._results[0].getOrientation()
     this.pdfReport.footer = ""
     this.pdfReport.supervisor = this.pdfReports._results[0].report.approved_by
@@ -109,15 +109,13 @@ export class ReportTab extends DynamicComponentResolver {
     this.pdfReport.subject = ""
     this.pdfReport.images = null
     this.pdfReport.fontsize = this.pdfReports._results[0].getFontSize()
-    //console.log(this.pdfReports)
     let tempContent = []
     for(let report of this.pdfReports._results){
-      //console.log(report)
       tempContent.push(report.getPDFContent())
-      //report.consoleReport()
     }
     this.pdfReport.content = JSON.stringify(tempContent)
     this.pdfReport.style = this.pdfReports._results[0].getCSS()
+    console.log(this.pdfReport)
   }
 
   getReportData() {

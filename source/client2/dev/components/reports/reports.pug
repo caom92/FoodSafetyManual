@@ -2,18 +2,19 @@ div
   mz-card
     mz-card-title {{ 'Report Request' | translate:lang }}
     mz-card-content
-      form#date-form([formGroup]='dateRangeForm', (ngSubmit)='getReportData()')
+      form([formGroup]='dateRangeForm', (ngSubmit)='getReportData()')
         .row
-          mz-datepicker-container.s12.m12.l12
+          mz-datepicker-container.col.s12.m12.l12
             i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
             input(mz-datepicker, [label]="'Fecha de inicio'", type='text', formControlName='startDate', [options]='options')
         .row
-          mz-datepicker-container.s12.m12.l12
+          mz-datepicker-container.col.s12.m12.l12
             i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
             input(mz-datepicker, [label]="'Fecha de cierre'", type='text', formControlName='endDate', [options]='options')
         .row
-          button(mz-button, type='submit') Open Report
-          button(mz-button) View in PDF
+          .col.s12.m12.l12.center
+            button(mz-button)
+              | {{ 'Open Report' | translate:lang }}
       form#pdf-form(method='POST', target='_blank', action='http://localhost/espresso/source/server/report/reportPDF.php', ngNoForm='')
         input(type='hidden', name='lang', [ngModel]='pdfReport.lang')
         input(type='hidden', name='content', [ngModel]='pdfReport.content')
@@ -26,11 +27,8 @@ div
         input(type='hidden', name='footer', [ngModel]='pdfReport.footer')
         input(type='hidden', name='supervisor', [ngModel]='pdfReport.supervisor')
         input(type='hidden', name='signature', [ngModel]='pdfReport.signature')
-      .row
-        .col
-            button(mz-button, form='date-form')
-              | {{ 'Open Report' | translate:lang }}
-        .col
-          div(*ngIf='reports.length != 0')
-            button(mz-button, (click)='showChildren()', form='pdf-form') View in PDF
+        .row
+          .col.s12.m12.l12.center
+            div(*ngIf='reports.length != 0')
+              button(mz-button, (click)='showChildren()') View in PDF
   report-loader(#reports='', *ngFor='let report of reports', [report]='report', [activeReport]='activeReport', [suffix]='reportSuffix', [footer]='reportFooter')

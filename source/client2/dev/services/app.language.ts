@@ -35,7 +35,16 @@ export class LanguageService
           clear: 'Borrar',
           close: 'Cerrar',
           format: 'dddd, dd mmmm, yyyy',
-          formatSubmit: "yyyy-mm-dd"
+          formatSubmit: "yyyy-mm-dd",
+          selectYears: true,
+          selectMonths: true
+        },
+        timePickerConfig: {
+          twelvehour: false,
+          donetext: 'OK',
+          cleartext: 'Borrar',
+          canceltext: 'Cancelar',
+          autoclose: true
         }
       },
       navBar: {
@@ -405,7 +414,13 @@ export class LanguageService
           closeOnSelect: true,
           closeOnClear: false,
           format: 'dddd, dd mmmm, yyyy',
-          formatSubmit: "yyyy-mm-dd"
+          formatSubmit: "yyyy-mm-dd",
+          selectYears: true,
+          selectMonths: true,
+        },
+        timePickerConfig: {
+          twelvehour: false,
+          autoclose: true
         }
       },
       navBar: {

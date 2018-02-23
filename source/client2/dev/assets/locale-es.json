@@ -130,6 +130,19 @@
             "comment_length": "El comentario no puede exceder 65535 caracteres",
             "person_length": "El nombre de la persona a cargo de la sanitización no puede exceder 255 caracteres",
             "album_length": "El enlace del album no puede exceder 2000 caracteres"
+        },
+        "gap-others-unusual-occurrence": {
+            "area_max": "El área de producción no puede exceder 255 caracteres",
+            "product_max": "El producto no puede exceder 255 caracteres",
+            "batch_max": "El lote no puede exceder 255 caracteres",
+            "description_max": "La descripción no puede exceder 65535 caracteres",
+            "action_max": "La acción correctiva no puede exceder 65535 caracteres",
+            "url_max": "La dirección externa no puede exceder 65535 caracteres"
+        },
+        "generic": {
+            "date_required": "Introduzca una fecha válida",
+            "time_required": "Introduzca una hora válida",
+            "generic_required": "Este campo es requerido"
         }
     },
     "InventoryErrors": {

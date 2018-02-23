@@ -23,6 +23,7 @@ import { GMPPackingColdRoomTempLogComponent } from '../../logs/gmp-packing-cold-
 import { GMPPackingGlassBrittleLogComponent } from '../../logs/gmp-packing-glass-brittle/log/gmp.packing.glass.brittle.log'
 import { GMPPackingScissorsKnivesLogComponent } from '../../logs/gmp-packing-scissors-knives/log/gmp.packing.scissors.knives.log'
 import { StateService } from '@uirouter/angular';
+import { GAPOthersUnusualOccurrenceAuthorizationComponent } from '../../logs/gap-others-unusual-occurrence/authorization/gap.others.unusual.occurrence.authorization';
 
 @Component({
   selector: 'authorization-loader',
@@ -33,7 +34,7 @@ export class AuthorizationLoader extends DynamicComponentResolver implements OnI
   @Language() lang: string
   @Input() suffix: string
   @Input() reportID: number
-  @Input() log_name: string = "Default"
+  @Input() log_name: string = "Loading..."
   loaderComponent: Type<any> = null
 
   constructor(
@@ -53,8 +54,10 @@ export class AuthorizationLoader extends DynamicComponentResolver implements OnI
       this.suffix == "gmp-packing-thermo-calibration" ||
       this.suffix == "gmp-packing-cold-room-temp" ||
       this.suffix == "gmp-packing-glass-brittle" ||
-      this.suffix == "gmp-packing-scissors-knives") {
+      this.suffix == "gmp-packing-scissors-knives" ||
+      this.suffix == "gap-others-unusual-occurrence") {
       this.logService.authorization(this.suffix, this.reportID).then(success => {
+        this.log_name = success.log_name
         switch (this.suffix) {
           case 'gmp-packing-hand-washing': this.loaderComponent = this.loadComponent(GMPPackingHandWashingAuthorizationComponent, {
             log: success
@@ -81,6 +84,10 @@ export class AuthorizationLoader extends DynamicComponentResolver implements OnI
           }).instance
             break
           case 'gmp-packing-scissors-knives': this.loaderComponent = this.loadComponent(GMPPackingScissorsKnivesAuthorizationComponent, {
+            log: success
+          }).instance
+            break
+          case 'gap-others-unusual-occurrence': this.loaderComponent = this.loadComponent(GAPOthersUnusualOccurrenceAuthorizationComponent, {
             log: success
           }).instance
             break

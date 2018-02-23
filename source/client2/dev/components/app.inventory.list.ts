@@ -42,7 +42,6 @@ export class InventoryListComponent implements OnInit
       if (i != 'suffix' && logs[i].has_inventory) {
         let temp = logs[i]
         temp.name = i
-        console.log(temp)
         this.logs.push(temp)
       }
     }
