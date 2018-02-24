@@ -267,6 +267,7 @@ import { AreaManagerService } from '../services/app.area.manager'
 import { ReportHeaderComponent } from './reports/report-header/report.header'
 import { ReportTab } from './reports/reports'
 import { GAPOthersUnusualOccurrenceAuthorizationComponent } from './logs/gap-others-unusual-occurrence/authorization/gap.others.unusual.occurrence.authorization'
+import { GMPOthersUnusualOccurrenceAuthorizationComponent } from './logs/gmp-others-unusual-occurrence/authorization/gmp.others.unusual.occurrence.authorization'
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -518,6 +519,7 @@ import { GAPOthersUnusualOccurrenceAuthorizationComponent } from './logs/gap-oth
     GAPOthersUnusualOccurrenceAuthorizationComponent,
     GAPOthersUnusualOccurrenceReportComponent,
     GMPOthersUnusualOccurrenceLogComponent,
+    GMPOthersUnusualOccurrenceAuthorizationComponent,
     GMPOthersUnusualOccurrenceReportComponent,
     GMPPackingAgedProductLogComponent,
     GMPPackingAgedProductReportComponent,
@@ -566,6 +568,7 @@ import { GAPOthersUnusualOccurrenceAuthorizationComponent } from './logs/gap-oth
     GMPPackingColdRoomTempAuthorizationComponent,
     GMPPackingPreopInventoryManagerComponent,
     GAPOthersUnusualOccurrenceAuthorizationComponent,
+    GMPOthersUnusualOccurrenceAuthorizationComponent,
     GMPPackingGlassBrittleInventoryManagerComponent,
     GAPPackingPreopInventoryManagerComponent,
     GMPPackingScaleCalibrationInventoryComponent,

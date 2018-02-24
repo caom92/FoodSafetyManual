@@ -24,6 +24,7 @@ import { GMPPackingGlassBrittleLogComponent } from '../../logs/gmp-packing-glass
 import { GMPPackingScissorsKnivesLogComponent } from '../../logs/gmp-packing-scissors-knives/log/gmp.packing.scissors.knives.log'
 import { StateService } from '@uirouter/angular';
 import { GAPOthersUnusualOccurrenceAuthorizationComponent } from '../../logs/gap-others-unusual-occurrence/authorization/gap.others.unusual.occurrence.authorization';
+import { GMPOthersUnusualOccurrenceAuthorizationComponent } from '../../logs/gmp-others-unusual-occurrence/authorization/gmp.others.unusual.occurrence.authorization';
 
 @Component({
   selector: 'authorization-loader',
@@ -41,7 +42,7 @@ export class AuthorizationLoader extends DynamicComponentResolver implements OnI
     factoryResolver: ComponentFactoryResolver,
     private logService: LogService,
     private router: StateService
-    ) {
+  ) {
     super(factoryResolver)
   }
 
@@ -55,7 +56,8 @@ export class AuthorizationLoader extends DynamicComponentResolver implements OnI
       this.suffix == "gmp-packing-cold-room-temp" ||
       this.suffix == "gmp-packing-glass-brittle" ||
       this.suffix == "gmp-packing-scissors-knives" ||
-      this.suffix == "gap-others-unusual-occurrence") {
+      this.suffix == "gap-others-unusual-occurrence" ||
+      this.suffix == "gmp-others-unusual-occurrence") {
       this.logService.authorization(this.suffix, this.reportID).then(success => {
         this.log_name = success.log_name
         switch (this.suffix) {
@@ -88,6 +90,10 @@ export class AuthorizationLoader extends DynamicComponentResolver implements OnI
           }).instance
             break
           case 'gap-others-unusual-occurrence': this.loaderComponent = this.loadComponent(GAPOthersUnusualOccurrenceAuthorizationComponent, {
+            log: success
+          }).instance
+            break
+          case 'gmp-others-unusual-occurrence': this.loaderComponent = this.loadComponent(GMPOthersUnusualOccurrenceAuthorizationComponent, {
             log: success
           }).instance
             break

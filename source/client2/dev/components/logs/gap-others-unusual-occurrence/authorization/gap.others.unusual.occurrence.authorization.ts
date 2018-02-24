@@ -26,7 +26,7 @@ export class GAPOthersUnusualOccurrenceAuthorizationComponent extends SuperAutho
     batch: 255,
     description: 65535,
     corrective_action: 65535,
-    album_url: 65535
+    album_url: 255
   }
 
   constructor(_fb: FormBuilder,

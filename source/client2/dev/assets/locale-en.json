@@ -137,7 +137,7 @@
             "batch_max": "Batch name can't exceed 255 characters",
             "description_max": "Description can't exceed 65535 characters",
             "action_max": "Corrective action can't exceed 65535 characters",
-            "url_max": "External URL can't exceed 65535 characters"
+            "url_max": "External URL can't exceed 255 characters"
         },
         "generic": {
             "date_required": "Please enter a valid date",

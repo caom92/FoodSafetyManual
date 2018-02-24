@@ -26,7 +26,7 @@ export class GAPOthersUnusualOccurrenceLogComponent extends SuperLogComponent im
     batch: 255,
     description: 65535,
     corrective_action: 65535,
-    album_url: 65535
+    album_url: 255
   }
 
   constructor(private _fb: FormBuilder,
@@ -48,7 +48,7 @@ export class GAPOthersUnusualOccurrenceLogComponent extends SuperLogComponent im
     const currentTime = this.timeService.getISOTime(new Date())
     const currentDate = this.timeService.getISODate(new Date())
     this.captureForm = this._fb.group({
-      date: [currentDate, [Validators.required, Validators.minLength(1)]],
+      date: [currentDate, [Validators.required, Validators.minLength(1), CustomValidators.dateValidator()]],
       time: [currentTime, [Validators.required, CustomValidators.timeValidator()]],
       incident_date: [currentDate, [Validators.required, Validators.minLength(1), CustomValidators.dateValidator()]],
       shift_id: [null, [Validators.required]],
