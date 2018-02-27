@@ -8,4 +8,5 @@ include ../../../log-ionic-materialize.pug
         +cardContent()
           +timeInput(true, "{{ 'Log.time' | translate:lang }}", "time")
       gmp-packing-cold-room-temp-item(*ngFor='let item of log.items; let i = index', [item]='item', [itemGroup]='captureForm.controls.items.controls[i]')
-      +sendLogButton("{{ 'Log.send_report' | translate:lang }}")
+      block buttonRow
+        +sendLogButton("{{ 'Log.send_report' | translate:lang }}")

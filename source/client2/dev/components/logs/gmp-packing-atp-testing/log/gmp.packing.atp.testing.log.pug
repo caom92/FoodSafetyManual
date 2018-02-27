@@ -16,4 +16,5 @@ include ../../../log-ionic-materialize.pug
         +col()(class="s1 m1 l1")
           button.red(mz-button, type='button', float='true', (click)='removeEntry()', [disabled]="captureForm.controls.areas.controls.length <= 1")
             i(mz-icon-mdi='', [icon]="'minus'")
-      +sendLogButton("{{ 'Log.send_report' | translate:lang }}")
+      block buttonRow
+        +sendLogButton("{{ 'Log.send_report' | translate:lang }}")

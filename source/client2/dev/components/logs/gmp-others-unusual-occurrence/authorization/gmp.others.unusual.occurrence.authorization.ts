@@ -7,7 +7,6 @@ import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationService } from '../../../../services/app.translation'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
-import { Log } from '../interfaces/gmp.others.unusual.occurrence.log.interface'
 import { LanguageService } from '../../../../services/app.language'
 import { Authorization } from '../interfaces/gmp.others.unusual.occurrence.authorization.interface'
 

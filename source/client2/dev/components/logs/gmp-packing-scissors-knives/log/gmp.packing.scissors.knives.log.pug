@@ -9,4 +9,5 @@ include ../../../log-ionic-materialize.pug
         +cardHeader("{{ 'Log.complementary_information' | translate:lang }}")
         +cardContent
           +textArea("{{ 'Log.notes_of' | translate:lang }} {{log.log_name}}", "clipboard", "notes")
-      +sendLogButton("{{ 'Log.send_report' | translate:lang }}")
+      block buttonRow
+        +sendLogButton("{{ 'Log.send_report' | translate:lang }}")

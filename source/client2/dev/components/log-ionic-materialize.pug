@@ -43,6 +43,22 @@ mixin sendLogButton(label)
   div(class="row")
     div(class="center col s12 m12 l12")
       button(mz-button)&attributes(attributes)= label
+        i(mz-icon-mdi, [icon]="'send'")
+
+mixin authorizationButtonRow(label)
+  div(class="row")
+    div(class="center col s12 m6 l3")
+      button(mz-button, type="button")&attributes(attributes)= label
+        i(mz-icon-mdi, [icon]="'send'")
+    div(class="center col s12 m6 l3")
+      button(mz-button, type="button")&attributes(attributes)= label
+        i(mz-icon-mdi, [icon]="'checkbox-marked-circle'")
+    div(class="center col s12 m6 l3")
+      button(mz-button, type="button")&attributes(attributes)= label
+        i(mz-icon-mdi, [icon]="'delete'")
+    div(class="center col s12 m6 l3")
+      button(mz-button, type="button")&attributes(attributes)= label
+        i(mz-icon-mdi, [icon]="'undo-variant'")
 
 mixin addItemButton()
   button(mz-button, float="true")&attributes(attributes)

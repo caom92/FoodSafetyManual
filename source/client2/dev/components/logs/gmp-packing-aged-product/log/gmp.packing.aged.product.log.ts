@@ -20,9 +20,6 @@ export class GMPPackingAgedProductLogComponent extends SuperLogComponent impleme
   @Language() lang: string
   entries: Array<number> = []
 
-  //public options: { en: Pickadate.DateOptions, es: Pickadate.DateOptions }
-  public options: { en: any, es: any }
-
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
     private translationService: TranslationService,
@@ -32,38 +29,6 @@ export class GMPPackingAgedProductLogComponent extends SuperLogComponent impleme
   }
 
   ngOnInit() {
-    console.log(this.lang)
-    this.options = { en: {
-      format: 'dddd, dd mmm, yyyy',
-      formatSubmit: 'yyyy-mm-dd',
-      selectYears: true,
-      selectMonths: true,
-      firstDay: false,
-      min: new Date("2016-10-01T00:00:00"),
-      max: new Date()
-    }, es: {
-      format: 'dddd, dd mmm, yyyy',
-      formatSubmit: 'yyyy-mm-dd',
-      monthsFull: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"], // default 'January' through 'December'
-      monthsShort: ["Ene", "Feb", "Mar", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"], // default 'Jan' through 'Dec'
-      weekdaysFull: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"], // default 'Sunday' through 'Saturday'
-      weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"], // default 'Sun' through 'Sat'
-      weekdaysLetter: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
-      today: "Hoy", // default 'Today'
-      close: "Cerrar", // default 'Close'
-      clear: "Limpiar",
-      labelMonthNext: "Siguiente", // default 'Next month'
-      labelMonthPrev: "Anterior", // default 'Previous month'
-      labelMonthSelect: "Elegir mes", // default 'Select a month'
-      labelYearSelect: "Elegir año", //default 'Select a year'
-      selectYears: true,
-      selectMonths: true,
-      firstDay: false,
-      min: new Date("2016-10-01T00:00:00"),
-      max: new Date()
-    }
-  }
-
     this.setSuffix("gmp-packing-aged-product")
     super.ngOnInit()
     this.initForm()
@@ -119,49 +84,9 @@ export class GMPPackingAgedProductLogComponent extends SuperLogComponent impleme
   }
 
   resetForm() {
-    /*let currentTime = this.timeService.getISOTime(new Date())
-    let items = []
-    for (let item of this.log.items) {
-      items.push({ id: item.id, test: null, calibration: false, sanitization: false, deficiencies: "", corrective_action: "" })
-    }
-    this.captureForm.reset({
-      date: this.timeService.getISODate(new Date()),
-      time: currentTime,
-      items: items
-    })*/
-  }
-
-  save() {
-    console.log("dont save until ready")
-    console.log(this.captureForm)
-
-
-    for(let entry in this.entries){
-      let tempEntry = this.captureForm.controls.entries as FormArray
-      console.log(entry)
-      let temp = tempEntry.controls[entry] as FormGroup
-      console.log(temp.controls.packed_date)
-      console.log(temp.controls.age)
-    }
-    //console.log(this.entries)
-    //console.log(this.captureForm.controls.entries)
-    //console.log(this.captureForm.value)
-    
-    //super.save()
-    //let control = <FormArray>this.captureForm.controls['entries']
-    /*for(let i = 0; i < 100; i++){
-      control.push(this.initEmptyEntry())
-      this.entries.push(this.entries.length + 1)
-    }*/
-    /*console.log(this.captureForm.value)
-    let control = <FormArray>this.captureForm.controls['entries']
-    control.push(this.initEmptyEntry())
-    this.entries.push(this.entries.length + 1)*/
-  }
-
-  public onDateChange(event): void {
-    console.log("date changed")
-    console.log(event)
+    // Para bitacoras basadas en entradas, se debe reiniciar el formulario como
+    // si cargaramos nuevamente el componente
+    this.initForm()
   }
 
   public addEntry(): void {

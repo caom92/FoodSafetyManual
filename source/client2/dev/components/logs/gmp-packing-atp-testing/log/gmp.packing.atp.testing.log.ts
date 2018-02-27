@@ -56,16 +56,9 @@ export class GMPPackingATPTestingLogComponent extends SuperLogComponent implemen
   }
 
   resetForm() {
-    /*let currentTime = this.timeService.getISOTime(new Date())
-    let items = []
-    for (let item of this.log.items) {
-      items.push({ id: item.id, test: null, calibration: false, sanitization: false, deficiencies: "", corrective_action: "" })
-    }
-    this.captureForm.reset({
-      date: this.timeService.getISODate(new Date()),
-      time: currentTime,
-      items: items
-    })*/
+    // Para bitacoras basadas en entradas, se debe reiniciar el formulario como
+    // si cargaramos nuevamente el componente
+    this.initForm()
   }
 
   save() {
@@ -77,7 +70,6 @@ export class GMPPackingATPTestingLogComponent extends SuperLogComponent implemen
     control.push(this.initEmptyEntry())
     console.log(this.captureForm.value)
     //this.entries.push(this.entries.length + 1)
-    //console.log(this.entries)
   }
 
   public removeEntry(): void {

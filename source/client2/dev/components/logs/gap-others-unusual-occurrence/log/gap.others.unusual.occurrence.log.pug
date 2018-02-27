@@ -46,4 +46,5 @@ include ../../../log-ionic-materialize.pug
               +errorMessage("!captureForm.controls.album_url.valid && captureForm.controls.album_url.value.length > maxLengths.album_url", "{{ 'LogErrors.gap-others-unusual-occurrence.url_max' | translate:lang }}")
               +errorMessage("!captureForm.controls.album_url.valid && captureForm.controls.album_url.dirty && captureForm.controls.album_url.value.length == 0", "{{ 'LogErrors.generic.generic_required' | translate:lang }}")
               //-+errorMessage("!captureForm.controls.album_url.valid && captureForm.controls.album_url.dirty && captureForm.controls.album_url.value.length > 0", "formato de URL no valido")
-      +sendLogButton("{{ 'Log.send_report' | translate:lang }}")
+      block buttonRow
+        +sendLogButton("{{ 'Log.send_report' | translate:lang }}")

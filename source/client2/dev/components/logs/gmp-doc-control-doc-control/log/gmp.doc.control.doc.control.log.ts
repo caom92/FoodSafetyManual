@@ -79,17 +79,13 @@ export class GMPDocControlDocControlLogComponent extends SuperLogComponent imple
   }
 
   save() {
-    // Has to be overwritten, since we can upload files
-    console.log("code before saving")
+    // Has to be overwritten, so we can upload files
 
     let formData = new FormData()
 
     formData.append("date", this.timeService.getISODate(new Date()))
-
     formData.append("documents[0][id]", this.selectedDocument)
-
     formData.append("documents[0][entries][0][date]", this.timeService.getISODate(new Date()))
-
     formData.append("documents[0][entries][0][employee]", "Test")
 
     if(this.pdf != null){
