@@ -1,16 +1,14 @@
 import { Component, Input } from '@angular/core'
-import { FormBuilder } from '@angular/forms'
-import { Language } from 'angular-l10n'
-import { TranslationService as TService } from 'angular-l10n'
+import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks'
+import { FormBuilder, Validators } from '@angular/forms'
+import { Language, TranslationService as TService } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 
 import { AlertController } from '../../../../services/alert/app.alert'
 import { AreaManagerService } from '../../../../services/app.area.manager'
 import { SuperInventoryAreaComponent } from '../../super-inventory/super.area.inventory.area'
+import { SuperInventoryEditAreaInterface } from '../../super-inventory/super.area.inventory.interface'
 import { InventoryArea } from '../interfaces/gmp.packing.glass.brittle.area.inventory.interface'
-import { SuperInventoryAreaInterface, SuperInventoryEditAreaInterface } from '../../super-inventory/super.area.inventory.interface'
-import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks'
-import { Validators } from '@angular/forms'
 
 @Component({
   selector: '[gmp-packing-glass-brittle-area-inventory-area]',

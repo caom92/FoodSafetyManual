@@ -5,7 +5,7 @@ import { DragulaService } from 'ng2-dragula'
 
 import { InventoryService } from '../../../../services/app.inventory'
 import { SuperInventoryListComponent } from '../../super-inventory/super.inventory.list'
-import { InventoryItem, InventoryType } from '../interfaces/gmp.packing.glass.brittle.inventory.interface'
+import { InventoryItem } from '../interfaces/gmp.packing.glass.brittle.inventory.interface'
 
 @Component({
   selector: '[gmp-packing-glass-brittle-inventory-list]',

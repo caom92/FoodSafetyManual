@@ -25,6 +25,8 @@ import { GMPPackingScissorsKnivesLogComponent } from '../../logs/gmp-packing-sci
 import { StateService } from '@uirouter/angular';
 import { GAPOthersUnusualOccurrenceAuthorizationComponent } from '../../logs/gap-others-unusual-occurrence/authorization/gap.others.unusual.occurrence.authorization';
 import { GMPOthersUnusualOccurrenceAuthorizationComponent } from '../../logs/gmp-others-unusual-occurrence/authorization/gmp.others.unusual.occurrence.authorization';
+import { GAPPackingPreopAuthorizationComponent } from '../../logs/gap-packing-preop/authorization/gap.packing.preop.authorization';
+import { GMPSelfInspectionPestControlAuthorizationComponent } from '../../logs/gmp-self-inspection-pest-control/authorization/gmp.self.inspection.pest.control.authorization';
 
 @Component({
   selector: 'authorization-loader',
@@ -57,7 +59,10 @@ export class AuthorizationLoader extends DynamicComponentResolver implements OnI
       this.suffix == "gmp-packing-glass-brittle" ||
       this.suffix == "gmp-packing-scissors-knives" ||
       this.suffix == "gap-others-unusual-occurrence" ||
-      this.suffix == "gmp-others-unusual-occurrence") {
+      this.suffix == "gmp-others-unusual-occurrence" ||
+      this.suffix == "gmp-packing-aged-product" ||
+      this.suffix == "gap-packing-preop" ||
+      this.suffix == "gmp-self-inspection-pest-control") {
       this.logService.authorization(this.suffix, this.reportID).then(success => {
         this.log_name = success.log_name
         switch (this.suffix) {
@@ -97,6 +102,18 @@ export class AuthorizationLoader extends DynamicComponentResolver implements OnI
             log: success
           }).instance
             break
+          case 'gap-packing-preop': this.loaderComponent = this.loadComponent(GAPPackingPreopAuthorizationComponent, {
+            log: success
+          }).instance
+            break
+          case 'gmp-self-inspection-pest-control': this.loaderComponent = this.loadComponent(GMPSelfInspectionPestControlAuthorizationComponent, {
+            log: success
+          }).instance
+            break
+          /*case 'gmp-packing-aged-product': this.loaderComponent = this.loadComponent(GMPPackingAgedProductAuthorizationComponent, {
+            log: success
+          }).instance
+            break*/
         }
       }, error => {
 

@@ -6,7 +6,7 @@ include ../../../log-ionic-materialize.pug
     form([formGroup]='captureForm', (ngSubmit)='save(myForm)')
       +card()
         +cardContent()
-          +timeInput(true, "{{ 'Log.time' | translate:lang }}", "time")
+          +timeInput(true, "{{ 'Log.time' | translate:lang }}", "time", null, null, "langManager.messages.global.timePickerConfig")
       gmp-packing-glass-brittle-area(*ngFor='let area of log.areas; let i = index', [area]='area', [group]='captureForm.controls.areas.controls[i]')
       +card()
         +cardHeader("{{ 'Log.complementary_information' | translate:lang }}")

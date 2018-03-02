@@ -151,7 +151,7 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
     this.pdfReport.supervisor = this.loaderComponent.report.approved_by
     this.pdfReport.signature = this.loaderComponent.report.signature_path
     this.pdfReport.subject = ""
-    this.pdfReport.images = null
+    this.pdfReport.images = this.loaderComponent.getImages()
     this.pdfReport.fontsize = this.loaderComponent.getFontSize()
   }
 

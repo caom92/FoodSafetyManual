@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
+import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
@@ -18,11 +19,11 @@ import { Log } from '../interfaces/gmp.packing.aged.product.log.interface'
 export class GMPPackingAgedProductLogComponent extends SuperLogComponent implements OnInit {
   @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, log_info: { actions: [{ id: null, name: null }], quality_types: [{ id: null, name: null }] } }
   @Language() lang: string
-  entries: Array<number> = []
 
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
     private translationService: TranslationService,
+    private langManager: LanguageService,
     logService: LogService,
     toasts: ToastsService) {
     super(logService, toasts)
@@ -39,12 +40,10 @@ export class GMPPackingAgedProductLogComponent extends SuperLogComponent impleme
       date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
       entries: this._fb.array([])
     })
-    this.entries = []
 
     const control = <FormArray>this.captureForm.controls['entries']
 
     control.push(this.initEmptyEntry())
-    this.entries.push(this.entries.length + 1)
   }
 
   public initEmptyEntry(): FormGroup {
@@ -61,7 +60,7 @@ export class GMPPackingAgedProductLogComponent extends SuperLogComponent impleme
       action_id: ["", [Validators.required]],
       album_url: ["", [Validators.required]],
       notes: ["", [Validators.required]],
-      origin: ["",  [Validators.required]]
+      origin: ["", [Validators.required]]
     })
   }
 
@@ -90,16 +89,14 @@ export class GMPPackingAgedProductLogComponent extends SuperLogComponent impleme
   }
 
   public addEntry(): void {
-    let control = <FormArray>this.captureForm.controls['entries']
+    const control = <FormArray>this.captureForm.controls['entries']
     control.push(this.initEmptyEntry())
-    this.entries.push(this.entries.length + 1)
   }
 
   public removeEntry(): void {
-    if(this.entries.length > 1){
-      let control = <FormArray>this.captureForm.controls['entries']
+    const control = <FormArray>this.captureForm.controls['entries']
+    if (control.controls.length > 1) {
       control.controls.pop()
-      this.entries.pop()
       this.logService.refreshFormGroup(this.captureForm)
     }
   }

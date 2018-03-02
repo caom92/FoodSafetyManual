@@ -10,7 +10,7 @@ ion-content
           ion-label {{ 'Close Date' | translate:lang }}
           ion-datetime(displayFormat='YYYY-MM-DD', formControlName='endDate')
         div(text-center)
-          button(ion-button, icon-end, round, form='date-form')
+          button(ion-button, icon-end, round)
             | {{ 'Open Report' | translate:lang }}
             ion-icon(name='send')
       form#pdf-form(method='POST', target='_blank', action='http://localhost/espresso/source/server/report/reportPDF.php', ngNoForm)

@@ -9,8 +9,8 @@ include ../../../log-ionic-materialize.pug
         +cardHeader("{{ 'Log.complementary_information' | translate:lang }}")
         +cardContent()
           +textArea("{{ 'Log.notes_of' | translate:lang }} {{log.log_name}}", "clipboard", "notes")
-          //-+errorMessage('!captureForm.controls.notes.valid && captureForm.controls.notes.dirty', "{{ 'LogErrors.gmp-packing-preop.comment_length' | translate:lang }}")
-          +textArea("{{ 'Log.external_link_of' | translate:lang }} {{log.log_name}}", "ios-link", "album_url")
-          //-+errorMessage('!captureForm.controls.album_url.valid && captureForm.controls.album_url.dirty', "{{ 'LogErrors.gmp-packing-preop.album_length' | translate:lang }}")
+          +errorMessage('!captureForm.controls.notes.valid && captureForm.controls.notes.dirty', "{{ 'LogErrors.gmp-packing-preop.comment_length' | translate:lang }}")
+          +textArea("{{ 'Log.external_link_of' | translate:lang }} {{log.log_name}}", "link-variant", "album_url")
+          +errorMessage('!captureForm.controls.album_url.valid && captureForm.controls.album_url.dirty', "{{ 'LogErrors.gmp-packing-preop.album_length' | translate:lang }}")
       block buttonRow
         +sendLogButton("{{ 'Log.send_report' | translate:lang }}")

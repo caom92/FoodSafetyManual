@@ -1,17 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { DatePipe } from '@angular/common'
-import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
-
+import { FormArray, FormBuilder, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
-import { CaptureLog, CaptureItem } from '../interfaces/gmp.packing.cold.room.temp.capture.interface'
-import { Log } from '../interfaces/gmp.packing.cold.room.temp.log.interface'
-
-import { DateTimeService } from '../../../../services/app.time'
-import { TranslationService } from '../../../../services/app.translation'
-import { ToastsService } from '../../../../services/app.toasts'
+import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
+import { DateTimeService } from '../../../../services/app.time'
+import { ToastsService } from '../../../../services/app.toasts'
+import { TranslationService } from '../../../../services/app.translation'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
+import { CaptureItem } from '../interfaces/gmp.packing.cold.room.temp.capture.interface'
+import { Log } from '../interfaces/gmp.packing.cold.room.temp.log.interface'
 
 @Component({
   selector: 'gmp-packing-cold-room-temp-log',
@@ -25,6 +23,7 @@ export class GMPPackingColdRoomTempLogComponent extends SuperLogComponent implem
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
     private translationService: TranslationService,
+    private langManager: LanguageService,
     logService: LogService,
     toasts: ToastsService) {
     super(logService, toasts)
@@ -43,7 +42,7 @@ export class GMPPackingColdRoomTempLogComponent extends SuperLogComponent implem
       time: [currentTime, [Validators.required]],
       items: this._fb.array([])
     })
-    const control = <FormArray>this.captureForm.controls['items'];
+    const control = <FormArray>this.captureForm.controls['items']
     for (let item of this.log.items) {
       control.push(this.initItem({ id: item.id, test: null, deficiencies: "", corrective_action: "" }))
     }

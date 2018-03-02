@@ -45,19 +45,19 @@ mixin sendLogButton(label)
       button(mz-button)&attributes(attributes)= label
         i(mz-icon-mdi, [icon]="'send'")
 
-mixin authorizationButtonRow(label)
+mixin authorizationButtonRow(sendLabel, authorizeLabel, deleteLabel, returnLabel)
   div(class="row")
-    div(class="center col s12 m6 l3")
-      button(mz-button, type="button")&attributes(attributes)= label
+    div(class="center col s12 m6 l3", style="margin-bottom: 20px;")
+      button(mz-button)= sendLabel + " "
         i(mz-icon-mdi, [icon]="'send'")
-    div(class="center col s12 m6 l3")
-      button(mz-button, type="button")&attributes(attributes)= label
+    div(class="center col s12 m6 l3", style="margin-bottom: 20px;")
+      button(mz-button, type="button", (click)='authorize()')= authorizeLabel + " "
         i(mz-icon-mdi, [icon]="'checkbox-marked-circle'")
-    div(class="center col s12 m6 l3")
-      button(mz-button, type="button")&attributes(attributes)= label
+    div(class="center col s12 m6 l3", style="margin-bottom: 20px;")
+      button(mz-button, type="button", (click)='delete()')= deleteLabel + " "
         i(mz-icon-mdi, [icon]="'delete'")
-    div(class="center col s12 m6 l3")
-      button(mz-button, type="button")&attributes(attributes)= label
+    div(class="center col s12 m6 l3", style="margin-bottom: 20px;")
+      button(mz-button, type="button", (click)='back()')= returnLabel + " "
         i(mz-icon-mdi, [icon]="'undo-variant'")
 
 mixin addItemButton()
@@ -96,6 +96,7 @@ mixin checkbox(label, icon, formControlName, id)
 
 mixin radioGroup(label, icon, formControlName)
   div
+    label()= label
     if block
       block
 

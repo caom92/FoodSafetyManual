@@ -5,7 +5,7 @@ include ../../../log-ionic-materialize.pug
   +cardContent
     //-+listHeader("{{item.name}}")
     //-+label("{{item.name}}", "ios-cut")
-    +timeInput(true, "{{ 'Log.time' | translate:lang }}", "time")
+    +timeInput(true, "{{ 'Log.time' | translate:lang }}", "time", null, null, "langManager.messages.global.timePickerConfig")
     +checkbox("{{ 'Log.approved' | translate:lang }}", false, "approved", "approved_{{item.id}}")
     +checkbox("{{ 'Log.returned_good_conditions' | translate:lang }}", false, "condition", "conditions_{{item.id}}")
     +checkbox("{{ 'Log.sanitized_lubricated' | translate:lang }}", false, "is_sanitized", "sanitized_{{item.id}}")

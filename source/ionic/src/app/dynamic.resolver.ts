@@ -1,4 +1,4 @@
-import { ComponentFactoryResolver, Type, ViewChild } from '@angular/core'
+import { ComponentFactoryResolver, Type, ViewChild, ComponentRef } from '@angular/core'
 
 import { DynamicComponentContainerDirective } from '../directives/dynamic.container'
 
@@ -22,7 +22,7 @@ export class DynamicComponentResolver
   // [in]   data: los datos de entrada que el componente espera recibir al ser 
   //        creado
   // [out]  return: la instancia al componente creado 
-  loadComponent(component: Type<any>, data: any): any {
+  loadComponent(component: Type<any>, data: any): ComponentRef<any> {
     // primero instanciamos una fabrica para el componente a inyectar
     let factory = this.factoryResolver.resolveComponentFactory(component)
 

@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core'
-import { FormGroup, FormGroupName, Validators, FormBuilder, FormArray } from '@angular/forms'
-import { LogEntry } from '../interfaces/gmp.packing.atp.testing.log.interface'
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
+
+import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
 
 @Component({
@@ -13,7 +14,7 @@ export class GMPPackingATPTestingEntryComponent {
   @Input('group') public entryForm: FormGroup
   entries: Array<number> = []
 
-  constructor(private _fb: FormBuilder, private logService: LogService) {
+  constructor(private _fb: FormBuilder, private logService: LogService, private langManager: LanguageService) {
     
   }
 

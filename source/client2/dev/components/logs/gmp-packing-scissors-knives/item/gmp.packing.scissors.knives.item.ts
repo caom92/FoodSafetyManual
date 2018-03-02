@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core'
-import { Language } from 'angular-l10n'
 import { FormGroup } from '@angular/forms'
+import { Language } from 'angular-l10n'
+
+import { LanguageService } from '../../../../services/app.language'
 import { LogItem } from '../interfaces/gmp.packing.scissors.knives.log.interface'
 
 @Component({
@@ -13,7 +15,7 @@ export class GMPPackingScissorsKnivesItemComponent {
   @Input('itemGroup') public itemForm: FormGroup
   @Language() lang: string
 
-  constructor() {
+  constructor(private langManager: LanguageService) {
 
   }
 }

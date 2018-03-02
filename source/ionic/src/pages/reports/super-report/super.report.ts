@@ -44,6 +44,11 @@ export class SuperReportComponent implements OnInit {
     return "P"
   }
 
+  public getImages(): string {
+    // Por defecto, los reportes no devuelven imágenes. Es un caso particular de Doc Control y posiblemente otras bitácoras en el futuro
+    return ""
+  }
+
   public getFontSize(): string {
     return "10"
   }

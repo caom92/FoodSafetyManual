@@ -20,6 +20,7 @@ ion-card([hidden]="!(activeReport == 'any' || activeReport == report.report_id)"
             input(type='hidden', name='footer', [ngModel]='pdfReport.footer')
             input(type='hidden', name='supervisor', [ngModel]='pdfReport.supervisor')
             input(type='hidden', name='signature', [ngModel]='pdfReport.signature')
+            input(type='hidden', name='images', [ngModel]='pdfReport.images')
             button(ion-fab, mini, color='pdf', (click)='printPDFReport()')
               ion-icon(name='ios-paper')
         ion-col.flexcontainer(col-4, col-sm-2, col-md-2, col-lg-1, *ngIf='!showReport')

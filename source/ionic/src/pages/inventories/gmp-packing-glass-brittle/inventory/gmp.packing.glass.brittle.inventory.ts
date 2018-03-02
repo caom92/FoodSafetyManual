@@ -5,8 +5,8 @@ import { Events, ModalController } from 'ionic-angular'
 import { AreaManagerService } from '../../../../services/app.area.manager'
 import { InventoryService } from '../../../../services/app.inventory'
 import { SuperInventoryByAreaComponent } from '../../super-inventory/super.inventory.by.area'
-import { InventoryItem } from '../interfaces/gmp.packing.glass.brittle.inventory.interface'
 import { GMPPackingGlassBrittleAddItemComponent } from '../add-item/gmp.packing.glass.brittle.add.item'
+import { InventoryItem } from '../interfaces/gmp.packing.glass.brittle.inventory.interface'
 
 @Component({
   selector: 'gmp-packing-glass-brittle-inventory',

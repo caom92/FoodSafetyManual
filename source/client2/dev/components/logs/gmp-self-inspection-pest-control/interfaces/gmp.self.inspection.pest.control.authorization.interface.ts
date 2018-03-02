@@ -12,7 +12,7 @@ export interface AuthorizationArea {
 }
 
 export interface AuthorizationItem {
-  id: string
+  id: number
   order: string
   name: string
   secured: number

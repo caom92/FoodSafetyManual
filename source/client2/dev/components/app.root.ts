@@ -69,6 +69,13 @@ import { GMPPackingPreopReportItemComponent } from './reports/gmp-packing-preop/
 
 // GAP Packing Preop
 
+import { GAPPackingPreopItemComponent } from '../components/logs/gap-packing-preop/item/gap.packing.preop.item'
+import { GAPPackingPreopTypeComponent } from '../components/logs/gap-packing-preop/type/gap.packing.preop.type'
+import { GAPPackingPreopAreaComponent } from '../components/logs/gap-packing-preop/area/gap.packing.preop.area'
+import { GAPPackingPreopLogComponent } from '../components/logs/gap-packing-preop/log/gap.packing.preop.log'
+
+import { GAPPackingPreopAuthorizationComponent } from '../components/logs/gap-packing-preop/authorization/gap.packing.preop.authorization'
+
 import { GAPPackingPreopInventoryManagerComponent } from '../components/inventories/gap-packing-preop/manager/gap.packing.preop.inventory.manager'
 import { GAPPackingPreopInventoryComponent } from '../components/inventories/gap-packing-preop/inventory/gap.packing.preop.inventory'
 import { GAPPackingPreopInventoryItemComponent } from '../components/inventories/gap-packing-preop/item/gap.packing.preop.inventory.item'
@@ -189,6 +196,16 @@ import { GMPSelfInspectionPestControlLogComponent } from '../components/logs/gmp
 import { GMPSelfInspectionPestControlAreaComponent } from '../components/logs/gmp-self-inspection-pest-control/area/gmp.self.inspection.pest.control.area'
 import { GMPSelfInspectionPestControlItemComponent } from '../components/logs/gmp-self-inspection-pest-control/item/gmp.self.inspection.pest.control.item'
 
+import { GMPSelfInspectionPestControlInventoryManagerComponent } from '../components/inventories/gmp-self-inspection-pest-control/manager/gmp.self.inspection.pest.control.inventory.manager'
+import { GMPSelfInspectionPestControlInventoryComponent } from '../components/inventories/gmp-self-inspection-pest-control/inventory/gmp.self.inspection.pest.control.inventory'
+import { GMPSelfInspectionPestControlInventoryItemComponent } from '../components/inventories/gmp-self-inspection-pest-control/item/gmp.self.inspection.pest.control.inventory.item'
+import { GMPSelfInspectionPestControlInventoryListComponent } from '../components/inventories/gmp-self-inspection-pest-control/list/gmp.self.inspection.pest.control.inventory.list'
+import { GMPSelfInspectionPestControlAreaInventoryComponent } from '../components/inventories/gmp-self-inspection-pest-control/area-inventory/gmp.self.inspection.pest.control.area.inventory'
+import { GMPSelfInspectionPestControlAreaInventoryAreaComponent } from '../components/inventories/gmp-self-inspection-pest-control/area/gmp.self.inspection.pest.control.area.inventory.area'
+import { GMPSelfInspectionPestControlAreaInventoryListComponent } from '../components/inventories/gmp-self-inspection-pest-control/area-list/gmp.self.inspection.pest.control.area.inventory.list'
+import { GMPSelfInspectionPestControlAddAreaComponent } from '../components/inventories/gmp-self-inspection-pest-control/add-area/gmp.self.inspection.pest.control.add.area'
+import { GMPSelfInspectionPestControlAddItemComponent } from '../components/inventories/gmp-self-inspection-pest-control/add-item/gmp.self.inspection.pest.control.add.item'
+
 //import { GMPSelfInspectionPestControlAuthorizationComponent } from '../components/logs/gmp-self-inspection-pest-control/authorization/gmp.self.inspection.pest.control.authorization'
 
 import { GMPSelfInspectionPestControlReportComponent } from './reports/gmp-self-inspection-pest-control/report/gmp.self.inspection.pest.control.report'
@@ -268,6 +285,12 @@ import { ReportHeaderComponent } from './reports/report-header/report.header'
 import { ReportTab } from './reports/reports'
 import { GAPOthersUnusualOccurrenceAuthorizationComponent } from './logs/gap-others-unusual-occurrence/authorization/gap.others.unusual.occurrence.authorization'
 import { GMPOthersUnusualOccurrenceAuthorizationComponent } from './logs/gmp-others-unusual-occurrence/authorization/gmp.others.unusual.occurrence.authorization'
+import { GMPDocControlDocControlInventoryComponent } from './inventories/gmp-doc-control-doc-control/inventory/gmp.doc.control.doc.control.inventory';
+import { GMPDocControlDocControlInventoryListComponent } from './inventories/gmp-doc-control-doc-control/list/gmp.doc.control.doc.control.inventory.list';
+import { GMPDocControlDocControlInventoryItemComponent } from './inventories/gmp-doc-control-doc-control/item/gmp.doc.control.doc.control.inventory.item';
+import { GMPDocControlDocControlAddItemComponent } from './inventories/gmp-doc-control-doc-control/add-item/gmp.doc.control.doc.control.add.item';
+import { GMPSelfInspectionPestControlAuthorizationComponent } from './logs/gmp-self-inspection-pest-control/authorization/gmp.self.inspection.pest.control.authorization';
+import { GMPPackingFinishedProductLogComponent } from './logs/gmp-packing-finished-product/log/gmp.packing.finished.product.log';
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -430,6 +453,11 @@ import { GMPOthersUnusualOccurrenceAuthorizationComponent } from './logs/gmp-oth
     GMPPackingPreopReportAreaComponent,
     GMPPackingPreopReportTypeComponent,
     GMPPackingPreopReportItemComponent,
+    GAPPackingPreopItemComponent,
+    GAPPackingPreopTypeComponent,
+    GAPPackingPreopAreaComponent,
+    GAPPackingPreopLogComponent,
+    GAPPackingPreopAuthorizationComponent,
     GAPPackingPreopInventoryManagerComponent,
     GAPPackingPreopInventoryComponent,
     GAPPackingPreopInventoryItemComponent,
@@ -512,6 +540,16 @@ import { GMPOthersUnusualOccurrenceAuthorizationComponent } from './logs/gmp-oth
     GMPSelfInspectionPestControlLogComponent,
     GMPSelfInspectionPestControlAreaComponent,
     GMPSelfInspectionPestControlItemComponent,
+    GMPSelfInspectionPestControlAuthorizationComponent,
+    GMPSelfInspectionPestControlInventoryManagerComponent,
+    GMPSelfInspectionPestControlInventoryComponent,
+    GMPSelfInspectionPestControlInventoryItemComponent,
+    GMPSelfInspectionPestControlInventoryListComponent,
+    GMPSelfInspectionPestControlAreaInventoryComponent,
+    GMPSelfInspectionPestControlAreaInventoryAreaComponent,
+    GMPSelfInspectionPestControlAreaInventoryListComponent,
+    GMPSelfInspectionPestControlAddAreaComponent,
+    GMPSelfInspectionPestControlAddItemComponent,
     GMPSelfInspectionPestControlReportComponent,
     GMPSelfInspectionPestControlReportAreaComponent,
     GMPSelfInspectionPestControlReportItemComponent,
@@ -523,7 +561,12 @@ import { GMPOthersUnusualOccurrenceAuthorizationComponent } from './logs/gmp-oth
     GMPOthersUnusualOccurrenceReportComponent,
     GMPPackingAgedProductLogComponent,
     GMPPackingAgedProductReportComponent,
-    GMPDocControlDocControlLogComponent,    
+    GMPPackingFinishedProductLogComponent,
+    GMPDocControlDocControlLogComponent,
+    GMPDocControlDocControlInventoryComponent,
+    GMPDocControlDocControlInventoryListComponent,
+    GMPDocControlDocControlInventoryItemComponent,
+    GMPDocControlDocControlAddItemComponent,
     GMPPackingFinishedProductReportComponent,
     GMPPackingATPTestingLogComponent,
     GMPPackingATPTestingEntryComponent,
@@ -548,6 +591,7 @@ import { GMPOthersUnusualOccurrenceAuthorizationComponent } from './logs/gmp-oth
     UserInfoModalComponent,
     EditUserInfoModalComponent,
     GMPPackingPreopLogComponent,
+    GAPPackingPreopLogComponent,
     GMPPackingHandWashingLogComponent,
     GMPPackingThermoCalibrationLogComponent,
     GMPPackingScaleCalibrationLogComponent,
@@ -558,14 +602,17 @@ import { GMPOthersUnusualOccurrenceAuthorizationComponent } from './logs/gmp-oth
     GAPOthersUnusualOccurrenceLogComponent,
     GMPOthersUnusualOccurrenceLogComponent,
     GMPPackingAgedProductLogComponent,
+    GMPPackingFinishedProductLogComponent,
     GMPDocControlDocControlLogComponent,
     GMPPackingPreopAuthorizationComponent,
+    GAPPackingPreopAuthorizationComponent,
     GMPPackingHandWashingAuthorizationComponent,
     GMPPackingThermoCalibrationAuthorizationComponent,
     GMPPackingScaleCalibrationAuthorizationComponent,
     GMPPackingScissorsKnivesAuthorizationComponent,
     GMPPackingGlassBrittleAuthorizationComponent,
     GMPPackingColdRoomTempAuthorizationComponent,
+    GMPSelfInspectionPestControlAuthorizationComponent,
     GMPPackingPreopInventoryManagerComponent,
     GAPOthersUnusualOccurrenceAuthorizationComponent,
     GMPOthersUnusualOccurrenceAuthorizationComponent,
@@ -576,6 +623,8 @@ import { GMPOthersUnusualOccurrenceAuthorizationComponent } from './logs/gmp-oth
     GMPPackingThermoCalibrationInventoryComponent,
     GMPPackingScissorsKnivesInventoryComponent,
     GMPPackingColdRoomTempInventoryComponent,
+    GMPSelfInspectionPestControlInventoryManagerComponent,
+    GMPDocControlDocControlInventoryComponent,
     GMPPackingPreopReportComponent,
     GMPPackingHandWashingReportComponent,
     GMPPackingGlassBrittleReportComponent,

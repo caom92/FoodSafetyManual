@@ -28,6 +28,18 @@ export class GMPDocControlDocControlReportComponent extends SuperReportComponent
     super.ngOnInit()
   }
 
+  public getImages(): string {
+    let temp = []
+    if (this.report.reports.document.entries.pictures != null) {
+      for (let image of this.report.reports.document.entries.pictures) {
+        temp.push("http://localhost/espresso/data/images/gmp/doc_control/doc_control/" + image)
+      }
+      return JSON.stringify(temp)
+    }
+    
+    return ""
+  }
+
   public getCSS(): string {
     return ""
   }

@@ -91,4 +91,16 @@ export class SuperAuthorizationComponent implements OnInit {
       this.toastService.showText("incompleteLog")
     }
   }
+
+  public authorize(): void {
+    console.log("authorize log")
+  }
+
+  public delete(): void {
+    console.log("delete log")
+  }
+
+  public back(): void {
+    window.history.back()
+  }
 }

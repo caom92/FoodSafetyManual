@@ -7,7 +7,6 @@ import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationService } from '../../../../services/app.translation'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
-import { CaptureEntry } from '../interfaces/gmp.packing.atp.testing.capture.interface'
 import { Log } from '../interfaces/gmp.packing.atp.testing.log.interface'
 
 @Component({
@@ -18,7 +17,6 @@ import { Log } from '../interfaces/gmp.packing.atp.testing.log.interface'
 export class GMPPackingATPTestingLogComponent extends SuperLogComponent implements OnInit {
   @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null }
   @Language() lang: string
-  //entries: Array<number> = []
 
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
@@ -39,12 +37,10 @@ export class GMPPackingATPTestingLogComponent extends SuperLogComponent implemen
       date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
       areas: this._fb.array([])
     })
-    //this.entries = []
 
     const control = <FormArray>this.captureForm.controls['areas']
 
     control.push(this.initEmptyEntry())
-    //this.entries.push(this.entries.length + 1)
   }
 
   public initEmptyEntry(): FormGroup {
@@ -61,15 +57,9 @@ export class GMPPackingATPTestingLogComponent extends SuperLogComponent implemen
     this.initForm()
   }
 
-  save() {
-    console.log(this.captureForm.value)
-  }
-
   public addEntry(): void {
     let control = <FormArray>this.captureForm.controls['areas']
     control.push(this.initEmptyEntry())
-    console.log(this.captureForm.value)
-    //this.entries.push(this.entries.length + 1)
   }
 
   public removeEntry(): void {
@@ -77,7 +67,6 @@ export class GMPPackingATPTestingLogComponent extends SuperLogComponent implemen
     if(control.controls.length > 1){
       let control = <FormArray>this.captureForm.controls['areas']
       control.controls.pop()
-      //this.entries.pop()
       this.logService.refreshFormGroup(this.captureForm)
     }
   }

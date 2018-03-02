@@ -19,38 +19,4 @@ ion-card
             a(href="{{report.reports.document.entries.additional_info_url}}", *ngIf="report.reports.document.entries.additional_info_url != null && report.reports.document.entries.additional_info_url != undefined && report.reports.document.entries.additional_info_url != ''") {{report.reports.document.entries.additional_info_url}}
             span(*ngIf="report.reports.document.entries.additional_info_url == null || report.reports.document.entries.additional_info_url == undefined || report.reports.document.entries.additional_info_url == ''") N/A
     div(*ngIf="entry == true")
-      img(*ngFor="let image of report.reports.document.entries.images", src="image", width="100%")
-      //-<div id="imagesWrapper_197" class="card-panel white"><img src="http://localhost/espresso/data/images/gmp/doc_control/doc_control/197_2018-02-09_00-08-09_0.png" width="100%"></div>
-
-//-<table id="report_197" class="bordered highlight">
-  <thead>
-    <tr>
-      <th class="users_sidenav userColumn">Users</th>
-      <th class="date_name dateColumn">Date</th>
-      <th class="notes_title notesColumn">Notes</th>
-      <th class="url_title urlColumn">Link to Album</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td class="logTitle" colspan="4">Test Log 045-AB-20</td>
-    </tr>
-    <tr>
-      <td class="userColumn">Test User</td>
-      <td class="dateColumn">2018-02-08</td>
-      <td class="notesColumn">Test Notes</td>
-      <td class="urlColumn">
-        <a href="http://google.com">
-          <span class="open_url">Click to open</span>
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td class="imageColumn" colspan="4">
-        <a href="http://localhost/espresso/data/documents/gmp/doc_control/doc_control/197_2018-02-09_00-08-09_0.pdf" target="_blank">
-          <span class="open_file">Click to open file</span>
-        </a>
-      </td>
-    </tr>
-  </tbody>
-//-</table>
+      img(*ngFor="let image of report.reports.document.entries.pictures", [src]="'http://localhost/espresso/data/images/gmp/doc_control/doc_control/' + image", width="100%")

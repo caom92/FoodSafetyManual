@@ -6,26 +6,28 @@ import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationService } from '../../../../services/app.translation'
-import { SuperLogComponent } from '../../super-logs/super.logs.log'
+import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { CaptureItem } from '../interfaces/gmp.self.inspection.pest.control.capture.interface'
 import { Log } from '../interfaces/gmp.self.inspection.pest.control.log.interface'
+import { Authorization } from '../interfaces/gmp.self.inspection.pest.control.authorization.interface';
+import { UpdateItem } from '../interfaces/gmp.self.inspection.pest.control.update.interface';
 
 @Component({
-  selector: 'gmp-self-inspection-pest-control-log',
-  templateUrl: './gmp.self.inspection.pest.control.log.html'
+  selector: 'gmp-self-inspection-pest-control-authorization',
+  templateUrl: './gmp.self.inspection.pest.control.authorization.html'
 })
 
-export class GMPSelfInspectionPestControlLogComponent extends SuperLogComponent implements OnInit {
-  @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, rooms: [{ id: null, name: null, stations: [{ id: null, name: null, order: null }] }] }
+export class GMPSelfInspectionPestControlAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
+  @Input() log: Authorization = { report_id: null, created_by: null, approved_by: null, creation_date: null, approval_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, notes: null, rooms: [{ id: null, name: null, stations: [{ id: null, name: null, order: null, secured: null, condition: null, activity: null, corrective_actions: null }] }] }
   @Language() lang: string
   offset: Array<number> = []
 
-  constructor(private _fb: FormBuilder,
-    private timeService: DateTimeService,
+  constructor(private timeService: DateTimeService,
     private translationService: TranslationService,
+    _fb: FormBuilder,
     logService: LogService,
     toasts: ToastsService) {
-    super(logService, toasts)
+    super(_fb, logService, toasts)
   }
 
   ngOnInit() {
@@ -77,7 +79,7 @@ export class GMPSelfInspectionPestControlLogComponent extends SuperLogComponent 
     })
   }
 
-  initItem(item: CaptureItem) {
+  initItem(item: UpdateItem) {
     return this._fb.group({
       id: [item.id, [Validators.required]],
       is_secured: [item.is_secured, [Validators.required]],

@@ -1,17 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { DatePipe } from '@angular/common'
-import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
-
+import { FormArray, FormBuilder, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
+import { LogService } from '../../../../services/app.logs'
+import { DateTimeService } from '../../../../services/app.time'
+import { ToastsService } from '../../../../services/app.toasts'
+import { TranslationService } from '../../../../services/app.translation'
+import { SuperLogComponent } from '../../super-logs/super.logs.log'
 import { CaptureItem } from '../interfaces/gmp.packing.scissors.knives.capture.interface'
 import { Log } from '../interfaces/gmp.packing.scissors.knives.log.interface'
-
-import { DateTimeService } from '../../../../services/app.time'
-import { TranslationService } from '../../../../services/app.translation'
-import { ToastsService } from '../../../../services/app.toasts'
-import { LogService } from '../../../../services/app.logs'
-import { SuperLogComponent } from '../../super-logs/super.logs.log'
 
 @Component({
   selector: 'gmp-packing-scissors-knives-log',
@@ -43,7 +40,7 @@ export class GMPPackingScissorsKnivesLogComponent extends SuperLogComponent impl
       notes: ['', [Validators.required, Validators.minLength(1)]],
       items: this._fb.array([])
     })
-    const control = <FormArray>this.captureForm.controls['items'];
+    const control = <FormArray>this.captureForm.controls['items']
     let currentTime = this.timeService.getISOTime(new Date())
     for (let item of this.log.items) {
       control.push(this.initItem({ id: item.id, time: currentTime, approved: false, condition: false, is_sanitized: false, corrective_action: "" }))

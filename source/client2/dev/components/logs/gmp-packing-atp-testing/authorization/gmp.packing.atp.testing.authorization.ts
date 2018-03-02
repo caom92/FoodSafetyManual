@@ -11,11 +11,11 @@ import { LanguageService } from '../../../../services/app.language'
 import { Authorization } from '../interfaces/gmp.packing.atp.testing.authorization.interface'
 
 @Component({
-  selector: 'gmp-others-unusual-occurrence-authorization',
-  templateUrl: './gmp.others.unusual.occurrence.authorization.html'
+  selector: 'gmp-packing-atp.testing-authorization',
+  templateUrl: './gmp.packing.atp.testing.authorization.html'
 })
 
-export class GMPOthersUnusualOccurrenceAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
+export class GMPPackingATPTestingAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
   @Input() log: Authorization = { report_id: null, created_by: null, approved_by: null, creation_date: null, approval_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, notes: null, entries: [{ name: null, time: null, items: [{ id: null, test_number: null, test1: null, results1: null, corrective_action: null, test2: null, results2: null }] }] }
   @Language() lang: string
 
@@ -38,7 +38,7 @@ export class GMPOthersUnusualOccurrenceAuthorizationComponent extends SuperAutho
   }
 
   ngOnInit() {
-    this.setSuffix("gmp-others-unusual-occurrence")
+    this.setSuffix("gmp-packing-atp.testing")
     super.ngOnInit()
     this.initForm()
   }
