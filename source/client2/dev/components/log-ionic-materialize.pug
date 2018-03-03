@@ -129,13 +129,13 @@ mixin col()
     if block
       block
 
-mixin fileInput(label)
+mixin fileInput(label, accept, changeFunction, isMultiple)
   div(class="file-field input-field")
     div(class="btn")
       span()= label
-      input(type="file")
+      input(type="file", class="fileControl", (change)=changeFunction, accept=accept, multiple=isMultiple)
     div(class="file-path-wrapper")
-      input(class="file-path validate", type="text")
+      input(class="file-path validate fileControl", type="text")
 
 mixin errorMessage(condition, message)
   small(style='color:red; font-weight: bold;', *ngIf!=condition)= message
