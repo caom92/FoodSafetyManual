@@ -58,9 +58,9 @@ export class GMPPackingFinishedProductLogComponent extends SuperLogComponent imp
       expiration_date: [null], // TODO: Añadir validador de fecha
       water_temperature: [null, [Validators.required]],
       product_temperature: [null, [Validators.required]],
-      is_weight_correct: [null, [Validators.required]], // TODO: Añadir validador de booleano
-      is_label_correct: [null, [Validators.required]], // TODO: Añadir validador de booleano
-      is_trackable: [null, [Validators.required]], // TODO: Añadir validador de booleano
+      is_weight_correct: [null, [Validators.required]],
+      is_label_correct: [null, [Validators.required]],
+      is_trackable: [null, [Validators.required]],
       notes: [null, [Validators.maxLength(65535)]],
       album_url: [null, [Validators.maxLength(65535)]]
     })
@@ -84,12 +84,5 @@ export class GMPPackingFinishedProductLogComponent extends SuperLogComponent imp
       control.controls.pop()
       this.logService.refreshFormGroup(this.captureForm)
     }
-  }
-
-  save() {
-    //console.log(((this.captureForm.controls.entries as FormArray).controls[0] as FormGroup).controls.is_weight_correct)
-    //console.log(this.captureForm)
-    console.log(this.captureForm.value)
-    //console.log(this.captureForm.valid)
   }
 }

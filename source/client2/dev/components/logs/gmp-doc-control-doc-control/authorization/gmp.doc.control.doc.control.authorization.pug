@@ -1,0 +1,13 @@
+extends ../log/gmp.doc.control.doc.control.log.pug
+
+block documentSelect
+  +card()
+    +cardContent()
+      p() {{selectedDocumentName}}
+        //- block captureForm
+
+block fileUpload
+  //-
+
+block buttonRow
+  +authorizationButtonRow("Send", "Authorize", "Delete", "Return")

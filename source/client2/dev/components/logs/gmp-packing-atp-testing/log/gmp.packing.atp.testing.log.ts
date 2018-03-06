@@ -8,6 +8,7 @@ import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationService } from '../../../../services/app.translation'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
 import { Log } from '../interfaces/gmp.packing.atp.testing.log.interface'
+import { LanguageService } from '../../../../services/app.language';
 
 @Component({
   selector: 'gmp-packing-atp-testing-log',
@@ -21,6 +22,7 @@ export class GMPPackingATPTestingLogComponent extends SuperLogComponent implemen
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
     private translationService: TranslationService,
+    private langManager: LanguageService,
     logService: LogService,
     toasts: ToastsService) {
     super(logService, toasts)
@@ -44,10 +46,13 @@ export class GMPPackingATPTestingLogComponent extends SuperLogComponent implemen
   }
 
   public initEmptyEntry(): FormGroup {
+    let items = this._fb.array([])
+    items.push(this.initEmptyItem(1))
+
     return this._fb.group({
       name: [null, [Validators.required, Validators.maxLength(255)]],
       time: [this.timeService.getISOTime(new Date()), [Validators.required, Validators.maxLength(255)]],
-      items: this._fb.array([])
+      items: items
     })
   }
 
@@ -69,5 +74,33 @@ export class GMPPackingATPTestingLogComponent extends SuperLogComponent implemen
       control.controls.pop()
       this.logService.refreshFormGroup(this.captureForm)
     }
+  }
+
+  public initEmptyItem(test: number): FormGroup {
+    return this._fb.group({
+      test_number: [test, [Validators.required]],
+      test1: [null, [Validators.required]],
+      results1: [null, [Validators.required]],
+      corrective_action: [null, [Validators.required]],
+      test2: [null, [Validators.required]],
+      results2: [null, [Validators.required]]
+    })
+  }
+
+  public addItem(control: FormArray): void {
+    console.log(control)
+    control.push(this.initEmptyItem(control.controls.length + 1))
+  }
+
+  public removeItem(control: FormArray): void {
+    if (control.controls.length > 1) {
+      control.controls.pop()
+      //this.logService.refreshFormGroup(this.entryForm)
+    }
+  }
+
+  save() {
+    console.log(this.captureForm)
+    console.log(this.captureForm.value)
   }
 }

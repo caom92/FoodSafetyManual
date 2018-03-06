@@ -33,13 +33,14 @@ export class GMPDocControlDocControlLogComponent extends SuperLogComponent imple
     super(logService, toasts)
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.setSuffix("gmp-doc-control-doc-control")
+    this.selectedDocument = 1
     super.ngOnInit()
     this.initForm()
   }
 
-  initForm() {
+  public initForm(): void {
     let currentTime = this.timeService.getISOTime(new Date())
     this.captureForm = this._fb.group({
       date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
@@ -52,18 +53,18 @@ export class GMPDocControlDocControlLogComponent extends SuperLogComponent imple
     })
   }
 
-  resetForm() {
+  public resetForm(): void {
     this.initForm()
     $(".fileControl").val("")
     this.selectedDocument = null
   }
 
-  onImageFileSelected(event) {
+  public onImageFileSelected(event): void {
     this.images = event.target.files
     this.captureForm.controls.images.setValue(event.target.files)
   }
 
-  onPDFFileSelected(event) {
+  public onPDFFileSelected(event): void {
     this.pdf = event.target.files
     this.captureForm.controls.files.setValue(event.target.files)
   }

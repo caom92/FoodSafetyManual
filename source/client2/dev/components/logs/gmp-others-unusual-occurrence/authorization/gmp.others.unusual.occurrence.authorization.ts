@@ -1,13 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { FormArray, FormBuilder, Validators } from '@angular/forms'
+import { FormBuilder, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
+import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationService } from '../../../../services/app.translation'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
-import { LanguageService } from '../../../../services/app.language'
 import { Authorization } from '../interfaces/gmp.others.unusual.occurrence.authorization.interface'
 
 @Component({

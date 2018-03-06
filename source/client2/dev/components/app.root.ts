@@ -241,8 +241,8 @@ import { GMPPackingFinishedProductReportComponent } from '../components/reports/
 // GMP Packing ATP Testing
 
 import { GMPPackingATPTestingLogComponent } from './logs/gmp-packing-atp-testing/log/gmp.packing.atp.testing.log'
-import { GMPPackingATPTestingEntryComponent } from './logs/gmp-packing-atp-testing/entry/gmp.packing.atp.testing.entry'
-import { GMPPackingATPTestingTestComponent } from './logs/gmp-packing-atp-testing/test/gmp.packing.atp.testing.test'
+//import { GMPPackingATPTestingEntryComponent } from './logs/gmp-packing-atp-testing/entry/gmp.packing.atp.testing.entry'
+//import { GMPPackingATPTestingTestComponent } from './logs/gmp-packing-atp-testing/test/gmp.packing.atp.testing.test'
 
 // Genericos
 
@@ -291,6 +291,9 @@ import { GMPDocControlDocControlInventoryItemComponent } from './inventories/gmp
 import { GMPDocControlDocControlAddItemComponent } from './inventories/gmp-doc-control-doc-control/add-item/gmp.doc.control.doc.control.add.item';
 import { GMPSelfInspectionPestControlAuthorizationComponent } from './logs/gmp-self-inspection-pest-control/authorization/gmp.self.inspection.pest.control.authorization';
 import { GMPPackingFinishedProductLogComponent } from './logs/gmp-packing-finished-product/log/gmp.packing.finished.product.log';
+import { GMPDocControlDocControlAuthorizationComponent } from './logs/gmp-doc-control-doc-control/authorization/gmp.doc.control.doc.control.authorization';
+import { GMPPackingAgedProductAuthorizationComponent } from './logs/gmp-packing-aged-product/authorization/gmp.packing.aged.product.authorization';
+import { GMPPackingFinishedProductAuthorizationComponent } from './logs/gmp-packing-finished-product/authorization/gmp.packing.finished.product.authorization';
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -560,17 +563,20 @@ import { GMPPackingFinishedProductLogComponent } from './logs/gmp-packing-finish
     GMPOthersUnusualOccurrenceAuthorizationComponent,
     GMPOthersUnusualOccurrenceReportComponent,
     GMPPackingAgedProductLogComponent,
+    GMPPackingAgedProductAuthorizationComponent,
     GMPPackingAgedProductReportComponent,
     GMPPackingFinishedProductLogComponent,
+    GMPPackingFinishedProductAuthorizationComponent,
     GMPDocControlDocControlLogComponent,
+    GMPDocControlDocControlAuthorizationComponent,
     GMPDocControlDocControlInventoryComponent,
     GMPDocControlDocControlInventoryListComponent,
     GMPDocControlDocControlInventoryItemComponent,
     GMPDocControlDocControlAddItemComponent,
     GMPPackingFinishedProductReportComponent,
     GMPPackingATPTestingLogComponent,
-    GMPPackingATPTestingEntryComponent,
-    GMPPackingATPTestingTestComponent,
+    //GMPPackingATPTestingEntryComponent,
+    //GMPPackingATPTestingTestComponent,
     LogTabsPage,
     AuthorizationLoader,
     LogHeaderComponent,
@@ -613,9 +619,12 @@ import { GMPPackingFinishedProductLogComponent } from './logs/gmp-packing-finish
     GMPPackingGlassBrittleAuthorizationComponent,
     GMPPackingColdRoomTempAuthorizationComponent,
     GMPSelfInspectionPestControlAuthorizationComponent,
+    GMPDocControlDocControlAuthorizationComponent,
     GMPPackingPreopInventoryManagerComponent,
     GAPOthersUnusualOccurrenceAuthorizationComponent,
     GMPOthersUnusualOccurrenceAuthorizationComponent,
+    GMPPackingAgedProductAuthorizationComponent,
+    GMPPackingFinishedProductAuthorizationComponent,
     GMPPackingGlassBrittleInventoryManagerComponent,
     GAPPackingPreopInventoryManagerComponent,
     GMPPackingScaleCalibrationInventoryComponent,
