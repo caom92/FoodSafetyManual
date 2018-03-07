@@ -1,10 +1,10 @@
 import { OnInit } from '@angular/core'
-import { FormGroup, FormBuilder } from '@angular/forms'
-import { SuperLog } from './super.logs.log.interface'
+import { FormBuilder, FormGroup } from '@angular/forms'
+
 import { LogService } from '../../../services/app.logs'
-import { LoaderService } from '../../../services/app.loaders'
-import { LogHeaderData, LogDetails } from '../log.interfaces'
 import { ToastsService } from '../../../services/app.toasts'
+import { LogDetails, LogHeaderData } from '../log.interfaces'
+import { SuperLog } from './super.logs.log.interface'
 
 export class SuperLogComponent implements OnInit {
   protected log: SuperLog
@@ -42,14 +42,6 @@ export class SuperLogComponent implements OnInit {
     })
   }
 
-  /**
-   * Asigna el sufijo que identifica a la bitácora, necesario para llamar a los
-   * servicios correspondientes a la bitácora particular
-   * 
-   * @param {string} suffix 
-   * @memberof SuperInventoryListComponent
-   */
-
   public setSuffix(suffix: string): void {
     this.suffix = suffix
   }
@@ -62,7 +54,17 @@ export class SuperLogComponent implements OnInit {
     throw "Notify system developer: resetForm() function must be overridden in child class for " + this.suffix
   }
 
+  // Esta función es llamada antes de realizar el envío de datos. Dentro de la
+  // misma, se deben de deshabilitar los controles del captureForm que no
+  // se desean enviar (por ejemplo, cuando existen items marcados como "no
+  // aceptables", es posible que no sea necesario enviar datos adicionales
+  // referentes a acciones correctivas)
+  public cleanForm(): void {
+
+  }
+
   public save(): void {
+    this.cleanForm()
     if (this.captureForm.valid) {
       // Información adicional, necesaria en el caso de que la bitácora no pueda
       // enviarse

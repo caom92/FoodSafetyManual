@@ -73,6 +73,15 @@ export class SuperAuthorizationComponent implements OnInit {
     throw "Notify system developer: initForm() function must be overridden in child class for " + this.suffix
   }
 
+  // Esta función es llamada antes de realizar el envío de datos. Dentro de la
+  // misma, se deben de deshabilitar los controles del captureForm que no
+  // se desean enviar (por ejemplo, cuando existen items marcados como "no
+  // aceptables", es posible que no sea necesario enviar datos adicionales
+  // referentes a acciones correctivas)
+  public cleanForm(): void {
+
+  }
+
   /**
    * Realiza la actualización de la bitácora, invocando al servicio de
    * bitácoras.
@@ -81,6 +90,7 @@ export class SuperAuthorizationComponent implements OnInit {
    */
 
   public save(): void {
+    this.cleanForm()
     if (this.captureForm.valid) {
       this.logService.update(this.captureForm.value, 'update-' + this.suffix).then(success => {
         // Si la promesa regresa como valida, quiere decir que la bitácora fue enviada con éxito

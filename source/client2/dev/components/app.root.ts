@@ -294,6 +294,7 @@ import { GMPPackingFinishedProductLogComponent } from './logs/gmp-packing-finish
 import { GMPDocControlDocControlAuthorizationComponent } from './logs/gmp-doc-control-doc-control/authorization/gmp.doc.control.doc.control.authorization';
 import { GMPPackingAgedProductAuthorizationComponent } from './logs/gmp-packing-aged-product/authorization/gmp.packing.aged.product.authorization';
 import { GMPPackingFinishedProductAuthorizationComponent } from './logs/gmp-packing-finished-product/authorization/gmp.packing.finished.product.authorization';
+import { GMPPackingATPTestingAuthorizationComponent } from './logs/gmp-packing-atp-testing/authorization/gmp.packing.atp.testing.authorization';
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -575,6 +576,7 @@ import { GMPPackingFinishedProductAuthorizationComponent } from './logs/gmp-pack
     GMPDocControlDocControlAddItemComponent,
     GMPPackingFinishedProductReportComponent,
     GMPPackingATPTestingLogComponent,
+    GMPPackingATPTestingAuthorizationComponent,
     //GMPPackingATPTestingEntryComponent,
     //GMPPackingATPTestingTestComponent,
     LogTabsPage,
@@ -648,6 +650,7 @@ import { GMPPackingFinishedProductAuthorizationComponent } from './logs/gmp-pack
     GMPPackingAgedProductReportComponent,
     GMPPackingFinishedProductReportComponent,
     GMPPackingATPTestingLogComponent,
+    GMPPackingATPTestingAuthorizationComponent
   ],
   // indicamos cual es el componente raiz
   bootstrap: [HomeComponent]

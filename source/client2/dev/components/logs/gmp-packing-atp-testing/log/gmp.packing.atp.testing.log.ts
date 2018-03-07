@@ -2,13 +2,13 @@ import { Component, Input, OnInit } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
+import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationService } from '../../../../services/app.translation'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
 import { Log } from '../interfaces/gmp.packing.atp.testing.log.interface'
-import { LanguageService } from '../../../../services/app.language';
 
 @Component({
   selector: 'gmp-packing-atp-testing-log',
@@ -28,21 +28,23 @@ export class GMPPackingATPTestingLogComponent extends SuperLogComponent implemen
     super(logService, toasts)
   }
 
-  ngOnInit() {
-    this.setSuffix("gmp-packing-aged-product")
+  public ngOnInit(): void {
+    this.setSuffix("gmp-packing-atp-testing")
     super.ngOnInit()
     this.initForm()
   }
 
-  initForm() {
+  public initForm(): void {
     this.captureForm = this._fb.group({
       date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
+      notes: [null, Validators.maxLength(65535)],
       areas: this._fb.array([])
     })
 
     const control = <FormArray>this.captureForm.controls['areas']
 
     control.push(this.initEmptyEntry())
+    this.cleanForm()
   }
 
   public initEmptyEntry(): FormGroup {
@@ -63,13 +65,14 @@ export class GMPPackingATPTestingLogComponent extends SuperLogComponent implemen
   }
 
   public addEntry(): void {
-    let control = <FormArray>this.captureForm.controls['areas']
+    const control = <FormArray>this.captureForm.controls['areas']
     control.push(this.initEmptyEntry())
+    this.cleanForm()
   }
 
   public removeEntry(): void {
-    let control = <FormArray>this.captureForm.controls['areas']
-    if(control.controls.length > 1){
+    const control = <FormArray>this.captureForm.controls['areas']
+    if (control.controls.length > 1) {
       let control = <FormArray>this.captureForm.controls['areas']
       control.controls.pop()
       this.logService.refreshFormGroup(this.captureForm)
@@ -81,26 +84,38 @@ export class GMPPackingATPTestingLogComponent extends SuperLogComponent implemen
       test_number: [test, [Validators.required]],
       test1: [null, [Validators.required]],
       results1: [null, [Validators.required]],
-      corrective_action: [null, [Validators.required]],
-      test2: [null, [Validators.required]],
-      results2: [null, [Validators.required]]
+      corrective_action: [""], // TODO Max length
+      test2: [null],
+      results2: [null]
     })
   }
 
   public addItem(control: FormArray): void {
-    console.log(control)
     control.push(this.initEmptyItem(control.controls.length + 1))
+    this.cleanForm()
   }
 
   public removeItem(control: FormArray): void {
     if (control.controls.length > 1) {
       control.controls.pop()
-      //this.logService.refreshFormGroup(this.entryForm)
+      this.logService.refreshFormGroup(this.captureForm)
     }
   }
 
-  save() {
-    console.log(this.captureForm)
-    console.log(this.captureForm.value)
+  // TODO: Realizar una implementación para pruebas individuales
+  public cleanForm(): void {
+    for (let a in (<FormGroup>this.captureForm.controls.areas).controls) {
+      const area = (<FormGroup>(<FormGroup>this.captureForm.controls.areas).controls[a])
+      for (let i in (<FormGroup>area.controls.items).controls) {
+        const item = (<FormGroup>(<FormGroup>area.controls.items).controls[i])
+        if (item.controls.results1.value == false) {
+          item.enable()
+        } else if (item.controls.results1.value == true || item.controls.results1.value == undefined) {
+          item.controls.corrective_action.disable()
+          item.controls.test2.disable()
+          item.controls.results2.disable()
+        }
+      }
+    }
   }
 }

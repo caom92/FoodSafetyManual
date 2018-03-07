@@ -14,9 +14,9 @@ export interface AuthorizationEntry {
 export interface AuthorizationTest {
   id: string
   test_number: string
-  test1: string
-  results1: string
+  test1: number
+  results1: number
   corrective_action: string
-  test2: string
-  results2: string
+  test2: number
+  results2: number
 }

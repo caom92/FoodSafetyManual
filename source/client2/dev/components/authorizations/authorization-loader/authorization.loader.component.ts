@@ -30,6 +30,7 @@ import { GMPSelfInspectionPestControlAuthorizationComponent } from '../../logs/g
 import { GMPDocControlDocControlAuthorizationComponent } from '../../logs/gmp-doc-control-doc-control/authorization/gmp.doc.control.doc.control.authorization'
 import { GMPPackingAgedProductAuthorizationComponent } from '../../logs/gmp-packing-aged-product/authorization/gmp.packing.aged.product.authorization'
 import { GMPPackingFinishedProductAuthorizationComponent } from '../../logs/gmp-packing-finished-product/authorization/gmp.packing.finished.product.authorization'
+import { GMPPackingATPTestingAuthorizationComponent } from '../../logs/gmp-packing-atp-testing/authorization/gmp.packing.atp.testing.authorization';
 
 @Component({
   selector: 'authorization-loader',
@@ -67,6 +68,7 @@ export class AuthorizationLoader extends DynamicComponentResolver implements OnI
       this.suffix == "gmp-packing-finished-product" ||
       this.suffix == "gap-packing-preop" ||
       this.suffix == "gmp-doc-control-doc-control" ||
+      this.suffix == "gmp-packing-atp-testing" ||
       this.suffix == "gmp-self-inspection-pest-control") {
       this.logService.authorization(this.suffix, this.reportID).then(success => {
         this.log_name = success.log_name
@@ -124,6 +126,10 @@ export class AuthorizationLoader extends DynamicComponentResolver implements OnI
           }).instance
             break
           case 'gmp-packing-finished-product': this.loaderComponent = this.loadComponent(GMPPackingFinishedProductAuthorizationComponent, {
+            log: success
+          }).instance
+            break
+          case 'gmp-packing-atp-testing': this.loaderComponent = this.loadComponent(GMPPackingATPTestingAuthorizationComponent, {
             log: success
           }).instance
             break
