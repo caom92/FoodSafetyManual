@@ -20,6 +20,8 @@ import { GAPOthersUnusualOccurrenceReportComponent } from '../gap-others-unusual
 import { GMPPackingAgedProductReportComponent } from '../gmp-packing-aged-product/report/gmp.packing.aged.product.report';
 import { GMPPackingFinishedProductReportComponent } from '../gmp-packing-finished-product/report/gmp.packing.finished.product.report';
 import { Subscription } from 'rxjs/Subscription'
+import { GMPPackingATPTestingReportComponent } from '../gmp-packing-atp-testing/report/gmp.packing.atp.testing.report';
+import { GMPDocControlDocControlReportComponent } from '../gmp-doc-control-doc-control/report/gmp.doc.control.doc.control.report';
 
 @Component({
   selector: 'report-loader',
@@ -127,6 +129,16 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
       }).instance
         break
       case 'gmp-packing-finished-product': this.loaderComponent = this.loadComponent(GMPPackingFinishedProductReportComponent, {
+        report: this.report,
+        parent: this
+      }).instance
+        break
+      case 'gmp-packing-atp-testing': this.loaderComponent = this.loadComponent(GMPPackingATPTestingReportComponent, {
+        report: this.report,
+        parent: this
+      }).instance
+        break
+      case 'gmp-doc-control-doc-control': this.loaderComponent = this.loadComponent(GMPDocControlDocControlReportComponent, {
         report: this.report,
         parent: this
       }).instance

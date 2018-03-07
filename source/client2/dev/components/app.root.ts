@@ -295,6 +295,10 @@ import { GMPDocControlDocControlAuthorizationComponent } from './logs/gmp-doc-co
 import { GMPPackingAgedProductAuthorizationComponent } from './logs/gmp-packing-aged-product/authorization/gmp.packing.aged.product.authorization';
 import { GMPPackingFinishedProductAuthorizationComponent } from './logs/gmp-packing-finished-product/authorization/gmp.packing.finished.product.authorization';
 import { GMPPackingATPTestingAuthorizationComponent } from './logs/gmp-packing-atp-testing/authorization/gmp.packing.atp.testing.authorization';
+import { GMPPackingATPTestingReportComponent } from './reports/gmp-packing-atp-testing/report/gmp.packing.atp.testing.report';
+import { GMPPackingATPTestingReportAreaComponent } from './reports/gmp-packing-atp-testing/entry/gmp.packing.atp.testing.entry';
+import { GMPPackingATPTestingReportItemComponent } from './reports/gmp-packing-atp-testing/test/gmp.packing.atp.testing.test';
+import { GMPDocControlDocControlReportComponent } from './reports/gmp-doc-control-doc-control/report/gmp.doc.control.doc.control.report';
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -574,9 +578,13 @@ import { GMPPackingATPTestingAuthorizationComponent } from './logs/gmp-packing-a
     GMPDocControlDocControlInventoryListComponent,
     GMPDocControlDocControlInventoryItemComponent,
     GMPDocControlDocControlAddItemComponent,
+    GMPDocControlDocControlReportComponent,
     GMPPackingFinishedProductReportComponent,
     GMPPackingATPTestingLogComponent,
     GMPPackingATPTestingAuthorizationComponent,
+    GMPPackingATPTestingReportComponent,
+    GMPPackingATPTestingReportAreaComponent,
+    GMPPackingATPTestingReportItemComponent,
     //GMPPackingATPTestingEntryComponent,
     //GMPPackingATPTestingTestComponent,
     LogTabsPage,
@@ -648,9 +656,11 @@ import { GMPPackingATPTestingAuthorizationComponent } from './logs/gmp-packing-a
     GMPOthersUnusualOccurrenceReportComponent,
     GAPOthersUnusualOccurrenceReportComponent,
     GMPPackingAgedProductReportComponent,
+    GMPDocControlDocControlReportComponent,
     GMPPackingFinishedProductReportComponent,
     GMPPackingATPTestingLogComponent,
-    GMPPackingATPTestingAuthorizationComponent
+    GMPPackingATPTestingAuthorizationComponent,
+    GMPPackingATPTestingReportComponent
   ],
   // indicamos cual es el componente raiz
   bootstrap: [HomeComponent]
