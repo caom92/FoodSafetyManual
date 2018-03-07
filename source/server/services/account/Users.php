@@ -64,6 +64,15 @@ class Users extends db\ToggableItemsTable
     return parent::has([ 'employee_num' => $employeeNum ]);
   }
 
+  function hasByEmployeeNumAndDifferentId($employeeNum, $userId) {
+    return parent::has([ 
+      'AND' => [
+        'employee_num' => $employeeNum,
+        'id[!]' => $userId
+      ]
+    ]);
+  }
+
 
   // Returns an associative with the basic information of every user in the 
   // data base which is not an administrator, where the key is the field name
@@ -228,6 +237,21 @@ class Users extends db\ToggableItemsTable
   // ID, to the path given
   function updateSignaturePathByID($userID, $path) {
     return parent::update(['signature_path' => $path], ['id' => $userID]);
+  }
+
+  function updateNameAndEmployeeNumByID(
+    $userID, $employeeNum, $firstName, $lastName
+  ) {
+    return parent::update(
+      [
+        'employee_num' => $employeeNum, 
+        'first_name' => $firstName,
+        'last_name' => $lastName
+      ],
+      [
+        'id' => $userID
+      ]
+    );
   }
 }
 

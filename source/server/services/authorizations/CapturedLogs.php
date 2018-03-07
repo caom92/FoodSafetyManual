@@ -283,14 +283,14 @@ class CapturedLogs extends db\InsertableTable
   function getStatusName($id) {
     $rows = parent::select(
       [
-        'name(status_name)'
+        's.name(status_name)'
       ],
       [
-        's.id' => $id
+        "$this->table.id" => $id
       ],
       [
-        'log_status[><]' => [
-          'id' => 'status_id'
+        '[><]log_status(s)' => [
+          'status_id' => 'id'
         ]
       ]
     );

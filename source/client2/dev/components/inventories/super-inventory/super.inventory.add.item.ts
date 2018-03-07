@@ -53,6 +53,7 @@ export class SuperInventoryAddItemComponent {
       })
     } else {
       this.inventoryService.setAsDirty(this.newItem)
+      console.log(this.newItem)
       console.log("New item not valid")
     }
   }

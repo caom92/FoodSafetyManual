@@ -10,15 +10,11 @@ $service = fsm\createLogService(
   [
     'items_name' => 'items',
     'function' => function($scope, $segment) {
-      $areas = $scope->daoFactory
-        ->get('gmp\packing\finishedProduct\ProductionAreas')->
-        selectByZoneID($segment->get('zone_id'));
       $shifts = $scope->daoFactory->get('Shifts')->selectAll();
       $products = $scope->daoFactory->get('Products')->selectAll();
       return [
         'shifts' => $shifts,
-        'products' => $products,
-        'areas' => $areas
+        'products' => $products
       ];
     }
   ]

@@ -8,7 +8,7 @@ $service = fsm\createAuthorizationReportService(
   'Packing',
   'Daily Finished Product Check',
   [
-    'items_name' => 'items',
+    'items_name' => 'log_info',
     'extra_info' => [
       // NULL
     ],
@@ -18,12 +18,6 @@ $service = fsm\createAuthorizationReportService(
         ->selectByCaptureDateID(
           $logDate['id']
         );
-
-        // and then, obtain the list of all production areas
-        $areas = $scope->daoFactory
-          ->get('gmp\packing\finishedProduct\ProductionAreas')->selectByZoneID(
-            $segment->get('zone_id')
-          );
 
         // then, obtain the list of all suppliers
         $suppliers = $scope->daoFactory->get('Suppliers')->selectCode();
@@ -39,13 +33,7 @@ $service = fsm\createAuthorizationReportService(
 
         // finally, return the log info
         return [
-          'log_info' => [
-            'production_areas' => $areas,
-            'suppliers' => $suppliers,
-            'product_codes' => $products,
-            'customers' => $customers,
-            'quality_types' => $qualityTypes
-          ],
+          'quality_types' => $qualityTypes,
           'entries' => $entries
         ];
     }

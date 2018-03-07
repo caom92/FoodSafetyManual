@@ -41,7 +41,9 @@ $account = [
     'list-users' =>
       realpath(dirname(__FILE__).'/list-users.php'),
     'toggle-account-activation' =>
-      realpath(dirname(__FILE__).'/toggle-account-activation.php')
+      realpath(dirname(__FILE__).'/toggle-account-activation.php'),
+    'edit-user-info' =>
+      realpath(dirname(__FILE__).'/edit-user-info.php')
   ]
 ];
 

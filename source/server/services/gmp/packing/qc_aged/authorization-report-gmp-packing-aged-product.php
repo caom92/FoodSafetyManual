@@ -8,7 +8,7 @@ $service = fsm\createAuthorizationReportService(
   'Packing',
   'QC Aged Product',
   [
-    'items_name' => 'items',
+    'items_name' => 'log_info',
     'extra_info' => [
       // NULL
     ],

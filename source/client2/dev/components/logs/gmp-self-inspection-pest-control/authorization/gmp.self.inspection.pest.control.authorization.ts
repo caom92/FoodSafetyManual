@@ -9,7 +9,7 @@ import { TranslationService } from '../../../../services/app.translation'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { CaptureItem } from '../interfaces/gmp.self.inspection.pest.control.capture.interface'
 import { Log } from '../interfaces/gmp.self.inspection.pest.control.log.interface'
-import { Authorization } from '../interfaces/gmp.self.inspection.pest.control.authorization.interface';
+import { Authorization, AuthorizationItem } from '../interfaces/gmp.self.inspection.pest.control.authorization.interface';
 import { UpdateItem } from '../interfaces/gmp.self.inspection.pest.control.update.interface';
 
 @Component({
@@ -40,14 +40,15 @@ export class GMPSelfInspectionPestControlAuthorizationComponent extends SuperAut
     const currentDate = this.timeService.getISODate(new Date())
 
     this.captureForm = this._fb.group({
+      report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
       date: [currentDate, [Validators.required, Validators.minLength(1)]],
-      notes: ['', [Validators.required, Validators.minLength(1)]],
+      notes: [this.log.notes, [Validators.required, Validators.minLength(1)]],
       stations: this._fb.array([])
     })
     const control = <FormArray>this.captureForm.controls['stations']
     for (let room of this.log.rooms) {
       for (let station of room.stations) {
-        control.push(this.initItem({ id: station.id, is_secured: null, condition: null, activity: null, corrective_actions: "" }))
+        control.push(this.initItem(station))
       }
     }
 
@@ -79,12 +80,12 @@ export class GMPSelfInspectionPestControlAuthorizationComponent extends SuperAut
     })
   }
 
-  initItem(item: UpdateItem) {
+  initItem(item: AuthorizationItem) {
     return this._fb.group({
       id: [item.id, [Validators.required]],
-      is_secured: [item.is_secured, [Validators.required]],
-      condition: [item.condition, [Validators.required]],
-      activity: [item.activity, [Validators.required]],
+      is_secured: [(item.secured == 1) ? true : (item.secured == 0) ? false : null, [Validators.required]],
+      condition: [(item.condition == 1) ? true : (item.condition == 0) ? false : null, [Validators.required]],
+      activity: [(item.activity == 1) ? true : (item.activity == 0) ? false : null, [Validators.required]],
       corrective_actions: [item.corrective_actions]
     })
   }

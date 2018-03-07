@@ -46,7 +46,7 @@ $service = [
         // if she does, throw an exception
         $hasEmployeesAssigned = $numEmployees > 0;
         if ($hasEmployeesAssigned) {
-          throw new \Exception('Supervisor has employees assigned.');
+          throw new \Exception('Supervisor has employees assigned.', 1);
         }
       }
 
@@ -94,7 +94,8 @@ $service = [
             if (!$haveSameZone) {
               throw new \Exception(
                 'The employee is in a different zone than the '.
-                'supervisor'
+                'supervisor',
+                2
               );
             }
 
@@ -103,7 +104,8 @@ $service = [
             if (!$hasSupervisorRole) {
               throw new \Exception(
                 'The provided supervisor ID does not correspond to'.
-                ' a user with supervisor role'
+                ' a user with supervisor role',
+                3
               );
             }
 
@@ -117,7 +119,8 @@ $service = [
             // if the supervisor ID was not provided, notify the user
             throw new \Exception(
               'Employees must be assigned to a supervisor; no supervisor'.
-              ' ID was provided.'
+              ' ID was provided.',
+              4
             );
           } // if ($isSupervisorIDValid)
         } // if (!$hasSupervisor)

@@ -22,37 +22,23 @@ class Logs extends db\LogTable
   //        de la tabla que tengan asignado el ID especificado organizados en
   //        renglones y columnas
   function selectByCaptureDateID($dateID) {
-    return parent::select(
-      [
-        'incident_date',
-        'time',
-        's.name(shift)',
-        's.id(shift_id)',
-        // 'a.name(area)',
-        // 'p.code(product_code)',
-        // 'p.name(product_name)',
-        'production_area_id(area)',
-        'product_id(product_name)',
-        'batch',
-        'description',
-        'corrective_action',
-        'album_url'
-      ],
-      [
-        'capture_date_id' => $dateID
-      ],
-      [
-        '[><]shifts(s)' => [
-          'shift_id' => 'id'
-        ]
-        // '[><]gmp_packing_finished_product_production_areas(a)' => [
-        //   'production_area_id' => 'id'
-        // ],
-        // '[><]products(p)' => [
-        //   'product_id' => 'id'
-        // ]
-      ]
-    );
+    return parent::$dataBase->query(
+      "SELECT
+        incident_date,
+        DATE_FORMAT(time, '%H:%i') AS time,
+        s.name AS shift,
+        s.id AS shift_id,
+        production_area_id AS area,
+        product_id AS product_name,
+        batch,
+        description,
+        corrective_action,
+        album_url
+      FROM $this->table
+      INNER JOIN shifts AS s
+        ON $this->table.shift_id = s.id
+      WHERE capture_date_id = $dateID"
+    )->fetchAll();
   }
 
   // Modifica los renglones de la tabla que tienen registrado el ID de fecha de 

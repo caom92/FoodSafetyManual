@@ -10,6 +10,7 @@ import { UpdateArea, UpdateItem } from '../interfaces/gmp.packing.glass.brittle.
 import { ToastsService } from '../../../../services/app.toasts'
 import { LogService } from '../../../../services/app.logs'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
+import { LanguageService } from '../../../../services/app.language'
 
 @Component({
   selector: 'gmp-packing-glass-brittle-authorization',
@@ -21,7 +22,7 @@ export class GMPPackingGlassBrittleAuthorizationComponent extends SuperAuthoriza
   @Language() lang: string
   captureForm: FormGroup = new FormBuilder().group({})
 
-  constructor(_fb: FormBuilder, toastService: ToastsService, logService: LogService) {
+  constructor(_fb: FormBuilder, toastService: ToastsService, logService: LogService, private langManager: LanguageService) {
     super(_fb, logService, toastService)
   }
 
