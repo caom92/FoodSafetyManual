@@ -530,7 +530,7 @@ function createUpdateService($program, $module, $log, $requirements, $strategy,
         $statusName = $scope->daoFactory->
           get('CapturedLogs')->getStatusName($request['report_id']);
         
-        if ($status == 'Approved') {
+        if ($statusName == 'Approved') {
           throw new \Exception(
             'Requested report cannot be edited; it was already approved', 
             9

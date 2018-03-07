@@ -29,13 +29,14 @@ export class GMPPackingATPTestingAuthorizationComponent extends SuperAuthorizati
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-aged-product")
+    this.setSuffix("gmp-packing-atp-testing")
     super.ngOnInit()
     this.initForm()
   }
 
   public initForm(): void {
     this.captureForm = this._fb.group({
+      report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
       date: [this.log.creation_date, [Validators.required, Validators.minLength(1)]],
       notes: [this.log.notes, Validators.maxLength(65535)],
       areas: this._fb.array([])

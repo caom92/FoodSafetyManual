@@ -32,7 +32,7 @@ export class GMPPackingGlassBrittleAddItemComponent extends SuperInventoryAddIte
 
   public addItem(): void {
     let data = { item: { id: 0, is_active: 1, name: this.newItem.value.name, position: 0, quantity: this.newItem.value.quantity } }
-    let itemData = { name: this.newItem.value.name, room_id: this.area_id }
+    let itemData = { name: this.newItem.value.name, area_id: this.area_id, quantity: this.newItem.value.quantity }
     super.addItem(data, itemData)
   }
 }

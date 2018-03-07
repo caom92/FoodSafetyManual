@@ -10,7 +10,7 @@ $service = [
     'employee_num' => [
       'type' => 'int'
     ],
-    'fist_name' => [
+    'first_name' => [
       'type' => 'string',
       'max_length' => 255
     ],
@@ -22,7 +22,9 @@ $service = [
   'callback' => function($scope, $request) {
     $users = $scope->daoFactory->get('Users');
     $isEmployeeNumDuplicated = 
-      $users->hasByEmployeeNum($request['employee_num']);
+      $users->hasByEmployeeNumAndDifferentId(
+        $request['employee_num'], $request['user_id']
+      );
     
     if ($isEmployeeNumDuplicated) {
       throw new \Exception(
@@ -31,7 +33,7 @@ $service = [
       );
     }
 
-    $user->updateNameAndEmployeeNumByID(
+    $users->updateNameAndEmployeeNumByID(
       $request['user_id'],
       $request['employee_num'],
       $request['first_name'],

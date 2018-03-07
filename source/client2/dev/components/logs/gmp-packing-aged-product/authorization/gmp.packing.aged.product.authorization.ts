@@ -16,7 +16,7 @@ import { Authorization, AuthorizationEntry } from '../interfaces/gmp.packing.age
 })
 
 export class GMPPackingAgedProductAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
-  @Input() log: Authorization = { report_id: null, created_by: null, approved_by: null, creation_date: null, approval_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, items: { actions: [{ id: null, name: null }], quality_types: [{ id: null, name: null }], entries: [] } }
+  @Input() log: Authorization = { report_id: null, created_by: null, approved_by: null, creation_date: null, approval_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, log_info: { actions: [{ id: null, name: null }], quality_types: [{ id: null, name: null }], entries: [] } }
   @Language() lang: string
 
   constructor(_fb: FormBuilder,
@@ -36,13 +36,14 @@ export class GMPPackingAgedProductAuthorizationComponent extends SuperAuthorizat
 
   initForm() {
     this.captureForm = this._fb.group({
+      report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
       date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
       entries: this._fb.array([])
     })
 
     const control = <FormArray>this.captureForm.controls['entries']
 
-    for (const entry of this.log.items.entries) {
+    for (const entry of this.log.log_info.entries) {
       control.push(this.initEntry(entry))
     }
   }

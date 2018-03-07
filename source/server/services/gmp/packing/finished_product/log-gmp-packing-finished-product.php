@@ -10,12 +10,6 @@ $service = fsm\createLogService(
   [
     'items_name' => 'log_info',
     'function' => function($scope, $segment) {
-      // first, obtain the list of all production areas
-      $areas = $scope->daoFactory
-        ->get('gmp\packing\finishedProduct\ProductionAreas')->selectByZoneID(
-          $segment->get('zone_id')
-        );
-
       // then, obtain the list of all suppliers
       $suppliers = $scope->daoFactory->get('Suppliers')->selectCode();
 
@@ -30,7 +24,6 @@ $service = fsm\createLogService(
 
       // finally, return the log info
       return [
-        'production_areas' => $areas,
         'suppliers' => $suppliers,
         'product_codes' => $products,
         'customers' => $customers,

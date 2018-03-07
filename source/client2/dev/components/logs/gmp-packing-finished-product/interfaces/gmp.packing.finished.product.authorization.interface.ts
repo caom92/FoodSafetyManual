@@ -2,7 +2,7 @@ import { SuperAuthorization } from '../../super-logs/super.logs.authorization.in
 import { LogQualityTypes } from './gmp.packing.finished.product.log.interface'
 
 export interface Authorization extends SuperAuthorization {
-  items: AuthorizationItem
+  log_info: AuthorizationItem
 }
 
 export interface AuthorizationItem {

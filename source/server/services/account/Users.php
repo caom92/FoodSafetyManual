@@ -64,6 +64,15 @@ class Users extends db\ToggableItemsTable
     return parent::has([ 'employee_num' => $employeeNum ]);
   }
 
+  function hasByEmployeeNumAndDifferentId($employeeNum, $userId) {
+    return parent::has([ 
+      'AND' => [
+        'employee_num' => $employeeNum,
+        'id[!]' => $userId
+      ]
+    ]);
+  }
+
 
   // Returns an associative with the basic information of every user in the 
   // data base which is not an administrator, where the key is the field name

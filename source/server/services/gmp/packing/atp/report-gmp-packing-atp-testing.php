@@ -10,7 +10,7 @@ $service = fsm\createReportService(
   [
     'items_name' => 'areas',
     'extra_info' => [
-      // NULL
+      'notes'
     ],
     'function' => function($scope, $segment, $logDate) {
       // get the areas corresponding to this log date

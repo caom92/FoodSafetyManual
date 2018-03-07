@@ -63,7 +63,8 @@ mixin inventoryEmptyMessage()
       |  button below
 
 mixin inventoryListsWrapper(condition)
-  table(*ngIf=condition)
+  table
+    //-(*ngIf=condition)
     if block
       block
 
