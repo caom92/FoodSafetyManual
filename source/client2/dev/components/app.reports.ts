@@ -9,10 +9,10 @@ import { LanguageService } from '../services/app.language'
 import { ReportDisplayer } from './app.report.displayer.component'
 
 @Component({
-  selector: 'report',
+  selector: 'report-old',
   templateUrl: '../templates/app.reports.html'
 })
-export class ReportTab {
+export class ReportTabOld {
   loaderComponent: any = null
 
   startDate: string = ""

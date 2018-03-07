@@ -1,0 +1,21 @@
+report-header([header]="header")
+mz-card
+  mz-card-content
+    table(#report_body)
+      thead
+        tr
+          th.timeColumn {{ 'Log.time' | translate:lang }}
+          th.numberColumn {{ 'Log.number_abbr' | translate:lang }}
+          th.testColumn {{ 'Log.reading' | translate:lang }}
+          th.unitColumn {{ 'Log.units' | translate:lang }}
+          th.statusColumn {{ 'Log.conditions' | translate:lang }}
+          th.sanitizedColumn {{ 'Log.sanitized_base' | translate:lang }}
+      tbody
+        ng-template(ngFor, let-type, [ngForOf]='report.types')
+          tr(gmp-packing-scale-calibration-report-type, [type]='type')
+          ng-template(ngFor, let-item, [ngForOf]='type.items')
+            tr(gmp-packing-scale-calibration-report-item, [item]='item')
+        tr
+          td.fullColumn(colspan='6') {{ 'Log.notes' | translate:lang }}: {{report.notes}}
+        tr
+          td.fullColumn(colspan='6') {{ 'Log.corrective_action' | translate:lang }}: {{report.corrective_action}}

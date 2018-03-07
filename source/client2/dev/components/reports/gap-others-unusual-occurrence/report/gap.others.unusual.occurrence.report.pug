@@ -1,0 +1,18 @@
+report-header([header]="header")
+mz-card
+  mz-card-content
+    table(#report_body)
+      tbody(*ngIf="entry != null && entry != undefined")
+        tr
+          td.shiftColumn {{ 'Log.shift' | translate:lang }}: {{entry.shift}}
+          td.timeColumn {{ 'Log.time' | translate:lang }}: {{entry.time}}
+          td.areaColumn {{ 'Log.production_area' | translate:lang }}: {{entry.area}}
+        tr
+          td.productColumn([colSpan]='2') {{ 'Log.products' | translate:lang }}: {{entry.product_name}}
+          td.batchColumn {{ 'Log.batch' | translate:lang }}: {{entry.batch}}
+        tr
+          td.fullColumn([colSpan]='3') {{ 'Log.description' | translate:lang }}: {{entry.description}}
+        tr
+          td.fullColumn([colSpan]='3') {{ 'Log.corrective_action' | translate:lang }}: {{entry.corrective_action}}
+        tr
+          td.fullColumn([colSpan]='3') {{ 'Log.album_url' | translate:lang }}: {{entry.album_url}}

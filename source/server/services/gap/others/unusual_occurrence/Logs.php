@@ -27,6 +27,7 @@ class Logs extends db\LogTable
         'incident_date',
         'time',
         's.name(shift)',
+        's.id(shift_id)',
         // 'a.name(area)',
         // 'p.code(product_code)',
         // 'p.name(product_name)',

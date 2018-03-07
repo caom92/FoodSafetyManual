@@ -1,0 +1,20 @@
+report-header([header]="header")
+mz-card
+  mz-card-content
+    table(#report_body)
+      thead
+        tr
+          th.timeColumn {{ 'Log.time' | translate:lang }}
+          th.areaColumn {{ 'Log.area' | translate:lang }}
+          th.testColumn Reading
+          th.resultColumn Results
+          th.actionColumn {{ 'Log.corrective_action' | translate:lang }}
+          th.testColumn Reading
+          th.resultColumn Retests
+      tbody
+        ng-template(ngFor, let-area, [ngForOf]='report.areas')
+          ng-template(ngFor, let-item, [ngForOf]='area.items', let-first='first')
+            tr(gmp-packing-atp-testing-report-area, [area]='area', [item]='item', *ngIf='first')
+            tr(gmp-packing-atp-testing-report-item, [item]='item', *ngIf='!first')
+        tr
+          td.fullColumn(colspan='7') {{ 'Log.notes' | translate:lang }}: {{report.notes}}

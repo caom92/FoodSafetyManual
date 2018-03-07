@@ -22,7 +22,15 @@ import { GMPPackingThermoCalibrationLogComponent } from '../../logs/gmp-packing-
 import { GMPPackingColdRoomTempLogComponent } from '../../logs/gmp-packing-cold-room-temp/log/gmp.packing.cold.room.temp.log'
 import { GMPPackingGlassBrittleLogComponent } from '../../logs/gmp-packing-glass-brittle/log/gmp.packing.glass.brittle.log'
 import { GMPPackingScissorsKnivesLogComponent } from '../../logs/gmp-packing-scissors-knives/log/gmp.packing.scissors.knives.log'
-import { StateService } from '@uirouter/angular';
+import { StateService } from '@uirouter/angular'
+import { GAPOthersUnusualOccurrenceAuthorizationComponent } from '../../logs/gap-others-unusual-occurrence/authorization/gap.others.unusual.occurrence.authorization'
+import { GMPOthersUnusualOccurrenceAuthorizationComponent } from '../../logs/gmp-others-unusual-occurrence/authorization/gmp.others.unusual.occurrence.authorization'
+import { GAPPackingPreopAuthorizationComponent } from '../../logs/gap-packing-preop/authorization/gap.packing.preop.authorization'
+import { GMPSelfInspectionPestControlAuthorizationComponent } from '../../logs/gmp-self-inspection-pest-control/authorization/gmp.self.inspection.pest.control.authorization'
+import { GMPDocControlDocControlAuthorizationComponent } from '../../logs/gmp-doc-control-doc-control/authorization/gmp.doc.control.doc.control.authorization'
+import { GMPPackingAgedProductAuthorizationComponent } from '../../logs/gmp-packing-aged-product/authorization/gmp.packing.aged.product.authorization'
+import { GMPPackingFinishedProductAuthorizationComponent } from '../../logs/gmp-packing-finished-product/authorization/gmp.packing.finished.product.authorization'
+import { GMPPackingATPTestingAuthorizationComponent } from '../../logs/gmp-packing-atp-testing/authorization/gmp.packing.atp.testing.authorization';
 
 @Component({
   selector: 'authorization-loader',
@@ -33,14 +41,14 @@ export class AuthorizationLoader extends DynamicComponentResolver implements OnI
   @Language() lang: string
   @Input() suffix: string
   @Input() reportID: number
-  @Input() log_name: string = "Default"
+  @Input() log_name: string = "Loading..."
   loaderComponent: Type<any> = null
 
   constructor(
     factoryResolver: ComponentFactoryResolver,
     private logService: LogService,
     private router: StateService
-    ) {
+  ) {
     super(factoryResolver)
   }
 
@@ -53,8 +61,17 @@ export class AuthorizationLoader extends DynamicComponentResolver implements OnI
       this.suffix == "gmp-packing-thermo-calibration" ||
       this.suffix == "gmp-packing-cold-room-temp" ||
       this.suffix == "gmp-packing-glass-brittle" ||
-      this.suffix == "gmp-packing-scissors-knives") {
+      this.suffix == "gmp-packing-scissors-knives" ||
+      this.suffix == "gap-others-unusual-occurrence" ||
+      this.suffix == "gmp-others-unusual-occurrence" ||
+      this.suffix == "gmp-packing-aged-product" ||
+      this.suffix == "gmp-packing-finished-product" ||
+      this.suffix == "gap-packing-preop" ||
+      this.suffix == "gmp-doc-control-doc-control" ||
+      this.suffix == "gmp-packing-atp-testing" ||
+      this.suffix == "gmp-self-inspection-pest-control") {
       this.logService.authorization(this.suffix, this.reportID).then(success => {
+        this.log_name = success.log_name
         switch (this.suffix) {
           case 'gmp-packing-hand-washing': this.loaderComponent = this.loadComponent(GMPPackingHandWashingAuthorizationComponent, {
             log: success
@@ -81,6 +98,38 @@ export class AuthorizationLoader extends DynamicComponentResolver implements OnI
           }).instance
             break
           case 'gmp-packing-scissors-knives': this.loaderComponent = this.loadComponent(GMPPackingScissorsKnivesAuthorizationComponent, {
+            log: success
+          }).instance
+            break
+          case 'gap-others-unusual-occurrence': this.loaderComponent = this.loadComponent(GAPOthersUnusualOccurrenceAuthorizationComponent, {
+            log: success
+          }).instance
+            break
+          case 'gmp-others-unusual-occurrence': this.loaderComponent = this.loadComponent(GMPOthersUnusualOccurrenceAuthorizationComponent, {
+            log: success
+          }).instance
+            break
+          case 'gap-packing-preop': this.loaderComponent = this.loadComponent(GAPPackingPreopAuthorizationComponent, {
+            log: success
+          }).instance
+            break
+          case 'gmp-self-inspection-pest-control': this.loaderComponent = this.loadComponent(GMPSelfInspectionPestControlAuthorizationComponent, {
+            log: success
+          }).instance
+            break
+          case 'gmp-doc-control-doc-control': this.loaderComponent = this.loadComponent(GMPDocControlDocControlAuthorizationComponent, {
+            log: success
+          }).instance
+            break
+          case 'gmp-packing-aged-product': this.loaderComponent = this.loadComponent(GMPPackingAgedProductAuthorizationComponent, {
+            log: success
+          }).instance
+            break
+          case 'gmp-packing-finished-product': this.loaderComponent = this.loadComponent(GMPPackingFinishedProductAuthorizationComponent, {
+            log: success
+          }).instance
+            break
+          case 'gmp-packing-atp-testing': this.loaderComponent = this.loadComponent(GMPPackingATPTestingAuthorizationComponent, {
             log: success
           }).instance
             break

@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { FormArray, FormBuilder, Validators } from '@angular/forms'
+import { FormBuilder, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
+import { CustomValidators } from '../../../../directives/custom.validators'
+import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
@@ -18,9 +20,19 @@ export class GAPOthersUnusualOccurrenceLogComponent extends SuperLogComponent im
   @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, items: { shifts: [{ shift_id: null, name: null }] } }
   @Language() lang: string
 
+  readonly maxLengths = {
+    area_id: 255,
+    product_id: 255,
+    batch: 255,
+    description: 65535,
+    corrective_action: 65535,
+    album_url: 255
+  }
+
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
     private translationService: TranslationService,
+    private langManager: LanguageService,
     logService: LogService,
     toasts: ToastsService) {
     super(logService, toasts)
@@ -33,35 +45,36 @@ export class GAPOthersUnusualOccurrenceLogComponent extends SuperLogComponent im
   }
 
   initForm() {
-    let currentTime = this.timeService.getISOTime(new Date())
+    const currentTime = this.timeService.getISOTime(new Date())
+    const currentDate = this.timeService.getISODate(new Date())
     this.captureForm = this._fb.group({
-      date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
-      time: [currentTime, [Validators.required]],
-      incident_date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
-      shift_id: ["", [Validators.required]],
-      area_id: ["", [Validators.required, Validators.maxLength(255)]],
-      product_id: ["", [Validators.required, Validators.maxLength(255)]],
-      batch_id: ["", [Validators.required, Validators.maxLength(255)]],
-      description_id: ["", [Validators.required, Validators.maxLength(65535)]],
-      corrective_action: ["", [Validators.required, Validators.maxLength(65535)]],
-      album_url: ["", [Validators.required, Validators.maxLength(65535)]],
+      date: [currentDate, [Validators.required, Validators.minLength(1), CustomValidators.dateValidator()]],
+      time: [currentTime, [Validators.required, CustomValidators.timeValidator()]],
+      incident_date: [currentDate, [Validators.required, Validators.minLength(1), CustomValidators.dateValidator()]],
+      shift_id: [null, [Validators.required]],
+      area_id: ["", [Validators.required, Validators.maxLength(this.maxLengths.area_id)]],
+      product_id: ["", [Validators.required, Validators.maxLength(this.maxLengths.product_id)]],
+      batch: ["", [Validators.required, Validators.maxLength(this.maxLengths.batch)]],
+      description: ["", [Validators.required, Validators.maxLength(this.maxLengths.description)]],
+      corrective_action: ["", [Validators.required, Validators.maxLength(this.maxLengths.corrective_action)]],
+      album_url: ["", [Validators.required, Validators.maxLength(this.maxLengths.album_url)]]
     })
   }
 
   resetForm() {
-    /*let currentTime = this.timeService.getISOTime(new Date())
-    let items = []
-    for (let item of this.log.items) {
-      items.push({ id: item.id, test: null, calibration: false, sanitization: false, deficiencies: "", corrective_action: "" })
-    }
+    const currentTime = this.timeService.getISOTime(new Date())
+    const currentDate = this.timeService.getISODate(new Date())
     this.captureForm.reset({
-      date: this.timeService.getISODate(new Date()),
+      date: currentDate,
       time: currentTime,
-      items: items
-    })*/
-  }
-
-  save() {
-    console.log(this.log.items.shifts)
+      incident_date: currentDate,
+      shift_id: null,
+      area_id: "",
+      product_id: "",
+      batch: "",
+      description: "",
+      corrective_action: "",
+      album_url: ""
+    })
   }
 }

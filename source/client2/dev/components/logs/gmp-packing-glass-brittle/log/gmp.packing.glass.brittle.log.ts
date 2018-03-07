@@ -9,6 +9,7 @@ import { TranslationService } from '../../../../services/app.translation'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
 import { CaptureArea, CaptureItem } from '../interfaces/gmp.packing.glass.brittle.capture.interface'
 import { Log } from '../interfaces/gmp.packing.glass.brittle.log.interface'
+import { LanguageService } from '../../../../services/app.language';
 
 @Component({
   selector: 'gmp-packing-glass-brittle-log',
@@ -22,6 +23,7 @@ export class GMPPackingGlassBrittleLogComponent extends SuperLogComponent implem
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
     private translationService: TranslationService,
+    private langManager: LanguageService,
     logService: LogService,
     toasts: ToastsService) {
     super(logService, toasts)

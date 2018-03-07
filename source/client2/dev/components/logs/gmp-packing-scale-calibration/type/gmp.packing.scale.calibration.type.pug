@@ -3,5 +3,5 @@ include ../../../log-ionic-materialize.pug
 +card()([formGroup]='typeForm')
   +cardHeader('{{type.name}}')
   +cardContent()
-    +timeInput(true, "{{ 'Log.time' | translate:lang }}", "time")
+    +timeInput(true, "{{ 'Log.time' | translate:lang }}", "time", null, null, "langManager.messages.global.timePickerConfig")
     gmp-packing-scale-calibration-item(*ngFor='let item of type.items; let i = index; let last = last', [item]='item', [units]='units', [itemGroup]='typeForm.controls.items.controls[i]', [last]="last")

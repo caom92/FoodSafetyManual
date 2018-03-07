@@ -1,10 +1,10 @@
 import { Component, ComponentFactoryResolver, OnInit } from '@angular/core'
+import { StateService } from '@uirouter/angular'
 import { Language } from 'angular-l10n'
 
-
-import { BackendService } from '../../services/app.backend'
-import { TranslationService } from '../../services/app.translation'
+import { DynamicComponentResolver } from '../dynamic.resolver'
 import { GAPPackingPreopInventoryManagerComponent } from './gap-packing-preop/manager/gap.packing.preop.inventory.manager'
+import { GMPDocControlDocControlInventoryComponent } from './gmp-doc-control-doc-control/inventory/gmp.doc.control.doc.control.inventory'
 import { GMPPackingColdRoomTempInventoryComponent } from './gmp-packing-cold-room-temp/inventory/gmp.packing.cold.room.temp.inventory'
 import { GMPPackingGlassBrittleInventoryManagerComponent } from './gmp-packing-glass-brittle/manager/gmp.packing.glass.brittle.inventory.manager'
 import { GMPPackingHandWashingInventoryComponent } from './gmp-packing-hand-washing/inventory/gmp.packing.hand.washing.inventory'
@@ -12,8 +12,8 @@ import { GMPPackingPreopInventoryManagerComponent } from './gmp-packing-preop/ma
 import { GMPPackingScaleCalibrationInventoryComponent } from './gmp-packing-scale-calibration/inventory/gmp.packing.scale.calibration.inventory'
 import { GMPPackingScissorsKnivesInventoryComponent } from './gmp-packing-scissors-knives/inventory/gmp.packing.scissors.knives.inventory'
 import { GMPPackingThermoCalibrationInventoryComponent } from './gmp-packing-thermo-calibration/inventory/gmp.packing.thermo.calibration.inventory'
-import { DynamicComponentResolver } from '../dynamic.resolver'
-import { StateService } from '@uirouter/angular'
+import { GMPSelfInspectionPestControlInventoryManagerComponent } from './gmp-self-inspection-pest-control/manager/gmp.self.inspection.pest.control.inventory.manager';
+
 //import { GMPSelfInspectionPestControlInventoryManagerComponent } from './gmp-self-inspection-pest-control/manager/gmp.self.inspection.pest.control.inventory.manager'
 
 
@@ -68,10 +68,14 @@ export class InventoryLoaderComponent extends DynamicComponentResolver implement
         parent: this
       }).instance
         break
-      //case 'gmp-self-inspection-pest-control': this.loaderComponent = this.loadComponent(GMPSelfInspectionPestControlInventoryManagerComponent, {
-      //    parent: this
-      //  }).instance
-      //    break
+      case 'gmp-doc-control-doc-control': this.loaderComponent = this.loadComponent(GMPDocControlDocControlInventoryComponent, {
+        parent: this
+      }).instance
+        break
+      case 'gmp-self-inspection-pest-control': this.loaderComponent = this.loadComponent(GMPSelfInspectionPestControlInventoryManagerComponent, {
+          parent: this
+        }).instance
+          break
     }
   }
 }

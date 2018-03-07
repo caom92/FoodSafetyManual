@@ -1,0 +1,16 @@
+include ../../../log-ionic-materialize.pug
+
++fullLogWrapper()
+  div(*ngIf="showLog == true || showLog == undefined")
+    log-header([log]="logHeaderData")
+    form([formGroup]='captureForm', (ngSubmit)='save(myForm)')
+      gap-packing-preop-area(*ngFor='let area of log.areas.logs; let i=index', [area]='area', [actions]='log.areas.corrective_actions', [group]='captureForm.controls.areas.controls[i]')
+      +card()
+        +cardHeader("{{ 'Log.complementary_information' | translate:lang }}")
+        +cardContent()
+          +textArea("{{ 'Log.notes_of' | translate:lang }} {{log.log_name}}", "clipboard", "notes")
+          //-+errorMessage('!captureForm.controls.notes.valid && captureForm.controls.notes.dirty', "{{ 'LogErrors.gap-packing-preop.comment_length' | translate:lang }}")
+          +textArea("{{ 'Log.external_link_of' | translate:lang }} {{log.log_name}}", "ios-link", "album_url")
+          //-+errorMessage('!captureForm.controls.album_url.valid && captureForm.controls.album_url.dirty', "{{ 'LogErrors.gap-packing-preop.album_length' | translate:lang }}")
+      block buttonRow
+        +sendLogButton("{{ 'Log.send_report' | translate:lang }}")

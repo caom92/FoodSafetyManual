@@ -37,7 +37,6 @@ export class GMPPackingHandWashingLogComponent extends SuperLogComponent impleme
   }
 
   initForm() {
-    // Creamos el formulario, utilizando validaciones equivalentes a las usadas en el servidor
     this.captureForm = this._fb.group({
       date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
       notes: ['', [Validators.required, Validators.minLength(1)]],

@@ -76,6 +76,10 @@ mixin inventoryWrapper()
     block
 
 mixin inventoryAreaSelect()
-  mz-select-container
-    select(mz-select, id="area-select", [placeholder]="'Select area'", [(ngModel)]="selectedArea", (change)="loadAreaInventory($event.detail)")
-      option(*ngFor='let area of areas; let first = first', [value]='area.id') {{area.name}}
+  .row
+    .col.s6.m6.l6
+      mz-select-container
+        select(mz-select, id="area-select", [placeholder]="'Select area'", [(ngModel)]="selectedArea", (change)="loadAreaInventory($event.detail)")
+          option(*ngFor='let area of areas; let first = first', [value]='area.id') {{area.name}}
+    if block
+      block

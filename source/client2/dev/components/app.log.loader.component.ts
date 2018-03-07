@@ -4,8 +4,6 @@ import { DomSanitizer } from '@angular/platform-browser'
 
 import { Validators, FormGroup, FormBuilder } from '@angular/forms'
 
-import { ReportTab } from './app.reports'
-
 import { BackendService } from '../services/app.backend'
 import { LanguageService } from '../services/app.language'
 

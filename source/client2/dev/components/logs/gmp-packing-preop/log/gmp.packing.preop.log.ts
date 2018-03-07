@@ -45,7 +45,7 @@ export class GMPPackingPreopLogComponent extends SuperLogComponent implements On
     const control = <FormArray>this.captureForm.controls['areas'];
     let currentTime = this.timeService.getISOTime(new Date())
     for (let area of this.log.areas.logs) {
-      let itemControl = []
+      let itemControl: Array<FormGroup> = []
       for (let type of area.types) {
         for (let item of type.items) {
           itemControl.push(this.initItem({ id: item.id, is_acceptable: null, corrective_action: 1, comment: "" }))
@@ -59,7 +59,7 @@ export class GMPPackingPreopLogComponent extends SuperLogComponent implements On
     let areas = []
     let currentTime = this.timeService.getISOTime(new Date())
     for (let area of this.log.areas.logs) {
-      let items = []
+      let items: Array<CaptureItem> = []
       for(let type of area.types){
         for(let item of type.items){
           items.push({ id: item.id, is_acceptable: null, corrective_action: 1, comment: "" })
@@ -75,7 +75,7 @@ export class GMPPackingPreopLogComponent extends SuperLogComponent implements On
     })
   }
 
-  initArea(area: CaptureArea) {
+  public initArea(area: CaptureArea): FormGroup {
     return this._fb.group({
       id: [area.id, [Validators.required]],
       time: [area.time, [Validators.required]],
@@ -85,7 +85,7 @@ export class GMPPackingPreopLogComponent extends SuperLogComponent implements On
     })
   }
 
-  initItem(item: CaptureItem) {
+  public initItem(item: CaptureItem): FormGroup {
     return this._fb.group({
       id: [item.id, [Validators.required]],
       is_acceptable: [item.is_acceptable, [Validators.required]],

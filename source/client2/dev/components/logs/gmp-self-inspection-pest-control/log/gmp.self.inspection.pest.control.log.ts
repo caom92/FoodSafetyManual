@@ -35,8 +35,10 @@ export class GMPSelfInspectionPestControlLogComponent extends SuperLogComponent 
   }
 
   initForm() {
+    const currentDate = this.timeService.getISODate(new Date())
+
     this.captureForm = this._fb.group({
-      date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
+      date: [currentDate, [Validators.required, Validators.minLength(1)]],
       notes: ['', [Validators.required, Validators.minLength(1)]],
       stations: this._fb.array([])
     })
@@ -47,7 +49,8 @@ export class GMPSelfInspectionPestControlLogComponent extends SuperLogComponent 
       }
     }
 
-    // Desplazamiento que se debe realizar en el FormGroup para tener ordenados correctamente los forms de cada item
+    // Desplazamiento que se debe realizar en el FormGroup para tener ordenados
+    // correctamente los forms de cada item
 
     this.offset = []
     let accumulated = 0
@@ -59,21 +62,19 @@ export class GMPSelfInspectionPestControlLogComponent extends SuperLogComponent 
   }
 
   resetForm() {
-    /*let areas = []
-    let currentTime = this.timeService.getISOTime(new Date())
-    for (let area of this.log.areas) {
-      let items = []
-      for (let item of area.items) {
-        items.push({ id: item.id, is_acceptable: null })
+    let stations = []
+    const currentDate = this.timeService.getISODate(new Date())
+
+    for (let room of this.log.rooms) {
+      for (let station of room.stations) {
+        stations.push({ id: station.id, is_secured: null, condition: null, activity: null, corrective_actions: "" })
       }
-      areas.push({ id: area.id, items: items })
     }
     this.captureForm.reset({
-      date: this.timeService.getISODate(new Date()),
-      time: currentTime,
+      date: currentDate,
       notes: '',
-      areas: areas
-    })*/
+      areas: stations
+    })
   }
 
   initItem(item: CaptureItem) {
@@ -84,11 +85,5 @@ export class GMPSelfInspectionPestControlLogComponent extends SuperLogComponent 
       activity: [item.activity, [Validators.required]],
       corrective_actions: [item.corrective_actions]
     })
-  }
-
-  save(){
-    console.log(this.captureForm)
-    console.log(this.captureForm.value)
-    console.log(this.offset)
   }
 }

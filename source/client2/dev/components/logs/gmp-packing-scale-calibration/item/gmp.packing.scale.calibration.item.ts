@@ -21,7 +21,7 @@ export class GMPPackingScaleCalibrationItemComponent implements OnChanges {
 
   ngOnChanges() {
     console.log("onchanges")
-    $("select").material_select()
-    $("select").material_select()
+    $('select').material_select()
+    $('select').material_select()
   }
 }

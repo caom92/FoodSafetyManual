@@ -1,0 +1,9 @@
+td.timeColumn([rowSpan]='timeRowspan', *ngIf='time != null') {{time}}
+td.numberColumn {{item.name}}
+td.testColumn {{item.test}}
+td.calibrationColumn.acceptable_tag(*ngIf='item.calibration == 1') {{ 'Log.yes' | translate:lang }}
+td.calibrationColumn.unnaceptable_tag(*ngIf='item.calibration == 0') {{ 'Log.no' | translate:lang }}
+td.sanitizationColumn.acceptable_tag(*ngIf='item.sanitization == 1') {{ 'Log.yes' | translate:lang }}
+td.sanitizationColumn.unnaceptable_tag(*ngIf='item.sanitization == 0') {{ 'Log.no' | translate:lang }}
+td.deficienciesColumn {{item.deficiencies}}
+td.actionColumn {{item.corrective_action}}

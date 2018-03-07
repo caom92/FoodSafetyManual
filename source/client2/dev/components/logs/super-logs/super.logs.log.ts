@@ -1,10 +1,10 @@
 import { OnInit } from '@angular/core'
-import { FormGroup, FormBuilder } from '@angular/forms'
-import { SuperLog } from './super.logs.log.interface'
+import { FormBuilder, FormGroup } from '@angular/forms'
+
 import { LogService } from '../../../services/app.logs'
-import { LoaderService } from '../../../services/app.loaders'
-import { LogHeaderData, LogDetails } from '../log.interfaces'
 import { ToastsService } from '../../../services/app.toasts'
+import { LogDetails, LogHeaderData } from '../log.interfaces'
+import { SuperLog } from './super.logs.log.interface'
 
 export class SuperLogComponent implements OnInit {
   protected log: SuperLog
@@ -42,65 +42,34 @@ export class SuperLogComponent implements OnInit {
     })
   }
 
-  /**
-   * Asigna el sufijo que identifica a la bitácora, necesario para llamar a los
-   * servicios correspondientes a la bitácora particular
-   * 
-   * @param {string} suffix 
-   * @memberof SuperInventoryListComponent
-   */
-
   public setSuffix(suffix: string): void {
     this.suffix = suffix
   }
-
-  /**
-   * Inicializa el FormGroup de la bitácora. Típicamente, se debe llamar en 2
-   * momentos: 
-   * 
-   * -Al inicializar el componente
-   * -Al obtener los datos de la bitácora, ya sea del servidor o del
-   * localStorage
-   * 
-   * Dado que se trata de un formulario diferente para cada bitácora, esta
-   * función debe redefinirse en las clases derivadas para funcionar
-   * correctamente, caso contrario se lanza un error
-   * 
-   * @memberof SuperLogComponent
-   */
 
   public initForm(): void {
     throw "Notify system developer: initForm() function must be overridden in child class for " + this.suffix
   }
 
-  /**
-   * "Limpia" el formulario para prepararlo para una segunda entrada.
-   * 
-   * Dado que se trata de un formulario diferente para cada bitácora, esta
-   * función debe redefinirse en las clases derivadas para funcionar
-   * correctamente, caso contrario se lanza un error
-   * 
-   * @memberof SuperLogComponent
-   */
-
   public resetForm(): void {
     throw "Notify system developer: resetForm() function must be overridden in child class for " + this.suffix
   }
 
-  /**
-   * Realiza la captura de la bitácora, invocando al servicio de bitácoras.
-   * 
-   * @memberof SuperLogComponent
-   */
+  // Esta función es llamada antes de realizar el envío de datos. Dentro de la
+  // misma, se deben de deshabilitar los controles del captureForm que no
+  // se desean enviar (por ejemplo, cuando existen items marcados como "no
+  // aceptables", es posible que no sea necesario enviar datos adicionales
+  // referentes a acciones correctivas)
+  public cleanForm(): void {
+
+  }
 
   public save(): void {
-    // Solo enviamos bitácoras válidas
+    this.cleanForm()
     if (this.captureForm.valid) {
       // Información adicional, necesaria en el caso de que la bitácora no pueda
       // enviarse
       let logDetails: LogDetails = { zone_name: this.log.zone_name, program_name: this.log.program_name, module_name: this.log.module_name, log_name: this.log.log_name }
       this.logService.send(this.captureForm.value, 'capture-' + this.suffix, logDetails).then(success => {
-        // Una vez que la promesa fue cumplida, reiniciamos el formulario
         this.resetForm()
       })
     } else {

@@ -1,0 +1,9 @@
+include ../../../inventory-ionic-materialize.pug
+include ../../../log-ionic-materialize.pug
+
+tr([formGroup]="newItem")
+  td
+  td
+    +textInput(null, null, "name", "text", "new_item", "New item")
+  td
+    +addItemButton()((click)="addItem()")

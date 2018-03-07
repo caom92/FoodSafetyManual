@@ -249,6 +249,7 @@ import { GMPOthersUnusualOccurrenceReportComponent } from '../pages/reports/gmp-
 import { GAPOthersUnusualOccurrenceReportComponent } from '../pages/reports/gap-others-unusual-occurrence/report/gap.others.unusual.occurrence.report';
 import { GMPPackingAgedProductReportComponent } from '../pages/reports/gmp-packing-aged-product/report/gmp.packing.aged.product.report';
 import { GMPPackingFinishedProductReportComponent } from '../pages/reports/gmp-packing-finished-product/report/gmp.packing.finished.product.report';
+import { GMPDocControlDocControlReportComponent } from '../pages/reports/gmp-doc-control-doc-control/report/gmp.doc.control.doc.control.report';
 
 @NgModule({
   declarations: [
@@ -409,7 +410,8 @@ import { GMPPackingFinishedProductReportComponent } from '../pages/reports/gmp-p
     GMPOthersUnusualOccurrenceReportComponent,
     GAPOthersUnusualOccurrenceReportComponent,
     GMPPackingAgedProductReportComponent,
-    GMPPackingFinishedProductReportComponent
+    GMPPackingFinishedProductReportComponent,
+    GMPDocControlDocControlReportComponent
   ],
   imports: [
     BrowserModule,
@@ -578,7 +580,8 @@ import { GMPPackingFinishedProductReportComponent } from '../pages/reports/gmp-p
     GMPOthersUnusualOccurrenceReportComponent,
     GAPOthersUnusualOccurrenceReportComponent,
     GMPPackingAgedProductReportComponent,
-    GMPPackingFinishedProductReportComponent
+    GMPPackingFinishedProductReportComponent,
+    GMPDocControlDocControlReportComponent
   ],
   providers: [
     StatusBar,

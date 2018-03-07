@@ -19,7 +19,7 @@ export class TranslationService implements OnInit {
   public selectLanguage(language: string): void {
     this.locale.setCurrentLanguage(language)
     /*setTimeout(function () {
-      $("select").material_select()
+      $('select').material_select()
     }, 200)*/
     localStorage.lang = language
   }

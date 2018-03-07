@@ -1,0 +1,16 @@
+include ../../../inventory-ionic-materialize.pug
+
++inventoryWrapper()
+  +inventoryListsWrapper('emptyInventoryFlag == false')
+    +inventoryTitleWrapper()
+      //-+inventoryTitleHandler()
+      +inventoryTitleColumn("{{ 'InventoryLists.id' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.name' | translate:lang }}")
+      +inventoryTitleToggle()
+    //-For Ionic version uncomment the next line, Dragula variables are found inside the .list.pug file
+    //-+inventoryList('gmp-doc-control-doc-control')([items]='inventory')
+    //-For ng2-Materialize version uncomment the next two lines, we have to pass Dragula variables here
+    +inventoryList('gmp-doc-control-doc-control')([items]='inventory', [dragula]='bagName', [dragulaModel]='inventory', [dragulaOptions]='options')
+    +inventoryListAddItemFooter('gmp-doc-control-doc-control')
+  +inventoryEmptyMessage()
+  +inventoryAddButton()

@@ -1,1 +1,4 @@
-include ../log/gmp.packing.scissors.knives.log.pug
+extends ../log/gmp.packing.scissors.knives.log.pug
+
+block buttonRow
+  +authorizationButtonRow("Send", "Authorize", "Delete", "Return")

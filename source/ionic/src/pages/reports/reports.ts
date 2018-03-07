@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, ViewChildren } from '@angular/core'
+import { Component, ComponentFactoryResolver, ViewChildren, OnInit, OnDestroy } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms'
 import { DomSanitizer } from '@angular/platform-browser'
 import { Storage } from '@ionic/storage'
@@ -16,7 +16,7 @@ import { ReportRequest } from './reports.interface'
   templateUrl: 'reports.html'
 })
 
-export class ReportTab extends DynamicComponentResolver {
+export class ReportTab extends DynamicComponentResolver implements OnInit, OnDestroy {
   @Language() lang: string
   @ViewChildren("reports") pdfReports: any = {
     _results: []
@@ -48,22 +48,24 @@ export class ReportTab extends DynamicComponentResolver {
     startDate: [this.startDate],
     endDate: [this.endDate]
   })
+  _reportEventFunction
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private translationService: TranslationService, public events: Events, private storage: Storage, private sanitizer: DomSanitizer, private server: BackendService, private formBuilder: FormBuilder, public loadingCtrl: LoadingController, factoryResolver: ComponentFactoryResolver, public ts: TService) {
     super(factoryResolver)
-    events.subscribe("reportEvent", (activeReport, time) => {
-      this.activeReport = activeReport
-      console.log("reporte activo: " + activeReport)
-    })
-    this.reportSuffix = this.navParams.get('log_suffix')
   }
 
   ngOnInit() {
-    console.log(this.pdfReports)
-  }
-
-  printChildren() {
-    console.log(this.pdfReports)
+    this.reportSuffix = this.navParams.get('log_suffix')
+    this._reportEventFunction = (activeReport, previousReport, origin) => {
+      if(origin == this.reportSuffix){
+        if(this.activeReport == "any" && activeReport != "any"){
+          this.activeReport = activeReport
+        } else if (this.activeReport == previousReport && activeReport == "any") {
+          this.activeReport = activeReport
+        }
+      }
+    }
+    this.events.subscribe("reportEvent", this._reportEventFunction)
   }
 
   showChildren() {
@@ -139,5 +141,10 @@ export class ReportTab extends DynamicComponentResolver {
     loading.present()
 
     return loading
+  }
+
+  public ngOnDestroy(): void {
+    //this.events.publish("reportEvent", "any", this.reportSuffix)
+    this.events.unsubscribe("reportEvent", this._reportEventFunction)
   }
 }

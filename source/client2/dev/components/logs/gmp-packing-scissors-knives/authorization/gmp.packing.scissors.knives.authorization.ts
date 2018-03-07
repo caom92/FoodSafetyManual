@@ -1,15 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { DatePipe } from '@angular/common'
-import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
-
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
+import { LogService } from '../../../../services/app.logs'
+import { ToastsService } from '../../../../services/app.toasts'
+import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization } from '../interfaces/gmp.packing.scissors.knives.authorization.interface'
 import { UpdateItem } from '../interfaces/gmp.packing.scissors.knives.update.interface'
-
-import { ToastsService } from '../../../../services/app.toasts'
-import { LogService } from '../../../../services/app.logs'
-import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 
 @Component({
   selector: 'gmp-packing-scissors-knives-authorization',
@@ -38,7 +35,7 @@ export class GMPPackingScissorsKnivesAuthorizationComponent extends SuperAuthori
       notes: [this.log.notes, [Validators.required, Validators.minLength(1)]],
       items: this._fb.array([])
     })
-    const control = <FormArray>this.captureForm.controls['items'];
+    const control = <FormArray>this.captureForm.controls['items']
     for (let item of this.log.items) {
       control.push(this.initItem({id:item.id,time:item.time,approved: (item.approved == 1) ? true : false,condition:(item.condition == 1) ? true : false,is_sanitized:(item.is_sanitized == 1) ? true : false,corrective_action:item.corrective_action}))
     }

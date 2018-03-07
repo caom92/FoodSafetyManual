@@ -13,11 +13,14 @@ import { GMPPackingGlassBrittleLogComponent } from '../gmp-packing-glass-brittle
 import { GMPPackingScissorsKnivesLogComponent } from '../gmp-packing-scissors-knives/log/gmp.packing.scissors.knives.log'
 import { BackendService } from '../../../services/app.backend'
 import { DomSanitizer } from '@angular/platform-browser'
-import { GMPSelfInspectionPestControlLogComponent } from '../gmp-self-inspection-pest-control/log/gmp.self.inspection.pest.control.log';
-import { GAPOthersUnusualOccurrenceLogComponent } from '../gap-others-unusual-occurrence/log/gap.others.unusual.occurrence.log';
-import { GMPOthersUnusualOccurrenceLogComponent } from '../gmp-others-unusual-occurrence/log/gmp.others.unusual.occurrence.log';
-import { GMPPackingAgedProductLogComponent } from '../gmp-packing-aged-product/log/gmp.packing.aged.product.log';
-import { GMPDocControlDocControlLogComponent } from '../gmp-doc-control-doc-control/log/gmp.doc.control.doc.control.log';
+import { GMPSelfInspectionPestControlLogComponent } from '../gmp-self-inspection-pest-control/log/gmp.self.inspection.pest.control.log'
+import { GAPOthersUnusualOccurrenceLogComponent } from '../gap-others-unusual-occurrence/log/gap.others.unusual.occurrence.log'
+import { GMPOthersUnusualOccurrenceLogComponent } from '../gmp-others-unusual-occurrence/log/gmp.others.unusual.occurrence.log'
+import { GMPPackingAgedProductLogComponent } from '../gmp-packing-aged-product/log/gmp.packing.aged.product.log'
+import { GMPDocControlDocControlLogComponent } from '../gmp-doc-control-doc-control/log/gmp.doc.control.doc.control.log'
+import { GMPPackingATPTestingLogComponent } from '../gmp-packing-atp-testing/log/gmp.packing.atp.testing.log'
+import { GAPPackingPreopLogComponent } from '../gap-packing-preop/log/gap.packing.preop.log'
+import { GMPPackingFinishedProductLogComponent } from '../gmp-packing-finished-product/log/gmp.packing.finished.product.log'
 
 @Component({
   selector: 'log-tabs-page',
@@ -51,7 +54,10 @@ export class LogTabsPage extends DynamicComponentResolver {
       this.suffix == "gap-others-unusual-occurrence" ||
       this.suffix == "gmp-others-unusual-occurrence" ||
       this.suffix == "gmp-packing-aged-product" ||
-      this.suffix == "gmp-doc-control-doc-control") {
+      this.suffix == "gmp-packing-finished-product" ||
+      this.suffix == "gmp-doc-control-doc-control" ||
+      this.suffix == "gmp-packing-atp-testing" ||
+      this.suffix == "gap-packing-preop") {
       switch (this.suffix) {
         case 'gmp-packing-hand-washing': this.loaderComponent = this.loadComponent(GMPPackingHandWashingLogComponent, {
 
@@ -97,7 +103,19 @@ export class LogTabsPage extends DynamicComponentResolver {
 
         }).instance
           break
+        case 'gmp-packing-finished-product': this.loaderComponent = this.loadComponent(GMPPackingFinishedProductLogComponent, {
+
+        }).instance
+          break
         case 'gmp-doc-control-doc-control': this.loaderComponent = this.loadComponent(GMPDocControlDocControlLogComponent, {
+
+        }).instance
+          break
+        case 'gmp-packing-atp-testing': this.loaderComponent = this.loadComponent(GMPPackingATPTestingLogComponent, {
+
+        }).instance
+          break
+        case 'gap-packing-preop': this.loaderComponent = this.loadComponent(GAPPackingPreopLogComponent, {
 
         }).instance
           break

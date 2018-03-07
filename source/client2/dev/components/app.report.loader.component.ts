@@ -2,11 +2,11 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core'
 import { PubSubService } from 'angular2-pubsub'
 
 @Component({
-  selector: 'report-loader',
+  selector: 'report-loader-old',
   templateUrl: '../templates/app.report.loader.component.html'
 })
 
-export class ReportLoader implements OnInit, OnDestroy {
+export class ReportLoaderOld implements OnInit, OnDestroy {
   @Input()
   report: any = null
 

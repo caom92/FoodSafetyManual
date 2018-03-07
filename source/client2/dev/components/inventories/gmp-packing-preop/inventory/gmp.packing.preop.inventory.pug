@@ -2,6 +2,8 @@ include ../../../inventory-ionic-materialize.pug
 
 +inventoryWrapper()
   +inventoryAreaSelect()
+    //-For ng2-Materialize version uncomment the next line
+    gmp-packing-preop-add-area()
   +inventoryListsWrapper("selectedArea != undefined && selectedArea != null")
     +inventoryTitleWrapper()
       +inventoryTitleHandler()
