@@ -18,22 +18,26 @@ $service = [
     $users = $scope->daoFactory->get('Users');
     $currentRole = $users->getRoleByID($request['user_id']);
     $isCurrentlySupervisor = $currentRole === 'Supervisor';
+    $currentZoneId = $users->getZoneIDByID($request['user_id']);
+    $zoneIsDifferent = $currentZoneId != $request['zone_id'];
 
-    if ($isCurrentlySupervisor) {
-      // if the current role is supervisor, retrieve the number of employees 
-      // that she has assigned
-      $numEmployees = 
-        $scope->daoFactory->get('SupervisorsEmployees')
-        ->getNumEmployeesBySupervisorID($request['user_id']);
-
-      // if she does, prevent the role change
-      $hasEmployeesAssigned = $numEmployees > 0;
-      if ($hasEmployeesAssigned) {
-        throw new \Exception('Supervisor has employees assigned.', 1);
+    if ($zoneIsDifferent) {
+      if ($isCurrentlySupervisor) {
+        // if the current role is supervisor, retrieve the number of employees 
+        // that she has assigned
+        $numEmployees = 
+          $scope->daoFactory->get('SupervisorsEmployees')
+          ->getNumEmployeesBySupervisorID($request['user_id']);
+  
+        // if she does, prevent the role change
+        $hasEmployeesAssigned = $numEmployees > 0;
+        if ($hasEmployeesAssigned) {
+          throw new \Exception('Supervisor has employees assigned.', 1);
+        }
       }
+  
+      $users->updateZoneIDByID($request['user_id'], $request['zone_id']);
     }
-
-    $users->updateZoneIDByID($request['user_id'], $request['zone_id']);
   }
 ];
 

@@ -271,19 +271,15 @@ export class UserInfoModalComponent extends MzBaseModal implements OnInit
     ) // this.server.update
   } // retrieveSupervisorsList(): void
 
-  onPrivilegeSelected(logName: string, privilegeID: number): void {
-    this.selectedPrivileges[logName].privilegeID = privilegeID
-  }
-
   onFormSubmit(): void {
     let data = new FormData()
     data.append('employee_num', this.userForm.controls.employeeID.value.toString())
     data.append('first_name', this.userForm.controls.firstName.value)
     data.append('last_name', this.userForm.controls.lastName.value)
-    data.append('role_id', this.userForm.controls.role.value.id.toString())
+    data.append('role_id', this.userForm.controls.role.value)
     data.append('login_name', this.userForm.controls.username.value)
     data.append('login_password', this.userForm.controls.password.value)
-    data.append('zone_id', this.userForm.controls.zone.value.id.toString())
+    data.append('zone_id', this.userForm.controls.zone.value)
     let roleName = 
       this.getRoleNameByIdFromArray(data.get('role_id'), this.userRoles)
 

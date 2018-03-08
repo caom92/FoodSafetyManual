@@ -173,21 +173,26 @@ mz-modal(
                               '{{ "none-" + log.id }}', 
                               '{{ log.name }}'
                             )(
-                              '(click)'='onPrivilegeSelected(log.name, privileges[0].id)'
-                              checked
+                              name='{{ "privilege-" + log.id }}'
+                              '[value]'='privileges[0].id'
+                              '[(ngModel)]'='selectedPrivileges[log.name].privilegeID'
                             )
                             td: +radioButton(
                               '{{ "read-" + log.id }}',
                               '{{ log.name }}'
                             )(
-                              '(click)'='onPrivilegeSelected(log.name, privileges[1].id)'
+                              name='{{ "privilege-" + log.id }}'
+                              '[value]'='privileges[1].id'
+                              '[(ngModel)]'='selectedPrivileges[log.name].privilegeID'
                             )
                             td: +radioButton(
                               '{{ "write-" + log.id }}', 
                               '{{ log.name }}'
                             )(
                               '*ngIf'='selectedRole.name === "Employee"'
-                              '(click)'='onPrivilegeSelected(log.name, privileges[2].id)'
+                              name='{{ "privilege-" + log.id }}'
+                              '[value]'='privileges[2].id'
+                              '[(ngModel)]'='selectedPrivileges[log.name].privilegeID'
                             )
 
       block Username&PasswordEdit
