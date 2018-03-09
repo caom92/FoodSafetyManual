@@ -27,7 +27,8 @@ export class ToastsService implements OnInit {
       itemChargeSuccess: 'Elemento activado exitosamente',
       itemDischargeSuccess: 'Elemento desactivado exitosamente',
       serverTakingTooLong: 'Existe un error en la conexión o el servidor está tardando demasiado en responder',
-      notAvailableInMobile: 'Esta característica aun no está disponible en la versión móvil'
+      notAvailableInMobile: 'Esta característica aun no está disponible en la versión móvil',
+      noReportsFound: 'No se encontraron reportes para el rango de fechas seleccionado'
     },
     en: {
       loggedIn: 'Logged in successfully',
@@ -44,7 +45,8 @@ export class ToastsService implements OnInit {
       itemChargeSuccess: 'Item activated successfully',
       itemDischargeSuccess: 'Item deactivated successfully',
       serverTakingTooLong: 'There is an error in your connection or the server is taking too long to respond',
-      notAvailableInMobile: 'This feature is not yet available in the mobile version'
+      notAvailableInMobile: 'This feature is not yet available in the mobile version',
+      noReportsFound: 'No reports were found for the selected date range'
     }
   }
 

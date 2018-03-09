@@ -43,103 +43,39 @@ export class AuthorizationLoader extends DynamicComponentResolver implements OnI
   @Input() reportID: number
   @Input() log_name: string = "Loading..."
   loaderComponent: Type<any> = null
+  private readonly authorizationComponents = {
+    "gap-others-unusual-occurrence": GAPOthersUnusualOccurrenceAuthorizationComponent,
+    "gap-packing-preop": GAPPackingPreopAuthorizationComponent,
+    "gmp-doc-control-doc-control": GMPDocControlDocControlAuthorizationComponent,
+    "gmp-others-unusual-occurrence": GMPOthersUnusualOccurrenceAuthorizationComponent,
+    "gmp-packing-aged-product": GMPPackingAgedProductAuthorizationComponent,
+    "gmp-packing-atp-testing": GMPPackingATPTestingAuthorizationComponent,
+    "gmp-packing-cold-room-temp": GMPPackingColdRoomTempAuthorizationComponent,
+    "gmp-packing-finished-product": GMPPackingFinishedProductAuthorizationComponent,
+    "gmp-packing-glass-brittle": GMPPackingGlassBrittleAuthorizationComponent,
+    "gmp-packing-hand-washing": GMPPackingHandWashingAuthorizationComponent,
+    "gmp-packing-preop": GMPPackingPreopAuthorizationComponent,
+    "gmp-packing-scale-calibration": GMPPackingScaleCalibrationAuthorizationComponent,
+    "gmp-packing-scissors-knives": GMPPackingScissorsKnivesAuthorizationComponent,
+    "gmp-packing-thermo-calibration": GMPPackingThermoCalibrationAuthorizationComponent,
+    "gmp-self-inspection-pest-control": GMPSelfInspectionPestControlAuthorizationComponent
+  }
 
-  constructor(
-    factoryResolver: ComponentFactoryResolver,
-    private logService: LogService,
-    private router: StateService
-  ) {
+  constructor(factoryResolver: ComponentFactoryResolver, private logService: LogService, private router: StateService) {
     super(factoryResolver)
   }
 
   public ngOnInit(): void {
     this.suffix = this.router.params.suffix
     this.reportID = this.router.params.report_id
-    if (this.suffix == "gmp-packing-hand-washing" ||
-      this.suffix == "gmp-packing-preop" ||
-      this.suffix == "gmp-packing-scale-calibration" ||
-      this.suffix == "gmp-packing-thermo-calibration" ||
-      this.suffix == "gmp-packing-cold-room-temp" ||
-      this.suffix == "gmp-packing-glass-brittle" ||
-      this.suffix == "gmp-packing-scissors-knives" ||
-      this.suffix == "gap-others-unusual-occurrence" ||
-      this.suffix == "gmp-others-unusual-occurrence" ||
-      this.suffix == "gmp-packing-aged-product" ||
-      this.suffix == "gmp-packing-finished-product" ||
-      this.suffix == "gap-packing-preop" ||
-      this.suffix == "gmp-doc-control-doc-control" ||
-      this.suffix == "gmp-packing-atp-testing" ||
-      this.suffix == "gmp-self-inspection-pest-control") {
-      this.logService.authorization(this.suffix, this.reportID).then(success => {
-        this.log_name = success.log_name
-        switch (this.suffix) {
-          case 'gmp-packing-hand-washing': this.loaderComponent = this.loadComponent(GMPPackingHandWashingAuthorizationComponent, {
-            log: success
-          }).instance
-            break
-          case 'gmp-packing-preop': this.loaderComponent = this.loadComponent(GMPPackingPreopAuthorizationComponent, {
-            log: success
-          }).instance
-            break
-          case 'gmp-packing-scale-calibration': this.loaderComponent = this.loadComponent(GMPPackingScaleCalibrationAuthorizationComponent, {
-            log: success
-          }).instance
-            break
-          case 'gmp-packing-thermo-calibration': this.loaderComponent = this.loadComponent(GMPPackingThermoCalibrationAuthorizationComponent, {
-            log: success
-          }).instance
-            break
-          case 'gmp-packing-cold-room-temp': this.loaderComponent = this.loadComponent(GMPPackingColdRoomTempAuthorizationComponent, {
-            log: success
-          }).instance
-            break
-          case 'gmp-packing-glass-brittle': this.loaderComponent = this.loadComponent(GMPPackingGlassBrittleAuthorizationComponent, {
-            log: success
-          }).instance
-            break
-          case 'gmp-packing-scissors-knives': this.loaderComponent = this.loadComponent(GMPPackingScissorsKnivesAuthorizationComponent, {
-            log: success
-          }).instance
-            break
-          case 'gap-others-unusual-occurrence': this.loaderComponent = this.loadComponent(GAPOthersUnusualOccurrenceAuthorizationComponent, {
-            log: success
-          }).instance
-            break
-          case 'gmp-others-unusual-occurrence': this.loaderComponent = this.loadComponent(GMPOthersUnusualOccurrenceAuthorizationComponent, {
-            log: success
-          }).instance
-            break
-          case 'gap-packing-preop': this.loaderComponent = this.loadComponent(GAPPackingPreopAuthorizationComponent, {
-            log: success
-          }).instance
-            break
-          case 'gmp-self-inspection-pest-control': this.loaderComponent = this.loadComponent(GMPSelfInspectionPestControlAuthorizationComponent, {
-            log: success
-          }).instance
-            break
-          case 'gmp-doc-control-doc-control': this.loaderComponent = this.loadComponent(GMPDocControlDocControlAuthorizationComponent, {
-            log: success
-          }).instance
-            break
-          case 'gmp-packing-aged-product': this.loaderComponent = this.loadComponent(GMPPackingAgedProductAuthorizationComponent, {
-            log: success
-          }).instance
-            break
-          case 'gmp-packing-finished-product': this.loaderComponent = this.loadComponent(GMPPackingFinishedProductAuthorizationComponent, {
-            log: success
-          }).instance
-            break
-          case 'gmp-packing-atp-testing': this.loaderComponent = this.loadComponent(GMPPackingATPTestingAuthorizationComponent, {
-            log: success
-          }).instance
-            break
-        }
-      }, error => {
 
-      })
-    } else {
-      console.log("Authorization not available in mobile")
-      //this.toastService.showText("notAvailableInMobile")
-    }
+    this.logService.authorization(this.suffix, this.reportID).then(success => {
+      this.log_name = success.log_name
+      if (this.authorizationComponents[this.suffix] != undefined && this.authorizationComponents[this.suffix] != null) {
+        this.loaderComponent = this.loadComponent(this.authorizationComponents[this.suffix], {
+          log: success
+        }).instance
+      }
+    })
   }
 }

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
+import { StateService } from '@uirouter/core'
 import { Language } from 'angular-l10n'
 
 import { BackendService } from '../../../../services/app.backend'
@@ -28,8 +29,9 @@ export class GMPDocControlDocControlAuthorizationComponent extends SuperAuthoriz
     private langManager: LanguageService,
     logService: LogService,
     toasts: ToastsService,
+    router: StateService,
     public server: BackendService) {
-    super(_fb, logService, toasts)
+    super(_fb, logService, toasts, router)
   }
 
   public ngOnInit(): void {

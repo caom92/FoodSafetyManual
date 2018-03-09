@@ -1,15 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { DatePipe } from '@angular/common'
-import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
-
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { StateService } from '@uirouter/core'
 import { Language } from 'angular-l10n'
 
+import { LogService } from '../../../../services/app.logs'
+import { ToastsService } from '../../../../services/app.toasts'
+import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization } from '../interfaces/gmp.packing.hand.washing.authorization.interface'
 import { UpdateItem } from '../interfaces/gmp.packing.hand.washing.update.interface'
-
-import { ToastsService } from '../../../../services/app.toasts'
-import { LogService } from '../../../../services/app.logs'
-import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 
 @Component({
   selector: 'gmp-packing-hand-washing-authorization',
@@ -21,8 +19,8 @@ export class GMPPackingHandWashingAuthorizationComponent extends SuperAuthorizat
   @Language() lang: string
   captureForm: FormGroup = new FormBuilder().group({})
 
-  constructor(_fb: FormBuilder, toastService: ToastsService, logService: LogService) {
-    super(_fb, logService, toastService)
+  constructor(_fb: FormBuilder, toastService: ToastsService, logService: LogService, router: StateService) {
+    super(_fb, logService, toastService, router)
   }
 
   ngOnInit() {
@@ -37,7 +35,7 @@ export class GMPPackingHandWashingAuthorizationComponent extends SuperAuthorizat
       notes: [this.log.notes, [Validators.required, Validators.minLength(1)]],
       items: this._fb.array([])
     })
-    const control = <FormArray>this.captureForm.controls['items'];
+    const control = <FormArray>this.captureForm.controls['items']
     for (let item of this.log.items) {
       control.push(this.initItem({ id: Number(item.id), is_acceptable: item.is_acceptable == "1" }))
     }

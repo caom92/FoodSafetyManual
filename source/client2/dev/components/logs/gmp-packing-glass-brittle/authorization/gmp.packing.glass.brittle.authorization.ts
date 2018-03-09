@@ -1,16 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { DatePipe } from '@angular/common'
-import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
-
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { StateService } from '@uirouter/core'
 import { Language } from 'angular-l10n'
 
+import { LanguageService } from '../../../../services/app.language'
+import { LogService } from '../../../../services/app.logs'
+import { ToastsService } from '../../../../services/app.toasts'
+import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization } from '../interfaces/gmp.packing.glass.brittle.authorization.interface'
 import { UpdateArea, UpdateItem } from '../interfaces/gmp.packing.glass.brittle.update.interface'
-
-import { ToastsService } from '../../../../services/app.toasts'
-import { LogService } from '../../../../services/app.logs'
-import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
-import { LanguageService } from '../../../../services/app.language'
 
 @Component({
   selector: 'gmp-packing-glass-brittle-authorization',
@@ -22,8 +20,8 @@ export class GMPPackingGlassBrittleAuthorizationComponent extends SuperAuthoriza
   @Language() lang: string
   captureForm: FormGroup = new FormBuilder().group({})
 
-  constructor(_fb: FormBuilder, toastService: ToastsService, logService: LogService, private langManager: LanguageService) {
-    super(_fb, logService, toastService)
+  constructor(_fb: FormBuilder, toastService: ToastsService, logService: LogService, router: StateService, private langManager: LanguageService) {
+    super(_fb, logService, toastService, router)
   }
 
   ngOnInit() {
@@ -39,7 +37,7 @@ export class GMPPackingGlassBrittleAuthorizationComponent extends SuperAuthoriza
       notes: [this.log.notes, [Validators.required, Validators.minLength(1)]],
       areas: this._fb.array([])
     })
-    const control = <FormArray>this.captureForm.controls['areas'];
+    const control = <FormArray>this.captureForm.controls['areas']
     for (let area of this.log.areas) {
       let itemControl = []
       for (let item of area.items) {

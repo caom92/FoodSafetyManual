@@ -1,15 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { DatePipe } from '@angular/common'
-import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
-
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { StateService } from '@uirouter/core'
 import { Language } from 'angular-l10n'
 
+import { LogService } from '../../../../services/app.logs'
+import { ToastsService } from '../../../../services/app.toasts'
+import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization } from '../interfaces/gmp.packing.preop.authorization.interface'
 import { UpdateArea, UpdateItem } from '../interfaces/gmp.packing.preop.update.interface'
-
-import { ToastsService } from '../../../../services/app.toasts'
-import { LogService } from '../../../../services/app.logs'
-import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 
 @Component({
   selector: 'gmp-packing-preop-authorization',
@@ -21,8 +19,8 @@ export class GMPPackingPreopAuthorizationComponent extends SuperAuthorizationCom
   @Language() lang: string
   captureForm: FormGroup = new FormBuilder().group({})
 
-  constructor(_fb: FormBuilder, toastService: ToastsService, logService: LogService) {
-    super(_fb, logService, toastService)
+  constructor(_fb: FormBuilder, toastService: ToastsService, logService: LogService, router: StateService) {
+    super(_fb, logService, toastService, router)
   }
 
   ngOnInit() {
@@ -38,7 +36,7 @@ export class GMPPackingPreopAuthorizationComponent extends SuperAuthorizationCom
       album_url: [this.log.album_url, [Validators.required, Validators.minLength(1)]],
       areas: this._fb.array([])
     })
-    const control = <FormArray>this.captureForm.controls['areas'];
+    const control = <FormArray>this.captureForm.controls['areas']
     for (let area of this.log.areas.logs) {
       let itemControl = []
       for (let type of area.types) {

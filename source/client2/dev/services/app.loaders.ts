@@ -1,8 +1,6 @@
-import { Component, Injectable, OnInit } from '@angular/core'
-
+import { Component, Injectable, OnInit, ComponentRef, Input } from '@angular/core'
+import { Language } from 'angular-l10n'
 import { MzBaseModal, MzModalService, MzModalComponent } from 'ng2-materialize'
-
-import { Language, TranslationService as TService } from 'angular-l10n'
 
 @Injectable()
 export class LoaderService implements OnInit {
@@ -16,8 +14,8 @@ export class LoaderService implements OnInit {
 
   }
 
-  koiLoader(message) {
-    let loading = this.modalService.open(KoiLoader)
+  koiLoader(message: string = "Connecting to Server") {
+    let loading = this.modalService.open(KoiLoader, { message: message })
 
     return loading.instance.modalComponent
   }
@@ -28,15 +26,17 @@ export class LoaderService implements OnInit {
 })
 
 export class KoiLoader extends MzBaseModal {
-  modalOptions = {
+  @Language() lang: string
+  @Input() message: string
+  readonly modalOptions: Materialize.ModalOptions = {
     dismissible: false
   }
 
   constructor() {
     super() // invocamos el constructor de la clase padre
   }
-
-  public dismiss() {
+  
+  public dismiss(): void {
     this.modalComponent.close()
   }
 }

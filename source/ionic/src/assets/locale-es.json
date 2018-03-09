@@ -27,7 +27,7 @@
     "passwordMinLenght": "Este campo debe tener al menos 6 caracteres",
     "View Manual": "Ver Manual",
     "View Report": "Ver Reporte",
-    "Capture Log": "Capturar Bitácora",
+    "Capture Log": "Capturar Bitacora",
     "Report Request": "Solicitud de reporte",
     "Open Report": "Abrir reportes",
     "Start Date": "Seleccione una fecha de partida",
@@ -42,11 +42,11 @@
     "Manage Inventory": "Gestión de Inventario",
     "Manage Areas": "Gestión de Áreas",
     "InventoryLists": {
-        "id":"ID",
-        "order":"Orden",
-        "name":"Nombre",
-        "type":"Tipo",
-        "quantity":"Cantidad"
+        "id": "ID",
+        "order": "Orden",
+        "name": "Nombre",
+        "type": "Tipo",
+        "quantity": "Cantidad"
     },
     "NavbarTitles": {
         "Authorizations": "Autorizaciones",
@@ -74,7 +74,7 @@
         "resend_log": "¿Está seguro que desea reintentar el envío de esta bitácora?",
         "add_item": "¿Está seguro de que desea añadir este elemento?",
         "add_area": "¿Está seguro de que desea añadir esta área?",
-        "edit_area": "¿Está seguro que desea cambiar el nombre de esta área?"
+        "edit_area": "¿Está seguro de que desea cambiar el nombre de esta área?"
     },
     "Adverbs": {
         "before": "Antes",
@@ -91,7 +91,7 @@
         "comments_of": "Comentarios de",
         "sanitization_person": "Persona a cargo de la sanitización",
         "sanitization_person_of": "Persona a cargo de la sanitización de",
-        "album_url": "Enlace externo",
+        "album_url": "URL Externa",
         "secured": "Asegurado",
         "conditions": "Condiciones",
         "activity": "Actividad",
@@ -145,17 +145,30 @@
             "comment_length": "El comentario no puede exceder 65535 caracteres",
             "person_length": "El nombre de la persona a cargo de la sanitización no puede exceder 255 caracteres",
             "album_length": "El enlace del album no puede exceder 2000 caracteres"
+        },
+        "gap-others-unusual-occurrence": {
+            "area_max": "El área de producción no puede exceder 255 caracteres",
+            "product_max": "El producto no puede exceder 255 caracteres",
+            "batch_max": "El lote no puede exceder 255 caracteres",
+            "description_max": "La descripción no puede exceder 65535 caracteres",
+            "action_max": "La acción correctiva no puede exceder 65535 caracteres",
+            "url_max": "La dirección externa no puede exceder 255 caracteres"
+        },
+        "generic": {
+            "date_required": "Introduzca una fecha válida",
+            "time_required": "Introduzca una hora válida",
+            "generic_required": "Este campo es requerido"
         }
     },
     "ReportHeader": {
-        "zone":"Zona",
-        "program":"Programa",
-        "module":"Módulo",
-        "log":"Bitácora",
-        "made_on":"Elaborado el",
-        "made_by":"Elaborado por",
-        "approved_on":"Aprobado el",
-        "approved_by":"Aprobado por"
+        "zone": "Zona",
+        "program": "Programa",
+        "module": "Módulo",
+        "log": "Bitácora",
+        "made_on": "Elaborado el",
+        "made_by": "Elaborado por",
+        "approved_on": "Aprobado el",
+        "approved_by": "Aprobado por"
     },
     "InventoryErrors": {
         "gmp-packing-scale-calibration": {

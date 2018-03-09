@@ -1,27 +1,27 @@
-import { Component, Input, OnDestroy, OnInit, Type, ComponentFactoryResolver } from '@angular/core'
+import { Component, ComponentFactoryResolver, Input, OnDestroy, OnInit, ComponentRef } from '@angular/core'
 import { Language, TranslationService as TS } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
+import { Subscription } from 'rxjs/Subscription'
 
-import { DynamicComponentResolver } from './../../dynamic.resolver'
-import { SuperReportInterface } from '../super-report/super.report.interface'
+import { GAPOthersUnusualOccurrenceReportComponent } from '../gap-others-unusual-occurrence/report/gap.others.unusual.occurrence.report'
+import { GAPPackingPreopReportComponent } from '../gap-packing-preop/report/gap.packing.preop.report'
+import { GMPDocControlDocControlReportComponent } from '../gmp-doc-control-doc-control/report/gmp.doc.control.doc.control.report'
+import { GMPOthersUnusualOccurrenceReportComponent } from '../gmp-others-unusual-occurrence/report/gmp.others.unusual.occurrence.report'
+import { GMPPackingAgedProductReportComponent } from '../gmp-packing-aged-product/report/gmp.packing.aged.product.report'
+import { GMPPackingATPTestingReportComponent } from '../gmp-packing-atp-testing/report/gmp.packing.atp.testing.report'
+import { GMPPackingColdRoomTempReportComponent } from '../gmp-packing-cold-room-temp/report/gmp.packing.cold.room.temp.report'
+import { GMPPackingFinishedProductReportComponent } from '../gmp-packing-finished-product/report/gmp.packing.finished.product.report'
+import { GMPPackingGlassBrittleReportComponent } from '../gmp-packing-glass-brittle/report/gmp.packing.glass.brittle.report'
 import { GMPPackingHandWashingReportComponent } from '../gmp-packing-hand-washing/report/gmp.packing.hand.washing.report'
 import { GMPPackingPreopReportComponent } from '../gmp-packing-preop/report/gmp.packing.preop.report'
 import { GMPPackingScaleCalibrationReportComponent } from '../gmp-packing-scale-calibration/report/gmp.packing.scale.calibration.report'
-import { GMPPackingThermoCalibrationReportComponent } from '../gmp-packing-thermo-calibration/report/gmp.packing.thermo.calibration.report'
-import { GMPPackingColdRoomTempReportComponent } from '../gmp-packing-cold-room-temp/report/gmp.packing.cold.room.temp.report'
-import { GMPPackingGlassBrittleReportComponent } from '../gmp-packing-glass-brittle/report/gmp.packing.glass.brittle.report'
 import { GMPPackingScissorsKnivesReportComponent } from '../gmp-packing-scissors-knives/report/gmp.packing.scissors.knives.report'
+import { GMPPackingThermoCalibrationReportComponent } from '../gmp-packing-thermo-calibration/report/gmp.packing.thermo.calibration.report'
+import { GMPSelfInspectionPestControlReportComponent } from '../gmp-self-inspection-pest-control/report/gmp.self.inspection.pest.control.report'
 import { ReportRequest } from '../reports.interface'
 import { SuperReportComponent } from '../super-report/super.report'
-import { GAPPackingPreopReportComponent } from '../gap-packing-preop/report/gap.packing.preop.report'
-import { GMPSelfInspectionPestControlReportComponent } from '../gmp-self-inspection-pest-control/report/gmp.self.inspection.pest.control.report';
-import { GMPOthersUnusualOccurrenceReportComponent } from '../gmp-others-unusual-occurrence/report/gmp.others.unusual.occurrence.report';
-import { GAPOthersUnusualOccurrenceReportComponent } from '../gap-others-unusual-occurrence/report/gap.others.unusual.occurrence.report';
-import { GMPPackingAgedProductReportComponent } from '../gmp-packing-aged-product/report/gmp.packing.aged.product.report';
-import { GMPPackingFinishedProductReportComponent } from '../gmp-packing-finished-product/report/gmp.packing.finished.product.report';
-import { Subscription } from 'rxjs/Subscription'
-import { GMPPackingATPTestingReportComponent } from '../gmp-packing-atp-testing/report/gmp.packing.atp.testing.report';
-import { GMPDocControlDocControlReportComponent } from '../gmp-doc-control-doc-control/report/gmp.doc.control.doc.control.report';
+import { SuperReportInterface } from '../super-report/super.report.interface'
+import { DynamicComponentResolver } from './../../dynamic.resolver'
 
 @Component({
   selector: 'report-loader',
@@ -48,6 +48,23 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
     supervisor: null,
     signature: null
   }
+  private readonly reportComponents = {
+    "gap-others-unusual-occurrence": GAPOthersUnusualOccurrenceReportComponent,
+    "gap-packing-preop": GAPPackingPreopReportComponent,
+    "gmp-doc-control-doc-control": GMPDocControlDocControlReportComponent,
+    "gmp-others-unusual-occurrence": GMPOthersUnusualOccurrenceReportComponent,
+    "gmp-packing-aged-product": GMPPackingAgedProductReportComponent,
+    "gmp-packing-atp-testing": GMPPackingATPTestingReportComponent,
+    "gmp-packing-cold-room-temp": GMPPackingColdRoomTempReportComponent,
+    "gmp-packing-finished-product": GMPPackingFinishedProductReportComponent,
+    "gmp-packing-glass-brittle": GMPPackingGlassBrittleReportComponent,
+    "gmp-packing-hand-washing": GMPPackingHandWashingReportComponent,
+    "gmp-packing-preop": GMPPackingPreopReportComponent,
+    "gmp-packing-scale-calibration": GMPPackingScaleCalibrationReportComponent,
+    "gmp-packing-scissors-knives": GMPPackingScissorsKnivesReportComponent,
+    "gmp-packing-thermo-calibration": GMPPackingThermoCalibrationReportComponent,
+    "gmp-self-inspection-pest-control": GMPSelfInspectionPestControlReportComponent
+  }
   reportEvent: Subscription
   preview: string = null
 
@@ -56,96 +73,17 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
   }
 
   public ngOnInit(): void {
-    //this.events.subscribe("reportEvent", (activeReport, time) => {
-    //  this.activeReport = activeReport
-    //})
-
     this.reportEvent = this.events.$sub("reportEvent", (activeReport) => {
-      this.activeReport = activeReport
+      this.activeReport = activeReport.activeReport
     })
 
-    console.error("report-loader")
-    console.log(this.suffix)
-
-    switch (this.suffix) {
-      case 'gmp-packing-hand-washing': this.loaderComponent = this.loadComponent(GMPPackingHandWashingReportComponent, {
+    if (this.reportComponents[this.suffix] != undefined && this.reportComponents[this.suffix] != null) {
+      this.loaderComponent = this.loadComponent(this.reportComponents[this.suffix], {
         report: this.report,
         parent: this
       }).instance
-        break
-      case 'gmp-packing-preop': this.loaderComponent = this.loadComponent(GMPPackingPreopReportComponent, {
-        report: this.report,
-        parent: this
-      }).instance
-        break
-      case 'gmp-packing-scale-calibration': this.loaderComponent = this.loadComponent(GMPPackingScaleCalibrationReportComponent, {
-        report: this.report,
-        parent: this
-      }).instance
-        break
-      case 'gmp-packing-thermo-calibration': this.loaderComponent = this.loadComponent(GMPPackingThermoCalibrationReportComponent, {
-        report: this.report,
-        parent: this
-      }).instance
-        break
-      case 'gmp-packing-cold-room-temp': this.loaderComponent = this.loadComponent(GMPPackingColdRoomTempReportComponent, {
-        report: this.report,
-        parent: this
-      }).instance
-        break
-      case 'gmp-packing-glass-brittle': this.loaderComponent = this.loadComponent(GMPPackingGlassBrittleReportComponent, {
-        report: this.report,
-        parent: this
-      }).instance
-        break
-      case 'gmp-packing-scissors-knives': this.loaderComponent = this.loadComponent(GMPPackingScissorsKnivesReportComponent, {
-        report: this.report,
-        parent: this
-      }).instance
-        break
-      case 'gap-packing-preop': this.loaderComponent = this.loadComponent(GAPPackingPreopReportComponent, {
-        report: this.report,
-        parent: this
-      }).instance
-        break
-      case 'gmp-self-inspection-pest-control': this.loaderComponent = this.loadComponent(GMPSelfInspectionPestControlReportComponent, {
-        report: this.report,
-        parent: this
-      }).instance
-        break
-      case 'gmp-others-unusual-occurrence': this.loaderComponent = this.loadComponent(GMPOthersUnusualOccurrenceReportComponent, {
-        report: this.report,
-        parent: this
-      }).instance
-        break
-      case 'gap-others-unusual-occurrence': this.loaderComponent = this.loadComponent(GAPOthersUnusualOccurrenceReportComponent, {
-        report: this.report,
-        parent: this
-      }).instance
-        break
-      case 'gmp-packing-aged-product': this.loaderComponent = this.loadComponent(GMPPackingAgedProductReportComponent, {
-        report: this.report,
-        parent: this
-      }).instance
-        break
-      case 'gmp-packing-finished-product': this.loaderComponent = this.loadComponent(GMPPackingFinishedProductReportComponent, {
-        report: this.report,
-        parent: this
-      }).instance
-        break
-      case 'gmp-packing-atp-testing': this.loaderComponent = this.loadComponent(GMPPackingATPTestingReportComponent, {
-        report: this.report,
-        parent: this
-      }).instance
-        break
-      case 'gmp-doc-control-doc-control': this.loaderComponent = this.loadComponent(GMPDocControlDocControlReportComponent, {
-        report: this.report,
-        parent: this
-      }).instance
-        break
+      this.preview = this.loaderComponent.getPreview()
     }
-
-    this.preview = this.loaderComponent.getPreview()
   }
 
   public printPDFReport(): void {
@@ -193,19 +131,22 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
   public openHTMLReport(): void {
     this.showReport = true
     //this.events.publish("reportEvent", this.report.report_id, Date.now())
-    this.events.$pub("reportEvent", this.report.report_id)
+    //this.events.$pub("reportEvent", this.report.report_id)
+    this.events.$pub("reportEvent", { activeReport: this.report.report_id, time: Date.now() });
   }
 
   public closeHTMLReport(): void {
     this.showReport = false
     //this.events.publish("reportEvent", "any", Date.now())
-    this.events.$pub("reportEvent", "any")
+    //this.events.$pub("reportEvent", "any")
+    this.events.$pub("reportEvent", { activeReport: "any", time: Date.now() });
   }
 
   public ngOnDestroy(): void {
     /*this.events.unsubscribe("reportEvent", () => {
       console.log("Report Event unsubscribed")
     })*/
+    console.log("ngOnDestroy report.loader.ts: " + this.activeReport)
     this.reportEvent.unsubscribe()
   }
 }

@@ -1,15 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { DatePipe } from '@angular/common'
-import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
-
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { StateService } from '@uirouter/core'
 import { Language } from 'angular-l10n'
 
-import { Authorization } from '../interfaces/gmp.packing.scale.calibration.authorization.interface'
-import { UpdateType, UpdateItem } from '../interfaces/gmp.packing.scale.calibration.update.interface'
-
-import { ToastsService } from '../../../../services/app.toasts'
 import { LogService } from '../../../../services/app.logs'
+import { ToastsService } from '../../../../services/app.toasts'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
+import { Authorization } from '../interfaces/gmp.packing.scale.calibration.authorization.interface'
+import { UpdateItem, UpdateType } from '../interfaces/gmp.packing.scale.calibration.update.interface'
 
 @Component({
   selector: 'gmp-packing-scale-calibration-authorization',
@@ -21,8 +19,8 @@ export class GMPPackingScaleCalibrationAuthorizationComponent extends SuperAutho
   @Language() lang: string
   captureForm: FormGroup = new FormBuilder().group({})
 
-  constructor(_fb: FormBuilder, toastService: ToastsService, logService: LogService) {
-    super(_fb, logService, toastService)
+  constructor(_fb: FormBuilder, toastService: ToastsService, logService: LogService, router: StateService) {
+    super(_fb, logService, toastService, router)
   }
 
   ngOnInit() {
@@ -38,7 +36,7 @@ export class GMPPackingScaleCalibrationAuthorizationComponent extends SuperAutho
       corrective_action: [this.log.corrective_action, [Validators.required, Validators.minLength(1)]],
       types: this._fb.array([])
     })
-    const control = <FormArray>this.captureForm.controls['types'];
+    const control = <FormArray>this.captureForm.controls['types']
     for (let type of this.log.types.scales) {
       let itemControl = []
       for (let item of type.items) {

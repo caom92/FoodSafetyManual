@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { StateService } from '@uirouter/core'
 import { Language } from 'angular-l10n'
 
 import { LogService } from '../../../../services/app.logs'
@@ -18,8 +19,8 @@ export class GMPPackingScissorsKnivesAuthorizationComponent extends SuperAuthori
   @Language() lang: string
   captureForm: FormGroup = new FormBuilder().group({})
 
-  constructor(_fb: FormBuilder, toastService: ToastsService, logService: LogService) {
-    super(_fb, logService, toastService)
+  constructor(_fb: FormBuilder, toastService: ToastsService, logService: LogService, router: StateService) {
+    super(_fb, logService, toastService, router)
   }
 
   ngOnInit() {

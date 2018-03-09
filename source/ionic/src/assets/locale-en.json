@@ -145,17 +145,30 @@
             "comment_length": "The comment can't exceed 65535 characters",
             "person_length": "The name of the person performing sanitation can't exceed 255 characters",
             "album_length": "The album URL can't exceed 2000 characters"
+        },
+        "gap-others-unusual-occurrence": {
+            "area_max": "Production area name can't exceed 255 characters",
+            "product_max": "Product name can't exceed 255 characters",
+            "batch_max": "Batch name can't exceed 255 characters",
+            "description_max": "Description can't exceed 65535 characters",
+            "action_max": "Corrective action can't exceed 65535 characters",
+            "url_max": "External URL can't exceed 255 characters"
+        },
+        "generic": {
+            "date_required": "Please enter a valid date",
+            "time_required": "Please enter a valid time",
+            "generic_required": "This field is required"
         }
     },
     "ReportHeader": {
-        "zone":"Zone",
-        "program":"Program",
-        "module":"Module",
-        "log":"Log",
-        "made_on":"Made on",
-        "made_by":"Made by",
-        "approved_on":"Approved on",
-        "approved_by":"Approved by"
+        "zone": "Zone",
+        "program": "Program",
+        "module": "Module",
+        "log": "Log",
+        "made_on": "Made on",
+        "made_by": "Made by",
+        "approved_on": "Approved on",
+        "approved_by": "Approved by"
     },
     "InventoryErrors": {
         "gmp-packing-scale-calibration": {

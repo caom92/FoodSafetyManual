@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core'
-
+import { FormArray, FormControl, FormGroup } from '@angular/forms'
 import { PubSubService } from 'angular2-pubsub'
-
-import { FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms'
-
 import { Observable } from 'rxjs/Rx'
 
-//import { PendingLog } from '../pages/pending-logs/pending-card/pending.card.interface'
-
-import { ToastsService } from './app.toasts'
-import { LoaderService } from './app.loaders'
-import { BackendService } from './app.backend'
 import { LogDetails } from '../components/logs/log.interfaces'
+import { AlertController } from './alert/app.alert'
+import { BackendService } from './app.backend'
+import { LoaderService } from './app.loaders'
+import { DateTimeService } from './app.time'
+import { ToastsService } from './app.toasts'
+import { TranslationService as TService } from 'angular-l10n'
 
 /**
  * LogService, también referido como el servicio de bitácoras, es el servicio
@@ -28,13 +26,16 @@ export class LogService {
   constructor(private loaderService: LoaderService,
     private toastService: ToastsService,
     private server: BackendService,
-    private events: PubSubService) {
+    private events: PubSubService,
+    private timeService: DateTimeService,
+    private alertCtrl: AlertController,
+    private ts: TService) {
 
   }
 
   public log(suffix: string): Promise<any> {
     let logPromise = new Promise<any>((resolve, reject) => {
-      let logLoader = this.loaderService.koiLoader("")
+      let logLoader = this.loaderService.koiLoader()
 
       this.server.update(
         'log-' + suffix,
@@ -68,7 +69,7 @@ export class LogService {
 
   public send(data: any, service: string, details: LogDetails, isFirstTry: boolean = true): Promise<string> {
     let sentPromise = new Promise<string>((resolve, reject) => {
-      let loader = this.loaderService.koiLoader("")
+      let loader = this.loaderService.koiLoader()
       let form_data = new FormData()
       let filled_log = data
 
@@ -142,7 +143,7 @@ export class LogService {
 
   public authorization(suffix: string, report_id: number): Promise<any> {
     let authorizationPromise = new Promise<any>((resolve, reject) => {
-      let authorizationLoader = this.loaderService.koiLoader("")
+      let authorizationLoader = this.loaderService.koiLoader()
       let authorizationForm = new FormData()
 
       authorizationForm.append("report_id", String(report_id))
@@ -158,19 +159,16 @@ export class LogService {
             } else {
               reject("bad request")
               authorizationLoader.close()
-              //this.app.getRootNav().pop()
               this.toastService.showText("serverUnreachable")
             }
           } else {
             reject("bad request")
             authorizationLoader.close()
-            //this.app.getRootNav().pop()
             this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
           }
         }, (error: any, caught: Observable<void>) => {
           reject("network error")
           authorizationLoader.close()
-          //this.app.getRootNav().pop()
           this.toastService.showText("serverUnreachable")
           return []
         }
@@ -180,9 +178,111 @@ export class LogService {
     return authorizationPromise
   }
 
-  update(data: any, service: string) {
+  public approve(logID: number): Promise<any> {
+    let approvePromise = new Promise<any>((resolve, reject) => {
+      let alert = this.alertCtrl.create({
+        title: "Aprobar bitácora",//this.ts.translate("Titles.add_item"),
+        message: "¿Está seguro que desea aprobar esta bitácora? Esta acción no se puede deshacer",//this.ts.translate("Messages.add_item"),
+        buttons: [
+          {
+            text: this.ts.translate("Options.cancel"),
+            handler: () => {
+              // TODO: Toast de acción cancelada por el usuario
+              reject("user_cancel")
+              console.log('Cancelar')
+            }
+          },
+          {
+            text: this.ts.translate("Options.accept"),
+            handler: () => {
+              let approveLoader = this.loaderService.koiLoader("Aprobando bitácora...")
+              let approveForm = new FormData()
+
+              approveForm.append("captured_log_id", logID.toString())
+              approveForm.append("date", this.timeService.getISODate(new Date()))
+
+              this.server.update(
+                'approve-log',
+                approveForm,
+                (response: any) => {
+                  if (response.meta.return_code == 0) {
+                    resolve(response.data)
+                    approveLoader.close()
+                  } else {
+                    reject("bad request")
+                    approveLoader.close()
+                    this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+                  }
+                }, (error: any, caught: Observable<void>) => {
+                  reject("network error")
+                  approveLoader.close()
+                  this.toastService.showText("serverUnreachable")
+                  return []
+                }
+              )
+            }
+          }
+        ]
+      })
+    })
+    
+    return approvePromise
+  }
+
+  public reject(logID: number): Promise<any> {
+    let rejectPromise = new Promise<any>((resolve, reject) => {
+      let alert = this.alertCtrl.create({
+        title: "Rechazar bitácora",//this.ts.translate("Titles.add_item"),
+        message: "¿Está seguro que desea rechazar esta bitácora? Esta acción no se puede deshacer",//this.ts.translate("Messages.add_item"),
+        buttons: [
+          {
+            text: this.ts.translate("Options.cancel"),
+            handler: () => {
+              // TODO: Toast de acción cancelada por el usuario
+              reject("user_cancel")
+              console.log('Cancelar')
+            }
+          },
+          {
+            text: this.ts.translate("Options.accept"),
+            handler: () => {
+              let rejectLoader = this.loaderService.koiLoader("Rechazando bitácora...")
+              let rejectForm = new FormData()
+
+              rejectForm.append("captured_log_id", logID.toString())
+
+              this.server.update(
+                'reject-log',
+                rejectForm,
+                (response: any) => {
+                  if (response.meta.return_code == 0) {
+                    // TODO: Toast de rechazo exitoso, regresar a la página de autorizaciones
+                    resolve(response.data)
+                    rejectLoader.close()
+                  } else {
+                    reject("bad request")
+                    rejectLoader.close()
+                    this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+                  }
+                }, (error: any, caught: Observable<void>) => {
+                  reject("network error")
+                  rejectLoader.close()
+                  this.toastService.showText("serverUnreachable")
+                  return []
+                }
+              )
+            }
+          }
+        ]
+      })
+    })
+
+    return rejectPromise
+  }
+
+  public update(data: any, service: string): Promise<string> {
     let updatePromise = new Promise<string>((resolve, reject) => {
-      let loader = this.loaderService.koiLoader("")
+      let loader = this.loaderService.koiLoader()
       let form_data = new FormData()
       let filled_log = data
 

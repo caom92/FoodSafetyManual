@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
+import { StateService } from '@uirouter/core'
 import { Language } from 'angular-l10n'
 
 import { LanguageService } from '../../../../services/app.language'
@@ -33,8 +34,9 @@ export class GMPOthersUnusualOccurrenceAuthorizationComponent extends SuperAutho
     private translationService: TranslationService,
     private langManager: LanguageService,
     logService: LogService,
-    toasts: ToastsService) {
-    super(_fb, logService, toasts)
+    toasts: ToastsService,
+    router: StateService) {
+    super(_fb, logService, toasts, router)
   }
 
   ngOnInit() {

@@ -1,13 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { FormArray, FormBuilder, Validators, FormGroup } from '@angular/forms'
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { StateService } from '@uirouter/core'
 import { Language } from 'angular-l10n'
 
+import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationService } from '../../../../services/app.translation'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
-import { LanguageService } from '../../../../services/app.language'
 import { Authorization, AuthorizationEntry, AuthorizationTest } from '../interfaces/gmp.packing.atp.testing.authorization.interface'
 
 @Component({
@@ -24,8 +25,9 @@ export class GMPPackingATPTestingAuthorizationComponent extends SuperAuthorizati
     private translationService: TranslationService,
     private langManager: LanguageService,
     logService: LogService,
-    toasts: ToastsService) {
-    super(_fb, logService, toasts)
+    toasts: ToastsService,
+    router: StateService) {
+    super(_fb, logService, toasts, router)
   }
 
   public ngOnInit(): void {

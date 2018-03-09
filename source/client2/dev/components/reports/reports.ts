@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, ViewChildren } from '@angular/core'
+import { Component, ComponentFactoryResolver, ViewChildren, OnDestroy, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms'
 import { DomSanitizer } from '@angular/platform-browser'
 //import { Storage } from '@ionic/storage'
@@ -12,13 +12,16 @@ import { TranslationService } from '../../services/app.translation'
 import { ReportRequest } from './reports.interface'
 import { PubSubService } from 'angular2-pubsub';
 import { StateService } from '@uirouter/core';
+import { Subscription } from 'rxjs/Subscription'
+import { LoaderService } from '../../services/app.loaders';
+import { ToastsService } from '../../services/app.toasts';
 
 @Component({
   selector: 'report',
   templateUrl: 'reports.html'
 })
 
-export class ReportTab extends DynamicComponentResolver {
+export class ReportTab extends DynamicComponentResolver implements OnInit, OnDestroy {
   @Language() lang: string
   @ViewChildren("reports") pdfReports: any = {
     _results: []
@@ -73,13 +76,14 @@ export class ReportTab extends DynamicComponentResolver {
   reportFooter: string = ""
   reports: Array<any> = []
   activeReport: string = "any"
+  reportEvent: Subscription
 
   dateRangeForm: FormGroup = this.formBuilder.group({
     startDate: [this.startDate],
     endDate: [this.endDate]
   })
 
-  constructor(private translationService: TranslationService, public events: PubSubService, private sanitizer: DomSanitizer, private server: BackendService, private formBuilder: FormBuilder, factoryResolver: ComponentFactoryResolver, public ts: TService, private router: StateService) {
+  constructor(private translationService: TranslationService, public events: PubSubService, private sanitizer: DomSanitizer, private server: BackendService, private formBuilder: FormBuilder, factoryResolver: ComponentFactoryResolver, public ts: TService, private router: StateService, private loaderService: LoaderService, private toastService: ToastsService) {
     super(factoryResolver)
     //events.subscribe("reportEvent", (activeReport, time) => {
       //this.activeReport = activeReport
@@ -90,16 +94,19 @@ export class ReportTab extends DynamicComponentResolver {
   }
 
   ngOnInit() {
-    console.log(this.pdfReports)
+    this.reportEvent = this.events.$sub("reportEvent").subscribe((from) => {
+      this.activeReport = from.activeReport
+    })
   }
 
-  printChildren() {
-    console.log(this.pdfReports)
+  ngOnDestroy() {
+    console.log("ngOnDestroy reports.ts: " + this.activeReport)
+    this.reportEvent.unsubscribe()
   }
 
   showChildren() {
     this.pdfReport.lang = this.lang
-    this.pdfReport.company = localStorage["company_company"]
+    this.pdfReport.company = localStorage["company_name"]
     this.pdfReport.address = localStorage["company_address"]
     this.pdfReport.logo = localStorage["company_logo"]
     this.pdfReport.orientation = this.pdfReports._results[0].getOrientation()
@@ -115,56 +122,42 @@ export class ReportTab extends DynamicComponentResolver {
     }
     this.pdfReport.content = JSON.stringify(tempContent)
     this.pdfReport.style = this.pdfReports._results[0].getCSS()
-    console.log(this.pdfReport)
   }
 
   getReportData() {
-    //let tempLoader = this.presentLoadingCustom()
-
-    let dateRange = new FormData()
+    const dateRange = new FormData()
     dateRange.append('start_date', this.dateRangeForm.value.startDate)
     dateRange.append('end_date', this.dateRangeForm.value.endDate)
+    const reportLoader = this.loaderService.koiLoader("Recuperando reportes")
 
-    console.log("Get Report Data")
     this.server.update(
-      'report-' + this.reportSuffix,//suffix,
+      'report-' + this.reportSuffix,
       dateRange,
       (response: any) => {
         if (response.meta.return_code == 0) {
           if (response.data) {
             console.log(response.data.reports)
-            this.reports = response.data.reports
-            this.reportFooter = response.data.pdf_footer
-            this.reportFooter = '<table width="100%"><tr><td width="30%" align="left">Jacobs Farms Delcabo, Inc </td><td width="40%">Pending</td><td width="30%" align="right">Rev. pend</td></tr></table>'
-            this.activeReport = "any"
-            //tempLoader.dismiss()
+            if (response.data.reports.length == 0) {
+              this.toastService.showText("noReportsFound")
+            } else {
+              this.reports = response.data.reports
+              this.reportFooter = response.data.pdf_footer
+              this.reportFooter = '<table width="100%"><tr><td width="30%" align="left">Jacobs Farms Delcabo, Inc </td><td width="40%">Pending</td><td width="30%" align="right">Rev. pend</td></tr></table>'
+              this.activeReport = "any"
+            }
+            this.events.$pub("reportEvent", { activeReport: "any", time: Date.now() })
+            reportLoader.close()
           }
         } else {
-          //this.navCtrl.pop()
-          //tempLoader.dismiss()
+          this.toastService.showText("serverUnreachable")
+          reportLoader.close()
         }
       },
       (error: any, caught: Observable<void>) => {
-        //this.toastService.showText("serverUnreachable")
-        //tempLoader.dismiss()
-        //this.navCtrl.pop()
+        this.toastService.showText("serverUnreachable")
+        reportLoader.close()
         return []
       }
     )
   }
-
-  /*presentLoadingCustom() {
-    let loading = this.loadingCtrl.create({
-      spinner: 'hide',
-      content: `
-        <div text-center>
-          <img class="spinner" src="assets/images/koi_spinner.png" alt="" width="240" height="240">
-        </div>
-        <div text-center>` + this.ts.translate("Connecting to Server") + `</div>`
-    })
-
-    loading.present()
-
-    return loading
-  }*/
 }

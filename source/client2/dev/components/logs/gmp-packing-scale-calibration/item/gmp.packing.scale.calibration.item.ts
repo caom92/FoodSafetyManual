@@ -1,6 +1,7 @@
-import { Component, Input, OnChanges } from '@angular/core'
-import { Language } from 'angular-l10n'
+import { Component, Input } from '@angular/core'
 import { FormGroup } from '@angular/forms'
+import { Language } from 'angular-l10n'
+
 import { LogItem, LogUnit } from '../interfaces/gmp.packing.scale.calibration.log.interface'
 
 @Component({
@@ -8,7 +9,7 @@ import { LogItem, LogUnit } from '../interfaces/gmp.packing.scale.calibration.lo
   templateUrl: './gmp.packing.scale.calibration.item.html'
 })
 
-export class GMPPackingScaleCalibrationItemComponent implements OnChanges {
+export class GMPPackingScaleCalibrationItemComponent {
   @Input() item: LogItem
   @Input() units: Array<LogUnit>
   @Input('itemGroup') public itemForm: FormGroup
@@ -17,11 +18,5 @@ export class GMPPackingScaleCalibrationItemComponent implements OnChanges {
 
   constructor() {
 
-  }
-
-  ngOnChanges() {
-    console.log("onchanges")
-    $('select').material_select()
-    $('select').material_select()
   }
 }

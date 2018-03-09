@@ -4,6 +4,7 @@ import { SuperAuthorization } from './super.logs.authorization.interface'
 import { LogService } from '../../../services/app.logs'
 import { LogHeaderData } from '../log.interfaces'
 import { ToastsService } from '../../../services/app.toasts'
+import { StateService } from '@uirouter/core'
 
 export class SuperAuthorizationComponent implements OnInit {
   protected log: SuperAuthorization
@@ -13,7 +14,7 @@ export class SuperAuthorizationComponent implements OnInit {
   private suffix: string = null
   protected showLog: boolean = false
 
-  constructor(protected _fb: FormBuilder, protected logService: LogService, protected toastService: ToastsService) {
+  constructor(protected _fb: FormBuilder, protected logService: LogService, protected toastService: ToastsService, private router: StateService) {
 
   }
 
@@ -103,14 +104,22 @@ export class SuperAuthorizationComponent implements OnInit {
   }
 
   public authorize(): void {
-    console.log("authorize log")
+    this.logService.approve(Number(this.log.report_id)).then(success => {
+      this.router.go("pending-authorizations-list")
+    }, error => {
+      console.log(error)
+    })
   }
 
   public delete(): void {
-    console.log("delete log")
+    this.logService.reject(Number(this.log.report_id)).then(success => {
+      this.router.go("pending-authorizations-list")
+    }, error => {
+      console.log(error)
+    })
   }
 
   public back(): void {
-    window.history.back()
+    this.router.go("pending-authorizations-list")
   }
 }
