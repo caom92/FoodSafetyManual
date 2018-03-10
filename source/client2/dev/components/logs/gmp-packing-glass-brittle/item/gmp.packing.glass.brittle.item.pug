@@ -1,4 +1,12 @@
 include ../../../log-ionic-materialize.pug
 
-+checkbox("{{item.name}} {{ 'Log.with' | translate:lang }} {{item.quantity}} {{ 'Log.element' | translate:lang }}", false, 'is_acceptable', "acceptable_{{item.id}}")([formGroup]='itemForm', *ngIf='item.quantity == 1')
-+checkbox("{{item.name}} {{ 'Log.with' | translate:lang }} {{item.quantity}} {{ 'Log.elements' | translate:lang }}", false, 'is_acceptable', "acceptable_{{item.id}}")([formGroup]='itemForm', *ngIf='item.quantity != 1')
++row()(style="margin-bottom: 0px; margin-top: 4px;")
+  +col()(class="s9 m9 l9")
+    p(*ngIf='item.quantity == 1') {{item.name}} {{ 'Log.with' | translate:lang }} {{item.quantity}} {{ 'Log.element' | translate:lang }}
+    p(*ngIf='item.quantity != 1') {{item.name}} {{ 'Log.with' | translate:lang }} {{item.quantity}} {{ 'Log.elements' | translate:lang }}
+  +col()(class="s3 m3 l3")
+    +checkbox("{{ 'Log.acceptable' | translate:lang }}", false, 'is_acceptable', "acceptable_{{item.id}}")([formGroup]='itemForm')
+.divider
+
+//-+checkbox("{{item.name}} {{ 'Log.with' | translate:lang }} {{item.quantity}} {{ 'Log.element' | translate:lang }}", false, 'is_acceptable', "acceptable_{{item.id}}")([formGroup]='itemForm', *ngIf='item.quantity == 1')
+//-+checkbox("{{item.name}} {{ 'Log.with' | translate:lang }} {{item.quantity}} {{ 'Log.elements' | translate:lang }}", false, 'is_acceptable', "acceptable_{{item.id}}")([formGroup]='itemForm', *ngIf='item.quantity != 1')

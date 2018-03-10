@@ -22,6 +22,8 @@ export class GMPDocControlDocControlAuthorizationComponent extends SuperAuthoriz
   @Language() lang: string
   selectedDocument: number
   selectedDocumentName: string
+  files: Array<string> = []
+  images: Array<string> = []
 
   constructor(_fb: FormBuilder,
     private timeService: DateTimeService,
@@ -38,6 +40,10 @@ export class GMPDocControlDocControlAuthorizationComponent extends SuperAuthoriz
     this.setSuffix("gmp-doc-control-doc-control")
     this.selectedDocument = this.log.documents[0].id
     this.selectedDocumentName = this.log.documents[0].name
+    this.images = JSON.parse(this.log.documents[0].entries[0].pictures)
+    this.files = JSON.parse(this.log.documents[0].entries[0].files)
+    console.log(this.images)
+    console.log(this.files)
     super.ngOnInit()
     this.initForm()
   }

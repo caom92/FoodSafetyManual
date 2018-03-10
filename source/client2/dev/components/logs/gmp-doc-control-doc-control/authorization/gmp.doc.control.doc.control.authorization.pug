@@ -7,7 +7,10 @@ block documentSelect
         //- block captureForm
 
 block fileUpload
-  //-
+  p() Attached images
+  a(*ngFor="let image of images", [href]="'http://localhost/espresso/data/images/gmp/doc_control/doc_control/' + image", target="_blank") {{image}}
+  p() Attached PDF files
+  a(*ngFor="let file of files", [href]="'http://localhost/espresso/data/documents/gmp/doc_control/doc_control/' + file", target="_blank") {{file}}
 
 block buttonRow
   +authorizationButtonRow("Send", "Authorize", "Delete", "Return")

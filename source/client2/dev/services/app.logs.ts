@@ -100,8 +100,8 @@ export class LogService {
           // Sin importar el resultado, desactivamos el spinner
           loader.close()
         }, (error: any, caught: Observable<void>) => {
-          loader.close()
-          this.toastService.showText("failedLogToQueue")
+          //this.toastService.showText("failedLogToQueue")
+          this.toastService.showText("serverUnreachable")
           loader.close()
           reject(error)
           return []

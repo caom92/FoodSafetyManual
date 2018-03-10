@@ -60,11 +60,10 @@ mixin inventoryEmptyMessage()
       i.red-text(mz-icon-mdi, [align]="'center'", [icon]="'alert-circle'", [size]="'42px'")
       | No items for this log. Add some by using the 
       i.green-text(mz-icon-mdi, [align]="'center'", [icon]="'plus-circle'", [size]="'36px'")
-      |  button below
+      |  button above
 
 mixin inventoryListsWrapper(condition)
-  table
-    //-(*ngIf=condition)
+  table(*ngIf=condition)
     if block
       block
 
