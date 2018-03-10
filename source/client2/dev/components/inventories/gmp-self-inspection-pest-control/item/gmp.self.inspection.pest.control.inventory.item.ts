@@ -19,7 +19,6 @@ export class GMPSelfInspectionPestControlInventoryItemComponent extends SuperInv
   }
 
   public ngOnInit(): void {
-    console.log(this.item)
     this.setSuffix("gmp-self-inspection-pest-control")
     this.setToggleValue(this.item.is_active == 1)
   }

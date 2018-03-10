@@ -32,6 +32,12 @@ export class GMPSelfInspectionPestControlInventoryListComponent extends SuperInv
     super.ngOnInit()
   }
 
+  public onItemAdd(item: any): void {
+    item.item.position = this.currentInventory.length + 1
+    this.currentInventory.push(item.item)
+    this.originalInventory.push(item.item)
+  }
+
   public ngOnChanges(): void{
     this.setInventory(this.items)
     this.setOriginalInventory(this.items)

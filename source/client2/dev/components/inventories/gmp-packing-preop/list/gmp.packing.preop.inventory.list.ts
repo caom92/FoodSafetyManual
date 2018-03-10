@@ -34,6 +34,14 @@ export class GMPPackingPreopInventoryListComponent extends SuperInventoryListCom
     super.ngOnInit()
   }
 
+  public onItemAdd(item: any): void {
+    if (item.type == this.type.id) {
+      item.item.position = this.currentInventory.length + 1
+      this.currentInventory.push(item.item)
+      this.originalInventory.push(item.item)
+    }
+  }
+
   public ngOnChanges(): void{
     this.setInventory(this.type.inventory)
     this.setOriginalInventory(this.type.inventory)
