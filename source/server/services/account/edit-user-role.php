@@ -25,6 +25,7 @@ $service = [
     $isCurrentlySupervisor = $currentRole === 'Supervisor';
     $isCurrentlyEmployee = $currentRole === 'Employee';
     $willBecomeEmployee = $futureRole === 'Employee';
+    $willChangeRole = $currentRole != $futureRole;
 
     // depending on the current role and the rol that the user will change to 
     // we must make a different set of validations
@@ -36,7 +37,7 @@ $service = [
     } else {
       // if the user is currently a supervisor, no matter to which role she will
       // change, we must prevent the change if she has employees assigned
-      if ($isCurrentlySupervisor) {
+      if ($isCurrentlySupervisor && $willChangeRole) {
         // check if she has employees assigned
         $numEmployees = 
           $supervisorsEmployees->getNumEmployeesBySupervisorID(
