@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Language, TranslationService as TService } from 'angular-l10n'
-import { PubSubService } from 'angular2-pubsub'
+import { PubSubService } from 'angular2-pubsub'; import { ToastsService } from '../../../../services/app.toasts'
 
 import { AlertController } from '../../../../services/alert/app.alert'
 import { InventoryService } from '../../../../services/app.inventory'
@@ -16,8 +16,8 @@ export class GMPPackingHandWashingAddItemComponent extends SuperInventoryAddItem
   @Language() private lang: string
   newItem: FormGroup = new FormBuilder().group({})
 
-  constructor(alertCtrl: AlertController, ts: TService, _fb: FormBuilder, inventoryService: InventoryService, events: PubSubService) {
-    super(_fb, alertCtrl, ts, inventoryService, events)
+  constructor(alertCtrl: AlertController, ts: TService, _fb: FormBuilder, inventoryService: InventoryService, events: PubSubService, toastService: ToastsService) {
+    super(_fb, alertCtrl, ts, inventoryService, events, toastService)
   }
 
   public ngOnInit(): void {

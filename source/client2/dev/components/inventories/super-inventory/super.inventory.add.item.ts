@@ -4,6 +4,7 @@ import { TranslationService as TService } from 'angular-l10n'
 import { AlertController } from '../../../services/alert/app.alert'
 import { InventoryService } from '../../../services/app.inventory'
 import { PubSubService } from 'angular2-pubsub'
+import { ToastsService } from '../../../services/app.toasts'
 
 export class SuperInventoryAddItemComponent {
   protected newItem: FormGroup = new FormBuilder().group({})
@@ -13,7 +14,8 @@ export class SuperInventoryAddItemComponent {
     public alertCtrl: AlertController,
     public ts: TService,
     private inventoryService: InventoryService,
-    private events: PubSubService) {
+    private events: PubSubService,
+    private toastService: ToastsService) {
 
   }
 
@@ -53,7 +55,7 @@ export class SuperInventoryAddItemComponent {
       })
     } else {
       this.inventoryService.setAsDirty(this.newItem)
-      console.log(this.newItem)
+      this.toastService.showText("itemAddFail")
       console.log("New item not valid")
     }
   }

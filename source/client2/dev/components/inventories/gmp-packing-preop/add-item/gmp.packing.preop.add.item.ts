@@ -5,7 +5,7 @@ import { Language, TranslationService as TService } from 'angular-l10n'
 import { AlertController } from '../../../../services/alert/app.alert'
 import { InventoryService } from '../../../../services/app.inventory'
 import { SuperInventoryAddItemComponent } from '../../super-inventory/super.inventory.add.item'
-import { PubSubService } from 'angular2-pubsub'
+import { PubSubService } from 'angular2-pubsub'; import { ToastsService } from '../../../../services/app.toasts'
 
 @Component({
   selector: '[gmp-packing-preop-add-item]',
@@ -18,8 +18,8 @@ export class GMPPackingPreopAddItemComponent extends SuperInventoryAddItemCompon
   @Input("area") area_id: number
   newItem: FormGroup = new FormBuilder().group({})
   
-  constructor(alertCtrl: AlertController, ts: TService, _fb: FormBuilder, inventoryService: InventoryService, events: PubSubService) {
-    super(_fb, alertCtrl, ts, inventoryService, events)
+  constructor(alertCtrl: AlertController, ts: TService, _fb: FormBuilder, inventoryService: InventoryService, events: PubSubService, toastService: ToastsService) {
+    super(_fb, alertCtrl, ts, inventoryService, events, toastService)
   }
 
   public ngOnInit(): void {

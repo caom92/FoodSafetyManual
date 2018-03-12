@@ -175,6 +175,12 @@
             "item_required": "Debe introducir un nombre para el elemento",
             "item_length": "El nombre del elemento no puede exceder 255 caracteres",
             "item_type": "Debe indicar el tipo de elemento"
+        },
+        "generic": {
+            "name_required": "El nombre del objeto es requerido",
+            "name_max_255": "El nombre del objeto no puede exceder 255 caracteres",
+            "type_required": "Debe especificar el tipo del objeto",
+            "quantity_required": "La cantidad de elementos del objeto es requerido"
         }
     }
 }

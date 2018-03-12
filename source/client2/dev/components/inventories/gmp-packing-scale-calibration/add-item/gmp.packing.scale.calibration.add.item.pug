@@ -7,9 +7,11 @@ tr([formGroup]="newItem")
   td
   td
     +textInput(null, null, "name", "text", "new_item", "New item")
+    +errorMessage("!newItem.controls.name.valid && newItem.controls.name.dirty && newItem.controls.name.value.length == 0", "{{ 'InventoryErrors.generic.name_required' | translate:lang }}")
+    +errorMessage("!newItem.controls.name.valid && newItem.controls.name.dirty && newItem.controls.name.value.length >= 1", "{{ 'InventoryErrors.generic.name_max_255' | translate:lang }}")
   td
     +select(null, null, "type", null, "new_type", "'New type'")
       +option("{{type.name}}", "type.id", false, false)(*ngFor='let type of types')
-      //-option(label, value, selected, disabled)
+    +errorMessage("!newItem.controls.type.valid && newItem.controls.type.dirty", "{{ 'InventoryErrors.generic.type_required' | translate:lang }}")
   td
     +addItemButton()((click)="addItem()")

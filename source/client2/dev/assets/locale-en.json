@@ -175,6 +175,12 @@
             "item_required": "You need to enter a name for this item",
             "item_length": "The item's name can't exceed 255 characters",
             "item_type": "You need to indicate the type of the item"
+        },
+        "generic": {
+            "name_required": "The item's name is required",
+            "name_max_255": "The item's name can't exceed 255 characters",
+            "type_required": "You must indicate the item's type",
+            "quantity_required": "You must indicate the quantity of this item"
         }
     }
 }
