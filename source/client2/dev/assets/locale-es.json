@@ -130,7 +130,8 @@
         "shift": "Turno",
         "production_area": "Área de producción",
         "products": "Productos",
-        "batch": "Lote"
+        "batch": "Lote",
+        "include_in_capture": "Incluir en captura"
     },
     "LogHeader": {
         "zone": "Zona",

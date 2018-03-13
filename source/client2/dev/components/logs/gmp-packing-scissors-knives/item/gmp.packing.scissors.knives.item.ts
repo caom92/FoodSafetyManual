@@ -18,4 +18,20 @@ export class GMPPackingScissorsKnivesItemComponent {
   constructor(private langManager: LanguageService) {
 
   }
+
+  public update(): void {
+    if (this.itemForm.enabled) {
+      this.disable()
+    } else if (this.itemForm.disabled) {
+      this.enable()
+    }
+  }
+
+  public disable(): void {
+    this.itemForm.disable()
+  }
+
+  public enable(): void {
+    this.itemForm.enable()
+  }
 }

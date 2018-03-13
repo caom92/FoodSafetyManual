@@ -1,12 +1,21 @@
 include ../../../log-ionic-materialize.pug
 
 +card()([formGroup]='itemForm')
-  +cardHeader("{{item.name}}")
-  +cardContent
-    //-+listHeader("{{item.name}}")
-    //-+label("{{item.name}}", "ios-cut")
-    +timeInput(true, "{{ 'Log.time' | translate:lang }}", "time", null, null, "langManager.messages.global.timePickerConfig")
-    +checkbox("{{ 'Log.approved' | translate:lang }}", false, "approved", "approved_{{item.id}}")
-    +checkbox("{{ 'Log.returned_good_conditions' | translate:lang }}", false, "condition", "conditions_{{item.id}}")
-    +checkbox("{{ 'Log.sanitized_lubricated' | translate:lang }}", false, "is_sanitized", "sanitized_{{item.id}}")
-    +textArea("{{ 'Log.corrective_action_of' | translate:lang }} {{item.name}}", "clipboard", "corrective_action")
+  //-+cardHeader("{{item.name}}")
+  +cardContent()
+    +row()
+      +col()(class="s6 m6 l6")
+        h6(*ngIf='item.quantity == 1', class="blue-text") {{ 'Log.group' | translate:lang }} {{item.name}} {{ 'Log.with' | translate:lang }} {{item.quantity}} {{ 'Log.element' | translate:lang }}
+        h6(*ngIf='item.quantity != 1', class="blue-text") {{ 'Log.group' | translate:lang }} {{item.name}} {{ 'Log.with' | translate:lang }} {{item.quantity}} {{ 'Log.elements' | translate:lang }}
+      +col()(class="s6 m6 l6")
+        +captureCheckbox("{{ 'Log.include_in_capture' | translate:lang }}", "capture_{{item.id}}", "update()")
+    div(*ngIf="itemForm.enabled")
+      +timeInput(true, "{{ 'Log.time' | translate:lang }}", "time", null, null, "langManager.messages.global.timePickerConfig")
+      +row()
+        +col()(class="s4 m4 l4")
+          +checkbox("{{ 'Log.approved' | translate:lang }}", false, "approved", "approved_{{item.id}}")
+        +col()(class="s4 m4 l4")
+          +checkbox("{{ 'Log.returned_good_conditions' | translate:lang }}", false, "condition", "conditions_{{item.id}}")
+        +col()(class="s4 m4 l4")
+          +checkbox("{{ 'Log.sanitized_lubricated' | translate:lang }}", false, "is_sanitized", "sanitized_{{item.id}}")
+      +textArea("{{ 'Log.corrective_action_of' | translate:lang }} {{item.name}}", "clipboard", "corrective_action")

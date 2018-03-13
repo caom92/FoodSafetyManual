@@ -130,7 +130,8 @@
         "shift": "Shift",
         "production_area": "Production area",
         "products": "Products",
-        "batch": "Batch"
+        "batch": "Batch",
+        "include_in_capture": "Include in capture"
     },
     "LogHeader": {
         "zone": "Zone",
