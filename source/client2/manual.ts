@@ -48,8 +48,7 @@ export class ManualTab implements OnInit {
           if (response.meta.return_code == 0) {
             if (response.data) {
               console.log(response.data)
-              let urlBase = "http://manual.jfdc.tech/"
-              //let urlBase = "http://localhost/espresso/"
+              let urlBase = "http://localhost/espresso/"
               this.manualDirectory = this.sanitizer.bypassSecurityTrustResourceUrl(urlBase + "external/ViewerJS/#../../" +  response.data.manual_location + zone_name.toLowerCase() + "/" + "actual_manual.pdf")
               //this.navCtrl.parent.select(1)
             }

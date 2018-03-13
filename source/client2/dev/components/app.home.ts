@@ -153,6 +153,9 @@ export class HomeComponent implements OnInit
           // cambiamos la zona actual por la nueva
           this.home.zoneName = response.data.name
           this.home.zoneID = response.data.id
+          this.home.companyName = response.data.company_name
+          this.home.companyAddress = response.data.address
+          this.home.companyLogo = response.data.logo_path
         } 
 
         // damos retroalimentacion al usuario del resultado de esta operacion

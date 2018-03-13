@@ -33,92 +33,94 @@ export class LogTabsPage extends DynamicComponentResolver {
   suffix: string = ""
   loaderComponent: Type<any> = null
   manualDirectory: any = null
+  isEmployee: boolean = false
 
   constructor(factoryResolver: ComponentFactoryResolver, private router: StateService, private server: BackendService, private sanitizer: DomSanitizer) {
     super(factoryResolver)
   }
 
   ngOnInit() {
-    //this.log_name = this.router.params.suffix
-    //this.assignName()
-    console.log("Log Tabs Page Init")
     this.suffix = this.router.params.suffix
-    if (this.suffix == "gmp-packing-hand-washing" ||
-      this.suffix == "gmp-packing-preop" ||
-      this.suffix == "gmp-packing-scale-calibration" ||
-      this.suffix == "gmp-packing-thermo-calibration" ||
-      this.suffix == "gmp-packing-cold-room-temp" ||
-      this.suffix == "gmp-packing-glass-brittle" ||
-      this.suffix == "gmp-packing-scissors-knives" ||
-      this.suffix == "gmp-self-inspection-pest-control" ||
-      this.suffix == "gap-others-unusual-occurrence" ||
-      this.suffix == "gmp-others-unusual-occurrence" ||
-      this.suffix == "gmp-packing-aged-product" ||
-      this.suffix == "gmp-packing-finished-product" ||
-      this.suffix == "gmp-doc-control-doc-control" ||
-      this.suffix == "gmp-packing-atp-testing" ||
-      this.suffix == "gap-packing-preop") {
-      switch (this.suffix) {
-        case 'gmp-packing-hand-washing': this.loaderComponent = this.loadComponent(GMPPackingHandWashingLogComponent, {
+    this.isEmployee = localStorage.role_name == "Employee"
 
-        }).instance
-          break
-        case 'gmp-packing-preop': this.loaderComponent = this.loadComponent(GMPPackingPreopLogComponent, {
+    if (this.isEmployee) {
+      if (this.suffix == "gmp-packing-hand-washing" ||
+        this.suffix == "gmp-packing-preop" ||
+        this.suffix == "gmp-packing-scale-calibration" ||
+        this.suffix == "gmp-packing-thermo-calibration" ||
+        this.suffix == "gmp-packing-cold-room-temp" ||
+        this.suffix == "gmp-packing-glass-brittle" ||
+        this.suffix == "gmp-packing-scissors-knives" ||
+        this.suffix == "gmp-self-inspection-pest-control" ||
+        this.suffix == "gap-others-unusual-occurrence" ||
+        this.suffix == "gmp-others-unusual-occurrence" ||
+        this.suffix == "gmp-packing-aged-product" ||
+        this.suffix == "gmp-packing-finished-product" ||
+        this.suffix == "gmp-doc-control-doc-control" ||
+        this.suffix == "gmp-packing-atp-testing" ||
+        this.suffix == "gap-packing-preop") {
+        switch (this.suffix) {
+          case 'gmp-packing-hand-washing': this.loaderComponent = this.loadComponent(GMPPackingHandWashingLogComponent, {
 
-        }).instance
-          break
-        case 'gmp-packing-scale-calibration': this.loaderComponent = this.loadComponent(GMPPackingScaleCalibrationLogComponent, {
+          }).instance
+            break
+          case 'gmp-packing-preop': this.loaderComponent = this.loadComponent(GMPPackingPreopLogComponent, {
 
-        }).instance
-          break
-        case 'gmp-packing-thermo-calibration': this.loaderComponent = this.loadComponent(GMPPackingThermoCalibrationLogComponent, {
+          }).instance
+            break
+          case 'gmp-packing-scale-calibration': this.loaderComponent = this.loadComponent(GMPPackingScaleCalibrationLogComponent, {
 
-        }).instance
-          break
-        case 'gmp-packing-cold-room-temp': this.loaderComponent = this.loadComponent(GMPPackingColdRoomTempLogComponent, {
+          }).instance
+            break
+          case 'gmp-packing-thermo-calibration': this.loaderComponent = this.loadComponent(GMPPackingThermoCalibrationLogComponent, {
 
-        }).instance
-          break
-        case 'gmp-packing-glass-brittle': this.loaderComponent = this.loadComponent(GMPPackingGlassBrittleLogComponent, {
+          }).instance
+            break
+          case 'gmp-packing-cold-room-temp': this.loaderComponent = this.loadComponent(GMPPackingColdRoomTempLogComponent, {
 
-        }).instance
-          break
-        case 'gmp-packing-scissors-knives': this.loaderComponent = this.loadComponent(GMPPackingScissorsKnivesLogComponent, {
+          }).instance
+            break
+          case 'gmp-packing-glass-brittle': this.loaderComponent = this.loadComponent(GMPPackingGlassBrittleLogComponent, {
 
-        }).instance
-          break
-        case 'gmp-self-inspection-pest-control': this.loaderComponent = this.loadComponent(GMPSelfInspectionPestControlLogComponent, {
+          }).instance
+            break
+          case 'gmp-packing-scissors-knives': this.loaderComponent = this.loadComponent(GMPPackingScissorsKnivesLogComponent, {
 
-        }).instance
-          break
-        case 'gap-others-unusual-occurrence': this.loaderComponent = this.loadComponent(GAPOthersUnusualOccurrenceLogComponent, {
+          }).instance
+            break
+          case 'gmp-self-inspection-pest-control': this.loaderComponent = this.loadComponent(GMPSelfInspectionPestControlLogComponent, {
 
-        }).instance
-          break
-        case 'gmp-others-unusual-occurrence': this.loaderComponent = this.loadComponent(GMPOthersUnusualOccurrenceLogComponent, {
+          }).instance
+            break
+          case 'gap-others-unusual-occurrence': this.loaderComponent = this.loadComponent(GAPOthersUnusualOccurrenceLogComponent, {
 
-        }).instance
-          break
-        case 'gmp-packing-aged-product': this.loaderComponent = this.loadComponent(GMPPackingAgedProductLogComponent, {
+          }).instance
+            break
+          case 'gmp-others-unusual-occurrence': this.loaderComponent = this.loadComponent(GMPOthersUnusualOccurrenceLogComponent, {
 
-        }).instance
-          break
-        case 'gmp-packing-finished-product': this.loaderComponent = this.loadComponent(GMPPackingFinishedProductLogComponent, {
+          }).instance
+            break
+          case 'gmp-packing-aged-product': this.loaderComponent = this.loadComponent(GMPPackingAgedProductLogComponent, {
 
-        }).instance
-          break
-        case 'gmp-doc-control-doc-control': this.loaderComponent = this.loadComponent(GMPDocControlDocControlLogComponent, {
+          }).instance
+            break
+          case 'gmp-packing-finished-product': this.loaderComponent = this.loadComponent(GMPPackingFinishedProductLogComponent, {
 
-        }).instance
-          break
-        case 'gmp-packing-atp-testing': this.loaderComponent = this.loadComponent(GMPPackingATPTestingLogComponent, {
+          }).instance
+            break
+          case 'gmp-doc-control-doc-control': this.loaderComponent = this.loadComponent(GMPDocControlDocControlLogComponent, {
 
-        }).instance
-          break
-        case 'gap-packing-preop': this.loaderComponent = this.loadComponent(GAPPackingPreopLogComponent, {
+          }).instance
+            break
+          case 'gmp-packing-atp-testing': this.loaderComponent = this.loadComponent(GMPPackingATPTestingLogComponent, {
 
-        }).instance
-          break
+          }).instance
+            break
+          case 'gap-packing-preop': this.loaderComponent = this.loadComponent(GAPPackingPreopLogComponent, {
+
+          }).instance
+            break
+        }
       }
     }
 

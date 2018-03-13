@@ -5,7 +5,7 @@ include ../../../log-ionic-materialize.pug
   +cardContent()
     +row()
       +col()([ngClass]="(itemForm.controls.is_acceptable.value == true)?'s12 m12 l12':'s6 m6 l6'")
-        +radioGroup(false, false, "is_acceptable")
+        +radioGroup("{{ 'Log.conditions' | translate:lang }}", false, "is_acceptable")
           +radio("{{ 'Log.acceptable' | translate:lang }}", false, "true", false, false, "acceptable_{{item.id}}", "conditions_{{item.id}}")([formControl]='itemForm.controls.is_acceptable', [value]='true')
           +radio("{{ 'Log.unacceptable' | translate:lang }}", false, "false", false, false, "unacceptable_{{item.id}}", "conditions_{{item.id}}")([formControl]='itemForm.controls.is_acceptable', [value]='false')
           +errorMessage('!itemForm.controls.is_acceptable.valid && itemForm.controls.is_acceptable.dirty', 'Debe marcar un elemento como Aceptable o No Aceptable')

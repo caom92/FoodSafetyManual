@@ -117,7 +117,7 @@ class PDFCreator extends TCPDF
         $this->ln(5);
         $this->SetFont('helvetica', 'B', 10);
         $this->SetX($margin['left'] + $titlePadding);
-        $this->Cell(0, 12, $companyAddress.$companyAddress, 0, false, 'C', 0, '', 1, false, 
+        $this->Cell(0, 12, $companyAddress, 0, false, 'C', 0, '', 1, false, 
             'T', 'M');
         $this->ln(9);
     }
