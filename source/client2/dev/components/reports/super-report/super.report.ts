@@ -1,6 +1,7 @@
 import { ReportHeader } from '../report-header/report.header.interface'
 import { SuperReportInterface } from './super.report.interface'
 import { OnInit } from '@angular/core'
+import { Preview } from '../preview/report.preview.interface'
 
 export class SuperReportComponent implements OnInit {
   report: SuperReportInterface
@@ -57,7 +58,7 @@ export class SuperReportComponent implements OnInit {
     throw "getCSS() function must be overridden in child class"
   }
 
-  public getPreview(): string {
+  public getPreview(): Array<Preview> {
     //throw "getPreview() function must be overridden in child class"
     return null
   }

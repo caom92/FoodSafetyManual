@@ -13,15 +13,9 @@ export class GMPPackingFinishedProductReportComponent extends SuperReportCompone
   @Input() report: Report
   @Language() lang: string
   @ViewChild("report_body") reportHTML: any
-  entry = null
 
   constructor() {
     super()
-  }
-
-  ngOnInit() {
-    super.ngOnInit()
-    this.entry = this.report.entries[0]
   }
 
   public getOrientation(): string {

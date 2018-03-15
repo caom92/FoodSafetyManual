@@ -5,9 +5,10 @@ include ../../../log-ionic-materialize.pug
   +cardContent()
     //-+textInput("{{ 'Log.reading' | translate:lang }}", false, "test", "number")
     //-+textInputLine("{{item.name}}", "{{ 'Log.reading' | translate:lang }}", false, "test", "number")
+    p() {{item.name}}
     +row()
       +col()(class="s3 m3 l3")
-        +textInputLine("{{ 'Log.reading' | translate:lang }} {{item.name}}", false, false, "test", "number")
+        +textInputLine("{{ 'Log.reading' | translate:lang }}", false, false, "test", "number")
       +col()(class="s3 m3 l3")
         +select("{{ 'Log.units' | translate:lang }}", false, "unit_id", "popover")
           +option("{{unit.symbol}}", "unit.id", false, false)(*ngFor='let unit of units')

@@ -1,8 +1,8 @@
 report-header([header]="header")
 mz-card
   mz-card-content
-    table(#report_body)
-      tbody(*ngIf="entry != null && entry != undefined")
+    table(#report_body, style="display: block; overflow: scroll;")
+      tbody
         tr
           th.productsColumn Item
           th.suppliersColumn Zone, Provider
@@ -17,7 +17,7 @@ mz-card
           th.actionColumn Action
           th.urlColumn Link to album
           th.notesColumn Notes
-        tr
+        tr(*ngFor="let entry of report.entries")
           td.productsColumn {{entry.item}}
           td.suppliersColumn {{entry.vendor}}
           td.clientsColumn {{entry.age}}

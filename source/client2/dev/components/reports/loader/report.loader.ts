@@ -22,6 +22,7 @@ import { ReportRequest } from '../reports.interface'
 import { SuperReportComponent } from '../super-report/super.report'
 import { SuperReportInterface } from '../super-report/super.report.interface'
 import { DynamicComponentResolver } from './../../dynamic.resolver'
+import { Preview } from '../preview/report.preview.interface';
 
 @Component({
   selector: 'report-loader',
@@ -66,7 +67,7 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
     "gmp-self-inspection-pest-control": GMPSelfInspectionPestControlReportComponent
   }
   reportEvent: Subscription
-  preview: string = null
+  preview: Array<Preview> = null
 
   constructor(factoryResolver: ComponentFactoryResolver, private events: PubSubService, private ts: TS) {
     super(factoryResolver)

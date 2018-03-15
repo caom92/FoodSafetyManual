@@ -39,8 +39,8 @@ export class GMPPackingScaleCalibrationLogComponent extends SuperLogComponent im
   initForm() {    
     this.captureForm = this._fb.group({
       date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
-      notes: ['', [Validators.required, Validators.minLength(1)]],
-      corrective_action: ['', [Validators.required, Validators.minLength(1)]],
+      notes: ['', [Validators.maxLength(65535)]],
+      corrective_action: ['', [Validators.maxLength(65535)]],
       types: this._fb.array([])
     })
     const control = <FormArray>this.captureForm.controls['types'];

@@ -9,4 +9,5 @@ export interface SuperReportInterface {
   program_name: string
   module_name: string
   log_name: string
+  display_date?: string
 }

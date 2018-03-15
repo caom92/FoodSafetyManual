@@ -8,6 +8,7 @@ import { ToastsService } from '../../../../services/app.toasts'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization } from '../interfaces/gmp.packing.cold.room.temp.authorization.interface'
 import { UpdateItem } from '../interfaces/gmp.packing.cold.room.temp.update.interface'
+import { LanguageService } from '../../../../services/app.language';
 
 @Component({
   selector: 'gmp-packing-cold-room-temp-authorization',
@@ -19,7 +20,7 @@ export class GMPPackingColdRoomTempAuthorizationComponent extends SuperAuthoriza
   @Language() lang: string
   captureForm: FormGroup = new FormBuilder().group({})
 
-  constructor(_fb: FormBuilder, toastService: ToastsService, logService: LogService, router: StateService) {
+  constructor(_fb: FormBuilder, toastService: ToastsService, logService: LogService, router: StateService, private langManager: LanguageService) {
     super(_fb, logService, toastService, router)
   }
 

@@ -267,7 +267,7 @@ class CapturedLogs extends db\InsertableTable
         )"
     )->fetchAll();
 
-    return $num[0][0];
+    return $num[0]["COUNT(*)"];
   }
 
   // Modifica los datos del renglon con el ID especificado sustituyendo sus

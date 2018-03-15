@@ -299,6 +299,7 @@ import { GMPPackingATPTestingReportComponent } from './reports/gmp-packing-atp-t
 import { GMPPackingATPTestingReportAreaComponent } from './reports/gmp-packing-atp-testing/entry/gmp.packing.atp.testing.entry';
 import { GMPPackingATPTestingReportItemComponent } from './reports/gmp-packing-atp-testing/test/gmp.packing.atp.testing.test';
 import { GMPDocControlDocControlReportComponent } from './reports/gmp-doc-control-doc-control/report/gmp.doc.control.doc.control.report';
+import { ReportPreview } from './reports/preview/report.preview';
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -442,6 +443,7 @@ import { GMPDocControlDocControlReportComponent } from './reports/gmp-doc-contro
     ReportTab,
     ReportDisplayer,
     ReportLoader,
+    ReportPreview,
     ReportLoaderCard,
     GMPPackingPreopItemComponent,
     GMPPackingPreopTypeComponent,

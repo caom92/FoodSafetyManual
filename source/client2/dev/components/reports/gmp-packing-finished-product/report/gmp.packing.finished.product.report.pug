@@ -1,8 +1,8 @@
 report-header([header]="header")
 mz-card
   mz-card-content
-    table(#report_body)
-      tbody(*ngIf="entry != null && entry != undefined")
+    table(#report_body, style="display: block; overflow: scroll;")
+      tbody
         tr
           th.batchColumn Batch
           th.areaColumn Area
@@ -19,7 +19,7 @@ mz-card
           th.traceabilityColumn Traceability
           th.urlColumn Link to Album
           th.notesColumn Notes
-        tr
+        tr(*ngFor="let entry of report.entries")
           td.batchColumn {{entry.batch}}
           td.areaColumn {{entry.production_area}}
           td.suppliersColumn {{entry.supplier}}

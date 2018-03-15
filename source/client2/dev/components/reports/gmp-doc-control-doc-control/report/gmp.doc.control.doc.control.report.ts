@@ -20,11 +20,19 @@ export class GMPDocControlDocControlReportComponent extends SuperReportComponent
   }
 
   ngOnInit() {
-    this.report.reports.document.entries.pictures = JSON.parse(this.report.reports.document.entries.pictures)
-    this.report.reports.document.entries.files = JSON.parse(this.report.reports.document.entries.files)
+    try {
+      this.report.reports.document.entries.pictures = JSON.parse(this.report.reports.document.entries.pictures)
+    } catch (err) {
+      this.report.reports.document.entries.pictures = null
+    }
+
+    try {
+      this.report.reports.document.entries.files = JSON.parse(this.report.reports.document.entries.files)
+    } catch (err) {
+      this.report.reports.document.entries.files = null
+    }
+
     this.entry = true
-    console.log(this.report)
-    console.log(this.entry)
     super.ngOnInit()
   }
 

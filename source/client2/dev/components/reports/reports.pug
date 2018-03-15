@@ -1,3 +1,5 @@
+include ../log-ionic-materialize.pug
+
 div
   mz-card
     mz-card-title {{ 'Report Request' | translate:lang }}
@@ -11,6 +13,9 @@ div
           mz-datepicker-container.col.s12.m12.l12
             i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
             input(mz-datepicker, [label]="'Fecha de cierre'", type='text', formControlName='endDate', [options]='options')
+        .row(*ngIf="reportSuffix == 'gmp-doc-control-doc-control'")
+          +select("Document", false, 'document_id', false, 'document_select', "'Document'")
+            +option("{{doc.name}}", "doc.id", false, false)(*ngFor="let doc of documentList")
         .row
           .col.s12.m12.l12.center
             button(mz-button)

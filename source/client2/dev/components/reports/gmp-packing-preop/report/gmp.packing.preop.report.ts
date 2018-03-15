@@ -3,6 +3,7 @@ import { Language } from 'angular-l10n'
 
 import { SuperReportComponent } from '../../super-report/super.report'
 import { Report } from '../interfaces/gmp.packing.preop.interface'
+import { Preview } from '../../preview/report.preview.interface';
 
 @Component({
   selector: 'gmp-packing-preop-report',
@@ -16,6 +17,26 @@ export class GMPPackingPreopReportComponent extends SuperReportComponent {
 
   constructor() {
     super()
+  }
+
+  public getPreview(): Array<Preview> {
+    let preview: Array<Preview> = []
+
+    if (this.report.notes != null && this.report.notes != "") {
+      preview.push({ title: "Log.notes", content: this.report.notes })
+    }
+
+    if (this.report.album_url != null && this.report.album_url != "") {
+      preview.push({ title: "Log.album_url", content: this.report.album_url })
+    }
+
+    if (preview.length == 0) {
+      preview = null
+    }
+
+    preview = null
+
+    return preview
   }
 
   public getCSS(): string {

@@ -100,4 +100,16 @@ export class GMPPackingAgedProductLogComponent extends SuperLogComponent impleme
       this.logService.refreshFormGroup(this.captureForm)
     }
   }
+
+  public save(): void {
+    for (let entry in ((<FormGroup>this.captureForm.controls.entries).controls)) {
+      let temp = (<FormGroup>this.captureForm.controls.entries).controls[entry] as FormGroup
+      let tempAge = (+(new Date(this.captureForm.controls.date.value)) - + new Date(temp.controls.packed_date.value)) / (1000 * 60 * 60 * 24)
+      if (tempAge == Number(tempAge)) {
+        temp.controls.age.setValue(tempAge)
+      }
+    }
+
+    super.save()
+  }
 }

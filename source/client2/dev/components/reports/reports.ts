@@ -77,26 +77,47 @@ export class ReportTab extends DynamicComponentResolver implements OnInit, OnDes
   reports: Array<any> = []
   activeReport: string = "any"
   reportEvent: Subscription
+  documentList: any = null
 
   dateRangeForm: FormGroup = this.formBuilder.group({
     startDate: [this.startDate],
-    endDate: [this.endDate]
+    endDate: [this.endDate],
+    document_id: [null]
   })
 
-  constructor(private translationService: TranslationService, public events: PubSubService, private sanitizer: DomSanitizer, private server: BackendService, private formBuilder: FormBuilder, factoryResolver: ComponentFactoryResolver, public ts: TService, private router: StateService, private loaderService: LoaderService, private toastService: ToastsService) {
+  constructor(private translationService: TranslationService,
+    public events: PubSubService,
+    private sanitizer: DomSanitizer,
+    private server: BackendService,
+    private formBuilder: FormBuilder,
+    factoryResolver: ComponentFactoryResolver,
+    public ts: TService,
+    private router: StateService,
+    private loaderService: LoaderService,
+    private toastService: ToastsService) {
     super(factoryResolver)
     //events.subscribe("reportEvent", (activeReport, time) => {
       //this.activeReport = activeReport
       //console.log("reporte activo: " + activeReport)
     //})
-    //this.reportSuffix = this.navParams.get('log_suffix')
-    this.reportSuffix = this.router.params.suffix
   }
 
   ngOnInit() {
+    this.reportSuffix = this.router.params.suffix
+
     this.reportEvent = this.events.$sub("reportEvent").subscribe((from) => {
       this.activeReport = from.activeReport
     })
+
+    if (this.reportSuffix == 'gmp-doc-control-doc-control') {
+      this.server.update(
+        'log-gmp-doc-control-doc-control',
+        new FormData(),
+        (response: any) => {
+          this.documentList = response.data.documents
+        }
+      ) 
+    }
   }
 
   ngOnDestroy() {
@@ -128,6 +149,9 @@ export class ReportTab extends DynamicComponentResolver implements OnInit, OnDes
     const dateRange = new FormData()
     dateRange.append('start_date', this.dateRangeForm.value.startDate)
     dateRange.append('end_date', this.dateRangeForm.value.endDate)
+    if (this.reportSuffix == 'gmp-doc-control-doc-control' && this.dateRangeForm.value.document_id != null) {
+      dateRange.append('document_id', this.dateRangeForm.value.document_id)
+    }
     const reportLoader = this.loaderService.koiLoader("Recuperando reportes")
 
     this.server.update(

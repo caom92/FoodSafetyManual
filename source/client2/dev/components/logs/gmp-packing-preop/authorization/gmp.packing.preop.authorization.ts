@@ -52,8 +52,8 @@ export class GMPPackingPreopAuthorizationComponent extends SuperAuthorizationCom
     return this._fb.group({
       id: [area.id, [Validators.required]],
       time: [area.time, [Validators.required, Validators.minLength(1)]],
-      notes: [area.notes, [Validators.required, Validators.minLength(1)]],
-      person_performing_sanitation: [area.person_performing_sanitation, [Validators.required, Validators.minLength(1)]],
+      notes: [area.notes, [Validators.maxLength(65535)]],
+      person_performing_sanitation: [area.person_performing_sanitation, [Validators.maxLength(255)]],
       items: this._fb.array(area.items)
     })
   }
@@ -63,7 +63,7 @@ export class GMPPackingPreopAuthorizationComponent extends SuperAuthorizationCom
       id: [item.id, [Validators.required]],
       is_acceptable: [item.is_acceptable, [Validators.required]],
       corrective_action_id: [item.corrective_action_id],
-      comment: [item.comment]
+      comment: [item.comment, [Validators.maxLength(65535)]]
     })
   }
 }

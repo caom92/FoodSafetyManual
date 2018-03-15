@@ -22,7 +22,7 @@ $service = [
 
       // for each employee assigned to the supervisor...
       foreach ($employees as $employee) {
-        $numPendingLogs += $capturedLogs
+        $numPendingLogs += (int)$capturedLogs
           ->countUnapprovedLogsByUserID($employee['id']);
       }
     } else {
