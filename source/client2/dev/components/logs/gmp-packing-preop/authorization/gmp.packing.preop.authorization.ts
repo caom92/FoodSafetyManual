@@ -32,8 +32,8 @@ export class GMPPackingPreopAuthorizationComponent extends SuperAuthorizationCom
   initForm() {
     this.captureForm = this._fb.group({
       report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
-      notes: [this.log.notes, [Validators.required, Validators.minLength(1)]],
-      album_url: [this.log.album_url, [Validators.required, Validators.minLength(1)]],
+      notes: [this.log.notes, [Validators.maxLength(65535)]],
+      album_url: [this.log.album_url, [Validators.maxLength(65535)]],
       areas: this._fb.array([])
     })
     const control = <FormArray>this.captureForm.controls['areas']
