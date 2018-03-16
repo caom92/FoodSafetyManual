@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms'
 import { StateService } from '@uirouter/core'
 import { Language } from 'angular-l10n'
 
+import { CustomValidators } from '../../../../directives/custom.validators'
 import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
@@ -48,9 +49,9 @@ export class GAPOthersUnusualOccurrenceAuthorizationComponent extends SuperAutho
   initForm() {
     this.captureForm = this._fb.group({
       report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
-      date: [this.log.creation_date, [Validators.required, Validators.minLength(1)]],
-      time: [this.log.items.entry.time, [Validators.required]],
-      incident_date: [this.log.items.entry.incident_date, [Validators.required, Validators.minLength(1)]],
+      date: [this.log.creation_date, [Validators.required, CustomValidators.dateValidator()]],
+      time: [this.log.items.entry.time.substring(0, 5), [Validators.required, CustomValidators.timeValidator()]],
+      incident_date: [this.log.items.entry.incident_date, [Validators.required, CustomValidators.dateValidator()]],
       shift_id: [this.log.items.entry.shift_id, [Validators.required]],
       area_id: [this.log.items.entry.area, [Validators.required, Validators.maxLength(this.maxLengths.area_id)]],
       product_id: [this.log.items.entry.product_name, [Validators.required, Validators.maxLength(this.maxLengths.product_id)]],

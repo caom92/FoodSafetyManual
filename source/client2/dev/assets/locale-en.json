@@ -148,6 +148,7 @@
             "album_length": "The album URL can't exceed 2000 characters"
         },
         "gap-others-unusual-occurrence": {
+            "shift_required": "You must select a shift",
             "area_max": "Production area name can't exceed 255 characters",
             "product_max": "Product name can't exceed 255 characters",
             "batch_max": "Batch name can't exceed 255 characters",

@@ -48,9 +48,9 @@ export class GAPOthersUnusualOccurrenceLogComponent extends SuperLogComponent im
     const currentTime = this.timeService.getISOTime(new Date())
     const currentDate = this.timeService.getISODate(new Date())
     this.captureForm = this._fb.group({
-      date: [currentDate, [Validators.required, Validators.minLength(1), CustomValidators.dateValidator()]],
+      date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       time: [currentTime, [Validators.required, CustomValidators.timeValidator()]],
-      incident_date: [currentDate, [Validators.required, Validators.minLength(1), CustomValidators.dateValidator()]],
+      incident_date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       shift_id: [null, [Validators.required]],
       area_id: ["", [Validators.required, Validators.maxLength(this.maxLengths.area_id)]],
       product_id: ["", [Validators.required, Validators.maxLength(this.maxLengths.product_id)]],

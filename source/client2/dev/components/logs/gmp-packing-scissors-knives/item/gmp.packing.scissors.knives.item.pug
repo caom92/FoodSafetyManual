@@ -4,10 +4,10 @@ include ../../../log-ionic-materialize.pug
   //-+cardHeader("{{item.name}}")
   +cardContent()
     +row()
-      +col()(class="s6 m6 l6")
+      +col()([ngClass]="showCaptureCheckbox == true ? 's6 m6 l6' : 's12 m12 l12'")
         h6(*ngIf='item.quantity == 1', class="blue-text") {{ 'Log.group' | translate:lang }} {{item.name}} {{ 'Log.with' | translate:lang }} {{item.quantity}} {{ 'Log.element' | translate:lang }}
         h6(*ngIf='item.quantity != 1', class="blue-text") {{ 'Log.group' | translate:lang }} {{item.name}} {{ 'Log.with' | translate:lang }} {{item.quantity}} {{ 'Log.elements' | translate:lang }}
-      +col()(class="s6 m6 l6")
+      +col()(class="s6 m6 l6", *ngIf="showCaptureCheckbox")
         +captureCheckbox("{{ 'Log.include_in_capture' | translate:lang }}", "capture_{{item.id}}", "update()")
     div(*ngIf="itemForm.enabled")
       +timeInput(true, "{{ 'Log.time' | translate:lang }}", "time", null, null, "langManager.messages.global.timePickerConfig")

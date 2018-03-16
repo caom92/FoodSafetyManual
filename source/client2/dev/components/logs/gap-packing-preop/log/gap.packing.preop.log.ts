@@ -1,16 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { DatePipe } from '@angular/common'
-import { Validators, FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms'
-
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
-import { Log } from '../interfaces/gap.packing.preop.log.interface'
-import { CaptureArea, CaptureItem } from '../interfaces/gap.packing.preop.capture.interface'
-
+import { CustomValidators } from '../../../../directives/custom.validators'
+import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
-import { LogService } from '../../../../services/app.logs'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
+import { CaptureArea, CaptureItem } from '../interfaces/gap.packing.preop.capture.interface'
+import { Log } from '../interfaces/gap.packing.preop.log.interface'
 
 @Component({
   selector: 'gap-packing-preop-log',
@@ -20,6 +18,14 @@ import { SuperLogComponent } from '../../super-logs/super.logs.log'
 export class GAPPackingPreopLogComponent extends SuperLogComponent implements OnInit {
   @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, areas: { corrective_actions: [{ id: null, code: null, en: null, es: null }], logs: [{ id: null, name: null, types: [{ id: null, en: null, es: null, items: [{ id: null, name: null, order: null }] }] }] } }
   @Language() lang: string
+
+  readonly maxLengths = {
+    area_notes: 65535,
+    person_performing_sanitation: 255,
+    comment: 65535,
+    report_notes: 65535,
+    album_url: 255
+  }
 
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
@@ -35,14 +41,13 @@ export class GAPPackingPreopLogComponent extends SuperLogComponent implements On
   }
 
   initForm() {
-    // Creamos el formulario, utilizando validaciones equivalentes a las usadas en el servidor
     this.captureForm = this._fb.group({
-      date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
-      notes: ['', [Validators.maxLength(65535)]],
-      album_url: ['', [Validators.maxLength(65535)]],
+      date: [this.timeService.getISODate(new Date()), [Validators.required, CustomValidators.dateValidator()]],
+      notes: ['', [Validators.maxLength(this.maxLengths.report_notes)]],
+      album_url: ['', [Validators.maxLength(this.maxLengths.album_url)]],
       areas: this._fb.array([])
     })
-    const control = <FormArray>this.captureForm.controls['areas'];
+    const control = <FormArray>this.captureForm.controls['areas']
     let currentTime = this.timeService.getISOTime(new Date())
     for (let area of this.log.areas.logs) {
       let itemControl: Array<FormGroup> = []
@@ -53,6 +58,25 @@ export class GAPPackingPreopLogComponent extends SuperLogComponent implements On
       }
       control.push(this.initArea({ id: area.id, time: currentTime, notes: "", person_performing_sanitation: "", items: itemControl }))
     }
+  }
+
+  public initArea(area: CaptureArea): FormGroup {
+    return this._fb.group({
+      id: [area.id, [Validators.required]],
+      time: [area.time, [Validators.required, CustomValidators.timeValidator()]],
+      notes: [area.notes, [Validators.maxLength(this.maxLengths.area_notes)]],
+      person_performing_sanitation: [area.person_performing_sanitation, [Validators.maxLength(this.maxLengths.person_performing_sanitation)]],
+      items: this._fb.array(area.items)
+    })
+  }
+
+  public initItem(item: CaptureItem): FormGroup {
+    return this._fb.group({
+      id: [item.id, [Validators.required]],
+      is_acceptable: [item.is_acceptable],
+      corrective_action_id: [item.corrective_action],
+      comment: [item.comment, [Validators.maxLength(this.maxLengths.comment)]]
+    })
   }
 
   resetForm() {
@@ -75,22 +99,18 @@ export class GAPPackingPreopLogComponent extends SuperLogComponent implements On
     })
   }
 
-  public initArea(area: CaptureArea): FormGroup {
-    return this._fb.group({
-      id: [area.id, [Validators.required]],
-      time: [area.time, [Validators.required]],
-      notes: [area.notes, [Validators.maxLength(65535)]],
-      person_performing_sanitation: [area.person_performing_sanitation, [Validators.maxLength(255)]],
-      items: this._fb.array(area.items)
-    })
-  }
-
-  public initItem(item: CaptureItem): FormGroup {
-    return this._fb.group({
-      id: [item.id, [Validators.required]],
-      is_acceptable: [item.is_acceptable, [Validators.required]],
-      corrective_action_id: [item.corrective_action],
-      comment: [item.comment, [Validators.maxLength(65535)]]
-    })
+  public cleanForm(): void {
+    for (let a in (<FormGroup>this.captureForm.controls.areas).controls) {
+      const area = (<FormGroup>(<FormGroup>this.captureForm.controls.areas).controls[a])
+      for (let i in (<FormGroup>area.controls.items).controls) {
+        const item = (<FormGroup>(<FormGroup>area.controls.items).controls[i])
+        if (item.controls.is_acceptable.value == false) {
+          item.enable()
+        } else if (item.controls.is_acceptable.value == true || item.controls.is_acceptable.value == undefined || item.controls.is_acceptable.value == null) {
+          item.controls.corrective_action_id.disable()
+          item.controls.comment.disable()
+        }
+      }
+    }
   }
 }

@@ -148,6 +148,7 @@
             "album_length": "El enlace del album no puede exceder 2000 caracteres"
         },
         "gap-others-unusual-occurrence": {
+            "shift_required": "Debe seleccionar un turno",
             "area_max": "El área de producción no puede exceder 255 caracteres",
             "product_max": "El producto no puede exceder 255 caracteres",
             "batch_max": "El lote no puede exceder 255 caracteres",

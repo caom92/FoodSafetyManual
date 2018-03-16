@@ -8,6 +8,7 @@ include ../../../log-ionic-materialize.pug
         +radioGroup("{{ 'Log.acceptable' | translate:lang }}", false, "is_acceptable")
           +radio("{{ 'Log.acceptable' | translate:lang }}", false, "true", false, false, "acceptable_{{item.id}}", "conditions_{{item.id}}")([formControl]='itemForm.controls.is_acceptable', [value]='true')
           +radio("{{ 'Log.unacceptable' | translate:lang }}", false, "false", false, false, "unacceptable_{{item.id}}", "conditions_{{item.id}}")([formControl]='itemForm.controls.is_acceptable', [value]='false')
+          +radio("N/A", false, "null", false, false, "not_applicable_{{item.id}}", "conditions_{{item.id}}")([formControl]='itemForm.controls.is_acceptable', [value]='null')
           //-+errorMessage('!itemForm.controls.is_acceptable.valid && itemForm.controls.is_acceptable.dirty', 'Debe marcar un elemento como Aceptable o No Aceptable')
       +col()(*ngIf='itemForm.controls.is_acceptable.value == false', class="s6 m6 l6")
         +select("{{ 'Log.corrective_action' | translate:lang }}", false, "corrective_action_id", "popover")([hidden]='itemForm.controls.is_acceptable.value !== false')

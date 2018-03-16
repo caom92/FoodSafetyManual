@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { StateService } from '@uirouter/core'
 import { Language } from 'angular-l10n'
 
+import { CustomValidators } from '../../../../directives/custom.validators'
 import { LogService } from '../../../../services/app.logs'
 import { ToastsService } from '../../../../services/app.toasts'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
@@ -19,6 +20,14 @@ export class GAPPackingPreopAuthorizationComponent extends SuperAuthorizationCom
   @Language() lang: string
   captureForm: FormGroup = new FormBuilder().group({})
 
+  readonly maxLengths = {
+    area_notes: 65535,
+    person_performing_sanitation: 255,
+    comment: 65535,
+    report_notes: 65535,
+    album_url: 255
+  }
+
   constructor(_fb: FormBuilder, toastService: ToastsService, logService: LogService, router: StateService) {
     super(_fb, logService, toastService, router)
   }
@@ -31,9 +40,10 @@ export class GAPPackingPreopAuthorizationComponent extends SuperAuthorizationCom
 
   initForm() {
     this.captureForm = this._fb.group({
-      report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
-      notes: [this.log.notes, [Validators.required, Validators.minLength(1)]],
-      album_url: [this.log.album_url, [Validators.required, Validators.minLength(1)]],
+      report_id: [this.log.report_id, [Validators.required]],
+      date: [this.log.creation_date, [Validators.required, CustomValidators.dateValidator()]],
+      notes: [this.log.notes, [Validators.maxLength(this.maxLengths.report_notes)]],
+      album_url: [this.log.album_url, [Validators.maxLength(this.maxLengths.album_url)]],
       areas: this._fb.array([])
     })
     const control = <FormArray>this.captureForm.controls['areas']
@@ -41,7 +51,7 @@ export class GAPPackingPreopAuthorizationComponent extends SuperAuthorizationCom
       let itemControl = []
       for (let type of area.types) {
         for (let item of type.items) {
-          itemControl.push(this.initItem({ id: item.id, is_acceptable: (item.status == 1) ? true : false, corrective_action_id: item.corrective_action_id, comment: item.comment }))
+          itemControl.push(this.initItem({ id: item.id, is_acceptable: (item.status == 1) ? true : (item.status == 0) ? false : null, corrective_action_id: item.corrective_action_id, comment: item.comment }))
         }
       }
       control.push(this.initArea({ id: area.id, time: area.time, notes: area.notes, person_performing_sanitation: area.person_performing_sanitation, items: itemControl }))
@@ -51,9 +61,9 @@ export class GAPPackingPreopAuthorizationComponent extends SuperAuthorizationCom
   initArea(area: UpdateArea) {
     return this._fb.group({
       id: [area.id, [Validators.required]],
-      time: [area.time, [Validators.required, Validators.minLength(1)]],
-      notes: [area.notes, [Validators.required, Validators.minLength(1)]],
-      person_performing_sanitation: [area.person_performing_sanitation, [Validators.required, Validators.minLength(1)]],
+      time: [area.time, [Validators.required, CustomValidators.timeValidator()]],
+      notes: [area.notes, [Validators.maxLength(this.maxLengths.area_notes)]],
+      person_performing_sanitation: [area.person_performing_sanitation, [Validators.maxLength(this.maxLengths.person_performing_sanitation)]],
       items: this._fb.array(area.items)
     })
   }
@@ -61,9 +71,35 @@ export class GAPPackingPreopAuthorizationComponent extends SuperAuthorizationCom
   initItem(item: UpdateItem) {
     return this._fb.group({
       id: [item.id, [Validators.required]],
-      is_acceptable: [item.is_acceptable, [Validators.required]],
+      is_acceptable: [item.is_acceptable],
       corrective_action_id: [item.corrective_action_id],
-      comment: [item.comment]
+      comment: [item.comment, [Validators.maxLength(this.maxLengths.comment)]]
     })
+  }
+
+  public cleanForm(): void {
+    for (let a in (<FormGroup>this.captureForm.controls.areas).controls) {
+      const area = (<FormGroup>(<FormGroup>this.captureForm.controls.areas).controls[a])
+      for (let i in (<FormGroup>area.controls.items).controls) {
+        const item = (<FormGroup>(<FormGroup>area.controls.items).controls[i])
+        if (item.controls.is_acceptable.value == undefined || item.controls.is_acceptable.value == null) {
+          item.controls.corrective_action_id.setValue(1)
+          item.controls.comment.setValue("")
+          //item.controls.is_acceptable.disable()
+        } else {
+          //item.controls.is_acceptable.enable()
+          if (item.controls.is_acceptable.value == true) {
+            item.controls.corrective_action_id.setValue(1)
+            item.controls.comment.setValue("")
+          }
+        }
+      }
+    }
+  }
+
+  public save(): void {
+    this.cleanForm()
+    console.log(this.captureForm.value)
+    super.save()
   }
 }

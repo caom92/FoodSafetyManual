@@ -4,6 +4,7 @@ import { Language } from 'angular-l10n'
 
 import { LanguageService } from '../../../../services/app.language'
 import { LogItem } from '../interfaces/gmp.packing.scissors.knives.log.interface'
+import { AuthorizationItem } from '../interfaces/gmp.packing.scissors.knives.authorization.interface';
 
 @Component({
   selector: 'gmp-packing-scissors-knives-item',
@@ -14,9 +15,20 @@ export class GMPPackingScissorsKnivesItemComponent {
   @Input() item: LogItem
   @Input('itemGroup') public itemForm: FormGroup
   @Language() lang: string
+  showCaptureCheckbox: boolean = false
 
   constructor(private langManager: LanguageService) {
 
+  }
+
+  ngOnInit(): void {
+    if ((<AuthorizationItem>this.item).time != undefined) {
+      // Autorización
+      this.showCaptureCheckbox = false
+    } else {
+      // Bitácora
+      this.showCaptureCheckbox = true
+    }
   }
 
   public update(): void {

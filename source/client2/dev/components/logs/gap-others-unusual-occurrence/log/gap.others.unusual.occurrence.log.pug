@@ -10,7 +10,7 @@ include ../../../log-ionic-materialize.pug
             +col()(class='s4 m4 l4')
               +select("Shift", null, "shift_id", null, "shift", "'Shift'")
                 +option("{{shift.name}}", "shift.shift_id", null, false)(*ngFor='let shift of log.items.shifts; let first = first')
-              +errorMessage("!captureForm.controls.shift_id.valid && captureForm.controls.shift_id.dirty", "null shift")
+              +errorMessage("!captureForm.controls.shift_id.valid && captureForm.controls.shift_id.dirty", "{{ 'LogErrors.gap-others-unusual-occurrence.shift_required' | translate:lang }}")
             +col()(class='s4 m4 l4')
               +timeInput(true, "Time", "time", "time", null, "langManager.messages.global.timePickerConfig")
               +errorMessage("!captureForm.controls.time.valid", "{{ 'LogErrors.generic.time_required' | translate:lang }}")
