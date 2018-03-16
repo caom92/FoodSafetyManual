@@ -150,6 +150,9 @@
         "gmp-packing-hand-washing": {
             "notes_max": "Report notes can't exceed 65535 characters"
         },
+        "gmp-packing-glass-brittle": {
+            "notes_max": "Report notes can't exceed 65535 characters"
+        },
         "gap-others-unusual-occurrence": {
             "shift_required": "You must select a shift",
             "area_max": "Production area name can't exceed 255 characters",
