@@ -147,6 +147,9 @@
             "person_length": "The name of the person performing sanitation can't exceed 255 characters",
             "album_length": "The album URL can't exceed 2000 characters"
         },
+        "gmp-packing-hand-washing": {
+            "notes_max": "Report notes can't exceed 65535 characters"
+        },
         "gap-others-unusual-occurrence": {
             "shift_required": "You must select a shift",
             "area_max": "Production area name can't exceed 255 characters",

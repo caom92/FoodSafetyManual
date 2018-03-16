@@ -147,6 +147,9 @@
             "person_length": "El nombre de la persona a cargo de la sanitización no puede exceder 255 caracteres",
             "album_length": "El enlace del album no puede exceder 2000 caracteres"
         },
+        "gmp-packing-hand-washing": {
+            "notes_max": "Las notas del reporte no pueden exceder 65535 caracteres"
+        },
         "gap-others-unusual-occurrence": {
             "shift_required": "Debe seleccionar un turno",
             "area_max": "El área de producción no puede exceder 255 caracteres",
