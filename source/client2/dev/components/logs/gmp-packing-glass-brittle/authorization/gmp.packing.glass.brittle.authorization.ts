@@ -37,7 +37,7 @@ export class GMPPackingGlassBrittleAuthorizationComponent extends SuperAuthoriza
 
   public initForm(): void {
     this.captureForm = this._fb.group({
-      report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
+      report_id: [this.log.report_id, [Validators.required]],
       date: [this.log.creation_date, [Validators.required, CustomValidators.dateValidator()]],
       time: [this.log.time, [Validators.required, CustomValidators.timeValidator()]],
       notes: [this.log.notes, [Validators.required, Validators.maxLength(this.maxLengths.notes)]],

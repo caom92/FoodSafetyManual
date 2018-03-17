@@ -36,7 +36,7 @@ export class GMPPackingHandWashingAuthorizationComponent extends SuperAuthorizat
 
   public initForm(): void {
     this.captureForm = this._fb.group({
-      report_id: [this.log.report_id, [Validators.required, CustomValidators.dateValidator()]],
+      report_id: [this.log.report_id, [Validators.required]],
       notes: [this.log.notes, [Validators.required, Validators.maxLength(this.maxLengths.notes)]],
       items: this._fb.array([])
     })

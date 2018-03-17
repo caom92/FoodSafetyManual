@@ -10,6 +10,7 @@ import { TranslationService } from '../../../../services/app.translation'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
 import { CaptureEntry } from '../interfaces/gmp.packing.aged.product.capture.interface'
 import { Log } from '../interfaces/gmp.packing.aged.product.log.interface'
+import { CustomValidators } from '../../../../directives/custom.validators';
 
 @Component({
   selector: 'gmp-packing-aged-product-log',
@@ -36,8 +37,9 @@ export class GMPPackingAgedProductLogComponent extends SuperLogComponent impleme
   }
 
   initForm() {
+    const currentDate = this.timeService.getISODate(new Date())
     this.captureForm = this._fb.group({
-      date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
+      date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       entries: this._fb.array([])
     })
 

@@ -41,14 +41,15 @@ export class GAPPackingPreopLogComponent extends SuperLogComponent implements On
   }
 
   initForm() {
+    const currentDate = this.timeService.getISODate(new Date())
+    const currentTime = this.timeService.getISOTime(new Date())
     this.captureForm = this._fb.group({
-      date: [this.timeService.getISODate(new Date()), [Validators.required, CustomValidators.dateValidator()]],
+      date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       notes: ['', [Validators.maxLength(this.maxLengths.report_notes)]],
       album_url: ['', [Validators.maxLength(this.maxLengths.album_url)]],
       areas: this._fb.array([])
     })
     const control = <FormArray>this.captureForm.controls['areas']
-    let currentTime = this.timeService.getISOTime(new Date())
     for (let area of this.log.areas.logs) {
       let itemControl: Array<FormGroup> = []
       for (let type of area.types) {
@@ -81,7 +82,8 @@ export class GAPPackingPreopLogComponent extends SuperLogComponent implements On
 
   resetForm() {
     let areas = []
-    let currentTime = this.timeService.getISOTime(new Date())
+    const currentDate = this.timeService.getISODate(new Date())
+    const currentTime = this.timeService.getISOTime(new Date())
     for (let area of this.log.areas.logs) {
       let items: Array<CaptureItem> = []
       for(let type of area.types){
@@ -92,7 +94,7 @@ export class GAPPackingPreopLogComponent extends SuperLogComponent implements On
       areas.push({ id: area.id, time: currentTime, notes: "", person_performing_sanitation: "", items: items })
     }
     this.captureForm.reset({
-      date: this.timeService.getISODate(new Date()),
+      date: currentDate,
       notes: '',
       album_url: '',
       areas: areas
@@ -107,9 +109,22 @@ export class GAPPackingPreopLogComponent extends SuperLogComponent implements On
         if (item.controls.is_acceptable.value == false) {
           item.enable()
         } else if (item.controls.is_acceptable.value == true || item.controls.is_acceptable.value == undefined || item.controls.is_acceptable.value == null) {
+          if (item.controls.is_acceptable.value == undefined || item.controls.is_acceptable.value == null) {
+            item.controls.is_acceptable.disable()  
+          }
           item.controls.corrective_action_id.disable()
           item.controls.comment.disable()
         }
+      }
+    }
+  }
+
+  public enableForm(): void {
+    for (let a in (<FormGroup>this.captureForm.controls.areas).controls) {
+      const area = (<FormGroup>(<FormGroup>this.captureForm.controls.areas).controls[a])
+      for (let i in (<FormGroup>area.controls.items).controls) {
+        const item = (<FormGroup>(<FormGroup>area.controls.items).controls[i])
+        item.enable()
       }
     }
   }

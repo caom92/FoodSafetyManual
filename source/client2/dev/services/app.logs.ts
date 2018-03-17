@@ -314,6 +314,7 @@ export class LogService {
           loader.close()
         }, (error: any, caught: Observable<void>) => {
           // TODO Mensaje de error
+          loader.close()
           reject()
           return []
         }

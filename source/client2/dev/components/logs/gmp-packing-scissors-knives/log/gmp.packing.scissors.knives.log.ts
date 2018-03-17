@@ -9,6 +9,7 @@ import { TranslationService } from '../../../../services/app.translation'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
 import { CaptureItem } from '../interfaces/gmp.packing.scissors.knives.capture.interface'
 import { Log } from '../interfaces/gmp.packing.scissors.knives.log.interface'
+import { CustomValidators } from '../../../../directives/custom.validators';
 
 @Component({
   selector: 'gmp-packing-scissors-knives-log',
@@ -35,26 +36,28 @@ export class GMPPackingScissorsKnivesLogComponent extends SuperLogComponent impl
   }
 
   initForm() {
+    const currentDate = this.timeService.getISODate(new Date())
+    const currentTime = this.timeService.getISOTime(new Date())
     this.captureForm = this._fb.group({
-      date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
+      date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       notes: ['', [Validators.required, Validators.minLength(1)]],
       items: this._fb.array([])
     })
     const control = <FormArray>this.captureForm.controls['items']
-    let currentTime = this.timeService.getISOTime(new Date())
     for (let item of this.log.items) {
       control.push(this.initItem({ id: item.id, time: currentTime, approved: false, condition: false, is_sanitized: false, corrective_action: "" }))
     }
   }
 
   resetForm() {
-    let currentTime = this.timeService.getISOTime(new Date())
+    const currentDate = this.timeService.getISODate(new Date())
+    const currentTime = this.timeService.getISOTime(new Date())
     let items = []
     for (let item of this.log.items) {
       items.push({ id: item.id, time: currentTime, approved: false, condition: false, is_sanitized: false, corrective_action: "" })
     }
     this.captureForm.reset({
-      date: this.timeService.getISODate(new Date()),
+      date: currentDate,
       notes: '',
       items: items
     })

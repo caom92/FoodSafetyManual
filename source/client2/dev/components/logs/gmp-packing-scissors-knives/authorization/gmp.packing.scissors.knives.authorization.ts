@@ -32,7 +32,7 @@ export class GMPPackingScissorsKnivesAuthorizationComponent extends SuperAuthori
 
   initForm() {
     this.captureForm = this._fb.group({
-      report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
+      report_id: [this.log.report_id, [Validators.required]],
       notes: [this.log.notes, [Validators.required, Validators.minLength(1)]],
       items: this._fb.array([])
     })

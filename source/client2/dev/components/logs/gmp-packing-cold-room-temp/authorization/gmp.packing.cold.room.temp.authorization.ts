@@ -32,7 +32,7 @@ export class GMPPackingColdRoomTempAuthorizationComponent extends SuperAuthoriza
 
   initForm() {
     this.captureForm = this._fb.group({
-      report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
+      report_id: [this.log.report_id, [Validators.required]],
       time: [this.log.time, [Validators.required, Validators.minLength(1)]],
       items: this._fb.array([])
     })

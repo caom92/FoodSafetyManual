@@ -11,6 +11,7 @@ import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationService } from '../../../../services/app.translation'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization } from '../interfaces/gmp.doc.control.doc.control.authorization.interface'
+import { CustomValidators } from '../../../../directives/custom.validators';
 
 @Component({
   selector: 'gmp-doc-control-doc-control-authorization',
@@ -49,9 +50,9 @@ export class GMPDocControlDocControlAuthorizationComponent extends SuperAuthoriz
   }
 
   public initForm(): void {
-    let currentTime = this.timeService.getISOTime(new Date())
     this.captureForm = this._fb.group({
-      date: [this.log.creation_date, [Validators.required, Validators.minLength(1)]],
+      report_id: [this.log.report_id, [Validators.required]],
+      date: [this.log.creation_date, [Validators.required, CustomValidators.dateValidator()]],
       capture_date: [this.log.documents[0].entries[0].date, [Validators.required, Validators.minLength(1)]],
       users: [this.log.documents[0].entries[0].employee, [Validators.required]],
       notes: [this.log.documents[0].entries[0].notes, [Validators.required, Validators.maxLength(65535)]],

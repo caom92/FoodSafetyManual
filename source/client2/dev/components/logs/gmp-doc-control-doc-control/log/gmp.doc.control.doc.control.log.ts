@@ -10,6 +10,7 @@ import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationService } from '../../../../services/app.translation'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
 import { Log } from '../interfaces/gmp.doc.control.doc.control.log.interface'
+import { CustomValidators } from '../../../../directives/custom.validators';
 
 @Component({
   selector: 'gmp-doc-control-doc-control-log',
@@ -41,9 +42,9 @@ export class GMPDocControlDocControlLogComponent extends SuperLogComponent imple
   }
 
   public initForm(): void {
-    let currentTime = this.timeService.getISOTime(new Date())
+    const currentDate = this.timeService.getISODate(new Date())
     this.captureForm = this._fb.group({
-      date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
+      date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       capture_date: [null, [Validators.required, Validators.minLength(1)]],
       users: [null, [Validators.required]],
       notes: [null, [Validators.required, Validators.maxLength(65535)]],

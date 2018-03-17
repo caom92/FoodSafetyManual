@@ -39,8 +39,9 @@ export class GMPPackingHandWashingLogComponent extends SuperLogComponent impleme
   }
 
   public initForm(): void {
+    const currentDate = this.timeService.getISODate(new Date())
     this.captureForm = this._fb.group({
-      date: [this.timeService.getISODate(new Date()), [Validators.required, CustomValidators.dateValidator()]],
+      date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       notes: ['', [Validators.required, Validators.maxLength(this.maxLengths.notes)]],
       items: this._fb.array([])
     })
@@ -58,12 +59,13 @@ export class GMPPackingHandWashingLogComponent extends SuperLogComponent impleme
   }
 
   public resetForm(): void {
+    const currentDate = this.timeService.getISODate(new Date())
     let items = []
     for (let item of this.log.items) {
       items.push({ id: item.id, is_acceptable: false })
     }
     this.captureForm.reset({
-      date: this.timeService.getISODate(new Date()),
+      date: currentDate,
       notes: '',
       items: items
     })

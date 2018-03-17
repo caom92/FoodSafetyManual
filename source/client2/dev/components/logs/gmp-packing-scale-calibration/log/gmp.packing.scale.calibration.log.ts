@@ -12,6 +12,7 @@ import { TranslationService } from '../../../../services/app.translation'
 import { ToastsService } from '../../../../services/app.toasts'
 import { LogService } from '../../../../services/app.logs'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
+import { CustomValidators } from '../../../../directives/custom.validators';
 
 @Component({
   selector: 'gmp-packing-scale-calibration-log',
@@ -36,15 +37,16 @@ export class GMPPackingScaleCalibrationLogComponent extends SuperLogComponent im
     this.initForm()
   }
 
-  initForm() {    
+  initForm() {
+    const currentDate = this.timeService.getISODate(new Date())
+    const currentTime = this.timeService.getISOTime(new Date())
     this.captureForm = this._fb.group({
-      date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
+      date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       notes: ['', [Validators.maxLength(65535)]],
       corrective_action: ['', [Validators.maxLength(65535)]],
       types: this._fb.array([])
     })
     const control = <FormArray>this.captureForm.controls['types'];
-    let currentTime = this.timeService.getISOTime(new Date())
     for (let type of this.log.types.scales) {
       let itemControl = []
       for (let item of type.items) {
@@ -55,8 +57,9 @@ export class GMPPackingScaleCalibrationLogComponent extends SuperLogComponent im
   }
 
   resetForm() {
+    const currentDate = this.timeService.getISODate(new Date())
+    const currentTime = this.timeService.getISOTime(new Date())
     let types = []
-    let currentTime = this.timeService.getISOTime(new Date())
     for (let type of this.log.types.scales) {
       let items = []
       for (let item of type.items) {
@@ -65,7 +68,7 @@ export class GMPPackingScaleCalibrationLogComponent extends SuperLogComponent im
       types.push({ id: type.id, time: currentTime, items: items })
     }
     this.captureForm.reset({
-      date: this.timeService.getISODate(new Date()),
+      date: currentDate,
       notes: '',
       corrective_action: '',
       types: types

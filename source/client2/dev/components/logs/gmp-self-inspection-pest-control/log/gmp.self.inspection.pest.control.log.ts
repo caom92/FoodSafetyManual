@@ -9,6 +9,7 @@ import { TranslationService } from '../../../../services/app.translation'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
 import { CaptureItem } from '../interfaces/gmp.self.inspection.pest.control.capture.interface'
 import { Log } from '../interfaces/gmp.self.inspection.pest.control.log.interface'
+import { CustomValidators } from '../../../../directives/custom.validators';
 
 @Component({
   selector: 'gmp-self-inspection-pest-control-log',
@@ -38,7 +39,7 @@ export class GMPSelfInspectionPestControlLogComponent extends SuperLogComponent 
     const currentDate = this.timeService.getISODate(new Date())
 
     this.captureForm = this._fb.group({
-      date: [currentDate, [Validators.required, Validators.minLength(1)]],
+      date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       notes: ['', [Validators.required, Validators.minLength(1)]],
       stations: this._fb.array([])
     })

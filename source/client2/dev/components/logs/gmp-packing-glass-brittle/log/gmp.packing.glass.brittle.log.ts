@@ -41,14 +41,15 @@ export class GMPPackingGlassBrittleLogComponent extends SuperLogComponent implem
   }
 
   public initForm(): void {
+    const currentDate = this.timeService.getISODate(new Date())
+    const currentTime = this.timeService.getISOTime(new Date())
     this.captureForm = this._fb.group({
-      date: [this.timeService.getISODate(new Date()), [Validators.required, CustomValidators.dateValidator()]],
-      time: [this.timeService.getISOTime(new Date()), [Validators.required, CustomValidators.timeValidator()]],
+      date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
+      time: [currentTime, [Validators.required, CustomValidators.timeValidator()]],
       notes: ['', [Validators.required, Validators.maxLength(this.maxLengths.notes)]],
       areas: this._fb.array([])
     })
     const control = <FormArray>this.captureForm.controls['areas']
-    let currentTime = this.timeService.getISOTime(new Date())
     for (let area of this.log.areas) {
       let itemControl = []
       for (let item of area.items) {
@@ -59,8 +60,9 @@ export class GMPPackingGlassBrittleLogComponent extends SuperLogComponent implem
   }
 
   public resetForm(): void {
+    const currentDate = this.timeService.getISODate(new Date())
+    const currentTime = this.timeService.getISOTime(new Date())
     let areas = []
-    let currentTime = this.timeService.getISOTime(new Date())
     for (let area of this.log.areas) {
       let items = []
       for (let item of area.items) {
@@ -69,7 +71,7 @@ export class GMPPackingGlassBrittleLogComponent extends SuperLogComponent implem
       areas.push({ id: area.id, items: items })
     }
     this.captureForm.reset({
-      date: this.timeService.getISODate(new Date()),
+      date: currentDate,
       time: currentTime,
       notes: '',
       areas: areas

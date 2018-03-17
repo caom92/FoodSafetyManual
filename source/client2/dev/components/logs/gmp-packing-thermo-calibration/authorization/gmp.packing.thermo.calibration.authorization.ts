@@ -9,6 +9,7 @@ import { ToastsService } from '../../../../services/app.toasts'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization } from '../interfaces/gmp.packing.thermo.calibration.authorization.interface'
 import { UpdateItem } from '../interfaces/gmp.packing.thermo.calibration.update.interface'
+import { CustomValidators } from '../../../../directives/custom.validators';
 
 @Component({
   selector: 'gmp-packing-thermo-calibration-authorization',
@@ -18,7 +19,11 @@ import { UpdateItem } from '../interfaces/gmp.packing.thermo.calibration.update.
 export class GMPPackingThermoCalibrationAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
   @Input() log: Authorization = { report_id: null, created_by: null, approved_by: null, creation_date: null, approval_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, time: null, items: [{ id: null, name: null, test: null, calibration: null, sanitization: null, deficiencies: null, corrective_action: null }] }
   @Language() lang: string
-  captureForm: FormGroup = new FormBuilder().group({})
+
+  readonly maxLengths = {
+    deficiencies: 65535,
+    corrective_action: 65535
+  }
 
   constructor(private langManager: LanguageService, _fb: FormBuilder, toastService: ToastsService, logService: LogService, router: StateService) {
     super(_fb, logService, toastService, router)
@@ -32,8 +37,8 @@ export class GMPPackingThermoCalibrationAuthorizationComponent extends SuperAuth
 
   initForm() {
     this.captureForm = this._fb.group({
-      report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
-      time: [this.log.time, [Validators.required, Validators.minLength(1)]],
+      report_id: [this.log.report_id, [Validators.required]],
+      time: [this.log.time, [Validators.required, CustomValidators.timeValidator()]],
       items: this._fb.array([])
     })
     const control = <FormArray>this.captureForm.controls['items']

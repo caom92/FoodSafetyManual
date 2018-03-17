@@ -10,6 +10,7 @@ import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationService } from '../../../../services/app.translation'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization, AuthorizationEntry, AuthorizationTest } from '../interfaces/gmp.packing.atp.testing.authorization.interface'
+import { CustomValidators } from '../../../../directives/custom.validators';
 
 @Component({
   selector: 'gmp-packing-atp.testing-authorization',
@@ -38,8 +39,8 @@ export class GMPPackingATPTestingAuthorizationComponent extends SuperAuthorizati
 
   public initForm(): void {
     this.captureForm = this._fb.group({
-      report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
-      date: [this.log.creation_date, [Validators.required, Validators.minLength(1)]],
+      report_id: [this.log.report_id, [Validators.required]],
+      date: [this.log.creation_date, [Validators.required, CustomValidators.dateValidator()]],
       notes: [this.log.notes, Validators.maxLength(65535)],
       areas: this._fb.array([])
     })

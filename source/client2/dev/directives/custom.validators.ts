@@ -12,7 +12,7 @@ export class CustomValidators {
   public static dateValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
       const dateRegex = /[012]\d{3}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])/g
-      const allowed = dateRegex.test(control.value)
+      const allowed = dateRegex.test(control.value) || control.value == null || control.value == ""
       return allowed ? null : { 'invalidDate': { value: control.value } }
     }
   }

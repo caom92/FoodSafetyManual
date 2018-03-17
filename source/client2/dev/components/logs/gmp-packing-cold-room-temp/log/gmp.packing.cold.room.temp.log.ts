@@ -10,6 +10,7 @@ import { TranslationService } from '../../../../services/app.translation'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
 import { CaptureItem } from '../interfaces/gmp.packing.cold.room.temp.capture.interface'
 import { Log } from '../interfaces/gmp.packing.cold.room.temp.log.interface'
+import { CustomValidators } from '../../../../directives/custom.validators';
 
 @Component({
   selector: 'gmp-packing-cold-room-temp-log',
@@ -36,9 +37,10 @@ export class GMPPackingColdRoomTempLogComponent extends SuperLogComponent implem
   }
 
   initForm() {
-    let currentTime = this.timeService.getISOTime(new Date())
+    const currentDate = this.timeService.getISODate(new Date())
+    const currentTime = this.timeService.getISOTime(new Date())
     this.captureForm = this._fb.group({
-      date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
+      date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       time: [currentTime, [Validators.required]],
       items: this._fb.array([])
     })
@@ -49,13 +51,14 @@ export class GMPPackingColdRoomTempLogComponent extends SuperLogComponent implem
   }
 
   resetForm() {
-    let currentTime = this.timeService.getISOTime(new Date())
+    const currentDate = this.timeService.getISODate(new Date())
+    const currentTime = this.timeService.getISOTime(new Date())
     let items = []
     for (let item of this.log.items) {
       items.push({ id: item.id, test: null, deficiencies: "", corrective_action: "" })
     }
     this.captureForm.reset({
-      date: this.timeService.getISODate(new Date()),
+      date: currentDate,
       time: currentTime,
       items: items
     })

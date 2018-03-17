@@ -83,6 +83,16 @@ export class SuperAuthorizationComponent implements OnInit {
 
   }
 
+  // Esta función es llamada posteriormente a enviar los datos, y puede ser
+  // considerada como una contraparte a cleanForm(); su propósito es rehabilitar
+  // los campos desactivados por cleanForm();, que normalmente son desactivados
+  // únicamente con el propósito de no ser enviados, pero que en caso de un
+  // error de cualquier índole, deben permanecer habilitados para la edición del
+  // usuario, P.Ej., campos opcionales
+  public enableForm(): void {
+
+  }
+
   /**
    * Realiza la actualización de la bitácora, invocando al servicio de
    * bitácoras.
@@ -95,10 +105,13 @@ export class SuperAuthorizationComponent implements OnInit {
     if (this.captureForm.valid) {
       this.logService.update(this.captureForm.value, 'update-' + this.suffix).then(success => {
         // Si la promesa regresa como valida, quiere decir que la bitácora fue enviada con éxito
+        this.enableForm()
       }, error => {
-        // Caso contrario, se le notifica al usuario
+        this.enableForm()
       })
     } else {
+      this.logService.setAsDirty(this.captureForm)
+      this.enableForm()
       this.toastService.showText("incompleteLog")
     }
   }
