@@ -21,6 +21,17 @@ export class GMPPackingFinishedProductLogComponent extends SuperLogComponent imp
   @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, log_info: { quality_types: [{ id: null, name: null }] } }
   @Language() lang: string
 
+  readonly maxLengths = {
+    batch: 255,
+    production_area_id: 255,
+    supplier_id: 255,
+    product_id: 255,
+    customer_id: 255,
+    origin: 3,
+    notes: 65535,
+    album_url: 65535
+  }
+
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
     private translationService: TranslationService,
@@ -50,7 +61,7 @@ export class GMPPackingFinishedProductLogComponent extends SuperLogComponent imp
 
   public initEmptyEntry(): FormGroup {
     return this._fb.group({
-      batch: ['', [Validators.required]],
+      batch: ['', [Validators.required, Validators.maxLength(255)]],
       production_area_id: ['', [Validators.required, Validators.maxLength(255)]],
       supplier_id: ['', [Validators.required, Validators.maxLength(255)]],
       product_id: ['', [Validators.required, Validators.maxLength(255)]],

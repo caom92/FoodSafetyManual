@@ -10,7 +10,7 @@ import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationService } from '../../../../services/app.translation'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization, AuthorizationEntry } from '../interfaces/gmp.packing.finished.product.authorization.interface'
-import { CustomValidators } from '../../../../directives/custom.validators';
+import { CustomValidators } from '../../../../directives/custom.validators'
 
 @Component({
   selector: 'gmp-packing-finished-product-authorization',
@@ -20,6 +20,17 @@ import { CustomValidators } from '../../../../directives/custom.validators';
 export class GMPPackingFinishedProductAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
   @Input() log: Authorization = { report_id: null, created_by: null, approved_by: null, creation_date: null, approval_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, log_info: { quality_types: [{ id: null, name: null }], entries: [] } }
   @Language() lang: string
+
+  readonly maxLengths = {
+    batch: 255,
+    production_area_id: 255,
+    supplier_id: 255,
+    product_id: 255,
+    customer_id: 255,
+    origin: 3,
+    notes: 65535,
+    album_url: 65535
+  }
 
   constructor(_fb: FormBuilder,
     private timeService: DateTimeService,
@@ -53,14 +64,14 @@ export class GMPPackingFinishedProductAuthorizationComponent extends SuperAuthor
 
   public initEntry(entry: AuthorizationEntry): FormGroup {
     return this._fb.group({
-      batch: [entry.batch, [Validators.required]],
+      batch: [entry.batch, [Validators.required, Validators.maxLength(255)]],
       production_area_id: [entry.production_area, [Validators.required, Validators.maxLength(255)]],
       supplier_id: [entry.supplier, [Validators.required, Validators.maxLength(255)]],
       product_id: [entry.product, [Validators.required, Validators.maxLength(255)]],
       customer_id: [entry.customer, [Validators.required, Validators.maxLength(255)]],
       quality_type_id: [entry.quality_id, [Validators.required]],
       origin: [entry.origin, [Validators.maxLength(3)]], // TODO: Añadir validador de tamaño exacto
-      expiration_date: [entry.expiration_date], // TODO: Añadir validador de fecha
+      expiration_date: [entry.expiration_date, [CustomValidators.dateValidator()]], // TODO: Añadir validador de fecha
       water_temperature: [entry.water_temperature, [Validators.required]],
       product_temperature: [entry.product_temperature, [Validators.required]],
       is_weight_correct: [(entry.is_weight_correct == 1) ? true : (entry.is_weight_correct == 0) ? false : null, [Validators.required]],

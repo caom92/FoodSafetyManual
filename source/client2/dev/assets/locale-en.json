@@ -153,6 +153,22 @@
         "gmp-packing-glass-brittle": {
             "notes_max": "Report notes can't exceed 65535 characters"
         },
+        "gmp-packing-finished-product": {
+            "batch_max": "Batch name can't exceed 255 characters",
+            "production_area_id_max": "Production area name can't exceed 255 characters",
+            "supplier_id_max": "Supplier name can't exceed 255 characters",
+            "product_id_max": "Product name can't exceed 255 characters",
+            "customer_id_max": "Customer name can't exceed 255 characters",
+            "quality_type_id_required": "You must indicate the quality of the product",
+            "origin_max": "Origin name can't exceed 3 characters",
+            "water_temperature_required": "You must enter the washing water temperature",
+            "product_temperature_required": "You must enter the packed product temperature",
+            "is_weight_correct_required": "You must indicate if the weight was correct",
+            "is_label_correct_required": "You must indicate if the product was correctly labeled",
+            "is_trackable_required": "You must indicate if the product is trackable",
+            "notes_max": "Report notes can't exceed 65535 characters",
+            "album_max": "External URL can't exceed 65535 characters"
+        },
         "gap-others-unusual-occurrence": {
             "shift_required": "You must select a shift",
             "area_max": "Production area name can't exceed 255 characters",
