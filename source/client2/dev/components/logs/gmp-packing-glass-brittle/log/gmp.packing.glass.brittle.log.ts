@@ -53,7 +53,7 @@ export class GMPPackingGlassBrittleLogComponent extends SuperLogComponent implem
     for (let area of this.log.areas) {
       let itemControl = []
       for (let item of area.items) {
-        itemControl.push(this.initItem({ id: item.id, is_acceptable: null }))
+        itemControl.push(this.initItem({ id: item.id, is_acceptable: false }))
       }
       control.push(this.initArea({ id: area.id, items: itemControl }))
     }
@@ -66,7 +66,7 @@ export class GMPPackingGlassBrittleLogComponent extends SuperLogComponent implem
     for (let area of this.log.areas) {
       let items = []
       for (let item of area.items) {
-        items.push({ id: item.id, is_acceptable: null })
+        items.push({ id: item.id, is_acceptable: false })
       }
       areas.push({ id: area.id, items: items })
     }
