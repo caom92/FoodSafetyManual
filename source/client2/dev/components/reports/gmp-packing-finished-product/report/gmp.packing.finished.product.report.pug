@@ -36,5 +36,6 @@ mz-card
           td.labelColumn(*ngIf='entry.is_label_correct != 1') {{ 'Log.yes' | translate:lang }}
           td.traceabilityColumn(*ngIf='entry.is_trackable == 1') {{ 'Log.yes' | translate:lang }}
           td.traceabilityColumn(*ngIf='entry.is_trackable != 1') {{ 'Log.yes' | translate:lang }}
-          td.urlColumn {{entry.album_url}}
+          td.urlColumn
+            a(href="{{entry.album_url}}", target="_blank") {{entry.album_url}}
           td.notesColumn {{entry.notes}}

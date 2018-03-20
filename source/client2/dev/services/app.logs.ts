@@ -303,19 +303,17 @@ export class LogService {
         form_data,
         (response: any) => {
           if (response.meta.return_code == 0) {
-            this.toastService.showText("capturedLog")
+            this.toastService.showText("updatedLog")
             resolve("server")
           } else {
-            // TODO: Toast para caso en que haya fallado
-            // Regresamos la promesa como erronea con el código de error del servidor
+            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
             reject(response.meta.return_code)
           }
-          // Sin importar el resultado, desactivamos el spinner
           loader.close()
         }, (error: any, caught: Observable<void>) => {
-          // TODO Mensaje de error
+          this.toastService.showText("serverUnreachable")
           loader.close()
-          reject()
+          reject("network error")
           return []
         }
       )

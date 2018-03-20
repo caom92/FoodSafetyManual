@@ -42,7 +42,7 @@ export class GMPPackingHandWashingLogComponent extends SuperLogComponent impleme
     const currentDate = this.timeService.getISODate(new Date())
     this.captureForm = this._fb.group({
       date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
-      notes: ['', [Validators.required, Validators.maxLength(this.maxLengths.notes)]],
+      notes: ['', [Validators.maxLength(this.maxLengths.notes)]],
       items: this._fb.array([])
     })
     const control = <FormArray>this.captureForm.controls['items']

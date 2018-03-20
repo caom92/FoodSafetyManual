@@ -81,4 +81,43 @@ export class GMPPackingFinishedProductAuthorizationComponent extends SuperAuthor
       album_url: [entry.album_url, [Validators.maxLength(65535)]]
     })
   }
+
+  public cleanForm(): void {
+    const entries = <FormArray>this.captureForm.controls.entries
+
+    for (let entry of entries.controls) {
+      const dateControl = (<FormGroup>entry).controls.expiration_date
+      const originControl = (<FormGroup>entry).controls.origin
+      const notesControl = (<FormGroup>entry).controls.notes
+      const albumControl = (<FormGroup>entry).controls.album_url
+      if (dateControl.value == null || dateControl.value == "") {
+        dateControl.disable()
+      }
+      if (originControl.value == null || originControl.value == "") {
+        originControl.disable()
+      }
+      if (notesControl.value == null || notesControl.value == "") {
+        notesControl.disable()
+      }
+      if (albumControl.value == null || albumControl.value == "") {
+        albumControl.disable()
+      }
+    }
+  }
+
+  public enableForm(): void {
+    const entries = <FormArray>this.captureForm.controls.entries
+
+    for (let entry of entries.controls) {
+      const dateControl = (<FormGroup>entry).controls.expiration_date
+      const originControl = (<FormGroup>entry).controls.origin
+      const notesControl = (<FormGroup>entry).controls.notes
+      const albumControl = (<FormGroup>entry).controls.album_url
+
+      dateControl.enable()
+      originControl.enable()
+      notesControl.enable()
+      albumControl.enable()
+    }
+  }
 }

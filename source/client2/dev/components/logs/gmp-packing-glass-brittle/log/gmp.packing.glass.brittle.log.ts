@@ -46,7 +46,7 @@ export class GMPPackingGlassBrittleLogComponent extends SuperLogComponent implem
     this.captureForm = this._fb.group({
       date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       time: [currentTime, [Validators.required, CustomValidators.timeValidator()]],
-      notes: ['', [Validators.required, Validators.maxLength(this.maxLengths.notes)]],
+      notes: ['', [Validators.maxLength(this.maxLengths.notes)]],
       areas: this._fb.array([])
     })
     const control = <FormArray>this.captureForm.controls['areas']

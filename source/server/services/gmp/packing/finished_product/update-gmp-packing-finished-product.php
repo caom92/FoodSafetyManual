@@ -91,8 +91,17 @@ $service = fsm\createUpdateService(
           && array_key_exists('expiration_date', $request['entries'][$i]);
       	  
       	if (!$hasExpirationDate) {
-      	  $request['entries'][$i]['expiration_date'] = '';
+      	  $request['entries'][$i]['expiration_date'] = NULL;
       	}
+
+        $hasOrigin = 
+          isset($request['entries'][$i]['origin']) 
+          && array_key_exists('origin', $request['entries'][$i]);
+          
+        if (!$hasOrigin) {
+          $request['entries'][$i]['origin'] = '';
+        }
+
 
         $logs->updateByCapturedLogIDAndID(
           $request['entries'][$i],

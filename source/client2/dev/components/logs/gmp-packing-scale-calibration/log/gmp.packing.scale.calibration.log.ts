@@ -50,7 +50,7 @@ export class GMPPackingScaleCalibrationLogComponent extends SuperLogComponent im
     for (let type of this.log.types.scales) {
       let itemControl = []
       for (let item of type.items) {
-        itemControl.push(this.initItem({ id: item.id, test: null, unit_id: null, status: null, is_sanitized: false }))
+        itemControl.push(this.initItem({ id: item.id, test: null, unit_id: this.log.types.units[0].id, status: true, is_sanitized: false }))
       }
       control.push(this.initType({ id: type.id, time: currentTime, items: itemControl }))
     }
@@ -63,7 +63,7 @@ export class GMPPackingScaleCalibrationLogComponent extends SuperLogComponent im
     for (let type of this.log.types.scales) {
       let items = []
       for (let item of type.items) {
-        items.push({ id: item.id, test: null, unit_id: null, status: null, is_sanitized: false })
+        items.push({ id: item.id, test: null, unit_id: this.log.types.units[0].id, status: true, is_sanitized: false })
       }
       types.push({ id: type.id, time: currentTime, items: items })
     }

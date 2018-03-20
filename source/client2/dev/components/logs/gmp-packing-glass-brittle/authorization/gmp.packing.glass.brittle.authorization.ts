@@ -40,7 +40,7 @@ export class GMPPackingGlassBrittleAuthorizationComponent extends SuperAuthoriza
       report_id: [this.log.report_id, [Validators.required]],
       date: [this.log.creation_date, [Validators.required, CustomValidators.dateValidator()]],
       time: [this.log.time, [Validators.required, CustomValidators.timeValidator()]],
-      notes: [this.log.notes, [Validators.required, Validators.maxLength(this.maxLengths.notes)]],
+      notes: [this.log.notes, [Validators.maxLength(this.maxLengths.notes)]],
       areas: this._fb.array([])
     })
     const control = <FormArray>this.captureForm.controls['areas']
