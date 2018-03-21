@@ -42,20 +42,26 @@ export class GMPDocControlDocControlAuthorizationComponent extends SuperAuthoriz
 
   public ngOnInit(): void {
     this.setSuffix("gmp-doc-control-doc-control")
-    this.selectedDocument = this.log.documents[0].id
-    this.selectedDocumentName = this.log.documents[0].name
-    try {
-      this.images = JSON.parse(this.log.documents[0].entries[0].pictures)
-    } catch (error) {
-      this.images = null
+
+    if (this.log.documents.length != 0) {
+      this.selectedDocument = this.log.documents[0].id
+      this.selectedDocumentName = this.log.documents[0].name
+      try {
+        this.images = JSON.parse(this.log.documents[0].entries[0].pictures)
+      } catch (error) {
+        this.images = null
+      }
+      try {
+        this.files = JSON.parse(this.log.documents[0].entries[0].files)
+      } catch (error) {
+        this.images = null
+      }
+      this.initForm()
+    } else {
+      this.captureForm = this._fb.group({})  
     }
-    try {
-      this.files = JSON.parse(this.log.documents[0].entries[0].files)
-    } catch (error) {
-      this.images = null
-    }    
+    
     super.ngOnInit()
-    this.initForm()
   }
 
   public initForm(): void {
@@ -70,8 +76,7 @@ export class GMPDocControlDocControlAuthorizationComponent extends SuperAuthoriz
   }
 
   public save(): void {
-    this.cleanForm()
-    if (this.captureForm.valid) {
+    if (this.captureForm.valid && this.log.documents.length != 0) {
       let loader = this.loaderService.koiLoader()
       let formData = new FormData()
 

@@ -64,13 +64,11 @@ $service = fsm\createUpdateService(
         ],
         'notes' => [
           'type' => 'string',
-          'min_length' => 1,
           'max_length' => 65535,
           'optional' => TRUE
         ],
         'album_url' => [
           'type' => 'string',
-          'min_length' => 1,
           'max_length' => 65535,
           'optional' => TRUE
         ]

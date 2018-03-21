@@ -684,6 +684,14 @@ export class RootModule {
     this.translation.addConfiguration()
       .addProvider('./assets/locale-');
 
+    this.translation.translationChanged.subscribe(
+      () => {
+        window.setTimeout(() => {
+          $("select").material_select()
+        }, 1)
+      }
+    )
+
     this.translation.init()
   }
 }

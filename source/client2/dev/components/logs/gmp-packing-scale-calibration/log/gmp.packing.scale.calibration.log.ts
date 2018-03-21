@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core'
 import { DatePipe } from '@angular/common'
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
 
-import { Language } from 'angular-l10n'
+import { Language, TranslationService as TS } from 'angular-l10n'
 
 import { CaptureType, CaptureItem } from '../interfaces/gmp.packing.scale.calibration.capture.interface'
 import { Log } from '../interfaces/gmp.packing.scale.calibration.log.interface'
@@ -13,6 +13,7 @@ import { ToastsService } from '../../../../services/app.toasts'
 import { LogService } from '../../../../services/app.logs'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
 import { CustomValidators } from '../../../../directives/custom.validators';
+import { Http } from '@angular/http';
 
 @Component({
   selector: 'gmp-packing-scale-calibration-log',
@@ -35,6 +36,15 @@ export class GMPPackingScaleCalibrationLogComponent extends SuperLogComponent im
     this.setSuffix("gmp-packing-scale-calibration")
     super.ngOnInit()
     this.initForm()
+
+    /*this.ts.translationChanged.subscribe(
+      () => {
+        window.setTimeout(() => {
+          console.log("material select")
+          $("select").material_select()
+        }, 20)
+      }
+    )*/
   }
 
   initForm() {

@@ -63,8 +63,8 @@ export class GMPPackingAgedProductAuthorizationComponent extends SuperAuthorizat
       quantity: [entry.quantity, [Validators.required]],
       location: [entry.location, [Validators.required]],
       action_id: [entry.action_id, [Validators.required]],
-      album_url: [entry.album_url, [Validators.required]],
-      notes: [entry.notes, [Validators.required]],
+      album_url: [entry.album_url, []],
+      notes: [entry.notes, []],
       origin: [entry.origin, [Validators.required]]
     })
   }

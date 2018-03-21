@@ -60,8 +60,8 @@ export class GMPPackingAgedProductLogComponent extends SuperLogComponent impleme
       quantity: ["", [Validators.required]],
       location: ["", [Validators.required]],
       action_id: ["", [Validators.required]],
-      album_url: ["", [Validators.required]],
-      notes: ["", [Validators.required]],
+      album_url: ["", []],
+      notes: ["", []],
       origin: ["", [Validators.required]]
     })
   }
