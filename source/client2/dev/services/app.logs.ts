@@ -377,4 +377,24 @@ export class LogService {
 
     return result
   }
+
+  resolveBackendString(input: string | number): string {
+    if (typeof input === "number") {
+      return (input !== null && input !== undefined && Number.isNaN(input) !== true) ? String(input) : ""
+    } else {
+      return (input !== null && input !== undefined) ? String(input) : ""
+    }
+  }
+
+  resolveBackendBoolean(input: string | number): boolean {
+    return (input !== null && input !== undefined) ? (Number(input) === 1) ? true : (Number(input) === 0) ? false : null : null
+  }
+
+  resolveBackendCheckboxBoolean(input: string | number): boolean {
+    return (input !== null && input !== undefined) ? (Number(input) === 1) ? true : (Number(input) === 0) ? false : null : (input === null) ? false : null
+  }
+
+  resolveBackendNumber(input: string | number): number {
+    return (!Number.isNaN(Number(input)) && input !== null && input !== undefined) ? Number(input) : null
+  }
 }

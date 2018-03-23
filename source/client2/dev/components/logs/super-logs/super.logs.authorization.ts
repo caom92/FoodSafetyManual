@@ -135,4 +135,20 @@ export class SuperAuthorizationComponent implements OnInit {
   public back(): void {
     this.router.go("pending-authorizations-list")
   }
+
+  public resolveString(input: string | number): string {
+    return this.logService.resolveBackendString(input)
+  }
+
+  public resolveNumber(input: string | number): number {
+    return this.logService.resolveBackendNumber(input)
+  }
+
+  public resolveBoolean(input: string | number): boolean {
+    return this.logService.resolveBackendBoolean(input)
+  }
+
+  public resolveCheckbox(input: string | number): boolean {
+    return this.logService.resolveBackendCheckboxBoolean(input)
+  }
 }
