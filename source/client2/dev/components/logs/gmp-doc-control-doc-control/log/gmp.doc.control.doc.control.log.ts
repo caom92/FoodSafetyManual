@@ -39,7 +39,7 @@ export class GMPDocControlDocControlLogComponent extends SuperLogComponent imple
 
   public ngOnInit(): void {
     this.setSuffix("gmp-doc-control-doc-control")
-    this.selectedDocument = 1
+    this.selectedDocument = null
     super.ngOnInit()
     this.initForm()
   }
