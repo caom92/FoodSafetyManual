@@ -83,6 +83,11 @@ class ItemLogs extends db\InsertableTable
       WHERE cl.id = $logID AND item_id = $itemID"
     );
   }
+
+  // para depuracion del query de insert de esta tabla unicamente 
+  // function insert($rows) {
+  //   return parent::$dataBase->debug()->insert($this->table, $rows);
+  // }
 }
 
 ?>

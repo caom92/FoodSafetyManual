@@ -181,12 +181,12 @@ function isBoolean($value)
   // if it's a string, check if it resembles a boolean value
   if ($isString) {
     return 
-      $value == 'true'  || 
-      $value == 'false' ||
-      $value == 'TRUE'  ||
-      $value == 'FALSE' ||
-      $value == '0'     ||
-      $value == '1';
+      $value === 'true'  || 
+      $value === 'false' ||
+      $value === 'TRUE'  ||
+      $value === 'FALSE' ||
+      $value === '0'     ||
+      $value === '1';
   }
   
   // for anything else, return false
