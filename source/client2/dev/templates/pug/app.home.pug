@@ -155,10 +155,9 @@ include globals.pug
       ='{{ langManager.messages.sideNavOptions.reportProblem }}'
 
 //- Area principal de la pagina
-div.container(
+div(
   '[ngClass]'="{ 'with-sidenav': home.showSideNav }"
 ) 
   ui-view('[hidden]'='home.showSpinner')
-  div.row('[hidden]'='!home.showSpinner')
-    div.col.s12.m12.center-align
-      mz-spinner('[size]'="'big'")
+  .centered('[hidden]'='!home.showSpinner')
+    img.spinner(src="assets/images/koi_spinner.png", width="240", height="240")

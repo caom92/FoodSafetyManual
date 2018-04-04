@@ -93,8 +93,7 @@ export class LogService {
             this.toastService.showText("capturedLog")
             resolve("server")
           } else {
-            // TODO: Toast para caso en que haya fallado
-            // Regresamos la promesa como erronea con el código de error del servidor
+            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
             reject(response.meta.return_code)
           }
           // Sin importar el resultado, desactivamos el spinner

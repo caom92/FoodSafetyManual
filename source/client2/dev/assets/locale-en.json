@@ -169,6 +169,19 @@
             "notes_max": "Report notes can't exceed 65535 characters",
             "album_max": "External URL can't exceed 65535 characters"
         },
+        "gmp-packing-aged-product": {
+            "batch_max": "Batch name can't exceed 255 characters",
+            "warehouse_max": "Warehouse name can't exceed 255 characters",
+            "supplier_max": "Supplier name can't exceed 255 characters",
+            "item_max": "Product name can't exceed 255 characters",
+            "origin_max": "Origin name must have 3 characters",
+            "quality_id_required": "You must indicate the quality of the product",
+            "quantity_required": "You must enter the quantity",
+            "location_max": "Location name can't exceed 255 characters",
+            "action_id_required": "You must enter the action taken",
+            "notes_max": "Report notes can't exceed 65535 characters",
+            "album_url_max": "External URL can't exceed 65535 characters"
+        },
         "gap-others-unusual-occurrence": {
             "shift_required": "You must select a shift",
             "area_max": "Production area name can't exceed 255 characters",

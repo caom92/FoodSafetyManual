@@ -19,8 +19,8 @@ export class CustomValidators {
 
   public static exactLength(length: number): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
-      const allowed = control.value.length == length
-      return allowed ? null : { 'invalidDate': { value: control.value } }
+      const allowed = control.value.length == length || control.value == null || control.value == ""
+      return allowed ? null : { 'invalidLength': { value: control.value } }
     }
   }
 
