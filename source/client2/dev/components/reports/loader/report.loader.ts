@@ -100,7 +100,7 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
       supervisor: this.loaderComponent.report.approved_by,
       signature: this.loaderComponent.report.signature_path,
       subject: "",
-      images: null,
+      images: (this.loaderComponent.getImages() == "") ? null : this.loaderComponent.getImages(),
       fontsize: this.loaderComponent.getFontSize()
     }
   }
