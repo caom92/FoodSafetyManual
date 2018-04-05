@@ -37,7 +37,7 @@ include ../../../log-ionic-materialize.pug
               +errorMessage("!captureForm.controls.entries.controls[i].controls.quantity.valid && captureForm.controls.entries.controls[i].controls.quantity.dirty", "{{ 'LogErrors.gmp-packing-aged-product.quantity_required' | translate:lang }}")
             +col()(class='s2 m2 l2')
               +textInput("Location", false, "location", "text", "location_{{i + 1}}", null)([length]="maxLengths.location")
-              +errorMessage("!captureForm.controls.entries.controls[i].controls.location.valid && captureForm.controls.entries.controls[i].controls.location.dirty && captureForm.controls.entries.controls[i].controls.location.value.length > maxLengths.location", , "{{ 'LogErrors.gmp-packing-aged-product.location_max' | translate:lang }}")
+              +errorMessage("!captureForm.controls.entries.controls[i].controls.location.valid && captureForm.controls.entries.controls[i].controls.location.dirty && captureForm.controls.entries.controls[i].controls.location.value.length > maxLengths.location", "{{ 'LogErrors.gmp-packing-aged-product.location_max' | translate:lang }}")
             +col()(class='s3 m3 l3')
               +select("Action", null, "action_id", null, "action_{{i + 1}}", "'Action'")
                 +option("{{action.name}}", "action.id", null, false)(*ngFor='let action of log.log_info.actions')
