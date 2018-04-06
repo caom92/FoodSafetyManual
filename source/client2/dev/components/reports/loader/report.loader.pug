@@ -1,13 +1,14 @@
 mz-card([hidden]="!(activeReport == 'any' || activeReport == report.report_id)")
   mz-card-content
-    .row
-      .col.s4.m3.l2(style='font-size: 24px;', *ngIf='report.display_date != null && report.display_date != undefined')
-        | {{rep3rt.display_date}}
-      .col.s4.m3.l2(style='font-size: 24px;', *ngIf='report.display_date == null || report.display_date == undefined')
-        | {{report.creation_date}}
-      .col.s5.m6.l7
-        span(*ngIf='!showReport && preview != null')
-          report-preview([title]="view.title", [content]="view.content", *ngFor="let view of preview")
+    .row.no-margin-bottom
+      .col.s9.m9.l9
+        .row.no-margin-bottom
+          div('[ngClass]'="{ 'col s12 m12 l12': showReport && preview == null, 'col s12 m5 l5': !showReport && preview != null }", style='font-size: 24px;', *ngIf='report.display_date != null && report.display_date != undefined')
+            | {{report.display_date}}
+          div('[ngClass]'="{ 'col s12 m12 l12': showReport && preview == null, 'col s12 m5 l5': !showReport && preview != null }", style='font-size: 24px;', *ngIf='report.display_date == null || report.display_date == undefined')
+            | {{report.creation_date}}
+          div.col.s12.m7.l7(*ngIf='!showReport && preview != null')
+            report-preview([title]="view.title", [content]="view.content", *ngFor="let view of preview")
       .col.s1.m1.l1
         div([hidden]='!(hasEmail === true && showReport === true)')
           button(mz-button='mz-button', float='true')
