@@ -361,7 +361,7 @@ import { ReportPreview } from './reports/preview/report.preview';
         },
         {
           name: 'inventory',
-          url: '/inventory/:suffix/:name',
+          url: '/inventory/:suffix',
           component: InventoryLoaderComponent
         },
         {
