@@ -22,7 +22,7 @@ import { ReportRequest } from '../reports.interface'
 import { SuperReportComponent } from '../super-report/super.report'
 import { SuperReportInterface } from '../super-report/super.report.interface'
 import { DynamicComponentResolver } from './../../dynamic.resolver'
-import { Preview } from '../preview/report.preview.interface';
+import { Preview } from '../preview/report.preview.interface'
 
 @Component({
   selector: 'report-loader',

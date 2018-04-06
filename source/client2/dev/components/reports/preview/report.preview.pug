@@ -1,1 +1,2 @@
-p() {{ title | translate:lang }}: {{ content }}
+p(*ngIf="title != undefined && title != null") {{ title | translate:lang }}: {{ content }}
+p(*ngIf="title == undefined || title == null") {{ content }}

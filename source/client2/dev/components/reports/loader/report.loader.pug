@@ -1,10 +1,13 @@
 mz-card([hidden]="!(activeReport == 'any' || activeReport == report.report_id)")
   mz-card-content
     .row
-      .col.s9.m9.l9(style='font-size: 24px;', *ngIf='report.display_date != null && report.display_date != undefined')
-        | {{report.display_date}}
-      .col.s9.m9.l9(style='font-size: 24px;', *ngIf='report.display_date == null || report.display_date == undefined')
+      .col.s4.m3.l2(style='font-size: 24px;', *ngIf='report.display_date != null && report.display_date != undefined')
+        | {{rep3rt.display_date}}
+      .col.s4.m3.l2(style='font-size: 24px;', *ngIf='report.display_date == null || report.display_date == undefined')
         | {{report.creation_date}}
+      .col.s5.m6.l7
+        span(*ngIf='!showReport && preview != null')
+          report-preview([title]="view.title", [content]="view.content", *ngFor="let view of preview")
       .col.s1.m1.l1
         div([hidden]='!(hasEmail === true && showReport === true)')
           button(mz-button='mz-button', float='true')
@@ -32,7 +35,7 @@ mz-card([hidden]="!(activeReport == 'any' || activeReport == report.report_id)")
       .col.s1.m1.l1(*ngIf='showReport')
         button(mz-button, float='true', (click)='closeHTMLReport()', style='background-color: #F44336;')
           i(mz-icon-mdi='mz-icon-mdi', [icon]="'close-box'", [size]="'24px'")
-    .row(*ngIf='!showReport && preview != null')
+    //-.row(*ngIf='!showReport && preview != null')
       report-preview([title]="view.title", [content]="view.content", *ngFor="let view of preview")
 #tableWrapper.tableWrapper([hidden]='!showReport')
   div(dynamicComponentContainer)
