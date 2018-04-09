@@ -1,19 +1,12 @@
-import { Component, OnInit } from '@angular/core'
+import { Injectable } from '@angular/core'
 import { Storage } from '@ionic/storage'
 import { Language, LocaleService } from 'angular-l10n'
 
-@Component({
-
-})
-
-export class TranslationService implements OnInit {
+@Injectable()
+export class TranslationService {
   @Language() lang: string
   
   constructor(public locale: LocaleService, public storage: Storage) { 
-
-  }
-
-  public ngOnInit(): void { 
 
   }
 

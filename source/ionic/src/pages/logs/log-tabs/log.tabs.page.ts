@@ -74,7 +74,6 @@ export class LogTabsPage extends NavbarPageComponent implements OnInit {
             break
           case 'gmp-packing-cold-room-temp': this.tab3Root = GMPPackingColdRoomTempLogComponent
             break
-          default: this.tab3Root = GMPPackingPreopLogComponent
         }
       },
       error => {
@@ -114,9 +113,9 @@ export class LogTabsPage extends NavbarPageComponent implements OnInit {
           <img class="spinner" src="assets/images/koi_spinner.png" alt="" width="240" height="240">
         </div>
         <div text-center>` + this.ts.translate("Connecting to Server") + `</div>`
-    });
+    })
 
-    loading.present();
+    loading.present()
 
     return loading
   }

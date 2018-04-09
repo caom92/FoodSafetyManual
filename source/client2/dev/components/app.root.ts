@@ -241,8 +241,6 @@ import { GMPPackingFinishedProductReportComponent } from '../components/reports/
 // GMP Packing ATP Testing
 
 import { GMPPackingATPTestingLogComponent } from './logs/gmp-packing-atp-testing/log/gmp.packing.atp.testing.log'
-//import { GMPPackingATPTestingEntryComponent } from './logs/gmp-packing-atp-testing/entry/gmp.packing.atp.testing.entry'
-//import { GMPPackingATPTestingTestComponent } from './logs/gmp-packing-atp-testing/test/gmp.packing.atp.testing.test'
 
 // Genericos
 
@@ -285,21 +283,21 @@ import { ReportHeaderComponent } from './reports/report-header/report.header'
 import { ReportTab } from './reports/reports'
 import { GAPOthersUnusualOccurrenceAuthorizationComponent } from './logs/gap-others-unusual-occurrence/authorization/gap.others.unusual.occurrence.authorization'
 import { GMPOthersUnusualOccurrenceAuthorizationComponent } from './logs/gmp-others-unusual-occurrence/authorization/gmp.others.unusual.occurrence.authorization'
-import { GMPDocControlDocControlInventoryComponent } from './inventories/gmp-doc-control-doc-control/inventory/gmp.doc.control.doc.control.inventory';
-import { GMPDocControlDocControlInventoryListComponent } from './inventories/gmp-doc-control-doc-control/list/gmp.doc.control.doc.control.inventory.list';
-import { GMPDocControlDocControlInventoryItemComponent } from './inventories/gmp-doc-control-doc-control/item/gmp.doc.control.doc.control.inventory.item';
-import { GMPDocControlDocControlAddItemComponent } from './inventories/gmp-doc-control-doc-control/add-item/gmp.doc.control.doc.control.add.item';
-import { GMPSelfInspectionPestControlAuthorizationComponent } from './logs/gmp-self-inspection-pest-control/authorization/gmp.self.inspection.pest.control.authorization';
-import { GMPPackingFinishedProductLogComponent } from './logs/gmp-packing-finished-product/log/gmp.packing.finished.product.log';
-import { GMPDocControlDocControlAuthorizationComponent } from './logs/gmp-doc-control-doc-control/authorization/gmp.doc.control.doc.control.authorization';
-import { GMPPackingAgedProductAuthorizationComponent } from './logs/gmp-packing-aged-product/authorization/gmp.packing.aged.product.authorization';
-import { GMPPackingFinishedProductAuthorizationComponent } from './logs/gmp-packing-finished-product/authorization/gmp.packing.finished.product.authorization';
-import { GMPPackingATPTestingAuthorizationComponent } from './logs/gmp-packing-atp-testing/authorization/gmp.packing.atp.testing.authorization';
-import { GMPPackingATPTestingReportComponent } from './reports/gmp-packing-atp-testing/report/gmp.packing.atp.testing.report';
-import { GMPPackingATPTestingReportAreaComponent } from './reports/gmp-packing-atp-testing/entry/gmp.packing.atp.testing.entry';
-import { GMPPackingATPTestingReportItemComponent } from './reports/gmp-packing-atp-testing/test/gmp.packing.atp.testing.test';
-import { GMPDocControlDocControlReportComponent } from './reports/gmp-doc-control-doc-control/report/gmp.doc.control.doc.control.report';
-import { ReportPreview } from './reports/preview/report.preview';
+import { GMPDocControlDocControlInventoryComponent } from './inventories/gmp-doc-control-doc-control/inventory/gmp.doc.control.doc.control.inventory'
+import { GMPDocControlDocControlInventoryListComponent } from './inventories/gmp-doc-control-doc-control/list/gmp.doc.control.doc.control.inventory.list'
+import { GMPDocControlDocControlInventoryItemComponent } from './inventories/gmp-doc-control-doc-control/item/gmp.doc.control.doc.control.inventory.item'
+import { GMPDocControlDocControlAddItemComponent } from './inventories/gmp-doc-control-doc-control/add-item/gmp.doc.control.doc.control.add.item'
+import { GMPSelfInspectionPestControlAuthorizationComponent } from './logs/gmp-self-inspection-pest-control/authorization/gmp.self.inspection.pest.control.authorization'
+import { GMPPackingFinishedProductLogComponent } from './logs/gmp-packing-finished-product/log/gmp.packing.finished.product.log'
+import { GMPDocControlDocControlAuthorizationComponent } from './logs/gmp-doc-control-doc-control/authorization/gmp.doc.control.doc.control.authorization'
+import { GMPPackingAgedProductAuthorizationComponent } from './logs/gmp-packing-aged-product/authorization/gmp.packing.aged.product.authorization'
+import { GMPPackingFinishedProductAuthorizationComponent } from './logs/gmp-packing-finished-product/authorization/gmp.packing.finished.product.authorization'
+import { GMPPackingATPTestingAuthorizationComponent } from './logs/gmp-packing-atp-testing/authorization/gmp.packing.atp.testing.authorization'
+import { GMPPackingATPTestingReportComponent } from './reports/gmp-packing-atp-testing/report/gmp.packing.atp.testing.report'
+import { GMPPackingATPTestingReportAreaComponent } from './reports/gmp-packing-atp-testing/entry/gmp.packing.atp.testing.entry'
+import { GMPPackingATPTestingReportItemComponent } from './reports/gmp-packing-atp-testing/test/gmp.packing.atp.testing.test'
+import { GMPDocControlDocControlReportComponent } from './reports/gmp-doc-control-doc-control/report/gmp.doc.control.doc.control.report'
+import { ReportPreview } from './reports/preview/report.preview'
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -679,10 +677,10 @@ export class RootModule {
     this.locale.addConfiguration()
       .addLanguages(['en', 'es'])
       .setCookieExpiration(30)
-      .defineLanguage('es');
+      .defineLanguage('es')
 
     this.translation.addConfiguration()
-      .addProvider('./assets/locale-');
+      .addProvider('./assets/locale-')
 
     this.translation.translationChanged.subscribe(
       () => {

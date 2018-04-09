@@ -3,7 +3,6 @@ import { Language } from 'angular-l10n'
 
 import { SuperReportComponent } from '../../super-report/super.report'
 import { Report } from '../interfaces/gmp.packing.preop.interface'
-import { Preview } from '../../preview/report.preview.interface'
 
 @Component({
   selector: 'gmp-packing-preop-report',
@@ -17,44 +16,6 @@ export class GMPPackingPreopReportComponent extends SuperReportComponent {
 
   constructor() {
     super()
-  }
-
-  public getPreview(): Array<Preview> {
-    let preview: Array<Preview> = []
-
-    if (this.report.notes != null && this.report.notes != "") {
-      preview.push({ title: "Log.notes", content: this.report.notes })
-    }
-
-    if (this.report.album_url != null && this.report.album_url != "") {
-      preview.push({ title: "Log.album_url", content: this.report.album_url })
-    }
-
-    if (this.report.created_by != null && this.report.created_by != "") {
-      preview.push({ title: "LogHeader.made_by", content: this.report.created_by })
-    }
-
-    if (this.report.areas.length > 0) {
-      let index = 0
-      let max = 3
-      let areas = ""
-      for (let area of this.report.areas) {
-        areas += area.name + ", "
-        index++
-        if (index >= max)
-          break
-      }
-      areas += "..."
-      preview.push({ title: "Algunas areas incluidas", content: areas })
-    }
-
-    if (preview.length == 0) {
-      preview = null
-    }
-
-    preview = null
-
-    return preview
   }
 
   public getCSS(): string {

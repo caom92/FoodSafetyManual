@@ -56,20 +56,20 @@ export class InventoryService {
             } else {
               reject("bad request")
               loader.dismiss()
-              this.app.getRootNav().pop()
+              //this.app.getRootNav().pop()
               this.toastService.showText("serverUnreachable")
             }
           } else {
             reject("bad request")
             loader.dismiss()
-            this.app.getRootNav().pop()
+            //this.app.getRootNav().pop()
             this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
           }
         },
         (error: any, caught: Observable<void>) => {
           reject("network error")
           loader.dismiss()
-          this.app.getRootNav().pop()
+          //this.app.getRootNav().pop()
           this.toastService.showText("serverUnreachable")
           return []
         }
@@ -118,20 +118,20 @@ export class InventoryService {
             } else {
               reject("bad request")
               loader.dismiss()
-              this.app.getRootNav().pop()
+              //this.app.getRootNav().pop()
               this.toastService.showText("serverUnreachable")
             }
           } else {
             reject("bad request")
             loader.dismiss()
-            this.app.getRootNav().pop()
+            //this.app.getRootNav().pop()
             this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
           }
         },
         (error: any, caught: Observable<void>) => {
           reject("network error")
           loader.dismiss()
-          this.app.getRootNav().pop()
+          //this.app.getRootNav().pop()
           this.toastService.showText("serverUnreachable")
           return []
         }

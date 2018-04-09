@@ -131,23 +131,15 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
 
   public openHTMLReport(): void {
     this.showReport = true
-    //this.events.publish("reportEvent", this.report.report_id, Date.now())
-    //this.events.$pub("reportEvent", this.report.report_id)
     this.events.$pub("reportEvent", { activeReport: this.report.report_id, time: Date.now() });
   }
 
   public closeHTMLReport(): void {
     this.showReport = false
-    //this.events.publish("reportEvent", "any", Date.now())
-    //this.events.$pub("reportEvent", "any")
     this.events.$pub("reportEvent", { activeReport: "any", time: Date.now() });
   }
 
   public ngOnDestroy(): void {
-    /*this.events.unsubscribe("reportEvent", () => {
-      console.log("Report Event unsubscribed")
-    })*/
-    console.log("ngOnDestroy report.loader.ts: " + this.activeReport)
     this.reportEvent.unsubscribe()
   }
 }

@@ -28,6 +28,8 @@ export class SuperInventoryComponent implements OnInit, OnDestroy {
     this.inventoryService.getInventory(this.suffix).then(success => {
       this.inventory = success
       this.checkEmptyInventory()
+    }, error => {
+      
     })
   }
 
