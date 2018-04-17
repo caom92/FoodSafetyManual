@@ -45,6 +45,11 @@ export class GMPPackingFinishedProductAuthorizationComponent extends SuperAuthor
   ngOnInit() {
     this.setSuffix("gmp-packing-finished-product")
     super.ngOnInit()
+    // TODO: Esto se hace por la forma diferente en que llegan los datos del
+    // servidor en comparación al servidor local; encontrar una solución
+    for (let quality of this.log.log_info.quality_types) {
+      quality.id = this.resolveNumber(quality.id)
+    }
     this.initForm()
   }
 

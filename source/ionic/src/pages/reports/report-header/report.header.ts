@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core'
-import { Storage } from '@ionic/storage'
 import { Language } from 'angular-l10n'
 import { ReportHeader } from './report.header.interface'
 

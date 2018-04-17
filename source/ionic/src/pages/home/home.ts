@@ -118,7 +118,6 @@ export class HomePage extends NavbarPageComponent implements OnInit {
     // instancia de FormData
     let formData = new FormData()
     var rootNav = this.app.getRootNav()
-    var menuCtrl = this.menuCtrl
     var toasts = this.toasts
     formData.append('username', this.userLogInInfo.value.username)
     formData.append('password', this.userLogInInfo.value.password)
@@ -139,7 +138,6 @@ export class HomePage extends NavbarPageComponent implements OnInit {
           menuCtrl.enable(true, "en")*/
         } else {
           toasts.showServiceErrorText("login", response.meta)
-          console.log(response.meta.message)
         }
       },
       (error: any, caught: Observable<void>) => {
