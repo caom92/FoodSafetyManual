@@ -288,7 +288,7 @@ class ServiceProvider
         'message' => $message
       ],
       'data' => $data
-    ]);
+    ], JSON_NUMERIC_CHECK);
   }
 
 
