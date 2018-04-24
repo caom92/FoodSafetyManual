@@ -120,6 +120,8 @@
         "returned_good_conditions": "Returned on Good Conditions",
         "sanitized_lubricated": "Sanitized / Lubricated (Mineral Oil)",
         "ice_point_test": "Ice point method thermometer test",
+        "temp_lecture": "Temperature reading",
+        "relative_humidity": "Relative humidity",
         "thermo_calibration": "Thermometer Calibration",
         "sanitized": "Sanitized",
         "calibrated": "Calibrated",

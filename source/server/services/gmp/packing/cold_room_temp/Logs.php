@@ -27,6 +27,7 @@ class Logs extends db\LogTable
         'r.id(id)',
         'r.name(name)',
         'test',
+        'humidity',
         'deficiencies',
         'corrective_actions(corrective_action)'
       ],

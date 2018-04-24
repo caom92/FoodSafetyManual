@@ -19,6 +19,6 @@ export class GMPPackingColdRoomTempReportComponent extends SuperReportComponent 
   }
 
   public getCSS(): string {
-    return "<style> table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%; } td { border: 1px solid #000000; text-align: left; } th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50; } .even { background-color: #b8e0b9; } .timeColumn { width: 40px; } .numberColumn { width: 100px; } .testColumn { width: 91px; } .deficienciesColumn { width: 200px; } .actionColumn { width: 200px; } </style>"
+    return "<style> table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%; } td { border: 1px solid #000000; text-align: left; } th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50; } .even { background-color: #b8e0b9; } .timeColumn { width: 40px; } .numberColumn { width: 100px; } .testColumn { width: 91px; } .humidityColumn { width: 90px; } .deficienciesColumn { width: 155px; } .actionColumn { width: 155px; } </style>"
   }
 }

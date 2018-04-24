@@ -8,6 +8,7 @@ export interface CaptureLog extends SuperCaptureLog {
 export interface CaptureItem {
   id: number
   test: number
+  humidity: number
   deficiencies: string
   corrective_action: string
 }

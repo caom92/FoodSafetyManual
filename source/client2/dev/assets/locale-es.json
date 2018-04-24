@@ -120,6 +120,8 @@
         "returned_good_conditions": "Regresado en buenas condiciones",
         "sanitized_lubricated": "Sanitizado / Lubricado (Aceite Mineral)",
         "ice_point_test": "Prueba del método del punto de hielo",
+        "temp_lecture": "Lectura de temperatura",
+        "relative_humidity": "Humedad relativa",
         "thermo_calibration": "Calibración de termómetro",
         "sanitized": "Sanitizado",
         "calibrated": "Calibrado",
