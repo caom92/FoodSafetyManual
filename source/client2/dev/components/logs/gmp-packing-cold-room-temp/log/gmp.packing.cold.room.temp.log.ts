@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core'
 import { FormArray, FormBuilder, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
+import { CustomValidators } from '../../../../directives/custom.validators'
 import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
@@ -10,7 +11,6 @@ import { TranslationService } from '../../../../services/app.translation'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
 import { CaptureItem } from '../interfaces/gmp.packing.cold.room.temp.capture.interface'
 import { Log } from '../interfaces/gmp.packing.cold.room.temp.log.interface'
-import { CustomValidators } from '../../../../directives/custom.validators';
 
 @Component({
   selector: 'gmp-packing-cold-room-temp-log',

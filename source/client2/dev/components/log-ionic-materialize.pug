@@ -17,10 +17,10 @@ mixin icon()
   i(mz-icon)&attributes(attributes)
 
 mixin dateInput(showIcon, label, formControlName, id, placeholder, options)
-  mz-datepicker-container()&attributes(attributes)
+  mz-datepicker-container()
     if (showIcon == true)
       i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
-    input(mz-datepicker, label=label, type="text", id=id, placeholder=placeholder, [options]=options, formControlName=formControlName)
+    input(mz-datepicker, label=label, type="text", id=id, placeholder=placeholder, [options]=options, formControlName=formControlName)&attributes(attributes)
 
 mixin timeInput(showIcon, label, formControlName, id, placeholder, options)
   mz-timepicker-container()&attributes(attributes)

@@ -1,4 +1,7 @@
 extends ../log/gmp.self.inspection.pest.control.log.pug
 
+block header
+  log-header([log]="logHeaderData")
+
 block buttonRow
   +authorizationButtonRow("Send", "Authorize", "Delete", "Return")

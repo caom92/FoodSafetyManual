@@ -10,7 +10,7 @@ import { HttpModule } from '@angular/http'
 // https://www.npmjs.com/package/angular2-pubsub
 import { PubSubModule } from 'angular2-pubsub'
 
-import { TranslationModule, LocaleService, TranslationService as TService } from 'angular-l10n'
+import { LocalizationModule, LocaleService, TranslationService as TService } from 'angular-l10n'
 
 // Importamos los componentes de cada pagina de nuestra aplicacion
 import { HomeComponent } from './app.home'
@@ -309,7 +309,7 @@ import { ReportPreview } from './reports/preview/report.preview'
     HttpModule,
     BrowserAnimationsModule,
     DragulaModule,
-    TranslationModule.forRoot(),
+    LocalizationModule.forRoot(),
     MaterializeModule.forRoot(),
     PubSubModule.forRoot(),
     UIRouterModule.forRoot({
@@ -686,7 +686,7 @@ export class RootModule {
       () => {
         window.setTimeout(() => {
           $("select").material_select()
-        }, 1)
+        }, 100)
       }
     )
 
