@@ -101,9 +101,9 @@ export class GMPDocControlDocControlAuthorizationComponent extends SuperAuthoriz
             this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
             this.enableForm()            
           }
-          loader.close()
+          loader.dismiss()
         }, (error: any, caught: Observable<void>) => {
-          loader.close()
+          loader.dismiss()
           this.toastService.showText("serverUnreachable")
           return []
         }

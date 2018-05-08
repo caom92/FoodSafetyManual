@@ -35,21 +35,21 @@ export class AreaManagerService {
           if (response.meta.return_code == 0) {
             if (response.data) {
               resolve(response.data)
-              loader.close()
+              loader.dismiss()
             } else {
               reject("bad request")
-              loader.close()
+              loader.dismiss()
               this.toastService.showText("serverUnreachable")
             }
           } else {
             reject("bad request")
-            loader.close()
+            loader.dismiss()
             this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
           }
         },
         (error: any, caught: Observable<void>) => {
           reject("network error")
-          loader.close()
+          loader.dismiss()
           this.toastService.showText("serverUnreachable")
           return []
         }
@@ -69,21 +69,21 @@ export class AreaManagerService {
           if (response.meta.return_code == 0) {
             if (response.data) {
               resolve(response.data)
-              loader.close()
+              loader.dismiss()
             } else {
               reject("bad request")
-              loader.close()
+              loader.dismiss()
               this.toastService.showText("serverUnreachable")
             }
           } else {
             reject("bad request")
-            loader.close()
+            loader.dismiss()
             this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
           }
         },
         (error: any, caught: Observable<void>) => {
           reject("network error")
-          loader.close()
+          loader.dismiss()
           this.toastService.showText("serverUnreachable")
           return []
         }
@@ -108,15 +108,15 @@ export class AreaManagerService {
         reorderForm,
         (response: any) => {
           if (response.meta.return_code == 0) {
-            loaderReorder.close()
+            loaderReorder.dismiss()
             resolve("server")
           } else {
-            loaderReorder.close()
+            loaderReorder.dismiss()
             this.toastService.showText("lastActionReverseBadRequest")
             reject(response.meta.return_code)
           }
         }, (error: any, caught: Observable<void>) => {
-          loaderReorder.close()
+          loaderReorder.dismiss()
           this.toastService.showText("lastActionReverseNetwork")
           reject("network error")
           return []
@@ -143,17 +143,17 @@ export class AreaManagerService {
         itemForm,
         (response: any) => {
           if (response.meta.return_code == 0) {
-            loaderAdd.close()
+            loaderAdd.dismiss()
             this.toastService.showText("areaAddSuccess")
             resolve(response.data)
           } else {
-            loaderAdd.close()
+            loaderAdd.dismiss()
             this.toastService.showText("badRequest")
             reject(response.meta.return_code)
           }
         },
         (error: any, caught: Observable<void>) => {
-          loaderAdd.close()
+          loaderAdd.dismiss()
           reject("network error")
           this.toastService.showText("serverUnreachable")
           return []
@@ -180,18 +180,18 @@ export class AreaManagerService {
         editForm,
         (response: any) => {
           if (response.meta.return_code == 0) {
-            loaderEdit.close()
+            loaderEdit.dismiss()
             this.toastService.showText("areaEditSuccess")
             resolve(response.data)
           } else {
-            loaderEdit.close()
+            loaderEdit.dismiss()
             reject(response.meta.return_code)
             //this.toastService.showText("badRequest")
             this.toastService.showString(response.meta.message)
           }
         },
         (error: any, caught: Observable<void>) => {
-          loaderEdit.close()
+          loaderEdit.dismiss()
           reject("network error")
           this.toastService.showText("serverUnreachable")
           return []

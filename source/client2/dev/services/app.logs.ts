@@ -44,20 +44,20 @@ export class LogService {
           if (response.meta.return_code == 0) {
             if (response.data) {
               resolve(response.data)
-              logLoader.close()
+              logLoader.dismiss()
             } else {
               reject("bad request")
-              logLoader.close()
+              logLoader.dismiss()
               this.toastService.showText("serverUnreachable")
             }
           } else {
             reject("bad request")
-            logLoader.close()
+            logLoader.dismiss()
             this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
           }
         }, (error: any, caught: Observable<void>) => {
           reject("network error")
-          logLoader.close()
+          logLoader.dismiss()
           this.toastService.showText("serverUnreachable")
           return []
         }
@@ -97,11 +97,11 @@ export class LogService {
             reject(response.meta.return_code)
           }
           // Sin importar el resultado, desactivamos el spinner
-          loader.close()
+          loader.dismiss()
         }, (error: any, caught: Observable<void>) => {
           //this.toastService.showText("failedLogToQueue")
           this.toastService.showText("serverUnreachable")
-          loader.close()
+          loader.dismiss()
           reject(error)
           return []
         }
@@ -154,20 +154,20 @@ export class LogService {
           if (response.meta.return_code == 0) {
             if (response.data) {
               resolve(response.data)
-              authorizationLoader.close()
+              authorizationLoader.dismiss()
             } else {
               reject("bad request")
-              authorizationLoader.close()
+              authorizationLoader.dismiss()
               this.toastService.showText("serverUnreachable")
             }
           } else {
             reject("bad request")
-            authorizationLoader.close()
+            authorizationLoader.dismiss()
             this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
           }
         }, (error: any, caught: Observable<void>) => {
           reject("network error")
-          authorizationLoader.close()
+          authorizationLoader.dismiss()
           this.toastService.showText("serverUnreachable")
           return []
         }
@@ -206,15 +206,15 @@ export class LogService {
                 (response: any) => {
                   if (response.meta.return_code == 0) {
                     resolve(response.data)
-                    approveLoader.close()
+                    approveLoader.dismiss()
                   } else {
                     reject("bad request")
-                    approveLoader.close()
+                    approveLoader.dismiss()
                     this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
                   }
                 }, (error: any, caught: Observable<void>) => {
                   reject("network error")
-                  approveLoader.close()
+                  approveLoader.dismiss()
                   this.toastService.showText("serverUnreachable")
                   return []
                 }
@@ -257,15 +257,15 @@ export class LogService {
                   if (response.meta.return_code == 0) {
                     // TODO: Toast de rechazo exitoso, regresar a la página de autorizaciones
                     resolve(response.data)
-                    rejectLoader.close()
+                    rejectLoader.dismiss()
                   } else {
                     reject("bad request")
-                    rejectLoader.close()
+                    rejectLoader.dismiss()
                     this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
                   }
                 }, (error: any, caught: Observable<void>) => {
                   reject("network error")
-                  rejectLoader.close()
+                  rejectLoader.dismiss()
                   this.toastService.showText("serverUnreachable")
                   return []
                 }
@@ -308,10 +308,10 @@ export class LogService {
             this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
             reject(response.meta.return_code)
           }
-          loader.close()
+          loader.dismiss()
         }, (error: any, caught: Observable<void>) => {
           this.toastService.showText("serverUnreachable")
-          loader.close()
+          loader.dismiss()
           reject("network error")
           return []
         }

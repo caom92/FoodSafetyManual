@@ -86,3 +86,21 @@ input:disabled {
   filter: alpha(opacity=20);
   width: 100%;
 }
+
+/* Workaround para el problema del espacio en blanco generado por checkboxes */
+
+[type="radio"]:not(:checked),
+[type="radio"]:checked {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  left: -9999px;      /* added */
+}
+/* Remove default checkbox */
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  left: -9999px;      /* added */
+}

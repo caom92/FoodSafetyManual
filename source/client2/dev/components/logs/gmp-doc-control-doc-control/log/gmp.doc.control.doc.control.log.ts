@@ -116,9 +116,9 @@ export class GMPDocControlDocControlLogComponent extends SuperLogComponent imple
             this.toasts.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
             this.enableForm()            
           }
-          loader.close()
+          loader.dismiss()
         }, (error: any, caught: Observable<void>) => {
-          loader.close()
+          loader.dismiss()
           this.toasts.showText("serverUnreachable")
           return []
         }

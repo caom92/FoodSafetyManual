@@ -170,16 +170,16 @@ export class ReportTab extends DynamicComponentResolver implements OnInit, OnDes
               this.activeReport = "any"
             }
             this.events.$pub("reportEvent", { activeReport: "any", time: Date.now() })
-            reportLoader.close()
+            reportLoader.dismiss()
           }
         } else {
           this.toastService.showText("serverUnreachable")
-          reportLoader.close()
+          reportLoader.dismiss()
         }
       },
       (error: any, caught: Observable<void>) => {
         this.toastService.showText("serverUnreachable")
-        reportLoader.close()
+        reportLoader.dismiss()
         return []
       }
     )

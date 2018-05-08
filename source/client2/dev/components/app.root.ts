@@ -242,6 +242,11 @@ import { GMPPackingFinishedProductReportComponent } from '../components/reports/
 
 import { GMPPackingATPTestingLogComponent } from './logs/gmp-packing-atp-testing/log/gmp.packing.atp.testing.log'
 
+// GMP Packing Ozone Washing
+
+import { GMPPackingOzoneWaterLogComponent } from './logs/gmp-packing-ozone-water/log/gmp.packing.ozone.water.log'
+import { GMPPackingOzoneWaterItemComponent } from './logs/gmp-packing-ozone-water/item/gmp.packing.ozone.water.item'
+
 // Genericos
 
 import { ReportLoaderCard } from './report.loader.card.component'
@@ -587,6 +592,8 @@ import { ReportPreview } from './reports/preview/report.preview'
     GMPPackingATPTestingReportItemComponent,
     //GMPPackingATPTestingEntryComponent,
     //GMPPackingATPTestingTestComponent,
+    GMPPackingOzoneWaterLogComponent,
+    GMPPackingOzoneWaterItemComponent,
     LogTabsPage,
     AuthorizationLoader,
     LogHeaderComponent,
@@ -660,7 +667,8 @@ import { ReportPreview } from './reports/preview/report.preview'
     GMPPackingFinishedProductReportComponent,
     GMPPackingATPTestingLogComponent,
     GMPPackingATPTestingAuthorizationComponent,
-    GMPPackingATPTestingReportComponent
+    GMPPackingATPTestingReportComponent,
+    GMPPackingOzoneWaterLogComponent
   ],
   // indicamos cual es el componente raiz
   bootstrap: [HomeComponent]

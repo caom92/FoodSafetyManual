@@ -1,0 +1,13 @@
+include ../../../inventory-ionic-materialize.pug
+include ../../../log-ionic-materialize.pug
+
+tr([formGroup]="newItem")
+  td
+  td
+  td
+  td
+    +textInput(null, null, "name", "text", "new_item", "New item")
+    +errorMessage("!newItem.controls.name.valid && newItem.controls.name.dirty && newItem.controls.name.value.length == 0", "{{ 'InventoryErrors.generic.name_required' | translate:lang }}")
+    +errorMessage("!newItem.controls.name.valid && newItem.controls.name.dirty && newItem.controls.name.value.length >= 1", "{{ 'InventoryErrors.generic.name_max_255' | translate:lang }}")
+  td
+    +addItemButton()((click)="addItem()")

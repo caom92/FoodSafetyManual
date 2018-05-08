@@ -133,7 +133,18 @@
         "production_area": "Área de producción",
         "products": "Productos",
         "batch": "Lote",
-        "include_in_capture": "Incluir en captura"
+        "include_in_capture": "Incluir en captura",
+        "equipment": "Máquina/Equipo",
+        "voltage_reading": "Lectura mV",
+        "ph": "pH",
+        "orp": "ORP",
+        "temperature": "Temperatura",
+        "product": "Producto",
+        "parcel": "Parcela",
+        "reference": "Referencia",
+        "total_chlorine": "Cloro Total",
+        "free_chlorine": "Cloro Libre",
+        "rinse": "Enjuage"
     },
     "LogHeader": {
         "zone": "Zona",

@@ -21,6 +21,7 @@ import { GMPDocControlDocControlLogComponent } from '../gmp-doc-control-doc-cont
 import { GMPPackingATPTestingLogComponent } from '../gmp-packing-atp-testing/log/gmp.packing.atp.testing.log'
 import { GAPPackingPreopLogComponent } from '../gap-packing-preop/log/gap.packing.preop.log'
 import { GMPPackingFinishedProductLogComponent } from '../gmp-packing-finished-product/log/gmp.packing.finished.product.log'
+import { GMPPackingOzoneWaterLogComponent } from '../gmp-packing-ozone-water/log/gmp.packing.ozone.water.log'
 
 @Component({
   selector: 'log-tabs-page',
@@ -58,7 +59,8 @@ export class LogTabsPage extends DynamicComponentResolver {
         this.suffix == "gmp-packing-finished-product" ||
         this.suffix == "gmp-doc-control-doc-control" ||
         this.suffix == "gmp-packing-atp-testing" ||
-        this.suffix == "gap-packing-preop") {
+        this.suffix == "gap-packing-preop" ||
+        this.suffix == "gmp-packing-ozone-water") {
         switch (this.suffix) {
           case 'gmp-packing-hand-washing': this.loaderComponent = this.loadComponent(GMPPackingHandWashingLogComponent, {
 
@@ -117,6 +119,10 @@ export class LogTabsPage extends DynamicComponentResolver {
           }).instance
             break
           case 'gap-packing-preop': this.loaderComponent = this.loadComponent(GAPPackingPreopLogComponent, {
+
+          }).instance
+            break
+          case 'gmp-packing-ozone-water': this.loaderComponent = this.loadComponent(GMPPackingOzoneWaterLogComponent, {
 
           }).instance
             break

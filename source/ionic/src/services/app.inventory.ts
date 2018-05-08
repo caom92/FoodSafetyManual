@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core'
 import { FormArray, FormControl, FormGroup } from '@angular/forms'
 import { TranslationService as TService } from 'angular-l10n'
-import { App } from 'ionic-angular'
 import { Observable } from 'rxjs/Rx'
 
 import { BackendService } from './app.backend'
@@ -10,7 +9,7 @@ import { ToastsService } from './app.toasts'
 
 /**
  * Servicio que agrupa las funciones en común que pueden ser utilizadas por
- * inventarios de items
+ * inventarios de items y áreas
  * 
  * @export
  * @class InventoryService
@@ -18,8 +17,7 @@ import { ToastsService } from './app.toasts'
 
 @Injectable()
 export class InventoryService {
-  constructor(public app: App,
-    private loaderService: LoaderService,
+  constructor(private loaderService: LoaderService,
     private toastService: ToastsService,
     private server: BackendService,
     public ts: TService) {
@@ -56,20 +54,17 @@ export class InventoryService {
             } else {
               reject("bad request")
               loader.dismiss()
-              //this.app.getRootNav().pop()
               this.toastService.showText("serverUnreachable")
             }
           } else {
             reject("bad request")
             loader.dismiss()
-            //this.app.getRootNav().pop()
             this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
           }
         },
         (error: any, caught: Observable<void>) => {
           reject("network error")
           loader.dismiss()
-          //this.app.getRootNav().pop()
           this.toastService.showText("serverUnreachable")
           return []
         }
@@ -105,7 +100,7 @@ export class InventoryService {
           form_data.append(key, flatObj[key])
         }
       }
-      
+
       loader.present()
       this.server.update(
         'inventory-' + suffix,
@@ -118,20 +113,17 @@ export class InventoryService {
             } else {
               reject("bad request")
               loader.dismiss()
-              //this.app.getRootNav().pop()
               this.toastService.showText("serverUnreachable")
             }
           } else {
             reject("bad request")
             loader.dismiss()
-            //this.app.getRootNav().pop()
             this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
           }
         },
         (error: any, caught: Observable<void>) => {
           reject("network error")
           loader.dismiss()
-          //this.app.getRootNav().pop()
           this.toastService.showText("serverUnreachable")
           return []
         }
@@ -165,8 +157,8 @@ export class InventoryService {
         service,
         item,
         (response: any) => {
-          if(response.meta.return_code == 0){
-            if(data.is_active == 0){
+          if (response.meta.return_code == 0) {
+            if (data.is_active == 0) {
               this.toastService.showText("itemChargeSuccess")
               data.is_active = 1
             } else {
@@ -291,7 +283,7 @@ export class InventoryService {
   }
 
   // https://stackoverflow.com/questions/43551221/angular-2-mark-nested-formbuilder-as-touched
-  public  setAsDirty(group: FormGroup | FormArray): void {
+  public setAsDirty(group: FormGroup | FormArray): void {
     group.markAsDirty()
     for (let i in group.controls) {
       if (group.controls[i] instanceof FormControl) {
