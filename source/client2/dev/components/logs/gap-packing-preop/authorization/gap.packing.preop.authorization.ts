@@ -82,24 +82,26 @@ export class GAPPackingPreopAuthorizationComponent extends SuperAuthorizationCom
       const area = (<FormGroup>(<FormGroup>this.captureForm.controls.areas).controls[a])
       for (let i in (<FormGroup>area.controls.items).controls) {
         const item = (<FormGroup>(<FormGroup>area.controls.items).controls[i])
-        if (item.controls.is_acceptable.value == undefined || item.controls.is_acceptable.value == null) {
-          item.controls.corrective_action_id.setValue(1)
-          item.controls.comment.setValue("")
-          //item.controls.is_acceptable.disable()
-        } else {
-          //item.controls.is_acceptable.enable()
-          if (item.controls.is_acceptable.value == true) {
-            item.controls.corrective_action_id.setValue(1)
-            item.controls.comment.setValue("")
+        if (item.controls.is_acceptable.value == false) {
+          item.enable()
+        } else if (item.controls.is_acceptable.value == true || item.controls.is_acceptable.value == undefined || item.controls.is_acceptable.value == null) {
+          if (item.controls.is_acceptable.value == undefined || item.controls.is_acceptable.value == null) {
+            item.controls.is_acceptable.disable()
           }
+          item.controls.corrective_action_id.disable()
+          item.controls.comment.disable()
         }
       }
     }
   }
 
-  public save(): void {
-    this.cleanForm()
-    console.log(this.captureForm.value)
-    super.save()
+  public enableForm(): void {
+    for (let a in (<FormGroup>this.captureForm.controls.areas).controls) {
+      const area = (<FormGroup>(<FormGroup>this.captureForm.controls.areas).controls[a])
+      for (let i in (<FormGroup>area.controls.items).controls) {
+        const item = (<FormGroup>(<FormGroup>area.controls.items).controls[i])
+        item.enable()
+      }
+    }
   }
 }

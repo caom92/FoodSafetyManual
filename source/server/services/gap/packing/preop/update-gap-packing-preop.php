@@ -94,28 +94,20 @@ $service = [
 
       // the for each item in the area
       foreach ($area['items'] as $item) {
-        $hasAcceptableValue = 
-          isset($item['is_acceptable']) 
-          && array_key_exists('is_acceptable', $item);
-        
-        $isAcceptable = 'NULL';
-        if ($hasAcceptableValue) {
-          if ($item['is_acceptable'] === 'null') {
-            $isAcceptable = 'NULL';
-          }
-        }
-        
         // update the item log
         $scope->daoFactory->get('gap\packing\preop\ItemLogs')
           ->updateByCapturedLogIDAndItemID(
             [
-              'is_acceptable' => $isAcceptable,
+              'is_acceptable' => 
+                (isset($item['is_acceptable']) 
+                && array_key_exists('is_acceptable', $item)) ? 
+                  $item['is_acceptable'] : "NULL",
               'corrective_action_id' => (isset($item['corrective_action_id']) 
                 && array_key_exists('corrective_action_id', $item)) ? 
                   $item['corrective_action_id'] 
                   : $scope->daoFactory
                     ->get('gap\packing\preop\CorrectiveActions')
-                    ->getOptionOtherID(),
+                    ->getOptionNoneID(),
               'comment' => 
                 (isset($item['comment']) 
                 && array_key_exists('comment', $item)) ? $item['comment'] : NULL

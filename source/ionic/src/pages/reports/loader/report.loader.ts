@@ -1,25 +1,25 @@
-import { Component, Input, OnDestroy, OnInit, Type, ComponentFactoryResolver } from '@angular/core'
+import { Component, ComponentFactoryResolver, Input, OnDestroy, OnInit } from '@angular/core'
 import { Language, TranslationService as TS } from 'angular-l10n'
 import { Events } from 'ionic-angular'
 
 import { DynamicComponentResolver } from '../../../app/dynamic.resolver'
-import { SuperReportInterface } from '../super-report/super.report.interface'
+import { GAPOthersUnusualOccurrenceReportComponent } from '../gap-others-unusual-occurrence/report/gap.others.unusual.occurrence.report'
+import { GAPPackingPreopReportComponent } from '../gap-packing-preop/report/gap.packing.preop.report'
+import { GMPDocControlDocControlReportComponent } from '../gmp-doc-control-doc-control/report/gmp.doc.control.doc.control.report'
+import { GMPOthersUnusualOccurrenceReportComponent } from '../gmp-others-unusual-occurrence/report/gmp.others.unusual.occurrence.report'
+import { GMPPackingAgedProductReportComponent } from '../gmp-packing-aged-product/report/gmp.packing.aged.product.report'
+import { GMPPackingColdRoomTempReportComponent } from '../gmp-packing-cold-room-temp/report/gmp.packing.cold.room.temp.report'
+import { GMPPackingFinishedProductReportComponent } from '../gmp-packing-finished-product/report/gmp.packing.finished.product.report'
+import { GMPPackingGlassBrittleReportComponent } from '../gmp-packing-glass-brittle/report/gmp.packing.glass.brittle.report'
 import { GMPPackingHandWashingReportComponent } from '../gmp-packing-hand-washing/report/gmp.packing.hand.washing.report'
 import { GMPPackingPreopReportComponent } from '../gmp-packing-preop/report/gmp.packing.preop.report'
 import { GMPPackingScaleCalibrationReportComponent } from '../gmp-packing-scale-calibration/report/gmp.packing.scale.calibration.report'
-import { GMPPackingThermoCalibrationReportComponent } from '../gmp-packing-thermo-calibration/report/gmp.packing.thermo.calibration.report'
-import { GMPPackingColdRoomTempReportComponent } from '../gmp-packing-cold-room-temp/report/gmp.packing.cold.room.temp.report'
-import { GMPPackingGlassBrittleReportComponent } from '../gmp-packing-glass-brittle/report/gmp.packing.glass.brittle.report'
 import { GMPPackingScissorsKnivesReportComponent } from '../gmp-packing-scissors-knives/report/gmp.packing.scissors.knives.report'
+import { GMPPackingThermoCalibrationReportComponent } from '../gmp-packing-thermo-calibration/report/gmp.packing.thermo.calibration.report'
+import { GMPSelfInspectionPestControlReportComponent } from '../gmp-self-inspection-pest-control/report/gmp.self.inspection.pest.control.report'
 import { ReportRequest } from '../reports.interface'
 import { SuperReportComponent } from '../super-report/super.report'
-import { GAPPackingPreopReportComponent } from '../gap-packing-preop/report/gap.packing.preop.report'
-import { GMPSelfInspectionPestControlReportComponent } from '../gmp-self-inspection-pest-control/report/gmp.self.inspection.pest.control.report'
-import { GMPOthersUnusualOccurrenceReportComponent } from '../gmp-others-unusual-occurrence/report/gmp.others.unusual.occurrence.report'
-import { GAPOthersUnusualOccurrenceReportComponent } from '../gap-others-unusual-occurrence/report/gap.others.unusual.occurrence.report'
-import { GMPPackingAgedProductReportComponent } from '../gmp-packing-aged-product/report/gmp.packing.aged.product.report'
-import { GMPPackingFinishedProductReportComponent } from '../gmp-packing-finished-product/report/gmp.packing.finished.product.report'
-import { GMPDocControlDocControlReportComponent } from '../gmp-doc-control-doc-control/report/gmp.doc.control.doc.control.report'
+import { SuperReportInterface } from '../super-report/super.report.interface'
 
 @Component({
   selector: 'report-loader',
@@ -34,7 +34,6 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
   @Language() private lang: string
   private showReport: boolean = false
   private loaderComponent: SuperReportComponent = null
-  //private loaderComponent: any = null
   private pdfReport: ReportRequest = {
     lang: null,
     content: null,

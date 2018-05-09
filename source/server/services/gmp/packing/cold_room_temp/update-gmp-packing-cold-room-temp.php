@@ -22,6 +22,10 @@ $service = fsm\createUpdateService(
         'test' => [
           'type' => 'float'
         ],
+        'humidity' => [
+          'type' => 'float',
+          'optional' => true
+        ],
         'deficiencies' => [
           'type' => 'string',
           'max_length' => 65535,
@@ -45,6 +49,7 @@ $service = fsm\createUpdateService(
         $logs->updateByCapturedLogIDAndRoomID(
           [
             'test' => $room['test'],
+            'humidity' => $room['humidity'],
             'deficiencies' => $room['deficiencies'],
             'corrective_actions' => $room['corrective_action']
           ],

@@ -1,5 +1,8 @@
 extends ../log/gmp.doc.control.doc.control.log.pug
 
+block header
+  log-header([log]="logHeaderData")
+
 block documentSelect
   +card()
     +cardContent()

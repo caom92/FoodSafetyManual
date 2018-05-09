@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, OnInit, ViewChild } from '@angular/core'
+import { ComponentFactoryResolver, OnInit, ViewChild } from '@angular/core'
 import { Storage } from '@ionic/storage'
 import { Language } from 'angular-l10n'
 import { Events, Select } from 'ionic-angular'
@@ -6,10 +6,6 @@ import { Events, Select } from 'ionic-angular'
 import { DynamicComponentResolver } from '../../app/dynamic.resolver'
 import { BackendService } from '../../services/app.backend'
 import { TranslationService } from '../../services/app.translation'
-
-@Component({
-  
-})
 
 export class DynamicNavbarPageComponent extends DynamicComponentResolver implements OnInit {
   @ViewChild('zone_select') zone_select: Select = null

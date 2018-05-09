@@ -120,6 +120,8 @@
         "returned_good_conditions": "Returned on Good Conditions",
         "sanitized_lubricated": "Sanitized / Lubricated (Mineral Oil)",
         "ice_point_test": "Ice point method thermometer test",
+        "temp_lecture": "Temperature reading",
+        "relative_humidity": "Relative humidity",
         "thermo_calibration": "Thermometer Calibration",
         "sanitized": "Sanitized",
         "calibrated": "Calibrated",
@@ -131,7 +133,18 @@
         "production_area": "Production area",
         "products": "Products",
         "batch": "Batch",
-        "include_in_capture": "Include in capture"
+        "include_in_capture": "Include in capture",
+        "equipment": "Machine/Equipment",
+        "voltage_reading": "mV Reading",
+        "ph": "pH",
+        "orp": "ORP",
+        "temperature": "Temperature",
+        "product": "Product",
+        "parcel": "Parcel",
+        "reference": "Reference",
+        "total_chlorine": "Total Chlorine",
+        "free_chlorine": "Free Chlorine",
+        "rinse": "Rinse"
     },
     "LogHeader": {
         "zone": "Zone",
@@ -146,6 +159,41 @@
             "comment_length": "The comment can't exceed 65535 characters",
             "person_length": "The name of the person performing sanitation can't exceed 255 characters",
             "album_length": "The album URL can't exceed 2000 characters"
+        },
+        "gmp-packing-hand-washing": {
+            "notes_max": "Report notes can't exceed 65535 characters"
+        },
+        "gmp-packing-glass-brittle": {
+            "notes_max": "Report notes can't exceed 65535 characters"
+        },
+        "gmp-packing-finished-product": {
+            "batch_max": "Batch name can't exceed 255 characters",
+            "production_area_id_max": "Production area name can't exceed 255 characters",
+            "supplier_id_max": "Supplier name can't exceed 255 characters",
+            "product_id_max": "Product name can't exceed 255 characters",
+            "customer_id_max": "Customer name can't exceed 255 characters",
+            "quality_type_id_required": "You must indicate the quality of the product",
+            "origin_max": "Origin name can't exceed 3 characters",
+            "water_temperature_required": "You must enter the washing water temperature",
+            "product_temperature_required": "You must enter the packed product temperature",
+            "is_weight_correct_required": "You must indicate if the weight was correct",
+            "is_label_correct_required": "You must indicate if the product was correctly labeled",
+            "is_trackable_required": "You must indicate if the product is trackable",
+            "notes_max": "Report notes can't exceed 65535 characters",
+            "album_max": "External URL can't exceed 65535 characters"
+        },
+        "gmp-packing-aged-product": {
+            "batch_max": "Batch name can't exceed 255 characters",
+            "warehouse_max": "Warehouse name can't exceed 255 characters",
+            "supplier_max": "Supplier name can't exceed 255 characters",
+            "item_max": "Product name can't exceed 255 characters",
+            "origin_max": "Origin name must have 3 characters",
+            "quality_id_required": "You must indicate the quality of the product",
+            "quantity_required": "You must enter the quantity",
+            "location_max": "Location name can't exceed 255 characters",
+            "action_id_required": "You must enter the action taken",
+            "notes_max": "Report notes can't exceed 65535 characters",
+            "album_url_max": "External URL can't exceed 65535 characters"
         },
         "gap-others-unusual-occurrence": {
             "shift_required": "You must select a shift",

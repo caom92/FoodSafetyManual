@@ -3,6 +3,7 @@ import { Language } from 'angular-l10n'
 
 import { SuperReportComponent } from '../../super-report/super.report'
 import { Report } from '../interfaces/gmp.packing.finished.product.report.interface'
+import { Preview } from '../../preview/report.preview.interface'
 
 @Component({
   selector: 'gmp-packing-finished-product-report',
@@ -16,6 +17,23 @@ export class GMPPackingFinishedProductReportComponent extends SuperReportCompone
 
   constructor() {
     super()
+  }
+
+  public getPreview(): Array<Preview> {
+    let preview: Array<Preview> = []
+
+    let items = ""
+    for (let entry of this.report.entries) {
+      items += entry.product + ", "
+    }
+    
+    if (items != "") {
+      items = items.substring(0, items.length - 2)
+    }
+
+    preview.push({ title: null, content: items })
+
+    return preview
   }
 
   public getOrientation(): string {

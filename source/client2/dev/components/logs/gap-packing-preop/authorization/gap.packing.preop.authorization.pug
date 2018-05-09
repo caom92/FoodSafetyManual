@@ -1,4 +1,7 @@
 extends ../log/gap.packing.preop.log.pug
 
+block header
+  log-header([log]="logHeaderData")
+
 block buttonRow
   +authorizationButtonRow("Send", "Authorize", "Delete", "Return")

@@ -13,6 +13,7 @@ import { GMPPackingScaleCalibrationInventoryComponent } from './gmp-packing-scal
 import { GMPPackingScissorsKnivesInventoryComponent } from './gmp-packing-scissors-knives/inventory/gmp.packing.scissors.knives.inventory'
 import { GMPPackingThermoCalibrationInventoryComponent } from './gmp-packing-thermo-calibration/inventory/gmp.packing.thermo.calibration.inventory'
 import { GMPSelfInspectionPestControlInventoryManagerComponent } from './gmp-self-inspection-pest-control/manager/gmp.self.inspection.pest.control.inventory.manager';
+import { BackendService } from '../../services/app.backend';
 
 //import { GMPSelfInspectionPestControlInventoryManagerComponent } from './gmp-self-inspection-pest-control/manager/gmp.self.inspection.pest.control.inventory.manager'
 
@@ -28,13 +29,28 @@ export class InventoryLoaderComponent extends DynamicComponentResolver implement
   private inventorySuffix: string = ""
   private title: string = ""
 
-  constructor(factoryResolver: ComponentFactoryResolver, private router: StateService) {
+  constructor(factoryResolver: ComponentFactoryResolver, private router: StateService, private server: BackendService) {
     super(factoryResolver)
   }
 
   public ngOnInit(): void {
     this.inventorySuffix = this.router.params.suffix
-    this.title = this.router.params.name
+    let logManualFormData = new FormData
+    logManualFormData.append("log-suffix", this.inventorySuffix)
+
+    this.server.update(
+      'get-log-manual-url',
+      logManualFormData,
+      (response: any) => {
+        if (response.meta.return_code == 0) {
+          if (response.data) {
+            this.title = response.data.log_name
+          }
+        } else {
+          this.title = "Loading..."
+        }
+      }
+    )
     switch (this.inventorySuffix) {
       case 'gmp-packing-scale-calibration': this.loaderComponent = this.loadComponent(GMPPackingScaleCalibrationInventoryComponent, {
         parent: this

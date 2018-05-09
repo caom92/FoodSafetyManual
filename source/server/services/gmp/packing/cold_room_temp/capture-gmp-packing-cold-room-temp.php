@@ -22,6 +22,10 @@ $service = fsm\createCaptureService(
         'test' => [
           'type' => 'float'
         ],
+        'humidity' => [
+          'type' => 'float',
+          'optional' => true
+        ],
         'deficiencies' => [
           'type' => 'string',
           'max_length' => 65535,
@@ -55,6 +59,7 @@ $service = fsm\createCaptureService(
           'capture_date_id' => $logID,
           'room_id' => $item['id'],
           'test' => $item['test'],
+          'humidity' => $item['humidity'],
           'deficiencies' => $item['deficiencies'],
           'corrective_actions' => ($hasCorrectiveAction) ?
             $item['corrective_action'] : ''

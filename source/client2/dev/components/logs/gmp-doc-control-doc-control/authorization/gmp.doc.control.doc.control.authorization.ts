@@ -2,9 +2,12 @@ import { Component, Input, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import { StateService } from '@uirouter/core'
 import { Language } from 'angular-l10n'
+import { Observable } from 'rxjs/Rx'
 
+import { CustomValidators } from '../../../../directives/custom.validators'
 import { BackendService } from '../../../../services/app.backend'
 import { LanguageService } from '../../../../services/app.language'
+import { LoaderService } from '../../../../services/app.loaders'
 import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
@@ -30,36 +33,85 @@ export class GMPDocControlDocControlAuthorizationComponent extends SuperAuthoriz
     private translationService: TranslationService,
     private langManager: LanguageService,
     logService: LogService,
-    toasts: ToastsService,
+    toastService: ToastsService,
     router: StateService,
-    public server: BackendService) {
-    super(_fb, logService, toasts, router)
+    public server: BackendService,
+    public loaderService: LoaderService) {
+    super(_fb, logService, toastService, router)
   }
 
   public ngOnInit(): void {
     this.setSuffix("gmp-doc-control-doc-control")
-    this.selectedDocument = this.log.documents[0].id
-    this.selectedDocumentName = this.log.documents[0].name
-    this.images = JSON.parse(this.log.documents[0].entries[0].pictures)
-    this.files = JSON.parse(this.log.documents[0].entries[0].files)
-    console.log(this.images)
-    console.log(this.files)
+
+    if (this.log.documents.length != 0) {
+      this.selectedDocument = this.log.documents[0].id
+      this.selectedDocumentName = this.log.documents[0].name
+      try {
+        this.images = JSON.parse(this.log.documents[0].entries[0].pictures)
+      } catch (error) {
+        this.images = null
+      }
+      try {
+        this.files = JSON.parse(this.log.documents[0].entries[0].files)
+      } catch (error) {
+        this.images = null
+      }
+      this.initForm()
+    } else {
+      this.captureForm = this._fb.group({})  
+    }
+    
     super.ngOnInit()
-    this.initForm()
   }
 
   public initForm(): void {
-    let currentTime = this.timeService.getISOTime(new Date())
     this.captureForm = this._fb.group({
-      date: [this.log.creation_date, [Validators.required, Validators.minLength(1)]],
-      capture_date: [this.log.documents[0].entries[0].date, [Validators.required, Validators.minLength(1)]],
+      report_id: [this.log.report_id, [Validators.required]],
+      date: [this.log.creation_date, [Validators.required, CustomValidators.dateValidator()]],
+      capture_date: [this.log.documents[0].entries[0].date, [Validators.required, CustomValidators.dateValidator()]],
       users: [this.log.documents[0].entries[0].employee, [Validators.required]],
-      notes: [this.log.documents[0].entries[0].notes, [Validators.required, Validators.maxLength(65535)]],
-      album_url: [this.log.documents[0].entries[0].additional_info_url, [Validators.required, Validators.maxLength(65535)]]
+      notes: [this.log.documents[0].entries[0].notes, [Validators.maxLength(65535)]],
+      album_url: [this.log.documents[0].entries[0].additional_info_url, [Validators.maxLength(65535)]]
     })
   }
 
   public save(): void {
-    console.log(this.captureForm)
+    if (this.captureForm.valid && this.log.documents.length != 0) {
+      let loader = this.loaderService.koiLoader()
+      let formData = new FormData()
+
+      formData.append("report_id", this.captureForm.controls.report_id.value)
+      formData.append("date", this.captureForm.controls.date.value)
+      formData.append("documents[0][id]", String(this.selectedDocument))
+      formData.append("documents[0][entries][0][date]", this.captureForm.controls.capture_date.value)
+      formData.append("documents[0][entries][0][employee]", this.captureForm.controls.users.value)
+      formData.append("documents[0][entries][0][notes]", this.captureForm.controls.notes.value)
+      formData.append("documents[0][entries][0][additional_info_url]", this.captureForm.controls.album_url.value)
+
+      this.server.update(
+        "update-gmp-doc-control-doc-control",
+        formData,
+        (response) => {
+          if (response.meta.return_code == 0) {
+            //success
+            this.toastService.showText("updatedLog")
+            this.enableForm()
+          } else {
+            // error
+            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+            this.enableForm()            
+          }
+          loader.dismiss()
+        }, (error: any, caught: Observable<void>) => {
+          loader.dismiss()
+          this.toastService.showText("serverUnreachable")
+          return []
+        }
+      )
+    } else {
+      this.logService.setAsDirty(this.captureForm)
+      this.enableForm()
+      this.toastService.showText("incompleteLog")
+    }
   }
 }

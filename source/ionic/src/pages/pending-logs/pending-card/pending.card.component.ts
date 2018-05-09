@@ -50,10 +50,6 @@ export class PendingCardComponent {
         {
           text:  this.ts.translate("Options.accept"),
           handler: () => {
-            console.log('Aceptar')
-            let details: LogDetails = {zone_name: this.log.zone_name, program_name: this.log.program_name, module_name: this.log.module_name, log_name: this.log.log_name}
-            console.log(this.log)
-            console.log(this.index)
             this.logService.processPendingLog(this.index)
           }
         }

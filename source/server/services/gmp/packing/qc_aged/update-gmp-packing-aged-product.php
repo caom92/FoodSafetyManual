@@ -13,12 +13,11 @@ $service = fsm\createUpdateService(
       'values' => [
         'batch' => [
           'type' => 'string',
-          'min_length' => 1,
+          'max_length' => 255,
           'optional' => TRUE
         ],
         'warehouse' => [
           'type' => 'string',
-          'min_length' => 1,
           'max_length' => 255,
           'optional' => TRUE
         ],
@@ -54,8 +53,7 @@ $service = fsm\createUpdateService(
         ],
         'location' => [
           'type' => 'string',
-          'min_length' => 1,
-          'max_length' => 255  ,
+          'max_length' => 255,
           'optional' => TRUE
         ],
         'action_id' => [
@@ -64,13 +62,11 @@ $service = fsm\createUpdateService(
         ],
         'notes' => [
           'type' => 'string',
-          'min_length' => 1,
           'max_length' => 65535,
           'optional' => TRUE
         ],
         'album_url' => [
           'type' => 'string',
-          'min_length' => 1,
           'max_length' => 65535,
           'optional' => TRUE
         ]

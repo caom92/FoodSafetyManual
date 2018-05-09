@@ -9,6 +9,7 @@ import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationService } from '../../../../services/app.translation'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
 import { Log } from '../interfaces/gmp.packing.atp.testing.log.interface'
+import { CustomValidators } from '../../../../directives/custom.validators';
 
 @Component({
   selector: 'gmp-packing-atp-testing-log',
@@ -35,8 +36,9 @@ export class GMPPackingATPTestingLogComponent extends SuperLogComponent implemen
   }
 
   public initForm(): void {
+    const currentDate = this.timeService.getISODate(new Date())
     this.captureForm = this._fb.group({
-      date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
+      date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       notes: [null, Validators.maxLength(65535)],
       areas: this._fb.array([])
     })
@@ -48,12 +50,13 @@ export class GMPPackingATPTestingLogComponent extends SuperLogComponent implemen
   }
 
   public initEmptyEntry(): FormGroup {
+    const currentTime = this.timeService.getISOTime(new Date())
     let items = this._fb.array([])
     items.push(this.initEmptyItem(1))
 
     return this._fb.group({
       name: [null, [Validators.required, Validators.maxLength(255)]],
-      time: [this.timeService.getISOTime(new Date()), [Validators.required, Validators.maxLength(255)]],
+      time: [currentTime, [Validators.required, Validators.maxLength(255)]],
       items: items
     })
   }

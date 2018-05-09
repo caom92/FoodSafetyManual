@@ -16,8 +16,11 @@ export class LoaderService implements OnInit {
 
   koiLoader(message: string = "Connecting to Server") {
     let loading = this.modalService.open(KoiLoader, { message: message })
+    let wrapper: LoaderWrapper = new LoaderWrapper()
 
-    return loading.instance.modalComponent
+    wrapper.setLoader(loading.instance.modalComponent)
+
+    return wrapper
   }
 }
 
@@ -38,5 +41,21 @@ export class KoiLoader extends MzBaseModal {
   
   public dismiss(): void {
     this.modalComponent.close()
+  }
+}
+
+export class LoaderWrapper {
+  private loader: MzModalComponent
+
+  public setLoader(loader: MzModalComponent): void  {
+    this.loader = loader
+  }
+
+  public present(): void {
+    // método vacío para mantener compatibilidad con la versión de Ionic
+  }
+
+  public dismiss(): void {
+    this.loader.close()
   }
 }

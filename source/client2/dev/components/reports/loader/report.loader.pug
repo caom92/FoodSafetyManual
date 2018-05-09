@@ -1,10 +1,14 @@
 mz-card([hidden]="!(activeReport == 'any' || activeReport == report.report_id)")
   mz-card-content
-    .row
-      .col.s9.m9.l9(style='font-size: 24px;', *ngIf='report.display_date != null && report.display_date != undefined')
-        | {{report.display_date}}
-      .col.s9.m9.l9(style='font-size: 24px;', *ngIf='report.display_date == null || report.display_date == undefined')
-        | {{report.creation_date}}
+    .row.no-margin-bottom
+      .col.s9.m9.l9
+        .row.no-margin-bottom
+          div('[ngClass]'="{ 'col s12 m12 l12': showReport && preview == null, 'col s12 m5 l5': !showReport && preview != null }", style='font-size: 24px;', *ngIf='report.display_date != null && report.display_date != undefined')
+            | {{report.display_date}}
+          div('[ngClass]'="{ 'col s12 m12 l12': showReport && preview == null, 'col s12 m5 l5': !showReport && preview != null }", style='font-size: 24px;', *ngIf='report.display_date == null || report.display_date == undefined')
+            | {{report.creation_date}}
+          div.col.s12.m7.l7(*ngIf='!showReport && preview != null')
+            report-preview([title]="view.title", [content]="view.content", *ngFor="let view of preview")
       .col.s1.m1.l1
         div([hidden]='!(hasEmail === true && showReport === true)')
           button(mz-button='mz-button', float='true')
@@ -23,6 +27,7 @@ mz-card([hidden]="!(activeReport == 'any' || activeReport == report.report_id)")
             input(type='hidden', name='footer', [ngModel]='pdfReport.footer')
             input(type='hidden', name='supervisor', [ngModel]='pdfReport.supervisor')
             input(type='hidden', name='signature', [ngModel]='pdfReport.signature')
+            input(type='hidden', name='images', [ngModel]='pdfReport.images')
             button(mz-button, float='true', style='background-color: #B71C1C;', (click)='printPDFReport()')
               i(mz-icon-mdi='mz-icon-mdi', [icon]="'file-pdf-box'", [size]="'24px'")
       .col.s1.m1.l1(*ngIf='!showReport')
@@ -31,7 +36,7 @@ mz-card([hidden]="!(activeReport == 'any' || activeReport == report.report_id)")
       .col.s1.m1.l1(*ngIf='showReport')
         button(mz-button, float='true', (click)='closeHTMLReport()', style='background-color: #F44336;')
           i(mz-icon-mdi='mz-icon-mdi', [icon]="'close-box'", [size]="'24px'")
-    .row(*ngIf='!showReport && preview != null')
+    //-.row(*ngIf='!showReport && preview != null')
       report-preview([title]="view.title", [content]="view.content", *ngFor="let view of preview")
 #tableWrapper.tableWrapper([hidden]='!showReport')
   div(dynamicComponentContainer)

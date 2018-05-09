@@ -16,7 +16,7 @@ import { LanguageService } from '../../../../services/app.language';
 })
 
 export class GMPPackingColdRoomTempAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
-  @Input() log: Authorization = { report_id: null, created_by: null, approved_by: null, creation_date: null, approval_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, time: null, items: [{ id: null, name: null, test: null, deficiencies: null, corrective_action: null }] }
+  @Input() log: Authorization = { report_id: null, created_by: null, approved_by: null, creation_date: null, approval_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, time: null, items: [{ id: null, name: null, test: null, humidity: null, deficiencies: null, corrective_action: null }] }
   @Language() lang: string
   captureForm: FormGroup = new FormBuilder().group({})
 
@@ -32,13 +32,13 @@ export class GMPPackingColdRoomTempAuthorizationComponent extends SuperAuthoriza
 
   initForm() {
     this.captureForm = this._fb.group({
-      report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
+      report_id: [this.log.report_id, [Validators.required]],
       time: [this.log.time, [Validators.required, Validators.minLength(1)]],
       items: this._fb.array([])
     })
     const control = <FormArray>this.captureForm.controls['items']
     for (let item of this.log.items) {
-      control.push(this.initItem({ id: item.id, test: item.test, deficiencies: item.deficiencies, corrective_action: item.corrective_action }))
+      control.push(this.initItem({ id: item.id, test: item.test, humidity: item.humidity, deficiencies: item.deficiencies, corrective_action: item.corrective_action }))
     }
   }
 
@@ -46,6 +46,7 @@ export class GMPPackingColdRoomTempAuthorizationComponent extends SuperAuthoriza
     return this._fb.group({
       id: [item.id, [Validators.required]],
       test: [item.test, [Validators.required]],
+      humidity: [item.humidity],
       deficiencies: [item.deficiencies],
       corrective_action: [item.corrective_action]
     })

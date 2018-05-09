@@ -34,7 +34,7 @@ export class SuperInventoryComponent implements OnInit, OnDestroy {
       console.log("Message: " + message)
     })
 
-    this.inventoryService.getInventory("inventory-" + this.suffix).then(success => {
+    this.inventoryService.getInventory(this.suffix).then(success => {
       this.inventory = success
       this.onInventoryUpdate()
       this.checkEmptyInventory()

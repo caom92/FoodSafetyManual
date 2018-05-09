@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { StateService } from '@uirouter/core'
 import { Language } from 'angular-l10n'
 
+import { CustomValidators } from '../../../../directives/custom.validators'
 import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
 import { ToastsService } from '../../../../services/app.toasts'
@@ -20,21 +21,26 @@ export class GMPPackingGlassBrittleAuthorizationComponent extends SuperAuthoriza
   @Language() lang: string
   captureForm: FormGroup = new FormBuilder().group({})
 
+  readonly maxLengths = {
+    notes: 65535
+  }
+
   constructor(_fb: FormBuilder, toastService: ToastsService, logService: LogService, router: StateService, private langManager: LanguageService) {
     super(_fb, logService, toastService, router)
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.setSuffix("gmp-packing-glass-brittle")
     super.ngOnInit()
     this.initForm()
   }
 
-  initForm() {
+  public initForm(): void {
     this.captureForm = this._fb.group({
-      report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
-      time: [this.log.time, [Validators.required, Validators.minLength(1)]],
-      notes: [this.log.notes, [Validators.required, Validators.minLength(1)]],
+      report_id: [this.log.report_id, [Validators.required]],
+      date: [this.log.creation_date, [Validators.required, CustomValidators.dateValidator()]],
+      time: [this.log.time, [Validators.required, CustomValidators.timeValidator()]],
+      notes: [this.log.notes, [Validators.maxLength(this.maxLengths.notes)]],
       areas: this._fb.array([])
     })
     const control = <FormArray>this.captureForm.controls['areas']
@@ -47,14 +53,14 @@ export class GMPPackingGlassBrittleAuthorizationComponent extends SuperAuthoriza
     }
   }
 
-  initArea(area: UpdateArea) {
+  public initArea(area: UpdateArea): FormGroup {
     return this._fb.group({
       id: [area.id, [Validators.required]],
       items: this._fb.array(area.items)
     })
   }
 
-  initItem(item: UpdateItem) {
+  public initItem(item: UpdateItem): FormGroup {
     return this._fb.group({
       id: [item.id, [Validators.required]],
       is_acceptable: [item.is_acceptable, [Validators.required]]

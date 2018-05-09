@@ -120,6 +120,8 @@
         "returned_good_conditions": "Regresado en buenas condiciones",
         "sanitized_lubricated": "Sanitizado / Lubricado (Aceite Mineral)",
         "ice_point_test": "Prueba del método del punto de hielo",
+        "temp_lecture": "Lectura de temperatura",
+        "relative_humidity": "Humedad relativa",
         "thermo_calibration": "Calibración de termómetro",
         "sanitized": "Sanitizado",
         "calibrated": "Calibrado",
@@ -131,7 +133,18 @@
         "production_area": "Área de producción",
         "products": "Productos",
         "batch": "Lote",
-        "include_in_capture": "Incluir en captura"
+        "include_in_capture": "Incluir en captura",
+        "equipment": "Máquina/Equipo",
+        "voltage_reading": "Lectura mV",
+        "ph": "pH",
+        "orp": "ORP",
+        "temperature": "Temperatura",
+        "product": "Producto",
+        "parcel": "Parcela",
+        "reference": "Referencia",
+        "total_chlorine": "Cloro Total",
+        "free_chlorine": "Cloro Libre",
+        "rinse": "Enjuage"
     },
     "LogHeader": {
         "zone": "Zona",
@@ -146,6 +159,41 @@
             "comment_length": "El comentario no puede exceder 65535 caracteres",
             "person_length": "El nombre de la persona a cargo de la sanitización no puede exceder 255 caracteres",
             "album_length": "El enlace del album no puede exceder 2000 caracteres"
+        },
+        "gmp-packing-hand-washing": {
+            "notes_max": "Las notas del reporte no pueden exceder 65535 caracteres"
+        },
+        "gmp-packing-glass-brittle": {
+            "notes_max": "Las notas del reporte no pueden exceder 65535 caracteres"
+        },
+        "gmp-packing-finished-product": {
+            "batch_max": "El lote no puede exceder 255 caracteres",
+            "production_area_id_max": "El área de producción no puede exceder 255 caracteres",
+            "supplier_id_max": "El proovedor no puede exceder 255 caracteres",
+            "product_id_max": "El producto no puede exceder 255 caracteres",
+            "customer_id_max": "El cliente no puede exceder 255 caracteres",
+            "quality_type_id_required": "Debe seleccionar un tipo de calidad",
+            "origin_max": "El origen no puede exceder 3 caracteres",
+            "water_temperature_required": "Debe indicar la temperatura del agua para lavado",
+            "product_temperature_required": "Debe introducir la temperatura del producto empacado",
+            "is_weight_correct_required": "Debe indicar si el producto fue debidamente pesado",
+            "is_label_correct_required": "Debe indicar si el producto cumple con el etiquetado",
+            "is_trackable_required": "Debe indicar si el producto cumple con trazabilidad",
+            "notes_max": "Las notas del reporte no pueden exceder 65535 caracteres",
+            "album_url_max": "La dirección externa no puede exceder 255 caracteres"
+        },
+        "gmp-packing-aged-product": {
+            "batch_max": "El lote no puede exceder 255 caracteres",
+            "warehouse_max": "El almacen no puede exceder 255 caracteres",
+            "supplier_max": "El proovedor no puede exceder 255 caracteres",
+            "item_max": "El producto no puede exceder 255 caracteres",
+            "origin_max": "El origen debe contener 3 caracteres",
+            "quality_id_required": "Debe seleccionar un tipo de calidad",
+            "quantity_required": "Debe indicar la cantidad",
+            "location_max": "La ubicación no puede exceder 255 caracteres",
+            "action_id_required": "Debe seleccionar la acción tomada",
+            "notes_max": "Las notas del reporte no pueden exceder 65535 caracteres",
+            "album_url_max": "La dirección externa no puede exceder 255 caracteres"
         },
         "gap-others-unusual-occurrence": {
             "shift_required": "Debe seleccionar un turno",

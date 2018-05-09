@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core'
 import { FormArray, FormBuilder, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
+import { CustomValidators } from '../../../../directives/custom.validators'
 import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
@@ -20,6 +21,11 @@ export class GMPPackingThermoCalibrationLogComponent extends SuperLogComponent i
   @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, items: [{ id: null, name: null, position: null }] }
   @Language() lang: string
 
+  readonly maxLengths = {
+    deficiencies: 65535,
+    corrective_action: 65535
+  }
+
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
     private translationService: TranslationService,
@@ -36,11 +42,11 @@ export class GMPPackingThermoCalibrationLogComponent extends SuperLogComponent i
   }
 
   initForm() {
-    // Creamos el formulario, utilizando validaciones equivalentes a las usadas en el servidor
-    let currentTime = this.timeService.getISOTime(new Date())
+    const currentDate = this.timeService.getISODate(new Date())
+    const currentTime = this.timeService.getISOTime(new Date())
     this.captureForm = this._fb.group({
-      date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
-      time: [currentTime, [Validators.required]],
+      date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
+      time: [currentTime, [Validators.required, CustomValidators.timeValidator()]],
       items: this._fb.array([])
     })
     const control = <FormArray>this.captureForm.controls['items']
@@ -50,13 +56,14 @@ export class GMPPackingThermoCalibrationLogComponent extends SuperLogComponent i
   }
 
   resetForm() {
-    let currentTime = this.timeService.getISOTime(new Date())
+    const currentDate = this.timeService.getISODate(new Date())
+    const currentTime = this.timeService.getISOTime(new Date())
     let items = []
     for (let item of this.log.items) {
       items.push({ id: item.id, test: null, calibration: false, sanitization: false, deficiencies: "", corrective_action: "" })
     }
     this.captureForm.reset({
-      date: this.timeService.getISODate(new Date()),
+      date: currentDate,
       time: currentTime,
       items: items
     })
@@ -66,10 +73,10 @@ export class GMPPackingThermoCalibrationLogComponent extends SuperLogComponent i
     return this._fb.group({
       id: [item.id, [Validators.required]],
       test: [item.test, [Validators.required]],
-      calibration: [item.calibration],
-      sanitization: [item.sanitization],
-      deficiencies: [item.deficiencies],
-      corrective_action: [item.corrective_action]
+      calibration: [item.calibration, [Validators.required]],
+      sanitization: [item.sanitization, [Validators.required]],
+      deficiencies: [item.deficiencies, [Validators.required, Validators.maxLength(this.maxLengths.deficiencies)]],
+      corrective_action: [item.corrective_action, [Validators.required, Validators.maxLength(this.maxLengths.corrective_action)]]
     })
   }
 }

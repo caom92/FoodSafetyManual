@@ -11,6 +11,7 @@ import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
 import { LogService } from '../../../../services/app.logs'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
+import { CustomValidators } from '../../../../directives/custom.validators';
 
 @Component({
   selector: 'gmp-packing-preop-log',
@@ -35,15 +36,15 @@ export class GMPPackingPreopLogComponent extends SuperLogComponent implements On
   }
 
   initForm() {
-    // Creamos el formulario, utilizando validaciones equivalentes a las usadas en el servidor
+    const currentDate = this.timeService.getISODate(new Date())
+    const currentTime = this.timeService.getISOTime(new Date())
     this.captureForm = this._fb.group({
-      date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
+      date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       notes: ['', [Validators.maxLength(65535)]],
       album_url: ['', [Validators.maxLength(65535)]],
       areas: this._fb.array([])
     })
     const control = <FormArray>this.captureForm.controls['areas'];
-    let currentTime = this.timeService.getISOTime(new Date())
     for (let area of this.log.areas.logs) {
       let itemControl: Array<FormGroup> = []
       for (let type of area.types) {
@@ -56,8 +57,9 @@ export class GMPPackingPreopLogComponent extends SuperLogComponent implements On
   }
 
   resetForm() {
+    const currentDate = this.timeService.getISODate(new Date())
+    const currentTime = this.timeService.getISOTime(new Date())
     let areas = []
-    let currentTime = this.timeService.getISOTime(new Date())
     for (let area of this.log.areas.logs) {
       let items: Array<CaptureItem> = []
       for(let type of area.types){
@@ -68,7 +70,7 @@ export class GMPPackingPreopLogComponent extends SuperLogComponent implements On
       areas.push({ id: area.id, time: currentTime, notes: "", person_performing_sanitation: "", items: items })
     }
     this.captureForm.reset({
-      date: this.timeService.getISODate(new Date()),
+      date: currentDate,
       notes: '',
       album_url: '',
       areas: areas

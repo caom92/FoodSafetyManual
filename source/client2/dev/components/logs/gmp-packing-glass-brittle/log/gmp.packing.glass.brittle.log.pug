@@ -2,15 +2,19 @@ include ../../../log-ionic-materialize.pug
 
 +fullLogWrapper()
   div(*ngIf="showLog == true || showLog == undefined")
-    log-header([log]="logHeaderData")
+    block header
+      log-header([log]="logHeaderData", [dateGroup]='captureForm')
     form([formGroup]='captureForm', (ngSubmit)='save(myForm)')
       +card()
         +cardContent()
           +timeInput(true, "{{ 'Log.time' | translate:lang }}", "time", null, null, "langManager.messages.global.timePickerConfig")
+          +errorMessage("!captureForm.controls.time.valid", "{{ 'LogErrors.generic.time_required' | translate:lang }}")
       gmp-packing-glass-brittle-area(*ngFor='let area of log.areas; let i = index', [area]='area', [group]='captureForm.controls.areas.controls[i]')
       +card()
         +cardHeader("{{ 'Log.complementary_information' | translate:lang }}")
         +cardContent()
-          +textArea("{{ 'Log.notes_of' | translate:lang }} {{log.log_name}}", "clipboard", "notes")
+          +textArea("{{ 'Log.notes_of' | translate:lang }} {{log.log_name}}", "clipboard", "notes")([length]="maxLengths.notes")
+          +errorMessage("!captureForm.controls.notes.valid && captureForm.controls.notes.value.length > maxLengths.notes", "{{ 'LogErrors.gmp-packing-glass-brittle.notes_max' | translate:lang }}")
+          +errorMessage("!captureForm.controls.notes.valid && captureForm.controls.notes.dirty && captureForm.controls.notes.value.length == 0", "{{ 'LogErrors.generic.generic_required' | translate:lang }}")
       block buttonRow
         +sendLogButton("{{ 'Log.send_report' | translate:lang }}")

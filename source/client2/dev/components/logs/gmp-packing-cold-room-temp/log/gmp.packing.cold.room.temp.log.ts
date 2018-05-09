@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core'
 import { FormArray, FormBuilder, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
+import { CustomValidators } from '../../../../directives/custom.validators'
 import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
@@ -36,26 +37,28 @@ export class GMPPackingColdRoomTempLogComponent extends SuperLogComponent implem
   }
 
   initForm() {
-    let currentTime = this.timeService.getISOTime(new Date())
+    const currentDate = this.timeService.getISODate(new Date())
+    const currentTime = this.timeService.getISOTime(new Date())
     this.captureForm = this._fb.group({
-      date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
+      date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       time: [currentTime, [Validators.required]],
       items: this._fb.array([])
     })
     const control = <FormArray>this.captureForm.controls['items']
     for (let item of this.log.items) {
-      control.push(this.initItem({ id: item.id, test: null, deficiencies: "", corrective_action: "" }))
+      control.push(this.initItem({ id: item.id, test: null, humidity: null, deficiencies: "", corrective_action: "" }))
     }
   }
 
   resetForm() {
-    let currentTime = this.timeService.getISOTime(new Date())
+    const currentDate = this.timeService.getISODate(new Date())
+    const currentTime = this.timeService.getISOTime(new Date())
     let items = []
     for (let item of this.log.items) {
-      items.push({ id: item.id, test: null, deficiencies: "", corrective_action: "" })
+      items.push({ id: item.id, test: null, humidity: null, deficiencies: "", corrective_action: "" })
     }
     this.captureForm.reset({
-      date: this.timeService.getISODate(new Date()),
+      date: currentDate,
       time: currentTime,
       items: items
     })
@@ -65,6 +68,7 @@ export class GMPPackingColdRoomTempLogComponent extends SuperLogComponent implem
     return this._fb.group({
       id: [item.id, [Validators.required]],
       test: [item.test, [Validators.required]],
+      humidity: [item.humidity],
       deficiencies: [item.deficiencies],
       corrective_action: [item.corrective_action]
     })

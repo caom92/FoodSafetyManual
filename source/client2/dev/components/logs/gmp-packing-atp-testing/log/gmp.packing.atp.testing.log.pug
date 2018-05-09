@@ -39,7 +39,8 @@ mixin testButtons(entryForm)
 
 +fullLogWrapper()
   div(*ngIf="showLog == true")
-    log-header([log]="logHeaderData")
+    block header
+      log-header([log]="logHeaderData", [dateGroup]='captureForm')
     form((ngSubmit)='save(myForm)', [formGroup]="captureForm")
       +card(null)
         +cardContent()

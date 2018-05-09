@@ -2,7 +2,8 @@ include ../../../log-ionic-materialize.pug
 
 +fullLogWrapper()
   div(*ngIf="showLog == true")
-    log-header([log]="logHeaderData")
+    block header
+      log-header([log]="logHeaderData", [dateGroup]='captureForm')
     form([formGroup]='captureForm', (ngSubmit)='save(myForm)')
       +card(true)
         +cardContent()
@@ -11,6 +12,7 @@ include ../../../log-ionic-materialize.pug
       +card(true)
         +cardHeader("{{ 'Log.complementary_information' | translate:lang }}")
         +cardContent()
-          +textArea("{{ 'Log.notes_of' | translate:lang }} {{log.log_name}}", "clipboard", "notes")
+          +textArea("{{ 'Log.notes_of' | translate:lang }} {{log.log_name}}", "clipboard", "notes")([length]="maxLengths.notes")
+          +errorMessage("!captureForm.controls.notes.valid && captureForm.controls.notes.value.length > maxLengths.notes", "{{ 'LogErrors.gmp-packing-hand-washing.notes_max' | translate:lang }}")
       block buttonRow
         +sendLogButton("{{ 'Log.send_report' | translate:lang }}")

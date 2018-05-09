@@ -87,21 +87,13 @@ $service = fsm\createCaptureService(
 
         // then store each per item log entry in the temporal storage
         foreach ($areaLogEntry['items'] as $itemsLogEntry) {
-          $hasAcceptableValue = 
-            isset($itemsLogEntry['is_acceptable']) 
-            && array_key_exists('is_acceptable', $itemsLogEntry);
-        
-          $isAcceptable = NULL;
-          if ($hasAcceptableValue) {
-            if ($itemsLogEntry['is_acceptable'] === 'null') {
-              $isAcceptable = NULL;
-            }
-          }
-
           array_push($itemsLogEntries, [
             'area_log_id' => $areaID,
             'item_id' => $itemsLogEntry['id'],
-            'is_acceptable' => $isAcceptable,
+            'is_acceptable' => 
+              (isset($itemsLogEntry['is_acceptable']) 
+                && array_key_exists('is_acceptable', $itemsLogEntry)) ? 
+                  $itemsLogEntry['is_acceptable'] : NULL,
             'corrective_action_id' => 
               (isset($itemsLogEntry['corrective_action_id']) 
                 && array_key_exists('corrective_action_id', $itemsLogEntry)) ? 

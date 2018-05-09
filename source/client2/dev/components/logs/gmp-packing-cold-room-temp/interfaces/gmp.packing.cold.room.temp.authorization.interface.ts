@@ -9,6 +9,7 @@ export interface AuthorizationItem {
   id: number
   name: string
   test: number
+  humidity: number
   deficiencies: string
   corrective_action: string
 }

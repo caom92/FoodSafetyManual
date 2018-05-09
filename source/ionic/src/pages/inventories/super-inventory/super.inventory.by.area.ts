@@ -38,6 +38,8 @@ export class SuperInventoryByAreaComponent extends SuperInventoryComponent imple
 
     this.areaManagerService.getAreaInventory(this.suffix).then(success => {
       this.areas = success
+    }, error => {
+      
     })
   }
 

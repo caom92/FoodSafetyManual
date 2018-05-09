@@ -2,7 +2,8 @@ include ../../../log-ionic-materialize.pug
 
 +fullLogWrapper()
   div(*ngIf="showLog == true || showLog == undefined")
-    log-header([log]="logHeaderData")
+    block header
+      log-header([log]="logHeaderData", [dateGroup]='captureForm')
     form([formGroup]='captureForm', (ngSubmit)='save(myForm)')
       gap-packing-preop-area(*ngFor='let area of log.areas.logs; let i=index', [area]='area', [actions]='log.areas.corrective_actions', [group]='captureForm.controls.areas.controls[i]')
       +card()

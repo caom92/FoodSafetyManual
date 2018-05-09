@@ -25,8 +25,8 @@ export class LogsPage extends NavbarPageComponent {
   constructor(public navCtrl: NavController, public navParams: NavParams, public translationService: TranslationService, public events: Events, public storage: Storage, private toastService: ToastsService, public server: BackendService) {
     super(translationService, events, storage, server)
     // Tenemos que ver desde qué programa se llamó esta vista
-    this.selectedProgram = navParams.get('program');
-    this.selectedModule = navParams.get('module');
+    this.selectedProgram = navParams.get('program')
+    this.selectedModule = navParams.get('module')
 
     this.logs = [];
 
@@ -36,7 +36,7 @@ export class LogsPage extends NavbarPageComponent {
         var tempArray = Object.getOwnPropertyNames(data[data.zones[0].name][this.selectedProgram.code].names[this.selectedModule.title])
         let invArray = data[data.zones[0].name][this.selectedProgram.code].names[this.selectedModule.title]
         for (var mod of tempArray) {
-          if (this.selectedProgram.target == "log") {
+          if (this.selectedProgram.target == "log" && mod != "suffix") {
             this.logs.push({
               title: mod,
               icon: "clipboard",
@@ -44,7 +44,7 @@ export class LogsPage extends NavbarPageComponent {
               module: this.selectedModule
             });
           } else {
-            if (invArray[mod].has_inventory == "1") {
+            if (invArray[mod].has_inventory == "1" && mod != "suffix") {
               this.logs.push({
                 title: mod,
                 icon: "clipboard",
@@ -54,6 +54,8 @@ export class LogsPage extends NavbarPageComponent {
             }
           }
         }
+        console.log("Log list")
+        console.log(this.logs)
       }
     )
   }

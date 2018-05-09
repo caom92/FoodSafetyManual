@@ -8,6 +8,7 @@ export interface UpdateLog extends SuperUpdateLog {
 export interface UpdateItem {
   id: number
   test: number
+  humidity: number
   deficiencies: string
   corrective_action: string
 }

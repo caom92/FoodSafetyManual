@@ -31,7 +31,7 @@ export class GMPPackingScaleCalibrationAuthorizationComponent extends SuperAutho
 
   initForm() {
     this.captureForm = this._fb.group({
-      report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
+      report_id: [this.log.report_id, [Validators.required]],
       notes: [this.log.notes, [Validators.maxLength(65535)]],
       corrective_action: [this.log.corrective_action, [Validators.maxLength(65535)]],
       types: this._fb.array([])

@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { StateService } from '@uirouter/core'
 import { Language } from 'angular-l10n'
 
+import { CustomValidators } from '../../../../directives/custom.validators'
 import { LogService } from '../../../../services/app.logs'
 import { ToastsService } from '../../../../services/app.toasts'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
@@ -19,20 +20,24 @@ export class GMPPackingHandWashingAuthorizationComponent extends SuperAuthorizat
   @Language() lang: string
   captureForm: FormGroup = new FormBuilder().group({})
 
+  readonly maxLengths = {
+    notes: 65535
+  }
+
   constructor(_fb: FormBuilder, toastService: ToastsService, logService: LogService, router: StateService) {
     super(_fb, logService, toastService, router)
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.setSuffix("gmp-packing-hand-washing")
     super.ngOnInit()
     this.initForm()
   }
 
-  initForm() {
+  public initForm(): void {
     this.captureForm = this._fb.group({
-      report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
-      notes: [this.log.notes, [Validators.required, Validators.minLength(1)]],
+      report_id: [this.log.report_id, [Validators.required]],
+      notes: [this.log.notes, [Validators.maxLength(this.maxLengths.notes)]],
       items: this._fb.array([])
     })
     const control = <FormArray>this.captureForm.controls['items']
@@ -41,7 +46,7 @@ export class GMPPackingHandWashingAuthorizationComponent extends SuperAuthorizat
     }
   }
 
-  initItem(item: UpdateItem) {
+  public initItem(item: UpdateItem): FormGroup {
     return this._fb.group({
       id: [item.id, [Validators.required]],
       is_acceptable: [item.is_acceptable, [Validators.required]]

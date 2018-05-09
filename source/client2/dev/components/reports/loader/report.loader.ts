@@ -22,7 +22,7 @@ import { ReportRequest } from '../reports.interface'
 import { SuperReportComponent } from '../super-report/super.report'
 import { SuperReportInterface } from '../super-report/super.report.interface'
 import { DynamicComponentResolver } from './../../dynamic.resolver'
-import { Preview } from '../preview/report.preview.interface';
+import { Preview } from '../preview/report.preview.interface'
 
 @Component({
   selector: 'report-loader',
@@ -100,7 +100,7 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
       supervisor: this.loaderComponent.report.approved_by,
       signature: this.loaderComponent.report.signature_path,
       subject: "",
-      images: null,
+      images: (this.loaderComponent.getImages() == "") ? null : this.loaderComponent.getImages(),
       fontsize: this.loaderComponent.getFontSize()
     }
   }
@@ -131,23 +131,15 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
 
   public openHTMLReport(): void {
     this.showReport = true
-    //this.events.publish("reportEvent", this.report.report_id, Date.now())
-    //this.events.$pub("reportEvent", this.report.report_id)
     this.events.$pub("reportEvent", { activeReport: this.report.report_id, time: Date.now() });
   }
 
   public closeHTMLReport(): void {
     this.showReport = false
-    //this.events.publish("reportEvent", "any", Date.now())
-    //this.events.$pub("reportEvent", "any")
     this.events.$pub("reportEvent", { activeReport: "any", time: Date.now() });
   }
 
   public ngOnDestroy(): void {
-    /*this.events.unsubscribe("reportEvent", () => {
-      console.log("Report Event unsubscribed")
-    })*/
-    console.log("ngOnDestroy report.loader.ts: " + this.activeReport)
     this.reportEvent.unsubscribe()
   }
 }

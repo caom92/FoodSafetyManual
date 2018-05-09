@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core'
 // Este servicio se encarga de administrar los textos que se despliegan en la 
 // pagina en el idioma elegido por el usuario
 @Injectable()
-export class LanguageService
-{
+export class LanguageService {
   // La lista de traducciones para todos los textos del sistema
   private translations = {
     es: { // Español
@@ -214,7 +213,7 @@ export class LanguageService
           'Pie de pág. HTML',
           ''
         ],
-        newFooter: { 
+        newFooter: {
           required: 'Este campo es obligatorio',
           maxlength: 'Este campo no debe ser mas de 65535 caracteres de largo'
         }
@@ -424,20 +423,83 @@ export class LanguageService
     },
     en: { // Ingles
       global: {
-        wait: 'Please wait...',
-        datePickerConfig: {
-          closeOnSelect: true,
-          closeOnClear: false,
-          format: 'dddd, dd mmmm, yyyy',
-          formatSubmit: "yyyy-mm-dd",
-          selectYears: true,
-          selectMonths: true,
+        "wait": "Please wait...",
+        "datePickerConfig": {
+          "closeOnSelect": true,
+          "closeOnClear": false,
+          "monthsFull": [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+          ],
+          "monthsShort": [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec"
+          ],
+          "weekdaysFull": [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+          ],
+          "weekdaysShort": [
+            "Sun",
+            "Mon",
+            "Tue",
+            "Wed",
+            "Thu",
+            "Fri",
+            "Sat"
+          ],
+          "weekdaysLetter": [
+            "S",
+            "M",
+            "T",
+            "W",
+            "T",
+            "F",
+            "S"
+          ],
+          "today": "Today",
+          "clear": "Clear",
+          "close": "Close",
+          "format": "dddd, dd mmmm, yyyy",
+          "formatSubmit": "yyyy-mm-dd",
+          "selectYears": true,
+          "selectMonths": true
         },
-        timePickerConfig: {
-          twelvehour: false,
-          autoclose: true
+        "timePickerConfig": {
+          "donetext": "OK",
+          "cleartext": "Clear",
+          "canceltext": "Cancel",
+          "twelvehour": false,
+          "autoclose": true,
+          "container": "body"
         }
-      },
+      }
+      ,
       navBar: {
         zone: 'Zone'
       },
@@ -902,7 +964,7 @@ export class LanguageService
       }
     },
     reportProblemFormLabels: {
-      titles: [ null, null ],
+      titles: [null, null],
       username: null,
       zone: null,
       program: null,
@@ -913,7 +975,7 @@ export class LanguageService
       steps: null,
       expectation: null,
       reality: null,
-      screenshots: [ null, null ],
+      screenshots: [null, null],
       selectLabel: null,
       submit: null
     },
@@ -961,10 +1023,10 @@ export class LanguageService
       dateLabel: null
     },
     logFootersLabels: {
-      titles: [ null, null ],
+      titles: [null, null],
       program: null,
       module: null,
-      tableHeaders: [ null, null, null, null ],
+      tableHeaders: [null, null, null, null],
       newFooter: {
         required: null,
         maxlength: null
@@ -976,13 +1038,13 @@ export class LanguageService
       supervisor: null,
       noSupervisors: null,
       noEmployees: null,
-      tableHeaders: [ null, null ],
+      tableHeaders: [null, null],
       targetSupervisor: null,
       transferEmployeesButton: null
     },
     signaturesFormLabels: {
-      titles: [ null, null ],
-      tableHeaders: [ null, null, null, null ],
+      titles: [null, null],
+      tableHeaders: [null, null, null, null],
       upload: null,
       uploadButton: null,
       newSignature: {
@@ -991,7 +1053,7 @@ export class LanguageService
     },
     zonesFormLabels: {
       title: null,
-      tableHeaders: [ null, null, null, null, null ],
+      tableHeaders: [null, null, null, null, null],
       addButton: null,
       zoneName: null,
       companyName: null,
@@ -1013,8 +1075,8 @@ export class LanguageService
       }
     },
     usersFormLabels: {
-      titles: [ null, null, null ],
-      tableHeaders: [ null, null, null, null, null ],
+      titles: [null, null, null],
+      tableHeaders: [null, null, null, null, null],
       active: null,
       inactive: null,
       role: null,
@@ -1045,6 +1107,8 @@ export class LanguageService
     for (let msg in this.messages) {
       this.messages[msg] = this.translations[lang][msg]
     }
+    //console.log(this.messages)
+    //console.log(JSON.stringify(this.messages.global))
   }
 
   // Retorna el texto en el idioma elegido que sea adecuado para la combinacion 
@@ -1056,7 +1120,7 @@ export class LanguageService
   getServiceMessage(service: string, code: number): string {
     // inicializamos el almacenamiento temporal para el mensaje resultante
     let message = null
-    
+
     if (this.translations[localStorage.lang][service] !== undefined) {
       // si existe la combinacion de servicio y codigo de resultado 
       // especificados, retornamos ese

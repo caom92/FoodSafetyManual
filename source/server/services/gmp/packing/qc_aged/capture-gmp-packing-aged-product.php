@@ -13,12 +13,11 @@ $service = fsm\createCaptureService(
       'values' => [
         'batch' => [
           'type' => 'string',
-          'min_length' => 1,
+          'max_length' => 255,
           'optional' => TRUE
         ],
         'warehouse' => [
           'type' => 'string',
-          'min_length' => 1,
           'max_length' => 255,
           'optional' => TRUE
         ],
@@ -54,7 +53,6 @@ $service = fsm\createCaptureService(
         ],
         'location' => [
           'type' => 'string',
-          'min_length' => 1,
           'max_length' => 255,
           'optional' => TRUE
         ],
@@ -64,13 +62,11 @@ $service = fsm\createCaptureService(
         ],
         'notes' => [
           'type' => 'string',
-          'min_length' => 1,
           'max_length' => 65535,
           'optional' => TRUE
         ],
         'album_url' => [
           'type' => 'string',
-          'min_length' => 1,
           'max_length' => 65535,
           'optional' => TRUE
         ]

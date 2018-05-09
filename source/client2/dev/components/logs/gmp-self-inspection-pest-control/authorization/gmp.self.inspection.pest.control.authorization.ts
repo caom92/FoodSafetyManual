@@ -9,6 +9,7 @@ import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationService } from '../../../../services/app.translation'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization, AuthorizationItem } from '../interfaces/gmp.self.inspection.pest.control.authorization.interface'
+import { CustomValidators } from '../../../../directives/custom.validators';
 
 @Component({
   selector: 'gmp-self-inspection-pest-control-authorization',
@@ -36,11 +37,9 @@ export class GMPSelfInspectionPestControlAuthorizationComponent extends SuperAut
   }
 
   initForm() {
-    const currentDate = this.timeService.getISODate(new Date())
-
     this.captureForm = this._fb.group({
-      report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
-      date: [currentDate, [Validators.required, Validators.minLength(1)]],
+      report_id: [this.log.report_id, [Validators.required]],
+      date: [this.log.creation_date, [Validators.required, CustomValidators.dateValidator()]],
       notes: [this.log.notes, [Validators.required, Validators.minLength(1)]],
       stations: this._fb.array([])
     })
@@ -61,22 +60,6 @@ export class GMPSelfInspectionPestControlAuthorizationComponent extends SuperAut
       this.offset.push(accumulated + room.stations.length)
       accumulated = accumulated + room.stations.length
     }
-  }
-
-  resetForm() {
-    let stations = []
-    const currentDate = this.timeService.getISODate(new Date())
-
-    for (let room of this.log.rooms) {
-      for (let station of room.stations) {
-        stations.push({ id: station.id, is_secured: null, condition: null, activity: null, corrective_actions: "" })
-      }
-    }
-    this.captureForm.reset({
-      date: currentDate,
-      notes: '',
-      areas: stations
-    })
   }
 
   initItem(item: AuthorizationItem) {

@@ -48,7 +48,7 @@ export class GAPOthersUnusualOccurrenceAuthorizationComponent extends SuperAutho
 
   initForm() {
     this.captureForm = this._fb.group({
-      report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
+      report_id: [this.log.report_id, [Validators.required]],
       date: [this.log.creation_date, [Validators.required, CustomValidators.dateValidator()]],
       time: [this.log.items.entry.time.substring(0, 5), [Validators.required, CustomValidators.timeValidator()]],
       incident_date: [this.log.items.entry.incident_date, [Validators.required, CustomValidators.dateValidator()]],

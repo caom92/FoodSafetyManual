@@ -10,6 +10,7 @@ import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationService } from '../../../../services/app.translation'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization } from '../interfaces/gmp.others.unusual.occurrence.authorization.interface'
+import { CustomValidators } from '../../../../directives/custom.validators';
 
 @Component({
   selector: 'gmp-others-unusual-occurrence-authorization',
@@ -47,8 +48,8 @@ export class GMPOthersUnusualOccurrenceAuthorizationComponent extends SuperAutho
 
   initForm() {
     this.captureForm = this._fb.group({
-      report_id: [this.log.report_id, [Validators.required, Validators.minLength(1)]],
-      date: [this.log.creation_date, [Validators.required, Validators.minLength(1)]],
+      report_id: [this.log.report_id, [Validators.required]],
+      date: [this.log.creation_date, [Validators.required, CustomValidators.dateValidator()]],
       time: [this.log.items.entry.time, [Validators.required]],
       incident_date: [this.log.items.entry.incident_date, [Validators.required, Validators.minLength(1)]],
       shift_id: [this.log.items.entry.shift_id, [Validators.required]],

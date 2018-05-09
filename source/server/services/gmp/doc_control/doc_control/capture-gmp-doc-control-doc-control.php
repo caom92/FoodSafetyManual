@@ -29,13 +29,11 @@ $service = fsm\createCaptureService(
             ],
             'notes' => [
               'type' => 'string',
-              'min_length' => 1,
               'max_length' => 65535,
               'optional' => TRUE
             ],
             'additional_info_url' => [
               'type' => 'string',
-              'min_length' => 1,
               'max_length' => 65535,
               'optional' => TRUE
             ],

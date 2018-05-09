@@ -63,6 +63,16 @@ export class SuperLogComponent implements OnInit {
 
   }
 
+  // Esta función es llamada posteriormente a enviar los datos, y puede ser
+  // considerada como una contraparte a cleanForm(); su propósito es rehabilitar
+  // los campos desactivados por cleanForm();, que normalmente son desactivados
+  // únicamente con el propósito de no ser enviados, pero que en caso de un
+  // error de cualquier índole, deben permanecer habilitados para la edición del
+  // usuario, P.Ej., campos opcionales
+  public enableForm(): void {
+
+  }
+
   public save(): void {
     this.cleanForm()
     if (this.captureForm.valid) {
@@ -71,11 +81,15 @@ export class SuperLogComponent implements OnInit {
       let logDetails: LogDetails = { zone_name: this.log.zone_name, program_name: this.log.program_name, module_name: this.log.module_name, log_name: this.log.log_name }
       this.logService.send(this.captureForm.value, 'capture-' + this.suffix, logDetails).then(success => {
         this.resetForm()
+        this.enableForm()
+      }, error => {
+        this.enableForm()
       })
     } else {
       // Marcamos el formulario completo como "sucio" para que aparezcan los
       // mensajes de error en la vista donde sea pertinente
       this.logService.setAsDirty(this.captureForm)
+      this.enableForm()
       this.toasts.showText("incompleteLog")
     }
   }

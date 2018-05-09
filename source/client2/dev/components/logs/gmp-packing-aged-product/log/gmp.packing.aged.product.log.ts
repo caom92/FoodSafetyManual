@@ -2,13 +2,13 @@ import { Component, Input, OnInit } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
+import { CustomValidators } from '../../../../directives/custom.validators'
 import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationService } from '../../../../services/app.translation'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
-import { CaptureEntry } from '../interfaces/gmp.packing.aged.product.capture.interface'
 import { Log } from '../interfaces/gmp.packing.aged.product.log.interface'
 
 @Component({
@@ -19,6 +19,17 @@ import { Log } from '../interfaces/gmp.packing.aged.product.log.interface'
 export class GMPPackingAgedProductLogComponent extends SuperLogComponent implements OnInit {
   @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, log_info: { actions: [{ id: null, name: null }], quality_types: [{ id: null, name: null }] } }
   @Language() lang: string
+
+  readonly maxLengths = {
+    batch: 255,
+    warehouse: 255,
+    vendor: 255,
+    item: 255,
+    origin: 3,
+    location: 255,
+    notes: 65535,
+    album_url: 65535
+  }
 
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
@@ -36,8 +47,9 @@ export class GMPPackingAgedProductLogComponent extends SuperLogComponent impleme
   }
 
   initForm() {
+    const currentDate = this.timeService.getISODate(new Date())
     this.captureForm = this._fb.group({
-      date: [this.timeService.getISODate(new Date()), [Validators.required, Validators.minLength(1)]],
+      date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       entries: this._fb.array([])
     })
 
@@ -48,37 +60,19 @@ export class GMPPackingAgedProductLogComponent extends SuperLogComponent impleme
 
   public initEmptyEntry(): FormGroup {
     return this._fb.group({
-      batch: ["", [Validators.required]],
-      warehouse: ["", [Validators.required]],
-      vendor: ["", [Validators.required]],
-      item: ["", [Validators.required]],
-      age: [0, [Validators.required]],
-      quality_id: ["", [Validators.required]],
-      packed_date: ["", [Validators.required]],
-      quantity: ["", [Validators.required]],
-      location: ["", [Validators.required]],
-      action_id: ["", [Validators.required]],
-      album_url: ["", [Validators.required]],
-      notes: ["", [Validators.required]],
-      origin: ["", [Validators.required]]
-    })
-  }
-
-  public initEntry(entry: CaptureEntry): FormGroup {
-    return this._fb.group({
-      batch: [entry.batch, [Validators.required]],
-      warehouse: [entry.warehouse, [Validators.required]],
-      vendor: [entry.vendor, [Validators.required]],
-      item: [entry.item, [Validators.required]],
-      age: [entry.age, [Validators.required]],
-      quality_id: [entry.quality_id, [Validators.required]],
-      packed_date: [entry.packed_date, [Validators.required]],
-      quantity: [entry.quantity, [Validators.required]],
-      location: [entry.location, [Validators.required]],
-      action_id: [entry.action_id, [Validators.required]],
-      album_url: [entry.album_url, [Validators.required]],
-      notes: [entry.notes, [Validators.required]],
-      origin: [entry.origin, [Validators.required]]
+      batch: ["", [Validators.maxLength(this.maxLengths.batch)]],
+      warehouse: ["", [Validators.maxLength(this.maxLengths.warehouse)]],
+      vendor: ["", [Validators.required, Validators.maxLength(this.maxLengths.vendor)]],
+      item: ["", [Validators.required, Validators.maxLength(this.maxLengths.item)]],
+      age: [null, [Validators.required]],
+      quality_id: [null, [Validators.required]],
+      origin: ["", [CustomValidators.exactLength(this.maxLengths.origin)]],
+      packed_date: ["", [Validators.required, CustomValidators.dateValidator()]],
+      quantity: [null, [Validators.required, Validators.min(1)]],
+      location: ["", [Validators.maxLength(this.maxLengths.location)]],
+      action_id: [null, [Validators.required]],
+      notes: ["", [Validators.maxLength(this.maxLengths.notes)]],
+      album_url: ["", [Validators.maxLength(this.maxLengths.album_url)]]
     })
   }
 
