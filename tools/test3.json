@@ -1,40 +1,42 @@
 {
-  "name": "cold_room",
-  "path": "/opt/lampp/htdocs/espresso/source/server/services/gmp/packing/cold_room_temp/",
-  "namespace": "gmp\\packing\\coldRoomTemp",
+  "name": "ozone_water",
+  "path": "/opt/lampp/htdocs/espresso/source/server/services/gmp/packing/ozone_water/",
+  "namespace": "gmp\\packing\\ozone",
   "program": "GMP",
   "module": "Packing",
-  "log": "Cold Room Temperature Control",
-  "suffix": "gmp-packing-cold-room",
-  "manual_path": "gmp/packing/cold_room_temp/",
+  "log": "Ozone Water Test Log",
+  "suffix": "gmp-packing-ozone-water",
+  "manual_path": "gmp/packing/ozone_water/",
   "tables": [
     {
-      "class": "Rooms",
-      "table": "gmp_packing_cold_room_temp_rooms",
-      "parent": "ToggableItemsTable"
+      "class": "Machines",
+      "table": "gmp_packing_ozone_water_machines",
+      "parent": "OrderedItemsTable"
     },
     {
       "class": "Logs",
-      "table": "gmp_packing_cold_room_temp_logs",
+      "table": "gmp_packing_ozone_water_logs",
       "parent": "LogTable"
     }
   ],
   "services": {
     "log": {
-      "items_name": "rooms"
+      "items_name": "items"
     },
     "capture": {
       "extra_info": null
     },
     "report": {
-      "items_name": "rooms",
+      "items_name": "items",
       "extra_info": null
     },
     "inventory": true,
     "add": true,
     "toggle": {
-      "dao_name": "gmp\\packing\\coldRoomTemp\\Rooms"
+      "dao_name": "gmp\\packing\\ozone\\Machines"
     },
-    "reorder": null
+    "reorder": {
+      "dao_name": "gmp\\packing\\ozone\\Machines"
+    }
   }
 }
