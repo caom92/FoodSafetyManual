@@ -46,7 +46,7 @@ class Logs extends db\LogTable
         ]
       ],
       [
-        '[><]gmp_packing_ozone_machines(m)' => [
+        '[><]gmp_packing_ozone_water_machines(m)' => [
           'machine_id' => 'id'
         ]
       ]
