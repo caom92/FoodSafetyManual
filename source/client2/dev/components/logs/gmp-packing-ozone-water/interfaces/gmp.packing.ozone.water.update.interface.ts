@@ -6,7 +6,7 @@ export interface UpdateLog extends SuperUpdateLog {
 
 export interface UpdateItem {
   id: number
-  reading: string
+  reading: number
   ph: number
   orp: number
   temperature: number

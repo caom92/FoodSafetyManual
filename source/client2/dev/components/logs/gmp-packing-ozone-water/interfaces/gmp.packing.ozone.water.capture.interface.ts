@@ -6,7 +6,7 @@ export interface CaptureLog extends SuperCaptureLog {
 
 export interface CaptureItem {
   id: number
-  reading: string
+  reading: number
   ph: number
   orp: number
   temperature: number

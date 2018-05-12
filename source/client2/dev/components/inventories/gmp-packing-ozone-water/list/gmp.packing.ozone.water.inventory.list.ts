@@ -15,7 +15,7 @@ import { InventoryItem } from '../interfaces/gmp.packing.ozone.water.inventory.i
   ]
 })
 
-export class GMPPackingThermoCalibrationInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnDestroy, OnChanges {
+export class GMPPackingOzoneWaterInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnDestroy, OnChanges {
   @Language() private lang: string
   @Input() items: Array<InventoryItem> = null
 

@@ -24,6 +24,13 @@ export class CustomValidators {
     }
   }
 
+  public static numeric(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } => {
+      const allowed = control.value === Number(control.value) || control.value == null
+      return allowed ? null : { 'invalidNumber': { value: control.value } }
+    }
+  }
+
   //public static urlValidator(): ValidatorFn {
   //return (control: AbstractControl): {[key: string]: any} => {
   //const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/g

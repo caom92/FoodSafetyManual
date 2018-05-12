@@ -247,6 +247,11 @@ import { GMPPackingATPTestingLogComponent } from './logs/gmp-packing-atp-testing
 import { GMPPackingOzoneWaterLogComponent } from './logs/gmp-packing-ozone-water/log/gmp.packing.ozone.water.log'
 import { GMPPackingOzoneWaterItemComponent } from './logs/gmp-packing-ozone-water/item/gmp.packing.ozone.water.item'
 
+import { GMPPackingOzoneWaterInventoryComponent } from '../components/inventories/gmp-packing-ozone-water/inventory/gmp.packing.ozone.water.inventory'
+import { GMPPackingOzoneWaterInventoryItemComponent } from '../components/inventories/gmp-packing-ozone-water/item/gmp.packing.ozone.water.inventory.item'
+import { GMPPackingOzoneWaterInventoryListComponent } from '../components/inventories/gmp-packing-ozone-water/list/gmp.packing.ozone.water.inventory.list'
+import { GMPPackingOzoneWaterAddItemComponent } from '../components/inventories/gmp-packing-ozone-water/add-item/gmp.packing.ozone.water.add.item'
+
 // Genericos
 
 import { ReportLoaderCard } from './report.loader.card.component'
@@ -594,6 +599,10 @@ import { ReportPreview } from './reports/preview/report.preview'
     //GMPPackingATPTestingTestComponent,
     GMPPackingOzoneWaterLogComponent,
     GMPPackingOzoneWaterItemComponent,
+    GMPPackingOzoneWaterInventoryComponent,
+    GMPPackingOzoneWaterInventoryItemComponent,
+    GMPPackingOzoneWaterInventoryListComponent,
+    GMPPackingOzoneWaterAddItemComponent,
     LogTabsPage,
     AuthorizationLoader,
     LogHeaderComponent,
@@ -651,6 +660,7 @@ import { ReportPreview } from './reports/preview/report.preview'
     GMPPackingColdRoomTempInventoryComponent,
     GMPSelfInspectionPestControlInventoryManagerComponent,
     GMPDocControlDocControlInventoryComponent,
+    GMPPackingOzoneWaterInventoryComponent,
     GMPPackingPreopReportComponent,
     GMPPackingHandWashingReportComponent,
     GMPPackingGlassBrittleReportComponent,

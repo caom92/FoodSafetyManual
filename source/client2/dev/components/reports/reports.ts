@@ -10,11 +10,11 @@ import { DynamicComponentResolver } from './../dynamic.resolver'
 import { BackendService } from '../../services/app.backend'
 import { TranslationService } from '../../services/app.translation'
 import { ReportRequest } from './reports.interface'
-import { PubSubService } from 'angular2-pubsub';
-import { StateService } from '@uirouter/core';
+import { PubSubService } from 'angular2-pubsub'
+import { StateService } from '@uirouter/core'
 import { Subscription } from 'rxjs/Subscription'
-import { LoaderService } from '../../services/app.loaders';
-import { ToastsService } from '../../services/app.toasts';
+import { LoaderService } from '../../services/app.loaders'
+import { ToastsService } from '../../services/app.toasts'
 
 @Component({
   selector: 'report',

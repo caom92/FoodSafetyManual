@@ -12,11 +12,9 @@ import { GMPPackingPreopInventoryManagerComponent } from './gmp-packing-preop/ma
 import { GMPPackingScaleCalibrationInventoryComponent } from './gmp-packing-scale-calibration/inventory/gmp.packing.scale.calibration.inventory'
 import { GMPPackingScissorsKnivesInventoryComponent } from './gmp-packing-scissors-knives/inventory/gmp.packing.scissors.knives.inventory'
 import { GMPPackingThermoCalibrationInventoryComponent } from './gmp-packing-thermo-calibration/inventory/gmp.packing.thermo.calibration.inventory'
-import { GMPSelfInspectionPestControlInventoryManagerComponent } from './gmp-self-inspection-pest-control/manager/gmp.self.inspection.pest.control.inventory.manager';
-import { BackendService } from '../../services/app.backend';
-
-//import { GMPSelfInspectionPestControlInventoryManagerComponent } from './gmp-self-inspection-pest-control/manager/gmp.self.inspection.pest.control.inventory.manager'
-
+import { GMPSelfInspectionPestControlInventoryManagerComponent } from './gmp-self-inspection-pest-control/manager/gmp.self.inspection.pest.control.inventory.manager'
+import { GMPPackingOzoneWaterInventoryComponent } from './gmp-packing-ozone-water/inventory/gmp.packing.ozone.water.inventory'
+import { BackendService } from '../../services/app.backend'
 
 @Component({
   selector: 'inventories',
@@ -89,9 +87,13 @@ export class InventoryLoaderComponent extends DynamicComponentResolver implement
       }).instance
         break
       case 'gmp-self-inspection-pest-control': this.loaderComponent = this.loadComponent(GMPSelfInspectionPestControlInventoryManagerComponent, {
-          parent: this
-        }).instance
-          break
+        parent: this
+      }).instance
+        break
+      case 'gmp-packing-ozone-water': this.loaderComponent = this.loadComponent(GMPPackingOzoneWaterInventoryComponent, {
+        parent: this
+      }).instance
+        break
     }
   }
 }

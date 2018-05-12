@@ -7,7 +7,7 @@ export interface Authorization extends SuperAuthorization {
 export interface AuthorizationItem {
   id: string
   name: string
-  reading: string
+  reading: number
   ph: number
   orp: number
   temperature: number
@@ -19,5 +19,5 @@ export interface AuthorizationItem {
   total_chlorine: number
   free_chlorine: number
   rinse: number
-  status: boolean
+  status: number
 }
