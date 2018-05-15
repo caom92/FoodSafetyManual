@@ -30,7 +30,8 @@ import { GMPSelfInspectionPestControlAuthorizationComponent } from '../../logs/g
 import { GMPDocControlDocControlAuthorizationComponent } from '../../logs/gmp-doc-control-doc-control/authorization/gmp.doc.control.doc.control.authorization'
 import { GMPPackingAgedProductAuthorizationComponent } from '../../logs/gmp-packing-aged-product/authorization/gmp.packing.aged.product.authorization'
 import { GMPPackingFinishedProductAuthorizationComponent } from '../../logs/gmp-packing-finished-product/authorization/gmp.packing.finished.product.authorization'
-import { GMPPackingATPTestingAuthorizationComponent } from '../../logs/gmp-packing-atp-testing/authorization/gmp.packing.atp.testing.authorization';
+import { GMPPackingATPTestingAuthorizationComponent } from '../../logs/gmp-packing-atp-testing/authorization/gmp.packing.atp.testing.authorization'
+import { GMPPackingOzoneWaterAuthorizationComponent } from '../../logs/gmp-packing-ozone-water/authorization/gmp.packing.ozone.water.authorization'
 
 @Component({
   selector: 'authorization-loader',
@@ -58,7 +59,8 @@ export class AuthorizationLoader extends DynamicComponentResolver implements OnI
     "gmp-packing-scale-calibration": GMPPackingScaleCalibrationAuthorizationComponent,
     "gmp-packing-scissors-knives": GMPPackingScissorsKnivesAuthorizationComponent,
     "gmp-packing-thermo-calibration": GMPPackingThermoCalibrationAuthorizationComponent,
-    "gmp-self-inspection-pest-control": GMPSelfInspectionPestControlAuthorizationComponent
+    "gmp-self-inspection-pest-control": GMPSelfInspectionPestControlAuthorizationComponent,
+    "gmp-packing-ozone-water": GMPPackingOzoneWaterAuthorizationComponent
   }
 
   constructor(factoryResolver: ComponentFactoryResolver, private logService: LogService, private router: StateService) {

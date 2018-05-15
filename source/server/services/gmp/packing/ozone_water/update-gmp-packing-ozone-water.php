@@ -8,10 +8,6 @@ $service = fsm\createUpdateService(
   'Packing',
   'Ozone Water Test Log',
   [
-    'date' => [
-      'type' => 'datetime',
-      'format' => 'Y-m-d'
-    ],
     'items' => [
       'type' => 'array',
       'values' => [
@@ -43,7 +39,7 @@ $service = fsm\createUpdateService(
           'max_length' => 255,
           'optional' => TRUE
         ],
-        'batch' => [
+        'lot' => [
           'type' => 'string',
           'max_length' => 255,
           'optional' => TRUE
@@ -86,7 +82,7 @@ $service = fsm\createUpdateService(
 
       $logs = $scope->daoFactory->get('gmp\packing\ozone\Logs');
       foreach ($request['items'] as $item) {
-        $logs->updateByCaptureLogIDAndMachineID(
+        $logs->updateByCapturedLogIDAndMachineID(
           [
             'was_test_passed' => $item['status'],
             'voltage' => $getValueFromArrayIfExists($item, 'reading'),
@@ -99,7 +95,7 @@ $service = fsm\createUpdateService(
               $getValueFromArrayIfExists($item, 'free_chlorine'),
             'rinse' => $getValueFromArrayIfExists($item, 'rinse'),
             'product' => $getValueFromArrayIfExists($item, 'product'),
-            'lot' => $getValueFromArrayIfExists($item, 'batch'),
+            'lot' => $getValueFromArrayIfExists($item, 'lot'),
             'crop' => $getValueFromArrayIfExists($item, 'parcel'),
             'batch' => $getValueFromArrayIfExists($item, 'reference'),
             'corrective_actions' => 

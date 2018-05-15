@@ -24,6 +24,7 @@ class Logs extends db\LogTable
   function selectByCaptureDateID($dateID) {
     return parent::select(
       [
+        'm.id(id)',
         'm.name(name)',
         'voltage(reading)',
         'potential_hydrogen(ph)',

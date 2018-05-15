@@ -13,7 +13,7 @@ export interface AuthorizationItem {
   temperature: number
   corrective_action: string
   product: string
-  batch: string
+  lot: string
   parcel: string
   reference: string
   total_chlorine: number

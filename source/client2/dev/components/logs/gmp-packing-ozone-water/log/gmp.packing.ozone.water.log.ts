@@ -45,7 +45,7 @@ export class GMPPackingOzoneWaterLogComponent extends SuperLogComponent implemen
     })
     const control = <FormArray>this.captureForm.controls['items']
     for (let item of this.log.items) {
-      control.push(this.initItem({ id: item.id, reading: null, ph: null, orp: null, temperature: null, corrective_action: "", product: "", batch: "", parcel: "", reference: "", total_chlorine: null, free_chlorine: null, rinse: null, status: false }))
+      control.push(this.initItem({ id: item.id, reading: null, ph: null, orp: null, temperature: null, corrective_action: "", product: "", lot: "", parcel: "", reference: "", total_chlorine: null, free_chlorine: null, rinse: null, status: false }))
     }
   }
 
@@ -58,7 +58,7 @@ export class GMPPackingOzoneWaterLogComponent extends SuperLogComponent implemen
       temperature: [item.temperature, [Validators.required]],
       corrective_action: [item.corrective_action, []],
       product: [item.product, []],
-      batch: [item.batch, []],
+      lot: [item.lot, []],
       parcel: [item.parcel, []],
       reference: [item.reference, []],
       total_chlorine: [item.total_chlorine, []],
@@ -72,7 +72,7 @@ export class GMPPackingOzoneWaterLogComponent extends SuperLogComponent implemen
     const currentDate = this.timeService.getISODate(new Date())
     let items = []
     for (let item of this.log.items) {
-      items.push({ id: item.id, reading: null, ph: null, orp: null, temperature: null, corrective_action: "", product: "", batch: "", parcel: "", reference: "", total_chlorine: null, free_chlorine: null, rinse: null, status: false })
+      items.push({ id: item.id, reading: null, ph: null, orp: null, temperature: null, corrective_action: "", product: "", lot: "", parcel: "", reference: "", total_chlorine: null, free_chlorine: null, rinse: null, status: false })
     }
     this.captureForm.reset({
       date: currentDate,

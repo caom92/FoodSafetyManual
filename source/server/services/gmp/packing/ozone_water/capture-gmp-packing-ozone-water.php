@@ -43,7 +43,7 @@ $service = fsm\createCaptureService(
           'max_length' => 255,
           'optional' => TRUE
         ],
-        'batch' => [
+        'lot' => [
           'type' => 'string',
           'max_length' => 255,
           'optional' => TRUE
@@ -100,7 +100,7 @@ $service = fsm\createCaptureService(
           'free_chlorine' => $getValueFromArrayIfExists($item, 'free_chlorine'),
           'rinse' => $getValueFromArrayIfExists($item, 'rinse'),
           'product' => $getValueFromArrayIfExists($item, 'product'),
-          'lot' => $getValueFromArrayIfExists($item, 'batch'),
+          'lot' => $getValueFromArrayIfExists($item, 'lot'),
           'crop' => $getValueFromArrayIfExists($item, 'parcel'),
           'batch' => $getValueFromArrayIfExists($item, 'reference'),
           'corrective_actions' => 

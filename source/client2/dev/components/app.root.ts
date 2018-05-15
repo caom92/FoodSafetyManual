@@ -246,6 +246,7 @@ import { GMPPackingATPTestingLogComponent } from './logs/gmp-packing-atp-testing
 
 import { GMPPackingOzoneWaterLogComponent } from './logs/gmp-packing-ozone-water/log/gmp.packing.ozone.water.log'
 import { GMPPackingOzoneWaterItemComponent } from './logs/gmp-packing-ozone-water/item/gmp.packing.ozone.water.item'
+import { GMPPackingOzoneWaterAuthorizationComponent } from './logs/gmp-packing-ozone-water/authorization/gmp.packing.ozone.water.authorization'
 
 import { GMPPackingOzoneWaterInventoryComponent } from '../components/inventories/gmp-packing-ozone-water/inventory/gmp.packing.ozone.water.inventory'
 import { GMPPackingOzoneWaterInventoryItemComponent } from '../components/inventories/gmp-packing-ozone-water/item/gmp.packing.ozone.water.inventory.item'
@@ -599,6 +600,7 @@ import { ReportPreview } from './reports/preview/report.preview'
     //GMPPackingATPTestingTestComponent,
     GMPPackingOzoneWaterLogComponent,
     GMPPackingOzoneWaterItemComponent,
+    GMPPackingOzoneWaterAuthorizationComponent,
     GMPPackingOzoneWaterInventoryComponent,
     GMPPackingOzoneWaterInventoryItemComponent,
     GMPPackingOzoneWaterInventoryListComponent,
@@ -678,7 +680,8 @@ import { ReportPreview } from './reports/preview/report.preview'
     GMPPackingATPTestingLogComponent,
     GMPPackingATPTestingAuthorizationComponent,
     GMPPackingATPTestingReportComponent,
-    GMPPackingOzoneWaterLogComponent
+    GMPPackingOzoneWaterLogComponent,
+    GMPPackingOzoneWaterAuthorizationComponent
   ],
   // indicamos cual es el componente raiz
   bootstrap: [HomeComponent]
