@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { FormArray, FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
@@ -84,10 +84,55 @@ export class GMPPackingOzoneWaterLogComponent extends SuperLogComponent implemen
     const items = <FormArray>this.captureForm.controls.items
 
     for (let item of items.controls) {
-      const readingControl = (<FormGroup>item).controls.reading
-      if (readingControl.value == null || readingControl.value == "") {
-        readingControl.disable()
-      }
+      const readingControl: AbstractControl = (<FormGroup>item).controls.reading
+      const orpControl: AbstractControl = (<FormGroup>item).controls.orp
+      const actionControl: AbstractControl = (<FormGroup>item).controls.corrective_action
+      const productControl: AbstractControl = (<FormGroup>item).controls.product
+      const lotControl: AbstractControl = (<FormGroup>item).controls.lot
+      const parcelControl: AbstractControl = (<FormGroup>item).controls.parcel
+      const referenceControl: AbstractControl = (<FormGroup>item).controls.reference
+      const totalChlorineControl: AbstractControl = (<FormGroup>item).controls.total_chlorine
+      const freeChlorineControl: AbstractControl = (<FormGroup>item).controls.free_chlorine
+      const rinseControl: AbstractControl = (<FormGroup>item).controls.rinse
+
+      this.disableControl(readingControl, readingControl.value == null || readingControl.value == "")
+      this.disableControl(orpControl, orpControl.value == null || orpControl.value == "")
+      this.disableControl(actionControl, actionControl.value == null || actionControl.value == "")
+      this.disableControl(productControl, productControl.value == null || productControl.value == "")
+      this.disableControl(lotControl, lotControl.value == null || lotControl.value == "")
+      this.disableControl(parcelControl, parcelControl.value == null || parcelControl.value == "")
+      this.disableControl(referenceControl, referenceControl.value == null || referenceControl.value == "")
+      this.disableControl(totalChlorineControl, totalChlorineControl.value == null || totalChlorineControl.value == "")
+      this.disableControl(freeChlorineControl, freeChlorineControl.value == null || freeChlorineControl.value == "")
+      this.disableControl(rinseControl, rinseControl.value == null || rinseControl.value == "")
+    }
+  }
+
+  public enableForm(): void {
+    const items = <FormArray>this.captureForm.controls.items
+
+    for (let item of items.controls) {
+      const readingControl: AbstractControl = (<FormGroup>item).controls.reading
+      const orpControl: AbstractControl = (<FormGroup>item).controls.orp
+      const actionControl: AbstractControl = (<FormGroup>item).controls.corrective_action
+      const productControl: AbstractControl = (<FormGroup>item).controls.product
+      const lotControl: AbstractControl = (<FormGroup>item).controls.lot
+      const parcelControl: AbstractControl = (<FormGroup>item).controls.parcel
+      const referenceControl: AbstractControl = (<FormGroup>item).controls.reference
+      const totalChlorineControl: AbstractControl = (<FormGroup>item).controls.total_chlorine
+      const freeChlorineControl: AbstractControl = (<FormGroup>item).controls.free_chlorine
+      const rinseControl: AbstractControl = (<FormGroup>item).controls.rinse
+
+      this.enableControl(readingControl)
+      this.enableControl(orpControl)
+      this.enableControl(actionControl)
+      this.enableControl(productControl)
+      this.enableControl(lotControl)
+      this.enableControl(parcelControl)
+      this.enableControl(referenceControl)
+      this.enableControl(totalChlorineControl)
+      this.enableControl(freeChlorineControl)
+      this.enableControl(rinseControl)
     }
   }
 }

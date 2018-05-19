@@ -2,19 +2,19 @@ import { Component, ComponentFactoryResolver, OnInit } from '@angular/core'
 import { StateService } from '@uirouter/angular'
 import { Language } from 'angular-l10n'
 
+import { BackendService } from '../../services/app.backend'
 import { DynamicComponentResolver } from '../dynamic.resolver'
 import { GAPPackingPreopInventoryManagerComponent } from './gap-packing-preop/manager/gap.packing.preop.inventory.manager'
 import { GMPDocControlDocControlInventoryComponent } from './gmp-doc-control-doc-control/inventory/gmp.doc.control.doc.control.inventory'
 import { GMPPackingColdRoomTempInventoryComponent } from './gmp-packing-cold-room-temp/inventory/gmp.packing.cold.room.temp.inventory'
 import { GMPPackingGlassBrittleInventoryManagerComponent } from './gmp-packing-glass-brittle/manager/gmp.packing.glass.brittle.inventory.manager'
 import { GMPPackingHandWashingInventoryComponent } from './gmp-packing-hand-washing/inventory/gmp.packing.hand.washing.inventory'
+import { GMPPackingOzoneWaterInventoryComponent } from './gmp-packing-ozone-water/inventory/gmp.packing.ozone.water.inventory'
 import { GMPPackingPreopInventoryManagerComponent } from './gmp-packing-preop/manager/gmp.packing.preop.inventory.manager'
 import { GMPPackingScaleCalibrationInventoryComponent } from './gmp-packing-scale-calibration/inventory/gmp.packing.scale.calibration.inventory'
 import { GMPPackingScissorsKnivesInventoryComponent } from './gmp-packing-scissors-knives/inventory/gmp.packing.scissors.knives.inventory'
 import { GMPPackingThermoCalibrationInventoryComponent } from './gmp-packing-thermo-calibration/inventory/gmp.packing.thermo.calibration.inventory'
 import { GMPSelfInspectionPestControlInventoryManagerComponent } from './gmp-self-inspection-pest-control/manager/gmp.self.inspection.pest.control.inventory.manager'
-import { GMPPackingOzoneWaterInventoryComponent } from './gmp-packing-ozone-water/inventory/gmp.packing.ozone.water.inventory'
-import { BackendService } from '../../services/app.backend'
 
 @Component({
   selector: 'inventories',
@@ -26,6 +26,19 @@ export class InventoryLoaderComponent extends DynamicComponentResolver implement
   private loaderComponent: any = null
   private inventorySuffix: string = ""
   private title: string = ""
+  private readonly inventoryComponents = {
+    "gap-packing-preop": GAPPackingPreopInventoryManagerComponent,
+    "gmp-doc-control-doc-control": GMPDocControlDocControlInventoryComponent,
+    "gmp-packing-cold-room-temp": GMPPackingColdRoomTempInventoryComponent,
+    "gmp-packing-glass-brittle": GMPPackingGlassBrittleInventoryManagerComponent,
+    "gmp-packing-hand-washing": GMPPackingHandWashingInventoryComponent,
+    "gmp-packing-ozone-water": GMPPackingOzoneWaterInventoryComponent,
+    "gmp-packing-preop": GMPPackingPreopInventoryManagerComponent,
+    "gmp-packing-scale-calibration": GMPPackingScaleCalibrationInventoryComponent,
+    "gmp-packing-scissors-knives": GMPPackingScissorsKnivesInventoryComponent,
+    "gmp-packing-thermo-calibration": GMPPackingThermoCalibrationInventoryComponent,
+    "gmp-self-inspection-pest-control": GMPSelfInspectionPestControlInventoryManagerComponent
+  }
 
   constructor(factoryResolver: ComponentFactoryResolver, private router: StateService, private server: BackendService) {
     super(factoryResolver)
@@ -49,51 +62,11 @@ export class InventoryLoaderComponent extends DynamicComponentResolver implement
         }
       }
     )
-    switch (this.inventorySuffix) {
-      case 'gmp-packing-scale-calibration': this.loaderComponent = this.loadComponent(GMPPackingScaleCalibrationInventoryComponent, {
+
+    if (this.inventoryComponents[this.inventorySuffix] != undefined && this.inventoryComponents[this.inventorySuffix] != null) {
+      this.loaderComponent = this.loadComponent(this.inventoryComponents[this.inventorySuffix], {
         parent: this
       }).instance
-        break
-      case 'gmp-packing-preop': this.loaderComponent = this.loadComponent(GMPPackingPreopInventoryManagerComponent, {
-        parent: this
-      }).instance
-        break
-      case 'gmp-packing-scissors-knives': this.loaderComponent = this.loadComponent(GMPPackingScissorsKnivesInventoryComponent, {
-        parent: this
-      }).instance
-        break
-      case 'gmp-packing-thermo-calibration': this.loaderComponent = this.loadComponent(GMPPackingThermoCalibrationInventoryComponent, {
-        parent: this
-      }).instance
-        break
-      case 'gmp-packing-hand-washing': this.loaderComponent = this.loadComponent(GMPPackingHandWashingInventoryComponent, {
-        parent: this
-      }).instance
-        break
-      case 'gmp-packing-cold-room-temp': this.loaderComponent = this.loadComponent(GMPPackingColdRoomTempInventoryComponent, {
-        parent: this
-      }).instance
-        break
-      case 'gmp-packing-glass-brittle': this.loaderComponent = this.loadComponent(GMPPackingGlassBrittleInventoryManagerComponent, {
-        parent: this
-      }).instance
-        break
-      case 'gap-packing-preop': this.loaderComponent = this.loadComponent(GAPPackingPreopInventoryManagerComponent, {
-        parent: this
-      }).instance
-        break
-      case 'gmp-doc-control-doc-control': this.loaderComponent = this.loadComponent(GMPDocControlDocControlInventoryComponent, {
-        parent: this
-      }).instance
-        break
-      case 'gmp-self-inspection-pest-control': this.loaderComponent = this.loadComponent(GMPSelfInspectionPestControlInventoryManagerComponent, {
-        parent: this
-      }).instance
-        break
-      case 'gmp-packing-ozone-water': this.loaderComponent = this.loadComponent(GMPPackingOzoneWaterInventoryComponent, {
-        parent: this
-      }).instance
-        break
     }
   }
 }

@@ -1,5 +1,5 @@
 import { OnInit } from '@angular/core'
-import { FormBuilder, FormGroup } from '@angular/forms'
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms'
 
 import { LogService } from '../../../services/app.logs'
 import { ToastsService } from '../../../services/app.toasts'
@@ -71,6 +71,18 @@ export class SuperLogComponent implements OnInit {
   // usuario, P.Ej., campos opcionales
   public enableForm(): void {
 
+  }
+
+  public disableControl(control: AbstractControl, condition?: boolean): void {
+    if (condition == true || condition == undefined) {
+      control.disable()
+    }
+  }
+
+  public enableControl(control: AbstractControl, condition?: boolean): void {
+    if (condition == true || condition == undefined) {
+      control.enable()
+    }
   }
 
   public save(): void {

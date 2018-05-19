@@ -4,6 +4,9 @@ export interface SuperInventoryAreaInterface {
   name: string
 }
 
+// TODO: Los servicios de area deberían estar unificados, y considerar a las
+// áreas como elementos que contienen items
+
 export interface SuperInventoryEditAreaInterface {
   area_id: number
   area_name: string
