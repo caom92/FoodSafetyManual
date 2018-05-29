@@ -13,8 +13,13 @@ class MachinesFields extends db\ToggableItemsTable
 
   function selectAllByMachineID($machineID) {
     return parent::select(
-      [ 'id', 'is_active', 'name_en(name)', 'name_es' ],
-      [ 'machine_id' => $machineID ]
+      [ 'id', 'is_active', 'f.name_en(name_en)', 'f.name_es(name_es)' ],
+      [ 'machine_id' => $machineID ],
+      [
+        '[><]gmp_packing_ozone_water_fields(f)' => [
+          'field_id' => 'id'
+        ]
+      ]
     );
   }
 
