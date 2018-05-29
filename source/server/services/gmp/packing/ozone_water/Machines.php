@@ -49,6 +49,15 @@ class Machines extends db\OrderedItemsTable
   function countByZoneID($zoneID) {
     return parent::count([ 'zone_id' => $zoneID]);
   }
+
+  function hasByNameAndZoneID($name, $zoneID) {
+    return parent::has([
+      'AND' => [
+        'name' => $name,
+        'zone_id' => $zoneID
+      ]
+    ]);
+  }
 }
 
 ?>
