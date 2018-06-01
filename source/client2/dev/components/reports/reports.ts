@@ -98,7 +98,6 @@ export class ReportTab extends DynamicComponentResolver implements OnInit, OnDes
     super(factoryResolver)
     //events.subscribe("reportEvent", (activeReport, time) => {
       //this.activeReport = activeReport
-      //console.log("reporte activo: " + activeReport)
     //})
   }
 
@@ -121,7 +120,6 @@ export class ReportTab extends DynamicComponentResolver implements OnInit, OnDes
   }
 
   ngOnDestroy() {
-    console.log("ngOnDestroy reports.ts: " + this.activeReport)
     this.reportEvent.unsubscribe()
   }
 
@@ -160,7 +158,6 @@ export class ReportTab extends DynamicComponentResolver implements OnInit, OnDes
       (response: any) => {
         if (response.meta.return_code == 0) {
           if (response.data) {
-            console.log(response.data.reports)
             if (response.data.reports.length == 0) {
               this.toastService.showText("noReportsFound")
             } else {

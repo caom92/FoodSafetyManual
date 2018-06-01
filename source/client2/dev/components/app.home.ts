@@ -103,7 +103,6 @@ export class HomeComponent implements OnInit
   // Esta funcion se ejecuta cuando el usuario cambio el idioma de la pagina
   onLanguageButtonClicked(lang): void {
     this.langManager.changeLanguage(lang)
-    //console.log("idioma cambiado: " + lang)
     this.translationService.selectLanguage(lang)
     $('select').material_select()
   }

@@ -20,7 +20,6 @@ export class GAPPackingPreopInventoryItemComponent extends SuperInventoryItemCom
   }
 
   public ngOnInit(): void {
-    console.log(this.item)
     this.setSuffix("gap-packing-preop")
     this.setToggleValue(this.item.is_active == 1)
   }

@@ -9,7 +9,7 @@ import { GMPDocControlDocControlInventoryComponent } from './gmp-doc-control-doc
 import { GMPPackingColdRoomTempInventoryComponent } from './gmp-packing-cold-room-temp/inventory/gmp.packing.cold.room.temp.inventory'
 import { GMPPackingGlassBrittleInventoryManagerComponent } from './gmp-packing-glass-brittle/manager/gmp.packing.glass.brittle.inventory.manager'
 import { GMPPackingHandWashingInventoryComponent } from './gmp-packing-hand-washing/inventory/gmp.packing.hand.washing.inventory'
-import { GMPPackingOzoneWaterInventoryComponent } from './gmp-packing-ozone-water/inventory/gmp.packing.ozone.water.inventory'
+import { GMPPackingOzoneWaterInventoryManagerComponent } from './gmp-packing-ozone-water/manager/gmp.packing.ozone.water.inventory.manager'
 import { GMPPackingPreopInventoryManagerComponent } from './gmp-packing-preop/manager/gmp.packing.preop.inventory.manager'
 import { GMPPackingScaleCalibrationInventoryComponent } from './gmp-packing-scale-calibration/inventory/gmp.packing.scale.calibration.inventory'
 import { GMPPackingScissorsKnivesInventoryComponent } from './gmp-packing-scissors-knives/inventory/gmp.packing.scissors.knives.inventory'
@@ -32,7 +32,7 @@ export class InventoryLoaderComponent extends DynamicComponentResolver implement
     "gmp-packing-cold-room-temp": GMPPackingColdRoomTempInventoryComponent,
     "gmp-packing-glass-brittle": GMPPackingGlassBrittleInventoryManagerComponent,
     "gmp-packing-hand-washing": GMPPackingHandWashingInventoryComponent,
-    "gmp-packing-ozone-water": GMPPackingOzoneWaterInventoryComponent,
+    "gmp-packing-ozone-water": GMPPackingOzoneWaterInventoryManagerComponent,
     "gmp-packing-preop": GMPPackingPreopInventoryManagerComponent,
     "gmp-packing-scale-calibration": GMPPackingScaleCalibrationInventoryComponent,
     "gmp-packing-scissors-knives": GMPPackingScissorsKnivesInventoryComponent,

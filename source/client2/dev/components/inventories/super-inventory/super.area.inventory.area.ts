@@ -9,6 +9,9 @@ import { SuperInventoryAreaInterface, SuperInventoryEditAreaInterface } from './
 export class SuperInventoryAreaComponent {
   protected area: SuperInventoryAreaInterface
   protected newArea: FormGroup = new FormBuilder().group({})
+  protected toggleValue: boolean = true
+  private toggleError: boolean = false
+  private previousValue: boolean = null
   private suffix: string = null
   protected editMode: boolean = false
 
@@ -18,6 +21,14 @@ export class SuperInventoryAreaComponent {
     public ts: TService,
     private areaManagerService: AreaManagerService) {
 
+  }
+
+  public setToggleValue(status: boolean): void {
+    if (this.area.is_active == 1) {
+      this.toggleValue = true
+    } else {
+      this.toggleValue = false
+    }
   }
 
   public setSuffix(suffix: string): void {
@@ -62,6 +73,21 @@ export class SuperInventoryAreaComponent {
       console.log("New and old name are the same")
       this.editMode = false
       // TODO Poner un toast aquí para mostrar el mensaje al usuario
+    }
+  }
+
+  public toggleArea(): void {
+    if (this.toggleError) {
+      this.toggleValue = this.previousValue
+      this.toggleError = false
+    } else {
+      this.previousValue = this.toggleValue
+      this.areaManagerService.toggleArea(this.area, this.suffix).then(success => {
+        
+      }, error => {
+        this.toggleError = true
+        this.toggleArea()
+      })
     }
   }
 

@@ -2,6 +2,7 @@ export interface SuperInventoryAreaInterface {
   id: number
   position: number
   name: string
+  is_active?: number
 }
 
 // TODO: Los servicios de area deberían estar unificados, y considerar a las

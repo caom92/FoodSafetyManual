@@ -1,0 +1,80 @@
+{
+  "zone_name": "LAW",
+  "program_name": "GMP",
+  "module_name": "Self Inspection",
+  "log_name": "Pest Control",
+  "html_footer": "",
+  "areas": [
+    {
+      "id": 1,
+      "name": "Machine #1 - Chlorium",
+      "fields": [
+        {
+          "id": 1,
+          "order": 1,
+          "name": "Voltage"
+        },
+        {
+          "id": 2,
+          "order": 2,
+          "name": "pH"
+        },
+        {
+          "id": 3,
+          "order": 3,
+          "name": "ORP"
+        },
+        {
+          "id": 4,
+          "order": 4,
+          "name": "Temperature"
+        },
+        {
+          "id": 5,
+          "order": 5,
+          "name": "Corrective Action"
+        },
+        {
+          "id": 6,
+          "order": 6,
+          "name": "Product"
+        },
+        {
+          "id": 7,
+          "order": 7,
+          "name": "Lot"
+        },
+        {
+          "id": 8,
+          "order": 8,
+          "name": "Parcel"
+        },
+        {
+          "id": 9,
+          "order": 9,
+          "name": "Reference"
+        },
+        {
+          "id": 10,
+          " order": 10,
+          "name": "Total Chlorine"
+        },
+        {
+          "id": 11,
+          " order": 11,
+          "name": "Free Chlorine"
+        },
+        {
+          "id": 12,
+          " order": 12,
+          "name": "Rinse"
+        },
+        {
+          "id": 13,
+          " order": 13,
+          "name": "Status"
+        }
+      ]
+    }
+  ]
+}

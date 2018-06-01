@@ -31,6 +31,9 @@ export class SuperAuthorizationComponent implements OnInit {
   public ngOnInit(): void {
     this.assignHeaderData()
     this.showLog = true
+    setTimeout(function () {
+      $('select').material_select()
+    }, 200)
   }
 
   /**

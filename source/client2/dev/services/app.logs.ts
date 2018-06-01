@@ -188,7 +188,6 @@ export class LogService {
             handler: () => {
               // TODO: Toast de acción cancelada por el usuario
               reject("user_cancel")
-              console.log('Cancelar')
             }
           },
           {
@@ -239,7 +238,6 @@ export class LogService {
             handler: () => {
               // TODO: Toast de acción cancelada por el usuario
               reject("user_cancel")
-              console.log('Cancelar')
             }
           },
           {

@@ -1107,8 +1107,6 @@ export class LanguageService {
     for (let msg in this.messages) {
       this.messages[msg] = this.translations[lang][msg]
     }
-    //console.log(this.messages)
-    //console.log(JSON.stringify(this.messages.global))
   }
 
   // Retorna el texto en el idioma elegido que sea adecuado para la combinacion 

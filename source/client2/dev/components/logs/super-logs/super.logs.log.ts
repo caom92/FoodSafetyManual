@@ -33,8 +33,9 @@ export class SuperLogComponent implements OnInit {
       this.logHeaderData.module_name = this.log.module_name
       this.initForm()
       this.showLog = true
-      console.error("init select")
-      $('select').material_select()
+      setTimeout(function () {
+        $('select').material_select()
+      }, 200)
     }, error => {
       // Por el momento, no se necesita ninguna acción adicional en caso de
       // un error durante la recuperación de datos, ya que este caso se maneja

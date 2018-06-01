@@ -5,27 +5,6 @@ include ../../../log-ionic-materialize.pug
     block header
       log-header([log]="logHeaderData", [dateGroup]='captureForm')
     form([formGroup]='captureForm', (ngSubmit)='save(myForm)')
-      +card(true)
-        +cardContent()
-          table(style="display: block; overflow: scroll;")
-            thead
-              tr
-                th {{ 'Log.equipment' | translate:lang }}
-                th {{ 'Log.voltage_reading' | translate:lang }}
-                th {{ 'Log.ph' | translate:lang }}
-                th {{ 'Log.orp' | translate:lang }}
-                th {{ 'Log.temperature' | translate:lang }}
-                th {{ 'Log.corrective_action' | translate:lang }}
-                th {{ 'Log.product' | translate:lang }}
-                th {{ 'Log.batch' | translate:lang }}
-                th {{ 'Log.parcel' | translate:lang }}
-                th {{ 'Log.reference' | translate:lang }}
-                th {{ 'Log.total_chlorine' | translate:lang }}
-                th {{ 'Log.free_chlorine' | translate:lang }}
-                th {{ 'Log.rinse' | translate:lang }}
-                th {{ 'Log.status' | translate:lang }}
-            tbody
-              ng-template(ngFor, let-i='index', let-item, [ngForOf]='log.items')
-                tr(gmp-packing-ozone-water-item, [item]='item', [itemGroup]='captureForm.controls.items.controls[i]')
+      gmp-packing-ozone-water-item(*ngFor='let item of log.items; let i = index', [item]='item', [itemGroup]='captureForm.controls.items.controls[i]')
       block buttonRow
         +sendLogButton("{{ 'Log.send_report' | translate:lang }}")

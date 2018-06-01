@@ -5,18 +5,16 @@ export interface Report extends SuperReportInterface {
 }
 
 export interface ReportItem {
+  id: number
   name: string
-  reading: string
-  ph: number
-  orp: number
-  temperature: number
-  corrective_action: string
-  product: string
-  lot: string
-  parcel: string
-  reference: string
-  total_chlorine: number
-  free_chlorine: number
-  rinse: number
-  status: number
+  fields: Array<ReportField>
+}
+
+export interface ReportField {
+  id: number
+  position: number
+  name_en: string
+  name_es: string
+  field_id: number
+  value: string | number
 }

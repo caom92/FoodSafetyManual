@@ -20,7 +20,6 @@ export class GMPPackingPreopInventoryItemComponent extends SuperInventoryItemCom
   }
 
   public ngOnInit(): void {
-    console.log(this.item)
     this.setSuffix("gmp-packing-preop")
     this.setToggleValue(this.item.is_active == 1)
   }

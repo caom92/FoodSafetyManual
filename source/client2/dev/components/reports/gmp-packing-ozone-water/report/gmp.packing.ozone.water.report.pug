@@ -1,0 +1,14 @@
+report-header([header]="header")
+mz-card
+  mz-card-content
+    table(#report_body)
+      tbody
+        ng-template(ngFor, let-item, [ngForOf]='report.items')
+          tr
+            th([colSpan]='2') {{item.name}}
+          ng-template(ngFor, let-field, [ngForOf]='item.fields')
+            tr
+              td.nameColumn() {{field['name_' + lang]}}
+              td.valueColumn(*ngIf='field.field_id != 13') {{field.value}}
+              td.valueColumn(*ngIf='field.field_id == 13 && field.value == 1') {{ 'Log.pass' | translate:lang }}
+              td.valueColumn(*ngIf='field.field_id == 13 && field.value == 0') {{ 'Log.fail' | translate:lang }}
