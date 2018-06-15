@@ -92,7 +92,7 @@ export class SuperLogComponent implements OnInit {
       // Información adicional, necesaria en el caso de que la bitácora no pueda
       // enviarse
       let logDetails: LogDetails = { zone_name: this.log.zone_name, program_name: this.log.program_name, module_name: this.log.module_name, log_name: this.log.log_name }
-      this.logService.send(this.captureForm.value, 'capture-' + this.suffix, logDetails).then(success => {
+      this.logService.send(this.captureForm.value, this.suffix, logDetails).then(success => {
         this.resetForm()
         this.enableForm()
       }, error => {

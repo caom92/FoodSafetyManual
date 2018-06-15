@@ -315,6 +315,8 @@ import { GMPPackingATPTestingReportAreaComponent } from './reports/gmp-packing-a
 import { GMPPackingATPTestingReportItemComponent } from './reports/gmp-packing-atp-testing/test/gmp.packing.atp.testing.test'
 import { GMPDocControlDocControlReportComponent } from './reports/gmp-doc-control-doc-control/report/gmp.doc.control.doc.control.report'
 import { ReportPreview } from './reports/preview/report.preview'
+import { ProductDataViewerComponent } from './product-data-viewer/product.data.viewer.component'
+import { PapaParseModule } from 'ngx-papaparse'
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -326,6 +328,7 @@ import { ReportPreview } from './reports/preview/report.preview'
     HttpModule,
     BrowserAnimationsModule,
     DragulaModule,
+    PapaParseModule,
     LocalizationModule.forRoot(),
     MaterializeModule.forRoot(),
     PubSubModule.forRoot(),
@@ -408,6 +411,11 @@ import { ReportPreview } from './reports/preview/report.preview'
           name: 'users',
           url: '/users',
           component: UsersComponent
+        },
+        {
+          name: 'product-data-viewer',
+          url: '/product-data-viewer',
+          component: ProductDataViewerComponent
         }
       ],
       useHash: true,
@@ -436,6 +444,7 @@ import { ReportPreview } from './reports/preview/report.preview'
     LogInComponent,
     EditProfileComponent,
     KeysPipe,
+    ProductDataViewerComponent,
     ReportProblemComponent,
     ProgressModalComponent,
     KoiLoader,

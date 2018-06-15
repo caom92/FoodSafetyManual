@@ -1,14 +1,19 @@
 report-header([header]="header")
 mz-card
   mz-card-content
-    table(#report_body)
-      tbody
-        ng-template(ngFor, let-item, [ngForOf]='report.items')
-          tr
-            th([colSpan]='2') {{item.name}}
-          ng-template(ngFor, let-field, [ngForOf]='item.fields')
+    div(#report_body)
+      ng-template(ngFor, let-item, [ngForOf]='groupedItems')
+        table
+          tbody
             tr
-              td.nameColumn() {{field['name_' + lang]}}
-              td.valueColumn(*ngIf='field.field_id != 13') {{field.value}}
-              td.valueColumn(*ngIf='field.field_id == 13 && field.value == 1') {{ 'Log.pass' | translate:lang }}
-              td.valueColumn(*ngIf='field.field_id == 13 && field.value == 0') {{ 'Log.fail' | translate:lang }}
+              th() Name
+              ng-template(ngFor, let-field, [ngForOf]='item[0].fields')
+                th() {{field['name_' + lang]}}
+            ng-template(ngFor, let-machine, [ngForOf]='item')
+              tr
+                td() {{machine.name}}
+                ng-template(ngFor, let-field, [ngForOf]='machine.fields')
+                  td(*ngIf='field.field_id != 13') {{field.value}}
+                  td(*ngIf='field.field_id == 13 && field.value == 1') {{ 'Log.pass' | translate:lang }}
+                  td(*ngIf='field.field_id == 13 && field.value == 0') {{ 'Log.fail' | translate:lang }}
+        p()= " "

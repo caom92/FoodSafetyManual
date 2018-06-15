@@ -129,7 +129,7 @@ export class ReportTab extends DynamicComponentResolver implements OnInit, OnDes
     this.pdfReport.address = localStorage["company_address"]
     this.pdfReport.logo = localStorage["company_logo"]
     this.pdfReport.orientation = this.pdfReports._results[0].getOrientation()
-    this.pdfReport.footer = ""
+    this.pdfReport.footer = this.reportFooter
     this.pdfReport.supervisor = this.pdfReports._results[0].report.approved_by
     this.pdfReport.signature = this.pdfReports._results[0].report.signature_path
     this.pdfReport.subject = ""
@@ -163,14 +163,13 @@ export class ReportTab extends DynamicComponentResolver implements OnInit, OnDes
             } else {
               this.reports = response.data.reports
               this.reportFooter = response.data.pdf_footer
-              this.reportFooter = '<table width="100%"><tr><td width="30%" align="left">Jacobs Farms Delcabo, Inc </td><td width="40%">Pending</td><td width="30%" align="right">Rev. pend</td></tr></table>'
               this.activeReport = "any"
             }
             this.events.$pub("reportEvent", { activeReport: "any", time: Date.now() })
             reportLoader.dismiss()
           }
         } else {
-          this.toastService.showText("serverUnreachable")
+          this.toastService.showText("noReportsFound")
           reportLoader.dismiss()
         }
       },

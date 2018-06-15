@@ -46,19 +46,19 @@ export class LogService {
               resolve(response.data)
               logLoader.dismiss()
             } else {
-              reject("bad request")
+              reject('bad request')
               logLoader.dismiss()
-              this.toastService.showText("serverUnreachable")
+              this.toastService.showText('serverUnreachable')
             }
           } else {
-            reject("bad request")
+            reject('bad request')
             logLoader.dismiss()
             this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
           }
         }, (error: any, caught: Observable<void>) => {
-          reject("network error")
+          reject('network error')
           logLoader.dismiss()
-          this.toastService.showText("serverUnreachable")
+          this.toastService.showText('serverUnreachable')
           return []
         }
       )
@@ -67,7 +67,7 @@ export class LogService {
     return logPromise
   }
 
-  public send(data: any, service: string, details: LogDetails, isFirstTry: boolean = true): Promise<string> {
+  public send(data: any, suffix: string, details: LogDetails, isFirstTry: boolean = true): Promise<string> {
     let sentPromise = new Promise<string>((resolve, reject) => {
       let loader = this.loaderService.koiLoader()
       let form_data = new FormData()
@@ -86,12 +86,12 @@ export class LogService {
       }
 
       this.server.update(
-        service,
+        'capture-' + suffix,
         form_data,
         (response: any) => {
           if (response.meta.return_code == 0) {
             this.toastService.showText("capturedLog")
-            resolve("server")
+            resolve('server')
           } else {
             this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
             reject(response.meta.return_code)
@@ -100,7 +100,7 @@ export class LogService {
           loader.dismiss()
         }, (error: any, caught: Observable<void>) => {
           //this.toastService.showText("failedLogToQueue")
-          this.toastService.showText("serverUnreachable")
+          this.toastService.showText('serverUnreachable')
           loader.dismiss()
           reject(error)
           return []
@@ -156,19 +156,19 @@ export class LogService {
               resolve(response.data)
               authorizationLoader.dismiss()
             } else {
-              reject("bad request")
+              reject('bad request')
               authorizationLoader.dismiss()
-              this.toastService.showText("serverUnreachable")
+              this.toastService.showText('serverUnreachable')
             }
           } else {
-            reject("bad request")
+            reject('bad request')
             authorizationLoader.dismiss()
             this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
           }
         }, (error: any, caught: Observable<void>) => {
-          reject("network error")
+          reject('network error')
           authorizationLoader.dismiss()
-          this.toastService.showText("serverUnreachable")
+          this.toastService.showText('serverUnreachable')
           return []
         }
       )
@@ -207,14 +207,14 @@ export class LogService {
                     resolve(response.data)
                     approveLoader.dismiss()
                   } else {
-                    reject("bad request")
+                    reject('bad request')
                     approveLoader.dismiss()
                     this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
                   }
                 }, (error: any, caught: Observable<void>) => {
-                  reject("network error")
+                  reject('network error')
                   approveLoader.dismiss()
-                  this.toastService.showText("serverUnreachable")
+                  this.toastService.showText('serverUnreachable')
                   return []
                 }
               )
@@ -257,14 +257,14 @@ export class LogService {
                     resolve(response.data)
                     rejectLoader.dismiss()
                   } else {
-                    reject("bad request")
+                    reject('bad request')
                     rejectLoader.dismiss()
                     this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
                   }
                 }, (error: any, caught: Observable<void>) => {
-                  reject("network error")
+                  reject('network error')
                   rejectLoader.dismiss()
-                  this.toastService.showText("serverUnreachable")
+                  this.toastService.showText('serverUnreachable')
                   return []
                 }
               )
@@ -301,16 +301,16 @@ export class LogService {
         (response: any) => {
           if (response.meta.return_code == 0) {
             this.toastService.showText("updatedLog")
-            resolve("server")
+            resolve('server')
           } else {
             this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
             reject(response.meta.return_code)
           }
           loader.dismiss()
         }, (error: any, caught: Observable<void>) => {
-          this.toastService.showText("serverUnreachable")
+          this.toastService.showText('serverUnreachable')
           loader.dismiss()
-          reject("network error")
+          reject('network error')
           return []
         }
       )
@@ -354,22 +354,22 @@ export class LogService {
         result[key] = value
       } else if (Array.isArray(value)) {
         for (var i = 0, l = value.length; i < l; i++)
-          recurse(value[i], key + "[" + i + "]")
+          recurse(value[i], key + '[' + i + ']')
         if (l == 0) result[key] = []
       } else {
         var isEmpty = true
         for (var k in value) {
           isEmpty = false
-          recurse(value[k], key ? key + "[" + k + "]" : k)
+          recurse(value[k], key ? key + '[' + k + ']' : k)
         }
         if (isEmpty && key) result[key] = {}
       }
     }
 
     if (Object(data) !== data) {
-      throw Error("Non-object parameter can't be flattened")
+      throw Error('Non-object parameter can\'t be flattened')
     } else {
-      recurse(data, "")
+      recurse(data, '')
     }
 
     return result

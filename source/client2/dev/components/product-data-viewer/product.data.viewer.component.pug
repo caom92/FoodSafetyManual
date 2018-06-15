@@ -1,0 +1,12 @@
+p()= 'testing data viewer'
+
+p(*ngFor="let d of data") {{d['semana']}}
+
+table
+  tbody
+    ng-template(ngFor, [ngForOf]='data', let-d)
+      tr(*ngIf="d['Zona']!='BCN'")
+        td {{i}}
+        td {{d['Semana']}}
+        td {{d['Producto']}}
+

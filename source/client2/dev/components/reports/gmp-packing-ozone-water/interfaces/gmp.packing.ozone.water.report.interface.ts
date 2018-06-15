@@ -7,6 +7,7 @@ export interface Report extends SuperReportInterface {
 export interface ReportItem {
   id: number
   name: string
+  config?: string
   fields: Array<ReportField>
 }
 

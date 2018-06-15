@@ -207,8 +207,10 @@ export class HomeElementsService
       JSON.parse(localStorage.programs)
       : []
   set programs(value: object) {
-    this._programs = value
-    localStorage.programs = JSON.stringify(value)
+    if (value !== undefined) {
+      this._programs = value
+      localStorage.programs = JSON.stringify(value)
+    }    
   }
   get programs() {
     return this._programs
