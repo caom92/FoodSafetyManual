@@ -111,7 +111,7 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
     return {
       header: this.pdfReportHeader(this.report),
       footer: '',
-      body: this.loaderComponent.getPDFReportBody().replace(/\n/g, '').replace(/<!--(.*?)-->/g, '').replace(/>( *?)</g, '><').replace(/<tr (.*?)>/g, '<tr>')
+      body: this.loaderComponent.getPDFReportBody().replace(/\n/g, '').replace(/<!--(.*?)-->/g, '').replace(/>( *?)</g, '><')//this.loaderComponent.getPDFReportBody().replace(/\n/g, '').replace(/<!--(.*?)-->/g, '').replace(/>( *?)</g, '><').replace(/<tr (.*?)>/g, '<tr>')
     }
   }
 

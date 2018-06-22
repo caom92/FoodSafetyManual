@@ -149,7 +149,7 @@ include globals.pug
           ='{{ module }}'
 
   //- Menú de navegación para supervisor, gerente o director
-  div('*ngIf'="home.roleName != 'Administrator' && home.rolename != 'Employee'")
+  div('*ngIf'="home.roleName != 'Administrator' && home.roleName != 'Employee'")
     mz-sidenav-link
       +uiRouterLink('product-data-viewer')(class='side-menu-link waves-effect waves-green')
         i.mdi.mdi-database.mdi-24px.mdi-dark

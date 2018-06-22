@@ -1,7 +1,9 @@
 mz-collapsible([mode]="'expandable'")
   mz-collapsible-item
-    mz-collapsible-item-header
+    //-mz-collapsible-item-header
       | Filtrado | Num. total de registros: {{data.length}} | Num. de registros filtrados: {{filteredData.length}} | Registros mostrados por página: {{pageSize}} | Indice inicial: {{this.currentPage * this.pageSize}} | Indice final: {{(this.currentPage + 1) * this.pageSize - 1 <= filteredData.length ? (this.currentPage + 1) * this.pageSize - 1: filteredData.length - 1}} | Total Recibido: {{totalReceived}} | Total Empacado: {{totalPacked}}
+    mz-collapsible-item-header
+      | Filtrado | Num. total de registros: {{data.length}} | Num. de registros filtrados: {{filteredData.length}} | Total Recibido: {{totalReceived}} | Total Empacado: {{totalPacked}}
     mz-collapsible-item-body
       .row
         .col.s3.m3.l3
@@ -34,14 +36,14 @@ div
   table.striped(style='display: block; overflow: scroll; height: calc(100vh - 190px);')
     thead
       tr
-        th.slim-table-cell.no-wrap-table-cell Índice
+        //-th.slim-table-cell.no-wrap-table-cell Índice
         th.slim-table-cell.no-wrap-table-cell Semana
         th.slim-table-cell.no-wrap-table-cell ID
         th.slim-table-cell.no-wrap-table-cell Fecha
         th.slim-table-cell.no-wrap-table-cell Envio
         th.slim-table-cell.no-wrap-table-cell Batch
         th.slim-table-cell.no-wrap-table-cell Clave P.
-        th.slim-table-cell.no-wrap-table-cell Producto
+        //-th.slim-table-cell.no-wrap-table-cell Producto
         th.slim-table-cell.no-wrap-table-cell Recibo
         th.slim-table-cell.no-wrap-table-cell Emp
         th.slim-table-cell.no-wrap-table-cell Kilos
@@ -58,14 +60,14 @@ div
     tbody
       ng-template(ngFor, [ngForOf]='currentData', let-d, let-i='index')
         tr
-          td.slim-table-cell.no-wrap-table-cell {{i + pageSize * currentPage}}
+          //-td.slim-table-cell.no-wrap-table-cell {{i + pageSize * currentPage}}
           td.slim-table-cell.no-wrap-table-cell {{d['Semana']}}
           td.slim-table-cell.no-wrap-table-cell {{d['Id']}}
           td.slim-table-cell.no-wrap-table-cell {{d['Fecha']}}
           td.slim-table-cell.no-wrap-table-cell {{d['Envio']}}
           td.slim-table-cell.no-wrap-table-cell {{d['Batch']}}
           td.slim-table-cell.no-wrap-table-cell {{d['PClave']}}
-          td.slim-table-cell.no-wrap-table-cell {{d['Producto']}}
+          //-td.slim-table-cell.no-wrap-table-cell {{d['Producto']}}
           td.slim-table-cell.no-wrap-table-cell {{d['Recibo']}}
           td.slim-table-cell.no-wrap-table-cell {{d['Emp']}}
           td.slim-table-cell.no-wrap-table-cell {{d['Kilos']}}
