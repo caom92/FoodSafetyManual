@@ -2,49 +2,61 @@ mz-collapsible([mode]="'expandable'")
   mz-collapsible-item
     //-mz-collapsible-item-header
       | Filtrado | Num. total de registros: {{data.length}} | Num. de registros filtrados: {{filteredData.length}} | Registros mostrados por página: {{pageSize}} | Indice inicial: {{this.currentPage * this.pageSize}} | Indice final: {{(this.currentPage + 1) * this.pageSize - 1 <= filteredData.length ? (this.currentPage + 1) * this.pageSize - 1: filteredData.length - 1}} | Total Recibido: {{totalReceived}} | Total Empacado: {{totalPacked}}
-    mz-collapsible-item-header
-      | Filtrado | Num. total de registros: {{data.length}} | Num. de registros filtrados: {{filteredData.length}} | Total Recibido: {{totalReceived}} | Total Empacado: {{totalPacked}}
+    mz-collapsible-item-header(style="width: 100%")
+      div(style="text-align: left; width: 50%; float: left;")
+        i(mz-icon-mdi, [align]="'center'", [icon]="'chevron-down'", [size]="'24px'")
+        | FILTRAR
+        i(mz-icon-mdi, [align]="'center'", [icon]="'filter'", [size]="'24px'")
+      div(style="text-align: right; width: 50%; margin-left: 50%;")
+        i(mz-icon-mdi, [align]="'center'", [icon]="'plus-box'", [size]="'24px'")
+        | Recibido: {{totalReceived}} | Empacado: {{totalPacked}} | Rendimiento: {{totalReceived != 0 ? (totalPacked / totalReceived).toFixed(2) : '0.00'}}
     mz-collapsible-item-body
       .row
-        .col.s3.m3.l3
-          mz-input-container
-            input#lot-input(mz-input, [label]="'Lote - Disponibles: ' + autocompleteLots.count", placeholder='Lote', type='text', autocomplete='off', [autocomplete]='autocompleteLots', (change)='onAutocompleteChange($event, autocompleteLots)')
-        .col.s3.m3.l3
-          mz-input-container
-            input#product-input(mz-input, [label]="'Producto - Disponibles: ' + autocompleteProducts.count", placeholder='Producto', type='text', autocomplete='off', [autocomplete]='autocompleteProducts', (change)='onAutocompleteChange($event, autocompleteProducts)')
-        .col.s3.m3.l3
-          mz-input-container
-            input#variety-input(mz-input, [label]="'Variedad - Disponibles: ' + autocompleteVarieties.count", placeholder='Variedad', type='text', autocomplete='off', [autocomplete]='autocompleteVarieties', (change)='onAutocompleteChange($event, autocompleteVarieties)')
-        .col.s3.m3.l3
-          mz-input-container
-            input#batch-input(mz-input, [label]="'Batch - Disponibles: ' + autocompleteBatches.count", placeholder='Batch', type='text', autocomplete='off', [autocomplete]='autocompleteBatches', (change)='onAutocompleteChange($event, autocompleteBatches)')
+        .col.s6.m6.l6
+          mz-datepicker-container
+            i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
+            input#start-date(#start_picker, mz-datepicker, label="Fecha inicial", type="text", [options]="datePickerConfig", [(ngModel)]="startDate")
+        .col.s6.m6.l6
+          mz-datepicker-container
+            i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
+            input#end-date(#end_picker, mz-datepicker, label="Fecha final", type="text", [options]="datePickerConfig", [(ngModel)]="endDate")
       .row
         .col.s3.m3.l3
           mz-input-container
-            input#traceability-input(mz-input, [label]="'Trazabilidad - Disponibles: ' + autocompleteTraceability.count", placeholder='Trazabilidad', type='text', autocomplete='off', [autocomplete]='autocompleteTraceability', (change)='onAutocompleteChange($event, autocompleteTraceability)')
+            input#lot-input(mz-input, [label]="'Lote'", placeholder='Lote', type='text', autocomplete='off', [autocomplete]='autocompleteLots', (change)='onAutocompleteChange($event, autocompleteLots)')
         .col.s3.m3.l3
           mz-input-container
-            input#parcel-input(mz-input, [label]="'Parcela - Disponibles: ' + autocompleteParcels.count", placeholder='Parcela', type='text', autocomplete='off', [autocomplete]='autocompleteParcels', (change)='onAutocompleteChange($event, autocompleteParcels)')
+            input#product-input(mz-input, [label]="'Producto'", placeholder='Producto', type='text', autocomplete='off', [autocomplete]='autocompleteProducts', (change)='onAutocompleteChange($event, autocompleteProducts)')
         .col.s3.m3.l3
           mz-input-container
-            input#zone-input(mz-input, [label]="'Zona - Disponibles: ' + autocompleteZones.count", placeholder='Zona', type='text', autocomplete='off', [autocomplete]='autocompleteZones', (change)='onAutocompleteChange($event, autocompleteZones)')
+            input#variety-input(mz-input, [label]="'Variedad'", placeholder='Variedad', type='text', autocomplete='off', [autocomplete]='autocompleteVarieties', (change)='onAutocompleteChange($event, autocompleteVarieties)')
         .col.s3.m3.l3
           mz-input-container
-            input#keys-input(mz-input, [label]="'Clave - Disponibles: ' + autocompleteKeys.count", placeholder='Clave', type='text', autocomplete='off', [autocomplete]='autocompleteKeys', (change)='onAutocompleteChange($event, autocompleteKeys)', [(ngModel)]='autocompleteKeys.current')
-
+            input#batch-input(mz-input, [label]="'Batch'", placeholder='Batch', type='text', autocomplete='off', [autocomplete]='autocompleteBatches', (change)='onAutocompleteChange($event, autocompleteBatches)')
+      .row
+        .col.s3.m3.l3
+          mz-input-container
+            input#traceability-input(mz-input, [label]="'Trazabilidad'", placeholder='Trazabilidad', type='text', autocomplete='off', [autocomplete]='autocompleteTraceability', (change)='onAutocompleteChange($event, autocompleteTraceability)')
+        .col.s3.m3.l3
+          mz-input-container
+            input#parcel-input(mz-input, [label]="'Parcela'", placeholder='Parcela', type='text', autocomplete='off', [autocomplete]='autocompleteParcels', (change)='onAutocompleteChange($event, autocompleteParcels)')
+        .col.s3.m3.l3
+          mz-input-container
+            input#zone-input(mz-input, [label]="'Zona'", placeholder='Zona', type='text', autocomplete='off', [autocomplete]='autocompleteZones', (change)='onAutocompleteChange($event, autocompleteZones)')
+        .col.s3.m3.l3
+          mz-input-container
+            input#keys-input(mz-input, [label]="'Clave'", placeholder='Clave', type='text', autocomplete='off', [autocomplete]='autocompleteKeys', (change)='onAutocompleteChange($event, autocompleteKeys)', [(ngModel)]='autocompleteKeys.current')
 div
-  table.striped(style='display: block; overflow: scroll; height: calc(100vh - 190px);')
+  table.ugly-ass-table(style='display: block; overflow: scroll; height: calc(100vh - 200px);', *ngIf='filteredData.length > 0')
     thead
       tr
-        //-th.slim-table-cell.no-wrap-table-cell Índice
-        th.slim-table-cell.no-wrap-table-cell Semana
+        th.slim-table-cell.no-wrap-table-cell Sem
         th.slim-table-cell.no-wrap-table-cell ID
         th.slim-table-cell.no-wrap-table-cell Fecha
         th.slim-table-cell.no-wrap-table-cell Envio
         th.slim-table-cell.no-wrap-table-cell Batch
         th.slim-table-cell.no-wrap-table-cell Clave P.
-        //-th.slim-table-cell.no-wrap-table-cell Producto
-        th.slim-table-cell.no-wrap-table-cell Recibo
+        th.slim-table-cell.no-wrap-table-cell Rec
         th.slim-table-cell.no-wrap-table-cell Emp
         th.slim-table-cell.no-wrap-table-cell Kilos
         th.slim-table-cell.no-wrap-table-cell Variedad
@@ -55,19 +67,15 @@ div
         th.slim-table-cell.no-wrap-table-cell Caja
         th.slim-table-cell.no-wrap-table-cell Zona
         th.slim-table-cell.no-wrap-table-cell Clave
-        th.slim-table-cell.no-wrap-table-cell Productor
-        th.slim-table-cell.no-wrap-table-cell Trazabilidad
     tbody
       ng-template(ngFor, [ngForOf]='currentData', let-d, let-i='index')
         tr
-          //-td.slim-table-cell.no-wrap-table-cell {{i + pageSize * currentPage}}
           td.slim-table-cell.no-wrap-table-cell {{d['Semana']}}
           td.slim-table-cell.no-wrap-table-cell {{d['Id']}}
-          td.slim-table-cell.no-wrap-table-cell {{d['Fecha']}}
+          td.slim-table-cell.no-wrap-table-cell {{formatDate(d['Fecha']) | localeDate:defaultLocale:'MMM d, y'}}
           td.slim-table-cell.no-wrap-table-cell {{d['Envio']}}
           td.slim-table-cell.no-wrap-table-cell {{d['Batch']}}
           td.slim-table-cell.no-wrap-table-cell {{d['PClave']}}
-          //-td.slim-table-cell.no-wrap-table-cell {{d['Producto']}}
           td.slim-table-cell.no-wrap-table-cell {{d['Recibo']}}
           td.slim-table-cell.no-wrap-table-cell {{d['Emp']}}
           td.slim-table-cell.no-wrap-table-cell {{d['Kilos']}}
@@ -79,14 +87,18 @@ div
           td.slim-table-cell.no-wrap-table-cell {{d['Caja']}}
           td.slim-table-cell.no-wrap-table-cell {{d['Zona']}}
           td.slim-table-cell.no-wrap-table-cell {{d['Clave']}}
-          td.slim-table-cell.no-wrap-table-cell {{d['Productor']}}
-          td.slim-table-cell.no-wrap-table-cell {{d['Trazabilidad']}}
-  .center
-    button(mz-button, float='true', (click)='goToFirst()', [disabled]='currentPage == 0')
+  .center(*ngIf='filteredData.length > 0')
+    button.green(mz-button, float='true', (click)='goToFirst()', [disabled]='currentPage == 0')
       i(mz-icon-mdi, [align]="'right'", [icon]="'rewind'", [size]="'36px'")
-    button(mz-button, float='true', (click)='prevPage()', [disabled]='currentPage == 0')
+    button.green(mz-button, float='true', (click)='prevPage()', [disabled]='currentPage == 0')
       i(mz-icon-mdi, [align]="'right'", [icon]="'play'", [size]="'36px'", [flip]="'h'")
-    button(mz-button, float='true', (click)='nextPage()', [disabled]='(currentPage + 1) * pageSize > filteredData.length')
+    | Página {{currentPage + 1}} de {{(filteredData.length - (filteredData.length % pageSize)) / pageSize + 1}}
+    button.blue(mz-button, float='true', (click)='exportCSV()')
+      i(mz-icon-mdi, [align]="'right'", [icon]="'download'", [size]="'36px'")
+    button.green(mz-button, float='true', (click)='nextPage()', [disabled]='(currentPage + 1) * pageSize > filteredData.length')
       i(mz-icon-mdi, [align]="'right'", [icon]="'play'", [size]="'36px'")
-    button(mz-button, float='true', (click)='goToLast()', [disabled]='(currentPage + 1) * pageSize > filteredData.length')
+    button.green(mz-button, float='true', (click)='goToLast()', [disabled]='(currentPage + 1) * pageSize > filteredData.length')
       i(mz-icon-mdi, [align]="'right'", [icon]="'fast-forward'", [size]="'36px'")
+  div(*ngIf="filteredData.length == 0")
+    h5
+      i.red-text(mz-icon-mdi, [align]="'center'", [icon]="'alert-circle'", [size]="'42px'") No hay elementos que correspondan a los filtros seleccionados

@@ -1,5 +1,11 @@
-import { Component,OnInit } from '@angular/core'
+import { Component,OnInit, ViewChild, ViewChildren } from '@angular/core'
 import { PapaParseService } from 'ngx-papaparse'
+import { saveAs } from 'file-saver'
+import { Language, DefaultLocale, Currency } from 'angular-l10n'
+
+import { LanguageService } from '../../services/app.language'
+import { LoaderService } from '../../services/app.loaders'
+import { MzDatepickerDirective } from 'ng2-materialize'
 
 @Component({
   selector: 'product-data-viewer',
@@ -7,6 +13,8 @@ import { PapaParseService } from 'ngx-papaparse'
 })
 
 export class ProductDataViewerComponent implements OnInit {
+  @Language() lang: string
+  @DefaultLocale() defaultLocale: string
   private data: Array<any> = []
   private filteredData: Array<any> = []
   private currentData: Array<any> = []
@@ -39,14 +47,61 @@ export class ProductDataViewerComponent implements OnInit {
   private currentPage: number = 0
   private totalReceived: number = 0
   private totalPacked: number = 0
+  private startInit: string = ''
+  private endInit: string = ''
+  private startDate: string = ''
+  private endDate: string = ''
+  private startManual: string = ''
+  private endManual: string = ''
+  private startTemp: string = ''
+  private endTemp: string = ''
 
-  constructor(private csvParse: PapaParseService) {
+  private datePickerConfig: Pickadate.DateOptions = {
+    closeOnSelect: true,
+    closeOnClear: false,
+    monthsFull: [
+      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio',
+      'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ],
+    monthsShort: [
+      'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep',
+      'Oct', 'Nov', 'Dec'
+    ],
+    weekdaysFull: [
+      'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes',
+      'Sábado'
+    ],
+    weekdaysShort: [
+      'Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'
+    ],
+    weekdaysLetter: [
+      'D', 'L', 'M', 'R', 'J', 'V', 'S'
+    ],
+    onOpen: () => {
+      this.startTemp = this.startDate
+      this.endTemp = this.endDate
+    },
+    onClose: () => {
+      if (this.startDate != this.startTemp && new Date(this.startDate) > new Date(this.endDate))
+        this.startDate = String(this.endDate)
+      if (this.endDate != this.endTemp && new Date(this.endDate) < new Date(this.startDate))
+        this.endDate = String(this.startDate)
+      this.filter()
+    },
+    today: 'Hoy',
+    clear: 'Borrar',
+    close: 'Cerrar',
+    format: 'dddd, dd mmmm, yyyy',
+    formatSubmit: "m/d/yyyy",
+    selectYears: true,
+    selectMonths: true
+  }
+
+  constructor(private csvParse: PapaParseService, private loaderService: LoaderService, private langManager: LanguageService) {
     
   }
 
   public ngOnInit(): void {
-    console.log('init')
-    console.log(localStorage.zone_name)
     if (localStorage.role_name == 'Director') {
       this.allKeys.current = null
     } else if (localStorage.role_name == 'Supervisor') {
@@ -54,8 +109,8 @@ export class ProductDataViewerComponent implements OnInit {
     } else {
       this.allKeys.current = 'not valid'
     }
-    //this.allKeys.current = null
-    //let csvData = `Semana,Id,Fecha,Envio,Batch,Clave,Producto,Recibo,Emp,Kilos,Variedad,Color,Lote,Parcela,TemP,Caja,Zona,Clave,Productor,Trazabilidad\n43,281834,Oct 27 2017,x,,BMMP,SWEET PETITE PEPPER DE CAMPO,9,,54,MMP Red 9277,0,60,Z02,61.5,MoreliaChiles,BCN,ZGS,GODSOL S DE RL DE CV,595181\n43,282140,Oct 28 2017,E908,521496,MBF12,MBF12 - SWEET PEPPER MEDLEY 12CT 16OZ BAG FAIRTRADE,,2,13,MMP Red 9277,0,60,Z02,53,BXLB24,BCN,ZGS,GODSOL S DE RL DE CV,595181\n43,281834,Oct 27 2017,x,,BMMP,SWEET PETITE PEPPER DE CAMPO,13,,78,MMP Tangerine 9076,0,60,Z02,61.5,MoreliaChiles,BCN,ZGS,GODSOL S DE RL DE CV,595182\n35,273247,Sep 1 2017,x,,BMMP,SWEET PETITE PEPPER DE CAMPO,164,,984,MMP Yellow 2389,0,18,N02,66,MoreliaChiles,BCN,OAP,Ojos Negros Parcela,575947\n35,273247,Sep 1 2017,x,,BZUC,ZUCHINI DE CAMPO,73,,657,Prestige,0,22,N02,66,MoreliaCalabazas,BCN,OAP,Ojos Negros Parcela,575948\n35,273415,Sep 2 2017,E778,514510,ZGM,ZGM - GENERIC ZUCCHINI MEDIUM,,5,50,Prestige,0,22,N02,51,BXZUC,BCN,OAP,Ojos Negros Parcela,575948`
+
+    let loader = this.loaderService.koiLoader()
     this.csvParse.parse(`http://localhost/espresso/source/server/bcn_database.php`, {
       complete: (results, file) => {        
         if (this.allKeys.current != null && this.allKeys.current != '') {
@@ -70,26 +125,6 @@ export class ProductDataViewerComponent implements OnInit {
 
         this.filter()
 
-        //this.autocomplete.data = this.allLots
-        //this.autocomplete.limit = 5
-        /*this.autocomplete = {
-          data: this.allBatches,
-          limit: 5
-        }*/
-        //console.log(this.data)
-        //console.log(this.filteredData)
-        //console.log(this.allProducts)
-        //console.log(this.autocomplete)
-        console.log('total keys of lots', Object.keys(this.allLots.data).length)
-        console.log('total keys of prod', Object.keys(this.allProducts.data).length)
-        console.log('total keys of vari', Object.keys(this.allVarieties.data).length)
-        console.log('total keys of batc', Object.keys(this.allBatches.data).length)
-        console.log('total keys of trac', Object.keys(this.allTraceability.data).length)
-        console.log('total keys of parc', Object.keys(this.allParcels.data).length)
-        console.log('total keys of zone', Object.keys(this.allZones.data).length)
-        console.log('total keys of keys', Object.keys(this.allKeys.data).length)
-        console.log(this.allProducts)
-        console.log('complete')
         this.autocompleteLots = this.allLots
         this.autocompleteProducts = this.allProducts
         this.autocompleteVarieties = this.allVarieties
@@ -98,6 +133,8 @@ export class ProductDataViewerComponent implements OnInit {
         this.autocompleteParcels = this.allParcels
         this.autocompleteZones = this.allZones
         this.autocompleteKeys = this.allKeys
+
+        loader.dismiss()
       },
       download: true,
       header: true,
@@ -108,16 +145,12 @@ export class ProductDataViewerComponent implements OnInit {
 
   public onAutocompleteChange(event: any, autocomplete: any): void {
     if (autocomplete.data[event.target.value] === undefined) {
-      event.target.value = ""
+      event.target.value = ''
     }
     
     autocomplete.current = event.target.value
 
     this.filter()
-  
-    console.log("target: ", event.target.value)
-    console.log("autocomplete: ", autocomplete.current)
-    //this.filter()
   }
 
   public nextPage(): void {
@@ -127,11 +160,7 @@ export class ProductDataViewerComponent implements OnInit {
       for (let i = this.currentPage * this.pageSize; i < (this.currentPage + 1) * this.pageSize && i < this.filteredData.length; i++) {
         this.currentData.push(this.filteredData[i])
       }
-      console.log(this.currentData)
     }
-
-    console.log('next page', this.currentPage)
-    console.log(this.allProducts.current)
   }
 
   public prevPage(): void {
@@ -141,19 +170,15 @@ export class ProductDataViewerComponent implements OnInit {
       for (let i = this.currentPage * this.pageSize; i < (this.currentPage + 1) * this.pageSize && i < this.filteredData.length; i++) {
         this.currentData.push(this.filteredData[i])
       }
-      console.log(this.currentData)
     }
-    
-    console.log('prev page', this.currentPage)
   }
 
-  public goToFirst(): void {
+  public goToFirst(): void {    
     this.currentPage = 0
     this.currentData = []
     for (let i = this.currentPage * this.pageSize; i < (this.currentPage + 1) * this.pageSize && i < this.filteredData.length; i++) {
       this.currentData.push(this.filteredData[i])
     }
-    console.log(this.currentData)
   }
 
   public goToLast(): void {
@@ -162,12 +187,18 @@ export class ProductDataViewerComponent implements OnInit {
     for (let i = this.currentPage * this.pageSize; i < (this.currentPage + 1) * this.pageSize && i < this.filteredData.length; i++) {
       this.currentData.push(this.filteredData[i])
     }
-    console.log(this.currentData)
+  }
+
+  public formatDate(date: string): Date {
+    let formattedDate = new Date(date.replace(/^(\d{1,2}\/)(\d{1,2}\/)(\d{4})$/, "$2$1$3"))
+    return formattedDate
+  }
+
+  public exportCSV(): void {
+    saveAs(new Blob([this.csvParse.unparse(this.filteredData)], { type: 'text' }), 'bcn_database.csv')
   }
 
   public filter(): void {
-    console.log('filter called')
-
     this.filteredData = []
 
     this.totalPacked = 0
@@ -231,8 +262,10 @@ export class ProductDataViewerComponent implements OnInit {
     }
     this.allKeys.count = 0
     
+    let minDate = (this.startDate != '') ? new Date(this.startDate) : null
+    let maxDate = (this.endDate != '') ? new Date(this.endDate) : null
+    
     for (let d of this.data) {
-      //if (d['Zona'] == 'BCN' && d['Clave'] == 'TJC' && d['Caja'] == 'BXZUC') {
       if ((this.allKeys.current == null || d['Clave'] == this.allKeys.current || this.allKeys.current == '') &&
         (this.allProducts.current == null || d['Producto'] == this.allProducts.current || this.allProducts.current == '') &&
         (this.allLots.current == null || d['Lote'] == this.allLots.current || this.allLots.current == '') &&
@@ -241,12 +274,16 @@ export class ProductDataViewerComponent implements OnInit {
         (this.allTraceability.current == null || d['Trazabilidad'] == this.allTraceability.current || this.allTraceability.current == '') &&
         (this.allParcels.current == null || d['Parcela'] == this.allParcels.current || this.allParcels.current == '') &&
         (this.allZones.current == null || d['Zona'] == this.allZones.current || this.allZones.current == '')) {
-        this.filteredData.push(d)
-        if (d['Emp'] === Number(d['Emp'])) {
-          this.totalPacked += d['Emp']
-        }
-        if (d['Recibo'] === Number(d['Recibo'])) {
-          this.totalReceived += d['Recibo']
+        let registerDate = new Date(d['Fecha'].replace(/^(\d{1,2}\/)(\d{1,2}\/)(\d{4})$/, "$2$1$3"))
+
+        if ((minDate == null || minDate <= registerDate) && (maxDate == null || maxDate >= registerDate)) {
+          this.filteredData.push(d)
+          if (d['Emp'] === Number(d['Emp'])) {
+            this.totalPacked += d['Emp']
+          }
+          if (d['Recibo'] === Number(d['Recibo'])) {
+            this.totalReceived += d['Recibo']
+          }
         }
       }
 
@@ -256,59 +293,79 @@ export class ProductDataViewerComponent implements OnInit {
       }
     }
 
+    let minFilteredDate = null
+    let maxFilteredDate = null
+
     for (let f of this.filteredData) {
+      let registerDate = new Date(f['Fecha'].replace(/^(\d{1,2}\/)(\d{1,2}\/)(\d{4})$/, "$2$1$3"))
+      if (minFilteredDate == null || new Date(minFilteredDate) >= registerDate) {
+        minFilteredDate = f['Fecha'].replace(/^(\d{1,2}\/)(\d{1,2}\/)(\d{4})$/, "$2$1$3")
+      }
+
+      if (maxFilteredDate == null || new Date(maxFilteredDate) <= registerDate) {
+        maxFilteredDate = f['Fecha'].replace(/^(\d{1,2}\/)(\d{1,2}\/)(\d{4})$/, "$2$1$3")
+      }
+
       if (this.allLots.data[f['Lote']] === undefined) {
-        this.allLots.data[f['Lote']] = null
-        this.allLots.count++
+        if (f['Lote'] !== null) {
+          this.allLots.data[f['Lote']] = null
+          this.allLots.count++
+        }
       }
 
       if (this.allProducts.data[f['Producto']] === undefined) {
-        this.allProducts.data[f['Producto']] = null
-        this.allProducts.count++
+        if (f['Producto'] !== null) {
+          this.allProducts.data[f['Producto']] = null
+          this.allProducts.count++
+        }
       }
 
       if (this.allVarieties.data[f['Variedad']] === undefined) {
-        this.allVarieties.data[f['Variedad']] = null
-        this.allVarieties.count++
+        if (f['Variedad'] !== null) {
+          this.allVarieties.data[f['Variedad']] = null
+          this.allVarieties.count++
+        }
       }
 
       if (this.allBatches.data[f['Batch']] === undefined) {
-        this.allBatches.data[f['Batch']] = null
-        this.allBatches.count++
+        if(f['Batch'] !== null) {
+          this.allBatches.data[f['Batch']] = null
+          this.allBatches.count++
+        }
       }
 
       if (this.allTraceability.data[f['Trazabilidad']] === undefined) {
-        this.allTraceability.data[f['Trazabilidad']] = null
-        this.allTraceability.count++
+        if (f['Trazabilidad'] !== null) {
+          this.allTraceability.data[f['Trazabilidad']] = null
+          this.allTraceability.count++
+        }
       }
 
       if (this.allParcels.data[f['Parcela']] === undefined) {
-        this.allParcels.data[f['Parcela']] = null
-        this.allParcels.count++
+        if (f['Parcela'] !== null) {
+          this.allParcels.data[f['Parcela']] = null
+          this.allParcels.count++
+        }
       }
 
       if (this.allZones.data[f['Zona']] === undefined) {
-        this.allZones.data[f['Zona']] = null
-        this.allZones.count++
+        if (f['Zona'] !== null) {
+          this.allZones.data[f['Zona']] = null
+          this.allZones.count++
+        }
       }
 
       if (this.allKeys.data[f['Clave']] === undefined) {
-        this.allKeys.data[f['Clave']] = null
-        this.allKeys.count++
+        if (f['Clave'] !== null) {
+          this.allKeys.data[f['Clave']] = null
+          this.allKeys.count++
+        }
       }
     }
 
-    this.autocompleteProducts = this.allProducts
-
-    console.log('total keys of lots', Object.keys(this.allLots.data).length)
-    console.log('total keys of prod', Object.keys(this.allProducts.data).length)
-    console.log('total keys of vari', Object.keys(this.allVarieties.data).length)
-    console.log('total keys of batc', Object.keys(this.allBatches.data).length)
-    console.log('total keys of trac', Object.keys(this.allTraceability.data).length)
-    console.log('total keys of parc', Object.keys(this.allParcels.data).length)
-    console.log('total keys of zone', Object.keys(this.allZones.data).length)
-    console.log('total keys of keys', Object.keys(this.allKeys.data).length)
-
-    console.log(this.autocompleteProducts)
+    if (this.startDate == '' || this.startDate == null)
+      this.startDate = minFilteredDate
+    if (this.endDate == '' || this.endDate == null)
+      this.endDate = maxFilteredDate
   }
 }
