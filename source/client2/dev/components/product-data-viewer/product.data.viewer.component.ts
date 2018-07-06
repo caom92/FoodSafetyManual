@@ -5,7 +5,7 @@ import { Language, DefaultLocale, Currency } from 'angular-l10n'
 
 import { LanguageService } from '../../services/app.language'
 import { LoaderService } from '../../services/app.loaders'
-import { MzDatepickerDirective } from 'ng2-materialize'
+import { MzCollapsibleComponent } from 'ng2-materialize'
 
 @Component({
   selector: 'product-data-viewer',
@@ -51,10 +51,14 @@ export class ProductDataViewerComponent implements OnInit {
   private endInit: string = ''
   private startDate: string = ''
   private endDate: string = ''
-  private startManual: string = ''
-  private endManual: string = ''
+  private startFile: string = ''
+  private endFile: string = ''
   private startTemp: string = ''
   private endTemp: string = ''
+  private noFilters: boolean = true
+  private showDetailedView: boolean = null
+
+  @ViewChild('collapsible') collapsible: MzCollapsibleComponent
 
   private datePickerConfig: Pickadate.DateOptions = {
     closeOnSelect: true,
@@ -86,7 +90,7 @@ export class ProductDataViewerComponent implements OnInit {
         this.startDate = String(this.endDate)
       if (this.endDate != this.endTemp && new Date(this.endDate) < new Date(this.startDate))
         this.endDate = String(this.startDate)
-      this.filter()
+      //this.filter()
     },
     today: 'Hoy',
     clear: 'Borrar',
@@ -104,7 +108,7 @@ export class ProductDataViewerComponent implements OnInit {
   public ngOnInit(): void {
     if (localStorage.role_name == 'Director') {
       this.allKeys.current = null
-    } else if (localStorage.role_name == 'Supervisor') {
+    } else if (localStorage.role_name == 'Supervisor' || localStorage.role_name == 'Manager') {
       this.allKeys.current = localStorage.zone_name
     } else {
       this.allKeys.current = 'not valid'
@@ -123,16 +127,9 @@ export class ProductDataViewerComponent implements OnInit {
           this.data = results.data
         }
 
-        this.filter()
+        //this.filter()
 
-        this.autocompleteLots = this.allLots
-        this.autocompleteProducts = this.allProducts
-        this.autocompleteVarieties = this.allVarieties
-        this.autocompleteBatches = this.allBatches
-        this.autocompleteTraceability = this.allTraceability
-        this.autocompleteParcels = this.allParcels
-        this.autocompleteZones = this.allZones
-        this.autocompleteKeys = this.allKeys
+        this.populateFilters()
 
         loader.dismiss()
       },
@@ -150,7 +147,7 @@ export class ProductDataViewerComponent implements OnInit {
     
     autocomplete.current = event.target.value
 
-    this.filter()
+    //this.filter()
   }
 
   public nextPage(): void {
@@ -198,6 +195,129 @@ export class ProductDataViewerComponent implements OnInit {
     saveAs(new Blob([this.csvParse.unparse(this.filteredData)], { type: 'text' }), 'bcn_database.csv')
   }
 
+  public cleanFilters() {
+    this.autocompleteKeys.current = ''
+    this.autocompleteProducts.current = ''
+    this.autocompleteLots.current = ''
+    this.autocompleteVarieties.current = ''
+    this.autocompleteBatches.current = ''
+    this.autocompleteTraceability.current = ''
+    this.autocompleteParcels.current = ''
+    this.autocompleteZones.current = ''
+
+    this.startDate = this.startFile
+    this.endDate = this.endFile
+
+    this.noFilters = true
+
+    this.showDetailedView = null
+
+    this.filteredData = []
+  }
+
+  public populateFilters() {
+    let minFilteredDate = null
+    let maxFilteredDate = null
+
+    for (let f of this.data) {
+      let registerDate = new Date(f['Fecha'].replace(/^(\d{1,2}\/)(\d{1,2}\/)(\d{4})$/, "$2$1$3"))
+      if (minFilteredDate == null || new Date(minFilteredDate) >= registerDate) {
+        minFilteredDate = f['Fecha'].replace(/^(\d{1,2}\/)(\d{1,2}\/)(\d{4})$/, "$2$1$3")
+      }
+
+      if (maxFilteredDate == null || new Date(maxFilteredDate) <= registerDate) {
+        maxFilteredDate = f['Fecha'].replace(/^(\d{1,2}\/)(\d{1,2}\/)(\d{4})$/, "$2$1$3")
+      }
+
+      if (this.allLots.data[f['Lote']] === undefined) {
+        if (f['Lote'] !== null) {
+          this.allLots.data[f['Lote']] = null
+          this.allLots.count++
+        }
+      }
+
+      if (this.allProducts.data[f['Producto']] === undefined) {
+        if (f['Producto'] !== null) {
+          this.allProducts.data[f['Producto']] = null
+          this.allProducts.count++
+        }
+      }
+
+      if (this.allVarieties.data[f['Variedad']] === undefined) {
+        if (f['Variedad'] !== null) {
+          this.allVarieties.data[f['Variedad']] = null
+          this.allVarieties.count++
+        }
+      }
+
+      if (this.allBatches.data[f['Batch']] === undefined) {
+        if (f['Batch'] !== null) {
+          this.allBatches.data[f['Batch']] = null
+          this.allBatches.count++
+        }
+      }
+
+      if (this.allTraceability.data[f['Trazabilidad']] === undefined) {
+        if (f['Trazabilidad'] !== null) {
+          this.allTraceability.data[f['Trazabilidad']] = null
+          this.allTraceability.count++
+        }
+      }
+
+      if (this.allParcels.data[f['Parcela']] === undefined) {
+        if (f['Parcela'] !== null) {
+          this.allParcels.data[f['Parcela']] = null
+          this.allParcels.count++
+        }
+      }
+
+      if (this.allZones.data[f['Zona']] === undefined) {
+        if (f['Zona'] !== null) {
+          this.allZones.data[f['Zona']] = null
+          this.allZones.count++
+        }
+      }
+
+      if (this.allKeys.data[f['Clave']] === undefined) {
+        if (f['Clave'] !== null) {
+          this.allKeys.data[f['Clave']] = null
+          this.allKeys.count++
+        }
+      }
+    }
+
+    this.autocompleteLots = this.allLots
+    this.autocompleteProducts = this.allProducts
+    this.autocompleteVarieties = this.allVarieties
+    this.autocompleteBatches = this.allBatches
+    this.autocompleteTraceability = this.allTraceability
+    this.autocompleteParcels = this.allParcels
+    this.autocompleteZones = this.allZones
+    this.autocompleteKeys = this.allKeys
+
+    if (this.startDate == '' || this.startDate == null) {
+      this.startDate = minFilteredDate
+      this.startFile = minFilteredDate
+    }
+      
+    if (this.endDate == '' || this.endDate == null) {
+      this.endDate = maxFilteredDate
+      this.endFile = maxFilteredDate
+    }
+  }
+
+  public showSummary(): void {
+    this.filter()
+
+    this.showDetailedView = false
+  }
+
+  public showDetails(): void {
+    this.filter()
+
+    this.showDetailedView = true
+  }
+
   public filter(): void {
     this.filteredData = []
 
@@ -206,7 +326,7 @@ export class ProductDataViewerComponent implements OnInit {
 
     this.currentPage = 0
 
-    for (var key in this.allLots.data) {
+    /*for (var key in this.allLots.data) {
       if (this.allLots.data.hasOwnProperty(key)) {
         delete this.allLots.data[key];
       }
@@ -260,7 +380,7 @@ export class ProductDataViewerComponent implements OnInit {
         delete this.allKeys.data[key];
       }
     }
-    this.allKeys.count = 0
+    this.allKeys.count = 0*/
     
     let minDate = (this.startDate != '') ? new Date(this.startDate) : null
     let maxDate = (this.endDate != '') ? new Date(this.endDate) : null
@@ -292,80 +412,7 @@ export class ProductDataViewerComponent implements OnInit {
         this.currentData.push(this.filteredData[i])
       }
     }
-
-    let minFilteredDate = null
-    let maxFilteredDate = null
-
-    for (let f of this.filteredData) {
-      let registerDate = new Date(f['Fecha'].replace(/^(\d{1,2}\/)(\d{1,2}\/)(\d{4})$/, "$2$1$3"))
-      if (minFilteredDate == null || new Date(minFilteredDate) >= registerDate) {
-        minFilteredDate = f['Fecha'].replace(/^(\d{1,2}\/)(\d{1,2}\/)(\d{4})$/, "$2$1$3")
-      }
-
-      if (maxFilteredDate == null || new Date(maxFilteredDate) <= registerDate) {
-        maxFilteredDate = f['Fecha'].replace(/^(\d{1,2}\/)(\d{1,2}\/)(\d{4})$/, "$2$1$3")
-      }
-
-      if (this.allLots.data[f['Lote']] === undefined) {
-        if (f['Lote'] !== null) {
-          this.allLots.data[f['Lote']] = null
-          this.allLots.count++
-        }
-      }
-
-      if (this.allProducts.data[f['Producto']] === undefined) {
-        if (f['Producto'] !== null) {
-          this.allProducts.data[f['Producto']] = null
-          this.allProducts.count++
-        }
-      }
-
-      if (this.allVarieties.data[f['Variedad']] === undefined) {
-        if (f['Variedad'] !== null) {
-          this.allVarieties.data[f['Variedad']] = null
-          this.allVarieties.count++
-        }
-      }
-
-      if (this.allBatches.data[f['Batch']] === undefined) {
-        if(f['Batch'] !== null) {
-          this.allBatches.data[f['Batch']] = null
-          this.allBatches.count++
-        }
-      }
-
-      if (this.allTraceability.data[f['Trazabilidad']] === undefined) {
-        if (f['Trazabilidad'] !== null) {
-          this.allTraceability.data[f['Trazabilidad']] = null
-          this.allTraceability.count++
-        }
-      }
-
-      if (this.allParcels.data[f['Parcela']] === undefined) {
-        if (f['Parcela'] !== null) {
-          this.allParcels.data[f['Parcela']] = null
-          this.allParcels.count++
-        }
-      }
-
-      if (this.allZones.data[f['Zona']] === undefined) {
-        if (f['Zona'] !== null) {
-          this.allZones.data[f['Zona']] = null
-          this.allZones.count++
-        }
-      }
-
-      if (this.allKeys.data[f['Clave']] === undefined) {
-        if (f['Clave'] !== null) {
-          this.allKeys.data[f['Clave']] = null
-          this.allKeys.count++
-        }
-      }
-    }
-
-    if (this.startDate == '' || this.startDate == null)
-      this.startDate = minFilteredDate
-    if (this.endDate == '' || this.endDate == null)
-      this.endDate = maxFilteredDate
+    this.noFilters = false
+    $(this.collapsible.collapsible.nativeElement).collapsible('open', 0)
   }
 }
