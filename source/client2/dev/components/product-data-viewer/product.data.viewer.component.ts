@@ -1,11 +1,12 @@
-import { Component,OnInit, ViewChild, ViewChildren } from '@angular/core'
-import { PapaParseService } from 'ngx-papaparse'
+import { Component, OnInit, ViewChild } from '@angular/core'
+import { DefaultLocale, Language } from 'angular-l10n'
 import { saveAs } from 'file-saver'
-import { Language, DefaultLocale, Currency } from 'angular-l10n'
+import { MzCollapsibleComponent } from 'ng2-materialize'
+import { PapaParseService } from 'ngx-papaparse'
 
 import { LanguageService } from '../../services/app.language'
 import { LoaderService } from '../../services/app.loaders'
-import { MzCollapsibleComponent } from 'ng2-materialize'
+import { TextAutocomplete } from './product.data.viewer.autocomplete.interface'
 
 @Component({
   selector: 'product-data-viewer',
@@ -19,29 +20,29 @@ export class ProductDataViewerComponent implements OnInit {
   private filteredData: Array<any> = []
   private currentData: Array<any> = []
 
-  private allLots: { data: { [key: string]: string }, limit: number, current: string, count: number } = { data: {}, limit: 5, current: null, count: 0 }
-  private autocompleteLots: { data: { [key: string]: string }, limit: number, current: string, count: number } = { data: {}, limit: 5, current: null, count: 0 }
+  private allLots: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
+  private autocompleteLots: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
 
-  private allProducts: { data: { [key: string]: string }, limit: number, current: string, count: number } = { data: {}, limit: 5, current: null, count: 0 }
-  private autocompleteProducts: { data: { [key: string]: string }, limit: number, current: string, count: number } = { data: {}, limit: 5, current: null, count: 0 }
+  private allProducts: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
+  private autocompleteProducts: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
 
-  private allVarieties: { data: { [key: string]: string }, limit: number, current: string, count: number } = { data: {}, limit: 5, current: null, count: 0 }
-  private autocompleteVarieties: { data: { [key: string]: string }, limit: number, current: string, count: number } = { data: {}, limit: 5, current: null, count: 0 }
+  private allVarieties: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
+  private autocompleteVarieties: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
 
-  private allBatches: { data: { [key: string]: string }, limit: number, current: string, count: number } = { data: {}, limit: 5, current: null, count: 0 }
-  private autocompleteBatches: { data: { [key: string]: string }, limit: number, current: string, count: number } = { data: {}, limit: 5, current: null, count: 0 }
+  private allBatches: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
+  private autocompleteBatches: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
 
-  private allTraceability: { data: { [key: string]: string }, limit: number, current: string, count: number } = { data: {}, limit: 5, current: null, count: 0 }
-  private autocompleteTraceability: { data: { [key: string]: string }, limit: number, current: string, count: number } = { data: {}, limit: 5, current: null, count: 0 }
+  private allTraceability: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
+  private autocompleteTraceability: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
 
-  private allParcels: { data: { [key: string]: string }, limit: number, current: string, count: number } = { data: {}, limit: 5, current: null, count: 0 }
-  private autocompleteParcels: { data: { [key: string]: string }, limit: number, current: string, count: number } = { data: {}, limit: 5, current: null, count: 0 }
+  private allParcels: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
+  private autocompleteParcels: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
 
-  private allZones: { data: { [key: string]: string }, limit: number, current: string, count: number } = { data: {}, limit: 5, current: null, count: 0 }
-  private autocompleteZones: { data: { [key: string]: string }, limit: number, current: string, count: number } = { data: {}, limit: 5, current: null, count: 0 }
+  private allZones: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
+  private autocompleteZones: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
 
-  private allKeys: { data: { [key: string]: string }, limit: number, current: string, count: number } = { data: {}, limit: 5, current: null, count: 0 }
-  private autocompleteKeys: { data: { [key: string]: string }, limit: number, current: string, count: number } = { data: {}, limit: 5, current: null, count: 0 }
+  private allKeys: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
+  private autocompleteKeys: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
   
   private readonly pageSize: number = 50
   private currentPage: number = 0
@@ -108,8 +109,10 @@ export class ProductDataViewerComponent implements OnInit {
   public ngOnInit(): void {
     if (localStorage.role_name == 'Director') {
       this.allKeys.current = null
-    } else if (localStorage.role_name == 'Supervisor' || localStorage.role_name == 'Manager') {
+    } else if (localStorage.role_name == 'Supervisor') {
       this.allKeys.current = localStorage.zone_name
+    } else if (localStorage.role_name == 'Manager') {
+      this.allZones.current = localStorage.zone_name
     } else {
       this.allKeys.current = 'not valid'
     }
@@ -121,10 +124,19 @@ export class ProductDataViewerComponent implements OnInit {
           for (let d of results.data) {
             if (this.allKeys.current == d['Clave']) {
               this.data.push(d)
+              this.filteredData.push(d)
+            }
+          }
+        } else if (this.allZones.current != null && this.allZones.current != '') {
+          for (let d of results.data) {
+            if (this.allZones.current == d['Zona']) {
+              this.data.push(d)
+              this.filteredData.push(d)
             }
           }
         } else {
           this.data = results.data
+          this.filteredData = results.data
         }
 
         //this.filter()
@@ -147,7 +159,10 @@ export class ProductDataViewerComponent implements OnInit {
     
     autocomplete.current = event.target.value
 
-    //this.filter()
+    this.showDetailedView = null
+    this.noFilters = true
+
+    this.filter()
   }
 
   public nextPage(): void {
@@ -205,6 +220,16 @@ export class ProductDataViewerComponent implements OnInit {
     this.autocompleteParcels.current = ''
     this.autocompleteZones.current = ''
 
+    if (localStorage.role_name == 'Director') {
+      this.allKeys.current = ''
+    } else if (localStorage.role_name == 'Supervisor') {
+      this.allKeys.current = localStorage.zone_name
+    } else if (localStorage.role_name == 'Manager') {
+      this.allZones.current = localStorage.zone_name
+    } else {
+      this.allKeys.current = 'not valid'
+    }
+
     this.startDate = this.startFile
     this.endDate = this.endFile
 
@@ -212,14 +237,18 @@ export class ProductDataViewerComponent implements OnInit {
 
     this.showDetailedView = null
 
-    this.filteredData = []
+    this.totalReceived = 0
+    this.totalPacked = 0
+    
+    this.filter()
   }
 
   public populateFilters() {
+    console.log('populate filters')
     let minFilteredDate = null
     let maxFilteredDate = null
 
-    for (let f of this.data) {
+    for (let f of this.filteredData) {
       let registerDate = new Date(f['Fecha'].replace(/^(\d{1,2}\/)(\d{1,2}\/)(\d{4})$/, "$2$1$3"))
       if (minFilteredDate == null || new Date(minFilteredDate) >= registerDate) {
         minFilteredDate = f['Fecha'].replace(/^(\d{1,2}\/)(\d{1,2}\/)(\d{4})$/, "$2$1$3")
@@ -232,6 +261,7 @@ export class ProductDataViewerComponent implements OnInit {
       if (this.allLots.data[f['Lote']] === undefined) {
         if (f['Lote'] !== null) {
           this.allLots.data[f['Lote']] = null
+          this.allLots.arr.push(f['Lote'])
           this.allLots.count++
         }
       }
@@ -239,6 +269,7 @@ export class ProductDataViewerComponent implements OnInit {
       if (this.allProducts.data[f['Producto']] === undefined) {
         if (f['Producto'] !== null) {
           this.allProducts.data[f['Producto']] = null
+          this.allProducts.arr.push(f['Producto'])
           this.allProducts.count++
         }
       }
@@ -246,6 +277,7 @@ export class ProductDataViewerComponent implements OnInit {
       if (this.allVarieties.data[f['Variedad']] === undefined) {
         if (f['Variedad'] !== null) {
           this.allVarieties.data[f['Variedad']] = null
+          this.allVarieties.arr.push(f['Variedad'])
           this.allVarieties.count++
         }
       }
@@ -267,6 +299,7 @@ export class ProductDataViewerComponent implements OnInit {
       if (this.allParcels.data[f['Parcela']] === undefined) {
         if (f['Parcela'] !== null) {
           this.allParcels.data[f['Parcela']] = null
+          this.allParcels.arr.push(f['Parcela'])
           this.allParcels.count++
         }
       }
@@ -274,6 +307,7 @@ export class ProductDataViewerComponent implements OnInit {
       if (this.allZones.data[f['Zona']] === undefined) {
         if (f['Zona'] !== null) {
           this.allZones.data[f['Zona']] = null
+          this.allZones.arr.push(f['Zona'])
           this.allZones.count++
         }
       }
@@ -281,10 +315,20 @@ export class ProductDataViewerComponent implements OnInit {
       if (this.allKeys.data[f['Clave']] === undefined) {
         if (f['Clave'] !== null) {
           this.allKeys.data[f['Clave']] = null
+          this.allKeys.arr.push(f['Clave'])
           this.allKeys.count++
         }
       }
     }
+
+    console.log('Zonas', this.allZones.arr.sort().length)
+    console.log('Claves', this.allKeys.arr.sort().length)
+    console.log('Lotes', this.allLots.arr.sort().length)
+    console.log('Parcelas', this.allParcels.arr.sort().length)
+    console.log('Productos', this.allProducts.arr.sort().length)
+    console.log('Variedades', this.allVarieties.arr.sort().length)
+    console.log('Trazabilidad', Object.keys(this.allTraceability.data).length)
+    console.log('Batches', Object.keys(this.allBatches.data).length)
 
     this.autocompleteLots = this.allLots
     this.autocompleteProducts = this.allProducts
@@ -309,13 +353,19 @@ export class ProductDataViewerComponent implements OnInit {
   public showSummary(): void {
     this.filter()
 
+    this.noFilters = false
+
     this.showDetailedView = false
+    $(this.collapsible.collapsible.nativeElement).collapsible('open', 0)
   }
 
   public showDetails(): void {
     this.filter()
 
+    this.noFilters = false
+
     this.showDetailedView = true
+    $(this.collapsible.collapsible.nativeElement).collapsible('open', 0)
   }
 
   public filter(): void {
@@ -326,11 +376,12 @@ export class ProductDataViewerComponent implements OnInit {
 
     this.currentPage = 0
 
-    /*for (var key in this.allLots.data) {
+    for (var key in this.allLots.data) {
       if (this.allLots.data.hasOwnProperty(key)) {
         delete this.allLots.data[key];
       }
     }
+    this.allLots.arr = []
     this.allLots.count = 0
 
     for (var key in this.allProducts.data) {
@@ -338,6 +389,7 @@ export class ProductDataViewerComponent implements OnInit {
         delete this.allProducts.data[key];
       }
     }
+    this.allProducts.arr = []
     this.allProducts.count = 0
 
     for (var key in this.allVarieties.data) {
@@ -345,6 +397,7 @@ export class ProductDataViewerComponent implements OnInit {
         delete this.allVarieties.data[key];
       }
     }
+    this.allVarieties.arr = []
     this.allVarieties.count = 0
 
     for (var key in this.allBatches.data) {
@@ -352,6 +405,7 @@ export class ProductDataViewerComponent implements OnInit {
         delete this.allBatches.data[key];
       }
     }
+    this.allBatches.arr = []
     this.allBatches.count = 0
 
     for (var key in this.allTraceability.data) {
@@ -359,6 +413,7 @@ export class ProductDataViewerComponent implements OnInit {
         delete this.allTraceability.data[key];
       }
     }
+    this.allTraceability.arr = []
     this.allTraceability.count = 0
 
     for (var key in this.allParcels.data) {
@@ -366,6 +421,7 @@ export class ProductDataViewerComponent implements OnInit {
         delete this.allParcels.data[key];
       }
     }
+    this.allParcels.arr = []
     this.allParcels.count = 0
 
     for (var key in this.allZones.data) {
@@ -373,6 +429,7 @@ export class ProductDataViewerComponent implements OnInit {
         delete this.allZones.data[key];
       }
     }
+    this.allZones.arr = []
     this.allZones.count = 0
 
     for (var key in this.allKeys.data) {
@@ -380,7 +437,8 @@ export class ProductDataViewerComponent implements OnInit {
         delete this.allKeys.data[key];
       }
     }
-    this.allKeys.count = 0*/
+    this.allKeys.arr = []
+    this.allKeys.count = 0
     
     let minDate = (this.startDate != '') ? new Date(this.startDate) : null
     let maxDate = (this.endDate != '') ? new Date(this.endDate) : null
@@ -412,7 +470,7 @@ export class ProductDataViewerComponent implements OnInit {
         this.currentData.push(this.filteredData[i])
       }
     }
-    this.noFilters = false
-    $(this.collapsible.collapsible.nativeElement).collapsible('open', 0)
+
+    this.populateFilters()
   }
 }

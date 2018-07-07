@@ -27,23 +27,47 @@ mz-collapsible(#collapsible, [mode]="'expandable'")
             input#end-date(#end_picker, mz-datepicker, label="Fecha final", type="text", [options]="datePickerConfig", [(ngModel)]="endDate")
       .row
         .col.s3.m3.l3
-          mz-input-container
+          mz-select-container
+            select(mz-select, id='zone-select', [label]="'Zona'", [(ngModel)]="autocompleteZones.current", (change)='onAutocompleteChange($event, autocompleteZones)')
+              option([value]="''") TODOS
+              option(*ngFor="let opt of autocompleteZones.arr", [value]="opt") {{opt}}
+          //-mz-input-container
             input#zone-input(mz-input, [label]="'Zona'", placeholder='Zona', type='text', autocomplete='off', [autocomplete]='autocompleteZones', (change)='onAutocompleteChange($event, autocompleteZones)', [(ngModel)]='autocompleteZones.current')
         .col.s3.m3.l3
-          mz-input-container
+          mz-select-container
+            select(mz-select, id='key-select', [label]="'Clave'", [(ngModel)]="autocompleteKeys.current", (change)='onAutocompleteChange($event, autocompleteKeys)')
+              option([value]="''") TODOS
+              option(*ngFor="let opt of autocompleteKeys.arr", [value]="opt") {{opt}}
+          //-mz-input-container
             input#keys-input(mz-input, [label]="'Clave'", placeholder='Clave', type='text', autocomplete='off', [autocomplete]='autocompleteKeys', (change)='onAutocompleteChange($event, autocompleteKeys)', [(ngModel)]='autocompleteKeys.current')
         .col.s3.m3.l3
-          mz-input-container
+          mz-select-container
+            select(mz-select, id='lot-select', [label]="'Lote'", [(ngModel)]="autocompleteLots.current", (change)='onAutocompleteChange($event, autocompleteLots)')
+              option([value]="''") TODOS
+              option(*ngFor="let opt of autocompleteLots.arr", [value]="opt") {{opt}}
+          //-mz-input-container
             input#lot-input(mz-input, [label]="'Lote'", placeholder='Lote', type='text', autocomplete='off', [autocomplete]='autocompleteLots', (change)='onAutocompleteChange($event, autocompleteLots)', [(ngModel)]='autocompleteLots.current')
         .col.s3.m3.l3
-          mz-input-container
+          mz-select-container
+            select(mz-select, id='parcel-select', [label]="'Parcela'", [(ngModel)]="autocompleteParcels.current", (change)='onAutocompleteChange($event, autocompleteParcels)')
+              option([value]="''") TODOS
+              option(*ngFor="let opt of autocompleteParcels.arr", [value]="opt") {{opt}}
+          //-mz-input-container
             input#parcel-input(mz-input, [label]="'Parcela'", placeholder='Parcela', type='text', autocomplete='off', [autocomplete]='autocompleteParcels', (change)='onAutocompleteChange($event, autocompleteParcels)', [(ngModel)]='autocompleteParcels.current')
       .row
         .col.s3.m3.l3
-          mz-input-container
+          mz-select-container
+            select(mz-select, id='variety-select', [label]="'Variedad'", [(ngModel)]="autocompleteVarieties.current", (change)='onAutocompleteChange($event, autocompleteVarieties)')
+              option([value]="''") TODOS
+              option(*ngFor="let opt of autocompleteVarieties.arr", [value]="opt") {{opt}}
+          //-mz-input-container
             input#variety-input(mz-input, [label]="'Variedad'", placeholder='Variedad', type='text', autocomplete='off', [autocomplete]='autocompleteVarieties', (change)='onAutocompleteChange($event, autocompleteVarieties)', [(ngModel)]='autocompleteVarieties.current')
         .col.s3.m3.l3
-          mz-input-container
+          mz-select-container
+            select(mz-select, id='product-select', [label]="'Producto'", [(ngModel)]="autocompleteProducts.current", (change)='onAutocompleteChange($event, autocompleteProducts)')
+              option([value]="''") TODOS
+              option(*ngFor="let opt of autocompleteProducts.arr", [value]="opt") {{opt}}
+          //-mz-input-container
             input#product-input(mz-input, [label]="'Producto'", placeholder='Producto', type='text', autocomplete='off', [autocomplete]='autocompleteProducts', (change)='onAutocompleteChange($event, autocompleteProducts)', [(ngModel)]='autocompleteProducts.current')
         .col.s3.m3.l3
           mz-input-container
@@ -69,7 +93,7 @@ mz-collapsible(#collapsible, [mode]="'expandable'")
               | Detalles
         .col.s12.m6.l3
           .center
-            button(mz-button, (click)="exportCSV()", [disabled]="filteredData.length == 0")
+            button(mz-button, (click)="exportCSV()", [disabled]="filteredData.length == 0 || showDetailedView === null")
               i(mz-icon-mdi, [align]="'right'", [icon]="'download'", [size]="'24px'")
               | Descargar
 div
@@ -96,7 +120,7 @@ div
         th.slim-table-cell.no-wrap-table-cell Clave
     tbody
       ng-template(ngFor, [ngForOf]='currentData', let-d, let-i='index')
-        tr([ngClass]="d['Emp']?'packed':''")
+        tr([ngClass]="d['Recibo']?'received':''")
           td.slim-table-cell.no-wrap-table-cell {{d['Semana']}}
           td.slim-table-cell.no-wrap-table-cell {{d['Id']}}
           td.slim-table-cell.no-wrap-table-cell {{formatDate(d['Fecha']) | localeDate:defaultLocale:'MMM d, y'}}
