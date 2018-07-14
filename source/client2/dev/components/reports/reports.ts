@@ -70,8 +70,8 @@ export class ReportTab extends DynamicComponentResolver implements OnInit, OnDes
 
   private reportForm: any = null
   loaderComponent: any = null
-  startDate: string = ""
-  endDate: string = ""
+  startDate: string = new Date().getFullYear() + '-' + ((new Date().getMonth() + 1 < 10) ? '0' + (new Date().getMonth() + 1).toString() : (new Date().getMonth() + 1).toString()) + '-' + new Date().getDate()
+  endDate: string = new Date().getFullYear() + '-' + ((new Date().getMonth() + 1 < 10) ? '0' + (new Date().getMonth() + 1).toString() : (new Date().getMonth() + 1).toString()) + '-' + new Date().getDate()
   reportSuffix: string = ""
   reportFooter: string = ""
   reports: Array<any> = []

@@ -17,7 +17,7 @@ export class TranslationService implements OnInit {
   }
 
   public selectLanguage(language: string): void {
-    this.locale.setCurrentLanguage(language)
+    //this.locale.setCurrentLanguage(language)
     this.locale.setDefaultLocale(language, "US")
     this.locale.setCurrentCurrency("USD")
     /*setTimeout(function () {

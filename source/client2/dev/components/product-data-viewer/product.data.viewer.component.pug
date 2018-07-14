@@ -2,7 +2,7 @@ mz-collapsible(#collapsible, [mode]="'expandable'")
   mz-collapsible-item([active]="'true'")
     //-mz-collapsible-item-header
       | Filtrado | Num. total de registros: {{data.length}} | Num. de registros filtrados: {{filteredData.length}} | Registros mostrados por página: {{pageSize}} | Indice inicial: {{this.currentPage * this.pageSize}} | Indice final: {{(this.currentPage + 1) * this.pageSize - 1 <= filteredData.length ? (this.currentPage + 1) * this.pageSize - 1: filteredData.length - 1}} | Total Recibido: {{totalReceived | number}} | Total Empacado: {{totalPacked | number}}
-    mz-collapsible-item-header(style="width: 100%")
+    mz-collapsible-item-header#product-filter-header(style="width: 100%")
       div(style="text-align: left; width: 50%; float: left;")
         i(mz-icon-mdi, [align]="'center'", [icon]="'chevron-down'", [size]="'24px'")
         | FILTRAR
@@ -42,11 +42,19 @@ mz-collapsible(#collapsible, [mode]="'expandable'")
             input#keys-input(mz-input, [label]="'Clave'", placeholder='Clave', type='text', autocomplete='off', [autocomplete]='autocompleteKeys', (change)='onAutocompleteChange($event, autocompleteKeys)', [(ngModel)]='autocompleteKeys.current')
         .col.s3.m3.l3
           mz-select-container
+            select(mz-select, id='group-select', [label]="'Grupo'", [(ngModel)]="autocompleteTraceability.current", (change)='onAutocompleteChange($event, autocompleteTraceability)')
+              option([value]="''") TODOS
+              option(*ngFor="let opt of autocompleteTraceability.arr", [value]="opt") {{opt}}
+          //-mz-input-container
+            input#traceability-input(mz-input, [label]="'Grupo'", placeholder='Grupo', type='text', autocomplete='off', [autocomplete]='autocompleteTraceability', (change)='onAutocompleteChange($event, autocompleteTraceability)', [(ngModel)]='autocompleteTraceability.current')
+        .col.s3.m3.l3
+          mz-select-container
             select(mz-select, id='lot-select', [label]="'Lote'", [(ngModel)]="autocompleteLots.current", (change)='onAutocompleteChange($event, autocompleteLots)')
               option([value]="''") TODOS
               option(*ngFor="let opt of autocompleteLots.arr", [value]="opt") {{opt}}
           //-mz-input-container
             input#lot-input(mz-input, [label]="'Lote'", placeholder='Lote', type='text', autocomplete='off', [autocomplete]='autocompleteLots', (change)='onAutocompleteChange($event, autocompleteLots)', [(ngModel)]='autocompleteLots.current')
+      .row
         .col.s3.m3.l3
           mz-select-container
             select(mz-select, id='parcel-select', [label]="'Parcela'", [(ngModel)]="autocompleteParcels.current", (change)='onAutocompleteChange($event, autocompleteParcels)')
@@ -54,7 +62,6 @@ mz-collapsible(#collapsible, [mode]="'expandable'")
               option(*ngFor="let opt of autocompleteParcels.arr", [value]="opt") {{opt}}
           //-mz-input-container
             input#parcel-input(mz-input, [label]="'Parcela'", placeholder='Parcela', type='text', autocomplete='off', [autocomplete]='autocompleteParcels', (change)='onAutocompleteChange($event, autocompleteParcels)', [(ngModel)]='autocompleteParcels.current')
-      .row
         .col.s3.m3.l3
           mz-select-container
             select(mz-select, id='variety-select', [label]="'Variedad'", [(ngModel)]="autocompleteVarieties.current", (change)='onAutocompleteChange($event, autocompleteVarieties)')
@@ -72,9 +79,6 @@ mz-collapsible(#collapsible, [mode]="'expandable'")
         .col.s3.m3.l3
           mz-input-container
             input#batch-input(mz-input, [label]="'Batch'", placeholder='Batch', type='text', autocomplete='off', [autocomplete]='autocompleteBatches', (change)='onAutocompleteChange($event, autocompleteBatches)', [(ngModel)]='autocompleteBatches.current')
-        .col.s3.m3.l3
-          mz-input-container
-            input#traceability-input(mz-input, [label]="'Trazabilidad'", placeholder='Trazabilidad', type='text', autocomplete='off', [autocomplete]='autocompleteTraceability', (change)='onAutocompleteChange($event, autocompleteTraceability)', [(ngModel)]='autocompleteTraceability.current')
       .row
         .col.s12.m6.l3
           .center
@@ -101,43 +105,39 @@ div
   table.ugly-ass-table(style='display: block; overflow: scroll; height: calc(100vh - 200px);', *ngIf='filteredData.length > 0 && showDetailedView == true')
     thead
       tr
-        th.slim-table-cell.no-wrap-table-cell Sem
         th.slim-table-cell.no-wrap-table-cell ID
         th.slim-table-cell.no-wrap-table-cell Fecha
-        th.slim-table-cell.no-wrap-table-cell Envio
-        th.slim-table-cell.no-wrap-table-cell Batch
         th.slim-table-cell.no-wrap-table-cell Clave P.
+        th.slim-table-cell.no-wrap-table-cell Variedad
         th.slim-table-cell.no-wrap-table-cell Rec
         th.slim-table-cell.no-wrap-table-cell Emp
         th.slim-table-cell.no-wrap-table-cell Kilos
-        th.slim-table-cell.no-wrap-table-cell Variedad
-        th.slim-table-cell.no-wrap-table-cell Color
-        th.slim-table-cell.no-wrap-table-cell Lote
-        th.slim-table-cell.no-wrap-table-cell Parcela
-        th.slim-table-cell.no-wrap-table-cell Temp
-        th.slim-table-cell.no-wrap-table-cell Caja
+        th.slim-table-cell.no-wrap-table-cell % B
         th.slim-table-cell.no-wrap-table-cell Zona
         th.slim-table-cell.no-wrap-table-cell Clave
+        th.slim-table-cell.no-wrap-table-cell Lote
+        th.slim-table-cell.no-wrap-table-cell Parcela
+        th.slim-table-cell.no-wrap-table-cell Grupo
+        th.slim-table-cell.no-wrap-table-cell Bol
+        th.slim-table-cell.no-wrap-table-cell Batch
     tbody
       ng-template(ngFor, [ngForOf]='currentData', let-d, let-i='index')
-        tr([ngClass]="d['Recibo']?'received':''")
-          td.slim-table-cell.no-wrap-table-cell {{d['Semana']}}
-          td.slim-table-cell.no-wrap-table-cell {{d['Id']}}
+        tr([ngClass]="d['Rec']?'received':''")
+          td.slim-table-cell.no-wrap-table-cell {{d['ID_Cosecha']}}
           td.slim-table-cell.no-wrap-table-cell {{formatDate(d['Fecha']) | localeDate:defaultLocale:'MMM d, y'}}
-          td.slim-table-cell.no-wrap-table-cell {{d['Envio']}}
-          td.slim-table-cell.no-wrap-table-cell {{d['Batch']}}
-          td.slim-table-cell.no-wrap-table-cell {{d['PClave']}}
-          td.slim-table-cell.no-wrap-table-cell {{d['Recibo']}}
+          td.slim-table-cell.no-wrap-table-cell {{d['C_Producto']}}
+          td.slim-table-cell.no-wrap-table-cell {{d['Variedad']}}
+          td.slim-table-cell.no-wrap-table-cell {{d['Rec']}}
           td.slim-table-cell.no-wrap-table-cell {{d['Emp']}}
           td.slim-table-cell.no-wrap-table-cell {{d['Kilos']}}
-          td.slim-table-cell.no-wrap-table-cell {{d['Variedad']}}
-          td.slim-table-cell.no-wrap-table-cell {{d['Color']}}
+          td.slim-table-cell.no-wrap-table-cell {{d['Bueno']}}
+          td.slim-table-cell.no-wrap-table-cell {{d['Zona']}}
+          td.slim-table-cell.no-wrap-table-cell {{d['C_Agricultor']}}
           td.slim-table-cell.no-wrap-table-cell {{d['Lote']}}
           td.slim-table-cell.no-wrap-table-cell {{d['Parcela']}}
-          td.slim-table-cell.no-wrap-table-cell {{d['Temp']}}
-          td.slim-table-cell.no-wrap-table-cell {{d['Caja']}}
-          td.slim-table-cell.no-wrap-table-cell {{d['Zona']}}
-          td.slim-table-cell.no-wrap-table-cell {{d['Clave']}}
+          td.slim-table-cell.no-wrap-table-cell {{d['Grupo']}}
+          td.slim-table-cell.no-wrap-table-cell {{d['Bol']}}
+          td.slim-table-cell.no-wrap-table-cell {{d['Batch']}}
   .center(*ngIf='filteredData.length > 0 && showDetailedView === true')
     button.green(mz-button, float='true', (click)='goToFirst()', [disabled]='currentPage == 0')
       i(mz-icon-mdi, [align]="'right'", [icon]="'rewind'", [size]="'36px'")

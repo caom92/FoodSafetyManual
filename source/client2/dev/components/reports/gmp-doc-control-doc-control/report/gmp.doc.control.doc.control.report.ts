@@ -1,6 +1,7 @@
 import { Component, Input, ViewChild } from '@angular/core'
 import { Language } from 'angular-l10n'
 
+import { Preview } from '../../preview/report.preview.interface'
 import { SuperReportComponent } from '../../super-report/super.report'
 import { Report } from '../interfaces/gmp.doc.control.doc.control.report.interface'
 
@@ -34,6 +35,40 @@ export class GMPDocControlDocControlReportComponent extends SuperReportComponent
 
     this.entry = true
     super.ngOnInit()
+  }
+
+  public getPreview(): Array<Preview> {
+    let preview: Array<Preview> = []
+    let content: string = ''
+
+    /*let items = ""
+    for (let entry of this.report.reports.document.entries.employee) {
+      items += entry.product + ", "
+    }
+
+    if (items != "") {
+      items = items.substring(0, items.length - 2)
+    }*/
+
+    if (this.report.reports.document.entries.employee != null &&
+      this.report.reports.document.entries.employee != undefined &&
+      this.report.reports.document.entries.employee != '') {
+      content = content + this.report.reports.document.entries.employee
+    }
+
+    if (this.report.reports.document.entries.notes != null &&
+      this.report.reports.document.entries.notes != undefined &&
+      this.report.reports.document.entries.notes != '') {
+      if (content != '') {
+        content = content + " | "
+      }
+      content = content + this.report.reports.document.entries.notes
+    }
+
+    preview.push({ title: null, content: content })
+
+    return preview
+    //return null
   }
 
   public getImages(): string {

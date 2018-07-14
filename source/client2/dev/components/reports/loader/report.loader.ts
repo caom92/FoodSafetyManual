@@ -1,5 +1,5 @@
 import { Component, ComponentFactoryResolver, Input, OnDestroy, OnInit } from '@angular/core'
-import { Language, TranslationService as TS } from 'angular-l10n'
+import { Language, TranslationService as TS, DefaultLocale } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 import { Subscription } from 'rxjs/Subscription'
 
@@ -36,6 +36,7 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
   @Input() private suffix: string
   @Input() private footer: string
   @Language() private lang: string
+  @DefaultLocale() defaultLocale: string
   private showReport: boolean = false
   private loaderComponent: SuperReportComponent = null
   private pdfReport: ReportRequest = {

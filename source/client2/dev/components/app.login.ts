@@ -51,6 +51,7 @@ export class LogInComponent implements OnInit
 
     if (userData.zone_list !== undefined) {
       this.home.zones = userData.zone_list
+      this.home.zones.sort((a, b) => (a as any).name < (b as any).name ? -1 : (a as any).name > (b as any).name ? 1 : 0)
     }
 
     if (userData.log_list !== undefined) {

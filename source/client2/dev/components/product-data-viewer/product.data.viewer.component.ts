@@ -117,12 +117,14 @@ export class ProductDataViewerComponent implements OnInit {
       this.allKeys.current = 'not valid'
     }
 
+    $('#product-filter-header').parent().css('background-color', '#ccffcc')
+
     let loader = this.loaderService.koiLoader()
     this.csvParse.parse(`http://localhost/espresso/source/server/bcn_database.php`, {
       complete: (results, file) => {        
         if (this.allKeys.current != null && this.allKeys.current != '') {
           for (let d of results.data) {
-            if (this.allKeys.current == d['Clave']) {
+            if (this.allKeys.current == d['C_Agricultor']) {
               this.data.push(d)
               this.filteredData.push(d)
             }
@@ -230,8 +232,8 @@ export class ProductDataViewerComponent implements OnInit {
       this.allKeys.current = 'not valid'
     }
 
-    this.startDate = this.startFile
-    this.endDate = this.endFile
+    //this.startDate = this.startFile
+    //this.endDate = this.endFile
 
     this.noFilters = true
 
@@ -289,9 +291,10 @@ export class ProductDataViewerComponent implements OnInit {
         }
       }
 
-      if (this.allTraceability.data[f['Trazabilidad']] === undefined) {
-        if (f['Trazabilidad'] !== null) {
-          this.allTraceability.data[f['Trazabilidad']] = null
+      if (this.allTraceability.data[f['Grupo']] === undefined) {
+        if (f['Grupo'] !== null) {
+          this.allTraceability.data[f['Grupo']] = null
+          this.allTraceability.arr.push(f['Grupo'])
           this.allTraceability.count++
         }
       }
@@ -312,10 +315,10 @@ export class ProductDataViewerComponent implements OnInit {
         }
       }
 
-      if (this.allKeys.data[f['Clave']] === undefined) {
-        if (f['Clave'] !== null) {
-          this.allKeys.data[f['Clave']] = null
-          this.allKeys.arr.push(f['Clave'])
+      if (this.allKeys.data[f['C_Agricultor']] === undefined) {
+        if (f['C_Agricultor'] !== null) {
+          this.allKeys.data[f['C_Agricultor']] = null
+          this.allKeys.arr.push(f['C_Agricultor'])
           this.allKeys.count++
         }
       }
@@ -327,7 +330,7 @@ export class ProductDataViewerComponent implements OnInit {
     console.log('Parcelas', this.allParcels.arr.sort().length)
     console.log('Productos', this.allProducts.arr.sort().length)
     console.log('Variedades', this.allVarieties.arr.sort().length)
-    console.log('Trazabilidad', Object.keys(this.allTraceability.data).length)
+    console.log('Grupo', Object.keys(this.allTraceability.data).length)
     console.log('Batches', Object.keys(this.allBatches.data).length)
 
     this.autocompleteLots = this.allLots
@@ -339,15 +342,19 @@ export class ProductDataViewerComponent implements OnInit {
     this.autocompleteZones = this.allZones
     this.autocompleteKeys = this.allKeys
 
-    if (this.startDate == '' || this.startDate == null) {
+    /*if (this.startDate == '' || this.startDate == null) {
       this.startDate = minFilteredDate
       this.startFile = minFilteredDate
-    }
+    }*/
       
     if (this.endDate == '' || this.endDate == null) {
+      this.startDate = maxFilteredDate
+      this.startFile = maxFilteredDate
       this.endDate = maxFilteredDate
       this.endFile = maxFilteredDate
     }
+    //this.startDate = new Date().getMonth() + 1 + '/' + new Date().getDate() + '/' + new Date().getFullYear()
+    //this.endDate = new Date().getMonth() + 1 + '/' + new Date().getDate() + '/' + new Date().getFullYear()
   }
 
   public showSummary(): void {
@@ -444,12 +451,12 @@ export class ProductDataViewerComponent implements OnInit {
     let maxDate = (this.endDate != '') ? new Date(this.endDate) : null
     
     for (let d of this.data) {
-      if ((this.allKeys.current == null || d['Clave'] == this.allKeys.current || this.allKeys.current == '') &&
+      if ((this.allKeys.current == null || d['C_Agricultor'] == this.allKeys.current || this.allKeys.current == '') &&
         (this.allProducts.current == null || d['Producto'] == this.allProducts.current || this.allProducts.current == '') &&
         (this.allLots.current == null || d['Lote'] == this.allLots.current || this.allLots.current == '') &&
         (this.allVarieties.current == null || d['Variedad'] == this.allVarieties.current || this.allVarieties.current == '') &&
         (this.allBatches.current == null || d['Batch'] == this.allBatches.current || this.allBatches.current == '') &&
-        (this.allTraceability.current == null || d['Trazabilidad'] == this.allTraceability.current || this.allTraceability.current == '') &&
+        (this.allTraceability.current == null || d['Grupo'] == this.allTraceability.current || this.allTraceability.current == '') &&
         (this.allParcels.current == null || d['Parcela'] == this.allParcels.current || this.allParcels.current == '') &&
         (this.allZones.current == null || d['Zona'] == this.allZones.current || this.allZones.current == '')) {
         let registerDate = new Date(d['Fecha'].replace(/^(\d{1,2}\/)(\d{1,2}\/)(\d{4})$/, "$2$1$3"))
@@ -459,8 +466,8 @@ export class ProductDataViewerComponent implements OnInit {
           if (d['Emp'] === Number(d['Emp'])) {
             this.totalPacked += d['Emp']
           }
-          if (d['Recibo'] === Number(d['Recibo'])) {
-            this.totalReceived += d['Recibo']
+          if (d['Rec'] === Number(d['Rec'])) {
+            this.totalReceived += d['Rec']
           }
         }
       }

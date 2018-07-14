@@ -144,6 +144,7 @@ export class HomeComponent implements OnInit
     data.append('zone_id', this.selectedZoneID.toString())
 
     // enviamos al servidor el comando para cambiar de zona
+    // TODO: Mandar mensaje de error cuando falle la ejecución de este servicio
     this.server.update(
       'director-change-zones',
       data,
