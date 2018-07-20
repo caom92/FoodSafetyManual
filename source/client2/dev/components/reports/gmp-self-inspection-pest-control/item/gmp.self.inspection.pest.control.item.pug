@@ -6,4 +6,4 @@ td.statusColumn(*ngIf='item.condition == 1') {{ 'Log.acceptable' | translate:lan
 td.statusColumn(*ngIf='item.condition == 0') {{ 'Log.unacceptable' | translate:lang }}
 td.activityColumn(*ngIf='item.activity == 1') {{ 'Log.yes' | translate:lang }}
 td.activityColumn(*ngIf='item.activity == 0') {{ 'Log.no' | translate:lang }}
-td.actionColumn {{item.corrective_action}}
+td.actionColumn {{item.corrective_actions}}

@@ -39,14 +39,17 @@ div.row('*ngIf'='employees.length > 0')
     table.responsive-table
       thead
         th: +checkbox('select-all-employees')(
+          id='select-all'
           '[filledIn]'='true'
           '(click)'='onSelectAllEmployeesCheck($event.target.checked)'
         )
         th: ='{{ langManager.messages.supervisorsFormLabels.tableHeaders[0] }}'
         th: ='{{ langManager.messages.supervisorsFormLabels.tableHeaders[1] }}'
       tbody
-        tr('*ngFor'='let e of employees | keys')
+
+        tr('*ngFor'='let e of employees | keys', [style.color] = "employees[e].is_active == 0 ? '#C0C0C0' : '#000000'")
           td: +checkbox('{{ "select-employee-" + e }}')(
+            id='{{ "select-employee-" + e }}'
             '[filledIn]'='true'
             '(change)'='onEmployeeChecked(e, $event.target.checked)'
             '[checked]'='employees[e].checked'

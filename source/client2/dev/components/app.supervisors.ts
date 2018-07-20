@@ -166,12 +166,11 @@ export class SupervisorsComponent
   onTransferEmployeesButtonClick(): void {
     // preaparamos los datos que seran enviados al servidor
     let data = new FormData()
-    for (let i = 0; i < this.employees.length; ++i) {
+    for (let i = 0, j = 0; i < this.employees.length; ++i) {
       if (this.employees[i].checked) {
-        data.append('assignments[]', ({
-          employee_id: this.employees[i].id,
-          supervisor_id: this.selectedSupervisorID
-        }).toString())
+        data.append('assignments[' + j +'][employee_id]', (this.employees[i].id).toString())
+        data.append('assignments[' + j +'][supervisor_id]', (this.targetSupervisorID).toString())
+        j++
       }
     }
   

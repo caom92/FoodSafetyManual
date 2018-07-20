@@ -338,7 +338,8 @@ export class LanguageService {
       },
       'director-change-zones': {
         0: 'La zona se cambió exitosamente',
-        1: 'La zona seleccionada no pudo ser encontrada'
+        1: 'La zona seleccionada no pudo ser encontrada',
+        404: 'Hubo un error al comunicarse con el servidor, reintente'
       },
       'send-bug-report': {
         0: 'Se envió el reporte de error exitosamente',
@@ -795,7 +796,8 @@ export class LanguageService {
       },
       'director-change-zones': {
         0: 'Zone changed successfully',
-        1: "The selected zone couldn't be found"
+        1: "The selected zone couldn't be found",
+        404: 'There was an error while communicating with the server, try again'
       },
       'send-bug-report': {
         0: 'The bug report was sent successfully',

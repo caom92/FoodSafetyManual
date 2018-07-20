@@ -41,7 +41,7 @@ export class LogInComponent implements OnInit
     this.home.companyAddress = userData.address
 
     if (userData.zone_id !== undefined) {
-      this.home.zoneID = userData.zone_id
+      this.home.zoneID = Number(userData.zone_id)
       this.home.zoneName = userData.zone_name
     }
 

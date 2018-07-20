@@ -347,12 +347,12 @@ export class ProductDataViewerComponent implements OnInit {
       this.startFile = minFilteredDate
     }*/
       
-    if (this.endDate == '' || this.endDate == null) {
+    /*if (this.endDate == '' || this.endDate == null) {
       this.startDate = maxFilteredDate
       this.startFile = maxFilteredDate
       this.endDate = maxFilteredDate
       this.endFile = maxFilteredDate
-    }
+    }*/
     //this.startDate = new Date().getMonth() + 1 + '/' + new Date().getDate() + '/' + new Date().getFullYear()
     //this.endDate = new Date().getMonth() + 1 + '/' + new Date().getDate() + '/' + new Date().getFullYear()
   }
@@ -376,6 +376,7 @@ export class ProductDataViewerComponent implements OnInit {
   }
 
   public filter(): void {
+    this.filteredData = null
     this.filteredData = []
 
     this.totalPacked = 0
@@ -471,11 +472,12 @@ export class ProductDataViewerComponent implements OnInit {
           }
         }
       }
+    }
 
-      this.currentData = []
-      for (let i = this.currentPage * this.pageSize; i < (this.currentPage + 1) * this.pageSize && i < this.filteredData.length; i++) {
-        this.currentData.push(this.filteredData[i])
-      }
+    this.currentData = null
+    this.currentData = []
+    for (let i = this.currentPage * this.pageSize; i < (this.currentPage + 1) * this.pageSize && i < this.filteredData.length; i++) {
+      this.currentData.push(this.filteredData[i])
     }
 
     this.populateFilters()

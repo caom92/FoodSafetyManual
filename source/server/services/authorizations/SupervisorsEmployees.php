@@ -18,11 +18,10 @@ class SupervisorsEmployees extends db\DataBaseTable
   // especified ID
   function selectEmployeesBySupervisorID($supervisorID) {
     return parent::select(
-      ['u.id', 'u.employee_num', 'u.login_name' ,'u.first_name', 'u.last_name'],
+      ['u.id', 'u.employee_num', 'u.login_name' ,'u.first_name', 'u.last_name', 'u.is_active'],
       [
         'AND' => [
-          'supervisor_id' => $supervisorID,
-          'u.is_active[!]' => FALSE
+          'supervisor_id' => $supervisorID
         ]
       ],
       ['[><]users(u)' => [

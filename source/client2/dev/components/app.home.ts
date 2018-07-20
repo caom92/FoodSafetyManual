@@ -7,6 +7,7 @@ import { LanguageService } from '../services/app.language'
 
 import { Language } from 'angular-l10n'
 import { TranslationService } from '../services/app.translation'
+import { Observable } from 'rxjs'
 
 // Componente que define el comportamiento de la pagina de inicio de sesion
 @Component({
@@ -36,6 +37,10 @@ export class HomeComponent implements OnInit
     if (localStorage.lang == null) {
       localStorage.lang = 'es'
       this.translationService.selectLanguage("es")
+    }
+
+    if (localStorage.zone_id != null && localStorage.zone_id != null) {
+      this.selectedZoneID = Number(localStorage.zone_id)
     }
 
     // inicializamos los mensajes en el idioma adecuado
@@ -122,6 +127,7 @@ export class HomeComponent implements OnInit
           localStorage.lang = lang
           localStorage.is_logged_in = false
           this.home.hideZoneMenu()
+          this.home.programs = []
           this.router.go('login')
         } else {
           // si hubo un problema con la comunicacion con el servidor, 
@@ -141,7 +147,7 @@ export class HomeComponent implements OnInit
   onZoneSelectionChanged(): void {
     // instanciamos los datos que vamos a enviar al servidor
     let data = new FormData()
-    data.append('zone_id', this.selectedZoneID.toString())
+    data.append('zone_id', this.home.zone.id.toString())
 
     // enviamos al servidor el comando para cambiar de zona
     // TODO: Mandar mensaje de error cuando falle la ejecución de este servicio
@@ -152,7 +158,7 @@ export class HomeComponent implements OnInit
         if (response.meta.return_code == 0) {
           // cambiamos la zona actual por la nueva
           this.home.zoneName = response.data.name
-          this.home.zoneID = response.data.id
+          this.home.zoneID = Number(response.data.id)
           this.home.companyName = response.data.company_name
           this.home.companyAddress = response.data.address
           this.home.companyLogo = response.data.logo_path
@@ -165,6 +171,26 @@ export class HomeComponent implements OnInit
             response.meta.return_code
           )
         ) // this.toastManager.showServiceErrorText
+      }, (error: any, caught: Observable<void>) => {
+        this.toastManager.showText(
+          this.langManager.getServiceMessage(
+            'director-change-zones',
+            404
+          )
+        )
+        console.log('error message', this.langManager.getServiceMessage(
+          'director-change-zones',
+          404
+        ))
+        this.selectedZoneID = Number(localStorage.zone_id)
+        setTimeout(() => {
+          $('select').material_select('destroy')
+          $('select').material_select()
+        })
+        // this.home.zoneID = Number(localStorage.zone_id)
+        // console.log(this.home.zone)
+        // console.log(this.home.zone.id)
+        return []
       } // (response: Response)
     ) // this.server.update
   } // onZoneSelectionChanged(selectedZoneID)

@@ -21,7 +21,8 @@ $service = [
       array_push($employees, [
         'id' => $row['id'],
         'employee_num' => $row['employee_num'],
-        'full_name' => "{$row['first_name']} {$row['last_name']}"
+        'full_name' => "{$row['first_name']} {$row['last_name']}",
+        'is_active' => $row['is_active']
       ]);
     }
 
