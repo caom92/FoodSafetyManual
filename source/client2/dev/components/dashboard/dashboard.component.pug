@@ -1,0 +1,9 @@
+h4 Dashboard
+div(*ngFor='let icon of dashboardIcons', class='col s6 m4 l3')
+  mz-card
+    mz-card-title {{icon.name}}
+    mz-card-content
+      div(*ngIf='icon.image !== undefined')
+        img([src]='icon.image', alt='image not loaded')
+      div(*ngIf='icon.image !== undefined')
+        i(mz-icon-mdi, [icon]='icon.icon')

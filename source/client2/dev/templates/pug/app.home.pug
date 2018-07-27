@@ -21,7 +21,7 @@ include globals.pug
       'onZoneSelectionChanged()'
     )(
       '*ngIf'="home.showZoneMenu"
-      '[(ngModel)]'='selectedZoneID'
+      '[(ngModel)]'='home.zone.id'
     )
   mz-navbar-item
     +link('http://www.jfdc.tech/')

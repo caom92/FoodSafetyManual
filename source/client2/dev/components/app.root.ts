@@ -317,6 +317,7 @@ import { GMPDocControlDocControlReportComponent } from './reports/gmp-doc-contro
 import { ReportPreview } from './reports/preview/report.preview'
 import { ProductDataViewerComponent } from './product-data-viewer/product.data.viewer.component'
 import { PapaParseModule } from 'ngx-papaparse'
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -416,6 +417,11 @@ import { PapaParseModule } from 'ngx-papaparse'
           name: 'product-data-viewer',
           url: '/product-data-viewer',
           component: ProductDataViewerComponent
+        },
+        {
+          name: 'dashboard',
+          url: '/dashboard/*path',
+          component: DashboardComponent
         }
       ],
       useHash: true,
@@ -442,6 +448,7 @@ import { PapaParseModule } from 'ngx-papaparse'
     ClickStopPropagationDirective,
     HomeComponent,
     LogInComponent,
+    DashboardComponent,
     EditProfileComponent,
     KeysPipe,
     ProductDataViewerComponent,
