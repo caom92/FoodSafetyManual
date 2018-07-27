@@ -1,9 +1,37 @@
-h4 Dashboard
-div(*ngFor='let icon of dashboardIcons', class='col s6 m4 l3')
-  mz-card
-    mz-card-title {{icon.name}}
-    mz-card-content
-      div(*ngIf='icon.image !== undefined')
-        img([src]='icon.image', alt='image not loaded')
-      div(*ngIf='icon.image !== undefined')
-        i(mz-icon-mdi, [icon]='icon.icon')
+h5
+  a(*ngIf="router.params.path != ''", [href]="'#/dashboard/'") Dashboard
+  span(*ngIf="router.params.path == ''") Dashboard
+  span(*ngFor='let cur of directories; let last = last; let index = index')
+    | >
+    a([href]="'#/dashboard' + breadcrumbs[index]", *ngIf='last != true')
+      | {{cur | slice:0:800}}
+      span(*ngIf='cur.length > 800') …
+    span(*ngIf='last == true') {{cur}}
+.row
+  .col.xs12.s6.m3.l3(*ngFor='let icon of currentDirectory')
+    a([href]='icon.url', style='color: inherit;', *ngIf="icon.type == 'file'")
+      mz-card
+        mz-card-content
+          div(*ngIf='icon.image !== undefined')
+            img([src]='icon.image', alt='image not loaded', style='display: block; max-height: 72px; min-height: 72px; margin-left: auto; margin-right: auto; max-width: 100%;')
+          div(*ngIf='icon.icon !== undefined && icon.image === undefined', style='text-align: center;')
+            i(mz-icon-mdi='', [icon]='icon.icon', [size]="'48px'")
+          div(*ngIf='icon.icon === undefined && icon.image === undefined', style='text-align: center;')
+            i(mz-icon-mdi='', [icon]="'wrench'", [size]="'48px'")
+          div(style='height: 3em; line-height: 1em; overflow: hidden; text-overflow: ellipsis; text-align: center;')
+            | {{icon.name}}
+    a([href]="(router.params.path != '') ? '#/dashboard/' + router.params.path + '/' + icon.name : '#/dashboard/' + icon.name", style='color: inherit;', *ngIf="icon.type == 'directory'")
+      mz-card.blue-grey.darken-1.white-text
+        mz-card-content
+          div(*ngIf='icon.icon === undefined && icon.image === undefined', style='text-align: center;')
+            i(mz-icon-mdi='', [icon]="'folder'", [size]="'48px'")
+          div(style='height: 3em; line-height: 1em; overflow: hidden; text-overflow: ellipsis; text-align: center;')
+            | {{icon.name}}
+  div(*ngIf='currentDirectory.length == 0 && errorDirectory == false')
+    h4
+      i.blue-text(mz-icon-mdi='', [align]="'center'", [icon]="'alert-circle'", [size]="'42px'")
+      | Directorio vacío
+  div(*ngIf='errorDirectory === true')
+    h4
+      i.red-text(mz-icon-mdi='', [align]="'center'", [icon]="'alert-circle'", [size]="'42px'")
+      | Directorio no existente
