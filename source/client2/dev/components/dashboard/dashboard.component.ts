@@ -2,6 +2,7 @@ import { Component } from "@angular/core"
 import { DashboardFile, DashboardDirectory, AbstractDashboardElement } from "./dashboard.interface"
 import { HomeElementsService } from "../../services/app.home"
 import { StateService } from "@uirouter/core"
+import { MenuService } from "../../services/app.menu"
 
 @Component({
   selector: 'dashboard',
@@ -14,13 +15,95 @@ export class DashboardComponent {
   directories: Array<string> = []
   breadcrumbs: Array<string> = []
   errorDirectory: boolean = false
+  loadingDirectory: boolean = true
+  serverDirectory: Array<DashboardDirectory | DashboardFile> = null
 
-  constructor(private homeElementsService: HomeElementsService, private router: StateService) {
+  constructor(private homeElementsService: HomeElementsService, private router: StateService, private menuService: MenuService) {
 
   }
 
   ngOnInit() {
-    let temp: DashboardDirectory = { type: 'directory', name: 'BCN Packing', children: [] }
+    console.log('ngOnInit', this.serverDirectory)
+    if (this.serverDirectory == null) {
+      this.menuService.getMenu().then(success => {
+        this.loadingDirectory = false
+        console.log('success', success)
+        this.serverDirectory = success
+        console.log(this.serverDirectory)
+        if (this.router.params.path === '') {
+          this.currentDirectory = this.serverDirectory
+        } else {
+          this.currentDirectory = this.serverDirectory
+          let path: string = decodeURI(this.router.params.path)
+          this.directories = path.split('/')
+          //let directories: Array<string> = path.split('/')
+          //console.log(this.directories)
+          let accumulatedDirectory = ''
+          let matches = 0
+          for (let directory of this.directories) {
+            accumulatedDirectory += '/' + directory
+            this.breadcrumbs.push(accumulatedDirectory)
+            for (let icon in this.currentDirectory) {
+              //console.log('evaluated icon name: ', this.currentDirectory[icon].name)
+              if (this.currentDirectory[icon].name == directory) {
+                console.log('directory match', this.currentDirectory[icon].name, directory)
+                matches++
+                this.currentDirectory = (<DashboardDirectory>this.currentDirectory[icon]).children
+                break
+              }
+            }
+          }
+          if (matches != this.directories.length) {
+            this.currentDirectory = []
+            console.log('no te quieras pasar de verga', matches, this.directories.length)
+            this.errorDirectory = true
+          } else {
+            console.log('todo bien prro', matches, this.directories.length)
+            this.errorDirectory = false
+          }
+          console.log('directory', this.currentDirectory)
+          console.log('breadcrumbs', this.breadcrumbs)
+        }
+      }, error => {
+        console.log('error', error)
+      })
+    } else {
+      if (this.router.params.path === '') {
+        this.currentDirectory = this.serverDirectory
+      } else {
+        this.currentDirectory = this.serverDirectory
+        let path: string = decodeURI(this.router.params.path)
+        this.directories = path.split('/')
+        //let directories: Array<string> = path.split('/')
+        //console.log(this.directories)
+        let accumulatedDirectory = ''
+        let matches = 0
+        for (let directory of this.directories) {
+          accumulatedDirectory += '/' + directory
+          this.breadcrumbs.push(accumulatedDirectory)
+          for (let icon in this.currentDirectory) {
+            //console.log('evaluated icon name: ', this.currentDirectory[icon].name)
+            if (this.currentDirectory[icon].name == directory) {
+              console.log('directory match', this.currentDirectory[icon].name, directory)
+              matches++
+              this.currentDirectory = (<DashboardDirectory>this.currentDirectory[icon]).children
+              break
+            }
+          }
+        }
+        if (matches != this.directories.length) {
+          this.currentDirectory = []
+          console.log('no te quieras pasar de verga', matches, this.directories.length)
+          this.errorDirectory = true
+        } else {
+          console.log('todo bien prro', matches, this.directories.length)
+          this.errorDirectory = false
+        }
+        console.log('directory', this.currentDirectory)
+        console.log('breadcrumbs', this.breadcrumbs)
+      }
+    }
+    /*let temp: DashboardDirectory = { type: 'directory', name: 'BCN Packing', children: [] }
     temp.children.push({ name: 'BCN-00 INTRO', url: '#/edit-profile', type: 'file' })
     temp.children.push({ name: 'BCN-01 REGISTRO', url: '#/edit-profile', type: 'file' })
     temp.children.push({ name: 'BCN-02 INFRAESTRUCTURA PREVENTIVA', url: '#/edit-profile', type: 'file' })
@@ -37,41 +120,9 @@ export class DashboardComponent {
     temp.children.push({ name: 'Empty Directory', type: 'directory', children: [{ name: 'Empty Directory', type: 'directory', children: [{ name: 'Empty Directory', type: 'directory', children: [{ name: 'Empty Directory', type: 'directory', children: [{ name: 'Empty Directory', type: 'directory', children: [{ name: 'Empty Directory', type: 'directory', children: [{ name: 'Empty Directory', type: 'directory', children: [{ name: 'Empty Directory', type: 'directory', children: [{ name: 'Empty Directory', type: 'directory', children: [{ name: 'Empty Directory', type: 'directory', children: [{ name: 'Empty Directory', type: 'directory', children: [{ name: 'Empty Directory', type: 'directory', children: [{ name: 'Empty Directory', type: 'directory', children: [{ name: 'Porno :V', type: 'directory', children: [] }] }] }] }] }] }] }] }] }] }] }] }] }] })
 
     this.dashboardIcons.push(temp)
-    
-    if (this.router.params.path === '') {
-      this.currentDirectory = this.dashboardIcons
-    } else {
-      this.currentDirectory = this.dashboardIcons
-      let path: string = decodeURI(this.router.params.path)
-      this.directories = path.split('/')
-      //let directories: Array<string> = path.split('/')
-      //console.log(this.directories)
-      let accumulatedDirectory = ''
-      let matches = 0
-      for (let directory of this.directories) {
-        accumulatedDirectory += '/' + directory
-        this.breadcrumbs.push(accumulatedDirectory)
-        for (let icon in this.currentDirectory) {
-          //console.log('evaluated icon name: ', this.currentDirectory[icon].name)
-          if (this.currentDirectory[icon].name == directory) {
-            console.log('directory match', this.currentDirectory[icon].name, directory)
-            matches++
-            this.currentDirectory = (<DashboardDirectory>this.currentDirectory[icon]).children
-            break
-          }
-        }
-      }
-      if (matches != this.directories.length) {
-        this.currentDirectory = []
-        console.log('no te quieras pasar de verga', matches, this.directories.length)
-        this.errorDirectory = true
-      } else {
-        console.log('todo bien prro', matches, this.directories.length)
-        this.errorDirectory = false
-      }
-      console.log('directory', this.currentDirectory)
-      console.log('breadcrumbs', this.breadcrumbs)
-    }
+
+    console.log('dashboard icons', this.dashboardIcons)*/
+  
 
     //console.log(this.homeElementsService)
     //console.debug(this.router.params.path)
@@ -95,5 +146,17 @@ export class DashboardComponent {
     this.dashboardIcons.push({ name: 'BCN-08 TRAZABILIDAD Y RECUPERO DE VEGETALES', url: '#/edit-profile', type: 'file' })
     this.dashboardIcons.push({ name: 'BCN-09 HISTORIAL', url: '#/edit-profile', type: 'file' })
     this.dashboardIcons.push({ name: 'BCN-10 AGUA DE USO AGRÍCOLA Y HUMANO', url: '#/edit-profile', type: 'file' })*/
+  }
+
+  public deleteElement(event: Event, element: DashboardDirectory | DashboardFile): void {
+    event.stopPropagation()
+    console.log('id of element to delete: ', element.id)
+    console.log('details of element to delete', element)
+  }
+
+  public editElement(event: Event, element: DashboardDirectory | DashboardFile): void {
+    event.stopPropagation()
+    console.log('id of element to edit: ', element.id)
+    console.log('details of element to edit', element)
   }
 }

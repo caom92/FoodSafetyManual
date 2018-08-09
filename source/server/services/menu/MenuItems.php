@@ -14,7 +14,11 @@ class MenuItems extends DataBaseTable
     return parent::select('*',
       [
         'user_id' => $userId,
-        'ORDER' => 'parent_id'
+        'ORDER' => [
+          'parent_id',
+          'is_directory' => 'DESC',
+          'name'
+        ]
       ]
     );
   }

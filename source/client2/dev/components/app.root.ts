@@ -291,6 +291,7 @@ import { TabLogLoaderComponent } from './logs/log.loader'
 import { LogTabsPage } from '../components/logs/log-tabs/log.tabs.page'
 import { LogHeaderComponent } from '../components/logs/log-header/log.header'
 import { LogService } from '../services/app.logs'
+import { MenuService } from '../services/app.menu'
 import { ToastsService } from '../services/app.toasts'
 import { TranslationService } from '../services/app.translation'
 import { AuthorizationLoader } from './authorizations/authorization-loader/authorization.loader.component'
@@ -317,7 +318,7 @@ import { GMPDocControlDocControlReportComponent } from './reports/gmp-doc-contro
 import { ReportPreview } from './reports/preview/report.preview'
 import { ProductDataViewerComponent } from './product-data-viewer/product.data.viewer.component'
 import { PapaParseModule } from 'ngx-papaparse'
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './dashboard/dashboard.component'
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -440,6 +441,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     AreaManagerService,
     AlertController,
     LogService,
+    MenuService,
     ToastsService,
     TranslationService
   ],

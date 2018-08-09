@@ -1,8 +1,6 @@
 <?php
 
-require_once realpath(__DIR__.'/../../categories.php');
 use Core\Utilities as util; 
-
 
 $service = [
   'requirements_desc' => [
