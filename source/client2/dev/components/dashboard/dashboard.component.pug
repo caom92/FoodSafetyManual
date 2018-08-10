@@ -2,41 +2,39 @@ h5
   a(*ngIf="router.params.path != ''", [href]="'#/dashboard/'") Dashboard
   span(*ngIf="router.params.path == ''") Dashboard
   span(*ngFor='let cur of directories; let last = last; let index = index')
-    | >
+    |  > 
     a([href]="'#/dashboard' + breadcrumbs[index]", *ngIf='last != true')
       | {{cur | slice:0:5}}
       span(*ngIf='cur.length > 5') …
     span(*ngIf='last == true') {{cur}}
 .row
   .col.xs12.s6.m3.l3(*ngFor='let icon of currentDirectory')
-    //-a([href]='icon.url', style='color: inherit;', *ngIf="icon.type == 'link'")
     a(style='color: inherit;', *ngIf="icon.type == 'link'")
       mz-card
         mz-card-content
-          a(style='color: #FFF;', (click)='editElement($event, icon)')
+          a(style='color: #FFF;', (click)='editElement(icon)')
             i.waves-effect.waves-light.green.edit-dashboard-element(mz-icon-mdi, [icon]="'pencil'", [size]="'24px'")
-          a(style='color: #FFF;', (click)='deleteElement($event, icon)')
+          a(style='color: #FFF;', (click)='deleteElement(icon)')
             i.waves-effect.waves-light.red.delete-dashboard-element(mz-icon-mdi, [icon]="'close'", [size]="'24px'")
-          //-div((click)='deleteElement($event, icon)', style='color: #FFF;')
-            i.red.delete-dashboard-element(mz-icon-mdi, [icon]="'close'", [size]="'24px'")
           a([href]='icon.url', style='color: inherit;')
             div(*ngIf='icon.image != null', style='margin-bottom: 1em;')
               div
                 i.corner-icon(mz-icon-mdi, [icon]="'link-variant'", [size]="'24px'")
               img([src]='icon.image', alt='image not loaded', style='display: block; max-height: 72px; min-height: 72px; margin-left: auto; margin-right: auto; max-width: 100%;')
             div(*ngIf='icon.icon != null && icon.image == null', style='text-align: center; margin-bottom: 1em;')
+              div
+                i.corner-icon(mz-icon-mdi, [icon]="'link-variant'", [size]="'24px'")
               i(mz-icon-mdi, [icon]='icon.icon', [size]="'48px'")
             div(*ngIf='icon.icon == null && icon.image == null', style='text-align: center; margin-bottom: 1em;')
               i(mz-icon-mdi, [icon]="'link-variant'", [size]="'48px'")
             div(style='height: 2em; line-height: 1em; overflow: hidden; text-overflow: ellipsis; text-align: center;')
               | {{icon.name}}
-    //-a([href]="(router.params.path != '') ? '#/dashboard/' + router.params.path + '/' + icon.name : '#/dashboard/' + icon.name", style='color: inherit;', *ngIf="icon.type == 'directory'")
     a(*ngIf="icon.type == 'directory'")
       mz-card.blue-grey.darken-1.white-text
         mz-card-content
-          a(style='color: #FFF;', (click)='editElement($event, icon)')
+          a(style='color: #FFF;', (click)='editElement(icon)')
             i.waves-effect.waves-light.green.edit-dashboard-element(mz-icon-mdi, [icon]="'pencil'", [size]="'24px'")
-          a(style='color: #FFF;', (click)='deleteElement($event, icon)')
+          a(style='color: #FFF;', (click)='deleteElement(icon)')
             i.waves-effect.waves-light.red.delete-dashboard-element(mz-icon-mdi, [icon]="'close'", [size]="'24px'")
           a([href]="(router.params.path != '') ? '#/dashboard/' + router.params.path + '/' + icon.name : '#/dashboard/' + icon.name", style='color: inherit;')
             div(*ngIf='icon.image != null', style='margin-bottom: 1em;')
@@ -44,14 +42,14 @@ h5
                 i.corner-icon(mz-icon-mdi, [icon]="'folder'", [size]="'24px'")
               img([src]='icon.image', alt='image not loaded', style='display: block; max-height: 72px; min-height: 72px; margin-left: auto; margin-right: auto; max-width: 100%;')
             div(*ngIf='icon.icon != null && icon.image == null', style='text-align: center; margin-bottom: 1em;')
+              div
+                i.corner-icon(mz-icon-mdi, [icon]="'folder'", [size]="'24px'")
               i(mz-icon-mdi, [icon]='icon.icon', [size]="'48px'")
             div(*ngIf='icon.icon == null && icon.image == null', style='text-align: center; margin-bottom: 1em;')
               i(mz-icon-mdi, [icon]="'folder'", [size]="'48px'")
-            //-div(*ngIf='icon.icon == null && icon.image == null', style='text-align: center;')
-              i(mz-icon-mdi, [icon]="'folder'", [size]="'48px'")
             div(style='height: 2em; line-height: 1em; overflow: hidden; text-overflow: ellipsis; text-align: center;')
               | {{icon.name}}
-  .col.xs12.s6.m3.l3(*ngIf='errorDirectory === false && loadingDirectory === false')
+  .col.xs12.s6.m3.l3(*ngIf='errorDirectory === false && loadingDirectory === false && errorNetwork === false')
     mz-card(style='background-color: #b1dcfb;')
       mz-card-content
         div(style='text-align: center; margin-bottom: 1em;')
@@ -64,7 +62,7 @@ h5
         h4
           i.green-text(mz-icon-mdi, [align]="'center'", [icon]="'alert-circle'", [size]="'42px'")
           | Cargando directorio
-      div(*ngIf='currentDirectory.length == 0 && errorDirectory === false && loadingDirectory === false')
+      div(*ngIf='currentDirectory.length == 0 && errorDirectory === false && errorNetwork === false && loadingDirectory === false')
         h4
           i.blue-text(mz-icon-mdi, [align]="'center'", [icon]="'alert-circle'", [size]="'42px'")
           | Directorio vacío
@@ -72,3 +70,10 @@ h5
         h4
           i.red-text(mz-icon-mdi, [align]="'center'", [icon]="'alert-circle'", [size]="'42px'")
           | Directorio no existente
+      div(*ngIf='errorNetwork === true')
+        h4
+          i.red-text(mz-icon-mdi, [align]="'center'", [icon]="'alert-circle'", [size]="'42px'")
+          | Error en la red
+          .row
+            .col.s12.m12.l12(style='text-align: right;')
+              button.center(mz-button, (click)='getMenu()') Reintentar
