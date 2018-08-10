@@ -1,7 +1,5 @@
 <?php
 
-use Core\Utilities as util; 
-
 $service = [
   'requirements_desc' => [
     'logged_in' => 'any'
