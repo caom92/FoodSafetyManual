@@ -60,6 +60,45 @@ export class MenuService {
         deleteForm,
         (response: any) => {
           if (response.meta.return_code == 0) {
+            resolve(response.data)
+            deleteLoader.dismiss()
+            /*if (response.data) {
+              resolve(response.data)
+              deleteLoader.dismiss()
+            } else {
+              reject('bad request')
+              deleteLoader.dismiss()
+              this.toastService.showText('serverUnreachable')
+            }*/
+          } else {
+            reject('bad request')
+            deleteLoader.dismiss()
+            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+          }
+        }, (error: any, caught: Observable<void>) => {
+          reject('network error')
+          deleteLoader.dismiss()
+          this.toastService.showText('serverUnreachable')
+          return []
+        }
+      )
+    })
+
+    return deletePromise
+  }
+
+  public editElement(id: number, name?: string): Promise<any> {
+    let deletePromise = new Promise<any>((resolve, reject) => {
+      let deleteLoader = this.loaderService.koiLoader()
+      let deleteForm = new FormData()
+
+      deleteForm.append('id', String(id))
+
+      this.server.update(
+        'delete-menu-element',
+        deleteForm,
+        (response: any) => {
+          if (response.meta.return_code == 0) {
             if (response.data) {
               resolve(response.data)
               deleteLoader.dismiss()
@@ -84,5 +123,4 @@ export class MenuService {
 
     return deletePromise
   }
-
 }

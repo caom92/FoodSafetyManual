@@ -82,8 +82,10 @@ export class DashboardComponent {
   }
 
   public deleteElement(element: DashboardDirectory | DashboardFile): void {
-    console.log('id of element to delete: ', element.id)
-    console.log('details of element to delete', element)
+    this.menuService.deleteElement(element.id).then(success => {
+      let deleteID = this.currentDirectory.findIndex((x => x.id == element.id))
+      this.currentDirectory.splice(deleteID, 1)
+    })
   }
 
   public editElement(element: DashboardDirectory | DashboardFile): void {
