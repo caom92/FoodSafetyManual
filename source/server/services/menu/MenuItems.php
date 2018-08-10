@@ -18,6 +18,10 @@ class MenuItems extends DataBaseTable
       ]
     );
   }
+
+  function insert($row) {
+    return parent::insert($row);
+  }
 }
 
 ?>
