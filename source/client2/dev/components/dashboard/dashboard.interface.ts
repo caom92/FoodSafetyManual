@@ -3,14 +3,14 @@ export interface AbstractDashboardElement {
   name: string
   parent_id?: number
   type?: string
+  image?: string
+  icon?: string
 }
 
 export interface DashboardDirectory extends AbstractDashboardElement {
-  children: Array<DashboardDirectory | DashboardFile>
+  children?: Array<DashboardDirectory | DashboardFile>
 }
 
 export interface DashboardFile extends AbstractDashboardElement {
-  image?: string
-  icon?: string
-  url: string
+  url?: string
 } 

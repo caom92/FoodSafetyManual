@@ -57,33 +57,41 @@ $service = [
       $updateValues['url'] = $request['url'];
     }
 
-    if ($arrayElementExists($request, 'image')) {
-      $updateValues['image'] = $request['image'];
+    if ($arrayElementExists($request, 'icon')) {
+      $updateValues['icon'] = $request['icon'];
+      $updateValues['image'] = NULL;
     }
 
-    if (count($_FILES['image']) > 0) {
-      $menuItem = $itemsTable->getById($request['id']);
-      if ($arrayElementExists($menuItem, 'image')) {
-        $parentDir = ($isDirectory) ? "directories/" : "links/";
-        $originalFileName = $_FILES['image']['name'];
-        $wasFileMoved = move_uploaded_file(
-          $_FILES['image']['tmp_name'], 
-          realpath(
-            __DIR__."/../../../../data/menu/$parentDir/{$menuItem['image']}"
-          )
-        );
-        if (!$wasFileMoved) {
-          throw new \Exception(
-            "The file '{$originalFileName}' could not be uploaded."
+    if ($arrayElementExists($request, 'image')) {
+      $updateValues['image'] = $request['image'];
+      $updateValues['icon'] = NULL;
+    }
+
+    if (isset($_FILES['image'])) {
+      if (count($_FILES['image']) > 0) {
+        $menuItem = $itemsTable->getById($request['id']);
+        if ($arrayElementExists($menuItem, 'image')) {
+          $parentDir = ($isDirectory) ? "directories/" : "links/";
+          $originalFileName = $_FILES['image']['name'];
+          $wasFileMoved = move_uploaded_file(
+            $_FILES['image']['tmp_name'], 
+            realpath(
+              __DIR__."/../../../../data/menu/$parentDir/{$menuItem['image']}"
+            )
+          );
+          if (!$wasFileMoved) {
+            throw new \Exception(
+              "The file '{$originalFileName}' could not be uploaded."
+            );
+          }
+        } else {
+          $updateValues['image'] = $storeUploadedFileInServer(
+            'image', 
+            realpath(__DIR__.'/../../../../data/menu/'.($isDirectory) ? 
+              'directories' : 'links'
+            )
           );
         }
-      } else {
-        $updateValues['image'] = $storeUploadedFileInServer(
-          'image', 
-          realpath(__DIR__.'/../../../../data/menu/'.($isDirectory) ? 
-            'directories' : 'links'
-          )
-        );
       }
     }
 
