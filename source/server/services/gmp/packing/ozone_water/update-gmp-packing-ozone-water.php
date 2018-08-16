@@ -8,10 +8,6 @@ $service = fsm\createUpdateService(
   'Packing',
   'Ozone Water Test Log',
   [
-    'date' => [
-      'type' => 'datetime',
-      'format' => 'Y-m-d'
-    ],
     'items' => [
       'type' => 'array',
       'values' => [
@@ -24,14 +20,16 @@ $service = fsm\createUpdateService(
           'optional' => TRUE
         ],
         'ph' => [
-          'type' => 'float'
+          'type' => 'float',
+          'optional' => TRUE
         ],
         'orp' => [
           'type' => 'float',
           'optional' => TRUE
         ],
         'temperature' => [
-          'type' => 'float'
+          'type' => 'float',
+          'optional' => TRUE
         ],
         'corrective_action' => [
           'type' => 'string',
@@ -43,7 +41,7 @@ $service = fsm\createUpdateService(
           'max_length' => 255,
           'optional' => TRUE
         ],
-        'batch' => [
+        'lot' => [
           'type' => 'string',
           'max_length' => 255,
           'optional' => TRUE
@@ -71,7 +69,8 @@ $service = fsm\createUpdateService(
           'optional' => TRUE
         ],
         'status' => [
-          'type' => 'bool'
+          'type' => 'bool',
+          'optional' => TRUE
         ]
       ]
     ]
@@ -86,20 +85,20 @@ $service = fsm\createUpdateService(
 
       $logs = $scope->daoFactory->get('gmp\packing\ozone\Logs');
       foreach ($request['items'] as $item) {
-        $logs->updateByCaptureLogIDAndMachineID(
+        $logs->updateByCapturedLogIDAndMachineID(
           [
-            'was_test_passed' => $item['status'],
+            'was_test_passed' => $getValueFromArrayIfExists($item, 'status'),
             'voltage' => $getValueFromArrayIfExists($item, 'reading'),
-            'potential_hydrogen' => $item['ph'],
+            'potential_hydrogen' => $getValueFromArrayIfExists($item, 'ph'),
             'reduction_potential' => $getValueFromArrayIfExists($item, 'orp'),
-            'temperature' => $item['temperature'],
+            'temperature' => $getValueFromArrayIfExists($item, 'temperature'),
             'total_chlorine' =>
               $getValueFromArrayIfExists($item, 'total_chlorine'),
             'free_chlorine' => 
               $getValueFromArrayIfExists($item, 'free_chlorine'),
             'rinse' => $getValueFromArrayIfExists($item, 'rinse'),
             'product' => $getValueFromArrayIfExists($item, 'product'),
-            'lot' => $getValueFromArrayIfExists($item, 'batch'),
+            'lot' => $getValueFromArrayIfExists($item, 'lot'),
             'crop' => $getValueFromArrayIfExists($item, 'parcel'),
             'batch' => $getValueFromArrayIfExists($item, 'reference'),
             'corrective_actions' => 

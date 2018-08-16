@@ -25,7 +25,6 @@ export class GMPPackingThermoCalibrationInventoryComponent extends SuperInventor
   public ngOnInit(): void {
     this.setSuffix("gmp-packing-thermo-calibration")
     super.ngOnInit()
-    console.log("gmp-packing-thermo-calibration")
   }
   
   public onInventoryUpdate(): void {

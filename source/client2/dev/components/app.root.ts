@@ -246,6 +246,18 @@ import { GMPPackingATPTestingLogComponent } from './logs/gmp-packing-atp-testing
 
 import { GMPPackingOzoneWaterLogComponent } from './logs/gmp-packing-ozone-water/log/gmp.packing.ozone.water.log'
 import { GMPPackingOzoneWaterItemComponent } from './logs/gmp-packing-ozone-water/item/gmp.packing.ozone.water.item'
+import { GMPPackingOzoneWaterAuthorizationComponent } from './logs/gmp-packing-ozone-water/authorization/gmp.packing.ozone.water.authorization'
+
+import { GMPPackingOzoneWaterInventoryManagerComponent } from '../components/inventories/gmp-packing-ozone-water/manager/gmp.packing.ozone.water.inventory.manager'
+import { GMPPackingOzoneWaterInventoryComponent } from '../components/inventories/gmp-packing-ozone-water/inventory/gmp.packing.ozone.water.inventory'
+import { GMPPackingOzoneWaterInventoryItemComponent } from '../components/inventories/gmp-packing-ozone-water/item/gmp.packing.ozone.water.inventory.item'
+import { GMPPackingOzoneWaterInventoryListComponent } from '../components/inventories/gmp-packing-ozone-water/list/gmp.packing.ozone.water.inventory.list'
+import { GMPPackingOzoneWaterAreaInventoryComponent } from '../components/inventories/gmp-packing-ozone-water/area-inventory/gmp.packing.ozone.water.area.inventory'
+import { GMPPackingOzoneWaterAreaInventoryAreaComponent } from '../components/inventories/gmp-packing-ozone-water/area/gmp.packing.ozone.water.area.inventory.area'
+import { GMPPackingOzoneWaterAreaInventoryListComponent } from '../components/inventories/gmp-packing-ozone-water/area-list/gmp.packing.ozone.water.area.inventory.list'
+import { GMPPackingOzoneWaterAddAreaComponent } from '../components/inventories/gmp-packing-ozone-water/add-area/gmp.packing.ozone.water.add.area'
+
+import { GMPPackingOzoneWaterReportComponent } from '../components/reports/gmp-packing-ozone-water/report/gmp.packing.ozone.water.report'
 
 // Genericos
 
@@ -279,6 +291,7 @@ import { TabLogLoaderComponent } from './logs/log.loader'
 import { LogTabsPage } from '../components/logs/log-tabs/log.tabs.page'
 import { LogHeaderComponent } from '../components/logs/log-header/log.header'
 import { LogService } from '../services/app.logs'
+import { MenuService } from '../services/app.menu'
 import { ToastsService } from '../services/app.toasts'
 import { TranslationService } from '../services/app.translation'
 import { AuthorizationLoader } from './authorizations/authorization-loader/authorization.loader.component'
@@ -303,6 +316,9 @@ import { GMPPackingATPTestingReportAreaComponent } from './reports/gmp-packing-a
 import { GMPPackingATPTestingReportItemComponent } from './reports/gmp-packing-atp-testing/test/gmp.packing.atp.testing.test'
 import { GMPDocControlDocControlReportComponent } from './reports/gmp-doc-control-doc-control/report/gmp.doc.control.doc.control.report'
 import { ReportPreview } from './reports/preview/report.preview'
+import { ProductDataViewerComponent } from './product-data-viewer/product.data.viewer.component'
+import { PapaParseModule } from 'ngx-papaparse'
+import { DashboardComponent } from './dashboard/dashboard.component'
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -314,6 +330,7 @@ import { ReportPreview } from './reports/preview/report.preview'
     HttpModule,
     BrowserAnimationsModule,
     DragulaModule,
+    PapaParseModule,
     LocalizationModule.forRoot(),
     MaterializeModule.forRoot(),
     PubSubModule.forRoot(),
@@ -396,6 +413,16 @@ import { ReportPreview } from './reports/preview/report.preview'
           name: 'users',
           url: '/users',
           component: UsersComponent
+        },
+        {
+          name: 'product-data-viewer',
+          url: '/product-data-viewer',
+          component: ProductDataViewerComponent
+        },
+        {
+          name: 'dashboard',
+          url: '/dashboard/*path',
+          component: DashboardComponent
         }
       ],
       useHash: true,
@@ -414,6 +441,7 @@ import { ReportPreview } from './reports/preview/report.preview'
     AreaManagerService,
     AlertController,
     LogService,
+    MenuService,
     ToastsService,
     TranslationService
   ],
@@ -422,8 +450,10 @@ import { ReportPreview } from './reports/preview/report.preview'
     ClickStopPropagationDirective,
     HomeComponent,
     LogInComponent,
+    DashboardComponent,
     EditProfileComponent,
     KeysPipe,
+    ProductDataViewerComponent,
     ReportProblemComponent,
     ProgressModalComponent,
     KoiLoader,
@@ -594,6 +624,16 @@ import { ReportPreview } from './reports/preview/report.preview'
     //GMPPackingATPTestingTestComponent,
     GMPPackingOzoneWaterLogComponent,
     GMPPackingOzoneWaterItemComponent,
+    GMPPackingOzoneWaterAuthorizationComponent,
+    GMPPackingOzoneWaterInventoryManagerComponent,
+    GMPPackingOzoneWaterInventoryComponent,
+    GMPPackingOzoneWaterInventoryItemComponent,
+    GMPPackingOzoneWaterInventoryListComponent,
+    GMPPackingOzoneWaterAreaInventoryComponent,
+    GMPPackingOzoneWaterAreaInventoryAreaComponent,
+    GMPPackingOzoneWaterAreaInventoryListComponent,
+    GMPPackingOzoneWaterAddAreaComponent,
+    GMPPackingOzoneWaterReportComponent,
     LogTabsPage,
     AuthorizationLoader,
     LogHeaderComponent,
@@ -651,6 +691,7 @@ import { ReportPreview } from './reports/preview/report.preview'
     GMPPackingColdRoomTempInventoryComponent,
     GMPSelfInspectionPestControlInventoryManagerComponent,
     GMPDocControlDocControlInventoryComponent,
+    GMPPackingOzoneWaterInventoryManagerComponent,
     GMPPackingPreopReportComponent,
     GMPPackingHandWashingReportComponent,
     GMPPackingGlassBrittleReportComponent,
@@ -668,7 +709,9 @@ import { ReportPreview } from './reports/preview/report.preview'
     GMPPackingATPTestingLogComponent,
     GMPPackingATPTestingAuthorizationComponent,
     GMPPackingATPTestingReportComponent,
-    GMPPackingOzoneWaterLogComponent
+    GMPPackingOzoneWaterReportComponent,
+    GMPPackingOzoneWaterLogComponent,
+    GMPPackingOzoneWaterAuthorizationComponent
   ],
   // indicamos cual es el componente raiz
   bootstrap: [HomeComponent]

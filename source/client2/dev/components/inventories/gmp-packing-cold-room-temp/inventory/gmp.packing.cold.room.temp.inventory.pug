@@ -1,7 +1,7 @@
 include ../../../inventory-ionic-materialize.pug
 
 +inventoryWrapper()
-  +inventoryListsWrapper('emptyInventoryFlag == false')
+  +inventoryListsWrapper(null)
     +inventoryTitleWrapper()
       //-+inventoryTitleHandler()
       +inventoryTitleColumn("{{ 'InventoryLists.id' | translate:lang }}")

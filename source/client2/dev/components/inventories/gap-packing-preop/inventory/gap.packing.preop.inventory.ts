@@ -34,7 +34,6 @@ export class GAPPackingPreopInventoryComponent extends SuperInventoryByAreaCompo
 
   public loadAreaInventory(event: any) {
     super.loadAreaInventory(event)
-    console.log(this.selectedArea)
   }
 
   /*public addItem(): void {

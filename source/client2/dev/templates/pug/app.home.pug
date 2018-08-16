@@ -10,7 +10,7 @@ include globals.pug
     }
   };
 +navBar(navBarConfig)('[navbarClass]'="'green'")
-  mz-navbar-item
+  mz-navbar-item(style="font-weight: bolder;")
     +select(
       "'zone-selection'", 
       '',
@@ -21,7 +21,7 @@ include globals.pug
       'onZoneSelectionChanged()'
     )(
       '*ngIf'="home.showZoneMenu"
-      '[(ngModel)]'='selectedZoneID'
+      '[(ngModel)]'='home.zone.id'
     )
   mz-navbar-item
     +link('http://www.jfdc.tech/')
@@ -148,6 +148,13 @@ include globals.pug
         )
           ='{{ module }}'
 
+  //- Menú de navegación para supervisor, gerente o director
+  div('*ngIf'="home.roleName != 'Administrator' && home.roleName != 'Employee'")
+    mz-sidenav-link
+      +uiRouterLink('product-data-viewer')(class='side-menu-link waves-effect waves-green')
+        i.mdi.mdi-database.mdi-24px.mdi-dark
+        ='Database BCN'
+
   //- El boton para reportar errores del sistema
   mz-sidenav-link
     +uiRouterLink('report-problem')(class='side-menu-link waves-effect waves-green')
@@ -160,4 +167,4 @@ div(
 ) 
   ui-view('[hidden]'='home.showSpinner')
   .centered('[hidden]'='!home.showSpinner')
-    img.spinner(src="assets/images/koi_spinner.png", width="240", height="240")
+    img.spinner(src="assets/images/koi_spinner.png", width="100", height="100")

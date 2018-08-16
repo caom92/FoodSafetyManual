@@ -1,36 +1,25 @@
-import { Component, Input, ComponentFactoryResolver, OnInit, Type } from '@angular/core'
-
+import { Component, ComponentFactoryResolver, Input, OnInit, Type } from '@angular/core'
+import { StateService } from '@uirouter/angular'
 import { Language } from 'angular-l10n'
 
 import { LogService } from '../../../services/app.logs'
-
+import { DynamicComponentResolver } from '../../dynamic.resolver'
+import { GAPOthersUnusualOccurrenceAuthorizationComponent } from '../../logs/gap-others-unusual-occurrence/authorization/gap.others.unusual.occurrence.authorization'
+import { GAPPackingPreopAuthorizationComponent } from '../../logs/gap-packing-preop/authorization/gap.packing.preop.authorization'
+import { GMPDocControlDocControlAuthorizationComponent } from '../../logs/gmp-doc-control-doc-control/authorization/gmp.doc.control.doc.control.authorization'
+import { GMPOthersUnusualOccurrenceAuthorizationComponent } from '../../logs/gmp-others-unusual-occurrence/authorization/gmp.others.unusual.occurrence.authorization'
+import { GMPPackingAgedProductAuthorizationComponent } from '../../logs/gmp-packing-aged-product/authorization/gmp.packing.aged.product.authorization'
+import { GMPPackingATPTestingAuthorizationComponent } from '../../logs/gmp-packing-atp-testing/authorization/gmp.packing.atp.testing.authorization'
+import { GMPPackingColdRoomTempAuthorizationComponent } from '../../logs/gmp-packing-cold-room-temp/authorization/gmp.packing.cold.room.temp.authorization'
+import { GMPPackingFinishedProductAuthorizationComponent } from '../../logs/gmp-packing-finished-product/authorization/gmp.packing.finished.product.authorization'
+import { GMPPackingGlassBrittleAuthorizationComponent } from '../../logs/gmp-packing-glass-brittle/authorization/gmp.packing.glass.brittle.authorization'
 import { GMPPackingHandWashingAuthorizationComponent } from '../../logs/gmp-packing-hand-washing/authorization/gmp.packing.hand.washing.authorization'
+import { GMPPackingOzoneWaterAuthorizationComponent } from '../../logs/gmp-packing-ozone-water/authorization/gmp.packing.ozone.water.authorization'
 import { GMPPackingPreopAuthorizationComponent } from '../../logs/gmp-packing-preop/authorization/gmp.packing.preop.authorization'
 import { GMPPackingScaleCalibrationAuthorizationComponent } from '../../logs/gmp-packing-scale-calibration/authorization/gmp.packing.scale.calibration.authorization'
-import { GMPPackingThermoCalibrationAuthorizationComponent } from '../../logs/gmp-packing-thermo-calibration/authorization/gmp.packing.thermo.calibration.authorization'
-import { GMPPackingColdRoomTempAuthorizationComponent } from '../../logs/gmp-packing-cold-room-temp/authorization/gmp.packing.cold.room.temp.authorization'
-import { GMPPackingGlassBrittleAuthorizationComponent } from '../../logs/gmp-packing-glass-brittle/authorization/gmp.packing.glass.brittle.authorization'
 import { GMPPackingScissorsKnivesAuthorizationComponent } from '../../logs/gmp-packing-scissors-knives/authorization/gmp.packing.scissors.knives.authorization'
-import { TranslationService } from '../../../services/app.translation'
-import { BackendService } from '../../../services/app.backend'
-import { DynamicComponentResolver } from '../../dynamic.resolver'
-
-import { GMPPackingHandWashingLogComponent } from '../../logs/gmp-packing-hand-washing/log/gmp.packing.hand.washing.log'
-import { GMPPackingPreopLogComponent } from '../../logs/gmp-packing-preop/log/gmp.packing.preop.log'
-import { GMPPackingScaleCalibrationLogComponent } from '../../logs/gmp-packing-scale-calibration/log/gmp.packing.scale.calibration.log'
-import { GMPPackingThermoCalibrationLogComponent } from '../../logs/gmp-packing-thermo-calibration/log/gmp.packing.thermo.calibration.log'
-import { GMPPackingColdRoomTempLogComponent } from '../../logs/gmp-packing-cold-room-temp/log/gmp.packing.cold.room.temp.log'
-import { GMPPackingGlassBrittleLogComponent } from '../../logs/gmp-packing-glass-brittle/log/gmp.packing.glass.brittle.log'
-import { GMPPackingScissorsKnivesLogComponent } from '../../logs/gmp-packing-scissors-knives/log/gmp.packing.scissors.knives.log'
-import { StateService } from '@uirouter/angular'
-import { GAPOthersUnusualOccurrenceAuthorizationComponent } from '../../logs/gap-others-unusual-occurrence/authorization/gap.others.unusual.occurrence.authorization'
-import { GMPOthersUnusualOccurrenceAuthorizationComponent } from '../../logs/gmp-others-unusual-occurrence/authorization/gmp.others.unusual.occurrence.authorization'
-import { GAPPackingPreopAuthorizationComponent } from '../../logs/gap-packing-preop/authorization/gap.packing.preop.authorization'
+import { GMPPackingThermoCalibrationAuthorizationComponent } from '../../logs/gmp-packing-thermo-calibration/authorization/gmp.packing.thermo.calibration.authorization'
 import { GMPSelfInspectionPestControlAuthorizationComponent } from '../../logs/gmp-self-inspection-pest-control/authorization/gmp.self.inspection.pest.control.authorization'
-import { GMPDocControlDocControlAuthorizationComponent } from '../../logs/gmp-doc-control-doc-control/authorization/gmp.doc.control.doc.control.authorization'
-import { GMPPackingAgedProductAuthorizationComponent } from '../../logs/gmp-packing-aged-product/authorization/gmp.packing.aged.product.authorization'
-import { GMPPackingFinishedProductAuthorizationComponent } from '../../logs/gmp-packing-finished-product/authorization/gmp.packing.finished.product.authorization'
-import { GMPPackingATPTestingAuthorizationComponent } from '../../logs/gmp-packing-atp-testing/authorization/gmp.packing.atp.testing.authorization';
 
 @Component({
   selector: 'authorization-loader',
@@ -58,7 +47,8 @@ export class AuthorizationLoader extends DynamicComponentResolver implements OnI
     "gmp-packing-scale-calibration": GMPPackingScaleCalibrationAuthorizationComponent,
     "gmp-packing-scissors-knives": GMPPackingScissorsKnivesAuthorizationComponent,
     "gmp-packing-thermo-calibration": GMPPackingThermoCalibrationAuthorizationComponent,
-    "gmp-self-inspection-pest-control": GMPSelfInspectionPestControlAuthorizationComponent
+    "gmp-self-inspection-pest-control": GMPSelfInspectionPestControlAuthorizationComponent,
+    "gmp-packing-ozone-water": GMPPackingOzoneWaterAuthorizationComponent
   }
 
   constructor(factoryResolver: ComponentFactoryResolver, private logService: LogService, private router: StateService) {

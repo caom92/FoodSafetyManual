@@ -24,21 +24,10 @@ export class LogLoaderComponent implements OnInit{
   }
 
   ngOnInit(){
-    console.log("Init of app.log.loader.component.ts")
     this.reportDateRangeForm = this._fb.group({
       start_date: [this.start_date, [Validators.required, Validators.minLength(1)]],
       end_date: [this.end_date, [Validators.required, Validators.minLength(1)]]
     })
-
-        /*$('.datepicker').pickadate({
-          selectMonths: false, // Creates a dropdown to control month
-          selectYears: false, // Creates a dropdown of 15 years to control year,
-          today: 'Today',
-          clear: 'Clear',
-          close: 'Ok',
-          format: 'yyyy-mm-dd',
-          closeOnSelect: true // Close upon selecting a date,
-        });*/
 
     this.suffix = this.router.params.suffix
 
@@ -62,11 +51,6 @@ export class LogLoaderComponent implements OnInit{
   }
 
   requestReports(model: any){
-    console.log(this.reportDateRangeForm)
-    console.log(this.reportDateRangeForm.value)
-    console.log(this.start_date)
-    console.log(this.end_date)
-
     let formData = new FormData()
 
     for(let key in this.reportDateRangeForm.value){

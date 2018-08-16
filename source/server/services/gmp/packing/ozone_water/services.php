@@ -24,17 +24,19 @@ $ozoneWater = [
       realpath(dirname(__FILE__).'/inventory-gmp-packing-ozone-water.php'),
     'add-gmp-packing-ozone-water' =>
       realpath(dirname(__FILE__).'/add-gmp-packing-ozone-water.php'),
-    'toggle-area-gmp-packing-ozone-water' =>
+    'toggle-gmp-packing-ozone-water' =>
       realpath(dirname(__FILE__).'/toggle-gmp-packing-ozone-water.php'),
+    'toggle-area-gmp-packing-ozone-water' =>
+      realpath(dirname(__FILE__).'/toggle-area-gmp-packing-ozone-water.php'),
     'reorder-area-gmp-packing-ozone-water' =>
       realpath(dirname(__FILE__).'/reorder-gmp-packing-ozone-water.php'),
     'update-gmp-packing-ozone-water' =>
       realpath(dirname(__FILE__).'/update-gmp-packing-ozone-water.php'),
     'authorization-report-gmp-packing-ozone-water' =>
       realpath(dirname(__FILE__).'/authorization-report-gmp-packing-ozone-water.php'),
-    'get-areas-of-zone-ozone-water' =>
+    'get-areas-of-zone-gmp-packing-ozone-water' =>
       realpath(__DIR__.'/get-machines-of-zone-ozone-water.php'),
-    'add-workplace-area-ozone-water' =>
+    'add-workplace-area-gmp-packing-ozone-water' =>
       realpath(__DIR__.'/add-machine-ozone-water.php'),
     'inventory-gmp-packing-ozone-water' => 
       realpath(__DIR__.'/get-fields-of-machine.php')

@@ -24,14 +24,16 @@ $service = fsm\createCaptureService(
           'optional' => TRUE
         ],
         'ph' => [
-          'type' => 'float'
+          'type' => 'float',
+          'optional' => TRUE
         ],
         'orp' => [
           'type' => 'float',
           'optional' => TRUE
         ],
         'temperature' => [
-          'type' => 'float'
+          'type' => 'float',
+          'optional' => TRUE
         ],
         'corrective_action' => [
           'type' => 'string',
@@ -43,7 +45,7 @@ $service = fsm\createCaptureService(
           'max_length' => 255,
           'optional' => TRUE
         ],
-        'batch' => [
+        'lot' => [
           'type' => 'string',
           'max_length' => 255,
           'optional' => TRUE
@@ -71,7 +73,8 @@ $service = fsm\createCaptureService(
           'optional' => TRUE
         ],
         'status' => [
-          'type' => 'bool'
+          'type' => 'bool',
+          'optional' => TRUE
         ]
       ]
     ]
@@ -90,17 +93,17 @@ $service = fsm\createCaptureService(
         array_push($rows, [
           'capture_date_id' => $logID,
           'machine_id' => $item['id'],
-          'was_test_passed' => $item['status'],
+          'was_test_passed' => $getValueFromArrayIfExists($item, 'status'),
           'voltage' => $getValueFromArrayIfExists($item, 'reading'),
-          'potential_hydrogen' => $item['ph'],
+          'potential_hydrogen' => $getValueFromArrayIfExists($item, 'ph'),
           'reduction_potential' => $getValueFromArrayIfExists($item, 'orp'),
-          'temperature' => $item['temperature'],
+          'temperature' => $getValueFromArrayIfExists($item, 'temperature'),
           'total_chlorine' =>
             $getValueFromArrayIfExists($item, 'total_chlorine'),
           'free_chlorine' => $getValueFromArrayIfExists($item, 'free_chlorine'),
           'rinse' => $getValueFromArrayIfExists($item, 'rinse'),
           'product' => $getValueFromArrayIfExists($item, 'product'),
-          'lot' => $getValueFromArrayIfExists($item, 'batch'),
+          'lot' => $getValueFromArrayIfExists($item, 'lot'),
           'crop' => $getValueFromArrayIfExists($item, 'parcel'),
           'batch' => $getValueFromArrayIfExists($item, 'reference'),
           'corrective_actions' => 

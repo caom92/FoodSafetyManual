@@ -11,7 +11,7 @@ $service = fsm\createLogService(
     'items_name' => 'items',
     'function' => function($scope, $segment) {
       $machines = $scope->daoFactory->get('gmp\packing\ozone\Machines')
-        ->selectActiveByZoneID($segment('zone_id'));
+        ->selectActiveByZoneID($segment->get('zone_id'));
       $fieldsTable = 
         $scope->daoFactory->get('gmp\packing\ozone\MachinesFields');
       

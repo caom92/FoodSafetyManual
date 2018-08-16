@@ -36,15 +36,6 @@ export class GMPPackingScaleCalibrationLogComponent extends SuperLogComponent im
     this.setSuffix("gmp-packing-scale-calibration")
     super.ngOnInit()
     this.initForm()
-
-    /*this.ts.translationChanged.subscribe(
-      () => {
-        window.setTimeout(() => {
-          console.log("material select")
-          $("select").material_select()
-        }, 20)
-      }
-    )*/
   }
 
   initForm() {

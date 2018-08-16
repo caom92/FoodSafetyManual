@@ -5,19 +5,16 @@ export interface Authorization extends SuperAuthorization {
 }
 
 export interface AuthorizationItem {
-  id: string
+  id: number
   name: string
-  reading: string
-  ph: number
-  orp: number
-  temperature: number
-  corrective_action: string
-  product: string
-  batch: string
-  parcel: string
-  reference: string
-  total_chlorine: number
-  free_chlorine: number
-  rinse: number
-  status: boolean
+  fields: Array<AuthorizationField>
+}
+
+export interface AuthorizationField {
+  id: number
+  position: number
+  name_en: string
+  name_es: string
+  field_id: number
+  value: string | number
 }

@@ -5,13 +5,13 @@ require_once realpath(dirname(__FILE__).'/../../../../dao/LogTable.php');
 use fsm\database as db;
 
 
-// Interfaz para la tabla gmp_packing_ozone_water_logs
+// Interfaz para la tabla gmp_packing_ozone_water_log
 class Logs extends db\LogTable
 {
   // Crea una instancia de una interfaz a la base de datos para modificar 
-  // la tabla gmp_packing_ozone_water_logs
+  // la tabla gmp_packing_ozone_water_log
   function __construct() { 
-    parent::__construct('gmp_packing_ozone_water_logs');
+    parent::__construct('gmp_packing_ozone_water_log');
   }
 
   // Retorna una lista de todos los renglones en la tabla que tengan asignado
@@ -24,6 +24,7 @@ class Logs extends db\LogTable
   function selectByCaptureDateID($dateID) {
     return parent::select(
       [
+        'm.id(id)',
         'm.name(name)',
         'voltage(reading)',
         'potential_hydrogen(ph)',
@@ -46,7 +47,7 @@ class Logs extends db\LogTable
         ]
       ],
       [
-        '[><]gmp_packing_ozone_machines(m)' => [
+        '[><]gmp_packing_ozone_water_machines(m)' => [
           'machine_id' => 'id'
         ]
       ]

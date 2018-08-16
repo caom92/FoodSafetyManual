@@ -1,5 +1,5 @@
 import { OnInit } from '@angular/core'
-import { FormBuilder, FormGroup } from '@angular/forms'
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms'
 
 import { LogService } from '../../../services/app.logs'
 import { ToastsService } from '../../../services/app.toasts'
@@ -33,8 +33,9 @@ export class SuperLogComponent implements OnInit {
       this.logHeaderData.module_name = this.log.module_name
       this.initForm()
       this.showLog = true
-      console.error("init select")
-      $('select').material_select()
+      setTimeout(function () {
+        $('select').material_select()
+      }, 200)
     }, error => {
       // Por el momento, no se necesita ninguna acción adicional en caso de
       // un error durante la recuperación de datos, ya que este caso se maneja
@@ -73,13 +74,25 @@ export class SuperLogComponent implements OnInit {
 
   }
 
+  public disableControl(control: AbstractControl, condition?: boolean): void {
+    if (condition == true || condition == undefined) {
+      control.disable()
+    }
+  }
+
+  public enableControl(control: AbstractControl, condition?: boolean): void {
+    if (condition == true || condition == undefined) {
+      control.enable()
+    }
+  }
+
   public save(): void {
     this.cleanForm()
     if (this.captureForm.valid) {
       // Información adicional, necesaria en el caso de que la bitácora no pueda
       // enviarse
       let logDetails: LogDetails = { zone_name: this.log.zone_name, program_name: this.log.program_name, module_name: this.log.module_name, log_name: this.log.log_name }
-      this.logService.send(this.captureForm.value, 'capture-' + this.suffix, logDetails).then(success => {
+      this.logService.send(this.captureForm.value, this.suffix, logDetails).then(success => {
         this.resetForm()
         this.enableForm()
       }, error => {

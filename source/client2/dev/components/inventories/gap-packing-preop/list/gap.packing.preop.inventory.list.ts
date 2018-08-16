@@ -27,7 +27,6 @@ export class GAPPackingPreopInventoryListComponent extends SuperInventoryListCom
   }
 
   public ngOnInit(): void {
-    console.log(this.type)
     this.setBagName(this.type.en)
     this.setSuffix("gap-packing-preop")
     this.setInventory(this.type.inventory)

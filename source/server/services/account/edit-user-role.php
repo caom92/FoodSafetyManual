@@ -21,7 +21,7 @@ $service = [
     $users = $scope->daoFactory->get('Users');
     $supervisorsEmployees = $scope->daoFactory->get('SupervisorsEmployees');
     $currentRole = $users->getRoleByID($request['user_id']);
-    $futureRole = $users->getRoleByID($request['role_id']);
+    $futureRole = $scope->daoFactory->get('Roles')->getNameByID($request['role_id']);
     $isCurrentlySupervisor = $currentRole === 'Supervisor';
     $isCurrentlyEmployee = $currentRole === 'Employee';
     $willBecomeEmployee = $futureRole === 'Employee';

@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, OnChanges } from '@angular/core'
+import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core'
 import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
@@ -15,7 +15,7 @@ import { InventoryItem } from '../interfaces/gmp.packing.ozone.water.inventory.i
   ]
 })
 
-export class GMPPackingThermoCalibrationInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnDestroy, OnChanges {
+export class GMPPackingOzoneWaterInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnDestroy, OnChanges {
   @Language() private lang: string
   @Input() items: Array<InventoryItem> = null
 

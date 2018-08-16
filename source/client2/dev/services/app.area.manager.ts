@@ -97,7 +97,7 @@ export class AreaManagerService {
     let reorderPromise = new Promise<any>((resolve, reject) => {
       let loaderReorder = this.loaderService.koiLoader("")
       let reorderForm = new FormData()
-      let flatData = this.flatten({ areas: data })
+      let flatData = this.flatten({ items: data })
 
       for (let key in flatData) {
         reorderForm.append(key, flatData[key])
@@ -200,6 +200,44 @@ export class AreaManagerService {
     })
 
     return editPromise
+  }
+
+  public toggleArea(data: any, suffix: string): Promise<void> {
+    let togglePromise = new Promise<any>((resolve, reject) => {
+      let loaderToggle = this.loaderService.koiLoader("")
+      let item = new FormData()
+      item.append("id", String(data.id))
+      loaderToggle.present()
+      this.server.update(
+        'toggle-area-' + suffix,
+        item,
+        (response: any) => {
+          if (response.meta.return_code == 0) {
+            if (data.is_active == 0) {
+              this.toastService.showText("itemChargeSuccess")
+              data.is_active = 1
+            } else {
+              this.toastService.showText("itemDischargeSuccess")
+              data.is_active = 0
+            }
+            resolve()
+            loaderToggle.dismiss()
+          } else {
+            reject()
+            this.toastService.showText("lastActionReverseBadRequest")
+            loaderToggle.dismiss()
+          }
+        },
+        (error: any, caught: Observable<void>) => {
+          reject()
+          this.toastService.showText("serverUnreachable")
+          loaderToggle.dismiss()
+          return []
+        }
+      )
+    })
+
+    return togglePromise
   }
 
   // https://stackoverflow.com/questions/43551221/angular-2-mark-nested-formbuilder-as-touched

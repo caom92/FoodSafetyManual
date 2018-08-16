@@ -10,11 +10,11 @@ import { DynamicComponentResolver } from './../dynamic.resolver'
 import { BackendService } from '../../services/app.backend'
 import { TranslationService } from '../../services/app.translation'
 import { ReportRequest } from './reports.interface'
-import { PubSubService } from 'angular2-pubsub';
-import { StateService } from '@uirouter/core';
+import { PubSubService } from 'angular2-pubsub'
+import { StateService } from '@uirouter/core'
 import { Subscription } from 'rxjs/Subscription'
-import { LoaderService } from '../../services/app.loaders';
-import { ToastsService } from '../../services/app.toasts';
+import { LoaderService } from '../../services/app.loaders'
+import { ToastsService } from '../../services/app.toasts'
 
 @Component({
   selector: 'report',
@@ -70,8 +70,8 @@ export class ReportTab extends DynamicComponentResolver implements OnInit, OnDes
 
   private reportForm: any = null
   loaderComponent: any = null
-  startDate: string = ""
-  endDate: string = ""
+  startDate: string = new Date().getFullYear() + '-' + ((new Date().getMonth() + 1 < 10) ? '0' + (new Date().getMonth() + 1).toString() : (new Date().getMonth() + 1).toString()) + '-' + new Date().getDate()
+  endDate: string = new Date().getFullYear() + '-' + ((new Date().getMonth() + 1 < 10) ? '0' + (new Date().getMonth() + 1).toString() : (new Date().getMonth() + 1).toString()) + '-' + new Date().getDate()
   reportSuffix: string = ""
   reportFooter: string = ""
   reports: Array<any> = []
@@ -98,7 +98,6 @@ export class ReportTab extends DynamicComponentResolver implements OnInit, OnDes
     super(factoryResolver)
     //events.subscribe("reportEvent", (activeReport, time) => {
       //this.activeReport = activeReport
-      //console.log("reporte activo: " + activeReport)
     //})
   }
 
@@ -121,7 +120,6 @@ export class ReportTab extends DynamicComponentResolver implements OnInit, OnDes
   }
 
   ngOnDestroy() {
-    console.log("ngOnDestroy reports.ts: " + this.activeReport)
     this.reportEvent.unsubscribe()
   }
 
@@ -131,7 +129,7 @@ export class ReportTab extends DynamicComponentResolver implements OnInit, OnDes
     this.pdfReport.address = localStorage["company_address"]
     this.pdfReport.logo = localStorage["company_logo"]
     this.pdfReport.orientation = this.pdfReports._results[0].getOrientation()
-    this.pdfReport.footer = ""
+    this.pdfReport.footer = this.reportFooter
     this.pdfReport.supervisor = this.pdfReports._results[0].report.approved_by
     this.pdfReport.signature = this.pdfReports._results[0].report.signature_path
     this.pdfReport.subject = ""
@@ -160,20 +158,18 @@ export class ReportTab extends DynamicComponentResolver implements OnInit, OnDes
       (response: any) => {
         if (response.meta.return_code == 0) {
           if (response.data) {
-            console.log(response.data.reports)
             if (response.data.reports.length == 0) {
               this.toastService.showText("noReportsFound")
             } else {
               this.reports = response.data.reports
               this.reportFooter = response.data.pdf_footer
-              this.reportFooter = '<table width="100%"><tr><td width="30%" align="left">Jacobs Farms Delcabo, Inc </td><td width="40%">Pending</td><td width="30%" align="right">Rev. pend</td></tr></table>'
               this.activeReport = "any"
             }
             this.events.$pub("reportEvent", { activeReport: "any", time: Date.now() })
             reportLoader.dismiss()
           }
         } else {
-          this.toastService.showText("serverUnreachable")
+          this.toastService.showText("noReportsFound")
           reportLoader.dismiss()
         }
       },
