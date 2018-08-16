@@ -63,28 +63,15 @@ $service = [
 
     if (count($_FILES['image']) > 0) {
       $menuItem = $itemsTable->getById($request['id']);
+      $parentDir = ($isDirectory) ? "directories/" : "links/";
+      $parentDir = __DIR__."/../../../../data/menu/$parentDir/";
+
       if ($arrayElementExists($menuItem, 'image')) {
-        $parentDir = ($isDirectory) ? "directories/" : "links/";
-        $originalFileName = $_FILES['image']['name'];
-        $wasFileMoved = move_uploaded_file(
-          $_FILES['image']['tmp_name'], 
-          realpath(
-            __DIR__."/../../../../data/menu/$parentDir/{$menuItem['image']}"
-          )
-        );
-        if (!$wasFileMoved) {
-          throw new \Exception(
-            "The file '{$originalFileName}' could not be uploaded."
-          );
-        }
-      } else {
-        $updateValues['image'] = $storeUploadedFileInServer(
-          'image', 
-          realpath(__DIR__.'/../../../../data/menu/'.($isDirectory) ? 
-            'directories' : 'links'
-          )
-        );
+        @unlink(realpath("$parentDir/{$menuItem['image']}"));
       }
+
+      $updateValues['image'] = 
+        $storeUploadedFileInServer('image', realpath($parentDir));
     }
 
     return $itemsTable->updateById($request['id'], $updateValues);
