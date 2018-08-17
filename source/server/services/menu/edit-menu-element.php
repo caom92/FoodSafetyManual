@@ -69,6 +69,7 @@ $service = [
 
     if (isset($_FILES['image'])) {
       if (count($_FILES['image']) > 0) {
+        $updateValues['icon'] = NULL;
         $menuItem = $itemsTable->getById($request['id']);
         $parentDir = ($isDirectory) ? "directories/" : "links/";
         $parentDir = __DIR__."/../../../../data/menu/$parentDir/";
@@ -80,7 +81,14 @@ $service = [
       }
     }
 
-    return $itemsTable->updateById($request['id'], $updateValues);
+    $ret['result'] = $itemsTable->updateById($request['id'], $updateValues);
+    if (isset($updateValues['image'])) {
+      $ret['image'] = $updateValues['image']; 
+    } else {
+      $ret['image'] = NULL;
+    }
+
+    return $ret;
   }
 ];
 

@@ -105,7 +105,7 @@ export class MenuService {
       }
 
       if (image !== undefined && image !== null) {
-        editForm.append('image[]', image[0], image[0].name)
+        editForm.append('image', image[0], image[0].name)
       }
 
       this.server.update(

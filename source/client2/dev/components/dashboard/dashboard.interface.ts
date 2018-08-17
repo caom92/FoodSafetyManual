@@ -13,4 +13,9 @@ export interface DashboardDirectory extends AbstractDashboardElement {
 
 export interface DashboardFile extends AbstractDashboardElement {
   url?: string
-} 
+}
+
+export interface LocalURL {
+  name: string
+  route: string
+}
