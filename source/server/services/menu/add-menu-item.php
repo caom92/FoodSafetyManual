@@ -63,11 +63,15 @@ $getAddMenuItemCallback = function($getInsertValues)
       );
     }
 
-    $image = (count($_FILES['image']) > 0) ? 
-      $storeUploadedFileInServer(
-        'image', realpath(__DIR__.'/../../../../data/menu/directories')
-      )
-      : NULL;
+    if (isset($_FILES['image'])) {
+      $image = (count($_FILES['image']) > 0) ? 
+        $storeUploadedFileInServer(
+          'image', realpath(__DIR__.'/../../../../data/menu/directories')
+        )
+        : NULL;
+    } else {
+      $image = NULL;
+    }
 
     $segment = $scope->session->getSegment('fsm');
     $scope->daoFactory->get('MenuItems')->insert($getInsertValues(

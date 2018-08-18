@@ -53,7 +53,7 @@ h5
   .col.s6.m3.l3(*ngIf='errorDirectory === false && loadingDirectory === false && errorNetwork === false && editMode === false')
     mz-card(style='background-color: #b1dcfb;')
       mz-card-content
-        a(style='color: inherit; cursor: pointer;', (click)='addElement()')
+        a(style='color: inherit; cursor: pointer;', (click)='enableAddMode()')
           div(style='text-align: center; margin-bottom: 1em;')
             i(mz-icon-mdi, [icon]="'plus-box'", [size]="'48px'")
           div(style='height: 2em; line-height: 1em; overflow: hidden; text-overflow: ellipsis; text-align: center;')
@@ -80,10 +80,93 @@ h5
           .col.s12.m12.l12(style='text-align: right;')
             button.center(mz-button, (click)='getMenu()') Reintentar
 div(*ngIf='addMode === true')
-  .col.s12.m12.l12
-    h5 Nuevo enlace/directorio
+  .row([formGroup]="iconForm")
+    .col.s6.m9.l9
+      h5 Nuevo enlace/directorio
+      .row
+        .col.s12.m3.l3
+          mz-radio-button-container
+            input(mz-radio-button, [label]="'Directorio'", [withGap]="true", id="radio-directory", name="radio-select-type", type='radio', [value]='"directory"', [formControl]="iconForm.controls.type")
+          mz-radio-button-container
+            input(mz-radio-button, [label]="'Enlace'", [withGap]="true", id="radio-link", name="radio-select-type", type='radio', [value]='"link"', [formControl]="iconForm.controls.type")
+        .col.s12.m9.l9
+          mz-input-container
+            input(mz-input, [label]="'Nombre'", id='name-edit', type='text', formControlName='name')
+      .row
+        .col.s12.m3.l3
+            mz-radio-button-container
+              input(mz-radio-button, [label]="'Icono'", [withGap]="true", id="radio-icon", name="radio-edit-icon", type='radio', [(ngModel)]='isIcon', [value]='true', [ngModelOptions]="{standalone: true}")
+            mz-radio-button-container
+              input(mz-radio-button, [label]="'Imagen'", [withGap]="true", id="radio-image", name="radio-edit-icon", type='radio', [(ngModel)]='isIcon', [value]='false', [ngModelOptions]="{standalone: true}")
+        .col.s12.m9.l9([hidden]='!(isIcon === true)')
+          mz-select-container
+            select(mz-select, [label]="'Icono'", id='icon-select', [placeholder]="'Icono'", formControlName='icon', (change)='onIconSelected()')
+              option(value='') Opción por defecto
+              option(value='account') Cuenta
+              option(value='alert-circle') Alerta
+              option(value='beaker') Probeta
+              option(value='bell') Campana
+              option(value='broom') Escoba
+              option(value='bus') Autobús
+              option(value='calendar') Calendario
+              option(value='chart-line') Gráfica
+        .col.s12.m9.l9([hidden]='!(isIcon === false)')
+          div(class="file-field input-field")
+            div(class="btn")
+              span() Imagen
+              input(type="file", class="fileControl", accept='image/*', (change)="onImageFileSelected($event)")
+            div(class="file-path-wrapper")
+              input(class="file-path validate fileControl", type="text")
+      .row(*ngIf="iconForm.value.type == 'link'")
+        div.col([ngClass]="(iconForm.controls.url.disabled == true)?'s12 m12 l12':'s6 m6 l6'", [hidden]="!(iconForm.value.type == 'link')")
+          mz-select-container
+            select(mz-select, [label]="'Dirección'", id='url-select', [placeholder]="'Seleccione dirección'", formControlName='localUrl', (change)='onURLChange()')
+              option(*ngFor='let localURL of localURLs', [ngValue]='localURL.route') {{localURL.name}}
+              option([ngValue]='"external"') Dirección externa
+        .col.s6.m6.l6([hidden]="!(iconForm.value.type == 'link') || iconForm.controls.url.disabled")
+          mz-input-container
+            input(mz-input, [label]="'URL'", id='url-edit', type='text', formControlName='url')
+    .col.s6.m3.l3
+      h5.center Vista Previa
+      div(*ngIf="iconForm.value.type == 'link'")
+        mz-card
+          mz-card-content
+            div(*ngIf='originalImage !== null || previewURL !== null', style='margin-bottom: 1em;')
+              div
+                i.corner-icon(mz-icon-mdi, [icon]="'link-variant'", [size]="'24px'")
+              img.server-image(*ngIf='previewURL === null', [src]='"http://localhost/espresso/data/menu/links/" + originalImage', alt='image not loaded', style='display: block; max-height: 72px; min-height: 72px; margin-left: auto; margin-right: auto; max-width: 100%;')
+              img.preview-image(*ngIf='previewURL !== null', [src]='previewURL', alt='image not loaded', style='display: block; max-height: 72px; min-height: 72px; margin-left: auto; margin-right: auto; max-width: 100%;')
+            div(*ngIf='iconForm.value.icon != null && originalImage == null && previewURL == null', style='text-align: center; margin-bottom: 1em;')
+              div
+                i.corner-icon(mz-icon-mdi, [icon]="'link-variant'", [size]="'24px'")
+              i(mz-icon-mdi, [icon]='iconForm.value.icon', [size]="'48px'")
+            div(*ngIf='iconForm.value.icon == null && originalImage == null && previewURL == null', style='text-align: center; margin-bottom: 1em;')
+              i(mz-icon-mdi, [icon]="'link-variant'", [size]="'48px'")
+            div(style='height: 2em; line-height: 1em; overflow: hidden; text-overflow: ellipsis; text-align: center;')
+              | {{iconForm.value.name}}
+      div(*ngIf="iconForm.value.type == 'directory'")
+        mz-card.blue-grey.darken-1.white-text
+          mz-card-content
+            div(*ngIf='originalImage !== null || previewURL !== null', style='margin-bottom: 1em;')
+              div
+                i.corner-icon(mz-icon-mdi, [icon]="'folder'", [size]="'24px'")
+              img.server-image(*ngIf='previewURL === null', [src]='"http://localhost/espresso/data/menu/directories/" + originalImage', alt='image not loaded', style='display: block; max-height: 72px; min-height: 72px; margin-left: auto; margin-right: auto; max-width: 100%;')
+              img.preview-image(*ngIf='previewURL !== null', [src]='previewURL', alt='image not loaded', style='display: block; max-height: 72px; min-height: 72px; margin-left: auto; margin-right: auto; max-width: 100%;')
+            div(*ngIf='iconForm.value.icon != null && originalImage == null && previewURL == null', style='text-align: center; margin-bottom: 1em;')
+              div
+                i.corner-icon(mz-icon-mdi, [icon]="'folder'", [size]="'24px'")
+              i(mz-icon-mdi, [icon]='iconForm.value.icon', [size]="'48px'")
+            div(*ngIf='iconForm.value.icon == null && originalImage == null && previewURL == null', style='text-align: center; margin-bottom: 1em;')
+              i(mz-icon-mdi, [icon]="'folder'", [size]="'48px'")
+            div(style='height: 2em; line-height: 1em; overflow: hidden; text-overflow: ellipsis; text-align: center;')
+              | {{iconForm.value.name}}
+      .center
+        button(mz-button, (click)='addElement()') Agregar
+      br
+      .center
+        button(mz-button, (click)='cancelForm()') Cancelar
 div(*ngIf='editMode === true')
-  .row([formGroup]="editIconForm")
+  .row([formGroup]="iconForm")
     .col.s6.m9.l9
       h5 Editar enlace/directorio
       .row
@@ -115,18 +198,18 @@ div(*ngIf='editMode === true')
               input(type="file", class="fileControl", accept='image/*', (change)="onImageFileSelected($event)")
             div(class="file-path-wrapper")
               input(class="file-path validate fileControl", type="text")
-      .row(*ngIf="editIconForm.value.type == 'link'")
-        div.col([ngClass]="(editIconForm.controls.url.disabled == true)?'s12 m12 l12':'s6 m6 l6'", [hidden]="!(editIconForm.value.type == 'link')")
+      .row(*ngIf="iconForm.value.type == 'link'")
+        div.col([ngClass]="(iconForm.controls.url.disabled == true)?'s12 m12 l12':'s6 m6 l6'", [hidden]="!(iconForm.value.type == 'link')")
           mz-select-container
             select(mz-select, [label]="'Dirección'", id='url-select', [placeholder]="'Seleccione dirección'", formControlName='localUrl', (change)='onURLChange()')
               option(*ngFor='let localURL of localURLs', [ngValue]='localURL.route') {{localURL.name}}
               option([ngValue]='"external"') Dirección externa
-        .col.s6.m6.l6([hidden]="!(editIconForm.value.type == 'link') || editIconForm.controls.url.disabled")
+        .col.s6.m6.l6([hidden]="!(iconForm.value.type == 'link') || iconForm.controls.url.disabled")
           mz-input-container
             input(mz-input, [label]="'URL'", id='url-edit', type='text', formControlName='url')
     .col.s6.m3.l3
       h5.center Vista Previa
-      div(*ngIf="editIconForm.value.type == 'link'")
+      div(*ngIf="iconForm.value.type == 'link'")
         mz-card
           mz-card-content
             div(*ngIf='originalImage !== null || previewURL !== null', style='margin-bottom: 1em;')
@@ -134,15 +217,15 @@ div(*ngIf='editMode === true')
                 i.corner-icon(mz-icon-mdi, [icon]="'link-variant'", [size]="'24px'")
               img.server-image(*ngIf='previewURL === null', [src]='"http://localhost/espresso/data/menu/links/" + originalImage', alt='image not loaded', style='display: block; max-height: 72px; min-height: 72px; margin-left: auto; margin-right: auto; max-width: 100%;')
               img.preview-image(*ngIf='previewURL !== null', [src]='previewURL', alt='image not loaded', style='display: block; max-height: 72px; min-height: 72px; margin-left: auto; margin-right: auto; max-width: 100%;')
-            div(*ngIf='editIconForm.value.icon != null && originalImage == null && previewURL == null', style='text-align: center; margin-bottom: 1em;')
+            div(*ngIf='iconForm.value.icon != null && originalImage == null && previewURL == null', style='text-align: center; margin-bottom: 1em;')
               div
                 i.corner-icon(mz-icon-mdi, [icon]="'link-variant'", [size]="'24px'")
-              i(mz-icon-mdi, [icon]='editIconForm.value.icon', [size]="'48px'")
-            div(*ngIf='editIconForm.value.icon == null && originalImage == null && previewURL == null', style='text-align: center; margin-bottom: 1em;')
+              i(mz-icon-mdi, [icon]='iconForm.value.icon', [size]="'48px'")
+            div(*ngIf='iconForm.value.icon == null && originalImage == null && previewURL == null', style='text-align: center; margin-bottom: 1em;')
               i(mz-icon-mdi, [icon]="'link-variant'", [size]="'48px'")
             div(style='height: 2em; line-height: 1em; overflow: hidden; text-overflow: ellipsis; text-align: center;')
-              | {{editIconForm.value.name}}
-      div(*ngIf="editIconForm.value.type == 'directory'")
+              | {{iconForm.value.name}}
+      div(*ngIf="iconForm.value.type == 'directory'")
         mz-card.blue-grey.darken-1.white-text
           mz-card-content
             div(*ngIf='originalImage !== null || previewURL !== null', style='margin-bottom: 1em;')
@@ -150,14 +233,14 @@ div(*ngIf='editMode === true')
                 i.corner-icon(mz-icon-mdi, [icon]="'folder'", [size]="'24px'")
               img.server-image(*ngIf='previewURL === null', [src]='"http://localhost/espresso/data/menu/directories/" + originalImage', alt='image not loaded', style='display: block; max-height: 72px; min-height: 72px; margin-left: auto; margin-right: auto; max-width: 100%;')
               img.preview-image(*ngIf='previewURL !== null', [src]='previewURL', alt='image not loaded', style='display: block; max-height: 72px; min-height: 72px; margin-left: auto; margin-right: auto; max-width: 100%;')
-            div(*ngIf='editIconForm.value.icon != null && originalImage == null && previewURL == null', style='text-align: center; margin-bottom: 1em;')
+            div(*ngIf='iconForm.value.icon != null && originalImage == null && previewURL == null', style='text-align: center; margin-bottom: 1em;')
               div
                 i.corner-icon(mz-icon-mdi, [icon]="'folder'", [size]="'24px'")
-              i(mz-icon-mdi, [icon]='editIconForm.value.icon', [size]="'48px'")
-            div(*ngIf='editIconForm.value.icon == null && originalImage == null && previewURL == null', style='text-align: center; margin-bottom: 1em;')
+              i(mz-icon-mdi, [icon]='iconForm.value.icon', [size]="'48px'")
+            div(*ngIf='iconForm.value.icon == null && originalImage == null && previewURL == null', style='text-align: center; margin-bottom: 1em;')
               i(mz-icon-mdi, [icon]="'folder'", [size]="'48px'")
             div(style='height: 2em; line-height: 1em; overflow: hidden; text-overflow: ellipsis; text-align: center;')
-              | {{editIconForm.value.name}}
+              | {{iconForm.value.name}}
       .center
         button(mz-button, (click)='editElement()') Editar
       br

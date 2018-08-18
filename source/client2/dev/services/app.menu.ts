@@ -132,7 +132,54 @@ export class MenuService {
     return editPromise
   }
 
-  public addElement() {
-    
+  public addElement(name: string, type: string, parentID?: number, icon?: string, image?: FileList, url?: string) {
+    let addPromise = new Promise<any>((resolve, reject) => {
+      let addLoader = this.loaderService.koiLoader()
+      let addForm = new FormData()
+
+      if (parentID !== undefined && parentID !== null) {
+        addForm.append('parent_id', String(parentID))
+      }      
+
+      addForm.append('name', name)
+
+      if (icon !== undefined && icon !== null) {
+        if (icon.length > 0) {
+          addForm.append('icon', icon)
+        }
+      }
+
+      if (url !== undefined && url !== null) {
+        if (url.length > 0) {
+          addForm.append('url', url)
+        }
+      }
+
+      if (image !== undefined && image !== null) {
+        addForm.append('image', image[0], image[0].name)
+      }
+
+      this.server.update(
+        'add-menu-' + type,
+        addForm,
+        (response: any) => {
+          if (response.meta.return_code == 0) {
+            resolve(response.data)
+            addLoader.dismiss()
+          } else {
+            reject('bad request')
+            addLoader.dismiss()
+            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+          }
+        }, (error: any, caught: Observable<void>) => {
+          reject('network error')
+          addLoader.dismiss()
+          this.toastService.showText('serverUnreachable')
+          return []
+        }
+      )
+    })
+
+    return addPromise
   }
 }

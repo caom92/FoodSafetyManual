@@ -13,6 +13,8 @@ $service = [
       if ($arrayElementExists($request, 'parent_id')) {
         $parentId = (strlen($request['parent_id']) > 0) ?
           $request['parent_id'] : NULL;
+      } else {
+        $parentId = NULL;
       }
 
       return [

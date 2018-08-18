@@ -15,6 +15,7 @@ import { DashboardDirectory, DashboardFile, LocalURL } from './dashboard.interfa
 export class DashboardComponent {
   dashboardIcons: Array<DashboardDirectory | DashboardFile> = []
   currentDirectory: Array<DashboardDirectory | DashboardFile> = []
+  parentDirectoryID: number = null
   directories: Array<string> = []
   breadcrumbs: Array<string> = []
   errorDirectory: boolean = false
@@ -27,7 +28,7 @@ export class DashboardComponent {
   originalImage: string = null
   loadingDirectory: boolean = true
   serverDirectory: Array<DashboardDirectory | DashboardFile> = null
-  editIconForm: FormGroup = new FormBuilder().group({})
+  iconForm: FormGroup = new FormBuilder().group({})
   localURLs: Array<LocalURL> = []
 
   constructor(private homeElementsService: HomeElementsService, private router: StateService, private menuService: MenuService, private alertCtrl: AlertController, private formBuilder: FormBuilder) {
@@ -44,7 +45,7 @@ export class DashboardComponent {
       this.getMenuSuccess()
     }
 
-    this.editIconForm = this.formBuilder.group({
+    this.iconForm = this.formBuilder.group({
       id: [0, [Validators.required]],
       type: ['directory'],
       name: [null, [Validators.maxLength(255)]],
@@ -54,7 +55,7 @@ export class DashboardComponent {
       image: [null]
     })
 
-    this.editIconForm.controls.url.disable()
+    this.iconForm.controls.url.disable()
   }
 
   public getMenu(): void {
@@ -71,6 +72,7 @@ export class DashboardComponent {
     this.loadingDirectory = false
     if (this.router.params.path === '') {
       this.currentDirectory = this.serverDirectory
+      this.parentDirectoryID = null
     } else {
       this.currentDirectory = this.serverDirectory
       this.setPath()
@@ -82,11 +84,13 @@ export class DashboardComponent {
         for (let icon in this.currentDirectory) {
           if (this.currentDirectory[icon].name == directory) {
             matches++
+            this.parentDirectoryID = this.currentDirectory[icon].id
             this.currentDirectory = (<DashboardDirectory>this.currentDirectory[icon]).children
             break
           }
         }
       }
+      console.log('matches', matches)
       if (matches != this.directories.length) {
         this.currentDirectory = []
         this.errorDirectory = true
@@ -105,10 +109,6 @@ export class DashboardComponent {
   public setPath(): void {
     let path: string = decodeURI(this.router.params.path)
     this.directories = path.split('/')
-  }
-
-  public addElement(): void {
-    this.addMode = true
   }
 
   public initLocalURLs(): void {
@@ -160,59 +160,95 @@ export class DashboardComponent {
     })
   }
 
+  public enableAddMode(): void {
+    console.log(this.currentDirectory)
+
+    this.addMode = true
+
+    this.iconForm = this.formBuilder.group({
+      id: [0, [Validators.required]],
+      type: ['directory'],
+      name: [null, [Validators.maxLength(255)]],
+      icon: [null, [Validators.maxLength(255)]],
+      url: [null, [Validators.maxLength(65535)]],
+      localUrl: [null, [Validators.maxLength(65535)]],
+      image: [null]
+    })
+
+    this.iconForm.controls.url.disable()
+  }
+
   public enableEditMode(element: DashboardDirectory | DashboardFile): void {
     this.editMode = true
-    this.editIconForm.controls.id.setValue(element.id)
-    this.editIconForm.controls.name.setValue(element.name)
-    this.editIconForm.controls.type.setValue(element.type)
+    this.iconForm.controls.id.setValue(element.id)
+    this.iconForm.controls.name.setValue(element.name)
+    this.iconForm.controls.type.setValue(element.type)
     if (element.image !== undefined && element.image !== null) {
-      this.editIconForm.controls.image.setValue(element.image)
+      this.iconForm.controls.image.setValue(element.image)
       this.originalImage = element.image
     }
     if (element.icon !== undefined && element.icon !== null) {
-      this.editIconForm.controls.icon.setValue(element.icon)
+      this.iconForm.controls.icon.setValue(element.icon)
       setTimeout(() => {
         $('select').material_select()
       })
     }
     if ((element as DashboardFile).url !== undefined) {
-      this.editIconForm.controls.url.setValue((element as DashboardFile).url)
-      this.editIconForm.controls.localUrl.setValue((element as DashboardFile).url)
+      this.iconForm.controls.url.setValue((element as DashboardFile).url)
+      this.iconForm.controls.localUrl.setValue((element as DashboardFile).url)
       if (this.isURLLocal((element as DashboardFile).url)) {
-        this.editIconForm.controls.url.disable()
+        this.iconForm.controls.url.disable()
       } else {
-        this.editIconForm.controls.localUrl.setValue('external')
-        this.editIconForm.controls.url.enable()
+        this.iconForm.controls.localUrl.setValue('external')
+        this.iconForm.controls.url.enable()
       }
     }
   }
 
+  public addElement(): void {
+    let updateURL: string
+    if (!(this.iconForm.value.image instanceof FileList) && this.iconForm.value.image !== null) {
+      this.originalImage = String(this.iconForm.value.image)
+      this.iconForm.controls.image.setValue(null)
+    }
+    if (!this.isURLLocal(this.iconForm.value.localUrl)) {
+      updateURL = this.iconForm.value.url
+    } else {
+      updateURL = this.iconForm.value.localUrl
+    }
+    this.menuService.addElement(this.iconForm.value.name, this.iconForm.value.type, this.parentDirectoryID, this.iconForm.value.icon, this.iconForm.value.image, updateURL).then(success => {
+      // TODO: Añadir lógica para que el elemento añadido sea visible al terminar la adición
+      this.cancelForm()
+      this.currentDirectory.sort((a, b) => a.type == b.type ? a.name < b.name ? -1 : a.name > b.name ? 1 : 0 : a.type == 'directory' ? -1 : 1)
+    })
+  }
+
   public editElement(): void {
     let updateURL: string
-    if (!(this.editIconForm.value.image instanceof FileList) && this.editIconForm.value.image !== null) {
-      this.originalImage = String(this.editIconForm.value.image)
-      this.editIconForm.controls.image.setValue(null)
+    if (!(this.iconForm.value.image instanceof FileList) && this.iconForm.value.image !== null) {
+      this.originalImage = String(this.iconForm.value.image)
+      this.iconForm.controls.image.setValue(null)
     }
-    if (!this.isURLLocal(this.editIconForm.value.localUrl)) {
-      updateURL = this.editIconForm.value.url
+    if (!this.isURLLocal(this.iconForm.value.localUrl)) {
+      updateURL = this.iconForm.value.url
     } else {
-      updateURL = this.editIconForm.value.localUrl
+      updateURL = this.iconForm.value.localUrl
     }
-    this.menuService.editElement(this.editIconForm.value.id, this.editIconForm.value.name, this.editIconForm.value.icon, this.editIconForm.value.image, updateURL).then(success => {
-      let temp: any = this.currentDirectory.find((x => x.id == this.editIconForm.value.id))
-      temp.name = this.editIconForm.value.name
-      if (this.editIconForm.value.icon != null) {
-        temp.icon = this.editIconForm.value.icon
+    this.menuService.editElement(this.iconForm.value.id, this.iconForm.value.name, this.iconForm.value.icon, this.iconForm.value.image, updateURL).then(success => {
+      let temp: any = this.currentDirectory.find((x => x.id == this.iconForm.value.id))
+      temp.name = this.iconForm.value.name
+      if (this.iconForm.value.icon != null) {
+        temp.icon = this.iconForm.value.icon
         temp.image = null
         this.originalImage = null
         this.previewURL = null
       }
-      if (this.editIconForm.value.image != null && this.editIconForm.value.image !== String(this.editIconForm.value.image)) {
+      if (this.iconForm.value.image != null && this.iconForm.value.image !== String(this.iconForm.value.image)) {
         temp.image = success.image
         temp.icon = null
       } else {
         if (this.originalImage != null) {
-          this.editIconForm.controls.image.setValue(String(this.originalImage))
+          this.iconForm.controls.image.setValue(String(this.originalImage))
         }
       }
       if (temp.type == 'link' && updateURL != null && updateURL != '') {
@@ -228,33 +264,33 @@ export class DashboardComponent {
       let reader = new FileReader()
       reader.onload = (event: any) => {
         this.previewURL = event.target.result
-        this.editIconForm.controls.icon.setValue(null)
+        this.iconForm.controls.icon.setValue(null)
       }
       reader.readAsDataURL(event.target.files[0])
-      this.editIconForm.controls.image.setValue(event.target.files)
+      this.iconForm.controls.image.setValue(event.target.files)
     } else {
       this.previewURL = null
-      this.editIconForm.controls.image.setValue(null)
+      this.iconForm.controls.image.setValue(null)
     }
   }
 
   public onIconSelected(): void {
     this.previewURL = null
     this.originalImage = null
-    this.editIconForm.controls.image.setValue(null)
-    if (this.editIconForm.value.icon == '') {
-      this.editIconForm.controls.icon.setValue(null)
+    this.iconForm.controls.image.setValue(null)
+    if (this.iconForm.value.icon == '') {
+      this.iconForm.controls.icon.setValue(null)
     }
     $('.fileControl').val('')
   }
 
   public onURLChange(): void {
-    if (this.isURLLocal(this.editIconForm.value.localUrl)) {
-      this.editIconForm.controls.url.setValue(this.editIconForm.value.localUrl)
-      this.editIconForm.controls.url.disable()
+    if (this.isURLLocal(this.iconForm.value.localUrl)) {
+      this.iconForm.controls.url.setValue(this.iconForm.value.localUrl)
+      this.iconForm.controls.url.disable()
     } else {
-      this.editIconForm.controls.url.setValue('')
-      this.editIconForm.controls.url.enable()
+      this.iconForm.controls.url.setValue('')
+      this.iconForm.controls.url.enable()
     }
   }
 
