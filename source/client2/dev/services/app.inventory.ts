@@ -213,7 +213,6 @@ export class InventoryService {
         reorderForm,
         (response: any) => {
           if (response.meta.return_code == 0) {
-            console.log(response)
             loaderReorder.dismiss()
             resolve("server")
           } else {

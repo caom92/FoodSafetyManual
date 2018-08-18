@@ -9,6 +9,11 @@ mixin inventoryAreaEdit()
   button(mz-button, float='true', (click)="editArea()")
     i(mz-icon-mdi, [icon]="'pencil'")
 
+mixin inventoryAreaToggle()
+  td
+    mz-switch-container
+      input(mz-switch, type="checkbox", [(ngModel)]="toggleValue", (click)="toggleArea(area)")
+
 mixin inventoryAreaWrapper()
   if block
     block

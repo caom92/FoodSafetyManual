@@ -28,6 +28,10 @@ $service = [
           'type' => 'int',
           'min' => 1
         ],
+        'time' => [
+          'type' => 'datetime',
+          'format' => 'G:i'
+        ],
         'notes' => [
           'type' => 'string',
           'optional' => true,
@@ -78,6 +82,7 @@ $service = [
       $scope->daoFactory->get('gmp\packing\preop\AreaLogs')
         ->updateByCapturedLogIDAndAreaID(
           [
+            'time' => $area['time'],
             'notes' => $area['notes'],
             'person_performing_sanitation' => 
               $area['person_performing_sanitation']

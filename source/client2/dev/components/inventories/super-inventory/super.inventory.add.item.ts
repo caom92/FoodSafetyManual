@@ -42,9 +42,6 @@ export class SuperInventoryAddItemComponent {
           {
             text: this.ts.translate("Options.accept"),
             handler: () => {
-              console.log(data)
-              console.log(itemData)
-
               this.inventoryService.addItem(itemData, this.suffix).then(success => {
                 data.item.id = success
                 this.events.$pub("item:add", data)
@@ -56,7 +53,6 @@ export class SuperInventoryAddItemComponent {
     } else {
       this.inventoryService.setAsDirty(this.newItem)
       this.toastService.showText("itemAddFail")
-      console.log("New item not valid")
     }
   }
 }

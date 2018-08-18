@@ -247,19 +247,25 @@ export class EditUserInfoModalComponent extends UserInfoModalComponent {
           data.append('user_id', this.userData.id)
 
           let j = 0
-          for (let i in this.selectedPrivileges) {
-            data.append(
-              `privileges[${ j }][log_id]`, this.selectedPrivileges[i].logID
-            )
-            data.append(
-              `privileges[${ j++ }][privilege_id]`, 
-              this.selectedPrivileges[i].privilegeID
+          
+          if(Object.keys(this.selectedPrivileges).length !== 0) {
+            for (let i in this.selectedPrivileges) {
+              data.append(
+                `privileges[${ j }][log_id]`, this.selectedPrivileges[i].logID
+              )
+              data.append(
+                `privileges[${ j++ }][privilege_id]`, 
+                this.selectedPrivileges[i].privilegeID
+              )
+            }
+
+            this.server.update('edit-user-privileges', data, 
+              this.onEditUserPrivilegesResponse
             )
           }
 
-          this.server.update('edit-user-privileges', data, 
-            this.onEditUserPrivilegesResponse
-          )
+          this.progressModal.instance.modalComponent.close()
+          this.modalComponent.close()
         } else {
           this.toastManager.showText(this.langManager.getServiceMessage(
             'edit-user-role', response.meta.return_code

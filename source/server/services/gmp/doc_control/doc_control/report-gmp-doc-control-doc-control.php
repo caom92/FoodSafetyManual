@@ -99,8 +99,7 @@ $service = [
         'program_name' => "GMP",
         'module_name' => "Document Control",
         'log_name' => "Document Control",
-        'display_date' => 
-          "{$log['document_date']} {$log['document_name']}",
+        'display_date' => $log['document_name'],
         'reports' => [
           'document' => [
             'id' => $log['document_id'],

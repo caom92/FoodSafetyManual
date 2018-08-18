@@ -48,10 +48,10 @@ mixin sendLogButton(label)
 mixin authorizationButtonRow(sendLabel, authorizeLabel, deleteLabel, returnLabel)
   div(class="row")
     div(class="center col s12 m6 l3", style="margin-bottom: 20px;")
-      button(mz-button)= sendLabel + " "
+      button(mz-button, [disabled]="captureForm.pristine")= sendLabel + " "
         i(mz-icon-mdi, [icon]="'send'")
     div(class="center col s12 m6 l3", style="margin-bottom: 20px;")
-      button(mz-button, type="button", (click)='authorize()')= authorizeLabel + " "
+      button(mz-button, type="button", (click)='authorize()', [disabled]="!captureForm.pristine")= authorizeLabel + " "
         i(mz-icon-mdi, [icon]="'checkbox-marked-circle'")
     div(class="center col s12 m6 l3", style="margin-bottom: 20px;")
       button(mz-button, type="button", (click)='delete()')= deleteLabel + " "

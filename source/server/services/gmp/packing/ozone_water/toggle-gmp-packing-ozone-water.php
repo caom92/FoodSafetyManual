@@ -7,7 +7,7 @@ $service = fsm\createToggleService(
   'GMP',
   'Packing',
   'Ozone Water Test Log',
-  'gmp\packing\ozone\Machines'
+  'gmp\packing\ozone\MachinesFields'
 );
 
 ?>

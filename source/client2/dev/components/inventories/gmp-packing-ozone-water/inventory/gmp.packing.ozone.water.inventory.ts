@@ -3,8 +3,9 @@ import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula/components/dragula.provider'
 
+import { AreaManagerService } from '../../../../services/app.area.manager'
 import { InventoryService } from '../../../../services/app.inventory'
-import { SuperInventoryComponent } from '../../super-inventory/super.inventory'
+import { SuperInventoryByAreaComponent } from '../../super-inventory/super.inventory.by.area'
 import { InventoryItem } from '../interfaces/gmp.packing.ozone.water.inventory.interface'
 
 @Component({
@@ -12,14 +13,15 @@ import { InventoryItem } from '../interfaces/gmp.packing.ozone.water.inventory.i
   templateUrl: './gmp.packing.ozone.water.inventory.html'
 })
 
-export class GMPPackingOzoneWaterInventoryComponent extends SuperInventoryComponent implements OnInit, OnDestroy {
+export class GMPPackingOzoneWaterInventoryComponent extends SuperInventoryByAreaComponent implements OnInit, OnDestroy {
   @Language() private lang: string
   @Input() inventory: Array<InventoryItem> = []
 
   constructor(events: PubSubService,
     inventoryService: InventoryService,
-    dragulaService: DragulaService) {
-    super(events, inventoryService, dragulaService)
+    dragulaService: DragulaService,
+    areaManagerService: AreaManagerService) {
+    super(events, inventoryService, dragulaService, areaManagerService)
   }
 
   public ngOnInit(): void {
@@ -28,7 +30,7 @@ export class GMPPackingOzoneWaterInventoryComponent extends SuperInventoryCompon
   }
 
   public onInventoryUpdate(): void {
-    // Se debe reimplmentar para evitar que se lance la excepción
+
   }
 
   public checkEmptyInventory(): boolean {

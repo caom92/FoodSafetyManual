@@ -31,6 +31,9 @@ export class SuperAuthorizationComponent implements OnInit {
   public ngOnInit(): void {
     this.assignHeaderData()
     this.showLog = true
+    setTimeout(function () {
+      $('select').material_select()
+    }, 200)
   }
 
   /**
@@ -105,6 +108,7 @@ export class SuperAuthorizationComponent implements OnInit {
     if (this.captureForm.valid) {
       this.logService.update(this.captureForm.value, 'update-' + this.suffix).then(success => {
         // Si la promesa regresa como valida, quiere decir que la bitácora fue enviada con éxito
+        this.captureForm.markAsPristine()
         this.enableForm()
       }, error => {
         this.enableForm()

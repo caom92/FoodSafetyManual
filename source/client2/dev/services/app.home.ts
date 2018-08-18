@@ -146,12 +146,12 @@ export class HomeElementsService
   // Informacion de la zona del usuario
   private _zone = {
     id: (localStorage.zone_id !== undefined) ? 
-      localStorage.zone_id : null,
+      Number(localStorage.zone_id) : null,
     name: (localStorage.zone_name !== undefined) ? 
       localStorage.zone_name : null
   }
   set zoneID(value: number) {
-    this._zone.id = value
+    this._zone.id = Number(value)
     localStorage.zone_id = value
   }
   set zoneName(value: string) {
@@ -207,8 +207,10 @@ export class HomeElementsService
       JSON.parse(localStorage.programs)
       : []
   set programs(value: object) {
-    this._programs = value
-    localStorage.programs = JSON.stringify(value)
+    if (value !== undefined) {
+      this._programs = value
+      localStorage.programs = JSON.stringify(value)
+    }    
   }
   get programs() {
     return this._programs

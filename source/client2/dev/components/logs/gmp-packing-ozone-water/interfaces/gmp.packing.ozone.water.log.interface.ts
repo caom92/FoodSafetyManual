@@ -7,4 +7,13 @@ export interface Log extends SuperLog {
 export interface LogItem {
   id: number
   name: string
+  fields: Array<LogField>
+}
+
+export interface LogField {
+  id: number
+  position: number
+  name_en: string
+  name_es: string
+  field_id: number
 }

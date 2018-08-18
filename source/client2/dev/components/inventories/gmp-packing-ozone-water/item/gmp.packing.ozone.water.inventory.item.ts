@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { InventoryItem } from '../interfaces/gmp.packing.ozone.water.inventory.interface'
-import { SuperInventoryItemComponent } from '../../super-inventory/super.inventory.item'
+import { Language } from 'angular-l10n'
+
 import { InventoryService } from '../../../../services/app.inventory'
+import { SuperInventoryItemComponent } from '../../super-inventory/super.inventory.item'
+import { InventoryItem } from '../interfaces/gmp.packing.ozone.water.inventory.interface'
 
 @Component({
   selector: '[gmp-packing-ozone-water-inventory-item]',
@@ -9,7 +11,8 @@ import { InventoryService } from '../../../../services/app.inventory'
 })
 
 export class GMPPackingOzoneWaterInventoryItemComponent extends SuperInventoryItemComponent implements OnInit {
-  @Input() item: InventoryItem
+  @Language() lang: string
+  @Input() item: InventoryItem = null
 
   constructor(inventoryService: InventoryService) {
     super(inventoryService)

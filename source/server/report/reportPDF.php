@@ -155,10 +155,19 @@ try {
         $footer = (isset($report->footer)) ? '<br><br>'.$report->footer : '';
 
         // prepare the HTML to display in the body
-        $html = $style.$header.$report->body.$footer;
+        //$html = $style.$header.$report->body.$footer;
+        $htmlHeader = $style.$header;
+        $htmlBody = $style.$report->body;
+        $htmlFooter = $style.$footer;
 
         // print the result to the document
-        $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+        //$pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+        $pdf->SetFont('helvetica', '', 10, '', true);
+        $pdf->writeHTMLCell(0, 0, '', '', $htmlHeader, 0, 1, 0, true, '', true);
+        $pdf->SetFont('helvetica', '', $fontsize, '', true);
+        $pdf->writeHTMLCell(0, 0, '', '', $htmlBody, 0, 1, 0, true, '', true);
+        $pdf->SetFont('helvetica', '', 10, '', true);
+        $pdf->writeHTMLCell(0, 0, '', '', $htmlFooter, 0, 1, 0, true, '', true);
 
         if (strlen($_POST['signature']) > 0) {
             $pdf->closing($_POST['supervisor']);

@@ -39,9 +39,7 @@ export class LogListComponent implements OnInit
     }
     /*this.logs = Object.keys(
       this.home.privileges[zone][program].suffixes[module]
-    )
-    console.log(this.home.privileges[zone][program].suffixes[module])*/
+    )*/
     this.logs.splice(0, 1)
-    console.log(this.logs)
   }
 }

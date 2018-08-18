@@ -91,9 +91,9 @@ export class GMPPackingFinishedProductLogComponent extends SuperLogComponent imp
   }
 
   public removeEntry(): void {
-    let control = <FormArray>this.captureForm.controls['areas']
+    let control = <FormArray>this.captureForm.controls['entries']
     if (control.controls.length > 1) {
-      let control = <FormArray>this.captureForm.controls['areas']
+      let control = <FormArray>this.captureForm.controls['entries']
       control.controls.pop()
       this.logService.refreshFormGroup(this.captureForm)
     }

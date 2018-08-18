@@ -57,21 +57,27 @@ $service = [
       $updateValues['url'] = $request['url'];
     }
 
-    if ($arrayElementExists($request, 'image')) {
-      $updateValues['image'] = $request['image'];
+    if ($arrayElementExists($request, 'icon')) {
+      $updateValues['icon'] = $request['icon'];
+      $updateValues['image'] = NULL;
     }
 
-    if (count($_FILES['image']) > 0) {
-      $menuItem = $itemsTable->getById($request['id']);
-      $parentDir = ($isDirectory) ? "directories/" : "links/";
-      $parentDir = __DIR__."/../../../../data/menu/$parentDir/";
+    if ($arrayElementExists($request, 'image')) {
+      $updateValues['image'] = $request['image'];
+      $updateValues['icon'] = NULL;
+    }
 
-      if ($arrayElementExists($menuItem, 'image')) {
-        @unlink(realpath("$parentDir/{$menuItem['image']}"));
+    if (isset($_FILES['image'])) {
+      if (count($_FILES['image']) > 0) {
+        $menuItem = $itemsTable->getById($request['id']);
+        $parentDir = ($isDirectory) ? "directories/" : "links/";
+        $parentDir = __DIR__."/../../../../data/menu/$parentDir/";
+        if ($arrayElementExists($menuItem, 'image')) {
+          @unlink(realpath("$parentDir/{$menuItem['image']}"));
+        }
+        $updateValues['image'] = 
+          $storeUploadedFileInServer('image', realpath($parentDir));
       }
-
-      $updateValues['image'] = 
-        $storeUploadedFileInServer('image', realpath($parentDir));
     }
 
     return $itemsTable->updateById($request['id'], $updateValues);

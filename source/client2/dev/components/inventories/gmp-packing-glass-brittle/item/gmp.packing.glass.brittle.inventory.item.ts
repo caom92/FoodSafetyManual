@@ -19,7 +19,6 @@ export class GMPPackingGlassBrittleInventoryItemComponent extends SuperInventory
   }
 
   public ngOnInit(): void {
-    console.log(this.item)
     this.setSuffix("gmp-packing-glass-brittle")
     this.setToggleValue(this.item.is_active == 1)
   }

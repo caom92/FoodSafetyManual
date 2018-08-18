@@ -41,8 +41,6 @@ export class GMPPackingGlassBrittleAreaInventoryAreaComponent extends SuperInven
 
   public confirm(): void {
     let form: SuperInventoryEditAreaInterface = { area_id: null, area_name: null }
-    console.log("confirm")
-    console.log(this.area)
     form.area_id = this.area.id
     form.room_id = this.area.id
     form.area_name = this.newArea.value.name

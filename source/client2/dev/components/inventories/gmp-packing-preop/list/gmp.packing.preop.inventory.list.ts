@@ -27,7 +27,6 @@ export class GMPPackingPreopInventoryListComponent extends SuperInventoryListCom
   }
 
   public ngOnInit(): void {
-    console.log(this.type)
     this.setBagName(this.type.en)
     this.setSuffix("gmp-packing-preop")
     this.setInventory(this.type.inventory)
