@@ -232,5 +232,31 @@
             "type_required": "Debe especificar el tipo del objeto",
             "quantity_required": "La cantidad de elementos del objeto es requerido"
         }
+    },
+    "MenuComponent": {
+        "menu": "Menú",
+        "add_element": "Agregar directorio/enlace",
+        "new_element": "Nuevo directorio/enlace",
+        "edit_element": "Editar directorio/enlace",
+        "directory": "Directorio",
+        "link": "Enlace",
+        "icon": "Icono",
+        "default_option": "Opción por defecto",
+        "image": "Imagen",
+        "name": "Nombre",
+        "preview": "Vista previa",
+        "add": "Agregar",
+        "edit": "Editar",
+        "cancel": "Cancelar",
+        "address": "Dirección",
+        "choose_address": "Seleccione dirección",
+        "log": "Bitácora",
+        "inventory": "Inventario",
+        "external_address": "Dirección externa",
+        "loading_directory": "Cargando directorio...",
+        "empty_directory": "Directorio vacío",
+        "invalid_directory": "Directorio no valido",
+        "network_error": "Error en la red",
+        "retry": "Reintentar"
     }
 }

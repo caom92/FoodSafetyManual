@@ -232,5 +232,31 @@
             "type_required": "You must indicate the item's type",
             "quantity_required": "You must indicate the quantity of this item"
         }
+    },
+    "MenuComponent": {
+        "menu": "Menu",
+        "add_element": "Add directory/link",
+        "new_element": "New directory/link",
+        "edit_element": "Edit directory/link",
+        "directory": "Directory",
+        "link": "Link",
+        "icon": "Icon",
+        "default_option": "Default option",
+        "image": "Image",
+        "name": "Name",
+        "preview": "Preview",
+        "add": "Add",
+        "edit": "Edit",
+        "cancel": "Cancel",
+        "address": "Address",
+        "choose_address": "Choose an adress",
+        "log": "Log",
+        "inventory": "Inventory",
+        "external_address": "External address",
+        "loading_directory": "Loading directory...",
+        "empty_directory": "Empty directory",
+        "invalid_directory": "Invalid directory",
+        "network_error": "Network error",
+        "retry": "Retry"
     }
 }

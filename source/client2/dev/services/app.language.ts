@@ -52,6 +52,7 @@ export class LanguageService {
       sideNavOptions: {
         users: 'Usuarios',
         zones: 'Zonas',
+        menu: 'Menú',
         programs: 'Bitácoras',
         supervisors: 'Supervisores',
         signatures: 'Firmas',
@@ -507,6 +508,7 @@ export class LanguageService {
       sideNavOptions: {
         users: 'Users',
         zones: 'Zones',
+        menu: 'Menu',
         programs: 'Logs',
         supervisors: 'Supervisors',
         signatures: 'Signatures',
@@ -894,6 +896,7 @@ export class LanguageService {
     sideNavOptions: {
       users: null,
       zones: null,
+      menu: null,
       programs: null,
       supervisors: null,
       signatures: null,

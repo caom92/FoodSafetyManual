@@ -1,6 +1,7 @@
 import { Component } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { StateService } from '@uirouter/core'
+import { Language } from 'angular-l10n'
 
 import { AlertController } from '../../services/alert/app.alert'
 import { HomeElementsService } from '../../services/app.home'
@@ -13,6 +14,7 @@ import { DashboardDirectory, DashboardFile, LocalURL } from './dashboard.interfa
 })
 
 export class DashboardComponent {
+  @Language() lang: string
   dashboardIcons: Array<DashboardDirectory | DashboardFile> = []
   currentDirectory: Array<DashboardDirectory | DashboardFile> = []
   parentDirectoryID: number = null
@@ -37,7 +39,6 @@ export class DashboardComponent {
 
   ngOnInit() {
     this.initLocalURLs()
-    console.log(this.localURLs)
 
     if (this.serverDirectory == null) {
       this.getMenu()
@@ -90,7 +91,7 @@ export class DashboardComponent {
           }
         }
       }
-      console.log('matches', matches)
+
       if (matches != this.directories.length) {
         this.currentDirectory = []
         this.errorDirectory = true
@@ -161,8 +162,6 @@ export class DashboardComponent {
   }
 
   public enableAddMode(): void {
-    console.log(this.currentDirectory)
-
     this.addMode = true
 
     this.iconForm = this.formBuilder.group({
@@ -176,6 +175,8 @@ export class DashboardComponent {
     })
 
     this.iconForm.controls.url.disable()
+
+    this.refreshSelect()
   }
 
   public enableEditMode(element: DashboardDirectory | DashboardFile): void {
@@ -189,9 +190,7 @@ export class DashboardComponent {
     }
     if (element.icon !== undefined && element.icon !== null) {
       this.iconForm.controls.icon.setValue(element.icon)
-      setTimeout(() => {
-        $('select').material_select()
-      })
+      this.refreshSelect()
     }
     if ((element as DashboardFile).url !== undefined) {
       this.iconForm.controls.url.setValue((element as DashboardFile).url)
@@ -203,6 +202,8 @@ export class DashboardComponent {
         this.iconForm.controls.url.enable()
       }
     }
+
+    this.refreshSelect()
   }
 
   public addElement(): void {
@@ -217,7 +218,7 @@ export class DashboardComponent {
       updateURL = this.iconForm.value.localUrl
     }
     this.menuService.addElement(this.iconForm.value.name, this.iconForm.value.type, this.parentDirectoryID, this.iconForm.value.icon, this.iconForm.value.image, updateURL).then(success => {
-      // TODO: Añadir lógica para que el elemento añadido sea visible al terminar la adición
+      this.currentDirectory.push(success)
       this.cancelForm()
       this.currentDirectory.sort((a, b) => a.type == b.type ? a.name < b.name ? -1 : a.name > b.name ? 1 : 0 : a.type == 'directory' ? -1 : 1)
     })
@@ -300,5 +301,11 @@ export class DashboardComponent {
     this.previewURL = null
     this.editMode = false
     this.addMode = false
+  }
+
+  public refreshSelect(): void {
+    setTimeout(function () {
+      $('select').material_select()
+    }, 200)
   }
 }

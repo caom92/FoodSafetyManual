@@ -79,7 +79,11 @@ $getAddMenuItemCallback = function($getInsertValues)
       $request, $segment, $image
     ));
 
-    return $menuItemsTable->getById($itemId);
+    $ret = ($menuItemsTable->getById($itemId));
+    $ret['children'] = [];
+    $ret['type'] = (boolval($menuItemsTable->getById($itemId)['is_directory'])) ? 'directory' : 'link';
+
+    return $ret;
   };
 };
 

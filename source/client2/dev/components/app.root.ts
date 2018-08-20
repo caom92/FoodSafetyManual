@@ -420,8 +420,8 @@ import { DashboardComponent } from './dashboard/dashboard.component'
           component: ProductDataViewerComponent
         },
         {
-          name: 'dashboard',
-          url: '/dashboard/*path',
+          name: 'menu',
+          url: '/menu/*path',
           component: DashboardComponent
         }
       ],

@@ -73,6 +73,10 @@ include globals.pug
     )
       i.mdi.mdi-file-document-box.mdi-24px
       ='QC Score Card'
+  mz-sidenav-link()
+    +uiRouterLink('menu')(class='side-menu-link waves-effect waves-green', [uiParams]='{ path: "" }')
+      i.mdi.mdi-view-dashboard.mdi-24px
+      ='{{ langManager.messages.sideNavOptions.menu }}'
   
   //- Menu de navegacion para el administrador
   mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
