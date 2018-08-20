@@ -74,9 +74,12 @@ $getAddMenuItemCallback = function($getInsertValues)
     }
 
     $segment = $scope->session->getSegment('fsm');
-    $scope->daoFactory->get('MenuItems')->insert($getInsertValues(
+    $menuItemsTable = $scope->daoFactory->get('MenuItems');
+    $itemId = $menuItemsTable->insert($getInsertValues(
       $request, $segment, $image
     ));
+
+    return $menuItemsTable->getById($itemId);
   };
 };
 
