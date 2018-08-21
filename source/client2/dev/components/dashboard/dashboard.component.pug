@@ -3,20 +3,20 @@ h5
   span(*ngIf="router.params.path == ''") {{ 'MenuComponent.menu' | translate:lang }}
   span(*ngFor='let cur of directories; let last = last; let index = index')
     |  > 
-    a([href]="'#/menu' + breadcrumbs[index]", *ngIf='last != true')
-      | {{cur | slice:0:5}}
-      span(*ngIf='cur.length > 5') …
+    a([href]="'#/menu' + breadcrumbs[index]", *ngIf='last != true') {{cur}}
+      //-| {{cur | slice:0:5}}
+      //-span(*ngIf='cur.length > 5') …
     span(*ngIf='last == true') {{cur}}
 .row(*ngIf='addMode === false && editMode === false')
   ng-template(ngFor, [ngForOf]='currentDirectory', let-icon)
-    .col.s6.m3.l3
+    .col.s6.m3.l2
       div(*ngIf="icon.type == 'link'")
         mz-card
           mz-card-content
             a(style='color: #FFF;', (click)='enableEditMode(icon)', *ngIf='editMode == false')
-              i.waves-effect.waves-light.green.edit-dashboard-element(mz-icon-mdi, [icon]="'pencil'", [size]="'24px'")
+              i.waves-effect.waves-light.green.edit-dashboard-element(mz-icon-mdi, [icon]="'pencil'", [size]="'18px'")
             a(style='color: #FFF;', (click)='deleteElement(icon)', *ngIf='editMode == false')
-              i.waves-effect.waves-light.red.delete-dashboard-element(mz-icon-mdi, [icon]="'close'", [size]="'24px'")
+              i.waves-effect.waves-light.red.delete-dashboard-element(mz-icon-mdi, [icon]="'close'", [size]="'18px'")
             a([href]='icon.url', style='color: inherit;')
               div(*ngIf='icon.image != null', style='margin-bottom: 1em;')
                 div
@@ -31,12 +31,12 @@ h5
               div(style='height: 2em; line-height: 1em; overflow: hidden; text-overflow: ellipsis; text-align: center;')
                 | {{icon.name}}
       div(*ngIf="icon.type == 'directory'")
-        mz-card.blue-grey.darken-1.white-text
+        mz-card.blue-grey.lighten-4
           mz-card-content
             a(style='color: #FFF;', (click)='enableEditMode(icon)', *ngIf='editMode == false')
-              i.waves-effect.waves-light.green.edit-dashboard-element(mz-icon-mdi, [icon]="'pencil'", [size]="'24px'")
+              i.waves-effect.waves-light.green.edit-dashboard-element(mz-icon-mdi, [icon]="'pencil'", [size]="'18px'")
             a(style='color: #FFF;', (click)='deleteElement(icon)', *ngIf='editMode == false')
-              i.waves-effect.waves-light.red.delete-dashboard-element(mz-icon-mdi, [icon]="'close'", [size]="'24px'")
+              i.waves-effect.waves-light.red.delete-dashboard-element(mz-icon-mdi, [icon]="'close'", [size]="'18px'")
             a([href]="(router.params.path != '') ? '#/menu/' + router.params.path + '/' + icon.name : '#/menu/' + icon.name", style='color: inherit;')
               div(*ngIf='icon.image != null', style='margin-bottom: 1em;')
                 div
@@ -50,7 +50,7 @@ h5
                 i(mz-icon-mdi, [icon]="'folder'", [size]="'48px'")
               div(style='height: 2em; line-height: 1em; overflow: hidden; text-overflow: ellipsis; text-align: center;')
                 | {{icon.name}}
-  .col.s6.m3.l3(*ngIf='errorDirectory === false && loadingDirectory === false && errorNetwork === false && editMode === false')
+  .col.s6.m3.l2(*ngIf='errorDirectory === false && loadingDirectory === false && errorNetwork === false && editMode === false')
     mz-card(style='background-color: #b1dcfb;')
       mz-card-content
         a(style='color: inherit; cursor: pointer;', (click)='enableAddMode()')
@@ -126,7 +126,7 @@ div(*ngIf='addMode === true')
         .col.s6.m6.l6([hidden]="!(iconForm.value.type == 'link') || iconForm.controls.url.disabled")
           mz-input-container
             input(mz-input, [label]="'URL'", id='url-edit', type='text', formControlName='url')
-    .col.s6.m3.l3
+    .col.s6.m3.l2
       h5.center {{ 'MenuComponent.preview' | translate:lang }}
       div(*ngIf="iconForm.value.type == 'link'")
         mz-card
@@ -145,7 +145,7 @@ div(*ngIf='addMode === true')
             div(style='height: 2em; line-height: 1em; overflow: hidden; text-overflow: ellipsis; text-align: center;')
               | {{iconForm.value.name}}
       div(*ngIf="iconForm.value.type == 'directory'")
-        mz-card.blue-grey.darken-1.white-text
+        mz-card.blue-grey.lighten-4
           mz-card-content
             div(*ngIf='originalImage !== null || previewURL !== null', style='margin-bottom: 1em;')
               div
@@ -207,7 +207,7 @@ div(*ngIf='editMode === true')
         .col.s6.m6.l6([hidden]="!(iconForm.value.type == 'link') || iconForm.controls.url.disabled")
           mz-input-container
             input(mz-input, [label]="'URL'", id='url-edit', type='text', formControlName='url')
-    .col.s6.m3.l3
+    .col.s6.m3.l2
       h5.center {{ 'MenuComponent.preview' | translate:lang }}
       div(*ngIf="iconForm.value.type == 'link'")
         mz-card
@@ -226,7 +226,7 @@ div(*ngIf='editMode === true')
             div(style='height: 2em; line-height: 1em; overflow: hidden; text-overflow: ellipsis; text-align: center;')
               | {{iconForm.value.name}}
       div(*ngIf="iconForm.value.type == 'directory'")
-        mz-card.blue-grey.darken-1.white-text
+        mz-card.blue-grey.lighten-4
           mz-card-content
             div(*ngIf='originalImage !== null || previewURL !== null', style='margin-bottom: 1em;')
               div
