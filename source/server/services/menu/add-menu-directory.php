@@ -8,7 +8,7 @@ $arrayElementExists = function($array, $key) {
 
 $service = [
   'requirements_desc' => $requirementsDesc,
-  'callback' => $getAddMenuItemCallback(
+  'callback' => $getAddMenuItemCallback(TRUE, 
     function($request, $segment, $image) use ($arrayElementExists) {
       if ($arrayElementExists($request, 'parent_id')) {
         $parentId = (strlen($request['parent_id']) > 0) ?

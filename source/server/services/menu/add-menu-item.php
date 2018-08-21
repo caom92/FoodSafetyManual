@@ -49,11 +49,11 @@ $requirementsDesc = [
   ]
 ];
 
-$getAddMenuItemCallback = function($getInsertValues) 
+$getAddMenuItemCallback = function($isDirectory, $getInsertValues) 
   use ($getFileSysSlash, $storeUploadedFileInServer) {
     
   return function($scope, $request) 
-    use ($getFileSysSlash, $getInsertValues, $storeUploadedFileInServer) {
+    use ($getFileSysSlash, $getInsertValues, $storeUploadedFileInServer, $isDirectory) {
 
     $hasForwardSlash = strstr($request['name'], '/') !== FALSE;
     $hasBackwardSlash = strstr($request['name'], '\\') !== FALSE;
@@ -64,9 +64,10 @@ $getAddMenuItemCallback = function($getInsertValues)
     }
 
     if (isset($_FILES['image'])) {
+      $parentDir = ($isDirectory) ? "directories" : "links";
       $image = (count($_FILES['image']) > 0) ? 
         $storeUploadedFileInServer(
-          'image', realpath(__DIR__.'/../../../../data/menu/directories')
+          'image', realpath(__DIR__."/../../../../data/menu/$parentDir")
         )
         : NULL;
     } else {
