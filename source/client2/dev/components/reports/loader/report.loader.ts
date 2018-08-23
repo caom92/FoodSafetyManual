@@ -1,7 +1,5 @@
-import { Component, ComponentFactoryResolver, Input, OnDestroy, OnInit } from '@angular/core'
+import { Component, ComponentFactoryResolver, Input, OnInit } from '@angular/core'
 import { Language, TranslationService as TS, DefaultLocale } from 'angular-l10n'
-import { PubSubService } from 'angular2-pubsub'
-import { Subscription } from 'rxjs/Subscription'
 
 import { GAPOthersUnusualOccurrenceReportComponent } from '../gap-others-unusual-occurrence/report/gap.others.unusual.occurrence.report'
 import { GAPPackingPreopReportComponent } from '../gap-packing-preop/report/gap.packing.preop.report'
@@ -20,7 +18,7 @@ import { GMPPackingScissorsKnivesReportComponent } from '../gmp-packing-scissors
 import { GMPPackingThermoCalibrationReportComponent } from '../gmp-packing-thermo-calibration/report/gmp.packing.thermo.calibration.report'
 import { GMPSelfInspectionPestControlReportComponent } from '../gmp-self-inspection-pest-control/report/gmp.self.inspection.pest.control.report'
 import { Preview } from '../preview/report.preview.interface'
-import { ReportRequest } from '../reports.interface'
+import { ReportRequest, ActiveReport } from '../reports.interface'
 import { SuperReportComponent } from '../super-report/super.report'
 import { SuperReportInterface } from '../super-report/super.report.interface'
 import { DynamicComponentResolver } from './../../dynamic.resolver'
@@ -30,9 +28,9 @@ import { DynamicComponentResolver } from './../../dynamic.resolver'
   templateUrl: './report.loader.html'
 })
 
-export class ReportLoader extends DynamicComponentResolver implements OnInit, OnDestroy {
+export class ReportLoader extends DynamicComponentResolver implements OnInit {
   @Input() private report: SuperReportInterface = null
-  @Input() private activeReport: string = 'any'
+  @Input() private activeReport: ActiveReport
   @Input() private suffix: string
   @Input() private footer: string
   @Language() private lang: string
@@ -69,18 +67,13 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
     'gmp-self-inspection-pest-control': GMPSelfInspectionPestControlReportComponent,
     'gmp-packing-ozone-water': GMPPackingOzoneWaterReportComponent
   }
-  reportEvent: Subscription
   preview: Array<Preview> = null
 
-  constructor(factoryResolver: ComponentFactoryResolver, private events: PubSubService, private ts: TS) {
+  constructor(factoryResolver: ComponentFactoryResolver, private ts: TS) {
     super(factoryResolver)
   }
 
   public ngOnInit(): void {
-    this.reportEvent = this.events.$sub('reportEvent', (activeReport) => {
-      this.activeReport = activeReport.activeReport
-    })
-
     if (this.reportComponents[this.suffix] != undefined && this.reportComponents[this.suffix] != null) {
       this.loaderComponent = this.loadComponent(this.reportComponents[this.suffix], {
         report: this.report,
@@ -134,15 +127,11 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit, On
 
   public openHTMLReport(): void {
     this.showReport = true
-    this.events.$pub('reportEvent', { activeReport: this.report.report_id, time: Date.now() })
+    this.activeReport.id = this.report.report_id
   }
 
   public closeHTMLReport(): void {
     this.showReport = false
-    this.events.$pub('reportEvent', { activeReport: 'any', time: Date.now() })
-  }
-
-  public ngOnDestroy(): void {
-    this.reportEvent.unsubscribe()
+    this.activeReport.id = 'any'
   }
 }

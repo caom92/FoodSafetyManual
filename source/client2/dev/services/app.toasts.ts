@@ -1,6 +1,5 @@
 import { Injectable, OnInit } from '@angular/core'
 import { MzToastService } from 'ng2-materialize'
-import { PubSubService } from 'angular2-pubsub'
 import { Language } from 'angular-l10n'
 
 // Servicio que despliega mensajes en la pantalla para informar al usuario 
@@ -123,27 +122,18 @@ export class ToastsService implements OnInit {
 
   // El constructor de este servicio
   // hacemos uso del servicio de materialize para desplegar toasts
-  constructor(private toastService: MzToastService, public events: PubSubService) {
-    this.events.$sub("language:changed").subscribe(({lang: lang, time: time}) => {
-      this.lang = lang
-    })
-
-    this.events.$sub("user:loggedIn").subscribe(({lang: lang, time: time}) => {
-      this.lang = lang
-    })
-
+  constructor(private toastService: MzToastService) {
     this.ngOnInit()
   }
 
   ngOnInit() {
-    let lang = localStorage.lang
+    let lang = localStorage.getItem('lang')
 
     if (lang == 'en' || lang == 'es') {
       this.lang = lang
     } else {
       this.lang = 'es'
-      localStorage.lang = "es"
-      this.events.$pub("language:changed", {lang: "es", time: Date.now()})
+      localStorage.setItem('lang', 'es')
     }
   }
 

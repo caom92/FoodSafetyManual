@@ -13,3 +13,7 @@ export interface ReportRequest {
   fontsize?: string
   images?: any
 }
+
+export interface ActiveReport {
+  id: any
+}

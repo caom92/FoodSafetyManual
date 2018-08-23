@@ -1,27 +1,23 @@
-import { Component, ComponentFactoryResolver, ViewChildren, OnDestroy, OnInit } from '@angular/core'
+import { Component, ComponentFactoryResolver, OnInit, ViewChildren } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms'
 import { DomSanitizer } from '@angular/platform-browser'
-//import { Storage } from '@ionic/storage'
+import { StateService } from '@uirouter/core'
 import { Language, TranslationService as TService } from 'angular-l10n'
-//import { Events, LoadingController, NavController, NavParams } from 'ionic-angular'
 import { Observable } from 'rxjs/Rx'
 
-import { DynamicComponentResolver } from './../dynamic.resolver'
 import { BackendService } from '../../services/app.backend'
-import { TranslationService } from '../../services/app.translation'
-import { ReportRequest } from './reports.interface'
-import { PubSubService } from 'angular2-pubsub'
-import { StateService } from '@uirouter/core'
-import { Subscription } from 'rxjs/Subscription'
 import { LoaderService } from '../../services/app.loaders'
 import { ToastsService } from '../../services/app.toasts'
+import { TranslationService } from '../../services/app.translation'
+import { DynamicComponentResolver } from './../dynamic.resolver'
+import { ActiveReport, ReportRequest } from './reports.interface'
 
 @Component({
   selector: 'report',
   templateUrl: 'reports.html'
 })
 
-export class ReportTab extends DynamicComponentResolver implements OnInit, OnDestroy {
+export class ReportTab extends DynamicComponentResolver implements OnInit {
   @Language() lang: string
   @ViewChildren("reports") pdfReports: any = {
     _results: []
@@ -75,8 +71,7 @@ export class ReportTab extends DynamicComponentResolver implements OnInit, OnDes
   reportSuffix: string = ""
   reportFooter: string = ""
   reports: Array<any> = []
-  activeReport: string = "any"
-  reportEvent: Subscription
+  activeReport: ActiveReport = { id: 'any' }
   documentList: any = null
 
   dateRangeForm: FormGroup = this.formBuilder.group({
@@ -86,7 +81,6 @@ export class ReportTab extends DynamicComponentResolver implements OnInit, OnDes
   })
 
   constructor(private translationService: TranslationService,
-    public events: PubSubService,
     private sanitizer: DomSanitizer,
     private server: BackendService,
     private formBuilder: FormBuilder,
@@ -96,17 +90,11 @@ export class ReportTab extends DynamicComponentResolver implements OnInit, OnDes
     private loaderService: LoaderService,
     private toastService: ToastsService) {
     super(factoryResolver)
-    //events.subscribe("reportEvent", (activeReport, time) => {
-      //this.activeReport = activeReport
-    //})
+
   }
 
   ngOnInit() {
     this.reportSuffix = this.router.params.suffix
-
-    this.reportEvent = this.events.$sub("reportEvent").subscribe((from) => {
-      this.activeReport = from.activeReport
-    })
 
     if (this.reportSuffix == 'gmp-doc-control-doc-control') {
       this.server.update(
@@ -117,10 +105,6 @@ export class ReportTab extends DynamicComponentResolver implements OnInit, OnDes
         }
       ) 
     }
-  }
-
-  ngOnDestroy() {
-    this.reportEvent.unsubscribe()
   }
 
   showChildren() {
@@ -162,10 +146,32 @@ export class ReportTab extends DynamicComponentResolver implements OnInit, OnDes
               this.toastService.showText("noReportsFound")
             } else {
               this.reports = response.data.reports
+              /*
+              //console.log(this.reports)
+              //let temp = this.groupBy((this.reports as any).items, "id")
+              //console.log('grouped reports')
+              let allItems: Array<any> = []
+              for (let report of this.reports) {
+                for (let item of report.items) {
+                  item.creation_date = report.creation_date
+                  allItems.push(item)
+                }
+                //console.log(report.creation_date)
+                //console.log(report.items)
+              }
+              //console.log('end grouped reports')
+              //console.log(allItems)
+              //console.log(this.groupBy(allItems, 'id'))
+              //console.log('end grouped items')
+              //console.log(temp)
+              console.log('all items')
+              console.log(response.data.all_items)
+              console.log('end all items')*/
+              console.log(response.data.pdf_footer)
               this.reportFooter = response.data.pdf_footer
-              this.activeReport = "any"
+              this.activeReport.id = 'any'
             }
-            this.events.$pub("reportEvent", { activeReport: "any", time: Date.now() })
+            this.activeReport.id = 'any'
             reportLoader.dismiss()
           }
         } else {
@@ -179,5 +185,21 @@ export class ReportTab extends DynamicComponentResolver implements OnInit, OnDes
         return []
       }
     )
+  }
+
+  groupBy(collection, property) {
+    var i = 0, val, index,
+      values = [], result = []
+    for (; i < collection.length; i++) {
+      val = collection[i][property]
+      index = values.indexOf(val)
+      if (index > -1)
+        result[index].push(collection[i])
+      else {
+        values.push(val)
+        result.push([collection[i]])
+      }
+    }
+    return result
   }
 }
