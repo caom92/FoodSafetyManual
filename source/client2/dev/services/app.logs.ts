@@ -80,6 +80,10 @@ export class LogService {
           form_data.append(key, "1")
         } else if (flatObj[key] === false) {
           form_data.append(key, "0")
+        } else if (flatObj[key] instanceof FileList) {
+          for (let file of flatObj[key]) {
+            form_data.append(key, file, file.name)
+          }
         } else {
           form_data.append(key, flatObj[key])
         }
@@ -290,6 +294,10 @@ export class LogService {
           form_data.append(key, "1")
         } else if (flatObj[key] === false) {
           form_data.append(key, "0")
+        } else if (flatObj[key] instanceof FileList) {
+          for (let file of flatObj[key]) {
+            form_data.append(key, file, file.name)
+          }
         } else {
           form_data.append(key, flatObj[key])
         }
@@ -357,12 +365,18 @@ export class LogService {
           recurse(value[i], key + '[' + i + ']')
         if (l == 0) result[key] = []
       } else {
-        var isEmpty = true
-        for (var k in value) {
-          isEmpty = false
-          recurse(value[k], key ? key + '[' + k + ']' : k)
+        if (value instanceof FileList) {
+          result[key] = value
+        } else {
+          var isEmpty = true
+          for (var k in value) {
+            isEmpty = false
+            recurse(value[k], key ? key + '[' + k + ']' : k)
+          }
+          if (isEmpty && key) {
+            result[key] = {}
+          }
         }
-        if (isEmpty && key) result[key] = {}
       }
     }
 
