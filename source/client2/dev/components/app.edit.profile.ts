@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core'
-import { HomeElementsService } from '../services/app.home'
-import { BackendService } from '../services/app.backend'
-import { ToastService } from '../services/app.toast'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { MzModalService } from 'ng2-materialize'
+
+import { BackendService } from '../services/app.backend'
+import { HomeElementsService } from '../services/app.home'
 import { LanguageService } from '../services/app.language'
-import { MzModalService, MzBaseModal } from 'ng2-materialize'
+import { ToastService } from '../services/app.toast'
 import { ProgressModalComponent } from './modal.please.wait'
 
 // Componente que define el comportamiento de la pagina de editar perfil de 

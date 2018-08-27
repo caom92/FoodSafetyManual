@@ -30,13 +30,7 @@ import { UsersComponent } from './app.users'
 
 import { DynamicComponentContainerDirective } from '../directives/dynamic.container'
 
-import { ReportDisplayer } from './app.report.displayer.component'
-
 import { ReportLoader } from './reports/loader/report.loader'
-
-// Importamos el cargador de bitácoras
-
-import { LogLoaderComponent } from './app.log.loader.component'
 
 // Importamos los componentes de las bitácoras
 
@@ -288,7 +282,7 @@ import { AlertComponent } from '../services/alert/app.alert.component'
 import { AlertController } from '../services/alert/app.alert'
 import { DragulaModule } from 'ng2-dragula/components/dragular.module'
 import { TabLogLoaderComponent } from './logs/log.loader'
-import { LogTabsPage } from '../components/logs/log-tabs/log.tabs.page'
+import { LogTabsComponent } from '../components/logs/log-tabs/log.tabs.page'
 import { LogHeaderComponent } from '../components/logs/log-header/log.header'
 import { LogService } from '../services/app.logs'
 import { MenuService } from '../services/app.menu'
@@ -360,14 +354,9 @@ import { DashboardComponent } from './dashboard/dashboard.component'
           component: LogListComponent
         },
         {
-          name: 'log-view',
-          url: '/log-view/:suffix',
-          component: LogLoaderComponent
-        },
-        {
           name: 'log',
           url: '/log/:suffix',
-          component: LogTabsPage
+          component: LogTabsComponent
         },
         {
           name: 'authorizations',
@@ -472,9 +461,7 @@ import { DashboardComponent } from './dashboard/dashboard.component'
     UserInfoModalComponent,
     EditUserInfoModalComponent,
     DynamicComponentContainerDirective,
-    LogLoaderComponent,
     ReportTab,
-    ReportDisplayer,
     ReportLoader,
     ReportPreview,
     ReportLoaderCard,
@@ -634,7 +621,7 @@ import { DashboardComponent } from './dashboard/dashboard.component'
     GMPPackingOzoneWaterAreaInventoryListComponent,
     GMPPackingOzoneWaterAddAreaComponent,
     GMPPackingOzoneWaterReportComponent,
-    LogTabsPage,
+    LogTabsComponent,
     AuthorizationLoader,
     LogHeaderComponent,
     ReportHeaderComponent,
@@ -643,7 +630,6 @@ import { DashboardComponent } from './dashboard/dashboard.component'
   ],
   // declaramos cualquier componente que sera inyectado dinamicamente
   entryComponents: [
-    ReportDisplayer,
     ProgressModalComponent,
     KoiLoader,
     AlertComponent,

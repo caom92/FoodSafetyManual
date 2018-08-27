@@ -1,4 +1,4 @@
-h5
+h6
   a(*ngIf="router.params.path != ''", [href]="'#/menu/'") {{ 'MenuComponent.menu' | translate:lang }}
   span(*ngIf="router.params.path == ''") {{ 'MenuComponent.menu' | translate:lang }}
   span(*ngFor='let cur of directories; let last = last; let index = index')
@@ -81,8 +81,8 @@ h5
             button.center(mz-button, (click)='getMenu()') {{ 'MenuComponent.retry' | translate:lang }}
 div(*ngIf='addMode === true')
   .row([formGroup]="iconForm")
-    .col.s6.m9.l9
-      h5 {{ 'MenuComponent.new_element' | translate:lang }}
+    .col.s6.m9.l10
+      h6 {{ 'MenuComponent.new_element' | translate:lang }}
       .row
         .col.s12.m3.l3
           mz-radio-button-container
@@ -127,7 +127,7 @@ div(*ngIf='addMode === true')
           mz-input-container
             input(mz-input, [label]="'URL'", id='url-edit', type='text', formControlName='url')
     .col.s6.m3.l2
-      h5.center {{ 'MenuComponent.preview' | translate:lang }}
+      h6.center {{ 'MenuComponent.preview' | translate:lang }}
       div(*ngIf="iconForm.value.type == 'link'")
         mz-card
           mz-card-content
@@ -167,8 +167,8 @@ div(*ngIf='addMode === true')
         button(mz-button, (click)='cancelForm()') {{ 'MenuComponent.cancel' | translate:lang }}
 div(*ngIf='editMode === true')
   .row([formGroup]="iconForm")
-    .col.s6.m9.l9
-      h5 {{ 'MenuComponent.edit_element' | translate:lang }}
+    .col.s6.m9.l10
+      h6 {{ 'MenuComponent.edit_element' | translate:lang }}
       .row
         .col.s12.m12.l12
           mz-input-container
@@ -208,7 +208,7 @@ div(*ngIf='editMode === true')
           mz-input-container
             input(mz-input, [label]="'URL'", id='url-edit', type='text', formControlName='url')
     .col.s6.m3.l2
-      h5.center {{ 'MenuComponent.preview' | translate:lang }}
+      h6.center {{ 'MenuComponent.preview' | translate:lang }}
       div(*ngIf="iconForm.value.type == 'link'")
         mz-card
           mz-card-content

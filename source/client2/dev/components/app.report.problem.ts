@@ -1,11 +1,12 @@
-import { Component, OnInit, ComponentRef } from '@angular/core'
-import { HomeElementsService } from '../services/app.home'
-import { BackendService } from '../services/app.backend'
-import { StateService } from '@uirouter/angular'
-import { ToastService } from '../services/app.toast'
+import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { StateService } from '@uirouter/angular'
+import { MzModalService } from 'ng2-materialize'
+
+import { BackendService } from '../services/app.backend'
+import { HomeElementsService } from '../services/app.home'
 import { LanguageService } from '../services/app.language'
-import { MzModalService, MzBaseModal } from 'ng2-materialize'
+import { ToastService } from '../services/app.toast'
 import { ProgressModalComponent } from './modal.please.wait'
 
 // Componente que define el comportamiento de la pagina donde se pueden enviar 

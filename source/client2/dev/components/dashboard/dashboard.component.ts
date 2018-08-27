@@ -113,7 +113,7 @@ export class DashboardComponent {
   }
 
   public initLocalURLs(): void {
-    let programs = JSON.parse(localStorage.programs)
+    let programs = JSON.parse(localStorage.getItem('programs'))
     for (let program in programs) {
       for (let mod in programs[program].names) {
         for (let log in programs[program].names[mod]) {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
-import { HomeElementsService } from '../services/app.home'
 import { StateService } from '@uirouter/angular'
+
+import { HomeElementsService } from '../services/app.home'
 
 // Componente que define el comportamiento de la pagina que lista las bitacoras 
 // del modulo elegido por el usuario en el menu de navegacion lateral
@@ -37,9 +38,6 @@ export class LogListComponent implements OnInit
         suffix: this.home.privileges[zone][program].suffixes[module][i].suffix
       })
     }
-    /*this.logs = Object.keys(
-      this.home.privileges[zone][program].suffixes[module]
-    )*/
     this.logs.splice(0, 1)
   }
 }

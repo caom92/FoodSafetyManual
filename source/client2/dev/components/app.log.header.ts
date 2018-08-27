@@ -1,23 +1,23 @@
-import { Component, Input } from '@angular/core'
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
-import { MaterializeModule } from 'ng2-materialize'
+import { Component, Input, OnInit } from '@angular/core'
 
 import { DateTimeService } from '../services/app.time'
 
 @Component({
-    selector: 'log-header',
-    templateUrl: '../templates/app.log.header.html'
+  selector: 'log-header',
+  templateUrl: '../templates/app.log.header.html'
 })
 
-export class LogHeaderComponent {
-    @Input()
-    log: any//{zone_name: string, program_name: string, module_name: string, log_name: string}
+export class LogHeaderComponent implements OnInit {
+  @Input() log: any
+  date: string = ''
 
-    date: string = ""
+  constructor(private timeService: DateTimeService) {
 
-    constructor(private timeService: DateTimeService){
-        this.date = this.timeService.getISODate(new Date())
-    }
+  }
 
-    username = localStorage.user_full_name
+  public ngOnInit(): void {
+    this.date = this.timeService.getISODate(new Date())
+  }
+
+  username = localStorage.getItem('user_full_name')
 }

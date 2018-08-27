@@ -1,11 +1,10 @@
 import { Component } from '@angular/core'
-import { HomeElementsService } from '../services/app.home'
+import { MzModalService } from 'ng2-materialize'
+
 import { BackendService } from '../services/app.backend'
-import { ToastService } from '../services/app.toast'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { HomeElementsService } from '../services/app.home'
 import { LanguageService } from '../services/app.language'
-import { MzModalService, MzBaseModal } from 'ng2-materialize'
-import { ProgressModalComponent } from './modal.please.wait'
+import { ToastService } from '../services/app.toast'
 import { ZoneInfoModalComponent } from './modal.zone.info'
 
 // Este componente describe el comportamiento de la pagina donde el usuario 

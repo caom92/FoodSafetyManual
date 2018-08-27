@@ -27,30 +27,30 @@ import { GMPSelfInspectionPestControlLogComponent } from '../gmp-self-inspection
   templateUrl: 'log.tabs.page.html'
 })
 
-export class LogTabsPage extends DynamicComponentResolver {
+export class LogTabsComponent extends DynamicComponentResolver {
   @Language() lang: string
-  log_name: string = "Loading..."
-  suffix: string = ""
+  log_name: string = 'Loading...'
+  suffix: string = ''
   loaderComponent: Type<any> = null
   manualDirectory: any = null
   isEmployee: boolean = false
   private readonly logComponents = {
-    "gap-others-unusual-occurrence": GAPOthersUnusualOccurrenceLogComponent,
-    "gap-packing-preop": GAPPackingPreopLogComponent,
-    "gmp-doc-control-doc-control": GMPDocControlDocControlLogComponent,
-    "gmp-others-unusual-occurrence": GMPOthersUnusualOccurrenceLogComponent,
-    "gmp-packing-aged-product": GMPPackingAgedProductLogComponent,
-    "gmp-packing-atp-testing": GMPPackingATPTestingLogComponent,
-    "gmp-packing-cold-room-temp": GMPPackingColdRoomTempLogComponent,
-    "gmp-packing-finished-product": GMPPackingFinishedProductLogComponent,
-    "gmp-packing-glass-brittle": GMPPackingGlassBrittleLogComponent,
-    "gmp-packing-hand-washing": GMPPackingHandWashingLogComponent,
-    "gmp-packing-preop": GMPPackingPreopLogComponent,
-    "gmp-packing-scale-calibration": GMPPackingScaleCalibrationLogComponent,
-    "gmp-packing-scissors-knives": GMPPackingScissorsKnivesLogComponent,
-    "gmp-packing-thermo-calibration": GMPPackingThermoCalibrationLogComponent,
-    "gmp-self-inspection-pest-control": GMPSelfInspectionPestControlLogComponent,
-    "gmp-packing-ozone-water": GMPPackingOzoneWaterLogComponent
+    'gap-others-unusual-occurrence': GAPOthersUnusualOccurrenceLogComponent,
+    'gap-packing-preop': GAPPackingPreopLogComponent,
+    'gmp-doc-control-doc-control': GMPDocControlDocControlLogComponent,
+    'gmp-others-unusual-occurrence': GMPOthersUnusualOccurrenceLogComponent,
+    'gmp-packing-aged-product': GMPPackingAgedProductLogComponent,
+    'gmp-packing-atp-testing': GMPPackingATPTestingLogComponent,
+    'gmp-packing-cold-room-temp': GMPPackingColdRoomTempLogComponent,
+    'gmp-packing-finished-product': GMPPackingFinishedProductLogComponent,
+    'gmp-packing-glass-brittle': GMPPackingGlassBrittleLogComponent,
+    'gmp-packing-hand-washing': GMPPackingHandWashingLogComponent,
+    'gmp-packing-preop': GMPPackingPreopLogComponent,
+    'gmp-packing-scale-calibration': GMPPackingScaleCalibrationLogComponent,
+    'gmp-packing-scissors-knives': GMPPackingScissorsKnivesLogComponent,
+    'gmp-packing-thermo-calibration': GMPPackingThermoCalibrationLogComponent,
+    'gmp-self-inspection-pest-control': GMPSelfInspectionPestControlLogComponent,
+    'gmp-packing-ozone-water': GMPPackingOzoneWaterLogComponent
   }
 
 
@@ -60,7 +60,7 @@ export class LogTabsPage extends DynamicComponentResolver {
 
   ngOnInit() {
     this.suffix = this.router.params.suffix
-    this.isEmployee = localStorage.role_name == "Employee"
+    this.isEmployee = localStorage.getItem('role_name') == "Employee"
 
     if (this.isEmployee) {
       if (this.logComponents[this.suffix] != undefined && this.logComponents[this.suffix] != null) {
@@ -71,7 +71,7 @@ export class LogTabsPage extends DynamicComponentResolver {
     }
 
     let logManualFormData = new FormData
-    logManualFormData.append("log-suffix", this.suffix)
+    logManualFormData.append('log-suffix', this.suffix)
 
     this.server.update(
       'get-log-manual-url',
@@ -80,7 +80,7 @@ export class LogTabsPage extends DynamicComponentResolver {
         if (response.meta.return_code == 0) {
           if (response.data) {
             this.log_name = response.data.log_name
-            this.manualDirectory = this.sanitizer.bypassSecurityTrustResourceUrl("http://localhost/espresso/" + response.data.manual_location + "law/actual_manual.pdf")
+            this.manualDirectory = this.sanitizer.bypassSecurityTrustResourceUrl('http://localhost/espresso/' + response.data.manual_location + 'law/actual_manual.pdf')
           }
         } else {
 

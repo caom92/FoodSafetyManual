@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Language, TranslationService as TService } from 'angular-l10n'
-import { PubSubService } from 'angular2-pubsub'; import { ToastsService } from '../../../../services/app.toasts'
+import { PubSubService } from 'angular2-pubsub'
 
 import { AlertController } from '../../../../services/alert/app.alert'
 import { InventoryService } from '../../../../services/app.inventory'
+import { ToastsService } from '../../../../services/app.toasts'
 import { SuperInventoryAddItemComponent } from '../../super-inventory/super.inventory.add.item'
 
 @Component({

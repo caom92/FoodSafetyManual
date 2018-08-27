@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core'
-import { BackendService } from '../services/app.backend'
-import { ToastService } from '../services/app.toast'
 import { StateService } from '@uirouter/angular'
+import { Language } from 'angular-l10n'
+import { Observable } from 'rxjs'
+
+import { BackendService } from '../services/app.backend'
 import { HomeElementsService } from '../services/app.home'
 import { LanguageService } from '../services/app.language'
-
-import { Language } from 'angular-l10n'
+import { ToastService } from '../services/app.toast'
 import { TranslationService } from '../services/app.translation'
-import { Observable } from 'rxjs'
 
 // Componente que define el comportamiento de la pagina de inicio de sesion
 @Component({
@@ -34,21 +34,21 @@ export class HomeComponent implements OnInit
   // Esta funcion se ejecuta al iniciar la pagina
   ngOnInit(): void {
     // si no hay ningun idioma definimo, definimos el idioma español por defecto
-    if (localStorage.lang == null) {
-      localStorage.lang = 'es'
+    if (localStorage.getItem('lang') == null) {
+      localStorage.setItem('lang', 'es')
       this.translationService.selectLanguage("es")
     }
 
-    if (localStorage.zone_id != null && localStorage.zone_id != null) {
-      this.selectedZoneID = Number(localStorage.zone_id)
+    if (localStorage.getItem('zone_id') != null && localStorage.getItem('zone_id') != null) {
+      this.selectedZoneID = Number(localStorage.getItem('zone_id'))
     }
 
     // inicializamos los mensajes en el idioma adecuado
     this.langManager.initMessages()
 
     // si el usuario no ha iniciado sesion, coloca la bandera como falso
-    if (localStorage.is_logged_in === undefined) {
-      localStorage.is_logged_in = false
+    if (localStorage.getItem('is_logged_in') === undefined) {
+      localStorage.setItem('is_logged_in', 'false')
     }
 
     // idealmente, cuando el usuario navega a la pagina, deberiamos revisar el 
@@ -64,11 +64,11 @@ export class HomeComponent implements OnInit
           if (!response.data) {
             // si el usuario no ha iniciado sesion, desactivamos la bandera y 
             // redireccionamos a la pantalla de inicio de sesion
-            localStorage.is_logged_in = false
+            localStorage.setItem('is_logged_in', 'false')
             this.router.go('login')
           } else {
             // de lo contrario, permitimos la navegacion
-            localStorage.is_logged_in = true
+            localStorage.setItem('is_logged_in', 'true')
             
             // no olvides desplegar el menu lateral de navegacion
             this.home.displaySideNav()
@@ -122,10 +122,10 @@ export class HomeComponent implements OnInit
         if (response.meta.return_code == 0) {
           // si la sesion fue cerrada correctamente, desactivamos la bandera y 
           // redireccionamos al usuario a la pantalla de inicio de sesion
-          let lang = localStorage.lang
+          let lang = localStorage.getItem('lang')
           localStorage.clear()
-          localStorage.lang = lang
-          localStorage.is_logged_in = false
+          localStorage.setItem('lang', lang)
+          localStorage.setItem('is_logged_in', 'false')
           this.home.hideZoneMenu()
           this.home.programs = []
           this.router.go('login')
@@ -182,7 +182,7 @@ export class HomeComponent implements OnInit
           'director-change-zones',
           404
         ))
-        this.selectedZoneID = Number(localStorage.zone_id)
+        this.selectedZoneID = Number(localStorage.getItem('zone_id'))
         setTimeout(() => {
           $('select').material_select('destroy')
           $('select').material_select()

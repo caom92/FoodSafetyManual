@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
-import { HomeElementsService } from '../services/app.home'
 import { StateService } from '@uirouter/angular'
+
+import { HomeElementsService } from '../services/app.home'
 import { LanguageService } from '../services/app.language'
 
 // Componente que define el comportamiento de la pagina que lista las bitacoras 

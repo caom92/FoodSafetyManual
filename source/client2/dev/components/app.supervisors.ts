@@ -1,12 +1,12 @@
 import { Component } from '@angular/core'
-import { HomeElementsService } from '../services/app.home'
-import { BackendService } from '../services/app.backend'
-import { ToastService } from '../services/app.toast'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { LanguageService } from '../services/app.language'
-import { MzModalService, MzBaseModal } from 'ng2-materialize'
-import { ProgressModalComponent } from './modal.please.wait'
 import { StateService } from '@uirouter/angular'
+import { MzModalService } from 'ng2-materialize'
+
+import { BackendService } from '../services/app.backend'
+import { HomeElementsService } from '../services/app.home'
+import { LanguageService } from '../services/app.language'
+import { ToastService } from '../services/app.toast'
+import { ProgressModalComponent } from './modal.please.wait'
 
 // Este componente defie el comportamiento de la pantalla donde el usuario 
 // administra supervisores

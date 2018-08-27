@@ -1,10 +1,11 @@
-import { Component, ViewEncapsulation, OnInit } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { StateService } from '@uirouter/angular'
+
 import { BackendService } from '../services/app.backend'
-import { ToastService } from '../services/app.toast'
 import { HomeElementsService } from '../services/app.home'
 import { LanguageService } from '../services/app.language'
+import { ToastService } from '../services/app.toast'
 
 // Componente que define el comportamiento de la pagina de inicio de sesion
 @Component({
@@ -88,13 +89,13 @@ export class LogInComponent implements OnInit
           if (response.data) {
             // si el usuario ya inicio sesion hay que redireccionar al usuario 
             // a la pagina principal
-            localStorage.is_logged_in = true
+            localStorage.setItem('is_logged_in', 'true')
             this.home.displaySideNav()
             this.router.go('edit-profile')
           } else {
             // si el usuario no hay iniciado sesion, permitimos al usuario 
             // entrar a esta pagina
-            localStorage.is_logged_in = false
+            localStorage.setItem('is_logged_in', 'false')
           }
         } else {
           // si hubo un problema con la comunicacion con el servidor debemos 
@@ -127,7 +128,7 @@ export class LogInComponent implements OnInit
           // si el usuario logro iniciar sesion exitosamente, guardamos los 
           // datos retornados por el servidor y activamos la bandera que indica 
           // que iniciamos sesion
-          localStorage.is_logged_in = true
+          localStorage.setItem('is_logged_in', 'true')
           this.storeUserData(response.data)
 
           // dependiendo del rol del usuario, se deben mostrar diferentes 
