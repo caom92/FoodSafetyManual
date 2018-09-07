@@ -3,12 +3,14 @@ import { PubSubService } from 'angular2-pubsub'
 import { Subscription } from 'angular2-pubsub/node_modules/rxjs'
 
 import { AreaManagerService } from '../../../services/app.area.manager'
+import { DragulaInventory } from './dragula.inventory'
+import { DragulaService } from 'ng2-dragula'
 
-export class SuperAreaInventoryComponent implements OnInit, OnDestroy {
+export class SuperAreaInventoryComponent extends DragulaInventory implements OnInit, OnDestroy {
   protected inventory: any = null
   protected emptyInventoryFlag: boolean = null
   protected scrollAllowed: boolean = true
-  private suffix: string = null
+  protected suffix: string = null
   protected bagName: string = null
   protected options: any = {
     moves: function (el, container, handle) {
@@ -20,8 +22,8 @@ export class SuperAreaInventoryComponent implements OnInit, OnDestroy {
   scrollStopSubscription: Subscription
   areaAdd: Subscription
 
-  constructor(protected events: PubSubService, private areaManagerService: AreaManagerService) {
-
+  constructor(dragulaService: DragulaService, protected events: PubSubService, private areaManagerService: AreaManagerService) {
+    super(dragulaService)
   }
 
   public ngOnInit(): void {
@@ -42,8 +44,13 @@ export class SuperAreaInventoryComponent implements OnInit, OnDestroy {
 
     this.areaManagerService.getAreaInventoryByPosition(this.suffix).then(success => {
       this.inventory = success
+      this.initDragula()
       this.checkEmptyInventory()
     })
+  }
+
+  public initDragula(): void {
+    this.addGroup(this.bagName)
   }
 
   /*public addArea(addAreaComponet: any, data: any, handler: Function): void {

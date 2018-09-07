@@ -1,17 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { DatePipe } from '@angular/common'
-import { Validators, FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms'
-
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
-import { Log } from '../interfaces/gmp.packing.preop.log.interface'
-import { CaptureArea, CaptureItem } from '../interfaces/gmp.packing.preop.capture.interface'
-
+import { CustomValidators } from '../../../../directives/custom.validators'
+import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
-import { LogService } from '../../../../services/app.logs'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
-import { CustomValidators } from '../../../../directives/custom.validators';
+import { CaptureArea, CaptureItem } from '../interfaces/gmp.packing.preop.capture.interface'
+import { Log } from '../interfaces/gmp.packing.preop.log.interface'
 
 @Component({
   selector: 'gmp-packing-preop-log',
@@ -44,7 +41,7 @@ export class GMPPackingPreopLogComponent extends SuperLogComponent implements On
       album_url: ['', [Validators.maxLength(65535)]],
       areas: this._fb.array([])
     })
-    const control = <FormArray>this.captureForm.controls['areas'];
+    const control = <FormArray>this.captureForm.controls['areas']
     for (let area of this.log.areas.logs) {
       let itemControl: Array<FormGroup> = []
       for (let type of area.types) {
@@ -62,8 +59,8 @@ export class GMPPackingPreopLogComponent extends SuperLogComponent implements On
     let areas = []
     for (let area of this.log.areas.logs) {
       let items: Array<CaptureItem> = []
-      for(let type of area.types){
-        for(let item of type.items){
+      for (let type of area.types) {
+        for (let item of type.items) {
           items.push({ id: item.id, is_acceptable: null, corrective_action: 1, comment: "" })
         }
       }

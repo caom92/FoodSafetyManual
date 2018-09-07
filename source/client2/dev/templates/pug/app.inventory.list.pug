@@ -4,9 +4,9 @@ div.row
   div.col.s12(
     '*ngFor'='let log of logs'
   )
-    mz-card('[hoverable]'='true')
-      mz-card-content
-        +link("#/inventory/{{log.suffix}}")
+    +link(href='#/inventory/{{log.suffix}}')(style="color: black;")
+      mz-card('[hoverable]'='true')
+        mz-card-content
           ='{{ log.name }}'
 
   div.col.s12.center-align('*ngIf'='hasInventory == false')

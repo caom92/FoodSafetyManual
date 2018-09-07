@@ -1,12 +1,13 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { Language } from 'angular-l10n'
+import { PubSubService } from 'angular2-pubsub'
+import { DragulaService } from 'ng2-dragula'
 
 import { AreaManagerService } from '../../../../services/app.area.manager'
 import { SuperAreaInventoryComponent } from '../../super-inventory/super.area.inventory'
-//import { GAPPackingPreopAddAreaComponent } from '../add-area/gap.packing.preop.add.area'
 import { InventoryArea } from '../interfaces/gap.packing.preop.area.inventory.interface'
-import { PubSubService } from 'angular2-pubsub'
 
+//import { GAPPackingPreopAddAreaComponent } from '../add-area/gap.packing.preop.add.area'
 @Component({
   selector: 'gap-packing-preop-area-inventory',
   templateUrl: './gap.packing.preop.area.inventory.html'
@@ -16,13 +17,13 @@ export class GAPPackingPreopAreaInventoryComponent extends SuperAreaInventoryCom
   @Language() private lang: string
   @Input() inventory: Array<InventoryArea> = []
 
-  constructor(events: PubSubService, areaManagerService: AreaManagerService) {
-    super(events, areaManagerService)
+  constructor(dragulaService: DragulaService, events: PubSubService, areaManagerService: AreaManagerService) {
+    super(dragulaService, events, areaManagerService)
   }
 
   public ngOnInit(): void {
-    this.setBagName('gap-packing-preop-area-bag')
     this.setSuffix('gap-packing-preop')
+    this.setBagName(this.suffix + '-bag')
     super.ngOnInit()
   }
 

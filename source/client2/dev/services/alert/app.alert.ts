@@ -5,9 +5,9 @@ import { AlertComponent } from './app.alert.component'
 import { AlertOptions } from './app.alert.interface'
 
 export class AlertController extends MzModalService {
-  create(options?: AlertOptions): ComponentRef<MzBaseModal>{
-    if(options != undefined && options != null){
-      return super.open(AlertComponent, {options: options})
+  create(options?: AlertOptions): ComponentRef<MzBaseModal> {
+    if (options != undefined && options != null) {
+      return super.open(AlertComponent, { options: options })
     } else {
       return super.open(AlertComponent)
     }

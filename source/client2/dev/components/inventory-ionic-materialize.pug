@@ -6,7 +6,7 @@ mixin inventoryItemColumn(content)
   td()= content
 
 mixin inventoryItemToggle()
-  td
+  td.item-toggle
     mz-switch-container
       input(mz-switch, type="checkbox", [(ngModel)]="toggleValue", (click)="toggleItem(item)")
 
@@ -21,7 +21,7 @@ mixin inventoryTitleColumn(content)
   th()= content
 
 mixin inventoryTitleToggle()
-  th Estado
+  th.item-toggle Estado
 
 mixin inventoryTitleWrapper()
   thead

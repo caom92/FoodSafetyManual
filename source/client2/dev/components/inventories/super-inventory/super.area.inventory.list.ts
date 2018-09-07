@@ -40,16 +40,6 @@ export class SuperAreaInventoryListComponent implements OnInit, OnDestroy {
     // Guardamos el inventario original 
     this.originalInventory = this.currentInventory.map(x => Object.assign({}, x))
 
-    // Activamos las opciones de Dragula; en este caso nos interesa que el
-    // elemento se pueda mover solo al hacer click sobre el ícono de la cruz
-    // con flechas
-    /*this.dragulaService.setOptions(this.bagName, {
-      moves: function (el, container, handle) {
-        return (handle.classList.contains('handle'))
-      },
-      revertOnSpill: true
-    })*/
-
     // Al comenzar el desplazamiento de un elemento de inventario, se detiene
     // la posibilidad de realizar scroll
     this.drag.add(this.dragulaService.drag(this.bagName).subscribe(
@@ -57,12 +47,6 @@ export class SuperAreaInventoryListComponent implements OnInit, OnDestroy {
         this.events.$pub("scroll:stop", "Scroll Stopped")
       })
     )
-
-    /*this.drag = this.dragulaService.drag.subscribe((value) => {
-      if (value[0] == this.bagName) {
-        this.events.$pub("scroll:stop", "Scroll Stopped")
-      }
-    })*/
 
     // Al terminar el desplazamiento de un elemento de inventario, se habilita
     // la posibilidad de realizar scroll
@@ -92,33 +76,6 @@ export class SuperAreaInventoryListComponent implements OnInit, OnDestroy {
         })
       })
     )
-
-    /*this.dragend = this.dragulaService.dragend.subscribe((value) => {
-      if (value[0] == this.bagName) {
-        this.events.$pub("scroll:start", "Scroll Started")
-        let index = 1
-        let reorderedItemArray: Array<{ id: number, position: number }> = []
-
-        for (let item in this.currentInventory) {
-          this.currentInventory[item].position = index++
-          reorderedItemArray.push({
-            id: this.currentInventory[item].id,
-            position: this.currentInventory[item].position
-          })
-        }
-
-        this.areaManagerService.reorderAreaInventory(reorderedItemArray, this.suffix).then(success => {
-          this.originalInventory = this.currentInventory.map(x => Object.assign({}, x))
-        }, error => {
-          let temp = this.originalInventory.map(x => Object.assign({}, x))
-          for(let index in temp){
-            for(let prop in this.currentInventory[index]){
-              this.currentInventory[index][prop] = temp[index][prop]
-            }
-          }
-        })
-      }
-    })*/
   }
 
   public ngOnDestroy(): void {

@@ -11,7 +11,6 @@ export class DragulaInventory {
   public addGroup(name: string): string {
     if (name === String(name)) {
       this.groupsNames.push(name)
-      console.log('deactivated inventory')
       this.activeInventory = false
       this.dragulaService.destroy(name)
       this.dragulaService.createGroup(name, (({
@@ -19,9 +18,7 @@ export class DragulaInventory {
           return handle.classList.contains('handle')
         }
       }) as DragulaOptions))
-      console.log(this.dragulaService.find(name))
       setTimeout(() => {
-        console.log('activated inventory after timeout')
         this.activeInventory = true
       })
       return name

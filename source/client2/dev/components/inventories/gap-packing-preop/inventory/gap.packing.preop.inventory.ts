@@ -76,7 +76,6 @@ export class GAPPackingPreopInventoryComponent extends SuperInventoryByAreaCompo
   public initDragula(): void {
     for (let type of this.inventory) {
       this.addGroup(type.en)
-      console.log('initDragula() @ gap.packing.preop.inventory.ts', this.dragulaService.find(type.en))
     }
   }
 }

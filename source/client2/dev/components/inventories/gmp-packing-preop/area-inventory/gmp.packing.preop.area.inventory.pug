@@ -1,7 +1,7 @@
 include ../../../area-manager-ionic-materialize.pug
 
 +inventoryWrapper()
-  +inventoryAreaListsWrapper()
+  +inventoryAreaListsWrapper('activeInventory == true')
     +inventoryAreaTitleWrapper()
       +inventoryAreaTitleHandler()
       +inventoryAreaTitleColumn("{{ 'InventoryLists.order' | translate:lang }}")

@@ -12,12 +12,6 @@ export abstract class SuperInventoryComponent extends DragulaInventory implement
   protected scrollAllowed: boolean = true
   protected bagName: string = null
   protected suffix: string = null
-  protected options: any = {
-    moves: function (el, container, handle) {
-      return (handle.classList.contains('handle'))
-    },
-    removeOnSpill: false
-  }
   scrollStop: Subscription
   scrollStart: Subscription
 
@@ -28,12 +22,10 @@ export abstract class SuperInventoryComponent extends DragulaInventory implement
   public ngOnInit(): void {
     this.scrollStop = this.events.$sub("scroll:stop").subscribe((message) => {
       this.scrollAllowed = false
-      console.log("Message: " + message)
     })
 
     this.scrollStart = this.events.$sub("scroll:start").subscribe((message) => {
       this.scrollAllowed = true
-      console.log("Message: " + message)
     })
 
     this.inventoryService.getInventory(this.suffix).then(success => {
@@ -50,7 +42,6 @@ export abstract class SuperInventoryComponent extends DragulaInventory implement
 
   public initDragula(): void {
     this.addGroup(this.bagName)
-    console.log('initDragula() @ super.inventory.ts', this.dragulaService.find(this.bagName))
   }
 
   public setSuffix(suffix: string): void {
@@ -58,7 +49,6 @@ export abstract class SuperInventoryComponent extends DragulaInventory implement
   }
 
   public ngOnDestroy(): void {
-    console.log('super.inventory.ts ngOnDestroy')
     this.scrollStart.unsubscribe()
     this.scrollStop.unsubscribe()
     this.destroy()

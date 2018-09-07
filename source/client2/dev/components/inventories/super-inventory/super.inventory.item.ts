@@ -1,8 +1,7 @@
-import { ViewChild, OnInit } from '@angular/core'
-//import { Toggle } from 'ionic-angular'
 import { InventoryService } from '../../../services/app.inventory'
 import { SuperInventoryItemInterface } from './super.inventory.interface'
 
+//import { Toggle } from 'ionic-angular'
 /**
  * Clase padre que pueden usar los componentes de cualquier inventario para
  * desplegar y controlar un elemento de inventario
@@ -31,7 +30,7 @@ export class SuperInventoryItemComponent {
    */
 
   public setToggleValue(status: boolean): void {
-    if(this.item.is_active == 1){
+    if (this.item.is_active == 1) {
       this.toggleValue = true
     } else {
       this.toggleValue = false
@@ -63,7 +62,7 @@ export class SuperInventoryItemComponent {
     } else {
       this.previousValue = this.toggleValue
       this.inventoryService.toggleItem(this.item, "toggle-" + this.suffix).then(success => {
-        
+
       }, error => {
         this.toggleError = true
         this.toggleItem()

@@ -86,8 +86,8 @@ export class GAPPackingPreopLogComponent extends SuperLogComponent implements On
     const currentTime = this.timeService.getISOTime(new Date())
     for (let area of this.log.areas.logs) {
       let items: Array<CaptureItem> = []
-      for(let type of area.types){
-        for(let item of type.items){
+      for (let type of area.types) {
+        for (let item of type.items) {
           items.push({ id: item.id, is_acceptable: null, corrective_action: 1, comment: "" })
         }
       }
@@ -110,7 +110,7 @@ export class GAPPackingPreopLogComponent extends SuperLogComponent implements On
           item.enable()
         } else if (item.controls.is_acceptable.value == true || item.controls.is_acceptable.value == undefined || item.controls.is_acceptable.value == null) {
           if (item.controls.is_acceptable.value == undefined || item.controls.is_acceptable.value == null) {
-            item.controls.is_acceptable.disable()  
+            item.controls.is_acceptable.disable()
           }
           item.controls.corrective_action_id.disable()
           item.controls.comment.disable()

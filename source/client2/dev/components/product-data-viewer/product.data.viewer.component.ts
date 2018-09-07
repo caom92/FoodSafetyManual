@@ -249,7 +249,6 @@ export class ProductDataViewerComponent implements OnInit {
   }
 
   public populateFilters() {
-    console.log('populate filters')
     let minFilteredDate = null
     let maxFilteredDate = null
 
@@ -326,15 +325,6 @@ export class ProductDataViewerComponent implements OnInit {
         }
       }
     }
-
-    console.log('Zonas', this.allZones.arr.sort().length)
-    console.log('Claves', this.allKeys.arr.sort().length)
-    console.log('Lotes', this.allLots.arr.sort().length)
-    console.log('Parcelas', this.allParcels.arr.sort().length)
-    console.log('Productos', this.allProducts.arr.sort().length)
-    console.log('Variedades', this.allVarieties.arr.sort().length)
-    console.log('Grupo', Object.keys(this.allTraceability.data).length)
-    console.log('Batches', Object.keys(this.allBatches.data).length)
 
     this.autocompleteLots = this.allLots
     this.autocompleteProducts = this.allProducts

@@ -1,7 +1,7 @@
 include ../../../area-manager-ionic-materialize.pug
 
 +inventoryWrapper()
-  +inventoryAreaListsWrapper()
+  +inventoryAreaListsWrapper('activeInventory == true')
     +inventoryAreaTitleWrapper()
       +inventoryAreaTitleColumn("{{ 'InventoryLists.id' | translate:lang }}")
       +inventoryAreaTitleColumn("{{ 'InventoryLists.name' | translate:lang }}")

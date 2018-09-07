@@ -125,7 +125,7 @@ export class LogService {
    * ```ts
    * // Añadir servicio en el constructor
    * 
-   * constructor(private logService: LogService){
+   * constructor(private logService: LogService) {
    * }
    * 
    * // Para realizar una solicitud de reporte de autorización

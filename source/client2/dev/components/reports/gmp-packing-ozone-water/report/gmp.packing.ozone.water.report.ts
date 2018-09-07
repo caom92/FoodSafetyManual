@@ -28,17 +28,8 @@ export class GMPPackingOzoneWaterReportComponent extends SuperReportComponent {
       }
       item.config = idString
     }
-    /*for (let item of this.report.items) {
-      console.log(item.config)
-    }*/
 
     this.groupedItems = this.groupBy(this.report.items, "config")
-
-    console.log(this.groupedItems)
-
-    for (let temp of this.groupedItems) {
-      console.log(temp)
-    }
   }
 
   groupBy(collection, property) {

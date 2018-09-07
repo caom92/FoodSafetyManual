@@ -72,7 +72,6 @@ export class GMPPackingPreopInventoryComponent extends SuperInventoryByAreaCompo
   public initDragula(): void {
     for (let type of this.inventory) {
       this.addGroup(type.en)
-      console.log('initDragula() @ gmp.packing.preop.inventory.ts', this.dragulaService.find(type.en))
     }
   }
 }

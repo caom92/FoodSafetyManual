@@ -11,7 +11,7 @@ import { AlertOptions } from './app.alert.interface'
 export class AlertComponent extends MzBaseModal {
   @Input() options: AlertOptions
 
-  constructor(){
+  constructor() {
     super()
   }
 
@@ -21,7 +21,7 @@ export class AlertComponent extends MzBaseModal {
       // pass the handler the values from the inputs
       button.handler()
       //if (button.handler(this.getValues()) === false) {
-        // if the return value of the handler is false then do not dismiss
+      // if the return value of the handler is false then do not dismiss
       //}
     }
   }

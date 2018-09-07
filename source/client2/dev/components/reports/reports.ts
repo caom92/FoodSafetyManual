@@ -34,7 +34,7 @@ export class ReportTab extends DynamicComponentResolver implements OnInit {
     supervisor: null,
     signature: null
   }
-  options={
+  options = {
     closeOnSelect: true,
     closeOnClear: false,
     monthsFull: [
@@ -103,7 +103,7 @@ export class ReportTab extends DynamicComponentResolver implements OnInit {
         (response: any) => {
           this.documentList = response.data.documents
         }
-      ) 
+      )
     }
   }
 
@@ -120,7 +120,7 @@ export class ReportTab extends DynamicComponentResolver implements OnInit {
     this.pdfReport.images = null
     this.pdfReport.fontsize = this.pdfReports._results[0].getFontSize()
     let tempContent = []
-    for(let report of this.pdfReports._results){
+    for (let report of this.pdfReports._results) {
       tempContent.push(report.getPDFContent())
     }
     this.pdfReport.content = JSON.stringify(tempContent)

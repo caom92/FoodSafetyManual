@@ -1,12 +1,13 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { Language } from 'angular-l10n'
+import { PubSubService } from 'angular2-pubsub'
+import { DragulaService } from 'ng2-dragula'
 
 import { AreaManagerService } from '../../../../services/app.area.manager'
 import { SuperAreaInventoryComponent } from '../../super-inventory/super.area.inventory'
-//import { GMPPackingPreopAddAreaComponent } from '../add-area/gmp.packing.preop.add.area'
 import { InventoryArea } from '../interfaces/gmp.packing.preop.area.inventory.interface'
-import { PubSubService } from 'angular2-pubsub'
 
+//import { GMPPackingPreopAddAreaComponent } from '../add-area/gmp.packing.preop.add.area'
 @Component({
   selector: 'gmp-packing-preop-area-inventory',
   templateUrl: './gmp.packing.preop.area.inventory.html'
@@ -16,8 +17,8 @@ export class GMPPackingPreopAreaInventoryComponent extends SuperAreaInventoryCom
   @Language() private lang: string
   @Input() inventory: Array<InventoryArea> = []
 
-  constructor(events: PubSubService, areaManagerService: AreaManagerService) {
-    super(events, areaManagerService)
+  constructor(dragulaService: DragulaService, events: PubSubService, areaManagerService: AreaManagerService) {
+    super(dragulaService, events, areaManagerService)
   }
 
   public ngOnInit(): void {

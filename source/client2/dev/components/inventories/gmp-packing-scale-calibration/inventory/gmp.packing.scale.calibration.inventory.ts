@@ -56,7 +56,6 @@ export class GMPPackingScaleCalibrationInventoryComponent extends SuperInventory
   public initDragula(): void {
     for (let type of this.inventory) {
       this.addGroup(type.name)
-      console.log('initDragula() @ gmp.packing.scale.calibration.inventory.ts', this.dragulaService.find(type.name))
     }
   }
 }
