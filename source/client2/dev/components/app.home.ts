@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit
     // si no hay ningun idioma definimo, definimos el idioma español por defecto
     if (localStorage.getItem('lang') == null) {
       localStorage.setItem('lang', 'es')
-      this.translationService.selectLanguage("es")
+      this.translationService.selectLanguage('es', 'ES')
     }
 
     if (localStorage.getItem('zone_id') != null && localStorage.getItem('zone_id') != null) {
@@ -106,9 +106,9 @@ export class HomeComponent implements OnInit
   } // ngOnInit() 
 
   // Esta funcion se ejecuta cuando el usuario cambio el idioma de la pagina
-  onLanguageButtonClicked(lang): void {
+  onLanguageButtonClicked(lang, country): void {
     this.langManager.changeLanguage(lang)
-    this.translationService.selectLanguage(lang)
+    this.translationService.selectLanguage(lang, country)
     $('select').material_select()
   }
 

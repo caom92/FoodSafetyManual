@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { MzBaseModal, MzModalComponent } from 'ng2-materialize'
+import { MzBaseModal, MzModalComponent } from 'ngx-materialize'
 import { LanguageService } from '../services/app.language'
 
 // El componente del modal que aparece para mostrar un icono de que se esta 

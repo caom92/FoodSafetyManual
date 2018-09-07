@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { StateService } from '@uirouter/angular'
-import { MzModalService } from 'ng2-materialize'
+import { MzModalService } from 'ngx-materialize'
 
 import { BackendService } from '../services/app.backend'
 import { HomeElementsService } from '../services/app.home'
@@ -81,7 +81,7 @@ export class SupervisorsComponent
       data,
       (response: any) => {
         // cuando el servidor responde, cerramos el modal de espera
-        modal.instance.modalComponent.close()
+        modal.instance.modalComponent.closeModal()
 
         // si el servidor respondio exitosamente...
         if (response.meta.return_code == 0) {
@@ -126,7 +126,7 @@ export class SupervisorsComponent
       data,
       (response: any) => {
         // cuando el servidor responda, cerramos el modal de espera
-        modal.instance.modalComponent.close()
+        modal.instance.modalComponent.closeModal()
         
         // si el servidor respondio de forma exitosa...
         if (response.meta.return_code == 0) {
@@ -183,7 +183,7 @@ export class SupervisorsComponent
       data,
       (response: any) => {
         // cuando el servidor responda, cerramos el modal de espera
-        modal.instance.modalComponent.close()
+        modal.instance.modalComponent.closeModal()
 
         // notificamos al usuario de la respuesta obtenida
         this.toastManager.showText(

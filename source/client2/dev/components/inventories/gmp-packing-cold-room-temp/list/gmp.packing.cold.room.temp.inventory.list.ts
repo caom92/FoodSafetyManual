@@ -9,10 +9,7 @@ import { InventoryItem } from '../interfaces/gmp.packing.cold.room.temp.inventor
 
 @Component({
   selector: '[gmp-packing-cold-room-temp-inventory-list]',
-  templateUrl: './gmp.packing.cold.room.temp.inventory.list.html',
-  providers: [
-    DragulaService
-  ]
+  templateUrl: './gmp.packing.cold.room.temp.inventory.list.html'
 })
 
 export class GMPPackingColdRoomTempInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnDestroy {

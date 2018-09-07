@@ -16,13 +16,16 @@ export class TranslationService implements OnInit {
 
   }
 
-  public selectLanguage(language: string): void {
+  public selectLanguage(language: string, country?: string): void {
     //this.locale.setCurrentLanguage(language)
-    this.locale.setDefaultLocale(language, "US")
-    this.locale.setCurrentCurrency("USD")
+    if (country == undefined) {
+      country = 'US'
+    }
+    this.locale.setDefaultLocale(language, country)
+    this.locale.setCurrentCurrency('USD')
     /*setTimeout(function () {
       $('select').material_select()
     }, 200)*/
-    localStorage.lang = language
+    localStorage.setItem('lang', language)
   }
 }

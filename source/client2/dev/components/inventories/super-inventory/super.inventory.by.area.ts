@@ -1,7 +1,7 @@
 import { OnDestroy, OnInit } from '@angular/core'
 import { PubSubService } from 'angular2-pubsub'
-import { DragulaService } from 'ng2-dragula/components/dragula.provider'
-import { Subscription } from 'rxjs/Subscription'
+import { Subscription } from 'angular2-pubsub/node_modules/rxjs'
+import { DragulaService } from 'ng2-dragula'
 
 import { AreaManagerService } from '../../../services/app.area.manager'
 import { InventoryService } from '../../../services/app.inventory'
@@ -15,7 +15,7 @@ export class SuperInventoryByAreaComponent extends SuperInventoryComponent imple
   areaEdit: Subscription
 
   constructor(events: PubSubService, inventoryService: InventoryService, dragulaService: DragulaService, private areaManagerService: AreaManagerService) {
-    super(events, inventoryService, dragulaService)
+    super(dragulaService, events, inventoryService)
   }
 
   public ngOnInit(): void {
@@ -32,7 +32,6 @@ export class SuperInventoryByAreaComponent extends SuperInventoryComponent imple
     this.areaAdd = this.events.$sub("area:add", (data) => {
       this.areas.push(data)
       this.areas.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)
-      //this.areas.sort((a, b) => a.name.localeCompare(b.name))
     })
 
     this.areaEdit = this.events.$sub("area:edit", (data) => {
@@ -49,12 +48,22 @@ export class SuperInventoryByAreaComponent extends SuperInventoryComponent imple
   public loadAreaInventory(event): void {
     this.inventoryService.getInventoryByArea(this.suffix, {room_id: event, area_id: event}).then(success => {
       this.inventory = success
+      this.initDragula()
       this.onInventoryUpdate()
       this.checkEmptyInventory()
     })
   }
 
+  public checkEmptyInventory(): boolean {
+    return false
+  }
+
+  public onInventoryUpdate(): void {
+    
+  }
+
   public ngOnDestroy(): void {
+    console.log('super.inventory.by.area.ts ngOnDestroy')
     super.ngOnDestroy()
     this.areaAdd.unsubscribe()
     this.areaEdit.unsubscribe()

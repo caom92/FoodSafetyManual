@@ -4,7 +4,7 @@ import { Language, DefaultLocale, Currency } from 'angular-l10n'
 
 import { LanguageService } from '../../../services/app.language'
 import { DateTimeService } from '../../../services/app.time'
-import { MzDatepickerDirective } from 'ng2-materialize'
+import { MzDatepickerDirective } from 'ngx-materialize'
 
 @Component({
   selector: 'log-header',

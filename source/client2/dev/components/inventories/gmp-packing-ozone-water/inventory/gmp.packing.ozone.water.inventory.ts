@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
-import { DragulaService } from 'ng2-dragula/components/dragula.provider'
+import { DragulaService } from 'ng2-dragula'
 
 import { AreaManagerService } from '../../../../services/app.area.manager'
 import { InventoryService } from '../../../../services/app.inventory'
@@ -25,12 +25,13 @@ export class GMPPackingOzoneWaterInventoryComponent extends SuperInventoryByArea
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-ozone-water")
+    this.setBagName('gmp-packing-ozone-water-bag')
+    this.setSuffix('gmp-packing-ozone-water')
     super.ngOnInit()
   }
 
   public onInventoryUpdate(): void {
-
+    // Se debe reimplmentar para evitar que se lance la excepción
   }
 
   public checkEmptyInventory(): boolean {

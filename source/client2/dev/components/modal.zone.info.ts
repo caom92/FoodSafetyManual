@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { MzBaseModal, MzModalComponent, MzModalService } from 'ng2-materialize'
+import { MzBaseModal, MzModalComponent, MzModalService } from 'ngx-materialize'
 import { LanguageService } from '../services/app.language'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { BackendService } from '../services/app.backend'
@@ -117,7 +117,7 @@ export class ZoneInfoModalComponent extends MzBaseModal implements OnInit
               new FormData(),
               (response: any) => {
                 // cuando el servidor responda, cerramos el modal de espera
-                modal.instance.modalComponent.close()
+                modal.instance.modalComponent.closeModal()
 
                 // si el servidor respondio con exito, desplegamos la lista de 
                 // zonas actualizada en pantalla
@@ -136,7 +136,7 @@ export class ZoneInfoModalComponent extends MzBaseModal implements OnInit
             ) // this.server.update
           } else {
             // si el servidor respondio con error, cerramos el modal de espera
-            modal.instance.modalComponent.close()
+            modal.instance.modalComponent.closeModal()
           } // if (response.meta.return_code == 0)
         } // (response: any)
       ) // this.server.update
@@ -181,7 +181,7 @@ export class ZoneInfoModalComponent extends MzBaseModal implements OnInit
               new FormData(),
               (response: any) => {
                 // cuando el servidor responda, cerramos el modal de espera
-                modal.instance.modalComponent.close()
+                modal.instance.modalComponent.closeModal()
 
                 // si el servidor respondio con exito, desplegamos los datos 
                 // actualizados en pantalla
@@ -202,7 +202,7 @@ export class ZoneInfoModalComponent extends MzBaseModal implements OnInit
           } else {
             // si el servidor respondio con un error, cerramos el modal de 
             // espera
-            modal.instance.modalComponent.close()
+            modal.instance.modalComponent.closeModal()
           } // if (response.meta.return_code == 0)
         } // (response: any)
       ) // this.server.update

@@ -32,12 +32,12 @@ include globals.pug
     +dropdownMenu("'language-options'", "'translation-button'")
       mz-dropdown-item
         +link()(
-          '(click)'='onLanguageButtonClicked("es")'
+          '(click)'='onLanguageButtonClicked("es", "ES")'
           click-stop-propagation
         )='Español'
       mz-dropdown-item
         +link()(
-          '(click)'='onLanguageButtonClicked("en")'
+          '(click)'='onLanguageButtonClicked("en", "US")'
           click-stop-propagation
         )='English'
 

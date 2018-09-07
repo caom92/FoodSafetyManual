@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { StateService } from '@uirouter/angular'
-import { MzModalService } from 'ng2-materialize'
+import { MzModalService } from 'ngx-materialize'
 
 import { BackendService } from '../services/app.backend'
 import { HomeElementsService } from '../services/app.home'
@@ -277,7 +277,7 @@ export class ReportProblemComponent implements OnInit
       data,
       (response: any) => {
         // cerramos el modal con el icono de progreso
-        modal.instance.modalComponent.close()
+        modal.instance.modalComponent.closeModal()
 
         // damos retroalimentacion al usuario del resultado obtenido
         this.toastManager.showText(

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { MzModalService } from 'ng2-materialize'
+import { MzModalService } from 'ngx-materialize'
 
 import { BackendService } from '../services/app.backend'
 import { HomeElementsService } from '../services/app.home'

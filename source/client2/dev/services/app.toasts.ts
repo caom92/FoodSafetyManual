@@ -1,5 +1,5 @@
 import { Injectable, OnInit } from '@angular/core'
-import { MzToastService } from 'ng2-materialize'
+import { MzToastService } from 'ngx-materialize'
 import { Language } from 'angular-l10n'
 
 // Servicio que despliega mensajes en la pantalla para informar al usuario 

@@ -1,18 +1,18 @@
 import { OnDestroy, OnInit } from '@angular/core'
 import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
-import { ISubscription } from 'rxjs/Subscription'
+import { Subscription } from 'rxjs'
 
 import { InventoryService } from '../../../services/app.inventory'
 import { SuperInventoryItemInterface } from './super.inventory.interface'
 
 export class SuperInventoryListComponent implements OnInit, OnDestroy {
-  protected drag: ISubscription = null
-  protected dragend: ISubscription = null
+  protected drag: Subscription = new Subscription()
+  protected dragend: Subscription = new Subscription()
   protected bagName: string = null
   protected currentInventory: Array<SuperInventoryItemInterface> = null
   protected originalInventory: Array<SuperInventoryItemInterface> = null
-  private suffix: string = null
+  protected suffix: string = null
 
   constructor(protected dragulaService: DragulaService,
     public events: PubSubService,
@@ -85,15 +85,44 @@ export class SuperInventoryListComponent implements OnInit, OnDestroy {
 
     // Al comenzar el desplazamiento de un elemento de inventario, se detiene
     // la posibilidad de realizar scroll
-    this.drag = this.dragulaService.drag.subscribe((value) => {
+    this.drag.add(this.dragulaService.drag(this.bagName).subscribe(
+      ({ el, source }) => {
+        this.events.$pub("scroll:stop", "Scroll Stopped")
+      })
+    )
+
+    /*this.drag = this.dragulaService.drag.subscribe((value) => {
       if (value[0] == this.bagName) {
         this.events.$pub("scroll:stop", "Scroll Stopped")
       }
-    })
+    })*/
 
     // Al terminar el desplazamiento de un elemento de inventario, se habilita
     // la posibilidad de realizar scroll
-    this.dragend = this.dragulaService.dragend.subscribe((value) => {
+    this.dragend.add(this.dragulaService.dragend(this.bagName).subscribe(
+      ({ name, el }) => {
+        this.events.$pub("scroll:start", "Scroll Started")
+        let index = 1
+        let reorderedItemArray: Array<{ id: number, position: number }> = []
+
+        for (let item in this.currentInventory) {
+          this.currentInventory[item].position = index++
+          reorderedItemArray.push({
+            id: this.currentInventory[item].id,
+            position: this.currentInventory[item].position
+          })
+        }
+
+        console.log(this.dragulaService.find(this.bagName))
+
+        this.inventoryService.reorderInventory(reorderedItemArray, "reorder-" + this.suffix).then(success => {
+          this.originalInventory = this.currentInventory.map(x => Object.assign({}, x))
+        }, error => {
+          this.currentInventory = this.originalInventory.map(x => Object.assign({}, x))
+        })
+      })
+    )
+    /*this.dragend = this.dragulaService.dragend.subscribe((value) => {
       if (value[0] == this.bagName) {
         this.events.$pub("scroll:start", "Scroll Started")
         let index = 1
@@ -113,7 +142,7 @@ export class SuperInventoryListComponent implements OnInit, OnDestroy {
           this.currentInventory = this.originalInventory.map(x => Object.assign({}, x))
         })
       }
-    })
+    })*/
   }
 
   public onItemAdd(item: any): void {
@@ -125,7 +154,7 @@ export class SuperInventoryListComponent implements OnInit, OnDestroy {
       console.warn("Dragula bag " + this.bagName + " destroyed")
       this.drag.unsubscribe()
       this.dragend.unsubscribe()
-      this.dragulaService.destroy(this.bagName)
+      // this.dragulaService.destroy(this.bagName)
     } else {
       console.error("No Dragula bag " + this.bagName + " on this inventory lists")
     }

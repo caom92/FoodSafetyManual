@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
-import { DragulaService } from 'ng2-dragula/components/dragula.provider'
+import { DragulaService } from 'ng2-dragula'
 
 import { InventoryService } from '../../../../services/app.inventory'
 import { SuperInventoryComponent } from '../../super-inventory/super.inventory'
@@ -19,11 +19,12 @@ export class GMPPackingColdRoomTempInventoryComponent extends SuperInventoryComp
   constructor(events: PubSubService,
     inventoryService: InventoryService,
     dragulaService: DragulaService) {
-    super(events, inventoryService, dragulaService)
+    super(dragulaService, events, inventoryService)
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-cold-room-temp")
+    this.setSuffix('gmp-packing-cold-room-temp')
+    this.setBagName(this.suffix + '-bag')
     super.ngOnInit()
   }
 

@@ -9,10 +9,7 @@ import { InventoryItem } from '../interfaces/gmp.doc.control.doc.control.invento
 
 @Component({
   selector: '[gmp-doc-control-doc-control-inventory-list]',
-  templateUrl: './gmp.doc.control.doc.control.inventory.list.html',
-  providers: [
-    DragulaService
-  ]
+  templateUrl: './gmp.doc.control.doc.control.inventory.list.html'
 })
 
 export class GMPDocControlDocControlInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnDestroy {

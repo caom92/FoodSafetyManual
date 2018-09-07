@@ -12,8 +12,7 @@ import { TranslationService } from '../../../../services/app.translation'
 import { ToastsService } from '../../../../services/app.toasts'
 import { LogService } from '../../../../services/app.logs'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
-import { CustomValidators } from '../../../../directives/custom.validators';
-import { Http } from '@angular/http';
+import { CustomValidators } from '../../../../directives/custom.validators'
 
 @Component({
   selector: 'gmp-packing-scale-calibration-log',

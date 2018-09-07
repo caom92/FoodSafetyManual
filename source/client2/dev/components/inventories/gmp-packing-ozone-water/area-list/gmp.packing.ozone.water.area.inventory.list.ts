@@ -9,10 +9,7 @@ import { InventoryArea } from '../interfaces/gmp.packing.ozone.water.area.invent
 
 @Component({
   selector: '[gmp-packing-ozone-water-area-inventory-list]',
-  templateUrl: './gmp.packing.ozone.water.area.inventory.list.html',
-  providers: [
-    DragulaService
-  ]
+  templateUrl: './gmp.packing.ozone.water.area.inventory.list.html'
 })
 
 export class GMPPackingOzoneWaterAreaInventoryListComponent extends SuperAreaInventoryListComponent implements OnInit, OnDestroy, OnChanges {

@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
-import { DragulaService } from 'ng2-dragula/components/dragula.provider'
+import { DragulaService } from 'ng2-dragula'
 
 import { InventoryService } from '../../../../services/app.inventory'
 import { SuperInventoryComponent } from '../../super-inventory/super.inventory'
@@ -19,11 +19,12 @@ export class GMPPackingHandWashingInventoryComponent extends SuperInventoryCompo
   constructor(events: PubSubService,
     inventoryService: InventoryService,
     dragulaService: DragulaService) {
-    super(events, inventoryService, dragulaService)
+    super(dragulaService, events, inventoryService)
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-hand-washing")
+    this.setSuffix('gmp-packing-hand-washing')
+    this.setBagName(this.suffix + '-bag')
     super.ngOnInit()
   }
 
@@ -34,5 +35,9 @@ export class GMPPackingHandWashingInventoryComponent extends SuperInventoryCompo
   public checkEmptyInventory(): boolean {
     this.emptyInventoryFlag = this.inventory.length == 0
     return this.inventory.length == 0
+  }
+
+  public initDragula(): void {
+    this.addGroup(this.bagName)
   }
 }

@@ -9,10 +9,7 @@ import { InventoryItem } from '../interfaces/gmp.packing.ozone.water.inventory.i
 
 @Component({
   selector: '[gmp-packing-ozone-water-inventory-list]',
-  templateUrl: './gmp.packing.ozone.water.inventory.list.html',
-  providers: [
-    DragulaService
-  ]
+  templateUrl: './gmp.packing.ozone.water.inventory.list.html'
 })
 
 export class GMPPackingOzoneWaterInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnDestroy, OnChanges {

@@ -1,6 +1,6 @@
 import { Component, Input, NgModule } from '@angular/core'
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
-import { MaterializeModule } from 'ng2-materialize'
+import { MaterializeModule } from 'ngx-materialize'
 
 @Component({
     selector: 'report-loader-card',

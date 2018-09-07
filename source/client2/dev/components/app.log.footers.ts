@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
-import { MzModalService } from 'ng2-materialize'
+import { MzModalService } from 'ngx-materialize'
 
 import { BackendService } from '../services/app.backend'
 import { HomeElementsService } from '../services/app.home'
@@ -71,7 +71,7 @@ export class LogFootersComponent
       data,
       (response: any) => {
         // una vez que el servidor responde, cerramos el modal de progreso
-        modal.instance.modalComponent.close()
+        modal.instance.modalComponent.closeModal()
 
         // revisamos si el servidor respondio con exito o no
         if (response.meta.return_code == 0) {

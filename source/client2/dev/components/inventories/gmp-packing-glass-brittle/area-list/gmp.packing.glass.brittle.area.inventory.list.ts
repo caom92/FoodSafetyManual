@@ -9,10 +9,7 @@ import { InventoryArea } from '../interfaces/gmp.packing.glass.brittle.area.inve
 
 @Component({
   selector: '[gmp-packing-glass-brittle-area-inventory-list]',
-  templateUrl: './gmp.packing.glass.brittle.area.inventory.list.html',
-  providers: [
-    DragulaService
-  ]
+  templateUrl: './gmp.packing.glass.brittle.area.inventory.list.html'
 })
 
 export class GMPPackingGlassBrittleAreaInventoryListComponent extends SuperAreaInventoryListComponent implements OnInit, OnDestroy, OnChanges {

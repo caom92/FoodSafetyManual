@@ -1,13 +1,12 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
-import { DragulaService } from 'ng2-dragula/components/dragula.provider'
+import { DragulaService } from 'ng2-dragula'
 
-import { InventoryService } from '../../../../services/app.inventory'
-import { SuperInventoryComponent } from '../../super-inventory/super.inventory'
-import { InventoryItem, InventoryType } from '../interfaces/gmp.packing.preop.inventory.interface'
-import { SuperInventoryByAreaComponent } from '../../super-inventory/super.inventory.by.area'
 import { AreaManagerService } from '../../../../services/app.area.manager'
+import { InventoryService } from '../../../../services/app.inventory'
+import { SuperInventoryByAreaComponent } from '../../super-inventory/super.inventory.by.area'
+import { InventoryType } from '../interfaces/gmp.packing.preop.inventory.interface'
 
 @Component({
   selector: 'gmp-packing-preop-inventory',
@@ -30,10 +29,6 @@ export class GMPPackingPreopInventoryComponent extends SuperInventoryByAreaCompo
   public ngOnInit(): void {
     this.setSuffix("gmp-packing-preop")
     super.ngOnInit()
-  }
-
-  public loadAreaInventory(event: any) {
-    super.loadAreaInventory(event)
   }
 
   /*public addItem(): void {
@@ -71,6 +66,13 @@ export class GMPPackingPreopInventoryComponent extends SuperInventoryByAreaCompo
     } else {
       this.emptyInventoryFlag = false
       return false
+    }
+  }
+
+  public initDragula(): void {
+    for (let type of this.inventory) {
+      this.addGroup(type.en)
+      console.log('initDragula() @ gmp.packing.preop.inventory.ts', this.dragulaService.find(type.en))
     }
   }
 }

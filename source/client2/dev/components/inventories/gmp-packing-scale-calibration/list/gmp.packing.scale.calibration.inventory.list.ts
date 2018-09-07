@@ -9,10 +9,7 @@ import { InventoryType } from '../interfaces/gmp.packing.scale.calibration.inven
 
 @Component({
   selector: '[gmp-packing-scale-calibration-inventory-list]',
-  templateUrl: './gmp.packing.scale.calibration.inventory.list.html',
-  providers: [
-    DragulaService
-  ]
+  templateUrl: './gmp.packing.scale.calibration.inventory.list.html'
 })
 
 export class GMPPackingScaleCalibrationInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnChanges, OnDestroy {
@@ -27,20 +24,20 @@ export class GMPPackingScaleCalibrationInventoryListComponent extends SuperInven
 
   public ngOnInit(): void {
     this.setBagName(this.type.name)
-    this.setSuffix("gmp-packing-scale-calibration")
+    this.setSuffix('gmp-packing-scale-calibration')
     this.setInventory(this.type.items)
     super.ngOnInit()
   }
 
   public onItemAdd(item: any): void {
-    if(item.type == this.type.id){
+    if (item.type == this.type.id) {
       item.item.position = this.currentInventory.length + 1
       this.currentInventory.push(item.item)
       this.originalInventory.push(item.item)
     }
   }
 
-  public ngOnChanges(): void{
+  public ngOnChanges(): void {
     this.setInventory(this.type.items)
     this.setOriginalInventory(this.type.items)
   }

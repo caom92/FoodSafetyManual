@@ -124,7 +124,8 @@ div
       ng-template(ngFor, [ngForOf]='currentData', let-d, let-i='index')
         tr([ngClass]="d['Rec']?'received':''")
           td.slim-table-cell.no-wrap-table-cell {{d['ID_Cosecha']}}
-          td.slim-table-cell.no-wrap-table-cell {{formatDate(d['Fecha']) | localeDate:defaultLocale:'MMMM' | slice:0:3 | titlecase }} {{formatDate(d['Fecha']) | localeDate:defaultLocale:'d'}}, {{formatDate(d['Fecha']) | localeDate:defaultLocale:'yyyy' | slice:2:4}}
+          td.slim-table-cell.no-wrap-table-cell {{formatDate(d['Fecha']) | l10nDate:defaultLocale:monthOptions | slice:0:3 | titlecase}} {{formatDate(d['Fecha']) | l10nDate:defaultLocale:dayOptions}}, {{formatDate(d['Fecha']) | l10nDate:defaultLocale:yearOptions}}
+          //-td.slim-table-cell.no-wrap-table-cell {{formatDate(d['Fecha']) | l10nDate:defaultLocale:'MMMM' | slice:0:3 | titlecase }} {{formatDate(d['Fecha']) | l10nDate:defaultLocale:'d'}}, {{formatDate(d['Fecha']) | l10nDate:defaultLocale:'yyyy' | slice:2:4}}
           td.slim-table-cell.no-wrap-table-cell {{d['C_Producto']}}
           td.slim-table-cell.no-wrap-table-cell {{d['Variedad']}}
           td.slim-table-cell.no-wrap-table-cell {{d['Rec']}}

@@ -3,14 +3,14 @@ import { NgModule } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { UIRouterModule } from "@uirouter/angular"
-import { MaterializeModule } from 'ng2-materialize'
+import { MaterializeModule } from 'ngx-materialize'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { HttpModule } from '@angular/http'
 
 // https://www.npmjs.com/package/angular2-pubsub
 import { PubSubModule } from 'angular2-pubsub'
 
-import { LocalizationModule, LocaleService, TranslationService as TService } from 'angular-l10n'
+import { LocalizationModule, LocaleService, TranslationService as TService, L10nLoader } from 'angular-l10n'
 
 // Importamos los componentes de cada pagina de nuestra aplicacion
 import { HomeComponent } from './app.home'
@@ -280,7 +280,7 @@ import { LoaderService, KoiLoader } from '../services/app.loaders'
 import { InventoryService } from '../services/app.inventory'
 import { AlertComponent } from '../services/alert/app.alert.component'
 import { AlertController } from '../services/alert/app.alert'
-import { DragulaModule } from 'ng2-dragula/components/dragular.module'
+import { DragulaModule, DragulaService } from 'ng2-dragula'
 import { TabLogLoaderComponent } from './logs/log.loader'
 import { LogTabsComponent } from '../components/logs/log-tabs/log.tabs.page'
 import { LogHeaderComponent } from '../components/logs/log-header/log.header'
@@ -313,6 +313,8 @@ import { ReportPreview } from './reports/preview/report.preview'
 import { ProductDataViewerComponent } from './product-data-viewer/product.data.viewer.component'
 import { PapaParseModule } from 'ngx-papaparse'
 import { DashboardComponent } from './dashboard/dashboard.component'
+import { languageConfig } from '../functions/l10n-config'
+import { HttpClientModule } from '@angular/common/http'
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -322,10 +324,11 @@ import { DashboardComponent } from './dashboard/dashboard.component'
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
+    HttpClientModule,
     BrowserAnimationsModule,
-    DragulaModule,
+    DragulaModule.forRoot(),
     PapaParseModule,
-    LocalizationModule.forRoot(),
+    LocalizationModule.forRoot(languageConfig),
     MaterializeModule.forRoot(),
     PubSubModule.forRoot(),
     UIRouterModule.forRoot({
@@ -432,7 +435,8 @@ import { DashboardComponent } from './dashboard/dashboard.component'
     LogService,
     MenuService,
     ToastsService,
-    TranslationService
+    TranslationService,
+    DragulaService
   ],
   // declaramos los componentes que va a utilizar nuestro sistema
   declarations: [
@@ -709,9 +713,11 @@ export class RootModule {
     private home: HomeElementsService,
     private langManager: LanguageService,
     public locale: LocaleService,
-    public translation: TService
+    public translation: TService,
+    public l10nLoader: L10nLoader
   ) {
-    this.locale.addConfiguration()
+    this.l10nLoader.load()
+    /*this.locale.addConfiguration()
       .addLanguages(['en', 'es'])
       .setCookieExpiration(30)
       .defineLanguage('es')
@@ -727,6 +733,6 @@ export class RootModule {
       }
     )
 
-    this.translation.init()
+    this.translation.init()*/
   }
 }

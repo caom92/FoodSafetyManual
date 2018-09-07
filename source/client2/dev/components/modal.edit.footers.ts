@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core'
-import { MzBaseModal, MzModalComponent, MzModalService } from 'ng2-materialize'
+import { MzBaseModal, MzModalComponent, MzModalService } from 'ngx-materialize'
 import { LanguageService } from '../services/app.language'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { BackendService } from '../services/app.backend'
@@ -90,7 +90,7 @@ export class EditFooterModalComponent extends MzBaseModal implements OnInit
       data,
       (response: any) => {
         // cerramos el modal de espera
-        modal.instance.modalComponent.close()
+        modal.instance.modalComponent.closeModal()
 
         // notificamos al usuario del resultado de la operacion
         this.toastManager.showText(

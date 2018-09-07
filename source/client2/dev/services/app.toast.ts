@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { MzToastService } from 'ng2-materialize'
+import { MzToastService } from 'ngx-materialize'
 
 // Servicio que despliega mensajes en la pantalla para informar al usuario 
 // sobre los resultados que sus acciones tuvieron

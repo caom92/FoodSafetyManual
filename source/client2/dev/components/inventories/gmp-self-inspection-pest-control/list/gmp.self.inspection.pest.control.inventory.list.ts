@@ -9,10 +9,7 @@ import { InventoryItem } from '../interfaces/gmp.self.inspection.pest.control.in
 
 @Component({
   selector: '[gmp-self-inspection-pest-control-inventory-list]',
-  templateUrl: './gmp.self.inspection.pest.control.inventory.list.html',
-  providers: [
-    DragulaService
-  ]
+  templateUrl: './gmp.self.inspection.pest.control.inventory.list.html'
 })
 
 export class GMPSelfInspectionPestControlInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnDestroy, OnChanges {
@@ -26,8 +23,8 @@ export class GMPSelfInspectionPestControlInventoryListComponent extends SuperInv
   }
 
   public ngOnInit(): void {
-    this.setBagName("gmp-self-inspection-pest-control-bag")
-    this.setSuffix("gmp-self-inspection-pest-control")
+    this.setBagName('gmp-self-inspection-pest-control-bag')
+    this.setSuffix('gmp-self-inspection-pest-control')
     this.setInventory(this.items)
     super.ngOnInit()
   }

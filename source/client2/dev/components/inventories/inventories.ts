@@ -24,20 +24,20 @@ import { GMPSelfInspectionPestControlInventoryManagerComponent } from './gmp-sel
 export class InventoryLoaderComponent extends DynamicComponentResolver implements OnInit {
   @Language() lang: string
   private loaderComponent: any = null
-  private inventorySuffix: string = ""
-  private title: string = ""
+  private inventorySuffix: string = ''
+  private title: string = ''
   private readonly inventoryComponents = {
-    "gap-packing-preop": GAPPackingPreopInventoryManagerComponent,
-    "gmp-doc-control-doc-control": GMPDocControlDocControlInventoryComponent,
-    "gmp-packing-cold-room-temp": GMPPackingColdRoomTempInventoryComponent,
-    "gmp-packing-glass-brittle": GMPPackingGlassBrittleInventoryManagerComponent,
-    "gmp-packing-hand-washing": GMPPackingHandWashingInventoryComponent,
-    "gmp-packing-ozone-water": GMPPackingOzoneWaterInventoryManagerComponent,
-    "gmp-packing-preop": GMPPackingPreopInventoryManagerComponent,
-    "gmp-packing-scale-calibration": GMPPackingScaleCalibrationInventoryComponent,
-    "gmp-packing-scissors-knives": GMPPackingScissorsKnivesInventoryComponent,
-    "gmp-packing-thermo-calibration": GMPPackingThermoCalibrationInventoryComponent,
-    "gmp-self-inspection-pest-control": GMPSelfInspectionPestControlInventoryManagerComponent
+    'gap-packing-preop': GAPPackingPreopInventoryManagerComponent,
+    'gmp-doc-control-doc-control': GMPDocControlDocControlInventoryComponent,
+    'gmp-packing-cold-room-temp': GMPPackingColdRoomTempInventoryComponent,
+    'gmp-packing-glass-brittle': GMPPackingGlassBrittleInventoryManagerComponent,
+    'gmp-packing-hand-washing': GMPPackingHandWashingInventoryComponent,
+    'gmp-packing-ozone-water': GMPPackingOzoneWaterInventoryManagerComponent,
+    'gmp-packing-preop': GMPPackingPreopInventoryManagerComponent,
+    'gmp-packing-scale-calibration': GMPPackingScaleCalibrationInventoryComponent,
+    'gmp-packing-scissors-knives': GMPPackingScissorsKnivesInventoryComponent,
+    'gmp-packing-thermo-calibration': GMPPackingThermoCalibrationInventoryComponent,
+    'gmp-self-inspection-pest-control': GMPSelfInspectionPestControlInventoryManagerComponent
   }
 
   constructor(factoryResolver: ComponentFactoryResolver, private router: StateService, private server: BackendService) {
@@ -47,7 +47,7 @@ export class InventoryLoaderComponent extends DynamicComponentResolver implement
   public ngOnInit(): void {
     this.inventorySuffix = this.router.params.suffix
     let logManualFormData = new FormData
-    logManualFormData.append("log-suffix", this.inventorySuffix)
+    logManualFormData.append('log-suffix', this.inventorySuffix)
 
     this.server.update(
       'get-log-manual-url',
@@ -58,7 +58,7 @@ export class InventoryLoaderComponent extends DynamicComponentResolver implement
             this.title = response.data.log_name
           }
         } else {
-          this.title = "Loading..."
+          this.title = 'Loading...'
         }
       }
     )

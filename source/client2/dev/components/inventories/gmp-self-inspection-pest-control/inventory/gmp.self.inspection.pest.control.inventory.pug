@@ -4,7 +4,7 @@ include ../../../inventory-ionic-materialize.pug
   +inventoryAreaSelect()
     //-For ng2-Materialize version uncomment the next line
     gmp-self-inspection-pest-control-add-area()
-  +inventoryListsWrapper("selectedArea != undefined && selectedArea != null")
+  +inventoryListsWrapper("activeInventory == true && selectedArea != undefined && selectedArea != null")
     +inventoryTitleWrapper()
       +inventoryTitleHandler()
       +inventoryTitleColumn("{{ 'InventoryLists.id' | translate:lang }}")
@@ -14,7 +14,7 @@ include ../../../inventory-ionic-materialize.pug
     //-For Ionic version uncomment the next line, Dragula variables are found inside the .list.pug file
     //-+inventoryList('gmp-self-inspection-pest-control')([items]='inventory')
     //-For ng2-Materialize version uncomment the next line, we have to pass Dragula variables here
-    +inventoryList('gmp-self-inspection-pest-control')([items]='inventory', [dragula]='"gmp-self-inspection-pest-control-bag"', [dragulaModel]='inventory', [dragulaOptions]='options')
+    +inventoryList('gmp-self-inspection-pest-control')([items]='inventory', [dragula]='bagName', [(dragulaModel)]='inventory')
     +inventoryListAddItemFooter('gmp-self-inspection-pest-control')([area]="selectedArea")
   +inventoryEmptyMessage()
   +inventoryAddButton()([hidden]="selectedArea == null || selectedArea == undefined")

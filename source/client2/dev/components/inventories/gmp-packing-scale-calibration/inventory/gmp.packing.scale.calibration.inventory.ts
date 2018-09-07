@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
-import { DragulaService } from 'ng2-dragula/components/dragula.provider'
+import { DragulaService } from 'ng2-dragula'
 
 import { InventoryService } from '../../../../services/app.inventory'
 import { SuperInventoryComponent } from '../../super-inventory/super.inventory'
@@ -20,11 +20,11 @@ export class GMPPackingScaleCalibrationInventoryComponent extends SuperInventory
   constructor(events: PubSubService,
     inventoryService: InventoryService,
     dragulaService: DragulaService) {
-    super(events, inventoryService, dragulaService)
+    super(dragulaService, events, inventoryService)
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-scale-calibration")
+    this.setSuffix('gmp-packing-scale-calibration')
     super.ngOnInit()
   }
    
@@ -50,6 +50,13 @@ export class GMPPackingScaleCalibrationInventoryComponent extends SuperInventory
     } else {
       this.emptyInventoryFlag = false
       return false
+    }
+  }
+
+  public initDragula(): void {
+    for (let type of this.inventory) {
+      this.addGroup(type.name)
+      console.log('initDragula() @ gmp.packing.scale.calibration.inventory.ts', this.dragulaService.find(type.name))
     }
   }
 }

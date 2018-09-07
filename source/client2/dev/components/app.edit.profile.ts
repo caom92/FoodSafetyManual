@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { MzModalService } from 'ng2-materialize'
+import { MzModalService } from 'ngx-materialize'
 
 import { BackendService } from '../services/app.backend'
 import { HomeElementsService } from '../services/app.home'
@@ -100,7 +100,7 @@ export class EditProfileComponent implements OnInit
       data,
       (response: any) => {
         // cerramos el modal
-        modal.instance.modalComponent.close()
+        modal.instance.modalComponent.closeModal()
 
         // damos retroalimentacion al usuario del resultado de esta opreacion
         this.toastManager.showText(
@@ -131,7 +131,7 @@ export class EditProfileComponent implements OnInit
       data,
       (response: any) => {
         // cerramos el modal
-        modal.instance.modalComponent.close()
+        modal.instance.modalComponent.closeModal()
 
         // damos retroalimentacion al usuario del resultado de esta operacion
         this.toastManager.showText(

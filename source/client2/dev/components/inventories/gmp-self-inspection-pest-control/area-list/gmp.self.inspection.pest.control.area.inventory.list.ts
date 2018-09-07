@@ -9,10 +9,7 @@ import { InventoryArea } from '../interfaces/gmp.self.inspection.pest.control.ar
 
 @Component({
   selector: '[gmp-self-inspection-pest-control-area-inventory-list]',
-  templateUrl: './gmp.self.inspection.pest.control.area.inventory.list.html',
-  providers: [
-    DragulaService
-  ]
+  templateUrl: './gmp.self.inspection.pest.control.area.inventory.list.html'
 })
 
 export class GMPSelfInspectionPestControlAreaInventoryListComponent extends SuperAreaInventoryListComponent implements OnInit, OnDestroy, OnChanges {

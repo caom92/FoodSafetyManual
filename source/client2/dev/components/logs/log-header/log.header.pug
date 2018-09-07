@@ -9,9 +9,9 @@ mz-card([hoverable]='true')
       .col.s4.m4.l4 {{ 'LogHeader.program' | translate:lang }}: {{log.program_name}}
       .col.s4.m4.l4 {{ 'LogHeader.module' | translate:lang }}: {{log.module_name}}
     .row(style="display: flex; align-items: center;")
-      .col.s6.m6.l6(*ngIf='dateGroup != null && dateGroup != undefined', style="display: flex; align-items: center;") {{ 'LogHeader.date' | translate:lang }}: {{dateGroup.controls.date.value | localeDate:defaultLocale:'longDate'}}
+      .col.s6.m6.l6(*ngIf='dateGroup != null && dateGroup != undefined', style="display: flex; align-items: center;") {{ 'LogHeader.date' | translate:lang }}: {{dateGroup.controls.date.value | l10nDate:defaultLocale:'longDate'}}
         i.green-text(mz-icon-mdi, [icon]="'calendar-edit'", [size]="'36px'", (click)='openDatePicker()', style="cursor: pointer;")
-      .col.s6.m6.l6(*ngIf='dateGroup == null || dateGroup == undefined') {{ 'LogHeader.date' | translate:lang }}: {{date | localeDate:defaultLocale:'longDate'}}
+      .col.s6.m6.l6(*ngIf='dateGroup == null || dateGroup == undefined') {{ 'LogHeader.date' | translate:lang }}: {{date | l10nDate:defaultLocale:'longDate'}}
       .col.s6.m6.l6 {{ 'LogHeader.made_by' | translate:lang }}: {{username}}
     div([formGroup]='dateGroup', *ngIf='dateGroup != null && dateGroup != undefined')
       +dateInput(false, false, "date", null, null, "dateConfig")([hidden]="true")

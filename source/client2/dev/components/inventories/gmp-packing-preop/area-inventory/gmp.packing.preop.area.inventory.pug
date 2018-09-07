@@ -11,7 +11,7 @@ include ../../../area-manager-ionic-materialize.pug
     //-For Ionic version uncomment the next line, Dragula variables are found inside the .list.pug file
     //-+inventoryAreaList('gmp-packing-preop')([areas]='inventory')
     //-For ng2-Materialize version uncomment the next line, we have to pass Dragula variables here
-    +inventoryAreaList('gmp-packing-preop')([areas]='inventory', [dragula]="'gmp-packing-preop-area-bag'", [dragulaModel]='inventory', [dragulaOptions]="options")
+    +inventoryAreaList('gmp-packing-preop')([areas]='inventory', [dragula]='bagName', [(dragulaModel)]='inventory')
   +inventoryAreaEmptyMessage()
   //-For Ionic version uncomment the next line
   //-+inventoryAreaAddButton()

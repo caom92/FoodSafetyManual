@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { MzModalService } from 'ng2-materialize'
+import { MzModalService } from 'ngx-materialize'
 
 import { BackendService } from '../services/app.backend'
 import { HomeElementsService } from '../services/app.home'
@@ -56,7 +56,7 @@ export class SignaturesComponent
       data,
       (response: any) => {
         // cuando el servidor responde, cerramos el modal de espera
-        modal.instance.modalComponent.close()
+        modal.instance.modalComponent.closeModal()
 
         // si el servidor respondio exitosamente...
         if (response.meta.return_code == 0) {

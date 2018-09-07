@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
-import { DragulaService } from 'ng2-dragula/components/dragula.provider'
+import { DragulaService } from 'ng2-dragula'
 
 import { AreaManagerService } from '../../../../services/app.area.manager'
 import { InventoryService } from '../../../../services/app.inventory'
@@ -25,7 +25,8 @@ export class GMPSelfInspectionPestControlInventoryComponent extends SuperInvento
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-self-inspection-pest-control")
+    this.setBagName('gmp-self-inspection-pest-control-bag')
+    this.setSuffix('gmp-self-inspection-pest-control')
     super.ngOnInit()
   }
 

@@ -18,6 +18,19 @@
     "types": [
       "jquery",
       "materialize-css"
-    ]
+    ],
+    "paths": {
+      "stream": [
+        "../node_modules/readable-stream",
+      ],
+      "dragula": [
+        "../node_modules/dragula/dist/dragula.min.js"
+      ],
+      "@angular/*": [
+        "../node_modules/@angular/*"
+      ]
+    },
+    "module": "es2015",
+    "baseUrl": "./"
   }
 }

@@ -9,10 +9,7 @@ import { InventoryItem } from '../interfaces/gmp.packing.hand.washing.inventory.
 
 @Component({
   selector: '[gmp-packing-hand-washing-inventory-list]',
-  templateUrl: './gmp.packing.hand.washing.inventory.list.html',
-  providers: [
-    DragulaService
-  ]
+  templateUrl: './gmp.packing.hand.washing.inventory.list.html'
 })
 
 export class GMPPackingHandWashingInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnDestroy {
@@ -27,8 +24,8 @@ export class GMPPackingHandWashingInventoryListComponent extends SuperInventoryL
   }
 
   public ngOnInit(): void {
-    this.setBagName("gmp-packing-hand-washing-bag")
-    this.setSuffix("gmp-packing-hand-washing")
+    this.setSuffix('gmp-packing-hand-washing')
+    this.setBagName(this.suffix + '-bag')
     this.setInventory(this.items)
     super.ngOnInit()
   }
@@ -39,7 +36,7 @@ export class GMPPackingHandWashingInventoryListComponent extends SuperInventoryL
     this.originalInventory.push(item.item)
   }
 
-  public ngOnChanges(): void{
+  public ngOnChanges(): void {
     this.setInventory(this.items)
     this.setOriginalInventory(this.items)
   }

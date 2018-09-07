@@ -9,10 +9,7 @@ import { InventoryItem } from '../interfaces/gmp.packing.thermo.calibration.inve
 
 @Component({
   selector: '[gmp-packing-thermo-calibration-inventory-list]',
-  templateUrl: './gmp.packing.thermo.calibration.inventory.list.html',
-  providers: [
-    DragulaService
-  ]
+  templateUrl: './gmp.packing.thermo.calibration.inventory.list.html'
 })
 
 export class GMPPackingThermoCalibrationInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnDestroy, OnChanges {

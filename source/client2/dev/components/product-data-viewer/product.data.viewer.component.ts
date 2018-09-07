@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core'
 import { DefaultLocale, Language } from 'angular-l10n'
 import { saveAs } from 'file-saver'
-import { MzCollapsibleComponent } from 'ng2-materialize'
-import { PapaParseService } from 'ngx-papaparse'
+import { MzCollapsibleComponent } from 'ngx-materialize'
+import { Papa } from 'ngx-papaparse'
 
 import { LanguageService } from '../../services/app.language'
 import { LoaderService } from '../../services/app.loaders'
@@ -58,6 +58,9 @@ export class ProductDataViewerComponent implements OnInit {
   private endTemp: string = ''
   private noFilters: boolean = true
   private showDetailedView: boolean = null
+  private dayOptions = { day: 'numeric' }
+  private monthOptions = { month: 'short' }
+  private yearOptions = { year: '2-digit' }
 
   @ViewChild('collapsible') collapsible: MzCollapsibleComponent
 
@@ -102,17 +105,17 @@ export class ProductDataViewerComponent implements OnInit {
     selectMonths: true
   }
 
-  constructor(private csvParse: PapaParseService, private loaderService: LoaderService, private langManager: LanguageService) {
+  constructor(private csvParse: Papa, private loaderService: LoaderService, private langManager: LanguageService) {
     
   }
 
   public ngOnInit(): void {
-    if (localStorage.role_name == 'Director') {
+    if (localStorage.getItem('role_name') == 'Director') {
       this.allKeys.current = null
-    } else if (localStorage.role_name == 'Supervisor') {
-      this.allKeys.current = localStorage.zone_name
-    } else if (localStorage.role_name == 'Manager') {
-      this.allZones.current = localStorage.zone_name
+    } else if (localStorage.getItem('role_name') == 'Supervisor') {
+      this.allKeys.current = localStorage.getItem('zone_name')
+    } else if (localStorage.getItem('role_name') == 'Manager') {
+      this.allZones.current = localStorage.getItem('zone_name')
     } else {
       this.allKeys.current = 'not valid'
     }
@@ -222,12 +225,12 @@ export class ProductDataViewerComponent implements OnInit {
     this.autocompleteParcels.current = ''
     this.autocompleteZones.current = ''
 
-    if (localStorage.role_name == 'Director') {
+    if (localStorage.getItem('role_name') == 'Director') {
       this.allKeys.current = ''
-    } else if (localStorage.role_name == 'Supervisor') {
-      this.allKeys.current = localStorage.zone_name
-    } else if (localStorage.role_name == 'Manager') {
-      this.allZones.current = localStorage.zone_name
+    } else if (localStorage.getItem('role_name') == 'Supervisor') {
+      this.allKeys.current = localStorage.getItem('zone_name')
+    } else if (localStorage.getItem('role_name') == 'Manager') {
+      this.allZones.current = localStorage.getItem('zone_name')
     } else {
       this.allKeys.current = 'not valid'
     }

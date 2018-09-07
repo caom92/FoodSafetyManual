@@ -9,10 +9,7 @@ import { InventoryItem, InventoryType } from '../interfaces/gap.packing.preop.in
 
 @Component({
   selector: '[gap-packing-preop-inventory-list]',
-  templateUrl: './gap.packing.preop.inventory.list.html',
-  providers: [
-    DragulaService
-  ]
+  templateUrl: './gap.packing.preop.inventory.list.html'
 })
 
 export class GAPPackingPreopInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnDestroy, OnChanges {

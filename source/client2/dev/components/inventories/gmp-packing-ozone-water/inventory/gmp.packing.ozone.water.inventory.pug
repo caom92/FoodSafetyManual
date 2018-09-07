@@ -4,7 +4,7 @@ include ../../../inventory-ionic-materialize.pug
   +inventoryAreaSelect()
     //-For ng2-Materialize version uncomment the next line
     gmp-packing-ozone-water-add-area()
-  +inventoryListsWrapper("selectedArea != undefined && selectedArea != null")
+  +inventoryListsWrapper("activeInventory == true && selectedArea != undefined && selectedArea != null")
     +inventoryTitleWrapper()
       +inventoryTitleColumn("{{ 'InventoryLists.id' | translate:lang }}")
       +inventoryTitleColumn("{{ 'InventoryLists.name' | translate:lang }}")
@@ -12,7 +12,7 @@ include ../../../inventory-ionic-materialize.pug
     //-For Ionic version uncomment the next line, Dragula variables are found inside the .list.pug file
     //-+inventoryList('gmp-packing-ozone-water')([items]='inventory')
     //-For ng2-Materialize version uncomment the next line, we have to pass Dragula variables here
-    +inventoryList('gmp-packing-ozone-water')([items]='inventory', [dragula]='"gmp-packing-ozone-water-bag"', [dragulaModel]='inventory', [dragulaOptions]='options')
+    +inventoryList('gmp-packing-ozone-water')([items]='inventory', [dragula]='bagName', [(dragulaModel)]='inventory')
     //-TODO: Revisar esto, si se descomenta no funciona
     //-+inventoryListAddItemFooter('gmp-packing-ozone-water')([area]="selectedArea")
   +inventoryEmptyMessage()

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core'
-import { MzBaseModal, MzModalComponent, MzModalService } from 'ng2-materialize'
+import { MzBaseModal, MzModalComponent, MzModalService } from 'ngx-materialize'
 import { LanguageService } from '../services/app.language'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { BackendService } from '../services/app.backend'
@@ -307,7 +307,7 @@ export class UserInfoModalComponent extends MzBaseModal implements OnInit
       'add-user',
       data,
       (response: any) => {
-        modal.instance.modalComponent.close()
+        modal.instance.modalComponent.closeModal()
         this.toastManager.showText(
           this.langManager.getServiceMessage(
             'add-user',
@@ -326,7 +326,7 @@ export class UserInfoModalComponent extends MzBaseModal implements OnInit
             login_name: data.get('login_name'),
             zone_id: data.get('zone_id')
           })
-          this.modalComponent.close()
+          this.modalComponent.closeModal()
         }
       }
     )

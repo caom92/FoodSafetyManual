@@ -4,7 +4,7 @@ import { LanguageService } from '../services/app.language'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { BackendService } from '../services/app.backend'
 import { ToastService } from '../services/app.toast'
-import { MzModalService, MzBaseModal } from 'ng2-materialize'
+import { MzModalService, MzBaseModal } from 'ngx-materialize'
 import { UsersComponent } from './app.users'
 import { ProgressModalComponent } from './modal.please.wait';
 
@@ -208,7 +208,7 @@ export class EditUserInfoModalComponent extends UserInfoModalComponent {
         this.toastManager.showText(this.langManager.getServiceMessage(
           'edit-user-info', response.meta.return_code
         ))
-        this.progressModal.instance.modalComponent.close()
+        this.progressModal.instance.modalComponent.closeModal()
       }
     }
   
@@ -230,7 +230,7 @@ export class EditUserInfoModalComponent extends UserInfoModalComponent {
         this.toastManager.showText(this.langManager.getServiceMessage(
           'edit-user-zone', response.meta.return_code
         ))
-        this.progressModal.instance.modalComponent.close()
+        this.progressModal.instance.modalComponent.closeModal()
       }
     }
 
@@ -264,20 +264,20 @@ export class EditUserInfoModalComponent extends UserInfoModalComponent {
             )
           }
 
-          this.progressModal.instance.modalComponent.close()
-          this.modalComponent.close()
+          this.progressModal.instance.modalComponent.closeModal()
+          this.modalComponent.closeModal()
         } else {
           this.toastManager.showText(this.langManager.getServiceMessage(
             'edit-user-role', response.meta.return_code
           ))
-          this.progressModal.instance.modalComponent.close()
-          this.modalComponent.close()
+          this.progressModal.instance.modalComponent.closeModal()
+          this.modalComponent.closeModal()
         }
       } else {
         this.toastManager.showText(this.langManager.getServiceMessage(
           'edit-user-role', response.meta.return_code
         ))      
-        this.progressModal.instance.modalComponent.close()
+        this.progressModal.instance.modalComponent.closeModal()
       }
     }
 
@@ -302,8 +302,8 @@ export class EditUserInfoModalComponent extends UserInfoModalComponent {
           this.toastManager.showText(this.langManager.getServiceMessage(
             'edit-user-privileges', response.meta.return_code
           ))
-          this.progressModal.instance.modalComponent.close()
-          this.modalComponent.close()
+          this.progressModal.instance.modalComponent.closeModal()
+          this.modalComponent.closeModal()
         }
       } 
     }
@@ -314,8 +314,8 @@ export class EditUserInfoModalComponent extends UserInfoModalComponent {
         'assign-employees-to-supervisors', response.meta.return_code
       ))
       if (response.meta.return_code == 0) {
-        this.progressModal.instance.modalComponent.close()
-        this.modalComponent.close()
+        this.progressModal.instance.modalComponent.closeModal()
+        this.modalComponent.closeModal()
       }
     }
 
@@ -332,7 +332,7 @@ export class EditUserInfoModalComponent extends UserInfoModalComponent {
 
   private readonly onChangePasswordResponse: (response: any) => void =
     (response: any) => {
-      this.progressModal.instance.modalComponent.close()
+      this.progressModal.instance.modalComponent.closeModal()
       this.toastManager.showText(this.langManager.getServiceMessage(
         'change-password', response.meta.return_code
       ))
@@ -349,7 +349,7 @@ export class EditUserInfoModalComponent extends UserInfoModalComponent {
 
   private readonly onChangeUsernameResponse: (response: any) => void =
     (response: any) => {
-      this.progressModal.instance.modalComponent.close()
+      this.progressModal.instance.modalComponent.closeModal()
       this.toastManager.showText(this.langManager.getServiceMessage(
         'change-username', response.meta.return_code
       ))

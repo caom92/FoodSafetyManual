@@ -35,6 +35,9 @@ export class ReportLoader extends DynamicComponentResolver implements OnInit {
   @Input() private footer: string
   @Language() private lang: string
   @DefaultLocale() defaultLocale: string
+  private dayOptions = { day: 'numeric' }
+  private monthOptions = { month: 'short' }
+  private yearOptions = { year: '2-digit' }
   private showReport: boolean = false
   private loaderComponent: SuperReportComponent = null
   private pdfReport: ReportRequest = {

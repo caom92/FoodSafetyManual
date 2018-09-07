@@ -1,6 +1,6 @@
 import { Component, Injectable, OnInit, ComponentRef, Input } from '@angular/core'
 import { Language } from 'angular-l10n'
-import { MzBaseModal, MzModalService, MzModalComponent } from 'ng2-materialize'
+import { MzBaseModal, MzModalService, MzModalComponent } from 'ngx-materialize'
 
 @Injectable()
 export class LoaderService implements OnInit {
@@ -40,7 +40,7 @@ export class KoiLoader extends MzBaseModal {
   }
   
   public dismiss(): void {
-    this.modalComponent.close()
+    this.modalComponent.closeModal()
   }
 }
 
@@ -56,6 +56,6 @@ export class LoaderWrapper {
   }
 
   public dismiss(): void {
-    this.loader.close()
+    this.loader.closeModal()
   }
 }

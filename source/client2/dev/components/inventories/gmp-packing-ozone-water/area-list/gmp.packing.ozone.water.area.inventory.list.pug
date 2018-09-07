@@ -1,7 +1,7 @@
 include ../../../area-manager-ionic-materialize.pug
 
 //-For Ionic version uncomment the next line, Dragula variables are found here
-//-+inventoryAreaListWrapper()([dragula]='bagName', [dragulaModel]='areas')
+//-+inventoryAreaListWrapper()([dragula]='bagName', [(dragulaModel)]='areas')
   +inventoryAreaComponent('gmp-packing-ozone-water', 'area', 'areas')([area]='area')
 //-For ng2-Materialize version uncomment the next line, Dragula variables were placed on the inventory.pug file of this log
 +inventoryAreaListWrapper()

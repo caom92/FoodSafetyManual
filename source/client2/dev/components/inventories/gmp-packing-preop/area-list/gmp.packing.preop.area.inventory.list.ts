@@ -9,10 +9,7 @@ import { InventoryArea } from '../interfaces/gmp.packing.preop.area.inventory.in
 
 @Component({
   selector: '[gmp-packing-preop-area-inventory-list]',
-  templateUrl: './gmp.packing.preop.area.inventory.list.html',
-  providers: [
-    DragulaService
-  ]
+  templateUrl: './gmp.packing.preop.area.inventory.list.html'
 })
 
 export class GMPPackingPreopAreaInventoryListComponent extends SuperAreaInventoryListComponent implements OnInit, OnDestroy, OnChanges {

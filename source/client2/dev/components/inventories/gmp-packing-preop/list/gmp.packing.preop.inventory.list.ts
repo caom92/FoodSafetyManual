@@ -9,10 +9,7 @@ import { InventoryItem, InventoryType } from '../interfaces/gmp.packing.preop.in
 
 @Component({
   selector: '[gmp-packing-preop-inventory-list]',
-  templateUrl: './gmp.packing.preop.inventory.list.html',
-  providers: [
-    DragulaService
-  ]
+  templateUrl: './gmp.packing.preop.inventory.list.html'
 })
 
 export class GMPPackingPreopInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnDestroy, OnChanges {
@@ -28,7 +25,7 @@ export class GMPPackingPreopInventoryListComponent extends SuperInventoryListCom
 
   public ngOnInit(): void {
     this.setBagName(this.type.en)
-    this.setSuffix("gmp-packing-preop")
+    this.setSuffix('gmp-packing-preop')
     this.setInventory(this.type.inventory)
     super.ngOnInit()
   }
@@ -41,7 +38,7 @@ export class GMPPackingPreopInventoryListComponent extends SuperInventoryListCom
     }
   }
 
-  public ngOnChanges(): void{
+  public ngOnChanges(): void {
     this.setInventory(this.type.inventory)
     this.setOriginalInventory(this.type.inventory)
   }

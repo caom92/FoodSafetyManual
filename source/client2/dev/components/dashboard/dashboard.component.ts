@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { StateService } from '@uirouter/core'
 import { Language } from 'angular-l10n'
@@ -13,7 +13,7 @@ import { DashboardDirectory, DashboardFile, LocalURL } from './dashboard.interfa
   templateUrl: './dashboard.component.html'
 })
 
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   @Language() lang: string
   dashboardIcons: Array<DashboardDirectory | DashboardFile> = []
   currentDirectory: Array<DashboardDirectory | DashboardFile> = []

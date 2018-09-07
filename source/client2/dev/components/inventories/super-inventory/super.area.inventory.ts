@@ -1,14 +1,15 @@
 import { OnDestroy, OnInit } from '@angular/core'
+import { PubSubService } from 'angular2-pubsub'
+import { Subscription } from 'angular2-pubsub/node_modules/rxjs'
 
 import { AreaManagerService } from '../../../services/app.area.manager'
-import { PubSubService } from 'angular2-pubsub'
-import { Subscription } from 'rxjs/Subscription'
 
 export class SuperAreaInventoryComponent implements OnInit, OnDestroy {
   protected inventory: any = null
   protected emptyInventoryFlag: boolean = null
   protected scrollAllowed: boolean = true
   private suffix: string = null
+  protected bagName: string = null
   protected options: any = {
     moves: function (el, container, handle) {
       return (handle.classList.contains('handle'))
@@ -58,6 +59,10 @@ export class SuperAreaInventoryComponent implements OnInit, OnDestroy {
 
   public setSuffix(suffix: string): void {
     this.suffix = suffix
+  }
+
+  public setBagName(name: string): void {
+    this.bagName = name
   }
 
   public ngOnDestroy(): void {

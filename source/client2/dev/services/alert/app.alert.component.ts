@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core'
-import { MzBaseModal } from 'ng2-materialize'
+import { MzBaseModal } from 'ngx-materialize'
 
 import { AlertOptions } from './app.alert.interface'
 

@@ -9,10 +9,7 @@ import { InventoryItem } from '../interfaces/gmp.packing.scissors.knives.invento
 
 @Component({
   selector: '[gmp-packing-scissors-knives-inventory-list]',
-  templateUrl: './gmp.packing.scissors.knives.inventory.list.html',
-  providers: [
-    DragulaService
-  ]
+  templateUrl: './gmp.packing.scissors.knives.inventory.list.html'
 })
 
 export class GMPPackingScissorsKnivesInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnDestroy {

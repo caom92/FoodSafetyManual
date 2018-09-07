@@ -9,10 +9,7 @@ import { InventoryItem } from '../interfaces/gmp.packing.glass.brittle.inventory
 
 @Component({
   selector: '[gmp-packing-glass-brittle-inventory-list]',
-  templateUrl: './gmp.packing.glass.brittle.inventory.list.html',
-  providers: [
-    DragulaService
-  ]
+  templateUrl: './gmp.packing.glass.brittle.inventory.list.html'
 })
 
 export class GMPPackingGlassBrittleInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnDestroy, OnChanges {
