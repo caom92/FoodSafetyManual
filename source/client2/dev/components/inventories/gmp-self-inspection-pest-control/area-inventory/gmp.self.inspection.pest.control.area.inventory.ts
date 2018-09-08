@@ -22,7 +22,7 @@ export class GMPSelfInspectionPestControlAreaInventoryComponent extends SuperAre
 
   public ngOnInit(): void {
     this.setSuffix('gmp-self-inspection-pest-control')
-    this.setBagName(this.suffix + '-bag')
+    this.setBagName(this.suffix + '-area-bag')
     super.ngOnInit()
   }
 

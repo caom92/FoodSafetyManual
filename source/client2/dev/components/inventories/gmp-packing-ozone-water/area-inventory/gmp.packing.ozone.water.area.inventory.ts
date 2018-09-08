@@ -21,8 +21,8 @@ export class GMPPackingOzoneWaterAreaInventoryComponent extends SuperAreaInvento
   }
 
   public ngOnInit(): void {
-    this.setBagName('gmp-packing-ozone-water-area-bag')
     this.setSuffix('gmp-packing-ozone-water')
+    this.setBagName(this.suffix + '-area-bag')
     super.ngOnInit()
   }
 

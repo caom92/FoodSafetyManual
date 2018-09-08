@@ -22,8 +22,8 @@ export class GMPPackingPreopAreaInventoryComponent extends SuperAreaInventoryCom
   }
 
   public ngOnInit(): void {
-    this.setBagName('gmp-packing-preop-area-bag')
     this.setSuffix('gmp-packing-preop')
+    this.setBagName(this.suffix + '-area-bag')
     super.ngOnInit()
   }
 

@@ -21,8 +21,8 @@ export class GMPPackingGlassBrittleAreaInventoryComponent extends SuperAreaInven
   }
 
   public ngOnInit(): void {
-    this.setBagName('gmp-packing-glass-brittle-area-bag')
     this.setSuffix('gmp-packing-glass-brittle')
+    this.setBagName(this.suffix + '-area-bag')
     super.ngOnInit()
   }
 
