@@ -10,7 +10,7 @@ import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationService } from '../../../../services/app.translation'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization } from '../interfaces/gmp.others.unusual.occurrence.authorization.interface'
-import { CustomValidators } from '../../../../directives/custom.validators';
+import { CustomValidators } from '../../../../directives/custom.validators'
 
 @Component({
   selector: 'gmp-others-unusual-occurrence-authorization',

@@ -46,7 +46,7 @@ export class GMPSelfInspectionPestControlLogComponent extends SuperLogComponent 
     const control = <FormArray>this.captureForm.controls['stations']
     for (let room of this.log.rooms) {
       for (let station of room.stations) {
-        control.push(this.initItem({ id: station.id, is_secured: null, condition: null, activity: null, corrective_actions: "" }))
+        control.push(this.initItem({ id: station.id, is_secured: null, condition: null, activity: null, corrective_actions: '' }))
       }
     }
 
@@ -68,7 +68,7 @@ export class GMPSelfInspectionPestControlLogComponent extends SuperLogComponent 
 
     for (let room of this.log.rooms) {
       for (let station of room.stations) {
-        stations.push({ id: station.id, is_secured: null, condition: null, activity: null, corrective_actions: "" })
+        stations.push({ id: station.id, is_secured: null, condition: null, activity: null, corrective_actions: '' })
       }
     }
     this.captureForm.reset({

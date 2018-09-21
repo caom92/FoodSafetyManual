@@ -46,10 +46,10 @@ export class GMPPackingPreopLogComponent extends SuperLogComponent implements On
       let itemControl: Array<FormGroup> = []
       for (let type of area.types) {
         for (let item of type.items) {
-          itemControl.push(this.initItem({ id: item.id, is_acceptable: null, corrective_action: 1, comment: "" }))
+          itemControl.push(this.initItem({ id: item.id, is_acceptable: null, corrective_action: 1, comment: '' }))
         }
       }
-      control.push(this.initArea({ id: area.id, time: currentTime, notes: "", person_performing_sanitation: "", items: itemControl }))
+      control.push(this.initArea({ id: area.id, time: currentTime, notes: '', person_performing_sanitation: '', items: itemControl }))
     }
   }
 
@@ -61,10 +61,10 @@ export class GMPPackingPreopLogComponent extends SuperLogComponent implements On
       let items: Array<CaptureItem> = []
       for (let type of area.types) {
         for (let item of type.items) {
-          items.push({ id: item.id, is_acceptable: null, corrective_action: 1, comment: "" })
+          items.push({ id: item.id, is_acceptable: null, corrective_action: 1, comment: '' })
         }
       }
-      areas.push({ id: area.id, time: currentTime, notes: "", person_performing_sanitation: "", items: items })
+      areas.push({ id: area.id, time: currentTime, notes: '', person_performing_sanitation: '', items: items })
     }
     this.captureForm.reset({
       date: currentDate,

@@ -48,10 +48,10 @@ export class GMPDocControlDocControlLogComponent extends SuperLogComponent imple
     const currentDate = this.timeService.getISODate(new Date())
     this.captureForm = this._fb.group({
       date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
-      capture_date: ["", [Validators.required, Validators.minLength(1)]],
-      users: ["", [Validators.required]],
-      notes: ["", [Validators.maxLength(65535)]],
-      album_url: ["", [Validators.maxLength(65535)]],
+      capture_date: ['', [Validators.required, Validators.minLength(1)]],
+      users: ['', [Validators.required]],
+      notes: ['', [Validators.maxLength(65535)]],
+      album_url: ['', [Validators.maxLength(65535)]],
       files: [null],
       images: [null]
     })
@@ -59,7 +59,7 @@ export class GMPDocControlDocControlLogComponent extends SuperLogComponent imple
 
   public resetForm(): void {
     this.initForm()
-    $(".fileControl").val("")
+    $(".fileControl").val('')
     this.selectedDocument = null
   }
 

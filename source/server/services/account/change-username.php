@@ -59,11 +59,17 @@ $service = [
         3
       );
     }
+
+    if ($isAdmin && $isUpdatingOtherUsername) {
+      $userId = $request['user_id'];
+    } else {
+      $userId = $segment->get('user_id');
+    }
     
     // if the password is not duplicated and the password is valid, then
     // update the user name
     $users->updateLogInNameByUserID(
-      $segment->get('user_id'),
+      $userId,
       $request['new_username']
     );
   }

@@ -22,12 +22,12 @@ export class GMPPackingFinishedProductReportComponent extends SuperReportCompone
   public getPreview(): Array<Preview> {
     let preview: Array<Preview> = []
 
-    let items = ""
+    let items = ''
     for (let entry of this.report.entries) {
       items += entry.product + ", "
     }
     
-    if (items != "") {
+    if (items != '') {
       items = items.substring(0, items.length - 2)
     }
 

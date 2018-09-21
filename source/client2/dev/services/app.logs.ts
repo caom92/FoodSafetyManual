@@ -391,9 +391,9 @@ export class LogService {
 
   resolveBackendString(input: string | number): string {
     if (typeof input === "number") {
-      return (input !== null && input !== undefined && Number.isNaN(input) !== true) ? String(input) : ""
+      return (input !== null && input !== undefined && Number.isNaN(input) !== true) ? String(input) : ''
     } else {
-      return (input !== null && input !== undefined) ? String(input) : ""
+      return (input !== null && input !== undefined) ? String(input) : ''
     }
   }
 

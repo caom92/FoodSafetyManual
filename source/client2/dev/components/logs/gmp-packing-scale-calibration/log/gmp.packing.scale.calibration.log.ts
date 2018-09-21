@@ -1,18 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { DatePipe } from '@angular/common'
-import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms'
+import { FormArray, FormBuilder, Validators } from '@angular/forms'
+import { Language } from 'angular-l10n'
 
-import { Language, TranslationService as TS } from 'angular-l10n'
-
-import { CaptureType, CaptureItem } from '../interfaces/gmp.packing.scale.calibration.capture.interface'
-import { Log } from '../interfaces/gmp.packing.scale.calibration.log.interface'
-
-import { DateTimeService } from '../../../../services/app.time'
-import { TranslationService } from '../../../../services/app.translation'
-import { ToastsService } from '../../../../services/app.toasts'
-import { LogService } from '../../../../services/app.logs'
-import { SuperLogComponent } from '../../super-logs/super.logs.log'
 import { CustomValidators } from '../../../../directives/custom.validators'
+import { LogService } from '../../../../services/app.logs'
+import { DateTimeService } from '../../../../services/app.time'
+import { ToastsService } from '../../../../services/app.toasts'
+import { TranslationService } from '../../../../services/app.translation'
+import { SuperLogComponent } from '../../super-logs/super.logs.log'
+import { CaptureItem, CaptureType } from '../interfaces/gmp.packing.scale.calibration.capture.interface'
+import { Log } from '../interfaces/gmp.packing.scale.calibration.log.interface'
 
 @Component({
   selector: 'gmp-packing-scale-calibration-log',
@@ -46,7 +43,7 @@ export class GMPPackingScaleCalibrationLogComponent extends SuperLogComponent im
       corrective_action: ['', [Validators.maxLength(65535)]],
       types: this._fb.array([])
     })
-    const control = <FormArray>this.captureForm.controls['types'];
+    const control = <FormArray>this.captureForm.controls['types']
     for (let type of this.log.types.scales) {
       let itemControl = []
       for (let item of type.items) {

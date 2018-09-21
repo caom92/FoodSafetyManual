@@ -24,7 +24,7 @@ export class GMPPackingThermoCalibrationAddItemComponent extends SuperInventoryA
   public ngOnInit(): void {
     this.setSuffix("gmp-packing-thermo-calibration")
     this.createItemForm({
-      name: ["", [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
+      name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
     })
   }
 

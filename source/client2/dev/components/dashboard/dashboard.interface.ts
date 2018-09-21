@@ -8,11 +8,16 @@ export interface AbstractDashboardElement {
 }
 
 export interface DashboardDirectory extends AbstractDashboardElement {
-  children?: Array<DashboardDirectory | DashboardFile>
+  children?: Array<DashboardDirectory | DashboardLink>
+}
+
+export interface DashboardLink extends AbstractDashboardElement {
+  url?: string
 }
 
 export interface DashboardFile extends AbstractDashboardElement {
-  url?: string
+  file_id?: number
+  file_path?: string
 }
 
 export interface LocalURL {

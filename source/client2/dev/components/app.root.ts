@@ -311,6 +311,8 @@ import { GMPPackingATPTestingReportItemComponent } from './reports/gmp-packing-a
 import { GMPDocControlDocControlReportComponent } from './reports/gmp-doc-control-doc-control/report/gmp.doc.control.doc.control.report'
 import { ReportPreview } from './reports/preview/report.preview'
 import { ProductDataViewerComponent } from './product-data-viewer/product.data.viewer.component'
+import { DocumentListComponent } from './document-viewer/document.list'
+import { DocumentViewerComponent } from './document-viewer/document.viewer'
 import { PapaParseModule } from 'ngx-papaparse'
 import { DashboardComponent } from './dashboard/dashboard.component'
 import { languageConfig } from '../functions/l10n-config'
@@ -412,13 +414,23 @@ import { HttpClientModule } from '@angular/common/http'
           component: ProductDataViewerComponent
         },
         {
+          name: 'document-list',
+          url: '/document-list',
+          component: DocumentListComponent
+        },
+        {
+          name: 'document-viewer',
+          url: '/document-viewer/*path',
+          component: DocumentViewerComponent
+        },
+        {
           name: 'menu',
           url: '/menu/*path',
           component: DashboardComponent
         }
       ],
       useHash: true,
-      otherwise: '/edit-profile'
+      otherwise: '/menu/'
     })
   ],
   // declaramos los servicios globales
@@ -447,6 +459,8 @@ import { HttpClientModule } from '@angular/common/http'
     EditProfileComponent,
     KeysPipe,
     ProductDataViewerComponent,
+    DocumentViewerComponent,
+    DocumentListComponent,
     ReportProblemComponent,
     ProgressModalComponent,
     KoiLoader,
@@ -643,6 +657,7 @@ import { HttpClientModule } from '@angular/common/http'
     GMPPackingPreopReportComponent,
     UserInfoModalComponent,
     EditUserInfoModalComponent,
+    DashboardComponent,
     GMPPackingPreopLogComponent,
     GAPPackingPreopLogComponent,
     GMPPackingHandWashingLogComponent,
@@ -704,7 +719,7 @@ import { HttpClientModule } from '@angular/common/http'
     GMPPackingOzoneWaterAuthorizationComponent
   ],
   // indicamos cual es el componente raiz
-  bootstrap: [HomeComponent]
+  bootstrap: [ HomeComponent ]
 })
 export class RootModule {
   // Constructor del modulo raiz importa aquellos servicios que seran globales 
@@ -728,7 +743,7 @@ export class RootModule {
     this.translation.translationChanged.subscribe(
       () => {
         window.setTimeout(() => {
-          $("select").material_select()
+          $('select').material_select()
         }, 100)
       }
     )

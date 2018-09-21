@@ -14,7 +14,7 @@ $service = [
     ]
   ],
   'callback' => $getAddMenuItemCallback(FALSE, 
-    function($request, $segment, $image) use ($arrayElementExists) {
+    function($request, $segment, $image, $scope) use ($arrayElementExists) {
     if ($arrayElementExists($request, 'parent_id')) {
       $parentId = (strlen($request['parent_id']) > 0) ?
         $request['parent_id'] : NULL;
@@ -25,7 +25,7 @@ $service = [
     return [
       'user_id' => $segment->get('user_id'),
       'parent_id' => $parentId,
-      'is_directory' => FALSE,
+      'type_id' => 2,
       'name' => $request['name'],
       'icon' => (isset($request['icon'])) ?
         $request['icon'] : NULL,

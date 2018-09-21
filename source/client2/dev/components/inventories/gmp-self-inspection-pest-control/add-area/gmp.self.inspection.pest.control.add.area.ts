@@ -24,7 +24,7 @@ export class GMPSelfInspectionPestControlAddAreaComponent extends SuperInventory
   public ngOnInit(): void {
     this.setSuffix("gmp-self-inspection-pest-control")
     this.createItemForm({
-      name: ["", [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
+      name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
     })
   }
 

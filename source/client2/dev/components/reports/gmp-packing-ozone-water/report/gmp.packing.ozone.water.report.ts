@@ -22,7 +22,7 @@ export class GMPPackingOzoneWaterReportComponent extends SuperReportComponent {
   ngOnInit() {
     super.ngOnInit()
     for (let item of this.report.items) {
-      let idString = ""
+      let idString = ''
       for (let field of item.fields) {
         idString += field.name_en
       }

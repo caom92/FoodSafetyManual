@@ -7,7 +7,9 @@ $service = [
   'callback' => function($scope, $request) {
     $segment = $scope->session->getSegment('fsm');
     $userId = $segment->get('user_id');
+    $zoneId = $segment->get('zone_id');
     $rows = $scope->daoFactory->get('MenuItems')->selectByUserId($userId);
+    $files = $scope->daoFactory->get('MenuFiles')->selectByZoneId($zoneId);
 
     $items = [];
     $addChild = function(&$array, $child) use (&$addChild) {
@@ -35,11 +37,13 @@ $service = [
       $rowValues = [
         'id' => $row['id'],
         'parent_id' => $row['parent_id'],
-        'type' => (boolval($row['is_directory'])) ? 'directory' : 'link',
+        'type' => $row['type'],
         'name' => $row['name'],
         'icon' => $row['icon'],
         'image' => $row['image'],
         'url' => $row['url'],
+        'file_id' => $row['file_id'],
+        'path' => $row['path'],
         'children' => []
       ];
 
@@ -50,7 +54,10 @@ $service = [
       }
     }
 
-    return $items;
+    $ret['menu'] = $items;
+    $ret['files'] = $files;
+
+    return $ret;
   }
 ];
 

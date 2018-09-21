@@ -19,6 +19,6 @@ export class GMPPackingATPTestingReportComponent extends SuperReportComponent {
   }
 
   public getCSS(): string {
-    return ""
+    return ''
   }
 }

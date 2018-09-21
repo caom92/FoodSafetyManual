@@ -45,7 +45,7 @@ export class GMPPackingScissorsKnivesLogComponent extends SuperLogComponent impl
     })
     const control = <FormArray>this.captureForm.controls['items']
     for (let item of this.log.items) {
-      control.push(this.initItem({ id: item.id, time: currentTime, approved: false, condition: false, is_sanitized: false, corrective_action: "" }))
+      control.push(this.initItem({ id: item.id, time: currentTime, approved: false, condition: false, is_sanitized: false, corrective_action: '' }))
     }
   }
 
@@ -54,7 +54,7 @@ export class GMPPackingScissorsKnivesLogComponent extends SuperLogComponent impl
     const currentTime = this.timeService.getISOTime(new Date())
     let items = []
     for (let item of this.log.items) {
-      items.push({ id: item.id, time: currentTime, approved: false, condition: false, is_sanitized: false, corrective_action: "" })
+      items.push({ id: item.id, time: currentTime, approved: false, condition: false, is_sanitized: false, corrective_action: '' })
     }
     this.captureForm.reset({
       date: currentDate,

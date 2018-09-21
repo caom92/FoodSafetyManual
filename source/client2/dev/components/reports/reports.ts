@@ -68,8 +68,8 @@ export class ReportTab extends DynamicComponentResolver implements OnInit {
   loaderComponent: any = null
   startDate: string = new Date().getFullYear() + '-' + ((new Date().getMonth() + 1 < 10) ? '0' + (new Date().getMonth() + 1).toString() : (new Date().getMonth() + 1).toString()) + '-' + new Date().getDate()
   endDate: string = new Date().getFullYear() + '-' + ((new Date().getMonth() + 1 < 10) ? '0' + (new Date().getMonth() + 1).toString() : (new Date().getMonth() + 1).toString()) + '-' + new Date().getDate()
-  reportSuffix: string = ""
-  reportFooter: string = ""
+  reportSuffix: string = ''
+  reportFooter: string = ''
   reports: Array<any> = []
   activeReport: ActiveReport = { id: 'any' }
   documentList: any = null
@@ -116,7 +116,7 @@ export class ReportTab extends DynamicComponentResolver implements OnInit {
     this.pdfReport.footer = this.reportFooter
     this.pdfReport.supervisor = this.pdfReports._results[0].report.approved_by
     this.pdfReport.signature = this.pdfReports._results[0].report.signature_path
-    this.pdfReport.subject = ""
+    this.pdfReport.subject = ''
     this.pdfReport.images = null
     this.pdfReport.fontsize = this.pdfReports._results[0].getFontSize()
     let tempContent = []

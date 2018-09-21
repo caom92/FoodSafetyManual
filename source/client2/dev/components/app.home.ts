@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { StateService } from '@uirouter/angular'
 import { Language } from 'angular-l10n'
+import { PubSubService } from 'angular2-pubsub'
 import { Observable } from 'rxjs'
 
 import { BackendService } from '../services/app.backend'
@@ -27,7 +28,8 @@ export class HomeComponent implements OnInit
     private router: StateService,
     private home: HomeElementsService,
     private langManager: LanguageService,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private events: PubSubService
   ) {
   }
 
@@ -163,6 +165,10 @@ export class HomeComponent implements OnInit
           this.home.companyAddress = response.data.address
           this.home.companyLogo = response.data.logo_path
         } 
+
+        // notificamos a otros componentes del cambio
+
+        this.events.$pub('zone:change', response.data)
 
         // damos retroalimentacion al usuario del resultado de esta operacion
         this.toastManager.showText(

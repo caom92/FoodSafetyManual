@@ -77,12 +77,11 @@ $getAddMenuItemCallback = function($isDirectory, $getInsertValues)
     $segment = $scope->session->getSegment('fsm');
     $menuItemsTable = $scope->daoFactory->get('MenuItems');
     $itemId = $menuItemsTable->insert($getInsertValues(
-      $request, $segment, $image
+      $request, $segment, $image, $scope
     ));
 
     $ret = ($menuItemsTable->getById($itemId));
     $ret['children'] = [];
-    $ret['type'] = (boolval($menuItemsTable->getById($itemId)['is_directory'])) ? 'directory' : 'link';
 
     return $ret;
   };

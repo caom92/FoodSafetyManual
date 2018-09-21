@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { FormArray, FormBuilder, Validators, FormGroup } from '@angular/forms'
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
+import { CustomValidators } from '../../../../directives/custom.validators'
 import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
@@ -10,7 +11,6 @@ import { TranslationService } from '../../../../services/app.translation'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
 import { CaptureArea, CaptureItem } from '../interfaces/gmp.packing.glass.brittle.capture.interface'
 import { Log } from '../interfaces/gmp.packing.glass.brittle.log.interface'
-import { CustomValidators } from '../../../../directives/custom.validators';
 
 @Component({
   selector: 'gmp-packing-glass-brittle-log',
@@ -35,7 +35,7 @@ export class GMPPackingGlassBrittleLogComponent extends SuperLogComponent implem
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-glass-brittle")
+    this.setSuffix('gmp-packing-glass-brittle')
     super.ngOnInit()
     this.initForm()
   }

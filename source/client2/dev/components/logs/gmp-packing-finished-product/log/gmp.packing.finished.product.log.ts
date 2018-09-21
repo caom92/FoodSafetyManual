@@ -2,15 +2,14 @@ import { Component, Input, OnInit } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
+import { CustomValidators } from '../../../../directives/custom.validators'
 import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationService } from '../../../../services/app.translation'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
-import { CaptureEntry } from '../interfaces/gmp.packing.finished.product.capture.interface'
 import { Log } from '../interfaces/gmp.packing.finished.product.log.interface'
-import { CustomValidators } from '../../../../directives/custom.validators';
 
 @Component({
   selector: 'gmp-packing-finished-product-log',
@@ -107,16 +106,16 @@ export class GMPPackingFinishedProductLogComponent extends SuperLogComponent imp
       const originControl = (<FormGroup>entry).controls.origin
       const notesControl = (<FormGroup>entry).controls.notes
       const albumControl = (<FormGroup>entry).controls.album_url
-      if (dateControl.value == null || dateControl.value == "") {
+      if (dateControl.value == null || dateControl.value == '') {
         dateControl.disable()
       }
-      if (originControl.value == null || originControl.value == "") {
+      if (originControl.value == null || originControl.value == '') {
         originControl.disable()
       }
-      if (notesControl.value == null || notesControl.value == "") {
+      if (notesControl.value == null || notesControl.value == '') {
         notesControl.disable()
       }
-      if (albumControl.value == null || albumControl.value == "") {
+      if (albumControl.value == null || albumControl.value == '') {
         albumControl.disable()
       }
     }

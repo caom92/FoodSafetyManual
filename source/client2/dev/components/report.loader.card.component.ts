@@ -1,15 +1,13 @@
-import { Component, Input, NgModule } from '@angular/core'
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
-import { MaterializeModule } from 'ngx-materialize'
+import { Component, Input } from '@angular/core'
 
 @Component({
-    selector: 'report-loader-card',
-    templateUrl: '../templates/report.loader.card.component.html'
+  selector: 'report-loader-card',
+  templateUrl: '../templates/report.loader.card.component.html'
 })
 
 export class ReportLoaderCard {
-    @Input()
-    displayDate: string = ""
+  @Input()
+  displayDate: string = ''
 
-    componentName: "ReportLoaderCard"
+  componentName: "ReportLoaderCard"
 }

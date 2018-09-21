@@ -30,25 +30,25 @@ export class AuthorizationLoader extends DynamicComponentResolver implements OnI
   @Language() lang: string
   @Input() suffix: string
   @Input() reportID: number
-  @Input() log_name: string = "Loading..."
+  @Input() log_name: string = 'Loading...'
   loaderComponent: Type<any> = null
   private readonly authorizationComponents = {
-    "gap-others-unusual-occurrence": GAPOthersUnusualOccurrenceAuthorizationComponent,
-    "gap-packing-preop": GAPPackingPreopAuthorizationComponent,
-    "gmp-doc-control-doc-control": GMPDocControlDocControlAuthorizationComponent,
-    "gmp-others-unusual-occurrence": GMPOthersUnusualOccurrenceAuthorizationComponent,
-    "gmp-packing-aged-product": GMPPackingAgedProductAuthorizationComponent,
-    "gmp-packing-atp-testing": GMPPackingATPTestingAuthorizationComponent,
-    "gmp-packing-cold-room-temp": GMPPackingColdRoomTempAuthorizationComponent,
-    "gmp-packing-finished-product": GMPPackingFinishedProductAuthorizationComponent,
-    "gmp-packing-glass-brittle": GMPPackingGlassBrittleAuthorizationComponent,
-    "gmp-packing-hand-washing": GMPPackingHandWashingAuthorizationComponent,
-    "gmp-packing-preop": GMPPackingPreopAuthorizationComponent,
-    "gmp-packing-scale-calibration": GMPPackingScaleCalibrationAuthorizationComponent,
-    "gmp-packing-scissors-knives": GMPPackingScissorsKnivesAuthorizationComponent,
-    "gmp-packing-thermo-calibration": GMPPackingThermoCalibrationAuthorizationComponent,
-    "gmp-self-inspection-pest-control": GMPSelfInspectionPestControlAuthorizationComponent,
-    "gmp-packing-ozone-water": GMPPackingOzoneWaterAuthorizationComponent
+    'gap-others-unusual-occurrence': GAPOthersUnusualOccurrenceAuthorizationComponent,
+    'gap-packing-preop': GAPPackingPreopAuthorizationComponent,
+    'gmp-doc-control-doc-control': GMPDocControlDocControlAuthorizationComponent,
+    'gmp-others-unusual-occurrence': GMPOthersUnusualOccurrenceAuthorizationComponent,
+    'gmp-packing-aged-product': GMPPackingAgedProductAuthorizationComponent,
+    'gmp-packing-atp-testing': GMPPackingATPTestingAuthorizationComponent,
+    'gmp-packing-cold-room-temp': GMPPackingColdRoomTempAuthorizationComponent,
+    'gmp-packing-finished-product': GMPPackingFinishedProductAuthorizationComponent,
+    'gmp-packing-glass-brittle': GMPPackingGlassBrittleAuthorizationComponent,
+    'gmp-packing-hand-washing': GMPPackingHandWashingAuthorizationComponent,
+    'gmp-packing-preop': GMPPackingPreopAuthorizationComponent,
+    'gmp-packing-scale-calibration': GMPPackingScaleCalibrationAuthorizationComponent,
+    'gmp-packing-scissors-knives': GMPPackingScissorsKnivesAuthorizationComponent,
+    'gmp-packing-thermo-calibration': GMPPackingThermoCalibrationAuthorizationComponent,
+    'gmp-self-inspection-pest-control': GMPSelfInspectionPestControlAuthorizationComponent,
+    'gmp-packing-ozone-water': GMPPackingOzoneWaterAuthorizationComponent
   }
 
   constructor(factoryResolver: ComponentFactoryResolver, private logService: LogService, private router: StateService) {

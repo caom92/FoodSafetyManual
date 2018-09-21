@@ -104,7 +104,7 @@ export class GMPPackingOzoneWaterLogComponent extends SuperLogComponent implemen
     const currentDate = this.timeService.getISODate(new Date())
     let items = []
     for (let item of this.log.items) {
-      items.push({ id: item.id, reading: null, ph: null, orp: null, temperature: null, corrective_action: "", product: "", lot: "", parcel: "", reference: "", total_chlorine: null, free_chlorine: null, rinse: null, status: false })
+      items.push({ id: item.id, reading: null, ph: null, orp: null, temperature: null, corrective_action: '', product: '', lot: '', parcel: '', reference: '', total_chlorine: null, free_chlorine: null, rinse: null, status: false })
     }
     this.captureForm.reset({
       date: currentDate,

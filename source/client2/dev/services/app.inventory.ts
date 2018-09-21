@@ -149,7 +149,7 @@ export class InventoryService {
 
   public toggleItem(data: any, service: string): Promise<void> {
     let togglePromise = new Promise<any>((resolve, reject) => {
-      let loaderToggle = this.loaderService.koiLoader("")
+      let loaderToggle = this.loaderService.koiLoader('')
       let item = new FormData()
       item.append("id", String(data.id))
       loaderToggle.present()
@@ -199,7 +199,7 @@ export class InventoryService {
 
   public reorderInventory(data: Array<{ id: number, position: number }>, service: string): Promise<any> {
     let reorderPromise = new Promise<any>((resolve, reject) => {
-      let loaderReorder = this.loaderService.koiLoader("")
+      let loaderReorder = this.loaderService.koiLoader('')
       let reorderForm = new FormData()
       let flatData = this.flatten({ items: data })
 
@@ -245,7 +245,7 @@ export class InventoryService {
 
   public addItem(data: any, suffix: string): Promise<any> {
     let addPromise = new Promise<any>((resolve, reject) => {
-      let loaderAdd = this.loaderService.koiLoader("")
+      let loaderAdd = this.loaderService.koiLoader('')
       let itemForm = new FormData()
       let flatData = this.flatten(data)
 
@@ -329,7 +329,7 @@ export class InventoryService {
     if (Object(data) !== data) {
       throw Error("Non-object parameter can't be flattened")
     } else {
-      recurse(data, "")
+      recurse(data, '')
     }
 
     return result

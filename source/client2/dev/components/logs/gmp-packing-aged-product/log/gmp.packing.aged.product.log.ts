@@ -60,19 +60,19 @@ export class GMPPackingAgedProductLogComponent extends SuperLogComponent impleme
 
   public initEmptyEntry(): FormGroup {
     return this._fb.group({
-      batch: ["", [Validators.maxLength(this.maxLengths.batch)]],
-      warehouse: ["", [Validators.maxLength(this.maxLengths.warehouse)]],
-      vendor: ["", [Validators.required, Validators.maxLength(this.maxLengths.vendor)]],
-      item: ["", [Validators.required, Validators.maxLength(this.maxLengths.item)]],
+      batch: ['', [Validators.maxLength(this.maxLengths.batch)]],
+      warehouse: ['', [Validators.maxLength(this.maxLengths.warehouse)]],
+      vendor: ['', [Validators.required, Validators.maxLength(this.maxLengths.vendor)]],
+      item: ['', [Validators.required, Validators.maxLength(this.maxLengths.item)]],
       age: [null, [Validators.required]],
       quality_id: [null, [Validators.required]],
-      origin: ["", [CustomValidators.exactLength(this.maxLengths.origin)]],
-      packed_date: ["", [Validators.required, CustomValidators.dateValidator()]],
+      origin: ['', [CustomValidators.exactLength(this.maxLengths.origin)]],
+      packed_date: ['', [Validators.required, CustomValidators.dateValidator()]],
       quantity: [null, [Validators.required, Validators.min(1)]],
-      location: ["", [Validators.maxLength(this.maxLengths.location)]],
+      location: ['', [Validators.maxLength(this.maxLengths.location)]],
       action_id: [null, [Validators.required]],
-      notes: ["", [Validators.maxLength(this.maxLengths.notes)]],
-      album_url: ["", [Validators.maxLength(this.maxLengths.album_url)]]
+      notes: ['', [Validators.maxLength(this.maxLengths.notes)]],
+      album_url: ['', [Validators.maxLength(this.maxLengths.album_url)]]
     })
   }
 

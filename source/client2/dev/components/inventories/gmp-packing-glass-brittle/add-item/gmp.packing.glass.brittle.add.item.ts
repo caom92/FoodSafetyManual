@@ -26,8 +26,8 @@ export class GMPPackingGlassBrittleAddItemComponent extends SuperInventoryAddIte
   public ngOnInit(): void {
     this.setSuffix("gmp-packing-glass-brittle")
     this.createItemForm({
-      name: ["", [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
-      quantity: ["",[Validators.required]]
+      name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
+      quantity: ['',[Validators.required]]
     })
   }
 

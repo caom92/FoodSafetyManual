@@ -3,12 +3,12 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { StateService } from '@uirouter/core'
 import { Language } from 'angular-l10n'
 
+import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
 import { ToastsService } from '../../../../services/app.toasts'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization } from '../interfaces/gmp.packing.cold.room.temp.authorization.interface'
 import { UpdateItem } from '../interfaces/gmp.packing.cold.room.temp.update.interface'
-import { LanguageService } from '../../../../services/app.language';
 
 @Component({
   selector: 'gmp-packing-cold-room-temp-authorization',

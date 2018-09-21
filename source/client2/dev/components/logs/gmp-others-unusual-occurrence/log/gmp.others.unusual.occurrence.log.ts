@@ -52,12 +52,12 @@ export class GMPOthersUnusualOccurrenceLogComponent extends SuperLogComponent im
       time: [currentTime, [Validators.required, CustomValidators.timeValidator()]],
       incident_date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       shift_id: [null, [Validators.required]],
-      area_id: ["", [Validators.required, Validators.maxLength(this.maxLengths.area_id)]],
-      product_id: ["", [Validators.required, Validators.maxLength(this.maxLengths.product_id)]],
-      batch: ["", [Validators.required, Validators.maxLength(this.maxLengths.batch)]],
-      description: ["", [Validators.required, Validators.maxLength(this.maxLengths.description)]],
-      corrective_action: ["", [Validators.required, Validators.maxLength(this.maxLengths.corrective_action)]],
-      album_url: ["", [Validators.required, Validators.maxLength(this.maxLengths.album_url)]]
+      area_id: ['', [Validators.required, Validators.maxLength(this.maxLengths.area_id)]],
+      product_id: ['', [Validators.required, Validators.maxLength(this.maxLengths.product_id)]],
+      batch: ['', [Validators.required, Validators.maxLength(this.maxLengths.batch)]],
+      description: ['', [Validators.required, Validators.maxLength(this.maxLengths.description)]],
+      corrective_action: ['', [Validators.required, Validators.maxLength(this.maxLengths.corrective_action)]],
+      album_url: ['', [Validators.required, Validators.maxLength(this.maxLengths.album_url)]]
     })
   }
 
@@ -69,12 +69,12 @@ export class GMPOthersUnusualOccurrenceLogComponent extends SuperLogComponent im
       time: currentTime,
       incident_date: currentDate,
       shift_id: null,
-      area_id: "",
-      product_id: "",
-      batch: "",
-      description: "",
-      corrective_action: "",
-      album_url: ""
+      area_id: '',
+      product_id: '',
+      batch: '',
+      description: '',
+      corrective_action: '',
+      album_url: ''
     })
   }
 }

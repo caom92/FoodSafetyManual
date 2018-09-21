@@ -8,7 +8,7 @@ export class DateTimeService {
   }
 
   getISODate(date: Date) {
-    var ISODate = "";
+    var ISODate = '';
 
     ISODate += date.getFullYear() + "-";
 
@@ -28,7 +28,7 @@ export class DateTimeService {
   }
 
   getISOTime(date: Date) {
-    let ISOTime = "";
+    let ISOTime = '';
 
     if (date.getHours() < 10) {
       ISOTime += "0" + date.getHours() + ":";

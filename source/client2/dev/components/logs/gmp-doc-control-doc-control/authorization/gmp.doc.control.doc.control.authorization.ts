@@ -95,6 +95,7 @@ export class GMPDocControlDocControlAuthorizationComponent extends SuperAuthoriz
           if (response.meta.return_code == 0) {
             //success
             this.toastService.showText("updatedLog")
+            this.captureForm.markAsPristine()
             this.enableForm()
           } else {
             // error

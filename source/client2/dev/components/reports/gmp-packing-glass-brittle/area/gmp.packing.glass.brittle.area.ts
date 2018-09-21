@@ -13,7 +13,7 @@ export class GMPPackingGlassBrittleReportAreaComponent implements OnInit {
   @Input() area: ReportArea = { id: null, name: null, items: [] }
   @Language() lang: string
   rowspan: number = 0
-  @Input() time: string = ""
+  @Input() time: string = ''
   @Input() item: ReportItem
 
   constructor() {

@@ -1,12 +1,12 @@
-import { UserInfoModalComponent } from './modal.user.info'
-import { Component, OnInit, Input, ComponentRef } from '@angular/core'
-import { LanguageService } from '../services/app.language'
+import { Component, ComponentRef, Input } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { MzBaseModal, MzModalService } from 'ngx-materialize'
+
 import { BackendService } from '../services/app.backend'
+import { LanguageService } from '../services/app.language'
 import { ToastService } from '../services/app.toast'
-import { MzModalService, MzBaseModal } from 'ngx-materialize'
-import { UsersComponent } from './app.users'
-import { ProgressModalComponent } from './modal.please.wait';
+import { ProgressModalComponent } from './modal.please.wait'
+import { UserInfoModalComponent } from './modal.user.info'
 
 @Component({
   templateUrl: '../templates/modal.user.info.edit.html'

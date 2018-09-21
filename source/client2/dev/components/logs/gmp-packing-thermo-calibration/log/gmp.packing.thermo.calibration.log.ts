@@ -51,7 +51,7 @@ export class GMPPackingThermoCalibrationLogComponent extends SuperLogComponent i
     })
     const control = <FormArray>this.captureForm.controls['items']
     for (let item of this.log.items) {
-      control.push(this.initItem({ id: item.id, test: null, calibration: false, sanitization: false, deficiencies: "", corrective_action: "" }))
+      control.push(this.initItem({ id: item.id, test: null, calibration: false, sanitization: false, deficiencies: '', corrective_action: '' }))
     }
   }
 
@@ -60,7 +60,7 @@ export class GMPPackingThermoCalibrationLogComponent extends SuperLogComponent i
     const currentTime = this.timeService.getISOTime(new Date())
     let items = []
     for (let item of this.log.items) {
-      items.push({ id: item.id, test: null, calibration: false, sanitization: false, deficiencies: "", corrective_action: "" })
+      items.push({ id: item.id, test: null, calibration: false, sanitization: false, deficiencies: '', corrective_action: '' })
     }
     this.captureForm.reset({
       date: currentDate,

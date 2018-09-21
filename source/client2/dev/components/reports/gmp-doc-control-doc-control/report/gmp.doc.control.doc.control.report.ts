@@ -41,12 +41,12 @@ export class GMPDocControlDocControlReportComponent extends SuperReportComponent
     let preview: Array<Preview> = []
     let content: string = ''
 
-    /*let items = ""
+    /*let items = ''
     for (let entry of this.report.reports.document.entries.employee) {
       items += entry.product + ", "
     }
 
-    if (items != "") {
+    if (items != '') {
       items = items.substring(0, items.length - 2)
     }*/
 
@@ -80,7 +80,7 @@ export class GMPDocControlDocControlReportComponent extends SuperReportComponent
       return JSON.stringify(temp)
     }
     
-    return ""
+    return ''
   }
 
   public getCSS(): string {

@@ -28,7 +28,7 @@ export class GMPPackingPreopAddItemComponent extends SuperInventoryAddItemCompon
     //this.types = this.params.get("type_array")
     this.setSuffix("gmp-packing-preop")
     this.createItemForm({
-      name: ["", [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
+      name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
       type: [null,[Validators.required]]
     })
   }

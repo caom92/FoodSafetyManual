@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
+import { CustomValidators } from '../../../../directives/custom.validators'
 import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
@@ -9,7 +10,6 @@ import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationService } from '../../../../services/app.translation'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
 import { Log } from '../interfaces/gmp.packing.atp.testing.log.interface'
-import { CustomValidators } from '../../../../directives/custom.validators';
 
 @Component({
   selector: 'gmp-packing-atp-testing-log',
@@ -87,7 +87,7 @@ export class GMPPackingATPTestingLogComponent extends SuperLogComponent implemen
       test_number: [test, [Validators.required]],
       test1: [null, [Validators.required]],
       results1: [null, [Validators.required]],
-      corrective_action: [""], // TODO Max length
+      corrective_action: [''], // TODO Max length
       test2: [null],
       results2: [null]
     })

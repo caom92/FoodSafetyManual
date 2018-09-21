@@ -1,0 +1,15 @@
+include ../../templates/pug/globals.pug
+
+h4 Archivos auditables
+mz-collection
+  mz-collection-item(*ngFor='let file of fileList', [avatar]='true')
+    i.red.accent-4(mz-avatar, mz-icon-mdi, [icon]="'file-pdf'")
+    .title {{file.name}}
+    div Subido por: {{file.first_name}} {{file.last_name}}
+    div Fecha de subida: {{file.upload_date | l10nDate:defaultLocale:'longDate'}}
+    +uiRouterLink('document-viewer')(mz-secondary-content, [uiParams]='{ path: file.path }')
+      i(mz-icon-mdi, [icon]="'open-in-new'")
+div(*ngIf='fileList.length == 0')
+  h4
+    i.red-text(mz-icon-mdi, [align]="'center'", [icon]="'alert-circle'", [size]="'42px'")
+    | No hay archivos guardados para esta zona

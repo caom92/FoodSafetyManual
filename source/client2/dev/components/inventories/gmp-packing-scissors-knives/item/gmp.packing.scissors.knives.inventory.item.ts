@@ -9,7 +9,7 @@ import { InventoryService } from '../../../../services/app.inventory'
 })
 
 export class GMPPackingScissorsKnivesInventoryItemComponent extends SuperInventoryItemComponent implements OnInit {
-  @Input() private type: string = ""
+  @Input() private type: string = ''
   @Input() item: InventoryItem = null
 
   constructor(inventoryService: InventoryService) {

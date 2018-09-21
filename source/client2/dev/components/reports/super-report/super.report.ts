@@ -7,14 +7,14 @@ export class SuperReportComponent implements OnInit {
   report: SuperReportInterface
   reportHTML: any
   header: ReportHeader = {
-    zone: "",
-    module: "",
-    program: "",
-    log: "",
-    created_on: "",
-    created_by: "",
-    approved_on: "",
-    approved_by: ""
+    zone: '',
+    module: '',
+    program: '',
+    log: '',
+    created_on: '',
+    created_by: '',
+    approved_on: '',
+    approved_by: ''
   }
 
   constructor() {
@@ -47,7 +47,7 @@ export class SuperReportComponent implements OnInit {
 
   public getImages(): string {
     // Por defecto, los reportes no devuelven imágenes. Es un caso particular de Doc Control y posiblemente otras bitácoras en el futuro
-    return ""
+    return ''
   }
 
   public getFontSize(): string {

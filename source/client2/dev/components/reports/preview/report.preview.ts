@@ -8,8 +8,8 @@ import { Language } from 'angular-l10n'
 
 export class ReportPreview {
   @Language() lang: string
-  @Input() title: string = ""
-  @Input() content: string = ""
+  @Input() title: string = ''
+  @Input() content: string = ''
 
   constructor() {
 

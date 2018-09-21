@@ -3,8 +3,8 @@ import { FormGroup } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
 import { LanguageService } from '../../../../services/app.language'
+import { AuthorizationItem } from '../interfaces/gmp.packing.scissors.knives.authorization.interface'
 import { LogItem } from '../interfaces/gmp.packing.scissors.knives.log.interface'
-import { AuthorizationItem } from '../interfaces/gmp.packing.scissors.knives.authorization.interface';
 
 @Component({
   selector: 'gmp-packing-scissors-knives-item',

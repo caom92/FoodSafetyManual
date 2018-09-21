@@ -26,7 +26,7 @@ export class AreaManagerService {
 
   public getAreaInventory(suffix: string): Promise<any> {
     let areaInventoryPromise = new Promise<any>((resolve, reject) => {
-      let loader = this.loaderService.koiLoader("")
+      let loader = this.loaderService.koiLoader('')
       
       this.server.update(
         'get-areas-of-zone-' + suffix,
@@ -61,7 +61,7 @@ export class AreaManagerService {
 
   public getAreaInventoryByPosition(suffix: string): Promise<any> {
     let areaInventoryPromise = new Promise<any>((resolve, reject) => {
-      let loader = this.loaderService.koiLoader("")
+      let loader = this.loaderService.koiLoader('')
       this.server.update(
         'get-areas-of-zone-by-position-' + suffix,
         new FormData(),
@@ -95,7 +95,7 @@ export class AreaManagerService {
 
   public reorderAreaInventory(data: Array<{ id: number, position: number }>, suffix: string): Promise<any> {
     let reorderPromise = new Promise<any>((resolve, reject) => {
-      let loaderReorder = this.loaderService.koiLoader("")
+      let loaderReorder = this.loaderService.koiLoader('')
       let reorderForm = new FormData()
       let flatData = this.flatten({ items: data })
 
@@ -129,7 +129,7 @@ export class AreaManagerService {
 
   public addArea(data: any, suffix: string): Promise<any> {
     let addPromise = new Promise<any>((resolve, reject) => {
-      let loaderAdd = this.loaderService.koiLoader("")
+      let loaderAdd = this.loaderService.koiLoader('')
       let itemForm = new FormData()
       let flatData = this.flatten(data)
 
@@ -166,7 +166,7 @@ export class AreaManagerService {
 
   public editArea(data: any, suffix: string): Promise<any> {
     let editPromise = new Promise<any>((resolve, reject) => {
-      let loaderEdit = this.loaderService.koiLoader("")
+      let loaderEdit = this.loaderService.koiLoader('')
       let editForm = new FormData()
       let flatData = this.flatten(data)
 
@@ -204,7 +204,7 @@ export class AreaManagerService {
 
   public toggleArea(data: any, suffix: string): Promise<void> {
     let togglePromise = new Promise<any>((resolve, reject) => {
-      let loaderToggle = this.loaderService.koiLoader("")
+      let loaderToggle = this.loaderService.koiLoader('')
       let item = new FormData()
       item.append("id", String(data.id))
       loaderToggle.present()
@@ -288,7 +288,7 @@ export class AreaManagerService {
     if (Object(data) !== data) {
       throw Error("Non-object parameter can't be flattened")
     } else {
-      recurse(data, "")
+      recurse(data, '')
     }
 
     return result

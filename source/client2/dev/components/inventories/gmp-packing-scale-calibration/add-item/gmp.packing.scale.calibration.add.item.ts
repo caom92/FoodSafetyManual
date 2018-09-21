@@ -25,7 +25,7 @@ export class GMPPackingScaleCalibrationAddItemComponent extends SuperInventoryAd
   public ngOnInit(): void {
     this.setSuffix("gmp-packing-scale-calibration")
     this.createItemForm({
-      name: ["", [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
+      name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
       type: [null, [Validators.required]]
     })
   }

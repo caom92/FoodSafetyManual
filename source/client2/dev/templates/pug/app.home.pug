@@ -108,6 +108,12 @@ include globals.pug
       i.mdi.mdi-pen.mdi-24px
       ='{{ langManager.messages.sideNavOptions.signatures }}'
 
+  //- Menú de navegación para el director
+  mz-sidenav-link('*ngIf'="home.roleName === 'Director'")
+    +uiRouterLink('document-list')(class='side-menu-link waves-effect waves-green')
+      i.mdi.mdi-file-pdf.mdi-24px
+      ='{{ langManager.messages.sideNavOptions.documents }}'
+
   //- Menu de navegacion para el supervisor
   mz-sidenav-link('*ngIf'="home.roleName === 'Supervisor'")
     +uiRouterLink('pending-authorizations-list')(

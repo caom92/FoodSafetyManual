@@ -11,14 +11,30 @@ class MenuItems extends DataBaseTable
   }
 
   function selectByUserId($userId) {
-    return parent::select('*',
+    return parent::select(
       [
-        'user_id' => $userId,
+        "$this->table.id",
+        "$this->table.user_id",
+        'parent_id','type_id',
+        "$this->table.name",
+        'icon',
+        'image',
+        'url',
+        'file_id',
+        't.name(type)',
+        'path'
+      ],
+      [
+        "$this->table.user_id" => $userId,
         'ORDER' => [
           'parent_id',
-          'is_directory' => 'DESC',
-          'name'
+          'type_id',
+          "$this->table.name"
         ]
+      ],
+      [
+        '[><]menu_item_types(t)' => [ 'type_id' => 'id' ],
+        '[>]menu_files(f)' => [ 'file_id' => 'id' ]
       ]
     );
   }
@@ -32,11 +48,19 @@ class MenuItems extends DataBaseTable
   }
 
   function isDirectory($id) {
-    $rows = parent::select([ 'is_directory' ], [ 'id' => $id ]);
+    $rows = parent::select([ 'type_id' ], [ 'id' => $id ]);
     if (count($rows) === 0) {
       return FALSE;
     }
-    return intval($rows[0]['is_directory']) === 1;
+    return intval($rows[0]['type_id']) === 1;
+  }
+
+  function isFile($id) {
+    $rows = parent::select([ 'type_id' ], [ 'id' => $id ]);
+    if (count($rows) === 0) {
+      return FALSE;
+    }
+    return intval($rows[0]['type_id']) === 3;
   }
 
   function updateById($id, $newValues) {
@@ -44,7 +68,28 @@ class MenuItems extends DataBaseTable
   }
 
   function getById($id) {
-    $rows = parent::select('*', [ 'id' => $id ]);
+    $rows = parent::select(
+      [
+        "$this->table.id",
+        "$this->table.user_id",
+        'parent_id',
+        'type_id',
+        "$this->table.name",
+        'icon',
+        'image',
+        'url',
+        'file_id',
+        't.name(type)',
+        'path'
+      ],
+      [
+        "$this->table.id" => $id
+      ],
+      [
+        '[><]menu_item_types(t)' => [ 'type_id' => 'id' ],
+        '[>]menu_files(f)' => [ 'file_id' => 'id' ]
+      ]
+    );
     return (count($rows) > 0) ? $rows[0] : NULL;
   }
 }
