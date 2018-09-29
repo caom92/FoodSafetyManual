@@ -30,14 +30,13 @@ export class GAPPackingPreopAreaInventoryAreaComponent extends SuperInventoryAre
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gap-packing-preop")
+    this.setSuffix('gap-packing-preop')
     this.createItemForm({
       name: [String(this.area.name), [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
     })
   }
 
   public openEditForm(): void {
-    console.log("edit area")
     this.editMode = true
   }
 
@@ -52,7 +51,7 @@ export class GAPPackingPreopAreaInventoryAreaComponent extends SuperInventoryAre
 
   /*editArea() {
     super.editArea(GAPPackingPreopEditAreaComponent, { area_id: this.area.id, area_name: this.area.name }, (data) => {
-      this.events.publish("area:edit", this.area, data.area)
+      this.events.publish('area:edit', this.area, data.area)
       this.area.name = data.area.name
     })
   }*/

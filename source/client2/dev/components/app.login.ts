@@ -156,7 +156,7 @@ export class LogInComponent implements OnInit
             response.meta.return_code)
           )
           this.home.displaySideNav()
-          this.router.go('menu', { path: null })
+          this.router.go('edit-profile')
         } else {
           // si hubo un problema con la conexion del servidor, desplegamos un 
           // mensaje de error al usuario

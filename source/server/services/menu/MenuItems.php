@@ -63,6 +63,23 @@ class MenuItems extends DataBaseTable
     return intval($rows[0]['type_id']) === 3;
   }
 
+  function getImageDirectory($id) {
+    $rows = parent::select([ 'type_id' ], [ 'id' => $id ]);
+    if (count($rows) === 0) {
+      return FALSE;
+    }
+    
+    $imageDirectory = NULL;
+
+    switch($rows[0]['type_id']) {
+      case 1: $imageDirectory = 'directories'; break;
+      case 2: $imageDirectory = 'links'; break;
+      case 3: $imageDirectory = 'files'; break;
+    }
+
+    return $imageDirectory;
+  }
+
   function updateById($id, $newValues) {
     return parent::update($newValues, [ 'id' => $id ]);
   }

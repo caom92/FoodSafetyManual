@@ -41,7 +41,7 @@ export class GMPPackingAgedProductLogComponent extends SuperLogComponent impleme
   }
 
   ngOnInit() {
-    this.setSuffix("gmp-packing-aged-product")
+    this.setSuffix('gmp-packing-aged-product')
     super.ngOnInit()
     this.initForm()
   }

@@ -33,7 +33,7 @@ export class GMPPackingHandWashingLogComponent extends SuperLogComponent impleme
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-hand-washing")
+    this.setSuffix('gmp-packing-hand-washing')
     super.ngOnInit()
     this.initForm()
   }

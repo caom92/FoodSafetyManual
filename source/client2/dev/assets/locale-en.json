@@ -261,5 +261,20 @@
         "invalid_directory": "Invalid directory",
         "network_error": "Network error",
         "retry": "Retry"
+    },
+    "DocumentAudit": {
+        "title": "Document audit",
+        "no_documents": "There are no saved files in this zone",
+        "uploaded_by": "Uploaded by",
+        "upload_date": "Upload date"
+    },
+    "MenuAudit": {
+        "title": "Manual audit",
+        "empty": "Empty",
+        "no_supervisors_no_employees": "There are no employees or supervisors for this zone"
+    },
+    "ManualComponent": {
+        "network_error": "The manual could not be loaded. You may retry by clicking on the Retry button; if the problem persists, notify the administrator",
+        "retry": "Retry"
     }
 }

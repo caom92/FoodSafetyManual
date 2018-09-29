@@ -8,7 +8,7 @@ $arrayElementExists = function($array, $key) {
 
 $service = [
   'requirements_desc' => $requirementsDesc,
-  'callback' => $getAddMenuItemCallback(TRUE, 
+  'callback' => $getAddMenuItemCallback('directory', 
     function($request, $segment, $image, $scope) use ($arrayElementExists) {
       if ($arrayElementExists($request, 'parent_id')) {
         $parentId = (strlen($request['parent_id']) > 0) ?

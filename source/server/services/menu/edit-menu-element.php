@@ -113,6 +113,10 @@ $service = [
     if ($arrayElementExists($request, 'icon')) {
       $updateValues['icon'] = $request['icon'];
       $updateValues['image'] = NULL;
+      $menuItem = $itemsTable->getById($request['id']);
+      $parentDir = $itemsTable->getImageDirectory($request['id']);
+      $parentDir = __DIR__."/../../../../data/menu/$parentDir";
+      @unlink(realpath("$parentDir/{$menuItem['image']}"));
     }
 
     if ($arrayElementExists($request, 'image')) {
@@ -120,11 +124,20 @@ $service = [
       $updateValues['icon'] = NULL;
     }
 
+    if (!$arrayElementExists($request, 'icon') && !$arrayElementExists($request, 'image')) {
+      $updateValues['image'] = NULL;
+      $updateValues['icon'] = NULL;
+      $menuItem = $itemsTable->getById($request['id']);
+      $parentDir = $itemsTable->getImageDirectory($request['id']);
+      $parentDir = __DIR__."/../../../../data/menu/$parentDir";
+      @unlink(realpath("$parentDir/{$menuItem['image']}"));
+    }
+
     if (isset($_FILES['image'])) {
       if (count($_FILES['image']) > 0) {
         $updateValues['icon'] = NULL;
         $menuItem = $itemsTable->getById($request['id']);
-        $parentDir = ($isDirectory) ? "directories" : "links";
+        $parentDir = $itemsTable->getImageDirectory($request['id']);
         $parentDir = __DIR__."/../../../../data/menu/$parentDir";
         if ($arrayElementExists($menuItem, 'image')) {
           @unlink(realpath("$parentDir/{$menuItem['image']}"));

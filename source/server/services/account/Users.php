@@ -73,6 +73,11 @@ class Users extends db\ToggableItemsTable
     ]);
   }
 
+  function hasUserId($userId) {
+    return parent::has([ 
+      'id' => $userId
+    ]);
+  }
 
   // Returns an associative with the basic information of every user in the 
   // data base which is not an administrator, where the key is the field name
@@ -250,6 +255,24 @@ class Users extends db\ToggableItemsTable
       ],
       [
         'id' => $userID
+      ]
+    );
+  }
+
+  function selectSupervisorsAndEmployyeesByZoneID($zoneID) {
+    return parent::select(
+      [
+        'id',
+        'first_name',
+        'last_name',
+        'role_id'
+      ],
+      [
+        'AND' => [
+          'zone_id' => $zoneID,
+          'role_id' => [3, 5],
+          'is_active' => 1
+        ]
       ]
     );
   }

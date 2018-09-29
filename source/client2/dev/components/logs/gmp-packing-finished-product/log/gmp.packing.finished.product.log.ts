@@ -41,7 +41,7 @@ export class GMPPackingFinishedProductLogComponent extends SuperLogComponent imp
   }
 
   ngOnInit() {
-    this.setSuffix("gmp-packing-finished-product")
+    this.setSuffix('gmp-packing-finished-product')
     super.ngOnInit()
     this.initForm()
   }

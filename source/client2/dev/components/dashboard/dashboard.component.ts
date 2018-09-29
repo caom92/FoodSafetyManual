@@ -5,9 +5,8 @@ import { Language } from 'angular-l10n'
 
 import { AlertController } from '../../services/alert/app.alert'
 import { MenuService } from '../../services/app.menu'
-import { DashboardDirectory, DashboardLink, LocalURL, DashboardFile } from './dashboard.interface'
 import { MenuFile } from '../document-viewer/document.list'
-import { Observable } from 'rxjs';
+import { DashboardDirectory, DashboardFile, DashboardLink, LocalURL } from './dashboard.interface'
 
 @Component({
   selector: 'dashboard',
@@ -56,7 +55,7 @@ export class DashboardComponent implements OnInit {
       is_icon: [true],
       icon: [null, [Validators.maxLength(255)]],
       url: [null, [Validators.required, Validators.maxLength(65535)]],
-      local_url: [null, [Validators.maxLength(65535)]],
+      local_url: [null, [Validators.required, Validators.maxLength(65535)]],
       image: [null],
       file_id: [null, [Validators.required]],
       file_name: [null, [Validators.required, Validators.maxLength(255)]],
@@ -190,12 +189,6 @@ export class DashboardComponent implements OnInit {
       file: null
     })
 
-    /*this.iconForm.controls.url.disable()
-    this.iconForm.controls.local_url.disable()
-    this.iconForm.controls.file_id.disable()
-    this.iconForm.controls.file.disable()
-    this.iconForm.controls.file_name.disable()*/
-
     this.refreshSelect()
   }
 
@@ -228,10 +221,6 @@ export class DashboardComponent implements OnInit {
 
     this.onTypeChange()
 
-    console.log(element)
-    console.log(this.iconForm)
-    console.log(this.iconForm.value)
-
     this.refreshSelect()
   }
 
@@ -263,7 +252,6 @@ export class DashboardComponent implements OnInit {
         this.iconForm.value.file,
         this.iconForm.value.file_name,
         fileID).then(success => {
-        console.log(success)
         this.currentDirectory.push(success)
         this.cancelForm()
         this.currentDirectory.sort((a, b) => a.type == 'directory' && b.type != 'directory' ? -1 : b.type == 'directory' && a.type != 'directory' ? 1 : a.name < b.name ? -1 : a.name > b.name ? 1 : 0)
@@ -309,6 +297,10 @@ export class DashboardComponent implements OnInit {
       if (temp.type == 'link' && updateURL != null && updateURL != '') {
         temp.url = updateURL
       }
+      if (success.image == null && this.iconForm.value.icon == null) {
+        temp.icon = null
+        temp.image = null
+      }
       if (success.path !== undefined && success.path !== null) {
         temp.path = success.path
         temp.file_id = success.file_id
@@ -325,7 +317,6 @@ export class DashboardComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       let reader = new FileReader()
       reader.onload = (event: any) => {
-        console.log(event.target.result)
         this.previewURL = event.target.result
         this.iconForm.controls.icon.setValue(null)
       }
@@ -368,7 +359,8 @@ export class DashboardComponent implements OnInit {
       this.iconForm.controls.file_id.disable()
       this.iconForm.controls.file.disable()
       this.iconForm.controls.file_name.disable()
-      this.iconForm.controls.local_url.enable()
+      this.iconForm.controls.url.enable()
+      this.iconForm.controls.local_url.enable()      
       this.onURLChange()
     }
 

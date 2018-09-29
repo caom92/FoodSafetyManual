@@ -2,7 +2,7 @@
 import { NgModule } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { UIRouterModule } from "@uirouter/angular"
+import { UIRouterModule } from '@uirouter/angular'
 import { MaterializeModule } from 'ngx-materialize'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { HttpModule } from '@angular/http'
@@ -281,7 +281,6 @@ import { InventoryService } from '../services/app.inventory'
 import { AlertComponent } from '../services/alert/app.alert.component'
 import { AlertController } from '../services/alert/app.alert'
 import { DragulaModule, DragulaService } from 'ng2-dragula'
-import { TabLogLoaderComponent } from './logs/log.loader'
 import { LogTabsComponent } from '../components/logs/log-tabs/log.tabs.page'
 import { LogHeaderComponent } from '../components/logs/log-header/log.header'
 import { LogService } from '../services/app.logs'
@@ -317,6 +316,9 @@ import { PapaParseModule } from 'ngx-papaparse'
 import { DashboardComponent } from './dashboard/dashboard.component'
 import { languageConfig } from '../functions/l10n-config'
 import { HttpClientModule } from '@angular/common/http'
+import { ManualComponent } from './logs/log-manual/manual.component'
+import { MenuAuditComponent } from './menu-audit/menu-audit.component'
+import { MenuAuditListComponent } from './menu-audit-list/menu-audit-list.component'
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -427,10 +429,20 @@ import { HttpClientModule } from '@angular/common/http'
           name: 'menu',
           url: '/menu/*path',
           component: DashboardComponent
+        },
+        {
+          name: 'menu-audit',
+          url: '/menu-audit/:user_id/*path',
+          component: MenuAuditComponent
+        },
+        {
+          name: 'menu-audit-list',
+          url: '/menu-audit-list',
+          component: MenuAuditListComponent
         }
       ],
       useHash: true,
-      otherwise: '/menu/'
+      otherwise: '/edit-profile'
     })
   ],
   // declaramos los servicios globales
@@ -456,6 +468,8 @@ import { HttpClientModule } from '@angular/common/http'
     HomeComponent,
     LogInComponent,
     DashboardComponent,
+    MenuAuditComponent,
+    MenuAuditListComponent,
     EditProfileComponent,
     KeysPipe,
     ProductDataViewerComponent,
@@ -479,6 +493,7 @@ import { HttpClientModule } from '@angular/common/http'
     UserInfoModalComponent,
     EditUserInfoModalComponent,
     DynamicComponentContainerDirective,
+    ManualComponent,
     ReportTab,
     ReportLoader,
     ReportPreview,
@@ -643,8 +658,7 @@ import { HttpClientModule } from '@angular/common/http'
     AuthorizationLoader,
     LogHeaderComponent,
     ReportHeaderComponent,
-    InventoryLoaderComponent,
-    TabLogLoaderComponent
+    InventoryLoaderComponent
   ],
   // declaramos cualquier componente que sera inyectado dinamicamente
   entryComponents: [

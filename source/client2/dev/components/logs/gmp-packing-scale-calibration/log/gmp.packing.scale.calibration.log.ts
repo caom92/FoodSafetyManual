@@ -29,7 +29,7 @@ export class GMPPackingScaleCalibrationLogComponent extends SuperLogComponent im
   }
 
   ngOnInit() {
-    this.setSuffix("gmp-packing-scale-calibration")
+    this.setSuffix('gmp-packing-scale-calibration')
     super.ngOnInit()
     this.initForm()
   }

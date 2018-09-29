@@ -21,17 +21,17 @@ $service = [
   ],
   'callback' => function($scope, $request) {
     $users = $scope->daoFactory->get('Users');
-    $isEmployeeNumDuplicated = 
-      $users->hasByEmployeeNumAndDifferentId(
+    /*$isIdDuplicated = 
+      $users->hasUserId(
         $request['employee_num'], $request['user_id']
       );
     
-    if ($isEmployeeNumDuplicated) {
+    if ($isIdDuplicated) {
       throw new \Exception(
-        'The employee number is already registered to another user',
+        'The user ID is already registered to another user',
         1
       );
-    }
+    }*/
 
     $users->updateNameAndEmployeeNumByID(
       $request['user_id'],

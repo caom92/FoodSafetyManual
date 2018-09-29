@@ -9,3 +9,7 @@
 @-moz-keyframes spin { 100% { -moz-transform: rotate(-360deg); } }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(-360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(-360deg); transform:rotate(-360deg); } }
+
+.fader { width: 100px; height: 100px; opacity: 1; animation: fade 2s linear infinite; }
+
+@keyframes fade { 0%,100% { opacity: 0.2 } 50% { opacity: 1 } }

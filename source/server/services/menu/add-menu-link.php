@@ -13,7 +13,7 @@ $service = [
       'max_length' => 65535
     ]
   ],
-  'callback' => $getAddMenuItemCallback(FALSE, 
+  'callback' => $getAddMenuItemCallback('links', 
     function($request, $segment, $image, $scope) use ($arrayElementExists) {
     if ($arrayElementExists($request, 'parent_id')) {
       $parentId = (strlen($request['parent_id']) > 0) ?

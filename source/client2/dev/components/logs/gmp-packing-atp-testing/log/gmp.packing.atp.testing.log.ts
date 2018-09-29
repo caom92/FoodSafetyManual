@@ -30,7 +30,7 @@ export class GMPPackingATPTestingLogComponent extends SuperLogComponent implemen
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-atp-testing")
+    this.setSuffix('gmp-packing-atp-testing')
     super.ngOnInit()
     this.initForm()
   }

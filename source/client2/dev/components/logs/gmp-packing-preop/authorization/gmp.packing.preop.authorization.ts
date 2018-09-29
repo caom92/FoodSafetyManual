@@ -24,7 +24,7 @@ export class GMPPackingPreopAuthorizationComponent extends SuperAuthorizationCom
   }
 
   ngOnInit() {
-    this.setSuffix("gmp-packing-preop")
+    this.setSuffix('gmp-packing-preop')
     super.ngOnInit()
     this.initForm()
   }

@@ -40,6 +40,8 @@ $account = [
       realpath(dirname(__FILE__).'/list-user-roles.php'),
     'list-users' =>
       realpath(dirname(__FILE__).'/list-users.php'),
+    'list-supervisors-employees-by-zone' =>
+      realpath(dirname(__FILE__).'/list-supervisors-employees-by-zone.php'),
     'toggle-account-activation' =>
       realpath(dirname(__FILE__).'/toggle-account-activation.php'),
     'edit-user-info' =>

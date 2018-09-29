@@ -51,13 +51,19 @@ export class MenuService {
     return menuPromise
   }
 
-  public getMenu(): Promise<any> {
+  public getMenu(userID?: number): Promise<any> {
     let menuPromise = new Promise<any>((resolve, reject) => {
       let menuLoader = this.loaderService.koiLoader()
 
+      const suffix = (userID === Number(userID)) ? '-by-user' : ''
+      let formData = new FormData()
+
+      if (userID === Number(userID))
+        formData.append('user_id', String(userID))
+
       this.server.update(
-        'get-menu',
-        new FormData(),
+        'get-menu' + suffix,
+        formData,
         (response: any) => {
           if (response.meta.return_code == 0) {
             if (response.data) {
@@ -254,5 +260,39 @@ export class MenuService {
     })
 
     return addPromise
+  }
+
+  public getMenuUsers(): Promise<any> {
+    let menuPromise = new Promise<any>((resolve, reject) => {
+      let menuLoader = this.loaderService.koiLoader()
+
+      this.server.update(
+        'list-supervisors-employees-by-zone',
+        new FormData(),
+        (response: any) => {
+          if (response.meta.return_code == 0) {
+            if (response.data) {
+              resolve(response.data)
+              menuLoader.dismiss()
+            } else {
+              reject('bad request')
+              menuLoader.dismiss()
+              this.toastService.showText('serverUnreachable')
+            }
+          } else {
+            reject(response)
+            menuLoader.dismiss()
+            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+          }
+        }, (error: any, caught: Observable<void>) => {
+          reject('network error')
+          menuLoader.dismiss()
+          this.toastService.showText('serverUnreachable')
+          return []
+        }
+      )
+    })
+
+    return menuPromise
   }
 }

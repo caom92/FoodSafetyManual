@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core'
 
-// Servicio que 
-
 @Injectable()
 export class DateTimeService {
   constructor() {

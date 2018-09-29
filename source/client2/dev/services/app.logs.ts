@@ -53,7 +53,7 @@ export class LogService {
           } else {
             reject('bad request')
             logLoader.dismiss()
-            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
           }
         }, (error: any, caught: Observable<void>) => {
           reject('network error')
@@ -77,9 +77,9 @@ export class LogService {
 
       for (let key in flatObj) {
         if (flatObj[key] === true) {
-          form_data.append(key, "1")
+          form_data.append(key, '1')
         } else if (flatObj[key] === false) {
-          form_data.append(key, "0")
+          form_data.append(key, '0')
         } else if (flatObj[key] instanceof FileList) {
           for (let file of flatObj[key]) {
             form_data.append(key, file, file.name)
@@ -94,16 +94,15 @@ export class LogService {
         form_data,
         (response: any) => {
           if (response.meta.return_code == 0) {
-            this.toastService.showText("capturedLog")
+            this.toastService.showText('capturedLog')
             resolve('server')
           } else {
-            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
             reject(response.meta.return_code)
           }
-          // Sin importar el resultado, desactivamos el spinner
           loader.dismiss()
         }, (error: any, caught: Observable<void>) => {
-          //this.toastService.showText("failedLogToQueue")
+          //this.toastService.showText('failedLogToQueue')
           this.toastService.showText('serverUnreachable')
           loader.dismiss()
           reject(error)
@@ -149,7 +148,7 @@ export class LogService {
       let authorizationLoader = this.loaderService.koiLoader()
       let authorizationForm = new FormData()
 
-      authorizationForm.append("report_id", String(report_id))
+      authorizationForm.append('report_id', String(report_id))
 
       this.server.update(
         'authorization-report-' + suffix,
@@ -167,7 +166,7 @@ export class LogService {
           } else {
             reject('bad request')
             authorizationLoader.dismiss()
-            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
           }
         }, (error: any, caught: Observable<void>) => {
           reject('network error')
@@ -184,24 +183,24 @@ export class LogService {
   public approve(logID: number): Promise<any> {
     let approvePromise = new Promise<any>((resolve, reject) => {
       let alert = this.alertCtrl.create({
-        title: "Aprobar bitácora",//this.ts.translate("Titles.add_item"),
-        message: "¿Está seguro que desea aprobar esta bitácora? Esta acción no se puede deshacer",//this.ts.translate("Messages.add_item"),
+        title: 'Aprobar bitácora',//this.ts.translate('Titles.add_item'),
+        message: '¿Está seguro que desea aprobar esta bitácora? Esta acción no se puede deshacer',//this.ts.translate('Messages.add_item'),
         buttons: [
           {
-            text: this.ts.translate("Options.cancel"),
+            text: this.ts.translate('Options.cancel'),
             handler: () => {
               // TODO: Toast de acción cancelada por el usuario
-              reject("user_cancel")
+              reject('user_cancel')
             }
           },
           {
-            text: this.ts.translate("Options.accept"),
+            text: this.ts.translate('Options.accept'),
             handler: () => {
-              let approveLoader = this.loaderService.koiLoader("Aprobando bitácora...")
+              let approveLoader = this.loaderService.koiLoader('Aprobando bitácora...')
               let approveForm = new FormData()
 
-              approveForm.append("captured_log_id", logID.toString())
-              approveForm.append("date", this.timeService.getISODate(new Date()))
+              approveForm.append('captured_log_id', logID.toString())
+              approveForm.append('date', this.timeService.getISODate(new Date()))
 
               this.server.update(
                 'approve-log',
@@ -213,7 +212,7 @@ export class LogService {
                   } else {
                     reject('bad request')
                     approveLoader.dismiss()
-                    this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+                    this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
                   }
                 }, (error: any, caught: Observable<void>) => {
                   reject('network error')
@@ -234,23 +233,23 @@ export class LogService {
   public reject(logID: number): Promise<any> {
     let rejectPromise = new Promise<any>((resolve, reject) => {
       let alert = this.alertCtrl.create({
-        title: "Rechazar bitácora",//this.ts.translate("Titles.add_item"),
-        message: "¿Está seguro que desea rechazar esta bitácora? Esta acción no se puede deshacer",//this.ts.translate("Messages.add_item"),
+        title: 'Rechazar bitácora',//this.ts.translate('Titles.add_item'),
+        message: '¿Está seguro que desea rechazar esta bitácora? Esta acción no se puede deshacer',//this.ts.translate('Messages.add_item'),
         buttons: [
           {
-            text: this.ts.translate("Options.cancel"),
+            text: this.ts.translate('Options.cancel'),
             handler: () => {
               // TODO: Toast de acción cancelada por el usuario
-              reject("user_cancel")
+              reject('user_cancel')
             }
           },
           {
-            text: this.ts.translate("Options.accept"),
+            text: this.ts.translate('Options.accept'),
             handler: () => {
-              let rejectLoader = this.loaderService.koiLoader("Rechazando bitácora...")
+              let rejectLoader = this.loaderService.koiLoader('Rechazando bitácora...')
               let rejectForm = new FormData()
 
-              rejectForm.append("captured_log_id", logID.toString())
+              rejectForm.append('captured_log_id', logID.toString())
 
               this.server.update(
                 'reject-log',
@@ -263,7 +262,7 @@ export class LogService {
                   } else {
                     reject('bad request')
                     rejectLoader.dismiss()
-                    this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+                    this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
                   }
                 }, (error: any, caught: Observable<void>) => {
                   reject('network error')
@@ -291,9 +290,9 @@ export class LogService {
 
       for (let key in flatObj) {
         if (flatObj[key] === true) {
-          form_data.append(key, "1")
+          form_data.append(key, '1')
         } else if (flatObj[key] === false) {
-          form_data.append(key, "0")
+          form_data.append(key, '0')
         } else if (flatObj[key] instanceof FileList) {
           for (let file of flatObj[key]) {
             form_data.append(key, file, file.name)
@@ -308,10 +307,10 @@ export class LogService {
         form_data,
         (response: any) => {
           if (response.meta.return_code == 0) {
-            this.toastService.showText("updatedLog")
+            this.toastService.showText('updatedLog')
             resolve('server')
           } else {
-            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
             reject(response.meta.return_code)
           }
           loader.dismiss()
@@ -350,11 +349,11 @@ export class LogService {
     }
   }
 
-  // Esta función "aplana" y da formato de datos de formulario a un objeto
+  // Esta función 'aplana' y da formato de datos de formulario a un objeto
   // producido por cualquier componente de una bitácora particular
 
   // https://stackoverflow.com/questions/19098797/fastest-way-to-flatten-un-flatten-nested-json-objects
-  private flatten(data) {
+  private flatten(data: any): Object {
     let result = {}
 
     function recurse(value, key) {
@@ -390,7 +389,7 @@ export class LogService {
   }
 
   resolveBackendString(input: string | number): string {
-    if (typeof input === "number") {
+    if (typeof input === 'number') {
       return (input !== null && input !== undefined && Number.isNaN(input) !== true) ? String(input) : ''
     } else {
       return (input !== null && input !== undefined) ? String(input) : ''

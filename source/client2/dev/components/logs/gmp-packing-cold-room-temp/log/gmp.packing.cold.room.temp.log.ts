@@ -31,7 +31,7 @@ export class GMPPackingColdRoomTempLogComponent extends SuperLogComponent implem
   }
 
   ngOnInit() {
-    this.setSuffix("gmp-packing-cold-room-temp")
+    this.setSuffix('gmp-packing-cold-room-temp')
     super.ngOnInit()
     this.initForm()
   }

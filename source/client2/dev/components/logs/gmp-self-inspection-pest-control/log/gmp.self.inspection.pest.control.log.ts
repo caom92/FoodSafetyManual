@@ -30,7 +30,7 @@ export class GMPSelfInspectionPestControlLogComponent extends SuperLogComponent 
   }
 
   ngOnInit() {
-    this.setSuffix("gmp-self-inspection-pest-control")
+    this.setSuffix('gmp-self-inspection-pest-control')
     super.ngOnInit()
     this.initForm()
   }

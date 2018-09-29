@@ -36,7 +36,7 @@ export class GMPPackingThermoCalibrationLogComponent extends SuperLogComponent i
   }
 
   ngOnInit() {
-    this.setSuffix("gmp-packing-thermo-calibration")
+    this.setSuffix('gmp-packing-thermo-calibration')
     super.ngOnInit()
     this.initForm()
   }

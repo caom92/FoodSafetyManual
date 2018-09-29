@@ -30,7 +30,7 @@ export class GMPPackingScissorsKnivesLogComponent extends SuperLogComponent impl
   }
 
   ngOnInit() {
-    this.setSuffix("gmp-packing-scissors-knives")
+    this.setSuffix('gmp-packing-scissors-knives')
     super.ngOnInit()
     this.initForm()
   }

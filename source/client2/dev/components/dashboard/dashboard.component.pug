@@ -123,7 +123,7 @@ div(*ngIf='addMode === true || editMode === true')
               input(type="file", class="fileControl", accept='image/*', (change)="onImageFileSelected($event)")
             div(class="file-path-wrapper")
               input(class="file-path validate fileControl", type="text")
-      .row(*ngIf="iconForm.value.type == 'link'")
+      .row([hidden]="iconForm.value.type != 'link'")
         div.col([ngClass]="(iconForm.controls.url.disabled == true)?'s12 m12 l12':'s6 m6 l6'", [hidden]="!(iconForm.value.type == 'link')")
           mz-select-container
             select(mz-select, label="{{ 'MenuComponent.address' | translate:lang }}", id='url-select', placeholder="{{ 'MenuComponent.choose_address' | translate:lang }}", formControlName='local_url', (change)='onURLChange()')
@@ -132,7 +132,7 @@ div(*ngIf='addMode === true || editMode === true')
         .col.s6.m6.l6([hidden]="!(iconForm.value.type == 'link') || iconForm.controls.url.disabled")
           mz-input-container
             input(mz-input, [label]="'URL'", id='url-edit', type='text', formControlName='url')
-      .row(*ngIf="iconForm.value.type == 'file'")
+      .row([hidden]="iconForm.value.type != 'file'")
         div.col([ngClass]="(iconForm.controls.file_name.disabled == true)?'s12 m12 l12':'s6 m6 l6'", [hidden]="!(iconForm.value.type == 'file')")
           mz-select-container
             select(mz-select, label="{{ 'MenuComponent.file' | translate:lang }}", id='file-select', placeholder="{{ 'MenuComponent.choose_file' | translate:lang }}", formControlName='file_id', (change)='onFileChange()')

@@ -32,7 +32,7 @@ export class GMPPackingOzoneWaterLogComponent extends SuperLogComponent implemen
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-ozone-water")
+    this.setSuffix('gmp-packing-ozone-water')
     super.ngOnInit()
     this.initForm()
   }

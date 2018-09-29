@@ -24,7 +24,7 @@ $service = [
       'optional' => TRUE
     ]
   ],
-  'callback' => $getAddMenuItemCallback(FALSE, 
+  'callback' => $getAddMenuItemCallback('files', 
     function($request, $segment, $image, $scope) use ($arrayElementExists, $storeUploadedFileInServer) {
       if ($arrayElementExists($request, 'parent_id')) {
         $parentId = (strlen($request['parent_id']) > 0) ?

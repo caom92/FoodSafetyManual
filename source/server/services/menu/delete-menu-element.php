@@ -9,7 +9,14 @@ $service = [
     ]
   ],
   'callback' => function($scope, $request) {
-    $scope->daoFactory->get('MenuItems')->deleteById($request['id']);
+    $itemsTable = $scope->daoFactory->get('MenuItems');
+
+    $menuItem = $itemsTable->getById($request['id']);
+    $parentDir = $itemsTable->getImageDirectory($request['id']);
+    $parentDir = __DIR__."/../../../../data/menu/$parentDir";
+    @unlink(realpath("$parentDir/{$menuItem['image']}"));
+
+    $itemsTable->deleteById($request['id']);
   }   
 ];
 

@@ -32,6 +32,7 @@ export class LogTabsComponent extends DynamicComponentResolver {
   log_name: string = 'Loading...'
   suffix: string = ''
   loaderComponent: Type<any> = null
+  manualSrc: string
   manualDirectory: any = null
   isEmployee: boolean = false
   private readonly logComponents = {
@@ -80,6 +81,7 @@ export class LogTabsComponent extends DynamicComponentResolver {
         if (response.meta.return_code == 0) {
           if (response.data) {
             this.log_name = response.data.log_name
+            this.manualSrc = 'http://localhost/espresso/' + response.data.manual_location + 'law/actual_manual.pdf'
             this.manualDirectory = this.sanitizer.bypassSecurityTrustResourceUrl('http://localhost/espresso/' + response.data.manual_location + 'law/actual_manual.pdf')
           }
         } else {

@@ -7,6 +7,7 @@ $menu = [
   ],
   'services' => [
     'get-menu' => realpath(__DIR__.'/get-menu.php'),
+    'get-menu-by-user' => realpath(__DIR__.'/get-menu-by-user.php'),
     'get-menu-files' => realpath(__DIR__.'/get-menu-files.php'),
     'add-menu-directory' => realpath(__DIR__.'/add-menu-directory.php'),
     'add-menu-link' => realpath(__DIR__.'/add-menu-link.php'),

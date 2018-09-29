@@ -27,7 +27,7 @@ export class GMPPackingPreopLogComponent extends SuperLogComponent implements On
   }
 
   ngOnInit() {
-    this.setSuffix("gmp-packing-preop")
+    this.setSuffix('gmp-packing-preop')
     super.ngOnInit()
     this.initForm()
   }

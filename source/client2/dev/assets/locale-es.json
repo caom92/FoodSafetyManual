@@ -261,5 +261,20 @@
         "invalid_directory": "Directorio no valido",
         "network_error": "Error en la red",
         "retry": "Reintentar"
+    },
+    "DocumentAudit": {
+        "title": "Auditoría de documentos",
+        "no_documents": "No hay archivos guardados para esta zona",
+        "uploaded_by": "Subido por",
+        "upload_date": "Fecha de subida"
+    },
+    "MenuAudit": {
+        "title": "Auditoría de manuales",
+        "empty": "Vacío",
+        "no_supervisors_no_employees": "No hay usuarios de rol empleado o supervisor para esta zona"
+    },
+    "ManualComponent": {
+        "network_error": "El manual no pudo ser cargado. Puede reintentar haciendo click en el botón; si el problema persiste, notifique al administrador",
+        "retry": "Reintentar"
     }
 }

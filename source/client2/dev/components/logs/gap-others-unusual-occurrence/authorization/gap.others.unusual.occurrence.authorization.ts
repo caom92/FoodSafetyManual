@@ -41,7 +41,7 @@ export class GAPOthersUnusualOccurrenceAuthorizationComponent extends SuperAutho
   }
 
   ngOnInit() {
-    this.setSuffix("gap-others-unusual-occurrence")
+    this.setSuffix('gap-others-unusual-occurrence')
     super.ngOnInit()
     this.initForm()
   }

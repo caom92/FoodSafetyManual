@@ -6,7 +6,7 @@ import { ToastsService } from '../../../services/app.toasts'
 import { LogDetails, LogHeaderData } from '../log.interfaces'
 import { SuperLog } from './super.logs.log.interface'
 
-export class SuperLogComponent implements OnInit {
+export abstract class SuperLogComponent implements OnInit {
   protected log: SuperLog
   public logHeaderData: LogHeaderData = { zone_name: null, program_name: null, module_name: null, date: null, created_by: null }
   public captureForm: FormGroup = new FormBuilder().group({})
@@ -47,22 +47,29 @@ export class SuperLogComponent implements OnInit {
     this.suffix = suffix
   }
 
-  public initForm(): void {
-    throw "Notify system developer: initForm() function must be overridden in child class for " + this.suffix
-  }
+  /**
+   * Inicializa los campos del formulario de la bitácora
+   *
+   * @abstract
+   * @memberof SuperLogComponent
+   */
+  public abstract initForm(): void
 
-  public resetForm(): void {
-    throw "Notify system developer: resetForm() function must be overridden in child class for " + this.suffix
-  }
+  /**
+   * Reinicia los valores de todos los campos de la bitácora a su valor inicial
+   * tras un envío exitoso
+   *
+   * @abstract
+   * @memberof SuperLogComponent
+   */
+  public abstract resetForm(): void
 
   // Esta función es llamada antes de realizar el envío de datos. Dentro de la
   // misma, se deben de deshabilitar los controles del captureForm que no
   // se desean enviar (por ejemplo, cuando existen items marcados como "no
   // aceptables", es posible que no sea necesario enviar datos adicionales
   // referentes a acciones correctivas)
-  public cleanForm(): void {
-
-  }
+  public cleanForm(): void { }
 
   // Esta función es llamada posteriormente a enviar los datos, y puede ser
   // considerada como una contraparte a cleanForm(); su propósito es rehabilitar
@@ -70,9 +77,7 @@ export class SuperLogComponent implements OnInit {
   // únicamente con el propósito de no ser enviados, pero que en caso de un
   // error de cualquier índole, deben permanecer habilitados para la edición del
   // usuario, P.Ej., campos opcionales
-  public enableForm(): void {
-
-  }
+  public enableForm(): void { }
 
   public disableControl(control: AbstractControl, condition?: boolean): void {
     if (condition == true || condition == undefined) {

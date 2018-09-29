@@ -38,7 +38,7 @@ export class GMPDocControlDocControlLogComponent extends SuperLogComponent imple
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-doc-control-doc-control")
+    this.setSuffix('gmp-doc-control-doc-control')
     this.selectedDocument = null
     super.ngOnInit()
     this.initForm()
@@ -59,7 +59,7 @@ export class GMPDocControlDocControlLogComponent extends SuperLogComponent imple
 
   public resetForm(): void {
     this.initForm()
-    $(".fileControl").val('')
+    $('.fileControl').val('')
     this.selectedDocument = null
   }
 
@@ -79,54 +79,54 @@ export class GMPDocControlDocControlLogComponent extends SuperLogComponent imple
       let loader = this.loaderService.koiLoader()
       let formData = new FormData()
 
-      formData.append("date", this.captureForm.controls.date.value)
-      formData.append("documents[0][id]", this.selectedDocument)
-      formData.append("documents[0][entries][0][date]", this.captureForm.controls.capture_date.value)
-      formData.append("documents[0][entries][0][employee]", this.captureForm.controls.users.value)
-      formData.append("documents[0][entries][0][notes]", this.captureForm.controls.notes.value)
-      formData.append("documents[0][entries][0][additional_info_url]", this.captureForm.controls.album_url.value)
+      formData.append('date', this.captureForm.controls.date.value)
+      formData.append('documents[0][id]', this.selectedDocument)
+      formData.append('documents[0][entries][0][date]', this.captureForm.controls.capture_date.value)
+      formData.append('documents[0][entries][0][employee]', this.captureForm.controls.users.value)
+      formData.append('documents[0][entries][0][notes]', this.captureForm.controls.notes.value)
+      formData.append('documents[0][entries][0][additional_info_url]', this.captureForm.controls.album_url.value)
 
       if (this.captureForm.controls.files.value != null && this.captureForm.controls.files.value != undefined) {
         for (let pdf of this.captureForm.controls.files.value) {
-          formData.append("files[]", pdf, pdf.name)
+          formData.append('files[]', pdf, pdf.name)
         }
-        formData.append("documents[0][entries][0][files_start]", "0")
-        formData.append("documents[0][entries][0][files_length]", String(this.captureForm.controls.files.value.length))
+        formData.append('documents[0][entries][0][files_start]', '0')
+        formData.append('documents[0][entries][0][files_length]', String(this.captureForm.controls.files.value.length))
       }
 
       if (this.captureForm.controls.images.value != null && this.captureForm.controls.images.value != undefined) {
         for (let image of this.captureForm.controls.images.value) {
-          formData.append("pictures[]", image, image.name)
+          formData.append('pictures[]', image, image.name)
         }
-        formData.append("documents[0][entries][0][pictures_start]", "0")
-        formData.append("documents[0][entries][0][pictures_length]", String(this.captureForm.controls.images.value.length))
+        formData.append('documents[0][entries][0][pictures_start]', '0')
+        formData.append('documents[0][entries][0][pictures_length]', String(this.captureForm.controls.images.value.length))
       }
 
       this.server.update(
-        "capture-gmp-doc-control-doc-control",
+        'capture-gmp-doc-control-doc-control',
         formData,
         (response) => {
           if (response.meta.return_code == 0) {
             //success
-            this.toasts.showText("capturedLog")
+            this.toasts.showText('capturedLog')
             this.resetForm()
             this.enableForm()
           } else {
             // error
-            this.toasts.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+            this.toasts.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
             this.enableForm()            
           }
           loader.dismiss()
         }, (error: any, caught: Observable<void>) => {
           loader.dismiss()
-          this.toasts.showText("serverUnreachable")
+          this.toasts.showText('serverUnreachable')
           return []
         }
       )
     } else {
       this.logService.setAsDirty(this.captureForm)
       this.enableForm()
-      this.toasts.showText("incompleteLog")
+      this.toasts.showText('incompleteLog')
     }
   }
 }
