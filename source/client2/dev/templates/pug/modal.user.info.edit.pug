@@ -131,7 +131,7 @@ block Privileges
                     )(
                       name='{{ "privilege-" + log.id }}'
                       '[value]'='privileges[0].id'
-                      '[(ngModel)]'='selectedPrivileges[log.name].privilegeID'
+                      '[(ngModel)]'='selectedPrivileges[program.name + " " + log.name].privilegeID'
                     )
                     td: +radioButton(
                       '{{ "read-" + log.id }}',
@@ -139,7 +139,7 @@ block Privileges
                     )(
                       name='{{ "privilege-" + log.id }}'
                       '[value]'='privileges[1].id'
-                      '[(ngModel)]'='selectedPrivileges[log.name].privilegeID'
+                      '[(ngModel)]'='selectedPrivileges[program.name + " " + log.name].privilegeID'
                     )
                     td: +radioButton(
                       '{{ "write-" + log.id }}', 
@@ -148,5 +148,5 @@ block Privileges
                       '*ngIf'='selectedRole.name === "Employee"'
                       name='{{ "privilege-" + log.id }}'
                       '[value]'='privileges[2].id'
-                      '[(ngModel)]'='selectedPrivileges[log.name].privilegeID'
+                      '[(ngModel)]'='selectedPrivileges[program.name + " " + log.name].privilegeID'
                     )

@@ -270,7 +270,8 @@
     },
     "MenuAudit": {
         "title": "Manual audit",
-        "empty": "Empty",
+        "empty": "Empty manual",
+        "active": "Active manual",
         "no_supervisors_no_employees": "There are no employees or supervisors for this zone"
     },
     "ManualComponent": {

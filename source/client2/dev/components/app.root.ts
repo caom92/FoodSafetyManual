@@ -442,7 +442,7 @@ import { MenuAuditListComponent } from './menu-audit-list/menu-audit-list.compon
         }
       ],
       useHash: true,
-      otherwise: '/edit-profile'
+      otherwise: '/menu/'
     })
   ],
   // declaramos los servicios globales

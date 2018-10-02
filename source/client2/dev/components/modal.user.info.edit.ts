@@ -67,7 +67,7 @@ export class EditUserInfoModalComponent extends UserInfoModalComponent {
         for (let program of this.programs)
           for (let module of program.modules)
             for (let log of module.logs)
-              this.selectedPrivileges[log.name] = {
+              this.selectedPrivileges[program.name + ' ' + log.name] = {
                 logID: log.id,
                 privilegeID: log.privilege_id
               }

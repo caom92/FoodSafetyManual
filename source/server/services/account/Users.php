@@ -259,7 +259,7 @@ class Users extends db\ToggableItemsTable
     );
   }
 
-  function selectSupervisorsAndEmployyeesByZoneID($zoneID) {
+  function selectSupervisorsAndEmployeesByZoneID($zoneID) {
     return parent::select(
       [
         'id',
@@ -272,7 +272,8 @@ class Users extends db\ToggableItemsTable
           'zone_id' => $zoneID,
           'role_id' => [3, 5],
           'is_active' => 1
-        ]
+        ],
+        'ORDER' => ['first_name' => 'ASC']
       ]
     );
   }

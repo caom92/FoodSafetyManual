@@ -164,7 +164,8 @@ export class UserInfoModalComponent extends MzBaseModal implements OnInit
                 for (let program of this.programs) {
                   for (let module of program.modules) {
                     for (let log of module.logs) {
-                      this.selectedPrivileges[log.name] = {
+                      this.selectedPrivileges[program.name + ' ' + log.name] = {
+                      //this.selectedPrivileges[log.name] = {
                         logID: log.id,
                         privilegeID: this.privileges[0].id
                       }

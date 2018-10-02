@@ -8,7 +8,7 @@ $service = [
     $segment = $scope->session->getSegment('fsm');
     $usersTable = $scope->daoFactory->get('Users');
     $menuTable = $scope->daoFactory->get('MenuItems');
-    $users = $usersTable->selectSupervisorsAndEmployyeesByZoneID($segment->get('zone_id'));
+    $users = $usersTable->selectSupervisorsAndEmployeesByZoneID($segment->get('zone_id'));
     $results = array();
 
     foreach ($users as $user) {

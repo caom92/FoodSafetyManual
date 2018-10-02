@@ -51,8 +51,9 @@ export class LogInComponent implements OnInit
     }
 
     if (userData.zone_list !== undefined) {
+      userData.zone_list.sort((a, b) => (a as any).name < (b as any).name ? -1 : (a as any).name > (b as any).name ? 1 : 0)
       this.home.zones = userData.zone_list
-      this.home.zones.sort((a, b) => (a as any).name < (b as any).name ? -1 : (a as any).name > (b as any).name ? 1 : 0)
+      //-this.home.zones.sort((a, b) => (a as any).name < (b as any).name ? -1 : (a as any).name > (b as any).name ? 1 : 0)
     }
 
     if (userData.log_list !== undefined) {
@@ -91,7 +92,7 @@ export class LogInComponent implements OnInit
             // a la pagina principal
             localStorage.setItem('is_logged_in', 'true')
             this.home.displaySideNav()
-            this.router.go('edit-profile')
+            this.router.go('menu', { path: null })
           } else {
             // si el usuario no hay iniciado sesion, permitimos al usuario 
             // entrar a esta pagina
@@ -156,7 +157,7 @@ export class LogInComponent implements OnInit
             response.meta.return_code)
           )
           this.home.displaySideNav()
-          this.router.go('edit-profile')
+          this.router.go('menu', { path: null })
         } else {
           // si hubo un problema con la conexion del servidor, desplegamos un 
           // mensaje de error al usuario

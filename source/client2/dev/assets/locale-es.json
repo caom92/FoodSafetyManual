@@ -270,7 +270,8 @@
     },
     "MenuAudit": {
         "title": "Auditoría de manuales",
-        "empty": "Vacío",
+        "empty": "Manual vacío",
+        "active": "Manual activo",
         "no_supervisors_no_employees": "No hay usuarios de rol empleado o supervisor para esta zona"
     },
     "ManualComponent": {

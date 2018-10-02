@@ -175,7 +175,7 @@ mz-modal(
                             )(
                               name='{{ "privilege-" + log.id }}'
                               '[value]'='privileges[0].id'
-                              '[(ngModel)]'='selectedPrivileges[log.name].privilegeID'
+                              '[(ngModel)]'='selectedPrivileges[program.name + " " + log.name].privilegeID'
                             )
                             td: +radioButton(
                               '{{ "read-" + log.id }}',
@@ -183,7 +183,7 @@ mz-modal(
                             )(
                               name='{{ "privilege-" + log.id }}'
                               '[value]'='privileges[1].id'
-                              '[(ngModel)]'='selectedPrivileges[log.name].privilegeID'
+                              '[(ngModel)]'='selectedPrivileges[program.name + " " + log.name].privilegeID'
                             )
                             td: +radioButton(
                               '{{ "write-" + log.id }}', 
@@ -192,7 +192,7 @@ mz-modal(
                               '*ngIf'='selectedRole.name === "Employee"'
                               name='{{ "privilege-" + log.id }}'
                               '[value]'='privileges[2].id'
-                              '[(ngModel)]'='selectedPrivileges[log.name].privilegeID'
+                              '[(ngModel)]'='selectedPrivileges[program.name + " " + log.name].privilegeID'
                             )
 
       block Username&PasswordEdit

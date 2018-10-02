@@ -3,9 +3,11 @@
 // Permite mover el contenido de la pagina hacia la derecha de la pantalla para 
 // hacer espacio para desplegar el menu de la izquierda
 div.with-sidenav {
-  @media screen and (min-width: @desktopScreenWidth) {
-    padding-left: @sideNavWidth;
-  }
+  //@media screen and (min-width: @desktopScreenWidth) {
+    //padding-left: @sideNavWidth;
+    padding-right: 3%;
+    padding-left: 3%;
+  //}
 }
 
 // Permite desplegar los elementos de la barra de navegacion sin importar el 
@@ -35,7 +37,7 @@ div.logo-area {
 
 // Ajusta el espacio de separacion entre el icono y el texto de las opciones 
 // del menu lateral
-.side-menu-link {
+.side-menu-link, .collapsible-header {
   padding: 0 16px !important;
 }
 

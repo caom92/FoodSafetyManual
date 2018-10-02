@@ -5,7 +5,8 @@ mz-collection
   +uiRouterLink('menu-audit')([uiParams]='{ user_id: user.id, path: null }', mz-collection-link, *ngFor='let user of userList; let even = even')
     | {{user.first_name}} {{user.last_name}}
     div(mz-secondary-content)
-      i.teal-text(mz-icon-mdi, [icon]="'folder'", *ngIf='user.has_menu == 1')
+      //-i.teal-text(mz-icon-mdi, [icon]="'folder'", *ngIf='user.has_menu > 0')
+      mz-badge(caption="{{ 'MenuAudit.active' | translate:lang }}", [badgeClass]="'teal'", *ngIf='user.has_menu == 1')
       mz-badge(caption="{{ 'MenuAudit.empty' | translate:lang }}", [badgeClass]="'red'", *ngIf='user.has_menu == 0')
 div(*ngIf='userList.length == 0')
   h4

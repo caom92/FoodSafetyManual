@@ -43,7 +43,6 @@ include globals.pug
 
 //- Menu de navegacion lateral
 +sideNav("'sidenav'", "'sidenav-activation-btn'")(
-  '[fixed]'="'true'"
   '*ngIf'="this.home.showSideNav === true"
 )
   div.logo-area
@@ -113,6 +112,10 @@ include globals.pug
     +uiRouterLink('document-list')(class='side-menu-link waves-effect waves-green')
       i.mdi.mdi-file-pdf.mdi-24px
       ='{{ langManager.messages.sideNavOptions.documents }}'
+  mz-sidenav-link('*ngIf'="home.roleName === 'Director'")
+    +uiRouterLink('menu-audit-list')(class='side-menu-link waves-effect waves-green')
+      i.mdi.mdi-view-list.mdi-24px
+      ='{{ langManager.messages.sideNavOptions.menuAudit }}'
 
   //- Menu de navegacion para el supervisor
   mz-sidenav-link('*ngIf'="home.roleName === 'Supervisor'")
@@ -172,9 +175,10 @@ include globals.pug
       ='{{ langManager.messages.sideNavOptions.reportProblem }}'
 
 //- Area principal de la pagina
-div(
+//-div(
   '[ngClass]'="{ 'with-sidenav': home.showSideNav }"
-) 
+//-)
+.with-sidenav
   ui-view('[hidden]'='home.showSpinner')
   .centered('[hidden]'='!home.showSpinner')
     img.spinner(src="assets/images/koi_spinner.png", width="100", height="100")

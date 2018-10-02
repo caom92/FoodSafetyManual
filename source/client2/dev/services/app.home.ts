@@ -288,7 +288,7 @@ export class HomeElementsService
       (response: any) => {
         if (response.meta.return_code == 0) {
           // desplegamos el menu de zonas
-          this.zones = response.data
+          this.zones = response.data.sort((a, b) => (a as any).name < (b as any).name ? -1 : (a as any).name > (b as any).name ? 1 : 0)
           this.displayZoneMenu()
         } else {
           // si algo ocurrio con la comunicacion con el servidor, 

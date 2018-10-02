@@ -289,7 +289,7 @@ export class ReportProblemComponent implements OnInit
         // si el servidor respondio con exito...
         if (response.meta.return_code == 0) {
           // redireccionamos al usuario a otra pantalla
-          this.router.go('edit-profile')
+          this.router.go('menu', { path: null })
         }
       } // (response: Response)
     ) // this.server.update

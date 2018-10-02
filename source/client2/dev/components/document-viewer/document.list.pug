@@ -2,12 +2,15 @@ include ../../templates/pug/globals.pug
 
 h4 {{ 'DocumentAudit.title' | translate:lang }}
 mz-collection
-  mz-collection-item(*ngFor='let file of fileList', [avatar]='true')
+  //-mz-collection-item(*ngFor='let file of fileList', [avatar]='true')
     +uiRouterLink('document-viewer')([uiParams]='{ path: file.path }')
-      i.red.accent-4(mz-avatar, mz-icon-mdi, [icon]="'file-pdf'")
-      .title {{file.name}}
-      div {{ 'DocumentAudit.uploaded_by' | translate:lang }}: {{file.first_name}} {{file.last_name}}
-      div {{ 'DocumentAudit.upload_date' | translate:lang }}: {{file.upload_date | l10nDate:defaultLocale:'longDate'}}
+  +uiRouterLink('document-viewer')([uiParams]='{ path: file.path }', mz-collection-link, *ngFor='let file of fileList')
+    //-i.red.accent-4(mz-avatar, mz-icon-mdi, [icon]="'file-pdf'")
+    .title 
+      i.red-text(mz-icon-mdi, [icon]="'file-pdf'", [size]="'18px'")
+      | {{file.name}}
+    div {{ 'DocumentAudit.uploaded_by' | translate:lang }}: {{file.first_name}} {{file.last_name}}
+    div {{ 'DocumentAudit.upload_date' | translate:lang }}: {{file.upload_date | l10nDate:defaultLocale:'longDate'}}
 div(*ngIf='fileList.length == 0')
   h4
     i.red-text(mz-icon-mdi, [align]="'center'", [icon]="'alert-circle'", [size]="'42px'")
