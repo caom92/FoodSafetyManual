@@ -275,7 +275,13 @@
         "no_supervisors_no_employees": "No hay usuarios de rol empleado o supervisor para esta zona"
     },
     "ManualComponent": {
+        "file": "Elegir archivo",
+        "upload": "Subir",
+        "send": "Enviar",
+        "cancel": "Cancelar",
+        "preview": "Vista Previa",
         "network_error": "El manual no pudo ser cargado. Puede reintentar haciendo click en el botón; si el problema persiste, notifique al administrador",
+        "network_error_uploader": "El manual no pudo ser cargado. Si cree que se debe a una red lenta/intermitente, use el botón de reintentar. Si cree que se debe a que ningún manual ha sido cargado, use el botón de subir para subir un nuevo manual.",
         "retry": "Reintentar"
     }
 }

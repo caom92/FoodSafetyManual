@@ -326,6 +326,41 @@ export class LogService {
     return updatePromise
   }
 
+  public uploadManual(suffix: string, manual: FileList): Promise<any> {
+    let uploadPromise = new Promise<any>((resolve, reject) => {
+      let uploadLoader = this.loaderService.koiLoader()
+      
+      let manualForm = new FormData()
+
+      if (manual !== undefined && manual !== null) {
+        manualForm.append('manual_file', manual[0], manual[0].name)
+      }
+
+      this.server.update(
+        'upload-manual-' + suffix,
+        manualForm,
+        (response: any) => {
+          if (response.meta.return_code == 0) {
+            resolve('success')
+            uploadLoader.dismiss()
+            //this.toastService.showText('serverUnreachable')
+          } else {
+            reject('bad request')
+            uploadLoader.dismiss()
+            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+          }
+        }, (error: any, caught: Observable<void>) => {
+          reject('network error')
+          uploadLoader.dismiss()
+          this.toastService.showText('serverUnreachable')
+          return []
+        }
+      )
+    })
+
+    return uploadPromise
+  }
+
   // https://stackoverflow.com/questions/43551221/angular-2-mark-nested-formbuilder-as-touched
   setAsDirty(group: FormGroup | FormArray) {
     group.markAsDirty()

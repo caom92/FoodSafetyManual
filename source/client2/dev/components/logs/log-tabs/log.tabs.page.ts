@@ -2,6 +2,8 @@ import { Component, ComponentFactoryResolver, Type } from '@angular/core'
 import { DomSanitizer } from '@angular/platform-browser'
 import { StateService } from '@uirouter/angular'
 import { Language } from 'angular-l10n'
+import { PubSubService } from 'angular2-pubsub'
+import { Subscription } from 'angular2-pubsub/node_modules/rxjs'
 
 import { BackendService } from '../../../services/app.backend'
 import { DynamicComponentResolver } from '../../dynamic.resolver'
@@ -35,6 +37,7 @@ export class LogTabsComponent extends DynamicComponentResolver {
   manualSrc: string
   manualDirectory: any = null
   isEmployee: boolean = false
+  zoneChange: Subscription
   private readonly logComponents = {
     'gap-others-unusual-occurrence': GAPOthersUnusualOccurrenceLogComponent,
     'gap-packing-preop': GAPPackingPreopLogComponent,
@@ -55,13 +58,17 @@ export class LogTabsComponent extends DynamicComponentResolver {
   }
 
 
-  constructor(factoryResolver: ComponentFactoryResolver, private router: StateService, private server: BackendService, private sanitizer: DomSanitizer) {
+  constructor(factoryResolver: ComponentFactoryResolver, private router: StateService, private server: BackendService, private sanitizer: DomSanitizer, private events: PubSubService) {
     super(factoryResolver)
   }
 
   ngOnInit() {
     this.suffix = this.router.params.suffix
-    this.isEmployee = localStorage.getItem('role_name') == "Employee"
+    this.isEmployee = localStorage.getItem('role_name') == 'Employee'
+
+    this.zoneChange = this.events.$sub('zone:change').subscribe((message) => {
+      this.getManual()
+    })
 
     if (this.isEmployee) {
       if (this.logComponents[this.suffix] != undefined && this.logComponents[this.suffix] != null) {
@@ -71,6 +78,10 @@ export class LogTabsComponent extends DynamicComponentResolver {
       }
     }
 
+    this.getManual()
+  }
+
+  public getManual(): void {
     let logManualFormData = new FormData
     logManualFormData.append('log-suffix', this.suffix)
 
@@ -81,7 +92,7 @@ export class LogTabsComponent extends DynamicComponentResolver {
         if (response.meta.return_code == 0) {
           if (response.data) {
             this.log_name = response.data.log_name
-            this.manualSrc = 'http://localhost/espresso/' + response.data.manual_location + 'law/actual_manual.pdf'
+            this.manualSrc = 'http://localhost/espresso/' + response.data.manual_location + localStorage.getItem('zone_name').toLowerCase() + '/actual_manual.pdf'
             this.manualDirectory = this.sanitizer.bypassSecurityTrustResourceUrl('http://localhost/espresso/' + response.data.manual_location + 'law/actual_manual.pdf')
           }
         } else {

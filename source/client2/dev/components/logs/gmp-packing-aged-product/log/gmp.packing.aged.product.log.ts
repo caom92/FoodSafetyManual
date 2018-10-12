@@ -40,13 +40,13 @@ export class GMPPackingAgedProductLogComponent extends SuperLogComponent impleme
     super(logService, toasts)
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.setSuffix('gmp-packing-aged-product')
     super.ngOnInit()
     this.initForm()
   }
 
-  initForm() {
+  public initForm(): void {
     const currentDate = this.timeService.getISODate(new Date())
     this.captureForm = this._fb.group({
       date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
@@ -76,7 +76,7 @@ export class GMPPackingAgedProductLogComponent extends SuperLogComponent impleme
     })
   }
 
-  resetForm() {
+  public resetForm(): void {
     // Para bitacoras basadas en entradas, se debe reiniciar el formulario como
     // si cargaramos nuevamente el componente
     this.initForm()

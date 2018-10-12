@@ -33,6 +33,15 @@ createUploadManualService($program, $module, $log, $manualFileDir) {
       $zone = $scope->session->getSegment('fsm')->get('zone_name');
       $manualFileDir .= (strtolower($zone).'/');
 
+      $baseDir = realpath(
+        dirname(__FILE__)."/../../../data/documents/".
+        "manuals/{$manualFileDir}"
+      );
+
+      if (!is_dir($baseDir)) {
+        mkdir("../../data/documents/"."manuals/{$manualFileDir}");
+      }
+
       // if it was, compute the full directory path where the file
       // will be stored
       $uploadDir = realpath(
@@ -40,14 +49,27 @@ createUploadManualService($program, $module, $log, $manualFileDir) {
         "manuals/{$manualFileDir}actual_manual.pdf"
       );
 
-      // then, compute the name that will be assigned to the 
-      // current manual file so that we keep a backup copy of it
-      $backupFile = date('Y-m-d_H-i-s').'.pdf';
+      // if the file currently exists, we have to rename it for
+      // backup purposes; otherwise, we simply create a new file
+      // so we check for that
 
-      // rename the current manual file to keep a backup copy
-      $backupFile = str_replace('actual_manual.pdf', $backupFile, 
-        $uploadDir);
-      rename($uploadDir, $backupFile);
+      if (is_file($uploadDir)) {
+        // then, compute the name that will be assigned to the 
+        // current manual file so that we keep a backup copy of it
+        $backupFile = date('Y-m-d_H-i-s').'.pdf';
+
+        // rename the current manual file to keep a backup copy
+        $backupFile = str_replace('actual_manual.pdf', $backupFile, 
+          $uploadDir);
+        rename($uploadDir, $backupFile);
+      } else {        
+        $uploadDir = realpath(
+          dirname(__FILE__)."/../../../data/documents/".
+          "manuals/{$manualFileDir}"
+        );
+
+        $uploadDir .= "/actual_manual.pdf";
+      }      
 
       // finally save the uploaded file as the current manual file
       $wasMoveSuccessful = move_uploaded_file(

@@ -275,7 +275,13 @@
         "no_supervisors_no_employees": "There are no employees or supervisors for this zone"
     },
     "ManualComponent": {
+        "file": "Select file",
+        "upload": "Upload",
+        "send": "Send",
+        "cancel": "Cancel",
+        "preview": "Preview",
         "network_error": "The manual could not be loaded. You may retry by clicking on the Retry button; if the problem persists, notify the administrator",
+        "network_error_uploader": "The manual could not be loaded. If you believe you may have a slow network, you may use the retry button. If there isn't a manual uploaded, you may use the upload button to upload a new manual.",
         "retry": "Retry"
     }
 }

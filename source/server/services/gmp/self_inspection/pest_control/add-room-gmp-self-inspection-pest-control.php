@@ -12,7 +12,7 @@ $service = [
       'module' => 'Self Inspection',
       'log' => 'Pest Control'
     ],
-    'name' => [
+    'area_name' => [
       'type' => 'string',
       'min_length' => 1,
       'max_length' => 255
@@ -23,7 +23,7 @@ $service = [
     $rooms = $scope->daoFactory->get('gmp\selfInspection\pestControl\Rooms');
     $isNameDuplicated = $rooms->hasByZoneIDAndName(
       $segment->get('zone_id'), 
-      $request['name']
+      $request['area_name']
     );
 
     if ($isNameDuplicated) {
@@ -35,7 +35,7 @@ $service = [
 
     return  $rooms->insert([
       'zone_id' => $segment->get('zone_id'),
-      'name' => $request['name']
+      'name' => $request['area_name']
     ]);
   }
 ];

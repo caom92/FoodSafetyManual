@@ -54,10 +54,11 @@ mixin navBar(config = {})
 //- [in]  collapseButtonId (string): el ID HTML del boton que activa y 
 //-       desactiva el menu lateral, debe estar escrito con triples comillas, 
 //-       "'ejemplo'"
-mixin sideNav(name, collapseButtonId)
+mixin sideNav(name, collapseButtonId, closeOnClick)
   mz-sidenav(
     '[id]'=name
     '[collapseButtonId]'=collapseButtonId
+    '[closeOnClick]'=closeOnClick
   )&attributes(attributes)
     block
 

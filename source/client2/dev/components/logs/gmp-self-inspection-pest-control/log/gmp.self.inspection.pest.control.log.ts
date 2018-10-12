@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { FormArray, FormBuilder, Validators } from '@angular/forms'
+import { FormArray, FormBuilder, Validators, FormGroup } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
+import { CustomValidators } from '../../../../directives/custom.validators'
 import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
@@ -9,7 +10,6 @@ import { TranslationService } from '../../../../services/app.translation'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
 import { CaptureItem } from '../interfaces/gmp.self.inspection.pest.control.capture.interface'
 import { Log } from '../interfaces/gmp.self.inspection.pest.control.log.interface'
-import { CustomValidators } from '../../../../directives/custom.validators';
 
 @Component({
   selector: 'gmp-self-inspection-pest-control-log',
@@ -29,13 +29,13 @@ export class GMPSelfInspectionPestControlLogComponent extends SuperLogComponent 
     super(logService, toasts)
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.setSuffix('gmp-self-inspection-pest-control')
     super.ngOnInit()
     this.initForm()
   }
 
-  initForm() {
+  public initForm(): void {
     const currentDate = this.timeService.getISODate(new Date())
 
     this.captureForm = this._fb.group({
@@ -62,7 +62,7 @@ export class GMPSelfInspectionPestControlLogComponent extends SuperLogComponent 
     }
   }
 
-  resetForm() {
+  public resetForm(): void {
     let stations = []
     const currentDate = this.timeService.getISODate(new Date())
 
@@ -78,7 +78,7 @@ export class GMPSelfInspectionPestControlLogComponent extends SuperLogComponent 
     })
   }
 
-  initItem(item: CaptureItem) {
+  public initItem(item: CaptureItem): FormGroup {
     return this._fb.group({
       id: [item.id, [Validators.required]],
       is_secured: [item.is_secured, [Validators.required]],
