@@ -3,7 +3,7 @@ import { DefaultLocale, Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 import { Subscription } from 'angular2-pubsub/node_modules/rxjs'
 
-import { MenuService } from '../../services/app.menu'
+import { MenuService } from '../../../services/app.menu'
 
 export interface MenuFile {
   id: number

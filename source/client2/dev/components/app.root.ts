@@ -309,16 +309,13 @@ import { GMPPackingATPTestingReportAreaComponent } from './reports/gmp-packing-a
 import { GMPPackingATPTestingReportItemComponent } from './reports/gmp-packing-atp-testing/test/gmp.packing.atp.testing.test'
 import { GMPDocControlDocControlReportComponent } from './reports/gmp-doc-control-doc-control/report/gmp.doc.control.doc.control.report'
 import { ReportPreview } from './reports/preview/report.preview'
-import { ProductDataViewerComponent } from './product-data-viewer/product.data.viewer.component'
-import { DocumentListComponent } from './document-viewer/document.list'
-import { DocumentViewerComponent } from './document-viewer/document.viewer'
-import { PapaParseModule } from 'ngx-papaparse'
-import { DashboardComponent } from './dashboard/dashboard.component'
 import { languageConfig } from '../functions/l10n-config'
 import { HttpClientModule } from '@angular/common/http'
 import { ManualComponent } from './logs/log-manual/manual.component'
-import { MenuAuditComponent } from './menu-audit/menu-audit.component'
-import { MenuAuditListComponent } from './menu-audit-list/menu-audit-list.component'
+
+import { MenuModule } from './menu/menu.module'
+import { DocumentModule } from './document-viewer/document.module'
+import { ProductDataModule } from './product-data/product-data.module'
 
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
@@ -331,10 +328,12 @@ import { MenuAuditListComponent } from './menu-audit-list/menu-audit-list.compon
     HttpClientModule,
     BrowserAnimationsModule,
     DragulaModule.forRoot(),
-    PapaParseModule,
     LocalizationModule.forRoot(languageConfig),
     MaterializeModule.forRoot(),
     PubSubModule.forRoot(),
+    DocumentModule,
+    MenuModule,
+    ProductDataModule,
     UIRouterModule.forRoot({
       // hay que configurar ui-router para poder redireccionar al usuario 
       // dependiendo si la sesion esta iniciada o no
@@ -409,36 +408,6 @@ import { MenuAuditListComponent } from './menu-audit-list/menu-audit-list.compon
           name: 'users',
           url: '/users',
           component: UsersComponent
-        },
-        {
-          name: 'product-data-viewer',
-          url: '/product-data-viewer',
-          component: ProductDataViewerComponent
-        },
-        {
-          name: 'document-list',
-          url: '/document-list',
-          component: DocumentListComponent
-        },
-        {
-          name: 'document-viewer',
-          url: '/document-viewer/*path',
-          component: DocumentViewerComponent
-        },
-        {
-          name: 'menu',
-          url: '/menu/*path',
-          component: DashboardComponent
-        },
-        {
-          name: 'menu-audit',
-          url: '/menu-audit/:user_id/*path',
-          component: MenuAuditComponent
-        },
-        {
-          name: 'menu-audit-list',
-          url: '/menu-audit-list',
-          component: MenuAuditListComponent
         }
       ],
       useHash: true,
@@ -467,14 +436,8 @@ import { MenuAuditListComponent } from './menu-audit-list/menu-audit-list.compon
     ClickStopPropagationDirective,
     HomeComponent,
     LogInComponent,
-    DashboardComponent,
-    MenuAuditComponent,
-    MenuAuditListComponent,
     EditProfileComponent,
     KeysPipe,
-    ProductDataViewerComponent,
-    DocumentViewerComponent,
-    DocumentListComponent,
     ReportProblemComponent,
     ProgressModalComponent,
     KoiLoader,
@@ -671,7 +634,6 @@ import { MenuAuditListComponent } from './menu-audit-list/menu-audit-list.compon
     GMPPackingPreopReportComponent,
     UserInfoModalComponent,
     EditUserInfoModalComponent,
-    DashboardComponent,
     GMPPackingPreopLogComponent,
     GAPPackingPreopLogComponent,
     GMPPackingHandWashingLogComponent,

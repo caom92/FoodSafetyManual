@@ -4,13 +4,13 @@ import { saveAs } from 'file-saver'
 import { MzCollapsibleComponent } from 'ngx-materialize'
 import { Papa } from 'ngx-papaparse'
 
-import { LanguageService } from '../../services/app.language'
-import { LoaderService } from '../../services/app.loaders'
-import { TextAutocomplete } from './product.data.viewer.autocomplete.interface'
+import { LanguageService } from '../../../services/app.language'
+import { LoaderService } from '../../../services/app.loaders'
+import { TextAutocomplete } from './product-data-viewer.interface'
 
 @Component({
   selector: 'product-data-viewer',
-  templateUrl: 'product.data.viewer.component.html'
+  templateUrl: 'product-data-viewer.component.html'
 })
 
 export class ProductDataViewerComponent implements OnInit {

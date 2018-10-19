@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, Type } from '@angular/core'
+import { Component, ComponentFactoryResolver, Type, OnDestroy, OnInit } from '@angular/core'
 import { DomSanitizer } from '@angular/platform-browser'
 import { StateService } from '@uirouter/angular'
 import { Language } from 'angular-l10n'
@@ -29,7 +29,7 @@ import { GMPSelfInspectionPestControlLogComponent } from '../gmp-self-inspection
   templateUrl: 'log.tabs.page.html'
 })
 
-export class LogTabsComponent extends DynamicComponentResolver {
+export class LogTabsComponent extends DynamicComponentResolver implements OnInit, OnDestroy {
   @Language() lang: string
   log_name: string = 'Loading...'
   suffix: string = ''
@@ -104,5 +104,9 @@ export class LogTabsComponent extends DynamicComponentResolver {
 
   assignName() {
     this.log_name = this.router.params.suffix
+  }
+
+  public ngOnDestroy(): void {
+    this.zoneChange.unsubscribe()
   }
 }

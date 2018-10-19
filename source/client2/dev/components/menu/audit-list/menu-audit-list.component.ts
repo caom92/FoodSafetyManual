@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
-import { DefaultLocale, Language } from 'angular-l10n'
-import { MenuService } from '../../services/app.menu'
 import { Subscription } from 'angular2-pubsub/node_modules/rxjs'
+
+import { MenuService } from '../../../services/app.menu'
 
 export interface UserForMenu {
   id: number

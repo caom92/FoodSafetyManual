@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core'
 import { StateService } from '@uirouter/core'
 import { Language } from 'angular-l10n'
 
-import { MenuService } from '../../services/app.menu'
-import { DashboardDirectory, DashboardFile, DashboardLink } from '../dashboard/dashboard.interface'
+import { MenuService } from '../../../services/app.menu'
+import { DashboardDirectory, DashboardFile, DashboardLink } from '../menu.interface'
 
 @Component({
   templateUrl: 'menu-audit.component.html',

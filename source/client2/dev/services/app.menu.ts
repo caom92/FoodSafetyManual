@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 
-import { DashboardDirectory, DashboardLink } from '../components/dashboard/dashboard.interface'
 import { BackendService } from './app.backend'
 import { LoaderService } from './app.loaders'
 import { ToastsService } from './app.toasts'

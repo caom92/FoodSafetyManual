@@ -3,17 +3,17 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { StateService } from '@uirouter/core'
 import { Language } from 'angular-l10n'
 
-import { AlertController } from '../../services/alert/app.alert'
-import { MenuService } from '../../services/app.menu'
-import { MenuFile } from '../document-viewer/document.list'
-import { DashboardDirectory, DashboardFile, DashboardLink, LocalURL } from './dashboard.interface'
+import { AlertController } from '../../../services/alert/app.alert'
+import { MenuService } from '../../../services/app.menu'
+import { MenuFile } from '../../document-viewer/list/document.list'
+import { DashboardDirectory, DashboardFile, DashboardLink, LocalURL } from '../menu.interface'
 
 @Component({
-  selector: 'dashboard',
-  templateUrl: './dashboard.component.html'
+  selector: 'menu-viewer',
+  templateUrl: './menu-viewer.component.html'
 })
 
-export class DashboardComponent implements OnInit {
+export class MenuComponent implements OnInit {
   @Language() lang: string
   dashboardIcons: Array<DashboardDirectory | DashboardLink | DashboardFile> = []
   currentDirectory: Array<DashboardDirectory | DashboardLink | DashboardFile> = []
