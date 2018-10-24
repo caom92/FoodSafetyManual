@@ -32,6 +32,12 @@ export class ProductDataViewerComponent implements OnInit {
   private allBatches: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
   private autocompleteBatches: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
 
+  private allIDs: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
+  private autocompleteIDs: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
+
+  private allShipments: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
+  private autocompleteShipments: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
+
   private allTraceability: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
   private autocompleteTraceability: TextAutocomplete = { data: {}, limit: 5, current: null, count: 0, arr: [] }
 
@@ -221,6 +227,8 @@ export class ProductDataViewerComponent implements OnInit {
     this.autocompleteLots.current = ''
     this.autocompleteVarieties.current = ''
     this.autocompleteBatches.current = ''
+    this.autocompleteIDs.current = ''
+    this.autocompleteShipments.current = ''
     this.autocompleteTraceability.current = ''
     this.autocompleteParcels.current = ''
     this.autocompleteZones.current = ''
@@ -293,6 +301,20 @@ export class ProductDataViewerComponent implements OnInit {
         }
       }
 
+      if (this.allIDs.data[f['ID_Cosecha']] === undefined) {
+        if (f['ID_Cosecha'] !== null) {
+          this.allIDs.data[f['ID_Cosecha']] = null
+          this.allIDs.count++
+        }
+      }
+
+      if (this.allShipments.data[f['nCamion']] === undefined) {
+        if (f['nCamion'] !== null) {
+          this.allShipments.data[f['nCamion']] = null
+          this.allShipments.count++
+        }
+      }
+
       if (this.allTraceability.data[f['Grupo']] === undefined) {
         if (f['Grupo'] !== null) {
           this.allTraceability.data[f['Grupo']] = null
@@ -330,6 +352,8 @@ export class ProductDataViewerComponent implements OnInit {
     this.autocompleteProducts = this.allProducts
     this.autocompleteVarieties = this.allVarieties
     this.autocompleteBatches = this.allBatches
+    this.autocompleteIDs = this.allIDs
+    this.autocompleteShipments = this.allShipments
     this.autocompleteTraceability = this.allTraceability
     this.autocompleteParcels = this.allParcels
     this.autocompleteZones = this.allZones
@@ -409,6 +433,22 @@ export class ProductDataViewerComponent implements OnInit {
     this.allBatches.arr = []
     this.allBatches.count = 0
 
+    for (var key in this.allIDs.data) {
+      if (this.allIDs.data.hasOwnProperty(key)) {
+        delete this.allIDs.data[key];
+      }
+    }
+    this.allIDs.arr = []
+    this.allIDs.count = 0
+
+    for (var key in this.allShipments.data) {
+      if (this.allShipments.data.hasOwnProperty(key)) {
+        delete this.allShipments.data[key];
+      }
+    }
+    this.allShipments.arr = []
+    this.allShipments.count = 0
+
     for (var key in this.allTraceability.data) {
       if (this.allTraceability.data.hasOwnProperty(key)) {
         delete this.allTraceability.data[key];
@@ -450,6 +490,8 @@ export class ProductDataViewerComponent implements OnInit {
         (this.allLots.current == null || d['Lote'] == this.allLots.current || this.allLots.current == '') &&
         (this.allVarieties.current == null || d['Variedad'] == this.allVarieties.current || this.allVarieties.current == '') &&
         (this.allBatches.current == null || d['Batch'] == this.allBatches.current || this.allBatches.current == '') &&
+        (this.allIDs.current == null || d['ID_Cosecha'] == this.allIDs.current || this.allIDs.current == '') &&
+        (this.allShipments.current == null || d['nCamion'] == this.allShipments.current || this.allShipments.current == '') &&
         (this.allTraceability.current == null || d['Grupo'] == this.allTraceability.current || this.allTraceability.current == '') &&
         (this.allParcels.current == null || d['Parcela'] == this.allParcels.current || this.allParcels.current == '') &&
         (this.allZones.current == null || d['Zona'] == this.allZones.current || this.allZones.current == '')) {

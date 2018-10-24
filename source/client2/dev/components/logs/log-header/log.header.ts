@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core'
-import { FormControl, FormGroup } from '@angular/forms'
+import { FormGroup } from '@angular/forms'
 import { Language, DefaultLocale, Currency } from 'angular-l10n'
 
 import { LanguageService } from '../../../services/app.language'
@@ -12,6 +12,9 @@ import { MzDatepickerDirective } from 'ngx-materialize'
 })
 
 export class LogHeaderComponent implements OnInit {
+  @Language() lang: string
+  @DefaultLocale() defaultLocale: string
+  @ViewChild(MzDatepickerDirective) datePicker: MzDatepickerDirective
   @Input() log: { zone_name: string, program_name: string, module_name: string, date: string, created_by: string } = {
     zone_name: null,
     program_name: null,
@@ -24,10 +27,6 @@ export class LogHeaderComponent implements OnInit {
   date: string = ''
   dateConfig: any
   username: string = ''
-  @Language() lang: string
-  @DefaultLocale() defaultLocale: string
-  @Currency() currency: string
-  @ViewChild(MzDatepickerDirective) datePicker: MzDatepickerDirective
 
   constructor(private timeService: DateTimeService, private langManager: LanguageService) {
 

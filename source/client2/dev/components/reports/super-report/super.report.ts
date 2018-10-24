@@ -1,7 +1,8 @@
+import { OnInit } from '@angular/core'
+
+import { Preview } from '../preview/report.preview.interface'
 import { ReportHeader } from '../report-header/report.header.interface'
 import { SuperReportInterface } from './super.report.interface'
-import { OnInit } from '@angular/core'
-import { Preview } from '../preview/report.preview.interface'
 
 export class SuperReportComponent implements OnInit {
   report: SuperReportInterface
@@ -42,7 +43,7 @@ export class SuperReportComponent implements OnInit {
 
   public getOrientation(): string {
     // Orientación del reporte, por defecto es "P" (Portrait) pero puede redefinirse en los reportes hijo para usar "L" (Landscape),
-    return "P"
+    return 'P'
   }
 
   public getImages(): string {
@@ -51,11 +52,11 @@ export class SuperReportComponent implements OnInit {
   }
 
   public getFontSize(): string {
-    return "10"
+    return '10'
   }
 
   public getCSS(): string {
-    throw "getCSS() function must be overridden in child class"
+    throw 'getCSS() function must be overridden in child class'
   }
 
   public getPreview(): Array<Preview> {

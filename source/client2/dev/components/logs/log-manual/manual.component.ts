@@ -7,8 +7,8 @@ import { Observable } from 'rxjs'
 import { LogService } from '../../../services/app.logs'
 
 @Component({
-  templateUrl: './manual.component.html',
-  selector: 'manual'
+  selector: 'manual',
+  templateUrl: './manual.component.html'
 })
 
 export class ManualComponent implements OnInit, OnChanges {

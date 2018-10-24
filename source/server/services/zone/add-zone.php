@@ -5,7 +5,8 @@ $service = [
     'logged_in' => ['Administrator'],
     'new_zone' => [
       'type' => 'string',
-      'length' => 3
+      'min_length' => 1,
+      'max_length' => 10
     ],
     'company_name' => [
       'type' => 'string',

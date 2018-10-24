@@ -268,8 +268,8 @@ export class LanguageService {
       zonesForm: {
         zoneName: {
           required: 'Este campo es obligatorio',
-          minlength: 'Este campo debe ser 3 caracteres de largo',
-          maxlength: 'Este campo debe ser 3 caracteres de largo'
+          minlength: 'Este campo debe tener al menos 1 caracter de largo',
+          maxlength: 'Este campo debe tener máximo 10 caracteres de largo'
         },
         companyName: {
           required: 'Este campo es obligatorio',
@@ -726,8 +726,8 @@ export class LanguageService {
       zonesForm: {
         zoneName: {
           required: 'This field is required',
-          minlength: 'This field must be 3 characters long',
-          maxlength: 'This field must be 3 characters long'
+          minlength: 'This field must be at least 1 character long',
+          maxlength: 'This field must be at most 10 characters long'
         },
         companyName: {
           required: 'This field is required',

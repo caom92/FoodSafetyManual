@@ -55,30 +55,36 @@ mz-collapsible(#collapsible, [mode]="'expandable'")
           //-mz-input-container
             input#lot-input(mz-input, [label]="'Lote'", placeholder='Lote', type='text', autocomplete='off', [autocomplete]='autocompleteLots', (change)='onAutocompleteChange($event, autocompleteLots)', [(ngModel)]='autocompleteLots.current')
       .row
-        .col.s3.m3.l3
+        .col.s2.m2.l2
           mz-select-container
             select(mz-select, id='group-select', [label]="'Grupo'", [(ngModel)]="autocompleteTraceability.current", (change)='onAutocompleteChange($event, autocompleteTraceability)')
               option([value]="''") TODOS
               option(*ngFor="let opt of autocompleteTraceability.arr", [value]="opt") {{opt}}
           //-mz-input-container
             input#traceability-input(mz-input, [label]="'Grupo'", placeholder='Grupo', type='text', autocomplete='off', [autocomplete]='autocompleteTraceability', (change)='onAutocompleteChange($event, autocompleteTraceability)', [(ngModel)]='autocompleteTraceability.current')
-        .col.s3.m3.l3
+        .col.s2.m2.l2
           mz-select-container
             select(mz-select, id='variety-select', [label]="'Variedad'", [(ngModel)]="autocompleteVarieties.current", (change)='onAutocompleteChange($event, autocompleteVarieties)')
               option([value]="''") TODOS
               option(*ngFor="let opt of autocompleteVarieties.arr", [value]="opt") {{opt}}
           //-mz-input-container
             input#variety-input(mz-input, [label]="'Variedad'", placeholder='Variedad', type='text', autocomplete='off', [autocomplete]='autocompleteVarieties', (change)='onAutocompleteChange($event, autocompleteVarieties)', [(ngModel)]='autocompleteVarieties.current')
-        .col.s3.m3.l3
+        .col.s2.m2.l2
           mz-select-container
             select(mz-select, id='product-select', [label]="'Tipo'", [(ngModel)]="autocompleteProducts.current", (change)='onAutocompleteChange($event, autocompleteProducts)')
               option([value]="''") TODOS
               option(*ngFor="let opt of autocompleteProducts.arr", [value]="opt") {{opt}}
           //-mz-input-container
             input#product-input(mz-input, [label]="'Producto'", placeholder='Producto', type='text', autocomplete='off', [autocomplete]='autocompleteProducts', (change)='onAutocompleteChange($event, autocompleteProducts)', [(ngModel)]='autocompleteProducts.current')
-        .col.s3.m3.l3
+        .col.s2.m2.l2
           mz-input-container
             input#batch-input(mz-input, [label]="'Batch'", placeholder='Batch', type='text', autocomplete='off', [autocomplete]='autocompleteBatches', (change)='onAutocompleteChange($event, autocompleteBatches)', [(ngModel)]='autocompleteBatches.current')
+        .col.s2.m2.l2
+          mz-input-container
+            input#batch-input(mz-input, [label]="'ID'", placeholder='ID', type='text', autocomplete='off', [autocomplete]='autocompleteIDs', (change)='onAutocompleteChange($event, autocompleteIDs)', [(ngModel)]='autocompleteIDs.current')
+        .col.s2.m2.l2
+          mz-input-container
+            input#batch-input(mz-input, [label]="'Envio'", placeholder='Envio', type='text', autocomplete='off', [autocomplete]='autocompleteShipments', (change)='onAutocompleteChange($event, autocompleteShipments)', [(ngModel)]='autocompleteShipments.current')
       .row
         .col.s12.m6.l3
           .center
@@ -120,6 +126,7 @@ div
         th.slim-table-cell.no-wrap-table-cell Grupo
         th.slim-table-cell.no-wrap-table-cell Bol
         th.slim-table-cell.no-wrap-table-cell Batch
+        th.slim-table-cell.no-wrap-table-cell Envio
     tbody
       ng-template(ngFor, [ngForOf]='currentData', let-d, let-i='index')
         tr([ngClass]="d['Rec']?'received':''")
@@ -139,6 +146,7 @@ div
           td.slim-table-cell.no-wrap-table-cell {{d['Grupo']}}
           td.slim-table-cell.no-wrap-table-cell {{d['Bol']}}
           td.slim-table-cell.no-wrap-table-cell {{d['Batch']}}
+          td.slim-table-cell.no-wrap-table-cell {{d['nCamion']}}
   .center(*ngIf='filteredData.length > 0 && showDetailedView === true')
     button.green(mz-button, float='true', (click)='goToFirst()', [disabled]='currentPage == 0')
       i(mz-icon-mdi, [align]="'right'", [icon]="'rewind'", [size]="'36px'")

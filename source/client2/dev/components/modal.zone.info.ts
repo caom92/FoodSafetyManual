@@ -57,8 +57,8 @@ export class ZoneInfoModalComponent extends MzBaseModal implements OnInit
     this.zoneInfoForm = this.formBuilder.group({
       zoneName: [ this.zoneName, Validators.compose([
         Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(3)
+        Validators.minLength(1),
+        Validators.maxLength(10)
       ])],
       companyName: [ this.companyName, Validators.compose([
         Validators.required,

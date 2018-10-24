@@ -9,7 +9,8 @@ $service = [
     ],
     'zone_name' => [
       'type' => 'string',
-      'length' => 3
+      'min_length' => 1,
+      'max_length' => 10
     ],
     'company_name' => [
       'type' => 'string',
@@ -70,6 +71,48 @@ $service = [
             );
           }
         }
+      }
+
+      // Manual directories must be renamed in order to work after the name change
+
+      $currentZoneLength = strlen(strtolower($currentZone['name']));
+      $path = realpath(dirname(__FILE__)."/../../../../data/documents/manuals/");
+      $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path), RecursiveIteratorIterator::SELF_FIRST);
+
+      $uniqueDirectories = array();
+      $finalDirectories = array();
+      $renameableDirectories = array();
+      
+      foreach($iterator as $file) {
+        if($file->isDir()) {
+          array_push($uniqueDirectories, $file->getPath());
+        }
+      }    
+      $uniqueDirectories = array_unique($uniqueDirectories);
+
+      foreach($uniqueDirectories as $directory) {
+        $check = false;
+        foreach($uniqueDirectories as $compare) {
+          if($compare !== $directory)
+            $check = strrpos($compare, $directory);
+          if($check !== false)
+            break;
+        }
+        if($check === false)
+          array_push($finalDirectories, $directory);
+      }
+
+      foreach($finalDirectories as $directory) {
+        $position = strrpos($directory, DIRECTORY_SEPARATOR.strtolower($currentZone['name']));
+        if($position !== false) {
+          if($position + strlen(DIRECTORY_SEPARATOR.strtolower($currentZone['name'])) == strlen($directory)) {
+            array_push($renameableDirectories, $directory);
+          }
+        }
+      }
+
+      foreach($renameableDirectories as $directory) {
+        rename($directory, substr($directory, 0, (-$currentZoneLength)).strtolower($request['zone_name']));
       }
 
       if (isset($fileName)) {
