@@ -214,7 +214,7 @@ import { ToastsService } from '../services/app.toasts'
 import { TranslationService } from '../services/app.translation'
 import { AuthorizationLoader } from './authorizations/authorization-loader/authorization.loader.component'
 import { AreaManagerService } from '../services/app.area.manager'
-import { ReportHeaderComponent } from './reports/report-header/report.header'
+import { ReportHeaderComponent } from './reports/report-header/report-header.component'
 import { ReportTab } from './reports/reports'
 import { GAPOthersUnusualOccurrenceAuthorizationComponent } from './logs/gap-others-unusual-occurrence/authorization/gap.others.unusual.occurrence.authorization'
 import { GMPOthersUnusualOccurrenceAuthorizationComponent } from './logs/gmp-others-unusual-occurrence/authorization/gmp.others.unusual.occurrence.authorization'
@@ -228,7 +228,7 @@ import { GMPPackingATPTestingReportComponent } from './reports/gmp-packing-atp-t
 import { GMPPackingATPTestingReportAreaComponent } from './reports/gmp-packing-atp-testing/entry/gmp.packing.atp.testing.entry'
 import { GMPPackingATPTestingReportItemComponent } from './reports/gmp-packing-atp-testing/test/gmp.packing.atp.testing.test'
 import { GMPDocControlDocControlReportComponent } from './reports/gmp-doc-control-doc-control/report/gmp.doc.control.doc.control.report'
-import { ReportPreview } from './reports/preview/report.preview'
+import { ReportPreviewComponent } from './reports/report-preview/report-preview.component'
 import { languageConfig } from '../functions/l10n-config'
 import { HttpClientModule } from '@angular/common/http'
 import { ManualComponent } from './logs/log-manual/manual.component'
@@ -397,7 +397,7 @@ import { GMPSelfInspectionPestControlInventoryModule } from './inventories/gmp-s
     ManualComponent,
     ReportTab,
     ReportLoader,
-    ReportPreview,
+    ReportPreviewComponent,
     ReportLoaderCard,
     GMPPackingPreopItemComponent,
     GMPPackingPreopTypeComponent,

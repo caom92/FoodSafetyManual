@@ -1,7 +1,7 @@
 import { Component, Input, ViewChild } from '@angular/core'
 import { Language } from 'angular-l10n'
 
-import { Preview } from '../../preview/report.preview.interface'
+import { Preview } from '../../report-preview/report-preview.interface'
 import { SuperReportComponent } from '../../super-report/super.report'
 import { Report } from '../interfaces/gmp.doc.control.doc.control.report.interface'
 

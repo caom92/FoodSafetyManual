@@ -1,12 +1,12 @@
-import { OnInit } from '@angular/core'
+import { OnInit, ElementRef } from '@angular/core'
 
-import { Preview } from '../preview/report.preview.interface'
-import { ReportHeader } from '../report-header/report.header.interface'
+import { ReportHeader } from '../report-header/report-header.interface'
+import { Preview } from '../report-preview/report-preview.interface'
 import { SuperReportInterface } from './super.report.interface'
 
 export class SuperReportComponent implements OnInit {
   report: SuperReportInterface
-  reportHTML: any
+  reportHTML: ElementRef
   header: ReportHeader = {
     zone: '',
     module: '',

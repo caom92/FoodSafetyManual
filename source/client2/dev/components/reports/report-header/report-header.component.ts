@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core'
 import { Language } from 'angular-l10n'
-import { ReportHeader } from './report.header.interface'
+
+import { ReportHeader } from './report-header.interface'
 
 @Component({
   selector: 'report-header',
-  templateUrl: './report.header.html'
+  templateUrl: './report-header.component.html'
 })
 
 export class ReportHeaderComponent {

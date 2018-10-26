@@ -3,7 +3,7 @@ import { Language } from 'angular-l10n'
 
 import { SuperReportComponent } from '../../super-report/super.report'
 import { Report } from '../interfaces/gmp.packing.finished.product.report.interface'
-import { Preview } from '../../preview/report.preview.interface'
+import { Preview } from '../../report-preview/report-preview.interface'
 
 @Component({
   selector: 'gmp-packing-finished-product-report',

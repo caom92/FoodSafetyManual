@@ -3,10 +3,10 @@ import { Language } from 'angular-l10n'
 
 @Component({
   selector: 'report-preview',
-  templateUrl: './report.preview.html'
+  templateUrl: './report-preview.component.html'
 })
 
-export class ReportPreview {
+export class ReportPreviewComponent {
   @Language() lang: string
   @Input() title: string = ''
   @Input() content: string = ''

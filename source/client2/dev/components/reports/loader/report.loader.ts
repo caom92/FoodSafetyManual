@@ -17,7 +17,7 @@ import { GMPPackingScaleCalibrationReportComponent } from '../gmp-packing-scale-
 import { GMPPackingScissorsKnivesReportComponent } from '../gmp-packing-scissors-knives/report/gmp.packing.scissors.knives.report'
 import { GMPPackingThermoCalibrationReportComponent } from '../gmp-packing-thermo-calibration/report/gmp.packing.thermo.calibration.report'
 import { GMPSelfInspectionPestControlReportComponent } from '../gmp-self-inspection-pest-control/report/gmp.self.inspection.pest.control.report'
-import { Preview } from '../preview/report.preview.interface'
+import { Preview } from '../report-preview/report-preview.interface'
 import { ReportRequest, ActiveReport } from '../reports.interface'
 import { SuperReportComponent } from '../super-report/super.report'
 import { SuperReportInterface } from '../super-report/super.report.interface'
