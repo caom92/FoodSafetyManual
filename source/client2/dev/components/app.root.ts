@@ -45,17 +45,6 @@ import { GMPPackingPreopLogComponent } from '../components/logs/gmp-packing-preo
 
 import { GMPPackingPreopAuthorizationComponent } from '../components/logs/gmp-packing-preop/authorization/gmp.packing.preop.authorization'
 
-import { GMPPackingPreopInventoryManagerComponent } from '../components/inventories/gmp-packing-preop/manager/gmp.packing.preop.inventory.manager'
-import { GMPPackingPreopInventoryComponent } from '../components/inventories/gmp-packing-preop/inventory/gmp.packing.preop.inventory'
-import { GMPPackingPreopInventoryItemComponent } from '../components/inventories/gmp-packing-preop/item/gmp.packing.preop.inventory.item'
-import { GMPPackingPreopInventoryListComponent } from '../components/inventories/gmp-packing-preop/list/gmp.packing.preop.inventory.list'
-import { GMPPackingPreopAreaInventoryComponent } from '../components/inventories/gmp-packing-preop/area-inventory/gmp.packing.preop.area.inventory'
-import { GMPPackingPreopAreaInventoryListComponent } from '../components/inventories/gmp-packing-preop/area-list/gmp.packing.preop.area.inventory.list'
-import { GMPPackingPreopAreaInventoryAreaComponent } from '../components/inventories/gmp-packing-preop/area/gmp.packing.preop.area.inventory.area'
-import { GMPPackingPreopAddAreaComponent } from '../components/inventories/gmp-packing-preop/add-area/gmp.packing.preop.add.area'
-//import { GMPPackingPreopEditAreaComponent } from '../components/inventories/gmp-packing-preop/edit-area/gmp.packing.preop.edit.area'
-import { GMPPackingPreopAddItemComponent } from '../components/inventories/gmp-packing-preop/add-item/gmp.packing.preop.add.item'
-
 import { GMPPackingPreopReportComponent } from './reports/gmp-packing-preop/report/gmp.packing.preop.report'
 import { GMPPackingPreopReportAreaComponent } from './reports/gmp-packing-preop/area/gmp.packing.preop.area'
 import { GMPPackingPreopReportTypeComponent } from './reports/gmp-packing-preop/type/gmp.packing.preop.type'
@@ -70,16 +59,6 @@ import { GAPPackingPreopLogComponent } from '../components/logs/gap-packing-preo
 
 import { GAPPackingPreopAuthorizationComponent } from '../components/logs/gap-packing-preop/authorization/gap.packing.preop.authorization'
 
-import { GAPPackingPreopInventoryManagerComponent } from '../components/inventories/gap-packing-preop/manager/gap.packing.preop.inventory.manager'
-import { GAPPackingPreopInventoryComponent } from '../components/inventories/gap-packing-preop/inventory/gap.packing.preop.inventory'
-import { GAPPackingPreopInventoryItemComponent } from '../components/inventories/gap-packing-preop/item/gap.packing.preop.inventory.item'
-import { GAPPackingPreopInventoryListComponent } from '../components/inventories/gap-packing-preop/list/gap.packing.preop.inventory.list'
-import { GAPPackingPreopAreaInventoryComponent } from '../components/inventories/gap-packing-preop/area-inventory/gap.packing.preop.area.inventory'
-import { GAPPackingPreopAreaInventoryListComponent } from '../components/inventories/gap-packing-preop/area-list/gap.packing.preop.area.inventory.list'
-import { GAPPackingPreopAreaInventoryAreaComponent } from '../components/inventories/gap-packing-preop/area/gap.packing.preop.area.inventory.area'
-import { GAPPackingPreopAddAreaComponent } from '../components/inventories/gap-packing-preop/add-area/gap.packing.preop.add.area'
-import { GAPPackingPreopAddItemComponent } from '../components/inventories/gap-packing-preop/add-item/gap.packing.preop.add.item'
-
 import { GAPPackingPreopReportComponent } from './reports/gap-packing-preop/report/gap.packing.preop.report'
 import { GAPPackingPreopReportAreaComponent } from './reports/gap-packing-preop/area/gap.packing.preop.report.area'
 import { GAPPackingPreopReportTypeComponent } from './reports/gap-packing-preop/type/gap.packing.preop.report.type'
@@ -92,11 +71,6 @@ import { GMPPackingHandWashingItemComponent } from '../components/logs/gmp-packi
 
 import { GMPPackingHandWashingAuthorizationComponent } from '../components/logs/gmp-packing-hand-washing/authorization/gmp.packing.hand.washing.authorization'
 
-import { GMPPackingHandWashingInventoryComponent } from '../components/inventories/gmp-packing-hand-washing/inventory/gmp.packing.hand.washing.inventory'
-import { GMPPackingHandWashingInventoryItemComponent } from '../components/inventories/gmp-packing-hand-washing/item/gmp.packing.hand.washing.inventory.item'
-import { GMPPackingHandWashingInventoryListComponent } from '../components/inventories/gmp-packing-hand-washing/list/gmp.packing.hand.washing.inventory.list'
-import { GMPPackingHandWashingAddItemComponent } from '../components/inventories/gmp-packing-hand-washing/add-item/gmp.packing.hand.washing.add.item'
-
 import { GMPPackingHandWashingReportComponent } from './reports/gmp-packing-hand-washing/report/gmp.packing.hand.washing.report'
 import { GMPPackingHandWashingReportItemComponent } from './reports/gmp-packing-hand-washing/item/gmp.packing.hand.washing.item'
 
@@ -106,11 +80,6 @@ import { GMPPackingThermoCalibrationLogComponent } from '../components/logs/gmp-
 import { GMPPackingThermoCalibrationItemComponent } from '../components/logs/gmp-packing-thermo-calibration/item/gmp.packing.thermo.calibration.item'
 
 import { GMPPackingThermoCalibrationAuthorizationComponent } from '../components/logs/gmp-packing-thermo-calibration/authorization/gmp.packing.thermo.calibration.authorization'
-
-import { GMPPackingThermoCalibrationInventoryComponent } from '../components/inventories/gmp-packing-thermo-calibration/inventory/gmp.packing.thermo.calibration.inventory'
-import { GMPPackingThermoCalibrationInventoryItemComponent } from '../components/inventories/gmp-packing-thermo-calibration/item/gmp.packing.thermo.calibration.inventory.item'
-import { GMPPackingThermoCalibrationInventoryListComponent } from '../components/inventories/gmp-packing-thermo-calibration/list/gmp.packing.thermo.calibration.inventory.list'
-import { GMPPackingThermoCalibrationAddItemComponent } from '../components/inventories/gmp-packing-thermo-calibration/add-item/gmp.packing.thermo.calibration.add.item'
 
 import { GMPPackingThermoCalibrationReportComponent } from './reports/gmp-packing-thermo-calibration/report/gmp.packing.thermo.calibration.report'
 import { GMPPackingThermoCalibrationReportItemComponent } from './reports/gmp-packing-thermo-calibration/item/gmp.packing.thermo.calibration.report.item'
@@ -123,11 +92,6 @@ import { GMPPackingScaleCalibrationItemComponent } from '../components/logs/gmp-
 
 import { GMPPackingScaleCalibrationAuthorizationComponent } from '../components/logs/gmp-packing-scale-calibration/authorization/gmp.packing.scale.calibration.authorization'
 
-import { GMPPackingScaleCalibrationInventoryComponent } from '../components/inventories/gmp-packing-scale-calibration/inventory/gmp.packing.scale.calibration.inventory'
-import { GMPPackingScaleCalibrationInventoryItemComponent } from '../components/inventories/gmp-packing-scale-calibration/item/gmp.packing.scale.calibration.inventory.item'
-import { GMPPackingScaleCalibrationInventoryListComponent } from '../components/inventories/gmp-packing-scale-calibration/list/gmp.packing.scale.calibration.inventory.list'
-import { GMPPackingScaleCalibrationAddItemComponent } from '../components/inventories/gmp-packing-scale-calibration/add-item/gmp.packing.scale.calibration.add.item'
-
 import { GMPPackingScaleCalibrationReportComponent } from './reports/gmp-packing-scale-calibration/report/gmp.packing.scale.calibration.report'
 import { GMPPackingScaleCalibrationReportTypeComponent } from './reports/gmp-packing-scale-calibration/type/gmp.packing.scale.calibration.report.type'
 import { GMPPackingScaleCalibrationReportItemComponent } from './reports/gmp-packing-scale-calibration/item/gmp.packing.scale.calibration.report.item'
@@ -138,11 +102,6 @@ import { GMPPackingScissorsKnivesLogComponent } from '../components/logs/gmp-pac
 import { GMPPackingScissorsKnivesItemComponent } from '../components/logs/gmp-packing-scissors-knives/item/gmp.packing.scissors.knives.item'
 
 import { GMPPackingScissorsKnivesAuthorizationComponent } from '../components/logs/gmp-packing-scissors-knives/authorization/gmp.packing.scissors.knives.authorization'
-
-import { GMPPackingScissorsKnivesInventoryComponent } from '../components/inventories/gmp-packing-scissors-knives/inventory/gmp.packing.scissors.knives.inventory'
-import { GMPPackingScissorsKnivesInventoryItemComponent } from '../components/inventories/gmp-packing-scissors-knives/item/gmp.packing.scissors.knives.inventory.item'
-import { GMPPackingScissorsKnivesInventoryListComponent } from '../components/inventories/gmp-packing-scissors-knives/list/gmp.packing.scissors.knives.inventory.list'
-import { GMPPackingScissorsKnivesAddItemComponent } from '../components/inventories/gmp-packing-scissors-knives/add-item/gmp.packing.scissors.knives.add.item'
 
 import { GMPPackingScissorsKnivesReportComponent } from './reports/gmp-packing-scissors-knives/report/gmp.packing.scissors.knives.report'
 import { GMPPackingScissorsKnivesReportItemComponent } from './reports/gmp-packing-scissors-knives/item/gmp.packing.scissors.knives.report.item'
@@ -155,16 +114,6 @@ import { GMPPackingGlassBrittleItemComponent } from '../components/logs/gmp-pack
 
 import { GMPPackingGlassBrittleAuthorizationComponent } from '../components/logs/gmp-packing-glass-brittle/authorization/gmp.packing.glass.brittle.authorization'
 
-import { GMPPackingGlassBrittleInventoryManagerComponent } from '../components/inventories/gmp-packing-glass-brittle/manager/gmp.packing.glass.brittle.inventory.manager'
-import { GMPPackingGlassBrittleInventoryComponent } from '../components/inventories/gmp-packing-glass-brittle/inventory/gmp.packing.glass.brittle.inventory'
-import { GMPPackingGlassBrittleInventoryItemComponent } from '../components/inventories/gmp-packing-glass-brittle/item/gmp.packing.glass.brittle.inventory.item'
-import { GMPPackingGlassBrittleInventoryListComponent } from '../components/inventories/gmp-packing-glass-brittle/list/gmp.packing.glass.brittle.inventory.list'
-import { GMPPackingGlassBrittleAreaInventoryComponent } from '../components/inventories/gmp-packing-glass-brittle/area-inventory/gmp.packing.glass.brittle.area.inventory'
-import { GMPPackingGlassBrittleAreaInventoryAreaComponent } from '../components/inventories/gmp-packing-glass-brittle/area/gmp.packing.glass.brittle.area.inventory.area'
-import { GMPPackingGlassBrittleAreaInventoryListComponent } from '../components/inventories/gmp-packing-glass-brittle/area-list/gmp.packing.glass.brittle.area.inventory.list'
-import { GMPPackingGlassBrittleAddAreaComponent } from '../components/inventories/gmp-packing-glass-brittle/add-area/gmp.packing.glass.brittle.add.area'
-import { GMPPackingGlassBrittleAddItemComponent } from '../components/inventories/gmp-packing-glass-brittle/add-item/gmp.packing.glass.brittle.add.item'
-
 import { GMPPackingGlassBrittleReportComponent } from './reports/gmp-packing-glass-brittle/report/gmp.packing.glass.brittle.report'
 import { GMPPackingGlassBrittleReportAreaComponent } from './reports/gmp-packing-glass-brittle/area/gmp.packing.glass.brittle.area'
 import { GMPPackingGlassBrittleReportItemComponent } from './reports/gmp-packing-glass-brittle/item/gmp.packing.glass.brittle.item'
@@ -176,11 +125,6 @@ import { GMPPackingColdRoomTempItemComponent } from '../components/logs/gmp-pack
 
 import { GMPPackingColdRoomTempAuthorizationComponent } from '../components/logs/gmp-packing-cold-room-temp/authorization/gmp.packing.cold.room.temp.authorization'
 
-import { GMPPackingColdRoomTempInventoryComponent } from '../components/inventories/gmp-packing-cold-room-temp/inventory/gmp.packing.cold.room.temp.inventory'
-import { GMPPackingColdRoomTempInventoryItemComponent } from '../components/inventories/gmp-packing-cold-room-temp/item/gmp.packing.cold.room.temp.inventory.item'
-import { GMPPackingColdRoomTempInventoryListComponent } from '../components/inventories/gmp-packing-cold-room-temp/list/gmp.packing.cold.room.temp.inventory.list'
-import { GMPPackingColdRoomTempAddItemComponent } from '../components/inventories/gmp-packing-cold-room-temp/add-item/gmp.packing.cold.room.temp.add.item'
-
 import { GMPPackingColdRoomTempReportComponent } from './reports/gmp-packing-cold-room-temp/report/gmp.packing.cold.room.temp.report'
 import { GMPPackingColdRoomTempReportItemComponent } from './reports/gmp-packing-cold-room-temp/item/gmp.packing.cold.room.temp.report.item'
 
@@ -189,16 +133,6 @@ import { GMPPackingColdRoomTempReportItemComponent } from './reports/gmp-packing
 import { GMPSelfInspectionPestControlLogComponent } from '../components/logs/gmp-self-inspection-pest-control/log/gmp.self.inspection.pest.control.log'
 import { GMPSelfInspectionPestControlAreaComponent } from '../components/logs/gmp-self-inspection-pest-control/area/gmp.self.inspection.pest.control.area'
 import { GMPSelfInspectionPestControlItemComponent } from '../components/logs/gmp-self-inspection-pest-control/item/gmp.self.inspection.pest.control.item'
-
-import { GMPSelfInspectionPestControlInventoryManagerComponent } from '../components/inventories/gmp-self-inspection-pest-control/manager/gmp.self.inspection.pest.control.inventory.manager'
-import { GMPSelfInspectionPestControlInventoryComponent } from '../components/inventories/gmp-self-inspection-pest-control/inventory/gmp.self.inspection.pest.control.inventory'
-import { GMPSelfInspectionPestControlInventoryItemComponent } from '../components/inventories/gmp-self-inspection-pest-control/item/gmp.self.inspection.pest.control.inventory.item'
-import { GMPSelfInspectionPestControlInventoryListComponent } from '../components/inventories/gmp-self-inspection-pest-control/list/gmp.self.inspection.pest.control.inventory.list'
-import { GMPSelfInspectionPestControlAreaInventoryComponent } from '../components/inventories/gmp-self-inspection-pest-control/area-inventory/gmp.self.inspection.pest.control.area.inventory'
-import { GMPSelfInspectionPestControlAreaInventoryAreaComponent } from '../components/inventories/gmp-self-inspection-pest-control/area/gmp.self.inspection.pest.control.area.inventory.area'
-import { GMPSelfInspectionPestControlAreaInventoryListComponent } from '../components/inventories/gmp-self-inspection-pest-control/area-list/gmp.self.inspection.pest.control.area.inventory.list'
-import { GMPSelfInspectionPestControlAddAreaComponent } from '../components/inventories/gmp-self-inspection-pest-control/add-area/gmp.self.inspection.pest.control.add.area'
-import { GMPSelfInspectionPestControlAddItemComponent } from '../components/inventories/gmp-self-inspection-pest-control/add-item/gmp.self.inspection.pest.control.add.item'
 
 //import { GMPSelfInspectionPestControlAuthorizationComponent } from '../components/logs/gmp-self-inspection-pest-control/authorization/gmp.self.inspection.pest.control.authorization'
 
@@ -242,15 +176,6 @@ import { GMPPackingOzoneWaterLogComponent } from './logs/gmp-packing-ozone-water
 import { GMPPackingOzoneWaterItemComponent } from './logs/gmp-packing-ozone-water/item/gmp.packing.ozone.water.item'
 import { GMPPackingOzoneWaterAuthorizationComponent } from './logs/gmp-packing-ozone-water/authorization/gmp.packing.ozone.water.authorization'
 
-import { GMPPackingOzoneWaterInventoryManagerComponent } from '../components/inventories/gmp-packing-ozone-water/manager/gmp.packing.ozone.water.inventory.manager'
-import { GMPPackingOzoneWaterInventoryComponent } from '../components/inventories/gmp-packing-ozone-water/inventory/gmp.packing.ozone.water.inventory'
-import { GMPPackingOzoneWaterInventoryItemComponent } from '../components/inventories/gmp-packing-ozone-water/item/gmp.packing.ozone.water.inventory.item'
-import { GMPPackingOzoneWaterInventoryListComponent } from '../components/inventories/gmp-packing-ozone-water/list/gmp.packing.ozone.water.inventory.list'
-import { GMPPackingOzoneWaterAreaInventoryComponent } from '../components/inventories/gmp-packing-ozone-water/area-inventory/gmp.packing.ozone.water.area.inventory'
-import { GMPPackingOzoneWaterAreaInventoryAreaComponent } from '../components/inventories/gmp-packing-ozone-water/area/gmp.packing.ozone.water.area.inventory.area'
-import { GMPPackingOzoneWaterAreaInventoryListComponent } from '../components/inventories/gmp-packing-ozone-water/area-list/gmp.packing.ozone.water.area.inventory.list'
-import { GMPPackingOzoneWaterAddAreaComponent } from '../components/inventories/gmp-packing-ozone-water/add-area/gmp.packing.ozone.water.add.area'
-
 import { GMPPackingOzoneWaterReportComponent } from '../components/reports/gmp-packing-ozone-water/report/gmp.packing.ozone.water.report'
 
 // Genericos
@@ -288,16 +213,11 @@ import { MenuService } from '../services/app.menu'
 import { ToastsService } from '../services/app.toasts'
 import { TranslationService } from '../services/app.translation'
 import { AuthorizationLoader } from './authorizations/authorization-loader/authorization.loader.component'
-import { InventoryLoaderComponent } from './inventories/inventories'
 import { AreaManagerService } from '../services/app.area.manager'
 import { ReportHeaderComponent } from './reports/report-header/report.header'
 import { ReportTab } from './reports/reports'
 import { GAPOthersUnusualOccurrenceAuthorizationComponent } from './logs/gap-others-unusual-occurrence/authorization/gap.others.unusual.occurrence.authorization'
 import { GMPOthersUnusualOccurrenceAuthorizationComponent } from './logs/gmp-others-unusual-occurrence/authorization/gmp.others.unusual.occurrence.authorization'
-import { GMPDocControlDocControlInventoryComponent } from './inventories/gmp-doc-control-doc-control/inventory/gmp.doc.control.doc.control.inventory'
-import { GMPDocControlDocControlInventoryListComponent } from './inventories/gmp-doc-control-doc-control/list/gmp.doc.control.doc.control.inventory.list'
-import { GMPDocControlDocControlInventoryItemComponent } from './inventories/gmp-doc-control-doc-control/item/gmp.doc.control.doc.control.inventory.item'
-import { GMPDocControlDocControlAddItemComponent } from './inventories/gmp-doc-control-doc-control/add-item/gmp.doc.control.doc.control.add.item'
 import { GMPSelfInspectionPestControlAuthorizationComponent } from './logs/gmp-self-inspection-pest-control/authorization/gmp.self.inspection.pest.control.authorization'
 import { GMPPackingFinishedProductLogComponent } from './logs/gmp-packing-finished-product/log/gmp.packing.finished.product.log'
 import { GMPDocControlDocControlAuthorizationComponent } from './logs/gmp-doc-control-doc-control/authorization/gmp.doc.control.doc.control.authorization'
@@ -317,6 +237,18 @@ import { MenuModule } from './menu/menu.module'
 import { DocumentModule } from './document-viewer/document.module'
 import { ProductDataModule } from './product-data/product-data.module'
 
+import { GMPPackingHandWashingInventoryModule } from './inventories/gmp-packing-hand-washing/gmp-packing-hand-washing.module'
+import { GMPPackingColdRoomTempInventoryModule } from './inventories/gmp-packing-cold-room-temp/gmp-packing-cold-room-temp.module'
+import { GMPDocControlDocControlInventoryModule } from './inventories/gmp-doc-control-doc-control/gmp-doc-control-doc-control.module'
+import { GMPPackingScaleCalibrationInventoryModule } from './inventories/gmp-packing-scale-calibration/gmp-packing-scale-calibration.module'
+import { GMPPackingScissorsKnivesInventoryModule } from './inventories/gmp-packing-scissors-knives/gmp-packing-scissors-knives.module'
+import { GMPPackingThermoCalibrationInventoryModule } from './inventories/gmp-packing-thermo-calibration/gmp-packing-thermo-calibration.module'
+import { GMPPackingPreopInventoryModule } from './inventories/gmp-packing-preop/gmp-packing-preop.module'
+import { GAPPackingPreopInventoryModule } from './inventories/gap-packing-preop/gap-packing-preop.module';
+import { GMPPackingGlassBrittleInventoryModule } from './inventories/gmp-packing-glass-brittle/gmp-packing-glass-brittle.module'
+import { GMPPackingOzoneWaterInventoryModule } from './inventories/gmp-packing-ozone-water/gmp-packing-ozone-water.module'
+import { GMPSelfInspectionPestControlInventoryModule } from './inventories/gmp-self-inspection-pest-control/gmp-self-inspection-pest-control.module'
+
 // Declaramos el modulo raiz que indica el inicio de nuestra aplicacion
 @NgModule({
   // declaramos los modulos globales que vamos a importar
@@ -334,6 +266,17 @@ import { ProductDataModule } from './product-data/product-data.module'
     DocumentModule,
     MenuModule,
     ProductDataModule,
+    GMPPackingHandWashingInventoryModule,
+    GMPPackingColdRoomTempInventoryModule,
+    GMPDocControlDocControlInventoryModule,
+    GMPPackingScaleCalibrationInventoryModule,
+    GMPPackingScissorsKnivesInventoryModule,
+    GMPPackingThermoCalibrationInventoryModule,
+    GMPPackingPreopInventoryModule,
+    GAPPackingPreopInventoryModule,
+    GMPPackingGlassBrittleInventoryModule,
+    GMPPackingOzoneWaterInventoryModule,
+    GMPSelfInspectionPestControlInventoryModule,
     UIRouterModule.forRoot({
       // hay que configurar ui-router para poder redireccionar al usuario 
       // dependiendo si la sesion esta iniciada o no
@@ -373,11 +316,6 @@ import { ProductDataModule } from './product-data/product-data.module'
           name: 'inventory-selection',
           url: '/inventory-selection/:program/:module',
           component: InventoryListComponent
-        },
-        {
-          name: 'inventory',
-          url: '/inventory/:suffix',
-          component: InventoryLoaderComponent
         },
         {
           name: 'pending-authorizations-list',
@@ -466,15 +404,6 @@ import { ProductDataModule } from './product-data/product-data.module'
     GMPPackingPreopAreaComponent,
     GMPPackingPreopLogComponent,
     GMPPackingPreopAuthorizationComponent,
-    GMPPackingPreopInventoryManagerComponent,
-    GMPPackingPreopInventoryComponent,
-    GMPPackingPreopInventoryItemComponent,
-    GMPPackingPreopInventoryListComponent,
-    GMPPackingPreopAreaInventoryComponent,
-    GMPPackingPreopAreaInventoryAreaComponent,
-    GMPPackingPreopAreaInventoryListComponent,
-    GMPPackingPreopAddItemComponent,
-    GMPPackingPreopAddAreaComponent,
     GMPPackingPreopReportComponent,
     GMPPackingPreopReportAreaComponent,
     GMPPackingPreopReportTypeComponent,
@@ -484,42 +413,21 @@ import { ProductDataModule } from './product-data/product-data.module'
     GAPPackingPreopAreaComponent,
     GAPPackingPreopLogComponent,
     GAPPackingPreopAuthorizationComponent,
-    GAPPackingPreopInventoryManagerComponent,
-    GAPPackingPreopInventoryComponent,
-    GAPPackingPreopInventoryItemComponent,
-    GAPPackingPreopInventoryListComponent,
-    GAPPackingPreopAreaInventoryComponent,
-    GAPPackingPreopAreaInventoryListComponent,
-    GAPPackingPreopAreaInventoryAreaComponent,
-    GAPPackingPreopAddAreaComponent,
-    GAPPackingPreopAddItemComponent,
     GAPPackingPreopReportComponent,
     GAPPackingPreopReportItemComponent,
     GAPPackingPreopReportAreaComponent,
     GAPPackingPreopReportTypeComponent,
-    GMPPackingScaleCalibrationInventoryComponent,
-    GMPPackingScaleCalibrationInventoryItemComponent,
-    GMPPackingScaleCalibrationInventoryListComponent,
-    GMPPackingScaleCalibrationAddItemComponent,
     GMPPackingScaleCalibrationReportComponent,
     GMPPackingScaleCalibrationReportTypeComponent,
     GMPPackingScaleCalibrationReportItemComponent,
     GMPPackingHandWashingLogComponent,
     GMPPackingHandWashingItemComponent,
     GMPPackingHandWashingAuthorizationComponent,
-    GMPPackingHandWashingInventoryComponent,
-    GMPPackingHandWashingInventoryItemComponent,
-    GMPPackingHandWashingInventoryListComponent,
-    GMPPackingHandWashingAddItemComponent,
     GMPPackingHandWashingReportComponent,
     GMPPackingHandWashingReportItemComponent,
     GMPPackingThermoCalibrationLogComponent,
     GMPPackingThermoCalibrationItemComponent,
     GMPPackingThermoCalibrationAuthorizationComponent,
-    GMPPackingThermoCalibrationInventoryComponent,
-    GMPPackingThermoCalibrationInventoryItemComponent,
-    GMPPackingThermoCalibrationInventoryListComponent,
-    GMPPackingThermoCalibrationAddItemComponent,
     GMPPackingThermoCalibrationReportComponent,
     GMPPackingThermoCalibrationReportItemComponent,
     GMPPackingScaleCalibrationLogComponent,
@@ -532,50 +440,24 @@ import { ProductDataModule } from './product-data/product-data.module'
     GMPPackingScissorsKnivesLogComponent,
     GMPPackingScissorsKnivesItemComponent,
     GMPPackingScissorsKnivesAuthorizationComponent,
-    GMPPackingScissorsKnivesInventoryComponent,
-    GMPPackingScissorsKnivesInventoryItemComponent,
-    GMPPackingScissorsKnivesInventoryListComponent,
-    GMPPackingScissorsKnivesAddItemComponent,
     GMPPackingScissorsKnivesReportComponent,
     GMPPackingScissorsKnivesReportItemComponent,
     GMPPackingGlassBrittleLogComponent,
     GMPPackingGlassBrittleAreaComponent,
     GMPPackingGlassBrittleItemComponent,
     GMPPackingGlassBrittleAuthorizationComponent,
-    GMPPackingGlassBrittleInventoryManagerComponent,
-    GMPPackingGlassBrittleInventoryComponent,
-    GMPPackingGlassBrittleInventoryItemComponent,
-    GMPPackingGlassBrittleInventoryListComponent,
-    GMPPackingGlassBrittleAreaInventoryComponent,
-    GMPPackingGlassBrittleAreaInventoryAreaComponent,
-    GMPPackingGlassBrittleAreaInventoryListComponent,
-    GMPPackingGlassBrittleAddAreaComponent,
-    GMPPackingGlassBrittleAddItemComponent,
     GMPPackingGlassBrittleReportComponent,
     GMPPackingGlassBrittleReportAreaComponent,
     GMPPackingGlassBrittleReportItemComponent,
     GMPPackingColdRoomTempLogComponent,
     GMPPackingColdRoomTempItemComponent,
     GMPPackingColdRoomTempAuthorizationComponent,
-    GMPPackingColdRoomTempInventoryComponent,
-    GMPPackingColdRoomTempInventoryItemComponent,
-    GMPPackingColdRoomTempInventoryListComponent,
-    GMPPackingColdRoomTempAddItemComponent,
     GMPPackingColdRoomTempReportComponent,
     GMPPackingColdRoomTempReportItemComponent,
     GMPSelfInspectionPestControlLogComponent,
     GMPSelfInspectionPestControlAreaComponent,
     GMPSelfInspectionPestControlItemComponent,
     GMPSelfInspectionPestControlAuthorizationComponent,
-    GMPSelfInspectionPestControlInventoryManagerComponent,
-    GMPSelfInspectionPestControlInventoryComponent,
-    GMPSelfInspectionPestControlInventoryItemComponent,
-    GMPSelfInspectionPestControlInventoryListComponent,
-    GMPSelfInspectionPestControlAreaInventoryComponent,
-    GMPSelfInspectionPestControlAreaInventoryAreaComponent,
-    GMPSelfInspectionPestControlAreaInventoryListComponent,
-    GMPSelfInspectionPestControlAddAreaComponent,
-    GMPSelfInspectionPestControlAddItemComponent,
     GMPSelfInspectionPestControlReportComponent,
     GMPSelfInspectionPestControlReportAreaComponent,
     GMPSelfInspectionPestControlReportItemComponent,
@@ -592,10 +474,6 @@ import { ProductDataModule } from './product-data/product-data.module'
     GMPPackingFinishedProductAuthorizationComponent,
     GMPDocControlDocControlLogComponent,
     GMPDocControlDocControlAuthorizationComponent,
-    GMPDocControlDocControlInventoryComponent,
-    GMPDocControlDocControlInventoryListComponent,
-    GMPDocControlDocControlInventoryItemComponent,
-    GMPDocControlDocControlAddItemComponent,
     GMPDocControlDocControlReportComponent,
     GMPPackingFinishedProductReportComponent,
     GMPPackingATPTestingLogComponent,
@@ -608,20 +486,11 @@ import { ProductDataModule } from './product-data/product-data.module'
     GMPPackingOzoneWaterLogComponent,
     GMPPackingOzoneWaterItemComponent,
     GMPPackingOzoneWaterAuthorizationComponent,
-    GMPPackingOzoneWaterInventoryManagerComponent,
-    GMPPackingOzoneWaterInventoryComponent,
-    GMPPackingOzoneWaterInventoryItemComponent,
-    GMPPackingOzoneWaterInventoryListComponent,
-    GMPPackingOzoneWaterAreaInventoryComponent,
-    GMPPackingOzoneWaterAreaInventoryAreaComponent,
-    GMPPackingOzoneWaterAreaInventoryListComponent,
-    GMPPackingOzoneWaterAddAreaComponent,
     GMPPackingOzoneWaterReportComponent,
     LogTabsComponent,
     AuthorizationLoader,
     LogHeaderComponent,
-    ReportHeaderComponent,
-    InventoryLoaderComponent
+    ReportHeaderComponent
   ],
   // declaramos cualquier componente que sera inyectado dinamicamente
   entryComponents: [
@@ -658,21 +527,10 @@ import { ProductDataModule } from './product-data/product-data.module'
     GMPPackingColdRoomTempAuthorizationComponent,
     GMPSelfInspectionPestControlAuthorizationComponent,
     GMPDocControlDocControlAuthorizationComponent,
-    GMPPackingPreopInventoryManagerComponent,
     GAPOthersUnusualOccurrenceAuthorizationComponent,
     GMPOthersUnusualOccurrenceAuthorizationComponent,
     GMPPackingAgedProductAuthorizationComponent,
     GMPPackingFinishedProductAuthorizationComponent,
-    GMPPackingGlassBrittleInventoryManagerComponent,
-    GAPPackingPreopInventoryManagerComponent,
-    GMPPackingScaleCalibrationInventoryComponent,
-    GMPPackingHandWashingInventoryComponent,
-    GMPPackingThermoCalibrationInventoryComponent,
-    GMPPackingScissorsKnivesInventoryComponent,
-    GMPPackingColdRoomTempInventoryComponent,
-    GMPSelfInspectionPestControlInventoryManagerComponent,
-    GMPDocControlDocControlInventoryComponent,
-    GMPPackingOzoneWaterInventoryManagerComponent,
     GMPPackingPreopReportComponent,
     GMPPackingHandWashingReportComponent,
     GMPPackingGlassBrittleReportComponent,
