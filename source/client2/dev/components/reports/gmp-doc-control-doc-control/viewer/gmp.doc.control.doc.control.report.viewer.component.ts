@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { FormBuilder, FormControl } from '@angular/forms'
-import { StateService } from '@uirouter/core'
+import { StateService } from '@uirouter/angular'
 
 import { BackendService } from '../../../../services/app.backend'
 import { LoaderService } from '../../../../services/app.loaders'

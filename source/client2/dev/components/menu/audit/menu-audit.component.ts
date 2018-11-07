@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { StateService } from '@uirouter/core'
+import { StateService } from '@uirouter/angular'
 import { Language } from 'angular-l10n'
 
 import { MenuService } from '../../../services/app.menu'

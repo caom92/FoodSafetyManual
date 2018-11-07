@@ -1,5 +1,5 @@
 import { OnInit } from '@angular/core'
-import { StateService } from '@uirouter/core'
+import { StateService } from '@uirouter/angular'
 
 import { BackendService } from '../../../services/app.backend'
 

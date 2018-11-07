@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
-import { StateService } from '@uirouter/core'
+import { StateService } from '@uirouter/angular'
 import { Language } from 'angular-l10n'
 
 import { LogService } from '../../../../services/app.logs'

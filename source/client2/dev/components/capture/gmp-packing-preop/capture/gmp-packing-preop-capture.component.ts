@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { DomSanitizer } from '@angular/platform-browser'
-import { StateService } from '@uirouter/core'
+import { StateService } from '@uirouter/angular'
 import { PubSubService } from 'angular2-pubsub'
 import { BackendService } from '../../../../services/app.backend'
 

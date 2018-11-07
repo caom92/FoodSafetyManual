@@ -1,6 +1,6 @@
 import { OnInit, ViewChildren } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms'
-import { StateService } from '@uirouter/core'
+import { StateService } from '@uirouter/angular'
 import { Language } from 'angular-l10n'
 import { Observable } from 'rxjs'
 

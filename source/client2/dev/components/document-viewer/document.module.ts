@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
-import { UIRouterModule } from '@uirouter/angular'
+import { Ng2StateDeclaration, UIRouterModule } from '@uirouter/angular'
 import { LocalizationModule } from 'angular-l10n'
 import { MaterializeModule } from 'ngx-materialize'
 
-import { DocumentViewerComponent } from './viewer/document.viewer'
 import { DocumentListComponent } from './list/document.list'
+import { DocumentViewerComponent } from './viewer/document.viewer'
 
-const viewerState = { name: 'document-list', url: '/document-list', component: DocumentListComponent }
-const listState = { name: 'document-viewer', url: '/document-viewer/*path', component: DocumentViewerComponent }
+const viewerState: Ng2StateDeclaration = { name: 'document-list', url: '/document-list', component: DocumentListComponent }
+const listState: Ng2StateDeclaration = { name: 'document-viewer', url: '/document-viewer/*path', component: DocumentViewerComponent }
 
 @NgModule({
   imports: [

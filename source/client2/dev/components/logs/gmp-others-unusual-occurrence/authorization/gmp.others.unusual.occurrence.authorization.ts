@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
-import { StateService } from '@uirouter/core'
+import { StateService } from '@uirouter/angular'
 import { Language } from 'angular-l10n'
 
 import { LanguageService } from '../../../../services/app.language'

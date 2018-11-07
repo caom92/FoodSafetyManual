@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
-import { StateService } from '@uirouter/core'
+import { StateService } from '@uirouter/angular'
 
 @Component({
   selector: 'document-viewer',

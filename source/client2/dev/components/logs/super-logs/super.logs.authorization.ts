@@ -1,6 +1,6 @@
 import { OnInit } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms'
-import { StateService } from '@uirouter/core'
+import { StateService } from '@uirouter/angular'
 
 import { LogService } from '../../../services/app.logs'
 import { ToastsService } from '../../../services/app.toasts'
