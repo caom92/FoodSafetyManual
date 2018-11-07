@@ -1,0 +1,45 @@
+mixin simpleButton(icon, color, condition, func)
+  .col.s2.m1.l1(*ngIf=condition)
+    button(mz-button, float='true', (click)=func, style='background-color: ' + color + '; margin-top: -20px; margin-bottom: -20px;')
+      i(mz-icon-mdi='mz-icon-mdi', [icon]="'" + icon + "'", [size]="'24px'")
+
+mixin dateSection(totalButtons)
+  .col('[ngClass]'="{ 's10 m11 l11': showReport === false, 's" + (12 - totalButtons * 2) + " m" + (12 - totalButtons) + " l" + (12 - totalButtons) + "': showReport === true }")
+    .row.no-margin-bottom
+      .overflow-limit('[ngClass]'="{ 'col s12 m12 l12': showReport && preview == null, 'col s12 m6 l6': !showReport && preview != null }", style='font-weight: bold;', *ngIf='report.display_date != null && report.display_date != undefined')
+        | {{report.creation_date | l10nDate:defaultLocale:monthOptions | slice:0:3 | titlecase}} {{report.creation_date | l10nDate:defaultLocale:dayOptions}}, {{report.creation_date | l10nDate:defaultLocale:yearOptions}} | {{report.display_date}}
+      .overflow-limit('[ngClass]'="{ 'col s12 m12 l12': showReport && preview == null, 'col s12 m6 l6': !showReport && preview != null }", style='font-weight: bold;', *ngIf='report.display_date == null || report.display_date == undefined')
+        | {{report.creation_date | l10nDate:defaultLocale:monthOptions | slice:0:3 | titlecase}} {{report.creation_date | l10nDate:defaultLocale:dayOptions}}, {{report.creation_date | l10nDate:defaultLocale:yearOptions}}
+      .overflow-limit.col.s12.m6.l6(*ngIf='!showReport && preview != null')
+        report-preview([title]="view.title", [content]="view.content", *ngFor="let view of preview")
+
+div([hidden]="!(activeReport.id == 'any' || activeReport.id == report.report_id)")
+  mz-card
+    mz-card-content
+      .row.no-margin-bottom
+        block dateSection
+          +dateSection(2)
+        block buttonSection
+          //-+simpleButton('email', '#4CAF50', 'hasEmail === true && showReport === true', null)
+          .col.s2.m1.l1(*ngIf="showReport === true")
+            div([hidden]='!showReport')
+              form(method='POST', target='_blank', action='http://localhost/espresso/source/server/report/reportPDF.php', ngNoForm)
+                input(type='hidden', name='lang', [ngModel]='reportRequest.lang')
+                input(type='hidden', name='content', [ngModel]='reportRequest.content')
+                input(type='hidden', name='style', [ngModel]='reportRequest.style')
+                input(type='hidden', name='company', [ngModel]='reportRequest.company')
+                input(type='hidden', name='address', [ngModel]='reportRequest.address')
+                input(type='hidden', name='logo', [ngModel]='reportRequest.logo')
+                input(type='hidden', name='orientation', [ngModel]='reportRequest.orientation')
+                input(type='hidden', name='fontsize', [ngModel]='reportRequest.fontsize')
+                input(type='hidden', name='footer', [ngModel]='reportRequest.footer')
+                input(type='hidden', name='supervisor', [ngModel]='reportRequest.supervisor')
+                input(type='hidden', name='signature', [ngModel]='reportRequest.signature')
+                input(type='hidden', name='images', [ngModel]='reportRequest.images')
+                button(mz-button, float='true', style='background-color: #B71C1C; margin-top: -20px; margin-bottom: -20px;', (click)='requestPDFReport()')
+                  i(mz-icon-mdi='mz-icon-mdi', [icon]="'file-pdf-box'", [size]="'24px'")
+          +simpleButton('file-document-box', '#4CAF50', '!showReport', 'openHTMLReport()')
+          +simpleButton('close-box', '#F44336', 'showReport', 'closeHTMLReport()')
+  #tableWrapper.tableWrapper([hidden]='!showReport')
+    block report
+      div(dynamicComponentContainer)

@@ -24,8 +24,8 @@ export class GMPPackingColdRoomTempInventoryListComponent extends SuperInventory
   }
 
   public ngOnInit(): void {
-    this.setBagName("gmp-packing-cold-room-temp-bag")
-    this.setSuffix("gmp-packing-cold-room-temp")
+    this.setBagName('gmp-packing-cold-room-temp-bag')
+    this.setSuffix('gmp-packing-cold-room-temp')
     this.setInventory(this.items)
     super.ngOnInit()
   }

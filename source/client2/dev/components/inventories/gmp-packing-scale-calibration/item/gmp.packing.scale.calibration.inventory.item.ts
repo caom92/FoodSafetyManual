@@ -17,7 +17,7 @@ export class GMPPackingScaleCalibrationInventoryItemComponent extends SuperInven
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-scale-calibration")
+    this.setSuffix('gmp-packing-scale-calibration')
     this.setToggleValue(this.item.is_active == 1)
   }
 }

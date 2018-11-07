@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core'
-import { Language } from 'angular-l10n'
+import { Language, TranslationService as TService } from 'angular-l10n'
 
 import { SuperReportComponent } from '../../super-report/super.report'
 import { Report } from '../interfaces/gmp.packing.ozone.water.report.interface'
@@ -12,11 +12,11 @@ import { Report } from '../interfaces/gmp.packing.ozone.water.report.interface'
 export class GMPPackingOzoneWaterReportComponent extends SuperReportComponent {
   @Input() report: Report
   @Language() lang: string
-  @ViewChild("report_body") reportHTML: any
+  @ViewChild('report_body') reportHTML: any
   groupedItems
 
-  constructor() {
-    super()
+  constructor(ts: TService) {
+    super(ts)
   }
 
   ngOnInit() {
@@ -29,23 +29,23 @@ export class GMPPackingOzoneWaterReportComponent extends SuperReportComponent {
       item.config = idString
     }
 
-    this.groupedItems = this.groupBy(this.report.items, "config")
+    this.groupedItems = this.groupBy(this.report.items, 'config')
   }
 
   groupBy(collection, property) {
     var i = 0, val, index,
-      values = [], result = [];
+      values = [], result = []
     for (; i < collection.length; i++) {
-      val = collection[i][property];
-      index = values.indexOf(val);
+      val = collection[i][property]
+      index = values.indexOf(val)
       if (index > -1)
-        result[index].push(collection[i]);
+        result[index].push(collection[i])
       else {
-        values.push(val);
-        result.push([collection[i]]);
+        values.push(val)
+        result.push([collection[i]])
       }
     }
-    return result;
+    return result
   }
 
   public getOrientation(): string {

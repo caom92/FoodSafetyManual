@@ -1,0 +1,11 @@
+h4(style="text-align: center;") {{log_name}}
+.divider
+div
+  mz-tab([fixedTabWidth]="'true'")
+    mz-tab-item(label="{{ 'View Manual' | translate:lang }}")
+      block manual
+        manual([manual]='manualSrc', [suffix]='suffix')
+    mz-tab-item(label="{{ 'View Report' | translate:lang }}")
+      block reportViewer
+    mz-tab-item(label="{{ 'Capture Log' | translate:lang }}", *ngIf="isEmployee === true")
+      block logViewer

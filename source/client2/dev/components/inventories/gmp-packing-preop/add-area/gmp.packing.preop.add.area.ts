@@ -22,7 +22,7 @@ export class GMPPackingPreopAddAreaComponent extends SuperInventoryAddAreaCompon
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-preop")
+    this.setSuffix('gmp-packing-preop')
     this.createItemForm({
       name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
     })

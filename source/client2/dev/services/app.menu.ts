@@ -36,7 +36,7 @@ export class MenuService {
           } else {
             reject(response)
             menuLoader.dismiss()
-            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
           }
         }, (error: any, caught: Observable<void>) => {
           reject('network error')
@@ -76,7 +76,7 @@ export class MenuService {
           } else {
             reject('bad request')
             menuLoader.dismiss()
-            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
           }
         }, (error: any, caught: Observable<void>) => {
           reject('network error')
@@ -107,7 +107,7 @@ export class MenuService {
           } else {
             reject('bad request')
             deleteLoader.dismiss()
-            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
           }
         }, (error: any, caught: Observable<void>) => {
           reject('network error')
@@ -176,7 +176,7 @@ export class MenuService {
           } else {
             reject('bad request')
             editLoader.dismiss()
-            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
           }
         }, (error: any, caught: Observable<void>) => {
           reject('network error')
@@ -247,7 +247,7 @@ export class MenuService {
           } else {
             reject('bad request')
             addLoader.dismiss()
-            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
           }
         }, (error: any, caught: Observable<void>) => {
           reject('network error')
@@ -281,7 +281,7 @@ export class MenuService {
           } else {
             reject(response)
             menuLoader.dismiss()
-            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
           }
         }, (error: any, caught: Observable<void>) => {
           reject('network error')

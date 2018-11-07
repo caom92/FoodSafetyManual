@@ -41,7 +41,7 @@ export class InventoryService {
 
   public getInventory(suffix: string): Promise<any> {
     let inventoryPromise = new Promise<any>((resolve, reject) => {
-      let loader = this.loaderService.koiLoader(this.ts.translate("Connecting to Server"))
+      let loader = this.loaderService.koiLoader(this.ts.translate('Connecting to Server'))
       loader.present()
       this.server.update(
         'inventory-' + suffix,
@@ -52,20 +52,20 @@ export class InventoryService {
               resolve(response.data)
               loader.dismiss()
             } else {
-              reject("bad request")
+              reject('bad request')
               loader.dismiss()
-              this.toastService.showText("serverUnreachable")
+              this.toastService.showText('serverUnreachable')
             }
           } else {
-            reject("bad request")
+            reject('bad request')
             loader.dismiss()
-            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
           }
         },
         (error: any, caught: Observable<void>) => {
-          reject("network error")
+          reject('network error')
           loader.dismiss()
-          this.toastService.showText("serverUnreachable")
+          this.toastService.showText('serverUnreachable')
           return []
         }
       )
@@ -85,7 +85,7 @@ export class InventoryService {
 
   public getInventoryByArea(suffix: string, data: any): Promise<any> {
     let inventoryPromise = new Promise<any>((resolve, reject) => {
-      let loader = this.loaderService.koiLoader(this.ts.translate("Connecting to Server"))
+      let loader = this.loaderService.koiLoader(this.ts.translate('Connecting to Server'))
       let form_data = new FormData()
       let area_data = data
 
@@ -93,9 +93,9 @@ export class InventoryService {
 
       for (let key in flatObj) {
         if (flatObj[key] === true) {
-          form_data.append(key, "1")
+          form_data.append(key, '1')
         } else if (flatObj[key] === false) {
-          form_data.append(key, "0")
+          form_data.append(key, '0')
         } else {
           form_data.append(key, flatObj[key])
         }
@@ -111,20 +111,20 @@ export class InventoryService {
               resolve(response.data)
               loader.dismiss()
             } else {
-              reject("bad request")
+              reject('bad request')
               loader.dismiss()
-              this.toastService.showText("serverUnreachable")
+              this.toastService.showText('serverUnreachable')
             }
           } else {
-            reject("bad request")
+            reject('bad request')
             loader.dismiss()
-            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
           }
         },
         (error: any, caught: Observable<void>) => {
-          reject("network error")
+          reject('network error')
           loader.dismiss()
-          this.toastService.showText("serverUnreachable")
+          this.toastService.showText('serverUnreachable')
           return []
         }
       )
@@ -151,7 +151,7 @@ export class InventoryService {
     let togglePromise = new Promise<any>((resolve, reject) => {
       let loaderToggle = this.loaderService.koiLoader('')
       let item = new FormData()
-      item.append("id", String(data.id))
+      item.append('id', String(data.id))
       loaderToggle.present()
       this.server.update(
         service,
@@ -159,23 +159,23 @@ export class InventoryService {
         (response: any) => {
           if (response.meta.return_code == 0) {
             if (data.is_active == 0) {
-              this.toastService.showText("itemChargeSuccess")
+              this.toastService.showText('itemChargeSuccess')
               data.is_active = 1
             } else {
-              this.toastService.showText("itemDischargeSuccess")
+              this.toastService.showText('itemDischargeSuccess')
               data.is_active = 0
             }
             resolve()
             loaderToggle.dismiss()
           } else {
             reject()
-            this.toastService.showText("lastActionReverseBadRequest")
+            this.toastService.showText('lastActionReverseBadRequest')
             loaderToggle.dismiss()
           }
         },
         (error: any, caught: Observable<void>) => {
           reject()
-          this.toastService.showText("serverUnreachable")
+          this.toastService.showText('serverUnreachable')
           loaderToggle.dismiss()
           return []
         }
@@ -214,15 +214,15 @@ export class InventoryService {
         (response: any) => {
           if (response.meta.return_code == 0) {
             loaderReorder.dismiss()
-            resolve("server")
+            resolve('server')
           } else {
             loaderReorder.dismiss()
-            this.toastService.showText("lastActionReverseBadRequest")
+            this.toastService.showText('lastActionReverseBadRequest')
             reject(response.meta.return_code)
           }
         }, (error: any, caught: Observable<void>) => {
           loaderReorder.dismiss()
-          this.toastService.showText("lastActionReverseNetwork")
+          this.toastService.showText('lastActionReverseNetwork')
           reject()
           return []
         }
@@ -256,23 +256,23 @@ export class InventoryService {
       }
 
       this.server.update(
-        "add-" + suffix,
+        'add-' + suffix,
         itemForm,
         (response: any) => {
           if (response.meta.return_code == 0) {
             loaderAdd.dismiss()
-            this.toastService.showText("itemAddSuccess")
+            this.toastService.showText('itemAddSuccess')
             resolve(response.data)
           } else {
             loaderAdd.dismiss()
-            this.toastService.showText("badRequest")
+            this.toastService.showText('badRequest')
             reject()
           }
         },
         (error: any, caught: Observable<void>) => {
           loaderAdd.dismiss()
           reject()
-          this.toastService.showText("serverUnreachable")
+          this.toastService.showText('serverUnreachable')
           return []
         }
       )
@@ -314,20 +314,20 @@ export class InventoryService {
         result[key] = value
       } else if (Array.isArray(value)) {
         for (var i = 0, l = value.length; i < l; i++)
-          recurse(value[i], key + "[" + i + "]")
+          recurse(value[i], key + '[' + i + ']')
         if (l == 0) result[key] = []
       } else {
         var isEmpty = true
         for (var k in value) {
           isEmpty = false
-          recurse(value[k], key ? key + "[" + k + "]" : k)
+          recurse(value[k], key ? key + '[' + k + ']' : k)
         }
         if (isEmpty && key) result[key] = {}
       }
     }
 
     if (Object(data) !== data) {
-      throw Error("Non-object parameter can't be flattened")
+      throw Error('Non-object parameter can\'t be flattened')
     } else {
       recurse(data, '')
     }

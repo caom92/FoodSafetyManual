@@ -16,7 +16,7 @@ import { SuperInventoryAddItemComponent } from '../../super-inventory/super.inve
 export class GMPPackingGlassBrittleAddItemComponent extends SuperInventoryAddItemComponent implements OnInit {
   @Language() lang: string
   @Input() types: Array<any> = []
-  @Input("area") area_id: number
+  @Input('area') area_id: number
   newItem: FormGroup = new FormBuilder().group({})
   
   constructor(alertCtrl: AlertController, ts: TService, _fb: FormBuilder, inventoryService: InventoryService, events: PubSubService, toastService: ToastsService) {
@@ -24,7 +24,7 @@ export class GMPPackingGlassBrittleAddItemComponent extends SuperInventoryAddIte
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-glass-brittle")
+    this.setSuffix('gmp-packing-glass-brittle')
     this.createItemForm({
       name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
       quantity: ['',[Validators.required]]

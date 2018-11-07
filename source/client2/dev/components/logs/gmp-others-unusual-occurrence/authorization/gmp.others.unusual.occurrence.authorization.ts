@@ -41,7 +41,7 @@ export class GMPOthersUnusualOccurrenceAuthorizationComponent extends SuperAutho
   }
 
   ngOnInit() {
-    this.setSuffix("gmp-others-unusual-occurrence")
+    this.setSuffix('gmp-others-unusual-occurrence')
     super.ngOnInit()
     this.initForm()
   }

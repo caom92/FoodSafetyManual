@@ -27,17 +27,17 @@ export class SuperAreaInventoryComponent extends DragulaInventory implements OnI
   }
 
   public ngOnInit(): void {
-    this.scrollStopSubscription = this.events.$sub("scroll:stop", (message) => {
+    this.scrollStopSubscription = this.events.$sub('scroll:stop', (message) => {
       this.scrollAllowed = false
-      console.log("Message: " + message)
+      console.log('Message: ' + message)
     })
 
-    this.scrollStartSubscription = this.events.$sub("scroll:start", (message) => {
+    this.scrollStartSubscription = this.events.$sub('scroll:start', (message) => {
       this.scrollAllowed = true
-      console.log("Message: " + message)
+      console.log('Message: ' + message)
     })
 
-    this.areaAdd = this.events.$sub("area:add", (data) => {
+    this.areaAdd = this.events.$sub('area:add', (data) => {
       console.log(data)
       this.inventory.push(data)
     })
@@ -78,6 +78,6 @@ export class SuperAreaInventoryComponent extends DragulaInventory implements OnI
   }
 
   public checkEmptyInventory(): boolean {
-    throw "checkEmptyInventory() function must be overridden in child class"
+    throw 'checkEmptyInventory() function must be overridden in child class'
   }
 }

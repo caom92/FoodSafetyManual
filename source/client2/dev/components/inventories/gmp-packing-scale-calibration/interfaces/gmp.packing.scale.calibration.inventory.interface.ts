@@ -1,4 +1,4 @@
-import { SuperInventoryItemInterface, SuperInventoryTypeInterface } from "../../super-inventory/super.inventory.interface"
+import { SuperInventoryItemInterface, SuperInventoryTypeInterface } from '../../super-inventory/super.inventory.interface'
 
 /**
  * Representa un elemento de inventario de GMP Packing Scale Calibration

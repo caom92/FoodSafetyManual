@@ -19,7 +19,7 @@ export class GMPPackingOzoneWaterInventoryItemComponent extends SuperInventoryIt
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-ozone-water")
+    this.setSuffix('gmp-packing-ozone-water')
     this.setToggleValue(this.item.is_active == 1)
   }
 }

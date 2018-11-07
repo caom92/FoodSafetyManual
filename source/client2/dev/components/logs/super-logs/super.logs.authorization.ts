@@ -29,11 +29,26 @@ export abstract class SuperAuthorizationComponent implements OnInit {
    */
 
   public ngOnInit(): void {
-    this.assignHeaderData()
+    let reportID = this.router.params.report_id 
+
+    this.logService.authorization(this.suffix, reportID).then(success => {
+      this.log = success
+      this.assignHeaderData()
+      this.initForm()
+      this.showLog = true
+      setTimeout(function () {
+        $('select').material_select()
+      }, 200)
+    }, error => {
+      // Por el momento, no se necesita ninguna acción adicional en caso de
+      // un error durante la recuperación de datos, ya que este caso se maneja
+      // dentro del servicio de bitácoras
+    })
+    /*this.assignHeaderData()
     this.showLog = true
     setTimeout(function () {
       $('select').material_select()
-    }, 200)
+    }, 200)*/
   }
 
   /**

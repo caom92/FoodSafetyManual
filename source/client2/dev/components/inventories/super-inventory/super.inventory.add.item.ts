@@ -30,21 +30,21 @@ export class SuperInventoryAddItemComponent {
   public addItem(data: any, itemData: any) {
     if (this.newItem.valid) {
       let confirmAdd = this.alertCtrl.create({
-        title: this.ts.translate("Titles.add_item"),
-        message: this.ts.translate("Messages.add_item") + "<br><br>" + this.newItem.value.name,
+        title: this.ts.translate('Titles.add_item'),
+        message: this.ts.translate('Messages.add_item') + '<br><br>' + this.newItem.value.name,
         buttons: [
           {
-            text: this.ts.translate("Options.cancel"),
+            text: this.ts.translate('Options.cancel'),
             handler: () => {
               console.log('Cancelar')
             }
           },
           {
-            text: this.ts.translate("Options.accept"),
+            text: this.ts.translate('Options.accept'),
             handler: () => {
               this.inventoryService.addItem(itemData, this.suffix).then(success => {
                 data.item.id = success
-                this.events.$pub("item:add", data)
+                this.events.$pub('item:add', data)
               })
             }
           }
@@ -52,7 +52,7 @@ export class SuperInventoryAddItemComponent {
       })
     } else {
       this.inventoryService.setAsDirty(this.newItem)
-      this.toastService.showText("itemAddFail")
+      this.toastService.showText('itemAddFail')
     }
   }
 }

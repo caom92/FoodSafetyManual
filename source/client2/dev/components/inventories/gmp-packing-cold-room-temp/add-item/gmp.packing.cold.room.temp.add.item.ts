@@ -22,7 +22,7 @@ export class GMPPackingColdRoomTempAddItemComponent extends SuperInventoryAddIte
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-cold-room-temp")
+    this.setSuffix('gmp-packing-cold-room-temp')
     this.createItemForm({
       name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
     })

@@ -17,7 +17,7 @@ export class GMPDocControlDocControlInventoryItemComponent extends SuperInventor
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-doc-control-doc-control")
+    this.setSuffix('gmp-doc-control-doc-control')
     this.setToggleValue(this.item.is_active == 1)
   }
 }

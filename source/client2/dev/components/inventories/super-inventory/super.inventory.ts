@@ -20,11 +20,11 @@ export abstract class SuperInventoryComponent extends DragulaInventory implement
   }
 
   public ngOnInit(): void {
-    this.scrollStop = this.events.$sub("scroll:stop").subscribe((message) => {
+    this.scrollStop = this.events.$sub('scroll:stop').subscribe((message) => {
       this.scrollAllowed = false
     })
 
-    this.scrollStart = this.events.$sub("scroll:start").subscribe((message) => {
+    this.scrollStart = this.events.$sub('scroll:start').subscribe((message) => {
       this.scrollAllowed = true
     })
 

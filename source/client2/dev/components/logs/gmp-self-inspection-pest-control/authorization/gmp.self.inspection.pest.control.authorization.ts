@@ -31,7 +31,7 @@ export class GMPSelfInspectionPestControlAuthorizationComponent extends SuperAut
   }
 
   ngOnInit() {
-    this.setSuffix("gmp-self-inspection-pest-control")
+    this.setSuffix('gmp-self-inspection-pest-control')
     super.ngOnInit()
     this.initForm()
   }

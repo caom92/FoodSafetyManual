@@ -44,7 +44,7 @@ export class SuperAreaInventoryListComponent implements OnInit, OnDestroy {
     // la posibilidad de realizar scroll
     this.drag.add(this.dragulaService.drag(this.bagName).subscribe(
       ({ el, source }) => {
-        this.events.$pub("scroll:stop", "Scroll Stopped")
+        this.events.$pub('scroll:stop', 'Scroll Stopped')
       })
     )
 
@@ -52,7 +52,7 @@ export class SuperAreaInventoryListComponent implements OnInit, OnDestroy {
     // la posibilidad de realizar scroll
     this.dragend.add(this.dragulaService.dragend(this.bagName).subscribe(
       ({ name, el }) => {
-        this.events.$pub("scroll:start", "Scroll Started")
+        this.events.$pub('scroll:start', 'Scroll Started')
         let index = 1
         let reorderedItemArray: Array<{ id: number, position: number }> = []
 
@@ -80,11 +80,11 @@ export class SuperAreaInventoryListComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     if (this.dragulaService.find(this.bagName) !== undefined) {
-      console.warn("Dragula bag " + this.bagName + " destroyed")
+      console.warn('Dragula bag ' + this.bagName + ' destroyed')
       this.drag.unsubscribe()
       this.dragend.unsubscribe()
     } else {
-      console.error("No Dragula bag " + this.bagName + " on this inventory lists")
+      console.error('No Dragula bag ' + this.bagName + ' on this inventory lists')
     }
   }
 }

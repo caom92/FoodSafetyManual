@@ -35,7 +35,7 @@ export class GAPPackingPreopLogComponent extends SuperLogComponent implements On
   }
 
   ngOnInit() {
-    this.setSuffix("gap-packing-preop")
+    this.setSuffix('gap-packing-preop')
     super.ngOnInit()
     this.initForm()
   }

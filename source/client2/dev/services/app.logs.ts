@@ -347,7 +347,7 @@ export class LogService {
           } else {
             reject('bad request')
             uploadLoader.dismiss()
-            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
           }
         }, (error: any, caught: Observable<void>) => {
           reject('network error')

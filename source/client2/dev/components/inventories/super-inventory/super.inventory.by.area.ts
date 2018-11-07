@@ -19,22 +19,22 @@ export class SuperInventoryByAreaComponent extends SuperInventoryComponent imple
   }
 
   public ngOnInit(): void {
-    this.scrollStop = this.events.$sub("scroll:stop").subscribe((message) => {
+    this.scrollStop = this.events.$sub('scroll:stop').subscribe((message) => {
       this.scrollAllowed = false
-      console.log("Message: " + message)
+      console.log('Message: ' + message)
     })
 
-    this.scrollStart = this.events.$sub("scroll:start").subscribe((message) => {
+    this.scrollStart = this.events.$sub('scroll:start').subscribe((message) => {
       this.scrollAllowed = true
-      console.log("Message: " + message)
+      console.log('Message: ' + message)
     })
 
-    this.areaAdd = this.events.$sub("area:add", (data) => {
+    this.areaAdd = this.events.$sub('area:add', (data) => {
       this.areas.push(data)
       this.areas.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)
     })
 
-    this.areaEdit = this.events.$sub("area:edit", (data) => {
+    this.areaEdit = this.events.$sub('area:edit', (data) => {
       let index = this.areas.findIndex((x => x.id==data.id))
       this.areas[index].name = data.name
       this.areas.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)

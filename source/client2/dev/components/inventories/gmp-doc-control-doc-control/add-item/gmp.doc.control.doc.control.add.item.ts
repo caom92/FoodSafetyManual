@@ -22,7 +22,7 @@ export class GMPDocControlDocControlAddItemComponent extends SuperInventoryAddIt
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-doc-control-doc-control")
+    this.setSuffix('gmp-doc-control-doc-control')
     this.createItemForm({
       name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
     })

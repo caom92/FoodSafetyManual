@@ -30,7 +30,7 @@ export class GMPPackingGlassBrittleAuthorizationComponent extends SuperAuthoriza
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-glass-brittle")
+    this.setSuffix('gmp-packing-glass-brittle')
     super.ngOnInit()
     this.initForm()
   }

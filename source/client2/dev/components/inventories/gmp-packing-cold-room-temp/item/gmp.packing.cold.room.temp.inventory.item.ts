@@ -17,7 +17,7 @@ export class GMPPackingColdRoomTempInventoryItemComponent extends SuperInventory
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-cold-room-temp")
+    this.setSuffix('gmp-packing-cold-room-temp')
     this.setToggleValue(this.item.is_active == 1)
   }
 }

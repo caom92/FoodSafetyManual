@@ -17,7 +17,7 @@ export class GMPPackingScissorsKnivesInventoryItemComponent extends SuperInvento
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-scissors-knives")
+    this.setSuffix('gmp-packing-scissors-knives')
     this.setToggleValue(this.item.is_active == 1)
   }
 }

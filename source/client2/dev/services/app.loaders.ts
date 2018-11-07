@@ -14,7 +14,7 @@ export class LoaderService implements OnInit {
 
   }
 
-  koiLoader(message: string = "Connecting to Server") {
+  koiLoader(message: string = 'Connecting to Server') {
     let loading = this.modalService.open(KoiLoader, { message: message })
     let wrapper: LoaderWrapper = new LoaderWrapper()
 

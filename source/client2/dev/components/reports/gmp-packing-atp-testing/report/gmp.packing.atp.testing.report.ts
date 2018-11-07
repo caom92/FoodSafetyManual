@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core'
-import { Language } from 'angular-l10n'
+import { Language, TranslationService as TService } from 'angular-l10n'
 
 import { SuperReportComponent } from '../../super-report/super.report'
 import { Report } from '../interfaces/gmp.packing.atp.testing.report.interface'
@@ -12,10 +12,10 @@ import { Report } from '../interfaces/gmp.packing.atp.testing.report.interface'
 export class GMPPackingATPTestingReportComponent extends SuperReportComponent {
   @Input() report: Report
   @Language() lang: string
-  @ViewChild("report_body") reportHTML: any
+  @ViewChild('report_body') reportHTML: any
 
-  constructor() {
-    super()
+  constructor(ts: TService) {
+    super(ts)
   }
 
   public getCSS(): string {

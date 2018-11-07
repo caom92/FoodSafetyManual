@@ -43,17 +43,18 @@ export class GMPPackingFinishedProductAuthorizationComponent extends SuperAuthor
   }
 
   ngOnInit() {
-    this.setSuffix("gmp-packing-finished-product")
+    this.setSuffix('gmp-packing-finished-product')
     super.ngOnInit()
+    this.initForm()
+  }
+
+  initForm() {
     // TODO: Esto se hace por la forma diferente en que llegan los datos del
     // servidor en comparación al servidor local; encontrar una solución
     for (let quality of this.log.log_info.quality_types) {
       quality.id = this.resolveNumber(quality.id)
     }
-    this.initForm()
-  }
 
-  initForm() {
     this.captureForm = this._fb.group({
       report_id: [this.log.report_id, [Validators.required]],
       date: [this.log.creation_date, [Validators.required, CustomValidators.dateValidator()]],

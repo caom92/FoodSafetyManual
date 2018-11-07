@@ -23,8 +23,8 @@ export class GMPPackingThermoCalibrationInventoryListComponent extends SuperInve
   }
 
   public ngOnInit(): void {
-    this.setBagName("gmp-packing-thermo-calibration-bag")
-    this.setSuffix("gmp-packing-thermo-calibration")
+    this.setBagName('gmp-packing-thermo-calibration-bag')
+    this.setSuffix('gmp-packing-thermo-calibration')
     this.setInventory(this.items)
     super.ngOnInit()
   }

@@ -29,7 +29,7 @@ export class GMPPackingHandWashingAuthorizationComponent extends SuperAuthorizat
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-hand-washing")
+    this.setSuffix('gmp-packing-hand-washing')
     super.ngOnInit()
     this.initForm()
   }
@@ -42,7 +42,7 @@ export class GMPPackingHandWashingAuthorizationComponent extends SuperAuthorizat
     })
     const control = <FormArray>this.captureForm.controls['items']
     for (let item of this.log.items) {
-      control.push(this.initItem({ id: Number(item.id), is_acceptable: item.is_acceptable == "1" }))
+      control.push(this.initItem({ id: Number(item.id), is_acceptable: item.is_acceptable == '1' }))
     }
   }
 

@@ -27,7 +27,7 @@ export class GMPPackingOzoneWaterAuthorizationComponent extends SuperAuthorizati
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-ozone-water")
+    this.setSuffix('gmp-packing-ozone-water')
     super.ngOnInit()
     this.initForm()
   }
@@ -67,7 +67,7 @@ export class GMPPackingOzoneWaterAuthorizationComponent extends SuperAuthorizati
             break
           case 12: dynamicItem.rinse = Number(field.value)
             break
-          case 13: dynamicItem.status = String(field.value) == "1"
+          case 13: dynamicItem.status = String(field.value) == '1'
             break
         }
       }

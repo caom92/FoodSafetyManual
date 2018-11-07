@@ -22,7 +22,7 @@ export class GMPPackingGlassBrittleAddAreaComponent extends SuperInventoryAddAre
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-glass-brittle")
+    this.setSuffix('gmp-packing-glass-brittle')
     this.createItemForm({
       name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
     })

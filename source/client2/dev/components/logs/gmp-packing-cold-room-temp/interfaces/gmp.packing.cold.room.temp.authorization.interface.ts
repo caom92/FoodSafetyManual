@@ -1,4 +1,4 @@
-import { SuperAuthorization } from "../../super-logs/super.logs.authorization.interface"
+import { SuperAuthorization } from '../../super-logs/super.logs.authorization.interface'
 
 export interface Authorization extends SuperAuthorization {
   time: string

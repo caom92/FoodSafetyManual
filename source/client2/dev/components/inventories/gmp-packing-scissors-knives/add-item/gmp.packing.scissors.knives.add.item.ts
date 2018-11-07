@@ -22,7 +22,7 @@ export class GMPPackingScissorsKnivesAddItemComponent extends SuperInventoryAddI
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-scissors-knives")
+    this.setSuffix('gmp-packing-scissors-knives')
     this.createItemForm({
       name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
       quantity: ['', [Validators.required]]

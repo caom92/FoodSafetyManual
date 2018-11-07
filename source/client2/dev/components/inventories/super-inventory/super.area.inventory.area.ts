@@ -42,35 +42,35 @@ export class SuperInventoryAreaComponent {
   public editArea(areaData: SuperInventoryEditAreaInterface) {
     if (this.newArea.valid && this.newArea.value.name != this.area.name) {
       let confirmAdd = this.alertCtrl.create({
-        title: this.ts.translate("Titles.edit_area"),
-        message: this.ts.translate("Messages.edit_area") + "<br><br>" + this.ts.translate("Adverbs.before") + ": " + this.area.name + "<br>" + this.ts.translate("Adverbs.after") + ": " + this.newArea.value.name,
+        title: this.ts.translate('Titles.edit_area'),
+        message: this.ts.translate('Messages.edit_area') + '<br><br>' + this.ts.translate('Adverbs.before') + ': ' + this.area.name + '<br>' + this.ts.translate('Adverbs.after') + ': ' + this.newArea.value.name,
         buttons: [
           {
-            text: this.ts.translate("Options.cancel"),
+            text: this.ts.translate('Options.cancel'),
             handler: () => {
               console.log('Cancelar')
             }
           },
           {
-            text: this.ts.translate("Options.accept"),
+            text: this.ts.translate('Options.accept'),
             handler: () => {
               this.areaManagerService.editArea(areaData, this.suffix).then(success => {
                 this.editMode = false
                 this.area.name = this.newArea.value.name
-                this.events.$pub("area:edit", this.area)
+                this.events.$pub('area:edit', this.area)
               }, error => {
                 this.editMode = false
-                console.log("Nombre repetido")
+                console.log('Nombre repetido')
               })
             }
           }
         ]
       })
     } else if (!this.newArea.valid) {
-      console.log("New item not valid")
+      console.log('New item not valid')
       // TODO Poner un toast aquí para mostrar el mensaje al usuario
     } else if (this.newArea.value.name == this.area.name) {
-      console.log("New and old name are the same")
+      console.log('New and old name are the same')
       this.editMode = false
       // TODO Poner un toast aquí para mostrar el mensaje al usuario
     }

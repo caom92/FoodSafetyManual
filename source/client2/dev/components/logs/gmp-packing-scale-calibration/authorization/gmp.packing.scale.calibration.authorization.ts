@@ -24,7 +24,7 @@ export class GMPPackingScaleCalibrationAuthorizationComponent extends SuperAutho
   }
 
   ngOnInit() {
-    this.setSuffix("gmp-packing-scale-calibration")
+    this.setSuffix('gmp-packing-scale-calibration')
     super.ngOnInit()
     this.initForm()
   }

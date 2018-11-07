@@ -17,7 +17,7 @@ export class GMPPackingHandWashingInventoryItemComponent extends SuperInventoryI
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-hand-washing")
+    this.setSuffix('gmp-packing-hand-washing')
     this.setToggleValue(this.item.is_active == 1)
   }
 }

@@ -1,0 +1,7 @@
+extends ./report-loader.common.pug
+
+block dateSection
+  +dateSection(3)
+
+block prepend buttonSection
+  +simpleButton('email', '#4CAF50', 'hasEmail === true && showReport === true', null)

@@ -107,7 +107,7 @@ div(*ngIf='addMode === true || editMode === true')
         .col.s12.m9.l9([hidden]='!(iconForm.controls.is_icon.value === true)')
           mz-select-container
             select(mz-select, label="{{ 'MenuComponent.icon' | translate:lang }}", id='icon-select', placeholder="{{ 'MenuComponent.icon' | translate:lang }}", formControlName='icon', (change)='onIconSelected()')
-              option(value='') {{ 'MenuComponent.default_option' | translate:lang }}
+              option(value) {{ 'MenuComponent.default_option' | translate:lang }}
               option(value='account') Cuenta
               option(value='alert-circle') Alerta
               option(value='beaker') Probeta

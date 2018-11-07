@@ -21,8 +21,8 @@ export class GMPSelfInspectionPestControlAreaInventoryListComponent extends Supe
   }
 
   public ngOnInit(): void {
-    this.setBagName("gmp-self-inspection-pest-control-area-bag")
-    this.setSuffix("gmp-self-inspection-pest-control")
+    this.setBagName('gmp-self-inspection-pest-control-area-bag')
+    this.setSuffix('gmp-self-inspection-pest-control')
     this.setInventory(this.areas)
     super.ngOnInit()
   }

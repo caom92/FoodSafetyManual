@@ -25,7 +25,7 @@ export class GMPPackingColdRoomTempAuthorizationComponent extends SuperAuthoriza
   }
 
   ngOnInit() {
-    this.setSuffix("gmp-packing-cold-room-temp")
+    this.setSuffix('gmp-packing-cold-room-temp')
     super.ngOnInit()
     this.initForm()
   }

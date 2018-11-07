@@ -28,7 +28,7 @@ export class GMPPackingOzoneWaterAreaInventoryAreaComponent extends SuperInvento
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-ozone-water")
+    this.setSuffix('gmp-packing-ozone-water')
     this.createItemForm({
       name: [String(this.area.name), [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
     })
@@ -48,7 +48,7 @@ export class GMPPackingOzoneWaterAreaInventoryAreaComponent extends SuperInvento
 
   /*editArea() {
     super.editArea(GMPPackingOzoneWaterEditAreaComponent, { area_id: this.area.id, area_name: this.area.name }, (data) => {
-      this.events.publish("area:edit", this.area, data.area)
+      this.events.publish('area:edit', this.area, data.area)
       this.area.name = data.area.name
     })
   }*/

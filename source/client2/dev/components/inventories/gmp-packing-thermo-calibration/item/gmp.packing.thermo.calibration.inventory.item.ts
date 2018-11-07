@@ -16,7 +16,7 @@ export class GMPPackingThermoCalibrationInventoryItemComponent extends SuperInve
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-thermo-calibration")
+    this.setSuffix('gmp-packing-thermo-calibration')
     this.setToggleValue(this.item.is_active == 1)
   }
 }

@@ -24,8 +24,8 @@ export class GMPDocControlDocControlInventoryListComponent extends SuperInventor
   }
 
   public ngOnInit(): void {
-    this.setBagName("gmp-doc-control-doc-control-bag")
-    this.setSuffix("gmp-doc-control-doc-control")
+    this.setBagName('gmp-doc-control-doc-control-bag')
+    this.setSuffix('gmp-doc-control-doc-control')
     this.setInventory(this.items)
     super.ngOnInit()
   }

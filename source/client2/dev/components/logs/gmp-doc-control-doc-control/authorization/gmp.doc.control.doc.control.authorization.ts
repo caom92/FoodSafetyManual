@@ -41,8 +41,12 @@ export class GMPDocControlDocControlAuthorizationComponent extends SuperAuthoriz
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-doc-control-doc-control")
+    this.setSuffix('gmp-doc-control-doc-control')    
+    super.ngOnInit()
+    this.initForm()
+  }
 
+  public initForm(): void {
     if (this.log.documents.length != 0) {
       this.selectedDocument = this.log.documents[0].id
       this.selectedDocumentName = this.log.documents[0].name
@@ -56,23 +60,18 @@ export class GMPDocControlDocControlAuthorizationComponent extends SuperAuthoriz
       } catch (error) {
         this.images = null
       }
-      this.initForm()
+      // The usual initForm, triggered only after a few initializations
+      this.captureForm = this._fb.group({
+        report_id: [this.log.report_id, [Validators.required]],
+        date: [this.log.creation_date, [Validators.required, CustomValidators.dateValidator()]],
+        capture_date: [this.log.documents[0].entries[0].date, [Validators.required, CustomValidators.dateValidator()]],
+        users: [this.log.documents[0].entries[0].employee, [Validators.required]],
+        notes: [this.log.documents[0].entries[0].notes, [Validators.maxLength(65535)]],
+        album_url: [this.log.documents[0].entries[0].additional_info_url, [Validators.maxLength(65535)]]
+      })
     } else {
-      this.captureForm = this._fb.group({})  
+      this.captureForm = this._fb.group({})
     }
-    
-    super.ngOnInit()
-  }
-
-  public initForm(): void {
-    this.captureForm = this._fb.group({
-      report_id: [this.log.report_id, [Validators.required]],
-      date: [this.log.creation_date, [Validators.required, CustomValidators.dateValidator()]],
-      capture_date: [this.log.documents[0].entries[0].date, [Validators.required, CustomValidators.dateValidator()]],
-      users: [this.log.documents[0].entries[0].employee, [Validators.required]],
-      notes: [this.log.documents[0].entries[0].notes, [Validators.maxLength(65535)]],
-      album_url: [this.log.documents[0].entries[0].additional_info_url, [Validators.maxLength(65535)]]
-    })
   }
 
   public save(): void {
@@ -80,39 +79,39 @@ export class GMPDocControlDocControlAuthorizationComponent extends SuperAuthoriz
       let loader = this.loaderService.koiLoader()
       let formData = new FormData()
 
-      formData.append("report_id", this.captureForm.controls.report_id.value)
-      formData.append("date", this.captureForm.controls.date.value)
-      formData.append("documents[0][id]", String(this.selectedDocument))
-      formData.append("documents[0][entries][0][date]", this.captureForm.controls.capture_date.value)
-      formData.append("documents[0][entries][0][employee]", this.captureForm.controls.users.value)
-      formData.append("documents[0][entries][0][notes]", this.captureForm.controls.notes.value)
-      formData.append("documents[0][entries][0][additional_info_url]", this.captureForm.controls.album_url.value)
+      formData.append('report_id', this.captureForm.controls.report_id.value)
+      formData.append('date', this.captureForm.controls.date.value)
+      formData.append('documents[0][id]', String(this.selectedDocument))
+      formData.append('documents[0][entries][0][date]', this.captureForm.controls.capture_date.value)
+      formData.append('documents[0][entries][0][employee]', this.captureForm.controls.users.value)
+      formData.append('documents[0][entries][0][notes]', this.captureForm.controls.notes.value)
+      formData.append('documents[0][entries][0][additional_info_url]', this.captureForm.controls.album_url.value)
 
       this.server.update(
-        "update-gmp-doc-control-doc-control",
+        'update-gmp-doc-control-doc-control',
         formData,
         (response) => {
           if (response.meta.return_code == 0) {
             //success
-            this.toastService.showText("updatedLog")
+            this.toastService.showText('updatedLog')
             this.captureForm.markAsPristine()
             this.enableForm()
           } else {
             // error
-            this.toastService.showString("Error " + response.meta.return_code + ", server says: " + response.meta.message)
+            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
             this.enableForm()            
           }
           loader.dismiss()
         }, (error: any, caught: Observable<void>) => {
           loader.dismiss()
-          this.toastService.showText("serverUnreachable")
+          this.toastService.showText('serverUnreachable')
           return []
         }
       )
     } else {
       this.logService.setAsDirty(this.captureForm)
       this.enableForm()
-      this.toastService.showText("incompleteLog")
+      this.toastService.showText('incompleteLog')
     }
   }
 }

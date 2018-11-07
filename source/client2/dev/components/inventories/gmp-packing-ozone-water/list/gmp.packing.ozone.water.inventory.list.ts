@@ -23,8 +23,8 @@ export class GMPPackingOzoneWaterInventoryListComponent extends SuperInventoryLi
   }
 
   public ngOnInit(): void {
-    this.setBagName("gmp-packing-ozone-water-bag")
-    this.setSuffix("gmp-packing-ozone-water")
+    this.setBagName('gmp-packing-ozone-water-bag')
+    this.setSuffix('gmp-packing-ozone-water')
     this.setInventory(this.items)
     super.ngOnInit()
   }

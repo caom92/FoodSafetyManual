@@ -33,7 +33,7 @@ export class GAPPackingPreopAuthorizationComponent extends SuperAuthorizationCom
   }
 
   ngOnInit() {
-    this.setSuffix("gap-packing-preop")
+    this.setSuffix('gap-packing-preop')
     super.ngOnInit()
     this.initForm()
   }

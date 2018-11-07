@@ -28,14 +28,14 @@ export class GMPPackingGlassBrittleAreaInventoryAreaComponent extends SuperInven
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-glass-brittle")
+    this.setSuffix('gmp-packing-glass-brittle')
     this.createItemForm({
       name: [String(this.area.name), [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
     })
   }
 
   public openEditForm(): void {
-    console.log("edit area")
+    console.log('edit area')
     this.editMode = true
   }
 
@@ -50,7 +50,7 @@ export class GMPPackingGlassBrittleAreaInventoryAreaComponent extends SuperInven
 
   /*editArea() {
     super.editArea(GMPPackingGlassBrittleEditAreaComponent, { area_id: this.area.id, area_name: this.area.name }, (data) => {
-      this.events.publish("area:edit", this.area, data.area)
+      this.events.publish('area:edit', this.area, data.area)
       this.area.name = data.area.name
     })
   }*/

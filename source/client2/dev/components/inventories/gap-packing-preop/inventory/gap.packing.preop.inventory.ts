@@ -27,7 +27,7 @@ export class GAPPackingPreopInventoryComponent extends SuperInventoryByAreaCompo
 
 
   public ngOnInit(): void {
-    this.setSuffix("gap-packing-preop")
+    this.setSuffix('gap-packing-preop')
     super.ngOnInit()
   }
 

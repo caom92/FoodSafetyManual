@@ -1,4 +1,4 @@
-import { SuperLog } from "../../super-logs/super.logs.log.interface"
+import { SuperLog } from '../../super-logs/super.logs.log.interface'
 
 export interface Log extends SuperLog {
   rooms: Array<LogArea>

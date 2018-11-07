@@ -24,7 +24,7 @@ export class GMPPackingScissorsKnivesAuthorizationComponent extends SuperAuthori
   }
 
   ngOnInit() {
-    this.setSuffix("gmp-packing-scissors-knives")
+    this.setSuffix('gmp-packing-scissors-knives')
     super.ngOnInit()
     this.initForm()
   }

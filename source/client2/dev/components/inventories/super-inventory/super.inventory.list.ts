@@ -79,7 +79,7 @@ export class SuperInventoryListComponent implements OnInit, OnDestroy {
     // Guardamos el inventario original 
     this.originalInventory = this.currentInventory.map(x => Object.assign({}, x))
 
-    this.events.$sub("item:add").subscribe((item) => {
+    this.events.$sub('item:add').subscribe((item) => {
       this.onItemAdd(item)
     })
 
@@ -87,7 +87,7 @@ export class SuperInventoryListComponent implements OnInit, OnDestroy {
     // la posibilidad de realizar scroll
     this.drag.add(this.dragulaService.drag(this.bagName).subscribe(
       ({ el, source }) => {
-        this.events.$pub("scroll:stop", "Scroll Stopped")
+        this.events.$pub('scroll:stop', 'Scroll Stopped')
       })
     )
 
@@ -95,7 +95,7 @@ export class SuperInventoryListComponent implements OnInit, OnDestroy {
     // la posibilidad de realizar scroll
     this.dragend.add(this.dragulaService.dragend(this.bagName).subscribe(
       ({ name, el }) => {
-        this.events.$pub("scroll:start", "Scroll Started")
+        this.events.$pub('scroll:start', 'Scroll Started')
         let index = 1
         let reorderedItemArray: Array<{ id: number, position: number }> = []
 
@@ -107,7 +107,7 @@ export class SuperInventoryListComponent implements OnInit, OnDestroy {
           })
         }
 
-        this.inventoryService.reorderInventory(reorderedItemArray, "reorder-" + this.suffix).then(success => {
+        this.inventoryService.reorderInventory(reorderedItemArray, 'reorder-' + this.suffix).then(success => {
           this.originalInventory = this.currentInventory.map(x => Object.assign({}, x))
         }, error => {
           this.currentInventory = this.originalInventory.map(x => Object.assign({}, x))
@@ -117,17 +117,17 @@ export class SuperInventoryListComponent implements OnInit, OnDestroy {
   }
 
   public onItemAdd(item: any): void {
-    throw "onItemAdd() function must be overridden in child class" + this.constructor.toString().match(/\w+/g)[1]
+    throw 'onItemAdd() function must be overridden in child class' + this.constructor.toString().match(/\w+/g)[1]
   }
 
   public ngOnDestroy(): void {
     if (this.dragulaService.find(this.bagName) !== undefined) {
-      console.warn("Dragula bag " + this.bagName + " destroyed")
+      console.warn('Dragula bag ' + this.bagName + ' destroyed')
       this.drag.unsubscribe()
       this.dragend.unsubscribe()
       // this.dragulaService.destroy(this.bagName)
     } else {
-      console.error("No Dragula bag " + this.bagName + " on this inventory lists")
+      console.error('No Dragula bag ' + this.bagName + ' on this inventory lists')
     }
   }
 }

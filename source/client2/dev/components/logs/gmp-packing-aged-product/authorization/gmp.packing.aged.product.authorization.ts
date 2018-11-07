@@ -43,7 +43,7 @@ export class GMPPackingAgedProductAuthorizationComponent extends SuperAuthorizat
   }
 
   ngOnInit() {
-    this.setSuffix("gmp-packing-aged-product")
+    this.setSuffix('gmp-packing-aged-product')
     super.ngOnInit()
     this.initForm()
   }

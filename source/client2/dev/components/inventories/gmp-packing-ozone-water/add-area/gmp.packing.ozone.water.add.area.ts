@@ -22,7 +22,7 @@ export class GMPPackingOzoneWaterAddAreaComponent extends SuperInventoryAddAreaC
   }
 
   public ngOnInit(): void {
-    this.setSuffix("gmp-packing-ozone-water")
+    this.setSuffix('gmp-packing-ozone-water')
     this.createItemForm({
       name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
     })

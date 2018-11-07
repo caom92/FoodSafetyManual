@@ -1,4 +1,4 @@
-import { SuperReportInterface } from "../../super-report/super.report.interface"
+import { SuperReportInterface } from '../../super-report/super.report.interface'
 
 export interface Report extends SuperReportInterface {
   entry: Array<ReportEntry>
