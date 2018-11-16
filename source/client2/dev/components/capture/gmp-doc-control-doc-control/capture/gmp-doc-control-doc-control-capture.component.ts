@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { DomSanitizer } from '@angular/platform-browser'
-import { StateService } from '@uirouter/angular'
+import { ActivatedRoute } from '@angular/router'
 import { PubSubService } from 'angular2-pubsub'
 import { BackendService } from '../../../../services/app.backend'
 
@@ -12,7 +12,7 @@ import { SuperCapture } from '../../super-capture/super.capture'
 })
 
 export class GMPDocControlDocControlCaptureComponent extends SuperCapture {
-  constructor(router: StateService, server: BackendService, sanitizer: DomSanitizer, events: PubSubService) {
-    super(router, server, sanitizer, events)
+  constructor(routeState: ActivatedRoute, server: BackendService, sanitizer: DomSanitizer, events: PubSubService) {
+    super(routeState, server, sanitizer, events)
   }
 }

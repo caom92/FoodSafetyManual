@@ -9,7 +9,7 @@ import { TranslationService } from '../../../../services/app.translation'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
 import { CaptureItem } from '../interfaces/gmp.packing.scissors.knives.capture.interface'
 import { Log } from '../interfaces/gmp.packing.scissors.knives.log.interface'
-import { CustomValidators } from '../../../../directives/custom.validators';
+import { CustomValidators } from '../../../../directives/custom.validators'
 
 @Component({
   selector: 'gmp-packing-scissors-knives-log',

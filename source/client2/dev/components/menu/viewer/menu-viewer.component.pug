@@ -1,4 +1,4 @@
-mixin menuIcon(type, cardClass, defaultIcon, imageDirectory, link)
+mixin menuDirectoryIcon(type, cardClass, defaultIcon, imageDirectory, link)
   div(*ngIf="icon.type == '" + type + "'")
     mz-card(class=cardClass)
       mz-card-content
@@ -6,7 +6,64 @@ mixin menuIcon(type, cardClass, defaultIcon, imageDirectory, link)
           i.waves-effect.waves-light.green.edit-dashboard-element(mz-icon-mdi, [icon]="'pencil'", [size]="'18px'")
         a(style='color: #FFF;', (click)='deleteElement(icon)', *ngIf='editMode == false')
           i.waves-effect.waves-light.red.delete-dashboard-element(mz-icon-mdi, [icon]="'close'", [size]="'18px'")
-        a([href]=link, style='color: inherit;')
+        a(routerLink='/menu', [queryParams]=link, style='color: inherit;')
+          div(*ngIf='icon.image != null', style='margin-bottom: 1em;')
+            div
+              i.corner-icon(mz-icon-mdi, [icon]="'" + defaultIcon + "'", [size]="'24px'")
+            img([src]='"http://localhost/espresso/data/menu/' + imageDirectory + '/" + icon.image', alt='image not loaded', style='display: block; max-height: 72px; min-height: 72px; margin-left: auto; margin-right: auto; max-width: 100%;')
+          div(*ngIf='icon.icon != null && icon.image == null', style='text-align: center; margin-bottom: 1em;')
+            div
+              i.corner-icon(mz-icon-mdi, [icon]="'" + defaultIcon + "'", [size]="'24px'")
+            i(mz-icon-mdi, [icon]='icon.icon', [size]="'48px'")
+          div(*ngIf='icon.icon == null && icon.image == null', style='text-align: center; margin-bottom: 1em;')
+            i(mz-icon-mdi, [icon]="'" + defaultIcon + "'", [size]="'48px'")
+          div(style='height: 2em; line-height: 1em; overflow: hidden; text-overflow: ellipsis; text-align: center;')
+            | {{icon.name}}
+
+mixin menuDocumentIcon(type, cardClass, defaultIcon, imageDirectory, link)
+  div(*ngIf="icon.type == '" + type + "'")
+    mz-card(class=cardClass)
+      mz-card-content
+        a(style='color: #FFF;', (click)='enableEditMode(icon)', *ngIf='editMode == false')
+          i.waves-effect.waves-light.green.edit-dashboard-element(mz-icon-mdi, [icon]="'pencil'", [size]="'18px'")
+        a(style='color: #FFF;', (click)='deleteElement(icon)', *ngIf='editMode == false')
+          i.waves-effect.waves-light.red.delete-dashboard-element(mz-icon-mdi, [icon]="'close'", [size]="'18px'")
+        a([routerLink]=link, style='color: inherit;')
+          div(*ngIf='icon.image != null', style='margin-bottom: 1em;')
+            div
+              i.corner-icon(mz-icon-mdi, [icon]="'" + defaultIcon + "'", [size]="'24px'")
+            img([src]='"http://localhost/espresso/data/menu/' + imageDirectory + '/" + icon.image', alt='image not loaded', style='display: block; max-height: 72px; min-height: 72px; margin-left: auto; margin-right: auto; max-width: 100%;')
+          div(*ngIf='icon.icon != null && icon.image == null', style='text-align: center; margin-bottom: 1em;')
+            div
+              i.corner-icon(mz-icon-mdi, [icon]="'" + defaultIcon + "'", [size]="'24px'")
+            i(mz-icon-mdi, [icon]='icon.icon', [size]="'48px'")
+          div(*ngIf='icon.icon == null && icon.image == null', style='text-align: center; margin-bottom: 1em;')
+            i(mz-icon-mdi, [icon]="'" + defaultIcon + "'", [size]="'48px'")
+          div(style='height: 2em; line-height: 1em; overflow: hidden; text-overflow: ellipsis; text-align: center;')
+            | {{icon.name}}
+
+mixin menuLinkIcon(type, cardClass, defaultIcon, imageDirectory, link)
+  div(*ngIf="icon.type == '" + type + "'")
+    mz-card(class=cardClass)
+      mz-card-content
+        a(style='color: #FFF;', (click)='enableEditMode(icon)', *ngIf='editMode == false')
+          i.waves-effect.waves-light.green.edit-dashboard-element(mz-icon-mdi, [icon]="'pencil'", [size]="'18px'")
+        a(style='color: #FFF;', (click)='deleteElement(icon)', *ngIf='editMode == false')
+          i.waves-effect.waves-light.red.delete-dashboard-element(mz-icon-mdi, [icon]="'close'", [size]="'18px'")
+        a([href]=link, style='color: inherit;', target='_blank', *ngIf='icon.url[0] != "/"')
+          div(*ngIf='icon.image != null', style='margin-bottom: 1em;')
+            div
+              i.corner-icon(mz-icon-mdi, [icon]="'" + defaultIcon + "'", [size]="'24px'")
+            img([src]='"http://localhost/espresso/data/menu/' + imageDirectory + '/" + icon.image', alt='image not loaded', style='display: block; max-height: 72px; min-height: 72px; margin-left: auto; margin-right: auto; max-width: 100%;')
+          div(*ngIf='icon.icon != null && icon.image == null', style='text-align: center; margin-bottom: 1em;')
+            div
+              i.corner-icon(mz-icon-mdi, [icon]="'" + defaultIcon + "'", [size]="'24px'")
+            i(mz-icon-mdi, [icon]='icon.icon', [size]="'48px'")
+          div(*ngIf='icon.icon == null && icon.image == null', style='text-align: center; margin-bottom: 1em;')
+            i(mz-icon-mdi, [icon]="'" + defaultIcon + "'", [size]="'48px'")
+          div(style='height: 2em; line-height: 1em; overflow: hidden; text-overflow: ellipsis; text-align: center;')
+            | {{icon.name}}
+        a([routerLink]=link, style='color: inherit;', *ngIf='icon.url[0] == "/"')
           div(*ngIf='icon.image != null', style='margin-bottom: 1em;')
             div
               i.corner-icon(mz-icon-mdi, [icon]="'" + defaultIcon + "'", [size]="'24px'")
@@ -39,20 +96,20 @@ mixin menuIconPreview(type, cardClass, defaultIcon, imageDirectory)
           | {{iconForm.value.name}}
 
 h6
-  a(*ngIf="router.params.path != ''", [href]="'#/menu/'") {{ 'MenuComponent.menu' | translate:lang }}
-  span(*ngIf="router.params.path == ''") {{ 'MenuComponent.menu' | translate:lang }}
+  a(*ngIf="path != ''", routerLink="/menu") {{ 'MenuComponent.menu' | translate:lang }}
+  span(*ngIf="path == ''") {{ 'MenuComponent.menu' | translate:lang }}
   span(*ngFor='let cur of directories; let last = last; let index = index')
     |  > 
-    a([href]="'#/menu' + breadcrumbs[index]", *ngIf='last != true') {{cur}}
+    a([routerLink]="['/menu']", [queryParams]='{ path: breadcrumbs[index] }', *ngIf='last != true') {{cur}}
       //-| {{cur | slice:0:5}}
       //-span(*ngIf='cur.length > 5') …
     span(*ngIf='last == true') {{cur}}
 .row(*ngIf='addMode === false && editMode === false')
   ng-template(ngFor, [ngForOf]='currentDirectory', let-icon)
     .col.s6.m3.l2
-      +menuIcon('link', null, 'link-variant', 'links', 'icon.url')
-      +menuIcon('directory', 'blue-grey lighten-4', 'folder', 'directories', "(router.params.path != '') ? '#/menu/' + router.params.path + '/' + icon.name : '#/menu/' + icon.name")
-      +menuIcon('file', 'green lighten-4', 'file-pdf-box', 'files', "'#/document-viewer/' + icon.path")
+      +menuLinkIcon('link', null, 'link-variant', 'links', 'icon.url')
+      +menuDirectoryIcon('directory', 'blue-grey lighten-4', 'folder', 'directories', "(path != '') ? { path: path + '/' + icon.name } : { path : icon.name }")
+      +menuDocumentIcon('file', 'green lighten-4', 'file-pdf-box', 'files', "'/document/viewer/' + icon.path")
   .col.s6.m3.l2(*ngIf='errorDirectory === false && loadingDirectory === false && errorNetwork === false && editMode === false')
     mz-card(style='background-color: #b1dcfb;')
       mz-card-content

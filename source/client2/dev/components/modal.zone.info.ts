@@ -4,7 +4,7 @@ import { LanguageService } from '../services/app.language'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { BackendService } from '../services/app.backend'
 import { ToastService } from '../services/app.toast'
-import { StateService } from '@uirouter/angular'
+import { ActivatedRoute } from '@angular/router'
 import { ProgressModalComponent } from './modal.please.wait'
 import { HomeElementsService } from '../services/app.home'
 
@@ -43,7 +43,7 @@ export class ZoneInfoModalComponent extends MzBaseModal implements OnInit
     private langManager: LanguageService,
     private server: BackendService,
     private toastManager: ToastService,
-    private router: StateService,
+    private routeState: ActivatedRoute,
     private modalManager: MzModalService,
     private formBuilder: FormBuilder,
     private home: HomeElementsService

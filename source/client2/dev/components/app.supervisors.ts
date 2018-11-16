@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { StateService } from '@uirouter/angular'
+import { Router } from '@angular/router'
 import { MzModalService } from 'ngx-materialize'
 
 import { BackendService } from '../services/app.backend'
@@ -49,7 +49,7 @@ export class SupervisorsComponent
     private modalManager: MzModalService,
     private server: BackendService,
     private toastManager: ToastService,
-    private router: StateService
+    private router: Router
   ) {
   }
 
@@ -196,7 +196,7 @@ export class SupervisorsComponent
         // si el servidor respondio de forma exitosa, recargamos la pagina para 
         // reflejar los cambios realizados
         if (response.meta.return_code == 0) {
-          this.router.reload()
+          //TODO this.router.reload()
         }
       } // (response: any)
     ) // this.server.update

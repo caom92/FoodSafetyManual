@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { StateService } from '@uirouter/angular'
+import { ActivatedRoute } from '@angular/router'
 
 import { BackendService } from '../../../../services/app.backend'
 import { SuperInventoryViewer } from '../../super-inventory/super.inventory.viewer'
@@ -10,7 +10,7 @@ import { SuperInventoryViewer } from '../../super-inventory/super.inventory.view
 })
 
 export class GMPPackingOzoneWaterInventoryViewerComponent extends SuperInventoryViewer {
-  constructor(router: StateService, server: BackendService) {
-    super(router, server)
+  constructor(routeState: ActivatedRoute, server: BackendService) {
+    super(routeState, server)
   }
 }

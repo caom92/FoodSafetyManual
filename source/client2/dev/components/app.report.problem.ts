@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { StateService } from '@uirouter/angular'
+import { ActivatedRoute, Router } from '@angular/router'
 import { MzModalService } from 'ngx-materialize'
 
 import { BackendService } from '../services/app.backend'
@@ -56,7 +56,7 @@ export class ReportProblemComponent implements OnInit
   constructor(
     private home: HomeElementsService,
     private server: BackendService,
-    private router: StateService,
+    private router: Router,
     private toastManager: ToastService,
     private formBuilder: FormBuilder,
     private langManager: LanguageService,
@@ -289,7 +289,7 @@ export class ReportProblemComponent implements OnInit
         // si el servidor respondio con exito...
         if (response.meta.return_code == 0) {
           // redireccionamos al usuario a otra pantalla
-          this.router.go('menu', { path: null })
+          this.router.navigate(['/menu'])
         }
       } // (response: Response)
     ) // this.server.update

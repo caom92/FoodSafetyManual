@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
-import { StateService } from '@uirouter/angular'
+import { ActivatedRoute, Router } from '@angular/router'
 import { Language } from 'angular-l10n'
 import { Observable } from 'rxjs/Rx'
 
@@ -34,10 +34,11 @@ export class GMPDocControlDocControlAuthorizationComponent extends SuperAuthoriz
     private langManager: LanguageService,
     logService: LogService,
     toastService: ToastsService,
-    router: StateService,
+    routeState: ActivatedRoute,
+    router: Router,
     public server: BackendService,
     public loaderService: LoaderService) {
-    super(_fb, logService, toastService, router)
+    super(_fb, logService, toastService, routeState, router)
   }
 
   public ngOnInit(): void {

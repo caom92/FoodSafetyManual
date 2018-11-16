@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { StateService } from '@uirouter/angular'
+import { ActivatedRoute, Router } from '@angular/router'
 import { Language } from 'angular-l10n'
 
 import { LanguageService } from '../../../../services/app.language'
@@ -9,7 +9,7 @@ import { ToastsService } from '../../../../services/app.toasts'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization } from '../interfaces/gmp.packing.thermo.calibration.authorization.interface'
 import { UpdateItem } from '../interfaces/gmp.packing.thermo.calibration.update.interface'
-import { CustomValidators } from '../../../../directives/custom.validators';
+import { CustomValidators } from '../../../../directives/custom.validators'
 
 @Component({
   selector: 'gmp-packing-thermo-calibration-authorization',
@@ -25,8 +25,8 @@ export class GMPPackingThermoCalibrationAuthorizationComponent extends SuperAuth
     corrective_action: 65535
   }
 
-  constructor(private langManager: LanguageService, _fb: FormBuilder, toastService: ToastsService, logService: LogService, router: StateService) {
-    super(_fb, logService, toastService, router)
+  constructor(private langManager: LanguageService, _fb: FormBuilder, toastService: ToastsService, logService: LogService, routeState: ActivatedRoute, router: Router) {
+    super(_fb, logService, toastService, routeState, router)
   }
 
   ngOnInit() {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { StateService } from '@uirouter/angular'
+import { ActivatedRoute, Router } from '@angular/router'
 
 import { BackendService } from '../services/app.backend'
 import { HomeElementsService } from '../services/app.home'
@@ -23,7 +23,7 @@ export class LogInComponent implements OnInit
     private server: BackendService, 
     private formBuilder: FormBuilder,
     private toastManager: ToastService,
-    private router: StateService,
+    private router: Router,
     private home: HomeElementsService,
     private langManager: LanguageService
   ) {
@@ -92,7 +92,7 @@ export class LogInComponent implements OnInit
             // a la pagina principal
             localStorage.setItem('is_logged_in', 'true')
             this.home.displaySideNav()
-            this.router.go('menu', { path: null })
+            this.router.navigate(['/menu'])
           } else {
             // si el usuario no hay iniciado sesion, permitimos al usuario 
             // entrar a esta pagina
@@ -157,7 +157,7 @@ export class LogInComponent implements OnInit
             response.meta.return_code)
           )
           this.home.displaySideNav()
-          this.router.go('menu', { path: null })
+          this.router.navigate(['/menu'])
         } else {
           // si hubo un problema con la conexion del servidor, desplegamos un 
           // mensaje de error al usuario

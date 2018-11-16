@@ -4,7 +4,8 @@ div.row
   div.col.s12(
     '*ngFor'='let log of logs'
   )
-    +link(href='#/inventory/{{log.suffix}}')(style="color: black;")
+    //-+link(href='inventory/{{log.suffix}}')(style="color: black;")
+    +routerLink("['/inventory', log.suffix]")(style="color: black;")
       mz-card('[hoverable]'='true')
         mz-card-content
           ='{{ log.name }}'

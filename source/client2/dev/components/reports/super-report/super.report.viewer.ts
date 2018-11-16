@@ -1,6 +1,6 @@
 import { OnInit, ViewChildren } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms'
-import { StateService } from '@uirouter/angular'
+import { ActivatedRoute } from '@angular/router'
 import { Language } from 'angular-l10n'
 import { Observable } from 'rxjs'
 
@@ -22,7 +22,7 @@ export class SuperReportViewer implements OnInit {
   dateRangeForm: FormGroup
   activeReport: ActiveReport = { id: 'any' }
   
-  constructor(private router: StateService,
+  constructor(private routeState: ActivatedRoute,
     public server: BackendService,
     private formBuilder: FormBuilder,
     private loaderService: LoaderService,
@@ -31,7 +31,9 @@ export class SuperReportViewer implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.suffix = this.router.current.data.suffix
+    this.routeState.data.subscribe((data) => {
+      this.suffix = data.suffix
+    })
 
     this.options = getDatePickerConfig(localStorage.getItem('lang'))
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { StateService } from '@uirouter/angular'
+import { ActivatedRoute } from '@angular/router'
 
 import { HomeElementsService } from '../services/app.home'
 import { LanguageService } from '../services/app.language'
@@ -23,7 +23,7 @@ export class InventoryListComponent implements OnInit
   // necesarios
   constructor(
     private home: HomeElementsService,
-    private router: StateService,
+    private routeState: ActivatedRoute,
     private langManager: LanguageService
   ) {
   }
@@ -32,23 +32,31 @@ export class InventoryListComponent implements OnInit
   ngOnInit(): void {
     // utilizando la zona, el programa y el modulo, obtenemos la lista de 
     // bitacoras de los permisos del usuario
-    let zone = this.home.zone.name
-    let program = this.router.params.program
-    let module = this.router.params.module
-    let logs = this.home.privileges[zone][program].suffixes[module]
+    let zone = null
+    let program = null
+    let module = null
+    let logs = null
 
-    // solo hay que agregar a la lista de bitacoras aquellas que tienen 
-    // inventario
-    for (let i in logs) {
-      if (i != 'suffix' && logs[i].has_inventory) {
-        let temp = logs[i]
-        temp.name = i
-        this.logs.push(temp)
+    this.routeState.paramMap.subscribe((params) => {
+      zone = this.home.zone.name
+      program = params.get('program')
+      module = params.get('module')
+      logs = this.home.privileges[zone][program].suffixes[module]
+
+      // solo hay que agregar a la lista de bitacoras aquellas que tienen 
+      // inventario
+      this.logs = []
+      for (let i in logs) {
+        if (i != 'suffix' && logs[i].has_inventory) {
+          let temp = logs[i]
+          temp.name = i
+          this.logs.push(temp)
+        }
       }
-    }
 
-    // revisamos si al final, este modulo tiene al menos 1 bitacora con 
-    // inventario
-    this.hasInventory = this.logs.length > 0  
+      // revisamos si al final, este modulo tiene al menos 1 bitacora con 
+      // inventario
+      this.hasInventory = this.logs.length > 0  
+    })
   }
 }

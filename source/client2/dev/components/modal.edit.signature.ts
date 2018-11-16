@@ -4,7 +4,7 @@ import { LanguageService } from '../services/app.language'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { BackendService } from '../services/app.backend'
 import { ToastService } from '../services/app.toast'
-import { StateService } from '@uirouter/angular'
+import { Router } from '@angular/router'
 import { ProgressModalComponent } from './modal.please.wait'
 
 // Este componente describe el comportamiento del modal donde el usuario sube 
@@ -33,7 +33,7 @@ export class EditSignatureModalComponent extends MzBaseModal
     private langManager: LanguageService,
     private server: BackendService,
     private toastManager: ToastService,
-    private router: StateService,
+    private router: Router,
     private modalManager: MzModalService
   ) {
     super()
@@ -84,7 +84,7 @@ export class EditSignatureModalComponent extends MzBaseModal
         // si el servidor respondio de forma exitosa, recargamos la pagina
         // para reflejar los cambios
         if (response.meta.return_code == 0) {
-          this.router.reload()
+          //TODO this.router.reload()
         }
       } // (response: any)
     ) // this.server.update

@@ -3,8 +3,8 @@ include ../../../templates/pug/globals.pug
 h4 {{ 'DocumentAudit.title' | translate:lang }}
 mz-collection
   //-mz-collection-item(*ngFor='let file of fileList', [avatar]='true')
-    +uiRouterLink('document-viewer')([uiParams]='{ path: file.path }')
-  +uiRouterLink('document-viewer')([uiParams]='{ path: file.path }', mz-collection-link, *ngFor='let file of fileList')
+    +routerLink("['document-viewer', file.path]")
+  +routerLink("['/document/viewer', file.path]")(mz-collection-link, *ngFor='let file of fileList')
     //-i.red.accent-4(mz-avatar, mz-icon-mdi, [icon]="'file-pdf'")
     .title 
       i.red-text(mz-icon-mdi, [icon]="'file-pdf'", [size]="'18px'")

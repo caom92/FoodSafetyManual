@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { FormArray, FormBuilder, Validators } from '@angular/forms'
-import { StateService } from '@uirouter/angular'
+import { ActivatedRoute, Router } from '@angular/router'
 import { Language } from 'angular-l10n'
 
 import { LogService } from '../../../../services/app.logs'
@@ -9,7 +9,7 @@ import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationService } from '../../../../services/app.translation'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization, AuthorizationItem } from '../interfaces/gmp.self.inspection.pest.control.authorization.interface'
-import { CustomValidators } from '../../../../directives/custom.validators';
+import { CustomValidators } from '../../../../directives/custom.validators'
 
 @Component({
   selector: 'gmp-self-inspection-pest-control-authorization',
@@ -26,8 +26,9 @@ export class GMPSelfInspectionPestControlAuthorizationComponent extends SuperAut
     _fb: FormBuilder,
     logService: LogService,
     toasts: ToastsService,
-    router: StateService) {
-    super(_fb, logService, toasts, router)
+    routeState: ActivatedRoute,
+    router: Router) {
+    super(_fb, logService, toasts, routeState, router)
   }
 
   ngOnInit() {

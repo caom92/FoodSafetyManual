@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { StateService } from '@uirouter/angular'
+import { ActivatedRoute, Router } from '@angular/router'
 import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
@@ -28,8 +28,8 @@ export class GAPPackingPreopAuthorizationComponent extends SuperAuthorizationCom
     album_url: 255
   }
 
-  constructor(_fb: FormBuilder, toastService: ToastsService, logService: LogService, router: StateService) {
-    super(_fb, logService, toastService, router)
+  constructor(_fb: FormBuilder, toastService: ToastsService, logService: LogService, routeState: ActivatedRoute, router: Router) {
+    super(_fb, logService, toastService, routeState, router)
   }
 
   ngOnInit() {

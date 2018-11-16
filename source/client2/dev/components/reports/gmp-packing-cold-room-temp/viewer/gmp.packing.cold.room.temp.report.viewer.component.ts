@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
-import { StateService } from '@uirouter/angular'
+import { ActivatedRoute } from '@angular/router'
 
 import { BackendService } from '../../../../services/app.backend'
 import { LoaderService } from '../../../../services/app.loaders'
@@ -13,11 +13,11 @@ import { SuperReportViewer } from '../../super-report/super.report.viewer'
 })
 
 export class GMPPackingColdRoomTempReportViewerComponent extends SuperReportViewer {
-  constructor(router: StateService,
+  constructor(routeState: ActivatedRoute,
     server: BackendService,
     formBuilder: FormBuilder,
     loaderService: LoaderService,
     toastService: ToastsService) {
-    super(router, server, formBuilder, loaderService, toastService)
+    super(routeState, server, formBuilder, loaderService, toastService)
   }
 }

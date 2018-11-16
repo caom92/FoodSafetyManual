@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { StateService } from '@uirouter/angular'
+import { ActivatedRoute } from '@angular/router'
 
 import { HomeElementsService } from '../services/app.home'
 
@@ -19,7 +19,7 @@ export class LogListComponent implements OnInit
   // necesarios
   constructor(
     private home: HomeElementsService,
-    private router: StateService
+    private routeState: ActivatedRoute
   ) {
   }
 
@@ -27,17 +27,25 @@ export class LogListComponent implements OnInit
   ngOnInit(): void {
     // utilizando la zona, el programa y el modulo, obtenemos la lista de 
     // bitacoras de los permisos del usuario
-    let zone = this.home.zone.name
-    let program = this.router.params.program
-    let module = this.router.params.module
-    this.program = program
-    this.module = module
-    for (let i in this.home.privileges[zone][program].suffixes[module]) {
-      this.logs.push({
-        name: i,
-        suffix: this.home.privileges[zone][program].suffixes[module][i].suffix
-      })
-    }
-    this.logs.splice(0, 1)
+    let zone = null
+    let program = null
+    let module = null
+
+    this.routeState.paramMap.subscribe((params) => {
+      zone = this.home.zone.name
+      program = params.get('program')
+      module = params.get('module')
+
+      this.program = program
+      this.module = module
+      this.logs = []
+      for (let i in this.home.privileges[zone][program].suffixes[module]) {
+        this.logs.push({
+          name: i,
+          suffix: this.home.privileges[zone][program].suffixes[module][i].suffix
+        })
+      }
+      this.logs.splice(0, 1)
+    })
   }
 }

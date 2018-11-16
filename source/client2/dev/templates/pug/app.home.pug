@@ -24,7 +24,7 @@ include globals.pug
       '[(ngModel)]'='home.zone.id'
     )
   mz-navbar-item
-    +link('http://www.jfdc.tech/')
+    +link('http://www.jfdc.tech/')(target='_blank')
       i.mdi.mdi-home
   mz-navbar-item
     +link()('[id]'="'translation-button'")
@@ -50,7 +50,7 @@ include globals.pug
     '{{home.userFullName}}', 'mdi mdi-account-circle white-text'
   )(id='account-options')
     mz-sidenav-link
-      +uiRouterLink('edit-profile')(class='waves-effect waves-green')
+      +routerLink("['edit-profile']")(class='waves-effect waves-green')
         ='{{ langManager.messages.sideNavOptions.editProfile }}'
     mz-sidenav-link
       +link()(
@@ -62,46 +62,48 @@ include globals.pug
   //- Enlaces temporales
   mz-sidenav-link('*ngIf'='home.roleName !== "Administrator"')
     +link('http://documents.jfdc.tech')(
+      target='_blank'
       class='side-menu-link waves-effect waves-green'
     )
       i.mdi.mdi-file-document-box.mdi-24px
       ='LAB'
   mz-sidenav-link('*ngIf'='home.roleName === "Director"')
     +link('http://score.jfdc.tech')(
+      target='_blank'
       class='side-menu-link waves-effect waves-green'
     )
       i.mdi.mdi-file-document-box.mdi-24px
       ='QC Score Card'
   mz-sidenav-link()
-    +uiRouterLink('menu')(class='side-menu-link waves-effect waves-green', [uiParams]='{ path: "" }')
+    +routerLink("['/menu']")(class='side-menu-link waves-effect waves-green')
       i.mdi.mdi-view-dashboard.mdi-24px
       ='{{ langManager.messages.sideNavOptions.menu }}'
   
   //- Menu de navegacion para el administrador
   mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
-    +uiRouterLink('users')(class='side-menu-link waves-effect waves-green')
+    +routerLink("['/users']")(class='side-menu-link waves-effect waves-green')
       i.mdi.mdi-account-multiple.mdi-24px
       ='{{ langManager.messages.sideNavOptions.users }}'
   mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
-    +uiRouterLink('zones')(
+    +routerLink("['/zones']")(
       class='side-menu-link waves-effect waves-green'
     )
       i.mdi.mdi-domain.mdi-24px
       ='{{ langManager.messages.sideNavOptions.zones }}'
   mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
-    +uiRouterLink('log-footers')(
+    +routerLink("['/log-footers']")(
       class='side-menu-link waves-effect waves-green'
     )
       i.mdi.mdi-note-multiple.mdi-24px
       ='{{ langManager.messages.sideNavOptions.programs }}'
   mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
-    +uiRouterLink('supervisors')(
+    +routerLink("['/supervisors']")(
       class='side-menu-link waves-effect waves-green'
     )
       i.mdi.mdi-account-star.mdi-24px
       ='{{ langManager.messages.sideNavOptions.supervisors }}'
   mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
-    +uiRouterLink('signatures')(
+    +routerLink("['/signatures']")(
       class='side-menu-link waves-effect waves-green'
     )
       i.mdi.mdi-pen.mdi-24px
@@ -109,17 +111,17 @@ include globals.pug
 
   //- Menú de navegación para el director
   mz-sidenav-link('*ngIf'="home.roleName === 'Director'")
-    +uiRouterLink('document-list')(class='side-menu-link waves-effect waves-green')
+    +routerLink("['/document/list']")(class='side-menu-link waves-effect waves-green')
       i.mdi.mdi-file-pdf.mdi-24px
       ='{{ langManager.messages.sideNavOptions.documents }}'
   mz-sidenav-link('*ngIf'="home.roleName === 'Director'")
-    +uiRouterLink('menu-audit-list')(class='side-menu-link waves-effect waves-green')
+    +routerLink("['/menu/audit-list']")(class='side-menu-link waves-effect waves-green')
       i.mdi.mdi-view-list.mdi-24px
       ='{{ langManager.messages.sideNavOptions.menuAudit }}'
 
   //- Menu de navegacion para el supervisor
   mz-sidenav-link('*ngIf'="home.roleName === 'Supervisor'")
-    +uiRouterLink('pending-authorizations-list')(
+    +routerLink("['/pending-authorizations-list']")(
       class='side-menu-link waves-effect waves-green'
     )
       i.mdi.mdi-comment-check.mdi-24px.mdi-dark
@@ -139,9 +141,8 @@ include globals.pug
       mz-sidenav-link(
         '*ngFor'='let module of home.programs[program].names | keys'
       )
-        +uiRouterLink('inventory-selection')(
+        +routerLink("['inventory-selection', program, home.programs[program].names[module].suffix]")(
           class='waves-effect waves-green'
-          '[uiParams]'="{ program: program, module: home.programs[program].names[module].suffix }"
         )
           ='{{ module }}'
 
@@ -155,22 +156,21 @@ include globals.pug
       mz-sidenav-link(
         '*ngFor'='let module of home.programs[program].names | keys'
       )
-        +uiRouterLink('log-selection')(
+        +routerLink("['log-selection', program, home.programs[program].names[module].suffix]")(
           class='waves-effect waves-green'
-          '[uiParams]'="{ program: program, module: home.programs[program].names[module].suffix }"
         )
           ='{{ module }}'
 
   //- Menú de navegación para supervisor, gerente o director
   div('*ngIf'="home.roleName != 'Administrator' && home.roleName != 'Employee'")
     mz-sidenav-link
-      +uiRouterLink('product-data-viewer')(class='side-menu-link waves-effect waves-green')
+      +routerLink("['product-data-viewer']")(class='side-menu-link waves-effect waves-green')
         i.mdi.mdi-database.mdi-24px.mdi-dark
         ='Database BCN'
 
   //- El boton para reportar errores del sistema
   mz-sidenav-link
-    +uiRouterLink('report-problem')(class='side-menu-link waves-effect waves-green')
+    +routerLink("['report-problem']")(class='side-menu-link waves-effect waves-green')
       i.mdi.mdi-alert.mdi-24px.mdi-dark
       ='{{ langManager.messages.sideNavOptions.reportProblem }}'
 
@@ -179,6 +179,6 @@ include globals.pug
   '[ngClass]'="{ 'with-sidenav': home.showSideNav }"
 //-)
 .with-sidenav
-  ui-view('[hidden]'='home.showSpinner')
+  router-outlet('[hidden]'='home.showSpinner')
   .centered('[hidden]'='!home.showSpinner')
     img.spinner(src="assets/images/koi_spinner.png", width="100", height="100")

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
-import { StateService } from '@uirouter/angular'
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
   selector: 'document-viewer',
@@ -10,11 +10,13 @@ import { StateService } from '@uirouter/angular'
 export class DocumentViewerComponent {
   fileAddress: SafeResourceUrl
 
-  constructor(private sanitizer: DomSanitizer, private router: StateService) {
+  constructor(private sanitizer: DomSanitizer, private routeState: ActivatedRoute) {
     
   }
 
   ngOnInit() {
-    this.fileAddress = this.sanitizer.bypassSecurityTrustResourceUrl('http://localhost/espresso/data/menu/pdf/' + this.router.params.path)
+    this.routeState.paramMap.subscribe((params) => {
+      this.fileAddress = this.sanitizer.bypassSecurityTrustResourceUrl('http://localhost/espresso/data/menu/pdf/' + params.get('path') + '.pdf')
+    })
   }
 }

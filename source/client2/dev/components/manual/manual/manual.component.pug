@@ -13,22 +13,23 @@
 .row(*ngIf='canUpload && !uploadActive')
   .col.s12.m12.l12.right-align
     button(mz-button, style='margin-top: 20px;', (click)='enableUpload()') {{ 'ManualComponent.upload' | translate:lang }}
-div(style='height: calc(100vh - 225px);', *ngIf='errorPDF == false && loadingPDF == false && uploadActive == false')
+//-div(style='height: calc(100vh - 225px);', *ngIf='errorPDF == false && loadingPDF == false && uploadActive == false')
+div(style='height: calc(100vh - 225px);', *ngIf='dataUrl !== null && dataUrl !== undefined && uploadActive == false')
   iframe([src]='dataUrl', allowfullscreen='allowfullscreen', webkitallowfullscreen='webkitallowfullscreen', width='100%', height='100%')
 h4(*ngIf='uploadActive == true') {{ 'ManualComponent.preview' | translate:lang }}
 div(style='height: calc(100vh - 225px);', *ngIf='uploadActive == true && previewUrl !== undefined && previewUrl !== null')
   iframe([src]='previewUrl', allowfullscreen='allowfullscreen', webkitallowfullscreen='webkitallowfullscreen', width='100%', height='100%')
-div(style='height: calc(100vh - 225px);', *ngIf='loadingPDF')
+//-div(style='height: calc(100vh - 225px);', *ngIf='loadingPDF')
   div.center-align
       img.spinner(src="assets/images/koi_spinner.png", width="100", height="100")
-div(*ngIf='errorPDF && !uploadActive && !canUpload')
+//-div(*ngIf='errorPDF && !uploadActive && !canUpload')
   h4
     i.red-text(mz-icon-mdi, [align]="'center'", [icon]="'alert-circle'", [size]="'42px'")
     | {{ 'ManualComponent.network_error' | translate:lang }}
     .row
       .col.s12.m12.l12(style='text-align: right;')
         button.center(mz-button, (click)='loadPDF()') {{ 'ManualComponent.retry' | translate:lang }}
-div(*ngIf='errorPDF && !uploadActive && canUpload')
+//-div(*ngIf='errorPDF && !uploadActive && canUpload')
   h4
     i.red-text(mz-icon-mdi, [align]="'center'", [icon]="'alert-circle'", [size]="'42px'")
     | {{ 'ManualComponent.network_error_uploader' | translate:lang }}

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { StateService } from '@uirouter/angular'
+import { ActivatedRoute, Router } from '@angular/router'
 import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 import { Observable } from 'rxjs'
@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit
   constructor(
     private server: BackendService,
     private toastManager: ToastService,
-    private router: StateService,
+    private router: Router,
     private home: HomeElementsService,
     private langManager: LanguageService,
     private translationService: TranslationService,
@@ -67,7 +67,7 @@ export class HomeComponent implements OnInit
             // si el usuario no ha iniciado sesion, desactivamos la bandera y 
             // redireccionamos a la pantalla de inicio de sesion
             localStorage.setItem('is_logged_in', 'false')
-            this.router.go('login')
+            this.router.navigate(['/login'])
           } else {
             // de lo contrario, permitimos la navegacion
             localStorage.setItem('is_logged_in', 'true')
@@ -130,7 +130,7 @@ export class HomeComponent implements OnInit
           localStorage.setItem('is_logged_in', 'false')
           this.home.hideZoneMenu()
           this.home.programs = []
-          this.router.go('login')
+          this.router.navigate(['/login'])
         } else {
           // si hubo un problema con la comunicacion con el servidor, 
           // desplegamos un mensaje de error al usuario

@@ -1,19 +1,20 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, OnDestroy } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { StateService } from '@uirouter/angular'
+import { ActivatedRoute } from '@angular/router'
 import { Language } from 'angular-l10n'
 
 import { AlertController } from '../../../services/alert/app.alert'
 import { MenuService } from '../../../services/app.menu'
 import { MenuFile } from '../../document-viewer/list/document.list'
 import { DashboardDirectory, DashboardFile, DashboardLink, LocalURL } from '../menu.interface'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'menu-viewer',
   templateUrl: './menu-viewer.component.html'
 })
 
-export class MenuComponent implements OnInit {
+export class MenuComponent implements OnInit, OnDestroy {
   @Language() lang: string
   dashboardIcons: Array<DashboardDirectory | DashboardLink | DashboardFile> = []
   currentDirectory: Array<DashboardDirectory | DashboardLink | DashboardFile> = []
@@ -32,10 +33,13 @@ export class MenuComponent implements OnInit {
   serverDirectory: Array<DashboardDirectory | DashboardLink | DashboardFile> = null
   fileList: Array<MenuFile>
   iconForm: FormGroup = new FormBuilder().group({})
-  localURLs: Array<LocalURL> = []
+  localURLs: Array<LocalURL> = []  
   readonly canAddFiles: boolean = localStorage.getItem('role_name') === 'Supervisor' || localStorage.getItem('role_name') === 'Employee'
+  path: string = null
+  getMenuSuccessSubscription: Subscription = null
+  setPathSubscription: Subscription = null
 
-  constructor(private router: StateService, private menuService: MenuService, private alertCtrl: AlertController, private formBuilder: FormBuilder) {
+  constructor(private routeState: ActivatedRoute, private menuService: MenuService, private alertCtrl: AlertController, private formBuilder: FormBuilder) {
 
   }
 
@@ -80,36 +84,48 @@ export class MenuComponent implements OnInit {
   }
 
   public getMenuSuccess(): void {
-    this.errorNetwork = false
-    this.loadingDirectory = false
-    if (this.router.params.path === '') {
-      this.currentDirectory = this.serverDirectory
-      this.parentDirectoryID = null
-    } else {
-      this.currentDirectory = this.serverDirectory
-      this.setPath()
-      let accumulatedDirectory = ''
-      let matches = 0
-      for (let directory of this.directories) {
-        accumulatedDirectory += '/' + directory
-        this.breadcrumbs.push(accumulatedDirectory)
-        for (let icon in this.currentDirectory) {
-          if (this.currentDirectory[icon].name == directory) {
-            matches++
-            this.parentDirectoryID = this.currentDirectory[icon].id
-            this.currentDirectory = (<DashboardDirectory>this.currentDirectory[icon]).children
-            break
+    if (this.getMenuSuccessSubscription != null) {
+      this.getMenuSuccessSubscription.unsubscribe()
+    }
+
+    this.getMenuSuccessSubscription = this.routeState.queryParamMap.subscribe((params) => {
+      if (params.get('path') !== undefined && params.get('path') !== null) {
+        this.path = params.get('path')
+      } else {
+        this.path = ''
+      }
+      this.errorNetwork = false
+      this.loadingDirectory = false
+      if (this.path === '') {
+        this.currentDirectory = this.serverDirectory
+        this.parentDirectoryID = null
+      } else {
+        this.currentDirectory = this.serverDirectory
+        this.setPath()
+        let accumulatedDirectory = ''
+        let matches = 0
+        for (let directory of this.directories) {
+          accumulatedDirectory += directory
+          this.breadcrumbs.push(accumulatedDirectory)
+          accumulatedDirectory += '/'
+          for (let icon in this.currentDirectory) {
+            if (this.currentDirectory[icon].name == directory) {
+              matches++
+              this.parentDirectoryID = this.currentDirectory[icon].id
+              this.currentDirectory = (<DashboardDirectory>this.currentDirectory[icon]).children
+              break
+            }
           }
         }
-      }
 
-      if (matches != this.directories.length) {
-        this.currentDirectory = []
-        this.errorDirectory = true
-      } else {
-        this.errorDirectory = false
+        if (matches != this.directories.length) {
+          this.currentDirectory = []
+          this.errorDirectory = true
+        } else {
+          this.errorDirectory = false
+        }
       }
-    }
+    })
   }
 
   public getMenuError(): void {
@@ -119,19 +135,30 @@ export class MenuComponent implements OnInit {
   }
 
   public setPath(): void {
-    let path: string = decodeURI(this.router.params.path)
-    this.directories = path.split('/')
+    if (this.setPathSubscription != null) {
+      this.setPathSubscription.unsubscribe()  
+    }
+
+    this.setPathSubscription = this.routeState.queryParamMap.subscribe((params) => {
+      let path: string = params.get('path')
+      if(path != null) {
+        this.directories = path.split('/')
+      } else {
+        this.directories = []
+      }
+    })
   }
 
   public initLocalURLs(): void {
     let programs = JSON.parse(localStorage.getItem('programs'))
+    let isSupervisor = localStorage.getItem('role_name') == 'Supervisor'
     for (let program in programs) {
       for (let mod in programs[program].names) {
         for (let log in programs[program].names[mod]) {
           if (log !== 'suffix') {
-            this.localURLs.push({ name: 'Bitácora ' + program + ' - ' + mod + ' - ' + log, route: '#/log/' + programs[program].names[mod][log].suffix })
-            if (programs[program].names[mod][log].has_inventory) {
-              this.localURLs.push({ name: 'Inventario ' + program + ' - ' + mod + ' - ' + log, route: '#/inventory/' + programs[program].names[mod][log].suffix })
+            this.localURLs.push({ name: 'Bitácora ' + program + ' - ' + mod + ' - ' + log, route: '/log/' + programs[program].names[mod][log].suffix })
+            if (programs[program].names[mod][log].has_inventory && isSupervisor) {
+              this.localURLs.push({ name: 'Inventario ' + program + ' - ' + mod + ' - ' + log, route: '/inventory/' + programs[program].names[mod][log].suffix })
             }
           }
         }
@@ -407,5 +434,14 @@ export class MenuComponent implements OnInit {
     setTimeout(function () {
       $('select').material_select()
     }, 200)
+  }
+
+  public ngOnDestroy(): void {
+    if (this.getMenuSuccessSubscription != null) {
+      this.getMenuSuccessSubscription.unsubscribe()  
+    }
+    if (this.setPathSubscription != null) {
+      this.setPathSubscription.unsubscribe()
+    }
   }
 }

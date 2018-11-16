@@ -27,4 +27,4 @@ mz-card
           td.fullColumn(colspan='7') {{ 'Log.notes' | translate:lang }}: {{report.notes}}
         tr
           td.fullColumn(colspan='7') {{ 'Log.album_url' | translate:lang }}: 
-            a(href="{{report.album_url}}") {{report.album_url}}
+            a(href='{{report.album_url}}', target='_blank', *ngIf="report.album_url != null && report.album_url != undefined && report.album_url != ''") {{report.album_url}}

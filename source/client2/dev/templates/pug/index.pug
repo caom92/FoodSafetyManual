@@ -8,6 +8,9 @@ doctype html
 //- Declaramos que la pagina esta en español
 html(lang='es')
   head
+    //- Requerido por Angular Router
+    base(href='/')
+
     //- Declaramos que la pagina esta codificada con caracteres UTF-8
     meta(charset='UTF-8')
 
@@ -32,9 +35,6 @@ html(lang='es')
     
     //- Declaramos el favicon del sitio
     include favicon.pug
-
-    //- Requerido por Angular
-    base(href='./')
 
     //- El titulo de la pagina del sitio
     title='Food Safety Manual'

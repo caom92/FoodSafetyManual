@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http'
 import { Component, Input, OnChanges, OnInit } from '@angular/core'
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
 import { Language } from 'angular-l10n'
-import { Observable } from 'rxjs'
 
 import { LogService } from '../../../services/app.logs'
 
@@ -41,7 +40,8 @@ export class ManualComponent implements OnInit, OnChanges {
   public loadPDF(): void {
     this.loadingPDF = true
     this.errorPDF = false
-    if (this.manual == String(this.manual)) {
+    this.dataUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.manual)
+    /*if (this.manual == String(this.manual)) {
       this.http.get(this.manual, { responseType: "blob" }).map(response => {
         let reader = new FileReader()
         reader.onload = (event: any) => {
@@ -57,7 +57,7 @@ export class ManualComponent implements OnInit, OnChanges {
         this.loadingPDF = false
         return []
       }).subscribe()
-    }
+    }*/
   }
 
   public onPDFFileSelected(event): void {
@@ -86,6 +86,7 @@ export class ManualComponent implements OnInit, OnChanges {
       this.disableUpload()
       this.loadPDF()
       this.previewUrl = null
+      this.manual = this.manual + Date.now()
     }, error => {
       
     })

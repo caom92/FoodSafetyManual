@@ -4,7 +4,7 @@ import { LanguageService } from '../services/app.language'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { BackendService } from '../services/app.backend'
 import { ToastService } from '../services/app.toast'
-import { StateService } from '@uirouter/angular'
+import { Router } from '@angular/router'
 import { ProgressModalComponent } from './modal.please.wait'
 
 // El componente del modal donde el usuario puede editar los pies de pagina de 
@@ -46,7 +46,7 @@ export class EditFooterModalComponent extends MzBaseModal implements OnInit
     private formBuilder: FormBuilder,
     private server: BackendService,
     private toastManager: ToastService,
-    private router: StateService,
+    private router: Router,
     private modalManager: MzModalService
   ) {
     super() // invocamos el constructor de la clase padre
@@ -103,7 +103,7 @@ export class EditFooterModalComponent extends MzBaseModal implements OnInit
         // si el servidor respondio con exito, refrescamos la pagina para 
         // mostrar los cambios realizados
         if (response.meta.return_code == 0) {
-          this.router.reload()
+          //TODO this.router.reload()
         }
       } // (response: any)
     ) // this.server.update

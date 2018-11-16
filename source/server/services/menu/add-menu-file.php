@@ -47,7 +47,7 @@ $service = [
             'user_id' => $segment->get('user_id'),
             'zone_id' => $segment->get('zone_id'),
             'name' => $request['file_name'],
-            'path' => $file,
+            'path' => basename($file, '.pdf'),
             'upload_date' => date("Y-m-d")
           ]);
         } else {

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { StateService } from '@uirouter/angular'
+import { ActivatedRoute, Router } from '@angular/router'
 import { Language } from 'angular-l10n'
 
 import { LanguageService } from '../../../../services/app.language'
@@ -38,8 +38,9 @@ export class GMPPackingAgedProductAuthorizationComponent extends SuperAuthorizat
     private langManager: LanguageService,
     logService: LogService,
     toasts: ToastsService,
-    router: StateService) {
-    super(_fb, logService, toasts, router)
+    routeState: ActivatedRoute,
+    router: Router) {
+    super(_fb, logService, toasts, routeState, router)
   }
 
   ngOnInit() {

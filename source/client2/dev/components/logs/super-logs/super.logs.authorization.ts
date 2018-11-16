@@ -1,6 +1,6 @@
 import { OnInit } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms'
-import { StateService } from '@uirouter/angular'
+import { ActivatedRoute, Router } from '@angular/router'
 
 import { LogService } from '../../../services/app.logs'
 import { ToastsService } from '../../../services/app.toasts'
@@ -14,7 +14,7 @@ export abstract class SuperAuthorizationComponent implements OnInit {
   private logHeaderData: LogHeaderData = { zone_name: null, program_name: null, module_name: null, date: null, created_by: null }
   private suffix: string = null
 
-  constructor(protected _fb: FormBuilder, protected logService: LogService, protected toastService: ToastsService, private router: StateService) {
+  constructor(protected _fb: FormBuilder, protected logService: LogService, protected toastService: ToastsService, private routeState: ActivatedRoute, private router: Router) {
 
   }
 
@@ -29,26 +29,27 @@ export abstract class SuperAuthorizationComponent implements OnInit {
    */
 
   public ngOnInit(): void {
-    let reportID = this.router.params.report_id 
-
-    this.logService.authorization(this.suffix, reportID).then(success => {
-      this.log = success
-      this.assignHeaderData()
-      this.initForm()
+    this.routeState.paramMap.subscribe((params) => {
+      let reportID = params.get('report_id')
+      this.logService.authorization(this.suffix, Number(reportID)).then(success => {
+        this.log = success
+        this.assignHeaderData()
+        this.initForm()
+        this.showLog = true
+        setTimeout(function () {
+          $('select').material_select()
+        }, 200)
+      }, error => {
+        // Por el momento, no se necesita ninguna acción adicional en caso de
+        // un error durante la recuperación de datos, ya que este caso se maneja
+        // dentro del servicio de bitácoras
+      })
+      /*this.assignHeaderData()
       this.showLog = true
       setTimeout(function () {
         $('select').material_select()
-      }, 200)
-    }, error => {
-      // Por el momento, no se necesita ninguna acción adicional en caso de
-      // un error durante la recuperación de datos, ya que este caso se maneja
-      // dentro del servicio de bitácoras
+      }, 200)*/
     })
-    /*this.assignHeaderData()
-    this.showLog = true
-    setTimeout(function () {
-      $('select').material_select()
-    }, 200)*/
   }
 
   /**
@@ -135,7 +136,7 @@ export abstract class SuperAuthorizationComponent implements OnInit {
 
   public authorize(): void {
     this.logService.approve(Number(this.log.report_id)).then(success => {
-      this.router.go('pending-authorizations-list')
+      this.router.navigate(['/pending-authorizations-list'])
     }, error => {
       console.log(error)
     })
@@ -143,14 +144,14 @@ export abstract class SuperAuthorizationComponent implements OnInit {
 
   public delete(): void {
     this.logService.reject(Number(this.log.report_id)).then(success => {
-      this.router.go('pending-authorizations-list')
+      this.router.navigate(['/pending-authorizations-list'])
     }, error => {
       console.log(error)
     })
   }
 
   public back(): void {
-    this.router.go('pending-authorizations-list')
+    this.router.navigate(['/pending-authorizations-list'])
   }
 
   public resolveString(input: string | number): string {

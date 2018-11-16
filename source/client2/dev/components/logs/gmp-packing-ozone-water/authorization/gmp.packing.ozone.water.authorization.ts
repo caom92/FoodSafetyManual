@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
-import { StateService } from '@uirouter/angular'
+import { ActivatedRoute, Router } from '@angular/router'
 import { Language } from 'angular-l10n'
 
 import { LogService } from '../../../../services/app.logs'
@@ -22,8 +22,8 @@ export class GMPPackingOzoneWaterAuthorizationComponent extends SuperAuthorizati
 
   readonly maxLengths = maxLengths
 
-  constructor(_fb: FormBuilder, toastService: ToastsService, logService: LogService, router: StateService) {
-    super(_fb, logService, toastService, router)
+  constructor(_fb: FormBuilder, toastService: ToastsService, logService: LogService, routeState: ActivatedRoute, router: Router) {
+    super(_fb, logService, toastService, routeState, router)
   }
 
   public ngOnInit(): void {
