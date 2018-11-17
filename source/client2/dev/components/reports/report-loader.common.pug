@@ -4,7 +4,7 @@ mixin simpleButton(icon, color, condition, func)
       i(mz-icon-mdi='mz-icon-mdi', [icon]="'" + icon + "'", [size]="'24px'")
 
 mixin dateSection(totalButtons)
-  .col('[ngClass]'="{ 's10 m11 l11': showReport === false, 's" + (12 - totalButtons * 2) + " m" + (12 - totalButtons) + " l" + (12 - totalButtons) + "': showReport === true }")
+  .col('[ngClass]'="{ 's10 m11 l11': showReport === false, 's" + (12 - totalButtons * 2) + " m" + (12 - totalButtons) + " l" + (12 - totalButtons) + "': showReport === true && isDirector === false, 's" + (10 - totalButtons * 2) + " m" + (11 - totalButtons) + " l" + (11 - totalButtons) + "': showReport === true && isDirector === true }")
     .row.no-margin-bottom
       .overflow-limit('[ngClass]'="{ 'col s12 m12 l12': showReport && preview == null, 'col s12 m6 l6': !showReport && preview != null }", style='font-weight: bold;', *ngIf='report.display_date != null && report.display_date != undefined')
         | {{report.creation_date | l10nDate:defaultLocale:monthOptions | slice:0:3 | titlecase}} {{report.creation_date | l10nDate:defaultLocale:dayOptions}}, {{report.creation_date | l10nDate:defaultLocale:yearOptions}} | {{report.display_date}}
@@ -21,6 +21,7 @@ div([hidden]="!(activeReport.id == 'any' || activeReport.id == report.report_id)
           +dateSection(2)
         block buttonSection
           //-+simpleButton('email', '#4CAF50', 'hasEmail === true && showReport === true', null)
+          +simpleButton('clipboard-arrow-left', '#4E42F4', 'isDirector && showReport', 'setReportToPending()')
           .col.s2.m1.l1(*ngIf="showReport === true")
             div([hidden]='!showReport')
               form(method='POST', target='_blank', action='http://localhost/espresso/source/server/report/reportPDF.php', ngNoForm)

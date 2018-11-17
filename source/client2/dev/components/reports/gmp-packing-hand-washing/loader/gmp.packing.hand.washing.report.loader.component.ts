@@ -1,6 +1,7 @@
 import { Component } from '@angular/core'
 import { TranslationService as TService } from 'angular-l10n'
 
+import { LogService } from '../../../../services/app.logs'
 import { SuperReportLoader } from '../../super-report/super.report.loader'
 
 @Component({
@@ -9,7 +10,7 @@ import { SuperReportLoader } from '../../super-report/super.report.loader'
 })
 
 export class GMPPackingHandWashingReportLoaderComponent extends SuperReportLoader {
-  constructor(ts: TService) {
-    super(ts)
+  constructor(ts: TService, logService: LogService) {
+    super(ts, logService)
   }
 }

@@ -216,6 +216,27 @@ class CapturedLogs extends db\InsertableTable
   }
 
   // Modifica los renglones que tengan registrado el ID de bitacora
+  // especificado para regresar el valor de su campo de estado a 'en espera'
+  // [in]   logID (uint): el ID de la bitacora cuyos renglones van a ser 
+  //        modificados
+  // [out]  return (uint): el numero de renglones que fueron modificados
+  function updateStatusToWaitingByID($logID) {
+    return parent::$dataBase->query(
+      "UPDATE 
+        $this->table 
+        SET 
+          supervisor_id = NULL,
+          approval_date = NULL,
+          status_id = (
+            SELECT id FROM log_status WHERE name = ".
+            parent::$dataBase->quote('Waiting')."
+          )
+        WHERE 
+          id = $logID"
+    );
+  }
+
+  // Modifica los renglones que tengan registrado el ID de bitacora
   // especificado para asignar el valor de su columna de estado a 'rechazado'
   // [in]   logID (uint): el ID de la bitacora cuyos renglones van a ser 
   //        modificados

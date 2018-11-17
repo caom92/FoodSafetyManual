@@ -1,6 +1,7 @@
 import { Input, OnInit, ViewChild } from '@angular/core'
 import { DefaultLocale, Language, TranslationService as TService } from 'angular-l10n'
 
+import { LogService } from '../../../services/app.logs'
 import { Preview } from '../report-common/report-preview/report-preview.interface'
 import { ActiveReport, ReportRequest } from '../reports.interface'
 import { SuperReportComponent } from './super.report'
@@ -24,21 +25,13 @@ export class SuperReportLoader implements OnInit {
   readonly dayOptions = { day: 'numeric' }
   readonly monthOptions = { month: 'short' }
   readonly yearOptions = { year: '2-digit' }
+  readonly isDirector = localStorage.getItem('role_name') === 'Director'
 
-  constructor(private ts: TService) {
+  constructor(private ts: TService, private logService: LogService) {
 
   }
 
   public ngOnInit(): void {
-    //console.log('report', this.report)
-    //console.log('this', this)
-    //console.log('reportComponent', this.reportComponent)
-    //console.log('reportComponent.getPDFContent()', this.reportComponent.getPDFContent())
-    //console.log(this.report)
-    //console.log(this.reportComponent)
-    //console.log(this.reportComponent.getPreview())
-    console.log('super report loader report', this.report)
-    console.log('super report loader get preview', this.reportComponent.report)
     this.preview = this.getPreview()
   }
 
@@ -64,6 +57,14 @@ export class SuperReportLoader implements OnInit {
     }
 
     return this.reportRequest
+  }
+
+  public setReportToPending(): void {
+    this.logService.retreat(Number(this.report.report_id)).then(success => {
+      console.log('retreated')
+    }, error => {
+      console.log(error)
+    })
   }
 
   public openHTMLReport(): void {

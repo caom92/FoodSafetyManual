@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core'
 import { TranslationService as TService } from 'angular-l10n'
 
+import { LogService } from '../../../../services/app.logs'
 import { Preview } from '../../report-common/report-preview/report-preview.interface'
 import { SuperReportLoader } from '../../super-report/super.report.loader'
 import { Report } from '../interfaces/gmp.doc.control.doc.control.report.interface'
@@ -13,8 +14,8 @@ import { Report } from '../interfaces/gmp.doc.control.doc.control.report.interfa
 export class GMPDocControlDocControlReportLoaderComponent extends SuperReportLoader {
   @Input() report: Report
 
-  constructor(ts: TService) {
-    super(ts)
+  constructor(ts: TService, logService: LogService) {
+    super(ts, logService)
   }
 
   public getPreview(): Array<Preview> {

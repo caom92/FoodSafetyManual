@@ -23,7 +23,9 @@ $authorizations = [
     'list-unapproved-logs-of-user' =>
       realpath(dirname(__FILE__).'/list-unapproved-logs-of-user.php'),
     'reject-log' =>
-      realpath(dirname(__FILE__).'/reject-log.php')
+      realpath(dirname(__FILE__).'/reject-log.php'),
+    'retreat-log' =>
+      realpath(dirname(__FILE__).'/retreat-log.php')
   ]
 ];
 

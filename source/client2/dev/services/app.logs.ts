@@ -230,6 +230,55 @@ export class LogService {
     return approvePromise
   }
 
+  public retreat(logID: number): Promise<any> {
+    let retreatPromise = new Promise<any>((resolve, reject) => {
+      let alert = this.alertCtrl.create({
+        title: 'Retroceder bitácora',
+        message: '¿Está seguro que desea regresar bitácora para ser revisada nuevamente por un supervisor? Esta acción no se puede deshacer',
+        buttons: [
+          {
+            text: this.ts.translate('Options.cancel'),
+            handler: () => {
+              // TODO: Toast de acción cancelada por el usuario
+              reject('user_cancel')
+            }
+          },
+          {
+            text: this.ts.translate('Options.accept'),
+            handler: () => {
+              let retreatLoader = this.loaderService.koiLoader('Retrocediendo bitácora...')
+              let retreatForm = new FormData()
+
+              retreatForm.append('captured_log_id', logID.toString())
+
+              this.server.update(
+                'retreat-log',
+                retreatForm,
+                (response: any) => {
+                  if (response.meta.return_code == 0) {
+                    resolve(response.data)
+                    retreatLoader.dismiss()
+                  } else {
+                    reject('bad request')
+                    retreatLoader.dismiss()
+                    this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
+                  }
+                }, (error: any, caught: Observable<void>) => {
+                  reject('network error')
+                  retreatLoader.dismiss()
+                  this.toastService.showText('serverUnreachable')
+                  return []
+                }
+              )
+            }
+          }
+        ]
+      })
+    })
+
+    return retreatPromise
+  }
+
   public reject(logID: number): Promise<any> {
     let rejectPromise = new Promise<any>((resolve, reject) => {
       let alert = this.alertCtrl.create({

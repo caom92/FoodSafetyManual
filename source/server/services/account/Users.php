@@ -277,6 +277,20 @@ class Users extends db\ToggableItemsTable
       ]
     );
   }
+
+  function isUserEmployee($userID) {
+    return parent::has(['AND' => [
+      'id' => $userID,
+      'role_id' => 5
+    ]]);
+  }
+
+  function isUserActive($userID) {
+    return parent::has(['AND' => [
+      'id' => $userID,
+      'is_active' => 1
+    ]]);
+  }
 }
 
 ?>
