@@ -1,4 +1,4 @@
-import { Input, OnInit, ViewChild } from '@angular/core'
+import { Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core'
 import { DefaultLocale, Language, TranslationService as TService } from 'angular-l10n'
 
 import { LogService } from '../../../services/app.logs'
@@ -15,6 +15,8 @@ export class SuperReportLoader implements OnInit {
   @Input() private activeReport: ActiveReport
   @Input() private suffix: string
   @Input() private footer: string
+
+  @Output() removed = new EventEmitter<number>()
 
   @ViewChild('reportContainer') public reportComponent: SuperReportComponent
 
@@ -61,7 +63,7 @@ export class SuperReportLoader implements OnInit {
 
   public setReportToPending(): void {
     this.logService.retreat(Number(this.report.report_id)).then(success => {
-      console.log('retreated')
+      this.removed.emit(Number(this.report.report_id))
     }, error => {
       console.log(error)
     })

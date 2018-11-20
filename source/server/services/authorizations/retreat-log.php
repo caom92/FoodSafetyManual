@@ -24,8 +24,8 @@ $service = [
     // notify the user
     if (!$isUserEmployee) {
       throw new \Exception(
-        'This log can not be changed to waiting status; the user'.
-        'that captured the log is no longer an employee.',
+        'This log can not be changed to waiting status; the user '.
+        'who captured the log is no longer an employee.',
         1
       );
     }
@@ -36,8 +36,8 @@ $service = [
 
     if (!$isEmployeeActive) {
       throw new \Exception(
-        'This log can not be changed to waiting status; the user'.
-        'that captured the log is no longer active.',
+        'This log can not be changed to waiting status; the user '.
+        'who captured the log is no longer active.',
         2
       );
     }

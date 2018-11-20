@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Language } from 'angular-l10n'
 
+import { CustomValidators } from '../../../../directives/custom.validators'
 import { LogService } from '../../../../services/app.logs'
 import { ToastsService } from '../../../../services/app.toasts'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
@@ -32,6 +33,7 @@ export class GMPPackingPreopAuthorizationComponent extends SuperAuthorizationCom
   initForm() {
     this.captureForm = this._fb.group({
       report_id: [this.log.report_id, [Validators.required]],
+      date: [this.log.creation_date, [Validators.required, CustomValidators.dateValidator()]],
       notes: [this.log.notes, [Validators.maxLength(65535)]],
       album_url: [this.log.album_url, [Validators.maxLength(65535)]],
       areas: this._fb.array([])

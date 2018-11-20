@@ -3,13 +3,13 @@ import { FormArray, FormBuilder, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Language } from 'angular-l10n'
 
+import { CustomValidators } from '../../../../directives/custom.validators'
 import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationService } from '../../../../services/app.translation'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization, AuthorizationItem } from '../interfaces/gmp.self.inspection.pest.control.authorization.interface'
-import { CustomValidators } from '../../../../directives/custom.validators'
 
 @Component({
   selector: 'gmp-self-inspection-pest-control-authorization',

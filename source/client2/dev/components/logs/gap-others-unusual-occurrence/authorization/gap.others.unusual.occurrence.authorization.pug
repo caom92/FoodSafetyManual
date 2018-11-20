@@ -1,9 +1,8 @@
 extends ../log/gap.others.unusual.occurrence.log.pug
 
-block header
+prepend header
   h4 {{log.log_name}}
   .divider
-  log-header([log]="logHeaderData")
 
 block buttonRow
   +authorizationButtonRow("Send", "Authorize", "Delete", "Return")

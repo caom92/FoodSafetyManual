@@ -1,15 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { FormArray, FormBuilder, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Language } from 'angular-l10n'
 
+import { CustomValidators } from '../../../../directives/custom.validators'
 import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
 import { ToastsService } from '../../../../services/app.toasts'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization } from '../interfaces/gmp.packing.thermo.calibration.authorization.interface'
 import { UpdateItem } from '../interfaces/gmp.packing.thermo.calibration.update.interface'
-import { CustomValidators } from '../../../../directives/custom.validators'
 
 @Component({
   selector: 'gmp-packing-thermo-calibration-authorization',
@@ -38,6 +38,7 @@ export class GMPPackingThermoCalibrationAuthorizationComponent extends SuperAuth
   initForm() {
     this.captureForm = this._fb.group({
       report_id: [this.log.report_id, [Validators.required]],
+      date: [this.log.creation_date, [Validators.required, CustomValidators.dateValidator()]],
       time: [this.log.time, [Validators.required, CustomValidators.timeValidator()]],
       items: this._fb.array([])
     })

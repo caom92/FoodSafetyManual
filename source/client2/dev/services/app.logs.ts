@@ -257,12 +257,11 @@ export class LogService {
                 (response: any) => {
                   if (response.meta.return_code == 0) {
                     resolve(response.data)
-                    retreatLoader.dismiss()
                   } else {
                     reject('bad request')
-                    retreatLoader.dismiss()
                     this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
                   }
+                  retreatLoader.dismiss()
                 }, (error: any, caught: Observable<void>) => {
                   reject('network error')
                   retreatLoader.dismiss()

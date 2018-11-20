@@ -545,6 +545,10 @@ function createUpdateService($program, $module, $log, $requirements, $strategy,
       'report_id' => [
         'type' => 'int',
         'min' => 1
+      ],
+      'date' => [
+        'type' => 'datetime',
+        'format' => 'Y-m-d'
       ]
     ] + $requirements,
     'callback' => (!$useCustom) ? 
@@ -557,23 +561,23 @@ function createUpdateService($program, $module, $log, $requirements, $strategy,
             'Requested report cannot be edited; it was already approved', 
             9
           );
-        } 
+        }
 
         // update the extra info of the log if there is any
-        $hasExtraInfo = isset($strategy['extra_info'][0]);
-        if ($hasExtraInfo) {
-          $data = [
-            'extra_info1' => $request[$strategy['extra_info'][0]]
-          ];
-
-          if (isset($strategy['extra_info'][1])) {
-            $data['extra_info2'] = $request[$strategy['extra_info'][1]];
-          }
-
-          $scope->daoFactory->get('CapturedLogs')->updateByID(
-            $data, $request['report_id']
-          );
+        if (isset($strategy['extra_info'][0])) {
+          $data['extra_info1'] = $request[$strategy['extra_info'][0]];
         }
+
+        if (isset($strategy['extra_info'][1])) {
+          $data['extra_info2'] = $request[$strategy['extra_info'][1]];
+        }
+
+        // update de capture_date
+        $data['capture_date'] = $request['date'];
+
+        $scope->daoFactory->get('CapturedLogs')->updateByID(
+          $data, $request['report_id']
+        );
 
         // then update the other tables
         return $strategy['function']($scope, $request);

@@ -59,9 +59,13 @@ export class SuperReportViewer implements OnInit {
     return requestForm
   }
 
-  public requestReports(): void {
-    console.log(this.dateRangeForm.value)
+  public onRemoved(id: number) {
+    let removeID = this.reports.findIndex((x => x.report_id == id))
+    this.reports.splice(removeID, 1)
+    this.activeReport.id = 'any'
+}
 
+  public requestReports(): void {
     const requestForm = this.fillRequestForm()
 
     const reportLoader = this.loaderService.koiLoader('Recuperando reportes')

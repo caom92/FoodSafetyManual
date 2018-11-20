@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { FormArray, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Language } from 'angular-l10n'
 
+import { CustomValidators } from '../../../../directives/custom.validators'
 import { LogService } from '../../../../services/app.logs'
 import { ToastsService } from '../../../../services/app.toasts'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
@@ -35,6 +36,7 @@ export class GMPPackingOzoneWaterAuthorizationComponent extends SuperAuthorizati
   public initForm(): void {
     this.captureForm = this._fb.group({
       report_id: [this.log.report_id, [Validators.required]],
+      date: [this.log.creation_date, [Validators.required, CustomValidators.dateValidator()]],
       items: this._fb.array([])
     })
     const control = <FormArray>this.captureForm.controls['items']

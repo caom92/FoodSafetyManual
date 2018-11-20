@@ -1,4 +1,4 @@
 extends ../../report-viewer.common.pug
 
 block loader
-  gmp-others-unusual-occurrence-report-loader(#reports, *ngFor='let report of reports', [report]='report', [activeReport]='activeReport', [suffix]='suffix', [footer]='footer')
+  gmp-others-unusual-occurrence-report-loader(#reports, *ngFor='let report of reports', [report]='report', [activeReport]='activeReport', [suffix]='suffix', [footer]='footer', (removed)='onRemoved($event)')

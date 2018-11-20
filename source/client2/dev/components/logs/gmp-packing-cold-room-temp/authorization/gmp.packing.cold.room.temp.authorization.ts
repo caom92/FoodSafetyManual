@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Language } from 'angular-l10n'
 
+import { CustomValidators } from '../../../../directives/custom.validators'
 import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
 import { ToastsService } from '../../../../services/app.toasts'
@@ -33,6 +34,7 @@ export class GMPPackingColdRoomTempAuthorizationComponent extends SuperAuthoriza
   initForm() {
     this.captureForm = this._fb.group({
       report_id: [this.log.report_id, [Validators.required]],
+      date: [this.log.creation_date, [Validators.required, CustomValidators.dateValidator()]],
       time: [this.log.time, [Validators.required, Validators.minLength(1)]],
       items: this._fb.array([])
     })
