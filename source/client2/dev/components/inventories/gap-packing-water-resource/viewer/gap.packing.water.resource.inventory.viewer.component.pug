@@ -1,0 +1,8 @@
+extends ../../inventory-viewer.common.pug
+
+block inventory
+  mz-tab([fixedTabWidth]="'true'")
+    mz-tab-item([label]="'Manage Inventory'")
+      gap-packing-water-resource-inventory
+    mz-tab-item([label]="'Manage Areas'")
+      gap-packing-water-resource-area-inventory

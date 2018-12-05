@@ -192,12 +192,12 @@ export class InventoryService {
    * 
    * @param {Array<{id: number, position: number}>} data - El arreglo de 
    * objetos con ID y posición de la lista de elementos a reordenar
-   * @param {string} service - Nombre del servicio de reordenamiento
+   * @param {string} suffix - Nombre del servicio de reordenamiento
    * @returns {Promise<any>} 
    * @memberof InventoryService
    */
 
-  public reorderInventory(data: Array<{ id: number, position: number }>, service: string): Promise<any> {
+  public reorderInventory(data: Array<{ id: number, position: number }>, suffix: string): Promise<any> {
     let reorderPromise = new Promise<any>((resolve, reject) => {
       let loaderReorder = this.loaderService.koiLoader('')
       let reorderForm = new FormData()
@@ -209,7 +209,7 @@ export class InventoryService {
       }
 
       this.server.update(
-        service,
+        'reorder-' + suffix,
         reorderForm,
         (response: any) => {
           if (response.meta.return_code == 0) {

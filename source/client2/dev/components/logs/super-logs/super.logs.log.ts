@@ -10,7 +10,7 @@ export abstract class SuperLogComponent implements OnInit {
   protected log: SuperLog
   public logHeaderData: LogHeaderData = { zone_name: null, program_name: null, module_name: null, date: null, created_by: null }
   public captureForm: FormGroup = new FormBuilder().group({})
-  private suffix: string = null
+  protected suffix: string = null
   public showLog: boolean = false
 
   constructor(protected logService: LogService, protected toasts: ToastsService) {
@@ -26,21 +26,34 @@ export abstract class SuperLogComponent implements OnInit {
    */
 
   public ngOnInit(): void {
-    this.logService.log(this.suffix).then(success => {
-      this.log = success
+    if (this.log == null) {
+      this.logService.log(this.suffix).then(success => {
+        this.log = success
+        this.logHeaderData.zone_name = this.log.zone_name
+        this.logHeaderData.program_name = this.log.program_name
+        this.logHeaderData.module_name = this.log.module_name
+        this.initForm()
+        this.showLog = true
+        setTimeout(function () {
+          $('select').material_select()
+        }, 200)
+      }, error => {
+        // Por el momento, no se necesita ninguna acción adicional en caso de
+        // un error durante la recuperación de datos, ya que este caso se maneja
+        // dentro del servicio de bitácoras
+      }) 
+    } else {
+      // TODO En este caso, los datos de la bitácora son recibidos como
+      // un input del elemento HTML
+      this.showLog = true
       this.logHeaderData.zone_name = this.log.zone_name
       this.logHeaderData.program_name = this.log.program_name
       this.logHeaderData.module_name = this.log.module_name
       this.initForm()
-      this.showLog = true
       setTimeout(function () {
         $('select').material_select()
       }, 200)
-    }, error => {
-      // Por el momento, no se necesita ninguna acción adicional en caso de
-      // un error durante la recuperación de datos, ya que este caso se maneja
-      // dentro del servicio de bitácoras
-    })
+    }
   }
 
   public setSuffix(suffix: string): void {

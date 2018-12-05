@@ -170,7 +170,7 @@ function createLogService($program, $module, $log, $strategy,
 // [out]  return (dictionary): arreglo asociativo que contiene la descripcion
 //        del servicio
 function createCaptureService($program, $module, $log, 
-  $requirements, $strategy, $useCustom = FALSE) {
+  $requirements, $strategy, $useCustom = FALSE, $partialCapturing = FALSE) {
   return [
     'requirements_desc' => [
       'logged_in' => ['Employee'],
@@ -186,7 +186,7 @@ function createCaptureService($program, $module, $log,
       ]
     ] + $requirements,
     'callback' => (!$useCustom) ?
-      function($scope, $request) use ($program, $module, $log, $strategy) {
+      function($scope, $request) use ($program, $module, $log, $strategy, $partialCapturing) {
         // get the session segment
         $segment = $scope->session->getSegment('fsm');
 
@@ -197,6 +197,7 @@ function createCaptureService($program, $module, $log,
 
         // insert the capture date and the ID of the reportee user
         $logID = $scope->daoFactory->get('CapturedLogs')->insert([
+          'status_id' => ($partialCapturing) ? 4 : 1,
           'employee_id' => $segment->get('user_id'),
           'log_id' => $logID,
           'capture_date' => $request['date'],
@@ -535,9 +536,9 @@ function createUpdateService($program, $module, $log, $requirements, $strategy,
   $useCustom = FALSE) {
   return [
     'requirements_desc' => [
-      'logged_in' => ['Supervisor'],
+      'logged_in' => ['Supervisor', 'Employee'],
       'has_privileges' => [
-        'privilege' => 'Read',
+        'privilege' => ['Read', 'Write'],
         'program' => $program,
         'module' => $module,
         'log' => $log
@@ -553,6 +554,7 @@ function createUpdateService($program, $module, $log, $requirements, $strategy,
     ] + $requirements,
     'callback' => (!$useCustom) ? 
       function($scope, $request) use ($strategy) {
+        $roleName = $scope->session->getSegment('fsm')->get('role_name');
         $statusName = $scope->daoFactory->
           get('CapturedLogs')->getStatusName($request['report_id']);
         
@@ -563,24 +565,43 @@ function createUpdateService($program, $module, $log, $requirements, $strategy,
           );
         }
 
-        // update the extra info of the log if there is any
-        if (isset($strategy['extra_info'][0])) {
-          $data['extra_info1'] = $request[$strategy['extra_info'][0]];
+        if (($statusName == 'Capturing' && $roleName == 'Employee') || ($statusName == 'Waiting' && $roleName == 'Supervisor')) {
+          // update the extra info of the log if there is any
+          if (isset($strategy['extra_info'][0])) {
+            $data['extra_info1'] = $request[$strategy['extra_info'][0]];
+          }
+
+          if (isset($strategy['extra_info'][1])) {
+            $data['extra_info2'] = $request[$strategy['extra_info'][1]];
+          }
+
+          // update the capture_date
+          $data['capture_date'] = $request['date'];
+
+          $scope->daoFactory->get('CapturedLogs')->updateByID(
+            $data, $request['report_id']
+          );
+
+          // then update the other tables
+          return $strategy['function']($scope, $request);
+        } else {
+          if ($roleName == 'Employee') {
+            throw new \Exception(
+              'Requested report cannot be edited; it is already being reviewed by a Supervisor',
+              10
+            );
+          } else if ($roleName == 'Supervisor') {
+            throw new \Exception(
+              'Requested report cannot be edited; it is still being captured by an Employee', 
+              11
+            );
+          } else {
+            throw new \Exception(
+              'Requested report cannot be edited; user does not have the proper role',
+              12
+            );
+          }
         }
-
-        if (isset($strategy['extra_info'][1])) {
-          $data['extra_info2'] = $request[$strategy['extra_info'][1]];
-        }
-
-        // update de capture_date
-        $data['capture_date'] = $request['date'];
-
-        $scope->daoFactory->get('CapturedLogs')->updateByID(
-          $data, $request['report_id']
-        );
-
-        // then update the other tables
-        return $strategy['function']($scope, $request);
       }
       : $strategy
   ];
@@ -605,9 +626,9 @@ function createAuthorizationReportService($program, $module, $log, $strategy,
   $useCustom = FALSE) {
   return [
     'requirements_desc' => [
-      'logged_in' => ['Supervisor'],
+      'logged_in' => ['Supervisor', 'Employee'],
       'has_privileges' => [
-        'privilege' => 'Read',
+        'privilege' => ['Read', 'Write'],
         'program' => $program,
         'module' => $module,
         'log' => $log
@@ -689,6 +710,30 @@ function createAuthorizationReportService($program, $module, $log, $strategy,
         // finally return the list of reports
         return $reportInfo;
       } : $strategy
+  ];
+}
+
+function createLogListService($program, $module, $log/*, $strategy*/) {
+  return [
+    'requirements_desc' => [
+      'logged_in' => ['Employee'],
+      'has_privileges' => [
+        'privilege' => ['Read', 'Write'],
+        'program' => $program,
+        'module' => $module,
+        'log' => $log
+      ]
+    ],
+    //'callback' => function($scope, $request) use ($strategy, $program, $module, $log) {
+    'callback' => function($scope, $request) use ($program, $module, $log) {
+      $segment = $scope->session->getSegment('fsm');
+      $userID = $segment->get('user_id');
+      $zoneID = $scope->daoFactory->get('Users')->getZoneIDByID($userID);
+      $logID = $scope->daoFactory->get('Logs')->getIDByNames($program, $module, $log);
+      $logList = $scope->daoFactory->get('CapturedLogs')->selectCapturingLogsByLogIDAndZoneID($logID, $zoneID);
+
+      return $logList;
+    }
   ];
 }
 

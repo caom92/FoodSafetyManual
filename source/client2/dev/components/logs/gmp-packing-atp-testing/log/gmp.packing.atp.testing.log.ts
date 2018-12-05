@@ -17,7 +17,7 @@ import { Log } from '../interfaces/gmp.packing.atp.testing.log.interface'
 })
 
 export class GMPPackingATPTestingLogComponent extends SuperLogComponent implements OnInit {
-  @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null }
+  @Input() log: Log = null//{ zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null }
   @Language() lang: string
 
   constructor(private _fb: FormBuilder,
@@ -32,7 +32,6 @@ export class GMPPackingATPTestingLogComponent extends SuperLogComponent implemen
   public ngOnInit(): void {
     this.setSuffix('gmp-packing-atp-testing')
     super.ngOnInit()
-    this.initForm()
   }
 
   public initForm(): void {

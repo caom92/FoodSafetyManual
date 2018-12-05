@@ -18,7 +18,7 @@ import { Log } from '../interfaces/gmp.packing.thermo.calibration.log.interface'
 })
 
 export class GMPPackingThermoCalibrationLogComponent extends SuperLogComponent implements OnInit {
-  @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, items: [{ id: null, name: null, position: null }] }
+  @Input() log: Log = null//{ zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, items: [{ id: null, name: null, position: null }] }
   @Language() lang: string
 
   readonly maxLengths = {
@@ -38,7 +38,6 @@ export class GMPPackingThermoCalibrationLogComponent extends SuperLogComponent i
   ngOnInit() {
     this.setSuffix('gmp-packing-thermo-calibration')
     super.ngOnInit()
-    this.initForm()
   }
 
   initForm() {

@@ -16,7 +16,7 @@ import { Log } from '../interfaces/gmp.packing.preop.log.interface'
 })
 
 export class GMPPackingPreopLogComponent extends SuperLogComponent implements OnInit {
-  @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, areas: { corrective_actions: [{ id: null, code: null, en: null, es: null }], logs: [{ id: null, name: null, types: [{ id: null, en: null, es: null, items: [{ id: null, name: null, order: null }] }] }] } }
+  @Input() log: Log = null//{ zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, areas: { corrective_actions: [{ id: null, code: null, en: null, es: null }], logs: [{ id: null, name: null, types: [{ id: null, en: null, es: null, items: [{ id: null, name: null, order: null }] }] }] } }
   @Language() lang: string
 
   constructor(private _fb: FormBuilder,
@@ -29,7 +29,6 @@ export class GMPPackingPreopLogComponent extends SuperLogComponent implements On
   ngOnInit() {
     this.setSuffix('gmp-packing-preop')
     super.ngOnInit()
-    this.initForm()
   }
 
   initForm() {

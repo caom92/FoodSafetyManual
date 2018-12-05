@@ -131,6 +131,7 @@ class ServiceProvider
             $response = $response->withHeader(
               'Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS'
             );
+            $response = $response->withHeader('Access-Control-Allow-Credentials', 'true');
             
             // revisamos si el usuario necesita usar credenciales de 
             // identificacion de sesion junto con la comunicacion CORS 
@@ -171,6 +172,10 @@ class ServiceProvider
               $response = $response->withHeader(
                 'Access-Control-Allow-Origin', 
                 '*'
+              );
+              $response = $response->withHeader(
+                'Access-Control-Allow-Credentials', 
+                'true'
               );
             }
           }

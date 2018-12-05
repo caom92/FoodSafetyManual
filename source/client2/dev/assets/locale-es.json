@@ -45,6 +45,7 @@
         "id":"ID",
         "order":"Orden",
         "name":"Nombre",
+        "status": "Estado",
         "type":"Tipo",
         "quantity":"Cantidad"
     },
@@ -82,6 +83,7 @@
     },
     "Log": {
         "time": "Hora",
+        "date": "Fecha",
         "complementary_information": "Información Complementaria del Reporte",
         "notes": "Notas",
         "notes_of": "Notas de",
@@ -92,6 +94,7 @@
         "sanitization_person": "Persona a cargo de la sanitización",
         "sanitization_person_of": "Persona a cargo de la sanitización de",
         "album_url": "URL Externa",
+        "compliance": "Cumplimiento",
         "secured": "Asegurado",
         "conditions": "Condiciones",
         "activity": "Actividad",

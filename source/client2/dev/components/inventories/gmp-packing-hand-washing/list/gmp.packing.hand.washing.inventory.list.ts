@@ -26,18 +26,15 @@ export class GMPPackingHandWashingInventoryListComponent extends SuperInventoryL
   public ngOnInit(): void {
     this.setSuffix('gmp-packing-hand-washing')
     this.setBagName(this.suffix + '-bag')
-    this.setInventory(this.items)
     super.ngOnInit()
   }
 
   public onItemAdd(item: any): void {
-    item.item.position = this.currentInventory.length + 1
-    this.currentInventory.push(item.item)
-    this.originalInventory.push(item.item)
+    item.item.position = this.getCurrentInventory().length + 1
+    this.getCurrentInventory().push(item.item)
   }
 
-  public ngOnChanges(): void {
-    this.setInventory(this.items)
-    this.setOriginalInventory(this.items)
+  public getCurrentInventory(): Array<InventoryItem> {
+    return this.items
   }
 }

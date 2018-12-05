@@ -18,7 +18,7 @@ import { Authorization } from '../interfaces/gap.others.unusual.occurrence.autho
 })
 
 export class GAPOthersUnusualOccurrenceAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
-  @Input() log: Authorization = { report_id: null, created_by: null, approved_by: null, creation_date: null, approval_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, items: { shifts: [{ shift_id: null, name: null }], entry: { incident_date: null, time: null, shift: null, shift_id: null, area: null, product_name: null, batch: null, description: null, corrective_action: null, album_url: null } } }
+  @Input() log: Authorization = { report_id: null, created_by: null, creation_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, items: { shifts: [{ shift_id: null, name: null }], entry: { incident_date: null, time: null, shift: null, shift_id: null, area: null, product_name: null, batch: null, description: null, corrective_action: null, album_url: null } } }
   @Language() lang: string
 
   readonly maxLengths = {

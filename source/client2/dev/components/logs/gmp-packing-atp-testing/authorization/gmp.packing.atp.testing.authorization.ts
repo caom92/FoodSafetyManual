@@ -18,7 +18,7 @@ import { CustomValidators } from '../../../../directives/custom.validators'
 })
 
 export class GMPPackingATPTestingAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
-  @Input() log: Authorization = { report_id: null, created_by: null, approved_by: null, creation_date: null, approval_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, notes: null, entries: [{ name: null, time: null, items: [{ id: null, test_number: null, test1: null, results1: null, corrective_action: null, test2: null, results2: null }] }] }
+  @Input() log: Authorization = { report_id: null, created_by: null, creation_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, notes: null, entries: [{ name: null, time: null, items: [{ id: null, test_number: null, test1: null, results1: null, corrective_action: null, test2: null, results2: null }] }] }
   @Language() lang: string
 
   constructor(_fb: FormBuilder,
@@ -80,7 +80,7 @@ export class GMPPackingATPTestingAuthorizationComponent extends SuperAuthorizati
     })
   }
 
-// TODO: Realizar una implementación para pruebas individuales
+  // TODO: Realizar una implementación para pruebas individuales
   public cleanForm(): void {
     for (let a in (<FormGroup>this.captureForm.controls.areas).controls) {
       const area = (<FormGroup>(<FormGroup>this.captureForm.controls.areas).controls[a])

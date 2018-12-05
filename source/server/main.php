@@ -109,7 +109,7 @@ $controller = new ServiceProvider(
       $atp, $calibration, $finishedProduct, $glass, $handWash, $preop, 
       $scissors, $thermometers, $gmpOthersUnusualOccurrences, 
       $gapOthersUnusualOccurrences, $selfInspection, $footers, $gapPreop, 
-      $docControl, $coldRoomTemp, $agedProduct, $ozoneWater, $menu) {
+      $docControl, $coldRoomTemp, $agedProduct, $ozoneWater, $waterResource, $menu) {
       return new db\TableFactory(
         'fsm\database\\',
         $zone['tables'] +
@@ -135,6 +135,7 @@ $controller = new ServiceProvider(
         $coldRoomTemp['tables'] +
         $agedProduct['tables'] +
         $ozoneWater['tables'] +
+        $waterResource['tables'] +
         $menu['tables'] +
         [
           'Shifts' =>
@@ -172,6 +173,7 @@ $controller = new ServiceProvider(
       $coldRoomTemp['services'] +
       $agedProduct['services'] +
       $ozoneWater['services'] +
+      $waterResource['services'] +
       $menu['services']
   ]
 );

@@ -1,7 +1,8 @@
 import { OnInit } from '@angular/core'
-import { FormBuilder, FormGroup } from '@angular/forms'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 
+import { CustomValidators } from '../../../directives/custom.validators'
 import { LogService } from '../../../services/app.logs'
 import { ToastsService } from '../../../services/app.toasts'
 import { LogHeaderData } from '../log.interfaces'
@@ -79,14 +80,19 @@ export abstract class SuperAuthorizationComponent implements OnInit {
   }
 
   /**
-   * Inicializa el FormGroup de la bitácora. Esta función debe llamarse al
-   * inicializar el componente y tras haber obtenido los datos de la bitácora
-   * del servidor
+   * Inicializa el FormGroup con los elementos comunes a todas las bitácoras de
+   * autorización. Esta función debe llamarse al inicio de la reimplementación,
+   * para después añadir los controles necesarios al FormGroup.
    * 
    * @memberof SuperAuthorizationComponent
    */
 
-  public abstract initForm(): void
+  public initForm(): void {
+    this.captureForm = this._fb.group({
+      report_id: [this.log.report_id, [Validators.required]],
+      date: [this.log.creation_date, [Validators.required, CustomValidators.dateValidator()]]
+    })
+  }
 
   /**
    * Antes de enviar los datos al servidor, los controles del formulario que
@@ -121,7 +127,7 @@ export abstract class SuperAuthorizationComponent implements OnInit {
   public save(): void {
     this.cleanForm()
     if (this.captureForm.valid) {
-      this.logService.update(this.captureForm.value, 'update-' + this.suffix).then(success => {
+      this.logService.update(this.captureForm.value, this.suffix).then(success => {
         this.captureForm.markAsPristine()
         this.enableForm()
       }, error => {

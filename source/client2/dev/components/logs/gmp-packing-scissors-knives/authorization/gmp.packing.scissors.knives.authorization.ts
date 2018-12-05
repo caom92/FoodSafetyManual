@@ -16,7 +16,7 @@ import { UpdateItem } from '../interfaces/gmp.packing.scissors.knives.update.int
 })
 
 export class GMPPackingScissorsKnivesAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
-  @Input() log: Authorization = { report_id: null, created_by: null, approved_by: null, creation_date: null, approval_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, notes: null, items: [{ id: null, name: null, time: null, quantity: null, approved: null, condition: null, corrective_action: null, is_sanitized: null }] }
+  @Input() log: Authorization = { report_id: null, created_by: null, creation_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, notes: null, items: [{ id: null, name: null, time: null, quantity: null, approved: null, condition: null, corrective_action: null, is_sanitized: null }] }
   @Language() lang: string
   captureForm: FormGroup = new FormBuilder().group({})
 

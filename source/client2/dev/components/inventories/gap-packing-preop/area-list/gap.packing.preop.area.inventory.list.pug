@@ -4,5 +4,7 @@ include ../../../area-manager-ionic-materialize.pug
 //-+inventoryAreaListWrapper()([dragula]='bagName', [(dragulaModel)]='areas')
   +inventoryAreaComponent('gap-packing-preop', 'area', 'areas')([area]='area')
 //-For ng2-Materialize version uncomment the next line, Dragula variables were placed on the inventory.pug file of this log
-+inventoryAreaListWrapper()
+ng-content(select='.header')
++inventoryAreaListWrapper()([dragula]='bagName', [(dragulaModel)]='areas')
   +inventoryAreaComponent('gap-packing-preop', 'area', 'areas')([area]='area')
+ng-content(select='.footer')

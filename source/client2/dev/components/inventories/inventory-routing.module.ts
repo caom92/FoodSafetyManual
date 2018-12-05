@@ -8,6 +8,11 @@ const routes: Routes = [
     loadChildren: './gap-packing-preop/gap-packing-preop-inventory.module#GAPPackingPreopInventoryModule'
   },
   {
+    path: 'gap-packing-water-resource',
+    data: { suffix: 'gap-packing-water-resource' },
+    loadChildren: './gap-packing-water-resource/gap-packing-water-resource-inventory.module#GAPPackingWaterResourceInventoryModule'
+  },
+  {
     path: 'gmp-doc-control-doc-control',
     data: { suffix: 'gmp-doc-control-doc-control' },
     loadChildren: './gmp-doc-control-doc-control/gmp-doc-control-doc-control-inventory.module#GMPDocControlDocControlInventoryModule'

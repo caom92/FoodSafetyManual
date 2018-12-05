@@ -4,7 +4,7 @@ include ../../../inventory-ionic-materialize.pug
   +inventoryAreaSelect()
     //-For ng2-Materialize version uncomment the next line
     gmp-packing-glass-brittle-add-area()
-  +inventoryListsWrapper("activeInventory == true && selectedArea != undefined && selectedArea != null")
+  +inventoryListsWrapper("activeInventory == true && selectedArea != undefined && selectedArea != null")('gmp-packing-glass-brittle-inventory-list', [items]='inventory')
     +inventoryTitleWrapper()
       +inventoryTitleHandler()
       +inventoryTitleColumn("{{ 'InventoryLists.id' | translate:lang }}")
@@ -15,7 +15,7 @@ include ../../../inventory-ionic-materialize.pug
     //-For Ionic version uncomment the next line, Dragula variables are found inside the .list.pug file
     //-+inventoryList('gmp-packing-glass-brittle')([items]='inventory')
     //-For ng2-Materialize version uncomment the next line, we have to pass Dragula variables here
-    +inventoryList('gmp-packing-glass-brittle')([items]='inventory', [dragula]='bagName', [(dragulaModel)]='inventory')
+    //-+inventoryList('gmp-packing-glass-brittle')([items]='inventory', [dragula]='bagName', [(dragulaModel)]='inventory')
     +inventoryListAddItemFooter('gmp-packing-glass-brittle')([area]="selectedArea")
   +inventoryEmptyMessage()
   +inventoryAddButton()([hidden]="selectedArea == null || selectedArea == undefined")

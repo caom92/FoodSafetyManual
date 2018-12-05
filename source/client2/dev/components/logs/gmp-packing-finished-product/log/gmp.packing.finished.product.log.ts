@@ -17,7 +17,7 @@ import { Log } from '../interfaces/gmp.packing.finished.product.log.interface'
 })
 
 export class GMPPackingFinishedProductLogComponent extends SuperLogComponent implements OnInit {
-  @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, log_info: { quality_types: [{ id: null, name: null }] } }
+  @Input() log: Log = null//{ zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, log_info: { quality_types: [{ id: null, name: null }] } }
   @Language() lang: string
 
   readonly maxLengths = {
@@ -43,7 +43,6 @@ export class GMPPackingFinishedProductLogComponent extends SuperLogComponent imp
   ngOnInit() {
     this.setSuffix('gmp-packing-finished-product')
     super.ngOnInit()
-    this.initForm()
   }
 
   initForm() {

@@ -17,7 +17,7 @@ import { Log } from '../interfaces/gmp.packing.hand.washing.log.interface'
 })
 
 export class GMPPackingHandWashingLogComponent extends SuperLogComponent implements OnInit {
-  @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, items: [{ id: null, name: null }] }
+  @Input() log: Log = null//{ zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, items: [{ id: null, name: null }] }
   @Language() lang: string
 
   readonly maxLengths = {
@@ -35,7 +35,6 @@ export class GMPPackingHandWashingLogComponent extends SuperLogComponent impleme
   public ngOnInit(): void {
     this.setSuffix('gmp-packing-hand-washing')
     super.ngOnInit()
-    this.initForm()
   }
 
   public initForm(): void {

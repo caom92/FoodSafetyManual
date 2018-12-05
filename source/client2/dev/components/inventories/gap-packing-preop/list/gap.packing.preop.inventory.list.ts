@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
 import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
@@ -12,9 +12,9 @@ import { InventoryItem, InventoryType } from '../interfaces/gap.packing.preop.in
   templateUrl: './gap.packing.preop.inventory.list.html'
 })
 
-export class GAPPackingPreopInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnDestroy, OnChanges {
+export class GAPPackingPreopInventoryListComponent extends SuperInventoryListComponent implements OnInit {
   @Language() private lang: string
-  @Input() items: Array<InventoryItem> = null
+  @Input() items: Array<InventoryItem>
   @Input() type: InventoryType
 
   constructor(dragulaService: DragulaService,
@@ -26,20 +26,17 @@ export class GAPPackingPreopInventoryListComponent extends SuperInventoryListCom
   public ngOnInit(): void {
     this.setBagName(this.type.en)
     this.setSuffix('gap-packing-preop')
-    this.setInventory(this.type.inventory)
     super.ngOnInit()
   }
 
   public onItemAdd(item: any): void {
     if (item.type == this.type.id) {
-      item.item.position = this.currentInventory.length + 1
-      this.currentInventory.push(item.item)
-      this.originalInventory.push(item.item)
+      item.item.position = this.getCurrentInventory().length + 1
+      this.getCurrentInventory().push(item.item)
     }
   }
 
-  public ngOnChanges(): void{
-    this.setInventory(this.type.inventory)
-    this.setOriginalInventory(this.type.inventory)
+  public getCurrentInventory(): Array<InventoryItem> {
+    return this.type.inventory
   }
 }

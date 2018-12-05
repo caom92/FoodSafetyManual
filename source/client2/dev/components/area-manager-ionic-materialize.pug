@@ -28,7 +28,7 @@ mixin inventoryAreaTitleEdit()
   th()
 
 mixin inventoryAreaTitleWrapper()
-  thead
+  thead.header
     tr
       if block
         block
@@ -41,8 +41,13 @@ mixin inventoryAreaComponent(suffix, ngForLet, ngForSource)
     tr()&attributes(attributes)
 
 mixin inventoryAreaListWrapper()
-  if block
-    block
+  if Object.keys(attributes).length > 0
+    tbody()&attributes(attributes)
+      if block
+        block
+  else
+    if block
+      block
 
 mixin inventoryAreaAddButton()
   button(mz-button, float="true")&attributes(attributes)
@@ -68,7 +73,7 @@ mixin inventoryAreaListMultiplier(ngForLet, ngForSource)
       block
 
 mixin inventoryAreaListsWrapper(condition)
-  table(*ngIf=condition)
+  table(*ngIf=condition)&attributes(attributes)
     if block
       block
 

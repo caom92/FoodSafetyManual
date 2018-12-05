@@ -17,7 +17,7 @@ import { Log } from '../interfaces/gmp.packing.aged.product.log.interface'
 })
 
 export class GMPPackingAgedProductLogComponent extends SuperLogComponent implements OnInit {
-  @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, log_info: { actions: [{ id: null, name: null }], quality_types: [{ id: null, name: null }] } }
+  @Input() log: Log = null//{ zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, log_info: { actions: [{ id: null, name: null }], quality_types: [{ id: null, name: null }] } }
   @Language() lang: string
 
   readonly maxLengths = {
@@ -43,7 +43,6 @@ export class GMPPackingAgedProductLogComponent extends SuperLogComponent impleme
   public ngOnInit(): void {
     this.setSuffix('gmp-packing-aged-product')
     super.ngOnInit()
-    this.initForm()
   }
 
   public initForm(): void {

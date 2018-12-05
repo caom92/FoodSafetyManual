@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core'
+import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
@@ -12,7 +12,7 @@ import { InventoryArea } from '../interfaces/gap.packing.preop.area.inventory.in
   templateUrl: './gap.packing.preop.area.inventory.list.html'
 })
 
-export class GAPPackingPreopAreaInventoryListComponent extends SuperAreaInventoryListComponent implements OnInit, OnDestroy, OnChanges {
+export class GAPPackingPreopAreaInventoryListComponent extends SuperAreaInventoryListComponent implements OnInit, OnDestroy {
   @Language() private lang: string
   @Input() areas: Array<InventoryArea> = null
 
@@ -23,12 +23,10 @@ export class GAPPackingPreopAreaInventoryListComponent extends SuperAreaInventor
   public ngOnInit(): void {
     this.setBagName('gap-packing-preop-area-bag')
     this.setSuffix('gap-packing-preop')
-    this.setInventory(this.areas)
     super.ngOnInit()
   }
 
-  public ngOnChanges(): void {
-    this.setInventory(this.areas)
-    this.setOriginalInventory(this.areas)
+  public getCurrentInventory(): Array<InventoryArea> {
+    return this.areas
   }
 }

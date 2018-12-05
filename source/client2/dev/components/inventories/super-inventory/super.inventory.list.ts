@@ -6,11 +6,11 @@ import { Subscription } from 'rxjs'
 import { InventoryService } from '../../../services/app.inventory'
 import { SuperInventoryItemInterface } from './super.inventory.interface'
 
-export class SuperInventoryListComponent implements OnInit, OnDestroy {
+export abstract class SuperInventoryListComponent implements OnInit, OnDestroy {
   protected drag: Subscription = new Subscription()
   protected dragend: Subscription = new Subscription()
   protected bagName: string = null
-  protected currentInventory: Array<SuperInventoryItemInterface> = null
+  protected currentInventory: Array<Array<SuperInventoryItemInterface>> = [[]]
   protected originalInventory: Array<SuperInventoryItemInterface> = null
   protected suffix: string = null
 
@@ -50,9 +50,11 @@ export class SuperInventoryListComponent implements OnInit, OnDestroy {
    * @memberof SuperInventoryListComponent
    */
 
-  public setInventory(inventory: Array<SuperInventoryItemInterface>) {
+  /*public setInventory(inventory: Array<SuperInventoryItemInterface>) {
     this.currentInventory = inventory
-  }
+  }*/
+
+  public abstract getCurrentInventory(): Array<SuperInventoryItemInterface>
 
   /**
    * Asigna un inventario temporal, necesario para revertir los cambios de
@@ -63,8 +65,10 @@ export class SuperInventoryListComponent implements OnInit, OnDestroy {
    * @memberof SuperInventoryListComponent
    */
 
-  public setOriginalInventory(inventory: Array<SuperInventoryItemInterface>) {
-    this.originalInventory = this.currentInventory.map(x => Object.assign({}, x))
+  public setOriginalInventory(inventory?: Array<SuperInventoryItemInterface>) {
+    if (this.getCurrentInventory() != null) {
+      this.originalInventory = this.getCurrentInventory().map(x => Object.assign({}, x))
+    }
   }
 
   /**
@@ -77,7 +81,8 @@ export class SuperInventoryListComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     // Guardamos el inventario original 
-    this.originalInventory = this.currentInventory.map(x => Object.assign({}, x))
+    // this.originalInventory = this.currentInventory.map(x => Object.assign({}, x))
+    // this.setOriginalInventory()
 
     this.events.$sub('item:add').subscribe((item) => {
       this.onItemAdd(item)
@@ -87,6 +92,7 @@ export class SuperInventoryListComponent implements OnInit, OnDestroy {
     // la posibilidad de realizar scroll
     this.drag.add(this.dragulaService.drag(this.bagName).subscribe(
       ({ el, source }) => {
+        this.setOriginalInventory()
         this.events.$pub('scroll:stop', 'Scroll Stopped')
       })
     )
@@ -99,18 +105,28 @@ export class SuperInventoryListComponent implements OnInit, OnDestroy {
         let index = 1
         let reorderedItemArray: Array<{ id: number, position: number }> = []
 
-        for (let item in this.currentInventory) {
-          this.currentInventory[item].position = index++
+        let currentInventory = this.getCurrentInventory()
+
+        for (let item in currentInventory) {
+          currentInventory[item].position = index++
           reorderedItemArray.push({
-            id: this.currentInventory[item].id,
-            position: this.currentInventory[item].position
+            id: currentInventory[item].id,
+            position: currentInventory[item].position
           })
         }
 
-        this.inventoryService.reorderInventory(reorderedItemArray, 'reorder-' + this.suffix).then(success => {
-          this.originalInventory = this.currentInventory.map(x => Object.assign({}, x))
+        this.inventoryService.reorderInventory(reorderedItemArray, this.suffix).then(success => {
+
         }, error => {
-          this.currentInventory = this.originalInventory.map(x => Object.assign({}, x))
+          // it causes me physical pain to do this
+          // empty array without loosing reference, since it's the reference
+          // to the array used by Dragula
+          currentInventory.splice(0, currentInventory.length)
+          for (let item in this.originalInventory) {
+            // add back the elements contained in the original inventory
+            // to restore the inventory to the state before the network error
+            currentInventory.push(this.originalInventory[item])
+          }
         })
       })
     )

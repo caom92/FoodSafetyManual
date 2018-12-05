@@ -33,6 +33,10 @@ RewriteRule ^services/([a-zA-Z_-]+)$ source/server/main.php [NC,L,QSA]
 # Redirect any request for any other client-side script to the proper file
 RewriteRule ^scripts/([a-zA-Z_\-\.]+\.js)$ source/client/common/scripts/$1 [NC,L,QSA]
 
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-d
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
+RewriteRule ^.*\.(pdf)$ http://localhost/data/default.pdf [R=301,L]
+
 # Redirect any petition that is not a directory, file or link to the main page
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f

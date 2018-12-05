@@ -18,7 +18,7 @@ import { maxLengths } from '../maxLengths/max.lengths'
 })
 
 export class GMPPackingOzoneWaterLogComponent extends SuperLogComponent implements OnInit {
-  @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, items: [{ id: null, name: null, fields: [{ id: null, position: null, name_en: null, name_es: null, field_id: null }] }] }
+  @Input() log: Log = null//{ zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, items: [{ id: null, name: null, fields: [{ id: null, position: null, name_en: null, name_es: null, field_id: null }] }] }
   @Language() lang: string
 
   readonly maxLengths = maxLengths
@@ -34,7 +34,6 @@ export class GMPPackingOzoneWaterLogComponent extends SuperLogComponent implemen
   public ngOnInit(): void {
     this.setSuffix('gmp-packing-ozone-water')
     super.ngOnInit()
-    this.initForm()
   }
 
   public initForm(): void {

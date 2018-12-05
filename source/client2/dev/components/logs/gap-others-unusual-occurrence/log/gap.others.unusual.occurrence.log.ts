@@ -17,7 +17,7 @@ import { Log } from '../interfaces/gap.others.unusual.occurrence.log.interface'
 })
 
 export class GAPOthersUnusualOccurrenceLogComponent extends SuperLogComponent implements OnInit {
-  @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, items: { shifts: [{ shift_id: null, name: null }] } }
+  @Input() log: Log = null//{ zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, items: { shifts: [{ shift_id: null, name: null }] } }
   @Language() lang: string
 
   readonly maxLengths = {
@@ -41,7 +41,6 @@ export class GAPOthersUnusualOccurrenceLogComponent extends SuperLogComponent im
   ngOnInit() {
     this.setSuffix('gap-others-unusual-occurrence')
     super.ngOnInit()
-    this.initForm()
   }
 
   initForm() {

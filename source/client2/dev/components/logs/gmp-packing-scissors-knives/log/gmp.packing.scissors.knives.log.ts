@@ -17,7 +17,7 @@ import { CustomValidators } from '../../../../directives/custom.validators'
 })
 
 export class GMPPackingScissorsKnivesLogComponent extends SuperLogComponent implements OnInit {
-  @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, items: [{ id: null, name: null, quantity: null }] }
+  @Input() log: Log = null//{ zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, items: [{ id: null, name: null, quantity: null }] }
   @Language() lang: string
 
 
@@ -32,7 +32,6 @@ export class GMPPackingScissorsKnivesLogComponent extends SuperLogComponent impl
   ngOnInit() {
     this.setSuffix('gmp-packing-scissors-knives')
     super.ngOnInit()
-    this.initForm()
   }
 
   initForm() {

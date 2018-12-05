@@ -17,7 +17,7 @@ import { maxLengths } from '../maxLengths/max.lengths'
 })
 
 export class GMPPackingOzoneWaterAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
-  @Input() log: Authorization = { report_id: null, created_by: null, approved_by: null, creation_date: null, approval_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, items: [{ id: null, name: null, fields: [{ id: null, position: null, name_en: null, name_es: null, field_id: null, value: null }] }] }
+  @Input() log: Authorization = { report_id: null, created_by: null, creation_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, items: [{ id: null, name: null, fields: [{ id: null, position: null, name_en: null, name_es: null, field_id: null, value: null }] }] }
   @Language() lang: string
   captureForm: FormGroup = new FormBuilder().group({})
 

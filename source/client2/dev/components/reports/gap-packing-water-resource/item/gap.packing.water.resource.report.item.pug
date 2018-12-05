@@ -1,0 +1,7 @@
+td.nameColumn {{item.name}}
+td.dateColumn(*ngIf='item.date != null && item.date != ""') {{item.date | l10nDate:defaultLocale:monthOptions | slice:0:3 | titlecase}} {{item.date | l10nDate:defaultLocale:dayOptions}}, {{item.date | l10nDate:defaultLocale:yearOptions}}
+td.dateColumn(*ngIf='item.date == null || item.date == ""')
+td.complianceColumn(*ngIf='item.compliance == 1') {{ 'Log.yes' | translate:lang }}
+td.complianceColumn(*ngIf='item.compliance != 1 && item.compliance != 0') N/A
+td.complianceColumn(*ngIf='item.compliance == 0') {{ 'Log.no' | translate:lang }}
+td.actionColumn {{item.corrective_actions}}

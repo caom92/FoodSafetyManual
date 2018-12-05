@@ -18,7 +18,7 @@ import { Log } from '../interfaces/gmp.packing.cold.room.temp.log.interface'
 })
 
 export class GMPPackingColdRoomTempLogComponent extends SuperLogComponent implements OnInit {
-  @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, items: [{ id: null, name: null }] }
+  @Input() log: Log = null//{ zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, items: [{ id: null, name: null }] }
   @Language() lang: string
 
   constructor(private _fb: FormBuilder,
@@ -33,7 +33,6 @@ export class GMPPackingColdRoomTempLogComponent extends SuperLogComponent implem
   ngOnInit() {
     this.setSuffix('gmp-packing-cold-room-temp')
     super.ngOnInit()
-    this.initForm()
   }
 
   initForm() {

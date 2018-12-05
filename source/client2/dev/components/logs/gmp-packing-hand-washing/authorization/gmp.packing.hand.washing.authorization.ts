@@ -16,7 +16,7 @@ import { UpdateItem } from '../interfaces/gmp.packing.hand.washing.update.interf
 })
 
 export class GMPPackingHandWashingAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
-  @Input() log: Authorization = { report_id: null, created_by: null, approved_by: null, creation_date: null, approval_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, notes: null, items: [{ id: null, name: null, is_acceptable: null }] }
+  @Input() log: Authorization = { report_id: null, created_by: null, creation_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, notes: null, items: [{ id: null, name: null, is_acceptable: null }] }
   @Language() lang: string
   captureForm: FormGroup = new FormBuilder().group({})
 

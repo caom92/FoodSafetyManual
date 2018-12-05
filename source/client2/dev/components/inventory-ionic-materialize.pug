@@ -21,10 +21,10 @@ mixin inventoryTitleColumn(content)
   th()= content
 
 mixin inventoryTitleToggle()
-  th.item-toggle Estado
+  th.item-toggle {{ 'InventoryLists.status' | translate:lang }}
 
 mixin inventoryTitleWrapper()
-  thead
+  thead.header
     tr
       if block
         block
@@ -48,8 +48,13 @@ mixin inventoryListMultiplier(ngForLet, ngForSource)
       block
 
 mixin inventoryListWrapper()
-  if block
-    block
+  if Object.keys(attributes).length > 0
+    tbody()&attributes(attributes)
+      if block
+        block
+  else
+    if block
+      block
 
 mixin inventoryAddButton()
   //- Empty
@@ -63,13 +68,13 @@ mixin inventoryEmptyMessage()
       |  button above
 
 mixin inventoryListsWrapper(condition)
-  table(*ngIf=condition)
+  table(*ngIf=condition)&attributes(attributes)
     if block
       block
 
 mixin inventoryListAddItemFooter(suffix)
   - attributes[suffix + "-add-item"] = true
-  tfoot()&attributes(attributes)
+  tfoot.footer()&attributes(attributes)
 
 mixin inventoryWrapper()
   if block

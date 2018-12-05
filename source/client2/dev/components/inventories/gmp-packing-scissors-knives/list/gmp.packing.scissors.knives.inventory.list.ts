@@ -26,18 +26,15 @@ export class GMPPackingScissorsKnivesInventoryListComponent extends SuperInvento
   public ngOnInit(): void {
     this.setBagName('gmp-packing-scissors-knives-bag')
     this.setSuffix('gmp-packing-scissors-knives')
-    this.setInventory(this.items)
     super.ngOnInit()
   }
 
   public onItemAdd(item: any): void {
-    item.item.position = this.currentInventory.length + 1
-    this.currentInventory.push(item.item)
-    this.originalInventory.push(item.item)
+    item.item.position = this.getCurrentInventory().length + 1
+    this.getCurrentInventory().push(item.item)
   }
 
-  public ngOnChanges(): void{
-    this.setInventory(this.items)
-    this.setOriginalInventory(this.items)
+  public getCurrentInventory(): Array<InventoryItem> {
+    return this.items
   }
 }

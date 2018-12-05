@@ -20,7 +20,7 @@ import { Log } from '../interfaces/gmp.doc.control.doc.control.log.interface'
 })
 
 export class GMPDocControlDocControlLogComponent extends SuperLogComponent implements OnInit {
-  @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, documents: [{ id: null, name: null }] }
+  @Input() log: Log = null//{ zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, documents: [{ id: null, name: null }] }
   @Language() lang: string
   selectedDocument
   images: any = null
@@ -41,7 +41,6 @@ export class GMPDocControlDocControlLogComponent extends SuperLogComponent imple
     this.setSuffix('gmp-doc-control-doc-control')
     this.selectedDocument = null
     super.ngOnInit()
-    this.initForm()
   }
 
   public initForm(): void {

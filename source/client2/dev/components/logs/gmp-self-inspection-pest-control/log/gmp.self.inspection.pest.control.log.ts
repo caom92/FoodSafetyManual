@@ -17,7 +17,7 @@ import { Log } from '../interfaces/gmp.self.inspection.pest.control.log.interfac
 })
 
 export class GMPSelfInspectionPestControlLogComponent extends SuperLogComponent implements OnInit {
-  @Input() log: Log = { zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, rooms: [{ id: null, name: null, stations: [{ id: null, name: null, order: null }] }] }
+  @Input() log: Log = null//{ zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, rooms: [{ id: null, name: null, stations: [{ id: null, name: null, order: null }] }] }
   @Language() lang: string
   offset: Array<number> = []
 
@@ -32,7 +32,6 @@ export class GMPSelfInspectionPestControlLogComponent extends SuperLogComponent 
   public ngOnInit(): void {
     this.setSuffix('gmp-self-inspection-pest-control')
     super.ngOnInit()
-    this.initForm()
   }
 
   public initForm(): void {

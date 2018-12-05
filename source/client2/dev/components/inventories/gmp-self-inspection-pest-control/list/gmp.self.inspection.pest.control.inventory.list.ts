@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
 import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
@@ -12,9 +12,9 @@ import { InventoryItem } from '../interfaces/gmp.self.inspection.pest.control.in
   templateUrl: './gmp.self.inspection.pest.control.inventory.list.html'
 })
 
-export class GMPSelfInspectionPestControlInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnDestroy, OnChanges {
+export class GMPSelfInspectionPestControlInventoryListComponent extends SuperInventoryListComponent implements OnInit {
   @Language() private lang: string
-  @Input() items: Array<InventoryItem> = null
+  @Input() items: Array<InventoryItem>
 
   constructor(dragulaService: DragulaService,
     events: PubSubService,
@@ -25,18 +25,15 @@ export class GMPSelfInspectionPestControlInventoryListComponent extends SuperInv
   public ngOnInit(): void {
     this.setBagName('gmp-self-inspection-pest-control-bag')
     this.setSuffix('gmp-self-inspection-pest-control')
-    this.setInventory(this.items)
     super.ngOnInit()
   }
 
   public onItemAdd(item: any): void {
-    item.item.position = this.currentInventory.length + 1
-    this.currentInventory.push(item.item)
-    this.originalInventory.push(item.item)
+    item.item.position = this.getCurrentInventory().length + 1
+    this.getCurrentInventory().push(item.item)
   }
 
-  public ngOnChanges(): void{
-    this.setInventory(this.items)
-    this.setOriginalInventory(this.items)
+  public getCurrentInventory(): Array<InventoryItem> {
+    return this.items
   }
 }

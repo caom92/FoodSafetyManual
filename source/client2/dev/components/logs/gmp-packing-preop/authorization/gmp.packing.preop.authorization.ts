@@ -16,7 +16,7 @@ import { UpdateArea, UpdateItem } from '../interfaces/gmp.packing.preop.update.i
 })
 
 export class GMPPackingPreopAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
-  @Input() log: Authorization =  { report_id: null, created_by: null, approved_by: null, creation_date: null, approval_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, notes: null, album_url: null, areas: { corrective_actions: [{ id: null, code: null, en: null, es: null }], logs: [{ id: null, name: null, person_performing_sanitation: null, notes: null, time: null, types: [{ id: null, en: null, es: null, items: [{ id: null, order: null, name: null, status: null, corrective_action_id: null, corrective_action: null, comment: null }] }] }] } }
+  @Input() log: Authorization =  { report_id: null, created_by: null, creation_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, notes: null, album_url: null, areas: { corrective_actions: [{ id: null, code: null, en: null, es: null }], logs: [{ id: null, name: null, person_performing_sanitation: null, notes: null, time: null, types: [{ id: null, en: null, es: null, items: [{ id: null, order: null, name: null, status: null, corrective_action_id: null, corrective_action: null, comment: null }] }] }] } }
   @Language() lang: string
   captureForm: FormGroup = new FormBuilder().group({})
 

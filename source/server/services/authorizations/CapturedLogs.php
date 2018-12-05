@@ -180,6 +180,30 @@ class CapturedLogs extends db\InsertableTable
     )->fetchAll();
   }
 
+  function selectCapturingLogsByLogIDAndZoneID($logID, $zoneID) {
+        return parent::$dataBase->query(
+      "SELECT 
+        t.id AS report_id,
+        u.first_name,
+        u.last_name,
+        t.capture_date AS capture_date
+      FROM 
+        $this->table AS t
+      INNER JOIN
+        users AS u
+        ON t.employee_id = u.id
+      WHERE
+        u.zone_id = $zoneID AND
+        t.log_id = $logID AND
+        t.status_id = (
+          SELECT id FROM log_status WHERE name = ".
+          parent::$dataBase->quote('Capturing')."
+        )
+        
+      ORDER BY t.capture_date DESC"
+    )->fetchAll();
+  }
+
   // Retorna el ID de usuario registrado en el primer renglon encontrado que
   // tenga registrado el ID de bitacora especificado
   // [in]   logID (uint): el ID de la bitacora que va a ser buscada

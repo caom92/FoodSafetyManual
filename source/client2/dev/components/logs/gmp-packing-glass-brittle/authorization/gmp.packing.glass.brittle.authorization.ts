@@ -17,7 +17,7 @@ import { UpdateArea, UpdateItem } from '../interfaces/gmp.packing.glass.brittle.
 })
 
 export class GMPPackingGlassBrittleAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
-  @Input() log: Authorization = { report_id: null, created_by: null, approved_by: null, creation_date: null, approval_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, notes: null, time: null, areas: [{ id: null, name: null, items: [{ id: null, name: null, order: null, status: null, quantity: null }] }] }
+  @Input() log: Authorization = { report_id: null, created_by: null, creation_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, notes: null, time: null, areas: [{ id: null, name: null, items: [{ id: null, name: null, order: null, status: null, quantity: null }] }] }
   @Language() lang: string
   captureForm: FormGroup = new FormBuilder().group({})
 

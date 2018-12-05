@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core'
+import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
@@ -12,7 +12,7 @@ import { InventoryArea } from '../interfaces/gmp.self.inspection.pest.control.ar
   templateUrl: './gmp.self.inspection.pest.control.area.inventory.list.html'
 })
 
-export class GMPSelfInspectionPestControlAreaInventoryListComponent extends SuperAreaInventoryListComponent implements OnInit, OnDestroy, OnChanges {
+export class GMPSelfInspectionPestControlAreaInventoryListComponent extends SuperAreaInventoryListComponent implements OnInit, OnDestroy {
   @Language() private lang: string
   @Input() areas: Array<InventoryArea> = null
 
@@ -23,12 +23,10 @@ export class GMPSelfInspectionPestControlAreaInventoryListComponent extends Supe
   public ngOnInit(): void {
     this.setBagName('gmp-self-inspection-pest-control-area-bag')
     this.setSuffix('gmp-self-inspection-pest-control')
-    this.setInventory(this.areas)
     super.ngOnInit()
   }
 
-  public ngOnChanges(): void {
-    this.setInventory(this.areas)
-    this.setOriginalInventory(this.areas)
+  public getCurrentInventory(): Array<InventoryArea> {
+    return this.areas
   }
 }

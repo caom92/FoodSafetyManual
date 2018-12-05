@@ -1,0 +1,15 @@
+include ../../../log-ionic-materialize.pug
+
++card()
+  +cardHeader("{{area.name}}")
+  +cardContent()
+    +row()(class='bold-text')
+      +col()(class='s4 m4 l3')
+        p() Nombre
+      +col()(class='s4 m4 l2')
+        p() Fecha
+      +col()(class='s4 m4 l2')
+        p() Conformidad
+      +col()(*ngIf='!(lowerThanLargeResolution | async)', class='s12 m5 l5')
+        p() Acción correctiva
+    gap-packing-water-resource-item(*ngFor='let item of area.items; let i = index', [item]='item', [itemGroup]='areaForm.controls.items.controls[i]')

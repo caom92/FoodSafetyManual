@@ -21,7 +21,7 @@ import { Authorization } from '../interfaces/gmp.doc.control.doc.control.authori
 })
 
 export class GMPDocControlDocControlAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
-  @Input() log: Authorization = { report_id: null, created_by: null, approved_by: null, creation_date: null, approval_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, documents: [{ id: null, name: null, entries: [{ employee: null, date: null, notes: null, additional_info_url: null, pictures: null, files: null }] }] }
+  @Input() log: Authorization = { report_id: null, created_by: null, creation_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, documents: [{ id: null, name: null, entries: [{ employee: null, date: null, notes: null, additional_info_url: null, pictures: null, files: null }] }] }
   @Language() lang: string
   selectedDocument: number
   selectedDocumentName: string

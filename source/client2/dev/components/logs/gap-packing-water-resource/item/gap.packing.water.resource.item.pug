@@ -1,0 +1,40 @@
+include ../../../log-ionic-materialize.pug
+
++row()(*ngIf='!(lowerThanLargeResolution | async)', style='margin-bottom: 0px; margin-top: 4px;', [formGroup]='itemForm')
+  +col()(class='s4 m4 l3')
+    p() {{item.name}}
+  +col()(class='s4 m4 l2')
+    +slimDateInput(false, null, "date", "date_{{item.id}}", null, "langManager.messages.global.datePickerConfigShort")(class='slim-text-input no-margin-top')
+  +col()(class='s4 m4 l2')
+    +checkbox("{{ 'Log.approved' | translate:lang }}", false, "compliance", "compliance_{{item.id}}")([formGroup]='itemForm')
+  +col()(class='s12 m12 l5')
+    +slimTextInput(null, null, "corrective_actions", "text", "corrective_action_{{item.id}}" , null)(class='slim-text-input no-margin-top')
+
++row()(*ngIf='lowerThanLargeResolution | async', style='margin-bottom: 0px; margin-top: 4px;', [formGroup]='itemForm')
+  +col()(class='s4 m4 l3')
+    p() {{item.name}}
+  +col()(class='s4 m4 l2')
+    +slimDateInput(false, null, "date", "date_{{item.id}}", null, "langManager.messages.global.datePickerConfigShort")(class='slim-text-input no-margin-top')
+  +col()(class='s4 m4 l2')
+    +checkbox("{{ 'Log.approved' | translate:lang }}", false, "compliance", "compliance_{{item.id}}")([formGroup]='itemForm')
+
++row()(*ngIf='lowerThanLargeResolution | async', style='margin-bottom: 0px; margin-top: 4px;', [formGroup]='itemForm')
+  +col()(class='s6 m4 l3')
+    p(class='bold-text') Acción correctiva
+  +col()(class='s6 m8 l9')
+    +slimTextInput(null, null, "corrective_actions", "text", "corrective_action_{{item.id}}" , null)(class='slim-text-input no-margin-top')
+
+//-
+  +col()(class='s4 m4 l3')
+    p(*ngIf='lowerThanLargeResolution | async') MEDIUM {{item.name}}
+    p(*ngIf='!(lowerThanLargeResolution | async)') NOT MEDIUM {{item.name}}
+  +col()(class='s4 m4 l2')
+    +slimDateInput(false, null, "date", "date_{{item.id}}", null, "langManager.messages.global.datePickerConfigShort")(class='slim-text-input no-margin-top')
+  +col()(class='s4 m4 l2')
+    +checkbox("{{ 'Log.approved' | translate:lang }}", false, "compliance", "compliance_{{item.id}}")([formGroup]='itemForm')
+  +col()(*ngIf='lowerThanLargeResolution | async', class='s6 m6')
+    p() ACCION CORRECTIVA
+  +col()(*ngIf='lowerThanLargeResolution | async', class='s6 m6')
+    +slimTextInput(null, null, "corrective_actions", "text", "corrective_action_{{item.id}}" , null)(class='slim-text-input no-margin-top')
+  +col()(*ngIf='!(lowerThanLargeResolution | async)', class='s12 m12 l5')
+    +slimTextInput(null, null, "corrective_actions", "text", "corrective_action_{{item.id}}" , null)(class='slim-text-input no-margin-top')

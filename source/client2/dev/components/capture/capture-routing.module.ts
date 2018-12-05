@@ -13,6 +13,11 @@ const routes: Routes = [
     loadChildren: './gap-packing-preop/gap-packing-preop-capture.module#GAPPackingPreopCaptureModule'
   },
   {
+    path: 'gap-packing-water-resource',
+    data: { suffix: 'gap-packing-water-resource' },
+    loadChildren: './gap-packing-water-resource/gap-packing-water-resource-capture.module#GAPPackingWaterResourceCaptureModule'
+  },
+  {
     path: 'gmp-doc-control-doc-control',
     data: { suffix: 'gmp-doc-control-doc-control' },
     loadChildren: './gmp-doc-control-doc-control/gmp-doc-control-doc-control-capture.module#GMPDocControlDocControlCaptureModule'

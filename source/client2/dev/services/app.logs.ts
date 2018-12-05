@@ -114,6 +114,40 @@ export class LogService {
     return sentPromise
   }
 
+  public listWaitingLogs(suffix: string): Promise<any> {
+    let listPromise = new Promise<any>((resolve, reject) => {
+      let listLoader = this.loaderService.koiLoader()
+
+      this.server.update(
+        'list-waiting-logs-' + suffix,
+        new FormData(),
+        (response: any) => {
+          if (response.meta.return_code == 0) {
+            if (response.data) {
+              resolve(response.data)
+              listLoader.dismiss()
+            } else {
+              reject('bad request')
+              listLoader.dismiss()
+              this.toastService.showText('serverUnreachable')
+            }
+          } else {
+            reject('bad request')
+            listLoader.dismiss()
+            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
+          }
+        }, (error: any, caught: Observable<void>) => {
+          reject('network error')
+          listLoader.dismiss()
+          this.toastService.showText('serverUnreachable')
+          return []
+        }
+      )
+    })
+
+    return listPromise
+  }
+
   /**
    * Solicita al servidor un reporte de autorización, el cual contiene el estado
    * de una bitácora enviada por un empleado en espera por la aprobación de un
@@ -328,7 +362,7 @@ export class LogService {
     return rejectPromise
   }
 
-  public update(data: any, service: string): Promise<string> {
+  public update(data: any, suffix: string): Promise<string> {
     let updatePromise = new Promise<string>((resolve, reject) => {
       let loader = this.loaderService.koiLoader()
       let form_data = new FormData()
@@ -351,7 +385,7 @@ export class LogService {
       }
 
       this.server.update(
-        service,
+        'update-' + suffix,
         form_data,
         (response: any) => {
           if (response.meta.return_code == 0) {

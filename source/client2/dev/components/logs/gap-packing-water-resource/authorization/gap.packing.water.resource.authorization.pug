@@ -1,0 +1,8 @@
+extends ../log/gap.packing.water.resource.log.pug
+
+prepend header
+  h4 {{log.log_name}}
+  .divider
+
+block buttonRow
+  +authorizationButtonRow("Send", "Authorize", "Delete", "Return")
