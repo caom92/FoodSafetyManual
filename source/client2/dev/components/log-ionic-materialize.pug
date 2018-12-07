@@ -48,8 +48,20 @@ mixin fullLogWrapper()
 mixin sendLogButton(label)
   div(class="row")
     div(class="center col s12 m12 l12")
-      button(mz-button)&attributes(attributes)= label
+      button(mz-button, [disabled]="captureForm.pristine")&attributes(attributes)= label
         i(mz-icon-mdi, [icon]="'send'")
+
+mixin updateLogButtonRow(sendLabel, finishLabel, returnLabel)
+  div(class='row')
+    div(class="center col s12", [ngClass]="(this.log.report_id !== undefined && this.log.report_id !== null)?'m4 l4':'m6 l6'", style="margin-bottom: 20px;")
+      button(mz-button, [disabled]="captureForm.pristine")= sendLabel + " "
+        i(mz-icon-mdi, [icon]="'send'")
+    div(class="center col s12 m4 l4", style="margin-bottom: 20px;", *ngIf='this.log.report_id !== undefined && this.log.report_id !== null')
+      button(mz-button, [disabled]="!captureForm.pristine", type="button", (click)='finish()')= finishLabel + " "
+        i(mz-icon-mdi, [icon]="'checkbox-marked-circle'")
+    div(class="center col s12", [ngClass]="(this.log.report_id !== undefined && this.log.report_id !== null)?'m4 l4':'m6 l6'", style="margin-bottom: 20px;")
+      button(mz-button, type="button", (click)='back()')= returnLabel + " "
+        i(mz-icon-mdi, [icon]="'undo-variant'")
 
 mixin authorizationButtonRow(sendLabel, authorizeLabel, deleteLabel, returnLabel)
   div(class="row")

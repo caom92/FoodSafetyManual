@@ -34,4 +34,9 @@ export class GAPPackingWaterResourceCaptureComponent extends SuperCapture {
       this.newLog = true
     }
   }
+
+  public onCloseLog(event) {
+    this.logData = null
+    this.newLog = null
+  }
 }

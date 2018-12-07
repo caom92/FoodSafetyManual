@@ -1,9 +1,12 @@
+import { EventEmitter, Output } from '@angular/core'
+
 import { LogService } from '../../../services/app.logs'
 import { ToastsService } from '../../../services/app.toasts'
 import { SuperLogComponent } from './super.logs.log'
 import { SuperWaiting } from './super.logs.waiting.interface'
 
 export abstract class SuperUpdateComponent extends SuperLogComponent {
+  @Output() closeLog = new EventEmitter<any>()
   protected log: SuperWaiting
 
   constructor(protected logService: LogService, protected toasts: ToastsService) {
@@ -13,10 +16,8 @@ export abstract class SuperUpdateComponent extends SuperLogComponent {
   public save(): void {
     if (this.log.report_id === Number(this.log.report_id)) {
       this.update()
-      console.log('existing log, should be updated')
     } else {
       super.save()
-      console.log('new log, should be saved')
     }
   }
 
@@ -25,6 +26,7 @@ export abstract class SuperUpdateComponent extends SuperLogComponent {
     if (this.captureForm.valid) {
       this.logService.update(this.captureForm.value, this.suffix).then(success => {
         this.enableForm()
+        this.captureForm.markAsPristine()
       }, error => {
         this.enableForm()
       })
@@ -33,5 +35,9 @@ export abstract class SuperUpdateComponent extends SuperLogComponent {
       this.enableForm()
       this.toasts.showText('incompleteLog')
     }
+  }
+
+  public back(): void {
+    this.closeLog.emit()
   }
 }

@@ -12,17 +12,13 @@ $service = fsm\createAddService(
       'type' => 'int',
       'min' => 1
     ],
-    'type_id' => [
-      'type' => 'int',
-      'min' => 1
-    ],
     'name' => [
       'type' => 'string',
       'max_length' => 255
     ]
   ],
   function($scope, $request) {
-    $items = $scope->daoFactory->get('gap\packing\waterResource');
+    $items = $scope->daoFactory->get('gap\packing\waterResource\Items');
     $numItemsInArea = $items->countByAreaID($request['area_id']);
 
     return $items->insert([
