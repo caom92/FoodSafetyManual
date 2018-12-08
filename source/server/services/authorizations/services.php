@@ -25,7 +25,9 @@ $authorizations = [
     'reject-log' =>
       realpath(dirname(__FILE__).'/reject-log.php'),
     'retreat-log' =>
-      realpath(dirname(__FILE__).'/retreat-log.php')
+      realpath(dirname(__FILE__).'/retreat-log.php'),
+    'finish-log' =>
+      realpath(dirname(__FILE__).'/finish-log.php')
   ]
 ];
 

@@ -19,6 +19,6 @@ export class GAPPackingWaterResourceReportComponent extends SuperReportComponent
   }
 
   public getCSS(): string {
-    return '<style>table {font-family: arial, sans-serif;border-collapse: collapse;width: 100%;}td {border: 1px solid #000000;text-align: left;}th {border: 1px solid #000000;text-align: left;font-weight: bold;background-color: #4CAF50;}.fullColumn {background-color: #D3D3D3;width: 631px;}.nameColumn {width: 150px;}.dateColumn {width: 80px;}.complianceColumn {width: 120px;}.actionColumn {width: 281px;}</style>'
+    return '<style>table {font-family: arial, sans-serif;border-collapse: collapse;width: 100%;}td {border: 1px solid #000000;text-align: left;}th {border: 1px solid #000000;text-align: left;font-weight: bold;background-color: #4CAF50;}.fullColumn {background-color: #D3D3D3;width: 631px;}.nameColumn {width: 301px;}.dateColumn {width: 70px;}.complianceColumn {width: 60px;}.actionColumn {width: 200px;}</style>'
   }
 }

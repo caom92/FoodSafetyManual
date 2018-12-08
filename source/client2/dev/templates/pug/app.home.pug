@@ -9,37 +9,41 @@ include globals.pug
       showFlag: "this.home.showSideNav === true"
     }
   };
-+navBar(navBarConfig)('[navbarClass]'="'green'")
-  mz-navbar-item(style="font-weight: bolder;")
-    +select(
-      "'zone-selection'", 
-      '',
-      "langManager.messages.navBar.zone", 
-      'home.zones', 
-      '.name', 
-      '.id', 
-      'onZoneSelectionChanged()'
-    )(
-      '*ngIf'="home.showZoneMenu"
-      '[(ngModel)]'='home.zone.id'
-    )
-  mz-navbar-item
-    +link('http://www.jfdc.tech/')(target='_blank')
-      i.mdi.mdi-home
-  mz-navbar-item
-    +link()('[id]'="'translation-button'")
-      i.mdi.mdi-translate
-    +dropdownMenu("'language-options'", "'translation-button'")
-      mz-dropdown-item
-        +link()(
-          '(click)'='onLanguageButtonClicked("es", "ES")'
-          click-stop-propagation
-        )='Español'
-      mz-dropdown-item
-        +link()(
-          '(click)'='onLanguageButtonClicked("en", "US")'
-          click-stop-propagation
-        )='English'
+div.navbar-fixed
+  +navBar(navBarConfig)('[navbarClass]'="'green'")
+    mz-navbar-item(style="font-weight: bolder;")
+      +select(
+        "'zone-selection'", 
+        '',
+        "langManager.messages.navBar.zone", 
+        'home.zones', 
+        '.name', 
+        '.id', 
+        'onZoneSelectionChanged()'
+      )(
+        '*ngIf'="home.showZoneMenu"
+        '[(ngModel)]'='home.zone.id'
+      )
+    mz-navbar-item
+      +routerLink("['/menu']")(class='side-menu-link waves-effect waves-green')
+        i.mdi.mdi-view-dashboard
+    mz-navbar-item
+      +link('http://www.jfdc.tech/')(target='_blank')
+        i.mdi.mdi-home
+    mz-navbar-item
+      +link()('[id]'="'translation-button'")
+        i.mdi.mdi-translate
+      +dropdownMenu("'language-options'", "'translation-button'")
+        mz-dropdown-item
+          +link()(
+            '(click)'='onLanguageButtonClicked("es", "ES")'
+            click-stop-propagation
+          )='Español'
+        mz-dropdown-item
+          +link()(
+            '(click)'='onLanguageButtonClicked("en", "US")'
+            click-stop-propagation
+          )='English'
 
 //- Menu de navegacion lateral
 +sideNav("'sidenav'", "'sidenav-activation-btn'", "true")(

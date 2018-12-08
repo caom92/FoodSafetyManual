@@ -362,6 +362,54 @@ export class LogService {
     return rejectPromise
   }
 
+  public finish(logID: number): Promise<any> {
+    let finishPromise = new Promise<any>((resolve, reject) => {
+      let alert = this.alertCtrl.create({
+        title: 'Finalizar bitácora',
+        message: '¿Está seguro que desea finalizar esta bitácora para ser enviada a revisión por un supervisor? Esta acción no se puede deshacer',
+        buttons: [
+          {
+            text: this.ts.translate('Options.cancel'),
+            handler: () => {
+              // TODO: Toast de acción cancelada por el usuario
+              reject('user_cancel')
+            }
+          },
+          {
+            text: this.ts.translate('Options.accept'),
+            handler: () => {
+              let finishLoader = this.loaderService.koiLoader('Finalizando bitácora...')
+              let finishForm = new FormData()
+
+              finishForm.append('captured_log_id', logID.toString())
+
+              this.server.update(
+                'finish-log',
+                finishForm,
+                (response: any) => {
+                  if (response.meta.return_code == 0) {
+                    resolve(response.data)
+                  } else {
+                    reject('bad request')
+                    this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
+                  }
+                  finishLoader.dismiss()
+                }, (error: any, caught: Observable<void>) => {
+                  reject('network error')
+                  finishLoader.dismiss()
+                  this.toastService.showText('serverUnreachable')
+                  return []
+                }
+              )
+            }
+          }
+        ]
+      })
+    })
+
+    return finishPromise
+  }
+
   public update(data: any, suffix: string): Promise<string> {
     let updatePromise = new Promise<string>((resolve, reject) => {
       let loader = this.loaderService.koiLoader()

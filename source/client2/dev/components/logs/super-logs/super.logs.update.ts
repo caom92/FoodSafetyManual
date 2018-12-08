@@ -37,6 +37,14 @@ export abstract class SuperUpdateComponent extends SuperLogComponent {
     }
   }
 
+  public finish(): void {
+    this.logService.finish(this.log.report_id).then(success => {
+      this.back()
+    }, error => {
+
+    })
+  }
+
   public back(): void {
     this.closeLog.emit()
   }
