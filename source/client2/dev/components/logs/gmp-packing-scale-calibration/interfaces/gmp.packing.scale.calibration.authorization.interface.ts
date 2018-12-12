@@ -27,6 +27,7 @@ export interface AuthorizationItem {
   name: string
   test: number
   unit: number
+  quantity: number
   status: number
   is_sanitized: number
 }

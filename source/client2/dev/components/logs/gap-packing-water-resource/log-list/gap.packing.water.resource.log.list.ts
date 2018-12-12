@@ -1,8 +1,7 @@
-import { Component, Output, EventEmitter } from '@angular/core'
+import { Component, EventEmitter, Output, Input } from '@angular/core'
 import { DefaultLocale, Language } from 'angular-l10n'
 
 import { LogService } from '../../../../services/app.logs'
-import { ToastsService } from '../../../../services/app.toasts'
 import { SuperWaiting } from '../../super-logs/super.logs.waiting.interface'
 
 export interface LogListElement {
@@ -20,16 +19,15 @@ export class GAPPackingWaterResourceLogList {
   @Language() lang: string
   @DefaultLocale() defaultLocale: string
   @Output() startLog = new EventEmitter<number | boolean>()
+  @Input() suffix: string
   protected logList: Array<LogListElement> = []
   protected waitingLog: SuperWaiting = null
-  private suffix: string = null
 
-  constructor(protected logService: LogService, protected toasts: ToastsService) {
+  constructor(private logService: LogService) {
 
   }
 
   public ngOnInit(): void {
-    this.suffix = 'gap-packing-water-resource'
     this.logService.listWaitingLogs(this.suffix).then(success => {
       this.logList = success
     }, error => {

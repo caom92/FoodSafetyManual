@@ -1,9 +1,8 @@
 extends ../../capture.common.pug
 
 block reportViewer
-  //-h4 Report coming soon!
   gap-packing-water-resource-report-viewer
 
 block logViewer
-  gap-packing-water-resource-log-list(*ngIf='newLog !== true', (startLog)='onOpenLog($event)')
+  gap-packing-water-resource-log-list([suffix]='suffix', *ngIf='newLog !== true', (startLog)='onOpenLog($event)')
   gap-packing-water-resource-log(*ngIf='newLog == true', [log]='logData', (closeLog)='onCloseLog($event)')

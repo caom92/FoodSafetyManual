@@ -31,8 +31,6 @@ export class GMPDocControlDocControlReportLoaderComponent extends SuperReportLoa
       items = items.substring(0, items.length - 2)
     }*/
 
-    console.log(this)
-
     if (this.report.reports.document.entries.employee != null &&
       this.report.reports.document.entries.employee != undefined &&
       this.report.reports.document.entries.employee != '') {
@@ -51,6 +49,5 @@ export class GMPDocControlDocControlReportLoaderComponent extends SuperReportLoa
     preview.push({ title: null, content: content })
 
     return preview
-    //return null
   }
 }

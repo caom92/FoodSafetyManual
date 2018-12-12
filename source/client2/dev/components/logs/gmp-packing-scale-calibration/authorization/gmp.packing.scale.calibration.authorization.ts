@@ -16,7 +16,7 @@ import { UpdateItem, UpdateType } from '../interfaces/gmp.packing.scale.calibrat
 })
 
 export class GMPPackingScaleCalibrationAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
-  @Input() log: Authorization = { report_id: null, created_by: null, creation_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, notes: null, corrective_action: null, types: { units: [{ id: null, symbol: null }], scales: [{ id: null, name: null, time: null, items: [{ id: null, position: null, name: null, test: null, unit: null, status: null, is_sanitized: null }] }] } }
+  @Input() log: Authorization = { report_id: null, created_by: null, creation_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, notes: null, corrective_action: null, types: { units: [{ id: null, symbol: null }], scales: [{ id: null, name: null, time: null, items: [{ id: null, position: null, name: null, test: null, unit: null, quantity: null, status: null, is_sanitized: null }] }] } }
   @Language() lang: string
   captureForm: FormGroup = new FormBuilder().group({})
 
@@ -42,7 +42,7 @@ export class GMPPackingScaleCalibrationAuthorizationComponent extends SuperAutho
     for (let type of this.log.types.scales) {
       let itemControl = []
       for (let item of type.items) {
-        itemControl.push(this.initItem({ id: item.id, test: item.test, unit_id: item.unit, status: (item.status == 1) ? true : false, is_sanitized: (item.is_sanitized == 1) ? true : false }))
+        itemControl.push(this.initItem({ id: item.id, test: item.test, unit_id: item.unit, status: (item.status == 1) ? true : false, quantity: item.quantity, is_sanitized: (item.is_sanitized == 1) ? true : false }))
       }
       control.push(this.initType({ id: type.id, time: type.time, items: itemControl }))
     }
@@ -61,6 +61,7 @@ export class GMPPackingScaleCalibrationAuthorizationComponent extends SuperAutho
       id: [item.id, [Validators.required]],
       test: [item.test, [Validators.required]],
       unit_id: [item.unit_id, [Validators.required]],
+      quantity: [item.quantity],
       status: [item.status, [Validators.required]],
       is_sanitized: [item.is_sanitized, []]
     })

@@ -16,6 +16,7 @@ export interface UpdateItem {
   id: number
   test: number
   unit_id: number
+  quantity: number
   status: boolean
   is_sanitized: boolean
 }

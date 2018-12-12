@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { FormArray, FormControl, FormGroup } from '@angular/forms'
-import { PubSubService } from 'angular2-pubsub'
+import { TranslationService as TService } from 'angular-l10n'
 import { Observable } from 'rxjs/Rx'
 
 import { LogDetails } from '../components/logs/log.interfaces'
@@ -9,7 +9,6 @@ import { BackendService } from './app.backend'
 import { LoaderService } from './app.loaders'
 import { DateTimeService } from './app.time'
 import { ToastsService } from './app.toasts'
-import { TranslationService as TService } from 'angular-l10n'
 
 /**
  * LogService, también referido como el servicio de bitácoras, es el servicio
@@ -26,7 +25,6 @@ export class LogService {
   constructor(private loaderService: LoaderService,
     private toastService: ToastsService,
     private server: BackendService,
-    private events: PubSubService,
     private timeService: DateTimeService,
     private alertCtrl: AlertController,
     private ts: TService) {
@@ -223,7 +221,6 @@ export class LogService {
           {
             text: this.ts.translate('Options.cancel'),
             handler: () => {
-              // TODO: Toast de acción cancelada por el usuario
               reject('user_cancel')
             }
           },
@@ -273,7 +270,6 @@ export class LogService {
           {
             text: this.ts.translate('Options.cancel'),
             handler: () => {
-              // TODO: Toast de acción cancelada por el usuario
               reject('user_cancel')
             }
           },
@@ -321,7 +317,6 @@ export class LogService {
           {
             text: this.ts.translate('Options.cancel'),
             handler: () => {
-              // TODO: Toast de acción cancelada por el usuario
               reject('user_cancel')
             }
           },
@@ -371,7 +366,6 @@ export class LogService {
           {
             text: this.ts.translate('Options.cancel'),
             handler: () => {
-              // TODO: Toast de acción cancelada por el usuario
               reject('user_cancel')
             }
           },

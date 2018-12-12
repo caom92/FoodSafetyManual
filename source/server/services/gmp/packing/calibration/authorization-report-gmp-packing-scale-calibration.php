@@ -6,7 +6,7 @@ require_once realpath(dirname(__FILE__).'/../../../service_creators.php');
 $service = fsm\createAuthorizationReportService(
   'GMP',
   'Packing',
-  'Daily Scale Calibration Check',
+  'Daily Equipment Calibration Check',
   [
     'items_name' => 'types',
     'extra_info' => [
@@ -49,6 +49,7 @@ $service = fsm\createAuthorizationReportService(
               'name' => $log['scale_name'],
               'test' => $log['test'],
               'unit' => $log['unit_id'],
+              'quantity' => $log['quantity'],
               'status' => $log['status'],
               'is_sanitized' => $log['is_sanitized']
             ]]
@@ -62,6 +63,7 @@ $service = fsm\createAuthorizationReportService(
             'name' => $log['scale_name'],
             'test' => $log['test'],
             'unit' => $log['unit_id'],
+            'quantity' => $log['quantity'],
             'status' => $log['status'],
             'is_sanitized' => $log['is_sanitized']
           ]);

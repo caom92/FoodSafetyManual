@@ -23,14 +23,11 @@ export class GAPPackingWaterResourceCaptureComponent extends SuperCapture {
 
   public onOpenLog(event) {
     if (event === Number(event)) {
-      // Abrir bitácora existente
       this.logService.authorization('gap-packing-water-resource', event).then(success => {
         this.logData = success
         this.newLog = true
       })
-      //this.logData = { zone_name: 'TEST', program_name: 'TEST', module_name: 'TEST', log_name: 'TEST', html_footer: 'TEST', areas: [{ id: 1, name: 'TEST', items: [{ id: 1, name: 'TEST', date: '2018-01-01', compliance: true, corrective_actions: 'sdfgdsjhfghsdj' }] }] }
     } else {
-      // Iniciar nueva bitácora
       this.newLog = true
     }
   }

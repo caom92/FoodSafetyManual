@@ -1,5 +1,5 @@
 import { OnDestroy, OnInit } from '@angular/core'
-import { DomSanitizer } from '@angular/platform-browser'
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'
 import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
@@ -12,7 +12,7 @@ export class SuperCapture implements OnInit, OnDestroy {
   log_name: string = 'Loading...'
   suffix: string = ''
   manualSrc: string
-  manualDirectory: any = null
+  manualDirectory: SafeResourceUrl = null
   isEmployee: boolean = false
   zoneChange: Subscription
   
@@ -34,8 +34,6 @@ export class SuperCapture implements OnInit, OnDestroy {
             this.manualSrc = 'http://localhost/espresso/' + response.data.manual_location + localStorage.getItem('zone_name').toLowerCase() + '/actual_manual.pdf?time=' + Date.now()
             this.manualDirectory = this.sanitizer.bypassSecurityTrustResourceUrl('http://localhost/espresso/' + response.data.manual_location + 'law/actual_manual.pdf?time=' + Date.now())
           }
-        } else {
-
         }
       }
     )

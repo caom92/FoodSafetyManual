@@ -130,7 +130,7 @@ export class UserInfoModalComponent extends MzBaseModal implements OnInit
         // revisamos si el servidor respondio de forma exitosa
         if (response.meta.return_code == 0) {
           // si asi fue, guardamos la lista recuperada
-          this.zones = response.data
+          this.zones = response.data.sort((a, b) => (a as any).name < (b as any).name ? -1 : (a as any).name > (b as any).name ? 1 : 0)
         } else {
           // si el servidor respondio con un error, notificamos al usuario
           this.toastManager.showText(

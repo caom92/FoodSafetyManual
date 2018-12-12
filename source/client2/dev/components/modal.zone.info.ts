@@ -122,7 +122,7 @@ export class ZoneInfoModalComponent extends MzBaseModal implements OnInit
                 // si el servidor respondio con exito, desplegamos la lista de 
                 // zonas actualizada en pantalla
                 if (response.meta.return_code == 0) {
-                  this.home.zones = response.data
+                  this.home.zones = response.data.sort((a, b) => (a as any).name < (b as any).name ? -1 : (a as any).name > (b as any).name ? 1 : 0)
                 } else {
                   // si el servidor respondio con error, notificamos al usuario
                   this.toastManager.showText(
@@ -186,7 +186,7 @@ export class ZoneInfoModalComponent extends MzBaseModal implements OnInit
                 // si el servidor respondio con exito, desplegamos los datos 
                 // actualizados en pantalla
                 if (response.meta.return_code == 0) {
-                  this.home.zones = response.data
+                  this.home.zones = response.data.sort((a, b) => (a as any).name < (b as any).name ? -1 : (a as any).name > (b as any).name ? 1 : 0)
                 } else {
                   // si el servidor respondio con un error, notificamos al 
                   // usuario

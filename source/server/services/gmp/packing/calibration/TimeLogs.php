@@ -32,6 +32,7 @@ class TimeLogs extends db\LogTable
         s.serial_num AS scale_name,
         sl.test AS test,
         u.id AS unit_id,
+        sl.quantity AS quantity,
         u.symbol AS unit_name,
         sl.was_test_passed AS status,
         sl.was_scale_sanitized AS is_sanitized

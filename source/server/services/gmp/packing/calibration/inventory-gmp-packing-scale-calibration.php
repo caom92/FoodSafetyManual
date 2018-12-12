@@ -5,7 +5,7 @@ require_once realpath(dirname(__FILE__).'/../../../service_creators.php');
 $service = fsm\createInventoryService(
   'GMP',
   'Packing',
-  'Daily Scale Calibration Check',
+  'Daily Equipment Calibration Check',
   [],
   function($scope, $request) {
     // first, we get the session segment

@@ -6,7 +6,7 @@ require_once realpath(dirname(__FILE__).'/../../../service_creators.php');
 $service = fsm\createCaptureService(
   'GMP',
   'Packing',
-  'Daily Scale Calibration Check',
+  'Daily Equipment Calibration Check',
   [
     'notes' => [
       'type' => 'string',
@@ -42,6 +42,10 @@ $service = fsm\createCaptureService(
             'unit_id' => [
               'type' => 'int',
               'min' => 1
+            ],
+            'quantity' => [
+              'type' => 'int',
+              'optional' => true
             ],
             'status' => [
               'type' => 'bool'
@@ -81,6 +85,8 @@ $service = fsm\createCaptureService(
             'scale_id' => $scaleLog['id'],
             'test' => $scaleLog['test'],
             'unit_id' => $scaleLog['unit_id'],
+            'quantity' => (isset($scaleLog['quantity']) && array_key_exists('quantity', $scaleLog)) ?
+              $scaleLog['quantity'] : NULL,
             'was_scale_sanitized' => $scaleLog['is_sanitized'],
             'was_test_passed' => $scaleLog['status']
           ]);

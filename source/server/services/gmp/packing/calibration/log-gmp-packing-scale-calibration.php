@@ -6,7 +6,7 @@ require_once realpath(dirname(__FILE__).'/../../../service_creators.php');
 $service = fsm\createLogService(
   'GMP',
   'Packing',
-  'Daily Scale Calibration Check',
+  'Daily Equipment Calibration Check',
   [
     'items_name' => 'types',
     'function' => function($scope, $segment) {

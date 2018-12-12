@@ -1,6 +1,8 @@
 td.numberColumn {{item.name}}
 td.testColumn {{item.test}}
 td.unitColumn {{item.unit}}
+td.quantityColumn(*ngIf='item.quantity === null') N/A
+td.quantityColumn(*ngIf='item.quantity !== null') {{item.quantity}}
 td.statusColumn(*ngIf='item.status == 1') {{ 'Log.pass' | translate:lang }}
 td.statusColumn(*ngIf='item.status == 0') {{ 'Log.fail' | translate:lang }}
 td.sanitizedColumn(*ngIf='item.is_sanitized == 1') {{ 'Log.yes' | translate:lang }}

@@ -6,7 +6,7 @@ require_once realpath(dirname(__FILE__).'/../../../service_creators.php');
 $service = fsm\createUpdateService(
   'GMP',
   'Packing',
-  'Daily Scale Calibration Check',
+  'Daily Equipment Calibration Check',
   [
     'notes' => [
       'type' => 'string',
@@ -43,6 +43,10 @@ $service = fsm\createUpdateService(
               'type' => 'int',
               'min' => 1
             ],
+            'quantity' => [
+              'type' => 'int',
+              'optional' => true
+            ],
             'status' => [
               'type' => 'bool'
             ],
@@ -75,6 +79,8 @@ $service = fsm\createUpdateService(
               [
                 'test' => $item['test'],
                 'unit_id' => $item['unit_id'],
+                'quantity' => (isset($item['quantity']) && array_key_exists('quantity', $item)) ?
+                  $item['quantity'] : NULL,
                 'was_test_passed' => $item['status'],
                 'was_scale_sanitized' => $item['is_sanitized']
               ],

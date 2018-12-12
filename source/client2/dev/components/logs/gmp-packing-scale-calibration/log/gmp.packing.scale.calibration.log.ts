@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { FormArray, FormBuilder, Validators } from '@angular/forms'
+import { FormArray, FormBuilder, Validators, FormGroup } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
@@ -46,7 +46,7 @@ export class GMPPackingScaleCalibrationLogComponent extends SuperLogComponent im
     for (let type of this.log.types.scales) {
       let itemControl = []
       for (let item of type.items) {
-        itemControl.push(this.initItem({ id: item.id, test: null, unit_id: this.log.types.units[0].id, status: true, is_sanitized: false }))
+        itemControl.push(this.initItem({ id: item.id, test: null, unit_id: this.log.types.units[0].id, quantity: null, status: true, is_sanitized: false }))
       }
       control.push(this.initType({ id: type.id, time: currentTime, items: itemControl }))
     }
@@ -59,7 +59,7 @@ export class GMPPackingScaleCalibrationLogComponent extends SuperLogComponent im
     for (let type of this.log.types.scales) {
       let items = []
       for (let item of type.items) {
-        items.push({ id: item.id, test: null, unit_id: this.log.types.units[0].id, status: true, is_sanitized: false })
+        items.push({ id: item.id, test: null, unit_id: this.log.types.units[0].id, quantity: null, status: true, is_sanitized: false })
       }
       types.push({ id: type.id, time: currentTime, items: items })
     }
@@ -84,8 +84,35 @@ export class GMPPackingScaleCalibrationLogComponent extends SuperLogComponent im
       id: [item.id, [Validators.required]],
       test: [item.test, [Validators.required]],
       unit_id: [item.unit_id, [Validators.required]],
+      quantity: [item.quantity],
       status: [item.status, [Validators.required]],
       is_sanitized: [item.is_sanitized, []]
     })
+  }
+
+  public cleanForm(): void {
+    for (let t in (<FormGroup>this.captureForm.controls.types).controls) {
+      const type = (<FormGroup>(<FormGroup>this.captureForm.controls.types).controls[t])
+      for (let i in (<FormGroup>type.controls.items).controls) {
+        const item = (<FormGroup>(<FormGroup>type.controls.items).controls[i])
+        const quantityControl = (<FormGroup>item).controls.quantity
+
+        if (quantityControl.value == null || quantityControl.value == '') {
+          quantityControl.disable()
+        }
+      }
+    }
+  }
+
+  public enableForm(): void {
+    for (let t in (<FormGroup>this.captureForm.controls.types).controls) {
+      const type = (<FormGroup>(<FormGroup>this.captureForm.controls.types).controls[t])
+      for (let i in (<FormGroup>type.controls.items).controls) {
+        const item = (<FormGroup>(<FormGroup>type.controls.items).controls[i])
+        const quantityControl = (<FormGroup>item).controls.quantity
+
+        quantityControl.enable()
+      }
+    }
   }
 }
