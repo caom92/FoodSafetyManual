@@ -105,6 +105,8 @@
         "corrective_action": "Corrective action",
         "corrective_action_of": "Corrective action of",
         "reading": "Reading",
+        "results": "Results",
+        "retests": "Retests",
         "units": "Units",
         "status": "Status",
         "pass": "Pass",

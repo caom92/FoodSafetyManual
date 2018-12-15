@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { FormArray, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
@@ -50,7 +50,8 @@ export class GAPPackingWaterResourceLogComponent extends SuperUpdateComponent im
     for (let area of this.log.areas) {
       let itemControl = []
       for (let item of area.items) {
-        itemControl.push(this.initItem({ id: item.id, date: (item.date != undefined) ? item.date : '', compliance: (item.compliance != undefined) ? item.compliance : false, corrective_actions: (item.corrective_actions != undefined) ? item.corrective_actions : '' }))
+        console.log(item)
+        itemControl.push(this.initItem({ id: item.id, date: (item.date != undefined) ? item.date : '', compliance: (item.compliance === 1) ? true : (item.compliance === 0) ? false : null, reason: (item.reason != undefined) ? item.reason : '', corrective_actions: (item.corrective_actions != undefined) ? item.corrective_actions : '' }))
       }
       control.push(this.initArea({ id: area.id, items: itemControl }))
     }
@@ -62,7 +63,7 @@ export class GAPPackingWaterResourceLogComponent extends SuperUpdateComponent im
     for (let area of this.log.areas) {
       let items = []
       for (let item of area.items) {
-        items.push({ id: item.id, date: '', compliance: false, corrective_actions: '' })
+        items.push({ id: item.id, date: '', compliance: null, reason: '', corrective_actions: '' })
       }
       areas.push({ id: area.id, items: items })
     }
@@ -84,6 +85,7 @@ export class GAPPackingWaterResourceLogComponent extends SuperUpdateComponent im
       id: [item.id, [Validators.required]],
       date: [item.date, [CustomValidators.dateValidator()]],
       compliance: [item.compliance],
+      reason: [item.reason],
       corrective_actions: [item.corrective_actions]
     })
   }
@@ -96,17 +98,27 @@ export class GAPPackingWaterResourceLogComponent extends SuperUpdateComponent im
         const dateControl = (<FormGroup>item).controls.date
         const complianceControl = (<FormGroup>item).controls.compliance
         const actionsControl = (<FormGroup>item).controls.corrective_actions
+        const reasonControl = (<FormGroup>item).controls.reason
 
-        if (dateControl.value == null || dateControl.value == '') {
+        if (dateControl.value === null || dateControl.value === '') {
           dateControl.disable()
         }
 
-        if (complianceControl.value == null || complianceControl.value == '') {
-          complianceControl.disable()
+        if (complianceControl.value === true || complianceControl.value === null) {
+          actionsControl.disable()
+          reasonControl.disable()
+        } else {
+          if (actionsControl.value === null || actionsControl.value === '') {
+            actionsControl.disable()
+          }
+
+          if (reasonControl.value === null || reasonControl.value === '') {
+            reasonControl.disable()
+          }
         }
 
-        if (actionsControl.value == null || actionsControl.value == '') {
-          actionsControl.disable()
+        if (complianceControl.value === null || complianceControl.value === '') {
+          complianceControl.disable()
         }
       }
     }
@@ -120,10 +132,12 @@ export class GAPPackingWaterResourceLogComponent extends SuperUpdateComponent im
         const dateControl = (<FormGroup>item).controls.date
         const complianceControl = (<FormGroup>item).controls.compliance
         const actionsControl = (<FormGroup>item).controls.corrective_actions
+        const reasonControl = (<FormGroup>item).controls.reason
 
         dateControl.enable()
         complianceControl.enable()
         actionsControl.enable()
+        reasonControl.enable()
       }
     }
   }

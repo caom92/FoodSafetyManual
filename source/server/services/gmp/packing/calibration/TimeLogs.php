@@ -43,7 +43,7 @@ class TimeLogs extends db\LogTable
         ON sl.scale_id = s.id
       INNER JOIN gmp_packing_calibration_scale_types AS st
         ON s.type_id = st.id
-      INNER JOIN gmp_packing_calibration_weight_units AS u
+      LEFT JOIN gmp_packing_calibration_weight_units AS u
         ON sl.unit_id = u.id
       WHERE capture_date_id = $dateID
       ORDER BY type_id, `order`"

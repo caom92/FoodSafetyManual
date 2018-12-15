@@ -11,6 +11,7 @@ include ../../../log-ionic-materialize.pug
         +textInputLine("{{ 'Log.reading' | translate:lang }}", false, false, "test", "number")
       +col()(class="s3 m3 l3")
         +select("{{ 'Log.units' | translate:lang }}", false, "unit_id", "popover")
+          +option("N/A", 'null', false, false)
           +option("{{unit.symbol}}", "unit.id", false, false)(*ngFor='let unit of units')
       +col()(class="s2 m2 l2")
         +textInputLine("{{ 'Log.quantity_abbr' | translate:lang }}", false, false, "quantity", "number")

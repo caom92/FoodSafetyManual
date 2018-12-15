@@ -5,9 +5,7 @@ import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LogService } from '../../../../services/app.logs'
-import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
-import { TranslationService } from '../../../../services/app.translation'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization, AuthorizationArea, AuthorizationItem } from '../interfaces/gap.packing.water.resource.authorization.interface'
 
@@ -61,6 +59,7 @@ export class GAPPackingWaterResourceAuthorizationComponent extends SuperAuthoriz
       id: [item.id, [Validators.required]],
       date: [item.date, [CustomValidators.dateValidator()]],
       compliance: [(item.compliance == 1) ? true : (item.compliance == 0) ? false : null],
+      reason: [item.reason],
       corrective_actions: [item.corrective_actions]
     })
   }
@@ -73,17 +72,27 @@ export class GAPPackingWaterResourceAuthorizationComponent extends SuperAuthoriz
         const dateControl = (<FormGroup>item).controls.date
         const complianceControl = (<FormGroup>item).controls.compliance
         const actionsControl = (<FormGroup>item).controls.corrective_actions
+        const reasonControl = (<FormGroup>item).controls.reason
 
-        if (dateControl.value == null || dateControl.value == '') {
+        if (dateControl.value === null || dateControl.value === '') {
           dateControl.disable()
         }
 
-        if (complianceControl.value == null || complianceControl.value == '') {
-          complianceControl.disable()
+        if (complianceControl.value === true || complianceControl.value === null) {
+          actionsControl.disable()
+          reasonControl.disable()
+        } else {
+          if (actionsControl.value === null || actionsControl.value === '') {
+            actionsControl.disable()
+          }
+
+          if (reasonControl.value === null || reasonControl.value === '') {
+            reasonControl.disable()
+          }
         }
 
-        if (actionsControl.value == null || actionsControl.value == '') {
-          actionsControl.disable()
+        if (complianceControl.value === null || complianceControl.value === '') {
+          complianceControl.disable()
         }
       }
     }
@@ -97,10 +106,12 @@ export class GAPPackingWaterResourceAuthorizationComponent extends SuperAuthoriz
         const dateControl = (<FormGroup>item).controls.date
         const complianceControl = (<FormGroup>item).controls.compliance
         const actionsControl = (<FormGroup>item).controls.corrective_actions
+        const reasonControl = (<FormGroup>item).controls.reason
 
         dateControl.enable()
         complianceControl.enable()
         actionsControl.enable()
+        reasonControl.enable()
       }
     }
   }

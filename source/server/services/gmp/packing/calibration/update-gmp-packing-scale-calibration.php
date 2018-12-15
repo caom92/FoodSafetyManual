@@ -41,7 +41,8 @@ $service = fsm\createUpdateService(
             ],
             'unit_id' => [
               'type' => 'int',
-              'min' => 1
+              'min' => 1,
+              'optional' => true
             ],
             'quantity' => [
               'type' => 'int',
@@ -78,7 +79,8 @@ $service = fsm\createUpdateService(
             ->updateByCapturedLogIDAndScaleID(
               [
                 'test' => $item['test'],
-                'unit_id' => $item['unit_id'],
+                'unit_id' => (isset($item['unit_id']) && array_key_exists('unit_id', $item)) ?
+                  $item['unit_id'] : NULL,
                 'quantity' => (isset($item['quantity']) && array_key_exists('quantity', $item)) ?
                   $item['quantity'] : NULL,
                 'was_test_passed' => $item['status'],

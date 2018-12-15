@@ -27,6 +27,11 @@ $service = fsm\createCaptureService(
               'type' => 'bool',
               'optional' => TRUE
             ],
+            'reason' => [
+              'type' => 'string',
+              'max_length' => 65535,
+              'optional' => TRUE
+            ],
             'corrective_actions' => [
               'type' => 'string',
               'max_length' => 65535,
@@ -57,6 +62,9 @@ $service = fsm\createCaptureService(
             'is_compliant' => (isset($item['compliance']) 
               && array_key_exists('compliance', $item)) ?
                 $item['compliance'] : NULL,
+            'reason' => (isset($item['reason']) 
+              && array_key_exists('reason', $item)) ?
+                $item['reason'] : NULL,
             'corrective_actions' => (isset($item['corrective_actions']) 
               && array_key_exists('corrective_actions', $item)) ?
                 $item['corrective_actions'] : NULL

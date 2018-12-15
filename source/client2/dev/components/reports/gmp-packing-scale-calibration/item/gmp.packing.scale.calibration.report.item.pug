@@ -1,6 +1,7 @@
 td.numberColumn {{item.name}}
 td.testColumn {{item.test}}
-td.unitColumn {{item.unit}}
+td.unitColumn(*ngIf='item.unit === null') N/A
+td.unitColumn(*ngIf='item.unit !== null') {{item.unit}}
 td.quantityColumn(*ngIf='item.quantity === null') N/A
 td.quantityColumn(*ngIf='item.quantity !== null') {{item.quantity}}
 td.statusColumn(*ngIf='item.status == 1') {{ 'Log.pass' | translate:lang }}

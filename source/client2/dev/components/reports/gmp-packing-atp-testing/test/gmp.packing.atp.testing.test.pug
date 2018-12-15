@@ -1,5 +1,9 @@
 td.testColumn {{item.test1}}
-td.resultColumn {{item.results1}}
+td.resultColumn(*ngIf='item.results1 === 1') {{ 'Log.pass' | translate:lang }}
+td.resultColumn(*ngIf='item.results1 === 0') {{ 'Log.fail' | translate:lang }}
+td.resultColumn(*ngIf='item.results1 !== 0 && item.results1 !== 1') N/A
 td.actionColumn {{item.corrective_action}}
 td.testColumn {{item.test2}}
-td.resultColumn {{item.results2}}
+td.resultColumn(*ngIf='item.results2 === 1') {{ 'Log.pass' | translate:lang }}
+td.resultColumn(*ngIf='item.results2 === 0') {{ 'Log.fail' | translate:lang }}
+td.resultColumn(*ngIf='item.results2 !== 0 && item.results2 !== 1') N/A

@@ -96,9 +96,14 @@ export class GMPPackingScaleCalibrationLogComponent extends SuperLogComponent im
       for (let i in (<FormGroup>type.controls.items).controls) {
         const item = (<FormGroup>(<FormGroup>type.controls.items).controls[i])
         const quantityControl = (<FormGroup>item).controls.quantity
+        const unitControl = (<FormGroup>item).controls.unit_id
 
-        if (quantityControl.value == null || quantityControl.value == '') {
+        if (quantityControl.value === null || quantityControl.value === '') {
           quantityControl.disable()
+        }
+
+        if (unitControl.value === null || unitControl.value === '') {
+          unitControl.disable()
         }
       }
     }
@@ -110,8 +115,10 @@ export class GMPPackingScaleCalibrationLogComponent extends SuperLogComponent im
       for (let i in (<FormGroup>type.controls.items).controls) {
         const item = (<FormGroup>(<FormGroup>type.controls.items).controls[i])
         const quantityControl = (<FormGroup>item).controls.quantity
+        const unitControl = (<FormGroup>item).controls.unit_id
 
         quantityControl.enable()
+        unitControl.enable()
       }
     }
   }

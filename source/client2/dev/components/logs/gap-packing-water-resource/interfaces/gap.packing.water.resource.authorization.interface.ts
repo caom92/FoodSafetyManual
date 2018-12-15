@@ -15,5 +15,6 @@ export interface AuthorizationItem {
   name: string
   date: string
   compliance: number
+  reason: string
   corrective_actions: string
 }

@@ -66,7 +66,11 @@ export class SuperReportComponent implements OnInit {
   }
 
   public getCSS(): string {
-    throw 'getCSS() function must be overridden in child class'
+    return '<style>' + this.commonCSS() + '</style>'
+  }
+
+  public commonCSS(): string {
+    return 'table{font-family:arial,sans-serif;border-collapse:collapse;width:100%}td{border:1px solid #000;text-align:left}th{border:1px solid #000;text-align:left;font-weight:700;background-color:#4CAF50}'
   }
 
   public getPreview(): Array<Preview> {

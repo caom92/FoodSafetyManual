@@ -1,4 +1,7 @@
 extends ../../report-loader.common.pug
 
+block dateSection
+  +dateSection(2, 's12 m3 l2', 's12 m9 l10')
+
 block report
   gmp-others-unusual-occurrence-report(#reportContainer, [report]='report')

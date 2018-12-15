@@ -97,16 +97,16 @@ export class GMPPackingFinishedProductAuthorizationComponent extends SuperAuthor
       const originControl = (<FormGroup>entry).controls.origin
       const notesControl = (<FormGroup>entry).controls.notes
       const albumControl = (<FormGroup>entry).controls.album_url
-      if (dateControl.value == null || dateControl.value == '') {
+      if (dateControl.value === null || dateControl.value === '') {
         dateControl.disable()
       }
-      if (originControl.value == null || originControl.value == '') {
+      if (originControl.value === null || originControl.value === '') {
         originControl.disable()
       }
-      if (notesControl.value == null || notesControl.value == '') {
+      if (notesControl.value === null || notesControl.value === '') {
         notesControl.disable()
       }
-      if (albumControl.value == null || albumControl.value == '') {
+      if (albumControl.value === null || albumControl.value === '') {
         albumControl.disable()
       }
     }

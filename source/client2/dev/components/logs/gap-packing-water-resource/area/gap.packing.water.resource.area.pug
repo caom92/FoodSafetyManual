@@ -10,6 +10,8 @@ include ../../../log-ionic-materialize.pug
         p() Fecha
       +col()(class='s4 m4 l2')
         p() Conformidad
-      +col()(*ngIf='!(lowerThanLargeResolution | async)', class='s12 m5 l5')
+      +col()(*ngIf='!(lowerThanLargeResolution | async)', class='s12 m6 l2')
+        p() Motivo
+      +col()(*ngIf='!(lowerThanLargeResolution | async)', class='s12 m6 l3')
         p() Acción correctiva
     gap-packing-water-resource-item(*ngFor='let item of area.items; let i = index', [item]='item', [itemGroup]='areaForm.controls.items.controls[i]')

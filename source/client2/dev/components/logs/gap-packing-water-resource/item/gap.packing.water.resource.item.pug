@@ -5,9 +5,15 @@ include ../../../log-ionic-materialize.pug
     p() {{item.name}}
   +col()(class='s4 m4 l2')
     +slimDateInput(false, null, "date", "date_{{item.id}}", null, "langManager.messages.global.datePickerConfigShort")(class='slim-text-input no-margin-top')
-  +col()(class='s4 m4 l2')
-    +checkbox("{{ 'Log.approved' | translate:lang }}", false, "compliance", "compliance_{{item.id}}")([formGroup]='itemForm')
-  +col()(class='s12 m12 l5')
+  +col()(class='s2 m2 l1')
+    +radio("{{ 'Log.yes' | translate:lang }}", false, "true", false, false, "compliance_{{item.id}}", "status_{{item.id}}")([formControl]='itemForm.controls.compliance', [value]='true')
+    //-+checkbox("{{ 'Log.yes' | translate:lang }}", false, "compliance", "compliance_{{item.id}}")([formGroup]='itemForm')
+  +col()(class='s2 m2 l1')
+    +radio("{{ 'Log.no' | translate:lang }}", false, "false", false, false, "non_compliance_{{item.id}}", "status_{{item.id}}")([formControl]='itemForm.controls.compliance', [value]='false')
+    //-+checkbox("{{ 'Log.no' | translate:lang }}", false, "compliance", "non_compliance_{{item.id}}")([formGroup]='itemForm')
+  +col()(class='s12 m12 l2', *ngIf='itemForm.controls.compliance.value === false')
+    +slimTextInput(null, null, "reason", "text", "reason_{{item.id}}" , null)(class='slim-text-input no-margin-top')
+  +col()(class='s12 m12 l3', *ngIf='itemForm.controls.compliance.value === false')
     +slimTextInput(null, null, "corrective_actions", "text", "corrective_action_{{item.id}}" , null)(class='slim-text-input no-margin-top')
 
 +row()(*ngIf='lowerThanLargeResolution | async', style='margin-bottom: 0px; margin-top: 4px;', [formGroup]='itemForm')
@@ -15,14 +21,24 @@ include ../../../log-ionic-materialize.pug
     p() {{item.name}}
   +col()(class='s4 m4 l2')
     +slimDateInput(false, null, "date", "date_{{item.id}}", null, "langManager.messages.global.datePickerConfigShort")(class='slim-text-input no-margin-top')
-  +col()(class='s4 m4 l2')
-    +checkbox("{{ 'Log.approved' | translate:lang }}", false, "compliance", "compliance_{{item.id}}")([formGroup]='itemForm')
+  +col()(class='s2 m2 l1', *ngIf='itemForm.controls.compliance.value === false')
+    +radio("{{ 'Log.yes' | translate:lang }}", false, "true", false, false, "compliance_{{item.id}}", "status_{{item.id}}")([formControl]='itemForm.controls.compliance', [value]='true')
+    //-+checkbox("{{ 'Log.yes' | translate:lang }}", false, "compliance", "compliance_{{item.id}}")([formGroup]='itemForm')
+  +col()(class='s2 m2 l1', *ngIf='itemForm.controls.compliance.value === false')
+    +radio("{{ 'Log.no' | translate:lang }}", false, "false", false, false, "non_compliance_{{item.id}}", "status_{{item.id}}")([formControl]='itemForm.controls.compliance', [value]='false')
+    //-+checkbox("{{ 'Log.no' | translate:lang }}", false, "compliance", "non_compliance_{{item.id}}")([formGroup]='itemForm')
 
-+row()(*ngIf='lowerThanLargeResolution | async', style='margin-bottom: 0px; margin-top: 4px;', [formGroup]='itemForm')
-  +col()(class='s6 m4 l3')
++row()(*ngIf='(lowerThanLargeResolution | async) && itemForm.controls.compliance.value === false', style='margin-bottom: 0px; margin-top: 4px;', [formGroup]='itemForm')
+  +col()(class='s3 m3 l3')
+    p(class='bold-text') Motivo
+  +col()(class='s3 m3 l9')
+    +slimTextInput(null, null, "reason", "text", "reason_{{item.id}}" , null)(class='slim-text-input no-margin-top')
+  +col()(class='s3 m3 l3')
     p(class='bold-text') Acción correctiva
-  +col()(class='s6 m8 l9')
+  +col()(class='s3 m3 l9')
     +slimTextInput(null, null, "corrective_actions", "text", "corrective_action_{{item.id}}" , null)(class='slim-text-input no-margin-top')
+
+.divider(*ngIf='lowerThanLargeResolution | async')
 
 //-
   +col()(class='s4 m4 l3')

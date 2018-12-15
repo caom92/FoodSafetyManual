@@ -13,5 +13,6 @@ export interface UpdateItem {
   id: number
   date: string
   compliance: boolean
+  reason: string
   corrective_actions: string
 }

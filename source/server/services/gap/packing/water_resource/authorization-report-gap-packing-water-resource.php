@@ -40,6 +40,7 @@ $service = fsm\createAuthorizationReportService(
                 'name' => $item['name'],
                 'date' => $item['date'],
                 'compliance' => $item['compliance'],
+                'reason' => $item['reason'],
                 'corrective_actions' => $item['corrective_actions']
               ]
             ]
@@ -50,6 +51,7 @@ $service = fsm\createAuthorizationReportService(
             'name' => $item['name'],
             'date' => $item['date'],
             'compliance' => $item['compliance'],
+            'reason' => $item['reason'],
             'corrective_actions' => $item['corrective_actions']
           ]);
         }

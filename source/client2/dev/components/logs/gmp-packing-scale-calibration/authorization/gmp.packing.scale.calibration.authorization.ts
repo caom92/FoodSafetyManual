@@ -66,4 +66,37 @@ export class GMPPackingScaleCalibrationAuthorizationComponent extends SuperAutho
       is_sanitized: [item.is_sanitized, []]
     })
   }
+
+  public cleanForm(): void {
+    for (let t in (<FormGroup>this.captureForm.controls.types).controls) {
+      const type = (<FormGroup>(<FormGroup>this.captureForm.controls.types).controls[t])
+      for (let i in (<FormGroup>type.controls.items).controls) {
+        const item = (<FormGroup>(<FormGroup>type.controls.items).controls[i])
+        const quantityControl = (<FormGroup>item).controls.quantity
+        const unitControl = (<FormGroup>item).controls.unit_id
+
+        if (quantityControl.value === null || quantityControl.value === '') {
+          quantityControl.disable()
+        }
+
+        if (unitControl.value === null || unitControl.value === '') {
+          unitControl.disable()
+        }
+      }
+    }
+  }
+
+  public enableForm(): void {
+    for (let t in (<FormGroup>this.captureForm.controls.types).controls) {
+      const type = (<FormGroup>(<FormGroup>this.captureForm.controls.types).controls[t])
+      for (let i in (<FormGroup>type.controls.items).controls) {
+        const item = (<FormGroup>(<FormGroup>type.controls.items).controls[i])
+        const quantityControl = (<FormGroup>item).controls.quantity
+        const unitControl = (<FormGroup>item).controls.unit_id
+
+        quantityControl.enable()
+        unitControl.enable()
+      }
+    }
+  }
 }

@@ -41,7 +41,8 @@ $service = fsm\createCaptureService(
             ],
             'unit_id' => [
               'type' => 'int',
-              'min' => 1
+              'min' => 1,
+              'optional' => true
             ],
             'quantity' => [
               'type' => 'int',
@@ -84,7 +85,8 @@ $service = fsm\createCaptureService(
             'time_log_id' => $timeID,
             'scale_id' => $scaleLog['id'],
             'test' => $scaleLog['test'],
-            'unit_id' => $scaleLog['unit_id'],
+            'unit_id' => (isset($scaleLog['unit_id']) && array_key_exists('unit_id', $scaleLog)) ?
+              $scaleLog['unit_id'] : NULL,
             'quantity' => (isset($scaleLog['quantity']) && array_key_exists('quantity', $scaleLog)) ?
               $scaleLog['quantity'] : NULL,
             'was_scale_sanitized' => $scaleLog['is_sanitized'],

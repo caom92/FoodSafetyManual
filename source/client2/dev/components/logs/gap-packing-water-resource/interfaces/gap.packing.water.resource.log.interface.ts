@@ -14,6 +14,7 @@ export interface LogItem  {
   id: number
   name: string
   date?: string
-  compliance?: boolean
+  compliance?: number
+  reason?: string
   corrective_actions?: string
 }

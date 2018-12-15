@@ -3,14 +3,14 @@ mixin simpleButton(icon, color, condition, func)
     button(mz-button, float='true', (click)=func, style='background-color: ' + color + '; margin-top: -20px; margin-bottom: -20px;')
       i(mz-icon-mdi='mz-icon-mdi', [icon]="'" + icon + "'", [size]="'24px'")
 
-mixin dateSection(totalButtons)
+mixin dateSection(totalButtons, dateSize = 's12 m6 l6', previewSize = 's12 m6 l6')
   .col('[ngClass]'="{ 's10 m11 l11': showReport === false, 's" + (12 - totalButtons * 2) + " m" + (12 - totalButtons) + " l" + (12 - totalButtons) + "': showReport === true && isDirector === false, 's" + (10 - totalButtons * 2) + " m" + (11 - totalButtons) + " l" + (11 - totalButtons) + "': showReport === true && isDirector === true }")
     .row.no-margin-bottom
-      .overflow-limit('[ngClass]'="{ 'col s12 m12 l12': showReport && preview == null, 'col s12 m6 l6': !showReport && preview != null }", style='font-weight: bold;', *ngIf='report.display_date != null && report.display_date != undefined')
+      .overflow-limit('[ngClass]'="{ 'col s12 m12 l12': showReport && preview == null, 'col " + dateSize + "': !showReport && preview != null }", style='font-weight: bold;', *ngIf='report.display_date != null && report.display_date != undefined')
         | {{report.creation_date | l10nDate:defaultLocale:monthOptions | slice:0:3 | titlecase}} {{report.creation_date | l10nDate:defaultLocale:dayOptions}}, {{report.creation_date | l10nDate:defaultLocale:yearOptions}} | {{report.display_date}}
-      .overflow-limit('[ngClass]'="{ 'col s12 m12 l12': showReport && preview == null, 'col s12 m6 l6': !showReport && preview != null }", style='font-weight: bold;', *ngIf='report.display_date == null || report.display_date == undefined')
+      .overflow-limit('[ngClass]'="{ 'col s12 m12 l12': showReport && preview == null, 'col " + dateSize + "': !showReport && preview != null }", style='font-weight: bold;', *ngIf='report.display_date == null || report.display_date == undefined')
         | {{report.creation_date | l10nDate:defaultLocale:monthOptions | slice:0:3 | titlecase}} {{report.creation_date | l10nDate:defaultLocale:dayOptions}}, {{report.creation_date | l10nDate:defaultLocale:yearOptions}}
-      .overflow-limit.col.s12.m6.l6(*ngIf='!showReport && preview != null')
+      .overflow-limit.col(class=previewSize, *ngIf='!showReport && preview != null')
         report-preview([title]="view.title", [content]="view.content", *ngFor="let view of preview")
 
 div([hidden]="!(activeReport.id == 'any' || activeReport.id == report.report_id)")
@@ -43,4 +43,4 @@ div([hidden]="!(activeReport.id == 'any' || activeReport.id == report.report_id)
           +simpleButton('close-box', '#F44336', 'showReport', 'closeHTMLReport()')
   #tableWrapper.tableWrapper([hidden]='!showReport')
     block report
-      div(dynamicComponentContainer)
+      div

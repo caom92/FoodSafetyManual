@@ -24,6 +24,7 @@ class Logs extends db\LogTable
         'i.position(order)',
         'date',
         'is_compliant(compliance)',
+        'reason',
         'corrective_actions'
       ],
       [

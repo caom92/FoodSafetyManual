@@ -19,6 +19,6 @@ export class GMPPackingATPTestingReportComponent extends SuperReportComponent {
   }
 
   public getCSS(): string {
-    return ''
+    return '<style>' + this.commonCSS() + '.fullColumn{width:631px}.timeColumn{width:40px;}.testColumn{width:57px;}.resultColumn{width:75px;}.areaColumn{width:177px;}.actionColumn{width:150px;}</style>'
   }
 }
