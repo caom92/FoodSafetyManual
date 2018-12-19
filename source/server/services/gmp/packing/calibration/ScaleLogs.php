@@ -25,6 +25,8 @@ class ScaleLogs extends db\InsertableTable
   //        modificados
   // [out]  return (uint): el numero de renglones que fueron modificados
   function updateByCapturedLogIDAndScaleID($changes, $logID, $scaleID) {
+    $unit_id = is_null($changes['unit_id']) ? "NULL" : $changes['unit_id'];
+    $quantity = is_null($changes['quantity']) ? "NULL" : $changes['quantity'];
     $wasTestPassed = ($changes['was_test_passed']) ? "1" : "0";
     $wasScaleSanitized = ($changes['was_scale_sanitized']) ? "1" : "0";
     return parent::$dataBase->query(
@@ -36,8 +38,8 @@ class ScaleLogs extends db\InsertableTable
         ON tl.capture_date_id = cl.id
       SET 
         test = {$changes['test']},
-        unit_id = {$changes['unit_id']},
-        quantity = {$changes['quantity']},
+        unit_id = {$unit_id},
+        quantity = {$quantity},
         was_test_passed = {$wasTestPassed},
         was_scale_sanitized = {$wasScaleSanitized}
       WHERE cl.id = $logID AND scale_id = $scaleID"

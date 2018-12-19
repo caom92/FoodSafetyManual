@@ -1,6 +1,7 @@
 mz-modal('[options]'='modalOptions')
   mz-modal-header
-    h4 {{ 'Connecting to Server' | translate:lang }}
+    h4(*ngIf='message === null || message === undefined') {{ 'Connecting to Server' | translate:lang }}
+    h4(*ngIf='message !== null && message !== undefined') {{ message }}
   mz-modal-content
     div.center-align
       img.spinner(src="assets/images/koi_spinner.png", width="100", height="100")

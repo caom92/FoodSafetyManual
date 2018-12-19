@@ -200,7 +200,7 @@ class CapturedLogs extends db\InsertableTable
           parent::$dataBase->quote('Capturing')."
         )
         
-      ORDER BY t.capture_date DESC"
+      ORDER BY t.capture_date, t.id DESC"
     )->fetchAll();
   }
 

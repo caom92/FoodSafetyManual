@@ -151,7 +151,18 @@
         "reference": "Reference",
         "total_chlorine": "Total Chlorine",
         "free_chlorine": "Free Chlorine",
-        "rinse": "Rinse"
+        "rinse": "Rinse",
+        "reason": "Reason"
+    },
+    "Authorization": {
+        "send": "Send",
+        "authorize": "Authorize",
+        "delete": "Delete",
+        "back": "Return"
+    },
+    "LogList": {
+        "open": "Open log",
+        "start": "Start new log"
     },
     "LogHeader": {
         "zone": "Zone",

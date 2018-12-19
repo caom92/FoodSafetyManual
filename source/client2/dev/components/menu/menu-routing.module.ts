@@ -10,10 +10,6 @@ const routes: Routes = [
     path: '',
     component: MenuComponent
   },
-  /*{
-    path: ':path',
-    component: MenuComponent
-  },*/
   {
     path: 'audit/:user_id',
     component: MenuAuditComponent

@@ -4,7 +4,7 @@ include ../../../log-ionic-materialize.pug
   +col()(class='s4 m4 l3')
     p() {{item.name}}
   +col()(class='s4 m4 l2')
-    +slimDateInput(false, null, "date", "date_{{item.id}}", null, "langManager.messages.global.datePickerConfigShort")(class='slim-text-input no-margin-top')
+    +slimDateInput(false, null, "date", "date_{{item.id}}", null, "dateConfig")(class='slim-text-input no-margin-top')
   +col()(class='s2 m2 l1')
     +radio("{{ 'Log.yes' | translate:lang }}", false, "true", false, false, "compliance_{{item.id}}", "status_{{item.id}}")([formControl]='itemForm.controls.compliance', [value]='true')
     //-+checkbox("{{ 'Log.yes' | translate:lang }}", false, "compliance", "compliance_{{item.id}}")([formGroup]='itemForm')
@@ -20,7 +20,7 @@ include ../../../log-ionic-materialize.pug
   +col()(class='s4 m4 l3')
     p() {{item.name}}
   +col()(class='s4 m4 l2')
-    +slimDateInput(false, null, "date", "date_{{item.id}}", null, "langManager.messages.global.datePickerConfigShort")(class='slim-text-input no-margin-top')
+    +slimDateInput(false, null, "date", "date_{{item.id}}", null, "dateConfig")(class='slim-text-input no-margin-top')
   +col()(class='s2 m2 l1', *ngIf='itemForm.controls.compliance.value === false')
     +radio("{{ 'Log.yes' | translate:lang }}", false, "true", false, false, "compliance_{{item.id}}", "status_{{item.id}}")([formControl]='itemForm.controls.compliance', [value]='true')
     //-+checkbox("{{ 'Log.yes' | translate:lang }}", false, "compliance", "compliance_{{item.id}}")([formGroup]='itemForm')
@@ -30,11 +30,11 @@ include ../../../log-ionic-materialize.pug
 
 +row()(*ngIf='(lowerThanLargeResolution | async) && itemForm.controls.compliance.value === false', style='margin-bottom: 0px; margin-top: 4px;', [formGroup]='itemForm')
   +col()(class='s3 m3 l3')
-    p(class='bold-text') Motivo
+    p(class='bold-text') {{ 'Log.reason' | translate:lang }}
   +col()(class='s3 m3 l9')
     +slimTextInput(null, null, "reason", "text", "reason_{{item.id}}" , null)(class='slim-text-input no-margin-top')
   +col()(class='s3 m3 l3')
-    p(class='bold-text') Acción correctiva
+    p(class='bold-text') {{ 'Log.corrective_action' | translate:lang }}
   +col()(class='s3 m3 l9')
     +slimTextInput(null, null, "corrective_actions", "text", "corrective_action_{{item.id}}" , null)(class='slim-text-input no-margin-top')
 
@@ -45,7 +45,7 @@ include ../../../log-ionic-materialize.pug
     p(*ngIf='lowerThanLargeResolution | async') MEDIUM {{item.name}}
     p(*ngIf='!(lowerThanLargeResolution | async)') NOT MEDIUM {{item.name}}
   +col()(class='s4 m4 l2')
-    +slimDateInput(false, null, "date", "date_{{item.id}}", null, "langManager.messages.global.datePickerConfigShort")(class='slim-text-input no-margin-top')
+    +slimDateInput(false, null, "date", "date_{{item.id}}", null, "dateConfig")(class='slim-text-input no-margin-top')
   +col()(class='s4 m4 l2')
     +checkbox("{{ 'Log.approved' | translate:lang }}", false, "compliance", "compliance_{{item.id}}")([formGroup]='itemForm')
   +col()(*ngIf='lowerThanLargeResolution | async', class='s6 m6')

@@ -151,7 +151,18 @@
         "reference": "Referencia",
         "total_chlorine": "Cloro Total",
         "free_chlorine": "Cloro Libre",
-        "rinse": "Enjuage"
+        "rinse": "Enjuage",
+        "reason": "Motivo"
+    },
+    "Authorization": {
+        "send": "Enviar",
+        "authorize": "Autorizar",
+        "delete": "Borrar",
+        "back": "Regresar"
+    },
+    "LogList": {
+        "open": "Abrir bitácora",
+        "start": "Iniciar nueva bitácora"
     },
     "LogHeader": {
         "zone": "Zona",

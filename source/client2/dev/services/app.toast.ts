@@ -9,8 +9,8 @@ export class ToastService
   // El constructor de este servicio
   // hacemos uso del servicio de materialize para desplegar toasts
   constructor(private toastService: MzToastService) {
-  }
 
+  }
 
   showText(text: string): void {
     this.toastService.show(text, 3500, 'rounded')

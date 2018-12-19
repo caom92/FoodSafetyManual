@@ -5,4 +5,4 @@ prepend header
   .divider
 
 block buttonRow
-  +authorizationButtonRow("Send", "Authorize", "Delete", "Return")
+  +authorizationButtonRow("{{ 'Authorization.send' | translate:lang }}", "{{ 'Authorization.authorize' | translate:lang }}", "{{ 'Authorization.delete' | translate:lang }}", "{{ 'Authorization.back' | translate:lang }}")

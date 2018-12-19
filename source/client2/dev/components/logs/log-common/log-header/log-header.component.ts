@@ -45,7 +45,7 @@ export class LogHeaderComponent implements OnInit {
       this.username = localStorage.getItem('user_full_name')
     }
 
-    this.dateConfig = (this.langManager.messages.global as any).datePickerConfig
+    this.dateConfig = this.langManager.messages.global.datePickerConfig
   }
 
   openDatePicker() {

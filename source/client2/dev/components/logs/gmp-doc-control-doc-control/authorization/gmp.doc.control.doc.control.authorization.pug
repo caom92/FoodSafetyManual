@@ -17,4 +17,4 @@ block fileUpload
   a(*ngFor="let file of files", [href]="'http://localhost/espresso/data/documents/gmp/doc_control/doc_control/' + file", target="_blank") {{file}}
 
 block buttonRow
-  +authorizationButtonRow("Send", "Authorize", "Delete", "Return")
+  +authorizationButtonRow("{{ 'Authorization.send' | translate:lang }}", "{{ 'Authorization.authorize' | translate:lang }}", "{{ 'Authorization.delete' | translate:lang }}", "{{ 'Authorization.back' | translate:lang }}")

@@ -932,7 +932,9 @@ export class LanguageService {
   // desplegara cualquier texto que este almacenado aqui
   messages = {
     global: {
-      wait: null
+      wait: null,
+      datePickerConfig: null,
+      datePickerConfigShort: null
     },
     navBar: {
       zone: null

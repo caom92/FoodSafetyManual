@@ -1,6 +1,6 @@
-import { Component, Injectable, OnInit, ComponentRef, Input } from '@angular/core'
+import { Component, Injectable, Input, OnInit } from '@angular/core'
 import { Language } from 'angular-l10n'
-import { MzBaseModal, MzModalService, MzModalComponent } from 'ngx-materialize'
+import { MzBaseModal, MzModalComponent, MzModalService } from 'ngx-materialize'
 
 @Injectable()
 export class LoaderService implements OnInit {

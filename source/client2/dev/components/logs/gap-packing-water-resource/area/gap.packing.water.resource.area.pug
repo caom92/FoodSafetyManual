@@ -5,13 +5,13 @@ include ../../../log-ionic-materialize.pug
   +cardContent()
     +row()(class='bold-text')
       +col()(class='s4 m4 l3')
-        p() Nombre
+        p() {{ 'Log.name' | translate:lang }}
       +col()(class='s4 m4 l2')
-        p() Fecha
+        p() {{ 'Log.date' | translate:lang }}
       +col()(class='s4 m4 l2')
-        p() Conformidad
+        p() {{ 'Log.compliance' | translate:lang }}
       +col()(*ngIf='!(lowerThanLargeResolution | async)', class='s12 m6 l2')
-        p() Motivo
+        p() {{ 'Log.reason' | translate:lang }}
       +col()(*ngIf='!(lowerThanLargeResolution | async)', class='s12 m6 l3')
-        p() Acción correctiva
+        p() {{ 'Log.corrective_action' | translate:lang }}
     gap-packing-water-resource-item(*ngFor='let item of area.items; let i = index', [item]='item', [itemGroup]='areaForm.controls.items.controls[i]')

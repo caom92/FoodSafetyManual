@@ -8,25 +8,17 @@ import { HomeElementsService } from '../services/app.home'
 @Component({
   templateUrl: '../templates/app.log.list.html'
 })
-export class LogListComponent implements OnInit
-{
-  // La lista de bitacoras que seran desplegadas en pantalla
-  logs = []
+
+export class LogListComponent implements OnInit {
+  logs: Array<{ name: string, suffix: string }> = []
   program: string
   module: string
 
-  // El constructor del componente importando los servicios y componentes 
-  // necesarios
-  constructor(
-    private home: HomeElementsService,
-    private routeState: ActivatedRoute
-  ) {
+  constructor(private home: HomeElementsService, private routeState: ActivatedRoute) {
+
   }
 
-  // Esta funcion se invoca cuando el componente es inicializado
-  ngOnInit(): void {
-    // utilizando la zona, el programa y el modulo, obtenemos la lista de 
-    // bitacoras de los permisos del usuario
+  public ngOnInit(): void {
     let zone = null
     let program = null
     let module = null

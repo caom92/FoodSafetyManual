@@ -16,10 +16,19 @@ export class GAPPackingWaterResourceItemComponent {
   @Input() item: LogItem
   @Input('itemGroup') public itemForm: FormGroup
   @Language() lang: string
+  dateConfig: any
+  dateConfigEs: any
+  dateConfigEn: any
 
   public lowerThanLargeResolution: Observable<boolean>
 
   constructor(private langManager: LanguageService, private mediaService: MzMediaService) {
     this.lowerThanLargeResolution = this.mediaService.isActive('lt-l')
+  }
+
+  public ngOnInit(): void {
+    this.dateConfig = this.langManager.messages.global.datePickerConfigShort
+    this.dateConfigEs = (this.langManager as any).translations.es.global.datePickerConfigShort
+    this.dateConfigEn = (this.langManager as any).translations.en.global.datePickerConfigShort
   }
 }
