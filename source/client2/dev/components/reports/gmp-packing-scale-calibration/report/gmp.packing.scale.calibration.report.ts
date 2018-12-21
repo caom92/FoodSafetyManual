@@ -18,7 +18,7 @@ export class GMPPackingScaleCalibrationReportComponent extends SuperReportCompon
     super(ts)
   }
 
-  public getCSS(): string {
-    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}td { border: 1px solid #000000; text-align: left;}th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50;}.even { background-color: #b8e0b9;}.typeTitle{ background-color: yellow; width:588px;}.fullColumn{ background-color: #D3D3D3;width:631px;}.testColumn{ width:57px;}.unitColumn{ width:70px;}.quantityColumn{width:35px}.numberColumn{ width:232px;}.timeColumn{ width:43px;}.statusColumn{ width:87px;}.sanitizedColumn{ width:107px;}</style>'
+  public getCSS(appendCSS?: string): string {
+    return '<style>' + this.commonCSS() + ((appendCSS === String(appendCSS)) ? appendCSS : '') + '.even{background-color:#b8e0b9}.typeTitle{background-color:yellow;width:588px}.fullColumn{background-color:#D3D3D3;width:631px}.testColumn{width:57px}.unitColumn{width:70px}.quantityColumn{width:35px}.numberColumn{width:232px}.timeColumn{width:43px}.statusColumn{width:87px}.sanitizedColumn{width:107px}</style>'
   }
 }

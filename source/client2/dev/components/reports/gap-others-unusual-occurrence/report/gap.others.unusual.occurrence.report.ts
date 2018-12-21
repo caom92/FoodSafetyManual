@@ -24,7 +24,7 @@ export class GAPOthersUnusualOccurrenceReportComponent extends SuperReportCompon
     this.entry = this.report.entry[0]
   }
 
-  public getCSS(): string {
-    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%; } td { border: 1px solid #000000; text-align: left; } th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50; } .fullColumn { width: 631px; } .shiftColumn { width: 211px; } .areaColumn { width: 210px; } .timeColumn { width: 210px; } .productColumn { width: 316px; } .batchColumn { width: 315px; }</style>'
+  public getCSS(appendCSS?: string): string {
+    return '<style>' + this.commonCSS() + ((appendCSS === String(appendCSS)) ? appendCSS : '') + '.fullColumn{width:631px}.shiftColumn{width:211px}.areaColumn{width:210px}.timeColumn{width:210px}.productColumn{width:316px}.batchColumn{width:315px}</style>'
   }
 }

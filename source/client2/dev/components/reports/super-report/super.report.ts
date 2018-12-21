@@ -65,12 +65,16 @@ export class SuperReportComponent implements OnInit {
     return '10'
   }
 
-  public getCSS(): string {
-    return '<style>' + this.commonCSS() + '</style>'
+  public segmentCSS(): string {
+    return null
+  }
+
+  public getCSS(appendCSS?: string): string {
+    return '<style>' + this.commonCSS() + ((appendCSS === String(appendCSS)) ? appendCSS : '') + '</style>'
   }
 
   public commonCSS(): string {
-    return 'table{font-family:arial,sans-serif;border-collapse:collapse;width:100%}td{border:1px solid #000;text-align:left}th{border:1px solid #000;text-align:left;font-weight:700;background-color:#4CAF50}'
+    return 'table{font-family:arial,sans-serif;border-collapse:collapse;width:100%}td{border:1px solid #000;text-align:left}th{border:1px solid #000;text-align:left;font-weight:bold;background-color:#4CAF50}'
   }
 
   public getPreview(): Array<Preview> {

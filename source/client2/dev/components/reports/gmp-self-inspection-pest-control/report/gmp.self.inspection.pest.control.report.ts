@@ -18,7 +18,7 @@ export class GMPSelfInspectionPestControlReportComponent extends SuperReportComp
     super(ts)
   }
 
-  public getCSS(): string {
-    return '<style>table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%; } td { border: 1px solid #000000; text-align: left; } th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50; } .even { background-color: #b8e0b9; } .typeTitle { background-color: yellow; width: 588px; } .fullColumn { background-color: #D3D3D3; width: 631px; } .numberColumn { width: 47px; } .areaColumn { width: 195px; } .securedColumn { width: 75px; } .statusColumn { width: 100px; } .activityColumn { width: 70px; } .actionColumn { width: 144px; }</style>'
+  public getCSS(appendCSS?: string): string {
+    return '<style>' + this.commonCSS() + ((appendCSS === String(appendCSS)) ? appendCSS : '') + '.even{background-color:#b8e0b9}.typeTitle{background-color:yellow;width:588px}.fullColumn{background-color:#D3D3D3;width:631px}.numberColumn{width:47px}.areaColumn{width:195px}.securedColumn{width:75px}.statusColumn{width:100px}.activityColumn{width:70px}.actionColumn{width:144px}</style>'
   }
 }

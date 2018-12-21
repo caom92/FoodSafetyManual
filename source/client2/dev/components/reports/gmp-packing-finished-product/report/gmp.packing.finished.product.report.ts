@@ -44,7 +44,7 @@ export class GMPPackingFinishedProductReportComponent extends SuperReportCompone
     return '8'
   }
 
-  public getCSS(): string {
-    return '<style> table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%; } td { border: 1px solid #000000; text-align: left; } th { border: 1px solid #000000; text-align: left; font-weight: bold; background-color: #4CAF50; } .batchColumn { width: 60px; } .areaColumn { width: 60px; } .suppliersColumn { width: 60px; } .productsColumn { width: 60px; } .clientsColumn { width: 60px; } .qualityColumn { width: 70px; } .originColumn{ width: 40px; } .expiresColumn { width: 60px; } .waterColumn { width: 42px; } .packingColumn { width: 52px; } .weightColumn { width: 52px; } .labelColumn { width: 52px; } .traceabilityColumn { width: 52px; } .urlColumn { width: 67px; } .notesColumn { width: 152px; } </style>'
+  public getCSS(appendCSS?: string): string {
+    return '<style>' + this.commonCSS() + ((appendCSS === String(appendCSS)) ? appendCSS : '') + '.batchColumn{width:60px}.areaColumn{width:60px}.suppliersColumn{width:60px}.productsColumn{width:60px}.clientsColumn{width:60px}.qualityColumn{width:70px}.originColumn{width:40px}.expiresColumn{width:60px}.waterColumn{width:42px}.packingColumn{width:52px}.weightColumn{width:52px}.labelColumn{width:52px}.traceabilityColumn{width:52px}.urlColumn{width:67px}.notesColumn{width:152px}</style>'
   }
 }

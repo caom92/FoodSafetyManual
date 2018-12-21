@@ -106,17 +106,25 @@ export class SuperReportViewer implements OnInit {
       tempContent.push((report as SuperReportLoader).reportComponent.getPDFContent())
     }
 
+    let segmentCSS = ''
+    if (sourceReport.reportComponent.segmentCSS() != null) {
+      for (let report of this.reportList._results) {
+        segmentCSS += ((report as SuperReportLoader).reportComponent.segmentCSS())
+      }
+    }
+
     this.dateRangeReport = {
       lang: this.lang,
       content: JSON.stringify(tempContent),
-      style: sourceReport.reportComponent.getCSS(),
+      style: sourceReport.reportComponent.getCSS(segmentCSS),
       company: localStorage.getItem('company_name'),
       address: localStorage.getItem('company_address'),
       logo: localStorage.getItem('company_logo'),
       orientation: sourceReport.reportComponent.getOrientation(),
       footer: this.footer,
       supervisor: sourceReport.report.approved_by,
-      signature: sourceReport.report.signature_path
+      signature: sourceReport.report.signature_path,
+      fontsize: sourceReport.reportComponent.getFontSize()
     }
   }
 }
