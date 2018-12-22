@@ -35,7 +35,7 @@ export class SuperReportComponent implements OnInit {
     return {
       header: this.getPDFReportHeader(),
       footer: this.getPDFReportFooter(),
-      body: this.getPDFReportBody().replace(/\n/g, '').replace(/<!--(.*?)-->/g, '').replace(/>( *?)</g, '><')
+      body: this.getPDFReportBody().replace(/\n/g, '').replace(/<!--(.*?)-->/g, '').replace(/>( *?)</g, '><').replace(/ng-reflect-(.*?)]"/g, '').replace(/ g[am]p(.*?)="" /g, ' ').replace(/([ ]+>)/g, '>')
     }
   }
 
