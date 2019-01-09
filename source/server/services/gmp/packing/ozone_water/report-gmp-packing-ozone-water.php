@@ -19,6 +19,7 @@ $service = fsm\createReportService(
       foreach ($machines as &$machine) {
         $fields = $fieldsTable->selectAllByMachineID($machine['id']);
         $machine['fields'] = [];
+        $machine['time'] = (is_null($machine['time'])) ? '' : DateTime::createFromFormat('H:i:s', $machine['time'])->format('H:i');
         foreach ($fields as $field) {
           switch ($field['field_id']) {
             case 1: 

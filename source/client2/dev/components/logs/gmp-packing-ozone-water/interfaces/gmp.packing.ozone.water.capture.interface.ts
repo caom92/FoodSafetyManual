@@ -6,6 +6,12 @@ export interface CaptureLog extends SuperCaptureLog {
 
 export interface CaptureItem {
   id: number
+  entries: Array<CaptureEntry>
+}
+
+export interface CaptureEntry {
+  test_number: number
+  time: string
   reading?: number
   ph?: number
   orp?: number

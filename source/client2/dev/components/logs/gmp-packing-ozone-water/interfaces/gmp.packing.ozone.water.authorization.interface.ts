@@ -8,11 +8,18 @@ export interface AuthorizationItem {
   id: number
   name: string
   fields: Array<AuthorizationField>
+  entries: Array<AuthorizationEntry>
+}
+
+export interface AuthorizationEntry {
+  test_number: number
+  time: string
+  fields: Array<AuthorizationField>
 }
 
 export interface AuthorizationField {
   id: number
-  position: number
+  is_active: number
   name_en: string
   name_es: string
   field_id: number

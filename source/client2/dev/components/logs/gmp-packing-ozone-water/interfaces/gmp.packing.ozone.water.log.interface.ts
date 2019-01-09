@@ -12,7 +12,6 @@ export interface LogItem {
 
 export interface LogField {
   id: number
-  position: number
   name_en: string
   name_es: string
   field_id: number

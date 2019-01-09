@@ -181,7 +181,7 @@ class CapturedLogs extends db\InsertableTable
   }
 
   function selectCapturingLogsByLogIDAndZoneID($logID, $zoneID) {
-        return parent::$dataBase->query(
+    return parent::$dataBase->query(
       "SELECT 
         t.id AS report_id,
         u.first_name,
@@ -198,8 +198,7 @@ class CapturedLogs extends db\InsertableTable
         t.status_id = (
           SELECT id FROM log_status WHERE name = ".
           parent::$dataBase->quote('Capturing')."
-        )
-        
+        )        
       ORDER BY t.capture_date, t.id DESC"
     )->fetchAll();
   }

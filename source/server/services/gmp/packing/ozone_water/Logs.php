@@ -26,6 +26,8 @@ class Logs extends db\LogTable
       [
         'm.id(id)',
         'm.name(name)',
+        'test_num(test_num)',
+        'time(time)',
         'voltage(reading)',
         'potential_hydrogen(ph)',
         'reduction_potential(orp)',
@@ -54,15 +56,24 @@ class Logs extends db\LogTable
     );
   }
 
-  function updateByCapturedLogIDAndMachineID(
-    $changes, $logID, $machineID
+  function updateByCapturedLogIDAndMachineIDAndTest(
+    $changes, $logID, $machineID, $testNumber
   ) {
     return parent::update($changes, [
       'AND' => [
         'capture_date_id' => $logID,
-        'machine_id' => $machineID
+        'machine_id' => $machineID,
+        'test_num' => $testNumber
       ]
     ]);
+  }
+
+  function hasByCapturedLogIDAndMachineIDAndTest($where) {
+    return parent::has($where);
+  }
+
+  function delete($where) {
+    return parent::delete($where);
   }
 }
 

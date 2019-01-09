@@ -74,11 +74,11 @@ class DataBaseTable
   //        para que la mezcla se lleve a cabo
   // [out]  return (dictionary): un arreglo asociativo que contiene todos los 
   //        datos leidos de la tabla organizados por renglones y columnas
-  protected function select($columns, $where = [], $joins = NULL) {
+  protected function select($columns, $where = [], $joins = NULL, $debug = NULL) {
     $hasJoins = isset($joins);
-    return ($hasJoins) ?
-      self::$dataBase->select($this->table, $joins, $columns, $where) :
-      self::$dataBase->select($this->table, $columns, $where);
+    $shouldDebug = isset($debug);
+    return ($hasJoins) ? (($shouldDebug) ? self::$dataBase->debug()->select($this->table, $joins, $columns, $where) : self::$dataBase->select($this->table, $joins, $columns, $where)) :
+      (($shouldDebug) ? self::$dataBase->debug()->select($this->table, $columns, $where) : self::$dataBase->select($this->table, $columns, $where));
   }
 
   // Revisa si hay datos en la tabla que cumplen con la condicion especificada

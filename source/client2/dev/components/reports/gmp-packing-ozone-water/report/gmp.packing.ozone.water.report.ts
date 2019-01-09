@@ -36,8 +36,10 @@ export class GMPPackingOzoneWaterReportComponent extends SuperReportComponent {
     for (let group in this.groupedItems) {
       let signature = ''
       let nameCSS = 85
-      let maxWidth = 940 - nameCSS
+      let timeCSS = 40
+      let maxWidth = 940 - nameCSS - timeCSS
       let nameMultiplier = 17
+      let timeMultiplier = 8
       let variableCSS: Array<{ id: number, width: number, active: boolean, multiplier: number }> = [
         { id: 1, width: 35, active: false, multiplier: 7 },
         { id: 2, width: 35, active: false, multiplier: 7 },
@@ -101,6 +103,7 @@ export class GMPPackingOzoneWaterReportComponent extends SuperReportComponent {
       }
 
       this.reportCSS += '.nameColumn_' + signature + '{width:' + (nameCSS + nameMultiplier * shortFieldsWidth + maxWidth) + 'px}'
+      this.reportCSS += '.timeColumn_' + signature + '{width:' + (timeCSS) + 'px}'
       this.signatures.push(signature)
     }
   }

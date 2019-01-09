@@ -6,6 +6,12 @@ export interface UpdateLog extends SuperUpdateLog {
 
 export interface UpdateItem {
   id: number
+  entries: Array<UpdateEntry>
+}
+
+export interface UpdateEntry {
+  test_number: number
+  time: string
   reading?: number
   ph?: number
   orp?: number
