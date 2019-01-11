@@ -131,7 +131,9 @@ $service = fsm\createCaptureService(
       return $scope->daoFactory->get('gmp\packing\ozone\Logs')
         ->insert($rows);
     }
-  ]
+  ],
+  FALSE,
+  TRUE
 );
 
 ?>

@@ -4,7 +4,8 @@ import { RouterModule, Routes } from '@angular/router'
 import { GMPDocControlDocControlAuthorizationComponent } from './authorization/gmp.doc.control.doc.control.authorization'
 
 const routes: Routes = [
-  { path: ':report_id', component: GMPDocControlDocControlAuthorizationComponent }
+  { path: ':report_id', component: GMPDocControlDocControlAuthorizationComponent },
+  { path: '**', redirectTo: '/pending-authorizations-list' }
 ]
 
 @NgModule({

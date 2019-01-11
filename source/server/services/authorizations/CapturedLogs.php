@@ -199,7 +199,31 @@ class CapturedLogs extends db\InsertableTable
           SELECT id FROM log_status WHERE name = ".
           parent::$dataBase->quote('Capturing')."
         )        
-      ORDER BY t.capture_date, t.id DESC"
+      ORDER BY t.capture_date, t.id ASC"
+    )->fetchAll();
+  }
+
+  function selectCapturingLogsByLogIDAndZoneIDAndUserID($logID, $zoneID, $userID) {
+    return parent::$dataBase->query(
+      "SELECT 
+        t.id AS report_id,
+        u.first_name,
+        u.last_name,
+        t.capture_date AS capture_date
+      FROM 
+        $this->table AS t
+      INNER JOIN
+        users AS u
+        ON t.employee_id = u.id
+      WHERE
+        u.zone_id = $zoneID AND
+        t.log_id = $logID AND
+        t.employee_id = $userID AND
+        t.status_id = (
+          SELECT id FROM log_status WHERE name = ".
+          parent::$dataBase->quote('Capturing')."
+        )        
+      ORDER BY t.capture_date, t.id ASC"
     )->fetchAll();
   }
 

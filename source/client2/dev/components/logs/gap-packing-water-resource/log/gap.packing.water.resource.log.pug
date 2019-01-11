@@ -8,4 +8,3 @@ include ../../../log-ionic-materialize.pug
       gap-packing-water-resource-area(*ngFor='let area of log.areas; let i = index', [area]='area', [group]='captureForm.controls.areas.controls[i]')
       block buttonRow
         +updateLogButtonRow("{{ 'Log.send_report' | translate:lang }}", "{{ 'Log.finish_report' | translate:lang }}", "{{ 'Log.back_report' | translate:lang }}")
-        //-+sendLogButton("{{ 'Log.send_report' | translate:lang }}")

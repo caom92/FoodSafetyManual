@@ -19,16 +19,6 @@ export abstract class SuperAuthorizationComponent implements OnInit {
 
   }
 
-  /**
-   * Actualiza el encabezado y permite el despliegue de la bitácora. Es
-   * importante recordar que, a diferencia del componente padre de las
-   * bitácoras, los datos del servidor son obtenidos antes de crear al
-   * componente, por lo que estos deben ser recibidos forzosamente como una
-   * entrada usando @Input()
-   * 
-   * @memberof SuperAuthorizationComponent
-   */
-
   public ngOnInit(): void {
     this.routeState.paramMap.subscribe((params) => {
       let reportID = params.get('report_id')
@@ -41,15 +31,8 @@ export abstract class SuperAuthorizationComponent implements OnInit {
           $('select').material_select()
         }, 200)
       }, error => {
-        // Por el momento, no se necesita ninguna acción adicional en caso de
-        // un error durante la recuperación de datos, ya que este caso se maneja
-        // dentro del servicio de bitácoras
+
       })
-      /*this.assignHeaderData()
-      this.showLog = true
-      setTimeout(function () {
-        $('select').material_select()
-      }, 200)*/
     })
   }
 

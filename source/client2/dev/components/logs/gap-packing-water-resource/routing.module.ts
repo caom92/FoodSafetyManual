@@ -4,7 +4,8 @@ import { RouterModule, Routes } from '@angular/router'
 import { GAPPackingWaterResourceAuthorizationComponent } from './authorization/gap.packing.water.resource.authorization'
 
 const routes: Routes = [
-  { path: ':report_id', component: GAPPackingWaterResourceAuthorizationComponent }
+  { path: ':report_id', component: GAPPackingWaterResourceAuthorizationComponent },
+  { path: '**', redirectTo: '/pending-authorizations-list' }
 ]
 
 @NgModule({

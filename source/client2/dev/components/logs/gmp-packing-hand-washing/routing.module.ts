@@ -4,7 +4,8 @@ import { RouterModule, Routes } from '@angular/router'
 import { GMPPackingHandWashingAuthorizationComponent } from './authorization/gmp.packing.hand.washing.authorization'
 
 const routes: Routes = [
-  { path: ':report_id', component: GMPPackingHandWashingAuthorizationComponent }
+  { path: ':report_id', component: GMPPackingHandWashingAuthorizationComponent },
+  { path: '**', redirectTo: '/pending-authorizations-list' }
 ]
 
 @NgModule({

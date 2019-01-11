@@ -713,7 +713,7 @@ function createAuthorizationReportService($program, $module, $log, $strategy,
   ];
 }
 
-function createLogListService($program, $module, $log/*, $strategy*/) {
+function createLogListService($program, $module, $log, $sameUserOnly = FALSE) {
   return [
     'requirements_desc' => [
       'logged_in' => ['Employee'],
@@ -724,13 +724,17 @@ function createLogListService($program, $module, $log/*, $strategy*/) {
         'log' => $log
       ]
     ],
-    //'callback' => function($scope, $request) use ($strategy, $program, $module, $log) {
-    'callback' => function($scope, $request) use ($program, $module, $log) {
+    'callback' => function($scope, $request) use ($program, $module, $log, $sameUserOnly) {
       $segment = $scope->session->getSegment('fsm');
       $userID = $segment->get('user_id');
       $zoneID = $scope->daoFactory->get('Users')->getZoneIDByID($userID);
       $logID = $scope->daoFactory->get('Logs')->getIDByNames($program, $module, $log);
-      $logList = $scope->daoFactory->get('CapturedLogs')->selectCapturingLogsByLogIDAndZoneID($logID, $zoneID);
+
+      if ($sameUserOnly) {
+        $logList = $scope->daoFactory->get('CapturedLogs')->selectCapturingLogsByLogIDAndZoneIDAndUserID($logID, $zoneID, $userID);
+      } else {
+        $logList = $scope->daoFactory->get('CapturedLogs')->selectCapturingLogsByLogIDAndZoneID($logID, $zoneID);
+      }
 
       return $logList;
     }

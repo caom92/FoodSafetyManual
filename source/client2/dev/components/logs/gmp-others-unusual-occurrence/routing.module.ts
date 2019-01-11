@@ -4,7 +4,8 @@ import { RouterModule, Routes } from '@angular/router'
 import { GMPOthersUnusualOccurrenceAuthorizationComponent } from './authorization/gmp.others.unusual.occurrence.authorization'
 
 const routes: Routes = [
-  { path: ':report_id', component: GMPOthersUnusualOccurrenceAuthorizationComponent }
+  { path: ':report_id', component: GMPOthersUnusualOccurrenceAuthorizationComponent },
+  { path: '**', redirectTo: '/pending-authorizations-list' }
 ]
 
 @NgModule({

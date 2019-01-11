@@ -6,6 +6,7 @@ import { MaterializeModule } from 'ngx-materialize'
 
 import { LogCommonModule } from '../log-common/log-common.module'
 import { GMPPackingOzoneWaterItemComponent } from './item/gmp.packing.ozone.water.item'
+import { GMPPackingOzoneWaterLogList } from './log-list/gmp.packing.ozone.water.log.list'
 import { GMPPackingOzoneWaterLogComponent } from './log/gmp.packing.ozone.water.log'
 
 @NgModule({
@@ -17,10 +18,12 @@ import { GMPPackingOzoneWaterLogComponent } from './log/gmp.packing.ozone.water.
     CommonModule
   ],
   declarations: [
+    GMPPackingOzoneWaterLogList,
     GMPPackingOzoneWaterLogComponent,
     GMPPackingOzoneWaterItemComponent
   ],
   exports: [
+    GMPPackingOzoneWaterLogList,
     GMPPackingOzoneWaterLogComponent,
     GMPPackingOzoneWaterItemComponent
   ]

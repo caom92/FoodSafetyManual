@@ -39,7 +39,9 @@ $ozoneWater = [
     'add-workplace-area-gmp-packing-ozone-water' =>
       realpath(__DIR__.'/add-machine-ozone-water.php'),
     'inventory-gmp-packing-ozone-water' => 
-      realpath(__DIR__.'/get-fields-of-machine.php')
+      realpath(__DIR__.'/get-fields-of-machine.php'),
+    'list-waiting-logs-gmp-packing-ozone-water' =>
+      realpath(dirname(__FILE__).'/list-waiting-logs-gmp-packing-ozone-water.php')
   ]
 ];
 

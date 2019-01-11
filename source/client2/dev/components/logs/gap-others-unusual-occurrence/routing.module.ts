@@ -4,7 +4,8 @@ import { RouterModule, Routes } from '@angular/router'
 import { GAPOthersUnusualOccurrenceAuthorizationComponent } from './authorization/gap.others.unusual.occurrence.authorization'
 
 const routes: Routes = [
-  { path: ':report_id', component: GAPOthersUnusualOccurrenceAuthorizationComponent }
+  { path: ':report_id', component: GAPOthersUnusualOccurrenceAuthorizationComponent },
+  { path: '**', redirectTo: '/pending-authorizations-list' }
 ]
 
 @NgModule({

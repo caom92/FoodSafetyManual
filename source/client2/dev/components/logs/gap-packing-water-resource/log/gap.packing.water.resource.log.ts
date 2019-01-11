@@ -36,7 +36,7 @@ export class GAPPackingWaterResourceLogComponent extends SuperUpdateComponent im
   }
 
   public initForm(): void {
-    const currentDate = this.timeService.getISODate(new Date())
+    const currentDate = (this.log.creation_date !== undefined) ? this.log.creation_date : this.timeService.getISOTime(new Date())
     this.captureForm = this._fb.group({
       date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       areas: this._fb.array([])
@@ -50,7 +50,6 @@ export class GAPPackingWaterResourceLogComponent extends SuperUpdateComponent im
     for (let area of this.log.areas) {
       let itemControl = []
       for (let item of area.items) {
-        console.log(item)
         itemControl.push(this.initItem({ id: item.id, date: (item.date != undefined) ? item.date : '', compliance: (item.compliance === 1) ? true : (item.compliance === 0) ? false : null, reason: (item.reason != undefined) ? item.reason : '', corrective_actions: (item.corrective_actions != undefined) ? item.corrective_actions : '' }))
       }
       control.push(this.initArea({ id: area.id, items: itemControl }))

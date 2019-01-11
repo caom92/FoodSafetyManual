@@ -7,4 +7,4 @@ include ../../../log-ionic-materialize.pug
     form([formGroup]='captureForm', (ngSubmit)='save(myForm)')
       gmp-packing-ozone-water-item(*ngFor='let item of log.items; let i = index', [item]='item', [itemGroup]='captureForm.controls.items.controls[i]', (addEntry)='addEntry($event, item.fields)', (removeEntry)='removeEntry($event)')
       block buttonRow
-        +sendLogButton("{{ 'Log.send_report' | translate:lang }}")
+        +updateLogButtonRow("{{ 'Log.send_report' | translate:lang }}", "{{ 'Log.finish_report' | translate:lang }}", "{{ 'Log.back_report' | translate:lang }}")

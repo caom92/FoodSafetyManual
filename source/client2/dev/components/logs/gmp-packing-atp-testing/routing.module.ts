@@ -4,7 +4,8 @@ import { RouterModule, Routes } from '@angular/router'
 import { GMPPackingATPTestingAuthorizationComponent } from './authorization/gmp.packing.atp.testing.authorization'
 
 const routes: Routes = [
-  { path: ':report_id', component: GMPPackingATPTestingAuthorizationComponent }
+  { path: ':report_id', component: GMPPackingATPTestingAuthorizationComponent },
+  { path: '**', redirectTo: '/pending-authorizations-list' }
 ]
 
 @NgModule({

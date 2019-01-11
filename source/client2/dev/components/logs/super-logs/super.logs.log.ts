@@ -5,6 +5,7 @@ import { LogService } from '../../../services/app.logs'
 import { ToastsService } from '../../../services/app.toasts'
 import { LogDetails, LogHeaderData } from '../log.interfaces'
 import { SuperLog } from './super.logs.log.interface'
+import { SuperWaiting } from './super.logs.waiting.interface'
 
 export abstract class SuperLogComponent implements OnInit {
   protected log: SuperLog
@@ -38,9 +39,7 @@ export abstract class SuperLogComponent implements OnInit {
           $('select').material_select()
         }, 200)
       }, error => {
-        // Por el momento, no se necesita ninguna acción adicional en caso de
-        // un error durante la recuperación de datos, ya que este caso se maneja
-        // dentro del servicio de bitácoras
+
       }) 
     } else {
       // TODO En este caso, los datos de la bitácora son recibidos como
@@ -49,6 +48,8 @@ export abstract class SuperLogComponent implements OnInit {
       this.logHeaderData.zone_name = this.log.zone_name
       this.logHeaderData.program_name = this.log.program_name
       this.logHeaderData.module_name = this.log.module_name
+      this.logHeaderData.created_by = (<SuperWaiting>this.log).created_by
+      this.logHeaderData.date = (<SuperWaiting>this.log).creation_date
       this.initForm()
       setTimeout(function () {
         $('select').material_select()

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { FormArray, FormBuilder, FormGroup, Validators, AbstractControl, FormControl } from '@angular/forms'
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
@@ -7,8 +7,8 @@ import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationService } from '../../../../services/app.translation'
-import { SuperLogComponent } from '../../super-logs/super.logs.log'
-import { CaptureItem, CaptureEntry } from '../interfaces/gmp.packing.ozone.water.capture.interface'
+import { SuperUpdateComponent } from '../../super-logs/super.logs.update'
+import { CaptureEntry } from '../interfaces/gmp.packing.ozone.water.capture.interface'
 import { Log, LogField, LogItem } from '../interfaces/gmp.packing.ozone.water.log.interface'
 import { maxLengths } from '../maxLengths/max.lengths'
 
@@ -17,7 +17,7 @@ import { maxLengths } from '../maxLengths/max.lengths'
   templateUrl: './gmp.packing.ozone.water.log.html'
 })
 
-export class GMPPackingOzoneWaterLogComponent extends SuperLogComponent implements OnInit {
+export class GMPPackingOzoneWaterLogComponent extends SuperUpdateComponent implements OnInit {
   @Input() log: Log = null//{ zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, items: [{ id: null, name: null, fields: [{ id: null, position: null, name_en: null, name_es: null, field_id: null }] }] }
   @Language() lang: string
 
@@ -37,11 +37,16 @@ export class GMPPackingOzoneWaterLogComponent extends SuperLogComponent implemen
   }
 
   public initForm(): void {
-    const currentDate = this.timeService.getISODate(new Date())
+    const currentDate = (this.log.creation_date !== undefined) ? this.log.creation_date : this.timeService.getISOTime(new Date())
     this.captureForm = this._fb.group({
       date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       items: this._fb.array([])
     })
+
+    if (this.log.report_id != null && this.log.report_id != undefined) {
+      this.captureForm.addControl('report_id', new FormControl(this.log.report_id, []))
+    }
+
     const control = <FormArray>this.captureForm.controls['items']
     for (let item of this.log.items) {
       control.push(this.initItem(item))
@@ -52,12 +57,20 @@ export class GMPPackingOzoneWaterLogComponent extends SuperLogComponent implemen
     let captureItemGroup: FormGroup = this._fb.group({})
     captureItemGroup.addControl('id', new FormControl(item.id, [Validators.required]))
     captureItemGroup.addControl('entries', this._fb.array([]))
-    this.addEntry(<FormArray>captureItemGroup.controls.entries, item.fields)
+
+    if (item.entries != undefined && item.entries != null) {
+      for (let entry of item.entries) {
+        this.addEntry(<FormArray>captureItemGroup.controls.entries, entry.fields, entry.time)
+      }
+    } else {
+      this.addEntry(<FormArray>captureItemGroup.controls.entries, item.fields)
+    }
+    
     return captureItemGroup
   }
 
-  public initEmptyEntry(test: number, fields: Array<LogField>): FormGroup {
-    const currentTime = this.timeService.getISOTime(new Date())
+  public initEmptyEntry(test: number, fields: Array<LogField>, time?: string): FormGroup {
+    const currentTime = (time !== undefined) ? time : this.timeService.getISOTime(new Date())
     let entryGroup: FormGroup = this._fb.group({})
     entryGroup.addControl('test_number', new FormControl(test, [Validators.required]))
     entryGroup.addControl('time', new FormControl(currentTime, [Validators.required, CustomValidators.timeValidator()]))
@@ -65,31 +78,31 @@ export class GMPPackingOzoneWaterLogComponent extends SuperLogComponent implemen
     
     for (let field of fields) {
       switch (Number(field.field_id)) {
-        case 1: dynamicEntry.reading = null
+        case 1: dynamicEntry.reading = (field.value !== undefined) ? Number(field.value) : null
           break
-        case 2: dynamicEntry.ph = null
+        case 2: dynamicEntry.ph = (field.value !== undefined) ? Number(field.value) : null
           break
-        case 3: dynamicEntry.orp = null
+        case 3: dynamicEntry.orp = (field.value !== undefined) ? Number(field.value) : null
           break
-        case 4: dynamicEntry.temperature = null
+        case 4: dynamicEntry.temperature = (field.value !== undefined) ? Number(field.value) : null
           break
-        case 5: dynamicEntry.corrective_action = ''
+        case 5: dynamicEntry.corrective_action = (field.value !== undefined) ? String(field.value) : ''
           break
-        case 6: dynamicEntry.product = ''
+        case 6: dynamicEntry.product = (field.value !== undefined) ? String(field.value) : ''
           break
-        case 7: dynamicEntry.lot = ''
+        case 7: dynamicEntry.lot = (field.value !== undefined) ? String(field.value) : ''
           break
-        case 8: dynamicEntry.parcel = ''
+        case 8: dynamicEntry.parcel = (field.value !== undefined) ? String(field.value) : ''
           break
-        case 9: dynamicEntry.reference = ''
+        case 9: dynamicEntry.reference = (field.value !== undefined) ? String(field.value) : ''
           break
-        case 10: dynamicEntry.total_chlorine = null
+        case 10: dynamicEntry.total_chlorine = (field.value !== undefined) ? Number(field.value) : null
           break
-        case 11: dynamicEntry.free_chlorine = null
+        case 11: dynamicEntry.free_chlorine = (field.value !== undefined) ? Number(field.value) : null
           break
-        case 12: dynamicEntry.rinse = null
+        case 12: dynamicEntry.rinse = (field.value !== undefined) ? Number(field.value) : null
           break
-        case 13: dynamicEntry.status = false
+        case 13: dynamicEntry.status = (field.value !== undefined) ? Boolean(field.value) : false
           break
       }
     }
@@ -111,8 +124,8 @@ export class GMPPackingOzoneWaterLogComponent extends SuperLogComponent implemen
     return entryGroup
   }
 
-  public addEntry(itemForm: FormArray, fields: Array<LogField>): void {
-    itemForm.push(this.initEmptyEntry(itemForm.controls.length +1, fields))
+  public addEntry(itemForm: FormArray, fields: Array<LogField>, time?: string): void {
+    itemForm.push(this.initEmptyEntry(itemForm.controls.length + 1, fields, time))
     this.cleanForm()
   }
 
