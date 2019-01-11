@@ -9,7 +9,7 @@ mz-card
               th(class='nameColumn_{{signatures[i]}}') {{ 'Log.name' | translate:lang }}
               th(class='timeColumn_{{signatures[i]}}') {{ 'Log.time' | translate:lang }}
               ng-template(ngFor, let-field, [ngForOf]='item[0].fields')
-                th(class='field_{{signatures[i]}}_{{field.field_id}}') {{field['name_' + lang]}}
+                th(class='field_{{signatures[i]}}_{{field.field_id}}') {{field['name_abbr_' + lang]}}
             ng-template(ngFor, let-machine, [ngForOf]='item')
               tr
                 td(class='nameColumn_{{signatures[i]}}') {{machine.name}}
