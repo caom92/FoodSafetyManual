@@ -36,7 +36,7 @@ export class GAPPackingWaterResourceLogComponent extends SuperUpdateComponent im
   }
 
   public initForm(): void {
-    const currentDate = (this.log.creation_date !== undefined) ? this.log.creation_date : this.timeService.getISOTime(new Date())
+    const currentDate = (this.log.creation_date !== undefined) ? this.log.creation_date : this.timeService.getISODate(new Date())
     this.captureForm = this._fb.group({
       date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       areas: this._fb.array([])
