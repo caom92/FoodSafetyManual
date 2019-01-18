@@ -91,6 +91,22 @@ $style = (isset($_POST['style']) && array_key_exists('style', $_POST)) ?
     ((isString($_POST['style'])) ? $_POST['style'] : '')
     : '';
 
+// calculate and update footer size, if exists
+if(isset($pdf->footer)){
+    $pdf->AddPage();
+    $pdf->SetFont('helvetica', 'I', 8);
+
+    $pdf->writeHTMLCell(
+        0, 0, '', '',
+        $pdf->footer,
+        0, 1, 0, true, 'C', true
+    );
+    
+    $height = $pdf->getY() - 26 - PDF_MARGIN_HEADER;
+    $pdf->deletePage($pdf->getPage());
+    $pdf->updateFooterSize($height);
+}
+
 try {
     // check if the client sent the content to print to the PDF file
     $hasContent = 

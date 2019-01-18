@@ -27,6 +27,7 @@ class PDFCreator extends TCPDF
         $this->supervisor = $supervisor;
         $this->fontsize = $fontsize;
         $this->orientation = $orientation;
+        $this->footerOffset = 0;
 
         // first, initialize a TCPDF instance
         parent::__construct(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, 
@@ -123,9 +124,6 @@ class PDFCreator extends TCPDF
     }
 
     public function closing(){
-        //$this->SetY(-35);
-        //$this->SetX(-60);
-
         if($this->orientation == "P")
             $x_offset = 120;
         else
@@ -138,11 +136,6 @@ class PDFCreator extends TCPDF
 
         $this->ln(30);
         $this->Line($this->x + $x_offset,$this->y,$this->x + $x_offset + 50,$this->y);
-        /*$this->Cell(
-                50, 0,
-                "Supervisor", 
-                1, 1, 'C', 0, null, 0
-            );*/
         $this->writeHTMLCell(
                 50, 0, $this->x + $x_offset, $this->y,
                 "<div style='width:50px;'>Supervisor</div>", 
@@ -158,8 +151,8 @@ class PDFCreator extends TCPDF
 
     // Creates the page footer of the PDF file
     public function Footer() {
-        // position at 15 mm from bottom
-        $this->SetY(-15);
+        // position at 15 mm from bottom + the footerSize
+        $this->SetY(-15 - $this->footerSize);
 
         // set font
         $this->SetFont('helvetica', 'I', 8);
@@ -185,6 +178,11 @@ class PDFCreator extends TCPDF
             $this->Line(15,$this->y,197,$this->y);
         else
             $this->Line(15,$this->y,282,$this->y);
+    }
+
+    public function updateFooterSize($size) {
+        $this->footerSize = $size;
+        $this->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM + $size - 5);
     }
 }
 
