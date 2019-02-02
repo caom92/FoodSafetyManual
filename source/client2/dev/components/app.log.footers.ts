@@ -102,7 +102,8 @@ export class LogFootersComponent
       log: footer.log_name,
       zone: footer.zone_name,
       footerPDF: footer.pdf_footer,
-      footerHTML: footer.html_footer
+      footerHTML: footer.html_footer,
+      parent: this
     })
   }
 }

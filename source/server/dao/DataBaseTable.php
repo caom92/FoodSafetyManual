@@ -149,6 +149,10 @@ class DataBaseTable
       self::$dataBase->count($this->table, $joins, $column, $where) :
       self::$dataBase->count($this->table, $where);
   }
+
+  function lastInsertId() {
+    return self::$dataBase->lastInsertId();
+  }
 }   // class DataBaseTable
 
 

@@ -114,6 +114,12 @@ mixin textArea(label, icon, formControlName, id, placeholder)
       i(mz-icon-mdi, mz-input-prefix, icon=icon)
     textarea(mz-textarea, label=label, formControlName=formControlName, id=id, placeholder=placeholder)&attributes(attributes)
 
+mixin slimTextArea(label, icon, formControlName, id, placeholder)
+  mz-textarea-container(class='slim-div-parent')
+    if (icon)
+      i(mz-icon-mdi, mz-input-prefix, icon=icon)
+    textarea(mz-textarea, label=label, formControlName=formControlName, id=id, placeholder=placeholder)&attributes(attributes)
+
 mixin checkbox(label, icon, formControlName, id)
   mz-checkbox-container()&attributes(attributes)
     input(mz-checkbox, label=label, formControlName=formControlName, type="checkbox", id=id, filledIn="true")
@@ -161,9 +167,9 @@ mixin fileInput(label, accept, changeFunction, isMultiple)
   div(class="file-field input-field")
     div(class="btn")
       span()= label
-      input(type="file", class="fileControl", (change)=changeFunction, accept=accept, multiple=isMultiple)
+      input(type="file", class="fileControl", (change)=changeFunction, accept=accept, multiple=isMultiple)&attributes(attributes)
     div(class="file-path-wrapper")
-      input(class="file-path validate fileControl", type="text")
+      input(class="file-path validate fileControl", type="text")&attributes(attributes)
 
 mixin errorMessage(condition, message)
   small(style='color:red; font-weight: bold;', *ngIf!=condition)= message

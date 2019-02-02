@@ -7,6 +7,8 @@
     "build": "ng build",
     "build-prod": "ng build --prod --aot=false",
     "lint": "ng lint",
+    "less-compile": "lessc --clean-css='--s1 --advanced --compatibility=ie8' dev/stylesheets/less/main.less dev/stylesheets/app.style.css",
+    "less-compile-win": "lessc --clean-css=\"--s1 --advanced --compatibility=ie8\" dev\\stylesheets\\less\\main.less dev\\stylesheets\\app.style.css",
     "dev-build": "lessc --clean-css='--s1 --advanced --compatibility=ie8' dev/stylesheets/less/main.less dev/stylesheets/app.style.css && pug dev/templates/pug -o dev/templates/",
     "dev-build-win": "lessc --clean-css=\"--s1 --advanced --compatibility=ie8\" dev\\stylesheets\\less\\main.less dev\\stylesheets\\app.style.css && pug dev\\templates\\pug -o dev\\templates\\",
     "pug-compile": "pug ./dev/components -o ./dev/components --doctype html"

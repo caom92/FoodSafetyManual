@@ -21,6 +21,9 @@ import { SupervisorsComponent } from './app.supervisors'
 import { SignaturesComponent } from './app.signatures'
 import { ZonesComponent } from './app.zones'
 import { UsersComponent } from './app.users'
+import { CAPAFormComponent } from './capa/log/capa-log.component'
+import { CAPACaptureComponent } from './capa/capture/capa-capture.component'
+import { CAPAList } from './capa/list/capa-list.component'
 import { DynamicComponentContainerDirective } from '../directives/dynamic.container'
 
 // Importamos los componentes de los modales
@@ -47,6 +50,7 @@ import { AlertController } from '../services/alert/app.alert'
 import { DragulaModule, DragulaService } from 'ng2-dragula'
 import { LogService } from '../services/app.logs'
 import { MenuService } from '../services/app.menu'
+import { CAPAService } from '../services/capa.service'
 import { ToastsService } from '../services/app.toasts'
 import { TranslationService } from '../services/app.translation'
 import { AreaManagerService } from '../services/app.area.manager'
@@ -83,6 +87,7 @@ import { RootRoutingModule } from './app-routing.root'
     AlertController,
     LogService,
     MenuService,
+    CAPAService,
     ToastsService,
     TranslationService,
     DragulaService
@@ -111,6 +116,9 @@ import { RootRoutingModule } from './app-routing.root'
     UsersComponent,
     UserInfoModalComponent,
     EditUserInfoModalComponent,
+    CAPAFormComponent,
+    CAPAList,
+    CAPACaptureComponent,
     DynamicComponentContainerDirective
   ],
   // declaramos cualquier componente que sera inyectado dinamicamente

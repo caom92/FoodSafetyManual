@@ -39,6 +39,9 @@ export class EditFooterModalComponent extends MzBaseModal implements OnInit
   @Input()
   footerHTML: string = null
 
+  @Input()
+  parent: any = null
+
   // Constructor del componente donde importaremos una instancia del servicio 
   // de idioma
   constructor(
@@ -103,6 +106,7 @@ export class EditFooterModalComponent extends MzBaseModal implements OnInit
         // si el servidor respondio con exito, refrescamos la pagina para 
         // mostrar los cambios realizados
         if (response.meta.return_code == 0) {
+          this.parent.onModuleSelected()
           //TODO this.router.reload()
         }
       } // (response: any)

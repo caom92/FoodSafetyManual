@@ -12,6 +12,7 @@ import { SignaturesComponent } from './app.signatures'
 import { SupervisorsComponent } from './app.supervisors'
 import { UsersComponent } from './app.users'
 import { ZonesComponent } from './app.zones'
+import { CAPACaptureComponent } from './capa/capture/capa-capture.component';
 
 const routes: Routes = [
   {
@@ -57,6 +58,14 @@ const routes: Routes = [
   {
     path: 'users',
     component: UsersComponent
+  },
+  /*{
+    path: 'capa/log',
+    component: CAPAFormComponent
+  },*/
+  {
+    path: 'capa/capture',
+    component: CAPACaptureComponent
   },
   {
     path: 'log',

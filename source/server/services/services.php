@@ -29,5 +29,6 @@ require_once realpath(dirname(__FILE__).'/gmp/packing/qc_aged/services.php');
 require_once realpath(__DIR__.'/gmp/packing/ozone_water/services.php');
 require_once realpath(__DIR__.'/gap/packing/water_resource/services.php');
 require_once realpath(__DIR__.'/menu/services.php');
+require_once realpath(__DIR__.'/capa/services.php');
 
 ?>
