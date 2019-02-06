@@ -3,14 +3,14 @@ import { Language, TranslationService as TService } from 'angular-l10n'
 
 import { Preview } from '../../report-common/report-preview/report-preview.interface'
 import { SuperReportComponent } from '../../super-report/super.report'
-import { Report } from '../interfaces/gmp.doc.control.doc.control.report.interface'
+import { Report } from '../interfaces/gap.doc.control.doc.control.report.interface'
 
 @Component({
-  selector: 'gmp-doc-control-doc-control-report',
-  templateUrl: './gmp.doc.control.doc.control.report.html'
+  selector: 'gap-doc-control-doc-control-report',
+  templateUrl: './gap.doc.control.doc.control.report.html'
 })
 
-export class GMPDocControlDocControlReportComponent extends SuperReportComponent {
+export class GAPDocControlDocControlReportComponent extends SuperReportComponent {
   @Input() report: Report
   @Language() lang: string
   @ViewChild('report_body') reportHTML: any
@@ -75,7 +75,7 @@ export class GMPDocControlDocControlReportComponent extends SuperReportComponent
     let temp = []
     if (this.report.reports.document.entries.pictures != null) {
       for (let image of this.report.reports.document.entries.pictures) {
-        temp.push('http://localhost/espresso/data/images/gmp/doc_control/doc_control/' + image)
+        temp.push('http://localhost/espresso/data/images/gap/doc_control/doc_control/' + image)
       }
       return JSON.stringify(temp)
     }

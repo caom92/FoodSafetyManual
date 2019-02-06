@@ -3,6 +3,11 @@ import { RouterModule, Routes } from '@angular/router'
 
 const routes: Routes = [
   {
+    path: 'gap-doc-control-doc-control',
+    data: { suffix: 'gap-doc-control-doc-control' },
+    loadChildren: './gap-doc-control-doc-control/gap-doc-control-doc-control-inventory.module#GAPDocControlDocControlInventoryModule'
+  },
+  {
     path: 'gap-packing-preop',
     data: { suffix: 'gap-packing-preop' },
     loadChildren: './gap-packing-preop/gap-packing-preop-inventory.module#GAPPackingPreopInventoryModule'

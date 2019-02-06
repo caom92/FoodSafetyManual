@@ -13,7 +13,7 @@ div
             i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
             input(mz-datepicker, [label]="'Fecha de cierre'", type='text', formControlName='endDate', [options]='options')
         block additionalFormElements
-          .row(*ngIf="suffix == 'gmp-doc-control-doc-control'")
+          .row(*ngIf="suffix == 'gmp-doc-control-doc-control' || suffix == 'gap-doc-control-doc-control'")
             +select("Document", false, 'document_id', false, 'document_select', "'Document'")
               +option("{{doc.name}}", "doc.id", false, false)(*ngFor="let doc of documentList")
         .row

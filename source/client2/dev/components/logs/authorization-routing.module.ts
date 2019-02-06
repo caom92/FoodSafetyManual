@@ -3,6 +3,11 @@ import { RouterModule, Routes } from '@angular/router'
 
 const routes: Routes = [
   {
+    path: 'gap-doc-control-doc-control',
+    data: { suffix: 'gap-doc-control-doc-control' },
+    loadChildren: './gap-doc-control-doc-control/gap-doc-control-doc-control-authorization.module#GAPDocControlDocControlAuthorizationModule'
+  },
+  {
     path: 'gap-others-unusual-occurrence',
     data: { suffix: 'gap-others-unusual-occurrence' },
     loadChildren: './gap-others-unusual-occurrence/gap-others-unusual-occurrence-authorization.module#GAPOthersUnusualOccurrenceAuthorizationModule'

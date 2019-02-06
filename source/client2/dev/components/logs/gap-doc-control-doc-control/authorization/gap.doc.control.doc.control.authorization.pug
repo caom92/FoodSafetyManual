@@ -1,0 +1,20 @@
+extends ../log/gap.doc.control.doc.control.log.pug
+
+prepend header
+  h4 {{log.log_name}}
+  .divider
+
+block documentSelect
+  +card()
+    +cardContent()
+      p() {{selectedDocumentName}}
+        //- block captureForm
+
+block fileUpload
+  p() Attached images
+  a(*ngFor="let image of images", [href]="'http://localhost/espresso/data/images/gap/doc_control/doc_control/' + image", target="_blank") {{image}}
+  p() Attached PDF files
+  a(*ngFor="let file of files", [href]="'http://localhost/espresso/data/documents/gap/doc_control/doc_control/' + file", target="_blank") {{file}}
+
+block buttonRow
+  +authorizationButtonRow("{{ 'Authorization.send' | translate:lang }}", "{{ 'Authorization.authorize' | translate:lang }}", "{{ 'Authorization.delete' | translate:lang }}", "{{ 'Authorization.back' | translate:lang }}")
