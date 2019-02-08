@@ -100,7 +100,7 @@ div([formGroup]='capaForm')
 
 div(class="row")
   div(class="center col s6 m6 l6", style="margin-bottom: 20px;")
-    button(mz-button, (click)='save()', [disabled]='!(data.id === null || data.id === undefined)')= "Guardar "
+    button(mz-button, (click)='save()')= "Guardar "
       i(mz-icon-mdi, [icon]="'send'")
   div(class="center col s6 m6 l6", style="margin-bottom: 20px;")
     button(mz-button, (click)='back()')= "Regresar "

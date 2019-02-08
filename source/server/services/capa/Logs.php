@@ -82,6 +82,10 @@ class Logs extends db\InsertableTable
       ]
     );
   }
+
+  function updateByID($changes, $logID) {
+    return parent::update($changes, ['id ' => $logID]);
+  }
 }
 
 ?>

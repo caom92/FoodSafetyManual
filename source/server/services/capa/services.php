@@ -10,6 +10,7 @@ $capa = [
   'services' => [
     'capture-capa-form' => realpath(__DIR__.'/capture-capa-form.php'),
     'authorization-report-capa-form' => realpath(__DIR__.'/authorization-report-capa-form.php'),
+    'update-capa-form' => realpath(__DIR__.'/update-capa-form.php'),
     'delete-capa-file' => realpath(__DIR__.'/delete-capa-file.php'),
     'delete-capa-image' => realpath(__DIR__.'/delete-capa-image.php'),
     'list-waiting-logs-capa-form' => realpath(__DIR__.'/list-waiting-logs-capa-form.php')

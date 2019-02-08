@@ -64,6 +64,53 @@ export class CAPAService {
     return capturePromise
   }
 
+  public update(data: any): Promise<any> {
+    let updatePromise = new Promise<any>((resolve, reject) => {
+      let updateLoader = this.loaderService.koiLoader()
+      let updateForm = new FormData()
+
+      let flatData = this.flatten(data)
+
+      for (let key in flatData) {
+        if (flatData[key] === true) {
+          updateForm.append(key, '1')
+        } else if (flatData[key] === false) {
+          updateForm.append(key, '0')
+        } else if (flatData[key] instanceof FileList) {
+          for (let file of flatData[key]) {
+            updateForm.append(key + '[]', file, file.name)
+          }
+        } else if (flatData[key] instanceof File) {
+          updateForm.append(key, flatData[key], flatData[key].name)
+        } else {
+          updateForm.append(key, flatData[key])
+        }
+      }
+
+      this.server.update(
+        'update-capa-form',
+        updateForm,
+        (response: any) => {
+          if (response.meta.return_code == 0) {
+            this.toastService.showText('capturedLog')
+            resolve('server')
+          } else {
+            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
+            reject(response.meta.return_code)
+          }
+          updateLoader.dismiss()
+        }, (error: any, caught: Observable<void>) => {
+          reject('network error')
+          updateLoader.dismiss()
+          this.toastService.showText('serverUnreachable')
+          return []
+        }
+      )
+    })
+
+    return updatePromise
+  }
+
   public authorization(id: number): Promise<any> {
     let authorizationPromise = new Promise<any>((resolve, reject) => {
       let authorizationLoader = this.loaderService.koiLoader()

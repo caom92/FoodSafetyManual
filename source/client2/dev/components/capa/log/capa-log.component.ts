@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms'
 
 import { LanguageService } from '../../../services/app.language'
 import { DateTimeService } from '../../../services/app.time'
@@ -67,7 +67,7 @@ export class CAPAFormComponent {
     })
 
     // if we have an ID, it is used in the form
-    if (this.data.id !== undefined && this.data.capa_number !== null) {
+    if (this.data.id !== undefined && this.data.id !== null) {
       this.capaForm.addControl('id', new FormControl(this.data.id, [Validators.required]))
     }
 
@@ -182,6 +182,81 @@ export class CAPAFormComponent {
     }
   }
 
+  public cleanForm(): void {  
+    let controlArray: Array<AbstractControl> = []
+
+    controlArray.push(this.capaForm.controls.capa_number)
+    controlArray.push(this.capaForm.controls.reference_number)
+    controlArray.push(this.capaForm.controls.creator_id)
+    controlArray.push(this.capaForm.controls.capture_date)
+    controlArray.push(this.capaForm.controls.reference)
+    controlArray.push(this.capaForm.controls.description)
+    controlArray.push(this.capaForm.controls.observer)
+    controlArray.push(this.capaForm.controls.occurrence_date)
+    controlArray.push(this.capaForm.controls.findings)
+    controlArray.push(this.capaForm.controls.root_cause)
+    controlArray.push(this.capaForm.controls.preventive_actions)
+    controlArray.push(this.capaForm.controls.corrective_actions)
+    controlArray.push(this.capaForm.controls.planned_date)
+    controlArray.push(this.capaForm.controls.assigned_personnel)
+    controlArray.push(this.capaForm.controls.follow_up)
+    controlArray.push(this.capaForm.controls.actual_date)
+    controlArray.push(this.capaForm.controls.status)
+    controlArray.push(this.capaForm.controls.accepter_id)
+    controlArray.push(this.capaForm.controls.closure_date)
+    controlArray.push(this.capaForm.controls.link)
+
+    const imageArrayControl = <FormArray>this.capaForm.controls.images
+    const fileArrayControl = <FormArray>this.capaForm.controls.files
+
+    for (let control of controlArray) {
+      if (control.value === null || control.value === '') {
+        control.disable()
+      }
+    }
+
+    if (imageArrayControl.value.length == 0) {
+      imageArrayControl.disable()
+    }
+
+    if (fileArrayControl.value.length == 0) {
+      fileArrayControl.disable()
+    }
+
+    console.log(this.capaForm.value)
+  }
+
+  public enableForm(): void {
+    let controlArray: Array<AbstractControl> = []
+
+    controlArray.push(this.capaForm.controls.capa_number)
+    controlArray.push(this.capaForm.controls.reference_number)
+    controlArray.push(this.capaForm.controls.creator_id)
+    controlArray.push(this.capaForm.controls.capture_date)
+    controlArray.push(this.capaForm.controls.reference)
+    controlArray.push(this.capaForm.controls.description)
+    controlArray.push(this.capaForm.controls.observer)
+    controlArray.push(this.capaForm.controls.occurrence_date)
+    controlArray.push(this.capaForm.controls.findings)
+    controlArray.push(this.capaForm.controls.root_cause)
+    controlArray.push(this.capaForm.controls.preventive_actions)
+    controlArray.push(this.capaForm.controls.corrective_actions)
+    controlArray.push(this.capaForm.controls.planned_date)
+    controlArray.push(this.capaForm.controls.assigned_personnel)
+    controlArray.push(this.capaForm.controls.follow_up)
+    controlArray.push(this.capaForm.controls.actual_date)
+    controlArray.push(this.capaForm.controls.status)
+    controlArray.push(this.capaForm.controls.accepter_id)
+    controlArray.push(this.capaForm.controls.closure_date)
+    controlArray.push(this.capaForm.controls.link)
+    controlArray.push(this.capaForm.controls.images)
+    controlArray.push(this.capaForm.controls.files)
+
+    for (let control of controlArray) {
+      control.enable()
+    }
+  }
+
   public save(): void {
     if (this.data.id === undefined || this.data.id === null) {
       this.capture()
@@ -191,20 +266,33 @@ export class CAPAFormComponent {
   }
 
   public capture(): void {
+    this.cleanForm()
     if (this.capaForm.valid == true) {
-      this.capaService.capture(this.capaForm.value)
+      this.capaService.capture(this.capaForm.value).then(success => {
+        this.enableForm()
+        this.capaForm.removeControl('images')
+        this.capaForm.removeControl('files')
+        this.capaForm.addControl('images', this.formBuilder.array([]))
+        this.capaForm.addControl('files', this.formBuilder.array([]))
+      }, error => {
+        this.enableForm()
+      })
     }
   }
 
   public update(): void {
-
-  }
-
-  public viewForm(): void {
-    console.log(this.capaForm)
-    console.log(this.capaForm.value)
-    this.capaService.authorization(6)
-    this.capaService.listWaitingLogs()
+    this.cleanForm()
+    if (this.capaForm.valid == true) {
+      this.capaService.update(this.capaForm.value).then(success => {
+        this.enableForm()
+        this.capaForm.removeControl('images')
+        this.capaForm.removeControl('files')
+        this.capaForm.addControl('images', this.formBuilder.array([]))
+        this.capaForm.addControl('files', this.formBuilder.array([]))
+      }, error => {
+        this.enableForm()
+      })
+    }
   }
 
   public back(): void {
