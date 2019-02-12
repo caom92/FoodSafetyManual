@@ -2,44 +2,22 @@ include ../../log-ionic-materialize.pug
 
 h4 Abrir CAPA
 
-//-mz-collection
-  mz-collection-item
-    div Iniciar nuevo CAPA
-    div(mz-secondary-content)
-      //-i.blue-text.pointer(mz-icon-mdi, [icon]="'new-box'", (click)='onCAPAOpen(true)')
-      button(mz-button, float='true', (click)='onCAPAOpen(true)', class='blue')
-        i(mz-icon-mdi, [icon]="'new-box'", [size]="'24px'")
-  ng-template(ngFor, let-capa, [ngForOf]='capaList')
-    mz-collection-item
-      div {{ 'LogHeader.made_by' | translate:lang }}: {{capa.creator_name}}
-      div {{ 'LogHeader.date' | translate:lang }}: {{capa.capture_date | l10nDate:defaultLocale:'longDate'}}
-      div CAPA Number: {{capa.capa_number}}
-      div Reference Number: {{capa.reference_number}}
-      div(mz-secondary-content)
-        button(mz-button, float='true', (click)='onCAPAOpen(capa.id)', class='green')
-          i(mz-icon-mdi, [icon]="'file-outline'", [size]="'24px'")
-
-+card()
-  +cardContent()
-    +row()(style='margin-bottom: 0px !important;')
-      +col()(class='col s10 m11 l11')
-        | {{ 'LogList.start' | translate:lang }}
-      +col()(class='col s2 m1 l1')
-        button(mz-button, float='true', (click)='onCAPAOpen(true)', class='blue')
-          i(mz-icon-mdi, [icon]="'new-box'", [size]="'24px'")
-
-div(*ngFor='let capa of capaList')
-  +card()
-    +cardContent()
-      +row()(style='margin-bottom: 0px !important;')
-        +col()(class='col s10 m11 l11')
-          | {{ 'LogHeader.made_by' | translate:lang }}: {{capa.creator_name}}
-          br
-          | {{ 'LogHeader.date' | translate:lang }}: {{capa.capture_date | l10nDate:defaultLocale:'longDate'}}
-          br
-          | CAPA Number: {{capa.capa_number}}
-          br
-          | Reference Number: {{capa.reference_number}}
-        +col()(class='col s2 m1 l1')
-          button(mz-button, float='true', (click)='onCAPAOpen(capa.id)', class='green')
-            i(mz-icon-mdi, [icon]="'file-outline'", [size]="'24px'")
+.custom-collection
+  .custom-item
+    .custom-item-content.button-number-1
+      .row.no-margin-bottom
+        .col.s12.m12.l12 {{ 'LogList.start' | translate:lang }}
+    .custom-collection-button
+      button.blue(mz-button, float='true', (click)='onCAPAOpen(true)')
+        i(mz-icon-mdi, [icon]='"new-box"', [size]='"24px"')
+  .custom-item(*ngFor='let capa of capaList')
+    .custom-item-content.button-number-1
+      .row.no-margin-bottom
+        .col.s4.m4.l4 {{capa.capa_number}}
+        .col.s4.m4.l4 {{capa.capture_date}}
+        .col.s4.m4.l4 {{capa.creator_name}}
+      .row.no-margin-bottom
+        .col.s12.m12.l12 {{capa.description}}
+    .custom-collection-button
+      button.green(mz-button, float='true', (click)='onCAPAOpen(capa.id)')
+        i(mz-icon-mdi, [icon]='"file-outline"', [size]='"24px"')

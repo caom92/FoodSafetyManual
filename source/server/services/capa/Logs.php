@@ -65,6 +65,8 @@ class Logs extends db\InsertableTable
         "$this->table.id",
         'capa_number',
         'reference_number',
+        'description',
+        'z.name(zone_name)',
         'c.first_name(creator_first_name)',
         'c.last_name(creator_last_name)',
         'capture_date'
@@ -73,11 +75,18 @@ class Logs extends db\InsertableTable
         'AND' => [
           "$this->table.zone_id" => $zoneID,
           'accepter_id' => null 
+        ],
+        'ORDER' => [
+          'capture_date' => 'DESC',
+          'id' => 'DESC'
         ]
       ],
       [
         '[><]users(c)' => [
           'creator_id' => 'id'
+        ],
+        '[><]zones(z)' => [
+          'zone_id' => 'id'
         ]
       ]
     );
