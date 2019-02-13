@@ -6,7 +6,7 @@ require_once realpath(dirname(__FILE__).'/../../../service_creators.php');
 $service = fsm\createAuthorizationReportService(
   'GAP',
   'Fields',
-  'Organic Program Verification & SRRC',
+  'Pre Operativo Diario',
   [
     'items_name' => 'areas',
     'extra_info' => [

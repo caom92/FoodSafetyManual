@@ -6,7 +6,7 @@ require_once realpath(dirname(__FILE__).'/../../../service_creators.php');
 $service = fsm\createCaptureService(
   'GAP',
   'Fields',
-  'Organic Program Verification & SRRC',
+  'Pre Operativo Diario',
   [
     'areas' => [
       'type' => 'array',

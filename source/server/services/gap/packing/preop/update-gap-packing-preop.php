@@ -7,7 +7,7 @@ $service = [
       'privilege' => ['Read','Write'],
       'program' => 'GAP',
       'module' => 'Fields',
-      'log' => 'Organic Program Verification & SRRC'
+      'log' => 'Pre Operativo Diario'
     ],
     'report_id' => [
       'type' => 'int',

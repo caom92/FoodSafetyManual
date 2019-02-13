@@ -6,7 +6,7 @@ require_once realpath(dirname(__FILE__).'/../../../service_creators.php');
 $service = fsm\createAddService(
   'GAP',
   'Fields',
-  'Organic Program Verification & SRRC',
+  'Pre Operativo Diario',
   [
     'area_id' => [
       'type' => 'int',

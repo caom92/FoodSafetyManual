@@ -74,7 +74,7 @@ class Logs extends db\InsertableTable
       [
         'AND' => [
           "$this->table.zone_id" => $zoneID,
-          'accepter_id' => null 
+          'closure_date' => null
         ],
         'ORDER' => [
           'capture_date' => 'DESC',
@@ -94,6 +94,20 @@ class Logs extends db\InsertableTable
 
   function updateByID($changes, $logID) {
     return parent::update($changes, ['id ' => $logID]);
+  }
+
+  function isFormApproved($logID) {
+    $rows = parent::get(['closure_date'], ['id' => $logID]);
+    return (count($rows) > 0) ? ((!is_null($rows['closure_date'])) ? true : false) : NULL;
+  }
+
+  function approveByID($logID, $date) {
+    return parent::update(['closure_date' => $date], ['id' => $logID]);
+  }
+
+  function selectCreatorIDByID($logID) {
+    $rows = parent::get(['creator_id'], ['id' => $logID]);
+    return (count($rows) > 0) ? $rows['creator_id'] : NULL;
   }
 }
 
