@@ -5,9 +5,9 @@ $service = [
     'logged_in' => ['Supervisor'],
     'has_privileges' => [
       'privilege' => ['Read', 'Write'],
-      'program' => 'GMP',
-      'module' => 'Packing',
-      'log' => 'Pre-Operational Inspection'
+      'program' => 'GAP',
+      'module' => 'Fields',
+      'log' => 'Annual Water Resource Sanitary Survey Form'
     ],
     'area_name' => [
       'type' => 'string',
