@@ -63,9 +63,9 @@ mixin inventoryEmptyMessage()
   div(*ngIf='emptyInventoryFlag == true')
     h3
       i.red-text(mz-icon-mdi, [align]="'center'", [icon]="'alert-circle'", [size]="'42px'")
-      | No items for this log. Add some by using the 
-      i.green-text(mz-icon-mdi, [align]="'center'", [icon]="'plus-circle'", [size]="'36px'")
-      |  button above
+      | {{ 'InventoryLists.no_items_opening' | translate:lang }}
+      i.green-text(mz-icon-mdi, [align]="'center'", [icon]="'plus-circle'", [size]="'42px'")
+      | {{ 'InventoryLists.no_items_closure' | translate:lang }}
 
 mixin inventoryListsWrapper(condition)
   table(*ngIf=condition)&attributes(attributes)

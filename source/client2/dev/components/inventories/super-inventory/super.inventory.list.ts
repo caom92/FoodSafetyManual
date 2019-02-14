@@ -2,6 +2,7 @@ import { OnDestroy, OnInit } from '@angular/core'
 import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
 import { Subscription } from 'rxjs'
+import { Subscription as LegacySubscription } from 'angular2-pubsub/node_modules/rxjs'
 
 import { InventoryService } from '../../../services/app.inventory'
 import { SuperInventoryItemInterface } from './super.inventory.interface'
@@ -9,6 +10,7 @@ import { SuperInventoryItemInterface } from './super.inventory.interface'
 export abstract class SuperInventoryListComponent implements OnInit, OnDestroy {
   protected drag: Subscription = new Subscription()
   protected dragend: Subscription = new Subscription()
+  protected itemEvent: LegacySubscription
   protected bagName: string = null
   protected currentInventory: Array<Array<SuperInventoryItemInterface>> = [[]]
   protected originalInventory: Array<SuperInventoryItemInterface> = null
@@ -84,8 +86,10 @@ export abstract class SuperInventoryListComponent implements OnInit, OnDestroy {
     // this.originalInventory = this.currentInventory.map(x => Object.assign({}, x))
     // this.setOriginalInventory()
 
-    this.events.$sub('item:add').subscribe((item) => {
-      this.onItemAdd(item)
+    this.itemEvent = this.events.$sub('item:add').subscribe((item) => {
+      if (item.added == undefined) {
+        this.onItemAdd(item)
+      }
     })
 
     // Al comenzar el desplazamiento de un elemento de inventario, se detiene
@@ -145,5 +149,7 @@ export abstract class SuperInventoryListComponent implements OnInit, OnDestroy {
     } else {
       console.error('No Dragula bag ' + this.bagName + ' on this inventory lists')
     }
+
+    this.itemEvent.unsubscribe()
   }
 }

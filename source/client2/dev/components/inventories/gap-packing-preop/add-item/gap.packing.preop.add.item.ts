@@ -34,7 +34,7 @@ export class GAPPackingPreopAddItemComponent extends SuperInventoryAddItemCompon
   }
 
   public addItem(): void {
-    let data = { type: this.newItem.value.type, item: { id: 0, is_active: 1, name: this.newItem.value.name, position: 0 } }
+    let data = { type: this.newItem.value.type, area_id: this.area_id, item: { id: 0, is_active: 1, name: this.newItem.value.name, position: 0 } }
     let itemData = { name: this.newItem.value.name, area_id: this.area_id, type_id: this.newItem.value.type }
     super.addItem(data, itemData)
   }

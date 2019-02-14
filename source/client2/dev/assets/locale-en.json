@@ -42,12 +42,14 @@
     "Manage Inventory": "Manage Inventory",
     "Manage Areas": "Manage Areas",
     "InventoryLists": {
-        "id":"ID",
-        "order":"Order",
-        "name":"Name",
+        "id": "ID",
+        "order": "Order",
+        "name": "Name",
         "status": "Status",
-        "type":"Type",
-        "quantity":"Quantity"
+        "type": "Type",
+        "quantity": "Quantity",
+        "no_items_opening": "No items for this log. Add some by using the ",
+        "no_items_closure": " button above"
     },
     "NavbarTitles": {
         "Authorizations": "Authorizations",

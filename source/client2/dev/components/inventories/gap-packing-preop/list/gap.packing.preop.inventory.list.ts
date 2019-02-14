@@ -16,6 +16,7 @@ export class GAPPackingPreopInventoryListComponent extends SuperInventoryListCom
   @Language() private lang: string
   @Input() items: Array<InventoryItem>
   @Input() type: InventoryType
+  @Input() areaID: number
 
   constructor(dragulaService: DragulaService,
     events: PubSubService,
@@ -30,9 +31,10 @@ export class GAPPackingPreopInventoryListComponent extends SuperInventoryListCom
   }
 
   public onItemAdd(item: any): void {
-    if (item.type == this.type.id) {
+    if (item.type == this.type.id && item.area_id == this.areaID) {
       item.item.position = this.getCurrentInventory().length + 1
       this.getCurrentInventory().push(item.item)
+      item.added = true
     }
   }
 

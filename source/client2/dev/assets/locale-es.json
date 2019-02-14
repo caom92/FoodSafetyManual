@@ -42,12 +42,14 @@
     "Manage Inventory": "Gestión de Inventario",
     "Manage Areas": "Gestión de Áreas",
     "InventoryLists": {
-        "id":"ID",
-        "order":"Orden",
-        "name":"Nombre",
+        "id": "ID",
+        "order": "Orden",
+        "name": "Nombre",
         "status": "Estado",
-        "type":"Tipo",
-        "quantity":"Cantidad"
+        "type": "Tipo",
+        "quantity": "Cantidad",
+        "no_items_opening": "No hay objetos en este invenatario. Añada algunos usando el botón ",
+        "no_items_closure": " localizado arriba"
     },
     "NavbarTitles": {
         "Authorizations": "Autorizaciones",
