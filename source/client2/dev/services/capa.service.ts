@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { TranslationService as TService } from 'angular-l10n'
+import { TranslationService } from 'angular-l10n'
 import { Observable } from 'rxjs'
 
 import { AlertController } from './alert/app.alert'
@@ -13,7 +13,7 @@ export class CAPAService {
     private toastService: ToastsService,
     private server: BackendService,
     private alertCtrl: AlertController,
-    private ts: TService) {
+    private ts: TranslationService) {
 
   }
 

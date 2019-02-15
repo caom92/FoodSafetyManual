@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core'
-import { TranslationService as TService } from 'angular-l10n'
+import { TranslationService } from 'angular-l10n'
 
 import { LogService } from '../../../../services/app.logs'
 import { Preview } from '../../report-common/report-preview/report-preview.interface'
@@ -14,7 +14,7 @@ import { Report } from '../interfaces/gmp.packing.finished.product.report.interf
 export class GMPPackingFinishedProductReportLoaderComponent extends SuperReportLoader {
   @Input() report: Report
 
-  constructor(ts: TService, logService: LogService) {
+  constructor(ts: TranslationService, logService: LogService) {
     super(ts, logService)
   }
 

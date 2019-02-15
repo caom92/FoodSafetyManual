@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { Language, TranslationService as TService } from 'angular-l10n'
+import { Language, TranslationService } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 
 import { AlertController } from '../../../../services/alert/app.alert'
@@ -19,7 +19,7 @@ export class GMPSelfInspectionPestControlAddItemComponent extends SuperInventory
   @Input('area') area_id: number
   newItem: FormGroup = new FormBuilder().group({})
   
-  constructor(alertCtrl: AlertController, ts: TService, _fb: FormBuilder, inventoryService: InventoryService, events: PubSubService, toastService: ToastsService) {
+  constructor(alertCtrl: AlertController, ts: TranslationService, _fb: FormBuilder, inventoryService: InventoryService, events: PubSubService, toastService: ToastsService) {
     super(_fb, alertCtrl, ts, inventoryService, events, toastService)
   }
 

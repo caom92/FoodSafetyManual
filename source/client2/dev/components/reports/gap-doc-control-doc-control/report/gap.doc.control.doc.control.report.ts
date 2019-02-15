@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core'
-import { Language, TranslationService as TService } from 'angular-l10n'
+import { Language, TranslationService } from 'angular-l10n'
 
 import { Preview } from '../../report-common/report-preview/report-preview.interface'
 import { SuperReportComponent } from '../../super-report/super.report'
@@ -16,7 +16,7 @@ export class GAPDocControlDocControlReportComponent extends SuperReportComponent
   @ViewChild('report_body') reportHTML: any
   entry = null
 
-  constructor(ts: TService) {
+  constructor(ts: TranslationService) {
     super(ts)
   }
 

@@ -7,7 +7,7 @@ import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
-import { TranslationService } from '../../../../services/app.translation'
+import { TranslationConfigService } from '../../../../services/translation-config.service'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization, AuthorizationEntry } from '../interfaces/gmp.packing.finished.product.authorization.interface'
 import { CustomValidators } from '../../../../directives/custom.validators'
@@ -34,7 +34,7 @@ export class GMPPackingFinishedProductAuthorizationComponent extends SuperAuthor
 
   constructor(_fb: FormBuilder,
     private timeService: DateTimeService,
-    private translationService: TranslationService,
+    private translationConfig: TranslationConfigService,
     private langManager: LanguageService,
     logService: LogService,
     toasts: ToastsService,

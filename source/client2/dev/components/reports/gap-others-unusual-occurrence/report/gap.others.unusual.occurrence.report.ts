@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core'
-import { Language, TranslationService as TService } from 'angular-l10n'
+import { Language, TranslationService } from 'angular-l10n'
 
 import { SuperReportComponent } from '../../super-report/super.report'
 import { Report } from '../interfaces/gap.others.unusual.occurrence.report.interface'
@@ -15,7 +15,7 @@ export class GAPOthersUnusualOccurrenceReportComponent extends SuperReportCompon
   @ViewChild('report_body') reportHTML: any
   entry = null
 
-  constructor(ts: TService) {
+  constructor(ts: TranslationService) {
     super(ts)
   }
 

@@ -1,5 +1,5 @@
 import { FormBuilder, FormGroup } from '@angular/forms'
-import { TranslationService as TService } from 'angular-l10n'
+import { TranslationService } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 
 import { AlertController } from '../../../services/alert/app.alert'
@@ -11,7 +11,7 @@ export class SuperInventoryAddAreaComponent {
 
   constructor(protected _fb: FormBuilder,
     public alertCtrl: AlertController,
-    public ts: TService,
+    public ts: TranslationService,
     private areaManagerService: AreaManagerService,
     private events: PubSubService) {
 

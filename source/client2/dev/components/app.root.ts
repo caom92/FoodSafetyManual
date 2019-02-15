@@ -6,7 +6,7 @@ import { MaterializeModule } from 'ngx-materialize'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { HttpModule } from '@angular/http'
 import { PubSubModule } from 'angular2-pubsub'
-import { LocalizationModule, LocaleService, TranslationService as TService, L10nLoader } from 'angular-l10n'
+import { LocalizationModule, LocaleService, TranslationService, L10nLoader } from 'angular-l10n'
 
 // Importamos los componentes de cada pagina de nuestra aplicacion
 import { HomeComponent } from './app.home'
@@ -52,7 +52,7 @@ import { LogService } from '../services/app.logs'
 import { MenuService } from '../services/app.menu'
 import { CAPAService } from '../services/capa.service'
 import { ToastsService } from '../services/app.toasts'
-import { TranslationService } from '../services/app.translation'
+import { TranslationConfigService } from '../services/translation-config.service'
 import { AreaManagerService } from '../services/app.area.manager'
 import { languageConfig } from '../functions/l10n-config'
 import { HttpClientModule } from '@angular/common/http'
@@ -89,7 +89,7 @@ import { RootRoutingModule } from './app-routing.root'
     MenuService,
     CAPAService,
     ToastsService,
-    TranslationService,
+    TranslationConfigService,
     DragulaService
   ],
   // declaramos los componentes que va a utilizar nuestro sistema
@@ -142,7 +142,7 @@ export class RootModule {
     private home: HomeElementsService,
     private langManager: LanguageService,
     public locale: LocaleService,
-    public translation: TService,
+    public translation: TranslationService,
     public l10nLoader: L10nLoader
   ) {
     this.l10nLoader.load()

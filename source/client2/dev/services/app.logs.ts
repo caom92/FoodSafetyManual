@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { FormArray, FormControl, FormGroup } from '@angular/forms'
-import { TranslationService as TService } from 'angular-l10n'
+import { TranslationService } from 'angular-l10n'
 import { Observable } from 'rxjs/Rx'
 
 import { LogDetails } from '../components/logs/log.interfaces'
@@ -27,7 +27,7 @@ export class LogService {
     private server: BackendService,
     private timeService: DateTimeService,
     private alertCtrl: AlertController,
-    private ts: TService) {
+    private ts: TranslationService) {
 
   }
 

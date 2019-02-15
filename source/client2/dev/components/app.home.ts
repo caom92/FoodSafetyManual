@@ -8,7 +8,7 @@ import { BackendService } from '../services/app.backend'
 import { HomeElementsService } from '../services/app.home'
 import { LanguageService } from '../services/app.language'
 import { ToastService } from '../services/app.toast'
-import { TranslationService } from '../services/app.translation'
+import { TranslationConfigService } from '../services/translation-config.service'
 
 // Componente que define el comportamiento de la pagina de inicio de sesion
 @Component({
@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit
     private router: Router,
     private home: HomeElementsService,
     private langManager: LanguageService,
-    private translationService: TranslationService,
+    private translationConfig: TranslationConfigService,
     private events: PubSubService
   ) {
   }
@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit
     // si no hay ningun idioma definimo, definimos el idioma español por defecto
     if (localStorage.getItem('lang') == null) {
       localStorage.setItem('lang', 'es')
-      this.translationService.selectLanguage('es', 'ES')
+      this.translationConfig.selectLanguage('es', 'ES')
     }
 
     if (localStorage.getItem('zone_id') != null && localStorage.getItem('zone_id') != null) {
@@ -110,7 +110,7 @@ export class HomeComponent implements OnInit
   // Esta funcion se ejecuta cuando el usuario cambio el idioma de la pagina
   onLanguageButtonClicked(lang, country): void {
     this.langManager.changeLanguage(lang)
-    this.translationService.selectLanguage(lang, country)
+    this.translationConfig.selectLanguage(lang, country)
     $('select').material_select()
   }
 

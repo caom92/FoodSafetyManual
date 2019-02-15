@@ -1,5 +1,5 @@
 import { ElementRef, OnInit, Input } from '@angular/core'
-import { TranslationService as TService } from 'angular-l10n'
+import { TranslationService } from 'angular-l10n'
 
 import { ReportHeader } from '../report-common/report-header/report-header.interface'
 import { Preview } from '../report-common/report-preview/report-preview.interface'
@@ -10,7 +10,7 @@ export class SuperReportComponent implements OnInit {
   reportHTML: ElementRef
   header: ReportHeader = { zone: '', module: '', program: '', log: '', created_on: '', created_by: '', approved_on: '', approved_by: '' }
 
-  constructor(private ts: TService) {
+  constructor(private ts: TranslationService) {
 
   }
 

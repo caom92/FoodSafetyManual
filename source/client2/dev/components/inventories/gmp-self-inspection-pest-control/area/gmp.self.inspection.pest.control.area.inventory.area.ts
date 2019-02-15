@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core'
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks'
 import { FormBuilder, Validators } from '@angular/forms'
-import { Language, TranslationService as TService } from 'angular-l10n'
+import { Language, TranslationService } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 
 import { AlertController } from '../../../../services/alert/app.alert'
@@ -22,7 +22,7 @@ export class GMPSelfInspectionPestControlAreaInventoryAreaComponent extends Supe
   constructor(events: PubSubService,
     _fb: FormBuilder,
     alertCtrl: AlertController,
-    ts: TService,
+    ts: TranslationService,
     areaManagerService: AreaManagerService) {
     super(events, _fb, alertCtrl, ts, areaManagerService)
   }

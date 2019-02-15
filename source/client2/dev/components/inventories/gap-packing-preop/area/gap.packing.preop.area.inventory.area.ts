@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
 import { Language } from 'angular-l10n'
-import { TranslationService as TService } from 'angular-l10n'
+import { TranslationService } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 
 import { AlertController } from '../../../../services/alert/app.alert'
@@ -24,7 +24,7 @@ export class GAPPackingPreopAreaInventoryAreaComponent extends SuperInventoryAre
   constructor(events: PubSubService,
     _fb: FormBuilder,
     alertCtrl: AlertController,
-    ts: TService,
+    ts: TranslationService,
     areaManagerService: AreaManagerService) {
     super(events, _fb, alertCtrl, ts, areaManagerService)
   }

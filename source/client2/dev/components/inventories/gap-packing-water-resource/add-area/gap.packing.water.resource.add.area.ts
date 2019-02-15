@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
-import { TranslationService as TService } from 'angular-l10n'
+import { TranslationService } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 
 import { AlertController } from '../../../../services/alert/app.alert'
@@ -15,7 +15,7 @@ import { SuperInventoryAddAreaComponent } from '../../super-inventory/super.area
 export class GAPPackingWaterResourceAddAreaComponent extends SuperInventoryAddAreaComponent implements OnInit {
   constructor(_fb: FormBuilder,
     alertCtrl: AlertController,
-    ts: TService,
+    ts: TranslationService,
     areaManagerService: AreaManagerService,
     events: PubSubService) {
     super(_fb, alertCtrl, ts, areaManagerService, events)

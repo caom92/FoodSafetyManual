@@ -7,7 +7,7 @@ import { CustomValidators } from '../../../../directives/custom.validators'
 import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
-import { TranslationService } from '../../../../services/app.translation'
+import { TranslationConfigService } from '../../../../services/translation-config.service'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization, AuthorizationItem } from '../interfaces/gmp.self.inspection.pest.control.authorization.interface'
 
@@ -22,7 +22,7 @@ export class GMPSelfInspectionPestControlAuthorizationComponent extends SuperAut
   offset: Array<number> = []
 
   constructor(private timeService: DateTimeService,
-    private translationService: TranslationService,
+    private translationConfig: TranslationConfigService,
     _fb: FormBuilder,
     logService: LogService,
     toasts: ToastsService,

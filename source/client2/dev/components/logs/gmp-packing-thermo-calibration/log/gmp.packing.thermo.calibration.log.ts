@@ -7,7 +7,7 @@ import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
-import { TranslationService } from '../../../../services/app.translation'
+import { TranslationConfigService } from '../../../../services/translation-config.service'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
 import { CaptureItem } from '../interfaces/gmp.packing.thermo.calibration.capture.interface'
 import { Log } from '../interfaces/gmp.packing.thermo.calibration.log.interface'
@@ -28,7 +28,7 @@ export class GMPPackingThermoCalibrationLogComponent extends SuperLogComponent i
 
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
-    private translationService: TranslationService,
+    private translationConfig: TranslationConfigService,
     private langManager: LanguageService,
     logService: LogService,
     toasts: ToastsService) {

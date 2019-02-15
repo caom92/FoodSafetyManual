@@ -1,5 +1,5 @@
 import { FormBuilder, FormGroup } from '@angular/forms'
-import { TranslationService as TService } from 'angular-l10n'
+import { TranslationService } from 'angular-l10n'
 
 import { AlertController } from '../../../services/alert/app.alert'
 import { InventoryService } from '../../../services/app.inventory'
@@ -12,7 +12,7 @@ export class SuperInventoryAddItemComponent {
 
   constructor(protected _fb: FormBuilder,
     public alertCtrl: AlertController,
-    public ts: TService,
+    public ts: TranslationService,
     private inventoryService: InventoryService,
     private events: PubSubService,
     private toastService: ToastsService) {

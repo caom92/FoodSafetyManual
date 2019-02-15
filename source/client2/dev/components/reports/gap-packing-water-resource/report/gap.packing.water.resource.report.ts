@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core'
-import { Language, TranslationService as TService } from 'angular-l10n'
+import { Language, TranslationService } from 'angular-l10n'
 
 import { SuperReportComponent } from '../../super-report/super.report'
 import { Report } from '../interfaces/gap.packing.water.resource.report.interface'
@@ -14,7 +14,7 @@ export class GAPPackingWaterResourceReportComponent extends SuperReportComponent
   @Language() lang: string
   @ViewChild('report_body') reportHTML: any
 
-  constructor(ts: TService) {
+  constructor(ts: TranslationService) {
     super(ts)
   }
 

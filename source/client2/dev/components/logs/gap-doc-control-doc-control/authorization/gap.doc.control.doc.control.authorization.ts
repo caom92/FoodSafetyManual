@@ -11,7 +11,7 @@ import { LoaderService } from '../../../../services/app.loaders'
 import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
-import { TranslationService } from '../../../../services/app.translation'
+import { TranslationConfigService } from '../../../../services/translation-config.service'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization } from '../interfaces/gap.doc.control.doc.control.authorization.interface'
 
@@ -30,7 +30,7 @@ export class GAPDocControlDocControlAuthorizationComponent extends SuperAuthoriz
 
   constructor(_fb: FormBuilder,
     private timeService: DateTimeService,
-    private translationService: TranslationService,
+    private translationConfig: TranslationConfigService,
     private langManager: LanguageService,
     logService: LogService,
     toastService: ToastsService,

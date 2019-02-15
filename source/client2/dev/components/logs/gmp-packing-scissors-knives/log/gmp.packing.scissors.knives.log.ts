@@ -5,7 +5,7 @@ import { Language } from 'angular-l10n'
 import { LogService } from '../../../../services/app.logs'
 import { DateTimeService } from '../../../../services/app.time'
 import { ToastsService } from '../../../../services/app.toasts'
-import { TranslationService } from '../../../../services/app.translation'
+import { TranslationConfigService } from '../../../../services/translation-config.service'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
 import { CaptureItem } from '../interfaces/gmp.packing.scissors.knives.capture.interface'
 import { Log } from '../interfaces/gmp.packing.scissors.knives.log.interface'
@@ -23,7 +23,7 @@ export class GMPPackingScissorsKnivesLogComponent extends SuperLogComponent impl
 
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
-    private translationService: TranslationService,
+    private translationConfig: TranslationConfigService,
     logService: LogService,
     toasts: ToastsService) {
     super(logService, toasts)

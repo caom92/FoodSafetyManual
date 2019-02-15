@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { Language, LocaleService } from 'angular-l10n'
 
 @Injectable()
-export class TranslationService {
+export class TranslationConfigService {
   @Language() lang: string
   
   constructor(public locale: LocaleService) { 

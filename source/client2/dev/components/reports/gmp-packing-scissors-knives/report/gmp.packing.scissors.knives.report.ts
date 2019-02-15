@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core'
-import { Language, TranslationService as TService } from 'angular-l10n'
+import { Language, TranslationService } from 'angular-l10n'
 
 import { SuperReportComponent } from '../../super-report/super.report'
 import { Report } from '../interfaces/gmp.packing.scissors.knives.report.interface'
@@ -14,7 +14,7 @@ export class GMPPackingScissorsKnivesReportComponent extends SuperReportComponen
   @Language() lang: string
   @ViewChild('report_body') reportHTML: any
 
-  constructor(ts: TService) {
+  constructor(ts: TranslationService) {
     super(ts)
   }
 
