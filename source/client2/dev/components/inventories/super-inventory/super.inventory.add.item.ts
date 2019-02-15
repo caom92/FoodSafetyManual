@@ -12,7 +12,7 @@ export class SuperInventoryAddItemComponent {
 
   constructor(protected _fb: FormBuilder,
     public alertCtrl: AlertController,
-    public ts: TranslationService,
+    public translationService: TranslationService,
     private inventoryService: InventoryService,
     private events: PubSubService,
     private toastService: ToastsService) {
@@ -30,17 +30,17 @@ export class SuperInventoryAddItemComponent {
   public addItem(data: any, itemData: any) {
     if (this.newItem.valid) {
       let confirmAdd = this.alertCtrl.create({
-        title: this.ts.translate('Titles.add_item'),
-        message: this.ts.translate('Messages.add_item') + '<br><br>' + this.newItem.value.name,
+        title: this.translationService.translate('Titles.add_item'),
+        message: this.translationService.translate('Messages.add_item') + '<br><br>' + this.newItem.value.name,
         buttons: [
           {
-            text: this.ts.translate('Options.cancel'),
+            text: this.translationService.translate('Options.cancel'),
             handler: () => {
               console.log('Cancelar')
             }
           },
           {
-            text: this.ts.translate('Options.accept'),
+            text: this.translationService.translate('Options.accept'),
             handler: () => {
               this.inventoryService.addItem(itemData, this.suffix).then(success => {
                 data.item.id = success

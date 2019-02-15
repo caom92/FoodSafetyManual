@@ -24,9 +24,9 @@ export class GAPPackingPreopAreaInventoryAreaComponent extends SuperInventoryAre
   constructor(events: PubSubService,
     _fb: FormBuilder,
     alertCtrl: AlertController,
-    ts: TranslationService,
+    translationService: TranslationService,
     areaManagerService: AreaManagerService) {
-    super(events, _fb, alertCtrl, ts, areaManagerService)
+    super(events, _fb, alertCtrl, translationService, areaManagerService)
   }
 
   public ngOnInit(): void {

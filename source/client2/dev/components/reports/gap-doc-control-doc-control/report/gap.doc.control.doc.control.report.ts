@@ -16,8 +16,8 @@ export class GAPDocControlDocControlReportComponent extends SuperReportComponent
   @ViewChild('report_body') reportHTML: any
   entry = null
 
-  constructor(ts: TranslationService) {
-    super(ts)
+  constructor(translationService: TranslationService) {
+    super(translationService)
   }
 
   ngOnInit() {

@@ -15,8 +15,8 @@ export class GMPPackingFinishedProductReportComponent extends SuperReportCompone
   @Language() lang: string
   @ViewChild('report_body') reportHTML: any
 
-  constructor(ts: TranslationService) {
-    super(ts)
+  constructor(translationService: TranslationService) {
+    super(translationService)
   }
 
   public getPreview(): Array<Preview> {

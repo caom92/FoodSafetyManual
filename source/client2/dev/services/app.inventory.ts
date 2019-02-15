@@ -20,7 +20,7 @@ export class InventoryService {
   constructor(private loaderService: LoaderService,
     private toastService: ToastsService,
     private server: BackendService,
-    public ts: TranslationService) {
+    public translationService: TranslationService) {
 
   }
 
@@ -41,7 +41,7 @@ export class InventoryService {
 
   public getInventory(suffix: string): Promise<any> {
     let inventoryPromise = new Promise<any>((resolve, reject) => {
-      let loader = this.loaderService.koiLoader(this.ts.translate('Connecting to Server'))
+      let loader = this.loaderService.koiLoader(this.translationService.translate('Connecting to Server'))
       loader.present()
       this.server.update(
         'inventory-' + suffix,
@@ -85,7 +85,7 @@ export class InventoryService {
 
   public getInventoryByArea(suffix: string, data: any): Promise<any> {
     let inventoryPromise = new Promise<any>((resolve, reject) => {
-      let loader = this.loaderService.koiLoader(this.ts.translate('Connecting to Server'))
+      let loader = this.loaderService.koiLoader(this.translationService.translate('Connecting to Server'))
       let form_data = new FormData()
       let area_data = data
 

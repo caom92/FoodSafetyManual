@@ -15,10 +15,10 @@ import { SuperInventoryAddAreaComponent } from '../../super-inventory/super.area
 export class GAPPackingWaterResourceAddAreaComponent extends SuperInventoryAddAreaComponent implements OnInit {
   constructor(_fb: FormBuilder,
     alertCtrl: AlertController,
-    ts: TranslationService,
+    translationService: TranslationService,
     areaManagerService: AreaManagerService,
     events: PubSubService) {
-    super(_fb, alertCtrl, ts, areaManagerService, events)
+    super(_fb, alertCtrl, translationService, areaManagerService, events)
   }
 
   public ngOnInit(): void {

@@ -17,8 +17,8 @@ export class GMPPackingOzoneWaterReportComponent extends SuperReportComponent {
   reportCSS: string = ''
   signatures: Array<string> = []
 
-  constructor(ts: TranslationService) {
-    super(ts)
+  constructor(translationService: TranslationService) {
+    super(translationService)
   }
 
   ngOnInit() {

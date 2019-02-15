@@ -14,8 +14,8 @@ export class GMPPackingColdRoomTempReportComponent extends SuperReportComponent 
   @Language() lang: string
   @ViewChild('report_body') reportHTML: any
 
-  constructor(ts: TranslationService) {
-    super(ts)
+  constructor(translationService: TranslationService) {
+    super(translationService)
   }
 
   public getCSS(appendCSS?: string): string {

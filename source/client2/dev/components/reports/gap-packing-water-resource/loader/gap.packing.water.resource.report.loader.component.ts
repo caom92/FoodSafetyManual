@@ -10,7 +10,7 @@ import { SuperReportLoader } from '../../super-report/super.report.loader'
 })
 
 export class GAPPackingWaterResourceReportLoaderComponent extends SuperReportLoader {
-  constructor(ts: TranslationService, logService: LogService) {
-    super(ts, logService)
+  constructor(translationService: TranslationService, logService: LogService) {
+    super(translationService, logService)
   }
 }

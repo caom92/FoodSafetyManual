@@ -14,8 +14,8 @@ import { Report } from '../interfaces/gap.doc.control.doc.control.report.interfa
 export class GAPDocControlDocControlReportLoaderComponent extends SuperReportLoader {
   @Input() report: Report
 
-  constructor(ts: TranslationService, logService: LogService) {
-    super(ts, logService)
+  constructor(translationService: TranslationService, logService: LogService) {
+    super(translationService, logService)
   }
 
   public getPreview(): Array<Preview> {

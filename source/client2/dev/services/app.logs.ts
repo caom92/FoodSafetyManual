@@ -27,7 +27,7 @@ export class LogService {
     private server: BackendService,
     private timeService: DateTimeService,
     private alertCtrl: AlertController,
-    private ts: TranslationService) {
+    private translationService: TranslationService) {
 
   }
 
@@ -215,17 +215,17 @@ export class LogService {
   public approve(logID: number): Promise<any> {
     let approvePromise = new Promise<any>((resolve, reject) => {
       let alert = this.alertCtrl.create({
-        title: 'Aprobar bitácora',//this.ts.translate('Titles.add_item'),
-        message: '¿Está seguro que desea aprobar esta bitácora? Esta acción no se puede deshacer',//this.ts.translate('Messages.add_item'),
+        title: 'Aprobar bitácora',//this.translationService.translate('Titles.add_item'),
+        message: '¿Está seguro que desea aprobar esta bitácora? Esta acción no se puede deshacer',//this.translationService.translate('Messages.add_item'),
         buttons: [
           {
-            text: this.ts.translate('Options.cancel'),
+            text: this.translationService.translate('Options.cancel'),
             handler: () => {
               reject('user_cancel')
             }
           },
           {
-            text: this.ts.translate('Options.accept'),
+            text: this.translationService.translate('Options.accept'),
             handler: () => {
               let approveLoader = this.loaderService.koiLoader('Aprobando bitácora...')
               let approveForm = new FormData()
@@ -268,13 +268,13 @@ export class LogService {
         message: '¿Está seguro que desea regresar bitácora para ser revisada nuevamente por un supervisor? Esta acción no se puede deshacer',
         buttons: [
           {
-            text: this.ts.translate('Options.cancel'),
+            text: this.translationService.translate('Options.cancel'),
             handler: () => {
               reject('user_cancel')
             }
           },
           {
-            text: this.ts.translate('Options.accept'),
+            text: this.translationService.translate('Options.accept'),
             handler: () => {
               let retreatLoader = this.loaderService.koiLoader('Retrocediendo bitácora...')
               let retreatForm = new FormData()
@@ -311,17 +311,17 @@ export class LogService {
   public reject(logID: number): Promise<any> {
     let rejectPromise = new Promise<any>((resolve, reject) => {
       let alert = this.alertCtrl.create({
-        title: 'Rechazar bitácora',//this.ts.translate('Titles.add_item'),
-        message: '¿Está seguro que desea rechazar esta bitácora? Esta acción no se puede deshacer',//this.ts.translate('Messages.add_item'),
+        title: 'Rechazar bitácora',//this.translationService.translate('Titles.add_item'),
+        message: '¿Está seguro que desea rechazar esta bitácora? Esta acción no se puede deshacer',//this.translationService.translate('Messages.add_item'),
         buttons: [
           {
-            text: this.ts.translate('Options.cancel'),
+            text: this.translationService.translate('Options.cancel'),
             handler: () => {
               reject('user_cancel')
             }
           },
           {
-            text: this.ts.translate('Options.accept'),
+            text: this.translationService.translate('Options.accept'),
             handler: () => {
               let rejectLoader = this.loaderService.koiLoader('Rechazando bitácora...')
               let rejectForm = new FormData()
@@ -364,13 +364,13 @@ export class LogService {
         message: '¿Está seguro que desea finalizar esta bitácora para ser enviada a revisión por un supervisor? Esta acción no se puede deshacer',
         buttons: [
           {
-            text: this.ts.translate('Options.cancel'),
+            text: this.translationService.translate('Options.cancel'),
             handler: () => {
               reject('user_cancel')
             }
           },
           {
-            text: this.ts.translate('Options.accept'),
+            text: this.translationService.translate('Options.accept'),
             handler: () => {
               let finishLoader = this.loaderService.koiLoader('Finalizando bitácora...')
               let finishForm = new FormData()

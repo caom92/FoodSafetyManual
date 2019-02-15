@@ -18,7 +18,7 @@ export class SuperInventoryAreaComponent {
   constructor(protected events: PubSubService,
     protected _fb: FormBuilder,
     public alertCtrl: AlertController,
-    public ts: TranslationService,
+    public translationService: TranslationService,
     private areaManagerService: AreaManagerService) {
 
   }
@@ -42,17 +42,17 @@ export class SuperInventoryAreaComponent {
   public editArea(areaData: SuperInventoryEditAreaInterface) {
     if (this.newArea.valid && this.newArea.value.name != this.area.name) {
       let confirmAdd = this.alertCtrl.create({
-        title: this.ts.translate('Titles.edit_area'),
-        message: this.ts.translate('Messages.edit_area') + '<br><br>' + this.ts.translate('Adverbs.before') + ': ' + this.area.name + '<br>' + this.ts.translate('Adverbs.after') + ': ' + this.newArea.value.name,
+        title: this.translationService.translate('Titles.edit_area'),
+        message: this.translationService.translate('Messages.edit_area') + '<br><br>' + this.translationService.translate('Adverbs.before') + ': ' + this.area.name + '<br>' + this.translationService.translate('Adverbs.after') + ': ' + this.newArea.value.name,
         buttons: [
           {
-            text: this.ts.translate('Options.cancel'),
+            text: this.translationService.translate('Options.cancel'),
             handler: () => {
               console.log('Cancelar')
             }
           },
           {
-            text: this.ts.translate('Options.accept'),
+            text: this.translationService.translate('Options.accept'),
             handler: () => {
               this.areaManagerService.editArea(areaData, this.suffix).then(success => {
                 this.editMode = false

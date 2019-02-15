@@ -14,8 +14,8 @@ import { Report } from '../interfaces/gmp.others.unusual.occurrence.report.inter
 export class GMPOthersUnusualOccurrenceReportLoaderComponent extends SuperReportLoader {
   @Input() report: Report
 
-  constructor(ts: TranslationService, logService: LogService) {
-    super(ts, logService)
+  constructor(translationService: TranslationService, logService: LogService) {
+    super(translationService, logService)
   }
 
   public getPreview(): Array<Preview> {

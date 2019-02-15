@@ -14,8 +14,8 @@ import { Report } from '../interfaces/gmp.packing.finished.product.report.interf
 export class GMPPackingFinishedProductReportLoaderComponent extends SuperReportLoader {
   @Input() report: Report
 
-  constructor(ts: TranslationService, logService: LogService) {
-    super(ts, logService)
+  constructor(translationService: TranslationService, logService: LogService) {
+    super(translationService, logService)
   }
 
   public getPreview(): Array<Preview> {

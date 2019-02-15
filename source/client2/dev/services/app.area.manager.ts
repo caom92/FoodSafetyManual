@@ -20,7 +20,7 @@ export class AreaManagerService {
   constructor(private loaderService: LoaderService,
     private toastService: ToastsService,
     private server: BackendService,
-    public ts: TranslationService) {
+    public translationService: TranslationService) {
 
   }
 

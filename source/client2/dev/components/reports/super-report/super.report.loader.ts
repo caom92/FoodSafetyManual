@@ -29,7 +29,7 @@ export class SuperReportLoader implements OnInit {
   readonly yearOptions = { year: '2-digit' }
   readonly isDirector = localStorage.getItem('role_name') === 'Director'
 
-  constructor(private ts: TranslationService, private logService: LogService) {
+  constructor(private translationService: TranslationService, private logService: LogService) {
 
   }
 

@@ -17,8 +17,8 @@ export class GMPDocControlDocControlAddItemComponent extends SuperInventoryAddIt
   @Language() private lang: string
   newItem: FormGroup = new FormBuilder().group({})
 
-  constructor(alertCtrl: AlertController, ts: TranslationService, _fb: FormBuilder, inventoryService: InventoryService, events: PubSubService, toastService: ToastsService) {
-    super(_fb, alertCtrl, ts, inventoryService, events, toastService)
+  constructor(alertCtrl: AlertController, translationService: TranslationService, _fb: FormBuilder, inventoryService: InventoryService, events: PubSubService, toastService: ToastsService) {
+    super(_fb, alertCtrl, translationService, inventoryService, events, toastService)
   }
 
   public ngOnInit(): void {

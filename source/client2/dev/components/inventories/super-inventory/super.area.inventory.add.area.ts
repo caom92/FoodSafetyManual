@@ -11,7 +11,7 @@ export class SuperInventoryAddAreaComponent {
 
   constructor(protected _fb: FormBuilder,
     public alertCtrl: AlertController,
-    public ts: TranslationService,
+    public translationService: TranslationService,
     private areaManagerService: AreaManagerService,
     private events: PubSubService) {
 
@@ -28,17 +28,17 @@ export class SuperInventoryAddAreaComponent {
   public addArea(listData: any, itemData: any) {
     if (this.newArea.valid) {
       let confirmAdd = this.alertCtrl.create({
-        title: this.ts.translate('Titles.add_area'),
-        message: this.ts.translate('Messages.add_area') + '<br><br>' + this.newArea.value.name,
+        title: this.translationService.translate('Titles.add_area'),
+        message: this.translationService.translate('Messages.add_area') + '<br><br>' + this.newArea.value.name,
         buttons: [
           {
-            text: this.ts.translate('Options.cancel'),
+            text: this.translationService.translate('Options.cancel'),
             handler: () => {
               
             }
           },
           {
-            text: this.ts.translate('Options.accept'),
+            text: this.translationService.translate('Options.accept'),
             handler: () => {
               this.areaManagerService.addArea(itemData, this.suffix).then(success => {
                 listData.area.id = success.id
