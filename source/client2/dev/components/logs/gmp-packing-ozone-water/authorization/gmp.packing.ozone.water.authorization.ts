@@ -5,7 +5,7 @@ import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LogService } from '../../../../services/app.logs'
-import { DateTimeService } from '../../../../services/app.time'
+import { DateTimeService } from '../../../../services/time.service'
 import { ToastsService } from '../../../../services/app.toasts'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization, AuthorizationField, AuthorizationItem } from '../interfaces/gmp.packing.ozone.water.authorization.interface'
@@ -59,7 +59,7 @@ export class GMPPackingOzoneWaterAuthorizationComponent extends SuperAuthorizati
   }
 
   public initEmptyEntry(test: number, fields: Array<AuthorizationField>, time?: string): FormGroup {
-    const currentTime = (time !== undefined) ? time : this.timeService.getISOTime(new Date())
+    const currentTime = (time !== undefined) ? time : this.timeService.getISOTime()
     let entryGroup: FormGroup = this._fb.group({})
     entryGroup.addControl('test_number', new FormControl(test, [Validators.required]))
     entryGroup.addControl('time', new FormControl(currentTime, [Validators.required, CustomValidators.timeValidator()]))

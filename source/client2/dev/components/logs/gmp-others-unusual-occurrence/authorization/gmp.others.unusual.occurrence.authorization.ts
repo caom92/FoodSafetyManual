@@ -5,7 +5,7 @@ import { Language } from 'angular-l10n'
 
 import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
-import { DateTimeService } from '../../../../services/app.time'
+import { DateTimeService } from '../../../../services/time.service'
 import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationConfigService } from '../../../../services/translation-config.service'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'

@@ -4,7 +4,7 @@ import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LogService } from '../../../../services/app.logs'
-import { DateTimeService } from '../../../../services/app.time'
+import { DateTimeService } from '../../../../services/time.service'
 import { ToastsService } from '../../../../services/app.toasts'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
 import { CaptureArea, CaptureItem } from '../interfaces/gmp.packing.preop.capture.interface'
@@ -32,8 +32,8 @@ export class GMPPackingPreopLogComponent extends SuperLogComponent implements On
   }
 
   initForm() {
-    const currentDate = this.timeService.getISODate(new Date())
-    const currentTime = this.timeService.getISOTime(new Date())
+    const currentDate = this.timeService.getISODate()
+    const currentTime = this.timeService.getISOTime()
     this.captureForm = this._fb.group({
       date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       notes: ['', [Validators.maxLength(65535)]],
@@ -53,8 +53,8 @@ export class GMPPackingPreopLogComponent extends SuperLogComponent implements On
   }
 
   resetForm() {
-    const currentDate = this.timeService.getISODate(new Date())
-    const currentTime = this.timeService.getISOTime(new Date())
+    const currentDate = this.timeService.getISODate()
+    const currentTime = this.timeService.getISOTime()
     let areas = []
     for (let area of this.log.areas.logs) {
       let items: Array<CaptureItem> = []

@@ -4,7 +4,7 @@ import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LogService } from '../../../../services/app.logs'
-import { DateTimeService } from '../../../../services/app.time'
+import { DateTimeService } from '../../../../services/time.service'
 import { ToastsService } from '../../../../services/app.toasts'
 import { SuperUpdateComponent } from '../../super-logs/super.logs.update'
 import { CaptureArea, CaptureItem } from '../interfaces/gap.packing.water.resource.capture.interface'
@@ -36,7 +36,7 @@ export class GAPPackingWaterResourceLogComponent extends SuperUpdateComponent im
   }
 
   public initForm(): void {
-    const currentDate = (this.log.creation_date !== undefined) ? this.log.creation_date : this.timeService.getISODate(new Date())
+    const currentDate = (this.log.creation_date !== undefined) ? this.log.creation_date : this.timeService.getISODate()
     this.captureForm = this._fb.group({
       date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       areas: this._fb.array([])
@@ -57,7 +57,7 @@ export class GAPPackingWaterResourceLogComponent extends SuperUpdateComponent im
   }
 
   public resetForm(): void {
-    const currentDate = this.timeService.getISODate(new Date())
+    const currentDate = this.timeService.getISODate()
     let areas = []
     for (let area of this.log.areas) {
       let items = []

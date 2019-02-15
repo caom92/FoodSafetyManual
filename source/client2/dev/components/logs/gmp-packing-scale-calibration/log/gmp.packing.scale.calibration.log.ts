@@ -4,7 +4,7 @@ import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LogService } from '../../../../services/app.logs'
-import { DateTimeService } from '../../../../services/app.time'
+import { DateTimeService } from '../../../../services/time.service'
 import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationConfigService } from '../../../../services/translation-config.service'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
@@ -34,8 +34,8 @@ export class GMPPackingScaleCalibrationLogComponent extends SuperLogComponent im
   }
 
   initForm() {
-    const currentDate = this.timeService.getISODate(new Date())
-    const currentTime = this.timeService.getISOTime(new Date())
+    const currentDate = this.timeService.getISODate()
+    const currentTime = this.timeService.getISOTime()
     this.captureForm = this._fb.group({
       date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       notes: ['', [Validators.maxLength(65535)]],
@@ -53,8 +53,8 @@ export class GMPPackingScaleCalibrationLogComponent extends SuperLogComponent im
   }
 
   resetForm() {
-    const currentDate = this.timeService.getISODate(new Date())
-    const currentTime = this.timeService.getISOTime(new Date())
+    const currentDate = this.timeService.getISODate()
+    const currentTime = this.timeService.getISOTime()
     let types = []
     for (let type of this.log.types.scales) {
       let items = []

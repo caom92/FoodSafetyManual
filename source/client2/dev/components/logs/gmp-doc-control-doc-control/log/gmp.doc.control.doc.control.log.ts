@@ -8,7 +8,7 @@ import { BackendService } from '../../../../services/app.backend'
 import { LanguageService } from '../../../../services/app.language'
 import { LoaderService } from '../../../../services/app.loaders'
 import { LogService } from '../../../../services/app.logs'
-import { DateTimeService } from '../../../../services/app.time'
+import { DateTimeService } from '../../../../services/time.service'
 import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationConfigService } from '../../../../services/translation-config.service'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
@@ -44,7 +44,7 @@ export class GMPDocControlDocControlLogComponent extends SuperLogComponent imple
   }
 
   public initForm(): void {
-    const currentDate = this.timeService.getISODate(new Date())
+    const currentDate = this.timeService.getISODate()
     this.captureForm = this._fb.group({
       date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       capture_date: ['', [Validators.required, Validators.minLength(1)]],

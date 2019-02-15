@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms'
 
 import { LanguageService } from '../../../services/app.language'
-import { DateTimeService } from '../../../services/app.time'
+import { DateTimeService } from '../../../services/time.service'
 import { CAPAService } from '../../../services/capa.service'
 import { CAPAForm } from './capa-log.interface'
 
@@ -38,8 +38,8 @@ export class CAPAFormComponent {
   }
 
   public initForm(): void {
-    const captureDate = this.timeService.getISODate(new Date())
-    const currentDate = this.timeService.getISODate(new Date())
+    const captureDate = this.timeService.getISODate()
+    const currentDate = this.timeService.getISODate()
     this.capaForm = this.formBuilder.group({
       capa_number: [(this.data.capa_number !== undefined && this.data.capa_number !== null) ? this.data.capa_number : ''],
       reference_number: [(this.data.reference_number !== undefined && this.data.reference_number !== null) ? this.data.reference_number : ''],

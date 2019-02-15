@@ -7,7 +7,7 @@ import { LogDetails } from '../components/logs/log.interfaces'
 import { AlertController } from './alert/app.alert'
 import { BackendService } from './app.backend'
 import { LoaderService } from './app.loaders'
-import { DateTimeService } from './app.time'
+import { DateTimeService } from './time.service'
 import { ToastsService } from './app.toasts'
 
 /**
@@ -231,7 +231,7 @@ export class LogService {
               let approveForm = new FormData()
 
               approveForm.append('captured_log_id', logID.toString())
-              approveForm.append('date', this.timeService.getISODate(new Date()))
+              approveForm.append('date', this.timeService.getISODate())
 
               this.server.update(
                 'approve-log',

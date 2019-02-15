@@ -4,7 +4,7 @@ import { DefaultLocale, Language } from 'angular-l10n'
 import { MzDatepickerDirective } from 'ngx-materialize'
 
 import { LanguageService } from '../../../../services/app.language'
-import { DateTimeService } from '../../../../services/app.time'
+import { DateTimeService } from '../../../../services/time.service'
 
 @Component({
   selector: 'log-header',
@@ -36,7 +36,7 @@ export class LogHeaderComponent implements OnInit {
     if (this.log.date != null && this.log.date != undefined) {
       this.date = this.log.date
     } else {
-      this.date = this.timeService.getISODate(new Date())
+      this.date = this.timeService.getISODate()
     }
 
     if (this.log.created_by != null && this.log.created_by != undefined) {

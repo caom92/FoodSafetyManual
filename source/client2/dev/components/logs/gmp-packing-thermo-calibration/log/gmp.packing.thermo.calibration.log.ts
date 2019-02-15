@@ -5,7 +5,7 @@ import { Language } from 'angular-l10n'
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
-import { DateTimeService } from '../../../../services/app.time'
+import { DateTimeService } from '../../../../services/time.service'
 import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationConfigService } from '../../../../services/translation-config.service'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
@@ -41,8 +41,8 @@ export class GMPPackingThermoCalibrationLogComponent extends SuperLogComponent i
   }
 
   initForm() {
-    const currentDate = this.timeService.getISODate(new Date())
-    const currentTime = this.timeService.getISOTime(new Date())
+    const currentDate = this.timeService.getISODate()
+    const currentTime = this.timeService.getISOTime()
     this.captureForm = this._fb.group({
       date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       time: [currentTime, [Validators.required, CustomValidators.timeValidator()]],
@@ -55,8 +55,8 @@ export class GMPPackingThermoCalibrationLogComponent extends SuperLogComponent i
   }
 
   resetForm() {
-    const currentDate = this.timeService.getISODate(new Date())
-    const currentTime = this.timeService.getISOTime(new Date())
+    const currentDate = this.timeService.getISODate()
+    const currentTime = this.timeService.getISOTime()
     let items = []
     for (let item of this.log.items) {
       items.push({ id: item.id, test: null, calibration: false, sanitization: false, deficiencies: '', corrective_action: '' })

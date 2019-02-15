@@ -5,7 +5,7 @@ import { Language } from 'angular-l10n'
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/app.logs'
-import { DateTimeService } from '../../../../services/app.time'
+import { DateTimeService } from '../../../../services/time.service'
 import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationConfigService } from '../../../../services/translation-config.service'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
@@ -35,7 +35,7 @@ export class GMPPackingATPTestingLogComponent extends SuperLogComponent implemen
   }
 
   public initForm(): void {
-    const currentDate = this.timeService.getISODate(new Date())
+    const currentDate = this.timeService.getISODate()
     this.captureForm = this._fb.group({
       date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       notes: [null, Validators.maxLength(65535)],
@@ -49,7 +49,7 @@ export class GMPPackingATPTestingLogComponent extends SuperLogComponent implemen
   }
 
   public initEmptyEntry(): FormGroup {
-    const currentTime = this.timeService.getISOTime(new Date())
+    const currentTime = this.timeService.getISOTime()
     let items = this._fb.array([])
     items.push(this.initEmptyItem(1))
 

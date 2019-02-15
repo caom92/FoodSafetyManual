@@ -4,7 +4,7 @@ import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LogService } from '../../../../services/app.logs'
-import { DateTimeService } from '../../../../services/app.time'
+import { DateTimeService } from '../../../../services/time.service'
 import { ToastsService } from '../../../../services/app.toasts'
 import { TranslationConfigService } from '../../../../services/translation-config.service'
 import { SuperUpdateComponent } from '../../super-logs/super.logs.update'
@@ -37,7 +37,7 @@ export class GMPPackingOzoneWaterLogComponent extends SuperUpdateComponent imple
   }
 
   public initForm(): void {
-    const currentDate = (this.log.creation_date !== undefined) ? this.log.creation_date : this.timeService.getISODate(new Date())
+    const currentDate = (this.log.creation_date !== undefined) ? this.log.creation_date : this.timeService.getISODate()
     this.captureForm = this._fb.group({
       date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       items: this._fb.array([])
@@ -70,7 +70,7 @@ export class GMPPackingOzoneWaterLogComponent extends SuperUpdateComponent imple
   }
 
   public initEmptyEntry(test: number, fields: Array<LogField>, time?: string): FormGroup {
-    const currentTime = (time !== undefined) ? time : this.timeService.getISOTime(new Date())
+    const currentTime = (time !== undefined) ? time : this.timeService.getISOTime()
     let entryGroup: FormGroup = this._fb.group({})
     entryGroup.addControl('test_number', new FormControl(test, [Validators.required]))
     entryGroup.addControl('time', new FormControl(currentTime, [Validators.required, CustomValidators.timeValidator()]))

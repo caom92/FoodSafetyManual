@@ -5,8 +5,12 @@ export class DateTimeService {
   constructor() {
   }
 
-  getISODate(date: Date) {
-    var ISODate = ''
+  public getISODate(date?: Date): string {
+    let ISODate = ''
+
+    if (date === undefined) {
+      date = new Date()
+    }
 
     ISODate += date.getFullYear() + '-'
 
@@ -25,8 +29,12 @@ export class DateTimeService {
     return ISODate
   }
 
-  getISOTime(date: Date) {
+  public getISOTime(date?: Date): string {
     let ISOTime = ''
+      
+    if (date === undefined) {
+      date = new Date()
+    }
 
     if (date.getHours() < 10) {
       ISOTime += '0' + date.getHours() + ':'
