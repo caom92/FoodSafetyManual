@@ -34,7 +34,7 @@ $service = [
     if (!$isPasswordValid) {
       throw new \Exception(
         'Password could not be changed; authentication credentials '. 
-        'where incorrect.',
+        'were incorrect.',
         1
       );
     }

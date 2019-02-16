@@ -4,8 +4,8 @@ import { MzBaseModal } from 'ngx-materialize'
 import { AlertOptions } from './app.alert.interface'
 
 @Component({
-  selector: "alert-component",
-  templateUrl: "./app.alert.component.html"
+  selector: 'alert-component',
+  templateUrl: './app.alert.component.html'
 })
 
 export class AlertComponent extends MzBaseModal {

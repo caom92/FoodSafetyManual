@@ -13,7 +13,7 @@ export class CAPAService {
     private toastService: ToastsService,
     private server: BackendService,
     private alertCtrl: AlertController,
-    private ts: TranslationService) {
+    private translationService: TranslationService) {
 
   }
 
@@ -182,13 +182,13 @@ export class CAPAService {
         message: 'El archivo PDF que seleccionó para borrar es un archivo que se encuentra en el servidor. Esta acción no se puede deshacer, ¿Está seguro que desea continuar?',
         buttons: [
           {
-            text: this.ts.translate('Options.cancel'),
+            text: this.translationService.translate('Options.cancel'),
             handler: () => {
               reject('user_cancel')
             }
           },
           {
-            text: this.ts.translate('Options.accept'),
+            text: this.translationService.translate('Options.accept'),
             handler: () => {
               let deleteFileLoader = this.loaderService.koiLoader()
               let deleteFileForm = new FormData()
@@ -230,13 +230,13 @@ export class CAPAService {
         message: 'La imagen que seleccionó para borrar es un archivo que se encuentra en el servidor. Esta acción no se puede deshacer, ¿Está seguro que desea continuar?',
         buttons: [
           {
-            text: this.ts.translate('Options.cancel'),
+            text: this.translationService.translate('Options.cancel'),
             handler: () => {
               reject('user_cancel')
             }
           },
           {
-            text: this.ts.translate('Options.accept'),
+            text: this.translationService.translate('Options.accept'),
             handler: () => {
               let deleteImageLoader = this.loaderService.koiLoader()
               let deleteImageForm = new FormData()

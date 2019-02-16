@@ -21,6 +21,7 @@ $service = [
   ],
   'callback' => function($scope, $request) {
     $users = $scope->daoFactory->get('Users');
+    // TODO: Esta área está comentada pero parece que no debería estarlo
     /*$isIdDuplicated = 
       $users->hasUserId(
         $request['employee_num'], $request['user_id']
