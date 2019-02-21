@@ -39,7 +39,8 @@ $service = [
     if (!$wasMoveSuccessful) {
       throw new \Exception(
         'The file '.$_FILES['logo']['name'].
-        ' could not be uploaded.'
+        ' could not be uploaded.',
+        1
       );
     }
 

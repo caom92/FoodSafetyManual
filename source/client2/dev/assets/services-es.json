@@ -1,0 +1,936 @@
+{
+  "ServiceMessages": {
+    "add-menu-directory": {
+      "0": "Directorio de menú agregado exitosamente",
+      "1": "El nombre del directorio no puede contener diagonales"
+    },
+    "add-menu-file": {
+      "0": "Archivo agregado exitosamente",
+      "1": "El archivo no pudo ser subido correctamente",
+      "2": "Debe ingresar un ID de archivo o subir un archivo para agregar un ícono al menú"
+    },
+    "add-menu-item": {
+      "0": "Elemento de menú agregado exitosamente",
+      "1": "El nombre del elemento no puede contener diagonales"
+    },
+    "add-menu-link": {
+      "0": "Enlace agregado exitosamente"
+    },
+    "add-report-footer": {
+      "0": "Pie de página agregado exitosamente"
+    },
+    "add-signature": {
+      "0": "Firma agregada exitosamente"
+    },
+    "add-user": {
+      "0": "Usuario agregado exitosamente",
+      "1": "El ID de zona no fue ingresado",
+      "2": "El empleado se encuentra en una zona diferente al supervisor",
+      "3": "El ID de supervisor ingresado no corresponde a un usuario con rol de supervisor",
+      "4": "Los empleados deben estar asignados a un supervisor; el ID de supervisor no fue ingresado"
+    },
+    "add-zone": {
+      "0": "Zona agregada exitosamente",
+      "1": "No se pudo agregar la zona; el nombre ya está en uso",
+      "2": "El archivo de logotipo para zona no pudo ser subido"
+    },
+    "approve-log": {
+      "0": "Bitácora aprobada exitosamente",
+      "1": "Este supervisor no está autorizado para aprobar esta bitácora; el empleado que la capturó no está asignado"
+    },
+    "assign-employees-to-supervisors": {
+      "0": "Empleados asignados a supervisor exitosamente",
+      "1": "Los usuarios no cuentan con los roles apropiados para realizar la asignación",
+      "2": "Los usuarios deben pertenecer a la misma zona para realizar la asignación"
+    },
+    "change-password": {
+      "0": "Contraseña modificada exitosamente",
+      "1": "La contraseña no pudo ser modificada; las credenciales de autenticación son incorrectas",
+      "2": "La contraseña no pudo ser modificada; modificar la contraseña de otro usuario no está permitido"
+    },
+    "change-username": {
+      "0": "Nombre de usuario modificado exitosamente",
+      "1": "El nombre de usuario no pudo ser modificado; el nuevo nombre ya está en uso",
+      "2": "El nombre de usuario no pudo ser modificado; la contraseña es incorrecta",
+      "3": "El nombre de usuario no pudo ser modificado; modificar el nombre de otro usuario no está permitido"
+    },
+    "check-session": {
+      "0": "Estado de sesión verificado"
+    },
+    "delete-menu-element": {
+      "0": "Elemento de menú borrado exitosamente"
+    },
+    "director-change-zones": {
+      "0": "Zona actual modificada exitosamente",
+      "1": "La zona actual no pudo ser modificada; el ID de zona ingresado no corresponde a una zona existente"
+    },
+    "edit-menu-element": {
+      "0": "Elemento de menú modificado exitosamente",
+      "1": "El nombre del directorio no puede contener diagonales",
+      "2": "El archivo no pudo ser subido correctamente",
+      "3": "Debe ingresar un ID de archivo o subir un archivo para agregar un ícono al menú"
+    },
+    "edit-report-footers": {
+      "0": "Pie de página modificado exitosamente"
+    },
+    "edit-user-info": {
+      "0": "Información de usuario modificada exitosamente"
+    },
+    "edit-user-privileges": {
+      "0": "Privilegios de usuario modificados exitosamente"
+    },
+    "edit-user-role": {
+      "0": "Rol de usuario modificado exitosamente",
+      "1": "El rol de un supervisor no puede ser modificado mientras tenga empleados asignados",
+      "2": "El empleado se encuentra en una zona diferente al supervisor",
+      "3": "El ID de supervisor ingresado no corresponde a un usuario con rol de supervisor",
+      "4": "Los empleados deben estar asignados a un supervisor; el ID de supervisor no fue ingresado"
+    },
+    "edit-user-zone": {
+      "0": "Zona del usuario modificada exitosamente",
+      "1": "La zona de un supervisor no puede ser modificada mientras tenga empleados asignados"
+    },
+    "edit-zone": {
+      "0": "Zona modificada exitosamente",
+      "1": "El nombre de la zona no pudo ser modificado; el nombre ya está en uso",
+      "2": "El archivo de logotipo para zona no pudo ser subido"
+    },
+    "finish-log": {
+      "0": "Bitácora terminada exitosamente",
+      "1": "El empleado no está autorizado para cerrar esta bitácora; no pertenece a la misma zona"
+    },
+    "get-employee-info": {
+      "0": "Información del usuario recuperada exitosamente"
+    },
+    "get-log-manual-url": {
+      "0": "URL del manual recuperado exitosamente"
+    },
+    "get-menu": {
+      "0": "Menú recuperado exitosamente"
+    },
+    "get-menu-by-user": {
+      "0": "Menú de usuario recuperado exitosamente"
+    },
+    "get-menu-files": {
+      "0": "Lista de archivos de menú recuperado exitosamente"
+    },
+    "get-modules-of-program": {
+      "0": "Lista de módulos recuperada exitosamente"
+    },
+    "get-num-pending-logs": {
+      "0": "Número de bitácoras pendientes recuperado exitosamente"
+    },
+    "get-privileges-of-employee": {
+      "0": "Privilegios de empleado recuperados exitosamente"
+    },
+    "get-report-footer": {
+      "0": "Pie de página de reporte recuperado exitosamente"
+    },
+    "get-supervisor-num-of-employees": {
+      "0": "Número de empleados del supervisor recuperado exitosamente"
+    },
+    "is-employee-num-duplicated": {
+      "0": "Duplicación de número de empleado verificada"
+    },
+    "is-login-name-duplicated": {
+      "0": "Duplicación de nombre de usuario verificada"
+    },
+    "is-zone-name-duplicated": {
+      "0": "Duplicación de nombre de zona verificada"
+    },
+    "list-employees-of-supervisor": {
+      "0": "Lista de empleados del supervisor recuperada exitosamente"
+    },
+    "list-privileges": {
+      "0": "Lista de privilegios recuperada exitosamente"
+    },
+    "list-programs": {
+      "0": "Lista de programas recuperada exitosamente"
+    },
+    "list-programs-modules-logs": {
+      "0": "Listas de programas, módulos y bitácoras recuperadas exitosamente"
+    },
+    "list-report-footers": {
+      "0": "Lista de pies de página recuperada exitosamente"
+    },
+    "list-signatures-by-zone": {
+      "0": "Lista de firmas recuperada exitosamente"
+    },
+    "list-supervisors-by-zone": {
+      "0": "Lista de supervisores recuperada exitosamente"
+    },
+    "list-supervisors-employees-by-zone": {
+      "0": "Lista de supervisores y empleados recuperada exitosamente"
+    },
+    "list-unapproved-logs-of-user": {
+      "0": "Lista de bitácoras pendientes de aprobación recuperada exitosamente"
+    },
+    "list-user-roles": {
+      "0": "Lista de roles de usuario recuperada exitosamente"
+    },
+    "list-users": {
+      "0": "Lista de usuarios recuperada exitosamente"
+    },
+    "list-zones": {
+      "0": "Lista de zonas recuperada exitosamente"
+    },
+    "login": {
+      "0": "Sesión iniciada exitosamente",
+      "1": "Credenciales incorrectas"
+    },
+    "logout": {
+      "0": "Sesión cerrada exitosamente"
+    },
+    "reject-log": {
+      "0": "Bitácora rechazada exitosamente",
+      "1": "Este supervisor no está autorizado para rechazar esta bitácora; el empleado que la capturó no está asignado",
+      "2": "Esta bitácora ya fue aprobada y no puede ser modificada"
+    },
+    "retreat-log": {
+      "0": "Bitácora regresada a aprobación exitosamente",
+      "1": "Esta bitácora no puede ser regresada a aprobación; el usuario que la capturo ya no es un empleado",
+      "2": "Esta bitácora no puede ser regresada a aprobación; el usuario que la capturo ya no se encuentra activo"
+    },
+    "send-bug-report": {
+      "0": "Reporte de error enviado exitosamente",
+      "1": "Se presentó un error al enviar un reporte de error"
+    },
+    "status": {
+      "0": "La base de datos se encuentra conectada"
+    },
+    "toggle-account-activation": {
+      "0": "Estado de la cuenta modificado exitosamente",
+      "1": "No se puede desactivar la cuenta de un supervisor mientras tenga empleados"
+    },
+    "upload-zone-logo": {
+      "0": "Logo de zona subido exitosamente"
+    },
+    "add-gap-doc-control-doc-control": {
+      "0": "Elemento agregado exitosamente"
+    },
+    "add-gap-packing-preop": {
+      "0": "Elemento agregado exitosamente"
+    },
+    "add-gap-packing-water-resource": {
+      "0": "Elemento agregado exitosamente"
+    },
+    "add-gmp-doc-control-doc-control": {
+      "0": "Elemento agregado exitosamente"
+    },
+    "add-gmp-packing-cold-room-temp": {
+      "0": "Elemento agregado exitosamente"
+    },
+    "add-gmp-packing-finished-product": {
+      "0": "Elemento agregado exitosamente"
+    },
+    "add-gmp-packing-glass-brittle": {
+      "0": "Elemento agregado exitosamente"
+    },
+    "add-gmp-packing-hand-washing": {
+      "0": "Elemento agregado exitosamente"
+    },
+    "add-gmp-packing-ozone-water": {
+      "0": "Elemento agregado exitosamente"
+    },
+    "add-gmp-packing-preop": {
+      "0": "Elemento agregado exitosamente"
+    },
+    "add-gmp-packing-scale-calibration": {
+      "0": "Elemento agregado exitosamente"
+    },
+    "add-gmp-packing-scissors-knives": {
+      "0": "Elemento agregado exitosamente"
+    },
+    "add-gmp-packing-thermo-calibration": {
+      "0": "Elemento agregado exitosamente"
+    },
+    "add-gmp-self-inspection-pest-control": {
+      "0": "Elemento agregado exitosamente"
+    },
+    "add-workplace-area-gap-packing-preop": {
+      "0": "Area agregada exitosamente",
+      "1": "El área no pudo agregarse; el nombre ya se encuentra en uso"
+    },
+    "add-workplace-area-gap-packing-water-resource": {
+      "0": "Area agregada exitosamente",
+      "1": "El área no pudo agregarse; el nombre ya se encuentra en uso"
+    },
+    "add-workplace-area-gmp-packing-glass-brittle": {
+      "0": "Area agregada exitosamente",
+      "1": "El área no pudo agregarse; el nombre ya se encuentra en uso"
+    },
+    "add-workplace-area-gmp-packing-ozone-water": {
+      "0": "Máquina agregada exitosamente",
+      "1": "La máquina no pudo agregarse; el nombre ya se encuentra en uso"
+    },
+    "add-workplace-area-gmp-packing-preop": {
+      "0": "Area agregada exitosamente",
+      "1": "El área no pudo agregarse; el nombre ya se encuentra en uso"
+    },
+    "add-workplace-area-gmp-self-inspection-pest-control": {
+      "0": "Cuarto agregado exitosamente",
+      "1": "El cuarto no pudo agregarse; el nombre ya se encuentra en uso"
+    },
+    "authorization-report-gap-doc-control-doc-control": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "authorization-report-gap-others-unusual-occurrence": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "authorization-report-gap-packing-water-resource": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "authorization-report-gap-packing-preop": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "authorization-report-gmp-doc-control-doc-control": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "authorization-report-gmp-others-unusual-occurrence": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "authorization-report-gmp-packing-aged-product": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "authorization-report-gmp-packing-atp-testing": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "authorization-report-gmp-packing-cold-room-temp": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "authorization-report-gmp-packing-finished-product": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "authorization-report-gmp-packing-glass-brittle": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "authorization-report-gmp-packing-hand-washing": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "authorization-report-gmp-packing-ozone-water": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "authorization-report-gmp-packing-preop": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "authorization-report-gmp-packing-scale-calibration": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "authorization-report-gmp-packing-scissors-knives": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "authorization-report-gmp-packing-thermo-calibration": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "authorization-report-gmp-self-inspection-pest-control": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "capture-gap-doc-control-doc-control": {
+      "0": "La bitácora ha sido enviada exitosamente"
+    },
+    "capture-gap-others-unusual-occurrence": {
+      "0": "La bitácora ha sido enviada exitosamente"
+    },
+    "capture-gap-packing-preop": {
+      "0": "La bitácora ha sido enviada exitosamente"
+    },
+    "capture-gap-packing-water-resource": {
+      "0": "La bitácora ha sido enviada exitosamente"
+    },
+    "capture-gmp-doc-control-doc-control": {
+      "0": "La bitácora ha sido enviada exitosamente"
+    },
+    "capture-gmp-others-unusual-occurrence": {
+      "0": "La bitácora ha sido enviada exitosamente"
+    },
+    "capture-gmp-packing-aged-product": {
+      "0": "La bitácora ha sido enviada exitosamente"
+    },
+    "capture-gmp-packing-atp-testing": {
+      "0": "La bitácora ha sido enviada exitosamente"
+    },
+    "capture-gmp-packing-cold-room-temp": {
+      "0": "La bitácora ha sido enviada exitosamente"
+    },
+    "capture-gmp-packing-finished-product": {
+      "0": "La bitácora ha sido enviada exitosamente"
+    },
+    "capture-gmp-packing-glass-brittle": {
+      "0": "La bitácora ha sido enviada exitosamente"
+    },
+    "capture-gmp-packing-hand-washing": {
+      "0": "La bitácora ha sido enviada exitosamente"
+    },
+    "capture-gmp-packing-ozone-water": {
+      "0": "La bitácora ha sido enviada exitosamente"
+    },
+    "capture-gmp-packing-preop": {
+      "0": "La bitácora ha sido enviada exitosamente"
+    },
+    "capture-gmp-packing-scale-calibration": {
+      "0": "La bitácora ha sido enviada exitosamente"
+    },
+    "capture-gmp-packing-scissors-knives": {
+      "0": "La bitácora ha sido enviada exitosamente"
+    },
+    "capture-gmp-packing-thermo-calibration": {
+      "0": "La bitácora ha sido enviada exitosamente"
+    },
+    "capture-gmp-self-inspection-pest-control": {
+      "0": "La bitácora ha sido enviada exitosamente"
+    },
+    "edit-workplace-area-gap-packing-preop": {
+      "0": "Nombre de área modificado exitosamente",
+      "1": "El nombre del área no puede ser modificado; el nombre ya se encuentra en uso"
+    },
+    "edit-workplace-area-gap-packing-water-resource": {
+      "0": "Nombre de área modificado exitosamente",
+      "1": "El nombre del área no puede ser modificado; el nombre ya se encuentra en uso"
+    },
+    "edit-workplace-area-gmp-packing-preop": {
+      "0": "Nombre de área modificado exitosamente",
+      "1": "El nombre del área no puede ser modificado; el nombre ya se encuentra en uso"
+    },
+    "edit-workplace-area-gmp-self-inspection-pest-control": {
+      "0": "Nombre de cuarto modificado exitosamente",
+      "1": "El nombre del cuarto no puede ser modificado; el nombre ya se encuentra en uso"
+    },
+    "get-areas-of-zone-by-position-gap-packing-preop": {
+      "0": "Lista de áreas recuperada exitosamente"
+    },
+    "get-areas-of-zone-by-position-gap-packing-water-resource": {
+      "0": "Lista de áreas recuperada exitosamente"
+    },
+    "get-areas-of-zone-by-position-gmp-packing-glass-brittle": {
+      "0": "Lista de áreas recuperada exitosamente"
+    },
+    "get-areas-of-zone-by-position-gmp-packing-ozone-water": {
+      "0": "Lista de máquinas recuperada exitosamente"
+    },
+    "get-areas-of-zone-by-position-gmp-packing-preop": {
+      "0": "Lista de áreas recuperada exitosamente"
+    },
+    "get-areas-of-zone-by-position-gmp-self-inspection-pest-control": {
+      "0": "Lista de cuartos recuperada exitosamente"
+    },
+    "get-areas-of-zone-gap-packing-preop": {
+      "0": "Lista de áreas recuperada exitosamente"
+    },
+    "get-areas-of-zone-gap-packing-water-resource": {
+      "0": "Lista de áreas recuperada exitosamente"
+    },
+    "get-areas-of-zone-gmp-packing-glass-brittle": {
+      "0": "Lista de áreas recuperada exitosamente"
+    },
+    "get-areas-of-zone-gmp-packing-ozone-water": {
+      "0": "Lista de máquinas recuperada exitosamente"
+    },
+    "get-areas-of-zone-gmp-packing-preop": {
+      "0": "Lista de áreas recuperada exitosamente"
+    },
+    "get-areas-of-zone-gmp-self-inspection-pest-control": {
+      "0": "Lista de cuartos recuperada exitosamente"
+    },
+    "inventory-gap-doc-control-doc-control": {
+      "0": "Inventario recuperado exitosamente"
+    },
+    "inventory-gap-packing-preop": {
+      "0": "Inventario recuperado exitosamente"
+    },
+    "inventory-gap-packing-water-resource": {
+      "0": "Inventario recuperado exitosamente"
+    },
+    "inventory-gmp-doc-control-doc-control": {
+      "0": "Inventario recuperado exitosamente"
+    },
+    "inventory-gmp-packing-cold-room-temp": {
+      "0": "Inventario recuperado exitosamente"
+    },
+    "inventory-gmp-packing-finished-product": {
+      "0": "Inventario recuperado exitosamente"
+    },
+    "inventory-gmp-packing-glass-brittle": {
+      "0": "Inventario recuperado exitosamente"
+    },
+    "inventory-gmp-packing-hand-washing": {
+      "0": "Inventario recuperado exitosamente"
+    },
+    "inventory-gmp-packing-ozone-water": {
+      "0": "Inventario recuperado exitosamente"
+    },
+    "inventory-gmp-packing-preop": {
+      "0": "Inventario recuperado exitosamente"
+    },
+    "inventory-gmp-packing-scale-calibration": {
+      "0": "Inventario recuperado exitosamente"
+    },
+    "inventory-gmp-packing-scissors-knives": {
+      "0": "Inventario recuperado exitosamente"
+    },
+    "inventory-gmp-packing-thermo-calibration": {
+      "0": "Inventario recuperado exitosamente"
+    },
+    "inventory-gmp-self-inspection-pest-control": {
+      "0": "Inventario recuperado exitosamente"
+    },
+    "list-corrective-actions-gap-packing-preop": {
+      "0": "Acciones correctivas recuperadas exitosamente"
+    },
+    "list-corrective-actions-gmp-packing-preop": {
+      "0": "Acciones correctivas recuperadas exitosamente"
+    },
+    "list-waiting-logs-gap-packing-water-resource": {
+      "0": "Lista de bitácoras recuperada exitosamente"
+    },
+    "list-waiting-logs-gmp-packing-ozone-water": {
+      "0": "Lista de bitácoras recuperada exitosamente"
+    },
+    "log-gap-doc-control-doc-control": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "log-gap-others-unusual-occurrence": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "log-gap-packing-preop": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "log-gap-packing-water-resource": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "log-gmp-doc-control-doc-control": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "log-gmp-others-unusual-occurrence": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "log-gmp-packing-aged-product": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "log-gmp-packing-atp-testing": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "log-gmp-packing-cold-room-temp": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "log-gmp-packing-finished-product": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "log-gmp-packing-glass-brittle": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "log-gmp-packing-hand-washing": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "log-gmp-packing-ozone-water": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "log-gmp-packing-preop": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "log-gmp-packing-scale-calibration": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "log-gmp-packing-scissors-knives": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "log-gmp-packing-thermo-calibration": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "log-gmp-self-inspection-pest-control": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "reorder-area-gap-packing-preop": {
+      "0": "Inventario reordenado exitosamente",
+      "1": "Posición invalidad ingresada; el reordenamiento no pudo completarse",
+      "2": "Posición ingresada dos veces; el reordenamiento no pudo completarse"
+    },
+    "reorder-area-gmp-packing-ozone-water": {
+      "0": "Inventario reordenado exitosamente",
+      "1": "Posición invalidad ingresada; el reordenamiento no pudo completarse",
+      "2": "Posición ingresada dos veces; el reordenamiento no pudo completarse"
+    },
+    "reorder-area-gmp-packing-preop": {
+      "0": "Inventario reordenado exitosamente",
+      "1": "Posición invalidad ingresada; el reordenamiento no pudo completarse",
+      "2": "Posición ingresada dos veces; el reordenamiento no pudo completarse"
+    },
+    "reorder-gap-packing-preop": {
+      "0": "Inventario reordenado exitosamente",
+      "1": "Posición invalidad ingresada; el reordenamiento no pudo completarse",
+      "2": "Posición ingresada dos veces; el reordenamiento no pudo completarse"
+    },
+    "reorder-gap-packing-water-resource": {
+      "0": "Inventario reordenado exitosamente",
+      "1": "Posición invalidad ingresada; el reordenamiento no pudo completarse",
+      "2": "Posición ingresada dos veces; el reordenamiento no pudo completarse"
+    },
+    "reorder-gmp-packing-glass-brittle": {
+      "0": "Inventario reordenado exitosamente",
+      "1": "Posición invalidad ingresada; el reordenamiento no pudo completarse",
+      "2": "Posición ingresada dos veces; el reordenamiento no pudo completarse"
+    },
+    "reorder-gmp-packing-preop": {
+      "0": "Inventario reordenado exitosamente",
+      "1": "Posición invalidad ingresada; el reordenamiento no pudo completarse",
+      "2": "Posición ingresada dos veces; el reordenamiento no pudo completarse"
+    },
+    "reorder-gmp-packing-scale-calibration": {
+      "0": "Inventario reordenado exitosamente",
+      "1": "Posición invalidad ingresada; el reordenamiento no pudo completarse",
+      "2": "Posición ingresada dos veces; el reordenamiento no pudo completarse"
+    },
+    "reorder-gmp-packing-thermo-calibration": {
+      "0": "Inventario reordenado exitosamente",
+      "1": "Posición invalidad ingresada; el reordenamiento no pudo completarse",
+      "2": "Posición ingresada dos veces; el reordenamiento no pudo completarse"
+    },
+    "reorder-gmp-self-inspection-pest-control": {
+      "0": "Inventario reordenado exitosamente",
+      "1": "Posición invalidad ingresada; el reordenamiento no pudo completarse",
+      "2": "Posición ingresada dos veces; el reordenamiento no pudo completarse"
+    },
+    "report-gap-doc-control-doc-control": {
+      "0": "Reportes recuperados exitosamente",
+      "2": "No se encontraron reportes para el intervalo de fechas ingresado"
+    },
+    "report-gap-others-unusual-occurrence": {
+      "0": "Reportes recuperados exitosamente",
+      "2": "No se encontraron reportes para el intervalo de fechas ingresado"
+    },
+    "report-gap-packing-preop": {
+      "0": "Reportes recuperados exitosamente",
+      "2": "No se encontraron reportes para el intervalo de fechas ingresado"
+    },
+    "report-gap-packing-water-resource": {
+      "0": "Reportes recuperados exitosamente",
+      "2": "No se encontraron reportes para el intervalo de fechas ingresado"
+    },
+    "report-gmp-doc-control-doc-control": {
+      "0": "Reportes recuperados exitosamente",
+      "2": "No se encontraron reportes para el intervalo de fechas ingresado"
+    },
+    "report-gmp-others-unusual-occurrence": {
+      "0": "Reportes recuperados exitosamente",
+      "2": "No se encontraron reportes para el intervalo de fechas ingresado"
+    },
+    "report-gmp-packing-aged-product": {
+      "0": "Reportes recuperados exitosamente",
+      "2": "No se encontraron reportes para el intervalo de fechas ingresado"
+    },
+    "report-gmp-packing-atp-testing": {
+      "0": "Reportes recuperados exitosamente",
+      "2": "No se encontraron reportes para el intervalo de fechas ingresado"
+    },
+    "report-gmp-packing-cold-room-temp": {
+      "0": "Reportes recuperados exitosamente",
+      "2": "No se encontraron reportes para el intervalo de fechas ingresado"
+    },
+    "report-gmp-packing-finished-product": {
+      "0": "Reportes recuperados exitosamente",
+      "2": "No se encontraron reportes para el intervalo de fechas ingresado"
+    },
+    "report-gmp-packing-glass-brittle": {
+      "0": "Reportes recuperados exitosamente",
+      "2": "No se encontraron reportes para el intervalo de fechas ingresado"
+    },
+    "report-gmp-packing-hand-washing": {
+      "0": "Reportes recuperados exitosamente",
+      "2": "No se encontraron reportes para el intervalo de fechas ingresado"
+    },
+    "report-gmp-packing-ozone-water": {
+      "0": "Reportes recuperados exitosamente",
+      "2": "No se encontraron reportes para el intervalo de fechas ingresado"
+    },
+    "report-gmp-packing-preop": {
+      "0": "Reportes recuperados exitosamente",
+      "2": "No se encontraron reportes para el intervalo de fechas ingresado"
+    },
+    "report-gmp-packing-scale-calibration": {
+      "0": "Reportes recuperados exitosamente",
+      "2": "No se encontraron reportes para el intervalo de fechas ingresado"
+    },
+    "report-gmp-packing-scissors-knives": {
+      "0": "Reportes recuperados exitosamente",
+      "2": "No se encontraron reportes para el intervalo de fechas ingresado"
+    },
+    "report-gmp-packing-thermo-calibration": {
+      "0": "Reportes recuperados exitosamente",
+      "2": "No se encontraron reportes para el intervalo de fechas ingresado"
+    },
+    "report-gmp-self-inspection-pest-control": {
+      "0": "Reportes recuperados exitosamente",
+      "2": "No se encontraron reportes para el intervalo de fechas ingresado"
+    },
+    "send-report-gap-others-unusual-occurrence": {
+      "0": "Reporte enviado por correo exitosamente"
+    },
+    "send-report-gmp-others-unusual-occurrence": {
+      "0": "Reporte enviado por correo exitosamente"
+    },
+    "toggle-area-gmp-packing-ozone-water": {
+      "0": "Estado de área modificado exitosamente"
+    },
+    "toggle-gap-doc-control-doc-control": {
+      "0": "Estado de elemento modificado exitosamente"
+    },
+    "toggle-gap-packing-preop": {
+      "0": "Estado de elemento modificado exitosamente"
+    },
+    "toggle-gap-packing-water-resource": {
+      "0": "Estado de elemento modificado exitosamente"
+    },
+    "toggle-gmp-doc-control-doc-control": {
+      "0": "Estado de elemento modificado exitosamente"
+    },
+    "toggle-gmp-packing-cold-room-temp": {
+      "0": "Estado de elemento modificado exitosamente"
+    },
+    "toggle-gmp-packing-glass-brittle": {
+      "0": "Estado de elemento modificado exitosamente"
+    },
+    "toggle-gmp-packing-hand-washing": {
+      "0": "Estado de elemento modificado exitosamente"
+    },
+    "toggle-gmp-packing-ozone-water": {
+      "0": "Estado de elemento modificado exitosamente"
+    },
+    "toggle-gmp-packing-preop": {
+      "0": "Estado de elemento modificado exitosamente"
+    },
+    "toggle-gmp-packing-scale-calibration": {
+      "0": "Estado de elemento modificado exitosamente"
+    },
+    "toggle-gmp-packing-scissors-knives": {
+      "0": "Estado de elemento modificado exitosamente"
+    },
+    "toggle-gmp-packing-thermo-calibration": {
+      "0": "Estado de elemento modificado exitosamente"
+    },
+    "toggle-gmp-self-inspection-pest-control": {
+      "0": "Estado de elemento modificado exitosamente"
+    },
+    "update-gap-doc-control-doc-control": {
+      "0": "La bitácora fue actualizada exitosamente",
+      "9": "La bitácora no pudo modificarse; la bitácora ya fue aprobada",
+      "10": "La bitácora no pudo modificarse; está siendo revisada por un supervisor",
+      "11": "La bitácora no pudo modificarse; está siendo capturada por un empleado",
+      "12": "La bitácora no pudo modificarse; el usuario no tiene el rol correcto"
+    },
+    "update-gap-others-unusual-occurrence": {
+      "0": "La bitácora fue actualizada exitosamente",
+      "9": "La bitácora no pudo modificarse; la bitácora ya fue aprobada",
+      "10": "La bitácora no pudo modificarse; está siendo revisada por un supervisor",
+      "11": "La bitácora no pudo modificarse; está siendo capturada por un empleado",
+      "12": "La bitácora no pudo modificarse; el usuario no tiene el rol correcto"
+    },
+    "update-gap-packing-preop": {
+      "0": "La bitácora fue actualizada exitosamente",
+      "9": "La bitácora no pudo modificarse; la bitácora ya fue aprobada",
+      "10": "La bitácora no pudo modificarse; está siendo revisada por un supervisor",
+      "11": "La bitácora no pudo modificarse; está siendo capturada por un empleado",
+      "12": "La bitácora no pudo modificarse; el usuario no tiene el rol correcto"
+    },
+    "update-gap-packing-water-resource": {
+      "0": "La bitácora fue actualizada exitosamente",
+      "9": "La bitácora no pudo modificarse; la bitácora ya fue aprobada",
+      "10": "La bitácora no pudo modificarse; está siendo revisada por un supervisor",
+      "11": "La bitácora no pudo modificarse; está siendo capturada por un empleado",
+      "12": "La bitácora no pudo modificarse; el usuario no tiene el rol correcto"
+    },
+    "update-gmp-doc-control-doc-control": {
+      "0": "La bitácora fue actualizada exitosamente",
+      "9": "La bitácora no pudo modificarse; la bitácora ya fue aprobada",
+      "10": "La bitácora no pudo modificarse; está siendo revisada por un supervisor",
+      "11": "La bitácora no pudo modificarse; está siendo capturada por un empleado",
+      "12": "La bitácora no pudo modificarse; el usuario no tiene el rol correcto"
+    },
+    "update-gmp-others-unusual-occurrence": {
+      "0": "La bitácora fue actualizada exitosamente",
+      "9": "La bitácora no pudo modificarse; la bitácora ya fue aprobada",
+      "10": "La bitácora no pudo modificarse; está siendo revisada por un supervisor",
+      "11": "La bitácora no pudo modificarse; está siendo capturada por un empleado",
+      "12": "La bitácora no pudo modificarse; el usuario no tiene el rol correcto"
+    },
+    "update-gmp-packing-aged-product": {
+      "0": "La bitácora fue actualizada exitosamente",
+      "9": "La bitácora no pudo modificarse; la bitácora ya fue aprobada",
+      "10": "La bitácora no pudo modificarse; está siendo revisada por un supervisor",
+      "11": "La bitácora no pudo modificarse; está siendo capturada por un empleado",
+      "12": "La bitácora no pudo modificarse; el usuario no tiene el rol correcto"
+    },
+    "update-gmp-packing-atp-testing": {
+      "0": "La bitácora fue actualizada exitosamente",
+      "9": "La bitácora no pudo modificarse; la bitácora ya fue aprobada",
+      "10": "La bitácora no pudo modificarse; está siendo revisada por un supervisor",
+      "11": "La bitácora no pudo modificarse; está siendo capturada por un empleado",
+      "12": "La bitácora no pudo modificarse; el usuario no tiene el rol correcto"
+    },
+    "update-gmp-packing-cold-room-temp": {
+      "0": "La bitácora fue actualizada exitosamente",
+      "9": "La bitácora no pudo modificarse; la bitácora ya fue aprobada",
+      "10": "La bitácora no pudo modificarse; está siendo revisada por un supervisor",
+      "11": "La bitácora no pudo modificarse; está siendo capturada por un empleado",
+      "12": "La bitácora no pudo modificarse; el usuario no tiene el rol correcto"
+    },
+    "update-gmp-packing-finished-product": {
+      "0": "La bitácora fue actualizada exitosamente",
+      "9": "La bitácora no pudo modificarse; la bitácora ya fue aprobada",
+      "10": "La bitácora no pudo modificarse; está siendo revisada por un supervisor",
+      "11": "La bitácora no pudo modificarse; está siendo capturada por un empleado",
+      "12": "La bitácora no pudo modificarse; el usuario no tiene el rol correcto"
+    },
+    "update-gmp-packing-glass-brittle": {
+      "0": "La bitácora fue actualizada exitosamente",
+      "9": "La bitácora no pudo modificarse; la bitácora ya fue aprobada",
+      "10": "La bitácora no pudo modificarse; está siendo revisada por un supervisor",
+      "11": "La bitácora no pudo modificarse; está siendo capturada por un empleado",
+      "12": "La bitácora no pudo modificarse; el usuario no tiene el rol correcto"
+    },
+    "update-gmp-packing-hand-washing": {
+      "0": "La bitácora fue actualizada exitosamente",
+      "9": "La bitácora no pudo modificarse; la bitácora ya fue aprobada",
+      "10": "La bitácora no pudo modificarse; está siendo revisada por un supervisor",
+      "11": "La bitácora no pudo modificarse; está siendo capturada por un empleado",
+      "12": "La bitácora no pudo modificarse; el usuario no tiene el rol correcto"
+    },
+    "update-gmp-packing-ozone-water": {
+      "0": "La bitácora fue actualizada exitosamente",
+      "9": "La bitácora no pudo modificarse; la bitácora ya fue aprobada",
+      "10": "La bitácora no pudo modificarse; está siendo revisada por un supervisor",
+      "11": "La bitácora no pudo modificarse; está siendo capturada por un empleado",
+      "12": "La bitácora no pudo modificarse; el usuario no tiene el rol correcto"
+    },
+    "update-gmp-packing-preop": {
+      "0": "La bitácora fue actualizada exitosamente",
+      "9": "La bitácora no pudo modificarse; la bitácora ya fue aprobada",
+      "10": "La bitácora no pudo modificarse; está siendo revisada por un supervisor",
+      "11": "La bitácora no pudo modificarse; está siendo capturada por un empleado",
+      "12": "La bitácora no pudo modificarse; el usuario no tiene el rol correcto"
+    },
+    "update-gmp-packing-scale-calibration": {
+      "0": "La bitácora fue actualizada exitosamente",
+      "9": "La bitácora no pudo modificarse; la bitácora ya fue aprobada",
+      "10": "La bitácora no pudo modificarse; está siendo revisada por un supervisor",
+      "11": "La bitácora no pudo modificarse; está siendo capturada por un empleado",
+      "12": "La bitácora no pudo modificarse; el usuario no tiene el rol correcto"
+    },
+    "update-gmp-packing-scissors-knives": {
+      "0": "La bitácora fue actualizada exitosamente",
+      "9": "La bitácora no pudo modificarse; la bitácora ya fue aprobada",
+      "10": "La bitácora no pudo modificarse; está siendo revisada por un supervisor",
+      "11": "La bitácora no pudo modificarse; está siendo capturada por un empleado",
+      "12": "La bitácora no pudo modificarse; el usuario no tiene el rol correcto"
+    },
+    "update-gmp-packing-thermo-calibration": {
+      "0": "La bitácora fue actualizada exitosamente",
+      "9": "La bitácora no pudo modificarse; la bitácora ya fue aprobada",
+      "10": "La bitácora no pudo modificarse; está siendo revisada por un supervisor",
+      "11": "La bitácora no pudo modificarse; está siendo capturada por un empleado",
+      "12": "La bitácora no pudo modificarse; el usuario no tiene el rol correcto"
+    },
+    "update-gmp-self-inspection-pest-control": {
+      "0": "La bitácora fue actualizada exitosamente",
+      "9": "La bitácora no pudo modificarse; la bitácora ya fue aprobada",
+      "10": "La bitácora no pudo modificarse; está siendo revisada por un supervisor",
+      "11": "La bitácora no pudo modificarse; está siendo capturada por un empleado",
+      "12": "La bitácora no pudo modificarse; el usuario no tiene el rol correcto"
+    },
+    "upload-manual-gap-doc-control-doc-control": {
+      "0": "Manual subido exitosamente",
+      "1": "El manual no pudo ser subido"
+    },
+    "upload-manual-gap-others-unusual-occurrence": {
+      "0": "Manual subido exitosamente",
+      "1": "El manual no pudo ser subido"
+    },
+    "upload-manual-gap-packing-preop": {
+      "0": "Manual subido exitosamente",
+      "1": "El manual no pudo ser subido"
+    },
+    "upload-manual-gap-packing-water-resource": {
+      "0": "Manual subido exitosamente",
+      "1": "El manual no pudo ser subido"
+    },
+    "upload-manual-gmp-doc-control-doc-control": {
+      "0": "Manual subido exitosamente",
+      "1": "El manual no pudo ser subido"
+    },
+    "upload-manual-gmp-others-unusual-occurrence": {
+      "0": "Manual subido exitosamente",
+      "1": "El manual no pudo ser subido"
+    },
+    "upload-manual-gmp-packing-aged-product": {
+      "0": "Manual subido exitosamente",
+      "1": "El manual no pudo ser subido"
+    },
+    "upload-manual-gmp-packing-atp-testing": {
+      "0": "Manual subido exitosamente",
+      "1": "El manual no pudo ser subido"
+    },
+    "upload-manual-gmp-packing-cold-room-temp": {
+      "0": "Manual subido exitosamente",
+      "1": "El manual no pudo ser subido"
+    },
+    "upload-manual-gmp-packing-finished-product": {
+      "0": "Manual subido exitosamente",
+      "1": "El manual no pudo ser subido"
+    },
+    "upload-manual-gmp-packing-glass-brittle": {
+      "0": "Manual subido exitosamente",
+      "1": "El manual no pudo ser subido"
+    },
+    "upload-manual-gmp-packing-hand-washing": {
+      "0": "Manual subido exitosamente",
+      "1": "El manual no pudo ser subido"
+    },
+    "upload-manual-gmp-packing-ozone-water": {
+      "0": "Manual subido exitosamente",
+      "1": "El manual no pudo ser subido"
+    },
+    "upload-manual-gmp-packing-preop": {
+      "0": "Manual subido exitosamente",
+      "1": "El manual no pudo ser subido"
+    },
+    "upload-manual-gmp-packing-scale-calibration": {
+      "0": "Manual subido exitosamente",
+      "1": "El manual no pudo ser subido"
+    },
+    "upload-manual-gmp-packing-scissors-knives": {
+      "0": "Manual subido exitosamente",
+      "1": "El manual no pudo ser subido"
+    },
+    "upload-manual-gmp-packing-thermo-calibration": {
+      "0": "Manual subido exitosamente",
+      "1": "El manual no pudo ser subido"
+    },
+    "upload-manual-gmp-self-inspection-pest-control": {
+      "0": "Manual subido exitosamente",
+      "1": "El manual no pudo ser subido"
+    },
+    "generic": {
+      "0": "Comuncación con el servidor realizada exitosamente",
+      "101": "Una entrada del servidor no fue enviada",
+      "102": "Una entrada del servidor no es un valor numérico",
+      "103": "Una entrada del servidor se encuentra fuera del intervalo",
+      "104": "Una entrada del servidor no es un número entero",
+      "105": "Una entrada del servidor no es un número flotante",
+      "106": "Una entrada del servidor no tiene la longitud esperada",
+      "107": "Una entrada del servidor no tiene la longitud de caracteres esperada",
+      "108": "Una entrada del servidor no es un texto",
+      "109": "Una entrada del servidor no es un formato de correo electrónico válido",
+      "110": "Una entrada del servidor no es un valor booleano",
+      "111": "Una entrada del servidor no es una fecha con formato válido",
+      "112": "Una entrada del servidor es un arreglo vacío",
+      "113": "Un archivo enviado al servidor no es un documento",
+      "114": "Un archivo enviado al servidor no es una imagen",
+      "115": "Un archivo no pudo ser subido al servidor",
+      "116": "Una entrada del servidor no es un formato de número telefónico válido",
+      "117": "El usuario no tiene el rol correcto para usar este servicio",
+      "118": "La sesión no ha sido iniciada",
+      "119": "No está autorizado para usar este servicio",
+      "404": "El servicio solicitado no existe",
+      "405": "Método incorrecto de conexión con el servidor"
+    },
+    "default": "Un error desconocido ocurrió, código de error:"
+  }
+}

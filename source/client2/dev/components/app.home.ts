@@ -111,7 +111,10 @@ export class HomeComponent implements OnInit
   onLanguageButtonClicked(lang, country): void {
     this.langManager.changeLanguage(lang)
     this.translationConfig.selectLanguage(lang, country)
-    $('select').material_select()
+    setTimeout(() => {
+      $('select').material_select('destroy')
+      $('select').material_select()
+    })
   }
 
   // Esta es la funcion que se invoca cuando el usuario hace clic en el boton 

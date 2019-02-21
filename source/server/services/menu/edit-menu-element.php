@@ -62,7 +62,8 @@ $service = [
       $hasBackwardSlash = strstr($request['name'], '\\') !== FALSE;
       if ($hasForwardSlash || $hasBackwardSlash) {
         throw new \Exception(
-          'The name of the directory should not contain slashes', 1
+          'The name of the directory should not contain slashes',
+          1
         );
       }
 
@@ -95,7 +96,8 @@ $service = [
           $ret['file_id'] = $updateValues['file_id'];
         } else {
           throw new \Exception(
-            "The file could not be uploaded correctly"
+            "The file could not be uploaded correctly",
+            2
           );  
         }
       } else if ($arrayElementExists($request, 'file_id')) {
@@ -105,7 +107,8 @@ $service = [
         $ret['file_id'] = $updateValues['file_id'];
       } else {
         throw new \Exception(
-          "You must provide either a file ID or a file and filename to add a field icon to the menu"
+          "You must provide either a file ID or a file and filename to add a field icon to the menu",
+          3
         );
       }
     }

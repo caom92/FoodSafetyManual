@@ -86,7 +86,8 @@ createUploadManualService($program, $module, $log, $manualFileDir) {
         // and notify the user of the error
         throw new \Exception(
           'The file '.$_FILES['manual_file']['name'].
-          ' could not be uploaded.'
+          ' could not be uploaded.',
+          1
         );
       }
     }

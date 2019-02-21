@@ -19,7 +19,8 @@ export const languageConfig: L10nConfig = {
   translation: {
     composedKeySeparator: '.',
     providers: [
-      { type: ProviderType.Static, prefix: './assets/locale-' }
+      { type: ProviderType.Static, prefix: './assets/locale-' },
+      { type: ProviderType.Static, prefix: './assets/services-' }
     ],
     caching: true,
     missingValue: 'Missing translation error'

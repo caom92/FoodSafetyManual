@@ -6,11 +6,11 @@ tr([formGroup]="newItem")
   td
   td
   td
-    +textInput(null, null, "name", "text", "new_item", "New item")
+    +textInput(null, null, "name", "text", "new_item", "{{ 'InventoryLists.new_item' | translate:lang }}")
     +errorMessage("!newItem.controls.name.valid && newItem.controls.name.dirty && newItem.controls.name.value.length == 0", "{{ 'InventoryErrors.generic.name_required' | translate:lang }}")
     +errorMessage("!newItem.controls.name.valid && newItem.controls.name.dirty && newItem.controls.name.value.length >= 1", "{{ 'InventoryErrors.generic.name_max_255' | translate:lang }}")
   td
-    +select(null, null, "type", null, "new_type", "'New type'")
+    +select(null, null, "type", null, "new_type", "{{ 'InventoryLists.new_type' | translate:lang }}")
       +option("{{type[lang]}}", "type.id", false, false)(*ngFor='let type of types')
     +errorMessage("!newItem.controls.type.valid && newItem.controls.type.dirty", "{{ 'InventoryErrors.generic.type_required' | translate:lang }}")
   td

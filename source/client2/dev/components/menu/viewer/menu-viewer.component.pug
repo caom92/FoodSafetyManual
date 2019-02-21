@@ -165,14 +165,14 @@ div(*ngIf='addMode === true || editMode === true')
           mz-select-container
             select(mz-select, label="{{ 'MenuComponent.icon' | translate:lang }}", id='icon-select', placeholder="{{ 'MenuComponent.icon' | translate:lang }}", formControlName='icon', (change)='onIconSelected()')
               option(value) {{ 'MenuComponent.default_option' | translate:lang }}
-              option(value='account') Cuenta
-              option(value='alert-circle') Alerta
-              option(value='beaker') Probeta
-              option(value='bell') Campana
-              option(value='broom') Escoba
-              option(value='bus') Autobús
-              option(value='calendar') Calendario
-              option(value='chart-line') Gráfica
+              option(value='account') {{ 'MenuComponent.icons.account' | translate:lang }}
+              option(value='alert-circle') {{ 'MenuComponent.icons.alert-circle' | translate:lang }}
+              option(value='beaker') {{ 'MenuComponent.icons.beaker' | translate:lang }}
+              option(value='bell') {{ 'MenuComponent.icons.bell' | translate:lang }}
+              option(value='broom') {{ 'MenuComponent.icons.broom' | translate:lang }}
+              option(value='bus') {{ 'MenuComponent.icons.bus' | translate:lang }}
+              option(value='calendar') {{ 'MenuComponent.icons.calendar' | translate:lang }}
+              option(value='chart-line') {{ 'MenuComponent.icons.chart-line' | translate:lang }}
         .col.s12.m9.l9([hidden]='!(iconForm.controls.is_icon.value === false)')
           div(class="file-field input-field")
             div(class="btn")

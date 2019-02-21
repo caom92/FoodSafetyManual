@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
-import { TranslationService } from 'angular-l10n'
+import { Language, TranslationService } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 
 import { AlertController } from '../../../../services/alert/app.alert'
@@ -13,6 +13,8 @@ import { SuperInventoryAddAreaComponent } from '../../super-inventory/super.area
 })
 
 export class GMPPackingGlassBrittleAddAreaComponent extends SuperInventoryAddAreaComponent implements OnInit {
+  @Language() lang: string
+
   constructor(_fb: FormBuilder,
     alertCtrl: AlertController,
     translationService: TranslationService,

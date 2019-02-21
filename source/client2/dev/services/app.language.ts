@@ -378,7 +378,7 @@ export class LanguageService {
         1: 'Hubo un problema al enviar el reporte de error'
       },
       'approve-log': {
-        0: 'Bitácora aprovada con éxito',
+        0: 'Bitácora aprobada con éxito',
         1: 'No esta autorizado para aprovar esta bitácora'
       },
       'reject-log': {

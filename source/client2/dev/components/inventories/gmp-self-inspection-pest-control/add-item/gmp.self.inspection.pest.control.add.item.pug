@@ -6,7 +6,7 @@ tr([formGroup]="newItem")
   td
   td
   td
-    +textInput(null, null, "name", "text", "new_item", "New item")
+    +textInput(null, null, "name", "text", "new_item", "{{ 'InventoryLists.new_item' | translate:lang }}")
     +errorMessage("!newItem.controls.name.valid && newItem.controls.name.dirty && newItem.controls.name.value.length == 0", "{{ 'InventoryErrors.generic.name_required' | translate:lang }}")
     +errorMessage("!newItem.controls.name.valid && newItem.controls.name.dirty && newItem.controls.name.value.length >= 1", "{{ 'InventoryErrors.generic.name_max_255' | translate:lang }}")
   td

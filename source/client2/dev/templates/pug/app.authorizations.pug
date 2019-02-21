@@ -29,6 +29,13 @@ div.row
       mz-card-action
         div.row
           div.col.s4.center-align
+            +routerLink("['/authorizations', log.service_name, log.captured_log_id]")(
+              class='blue' 
+              mz-button 
+              '(click)'='onReviewButtonClick(log.captured_log_id)'
+            )
+              i.mdi.mdi-file
+          div.col.s4.center-align
             +link()(
               class='green' 
               mz-button 
@@ -42,13 +49,6 @@ div.row
               '(click)'='onRejectButtonClick(log.captured_log_id)'
             )
               i.mdi.mdi-close-circle
-          div.col.s4.center-align
-            +routerLink("['/authorizations', log.service_name, log.captured_log_id]")(
-              class='blue' 
-              mz-button 
-              '(click)'='onReviewButtonClick(log.captured_log_id)'
-            )
-              i.mdi.mdi-file
 
 div.row
   div.col.s12.center-align('*ngIf'='hasPendingLogs == false')

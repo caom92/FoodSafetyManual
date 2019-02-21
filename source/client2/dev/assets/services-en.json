@@ -1,0 +1,936 @@
+{
+  "ServiceMessages": {
+    "add-menu-directory": {
+      "0": "Menu directory added successfully",
+      "1": "The name of the directory should not contain slashes"
+    },
+    "add-menu-file": {
+      "0": "File added successfully",
+      "1": "The file could not be uploaded correctly",
+      "2": "You must provide either a file ID or a file and filename to add a field icon to the menu"
+    },
+    "add-menu-item": {
+      "0": "Menu item added successfully",
+      "1": "The name of the item should not contain slashes"
+    },
+    "add-menu-link": {
+      "0": "Link added successfully"
+    },
+    "add-report-footer": {
+      "0": "Footer added successfully"
+    },
+    "add-signature": {
+      "0": "Signature added successfully"
+    },
+    "add-user": {
+      "0": "User added successfully",
+      "1": "The zone ID was not provided",
+      "2": "The employee is in a different zone than the supervisor",
+      "3": "The provided supervisor ID does not correspond to a user with supervisor role",
+      "4": "Employees must be assigned to a supervisor; no supervisor ID was provided"
+    },
+    "add-zone": {
+      "0": "Zone added successfully",
+      "1": "Cannot add new zone; name is already taken",
+      "2": "The zone logo file could not be uploaded"
+    },
+    "approve-log": {
+      "0": "Log approved successfully",
+      "1": "This supervisor is not allowed to authorize this log; the employee that captured the log is not assigned to them"
+    },
+    "assign-employees-to-supervisors": {
+      "0": "Employees assigned to supervisors successfully",
+      "1": "The users do not have the proper roles for one of the assignments",
+      "2": "The users do not share the same zone for one of the assignments"
+    },
+    "change-password": {
+      "0": "Password changed successfully",
+      "1": "Password could not be changed; authetication credentials were incorrect",
+      "2": "Password could not be changed; changing the password of another user is not allowed"
+    },
+    "change-username": {
+      "0": "Username changed successfully",
+      "1": "Username could not be changed; new name is already taken",
+      "2": "Username could not be changed; the password is incorrect",
+      "3": "Username could not be changed; changing the username of another user is not allowed"
+    },
+    "check-session": {
+      "0": "Session status checked"
+    },
+    "delete-menu-element": {
+      "0": "Menu item deleted successfully"
+    },
+    "director-change-zones": {
+      "0": "Current zone changed successfully",
+      "1": "Failed to change zones; the provided zone ID does not correspond to a existing zone"
+    },
+    "edit-menu-element": {
+      "0": "Menu item updated successfully",
+      "1": "The name of the directory should not contain slashes",
+      "2": "The file could not be uploaded correctly",
+      "3": "You must provide either a file ID or a file and filename to add a field icon to the menu"
+    },
+    "edit-report-footers": {
+      "0": "Footer updated successfully"
+    },
+    "edit-user-info": {
+      "0": "User info updated successfully"
+    },
+    "edit-user-privileges": {
+      "0": "User privileges changed successfully"
+    },
+    "edit-user-role": {
+      "0": "User role changed successfully",
+      "1": "A supervisor can't change its role while having employees assigned",
+      "2": "The employee is in a different zone than the supervisor",
+      "3": "The provided supervisor ID does not correspond to a user with supervisor role",
+      "4": "Employees must be assigned to a supervisor; no supervisor ID was provided"
+    },
+    "edit-user-zone": {
+      "0": "User zone changed successfully",
+      "1": "A supervisor can't change its zone while having employees assigned"
+    },
+    "edit-zone": {
+      "0": "Zone updated successfully",
+      "1": "Cannot change zone name; name is already taken",
+      "2": "The zone logo file could not be uploaded"
+    },
+    "finish-log": {
+      "0": "Log closed successfully",
+      "1": "This employee is not allowed to close this log; the employee does not belong to this zone"
+    },
+    "get-employee-info": {
+      "0": "Employee info retrieved from server successfully"
+    },
+    "get-log-manual-url": {
+      "0": "Manual URL retrieved successfully"
+    },
+    "get-menu": {
+      "0": "Menu retrieved successfully"
+    },
+    "get-menu-by-user": {
+      "0": "Menu of user retrieved successfully"
+    },
+    "get-menu-files": {
+      "0": "List of menu files retrieved successfully"
+    },
+    "get-modules-of-program": {
+      "0": "List of modules retrieved successfully"
+    },
+    "get-num-pending-logs": {
+      "0": "Number of pending logs retrieved successfully"
+    },
+    "get-privileges-of-employee": {
+      "0": "Employee privileges retrieved successfully"
+    },
+    "get-report-footer": {
+      "0": "Report footer retrieved successfully"
+    },
+    "get-supervisor-num-of-employees": {
+      "0": "Number of employees of supervisor retrieved successfully"
+    },
+    "is-employee-num-duplicated": {
+      "0": "Employee number duplication checked"
+    },
+    "is-login-name-duplicated": {
+      "0": "Login name duplication checked"
+    },
+    "is-zone-name-duplicated": {
+      "0": "Zone name status retrieved from server"
+    },
+    "list-employees-of-supervisor": {
+      "0": "List of employees of supervisor retrieved successfully"
+    },
+    "list-privileges": {
+      "0": "Privilege list retrieved from server"
+    },
+    "list-programs": {
+      "0": "List of programs retrieved successfully"
+    },
+    "list-programs-modules-logs": {
+      "0": "List of programs, modules and logs retrieved successfully"
+    },
+    "list-report-footers": {
+      "0": "List of footers retrieved successfully"
+    },
+    "list-signatures-by-zone": {
+      "0": "List of signatures retrieved successfully"
+    },
+    "list-supervisors-by-zone": {
+      "0": "Supervisors list retrieved from server"
+    },
+    "list-supervisors-employees-by-zone": {
+      "0": "List of supervisors and employees retrieved successfully"
+    },
+    "list-unapproved-logs-of-user": {
+      "0": "List of logs pending authorization retrieved from server"
+    },
+    "list-user-roles": {
+      "0": "List of user roles retrieved successfully"
+    },
+    "list-users": {
+      "0": "List of users retrieved successfully"
+    },
+    "list-zones": {
+      "0": "List of zones retrieved successfully"
+    },
+    "login": {
+      "0": "User logged in successfully",
+      "1": "Log in credentials are incorrect"
+    },
+    "logout": {
+      "0": "User logged out successfully"
+    },
+    "reject-log": {
+      "0": "Log was rejected successfully",
+      "1": "This supervisor is not allowed to reject this log; the employee that captured the log is not under their supervision",
+      "2": "This log is already approved and it cannot be changed"
+    },
+    "retreat-log": {
+      "0": "Log retreated successfully",
+      "1": "This log cannot be changed to waiting status; the user who captured it is no longer an employee",
+      "2": "This log cannot be changed to waiting status; the user who captured the log is no longer active"
+    },
+    "send-bug-report": {
+      "0": "Bug report sent successfully",
+      "1": "There was an error while sending the bug report"
+    },
+    "status": {
+      "0": "Database is connected"
+    },
+    "toggle-account-activation": {
+      "0": "Account activation changed successfully",
+      "1": "A supervisor can't deactivate its account while having employees assigned"
+    },
+    "upload-zone-logo": {
+      "0": "Zone logo uploaded successfully"
+    },
+    "add-gap-doc-control-doc-control": {
+      "0": "Item added successfully"
+    },
+    "add-gap-packing-preop": {
+      "0": "Item added successfully"
+    },
+    "add-gap-packing-water-resource": {
+      "0": "Item added successfully"
+    },
+    "add-gmp-doc-control-doc-control": {
+      "0": "Item added successfully"
+    },
+    "add-gmp-packing-cold-room-temp": {
+      "0": "Item added successfully"
+    },
+    "add-gmp-packing-finished-product": {
+      "0": "Item added successfully"
+    },
+    "add-gmp-packing-glass-brittle": {
+      "0": "Item added successfully"
+    },
+    "add-gmp-packing-hand-washing": {
+      "0": "Item added successfully"
+    },
+    "add-gmp-packing-ozone-water": {
+      "0": "Item added successfully"
+    },
+    "add-gmp-packing-preop": {
+      "0": "Item added successfully"
+    },
+    "add-gmp-packing-scale-calibration": {
+      "0": "Item added successfully"
+    },
+    "add-gmp-packing-scissors-knives": {
+      "0": "Item added successfully"
+    },
+    "add-gmp-packing-thermo-calibration": {
+      "0": "Item added successfully"
+    },
+    "add-gmp-self-inspection-pest-control": {
+      "0": "Item added successfully"
+    },
+    "add-workplace-area-gap-packing-preop": {
+      "0": "Area added successfully",
+      "1": "Area cannot be added; name is already taken"
+    },
+    "add-workplace-area-gap-packing-water-resource": {
+      "0": "Area added successfully",
+      "1": "Area cannot be added; name is already taken"
+    },
+    "add-workplace-area-gmp-packing-glass-brittle": {
+      "0": "Area added successfully",
+      "1": "Area cannot be added; name is already taken"
+    },
+    "add-workplace-area-gmp-packing-ozone-water": {
+      "0": "Machine added successfully",
+      "1": "Machine cannot be added; name is already taken"
+    },
+    "add-workplace-area-gmp-packing-preop": {
+      "0": "Area added successfully",
+      "1": "Area cannot be added; name is already taken"
+    },
+    "add-workplace-area-gmp-self-inspection-pest-control": {
+      "0": "Room added successfully",
+      "1": "Room cannot be added; name is already taken"
+    },
+    "authorization-report-gap-doc-control-doc-control": {
+      "0": "Log data retrieved successfully"
+    },
+    "authorization-report-gap-others-unusual-occurrence": {
+      "0": "Log data retrieved successfully"
+    },
+    "authorization-report-gap-packing-water-resource": {
+      "0": "Log data retrieved successfully"
+    },
+    "authorization-report-gap-packing-preop": {
+      "0": "Log data retrieved successfully"
+    },
+    "authorization-report-gmp-doc-control-doc-control": {
+      "0": "Log data retrieved successfully"
+    },
+    "authorization-report-gmp-others-unusual-occurrence": {
+      "0": "Log data retrieved successfully"
+    },
+    "authorization-report-gmp-packing-aged-product": {
+      "0": "Log data retrieved successfully"
+    },
+    "authorization-report-gmp-packing-atp-testing": {
+      "0": "Log data retrieved successfully"
+    },
+    "authorization-report-gmp-packing-cold-room-temp": {
+      "0": "Log data retrieved successfully"
+    },
+    "authorization-report-gmp-packing-finished-product": {
+      "0": "Log data retrieved successfully"
+    },
+    "authorization-report-gmp-packing-glass-brittle": {
+      "0": "Log data retrieved successfully"
+    },
+    "authorization-report-gmp-packing-hand-washing": {
+      "0": "Log data retrieved successfully"
+    },
+    "authorization-report-gmp-packing-ozone-water": {
+      "0": "Log data retrieved successfully"
+    },
+    "authorization-report-gmp-packing-preop": {
+      "0": "Log data retrieved successfully"
+    },
+    "authorization-report-gmp-packing-scale-calibration": {
+      "0": "Log data retrieved successfully"
+    },
+    "authorization-report-gmp-packing-scissors-knives": {
+      "0": "Log data retrieved successfully"
+    },
+    "authorization-report-gmp-packing-thermo-calibration": {
+      "0": "Log data retrieved successfully"
+    },
+    "authorization-report-gmp-self-inspection-pest-control": {
+      "0": "Log data retrieved successfully"
+    },
+    "capture-gap-doc-control-doc-control": {
+      "0": "The log has been sent successfully"
+    },
+    "capture-gap-others-unusual-occurrence": {
+      "0": "The log has been sent successfully"
+    },
+    "capture-gap-packing-preop": {
+      "0": "The log has been sent successfully"
+    },
+    "capture-gap-packing-water-resource": {
+      "0": "The log has been sent successfully"
+    },
+    "capture-gmp-doc-control-doc-control": {
+      "0": "The log has been sent successfully"
+    },
+    "capture-gmp-others-unusual-occurrence": {
+      "0": "The log has been sent successfully"
+    },
+    "capture-gmp-packing-aged-product": {
+      "0": "The log has been sent successfully"
+    },
+    "capture-gmp-packing-atp-testing": {
+      "0": "The log has been sent successfully"
+    },
+    "capture-gmp-packing-cold-room-temp": {
+      "0": "The log has been sent successfully"
+    },
+    "capture-gmp-packing-finished-product": {
+      "0": "The log has been sent successfully"
+    },
+    "capture-gmp-packing-glass-brittle": {
+      "0": "The log has been sent successfully"
+    },
+    "capture-gmp-packing-hand-washing": {
+      "0": "The log has been sent successfully"
+    },
+    "capture-gmp-packing-ozone-water": {
+      "0": "The log has been sent successfully"
+    },
+    "capture-gmp-packing-preop": {
+      "0": "The log has been sent successfully"
+    },
+    "capture-gmp-packing-scale-calibration": {
+      "0": "The log has been sent successfully"
+    },
+    "capture-gmp-packing-scissors-knives": {
+      "0": "The log has been sent successfully"
+    },
+    "capture-gmp-packing-thermo-calibration": {
+      "0": "The log has been sent successfully"
+    },
+    "capture-gmp-self-inspection-pest-control": {
+      "0": "The log has been sent successfully"
+    },
+    "edit-workplace-area-gap-packing-preop": {
+      "0": "Area name updated successfully",
+      "1": "Area name cannot be changed; name is already taken"
+    },
+    "edit-workplace-area-gap-packing-water-resource": {
+      "0": "Area name updated successfully",
+      "1": "Area name cannot be changed; name is already taken"
+    },
+    "edit-workplace-area-gmp-packing-preop": {
+      "0": "Area name updated successfully",
+      "1": "Area name cannot be changed; name is already taken"
+    },
+    "edit-workplace-area-gmp-self-inspection-pest-control": {
+      "0": "Room name updated successfully",
+      "1": "Room name cannot be changed; name is already taken"
+    },
+    "get-areas-of-zone-by-position-gap-packing-preop": {
+      "0": "Area list retrieved successfully"
+    },
+    "get-areas-of-zone-by-position-gap-packing-water-resource": {
+      "0": "Area list retrieved successfully"
+    },
+    "get-areas-of-zone-by-position-gmp-packing-glass-brittle": {
+      "0": "Area list retrieved successfully"
+    },
+    "get-areas-of-zone-by-position-gmp-packing-ozone-water": {
+      "0": "Machine list retrieved successfully"
+    },
+    "get-areas-of-zone-by-position-gmp-packing-preop": {
+      "0": "Area list retrieved successfully"
+    },
+    "get-areas-of-zone-by-position-gmp-self-inspection-pest-control": {
+      "0": "Room list retrieved successfully"
+    },
+    "get-areas-of-zone-gap-packing-preop": {
+      "0": "Area list retrieved successfully"
+    },
+    "get-areas-of-zone-gap-packing-water-resource": {
+      "0": "Area list retrieved successfully"
+    },
+    "get-areas-of-zone-gmp-packing-glass-brittle": {
+      "0": "Area list retrieved successfully"
+    },
+    "get-areas-of-zone-gmp-packing-ozone-water": {
+      "0": "Machine list retrieved successfully"
+    },
+    "get-areas-of-zone-gmp-packing-preop": {
+      "0": "Area list retrieved successfully"
+    },
+    "get-areas-of-zone-gmp-self-inspection-pest-control": {
+      "0": "Room list retrieved successfully"
+    },
+    "inventory-gap-doc-control-doc-control": {
+      "0": "Inventory retrieved successfully"
+    },
+    "inventory-gap-packing-preop": {
+      "0": "Inventory retrieved successfully"
+    },
+    "inventory-gap-packing-water-resource": {
+      "0": "Inventory retrieved successfully"
+    },
+    "inventory-gmp-doc-control-doc-control": {
+      "0": "Inventory retrieved successfully"
+    },
+    "inventory-gmp-packing-cold-room-temp": {
+      "0": "Inventory retrieved successfully"
+    },
+    "inventory-gmp-packing-finished-product": {
+      "0": "Inventory retrieved successfully"
+    },
+    "inventory-gmp-packing-glass-brittle": {
+      "0": "Inventory retrieved successfully"
+    },
+    "inventory-gmp-packing-hand-washing": {
+      "0": "Inventory retrieved successfully"
+    },
+    "inventory-gmp-packing-ozone-water": {
+      "0": "Inventory retrieved successfully"
+    },
+    "inventory-gmp-packing-preop": {
+      "0": "Inventory retrieved successfully"
+    },
+    "inventory-gmp-packing-scale-calibration": {
+      "0": "Inventory retrieved successfully"
+    },
+    "inventory-gmp-packing-scissors-knives": {
+      "0": "Inventory retrieved successfully"
+    },
+    "inventory-gmp-packing-thermo-calibration": {
+      "0": "Inventory retrieved successfully"
+    },
+    "inventory-gmp-self-inspection-pest-control": {
+      "0": "Inventory retrieved successfully"
+    },
+    "list-corrective-actions-gap-packing-preop": {
+      "0": "Corrective actions retrieved successfully"
+    },
+    "list-corrective-actions-gmp-packing-preop": {
+      "0": "Corrective actions retrieved successfully"
+    },
+    "list-waiting-logs-gap-packing-water-resource": {
+      "0": "Waiting logs list retrieved successfully"
+    },
+    "list-waiting-logs-gmp-packing-ozone-water": {
+      "0": "Waiting logs list retrieved successfully"
+    },
+    "log-gap-doc-control-doc-control": {
+      "0": "Log data retrieved successfully"
+    },
+    "log-gap-others-unusual-occurrence": {
+      "0": "Log data retrieved successfully"
+    },
+    "log-gap-packing-preop": {
+      "0": "Log data retrieved successfully"
+    },
+    "log-gap-packing-water-resource": {
+      "0": "Log data retrieved successfully"
+    },
+    "log-gmp-doc-control-doc-control": {
+      "0": "Log data retrieved successfully"
+    },
+    "log-gmp-others-unusual-occurrence": {
+      "0": "Log data retrieved successfully"
+    },
+    "log-gmp-packing-aged-product": {
+      "0": "Log data retrieved successfully"
+    },
+    "log-gmp-packing-atp-testing": {
+      "0": "Log data retrieved successfully"
+    },
+    "log-gmp-packing-cold-room-temp": {
+      "0": "Log data retrieved successfully"
+    },
+    "log-gmp-packing-finished-product": {
+      "0": "Log data retrieved successfully"
+    },
+    "log-gmp-packing-glass-brittle": {
+      "0": "Log data retrieved successfully"
+    },
+    "log-gmp-packing-hand-washing": {
+      "0": "Log data retrieved successfully"
+    },
+    "log-gmp-packing-ozone-water": {
+      "0": "Log data retrieved successfully"
+    },
+    "log-gmp-packing-preop": {
+      "0": "Log data retrieved successfully"
+    },
+    "log-gmp-packing-scale-calibration": {
+      "0": "Log data retrieved successfully"
+    },
+    "log-gmp-packing-scissors-knives": {
+      "0": "Log data retrieved successfully"
+    },
+    "log-gmp-packing-thermo-calibration": {
+      "0": "Log data retrieved successfully"
+    },
+    "log-gmp-self-inspection-pest-control": {
+      "0": "Log data retrieved successfully"
+    },
+    "reorder-area-gap-packing-preop": {
+      "0": "Inventory reordered successfully",
+      "1": "Invalid position provided; reordering cannot be completed",
+      "2": "Position provided twice; reordering cannot be completed"
+    },
+    "reorder-area-gmp-packing-ozone-water": {
+      "0": "Inventory reordered successfully",
+      "1": "Invalid position provided; reordering cannot be completed",
+      "2": "Position provided twice; reordering cannot be completed"
+    },
+    "reorder-area-gmp-packing-preop": {
+      "0": "Inventory reordered successfully",
+      "1": "Invalid position provided; reordering cannot be completed",
+      "2": "Position provided twice; reordering cannot be completed"
+    },
+    "reorder-gap-packing-preop": {
+      "0": "Inventory reordered successfully",
+      "1": "Invalid position provided; reordering cannot be completed",
+      "2": "Position provided twice; reordering cannot be completed"
+    },
+    "reorder-gap-packing-water-resource": {
+      "0": "Inventory reordered successfully",
+      "1": "Invalid position provided; reordering cannot be completed",
+      "2": "Position provided twice; reordering cannot be completed"
+    },
+    "reorder-gmp-packing-glass-brittle": {
+      "0": "Inventory reordered successfully",
+      "1": "Invalid position provided; reordering cannot be completed",
+      "2": "Position provided twice; reordering cannot be completed"
+    },
+    "reorder-gmp-packing-preop": {
+      "0": "Inventory reordered successfully",
+      "1": "Invalid position provided; reordering cannot be completed",
+      "2": "Position provided twice; reordering cannot be completed"
+    },
+    "reorder-gmp-packing-scale-calibration": {
+      "0": "Inventory reordered successfully",
+      "1": "Invalid position provided; reordering cannot be completed",
+      "2": "Position provided twice; reordering cannot be completed"
+    },
+    "reorder-gmp-packing-thermo-calibration": {
+      "0": "Inventory reordered successfully",
+      "1": "Invalid position provided; reordering cannot be completed",
+      "2": "Position provided twice; reordering cannot be completed"
+    },
+    "reorder-gmp-self-inspection-pest-control": {
+      "0": "Inventory reordered successfully",
+      "1": "Invalid position provided; reordering cannot be completed",
+      "2": "Position provided twice; reordering cannot be completed"
+    },
+    "report-gap-doc-control-doc-control": {
+      "0": "Report data retrieved successfully",
+      "2": "No logs captured during the date interval"
+    },
+    "report-gap-others-unusual-occurrence": {
+      "0": "Report data retrieved successfully",
+      "2": "No logs captured during the date interval"
+    },
+    "report-gap-packing-preop": {
+      "0": "Report data retrieved successfully",
+      "2": "No logs captured during the date interval"
+    },
+    "report-gap-packing-water-resource": {
+      "0": "Report data retrieved successfully",
+      "2": "No logs captured during the date interval"
+    },
+    "report-gmp-doc-control-doc-control": {
+      "0": "Report data retrieved successfully",
+      "2": "No logs captured during the date interval"
+    },
+    "report-gmp-others-unusual-occurrence": {
+      "0": "Report data retrieved successfully",
+      "2": "No logs captured during the date interval"
+    },
+    "report-gmp-packing-aged-product": {
+      "0": "Report data retrieved successfully",
+      "2": "No logs captured during the date interval"
+    },
+    "report-gmp-packing-atp-testing": {
+      "0": "Report data retrieved successfully",
+      "2": "No logs captured during the date interval"
+    },
+    "report-gmp-packing-cold-room-temp": {
+      "0": "Report data retrieved successfully",
+      "2": "No logs captured during the date interval"
+    },
+    "report-gmp-packing-finished-product": {
+      "0": "Report data retrieved successfully",
+      "2": "No logs captured during the date interval"
+    },
+    "report-gmp-packing-glass-brittle": {
+      "0": "Report data retrieved successfully",
+      "2": "No logs captured during the date interval"
+    },
+    "report-gmp-packing-hand-washing": {
+      "0": "Report data retrieved successfully",
+      "2": "No logs captured during the date interval"
+    },
+    "report-gmp-packing-ozone-water": {
+      "0": "Report data retrieved successfully",
+      "2": "No logs captured during the date interval"
+    },
+    "report-gmp-packing-preop": {
+      "0": "Report data retrieved successfully",
+      "2": "No logs captured during the date interval"
+    },
+    "report-gmp-packing-scale-calibration": {
+      "0": "Report data retrieved successfully",
+      "2": "No logs captured during the date interval"
+    },
+    "report-gmp-packing-scissors-knives": {
+      "0": "Report data retrieved successfully",
+      "2": "No logs captured during the date interval"
+    },
+    "report-gmp-packing-thermo-calibration": {
+      "0": "Report data retrieved successfully",
+      "2": "No logs captured during the date interval"
+    },
+    "report-gmp-self-inspection-pest-control": {
+      "0": "Report data retrieved successfully",
+      "2": "No logs captured during the date interval"
+    },
+    "send-report-gap-others-unusual-occurrence": {
+      "0": "Report e-mail sent successfully"
+    },
+    "send-report-gmp-others-unusual-occurrence": {
+      "0": "Report e-mail sent successfully"
+    },
+    "toggle-area-gmp-packing-ozone-water": {
+      "0": "Area activation changed successfully"
+    },
+    "toggle-gap-doc-control-doc-control": {
+      "0": "Item activation changed successfully"
+    },
+    "toggle-gap-packing-preop": {
+      "0": "Item activation changed successfully"
+    },
+    "toggle-gap-packing-water-resource": {
+      "0": "Item activation changed successfully"
+    },
+    "toggle-gmp-doc-control-doc-control": {
+      "0": "Item activation changed successfully"
+    },
+    "toggle-gmp-packing-cold-room-temp": {
+      "0": "Item activation changed successfully"
+    },
+    "toggle-gmp-packing-glass-brittle": {
+      "0": "Item activation changed successfully"
+    },
+    "toggle-gmp-packing-hand-washing": {
+      "0": "Item activation changed successfully"
+    },
+    "toggle-gmp-packing-ozone-water": {
+      "0": "Item activation changed successfully"
+    },
+    "toggle-gmp-packing-preop": {
+      "0": "Item activation changed successfully"
+    },
+    "toggle-gmp-packing-scale-calibration": {
+      "0": "Item activation changed successfully"
+    },
+    "toggle-gmp-packing-scissors-knives": {
+      "0": "Item activation changed successfully"
+    },
+    "toggle-gmp-packing-thermo-calibration": {
+      "0": "Item activation changed successfully"
+    },
+    "toggle-gmp-self-inspection-pest-control": {
+      "0": "Item activation changed successfully"
+    },
+    "update-gap-doc-control-doc-control": {
+      "0": "The log has been updated successfully",
+      "9": "Log cannot be updated; it was already approved",
+      "10": "Log cannot be updated; it's being reviewed by a supervisor",
+      "11": "Log cannot be updated; it's being captured by an employee",
+      "12": "Log cannot be updated; user does not have the proper role"
+    },
+    "update-gap-others-unusual-occurrence": {
+      "0": "The log has been updated successfully",
+      "9": "Log cannot be updated; it was already approved",
+      "10": "Log cannot be updated; it's being reviewed by a supervisor",
+      "11": "Log cannot be updated; it's being captured by an employee",
+      "12": "Log cannot be updated; user does not have the proper role"
+    },
+    "update-gap-packing-preop": {
+      "0": "The log has been updated successfully",
+      "9": "Log cannot be updated; it was already approved",
+      "10": "Log cannot be updated; it's being reviewed by a supervisor",
+      "11": "Log cannot be updated; it's being captured by an employee",
+      "12": "Log cannot be updated; user does not have the proper role"
+    },
+    "update-gap-packing-water-resource": {
+      "0": "The log has been updated successfully",
+      "9": "Log cannot be updated; it was already approved",
+      "10": "Log cannot be updated; it's being reviewed by a supervisor",
+      "11": "Log cannot be updated; it's being captured by an employee",
+      "12": "Log cannot be updated; user does not have the proper role"
+    },
+    "update-gmp-doc-control-doc-control": {
+      "0": "The log has been updated successfully",
+      "9": "Log cannot be updated; it was already approved",
+      "10": "Log cannot be updated; it's being reviewed by a supervisor",
+      "11": "Log cannot be updated; it's being captured by an employee",
+      "12": "Log cannot be updated; user does not have the proper role"
+    },
+    "update-gmp-others-unusual-occurrence": {
+      "0": "The log has been updated successfully",
+      "9": "Log cannot be updated; it was already approved",
+      "10": "Log cannot be updated; it's being reviewed by a supervisor",
+      "11": "Log cannot be updated; it's being captured by an employee",
+      "12": "Log cannot be updated; user does not have the proper role"
+    },
+    "update-gmp-packing-aged-product": {
+      "0": "The log has been updated successfully",
+      "9": "Log cannot be updated; it was already approved",
+      "10": "Log cannot be updated; it's being reviewed by a supervisor",
+      "11": "Log cannot be updated; it's being captured by an employee",
+      "12": "Log cannot be updated; user does not have the proper role"
+    },
+    "update-gmp-packing-atp-testing": {
+      "0": "The log has been updated successfully",
+      "9": "Log cannot be updated; it was already approved",
+      "10": "Log cannot be updated; it's being reviewed by a supervisor",
+      "11": "Log cannot be updated; it's being captured by an employee",
+      "12": "Log cannot be updated; user does not have the proper role"
+    },
+    "update-gmp-packing-cold-room-temp": {
+      "0": "The log has been updated successfully",
+      "9": "Log cannot be updated; it was already approved",
+      "10": "Log cannot be updated; it's being reviewed by a supervisor",
+      "11": "Log cannot be updated; it's being captured by an employee",
+      "12": "Log cannot be updated; user does not have the proper role"
+    },
+    "update-gmp-packing-finished-product": {
+      "0": "The log has been updated successfully",
+      "9": "Log cannot be updated; it was already approved",
+      "10": "Log cannot be updated; it's being reviewed by a supervisor",
+      "11": "Log cannot be updated; it's being captured by an employee",
+      "12": "Log cannot be updated; user does not have the proper role"
+    },
+    "update-gmp-packing-glass-brittle": {
+      "0": "The log has been updated successfully",
+      "9": "Log cannot be updated; it was already approved",
+      "10": "Log cannot be updated; it's being reviewed by a supervisor",
+      "11": "Log cannot be updated; it's being captured by an employee",
+      "12": "Log cannot be updated; user does not have the proper role"
+    },
+    "update-gmp-packing-hand-washing": {
+      "0": "The log has been updated successfully",
+      "9": "Log cannot be updated; it was already approved",
+      "10": "Log cannot be updated; it's being reviewed by a supervisor",
+      "11": "Log cannot be updated; it's being captured by an employee",
+      "12": "Log cannot be updated; user does not have the proper role"
+    },
+    "update-gmp-packing-ozone-water": {
+      "0": "The log has been updated successfully",
+      "9": "Log cannot be updated; it was already approved",
+      "10": "Log cannot be updated; it's being reviewed by a supervisor",
+      "11": "Log cannot be updated; it's being captured by an employee",
+      "12": "Log cannot be updated; user does not have the proper role"
+    },
+    "update-gmp-packing-preop": {
+      "0": "The log has been updated successfully",
+      "9": "Log cannot be updated; it was already approved",
+      "10": "Log cannot be updated; it's being reviewed by a supervisor",
+      "11": "Log cannot be updated; it's being captured by an employee",
+      "12": "Log cannot be updated; user does not have the proper role"
+    },
+    "update-gmp-packing-scale-calibration": {
+      "0": "The log has been updated successfully",
+      "9": "Log cannot be updated; it was already approved",
+      "10": "Log cannot be updated; it's being reviewed by a supervisor",
+      "11": "Log cannot be updated; it's being captured by an employee",
+      "12": "Log cannot be updated; user does not have the proper role"
+    },
+    "update-gmp-packing-scissors-knives": {
+      "0": "The log has been updated successfully",
+      "9": "Log cannot be updated; it was already approved",
+      "10": "Log cannot be updated; it's being reviewed by a supervisor",
+      "11": "Log cannot be updated; it's being captured by an employee",
+      "12": "Log cannot be updated; user does not have the proper role"
+    },
+    "update-gmp-packing-thermo-calibration": {
+      "0": "The log has been updated successfully",
+      "9": "Log cannot be updated; it was already approved",
+      "10": "Log cannot be updated; it's being reviewed by a supervisor",
+      "11": "Log cannot be updated; it's being captured by an employee",
+      "12": "Log cannot be updated; user does not have the proper role"
+    },
+    "update-gmp-self-inspection-pest-control": {
+      "0": "The log has been updated successfully",
+      "9": "Log cannot be updated; it was already approved",
+      "10": "Log cannot be updated; it's being reviewed by a supervisor",
+      "11": "Log cannot be updated; it's being captured by an employee",
+      "12": "Log cannot be updated; user does not have the proper role"
+    },
+    "upload-manual-gap-doc-control-doc-control": {
+      "0": "Manual uploaded successfully",
+      "1": "Manual file could not be uploaded"
+    },
+    "upload-manual-gap-others-unusual-occurrence": {
+      "0": "Manual uploaded successfully",
+      "1": "Manual file could not be uploaded"
+    },
+    "upload-manual-gap-packing-preop": {
+      "0": "Manual uploaded successfully",
+      "1": "Manual file could not be uploaded"
+    },
+    "upload-manual-gap-packing-water-resource": {
+      "0": "Manual uploaded successfully",
+      "1": "Manual file could not be uploaded"
+    },
+    "upload-manual-gmp-doc-control-doc-control": {
+      "0": "Manual uploaded successfully",
+      "1": "Manual file could not be uploaded"
+    },
+    "upload-manual-gmp-others-unusual-occurrence": {
+      "0": "Manual uploaded successfully",
+      "1": "Manual file could not be uploaded"
+    },
+    "upload-manual-gmp-packing-aged-product": {
+      "0": "Manual uploaded successfully",
+      "1": "Manual file could not be uploaded"
+    },
+    "upload-manual-gmp-packing-atp-testing": {
+      "0": "Manual uploaded successfully",
+      "1": "Manual file could not be uploaded"
+    },
+    "upload-manual-gmp-packing-cold-room-temp": {
+      "0": "Manual uploaded successfully",
+      "1": "Manual file could not be uploaded"
+    },
+    "upload-manual-gmp-packing-finished-product": {
+      "0": "Manual uploaded successfully",
+      "1": "Manual file could not be uploaded"
+    },
+    "upload-manual-gmp-packing-glass-brittle": {
+      "0": "Manual uploaded successfully",
+      "1": "Manual file could not be uploaded"
+    },
+    "upload-manual-gmp-packing-hand-washing": {
+      "0": "Manual uploaded successfully",
+      "1": "Manual file could not be uploaded"
+    },
+    "upload-manual-gmp-packing-ozone-water": {
+      "0": "Manual uploaded successfully",
+      "1": "Manual file could not be uploaded"
+    },
+    "upload-manual-gmp-packing-preop": {
+      "0": "Manual uploaded successfully",
+      "1": "Manual file could not be uploaded"
+    },
+    "upload-manual-gmp-packing-scale-calibration": {
+      "0": "Manual uploaded successfully",
+      "1": "Manual file could not be uploaded"
+    },
+    "upload-manual-gmp-packing-scissors-knives": {
+      "0": "Manual uploaded successfully",
+      "1": "Manual file could not be uploaded"
+    },
+    "upload-manual-gmp-packing-thermo-calibration": {
+      "0": "Manual uploaded successfully",
+      "1": "Manual file could not be uploaded"
+    },
+    "upload-manual-gmp-self-inspection-pest-control": {
+      "0": "Manual uploaded successfully",
+      "1": "Manual file could not be uploaded"
+    },
+    "generic": {
+      "0": "Communication with server successful",
+      "101": "A server input argument was not sent",
+      "102": "A server input argument is not a numeric value",
+      "103": "A server input argument is outside the correct interval",
+      "104": "A server input argument is not an integer",
+      "105": "A server input argument is not a real number",
+      "106": "A server input argument doesn't have the proper character length",
+      "107": "The character length of a server input argument is not within the proper interval",
+      "108": "A server input argument is not a string",
+      "109": "A server input argument is not an email string",
+      "110": "A server input argument is not a boolean value",
+      "111": "A server input argument is not a date or the format is incorrect",
+      "112": "A server input argument is an empty array",
+      "113": "A file sent to the server is not a document",
+      "114": "A file sent to the server is not an image",
+      "115": "A file could not be sent to the server",
+      "116": "A server input argument is not a phone number",
+      "117": "The user does not have the proper role to use this service",
+      "118": "You are not logged in",
+      "119": "You are not authorized to use this service",
+      "404": "Service does not exist",
+      "405": "Incorrect method of connection with the server"
+    },
+    "default": "An unknown error occurred, error code:"
+  }
+}

@@ -140,7 +140,7 @@ mixin radio(label, icon, value, checked, disabled, id, name)
 
 mixin select(label, icon, formControlName, interface, id, placeholder)
   mz-select-container
-    select(mz-select, label=label, id=id, [placeholder]=placeholder, formControlName=formControlName)&attributes(attributes)
+    select(mz-select, label=label, id=id, placeholder=placeholder, formControlName=formControlName)&attributes(attributes)
       if block
         block
 

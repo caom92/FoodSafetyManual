@@ -44,7 +44,8 @@ $service = [
       ];
     } else {
       throw new \Exception(
-        'Failed to add new area; the name is already taken.'
+        'Failed to add new area; the name is already taken.',
+        1
       );
     }
   }

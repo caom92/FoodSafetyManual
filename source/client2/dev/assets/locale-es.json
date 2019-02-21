@@ -48,6 +48,10 @@
         "status": "Estado",
         "type": "Tipo",
         "quantity": "Cantidad",
+        "new_item": "Nuevo elemento",
+        "new_area": "Nueva área",
+        "new_type": "Seleccionar tipo",
+        "select_area": "Seleccionar área",
         "no_items_opening": "No hay objetos en este invenatario. Añada algunos usando el botón ",
         "no_items_closure": " localizado arriba"
     },
@@ -106,6 +110,7 @@
         "unacceptable": "No aceptable",
         "corrective_action": "Acción correctiva",
         "corrective_action_of": "Acción correctiva de",
+        "item_place_equipment": "Objeto/Lugar/Equipo, etc.",
         "reading": "Lectura",
         "results": "Resultado",
         "retests": "2da Prueba",
@@ -154,7 +159,16 @@
         "total_chlorine": "Cloro Total",
         "free_chlorine": "Cloro Libre",
         "rinse": "Enjuage",
-        "reason": "Motivo"
+        "reason": "Motivo",
+        "attached_images": "Imágenes adjuntas",
+        "attached_pdfs": "Archivos PDF adjuntos",
+        "document": "Documento",
+        "select_document": "Seleccione documento",
+        "users": "Usuarios",
+        "comment": "Comentario",
+        "external_url": "Enlace externo",
+        "images": "Imágenes",
+        "pdfs": "Archivos PDF"
     },
     "Authorization": {
         "send": "Enviar",
@@ -280,7 +294,17 @@
         "empty_directory": "Directorio vacío",
         "invalid_directory": "Directorio no valido",
         "network_error": "Error en la red",
-        "retry": "Reintentar"
+        "retry": "Reintentar",
+        "icons": {
+            "account": "Cuenta",
+            "alert-circle": "Alerta",
+            "beaker": "Probeta",
+            "bell": "Campana",
+            "broom": "Escoba",
+            "bus": "Autobús",
+            "calendar": "Calendario",
+            "chart-line": "Gráfica"
+        }
     },
     "DocumentAudit": {
         "title": "Auditoría de documentos",
@@ -303,5 +327,39 @@
         "network_error": "El manual no pudo ser cargado. Puede reintentar haciendo click en el botón; si el problema persiste, notifique al administrador",
         "network_error_uploader": "El manual no pudo ser cargado. Si cree que se debe a una red lenta/intermitente, use el botón de reintentar. Si cree que se debe a que ningún manual ha sido cargado, use el botón de subir para subir un nuevo manual.",
         "retry": "Reintentar"
+    },
+    "ProductDataViewer": {
+        "filter": "Filtrar",
+        "received": "Recibido",
+        "packed": "Empacado",
+        "performance": "Rendimiento",
+        "all": "Todos",
+        "zone": "Zona",
+        "producer": "Productor",
+        "parcel": "Parcela",
+        "lot": "Lote",
+        "group": "Grupo",
+        "variety": "Variedad",
+        "type": "Tipo",
+        "batch": "Batch",
+        "id": "ID",
+        "date": "Fecha",
+        "start_date": "Fecha inicial",
+        "final_date": "Fecha final",
+        "received_abbr": "Rec",
+        "packed_abbr": "Emp",
+        "kilos": "Kilos",
+        "good_abbr": "% B",
+        "key": "Clave",
+        "bol": "Bol",
+        "shipping": "Envio",
+        "restart": "Reiniciar",
+        "summary": "Resumen",
+        "details": "Detalles",
+        "download": "Descargar",
+        "page": "Página",
+        "of": "de",
+        "filterMessage": "Seleccione los filtros que desea aplicar para poder visualizar la tabla",
+        "errorMessage": "No hay elementos que correspondan a los filtros seleccionados"
     }
 }

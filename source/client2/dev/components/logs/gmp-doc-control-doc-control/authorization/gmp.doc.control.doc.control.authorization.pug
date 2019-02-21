@@ -11,9 +11,9 @@ block documentSelect
         //- block captureForm
 
 block fileUpload
-  p() Attached images
+  p() {{ 'Log.attached_images' | translate:lang }}
   a(*ngFor="let image of images", [href]="'http://localhost/espresso/data/images/gmp/doc_control/doc_control/' + image", target="_blank") {{image}}
-  p() Attached PDF files
+  p() {{ 'Log.attached_pdfs' | translate:lang }}
   a(*ngFor="let file of files", [href]="'http://localhost/espresso/data/documents/gmp/doc_control/doc_control/' + file", target="_blank") {{file}}
 
 block buttonRow

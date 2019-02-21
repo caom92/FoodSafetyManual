@@ -48,6 +48,10 @@
         "status": "Status",
         "type": "Type",
         "quantity": "Quantity",
+        "new_item": "New item",
+        "new_area": "New area",
+        "new_type": "Select type",
+        "select_area": "Select area",
         "no_items_opening": "No items for this log. Add some by using the ",
         "no_items_closure": " button above"
     },
@@ -106,6 +110,7 @@
         "unacceptable": "Unacceptable",
         "corrective_action": "Corrective action",
         "corrective_action_of": "Corrective action of",
+        "item_place_equipment": "Item/Place/Equipment, etc.",
         "reading": "Reading",
         "results": "Results",
         "retests": "Retests",
@@ -154,7 +159,16 @@
         "total_chlorine": "Total Chlorine",
         "free_chlorine": "Free Chlorine",
         "rinse": "Rinse",
-        "reason": "Reason"
+        "reason": "Reason",
+        "attached_images": "Attached images",
+        "attached_pdfs": "Attached PDF files",
+        "document": "Document",
+        "select_document": "Select document",
+        "users": "Users",
+        "comment": "Comment",
+        "external_url": "External URL",
+        "images": "Images",
+        "pdfs": "PDF Files"
     },
     "Authorization": {
         "send": "Send",
@@ -280,7 +294,17 @@
         "empty_directory": "Empty directory",
         "invalid_directory": "Invalid directory",
         "network_error": "Network error",
-        "retry": "Retry"
+        "retry": "Retry",
+        "icons": {
+            "account": "Account",
+            "alert-circle": "Alert",
+            "beaker": "Beaker",
+            "bell": "Bell",
+            "broom": "Broom",
+            "bus": "Bus",
+            "calendar": "Calendar",
+            "chart-line": "Graph"
+        }
     },
     "DocumentAudit": {
         "title": "Document audit",
@@ -303,5 +327,39 @@
         "network_error": "The manual could not be loaded. You may retry by clicking on the Retry button; if the problem persists, notify the administrator",
         "network_error_uploader": "The manual could not be loaded. If you believe you may have a slow network, you may use the retry button. If there isn't a manual uploaded, you may use the upload button to upload a new manual.",
         "retry": "Retry"
+    },
+    "ProductDataViewer": {
+        "filter": "Filter",
+        "received": "Received",
+        "packed": "Packed",
+        "performance": "Performance",
+        "all": "All",
+        "zone": "Zone",
+        "producer": "Producer",
+        "parcel": "Parcel",
+        "lot": "Lot",
+        "group": "Group",
+        "variety": "Variety",
+        "type": "Type",
+        "batch": "Batch",
+        "id": "ID",
+        "date": "Date",
+        "start_date": "Start date",
+        "final_date": "Final date",
+        "received_abbr": "Rec",
+        "packed_abbr": "Pack",
+        "kilos": "Kilos",
+        "good_abbr": "% G",
+        "key": "Key",
+        "bol": "Bol",
+        "shipping": "Shipping",
+        "restart": "Restart",
+        "summary": "Summary",
+        "details": "Details",
+        "download": "Download",
+        "page": "Page",
+        "of": "of",
+        "filterMessage": "Choose the filters you wish to apply to visualize the table",
+        "errorMessage": "No elements match the selected filters"
     }
 }

@@ -52,7 +52,8 @@ $service = [
           ]);
         } else {
           throw new \Exception(
-            "The file could not be uploaded correctly"
+            "The file could not be uploaded correctly",
+            1
           );  
         }
       } else if ($arrayElementExists($request, 'file_id')) {
@@ -61,7 +62,8 @@ $service = [
           $request['file_id'] : NULL;
       } else {
         throw new \Exception(
-          "You must provide either a file ID or a file and filename to add a field icon to the menu"
+          "You must provide either a file ID or a file and filename to add a field icon to the menu",
+          2
         );
       }
 

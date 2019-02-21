@@ -57,9 +57,9 @@ mixin inventoryAreaEmptyMessage()
   div(*ngIf='emptyInventoryFlag == true')
     h3
       i.red-text(mz-icon-mdi, [align]="'center'", [icon]="'alert-circle'", [size]="'42px'")
-      | No items for this log. Add some by using the 
+      | {{ 'InventoryLists.no_items_opening' | translate:lang }}
       i.green-text(mz-icon-mdi, [align]="'center'", [icon]="'plus-circle'", [size]="'36px'")
-      |  button below
+      | {{ 'InventoryLists.no_items_closure' | translate:lang }}
 
 mixin inventoryAreaList(suffix)
   - attributes[suffix + "-area-inventory-list"] = true

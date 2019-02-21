@@ -4,6 +4,6 @@ include ../../../area-manager-ionic-materialize.pug
 
 div([formGroup]="newArea")
   div.col.s5.m5.l5
-    +textInput(null, null, "name", "text", "new_area", "New area")
+    +textInput(null, null, "name", "text", "new_area", "{{ 'InventoryLists.new_area' | translate:lang }}")
   div.col.s1.m1.l1
     +inventoryAreaAddButton()((click)="addArea()")
