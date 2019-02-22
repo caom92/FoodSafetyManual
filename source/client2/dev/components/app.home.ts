@@ -179,7 +179,7 @@ export class HomeComponent implements OnInit
             'director-change-zones', 
             response.meta.return_code
           )
-        ) // this.toastManager.showServiceErrorText
+        ) // this.toastManager.showText
       }, (error: any, caught: Observable<void>) => {
         this.toastManager.showText(
           this.langManager.getServiceMessage(

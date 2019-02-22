@@ -4,19 +4,19 @@ mz-card
     table(#report_body, style="display: block; overflow: scroll;")
       tbody
         tr
-          th.productsColumn Item
-          th.suppliersColumn Zone, Provider
-          th.clientsColumn Days old
-          th.waterColumn Quantity
-          th.batchColumn Batch
-          th.areaColumn Warehouse
-          th.qualityColumn Quality
-          th.originColumn Origin
-          th.expiresColumn Date
-          th.packingColumn Location
-          th.actionColumn Action
-          th.urlColumn Link to album
-          th.notesColumn Notes
+          th.productsColumn {{ 'Log.item' | translate:lang }}
+          th.suppliersColumn {{ 'Log.zone_provider' | translate:lang }}
+          th.clientsColumn {{ 'Log.days_old' | translate:lang }}
+          th.waterColumn {{ 'Log.quantity' | translate:lang }}
+          th.batchColumn {{ 'Log.batch' | translate:lang }}
+          th.areaColumn {{ 'Log.warehouse' | translate:lang }}
+          th.qualityColumn {{ 'Log.quality' | translate:lang }}
+          th.originColumn {{ 'Log.origin' | translate:lang }}
+          th.expiresColumn {{ 'Log.date' | translate:lang }}
+          th.packingColumn {{ 'Log.location' | translate:lang }}
+          th.actionColumn {{ 'Log.action' | translate:lang }}
+          th.urlColumn {{ 'Log.external_url' | translate:lang }}
+          th.notesColumn {{ 'Log.notes' | translate:lang }}
         tr(*ngFor="let entry of report.entries", '[ngClass]'="{ 'report-yellow': entry.action_id == 4, 'report-red': entry.action_id == 3 }")
           td.productsColumn {{entry.item}}
           td.suppliersColumn {{entry.vendor}}

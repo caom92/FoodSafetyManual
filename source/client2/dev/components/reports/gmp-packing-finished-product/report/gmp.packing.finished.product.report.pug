@@ -4,21 +4,21 @@ mz-card
     table(#report_body, style="display: block; overflow: scroll;")
       tbody
         tr
-          th.batchColumn Batch
-          th.areaColumn Area
-          th.suppliersColumn Suppliers
-          th.productsColumn Products
-          th.clientsColumn Customers
-          th.qualityColumn Quality
-          th.originColumn Origin
-          th.expiresColumn Expires
-          th.waterColumn Water °F
-          th.packingColumn Packed °F
-          th.weightColumn Correct Weight?
-          th.labelColumn Correct Label?
-          th.traceabilityColumn Traceability
-          th.urlColumn Link to Album
-          th.notesColumn Notes
+          th.batchColumn {{ 'Log.batch' | translate:lang }}
+          th.areaColumn {{ 'Log.area' | translate:lang }}
+          th.suppliersColumn {{ 'Log.suppliers' | translate:lang }}
+          th.productsColumn {{ 'Log.products' | translate:lang }}
+          th.clientsColumn {{ 'Log.customers' | translate:lang }}
+          th.qualityColumn {{ 'Log.quality' | translate:lang }}
+          th.originColumn {{ 'Log.origin' | translate:lang }}
+          th.expiresColumn {{ 'Log.expires' | translate:lang }}
+          th.waterColumn {{ 'Log.water_temperature_abbr' | translate:lang }}
+          th.packingColumn {{ 'Log.packing_temp_abbr' | translate:lang }}
+          th.weightColumn {{ 'Log.correct_weight' | translate:lang }}
+          th.labelColumn {{ 'Log.correct_label' | translate:lang }}
+          th.traceabilityColumn {{ 'Log.correct_traceability' | translate:lang }}
+          th.urlColumn {{ 'Log.external_url' | translate:lang }}
+          th.notesColumn {{ 'Log.notes' | translate:lang }}
         tr(*ngFor="let entry of report.entries")
           td.batchColumn {{entry.batch}}
           td.areaColumn {{entry.production_area}}

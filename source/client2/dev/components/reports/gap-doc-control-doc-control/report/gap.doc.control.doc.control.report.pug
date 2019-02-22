@@ -4,10 +4,10 @@ mz-card
     table(#report_body)
       thead
         tr
-          th.userColumnUsers Users
-          th.dateColumnDate Date
-          th.notesColumnNotes Notes
-          th.urlColumnLink Link to Album
+          th.userColumn {{ 'Log.users' | translate:lang }}
+          th.dateColumn {{ 'Log.date' | translate:lang }}
+          th.notesColumn {{ 'Log.notes' | translate:lang }}
+          th.urlColumn {{ 'Log.external_url' | translate:lang }}
       tbody
         tr
           td.logTitle([colSpan]='4') {{report.reports.document.name}}
