@@ -26,8 +26,8 @@ export class GAPPackingWaterResourceLogComponent extends SuperUpdateComponent im
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
     logService: LogService,
-    toasts: ToastsService) {
-    super(logService, toasts)
+    toastService: ToastsService) {
+    super(logService, toastService)
   }
 
   public ngOnInit(): void {

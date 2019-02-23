@@ -14,7 +14,7 @@ export abstract class SuperLogComponent implements OnInit {
   protected suffix: string = null
   public showLog: boolean = false
 
-  constructor(protected logService: LogService, protected toasts: ToastsService) {
+  constructor(protected logService: LogService, protected toastService: ToastsService) {
 
   }
 
@@ -122,7 +122,7 @@ export abstract class SuperLogComponent implements OnInit {
       // mensajes de error en la vista donde sea pertinente
       this.logService.setAsDirty(this.captureForm)
       this.enableForm()
-      this.toasts.showText('incompleteLog')
+      this.toastService.showText('incompleteLog')
     }
   }
 }

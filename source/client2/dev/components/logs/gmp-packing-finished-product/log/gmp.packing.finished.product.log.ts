@@ -36,8 +36,8 @@ export class GMPPackingFinishedProductLogComponent extends SuperLogComponent imp
     private translationConfig: TranslationConfigService,
     private langManager: LanguageService,
     logService: LogService,
-    toasts: ToastsService) {
-    super(logService, toasts)
+    toastService: ToastsService) {
+    super(logService, toastService)
   }
 
   ngOnInit() {

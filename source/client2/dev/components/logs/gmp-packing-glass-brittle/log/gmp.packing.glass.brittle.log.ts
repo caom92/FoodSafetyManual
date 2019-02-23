@@ -30,8 +30,8 @@ export class GMPPackingGlassBrittleLogComponent extends SuperLogComponent implem
     private translationConfig: TranslationConfigService,
     private langManager: LanguageService,
     logService: LogService,
-    toasts: ToastsService) {
-    super(logService, toasts)
+    toastService: ToastsService) {
+    super(logService, toastService)
   }
 
   public ngOnInit(): void {

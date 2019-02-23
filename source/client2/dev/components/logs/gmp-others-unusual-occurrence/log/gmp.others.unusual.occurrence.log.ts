@@ -34,8 +34,8 @@ export class GMPOthersUnusualOccurrenceLogComponent extends SuperLogComponent im
     private translationConfig: TranslationConfigService,
     private langManager: LanguageService,
     logService: LogService,
-    toasts: ToastsService) {
-    super(logService, toasts)
+    toastService: ToastsService) {
+    super(logService, toastService)
   }
 
   ngOnInit() {

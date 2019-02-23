@@ -25,10 +25,10 @@ export class GMPSelfInspectionPestControlAuthorizationComponent extends SuperAut
     private translationConfig: TranslationConfigService,
     _fb: FormBuilder,
     logService: LogService,
-    toasts: ToastsService,
+    toastService: ToastsService,
     routeState: ActivatedRoute,
     router: Router) {
-    super(_fb, logService, toasts, routeState, router)
+    super(_fb, logService, toastService, routeState, router)
   }
 
   ngOnInit() {

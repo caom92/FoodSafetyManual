@@ -28,8 +28,8 @@ export class GMPPackingHandWashingLogComponent extends SuperLogComponent impleme
     private timeService: DateTimeService,
     private translationConfig: TranslationConfigService,
     logService: LogService,
-    toasts: ToastsService) {
-    super(logService, toasts)
+    toastService: ToastsService) {
+    super(logService, toastService)
   }
 
   public ngOnInit(): void {

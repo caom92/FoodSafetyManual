@@ -24,8 +24,8 @@ export class GMPPackingScaleCalibrationLogComponent extends SuperLogComponent im
     private timeService: DateTimeService,
     private translationConfig: TranslationConfigService,
     logService: LogService,
-    toasts: ToastsService) {
-    super(logService, toasts)
+    toastService: ToastsService) {
+    super(logService, toastService)
   }
 
   ngOnInit() {

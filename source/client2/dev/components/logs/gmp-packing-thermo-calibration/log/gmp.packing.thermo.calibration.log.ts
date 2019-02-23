@@ -31,8 +31,8 @@ export class GMPPackingThermoCalibrationLogComponent extends SuperLogComponent i
     private translationConfig: TranslationConfigService,
     private langManager: LanguageService,
     logService: LogService,
-    toasts: ToastsService) {
-    super(logService, toasts)
+    toastService: ToastsService) {
+    super(logService, toastService)
   }
 
   ngOnInit() {

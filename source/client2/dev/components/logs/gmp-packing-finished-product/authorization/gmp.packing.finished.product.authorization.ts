@@ -37,10 +37,10 @@ export class GMPPackingFinishedProductAuthorizationComponent extends SuperAuthor
     private translationConfig: TranslationConfigService,
     private langManager: LanguageService,
     logService: LogService,
-    toasts: ToastsService,
+    toastService: ToastsService,
     routeState: ActivatedRoute,
     router: Router) {
-    super(_fb, logService, toasts, routeState, router)
+    super(_fb, logService, toastService, routeState, router)
   }
 
   ngOnInit() {

@@ -22,8 +22,8 @@ export class GMPPackingPreopLogComponent extends SuperLogComponent implements On
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
     logService: LogService,
-    toasts: ToastsService) {
-    super(logService, toasts)
+    toastService: ToastsService) {
+    super(logService, toastService)
   }
 
   ngOnInit() {

@@ -31,10 +31,10 @@ export class GAPDocControlDocControlLogComponent extends SuperLogComponent imple
     private translationConfig: TranslationConfigService,
     private langManager: LanguageService,
     logService: LogService,
-    toasts: ToastsService,
+    toastService: ToastsService,
     public server: BackendService,
     private loaderService: LoaderService) {
-    super(logService, toasts)
+    super(logService, toastService)
   }
 
   public ngOnInit(): void {
@@ -107,25 +107,25 @@ export class GAPDocControlDocControlLogComponent extends SuperLogComponent imple
         (response) => {
           if (response.meta.return_code == 0) {
             //success
-            this.toasts.showText('capturedLog')
+            this.toastService.showText('capturedLog')
             this.resetForm()
             this.enableForm()
           } else {
             // error
-            this.toasts.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
+            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
             this.enableForm()            
           }
           loader.dismiss()
         }, (error: any, caught: Observable<void>) => {
           loader.dismiss()
-          this.toasts.showText('serverUnreachable')
+          this.toastService.showText('serverUnreachable')
           return []
         }
       )
     } else {
       this.logService.setAsDirty(this.captureForm)
       this.enableForm()
-      this.toasts.showText('incompleteLog')
+      this.toastService.showText('incompleteLog')
     }
   }
 }

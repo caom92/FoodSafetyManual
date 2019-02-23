@@ -9,8 +9,8 @@ export abstract class SuperUpdateComponent extends SuperLogComponent {
   @Output() closeLog = new EventEmitter<any>()
   protected log: SuperWaiting
 
-  constructor(protected logService: LogService, protected toasts: ToastsService) {
-    super(logService, toasts)
+  constructor(protected logService: LogService, protected toastService: ToastsService) {
+    super(logService, toastService)
   }
 
   public save(): void {
@@ -33,7 +33,7 @@ export abstract class SuperUpdateComponent extends SuperLogComponent {
     } else {
       this.logService.setAsDirty(this.captureForm)
       this.enableForm()
-      this.toasts.showText('incompleteLog')
+      this.toastService.showText('incompleteLog')
     }
   }
 
