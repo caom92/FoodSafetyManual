@@ -44,18 +44,17 @@ export class CAPAService {
         'capture-capa-form',
         captureForm,
         (response: any) => {
+          this.toastService.showServerMessage('capture-capa-form', response.meta.return_code)
+          captureLoader.dismiss()
           if (response.meta.return_code == 0) {
-            this.toastService.showText('capturedLog')
             resolve('server')
           } else {
-            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
             reject(response.meta.return_code)
           }
-          captureLoader.dismiss()
         }, (error: any, caught: Observable<void>) => {
-          reject('network error')
+          this.toastService.showClientMessage('server-unreachable', 1)
           captureLoader.dismiss()
-          this.toastService.showText('serverUnreachable')
+          reject('network error')
           return []
         }
       )
@@ -91,18 +90,17 @@ export class CAPAService {
         'update-capa-form',
         updateForm,
         (response: any) => {
+          this.toastService.showServerMessage('update-capa-form', response.meta.return_code)
+          updateLoader.dismiss()
           if (response.meta.return_code == 0) {
-            this.toastService.showText('capturedLog')
             resolve('server')
           } else {
-            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
             reject(response.meta.return_code)
-          }
-          updateLoader.dismiss()
+          }          
         }, (error: any, caught: Observable<void>) => {
-          reject('network error')
+          this.toastService.showClientMessage('server-unreachable', 1)
           updateLoader.dismiss()
-          this.toastService.showText('serverUnreachable')
+          reject('network error')
           return []
         }
       )
@@ -125,14 +123,14 @@ export class CAPAService {
           if (response.meta.return_code == 0) {
             resolve(response.data)
           } else {
-            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
+            this.toastService.showServerMessage('authorization-report-capa-form', response.meta.return_code)
             reject(response.meta.return_code)
           }
           authorizationLoader.dismiss()
         }, (error: any, caught: Observable<void>) => {
-          reject('network error')
+          this.toastService.showClientMessage('server-unreachable', 1)
           authorizationLoader.dismiss()
-          this.toastService.showText('serverUnreachable')
+          reject('network error')          
           return []
         }
       )
@@ -149,24 +147,17 @@ export class CAPAService {
         'list-waiting-logs-capa-form',
         new FormData(),
         (response: any) => {
+          this.toastService.showServerMessage('list-waiting-logs-capa-form', response.meta.return_code)
+          listLoader.dismiss()
           if (response.meta.return_code == 0) {
-            if (response.data) {
-              resolve(response.data)
-              listLoader.dismiss()
-            } else {
-              reject('bad request')
-              listLoader.dismiss()
-              this.toastService.showText('serverUnreachable')
-            }
+            resolve(response.data)
           } else {
             reject('bad request')
-            listLoader.dismiss()
-            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
           }
         }, (error: any, caught: Observable<void>) => {
-          reject('network error')
+          this.toastService.showClientMessage('server-unreachable', 1)
           listLoader.dismiss()
-          this.toastService.showText('serverUnreachable')
+          reject('network error')          
           return []
         }
       )
@@ -200,17 +191,17 @@ export class CAPAService {
                 deleteFileForm,
                 (response: any) => {
                   if (response.meta.return_code == 0) {
-                    this.toastService.showString('FILE DELETED SUCCESSFULLY')
+                    this.toastService.showClientMessage('file-deleted', 0)
                     resolve('server')
                   } else {
-                    this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
+                    this.toastService.showServerMessage('delete-capa-file', response.meta.return_code)
                     reject(response.meta.return_code)
                   }
                   deleteFileLoader.dismiss()
                 }, (error: any, caught: Observable<void>) => {
-                  reject('network error')
+                  this.toastService.showClientMessage('server-unreachable', 1)
                   deleteFileLoader.dismiss()
-                  this.toastService.showText('serverUnreachable')
+                  reject('network error')
                   return []
                 }
               )
@@ -248,17 +239,17 @@ export class CAPAService {
                 deleteImageForm,
                 (response: any) => {
                   if (response.meta.return_code == 0) {
-                    this.toastService.showString('IMAGE DELETED SUCCESSFULLY')
+                    this.toastService.showClientMessage('image-deleted', 0)
                     resolve('server')
                   } else {
-                    this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
+                    this.toastService.showServerMessage('delete-capa-image', response.meta.return_code)
                     reject(response.meta.return_code)
                   }
                   deleteImageLoader.dismiss()
                 }, (error: any, caught: Observable<void>) => {
-                  reject('network error')
+                  this.toastService.showClientMessage('server-unreachable', 1)
                   deleteImageLoader.dismiss()
-                  this.toastService.showText('serverUnreachable')
+                  reject('network error')
                   return []
                 }
               )

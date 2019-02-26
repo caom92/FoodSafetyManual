@@ -122,7 +122,7 @@ export abstract class SuperLogComponent implements OnInit {
       // mensajes de error en la vista donde sea pertinente
       this.logService.setAsDirty(this.captureForm)
       this.enableForm()
-      this.toastService.showText('incompleteLog')
+      this.toastService.showClientMessage('incomplete-log', 1)
     }
   }
 }

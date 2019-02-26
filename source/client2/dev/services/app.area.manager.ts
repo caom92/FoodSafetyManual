@@ -32,25 +32,17 @@ export class AreaManagerService {
         'get-areas-of-zone-' + suffix,
         new FormData(),
         (response: any) => {
-          if (response.meta.return_code == 0) {
-            if (response.data) {
-              resolve(response.data)
-              loader.dismiss()
-            } else {
-              reject('bad request')
-              loader.dismiss()
-              this.toastService.showText('serverUnreachable')
-            }
+          this.toastService.showServerMessage('get-areas-of-zone-' + suffix, response.meta.return_code)
+          loader.dismiss()
+          if (response.meta.return_code == 0) {            
+            resolve(response.data)
           } else {
             reject('bad request')
-            loader.dismiss()
-            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
           }
-        },
-        (error: any, caught: Observable<void>) => {
-          reject('network error')
+        }, (error: any, caught: Observable<void>) => {
+          this.toastService.showClientMessage('server-unreachable', 1)
           loader.dismiss()
-          this.toastService.showText('serverUnreachable')
+          reject('network error')
           return []
         }
       )
@@ -62,29 +54,22 @@ export class AreaManagerService {
   public getAreaInventoryByPosition(suffix: string): Promise<any> {
     let areaInventoryPromise = new Promise<any>((resolve, reject) => {
       let loader = this.loaderService.koiLoader()
+
       this.server.update(
         'get-areas-of-zone-by-position-' + suffix,
         new FormData(),
         (response: any) => {
+          this.toastService.showServerMessage('get-areas-of-zone-by-position-' + suffix, response.meta.return_code)
+          loader.dismiss()
           if (response.meta.return_code == 0) {
-            if (response.data) {
-              resolve(response.data)
-              loader.dismiss()
-            } else {
-              reject('bad request')
-              loader.dismiss()
-              this.toastService.showText('serverUnreachable')
-            }
+            resolve(response.data)
           } else {
             reject('bad request')
-            loader.dismiss()
-            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
           }
-        },
-        (error: any, caught: Observable<void>) => {
-          reject('network error')
+        }, (error: any, caught: Observable<void>) => {
+          this.toastService.showClientMessage('server-unreachable', 1)
           loader.dismiss()
-          this.toastService.showText('serverUnreachable')
+          reject('network error')
           return []
         }
       )
@@ -107,17 +92,17 @@ export class AreaManagerService {
         'reorder-area-' + suffix,
         reorderForm,
         (response: any) => {
+          loaderReorder.dismiss()
+          this.toastService.showServerMessage('reorder-area-' + suffix, response.meta.return_code)
           if (response.meta.return_code == 0) {
-            loaderReorder.dismiss()
             resolve('server')
           } else {
-            loaderReorder.dismiss()
-            this.toastService.showText('lastActionReverseBadRequest')
+            this.toastService.showClientMessage('reverse-bad-request', 1)
             reject(response.meta.return_code)
           }
         }, (error: any, caught: Observable<void>) => {
           loaderReorder.dismiss()
-          this.toastService.showText('lastActionReverseNetwork')
+          this.toastService.showClientMessage('reverse-network', 1)
           reject('network error')
           return []
         }
@@ -142,20 +127,17 @@ export class AreaManagerService {
         'add-workplace-area-' + suffix,
         itemForm,
         (response: any) => {
+          this.toastService.showServerMessage('add-workplace-area-' + suffix, response.meta.return_code)
+          loaderAdd.dismiss()
           if (response.meta.return_code == 0) {
-            loaderAdd.dismiss()
-            this.toastService.showText('areaAddSuccess')
             resolve(response.data)
           } else {
-            loaderAdd.dismiss()
-            this.toastService.showText('badRequest')
             reject(response.meta.return_code)
           }
-        },
-        (error: any, caught: Observable<void>) => {
+        }, (error: any, caught: Observable<void>) => {
+          this.toastService.showClientMessage('server-unreachable', 1)
           loaderAdd.dismiss()
           reject('network error')
-          this.toastService.showText('serverUnreachable')
           return []
         }
       )
@@ -179,21 +161,17 @@ export class AreaManagerService {
         'edit-workplace-area-' + suffix,
         editForm,
         (response: any) => {
-          if (response.meta.return_code == 0) {
-            loaderEdit.dismiss()
-            this.toastService.showText('areaEditSuccess')
+          this.toastService.showServerMessage('edit-workplace-area-' + suffix, response.meta.return_code)
+          loaderEdit.dismiss()
+          if (response.meta.return_code == 0) {            
             resolve(response.data)
           } else {
-            loaderEdit.dismiss()
             reject(response.meta.return_code)
-            //this.toastService.showText('badRequest')
-            this.toastService.showString(response.meta.message)
           }
-        },
-        (error: any, caught: Observable<void>) => {
+        }, (error: any, caught: Observable<void>) => {
+          this.toastService.showClientMessage('server-unreachable', 1)
           loaderEdit.dismiss()
           reject('network error')
-          this.toastService.showText('serverUnreachable')
           return []
         }
       )
@@ -212,26 +190,24 @@ export class AreaManagerService {
         'toggle-area-' + suffix,
         item,
         (response: any) => {
-          if (response.meta.return_code == 0) {
+          loaderToggle.dismiss()
+          if (response.meta.return_code == 0) {            
             if (data.is_active == 0) {
-              this.toastService.showText('itemChargeSuccess')
+              this.toastService.showClientMessage('item-charge-success', 0)
               data.is_active = 1
             } else {
-              this.toastService.showText('itemDischargeSuccess')
+              this.toastService.showClientMessage('item-discharge-success', 0)
               data.is_active = 0
             }
             resolve()
-            loaderToggle.dismiss()
           } else {
-            reject()
-            this.toastService.showText('lastActionReverseBadRequest')
-            loaderToggle.dismiss()
+            this.toastService.showClientMessage('reverse-bad-request', 1)
+            reject()            
           }
-        },
-        (error: any, caught: Observable<void>) => {
-          reject()
-          this.toastService.showText('serverUnreachable')
+        }, (error: any, caught: Observable<void>) => {
+          this.toastService.showClientMessage('server-unreachable', 1)
           loaderToggle.dismiss()
+          reject('network error')
           return []
         }
       )

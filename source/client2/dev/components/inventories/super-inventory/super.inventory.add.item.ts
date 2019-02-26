@@ -52,7 +52,7 @@ export class SuperInventoryAddItemComponent {
       })
     } else {
       this.inventoryService.setAsDirty(this.newItem)
-      this.toastService.showText('itemAddFail')
+      this.toastService.showClientMessage('item-add-fail', 1)
     }
   }
 }

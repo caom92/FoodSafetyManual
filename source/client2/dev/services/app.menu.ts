@@ -21,27 +21,22 @@ export class MenuService {
         'get-menu-files',
         new FormData(),
         (response: any) => {
+          this.toastService.showServerMessage('get-menu-files', response.meta.return_code)
+          menuLoader.dismiss()
           if (response.meta.return_code == 0) {
             if (response.data) {
               for (let file of response.data) {
                 file.upload_date = new Date(new Date(file.upload_date).getTime() + new Date(file.upload_date).getTimezoneOffset() * 60 * 1000)
               }
-              resolve(response.data)
-              menuLoader.dismiss()
-            } else {
-              reject('bad request')
-              menuLoader.dismiss()
-              this.toastService.showText('serverUnreachable')
             }
+            resolve(response.data)
           } else {
-            reject(response)
-            menuLoader.dismiss()
-            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
+            reject('bad request')
           }
         }, (error: any, caught: Observable<void>) => {
-          reject('network error')
+          this.toastService.showClientMessage('server-unreachable', 1)
           menuLoader.dismiss()
-          this.toastService.showText('serverUnreachable')
+          reject('network error')
           return []
         }
       )
@@ -64,24 +59,17 @@ export class MenuService {
         'get-menu' + suffix,
         formData,
         (response: any) => {
+          this.toastService.showServerMessage('get-menu' + suffix, response.meta.return_code)
+          menuLoader.dismiss()
           if (response.meta.return_code == 0) {
-            if (response.data) {
-              resolve(response.data)
-              menuLoader.dismiss()
-            } else {
-              reject('bad request')
-              menuLoader.dismiss()
-              this.toastService.showText('serverUnreachable')
-            }
+            resolve(response.data)
           } else {
             reject('bad request')
-            menuLoader.dismiss()
-            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
           }
         }, (error: any, caught: Observable<void>) => {
-          reject('network error')
+          this.toastService.showClientMessage('server-unreachable', 1)
           menuLoader.dismiss()
-          this.toastService.showText('serverUnreachable')
+          reject('network error')
           return []
         }
       )
@@ -107,12 +95,12 @@ export class MenuService {
           } else {
             reject('bad request')
             deleteLoader.dismiss()
-            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
+            this.toastService.showServerMessage('delete-menu-element', response.meta.return_code)
           }
         }, (error: any, caught: Observable<void>) => {
-          reject('network error')
+          this.toastService.showClientMessage('server-unreachable', 1)
           deleteLoader.dismiss()
-          this.toastService.showText('serverUnreachable')
+          reject('network error')
           return []
         }
       )
@@ -176,12 +164,12 @@ export class MenuService {
           } else {
             reject('bad request')
             editLoader.dismiss()
-            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
+            this.toastService.showServerMessage('edit-menu-element', response.meta.return_code)
           }
         }, (error: any, caught: Observable<void>) => {
-          reject('network error')
+          this.toastService.showClientMessage('server-unreachable', 1)
           editLoader.dismiss()
-          this.toastService.showText('serverUnreachable')
+          reject('network error')
           return []
         }
       )
@@ -247,12 +235,12 @@ export class MenuService {
           } else {
             reject('bad request')
             addLoader.dismiss()
-            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
+            this.toastService.showServerMessage('add-menu-' + type, response.meta.return_code)
           }
         }, (error: any, caught: Observable<void>) => {
-          reject('network error')
+          this.toastService.showClientMessage('server-unreachable', 1)
           addLoader.dismiss()
-          this.toastService.showText('serverUnreachable')
+          reject('network error')          
           return []
         }
       )
@@ -269,24 +257,17 @@ export class MenuService {
         'list-supervisors-employees-by-zone',
         new FormData(),
         (response: any) => {
+          this.toastService.showServerMessage('list-supervisors-employees-by-zone', response.meta.return_code)
+          menuLoader.dismiss()
           if (response.meta.return_code == 0) {
-            if (response.data) {
-              resolve(response.data)
-              menuLoader.dismiss()
-            } else {
-              reject('bad request')
-              menuLoader.dismiss()
-              this.toastService.showText('serverUnreachable')
-            }
+            resolve(response.data)
           } else {
-            reject(response)
-            menuLoader.dismiss()
-            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
+            reject('bad request')
           }
         }, (error: any, caught: Observable<void>) => {
-          reject('network error')
+          this.toastService.showClientMessage('server-unreachable', 1)
           menuLoader.dismiss()
-          this.toastService.showText('serverUnreachable')
+          reject('network error')          
           return []
         }
       )

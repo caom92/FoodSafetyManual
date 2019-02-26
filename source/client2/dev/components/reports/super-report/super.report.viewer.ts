@@ -67,31 +67,30 @@ export class SuperReportViewer implements OnInit {
 
   public requestReports(): void {
     const requestForm = this.fillRequestForm()
-
     const reportLoader = this.loaderService.koiLoader('Recuperando reportes')
 
     this.server.update(
       'report-' + this.suffix,
       requestForm,
       (response: any) => {
+        reportLoader.dismiss()
         if (response.meta.return_code == 0) {
           if (response.data) {
             if (response.data.reports.length == 0) {
-              this.toastService.showText('noReportsFound')
+              // TODO: Revisar en el servidor porque no regresa error
+              this.toastService.showServerMessage('report-' + this.suffix, 2)
             } else {
+              this.toastService.showServerMessage('report-' + this.suffix, 0)
               this.reports = response.data.reports
               this.footer = response.data.pdf_footer
             }
             this.activeReport.id = 'any'
-            reportLoader.dismiss()
           }
         } else {
-          this.toastService.showText('noReportsFound')
-          reportLoader.dismiss()
+          this.toastService.showServerMessage('report-' + this.suffix, 2)
         }
-      },
-      (error: any, caught: Observable<void>) => {
-        this.toastService.showText('serverUnreachable')
+      }, (error: any, caught: Observable<void>) => {
+        this.toastService.showClientMessage('server-unreachable', 1)
         reportLoader.dismiss()
         return []
       }

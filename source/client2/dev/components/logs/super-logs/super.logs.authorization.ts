@@ -119,7 +119,7 @@ export abstract class SuperAuthorizationComponent implements OnInit {
     } else {
       this.logService.setAsDirty(this.captureForm)
       this.enableForm()
-      this.toastService.showText('incompleteLog')
+      this.toastService.showClientMessage('incomplete-log', 1)
     }
   }
 

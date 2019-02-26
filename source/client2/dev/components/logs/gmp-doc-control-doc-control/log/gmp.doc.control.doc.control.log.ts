@@ -105,27 +105,22 @@ export class GMPDocControlDocControlLogComponent extends SuperLogComponent imple
         'capture-gmp-doc-control-doc-control',
         formData,
         (response) => {
+          this.toastService.showServerMessage('capture-gmp-doc-control-doc-control', response.meta.return_code)
+          loader.dismiss()
+          this.enableForm()
           if (response.meta.return_code == 0) {
-            //success
-            this.toastService.showText('capturedLog')
             this.resetForm()
-            this.enableForm()
-          } else {
-            // error
-            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
-            this.enableForm()            
           }
-          loader.dismiss()
         }, (error: any, caught: Observable<void>) => {
+          this.toastService.showClientMessage('server-unreachable', 1)
           loader.dismiss()
-          this.toastService.showText('serverUnreachable')
           return []
         }
       )
     } else {
       this.logService.setAsDirty(this.captureForm)
       this.enableForm()
-      this.toastService.showText('incompleteLog')
+      this.toastService.showClientMessage('incomplete-log', 1)
     }
   }
 }

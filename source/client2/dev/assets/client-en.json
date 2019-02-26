@@ -1,5 +1,15 @@
 {
   "ClientMessages": {
+    "file-deleted": "File deleted successfully",
+    "image-deleted": "Image deleted successfully",
+    "incomplete-log": "Error; some fields aren't filled",
+    "item-add-fail": "Item not valid, fill all fields",
+    "item-add-success": "Item added successfully",
+    "item-charge-success": "Item activated successfully",
+    "item-discharge-success": "Item deactivated successfully",
+    "reverse-bad-request": "Your last action was undone due to an app error; notify the administrator",
+    "reverse-network": "Your last action was undone due to a network error",
+    "server-unreachable": "Server unreachable",
     "default": "Unknow message to display, code:"
   }
 }

@@ -1,5 +1,15 @@
 {
   "ClientMessages": {
+    "file-deleted": "Archivo borrado exitosamente",
+    "image-deleted": "Imagen borrada exitosamente",
+    "incomplete-log": "Error; algunos campos no han sido llenados",
+    "item-add-fail": "Objeto no válido; llene todos los campos",
+    "item-add-success": "Objeto agregado exitosamente",
+    "item-charge-success": "Objeto activado exitosamente",
+    "item-discharge-success": "Objeto desactivado exitosamente",
+    "reverse-bad-request": "Su última acción se revirtió debido a un error en la conexión",
+    "reverse-network": "Su última acción se revirtió debido a un error en la aplicación; notifique al administrador",
+    "server-unreachable": "Servidor inalcanzable",
     "default": "Mensaje desconocido, código:"
   }
 }

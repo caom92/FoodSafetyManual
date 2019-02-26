@@ -39,24 +39,17 @@ export class LogService {
         'log-' + suffix,
         new FormData(),
         (response: any) => {
+          this.toastService.showServerMessage('log-' + suffix, response.meta.return_code)
+          logLoader.dismiss()
           if (response.meta.return_code == 0) {
-            if (response.data) {
-              resolve(response.data)
-              logLoader.dismiss()
-            } else {
-              reject('bad request')
-              logLoader.dismiss()
-              this.toastService.showText('serverUnreachable')
-            }
+            resolve(response.data)
           } else {
             reject('bad request')
-            logLoader.dismiss()
-            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
           }
         }, (error: any, caught: Observable<void>) => {
-          reject('network error')
+          this.toastService.showClientMessage('server-unreachable', 1)
           logLoader.dismiss()
-          this.toastService.showText('serverUnreachable')
+          reject('network error')
           return []
         }
       )
@@ -91,19 +84,17 @@ export class LogService {
         'capture-' + suffix,
         form_data,
         (response: any) => {
+          this.toastService.showServerMessage('capture-' + suffix, response.meta.return_code)
+          loader.dismiss()
           if (response.meta.return_code == 0) {
-            this.toastService.showText('capturedLog')
             resolve('server')
           } else {
-            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
-            reject(response.meta.return_code)
+            reject('bad request')
           }
-          loader.dismiss()
         }, (error: any, caught: Observable<void>) => {
-          //this.toastService.showText('failedLogToQueue')
-          this.toastService.showText('serverUnreachable')
+          this.toastService.showClientMessage('server-unreachable', 1)
           loader.dismiss()
-          reject(error)
+          reject('network error')
           return []
         }
       )
@@ -120,24 +111,17 @@ export class LogService {
         'list-waiting-logs-' + suffix,
         new FormData(),
         (response: any) => {
+          this.toastService.showServerMessage('list-waiting-logs-' + suffix, response.meta.return_code)
+          listLoader.dismiss()
           if (response.meta.return_code == 0) {
-            if (response.data) {
-              resolve(response.data)
-              listLoader.dismiss()
-            } else {
-              reject('bad request')
-              listLoader.dismiss()
-              this.toastService.showText('serverUnreachable')
-            }
+            resolve(response.data)
           } else {
             reject('bad request')
-            listLoader.dismiss()
-            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
           }
         }, (error: any, caught: Observable<void>) => {
-          reject('network error')
+          this.toastService.showClientMessage('server-unreachable', 1)
           listLoader.dismiss()
-          this.toastService.showText('serverUnreachable')
+          reject('network error')          
           return []
         }
       )
@@ -186,24 +170,17 @@ export class LogService {
         'authorization-report-' + suffix,
         authorizationForm,
         (response: any) => {
+          this.toastService.showServerMessage('authorization-report-' + suffix, response.meta.return_code)
+          authorizationLoader.dismiss()
           if (response.meta.return_code == 0) {
-            if (response.data) {
-              resolve(response.data)
-              authorizationLoader.dismiss()
-            } else {
-              reject('bad request')
-              authorizationLoader.dismiss()
-              this.toastService.showText('serverUnreachable')
-            }
+            resolve(response.data)
           } else {
             reject('bad request')
-            authorizationLoader.dismiss()
-            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
           }
         }, (error: any, caught: Observable<void>) => {
-          reject('network error')
+          this.toastService.showClientMessage('server-unreachable', 1)
           authorizationLoader.dismiss()
-          this.toastService.showText('serverUnreachable')
+          reject('network error')          
           return []
         }
       )
@@ -243,12 +220,12 @@ export class LogService {
                   } else {
                     reject('bad request')
                     approveLoader.dismiss()
-                    this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
+                    this.toastService.showServerMessage('approve-log', response.meta.return_code)
                   }
                 }, (error: any, caught: Observable<void>) => {
-                  reject('network error')
+                  this.toastService.showClientMessage('server-unreachable', 1)
                   approveLoader.dismiss()
-                  this.toastService.showText('serverUnreachable')
+                  reject('network error')
                   return []
                 }
               )
@@ -289,13 +266,13 @@ export class LogService {
                     resolve(response.data)
                   } else {
                     reject('bad request')
-                    this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
+                    this.toastService.showServerMessage('retreat-log', response.meta.return_code)
                   }
                   retreatLoader.dismiss()
                 }, (error: any, caught: Observable<void>) => {
-                  reject('network error')
+                  this.toastService.showClientMessage('server-unreachable', 1)
                   retreatLoader.dismiss()
-                  this.toastService.showText('serverUnreachable')
+                  reject('network error')
                   return []
                 }
               )
@@ -339,12 +316,12 @@ export class LogService {
                   } else {
                     reject('bad request')
                     rejectLoader.dismiss()
-                    this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
+                    this.toastService.showServerMessage('reject-log', response.meta.return_code)
                   }
                 }, (error: any, caught: Observable<void>) => {
-                  reject('network error')
+                  this.toastService.showClientMessage('server-unreachable', 1)
                   rejectLoader.dismiss()
-                  this.toastService.showText('serverUnreachable')
+                  reject('network error')
                   return []
                 }
               )
@@ -385,13 +362,13 @@ export class LogService {
                     resolve(response.data)
                   } else {
                     reject('bad request')
-                    this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
+                    this.toastService.showServerMessage('finish-log', response.meta.return_code)
                   }
                   finishLoader.dismiss()
                 }, (error: any, caught: Observable<void>) => {
-                  reject('network error')
+                  this.toastService.showClientMessage('server-unreachable', 1)
                   finishLoader.dismiss()
-                  this.toastService.showText('serverUnreachable')
+                  reject('network error')
                   return []
                 }
               )
@@ -430,16 +407,15 @@ export class LogService {
         'update-' + suffix,
         form_data,
         (response: any) => {
+          this.toastService.showServerMessage('update-' + suffix, response.meta.return_code)
+          loader.dismiss()
           if (response.meta.return_code == 0) {
-            this.toastService.showText('updatedLog')
             resolve('server')
-          } else {
-            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
+          } else {            
             reject(response.meta.return_code)
           }
-          loader.dismiss()
         }, (error: any, caught: Observable<void>) => {
-          this.toastService.showText('serverUnreachable')
+          this.toastService.showClientMessage('server-unreachable', 1)
           loader.dismiss()
           reject('network error')
           return []
@@ -467,16 +443,15 @@ export class LogService {
           if (response.meta.return_code == 0) {
             resolve('success')
             uploadLoader.dismiss()
-            //this.toastService.showText('serverUnreachable')
           } else {
             reject('bad request')
             uploadLoader.dismiss()
-            this.toastService.showString('Error ' + response.meta.return_code + ', server says: ' + response.meta.message)
+            this.toastService.showServerMessage('upload-manual-' + suffix, response.meta.return_code)
           }
         }, (error: any, caught: Observable<void>) => {
-          reject('network error')
+          this.toastService.showClientMessage('server-unreachable', 1)
           uploadLoader.dismiss()
-          this.toastService.showText('serverUnreachable')
+          reject('network error')
           return []
         }
       )

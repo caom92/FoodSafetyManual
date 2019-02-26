@@ -41,23 +41,6 @@ export class ManualComponent implements OnInit, OnChanges {
     this.loadingPDF = true
     this.errorPDF = false
     this.dataUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.manual)
-    /*if (this.manual == String(this.manual)) {
-      this.http.get(this.manual, { responseType: "blob" }).map(response => {
-        let reader = new FileReader()
-        reader.onload = (event: any) => {
-          this.dataUrl = this.sanitizer.bypassSecurityTrustResourceUrl(event.target.result)
-          setTimeout(() => {
-            this.errorPDF = false
-            this.loadingPDF = false
-          })
-        }
-        reader.readAsDataURL(response)
-      }).catch((error: any, caught: Observable<void>) => {
-        this.errorPDF = true
-        this.loadingPDF = false
-        return []
-      }).subscribe()
-    }*/
   }
 
   public onPDFFileSelected(event): void {
