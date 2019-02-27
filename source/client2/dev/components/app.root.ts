@@ -48,6 +48,7 @@ import { InventoryService } from '../services/app.inventory'
 import { AlertComponent } from '../services/alert/app.alert.component'
 import { AlertController } from '../services/alert/app.alert'
 import { DragulaModule, DragulaService } from 'ng2-dragula'
+import { FlattenService } from '../services/flatten.service'
 import { LogService } from '../services/app.logs'
 import { MenuService } from '../services/app.menu'
 import { CAPAService } from '../services/capa.service'
@@ -85,6 +86,7 @@ import { RootRoutingModule } from './app-routing.root'
     InventoryService,
     AreaManagerService,
     AlertController,
+    FlattenService,
     LogService,
     MenuService,
     CAPAService,

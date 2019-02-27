@@ -6,10 +6,12 @@ import { AlertController } from './alert/app.alert'
 import { BackendService } from './app.backend'
 import { LoaderService } from './app.loaders'
 import { ToastsService } from './app.toasts'
+import { FlattenService } from './flatten.service'
 
 @Injectable()
 export class CAPAService {
   constructor(private loaderService: LoaderService,
+    private flattenService: FlattenService,
     private toastService: ToastsService,
     private server: BackendService,
     private alertCtrl: AlertController,
@@ -17,28 +19,10 @@ export class CAPAService {
 
   }
 
-  public capture(data: any): Promise<any> {
+  public capture(data: Object): Promise<any> {
     let capturePromise = new Promise<any>((resolve, reject) => {
       let captureLoader = this.loaderService.koiLoader()
-      let captureForm = new FormData()
-
-      let flatData = this.flatten(data)
-
-      for (let key in flatData) {
-        if (flatData[key] === true) {
-          captureForm.append(key, '1')
-        } else if (flatData[key] === false) {
-          captureForm.append(key, '0')
-        } else if (flatData[key] instanceof FileList) {
-          for (let file of flatData[key]) {
-            captureForm.append(key + '[]', file, file.name)
-          }
-        } else if (flatData[key] instanceof File) {
-          captureForm.append(key, flatData[key], flatData[key].name)
-        } else {
-          captureForm.append(key, flatData[key])
-        }
-      }
+      let captureForm = this.flattenService.formDataFromFlatObject(this.flattenService.flatten(data))
 
       this.server.update(
         'capture-capa-form',
@@ -63,28 +47,10 @@ export class CAPAService {
     return capturePromise
   }
 
-  public update(data: any): Promise<any> {
+  public update(data: Object): Promise<any> {
     let updatePromise = new Promise<any>((resolve, reject) => {
       let updateLoader = this.loaderService.koiLoader()
-      let updateForm = new FormData()
-
-      let flatData = this.flatten(data)
-
-      for (let key in flatData) {
-        if (flatData[key] === true) {
-          updateForm.append(key, '1')
-        } else if (flatData[key] === false) {
-          updateForm.append(key, '0')
-        } else if (flatData[key] instanceof FileList) {
-          for (let file of flatData[key]) {
-            updateForm.append(key + '[]', file, file.name)
-          }
-        } else if (flatData[key] instanceof File) {
-          updateForm.append(key, flatData[key], flatData[key].name)
-        } else {
-          updateForm.append(key, flatData[key])
-        }
-      }
+      let updateForm = this.flattenService.formDataFromFlatObject(this.flattenService.flatten(data))
 
       this.server.update(
         'update-capa-form',
@@ -120,13 +86,13 @@ export class CAPAService {
         'authorization-report-capa-form',
         authorizationForm,
         (response: any) => {
+          this.toastService.showServerMessage('authorization-report-capa-form', response.meta.return_code)
+          authorizationLoader.dismiss()
           if (response.meta.return_code == 0) {
             resolve(response.data)
           } else {
-            this.toastService.showServerMessage('authorization-report-capa-form', response.meta.return_code)
             reject(response.meta.return_code)
           }
-          authorizationLoader.dismiss()
         }, (error: any, caught: Observable<void>) => {
           this.toastService.showClientMessage('server-unreachable', 1)
           authorizationLoader.dismiss()
@@ -260,42 +226,5 @@ export class CAPAService {
     })
 
     return deleteImagePromise
-  }
-
-  private flatten(data: any): Object {
-    let result = {}
-
-    function recurse(value, key) {
-      if (Object(value) !== value) {
-        result[key] = value
-      } else if (Array.isArray(value)) {
-        for (var i = 0, l = value.length; i < l; i++)
-          recurse(value[i], key + '[' + i + ']')
-        if (l == 0) result[key] = []
-      } else {
-        if (value instanceof FileList) {
-          result[key] = value
-        } else if (value instanceof File) {
-          result[key] = value
-        } else {
-          var isEmpty = true
-          for (var k in value) {
-            isEmpty = false
-            recurse(value[k], key ? key + '[' + k + ']' : k)
-          }
-          if (isEmpty && key) {
-            result[key] = {}
-          }
-        }
-      }
-    }
-
-    if (Object(data) !== data) {
-      throw Error('Non-object parameter can\'t be flattened')
-    } else {
-      recurse(data, '')
-    }
-
-    return result
   }
 }

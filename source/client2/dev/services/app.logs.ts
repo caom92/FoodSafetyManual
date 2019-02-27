@@ -7,22 +7,14 @@ import { LogDetails } from '../components/logs/log.interfaces'
 import { AlertController } from './alert/app.alert'
 import { BackendService } from './app.backend'
 import { LoaderService } from './app.loaders'
-import { DateTimeService } from './time.service'
 import { ToastsService } from './app.toasts'
-
-/**
- * LogService, también referido como el servicio de bitácoras, es el servicio
- * encargado de realizar las peticiones al servidor relacionadas con las
- * bitácoras, tanto las enviadas por empleados como aquellas modificadas por los
- * supervisores previo a su autorización
- * 
- * @export
- * @class LogService
- */
+import { FlattenService } from './flatten.service'
+import { DateTimeService } from './time.service'
 
 @Injectable()
 export class LogService {
   constructor(private loaderService: LoaderService,
+    private flattenService: FlattenService,
     private toastService: ToastsService,
     private server: BackendService,
     private timeService: DateTimeService,
@@ -58,31 +50,14 @@ export class LogService {
     return logPromise
   }
 
-  public send(data: any, suffix: string, details: LogDetails, isFirstTry: boolean = true): Promise<string> {
+  public send(data: Object, suffix: string, details: LogDetails, isFirstTry: boolean = true): Promise<string> {
     let sentPromise = new Promise<string>((resolve, reject) => {
       let loader = this.loaderService.koiLoader()
-      let form_data = new FormData()
-      let filled_log = data
-
-      let flatObj = this.flatten(filled_log)
-
-      for (let key in flatObj) {
-        if (flatObj[key] === true) {
-          form_data.append(key, '1')
-        } else if (flatObj[key] === false) {
-          form_data.append(key, '0')
-        } else if (flatObj[key] instanceof FileList) {
-          for (let file of flatObj[key]) {
-            form_data.append(key, file, file.name)
-          }
-        } else {
-          form_data.append(key, flatObj[key])
-        }
-      }
+      let captureForm = this.flattenService.formDataFromFlatObject(this.flattenService.flatten(data))
 
       this.server.update(
         'capture-' + suffix,
-        form_data,
+        captureForm,
         (response: any) => {
           this.toastService.showServerMessage('capture-' + suffix, response.meta.return_code)
           loader.dismiss()
@@ -129,35 +104,6 @@ export class LogService {
 
     return listPromise
   }
-
-  /**
-   * Solicita al servidor un reporte de autorización, el cual contiene el estado
-   * de una bitácora enviada por un empleado en espera por la aprobación de un
-   * supervisor.
-   * 
-   * Utilización:
-   * 
-   * ```ts
-   * // Añadir servicio en el constructor
-   * 
-   * constructor(private logService: LogService) {
-   * }
-   * 
-   * // Para realizar una solicitud de reporte de autorización
-   * 
-   * this.logService.authorization(suffix, report_id).then(success => {
-   * 
-   * }, error => {
-   * 
-   * })
-   * 
-   * ```
-   * 
-   * @param {string} suffix - El sufijo de la bitácora a solicitar
-   * @param {number} report_id - El ID del reporte a solicitar
-   * @returns {Promise<any>}
-   * @memberof LogService
-   */
 
   public authorization(suffix: string, report_id: number): Promise<any> {
     let authorizationPromise = new Promise<any>((resolve, reject) => {
@@ -381,31 +327,14 @@ export class LogService {
     return finishPromise
   }
 
-  public update(data: any, suffix: string): Promise<string> {
+  public update(data: Object, suffix: string): Promise<string> {
     let updatePromise = new Promise<string>((resolve, reject) => {
       let loader = this.loaderService.koiLoader()
-      let form_data = new FormData()
-      let filled_log = data
-
-      let flatObj = this.flatten(filled_log)
-
-      for (let key in flatObj) {
-        if (flatObj[key] === true) {
-          form_data.append(key, '1')
-        } else if (flatObj[key] === false) {
-          form_data.append(key, '0')
-        } else if (flatObj[key] instanceof FileList) {
-          for (let file of flatObj[key]) {
-            form_data.append(key, file, file.name)
-          }
-        } else {
-          form_data.append(key, flatObj[key])
-        }
-      }
+      let updateForm = this.flattenService.formDataFromFlatObject(this.flattenService.flatten(data))      
 
       this.server.update(
         'update-' + suffix,
-        form_data,
+        updateForm,
         (response: any) => {
           this.toastService.showServerMessage('update-' + suffix, response.meta.return_code)
           loader.dismiss()
@@ -461,7 +390,7 @@ export class LogService {
   }
 
   // https://stackoverflow.com/questions/43551221/angular-2-mark-nested-formbuilder-as-touched
-  setAsDirty(group: FormGroup | FormArray) {
+  public setAsDirty(group: FormGroup | FormArray) {
     group.markAsDirty()
     for (let i in group.controls) {
       if (group.controls[i] instanceof FormControl) {
@@ -481,45 +410,6 @@ export class LogService {
         this.refreshFormGroup(group.controls[i])
       }
     }
-  }
-
-  // Esta función 'aplana' y da formato de datos de formulario a un objeto
-  // producido por cualquier componente de una bitácora particular
-
-  // https://stackoverflow.com/questions/19098797/fastest-way-to-flatten-un-flatten-nested-json-objects
-  private flatten(data: any): Object {
-    let result = {}
-
-    function recurse(value, key) {
-      if (Object(value) !== value) {
-        result[key] = value
-      } else if (Array.isArray(value)) {
-        for (var i = 0, l = value.length; i < l; i++)
-          recurse(value[i], key + '[' + i + ']')
-        if (l == 0) result[key] = []
-      } else {
-        if (value instanceof FileList) {
-          result[key] = value
-        } else {
-          var isEmpty = true
-          for (var k in value) {
-            isEmpty = false
-            recurse(value[k], key ? key + '[' + k + ']' : k)
-          }
-          if (isEmpty && key) {
-            result[key] = {}
-          }
-        }
-      }
-    }
-
-    if (Object(data) !== data) {
-      throw Error('Non-object parameter can\'t be flattened')
-    } else {
-      recurse(data, '')
-    }
-
-    return result
   }
 
   resolveBackendString(input: string | number): string {

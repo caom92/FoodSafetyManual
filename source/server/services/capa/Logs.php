@@ -15,6 +15,54 @@ class Logs extends db\InsertableTable
 
   }
 
+  function selectByDateIntervalAndZoneID($startDate, $endDate, $zoneID) {
+    return parent::select(
+      [
+        "$this->table.id",
+        'capa_number',
+        'reference_number',
+        'creator_id',
+        'c.first_name(creator_first_name)',
+        'c.last_name(creator_last_name)',
+        'capture_date',
+        'reference',
+        'description',
+        'observer',
+        'occurrence_date',
+        'findings',
+        'root_cause',
+        'preventive_actions',
+        'corrective_actions',
+        'planned_date',
+        'assigned_personnel',
+        'follow_up',
+        'actual_date',
+        'status',
+        'accepter_id',
+        'a.first_name(accepter_first_name)',
+        'a.last_name(accepter_last_name)',
+        'closure_date',
+        'link(url)'
+      ],
+      [
+        'AND' => [
+          'capture_date[>=]' => $startDate,
+          'capture_date[<=]' => $endDate,
+          "$this->table.zone_id" => $zoneID,
+          'closure_date[!]' => null
+        ]
+      ],
+      [
+        '[><]users(c)' => [
+          'creator_id' => 'id'
+        ],
+        '[>]users(a)' => [
+          'accepter_id' => 'id'
+        ]
+      ]
+    );
+  }
+
   // recuperar los datos de una sola bitácora
   function selectByLogID($logID) {
     return parent::select(
@@ -65,7 +113,7 @@ class Logs extends db\InsertableTable
         "$this->table.id",
         'capa_number',
         'reference_number',
-        'description',
+        'reference',
         'z.name(zone_name)',
         'c.first_name(creator_first_name)',
         'c.last_name(creator_last_name)',
