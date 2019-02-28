@@ -4,7 +4,7 @@ import { Observable } from 'rxjs'
 
 import { AlertController } from './alert/app.alert'
 import { BackendService } from './app.backend'
-import { LoaderService } from './app.loaders'
+import { LoaderService, LoaderWrapper } from './app.loaders'
 import { ToastsService } from './app.toasts'
 import { FlattenService } from './flatten.service'
 
@@ -62,7 +62,7 @@ export class CAPAService {
             resolve('server')
           } else {
             reject(response.meta.return_code)
-          }          
+          }
         }, (error: any, caught: Observable<void>) => {
           this.toastService.showClientMessage('server-unreachable', 1)
           updateLoader.dismiss()
@@ -96,13 +96,41 @@ export class CAPAService {
         }, (error: any, caught: Observable<void>) => {
           this.toastService.showClientMessage('server-unreachable', 1)
           authorizationLoader.dismiss()
-          reject('network error')          
+          reject('network error')
           return []
         }
       )
     })
 
     return authorizationPromise
+  }
+
+  public report(data: Object): Promise<any> {
+    let reportPromise: Promise<any> = new Promise<any>((resolve, reject) => {
+      let reportLoader: LoaderWrapper = this.loaderService.koiLoader()
+      let reportForm: FormData = this.flattenService.formDataFromFlatObject(this.flattenService.flatten(data))
+
+      this.server.update(
+        'report-capa-form',
+        reportForm,
+        (response: any) => {
+          this.toastService.showServerMessage('report-capa-form', response.meta.return_code)
+          reportLoader.dismiss()
+          if (response.meta.return_code == 0) {
+            resolve(response.data)
+          } else {
+            reject('bad request')
+          }
+        }, (error: any, caught: Observable<void>) => {
+          this.toastService.showClientMessage('server-unreachable', 1)
+          reportLoader.dismiss()
+          reject('network error')
+          return []
+        }
+      )
+    })
+
+    return reportPromise
   }
 
   public listWaitingLogs(): Promise<any> {
@@ -123,7 +151,7 @@ export class CAPAService {
         }, (error: any, caught: Observable<void>) => {
           this.toastService.showClientMessage('server-unreachable', 1)
           listLoader.dismiss()
-          reject('network error')          
+          reject('network error')
           return []
         }
       )

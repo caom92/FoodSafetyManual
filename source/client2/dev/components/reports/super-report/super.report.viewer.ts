@@ -15,7 +15,7 @@ export class SuperReportViewer implements OnInit {
   @Language() lang: string
   @ViewChildren('reports') reportList: any
   private dateRangeReport: ReportRequest = { lang: null, content: null, style: null, company: null, address: null, logo: null, orientation: null, footer: null, supervisor: null, signature: null, subject: null, fontsize: null, images: null }
-  options: any
+  options: Pickadate.DateOptions
   suffix: string = ''
   footer: string = ''
   reports: Array<any> = []

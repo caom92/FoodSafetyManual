@@ -24,6 +24,7 @@ import { UsersComponent } from './app.users'
 import { CAPAFormComponent } from './capa/log/capa-log.component'
 import { CAPACaptureComponent } from './capa/capture/capa-capture.component'
 import { CAPAList } from './capa/list/capa-list.component'
+import { CAPAReportViewer } from './capa/report/viewer/capa-report-viewer.component'
 import { DynamicComponentContainerDirective } from '../directives/dynamic.container'
 
 // Importamos los componentes de los modales
@@ -121,6 +122,7 @@ import { RootRoutingModule } from './app-routing.root'
     CAPAFormComponent,
     CAPAList,
     CAPACaptureComponent,
+    CAPAReportViewer,
     DynamicComponentContainerDirective
   ],
   // declaramos cualquier componente que sera inyectado dinamicamente

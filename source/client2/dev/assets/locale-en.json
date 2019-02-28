@@ -385,5 +385,33 @@
     "of": "of",
     "filterMessage": "Choose the filters you wish to apply to visualize the table",
     "errorMessage": "No elements match the selected filters"
+  },
+  "CAPAForm": {
+    "title": "Corrective and preventative action report form",
+    "view_report": "View report",
+    "capture": "Capture CAPA",
+    "open": "Open CAPA",
+    "start": "Start new CAPA",
+    "section": "Section",
+    "capa_number": "CAPA No.",
+    "reference_number": "Ref No.",
+    "initiator": "Initiator",
+    "entry_date": "Date of entry",
+    "reference": "Reference of Non-Compliance (if applicable)",
+    "description": "Description of Non-Conformance/Non-Compliance",
+    "observer": "Observer",
+    "non_compliance_date": "Date of NC",
+    "findings": "Findings",
+    "root_cause": "Root cause analysis",
+    "preventative_actions": "Preventative Action Items",
+    "corrective_actions": "Corrective Action Items",
+    "planned_date": "Planned date of completion",
+    "personnel": "Personnel assigned",
+    "follow_up": "Follow-up verification",
+    "completion_date": "Actual date of completion",
+    "capa_status": "CAPA Status",
+    "link": "Link",
+    "pdfs": "PDFs",
+    "images": "Images"
   }
 }

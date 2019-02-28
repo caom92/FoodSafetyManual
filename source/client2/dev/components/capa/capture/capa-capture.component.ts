@@ -1,4 +1,5 @@
 import { Component } from '@angular/core'
+import { Language } from 'angular-l10n'
 
 import { CAPAService } from '../../../services/capa.service'
 import { CAPAForm } from '../log/capa-log.interface'
@@ -9,6 +10,7 @@ import { CAPAForm } from '../log/capa-log.interface'
 })
 
 export class CAPACaptureComponent {
+  @Language() lang: string
   newCapa: boolean = null
   capaData: CAPAForm = null
 

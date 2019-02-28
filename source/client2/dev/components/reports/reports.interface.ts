@@ -15,5 +15,5 @@ export interface ReportRequest {
 }
 
 export interface ActiveReport {
-  id: any
+  id: string | number
 }

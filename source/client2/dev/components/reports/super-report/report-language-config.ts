@@ -1,4 +1,4 @@
-export function getDatePickerConfig(lang: string): any {
+export function getDatePickerConfig(lang: string): Pickadate.DateOptions {
   return (lang === 'es') ?
     {
       'closeOnSelect': true,

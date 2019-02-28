@@ -1,2 +1,9 @@
-capa-list(*ngIf='newCapa !== true', (startCapa)='onOpenCAPA($event)')
-capa-log(*ngIf='newCapa == true', [data]='capaData', (closeCapa)='onCloseCAPA($event)')
+h4(style="text-align: center;") {{ 'CAPAForm.title' | translate:lang }}
+.divider
+div
+  mz-tab([fixedTabWidth]="'true'")
+    mz-tab-item(label="{{ 'CAPAForm.view_report' | translate:lang }}")
+      capa-report-viewer
+    mz-tab-item(label="{{ 'CAPAForm.capture' | translate:lang }}")
+      capa-list(*ngIf='newCapa !== true', (startCapa)='onOpenCAPA($event)')
+      capa-log(*ngIf='newCapa == true', [data]='capaData', (closeCapa)='onCloseCAPA($event)')

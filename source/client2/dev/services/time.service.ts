@@ -8,7 +8,7 @@ export class DateTimeService {
   public getISODate(date?: Date): string {
     let ISODate = ''
 
-    if (date === undefined) {
+    if (!(date instanceof Date)) {
       date = new Date()
     }
 
@@ -32,7 +32,7 @@ export class DateTimeService {
   public getISOTime(date?: Date): string {
     let ISOTime = ''
       
-    if (date === undefined) {
+    if (!(date instanceof Date)) {
       date = new Date()
     }
 

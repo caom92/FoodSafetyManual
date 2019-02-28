@@ -385,5 +385,33 @@
     "of": "de",
     "filterMessage": "Seleccione los filtros que desea aplicar para poder visualizar la tabla",
     "errorMessage": "No hay elementos que correspondan a los filtros seleccionados"
+  },
+  "CAPAForm": {
+    "title": "Formulario de acción correctiva y preventiva",
+    "view_report": "Ver reporte",
+    "capture": "Capturar CAPA",
+    "open": "Abrir CAPA",
+    "start": "Iniciar nuevo CAPA",
+    "section": "Sección",
+    "capa_number": "Num. CAPA",
+    "reference_number": "Num. Ref.",
+    "initiator": "Iniciador",
+    "entry_date": "Fecha de entrada",
+    "reference": "Referencia de no cumplimiento (si aplica)",
+    "description": "Descripción de no conformidad/no cumplimiento",
+    "observer": "Observador",
+    "non_compliance_date": "Fecha de NC",
+    "findings": "Hallazgos",
+    "root_cause": "Análisis de la causa raíz",
+    "preventative_actions": "Acciones preventivas",
+    "corrective_actions": "Acciones correctivas",
+    "planned_date": "Fecha planeada de terminación",
+    "personnel": "Personal asignado",
+    "follow_up": "Verificación de seguimiento",
+    "completion_date": "Fecha real de terminación",
+    "capa_status": "Estado de CAPA",
+    "link": "Enlace",
+    "pdfs": "PDFs",
+    "images": "Imagenes"
   }
 }
