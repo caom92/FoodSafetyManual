@@ -410,6 +410,8 @@
     "follow_up": "Verificación de seguimiento",
     "completion_date": "Fecha real de terminación",
     "capa_status": "Estado de CAPA",
+    "accepted_by": "Aceptado por",
+    "signature_date": "Firma/Fecha",
     "link": "Enlace",
     "pdfs": "PDFs",
     "images": "Imagenes"

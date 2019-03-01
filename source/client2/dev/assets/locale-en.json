@@ -410,6 +410,8 @@
     "follow_up": "Follow-up verification",
     "completion_date": "Actual date of completion",
     "capa_status": "CAPA Status",
+    "accepted_by": "Accepted by",
+    "signature_date": "Signature/Date", 
     "link": "Link",
     "pdfs": "PDFs",
     "images": "Images"

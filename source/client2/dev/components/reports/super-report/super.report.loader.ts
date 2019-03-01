@@ -41,7 +41,7 @@ export class SuperReportLoader implements OnInit {
     return null
   }
 
-  public requestPDFReport(): any {
+  public requestPDFReport(): void {
     this.reportRequest = {
       lang: this.lang,
       content: JSON.stringify([this.reportComponent.getPDFContent()]),
@@ -57,15 +57,13 @@ export class SuperReportLoader implements OnInit {
       images: (this.reportComponent.getImages() == '') ? null : this.reportComponent.getImages(),
       fontsize: this.reportComponent.getFontSize()
     }
-
-    return this.reportRequest
   }
 
   public setReportToPending(): void {
     this.logService.retreat(Number(this.report.report_id)).then(success => {
       this.removed.emit(Number(this.report.report_id))
     }, error => {
-      console.log(error)
+
     })
   }
 

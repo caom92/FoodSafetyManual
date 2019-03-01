@@ -1,0 +1,20 @@
+div
+  mz-card
+    mz-card-title {{ 'Report Request' | translate:lang }}
+    mz-card-content
+      form([formGroup]='dateRangeForm', (ngSubmit)='requestReports()')
+        .row
+          mz-datepicker-container.col.s6.m6.l6
+            i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
+            input(mz-datepicker, label="{{ 'Log.start_date' | translate:lang }}", type='text', formControlName='start_date', [options]='dateOptions')
+          mz-datepicker-container.col.s6.m6.l6
+            i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
+            input(mz-datepicker, label="{{ 'Log.final_date' | translate:lang }}", type='text', formControlName='end_date', [options]='dateOptions')
+        .row
+          .col.s12.m12.l12.center
+            button(mz-button, [disabled]='!dateRangeForm.valid')
+              | {{ 'Open Report' | translate:lang }}
+
+.custom-collection
+  ng-template(ngFor, let-report, [ngForOf]='reports')
+    .custom-item(capa-report-loader, [report]='report', [activeCAPA]='activeCAPA', *ngIf="activeCAPA.id == 'any' || activeCAPA.id == report.id")

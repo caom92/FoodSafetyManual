@@ -1,0 +1,14 @@
+.custom-item-content.button-number-1
+  .row.no-margin-bottom
+    .col.s4.m4.l4 {{report.capa_number}}
+    .col.s4.m4.l4 {{report.capture_date}}
+    .col.s4.m4.l4 {{report.creator_name}}
+  .row.no-margin-bottom
+    .col.s12.m12.l12 {{report.reference}}
+.custom-collection-button
+  button.green(mz-button, float='true', (click)='openHTMLReport(report.id)', *ngIf='!showReport')
+    i(mz-icon-mdi, [icon]='"clipboard-arrow-left"', [size]='"24px"')
+  button.red(mz-button, float='true', (click)='closeHTMLReport(report.id)', *ngIf='showReport')
+    i(mz-icon-mdi, [icon]='"close-box"', [size]='"24px"')
+.tableWrapper([hidden]='!showReport')
+  capa-report([report]='report')

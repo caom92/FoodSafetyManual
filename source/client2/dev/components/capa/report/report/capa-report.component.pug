@@ -1,0 +1,81 @@
+//-report-header([header]="header")
+mz-card
+  mz-card-content
+    div(#report_body)
+      h4 {{ 'CAPAForm.section' | translate:lang }} I
+      table
+        tbody
+          tr
+            td 1. {{ 'CAPAForm.capa_number' | translate:lang }}
+            td {{report.capa_number}}
+            td 2. {{ 'CAPAForm.reference_number' | translate:lang }}
+            td {{report.reference_number}}
+          tr
+            td 3. {{ 'CAPAForm.initiator' | translate:lang }}
+            td {{report.creator_name}}
+            td 4. {{ 'CAPAForm.entry_date' | translate:lang }}
+            td {{report.capture_date}}
+          tr
+            td {{ 'CAPAForm.reference' | translate:lang }}
+      p()= ' '
+      h4 {{ 'CAPAForm.section' | translate:lang }} II
+      table
+        tbody
+          tr
+            td 5. {{ 'CAPAForm.description' | translate:lang }}
+          tr
+            td {{report.description}}
+          tr
+            td 6. {{ 'CAPAForm.observer' | translate:lang }}
+            td {{report.observer}}
+            td 7. {{ 'CAPAForm.non_compliance_date' | translate:lang }}
+            td {{report.occurrence_date}}
+      p()= ' '
+      h4 {{ 'CAPAForm.section' | translate:lang }} III
+      table
+        tbody
+          tr
+            td 8. {{ 'CAPAForm.findings' | translate:lang }}
+          tr
+            td {{report.findings}}
+          tr
+            td 9. {{ 'CAPAForm.root_cause' | translate:lang }}
+          tr
+            td {{report.root_cause}}
+      p()= ' '
+      h4 {{ 'CAPAForm.section' | translate:lang }} IV
+      table
+        tbody
+          tr
+            td 10. {{ 'CAPAForm.preventative_actions' | translate:lang }}
+          tr
+            td {{report.preventive_actions}}
+          tr
+            td 11. {{ 'CAPAForm.corrective_actions' | translate:lang }}
+          tr
+            td {{report.corrective_actions}}
+          tr
+            td 12. {{ 'CAPAForm.planned_date' | translate:lang }}
+            td {{report.planned_date}}
+          tr
+            td 13. {{ 'CAPAForm.personnel' | translate:lang }}
+            td {{report.personnel}}
+      p()= ' '
+      h4 {{ 'CAPAForm.section' | translate:lang }} V
+      table
+        tbody
+          tr
+            td 16. {{ 'CAPAForm.follow_up' | translate:lang }}
+            td {{report.follow_up}}
+          tr
+            td 17. {{ 'CAPAForm.completion_date' | translate:lang }}
+            td {{report.actual_date}}
+          tr
+            td 18. {{ 'CAPAForm.capa_status' | translate:lang }}
+            td {{report.status}}
+          tr
+            td 19. {{ 'CAPAForm.accepted_by' | translate:lang }}
+            td
+          tr
+            td 20. {{ 'CAPAForm.signature_date' | translate:lang }}
+            td {{report.closure_date}}

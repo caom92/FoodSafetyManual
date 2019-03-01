@@ -255,14 +255,12 @@ export class LogService {
                 'reject-log',
                 rejectForm,
                 (response: any) => {
+                  this.toastService.showServerMessage('reject-log', response.meta.return_code)
+                  rejectLoader.dismiss()
                   if (response.meta.return_code == 0) {
-                    // TODO: Toast de rechazo exitoso, regresar a la página de autorizaciones
                     resolve(response.data)
-                    rejectLoader.dismiss()
                   } else {
                     reject('bad request')
-                    rejectLoader.dismiss()
-                    this.toastService.showServerMessage('reject-log', response.meta.return_code)
                   }
                 }, (error: any, caught: Observable<void>) => {
                   this.toastService.showClientMessage('server-unreachable', 1)
@@ -304,13 +302,13 @@ export class LogService {
                 'finish-log',
                 finishForm,
                 (response: any) => {
+                  this.toastService.showServerMessage('finish-log', response.meta.return_code)
+                  finishLoader.dismiss()
                   if (response.meta.return_code == 0) {
                     resolve(response.data)
                   } else {
                     reject('bad request')
-                    this.toastService.showServerMessage('finish-log', response.meta.return_code)
                   }
-                  finishLoader.dismiss()
                 }, (error: any, caught: Observable<void>) => {
                   this.toastService.showClientMessage('server-unreachable', 1)
                   finishLoader.dismiss()
