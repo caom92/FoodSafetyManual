@@ -1,4 +1,4 @@
-.custom-item-content.button-number-1
+.custom-item-content.button-number-2
   .row.no-margin-bottom
     .col.s4.m4.l4 {{report.capa_number}}
     .col.s4.m4.l4 {{report.capture_date}}
@@ -7,8 +7,24 @@
     .col.s12.m12.l12 {{report.reference}}
 .custom-collection-button
   button.green(mz-button, float='true', (click)='openHTMLReport(report.id)', *ngIf='!showReport')
-    i(mz-icon-mdi, [icon]='"clipboard-arrow-left"', [size]='"24px"')
+    i(mz-icon-mdi, [icon]='"file-document-box"', [size]='"24px"')
   button.red(mz-button, float='true', (click)='closeHTMLReport(report.id)', *ngIf='showReport')
     i(mz-icon-mdi, [icon]='"close-box"', [size]='"24px"')
+.custom-collection-button
+  form(method='POST', target='_blank', action='http://localhost/espresso/source/server/report/reportPDF.php', ngNoForm)
+    input(type='hidden', name='lang', [ngModel]='reportRequest.lang')
+    input(type='hidden', name='content', [ngModel]='reportRequest.content')
+    input(type='hidden', name='style', [ngModel]='reportRequest.style')
+    input(type='hidden', name='company', [ngModel]='reportRequest.company')
+    input(type='hidden', name='address', [ngModel]='reportRequest.address')
+    input(type='hidden', name='logo', [ngModel]='reportRequest.logo')
+    input(type='hidden', name='orientation', [ngModel]='reportRequest.orientation')
+    input(type='hidden', name='fontsize', [ngModel]='reportRequest.fontsize')
+    input(type='hidden', name='footer', [ngModel]='reportRequest.footer')
+    input(type='hidden', name='supervisor', [ngModel]='reportRequest.supervisor')
+    input(type='hidden', name='signature', [ngModel]='reportRequest.signature')
+    input(type='hidden', name='images', [ngModel]='reportRequest.images')
+    button.red(mz-button, float='true', (click)='requestPDFReport()')
+      i(mz-icon-mdi, [icon]='"file-pdf-box"', [size]='"24px"')
 .tableWrapper([hidden]='!showReport')
-  capa-report([report]='report')
+  capa-report(#reportContainer, [report]='report')

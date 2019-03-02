@@ -24,6 +24,7 @@ class Logs extends db\InsertableTable
         'creator_id',
         'c.first_name(creator_first_name)',
         'c.last_name(creator_last_name)',
+        'z.name(zone_name)',
         'capture_date',
         'reference',
         'description',
@@ -58,6 +59,9 @@ class Logs extends db\InsertableTable
         ],
         '[>]users(a)' => [
           'accepter_id' => 'id'
+        ],
+        '[><]zones(z)' => [
+          'zone_id' => 'id'
         ]
       ]
     );

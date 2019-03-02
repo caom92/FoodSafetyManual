@@ -27,7 +27,7 @@ export class CAPAReportLoader {
   }
 
   public requestPDFReport(): void {
-    /*this.reportRequest = {
+    this.reportRequest = {
       lang: this.lang,
       content: JSON.stringify([this.reportComponent.getPDFContent()]),
       style: this.reportComponent.getCSS(),
@@ -35,12 +35,13 @@ export class CAPAReportLoader {
       address: localStorage.getItem('company_address'),
       logo: localStorage.getItem('company_logo'),
       orientation: this.reportComponent.getOrientation(),
+      footer: '',
       supervisor: '',
       signature: '',
       subject: '',
       images: (this.reportComponent.getImages() == '') ? null : this.reportComponent.getImages(),
       fontsize: this.reportComponent.getFontSize()
-    }*/
+    }
   }
 
   public openHTMLReport(): void {

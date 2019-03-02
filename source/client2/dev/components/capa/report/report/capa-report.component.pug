@@ -1,81 +1,96 @@
-//-report-header([header]="header")
 mz-card
   mz-card-content
     div(#report_body)
+      h4.centeredTitle {{ 'CAPAForm.title_uppercase' | translate:lang }}
+      span.italicFont {{ 'CAPAForm.facility' | translate:lang }}: {{report.zone_name}}
+      br
+      span.italicFont {{ 'CAPAForm.from' | translate:lang }}: {{report.reference_number}}
+      br
+      span.italicFont {{ 'CAPAForm.date' | translate:lang }}: {{report.capture_date}}
       h4 {{ 'CAPAForm.section' | translate:lang }} I
       table
         tbody
           tr
-            td 1. {{ 'CAPAForm.capa_number' | translate:lang }}
-            td {{report.capa_number}}
-            td 2. {{ 'CAPAForm.reference_number' | translate:lang }}
-            td {{report.reference_number}}
+            td.boldText.grayBackground.smallHalfColumn 1. {{ 'CAPAForm.capa_number' | translate:lang }}
+            td.bigHalfColumn {{report.capa_number}}
+            td.boldText.grayBackground.smallHalfColumn 2. {{ 'CAPAForm.reference_number' | translate:lang }}
+            td.bigHalfColumn {{report.reference_number}}
           tr
-            td 3. {{ 'CAPAForm.initiator' | translate:lang }}
-            td {{report.creator_name}}
-            td 4. {{ 'CAPAForm.entry_date' | translate:lang }}
-            td {{report.capture_date}}
+            td.boldText.grayBackground.smallHalfColumn 3. {{ 'CAPAForm.initiator' | translate:lang }}
+            td.bigHalfColumn {{report.creator_name}}
+            td.boldText.grayBackground.smallHalfColumn 4. {{ 'CAPAForm.entry_date' | translate:lang }}
+            td.bigHalfColumn {{report.capture_date}}
           tr
-            td {{ 'CAPAForm.reference' | translate:lang }}
-      p()= ' '
+            td.fullColumn {{ 'CAPAForm.reference' | translate:lang }}
+          tr
+            td.fullColumn([innerHtml]='report.reference')
       h4 {{ 'CAPAForm.section' | translate:lang }} II
       table
         tbody
           tr
-            td 5. {{ 'CAPAForm.description' | translate:lang }}
+            td.boldText.grayBackground.fullColumn 5. {{ 'CAPAForm.description' | translate:lang }}
           tr
-            td {{report.description}}
+            td.fullColumn([innerHtml]='report.description')
           tr
-            td 6. {{ 'CAPAForm.observer' | translate:lang }}
-            td {{report.observer}}
-            td 7. {{ 'CAPAForm.non_compliance_date' | translate:lang }}
-            td {{report.occurrence_date}}
-      p()= ' '
+            td.boldText.grayBackground.smallHalfColumn 6. {{ 'CAPAForm.observer' | translate:lang }}
+            td.bigHalfColumn {{report.observer}}
+            td.boldText.grayBackground.smallHalfColumn 7. {{ 'CAPAForm.non_compliance_date' | translate:lang }}
+            td.bigHalfColumn {{report.occurrence_date}}
       h4 {{ 'CAPAForm.section' | translate:lang }} III
       table
         tbody
           tr
-            td 8. {{ 'CAPAForm.findings' | translate:lang }}
+            td.boldText.grayBackground.fullColumn 8. {{ 'CAPAForm.findings' | translate:lang }}
           tr
-            td {{report.findings}}
+            td.fullColumn([innerHtml]='report.findings')
           tr
-            td 9. {{ 'CAPAForm.root_cause' | translate:lang }}
+            td.boldText.grayBackground.fullColumn 9. {{ 'CAPAForm.root_cause' | translate:lang }}
           tr
-            td {{report.root_cause}}
-      p()= ' '
+            td.fullColumn([innerHtml]='report.root_cause')
       h4 {{ 'CAPAForm.section' | translate:lang }} IV
       table
         tbody
           tr
-            td 10. {{ 'CAPAForm.preventative_actions' | translate:lang }}
+            td.boldText.grayBackground.fullColumn 10. {{ 'CAPAForm.preventative_actions' | translate:lang }}
           tr
-            td {{report.preventive_actions}}
+            td.fullColumn([innerHtml]='report.preventive_actions')
           tr
-            td 11. {{ 'CAPAForm.corrective_actions' | translate:lang }}
+            td.boldText.grayBackground.fullColumn 11. {{ 'CAPAForm.corrective_actions' | translate:lang }}
           tr
-            td {{report.corrective_actions}}
+            td.fullColumn([innerHtml]='report.corrective_actions')
           tr
-            td 12. {{ 'CAPAForm.planned_date' | translate:lang }}
-            td {{report.planned_date}}
+            td.boldText.grayBackground.smallFullColumn 12. {{ 'CAPAForm.planned_date' | translate:lang }}
+            td.bigFullColumn {{report.planned_date}}
           tr
-            td 13. {{ 'CAPAForm.personnel' | translate:lang }}
-            td {{report.personnel}}
-      p()= ' '
+            td.boldText.grayBackground.smallFullColumn 13. {{ 'CAPAForm.personnel' | translate:lang }}
+            td.bigFullColumn {{report.personnel}}
       h4 {{ 'CAPAForm.section' | translate:lang }} V
       table
         tbody
           tr
-            td 16. {{ 'CAPAForm.follow_up' | translate:lang }}
-            td {{report.follow_up}}
+            td.boldText.grayBackground.smallFullColumn 16. {{ 'CAPAForm.follow_up' | translate:lang }}
+            td.bigFullColumn([innerHtml]='report.follow_up')
           tr
-            td 17. {{ 'CAPAForm.completion_date' | translate:lang }}
-            td {{report.actual_date}}
+            td.boldText.grayBackground.smallFullColumn 17. {{ 'CAPAForm.completion_date' | translate:lang }}
+            td.bigFullColumn {{report.actual_date}}
           tr
-            td 18. {{ 'CAPAForm.capa_status' | translate:lang }}
-            td {{report.status}}
+            td.boldText.grayBackground.smallFullColumn 18. {{ 'CAPAForm.capa_status' | translate:lang }}
+            td.bigFullColumn {{report.status}}
           tr
-            td 19. {{ 'CAPAForm.accepted_by' | translate:lang }}
-            td
+            td.boldText.grayBackground.smallFullColumn 19. {{ 'CAPAForm.accepted_by' | translate:lang }}
+            td.bigFullColumn
           tr
-            td 20. {{ 'CAPAForm.signature_date' | translate:lang }}
-            td {{report.closure_date}}
+            td.boldText.grayBackground.smallFullColumn 20. {{ 'CAPAForm.signature_date' | translate:lang }}
+            td.bigFullColumn {{report.closure_date}}
+    h4(*ngIf='report.files.length != 0') {{ 'CAPAForm.pdfs' | translate:lang }}
+    mz-collection(*ngIf='report.files.length != 0')
+      ng-template(ngFor, let-file, [ngForOf]='report.files')
+        mz-collection-item([avatar]="true")
+          i.red.darken-4(mz-avatar, mz-icon-mdi, [icon]="'file-pdf'")
+          .title() {{file.path}}
+          div(mz-secondary-content)
+            a([href]="'http://localhost/espresso/data/capa/documents/' + file.path", target="_blank")
+              button.blue.pointer(mz-button, [float]='true')
+                i(mz-icon-mdi, [icon]="'open-in-new'")
+    h4(*ngIf='report.images.length != 0') {{ 'CAPAForm.images' | translate:lang }}
+    img(*ngFor="let image of report.images", [src]="'http://localhost/espresso/data/capa/images/' + image.path", width="100%")

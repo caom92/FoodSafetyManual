@@ -178,12 +178,16 @@ try {
 
         // print the result to the document
         //$pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
-        $pdf->SetFont('helvetica', '', 10, '', true);
-        $pdf->writeHTMLCell(0, 0, '', '', $htmlHeader, 0, 1, 0, true, '', true);
+        if ($header != '') {
+            $pdf->SetFont('helvetica', '', 10, '', true);
+            $pdf->writeHTMLCell(0, 0, '', '', $htmlHeader, 0, 1, 0, true, '', true);
+        }
         $pdf->SetFont('helvetica', '', $fontsize, '', true);
         $pdf->writeHTMLCell(0, 0, '', '', $htmlBody, 0, 1, 0, true, '', true);
-        $pdf->SetFont('helvetica', '', 10, '', true);
-        $pdf->writeHTMLCell(0, 0, '', '', $htmlFooter, 0, 1, 0, true, '', true);
+        if ($footer != '') {
+            $pdf->SetFont('helvetica', '', 10, '', true);
+            $pdf->writeHTMLCell(0, 0, '', '', $htmlFooter, 0, 1, 0, true, '', true);
+        }
 
         if (strlen($_POST['signature']) > 0) {
             $pdf->closing($_POST['supervisor']);
