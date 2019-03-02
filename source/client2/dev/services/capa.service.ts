@@ -7,6 +7,7 @@ import { BackendService } from './app.backend'
 import { LoaderService, LoaderWrapper } from './app.loaders'
 import { ToastsService } from './app.toasts'
 import { FlattenService } from './flatten.service'
+import { DateTimeService } from './time.service'
 
 @Injectable()
 export class CAPAService {
@@ -15,7 +16,8 @@ export class CAPAService {
     private toastService: ToastsService,
     private server: BackendService,
     private alertCtrl: AlertController,
-    private translationService: TranslationService) {
+    private translationService: TranslationService,
+    private timeService: DateTimeService) {
 
   }
 
@@ -158,6 +160,55 @@ export class CAPAService {
     })
 
     return listPromise
+  }
+
+  public close(id: number): Promise<any> {
+    let closePromise = new Promise<any>((resolve, reject) => {
+      let alert = this.alertCtrl.create({
+        title: 'Cerrar CAPA',
+        message: 'El formulario se cerrará. Estará disponible para generar reportes, pero no podrá editarse, ¿está seguro que desea continuar?',
+        buttons: [
+          {
+            text: this.translationService.translate('Options.cancel'),
+            handler: () => {
+              reject('user_cancel')
+            }
+          },
+          {
+            text: this.translationService.translate('Options.accept'),
+            handler: () => {
+              let closeLoader = this.loaderService.koiLoader()
+              let closeForm = new FormData()
+
+              closeForm.append('id', String(id))
+              closeForm.append('date', this.timeService.getISODate())
+
+              this.server.update(
+                'approve-capa-form',
+                closeForm,
+                (response: any) => {
+                  if (response.meta.return_code == 0) {
+                    this.toastService.showServerMessage('approve-capa-form', response.meta.return_code)
+                    resolve('server')
+                  } else {
+                    this.toastService.showServerMessage('approve-capa-form', response.meta.return_code)
+                    reject(response.meta.return_code)
+                  }
+                  closeLoader.dismiss()
+                }, (error: any, caught: Observable<void>) => {
+                  this.toastService.showClientMessage('server-unreachable', 1)
+                  closeLoader.dismiss()
+                  reject('network error')
+                  return []
+                }
+              )
+            }
+          }
+        ]
+      })
+    })
+
+    return closePromise
   }
 
   public deleteFile(id: number): Promise<any> {

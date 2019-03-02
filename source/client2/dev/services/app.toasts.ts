@@ -35,7 +35,7 @@ export class ToastsService {
     }
   }
 
-  public showServerMessage(service: string, code: number): void {
+  public showServerMessage(service: string, code: number, showOnSuccess: boolean = true): void {
     let translation = this.translationService.translate('ServiceMessages.' + service + '.' + String(code))
 
     if (translation === 'Missing translation error') {
@@ -47,10 +47,12 @@ export class ToastsService {
       }
     }
 
-    this.showString(translation, null, (code == 0) ? 'green rounded' : 'red rounded')
+    if (showOnSuccess == true || code != 0) {
+      this.showString(translation, null, (code == 0) ? 'green rounded' : 'red rounded') 
+    }
   }
 
-  public showClientMessage(key: string, code: number): void {
+  public showClientMessage(key: string, code: number, showOnSuccess: boolean = true): void {
     let translation = this.translationService.translate('ClientMessages.' + key)
 
     if (translation === 'Missing translation error') {
@@ -58,6 +60,8 @@ export class ToastsService {
       translation = this.translationService.translate('ClientMessages.default') + ' ' + key
     }
 
-    this.showString(translation, null, (code == 0) ? 'green rounded' : 'red rounded')
+    if (showOnSuccess == true || code != 0) {
+      this.showString(translation, null, (code == 0) ? 'green rounded' : 'red rounded')
+    }
   }
 }

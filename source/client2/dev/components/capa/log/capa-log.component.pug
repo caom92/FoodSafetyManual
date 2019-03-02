@@ -97,9 +97,12 @@ div([formGroup]='capaForm')
                 i(mz-icon-mdi, [icon]="'delete'")
 
 div(class="row")
-  div(class="center col s6 m6 l6", style="margin-bottom: 20px;")
+  div(class="center col s4 m4 l4", style="margin-bottom: 20px;")
     button(mz-button, (click)='save()')= "Guardar "
       i(mz-icon-mdi, [icon]="'send'")
-  div(class="center col s6 m6 l6", style="margin-bottom: 20px;")
+  div(class="center col s4 m4 l4", style="margin-bottom: 20px;")
+    button(*ngIf='data.id != undefined', mz-button, (click)='close()', [disabled]='!capaForm.pristine')= "Cerrar "
+      i(mz-icon-mdi, [icon]="'lock'")
+  div(class="center col s4 m4 l4", style="margin-bottom: 20px;")
     button(mz-button, (click)='back()')= "Regresar "
       i(mz-icon-mdi, [icon]="'undo-variant'")

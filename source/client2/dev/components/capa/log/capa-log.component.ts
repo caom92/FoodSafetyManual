@@ -274,6 +274,7 @@ export class CAPAFormComponent {
         this.capaForm.removeControl('files')
         this.capaForm.addControl('images', this.formBuilder.array([]))
         this.capaForm.addControl('files', this.formBuilder.array([]))
+        this.capaForm.markAsPristine()
       }, error => {
         this.enableForm()
       })
@@ -289,8 +290,19 @@ export class CAPAFormComponent {
         this.capaForm.removeControl('files')
         this.capaForm.addControl('images', this.formBuilder.array([]))
         this.capaForm.addControl('files', this.formBuilder.array([]))
+        this.capaForm.markAsPristine()
       }, error => {
         this.enableForm()
+      })
+    }
+  }
+
+  public close(): void {
+    if (this.capaForm.pristine && this.data.id === Number(this.data.id)) {
+      this.capaService.close(this.data.id).then(success => {
+        this.back()
+      }, error => {
+          
       })
     }
   }
