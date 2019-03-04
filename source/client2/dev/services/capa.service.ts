@@ -33,7 +33,7 @@ export class CAPAService {
           this.toastService.showServerMessage('capture-capa-form', response.meta.return_code)
           captureLoader.dismiss()
           if (response.meta.return_code == 0) {
-            resolve('server')
+            resolve(response.data)
           } else {
             reject(response.meta.return_code)
           }

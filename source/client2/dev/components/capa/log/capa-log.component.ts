@@ -49,7 +49,7 @@ export class CAPAFormComponent {
       reference: [(this.data.reference !== undefined && this.data.reference !== null) ? this.data.reference : ''],
       description: [(this.data.description !== undefined && this.data.description !== null) ? this.data.description : ''],
       observer: [(this.data.observer !== undefined && this.data.observer !== null) ? this.data.observer : ''],
-      occurrence_date: [(this.data.occurrence_date !== undefined && this.data.occurrence_date !== null) ? this.data.occurrence_date: ''],
+      occurrence_date: [(this.data.occurrence_date !== undefined && this.data.occurrence_date !== null) ? this.data.occurrence_date : ''],
       findings: [(this.data.findings !== undefined && this.data.findings !== null) ? this.data.findings : ''],
       root_cause: [(this.data.root_cause !== undefined && this.data.root_cause !== null) ? this.data.root_cause : ''],
       preventive_actions: [(this.data.preventive_actions !== undefined && this.data.preventive_actions !== null) ? this.data.preventive_actions : ''],
@@ -158,11 +158,9 @@ export class CAPAFormComponent {
       this.capaService.deleteImage(this.images[index].id).then(success => {
         this.images.splice(index, 1)
       }, error => {
-          
+
       })
-      //console.log('delete from server image: ', this.images[index].id, this.images[index].name)
     }
-    //this.images.splice(index, 1)
   }
 
   public deletePDF(index: number) {
@@ -178,11 +176,10 @@ export class CAPAFormComponent {
       }, error => {
 
       })
-      //console.log('delete from server file: ', this.pdfs[index].id, this.pdfs[index].name)
     }
   }
 
-  public cleanForm(): void {  
+  public cleanForm(): void {
     let controlArray: Array<AbstractControl> = []
 
     controlArray.push(this.capaForm.controls.capa_number)
@@ -222,39 +219,10 @@ export class CAPAFormComponent {
     if (fileArrayControl.value.length == 0) {
       fileArrayControl.disable()
     }
-
-    console.log(this.capaForm.value)
   }
 
   public enableForm(): void {
-    let controlArray: Array<AbstractControl> = []
-
-    controlArray.push(this.capaForm.controls.capa_number)
-    controlArray.push(this.capaForm.controls.reference_number)
-    controlArray.push(this.capaForm.controls.creator_id)
-    controlArray.push(this.capaForm.controls.capture_date)
-    controlArray.push(this.capaForm.controls.reference)
-    controlArray.push(this.capaForm.controls.description)
-    controlArray.push(this.capaForm.controls.observer)
-    controlArray.push(this.capaForm.controls.occurrence_date)
-    controlArray.push(this.capaForm.controls.findings)
-    controlArray.push(this.capaForm.controls.root_cause)
-    controlArray.push(this.capaForm.controls.preventive_actions)
-    controlArray.push(this.capaForm.controls.corrective_actions)
-    controlArray.push(this.capaForm.controls.planned_date)
-    controlArray.push(this.capaForm.controls.assigned_personnel)
-    controlArray.push(this.capaForm.controls.follow_up)
-    controlArray.push(this.capaForm.controls.actual_date)
-    controlArray.push(this.capaForm.controls.status)
-    controlArray.push(this.capaForm.controls.accepter_id)
-    controlArray.push(this.capaForm.controls.closure_date)
-    controlArray.push(this.capaForm.controls.link)
-    controlArray.push(this.capaForm.controls.images)
-    controlArray.push(this.capaForm.controls.files)
-
-    for (let control of controlArray) {
-      control.enable()
-    }
+    this.capaForm.enable()
   }
 
   public save(): void {
@@ -275,6 +243,10 @@ export class CAPAFormComponent {
         this.capaForm.addControl('images', this.formBuilder.array([]))
         this.capaForm.addControl('files', this.formBuilder.array([]))
         this.capaForm.markAsPristine()
+        if (Number(success) > 0) {
+          this.data.id = Number(success)
+          this.capaForm.addControl('id', new FormControl(this.data.id, [Validators.required]))
+        }
       }, error => {
         this.enableForm()
       })
@@ -302,7 +274,7 @@ export class CAPAFormComponent {
       this.capaService.close(this.data.id).then(success => {
         this.back()
       }, error => {
-          
+
       })
     }
   }
