@@ -73,7 +73,10 @@
     "resend_log": "Resend log",
     "add_item": "Add Item",
     "add_area": "Add Area",
-    "edit_area": "Edit Area"
+    "edit_area": "Edit Area",
+    "close_capa": "Close CAPA",
+    "delete_file": "Delete file permanently",
+    "delete_image": "Delete image permanently"
   },
   "Messages": {
     "approve_log": "Are you sure you want to approve this log?",
@@ -81,7 +84,10 @@
     "resend_log": "Are you sure you want to retry sending this log?",
     "add_item": "Are you sure you want to add this item?",
     "add_area": "Are you sure you want to add this area?",
-    "edit_area": "Are you sure you want to change this area's name?"
+    "edit_area": "Are you sure you want to change this area's name?",
+    "close_capa": "Form will be closed. It will be available to create reports, but it will no longer be editable, are you sure you want to continue?",
+    "delete_file": "The PDF file you selected to delete is a file stored in the server. This action cannot be undone, are you sure you want to continue?",
+    "delete_image": "The image you selected to delete is a file stored in the server. This action cannot be undone, are you sure you want to continue?"
   },
   "Adverbs": {
     "before": "Before",

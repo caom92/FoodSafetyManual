@@ -43,6 +43,7 @@ import { KeysPipe } from '../pipes/app.keys'
 import { ClickStopPropagationDirective } from '../directives/app.stop.propagation'
 import { HomeElementsService } from '../services/app.home'
 import { BackendService } from '../services/app.backend'
+import { BackendAPIService } from '../services/backend-api.service'
 import { LanguageService } from '../services/app.language'
 import { ToastService } from '../services/app.toast'
 import { DateTimeService } from '../services/time.service'
@@ -82,6 +83,7 @@ import { RootRoutingModule } from './app-routing.root'
   providers: [
     HomeElementsService,
     BackendService,
+    BackendAPIService,
     ToastService,
     LanguageService,
     DateTimeService,
