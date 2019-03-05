@@ -160,13 +160,12 @@ export class LogService {
                 'approve-log',
                 approveForm,
                 (response: any) => {
+                  this.toastService.showServerMessage('approve-log', response.meta.return_code)
+                  approveLoader.dismiss()
                   if (response.meta.return_code == 0) {
                     resolve(response.data)
-                    approveLoader.dismiss()
                   } else {
                     reject('bad request')
-                    approveLoader.dismiss()
-                    this.toastService.showServerMessage('approve-log', response.meta.return_code)
                   }
                 }, (error: any, caught: Observable<void>) => {
                   this.toastService.showClientMessage('server-unreachable', 1)
@@ -208,13 +207,13 @@ export class LogService {
                 'retreat-log',
                 retreatForm,
                 (response: any) => {
+                  this.toastService.showServerMessage('retreat-log', response.meta.return_code)
+                  retreatLoader.dismiss()
                   if (response.meta.return_code == 0) {
                     resolve(response.data)
                   } else {
                     reject('bad request')
-                    this.toastService.showServerMessage('retreat-log', response.meta.return_code)
                   }
-                  retreatLoader.dismiss()
                 }, (error: any, caught: Observable<void>) => {
                   this.toastService.showClientMessage('server-unreachable', 1)
                   retreatLoader.dismiss()

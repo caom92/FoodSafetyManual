@@ -38,7 +38,7 @@ export class KoiLoader extends MzBaseModal {
   constructor() {
     super() // invocamos el constructor de la clase padre
   }
-  
+
   public dismiss(): void {
     this.modalComponent.closeModal()
   }
@@ -47,7 +47,7 @@ export class KoiLoader extends MzBaseModal {
 export class LoaderWrapper {
   private loader: MzModalComponent
 
-  public setLoader(loader: MzModalComponent): void  {
+  public setLoader(loader: MzModalComponent): void {
     this.loader = loader
   }
 

@@ -51,7 +51,7 @@ div.row
               i.mdi.mdi-close-circle
 
 div.row
-  div.col.s12.center-align('*ngIf'='hasPendingLogs == false')
+  div.col.s12.center-align('*ngIf'='waitingLogs.length == 0')
     h5
       i.mdi.mdi-alert-octagon.red-text
       = '{{ langManager.messages.authorizationList.noPendings }}'
