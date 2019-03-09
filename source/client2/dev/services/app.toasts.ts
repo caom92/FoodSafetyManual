@@ -7,6 +7,7 @@ export class ToastsService {
   @Language() lang: string
   private readonly defaultTime: number = 3500
   private readonly defaultStyle: string = 'rounded'
+  private readonly translationError: String = 'Missing translation error'
 
   constructor(private mzToastService: MzToastService, private translationService: TranslationService) {
     this.initLanguage()
@@ -38,10 +39,10 @@ export class ToastsService {
   public showServerMessage(service: string, code: number, showOnSuccess: boolean = true): void {
     let translation = this.translationService.translate('ServiceMessages.' + service + '.' + String(code))
 
-    if (translation === 'Missing translation error') {
+    if (translation === this.translationError) {
       // if you don't find the service and code, search for the generic message
       translation = this.translationService.translate('ServiceMessages.generic.' + String(code))
-      if (translation === 'Missing translation error') {
+      if (translation === this.translationError) {
         // if no message is found among the generic errors, send the default message + service and error code
         translation = this.translationService.translate('ServiceMessages.default') + ' ' + service + '/' + code
       }
@@ -55,7 +56,7 @@ export class ToastsService {
   public showClientMessage(key: string, code: number, showOnSuccess: boolean = true): void {
     let translation = this.translationService.translate('ClientMessages.' + key)
 
-    if (translation === 'Missing translation error') {
+    if (translation === this.translationError) {
       // if no message is found, send the default message + key for debugging
       translation = this.translationService.translate('ClientMessages.default') + ' ' + key
     }

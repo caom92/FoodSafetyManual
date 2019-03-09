@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core'
 import { TranslationService } from 'angular-l10n'
 
-import { LogService } from '../../../../services/app.logs'
+import { LogService } from '../../../../services/log.service'
 import { Preview } from '../../report-common/report-preview/report-preview.interface'
 import { SuperReportLoader } from '../../super-report/super.report.loader'
 import { Report } from '../interfaces/gmp.packing.finished.product.report.interface'

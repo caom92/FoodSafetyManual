@@ -68,23 +68,27 @@
     "add": "Añadir"
   },
   "Titles": {
-    "approve_log": "Aprobar bitácora",
-    "reject_log": "Rechazar bitácora",
     "resend_log": "Enviar bitácora",
     "add_item": "Añadir elemento",
     "add_area": "Añadir área",
     "edit_area": "Editar área",
+    "approve_log": "Aprobar bitácora",
+    "retreat_log": "Retroceder bitácora",
+    "reject_log": "Rechazar bitácora",
+    "finish_log": "Finalizar bitácora",
     "close_capa": "Cerrar CAPA",
     "delete_file": "Borrar archivo permanentemente",
     "delete_image": "Borrar imagen permanentemente"
   },
   "Messages": {
-    "approve_log": "¿Está seguro que desea autorizar esta bitácora?",
-    "reject_log": "¿Está seguro que desea rechazar esta bitácora?",
     "resend_log": "¿Está seguro que desea reintentar el envío de esta bitácora?",
     "add_item": "¿Está seguro de que desea añadir este elemento?",
     "add_area": "¿Está seguro de que desea añadir esta área?",
     "edit_area": "¿Está seguro de que desea cambiar el nombre de esta área?",
+    "approve_log": "¿Está seguro que desea aprobar esta bitácora? Esta acción no se puede deshacer",
+    "retreat_log": "¿Está seguro que desea regresar bitácora para ser revisada nuevamente por un supervisor? Esta acción no se puede deshacer",
+    "reject_log": "¿Está seguro que desea rechazar esta bitácora? Esta acción no se puede deshacer",
+    "finish_log": "¿Está seguro que desea finalizar esta bitácora para ser enviada a revisión por un supervisor? Esta acción no se puede deshacer",
     "close_capa": "El formulario se cerrará. Estará disponible para generar reportes, pero no podrá editarse, ¿está seguro que desea continuar?",
     "delete_file": "El archivo PDF que seleccionó para borrar es un archivo que se encuentra en el servidor. Esta acción no se puede deshacer, ¿está seguro que desea continuar?",
     "delete_image": "La imagen que seleccionó para borrar es un archivo que se encuentra en el servidor. Esta acción no se puede deshacer, ¿está seguro que desea continuar?"

@@ -68,23 +68,27 @@
     "add": "Add"
   },
   "Titles": {
-    "approve_log": "Approve log",
-    "reject_log": "Reject log",
     "resend_log": "Resend log",
     "add_item": "Add Item",
     "add_area": "Add Area",
+    "approve_log": "Approve log",
+    "retreat_log": "Return log",
+    "reject_log": "Reject log",
+    "finish_log": "Finish log",
     "edit_area": "Edit Area",
     "close_capa": "Close CAPA",
     "delete_file": "Delete file permanently",
     "delete_image": "Delete image permanently"
   },
   "Messages": {
-    "approve_log": "Are you sure you want to approve this log?",
-    "reject_log": "Are you sure you want to reject this log?",
     "resend_log": "Are you sure you want to retry sending this log?",
     "add_item": "Are you sure you want to add this item?",
     "add_area": "Are you sure you want to add this area?",
     "edit_area": "Are you sure you want to change this area's name?",
+    "approve_log": "Are you sure you want to approve this log? This action cannot be undone",
+    "retreat_log": "Are you sure you want to return this log to be reviewed by a supervisor again? This action cannot be undone",
+    "reject_log": "Are you sure you want to reject this log? This action cannot be undone",
+    "finish_log": "Are you sure you want to finish this log and send it to the supervisor? This action cannot be undone",
     "close_capa": "Form will be closed. It will be available to create reports, but it will no longer be editable, are you sure you want to continue?",
     "delete_file": "The PDF file you selected to delete is a file stored in the server. This action cannot be undone, are you sure you want to continue?",
     "delete_image": "The image you selected to delete is a file stored in the server. This action cannot be undone, are you sure you want to continue?"

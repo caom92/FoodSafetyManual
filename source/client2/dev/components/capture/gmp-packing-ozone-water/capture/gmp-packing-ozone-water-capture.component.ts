@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router'
 import { PubSubService } from 'angular2-pubsub'
 
 import { BackendService } from '../../../../services/app.backend'
-import { LogService } from '../../../../services/app.logs'
+import { LogService } from '../../../../services/log.service'
 import { Log } from '../../../logs/gmp-packing-ozone-water/interfaces/gmp.packing.ozone.water.log.interface'
 import { SuperPartialCapture } from '../../super-capture/super.partial.capture'
 

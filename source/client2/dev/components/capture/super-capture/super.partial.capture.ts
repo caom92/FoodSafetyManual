@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router'
 import { PubSubService } from 'angular2-pubsub'
 
 import { BackendService } from '../../../services/app.backend'
-import { LogService } from '../../../services/app.logs'
+import { LogService } from '../../../services/log.service'
 import { SuperLog } from '../../logs/super-logs/super.logs.log.interface'
 import { SuperCapture } from './super.capture'
 

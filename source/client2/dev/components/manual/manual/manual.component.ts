@@ -3,7 +3,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core'
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
 import { Language } from 'angular-l10n'
 
-import { LogService } from '../../../services/app.logs'
+import { LogService } from '../../../services/log.service'
 
 @Component({
   selector: 'manual',

@@ -2,14 +2,14 @@ import { Component, Input, OnInit } from '@angular/core'
 import { FormArray, FormBuilder, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
-import { LogService } from '../../../../services/app.logs'
-import { DateTimeService } from '../../../../services/time.service'
+import { CustomValidators } from '../../../../directives/custom.validators'
 import { ToastsService } from '../../../../services/app.toasts'
+import { LogService } from '../../../../services/log.service'
+import { DateTimeService } from '../../../../services/time.service'
 import { TranslationConfigService } from '../../../../services/translation-config.service'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
 import { CaptureItem } from '../interfaces/gmp.packing.scissors.knives.capture.interface'
 import { Log } from '../interfaces/gmp.packing.scissors.knives.log.interface'
-import { CustomValidators } from '../../../../directives/custom.validators'
 
 @Component({
   selector: 'gmp-packing-scissors-knives-log',

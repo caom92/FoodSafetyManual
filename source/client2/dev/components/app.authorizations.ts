@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core'
 import { BackendService } from '../services/app.backend'
 import { HomeElementsService } from '../services/app.home'
 import { LanguageService } from '../services/app.language'
-import { LogService } from '../services/app.logs'
 import { ToastService } from '../services/app.toast'
+import { LogService } from '../services/log.service'
 
 // Componente que define el comportamiento de la pagina que despliega una lista 
 // de las bitacoras que estan pendientes de revision

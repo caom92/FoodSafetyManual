@@ -1,7 +1,7 @@
-import { EventEmitter, Output, Input } from '@angular/core'
+import { EventEmitter, Input, Output } from '@angular/core'
 import { DefaultLocale, Language } from 'angular-l10n'
 
-import { LogService } from '../../../services/app.logs'
+import { LogService } from '../../../services/log.service'
 import { SuperWaiting } from '../super-logs/super.logs.waiting.interface'
 
 export interface LogListElement {

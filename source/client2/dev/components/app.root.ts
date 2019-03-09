@@ -44,6 +44,8 @@ import { ClickStopPropagationDirective } from '../directives/app.stop.propagatio
 import { HomeElementsService } from '../services/app.home'
 import { BackendService } from '../services/app.backend'
 import { BackendAPIService } from '../services/backend-api.service'
+import { DataResolverService } from '../services/data-resolver.service'
+import { FormUtilService } from '../services/form-util.service'
 import { LanguageService } from '../services/app.language'
 import { ToastService } from '../services/app.toast'
 import { DateTimeService } from '../services/time.service'
@@ -53,7 +55,7 @@ import { AlertComponent } from '../services/alert/app.alert.component'
 import { AlertController } from '../services/alert/app.alert'
 import { DragulaModule, DragulaService } from 'ng2-dragula'
 import { FlattenService } from '../services/flatten.service'
-import { LogService } from '../services/app.logs'
+import { LogService } from '../services/log.service'
 import { MenuService } from '../services/app.menu'
 import { CAPAService } from '../services/capa.service'
 import { ToastsService } from '../services/app.toasts'
@@ -84,6 +86,8 @@ import { RootRoutingModule } from './app-routing.root'
     HomeElementsService,
     BackendService,
     BackendAPIService,
+    DataResolverService,
+    FormUtilService,
     ToastService,
     LanguageService,
     DateTimeService,

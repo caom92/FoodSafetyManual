@@ -1,7 +1,7 @@
-import { Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core'
+import { EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core'
 import { DefaultLocale, Language, TranslationService } from 'angular-l10n'
 
-import { LogService } from '../../../services/app.logs'
+import { LogService } from '../../../services/log.service'
 import { Preview } from '../report-common/report-preview/report-preview.interface'
 import { ActiveReport, ReportRequest } from '../reports.interface'
 import { SuperReportComponent } from './super.report'

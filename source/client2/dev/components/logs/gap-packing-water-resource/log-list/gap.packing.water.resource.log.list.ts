@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 
-import { LogService } from '../../../../services/app.logs'
+import { LogService } from '../../../../services/log.service'
 import { SuperLogListComponent } from '../../super-logs/super.logs.list'
 
 @Component({
