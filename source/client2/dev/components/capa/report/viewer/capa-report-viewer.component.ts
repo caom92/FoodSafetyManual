@@ -44,14 +44,19 @@ export class CAPAReportViewer implements OnInit {
   public requestReports(): void {
     if (this.dateRangeForm.valid) {
       this.capaService.report(this.dateRangeForm.value).then(success => {
-        console.log(success)
         this.reports = success
         this.activeCAPA.id = 'any'
-        console.log(this.reports)
-        console.log(this.activeCAPA)
       }, error => {
 
       }) 
     }
+  }
+
+  public onRemoved(id: number): void {
+    console.log('remove id', id)
+    let removeID = this.reports.findIndex((x => x.id == id))
+    console.log('index', removeID)
+    this.reports.splice(removeID, 1)
+    this.activeCAPA.id = 'any'
   }
 }

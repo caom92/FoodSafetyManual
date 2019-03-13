@@ -279,6 +279,16 @@ export class CAPAFormComponent {
     }
   }
 
+  public delete(): void {
+    if (this.data.id === Number(this.data.id)) {
+      this.capaService.delete(this.data.id).then(success => {
+        this.back()
+      }, error => {
+
+      })
+    }
+  }
+
   public back(): void {
     this.closeCapa.emit()
   }

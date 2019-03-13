@@ -96,13 +96,16 @@ div([formGroup]='capaForm')
               button.red.pointer(mz-button, [float]='true', (click)='deleteImage(i)')
                 i(mz-icon-mdi, [icon]="'delete'")
 
-div(class="row")
-  div(class="center col s4 m4 l4", style="margin-bottom: 20px;")
+div(class='row')
+  div(class='center col', [ngClass]='(data.id != undefined)?"s3 m3 l3":"s6 m6 l6"', style="margin-bottom: 20px;")
     button(mz-button, (click)='save()')= "Guardar "
       i(mz-icon-mdi, [icon]="'send'")
-  div(class="center col s4 m4 l4", style="margin-bottom: 20px;")
-    button(*ngIf='data.id != undefined', mz-button, (click)='close()', [disabled]='!capaForm.pristine')= "Cerrar "
+  div(class='center col s3 m3 l3', style="margin-bottom: 20px;", *ngIf='data.id != undefined')
+    button(mz-button, (click)='close()', [disabled]='!capaForm.pristine')= "Cerrar "
       i(mz-icon-mdi, [icon]="'lock'")
-  div(class="center col s4 m4 l4", style="margin-bottom: 20px;")
+  div(class='center col', [ngClass]='(data.id != undefined)?"s3 m3 l3":"s6 m6 l6"', style="margin-bottom: 20px;")
     button(mz-button, (click)='back()')= "Regresar "
       i(mz-icon-mdi, [icon]="'undo-variant'")
+  div(class='center col s3 m3 l3', style="margin-bottom: 20px;", *ngIf='data.id != undefined')
+    button(mz-button, (click)='delete()')= "Borrar "
+      i(mz-icon-mdi, [icon]="'delete'")

@@ -1,7 +1,8 @@
-import { Component, Input, ViewChild } from '@angular/core'
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core'
 import { DefaultLocale, Language } from 'angular-l10n'
-import { ReportRequest } from '../../../../components/reports/reports.interface'
 
+import { ReportRequest } from '../../../../components/reports/reports.interface'
+import { CAPAService } from '../../../../services/capa.service'
 import { ActiveCAPA, CAPAReportInterface } from '../interface/capa-report.interface'
 import { CAPAReport } from '../report/capa-report.component'
 
@@ -17,12 +18,13 @@ export class CAPAReportLoader {
   @Input() public report: CAPAReportInterface = null
   @Input() private activeCAPA: ActiveCAPA
 
+  @Output() removed = new EventEmitter<number>()
+
   @ViewChild('reportContainer') public reportComponent: CAPAReport
 
-  private showReport: boolean = false
   private reportRequest: ReportRequest = { lang: null, content: null, style: null, company: null, address: null, logo: null, orientation: null, footer: null, supervisor: null, signature: null, subject: null, fontsize: null, images: null }
 
-  constructor() {
+  constructor(private capaService: CAPAService) {
 
   }
 
@@ -45,12 +47,18 @@ export class CAPAReportLoader {
   }
 
   public openHTMLReport(): void {
-    this.showReport = true
     this.activeCAPA.id = this.report.id
   }
 
   public closeHTMLReport(): void {
-    this.showReport = false
     this.activeCAPA.id = 'any'
+  }
+
+  public delete(): void {
+    this.capaService.delete(this.report.id).then(success => {
+      this.removed.emit(this.report.id)
+    }, error => {
+
+    })
   }
 }

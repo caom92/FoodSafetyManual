@@ -15,7 +15,8 @@ $capa = [
     'delete-capa-file' => realpath(__DIR__.'/delete-capa-file.php'),
     'delete-capa-image' => realpath(__DIR__.'/delete-capa-image.php'),
     'list-waiting-logs-capa-form' => realpath(__DIR__.'/list-waiting-logs-capa-form.php'),
-    'approve-capa-form' => realpath(__DIR__.'/approve-capa-form.php')
+    'approve-capa-form' => realpath(__DIR__.'/approve-capa-form.php'),
+    'delete-capa-form' => realpath(__DIR__.'/delete-capa-form.php')
   ]
 ];
 

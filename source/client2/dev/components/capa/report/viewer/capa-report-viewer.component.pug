@@ -15,6 +15,6 @@ div
             button(mz-button, [disabled]='!dateRangeForm.valid')
               | {{ 'Open Report' | translate:lang }}
 
-.custom-collection
+.custom-collection(*ngIf='reports.length != 0')
   ng-template(ngFor, let-report, [ngForOf]='reports')
-    .custom-item(capa-report-loader, [report]='report', [activeCAPA]='activeCAPA', *ngIf="activeCAPA.id == 'any' || activeCAPA.id == report.id")
+    .custom-item(capa-report-loader, [report]='report', [activeCAPA]='activeCAPA', *ngIf="activeCAPA.id == 'any' || activeCAPA.id == report.id", (removed)='onRemoved($event)')

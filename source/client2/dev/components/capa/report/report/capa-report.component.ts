@@ -18,13 +18,13 @@ export class CAPAReport implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.report.reference = this.report.reference.replace(/(?:\r\n|\r|\n)/g, '<br>')
-    this.report.description = this.report.description.replace(/(?:\r\n|\r|\n)/g, '<br>')
-    this.report.findings = this.report.findings.replace(/(?:\r\n|\r|\n)/g, '<br>')
-    this.report.root_cause = this.report.root_cause.replace(/(?:\r\n|\r|\n)/g, '<br>')
-    this.report.preventive_actions = this.report.preventive_actions.replace(/(?:\r\n|\r|\n)/g, '<br>')
-    this.report.corrective_actions = this.report.corrective_actions.replace(/(?:\r\n|\r|\n)/g, '<br>')
-    this.report.follow_up = this.report.follow_up.replace(/(?:\r\n|\r|\n)/g, '<br>')
+    this.report.reference = (this.report.reference === String(this.report.reference)) ? this.report.reference.replace(/(?:\r\n|\r|\n)/g, '<br>') : ''
+    this.report.description = (this.report.description === String(this.report.description)) ? this.report.description.replace(/(?:\r\n|\r|\n)/g, '<br>') : ''
+    this.report.findings = (this.report.findings === String(this.report.findings)) ? this.report.findings.replace(/(?:\r\n|\r|\n)/g, '<br>') : ''
+    this.report.root_cause = (this.report.root_cause === String(this.report.root_cause)) ? this.report.root_cause.replace(/(?:\r\n|\r|\n)/g, '<br>') : ''
+    this.report.preventive_actions = (this.report.preventive_actions === String(this.report.preventive_actions)) ? this.report.preventive_actions.replace(/(?:\r\n|\r|\n)/g, '<br>') : ''
+    this.report.corrective_actions = (this.report.corrective_actions === String(this.report.corrective_actions)) ? this.report.corrective_actions.replace(/(?:\r\n|\r|\n)/g, '<br>') : ''
+    this.report.follow_up = (this.report.follow_up === String(this.report.follow_up)) ? this.report.follow_up.replace(/(?:\r\n|\r|\n)/g, '<br>') : ''
   }
 
   public getPDFContent(): Object {

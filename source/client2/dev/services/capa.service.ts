@@ -85,6 +85,20 @@ export class CAPAService {
     return closePromise
   }
 
+  public delete(id: number): Promise<any> {
+    let data = { id: id }
+
+    let deletePromise = new Promise<any>((resolve, reject) => {
+      this.apiService.confirmationService('delete-capa-form', 'Titles.delete_capa', 'Messages.delete_capa', data).then(success => {
+        resolve(success)
+      }, error => {
+        reject(error)
+      })
+    })
+
+    return deletePromise
+  }
+
   public deleteFile(id: number): Promise<any> {
     let data = { id: id }
 

@@ -63,7 +63,7 @@ export class SuperReportViewer implements OnInit {
     let removeID = this.reports.findIndex((x => x.report_id == id))
     this.reports.splice(removeID, 1)
     this.activeReport.id = 'any'
-}
+  }
 
   public requestReports(): void {
     const requestForm = this.fillRequestForm()

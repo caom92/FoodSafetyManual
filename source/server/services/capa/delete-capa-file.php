@@ -19,8 +19,6 @@ $service = [
     } else {
       throw new \Exception('File does not exist');
     }
-
-    
   }
 ];
 

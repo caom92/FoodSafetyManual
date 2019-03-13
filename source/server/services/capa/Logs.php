@@ -144,6 +144,12 @@ class Logs extends db\InsertableTable
     );
   }
 
+  function deleteByID($formID) {
+    return parent::delete([
+      'id' => $formID
+    ]);
+  }
+
   function updateByID($changes, $logID) {
     return parent::update($changes, ['id ' => $logID]);
   }

@@ -20,7 +20,7 @@ export class CAPAList implements OnInit, OnDestroy {
   protected capaList: Array<CAPAListElement> = []
   protected waitingCapa: CAPAForm = null
 
-  constructor(protected capaService: CAPAService, private events: PubSubService) {
+  constructor(private capaService: CAPAService, private events: PubSubService) {
     
   }
 

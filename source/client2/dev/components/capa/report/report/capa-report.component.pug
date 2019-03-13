@@ -82,6 +82,11 @@ mz-card
           tr
             td.boldText.grayBackground.smallFullColumn 20. {{ 'CAPAForm.signature_date' | translate:lang }}
             td.bigFullColumn {{report.closure_date}}
+      div([hidden]='true')
+        h4(*ngIf='report.files.length != 0') {{ 'CAPAForm.pdfs' | translate:lang }}
+        ng-template(ngFor, let-file, [ngForOf]='report.files')
+          a(href="http://localhost/espresso/data/capa/documents/{{file.path}}") {{file.path}}
+          br
     h4(*ngIf='report.files.length != 0') {{ 'CAPAForm.pdfs' | translate:lang }}
     mz-collection(*ngIf='report.files.length != 0')
       ng-template(ngFor, let-file, [ngForOf]='report.files')
