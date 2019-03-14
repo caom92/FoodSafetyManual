@@ -24,7 +24,7 @@ export abstract class SuperUpdateComponent extends SuperLogComponent {
   public update(): void {
     this.cleanForm()
     if (this.captureForm.valid) {
-      this.logService.update(this.captureForm.value, this.suffix).then(success => {
+      this.logService.update(this.suffix, this.captureForm.value).then(success => {
         this.enableForm()
         this.captureForm.markAsPristine()
       }, error => {

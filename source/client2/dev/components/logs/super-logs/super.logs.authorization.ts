@@ -110,7 +110,7 @@ export abstract class SuperAuthorizationComponent implements OnInit {
   public save(): void {
     this.cleanForm()
     if (this.captureForm.valid) {
-      this.logService.update(this.captureForm.value, this.suffix).then(success => {
+      this.logService.update(this.suffix, this.captureForm.value).then(success => {
         this.captureForm.markAsPristine()
         this.enableForm()
       }, error => {

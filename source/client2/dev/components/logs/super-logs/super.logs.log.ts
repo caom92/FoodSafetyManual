@@ -110,7 +110,7 @@ export abstract class SuperLogComponent implements OnInit {
     if (this.captureForm.valid) {
       // Información adicional, necesaria en el caso de que la bitácora no pueda
       // enviarse
-      this.logService.capture(this.captureForm.value, this.suffix).then(success => {
+      this.logService.capture(this.suffix, this.captureForm.value).then(success => {
         this.resetForm()
         this.enableForm()
       }, error => {

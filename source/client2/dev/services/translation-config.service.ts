@@ -10,7 +10,7 @@ export class TranslationConfigService {
   }
 
   public selectLanguage(language: string, country?: string): void {
-    if (country == undefined) {
+    if (country !== String(country)) {
       country = 'US'
     }
     this.locale.setDefaultLocale(language, country)
