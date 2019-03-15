@@ -15,7 +15,7 @@ export abstract class SuperInventoryViewer implements OnInit {
     this.routeState.data.subscribe((data) => {
       this.inventorySuffix = data.suffix
       let logManualFormData = new FormData()
-      logManualFormData.append('log-suffix', this.inventorySuffix)
+      logManualFormData.append('suffix', this.inventorySuffix)
 
       this.server.update(
         'get-log-manual-url',

@@ -127,7 +127,7 @@ export abstract class SuperAuthorizationComponent implements OnInit {
     this.logService.approve(Number(this.log.report_id)).then(success => {
       this.router.navigate(['/pending-authorizations-list'])
     }, error => {
-      console.log(error)
+
     })
   }
 
@@ -135,7 +135,7 @@ export abstract class SuperAuthorizationComponent implements OnInit {
     this.logService.reject(Number(this.log.report_id)).then(success => {
       this.router.navigate(['/pending-authorizations-list'])
     }, error => {
-      console.log(error)
+
     })
   }
 

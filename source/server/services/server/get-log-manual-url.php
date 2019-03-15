@@ -3,7 +3,7 @@
 $service = [
   'requirements_desc' => [
     'logged_in' => ['Supervisor', 'Employee', 'Director', 'Manager'],
-    'log-suffix' => [
+    'suffix' => [
       'type' => 'string'
     ]
   ],

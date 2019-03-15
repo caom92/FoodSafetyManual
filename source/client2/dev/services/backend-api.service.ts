@@ -50,10 +50,36 @@ export class BackendAPIService {
     return null
   }
 
+  public backgroundService(service: string, data?: Object, showOnSuccess: boolean = true): Promise<any> {
+    if (service === String(service)) {
+      let promise = new Promise<any>((resolve, reject) => {
+        this.server.update(
+          service,
+          (data !== undefined && data !== null) ? this.flattenService.formDataFromFlatObject(this.flattenService.flatten(data)) : new FormData(),
+          (response: any) => {
+            this.toastService.showServerMessage(service, response.meta.return_code, showOnSuccess)
+            if (response.meta.return_code == 0) {
+              resolve(response.data)
+            } else {
+              reject(response.meta.return_code)
+            }
+          }, (error: any, caught: Observable<void>) => {
+            this.toastService.showClientMessage('server-unreachable', 1, showOnSuccess)
+            reject('network error')
+            return []
+          }
+        )
+      })
+
+      return promise
+    }
+
+    return null
+  }
+
   public silentService(service: string, data?: Object): Promise<any> {
     if (service === String(service)) {
       let promise = new Promise<any>((resolve, reject) => {
-
         this.server.update(
           service,
           (data !== undefined && data !== null) ? this.flattenService.formDataFromFlatObject(this.flattenService.flatten(data)) : new FormData(),

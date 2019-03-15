@@ -12,7 +12,7 @@ export class LogService {
 
   public log(suffix: string): Promise<any> {
     let logPromise = new Promise<any>((resolve, reject) => {
-      this.apiService.service('log-' + suffix).then(success => {
+      this.apiService.service('log-' + suffix, null, false).then(success => {
         resolve(success)
       }, error => {
         reject(error)
@@ -36,7 +36,7 @@ export class LogService {
 
   public listWaitingLogs(suffix: string): Promise<any> {
     let listPromise = new Promise<any>((resolve, reject) => {
-      this.apiService.service('list-waiting-logs-' + suffix).then(success => {
+      this.apiService.service('list-waiting-logs-' + suffix, null, false).then(success => {
         resolve(success)
       }, error => {
         reject(error)
@@ -140,6 +140,20 @@ export class LogService {
     })
 
     return uploadPromise
+  }
+
+  public manualUrl(suffix: string): Promise<any> {
+    let data = { suffix: suffix }
+
+    let manualPromise = new Promise<any>((resolve, reject) => {
+      this.apiService.backgroundService('get-log-manual-url', data, false).then(success => {
+        resolve(success)
+      }, error => {
+        reject(error)
+      })
+    })
+
+    return manualPromise
   }
 
   // https://stackoverflow.com/questions/43551221/angular-2-mark-nested-formbuilder-as-touched

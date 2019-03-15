@@ -22,7 +22,7 @@ export class SuperCapture implements OnInit, OnDestroy {
 
   public getManual(): void {
     let logManualFormData = new FormData()
-    logManualFormData.append('log-suffix', this.suffix)
+    logManualFormData.append('suffix', this.suffix)
 
     this.server.update(
       'get-log-manual-url',

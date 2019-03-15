@@ -37,7 +37,7 @@ export class CAPAService {
     let data = { id: id }
 
     let authorizationPromise = new Promise<any>((resolve, reject) => {
-      this.apiService.service('authorization-report-capa-form', data).then(success => {
+      this.apiService.service('authorization-report-capa-form', data, false).then(success => {
         resolve(success)
       }, error => {
         reject(error)
@@ -61,7 +61,7 @@ export class CAPAService {
 
   public listWaitingLogs(): Promise<any> {
     let listPromise = new Promise<any>((resolve, reject) => {
-      this.apiService.service('list-waiting-logs-capa-form').then(success => {
+      this.apiService.service('list-waiting-logs-capa-form', null, false).then(success => {
         resolve(success)
       }, error => {
         reject(error)
