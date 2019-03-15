@@ -1,35 +1,26 @@
 import { OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 
-import { BackendService } from '../../../services/app.backend'
+import { LogService } from '../../../services/log.service'
+import { Language } from 'angular-l10n'
 
 export abstract class SuperInventoryViewer implements OnInit {
+  @Language() lang: string
   private inventorySuffix: string = ''
-  private title: string = ''
+  private title: string = null
 
-  constructor(private routeState: ActivatedRoute, private server: BackendService) {
+  constructor(private routeState: ActivatedRoute, private logService: LogService) {
 
   }
 
   public ngOnInit(): void {
     this.routeState.data.subscribe((data) => {
       this.inventorySuffix = data.suffix
-      let logManualFormData = new FormData()
-      logManualFormData.append('suffix', this.inventorySuffix)
+      this.logService.manualUrl(this.inventorySuffix).then(success => {
+        this.title = success.log_name
+      }, error => {
 
-      this.server.update(
-        'get-log-manual-url',
-        logManualFormData,
-        (response: any) => {
-          if (response.meta.return_code == 0) {
-            if (response.data) {
-              this.title = response.data.log_name
-            }
-          } else {
-            this.title = 'Loading...'
-          }
-        }
-      )
+      })
     })
   }
 }

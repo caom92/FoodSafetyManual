@@ -39,6 +39,7 @@
   "Reject": "Rechazar",
   "Open": "Abrir",
   "Inventory": "Inventario",
+  "Default Title": "El nombre del inventario no pudo recuperarse",
   "Manage Inventory": "Gestión de Inventario",
   "Manage Areas": "Gestión de Áreas",
   "InventoryLists": {

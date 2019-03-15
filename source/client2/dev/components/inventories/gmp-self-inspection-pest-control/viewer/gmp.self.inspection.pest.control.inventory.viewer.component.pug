@@ -1,8 +1,7 @@
 extends ../../inventory-viewer.common.pug
 
-block inventory
-  mz-tab([fixedTabWidth]="'true'")
-    mz-tab-item([label]="'Manage Inventory'")
-      gmp-self-inspection-pest-control-inventory
-    mz-tab-item([label]="'Manage Areas'")
-      gmp-self-inspection-pest-control-area-inventory
+block itemInventory
+  gmp-self-inspection-pest-control-inventory
+
+block areaInventory
+  gmp-self-inspection-pest-control-area-inventory

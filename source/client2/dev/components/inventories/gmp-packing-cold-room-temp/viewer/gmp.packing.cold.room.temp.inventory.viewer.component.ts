@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 
-import { BackendService } from '../../../../services/app.backend'
+import { LogService } from '../../../../services/log.service'
 import { SuperInventoryViewer } from '../../super-inventory/super.inventory.viewer'
 
 @Component({
@@ -10,7 +10,7 @@ import { SuperInventoryViewer } from '../../super-inventory/super.inventory.view
 })
 
 export class GMPPackingColdRoomTempInventoryViewerComponent extends SuperInventoryViewer {
-  constructor(routeState: ActivatedRoute, server: BackendService) {
-    super(routeState, server)
+  constructor(routeState: ActivatedRoute, logService: LogService) {
+    super(routeState, logService)
   }
 }

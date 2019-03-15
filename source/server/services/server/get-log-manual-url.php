@@ -9,7 +9,7 @@ $service = [
   ],
   'callback' => function($scope, $request) {
     $row = $scope->daoFactory->get('Logs')->getManualURLBySuffix(
-      $request['log-suffix']);
+      $request['suffix']);
     $row['manual_location'] = 'data/documents/manuals/'.$row['manual_location'];
     return $row;
   }

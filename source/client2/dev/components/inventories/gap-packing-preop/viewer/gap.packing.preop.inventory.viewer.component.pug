@@ -1,8 +1,7 @@
 extends ../../inventory-viewer.common.pug
 
-block inventory
-  mz-tab([fixedTabWidth]="'true'")
-    mz-tab-item([label]="'Manage Inventory'")
-      gap-packing-preop-inventory
-    mz-tab-item([label]="'Manage Areas'")
-      gap-packing-preop-area-inventory
+block itemInventory
+  gap-packing-preop-inventory
+
+block areaInventory
+  gap-packing-preop-area-inventory
