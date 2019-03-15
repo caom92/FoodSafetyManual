@@ -1,9 +1,8 @@
 import { Component } from '@angular/core'
-import { DomSanitizer } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'
 import { PubSubService } from 'angular2-pubsub'
-import { BackendService } from '../../../../services/app.backend'
 
+import { LogService } from '../../../../services/log.service'
 import { SuperCapture } from '../../super-capture/super.capture'
 
 @Component({
@@ -12,7 +11,7 @@ import { SuperCapture } from '../../super-capture/super.capture'
 })
 
 export class GMPPackingPreopCaptureComponent extends SuperCapture {
-  constructor(routeState: ActivatedRoute, server: BackendService, sanitizer: DomSanitizer, events: PubSubService) {
-    super(routeState, server, sanitizer, events)
+  constructor(routeState: ActivatedRoute, logService: LogService, events: PubSubService) {
+    super(routeState, logService, events)
   }
 }
