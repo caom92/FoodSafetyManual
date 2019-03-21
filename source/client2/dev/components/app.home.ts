@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
+import { Router } from '@angular/router'
 import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 import { Observable } from 'rxjs'
@@ -197,8 +197,6 @@ export class HomeComponent implements OnInit
           $('select').material_select()
         })
         // this.home.zoneID = Number(localStorage.zone_id)
-        // console.log(this.home.zone)
-        // console.log(this.home.zone.id)
         return []
       } // (response: Response)
     ) // this.server.update

@@ -53,9 +53,7 @@ export class CAPAReportViewer implements OnInit {
   }
 
   public onRemoved(id: number): void {
-    console.log('remove id', id)
     let removeID = this.reports.findIndex((x => x.id == id))
-    console.log('index', removeID)
     this.reports.splice(removeID, 1)
     this.activeCAPA.id = 'any'
   }

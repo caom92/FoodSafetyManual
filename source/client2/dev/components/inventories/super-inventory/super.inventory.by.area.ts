@@ -21,12 +21,10 @@ export class SuperInventoryByAreaComponent extends SuperInventoryComponent imple
   public ngOnInit(): void {
     this.scrollStop = this.events.$sub('scroll:stop').subscribe((message) => {
       this.scrollAllowed = false
-      console.log('Message: ' + message)
     })
 
     this.scrollStart = this.events.$sub('scroll:start').subscribe((message) => {
       this.scrollAllowed = true
-      console.log('Message: ' + message)
     })
 
     this.areaAdd = this.events.$sub('area:add', (data) => {
@@ -46,7 +44,7 @@ export class SuperInventoryByAreaComponent extends SuperInventoryComponent imple
   }
 
   public loadAreaInventory(event): void {
-    this.inventoryService.getInventoryByArea(this.suffix, {room_id: event, area_id: event}).then(success => {
+    this.inventoryService.getInventoryByArea(this.suffix, { room_id: event, area_id: event }).then(success => {
       this.inventory = success
       this.initDragula()
       this.onInventoryUpdate()
@@ -63,7 +61,6 @@ export class SuperInventoryByAreaComponent extends SuperInventoryComponent imple
   }
 
   public ngOnDestroy(): void {
-    console.log('super.inventory.by.area.ts ngOnDestroy')
     super.ngOnDestroy()
     this.areaAdd.unsubscribe()
     this.areaEdit.unsubscribe()

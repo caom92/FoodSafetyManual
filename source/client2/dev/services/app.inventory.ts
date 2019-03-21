@@ -73,14 +73,14 @@ export class InventoryService {
     return inventoryPromise
   }
 
-  public toggleItem(data: any, service: string): Promise<void> {
+  public toggleItem(suffix: string, data: any): Promise<void> {
     let togglePromise = new Promise<any>((resolve, reject) => {
       let loaderToggle = this.loaderService.koiLoader()
       let item = new FormData()
       item.append('id', String(data.id))
 
       this.server.update(
-        service,
+        'toggle-' + suffix,
         item,
         (response: any) => {
           loaderToggle.dismiss()
@@ -138,7 +138,7 @@ export class InventoryService {
     return reorderPromise
   }
 
-  public addItem(data: Object, suffix: string): Promise<any> {
+  public addItem(suffix: string, data: Object): Promise<any> {
     let addPromise = new Promise<any>((resolve, reject) => {
       let loaderAdd = this.loaderService.koiLoader()
       let itemForm = this.flattenService.formDataFromFlatObject(this.flattenService.flatten(data))

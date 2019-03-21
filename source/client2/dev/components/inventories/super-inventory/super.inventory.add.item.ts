@@ -42,7 +42,7 @@ export class SuperInventoryAddItemComponent {
           {
             text: this.translationService.translate('Options.accept'),
             handler: () => {
-              this.inventoryService.addItem(itemData, this.suffix).then(success => {
+              this.inventoryService.addItem(this.suffix, itemData).then(success => {
                 data.item.id = success
                 this.events.$pub('item:add', data)
               })

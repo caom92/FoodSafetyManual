@@ -29,12 +29,10 @@ export class SuperAreaInventoryComponent extends DragulaInventory implements OnI
   public ngOnInit(): void {
     this.scrollStopSubscription = this.events.$sub('scroll:stop', (message) => {
       this.scrollAllowed = false
-      console.log('Message: ' + message)
     })
 
     this.scrollStartSubscription = this.events.$sub('scroll:start', (message) => {
       this.scrollAllowed = true
-      console.log('Message: ' + message)
     })
 
     this.areaAdd = this.events.$sub('area:add', (data) => {

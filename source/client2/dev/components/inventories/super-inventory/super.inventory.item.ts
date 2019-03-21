@@ -61,7 +61,7 @@ export class SuperInventoryItemComponent {
       this.toggleError = false
     } else {
       this.previousValue = this.toggleValue
-      this.inventoryService.toggleItem(this.item, "toggle-" + this.suffix).then(success => {
+      this.inventoryService.toggleItem(this.suffix, this.item).then(success => {
 
       }, error => {
         this.toggleError = true
