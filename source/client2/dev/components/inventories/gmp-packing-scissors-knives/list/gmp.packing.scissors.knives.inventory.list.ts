@@ -3,7 +3,7 @@ import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
 
-import { InventoryService } from '../../../../services/app.inventory'
+import { InventoryService } from '../../../../services/inventory.service'
 import { SuperInventoryListComponent } from '../../super-inventory/super.inventory.list'
 import { InventoryItem } from '../interfaces/gmp.packing.scissors.knives.inventory.interface'
 
@@ -13,9 +13,9 @@ import { InventoryItem } from '../interfaces/gmp.packing.scissors.knives.invento
 })
 
 export class GMPPackingScissorsKnivesInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnDestroy {
-  @Language() private lang: string
+  @Language() lang: string
   @Input() items: Array<InventoryItem>
-  @Input() private printHeader: boolean = false
+  @Input() printHeader: boolean = false
 
   constructor(dragulaService: DragulaService,
     events: PubSubService,

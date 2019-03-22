@@ -1,9 +1,9 @@
 import { FormBuilder, FormGroup } from '@angular/forms'
 import { PubSubService } from 'angular2-pubsub'
 
-import { InventoryService } from '../../../services/app.inventory'
 import { ToastsService } from '../../../services/app.toasts'
 import { FormUtilService } from '../../../services/form-util.service'
+import { InventoryService } from '../../../services/inventory.service'
 
 export class SuperInventoryAddItemComponent {
   protected newItem: FormGroup = new FormBuilder().group({})

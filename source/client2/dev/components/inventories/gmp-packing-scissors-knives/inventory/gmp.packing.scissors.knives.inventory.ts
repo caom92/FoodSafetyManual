@@ -3,7 +3,7 @@ import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
 
-import { InventoryService } from '../../../../services/app.inventory'
+import { InventoryService } from '../../../../services/inventory.service'
 import { SuperInventoryComponent } from '../../super-inventory/super.inventory'
 import { InventoryItem } from '../interfaces/gmp.packing.scissors.knives.inventory.interface'
 
@@ -31,13 +31,6 @@ export class GMPPackingScissorsKnivesInventoryComponent extends SuperInventoryCo
   public onInventoryUpdate(): void {
     // Se debe reimplmentar para evitar que se lance la excepción
   }
-
-  /*public addItem(): void {
-    super.addItem(GMPPackingScissorsKnivesAddItemComponent, null, (data) => {
-      data.item.position = this.inventory.length + 1
-      this.inventory.push(data.item)
-    })
-  }*/
 
   public checkEmptyInventory(): boolean {
     this.emptyInventoryFlag = this.inventory.length == 0

@@ -3,9 +3,9 @@ import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
 
-import { InventoryService } from '../../../../services/app.inventory'
+import { InventoryService } from '../../../../services/inventory.service'
 import { SuperInventoryListComponent } from '../../super-inventory/super.inventory.list'
-import { InventoryType, InventoryItem } from '../interfaces/gmp.packing.scale.calibration.inventory.interface'
+import { InventoryItem, InventoryType } from '../interfaces/gmp.packing.scale.calibration.inventory.interface'
 
 @Component({
   selector: '[gmp-packing-scale-calibration-inventory-list]',

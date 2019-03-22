@@ -3,7 +3,7 @@ import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
 
-import { InventoryService } from '../../../../services/app.inventory'
+import { InventoryService } from '../../../../services/inventory.service'
 import { SuperInventoryListComponent } from '../../super-inventory/super.inventory.list'
 import { InventoryItem } from '../interfaces/gmp.packing.thermo.calibration.inventory.interface'
 

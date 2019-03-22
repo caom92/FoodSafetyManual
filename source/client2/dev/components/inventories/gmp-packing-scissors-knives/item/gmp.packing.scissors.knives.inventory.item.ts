@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { InventoryItem } from '../interfaces/gmp.packing.scissors.knives.inventory.interface'
+
+import { InventoryService } from '../../../../services/inventory.service'
 import { SuperInventoryItemComponent } from '../../super-inventory/super.inventory.item'
-import { InventoryService } from '../../../../services/app.inventory'
+import { InventoryItem } from '../interfaces/gmp.packing.scissors.knives.inventory.interface'
 
 @Component({
   selector: '[gmp-packing-scissors-knives-inventory-item]',
@@ -9,7 +10,7 @@ import { InventoryService } from '../../../../services/app.inventory'
 })
 
 export class GMPPackingScissorsKnivesInventoryItemComponent extends SuperInventoryItemComponent implements OnInit {
-  @Input() private type: string = ''
+  @Input() type: string = ''
   @Input() item: InventoryItem = null
 
   constructor(inventoryService: InventoryService) {

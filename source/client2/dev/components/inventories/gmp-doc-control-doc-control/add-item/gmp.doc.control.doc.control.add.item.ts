@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 
-import { InventoryService } from '../../../../services/app.inventory'
 import { ToastsService } from '../../../../services/app.toasts'
 import { FormUtilService } from '../../../../services/form-util.service'
+import { InventoryService } from '../../../../services/inventory.service'
 import { SuperInventoryAddItemComponent } from '../../super-inventory/super.inventory.add.item'
 
 @Component({

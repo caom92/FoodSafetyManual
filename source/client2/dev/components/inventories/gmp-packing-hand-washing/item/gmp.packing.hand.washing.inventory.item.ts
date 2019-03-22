@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { InventoryItem } from '../interfaces/gmp.packing.hand.washing.inventory.interface'
+
+import { InventoryService } from '../../../../services/inventory.service'
 import { SuperInventoryItemComponent } from '../../super-inventory/super.inventory.item'
-import { InventoryService } from '../../../../services/app.inventory'
+import { InventoryItem } from '../interfaces/gmp.packing.hand.washing.inventory.interface'
 
 @Component({
   selector: '[gmp-packing-hand-washing-inventory-item]',

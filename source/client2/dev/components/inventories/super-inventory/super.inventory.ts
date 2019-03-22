@@ -3,7 +3,7 @@ import { PubSubService } from 'angular2-pubsub'
 import { Subscription } from 'angular2-pubsub/node_modules/rxjs'
 import { DragulaService } from 'ng2-dragula'
 
-import { InventoryService } from '../../../services/app.inventory'
+import { InventoryService } from '../../../services/inventory.service'
 import { DragulaInventory } from './dragula.inventory'
 
 export abstract class SuperInventoryComponent extends DragulaInventory implements OnInit, OnDestroy {

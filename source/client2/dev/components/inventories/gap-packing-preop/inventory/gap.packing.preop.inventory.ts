@@ -4,7 +4,7 @@ import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
 
 import { AreaManagerService } from '../../../../services/app.area.manager'
-import { InventoryService } from '../../../../services/app.inventory'
+import { InventoryService } from '../../../../services/inventory.service'
 import { SuperInventoryByAreaComponent } from '../../super-inventory/super.inventory.by.area'
 import { InventoryType } from '../interfaces/gap.packing.preop.inventory.interface'
 

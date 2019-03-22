@@ -4,7 +4,7 @@ import { Subscription } from 'angular2-pubsub/node_modules/rxjs'
 import { DragulaService } from 'ng2-dragula'
 
 import { AreaManagerService } from '../../../services/app.area.manager'
-import { InventoryService } from '../../../services/app.inventory'
+import { InventoryService } from '../../../services/inventory.service'
 import { SuperInventoryAreaInterface } from './super.area.inventory.interface'
 import { SuperInventoryComponent } from './super.inventory'
 
