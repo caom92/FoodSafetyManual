@@ -14,7 +14,7 @@ import { InventoryArea } from '../interfaces/gap.packing.preop.area.inventory.in
 })
 
 export class GAPPackingPreopAreaInventoryComponent extends SuperAreaInventoryComponent implements OnInit, OnDestroy {
-  @Language() private lang: string
+  @Language() lang: string
   @Input() inventory: Array<InventoryArea> = []
 
   constructor(dragulaService: DragulaService, events: PubSubService, areaManagerService: AreaManagerService) {
@@ -26,14 +26,6 @@ export class GAPPackingPreopAreaInventoryComponent extends SuperAreaInventoryCom
     this.setBagName(this.suffix + '-area-bag')
     super.ngOnInit()
   }
-
-  /*public addArea(): void {
-    super.addArea(GAPPackingPreopAddAreaComponent, null, (data) => {
-      data.area.position = this.inventory.length + 1
-      this.inventory.push(data.area)
-      this.emptyInventoryFlag = false
-    })
-  }*/
 
   public checkEmptyInventory(): boolean {
     this.emptyInventoryFlag = this.inventory.length == 0

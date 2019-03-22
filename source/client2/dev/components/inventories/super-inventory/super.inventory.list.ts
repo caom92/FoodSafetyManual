@@ -119,7 +119,7 @@ export abstract class SuperInventoryListComponent implements OnInit, OnDestroy {
           })
         }
 
-        this.inventoryService.reorderInventory(reorderedItemArray, this.suffix).then(success => {
+        this.inventoryService.reorderInventory(this.suffix, reorderedItemArray).then(success => {
 
         }, error => {
           // it causes me physical pain to do this

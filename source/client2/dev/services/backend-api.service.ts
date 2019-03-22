@@ -8,6 +8,11 @@ import { LoaderService } from './app.loaders'
 import { ToastsService } from './app.toasts'
 import { FlattenService } from './flatten.service'
 
+export interface TranslateKeyData {
+  key: string,
+  args?: { [key: string]: string }
+}
+
 @Injectable()
 export class BackendAPIService {
   constructor(private server: BackendService,
@@ -102,12 +107,12 @@ export class BackendAPIService {
     return null
   }
 
-  public confirmationService(service: string, titleKey: string, messageKey: string, data?: Object, showOnSuccess: boolean = true): Promise<any> {
+  public confirmationService(service: string, title: TranslateKeyData, message: TranslateKeyData, data?: Object, showOnSuccess: boolean = true): Promise<any> {
     if (service === String(service)) {
       let promise = new Promise<any>((resolve, reject) => {
         let alert = this.alertCtrl.create({
-          title: this.translationService.translate(titleKey),
-          message: this.translationService.translate(messageKey),
+          title: this.translationService.translate(title.key, title.args),
+          message: this.translationService.translate(message.key, message.args),
           buttons: [
             {
               text: this.translationService.translate('Options.cancel'),

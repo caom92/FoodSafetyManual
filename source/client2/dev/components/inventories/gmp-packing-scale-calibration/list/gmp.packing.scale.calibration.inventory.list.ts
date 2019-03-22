@@ -13,7 +13,7 @@ import { InventoryType, InventoryItem } from '../interfaces/gmp.packing.scale.ca
 })
 
 export class GMPPackingScaleCalibrationInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnDestroy {
-  @Language() private lang: string
+  @Language() lang: string
   @Input() type: InventoryType
 
   constructor(dragulaService: DragulaService,

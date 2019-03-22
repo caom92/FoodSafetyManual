@@ -1,21 +1,19 @@
 import { FormBuilder, FormGroup } from '@angular/forms'
-import { TranslationService } from 'angular-l10n'
-
-import { AlertController } from '../../../services/alert/app.alert'
-import { InventoryService } from '../../../services/app.inventory'
 import { PubSubService } from 'angular2-pubsub'
+
+import { InventoryService } from '../../../services/app.inventory'
 import { ToastsService } from '../../../services/app.toasts'
+import { FormUtilService } from '../../../services/form-util.service'
 
 export class SuperInventoryAddItemComponent {
   protected newItem: FormGroup = new FormBuilder().group({})
   private suffix: string = null
 
   constructor(protected _fb: FormBuilder,
-    public alertCtrl: AlertController,
-    public translationService: TranslationService,
     private inventoryService: InventoryService,
     private events: PubSubService,
-    private toastService: ToastsService) {
+    private toastService: ToastsService,
+    private formUtilService: FormUtilService) {
 
   }
 
@@ -29,29 +27,14 @@ export class SuperInventoryAddItemComponent {
 
   public addItem(data: any, itemData: any) {
     if (this.newItem.valid) {
-      let confirmAdd = this.alertCtrl.create({
-        title: this.translationService.translate('Titles.add_item'),
-        message: this.translationService.translate('Messages.add_item') + '<br><br>' + this.newItem.value.name,
-        buttons: [
-          {
-            text: this.translationService.translate('Options.cancel'),
-            handler: () => {
-              console.log('Cancelar')
-            }
-          },
-          {
-            text: this.translationService.translate('Options.accept'),
-            handler: () => {
-              this.inventoryService.addItem(this.suffix, itemData).then(success => {
-                data.item.id = success
-                this.events.$pub('item:add', data)
-              })
-            }
-          }
-        ]
+      this.inventoryService.addItem(this.suffix, itemData).then(success => {
+        data.item.id = success
+        this.events.$pub('item:add', data)
+      }, error => {
+            
       })
     } else {
-      this.inventoryService.setAsDirty(this.newItem)
+      this.formUtilService.deepMarkAsDirty(this.newItem)
       this.toastService.showClientMessage('item-add-fail', 1)
     }
   }

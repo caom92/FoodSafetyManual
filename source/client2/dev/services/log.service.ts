@@ -76,7 +76,7 @@ export class LogService {
     let data = { captured_log_id: id, date: this.timeService.getISODate() }
 
     let approvePromise = new Promise<any>((resolve, reject) => {
-      this.apiService.confirmationService('approve-log', 'Titles.approve_log', 'Messages.approve_log', data).then(success => {
+      this.apiService.confirmationService('approve-log', { key: 'Titles.approve_log' }, { key: 'Messages.approve_log' }, data).then(success => {
         resolve(success)
       }, error => {
         reject(error)
@@ -90,7 +90,7 @@ export class LogService {
     let data = { captured_log_id: id }
 
     let retreatPromise = new Promise<any>((resolve, reject) => {
-      this.apiService.confirmationService('retreat-log', 'Titles.retreat_log', 'Messages.retreat_log', data).then(success => {
+      this.apiService.confirmationService('retreat-log', { key: 'Titles.retreat_log' }, { key: 'Messages.retreat_log' }, data).then(success => {
         resolve(success)
       }, error => {
         reject(error)
@@ -104,7 +104,7 @@ export class LogService {
     let data = { captured_log_id: id }
 
     let rejectPromise = new Promise<any>((resolve, reject) => {
-      this.apiService.confirmationService('reject-log', 'Titles.reject_log', 'Messages.reject_log', data).then(success => {
+      this.apiService.confirmationService('reject-log', { key: 'Titles.reject_log' }, { key: 'Messages.reject_log' }, data).then(success => {
         resolve(success)
       }, error => {
         reject(error)
@@ -118,7 +118,7 @@ export class LogService {
     let data = { captured_log_id: id }
 
     let finishPromise = new Promise<any>((resolve, reject) => {
-      this.apiService.confirmationService('finish-log', 'Titles.finish_log', 'Messages.finish_log', data).then(success => {
+      this.apiService.confirmationService('finish-log', { key: 'Titles.finish_log' }, { key: 'Messages.finish_log' }, data).then(success => {
         resolve(success)
       }, error => {
         reject(error)

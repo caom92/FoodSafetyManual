@@ -84,8 +84,8 @@
   },
   "Messages": {
     "resend_log": "Are you sure you want to retry sending this log?",
-    "add_item": "Are you sure you want to add this item?",
-    "add_area": "Are you sure you want to add this area?",
+    "add_item": "Are you sure you want to add this item?<br><br>{{item}}",
+    "add_area": "Are you sure you want to add this area?<br><br>{{area}}",
     "edit_area": "Are you sure you want to change this area's name?",
     "approve_log": "Are you sure you want to approve this log? This action cannot be undone",
     "retreat_log": "Are you sure you want to return this log to be reviewed by a supervisor again? This action cannot be undone",

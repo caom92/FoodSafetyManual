@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { Language, TranslationService } from 'angular-l10n'
+import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 
-import { AlertController } from '../../../../services/alert/app.alert'
 import { InventoryService } from '../../../../services/app.inventory'
 import { ToastsService } from '../../../../services/app.toasts'
+import { FormUtilService } from '../../../../services/form-util.service'
 import { SuperInventoryAddItemComponent } from '../../super-inventory/super.inventory.add.item'
 
 @Component({
@@ -14,12 +14,12 @@ import { SuperInventoryAddItemComponent } from '../../super-inventory/super.inve
 })
 
 export class GMPPackingScaleCalibrationAddItemComponent extends SuperInventoryAddItemComponent implements OnInit {
-  @Language() private lang: string
-  @Input() private types: Array<any> = []
+  @Language() lang: string
+  @Input() types: Array<any> = []
   newItem: FormGroup = new FormBuilder().group({})
 
-  constructor(alertCtrl: AlertController, translationService: TranslationService, _fb: FormBuilder, inventoryService: InventoryService, events: PubSubService, toastService: ToastsService) {
-    super(_fb, alertCtrl, translationService, inventoryService, events, toastService)
+  constructor(_fb: FormBuilder, inventoryService: InventoryService, events: PubSubService, toastService: ToastsService, formUtilService: FormUtilService) {
+    super(_fb, inventoryService, events, toastService, formUtilService)
   }
 
   public ngOnInit(): void {
@@ -32,7 +32,6 @@ export class GMPPackingScaleCalibrationAddItemComponent extends SuperInventoryAd
 
   public addItem(): void {
     let data = { type: this.newItem.value.type, item: { id: 0, is_active: 1, name: this.newItem.value.name, position: 0 } }
-    //let data: { item: {id: number, is_active: number, name: string, position: number }, [key: string]: any, type?: string } = { type: this.newItem.value.type, item: { id: 0, is_active: 1, name: this.newItem.value.name, position: 0 } }
     let itemData = { type_id: String(this.newItem.value.type), scale_name: String(this.newItem.value.name) }
     super.addItem(data, itemData)
   }

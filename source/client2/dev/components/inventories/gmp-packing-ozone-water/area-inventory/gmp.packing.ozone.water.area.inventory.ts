@@ -13,7 +13,7 @@ import { InventoryArea } from '../interfaces/gmp.packing.ozone.water.area.invent
 })
 
 export class GMPPackingOzoneWaterAreaInventoryComponent extends SuperAreaInventoryComponent implements OnInit, OnDestroy {
-  @Language() private lang: string
+  @Language() lang: string
   @Input() inventory: Array<InventoryArea> = []
 
   constructor(dragulaService: DragulaService, events: PubSubService, areaManagerService: AreaManagerService) {

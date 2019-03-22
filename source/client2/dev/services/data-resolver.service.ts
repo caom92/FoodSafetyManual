@@ -9,22 +9,18 @@ export class DataResolverService {
   public resolveString(input: string | number, defaultValue?: string): string {
     let defaultResult: string = (String(defaultValue) === defaultValue) ? defaultValue : ''
 
-    if (Number(input) === input) {
-      return (input !== null && input !== undefined && Number.isNaN(input) !== true) ? String(input) : defaultResult
-    } else {
-      return (input !== null && input !== undefined) ? String(input) : defaultResult
-    }
+    return ((Number(input) === input && Number.isNaN(input) !== true) || (String(input) === input)) ? String(input) : defaultResult
   }
 
-  public resolveBoolean(input: string | number, defaultValue?: boolean): boolean {
+  public resolveBoolean(input: string | number | boolean, defaultValue?: boolean): boolean {
     let defaultResult: boolean = (Boolean(defaultValue) === defaultValue) ? defaultValue : null
 
-    return (input !== null && input !== undefined) ? (Number(input) === 1) ? true : (Number(input) === 0) ? false : defaultResult : defaultResult
+    return (input === true || input === 1 || input === '1') ? true : (input === false || input === 0 || input === '0') ? false : defaultResult
   }
 
   public resolveNumber(input: string | number, defaultValue?: number): number {
     let defaultResult: number = (Number(defaultValue) === defaultValue) ? defaultValue : null
 
-    return (!Number.isNaN(Number(input)) && input !== null && input !== undefined) ? Number(input) : defaultResult
+    return (!Number.isNaN(Number(input)) && (Number(input) === input || (String(input) === input && input.trim().length > 0))) ? Number(input) : defaultResult
   }
 }

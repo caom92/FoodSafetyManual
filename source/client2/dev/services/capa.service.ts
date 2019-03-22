@@ -75,7 +75,7 @@ export class CAPAService {
     let data = { id: id, date: this.timeService.getISODate() }
 
     let closePromise = new Promise<any>((resolve, reject) => {
-      this.apiService.confirmationService('approve-capa-form', 'Titles.close_capa', 'Messages.close_capa', data).then(success => {
+      this.apiService.confirmationService('approve-capa-form', { key: 'Titles.close_capa' }, { key: 'Messages.close_capa' }, data).then(success => {
         resolve(success)
       }, error => {
         reject(error)
@@ -89,7 +89,7 @@ export class CAPAService {
     let data = { id: id }
 
     let deletePromise = new Promise<any>((resolve, reject) => {
-      this.apiService.confirmationService('delete-capa-form', 'Titles.delete_capa', 'Messages.delete_capa', data).then(success => {
+      this.apiService.confirmationService('delete-capa-form', { key: 'Titles.delete_capa' }, { key: 'Messages.delete_capa' }, data).then(success => {
         resolve(success)
       }, error => {
         reject(error)
@@ -103,7 +103,7 @@ export class CAPAService {
     let data = { id: id }
 
     let deleteFilePromise = new Promise<any>((resolve, reject) => {
-      this.apiService.confirmationService('delete-capa-file', 'Titles.delete_file', 'Messages.delete_file', data).then(success => {
+      this.apiService.confirmationService('delete-capa-file', { key: 'Titles.delete_file' }, { key: 'Messages.delete_file' }, data).then(success => {
         resolve(success)
       }, error => {
         reject(error)
@@ -117,7 +117,7 @@ export class CAPAService {
     let data = { id: id }
 
     let deleteImagePromise = new Promise<any>((resolve, reject) => {
-      this.apiService.confirmationService('delete-capa-image', 'Titles.delete_image', 'Messages.delete_image', data).then(success => {
+      this.apiService.confirmationService('delete-capa-image', { key: 'Titles.delete_image' }, { key: 'Messages.delete_image' }, data).then(success => {
         resolve(success)
       }, error => {
         reject(error)

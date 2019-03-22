@@ -84,8 +84,8 @@
   },
   "Messages": {
     "resend_log": "¿Está seguro que desea reintentar el envío de esta bitácora?",
-    "add_item": "¿Está seguro de que desea añadir este elemento?",
-    "add_area": "¿Está seguro de que desea añadir esta área?",
+    "add_item": "¿Está seguro de que desea añadir este elemento?<br><br>{{item}}",
+    "add_area": "¿Está seguro de que desea añadir esta área?<br><br>{{area}}",
     "edit_area": "¿Está seguro de que desea cambiar el nombre de esta área?",
     "approve_log": "¿Está seguro que desea aprobar esta bitácora? Esta acción no se puede deshacer",
     "retreat_log": "¿Está seguro que desea regresar bitácora para ser revisada nuevamente por un supervisor? Esta acción no se puede deshacer",
