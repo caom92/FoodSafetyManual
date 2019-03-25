@@ -31,7 +31,6 @@ export class GAPOthersUnusualOccurrenceLogComponent extends SuperLogComponent im
 
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
-    private translationConfig: TranslationConfigService,
     private langManager: LanguageService,
     logService: LogService,
     toastService: ToastsService) {

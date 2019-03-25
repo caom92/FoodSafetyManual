@@ -30,7 +30,6 @@ export class GAPDocControlDocControlAuthorizationComponent extends SuperAuthoriz
 
   constructor(_fb: FormBuilder,
     private timeService: DateTimeService,
-    private translationConfig: TranslationConfigService,
     private langManager: LanguageService,
     logService: LogService,
     toastService: ToastsService,

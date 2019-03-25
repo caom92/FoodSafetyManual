@@ -25,7 +25,6 @@ export class GMPPackingOzoneWaterLogComponent extends SuperUpdateComponent imple
 
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
-    private translationConfig: TranslationConfigService,
     logService: LogService,
     toastService: ToastsService) {
     super(logService, toastService)

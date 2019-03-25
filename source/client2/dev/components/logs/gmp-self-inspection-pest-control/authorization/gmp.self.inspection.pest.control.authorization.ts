@@ -22,7 +22,6 @@ export class GMPSelfInspectionPestControlAuthorizationComponent extends SuperAut
   offset: Array<number> = []
 
   constructor(private timeService: DateTimeService,
-    private translationConfig: TranslationConfigService,
     _fb: FormBuilder,
     logService: LogService,
     toastService: ToastsService,

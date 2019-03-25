@@ -22,7 +22,6 @@ export class GMPPackingScaleCalibrationLogComponent extends SuperLogComponent im
 
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
-    private translationConfig: TranslationConfigService,
     logService: LogService,
     toastService: ToastsService) {
     super(logService, toastService)

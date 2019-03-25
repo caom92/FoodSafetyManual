@@ -32,7 +32,6 @@ export class GMPOthersUnusualOccurrenceAuthorizationComponent extends SuperAutho
 
   constructor(_fb: FormBuilder,
     private timeService: DateTimeService,
-    private translationConfig: TranslationConfigService,
     private langManager: LanguageService,
     logService: LogService,
     toastService: ToastsService,

@@ -26,7 +26,6 @@ export class GMPPackingHandWashingLogComponent extends SuperLogComponent impleme
 
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
-    private translationConfig: TranslationConfigService,
     logService: LogService,
     toastService: ToastsService) {
     super(logService, toastService)
