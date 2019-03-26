@@ -28,6 +28,10 @@ $service = [
           'type' => 'int',
           'min' => 1
         ],
+        'time' => [
+          'type' => 'datetime',
+          'format' => 'G:i'
+        ],
         'notes' => [
           'type' => 'string',
           'optional' => true,
@@ -80,6 +84,9 @@ $service = [
       $scope->daoFactory->get('gap\packing\preop\AreaLogs')
         ->updateByCapturedLogIDAndAreaID(
           [
+            'time' =>
+              (isset($area['time']) && array_key_exists('time', $area)) ? 
+                $area['time'] : NULL,
             'notes' => 
               (isset($area['notes']) && array_key_exists('notes', $area)) ? 
                 $area['notes'] : NULL,
