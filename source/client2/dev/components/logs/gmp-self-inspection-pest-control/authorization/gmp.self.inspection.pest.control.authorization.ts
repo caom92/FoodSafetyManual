@@ -7,7 +7,6 @@ import { CustomValidators } from '../../../../directives/custom.validators'
 import { ToastsService } from '../../../../services/app.toasts'
 import { LogService } from '../../../../services/log.service'
 import { DateTimeService } from '../../../../services/time.service'
-import { TranslationConfigService } from '../../../../services/translation-config.service'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization, AuthorizationItem } from '../interfaces/gmp.self.inspection.pest.control.authorization.interface'
 

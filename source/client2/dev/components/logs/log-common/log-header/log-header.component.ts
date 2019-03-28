@@ -49,7 +49,7 @@ export class LogHeaderComponent implements OnInit {
   }
 
   openDatePicker() {
-    window.setTimeout(() => {
+    setTimeout(() => {
       this.datePicker.picker.open()
       this.dateGroup.markAsDirty()
     })

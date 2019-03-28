@@ -10,7 +10,6 @@ import { LoaderService } from '../../../../services/app.loaders'
 import { ToastsService } from '../../../../services/app.toasts'
 import { LogService } from '../../../../services/log.service'
 import { DateTimeService } from '../../../../services/time.service'
-import { TranslationConfigService } from '../../../../services/translation-config.service'
 import { SuperLogComponent } from '../../super-logs/super.logs.log'
 import { Log } from '../interfaces/gap.doc.control.doc.control.log.interface'
 

@@ -7,8 +7,6 @@ import { CustomValidators } from '../../../../directives/custom.validators'
 import { LanguageService } from '../../../../services/app.language'
 import { ToastsService } from '../../../../services/app.toasts'
 import { LogService } from '../../../../services/log.service'
-import { DateTimeService } from '../../../../services/time.service'
-import { TranslationConfigService } from '../../../../services/translation-config.service'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization } from '../interfaces/gap.others.unusual.occurrence.authorization.interface'
 
@@ -31,7 +29,6 @@ export class GAPOthersUnusualOccurrenceAuthorizationComponent extends SuperAutho
   }
 
   constructor(_fb: FormBuilder,
-    private timeService: DateTimeService,
     private langManager: LanguageService,
     logService: LogService,
     toastService: ToastsService,

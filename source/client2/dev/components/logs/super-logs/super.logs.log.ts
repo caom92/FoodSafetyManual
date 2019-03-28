@@ -108,8 +108,6 @@ export abstract class SuperLogComponent implements OnInit {
   public save(): void {
     this.cleanForm()
     if (this.captureForm.valid) {
-      // Información adicional, necesaria en el caso de que la bitácora no pueda
-      // enviarse
       this.logService.capture(this.suffix, this.captureForm.value).then(success => {
         this.resetForm()
         this.enableForm()
