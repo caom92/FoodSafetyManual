@@ -6,7 +6,7 @@ import { Observable } from 'rxjs'
 
 import { BackendService } from '../../../services/app.backend'
 import { LoaderService } from '../../../services/app.loaders'
-import { ToastsService } from '../../../services/app.toasts'
+import { ToastsService } from '../../../services/toasts.service'
 import { ActiveReport, ReportRequest } from '../reports.interface'
 import { getDatePickerConfig } from './report-language-config'
 import { SuperReportLoader } from './super.report.loader'

@@ -3,9 +3,9 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
-import { ToastsService } from '../../../../services/app.toasts'
 import { LogService } from '../../../../services/log.service'
 import { DateTimeService } from '../../../../services/time.service'
+import { ToastsService } from '../../../../services/toasts.service'
 import { SuperUpdateComponent } from '../../super-logs/super.logs.update'
 import { CaptureEntry } from '../interfaces/gmp.packing.ozone.water.capture.interface'
 import { Log, LogField, LogItem } from '../interfaces/gmp.packing.ozone.water.log.interface'

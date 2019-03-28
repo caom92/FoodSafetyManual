@@ -1,20 +1,16 @@
-import { Component, Injectable, Input, OnInit } from '@angular/core'
+import { Component, Injectable, Input } from '@angular/core'
 import { Language } from 'angular-l10n'
 import { MzBaseModal, MzModalComponent, MzModalService } from 'ngx-materialize'
 
 @Injectable()
-export class LoaderService implements OnInit {
+export class LoaderService {
   @Language() lang: string
 
   constructor(private modalService: MzModalService) {
 
   }
 
-  ngOnInit() {
-
-  }
-
-  koiLoader(message: string = 'Connecting to Server') {
+  public koiLoader(message: string = ''): LoaderWrapper {
     let loading = this.modalService.open(KoiLoader, { message: message })
     let wrapper: LoaderWrapper = new LoaderWrapper()
 
@@ -36,7 +32,7 @@ export class KoiLoader extends MzBaseModal {
   }
 
   constructor() {
-    super() // invocamos el constructor de la clase padre
+    super()
   }
 
   public dismiss(): void {
@@ -49,10 +45,6 @@ export class LoaderWrapper {
 
   public setLoader(loader: MzModalComponent): void {
     this.loader = loader
-  }
-
-  public present(): void {
-    // método vacío para mantener compatibilidad con la versión de Ionic
   }
 
   public dismiss(): void {

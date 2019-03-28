@@ -1,7 +1,7 @@
 import { EventEmitter, Output } from '@angular/core'
 
-import { ToastsService } from '../../../services/app.toasts'
 import { LogService } from '../../../services/log.service'
+import { ToastsService } from '../../../services/toasts.service'
 import { SuperLogComponent } from './super.logs.log'
 import { SuperWaiting } from './super.logs.waiting.interface'
 

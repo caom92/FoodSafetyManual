@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router'
 
 import { BackendService } from '../../../../services/app.backend'
 import { LoaderService } from '../../../../services/app.loaders'
-import { ToastsService } from '../../../../services/app.toasts'
+import { ToastsService } from '../../../../services/toasts.service'
 import { SuperReportViewer } from '../../super-report/super.report.viewer'
 
 @Component({

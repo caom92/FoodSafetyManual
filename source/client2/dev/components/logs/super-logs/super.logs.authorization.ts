@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 
 import { CustomValidators } from '../../../directives/custom.validators'
-import { ToastsService } from '../../../services/app.toasts'
 import { LogService } from '../../../services/log.service'
+import { ToastsService } from '../../../services/toasts.service'
 import { LogHeaderData } from '../log.interfaces'
 import { SuperAuthorization } from './super.logs.authorization.interface'
 

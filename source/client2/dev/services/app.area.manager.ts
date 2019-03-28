@@ -5,8 +5,8 @@ import { Observable } from 'rxjs/Rx'
 
 import { BackendService } from './app.backend'
 import { LoaderService } from './app.loaders'
-import { ToastsService } from './app.toasts'
 import { FlattenService } from './flatten.service'
+import { ToastsService } from './toasts.service'
 
 @Injectable()
 export class AreaManagerService {
@@ -162,7 +162,6 @@ export class AreaManagerService {
       let loaderToggle = this.loaderService.koiLoader()
       let item = new FormData()
       item.append('id', String(data.id))
-      loaderToggle.present()
       this.server.update(
         'toggle-area-' + suffix,
         item,

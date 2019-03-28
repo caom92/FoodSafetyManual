@@ -3,7 +3,7 @@ import { Observable } from 'rxjs'
 
 import { BackendService } from './app.backend'
 import { LoaderService } from './app.loaders'
-import { ToastsService } from './app.toasts'
+import { ToastsService } from './toasts.service'
 
 @Injectable()
 export class MenuService {

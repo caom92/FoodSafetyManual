@@ -5,8 +5,8 @@ import { Observable } from 'rxjs'
 import { AlertController } from './alert/app.alert'
 import { BackendService } from './app.backend'
 import { LoaderService } from './app.loaders'
-import { ToastsService } from './app.toasts'
 import { FlattenService } from './flatten.service'
+import { ToastsService } from './toasts.service'
 
 export interface TranslateKeyData {
   key: string,

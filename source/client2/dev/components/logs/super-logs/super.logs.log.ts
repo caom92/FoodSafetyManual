@@ -1,8 +1,8 @@
 import { OnInit } from '@angular/core'
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms'
 
-import { ToastsService } from '../../../services/app.toasts'
 import { LogService } from '../../../services/log.service'
+import { ToastsService } from '../../../services/toasts.service'
 import { LogHeaderData } from '../log.interfaces'
 import { SuperLog } from './super.logs.log.interface'
 import { SuperWaiting } from './super.logs.waiting.interface'

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 
-import { ToastsService } from './app.toasts'
 import { BackendAPIService } from './backend-api.service'
+import { ToastsService } from './toasts.service'
 
 @Injectable()
 export class InventoryService {
