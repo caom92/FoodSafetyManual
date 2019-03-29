@@ -51,7 +51,6 @@ export class SuperInventoryAddAreaComponent {
       })
     } else {
       this.areaManagerService.setAsDirty(this.newArea)
-      console.log('New item not valid')
     }
   }
 }

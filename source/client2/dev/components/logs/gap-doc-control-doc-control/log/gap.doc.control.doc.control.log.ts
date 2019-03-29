@@ -7,6 +7,7 @@ import { CustomValidators } from '../../../../directives/custom.validators'
 import { BackendService } from '../../../../services/app.backend'
 import { LanguageService } from '../../../../services/app.language'
 import { LoaderService } from '../../../../services/app.loaders'
+import { FormUtilService } from '../../../../services/form-util.service'
 import { LogService } from '../../../../services/log.service'
 import { DateTimeService } from '../../../../services/time.service'
 import { ToastsService } from '../../../../services/toasts.service'
@@ -30,9 +31,10 @@ export class GAPDocControlDocControlLogComponent extends SuperLogComponent imple
     private langManager: LanguageService,
     logService: LogService,
     toastService: ToastsService,
+    formUtilService: FormUtilService,
     public server: BackendService,
     private loaderService: LoaderService) {
-    super(logService, toastService)
+    super(logService, toastService, formUtilService)
   }
 
   public ngOnInit(): void {
@@ -116,7 +118,7 @@ export class GAPDocControlDocControlLogComponent extends SuperLogComponent imple
         }
       )
     } else {
-      this.logService.setAsDirty(this.captureForm)
+      this.formUtilService.deepMarkAsDirty(this.captureForm)
       this.enableForm()
       this.toastService.showClientMessage('incomplete-log', 1)
     }

@@ -4,6 +4,7 @@ import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LanguageService } from '../../../../services/app.language'
+import { FormUtilService } from '../../../../services/form-util.service'
 import { LogService } from '../../../../services/log.service'
 import { DateTimeService } from '../../../../services/time.service'
 import { ToastsService } from '../../../../services/toasts.service'
@@ -23,8 +24,9 @@ export class GMPPackingATPTestingLogComponent extends SuperLogComponent implemen
     private timeService: DateTimeService,
     private langManager: LanguageService,
     logService: LogService,
-    toastService: ToastsService) {
-    super(logService, toastService)
+    toastService: ToastsService,
+    formUtilService: FormUtilService) {
+    super(logService, toastService, formUtilService)
   }
 
   public ngOnInit(): void {

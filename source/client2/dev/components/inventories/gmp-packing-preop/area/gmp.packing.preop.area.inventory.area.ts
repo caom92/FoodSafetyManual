@@ -37,7 +37,6 @@ export class GMPPackingPreopAreaInventoryAreaComponent extends SuperInventoryAre
   }
 
   public openEditForm(): void {
-    console.log('edit area')
     this.editMode = true
   }
 

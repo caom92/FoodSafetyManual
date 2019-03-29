@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
+import { FormUtilService } from '../../../../services/form-util.service'
 import { LogService } from '../../../../services/log.service'
 import { DateTimeService } from '../../../../services/time.service'
 import { ToastsService } from '../../../../services/toasts.service'
@@ -26,8 +27,9 @@ export class GAPPackingWaterResourceLogComponent extends SuperUpdateComponent im
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
     logService: LogService,
-    toastService: ToastsService) {
-    super(logService, toastService)
+    toastService: ToastsService,
+    formUtilService: FormUtilService) {
+    super(logService, toastService, formUtilService)
   }
 
   public ngOnInit(): void {

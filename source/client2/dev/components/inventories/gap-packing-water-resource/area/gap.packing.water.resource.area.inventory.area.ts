@@ -35,7 +35,6 @@ export class GAPPackingWaterResourceAreaInventoryAreaComponent extends SuperInve
   }
 
   public openEditForm(): void {
-    console.log('edit area')
     this.editMode = true
   }
 

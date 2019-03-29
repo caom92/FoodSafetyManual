@@ -1,5 +1,6 @@
 import { EventEmitter, Output } from '@angular/core'
 
+import { FormUtilService } from '../../../services/form-util.service'
 import { LogService } from '../../../services/log.service'
 import { ToastsService } from '../../../services/toasts.service'
 import { SuperLogComponent } from './super.logs.log'
@@ -9,8 +10,8 @@ export abstract class SuperUpdateComponent extends SuperLogComponent {
   @Output() closeLog = new EventEmitter<any>()
   protected log: SuperWaiting
 
-  constructor(protected logService: LogService, protected toastService: ToastsService) {
-    super(logService, toastService)
+  constructor(logService: LogService, toastService: ToastsService, formUtilService: FormUtilService) {
+    super(logService, toastService, formUtilService)
   }
 
   public save(): void {
@@ -31,7 +32,7 @@ export abstract class SuperUpdateComponent extends SuperLogComponent {
         this.enableForm()
       })
     } else {
-      this.logService.setAsDirty(this.captureForm)
+      this.formUtilService.deepMarkAsDirty(this.captureForm)
       this.enableForm()
       this.toastService.showClientMessage('incomplete-log', 1)
     }

@@ -35,7 +35,6 @@ export class GMPPackingGlassBrittleAreaInventoryAreaComponent extends SuperInven
   }
 
   public openEditForm(): void {
-    console.log('edit area')
     this.editMode = true
   }
 

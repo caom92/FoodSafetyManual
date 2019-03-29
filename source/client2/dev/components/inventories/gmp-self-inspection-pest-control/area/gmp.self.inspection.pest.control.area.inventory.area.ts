@@ -35,7 +35,6 @@ export class GMPSelfInspectionPestControlAreaInventoryAreaComponent extends Supe
   }
 
   public openEditForm(): void {
-    console.log('edit area')
     this.editMode = true
   }
 

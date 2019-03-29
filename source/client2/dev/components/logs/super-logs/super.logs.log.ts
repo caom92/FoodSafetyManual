@@ -1,6 +1,7 @@
 import { OnInit } from '@angular/core'
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms'
 
+import { FormUtilService } from '../../../services/form-util.service'
 import { LogService } from '../../../services/log.service'
 import { ToastsService } from '../../../services/toasts.service'
 import { LogHeaderData } from '../log.interfaces'
@@ -14,7 +15,7 @@ export abstract class SuperLogComponent implements OnInit {
   protected suffix: string = null
   public showLog: boolean = false
 
-  constructor(protected logService: LogService, protected toastService: ToastsService) {
+  constructor(protected logService: LogService, protected toastService: ToastsService, protected formUtilService: FormUtilService) {
 
   }
 
@@ -117,7 +118,7 @@ export abstract class SuperLogComponent implements OnInit {
     } else {
       // Marcamos el formulario completo como "sucio" para que aparezcan los
       // mensajes de error en la vista donde sea pertinente
-      this.logService.setAsDirty(this.captureForm)
+      this.formUtilService.deepMarkAsDirty(this.captureForm)
       this.enableForm()
       this.toastService.showClientMessage('incomplete-log', 1)
     }
