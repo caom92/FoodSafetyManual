@@ -3,7 +3,7 @@ import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
 
-import { AreaManagerService } from '../../../../services/app.area.manager'
+import { AreaInventoryService } from '../../../../services/area-inventory.service'
 import { InventoryService } from '../../../../services/inventory.service'
 import { SuperInventoryByAreaComponent } from '../../super-inventory/super.inventory.by.area'
 import { InventoryType } from '../interfaces/gmp.packing.preop.inventory.interface'
@@ -21,8 +21,8 @@ export class GMPPackingPreopInventoryComponent extends SuperInventoryByAreaCompo
   constructor(events: PubSubService,
     inventoryService: InventoryService,
     dragulaService: DragulaService,
-    areaManagerService: AreaManagerService) {
-    super(events, inventoryService, dragulaService, areaManagerService)
+    areaInventoryService: AreaInventoryService) {
+    super(events, inventoryService, dragulaService, areaInventoryService)
   }
 
 

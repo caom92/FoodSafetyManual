@@ -1,7 +1,7 @@
 import { FormBuilder, FormGroup } from '@angular/forms'
 import { PubSubService } from 'angular2-pubsub'
 
-import { AreaManagerService } from '../../../services/app.area.manager'
+import { AreaInventoryService } from '../../../services/area-inventory.service'
 import { SuperInventoryAreaInterface, SuperInventoryEditAreaInterface } from './super.area.inventory.interface'
 
 export class SuperInventoryAreaComponent {
@@ -15,7 +15,7 @@ export class SuperInventoryAreaComponent {
 
   constructor(private events: PubSubService,
     private _fb: FormBuilder,
-    private areaManagerService: AreaManagerService) {
+    private areaInventoryService: AreaInventoryService) {
 
   }
 
@@ -37,7 +37,7 @@ export class SuperInventoryAreaComponent {
 
   public editArea(areaData: SuperInventoryEditAreaInterface) {
     if (this.newArea.valid && this.newArea.value.name != this.area.name) {
-      this.areaManagerService.editArea(this.suffix, areaData).then(success => {
+      this.areaInventoryService.editArea(this.suffix, areaData).then(success => {
         this.editMode = false
         this.area.name = this.newArea.value.name
         this.events.$pub('area:edit', this.area)
@@ -59,7 +59,7 @@ export class SuperInventoryAreaComponent {
       this.toggleError = false
     } else {
       this.previousValue = this.toggleValue
-      this.areaManagerService.toggleArea(this.suffix, this.area).then(success => {
+      this.areaInventoryService.toggleArea(this.suffix, this.area).then(success => {
 
       }, error => {
         this.toggleError = true

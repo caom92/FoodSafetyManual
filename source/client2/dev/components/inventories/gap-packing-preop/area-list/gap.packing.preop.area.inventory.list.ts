@@ -3,7 +3,7 @@ import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
 
-import { AreaManagerService } from '../../../../services/app.area.manager'
+import { AreaInventoryService } from '../../../../services/area-inventory.service'
 import { SuperAreaInventoryListComponent } from '../../super-inventory/super.area.inventory.list'
 import { InventoryArea } from '../interfaces/gap.packing.preop.area.inventory.interface'
 
@@ -16,8 +16,8 @@ export class GAPPackingPreopAreaInventoryListComponent extends SuperAreaInventor
   @Language() private lang: string
   @Input() areas: Array<InventoryArea> = null
 
-  constructor(dragulaService: DragulaService, events: PubSubService, areaManagerService: AreaManagerService) {
-    super(dragulaService, events, areaManagerService)
+  constructor(dragulaService: DragulaService, events: PubSubService, areaInventoryService: AreaInventoryService) {
+    super(dragulaService, events, areaInventoryService)
   }
 
   public ngOnInit(): void {

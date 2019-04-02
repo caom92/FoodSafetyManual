@@ -60,7 +60,7 @@ import { MenuService } from '../services/app.menu'
 import { CAPAService } from '../services/capa.service'
 import { ToastsService } from '../services/toasts.service'
 import { TranslationConfigService } from '../services/translation-config.service'
-import { AreaManagerService } from '../services/app.area.manager'
+import { AreaInventoryService } from '../services/area-inventory.service'
 import { languageConfig } from '../functions/l10n-config'
 import { HttpClientModule } from '@angular/common/http'
 import { RootRoutingModule } from './app-routing.root'
@@ -93,7 +93,7 @@ import { RootRoutingModule } from './app-routing.root'
     DateTimeService,
     LoaderService,
     InventoryService,
-    AreaManagerService,
+    AreaInventoryService,
     AlertController,
     FlattenService,
     LogService,

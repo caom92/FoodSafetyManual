@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 
-import { AreaManagerService } from '../../../../services/app.area.manager'
+import { AreaInventoryService } from '../../../../services/area-inventory.service'
 import { SuperInventoryAreaComponent } from '../../super-inventory/super.area.inventory.area'
 import { SuperInventoryEditAreaInterface } from '../../super-inventory/super.area.inventory.interface'
 import { InventoryArea } from '../interfaces/gap.packing.water.resource.area.inventory.interface'
@@ -18,8 +18,8 @@ export class GAPPackingWaterResourceAreaInventoryAreaComponent extends SuperInve
   @Input() area: InventoryArea
   @Language() lang: string
 
-  constructor(events: PubSubService, _fb: FormBuilder, areaManagerService: AreaManagerService) {
-    super(events, _fb, areaManagerService)
+  constructor(events: PubSubService, _fb: FormBuilder, areaInventoryService: AreaInventoryService) {
+    super(events, _fb, areaInventoryService)
   }
 
   public ngOnInit(): void {

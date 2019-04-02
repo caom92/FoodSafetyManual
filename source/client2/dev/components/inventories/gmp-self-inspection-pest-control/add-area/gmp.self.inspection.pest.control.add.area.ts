@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 
-import { AreaManagerService } from '../../../../services/app.area.manager'
+import { AreaInventoryService } from '../../../../services/area-inventory.service'
 import { FormUtilService } from '../../../../services/form-util.service'
 import { SuperInventoryAddAreaComponent } from '../../super-inventory/super.area.inventory.add.area'
 
@@ -15,8 +15,8 @@ import { SuperInventoryAddAreaComponent } from '../../super-inventory/super.area
 export class GMPSelfInspectionPestControlAddAreaComponent extends SuperInventoryAddAreaComponent implements OnInit {
   @Language() lang: string
   
-  constructor(_fb: FormBuilder, areaManagerService: AreaManagerService, events: PubSubService, formUtilService: FormUtilService) {
-    super(_fb, areaManagerService, events, formUtilService)
+  constructor(_fb: FormBuilder, areaInventoryService: AreaInventoryService, events: PubSubService, formUtilService: FormUtilService) {
+    super(_fb, areaInventoryService, events, formUtilService)
   }
 
   public ngOnInit(): void {

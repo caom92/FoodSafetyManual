@@ -3,7 +3,7 @@ import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
 import { Subscription } from 'rxjs'
 
-import { AreaManagerService } from '../../../services/app.area.manager'
+import { AreaInventoryService } from '../../../services/area-inventory.service'
 import { SuperInventoryAreaInterface } from './super.area.inventory.interface'
 
 export abstract class SuperAreaInventoryListComponent implements OnInit, OnDestroy {
@@ -16,7 +16,7 @@ export abstract class SuperAreaInventoryListComponent implements OnInit, OnDestr
 
   constructor(protected dragulaService: DragulaService,
     public events: PubSubService,
-    protected areaManagerService: AreaManagerService) {
+    protected areaInventoryService: AreaInventoryService) {
 
   }
 
@@ -71,7 +71,7 @@ export abstract class SuperAreaInventoryListComponent implements OnInit, OnDestr
           })
         }
 
-        this.areaManagerService.reorderAreaInventory(this.suffix, reorderedItemArray).then(success => {
+        this.areaInventoryService.reorderAreaInventory(this.suffix, reorderedItemArray).then(success => {
 
         }, error => {
           // it causes me physical pain to do this

@@ -3,7 +3,7 @@ import { PubSubService } from 'angular2-pubsub'
 import { Subscription } from 'angular2-pubsub/node_modules/rxjs'
 import { DragulaService } from 'ng2-dragula'
 
-import { AreaManagerService } from '../../../services/app.area.manager'
+import { AreaInventoryService } from '../../../services/area-inventory.service'
 import { InventoryService } from '../../../services/inventory.service'
 import { SuperInventoryAreaInterface } from './super.area.inventory.interface'
 import { SuperInventoryComponent } from './super.inventory'
@@ -14,7 +14,7 @@ export class SuperInventoryByAreaComponent extends SuperInventoryComponent imple
   areaAddSubscription: Subscription
   areaEditSubscription: Subscription
 
-  constructor(events: PubSubService, inventoryService: InventoryService, dragulaService: DragulaService, private areaManagerService: AreaManagerService) {
+  constructor(events: PubSubService, inventoryService: InventoryService, dragulaService: DragulaService, private areaInventoryService: AreaInventoryService) {
     super(dragulaService, events, inventoryService)
   }
 
@@ -38,7 +38,7 @@ export class SuperInventoryByAreaComponent extends SuperInventoryComponent imple
       this.areas.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)
     })
 
-    this.areaManagerService.getAreaInventory(this.suffix).then(success => {
+    this.areaInventoryService.getAreaInventory(this.suffix).then(success => {
       this.areas = success
     })
   }

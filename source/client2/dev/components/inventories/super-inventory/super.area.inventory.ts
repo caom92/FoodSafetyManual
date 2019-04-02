@@ -3,7 +3,7 @@ import { PubSubService } from 'angular2-pubsub'
 import { Subscription } from 'angular2-pubsub/node_modules/rxjs'
 import { DragulaService } from 'ng2-dragula'
 
-import { AreaManagerService } from '../../../services/app.area.manager'
+import { AreaInventoryService } from '../../../services/area-inventory.service'
 import { DragulaInventory } from './dragula.inventory'
 
 export abstract class SuperAreaInventoryComponent extends DragulaInventory implements OnInit, OnDestroy {
@@ -12,17 +12,11 @@ export abstract class SuperAreaInventoryComponent extends DragulaInventory imple
   protected scrollAllowed: boolean = true
   protected suffix: string = null
   protected bagName: string = null
-  protected options: any = {
-    moves: function (el, container, handle) {
-      return (handle.classList.contains('handle'))
-    },
-    removeOnSpill: false
-  }
   scrollStartSubscription: Subscription
   scrollStopSubscription: Subscription
   areaAddSubscription: Subscription
 
-  constructor(dragulaService: DragulaService, protected events: PubSubService, private areaManagerService: AreaManagerService) {
+  constructor(dragulaService: DragulaService, protected events: PubSubService, private areaInventoryService: AreaInventoryService) {
     super(dragulaService)
   }
 
@@ -39,7 +33,7 @@ export abstract class SuperAreaInventoryComponent extends DragulaInventory imple
       this.inventory.push(data)
     })
 
-    this.areaManagerService.getAreaInventoryByPosition(this.suffix).then(success => {
+    this.areaInventoryService.getAreaInventoryByPosition(this.suffix).then(success => {
       this.inventory = success
       this.initDragula()
       this.checkEmptyInventory()

@@ -1,7 +1,7 @@
 import { FormBuilder, FormGroup } from '@angular/forms'
 import { PubSubService } from 'angular2-pubsub'
 
-import { AreaManagerService } from '../../../services/app.area.manager'
+import { AreaInventoryService } from '../../../services/area-inventory.service'
 import { FormUtilService } from '../../../services/form-util.service'
 
 export class SuperInventoryAddAreaComponent {
@@ -9,7 +9,7 @@ export class SuperInventoryAddAreaComponent {
   private suffix: string = null
 
   constructor(protected _fb: FormBuilder,
-    private areaManagerService: AreaManagerService,
+    private areaInventoryService: AreaInventoryService,
     private events: PubSubService,
     private formUtilService: FormUtilService) {
 
@@ -25,7 +25,7 @@ export class SuperInventoryAddAreaComponent {
 
   public addArea(listData: any, itemData: any) {
     if (this.newArea.valid) {
-      this.areaManagerService.addArea(this.suffix, itemData).then(success => {
+      this.areaInventoryService.addArea(this.suffix, itemData).then(success => {
         listData.area.id = success.id
         listData.area.position = success.position
         this.events.$pub('area:add', listData.area)
