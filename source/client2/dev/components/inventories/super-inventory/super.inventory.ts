@@ -12,19 +12,19 @@ export abstract class SuperInventoryComponent extends DragulaInventory implement
   protected scrollAllowed: boolean = true
   protected bagName: string = null
   protected suffix: string = null
-  scrollStop: Subscription
-  scrollStart: Subscription
+  scrollStopSubscription: Subscription
+  scrollStartSubscription: Subscription
 
   constructor(dragulaService: DragulaService, protected events: PubSubService, protected inventoryService: InventoryService) {
     super(dragulaService)
   }
 
   public ngOnInit(): void {
-    this.scrollStop = this.events.$sub('scroll:stop').subscribe((message) => {
+    this.scrollStopSubscription = this.events.$sub('scroll:stop').subscribe((message) => {
       this.scrollAllowed = false
     })
 
-    this.scrollStart = this.events.$sub('scroll:start').subscribe((message) => {
+    this.scrollStartSubscription = this.events.$sub('scroll:start').subscribe((message) => {
       this.scrollAllowed = true
     })
 
@@ -49,8 +49,8 @@ export abstract class SuperInventoryComponent extends DragulaInventory implement
   }
 
   public ngOnDestroy(): void {
-    this.scrollStart.unsubscribe()
-    this.scrollStop.unsubscribe()
+    this.scrollStartSubscription.unsubscribe()
+    this.scrollStopSubscription.unsubscribe()
     this.destroy()
   }
 

@@ -1,8 +1,6 @@
 import { FormBuilder, FormGroup } from '@angular/forms'
-import { TranslationService } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 
-import { AlertController } from '../../../services/alert/app.alert'
 import { AreaManagerService } from '../../../services/app.area.manager'
 import { SuperInventoryAreaInterface, SuperInventoryEditAreaInterface } from './super.area.inventory.interface'
 
@@ -15,10 +13,8 @@ export class SuperInventoryAreaComponent {
   private suffix: string = null
   protected editMode: boolean = false
 
-  constructor(protected events: PubSubService,
-    protected _fb: FormBuilder,
-    public alertCtrl: AlertController,
-    public translationService: TranslationService,
+  constructor(private events: PubSubService,
+    private _fb: FormBuilder,
     private areaManagerService: AreaManagerService) {
 
   }
@@ -41,37 +37,18 @@ export class SuperInventoryAreaComponent {
 
   public editArea(areaData: SuperInventoryEditAreaInterface) {
     if (this.newArea.valid && this.newArea.value.name != this.area.name) {
-      let confirmAdd = this.alertCtrl.create({
-        title: this.translationService.translate('Titles.edit_area'),
-        message: this.translationService.translate('Messages.edit_area') + '<br><br>' + this.translationService.translate('Adverbs.before') + ': ' + this.area.name + '<br>' + this.translationService.translate('Adverbs.after') + ': ' + this.newArea.value.name,
-        buttons: [
-          {
-            text: this.translationService.translate('Options.cancel'),
-            handler: () => {
-              console.log('Cancelar')
-            }
-          },
-          {
-            text: this.translationService.translate('Options.accept'),
-            handler: () => {
-              this.areaManagerService.editArea(areaData, this.suffix).then(success => {
-                this.editMode = false
-                this.area.name = this.newArea.value.name
-                this.events.$pub('area:edit', this.area)
-              }, error => {
-                this.editMode = false
-                console.log('Nombre repetido')
-              })
-            }
-          }
-        ]
+      this.areaManagerService.editArea(this.suffix, areaData).then(success => {
+        this.editMode = false
+        this.area.name = this.newArea.value.name
+        this.events.$pub('area:edit', this.area)
+      }, error => {
+
       })
     } else if (!this.newArea.valid) {
       console.log('New item not valid')
       // TODO Poner un toast aquí para mostrar el mensaje al usuario
     } else if (this.newArea.value.name == this.area.name) {
       console.log('New and old name are the same')
-      this.editMode = false
       // TODO Poner un toast aquí para mostrar el mensaje al usuario
     }
   }
@@ -82,22 +59,12 @@ export class SuperInventoryAreaComponent {
       this.toggleError = false
     } else {
       this.previousValue = this.toggleValue
-      this.areaManagerService.toggleArea(this.area, this.suffix).then(success => {
-        
+      this.areaManagerService.toggleArea(this.suffix, this.area).then(success => {
+
       }, error => {
         this.toggleError = true
         this.toggleArea()
       })
     }
   }
-
-  /*public editArea(editAreaComponent: any, data: any, handler: Function): void {
-    let modal = this.modalController.create(editAreaComponent, data)
-    modal.present()
-    modal.onDidDismiss(data => {
-      if (data !== undefined && data !== null) {
-        handler(data)
-      }
-    })
-  }*/
 }

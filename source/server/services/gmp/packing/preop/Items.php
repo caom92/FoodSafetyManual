@@ -44,7 +44,7 @@ class Items extends db\OrderedItemsTable
           "$this->table.is_active" => TRUE
         ],
         'ORDER' => [
-          'a.position',
+          'a.id',
           't.id',
           "$this->table.position"
         ]

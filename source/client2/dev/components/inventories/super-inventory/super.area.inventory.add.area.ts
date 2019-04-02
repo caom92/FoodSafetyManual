@@ -1,19 +1,17 @@
 import { FormBuilder, FormGroup } from '@angular/forms'
-import { TranslationService } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 
-import { AlertController } from '../../../services/alert/app.alert'
 import { AreaManagerService } from '../../../services/app.area.manager'
+import { FormUtilService } from '../../../services/form-util.service'
 
 export class SuperInventoryAddAreaComponent {
   protected newArea: FormGroup = new FormBuilder().group({})
   private suffix: string = null
 
   constructor(protected _fb: FormBuilder,
-    public alertCtrl: AlertController,
-    public translationService: TranslationService,
     private areaManagerService: AreaManagerService,
-    private events: PubSubService) {
+    private events: PubSubService,
+    private formUtilService: FormUtilService) {
 
   }
 
@@ -27,30 +25,15 @@ export class SuperInventoryAddAreaComponent {
 
   public addArea(listData: any, itemData: any) {
     if (this.newArea.valid) {
-      let confirmAdd = this.alertCtrl.create({
-        title: this.translationService.translate('Titles.add_area'),
-        message: this.translationService.translate('Messages.add_area') + '<br><br>' + this.newArea.value.name,
-        buttons: [
-          {
-            text: this.translationService.translate('Options.cancel'),
-            handler: () => {
-              
-            }
-          },
-          {
-            text: this.translationService.translate('Options.accept'),
-            handler: () => {
-              this.areaManagerService.addArea(itemData, this.suffix).then(success => {
-                listData.area.id = success.id
-                listData.area.position = success.position
-                this.events.$pub('area:add', listData.area)
-              })
-            }
-          }
-        ]
+      this.areaManagerService.addArea(this.suffix, itemData).then(success => {
+        listData.area.id = success.id
+        listData.area.position = success.position
+        this.events.$pub('area:add', listData.area)
+      }, error => {
+
       })
     } else {
-      this.areaManagerService.setAsDirty(this.newArea)
+      this.formUtilService.deepMarkAsDirty(this.newArea)
     }
   }
 }

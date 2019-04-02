@@ -13,7 +13,7 @@ import { InventoryItem } from '../interfaces/gmp.packing.hand.washing.inventory.
 })
 
 export class GMPPackingHandWashingInventoryComponent extends SuperInventoryComponent implements OnInit, OnDestroy {
-  @Language() private lang: string
+  @Language() lang: string
   @Input() inventory: Array<InventoryItem> = []
 
   constructor(events: PubSubService,

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
-import { Language, TranslationService } from 'angular-l10n'
+import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 
-import { AlertController } from '../../../../services/alert/app.alert'
 import { AreaManagerService } from '../../../../services/app.area.manager'
+import { FormUtilService } from '../../../../services/form-util.service'
 import { SuperInventoryAddAreaComponent } from '../../super-inventory/super.area.inventory.add.area'
 
 @Component({
@@ -15,12 +15,8 @@ import { SuperInventoryAddAreaComponent } from '../../super-inventory/super.area
 export class GMPPackingPreopAddAreaComponent extends SuperInventoryAddAreaComponent implements OnInit {
   @Language() lang: string
 
-  constructor(_fb: FormBuilder,
-    alertCtrl: AlertController,
-    translationService: TranslationService,
-    areaManagerService: AreaManagerService,
-    events: PubSubService) {
-    super(_fb, alertCtrl, translationService, areaManagerService, events)
+  constructor(_fb: FormBuilder, areaManagerService: AreaManagerService, events: PubSubService, formUtilService: FormUtilService) {
+    super(_fb, areaManagerService, events, formUtilService)
   }
 
   public ngOnInit(): void {

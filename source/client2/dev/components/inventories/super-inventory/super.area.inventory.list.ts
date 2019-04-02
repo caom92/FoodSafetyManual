@@ -71,7 +71,7 @@ export abstract class SuperAreaInventoryListComponent implements OnInit, OnDestr
           })
         }
 
-        this.areaManagerService.reorderAreaInventory(reorderedItemArray, this.suffix).then(success => {
+        this.areaManagerService.reorderAreaInventory(this.suffix, reorderedItemArray).then(success => {
 
         }, error => {
           // it causes me physical pain to do this

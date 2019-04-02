@@ -11,28 +11,28 @@ import { SuperInventoryComponent } from './super.inventory'
 export class SuperInventoryByAreaComponent extends SuperInventoryComponent implements OnInit, OnDestroy {
   protected areas: Array<SuperInventoryAreaInterface> = null
   protected selectedArea: number = null
-  areaAdd: Subscription
-  areaEdit: Subscription
+  areaAddSubscription: Subscription
+  areaEditSubscription: Subscription
 
   constructor(events: PubSubService, inventoryService: InventoryService, dragulaService: DragulaService, private areaManagerService: AreaManagerService) {
     super(dragulaService, events, inventoryService)
   }
 
   public ngOnInit(): void {
-    this.scrollStop = this.events.$sub('scroll:stop').subscribe((message) => {
+    this.scrollStopSubscription = this.events.$sub('scroll:stop').subscribe((message) => {
       this.scrollAllowed = false
     })
 
-    this.scrollStart = this.events.$sub('scroll:start').subscribe((message) => {
+    this.scrollStartSubscription = this.events.$sub('scroll:start').subscribe((message) => {
       this.scrollAllowed = true
     })
 
-    this.areaAdd = this.events.$sub('area:add', (data) => {
+    this.areaAddSubscription = this.events.$sub('area:add', (data) => {
       this.areas.push(data)
       this.areas.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)
     })
 
-    this.areaEdit = this.events.$sub('area:edit', (data) => {
+    this.areaEditSubscription = this.events.$sub('area:edit', (data) => {
       let index = this.areas.findIndex((x => x.id==data.id))
       this.areas[index].name = data.name
       this.areas.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)
@@ -62,7 +62,7 @@ export class SuperInventoryByAreaComponent extends SuperInventoryComponent imple
 
   public ngOnDestroy(): void {
     super.ngOnDestroy()
-    this.areaAdd.unsubscribe()
-    this.areaEdit.unsubscribe()
+    this.areaAddSubscription.unsubscribe()
+    this.areaEditSubscription.unsubscribe()
   }
 }

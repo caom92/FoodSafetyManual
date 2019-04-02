@@ -20,7 +20,7 @@ export abstract class SuperAreaInventoryComponent extends DragulaInventory imple
   }
   scrollStartSubscription: Subscription
   scrollStopSubscription: Subscription
-  areaAdd: Subscription
+  areaAddSubscription: Subscription
 
   constructor(dragulaService: DragulaService, protected events: PubSubService, private areaManagerService: AreaManagerService) {
     super(dragulaService)
@@ -35,7 +35,7 @@ export abstract class SuperAreaInventoryComponent extends DragulaInventory imple
       this.scrollAllowed = true
     })
 
-    this.areaAdd = this.events.$sub('area:add', (data) => {
+    this.areaAddSubscription = this.events.$sub('area:add', (data) => {
       this.inventory.push(data)
     })
 

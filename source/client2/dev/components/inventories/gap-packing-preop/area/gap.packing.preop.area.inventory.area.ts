@@ -1,16 +1,13 @@
 import { Component, Input } from '@angular/core'
-import { FormBuilder } from '@angular/forms'
+import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks'
+import { FormBuilder, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
-import { TranslationService } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 
-import { AlertController } from '../../../../services/alert/app.alert'
 import { AreaManagerService } from '../../../../services/app.area.manager'
 import { SuperInventoryAreaComponent } from '../../super-inventory/super.area.inventory.area'
+import { SuperInventoryEditAreaInterface } from '../../super-inventory/super.area.inventory.interface'
 import { InventoryArea } from '../interfaces/gap.packing.preop.area.inventory.interface'
-import { SuperInventoryAreaInterface, SuperInventoryEditAreaInterface } from '../../super-inventory/super.area.inventory.interface'
-import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks'
-import { Validators } from '@angular/forms'
 
 @Component({
   selector: '[gap-packing-preop-area-inventory-area]',
@@ -21,12 +18,8 @@ export class GAPPackingPreopAreaInventoryAreaComponent extends SuperInventoryAre
   @Input() area: InventoryArea
   @Language() lang: string
 
-  constructor(events: PubSubService,
-    _fb: FormBuilder,
-    alertCtrl: AlertController,
-    translationService: TranslationService,
-    areaManagerService: AreaManagerService) {
-    super(events, _fb, alertCtrl, translationService, areaManagerService)
+  constructor(events: PubSubService, _fb: FormBuilder, areaManagerService: AreaManagerService) {
+    super(events, _fb, areaManagerService)
   }
 
   public ngOnInit(): void {
@@ -48,11 +41,4 @@ export class GAPPackingPreopAreaInventoryAreaComponent extends SuperInventoryAre
     form.name = this.newArea.value.name
     super.editArea(form)
   }
-
-  /*editArea() {
-    super.editArea(GAPPackingPreopEditAreaComponent, { area_id: this.area.id, area_name: this.area.name }, (data) => {
-      this.events.publish('area:edit', this.area, data.area)
-      this.area.name = data.area.name
-    })
-  }*/
 }
