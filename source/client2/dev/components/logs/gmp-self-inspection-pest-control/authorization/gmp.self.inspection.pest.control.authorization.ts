@@ -5,7 +5,6 @@ import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LogService } from '../../../../services/log.service'
-import { DateTimeService } from '../../../../services/time.service'
 import { ToastsService } from '../../../../services/toasts.service'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization, AuthorizationItem } from '../interfaces/gmp.self.inspection.pest.control.authorization.interface'
@@ -20,8 +19,7 @@ export class GMPSelfInspectionPestControlAuthorizationComponent extends SuperAut
   @Language() lang: string
   offset: Array<number> = []
 
-  constructor(private timeService: DateTimeService,
-    _fb: FormBuilder,
+  constructor(_fb: FormBuilder,
     logService: LogService,
     toastService: ToastsService,
     routeState: ActivatedRoute,

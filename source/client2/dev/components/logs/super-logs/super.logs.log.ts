@@ -36,7 +36,7 @@ export abstract class SuperLogComponent implements OnInit {
         this.logHeaderData.module_name = this.log.module_name
         this.initForm()
         this.showLog = true
-        setTimeout(function () {
+        setTimeout(() => {
           $('select').material_select()
         }, 200)
       }, error => {
@@ -52,7 +52,7 @@ export abstract class SuperLogComponent implements OnInit {
       this.logHeaderData.date = (<SuperWaiting>this.log).creation_date
       this.initForm()
       this.showLog = true
-      setTimeout(function () {
+      setTimeout(() => {
         $('select').material_select()
       }, 200)
     }

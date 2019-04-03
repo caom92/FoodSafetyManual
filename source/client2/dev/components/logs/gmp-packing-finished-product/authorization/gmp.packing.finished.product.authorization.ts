@@ -6,7 +6,6 @@ import { Language } from 'angular-l10n'
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LanguageService } from '../../../../services/app.language'
 import { LogService } from '../../../../services/log.service'
-import { DateTimeService } from '../../../../services/time.service'
 import { ToastsService } from '../../../../services/toasts.service'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization, AuthorizationEntry } from '../interfaces/gmp.packing.finished.product.authorization.interface'
@@ -32,7 +31,6 @@ export class GMPPackingFinishedProductAuthorizationComponent extends SuperAuthor
   }
 
   constructor(_fb: FormBuilder,
-    private timeService: DateTimeService,
     private langManager: LanguageService,
     logService: LogService,
     toastService: ToastsService,

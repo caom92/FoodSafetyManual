@@ -27,7 +27,7 @@ export abstract class SuperAuthorizationComponent implements OnInit {
         this.assignHeaderData()
         this.initForm()
         this.showLog = true
-        setTimeout(function () {
+        setTimeout(() => {
           $('select').material_select()
         }, 200)
       }, error => {

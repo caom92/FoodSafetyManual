@@ -431,7 +431,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   public refreshSelect(): void {
-    setTimeout(function () {
+    setTimeout(() => {
       $('select').material_select()
     }, 200)
   }
