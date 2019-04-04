@@ -5,7 +5,7 @@ import { MzCollapsibleComponent } from 'ngx-materialize'
 import { Papa } from 'ngx-papaparse'
 
 import { LanguageService } from '../../../services/app.language'
-import { LoaderService } from '../../../services/app.loaders'
+import { LoaderService } from '../../../services/loader.service'
 import { TextAutocomplete } from './product-data-viewer.interface'
 
 @Component({

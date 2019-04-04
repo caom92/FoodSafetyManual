@@ -4,8 +4,8 @@ import { Observable } from 'rxjs'
 
 import { AlertController } from './alert/app.alert'
 import { BackendService } from './app.backend'
-import { LoaderService } from './app.loaders'
 import { FlattenService } from './flatten.service'
+import { LoaderService } from './loader.service'
 import { ToastsService } from './toasts.service'
 
 export interface TranslateKeyData {

@@ -3,7 +3,7 @@ import { FormBuilder, FormControl } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router'
 
 import { BackendService } from '../../../../services/app.backend'
-import { LoaderService } from '../../../../services/app.loaders'
+import { LoaderService } from '../../../../services/loader.service'
 import { ToastsService } from '../../../../services/toasts.service'
 import { SuperReportViewer } from '../../super-report/super.report.viewer'
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 
 import { BackendService } from './app.backend'
-import { LoaderService } from './app.loaders'
+import { LoaderService } from './loader.service'
 import { ToastsService } from './toasts.service'
 
 @Injectable()

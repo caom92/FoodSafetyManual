@@ -5,7 +5,7 @@ import { Language } from 'angular-l10n'
 import { Observable } from 'rxjs'
 
 import { BackendService } from '../../../services/app.backend'
-import { LoaderService } from '../../../services/app.loaders'
+import { LoaderService } from '../../../services/loader.service'
 import { ToastsService } from '../../../services/toasts.service'
 import { ActiveReport, ReportRequest } from '../reports.interface'
 import { getDatePickerConfig } from './report-language-config'
