@@ -2,3 +2,7 @@ extends ../../report-viewer.common.pug
 
 block loader
   gap-doc-control-doc-control-report-loader(#reports, *ngFor='let report of reports', [report]='report', [activeReport]='activeReport', [suffix]='suffix', [footer]='footer', (removed)='onRemoved($event)')
+
+block additionalFormElements
+  +select("{{ 'Log.document' | translate:lang }}", false, 'document_id', false, 'document_select', "{{ 'Log.select_document' | translate:lang }}")
+    +option("{{doc.name}}", "doc.id", false, false)(*ngFor="let doc of documentList")

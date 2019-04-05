@@ -13,9 +13,6 @@ div
             i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
             input(mz-datepicker, label="{{ 'Log.final_date' | translate:lang }}", type='text', formControlName='end_date', [options]='options')
         block additionalFormElements
-          .row(*ngIf="suffix == 'gmp-doc-control-doc-control' || suffix == 'gap-doc-control-doc-control'")
-            +select("{{ 'Log.document' | translate:lang }}", false, 'document_id', false, 'document_select', "{{ 'Log.select_document' | translate:lang }}")
-              +option("{{doc.name}}", "doc.id", false, false)(*ngFor="let doc of documentList")
         .row
           .col.s12.m12.l12.center
             button(mz-button)
@@ -37,4 +34,3 @@ div
             div
               button(mz-button, (click)='requestPDFReport()') {{ 'Log.pdf_report' | translate:lang }}
   block loader
-    report-loader(#reports, *ngFor='let report of reports', [report]='report', [activeReport]='activeReport', [suffix]='suffix', [footer]='footer')
