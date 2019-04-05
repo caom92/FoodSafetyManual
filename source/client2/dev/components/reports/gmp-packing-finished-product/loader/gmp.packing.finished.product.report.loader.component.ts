@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core'
-import { TranslationService } from 'angular-l10n'
 
 import { LogService } from '../../../../services/log.service'
 import { Preview } from '../../report-common/report-preview/report-preview.interface'
@@ -14,8 +13,8 @@ import { Report } from '../interfaces/gmp.packing.finished.product.report.interf
 export class GMPPackingFinishedProductReportLoaderComponent extends SuperReportLoader {
   @Input() report: Report
 
-  constructor(translationService: TranslationService, logService: LogService) {
-    super(translationService, logService)
+  constructor(logService: LogService) {
+    super(logService)
   }
 
   public getPreview(): Array<Preview> {

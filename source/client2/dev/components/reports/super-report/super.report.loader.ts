@@ -1,5 +1,5 @@
 import { EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core'
-import { DefaultLocale, Language, TranslationService } from 'angular-l10n'
+import { DefaultLocale, Language } from 'angular-l10n'
 
 import { LogService } from '../../../services/log.service'
 import { Preview } from '../report-common/report-preview/report-preview.interface'
@@ -29,7 +29,7 @@ export class SuperReportLoader implements OnInit {
   readonly yearOptions = { year: '2-digit' }
   readonly isDirector = localStorage.getItem('role_name') === 'Director'
 
-  constructor(private translationService: TranslationService, private logService: LogService) {
+  constructor(private logService: LogService) {
 
   }
 
