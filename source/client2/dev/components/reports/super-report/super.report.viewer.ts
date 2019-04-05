@@ -2,11 +2,9 @@ import { OnInit, ViewChildren } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router'
 import { Language } from 'angular-l10n'
-import { Observable } from 'rxjs'
 
-import { BackendService } from '../../../services/app.backend'
-import { LoaderService } from '../../../services/loader.service'
-import { ToastsService } from '../../../services/toasts.service'
+import { ReportService } from '../../../services/report.service'
+import { DateTimeService } from '../../../services/time.service'
 import { ActiveReport, ReportRequest } from '../reports.interface'
 import { getDatePickerConfig } from './report-language-config'
 import { SuperReportLoader } from './super.report.loader'
@@ -21,12 +19,11 @@ export class SuperReportViewer implements OnInit {
   reports: Array<any> = []
   dateRangeForm: FormGroup
   activeReport: ActiveReport = { id: 'any' }
-  
+
   constructor(private routeState: ActivatedRoute,
-    public server: BackendService,
     private formBuilder: FormBuilder,
-    private loaderService: LoaderService,
-    private toastService: ToastsService) {
+    private reportService: ReportService,
+    private timeService: DateTimeService) {
 
   }
 
@@ -41,22 +38,10 @@ export class SuperReportViewer implements OnInit {
   }
 
   public initRequestForm(): void {
-    let startDate: string = new Date().getFullYear() + '-' + ((new Date().getMonth() + 1 < 10) ? '0' + (new Date().getMonth() + 1).toString() : (new Date().getMonth() + 1).toString()) + '-' + new Date().getDate()
-    let endDate: string = new Date().getFullYear() + '-' + ((new Date().getMonth() + 1 < 10) ? '0' + (new Date().getMonth() + 1).toString() : (new Date().getMonth() + 1).toString()) + '-' + new Date().getDate()
-
     this.dateRangeForm = this.formBuilder.group({
-      startDate: [startDate],
-      endDate: [endDate]
+      start_date: [this.timeService.getISODate()],
+      end_date: [this.timeService.getISODate()]
     })
-  }
-
-  public fillRequestForm(): FormData {
-    const requestForm = new FormData()
-
-    requestForm.append('start_date', this.dateRangeForm.value.startDate)
-    requestForm.append('end_date', this.dateRangeForm.value.endDate)
-
-    return requestForm
   }
 
   public onRemoved(id: number) {
@@ -66,35 +51,13 @@ export class SuperReportViewer implements OnInit {
   }
 
   public requestReports(): void {
-    const requestForm = this.fillRequestForm()
-    const reportLoader = this.loaderService.koiLoader('Recuperando reportes')
+    this.reportService.report(this.suffix, this.dateRangeForm.value).then(success => {
+      this.reports = success.reports
+      this.footer = success.pdf_footer
+      this.activeReport.id = 'any'
+    }, error => {
 
-    this.server.update(
-      'report-' + this.suffix,
-      requestForm,
-      (response: any) => {
-        reportLoader.dismiss()
-        if (response.meta.return_code == 0) {
-          if (response.data) {
-            if (response.data.reports.length == 0) {
-              // TODO: Revisar en el servidor porque no regresa error
-              this.toastService.showServerMessage('report-' + this.suffix, 2)
-            } else {
-              this.toastService.showServerMessage('report-' + this.suffix, 0)
-              this.reports = response.data.reports
-              this.footer = response.data.pdf_footer
-            }
-            this.activeReport.id = 'any'
-          }
-        } else {
-          this.toastService.showServerMessage('report-' + this.suffix, 2)
-        }
-      }, (error: any, caught: Observable<void>) => {
-        this.toastService.showClientMessage('server-unreachable', 1)
-        reportLoader.dismiss()
-        return []
-      }
-    )
+    })
   }
 
   public requestPDFReport(): void {

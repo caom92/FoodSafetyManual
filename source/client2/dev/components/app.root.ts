@@ -56,6 +56,7 @@ import { AlertController } from '../services/alert/app.alert'
 import { DragulaModule, DragulaService } from 'ng2-dragula'
 import { FlattenService } from '../services/flatten.service'
 import { LogService } from '../services/log.service'
+import { ReportService } from '../services/report.service'
 import { MenuService } from '../services/app.menu'
 import { CAPAService } from '../services/capa.service'
 import { ToastsService } from '../services/toasts.service'
@@ -97,6 +98,7 @@ import { RootRoutingModule } from './app-routing.root'
     AlertController,
     FlattenService,
     LogService,
+    ReportService,
     MenuService,
     CAPAService,
     ToastsService,

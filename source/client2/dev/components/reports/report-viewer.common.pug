@@ -8,10 +8,10 @@ div
         .row
           mz-datepicker-container.col.s6.m6.l6
             i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
-            input(mz-datepicker, label="{{ 'Log.start_date' | translate:lang }}", type='text', formControlName='startDate', [options]='options')
+            input(mz-datepicker, label="{{ 'Log.start_date' | translate:lang }}", type='text', formControlName='start_date', [options]='options')
           mz-datepicker-container.col.s6.m6.l6
             i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
-            input(mz-datepicker, label="{{ 'Log.final_date' | translate:lang }}", type='text', formControlName='endDate', [options]='options')
+            input(mz-datepicker, label="{{ 'Log.final_date' | translate:lang }}", type='text', formControlName='end_date', [options]='options')
         block additionalFormElements
           .row(*ngIf="suffix == 'gmp-doc-control-doc-control' || suffix == 'gap-doc-control-doc-control'")
             +select("{{ 'Log.document' | translate:lang }}", false, 'document_id', false, 'document_select', "{{ 'Log.select_document' | translate:lang }}")

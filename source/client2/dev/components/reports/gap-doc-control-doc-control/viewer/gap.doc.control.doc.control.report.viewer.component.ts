@@ -2,9 +2,9 @@ import { Component } from '@angular/core'
 import { FormBuilder, FormControl } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router'
 
-import { BackendService } from '../../../../services/app.backend'
-import { LoaderService } from '../../../../services/loader.service'
-import { ToastsService } from '../../../../services/toasts.service'
+import { LogService } from '../../../../services/log.service'
+import { ReportService } from '../../../../services/report.service'
+import { DateTimeService } from '../../../../services/time.service'
 import { SuperReportViewer } from '../../super-report/super.report.viewer'
 
 @Component({
@@ -16,34 +16,23 @@ export class GAPDocControlDocControlReportViewerComponent extends SuperReportVie
   documentList: any = null
 
   constructor(routeState: ActivatedRoute,
-    server: BackendService,
     formBuilder: FormBuilder,
-    loaderService: LoaderService,
-    toastService: ToastsService) {
-    super(routeState, server, formBuilder, loaderService, toastService)
+    reportService: ReportService,
+    timeService: DateTimeService,
+    private logService: LogService) {
+    super(routeState, formBuilder, reportService, timeService)
   }
 
   public ngOnInit(): void {
     super.ngOnInit()
 
     if (this.suffix == 'gap-doc-control-doc-control') {
-      this.server.update(
-        'log-gap-doc-control-doc-control',
-        new FormData(),
-        (response: any) => {
-          this.documentList = response.data.documents
-        }
-      )
+      this.logService.log(this.suffix).then(success => {
+        this.documentList = success.documents
+      }, error => {
+
+      })
     }
-  }
-
-  public fillRequestForm(): FormData {
-    const requestForm = super.fillRequestForm()
-
-    if(this.dateRangeForm.value.document_id != null)
-      requestForm.append('document_id', this.dateRangeForm.value.document_id)
-
-    return requestForm
   }
 
   public initRequestForm(): void {
