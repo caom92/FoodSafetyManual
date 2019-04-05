@@ -280,7 +280,7 @@ function createReportService($program, $module, $log, $strategy,
           );
 
         // if no logs where captured, throw an exception
-        if (!isset($logDates)) {
+        if (!isset($logDates) || count($logDates) == 0) {
           throw new \Exception(
             'No logs where captured at that date.', 2);
         }
