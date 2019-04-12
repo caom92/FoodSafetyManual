@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input } from '@angular/core'
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
@@ -17,7 +17,7 @@ import { maxLengths } from '../maxLengths/max.lengths'
   templateUrl: './gmp.packing.ozone.water.log.html'
 })
 
-export class GMPPackingOzoneWaterLogComponent extends SuperUpdateComponent implements OnInit {
+export class GMPPackingOzoneWaterLogComponent extends SuperUpdateComponent {
   @Input() log: Log = null//{ zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, items: [{ id: null, name: null, fields: [{ id: null, position: null, name_en: null, name_es: null, field_id: null }] }] }
   @Language() lang: string
 

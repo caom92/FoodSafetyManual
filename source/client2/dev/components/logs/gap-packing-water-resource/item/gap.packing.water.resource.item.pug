@@ -21,10 +21,10 @@ include ../../../log-ionic-materialize.pug
     p() {{item.name}}
   +col()(class='s4 m4 l2')
     +slimDateInput(false, null, "date", "date_{{item.id}}", null, "dateConfig")(class='slim-text-input no-margin-top')
-  +col()(class='s2 m2 l1', *ngIf='itemForm.controls.compliance.value === false')
+  +col()(class='s2 m2 l1')
     +radio("{{ 'Log.yes' | translate:lang }}", false, "true", false, false, "compliance_{{item.id}}", "status_{{item.id}}")([formControl]='itemForm.controls.compliance', [value]='true')
     //-+checkbox("{{ 'Log.yes' | translate:lang }}", false, "compliance", "compliance_{{item.id}}")([formGroup]='itemForm')
-  +col()(class='s2 m2 l1', *ngIf='itemForm.controls.compliance.value === false')
+  +col()(class='s2 m2 l1')
     +radio("{{ 'Log.no' | translate:lang }}", false, "false", false, false, "non_compliance_{{item.id}}", "status_{{item.id}}")([formControl]='itemForm.controls.compliance', [value]='false')
     //-+checkbox("{{ 'Log.no' | translate:lang }}", false, "compliance", "non_compliance_{{item.id}}")([formGroup]='itemForm')
 

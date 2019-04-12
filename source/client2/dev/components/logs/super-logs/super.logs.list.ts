@@ -2,7 +2,6 @@ import { EventEmitter, Input, Output } from '@angular/core'
 import { DefaultLocale, Language } from 'angular-l10n'
 
 import { LogService } from '../../../services/log.service'
-import { SuperWaiting } from '../super-logs/super.logs.waiting.interface'
 
 export interface LogListElement {
   report_id: number
@@ -15,8 +14,7 @@ export abstract class SuperLogListComponent {
   @DefaultLocale() defaultLocale: string
   @Output() startLog = new EventEmitter<number | boolean>()
   @Input() suffix: string
-  protected logList: Array<LogListElement> = []
-  protected waitingLog: SuperWaiting = null
+  public logList: Array<LogListElement> = []
 
   constructor(private logService: LogService) {
 
@@ -36,9 +34,5 @@ export abstract class SuperLogListComponent {
     } else {
       this.startLog.emit(true)
     }
-  }
-
-  public onLogClose(): void {
-    this.waitingLog = null
   }
 }
