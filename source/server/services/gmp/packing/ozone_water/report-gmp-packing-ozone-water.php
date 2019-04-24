@@ -120,8 +120,6 @@ $service = fsm\createReportService(
       unset($machine);
 
       return $machines;
-      //return $scope->daoFactory->get('gmp\packing\ozone\Logs')
-      //  ->selectByCaptureDateID($logDate['id']);
     }
   ]
 );

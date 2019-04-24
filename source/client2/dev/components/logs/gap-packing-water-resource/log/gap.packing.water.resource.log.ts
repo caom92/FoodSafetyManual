@@ -17,7 +17,7 @@ import { Log } from '../interfaces/gap.packing.water.resource.log.interface'
 })
 
 export class GAPPackingWaterResourceLogComponent extends SuperUpdateComponent implements OnInit {
-  @Input() log: Log = null//{ zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, areas: [{ id: null, name: null, items: [{ id: null, name: null, order: null, quantity: null }] }] }
+  @Input() log: Log = null
   @Language() lang: string
 
   readonly maxLengths = {

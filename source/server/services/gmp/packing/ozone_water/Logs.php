@@ -68,8 +68,14 @@ class Logs extends db\LogTable
     ]);
   }
 
-  function hasByCapturedLogIDAndMachineIDAndTest($where) {
-    return parent::has($where);
+  function hasByCapturedLogIDAndMachineIDAndTest($logID, $machineID, $testNumber) {
+    return parent::has([
+      'AND' => [
+        'capture_date_id' => $logID,
+        'machine_id' => $machineID,
+        'test_num' => $testNumber
+      ]
+    ]);
   }
 
   function delete($where) {

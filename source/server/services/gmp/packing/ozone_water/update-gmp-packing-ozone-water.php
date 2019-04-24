@@ -101,13 +101,11 @@ $service = fsm\createUpdateService(
       foreach ($request['items'] as $item) {
         $lastTestNumber = 1;
         foreach ($item['entries'] as $entry) {
-          $hasTest = $logs->hasByCapturedLogIDAndMachineIDAndTest([
-            'AND' => [
-              'capture_date_id' => $request['report_id'],
-              'machine_id' => $item['id'],
-              'test_num' => $entry['test_number']
-            ]
-          ]);
+          $hasTest = $logs->hasByCapturedLogIDAndMachineIDAndTest(
+            $request['report_id'],
+            $item['id'],
+            $entry['test_number']
+          );
 
           if ($hasTest) {
             // test exists, edit
