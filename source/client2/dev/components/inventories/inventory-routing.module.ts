@@ -23,6 +23,11 @@ const routes: Routes = [
     loadChildren: './gmp-doc-control-doc-control/gmp-doc-control-doc-control-inventory.module#GMPDocControlDocControlInventoryModule'
   },
   {
+    path: 'gmp-packing-atp-luminometer',
+    data: { suffix: 'gmp-packing-atp-luminometer' },
+    loadChildren: './gmp-packing-atp-luminometer/gmp-packing-atp-luminometer-inventory.module#GMPPackingATPLuminometerInventoryModule'
+  },
+  {
     path: 'gmp-packing-cold-room-temp',
     data: { suffix: 'gmp-packing-cold-room-temp' },
     loadChildren: './gmp-packing-cold-room-temp/gmp-packing-cold-room-temp-inventory.module#GMPPackingColdRoomTempInventoryModule'

@@ -1,0 +1,7 @@
+include ../../../log-ionic-materialize.pug
+
++row()(style='margin-bottom: 0px; margin-top: 4px;', [formGroup]='testForm')
+  +col()(class='s4 m4 l3')
+    +slimTextInput(null, null, "reading", "number", "reading_{{itemID}}_{{weekNum}}_{{typeID}}_{{test.test_num}}" , null)(class='slim-text-input no-margin-top')
+  +col()(class='s8 m8 l9')
+    +slimTextInput(null, null, "notes", "text", "notes_{{itemID}}_{{weekNum}}_{{typeID}}_{{test.test_num}}" , null)(class='slim-text-input no-margin-top')

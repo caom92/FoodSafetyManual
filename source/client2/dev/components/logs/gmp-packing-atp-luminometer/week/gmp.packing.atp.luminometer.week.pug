@@ -1,0 +1,10 @@
+include ../../../log-ionic-materialize.pug
+
++card()([formGroup]='weekForm')
+  +cardContent()
+    +row()(style='margin-bottom: 0px; margin-top: 4px;')
+      +col()(class='s4 m4 l3')
+        h5 Semana {{week.week_num}}
+      +col()(class='s8 m8 l9')
+        +dateInput(false, "{{ 'Log.date' | translate:lang }}", "date", "date_{{itemID}}_{{week.week_num}}", null, "dateConfig")
+    gmp-packing-atp-luminometer-type(*ngFor='let type of week.types; let i = index', [itemID]='itemID', [weekNum]='week.week_num', [type]='type', [typeGroup]='weekForm.controls.types.controls[i]')

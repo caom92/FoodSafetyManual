@@ -205,7 +205,11 @@
     "comment": "Comment",
     "external_url": "External URL",
     "images": "Images",
-    "pdfs": "PDF Files"
+    "pdfs": "PDF Files",
+    "instrument": "Instrument",
+    "week": "Week",
+    "type": "Type",
+    "test": "Test"
   },
   "Authorization": {
     "send": "Send",

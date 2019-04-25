@@ -1,0 +1,11 @@
+include ../../../log-ionic-materialize.pug
+
+p {{type['name_' + lang]}}
++row()(style='margin-bottom: 0px; margin-top: 4px;')
+  +col()(class='s4 m4 l3')
+    p Lectura
+  +col()(class='s8 m8 l9')
+    p Notas
+gmp-packing-atp-luminometer-test(*ngFor='let test of type.tests; let i = index', [itemID]='itemID', [weekNum]='weekNum', [typeID]='type.id', [test]='test', [testGroup]='typeForm.controls.tests.controls[i]')
+
+// ng if with tests

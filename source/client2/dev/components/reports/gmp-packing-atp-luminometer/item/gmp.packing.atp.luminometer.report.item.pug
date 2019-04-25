@@ -1,0 +1,9 @@
+td.instrumentColumn([rowSpan]='item.weeks.length * 6') {{ item.name }}
+td.weekColumn([rowSpan]='6') 
+  | {{ 'Log.week' | translate:lang }} {{ item.weeks[0].week_num }}
+  br
+  | {{ item.weeks[0].date }}
+td.typeColumn([rowSpan]='3') {{ item.weeks[0].types[0]['name_' + lang]}}
+td.numberColumn {{ item.weeks[0].types[0].tests[0].test_num }}
+td.testColumn {{ item.weeks[0].types[0].tests[0].reading }} RLU
+td.notesColumn {{ item.weeks[0].types[0].tests[0].notes }}

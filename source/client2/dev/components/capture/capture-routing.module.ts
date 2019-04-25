@@ -38,6 +38,11 @@ const routes: Routes = [
     loadChildren: './gmp-packing-aged-product/gmp-packing-aged-product-capture.module#GMPPackingAgedProductCaptureModule'
   },
   {
+    path: 'gmp-packing-atp-luminometer',
+    data: { suffix: 'gmp-packing-atp-luminometer' },
+    loadChildren: './gmp-packing-atp-luminometer/gmp-packing-atp-luminometer-capture.module#GMPPackingATPLuminometerCaptureModule'
+  },
+  {
     path: 'gmp-packing-atp-testing',
     data: { suffix: 'gmp-packing-atp-testing' },
     loadChildren: './gmp-packing-atp-testing/gmp-packing-atp-testing-capture.module#GMPPackingATPTestingCaptureModule'

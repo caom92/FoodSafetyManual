@@ -205,7 +205,11 @@
     "comment": "Comentario",
     "external_url": "Enlace externo",
     "images": "Imágenes",
-    "pdfs": "Archivos PDF"
+    "pdfs": "Archivos PDF",
+    "instrument": "Instrumento",
+    "week": "Semana",
+    "type": "Tipo",
+    "test": "Prueba"
   },
   "Authorization": {
     "send": "Enviar",

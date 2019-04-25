@@ -1,0 +1,8 @@
+td.weekColumn([rowSpan]='6') 
+  | {{ 'Log.week' | translate:lang }} {{ week.week_num }} 
+  br
+  | {{ week.date }}
+td.typeColumn([rowSpan]='3') {{ week.types[0]['name_' + lang]}}
+td.numberColumn {{ week.types[0].tests[0].test_num }}
+td.testColumn {{ week.types[0].tests[0].reading }} RLU
+td.notesColumn {{ week.types[0].tests[0].notes }}

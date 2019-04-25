@@ -1,0 +1,4 @@
+extends ../../report-viewer.common.pug
+
+block loader
+  gmp-packing-atp-luminometer-report-loader(#reports, *ngFor='let report of reports', [report]='report', [activeReport]='activeReport', [suffix]='suffix', [footer]='footer', (removed)='onRemoved($event)')

@@ -1,0 +1,11 @@
+extends ../log/gmp.packing.atp.luminometer.log.pug
+
+prepend header
+  h4 {{log.log_name}}
+  .divider
+
+block item
+  gmp-packing-atp-luminometer-item(*ngFor='let item of log.items; let i = index', [item]='item', [itemGroup]='captureForm.controls.items.controls[i]', [isAuthorization]='true')
+
+block buttonRow
+  +authorizationButtonRow("{{ 'Authorization.send' | translate:lang }}", "{{ 'Authorization.authorize' | translate:lang }}", "{{ 'Authorization.delete' | translate:lang }}", "{{ 'Authorization.back' | translate:lang }}")

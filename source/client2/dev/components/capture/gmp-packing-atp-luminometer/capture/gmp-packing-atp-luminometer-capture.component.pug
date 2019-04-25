@@ -1,0 +1,8 @@
+extends ../../capture.common.pug
+
+block reportViewer
+  gmp-packing-atp-luminometer-report-viewer
+
+block logViewer
+  gmp-packing-atp-luminometer-log-list([suffix]='suffix', *ngIf='newLog !== true', (startLog)='onOpenLog($event)')
+  gmp-packing-atp-luminometer-log(*ngIf='newLog == true', [log]='logData', (closeLog)='onCloseLog($event)')
