@@ -85,7 +85,7 @@ $service = fsm\createUpdateService(
             // week exists, update
             $weekLogs->updateByItemLogIDAndWeek(
               [
-                'date' => $week['week_num'],
+                'date' => $week['date'],
               ],
               $itemLogID,
               $week['week_num']
@@ -151,7 +151,7 @@ $service = fsm\createUpdateService(
         $weekLogs->delete([
           'AND' => [
             'item_log_id' => $itemLogID,
-            'test_num[>]' => $weekNumber
+            'week_num[>]' => $lastWeekNumber
           ]
         ]);
       }

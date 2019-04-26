@@ -31,7 +31,7 @@ class WeekLogs extends db\InsertableTable
       [
         'AND' => [
           'item_log_id' => $itemLogID,
-          'test_num[>]' => $weekNumber
+          'week_num[>]' => $weekNumber
         ]
       ]
     );
