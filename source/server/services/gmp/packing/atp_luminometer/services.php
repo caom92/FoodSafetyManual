@@ -26,6 +26,8 @@ $atpLuminometer = [
       realpath(dirname(__FILE__).'/inventory-gmp-packing-atp-luminometer.php'),
     'reorder-gmp-packing-atp-luminometer' =>
       realpath(dirname(__FILE__).'/reorder-gmp-packing-atp-luminometer.php'),
+    'toggle-gmp-packing-atp-luminometer' =>
+      realpath(dirname(__FILE__).'/toggle-gmp-packing-atp-luminometer.php'),
     'capture-gmp-packing-atp-luminometer' =>
       realpath(dirname(__FILE__).'/capture-gmp-packing-atp-luminometer.php'),
     'report-gmp-packing-atp-luminometer' =>
