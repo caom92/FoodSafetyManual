@@ -1,21 +1,21 @@
-report-header([header]="header")
-mz-card
-  mz-card-content
-    table(#report_body)
-      thead
-        tr
-          th.instrumentColumn {{ 'Log.instrument' | translate:lang }}
-          th.weekColumn {{ 'Log.week' | translate:lang }}
-          th.typeColumn {{ 'Log.type' | translate:lang }}
-          th.numberColumn #
-          th.testColumn {{ 'Log.test' | translate:lang }}
-          th.notesColumn {{ 'Log.notes' | translate:lang }}
-      tbody
-        ng-template(ngFor, let-item, [ngForOf]='report.items')
-          tr(gmp-packing-atp-luminometer-report-item, [item]='item')
-          ng-template(ngFor, let-week, [ngForOf]='item.weeks', let-fweek='first')
-            tr(gmp-packing-atp-luminometer-report-week, [week]='week', *ngIf='!fweek')
-            ng-template(ngFor, let-type, [ngForOf]='week.types', let-ftype='first')
-              tr(gmp-packing-atp-luminometer-report-type, [type]='type', *ngIf='!ftype')
-              ng-template(ngFor, let-test, [ngForOf]='type.tests', let-ftest='first')
-                tr(gmp-packing-atp-luminometer-report-test, [test]='test', *ngIf='!ftest')
+extends ../../report.common.pug
+
+block report
+  table(#report_body)
+    thead
+      tr
+        th.instrumentColumn {{ 'Log.instrument' | translate:lang }}
+        th.weekColumn {{ 'Log.week' | translate:lang }}
+        th.typeColumn {{ 'Log.type' | translate:lang }}
+        th.numberColumn #
+        th.testColumn {{ 'Log.test' | translate:lang }}
+        th.notesColumn {{ 'Log.notes' | translate:lang }}
+    tbody
+      ng-template(ngFor, let-item, [ngForOf]='report.items')
+        tr(gmp-packing-atp-luminometer-report-item, [item]='item')
+        ng-template(ngFor, let-week, [ngForOf]='item.weeks', let-fweek='first')
+          tr(gmp-packing-atp-luminometer-report-week, [week]='week', *ngIf='!fweek')
+          ng-template(ngFor, let-type, [ngForOf]='week.types', let-ftype='first')
+            tr(gmp-packing-atp-luminometer-report-type, [type]='type', *ngIf='!ftype')
+            ng-template(ngFor, let-test, [ngForOf]='type.tests', let-ftest='first')
+              tr(gmp-packing-atp-luminometer-report-test, [test]='test', *ngIf='!ftest')

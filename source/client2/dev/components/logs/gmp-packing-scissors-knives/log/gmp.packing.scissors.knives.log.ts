@@ -20,7 +20,6 @@ export class GMPPackingScissorsKnivesLogComponent extends SuperLogComponent impl
   @Input() log: Log = null//{ zone_name: null, program_name: null, module_name: null, log_name: null, html_footer: null, items: [{ id: null, name: null, quantity: null }] }
   @Language() lang: string
 
-
   constructor(private _fb: FormBuilder,
     private timeService: DateTimeService,
     logService: LogService,

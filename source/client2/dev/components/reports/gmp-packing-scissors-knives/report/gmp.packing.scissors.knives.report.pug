@@ -1,18 +1,18 @@
-report-header([header]="header")
-mz-card
-  mz-card-content
-    table(#report_body)
-      thead
-        tr
-          th.timeColumn {{ 'Log.time' | translate:lang }}
-          th.groupColumn {{ 'Log.group' | translate:lang }}
-          th.quantityColumn {{ 'Log.quantity_abbr' | translate:lang }}
-          th.approvedColumn {{ 'Log.approved' | translate:lang }}
-          th.returnedColumn {{ 'Log.returned_good_conditions' | translate:lang }}
-          th.actionColumn {{ 'Log.corrective_action' | translate:lang }}
-          th.sanitationColumn {{ 'Log.sanitized' | translate:lang }}
-      tbody
-        ng-template(ngFor, let-item, [ngForOf]='report.items')
-          tr(gmp-packing-scissors-knives-report-item, [item]='item')
-        tr
-          td.fullColumn(colspan='7') {{ 'Log.notes' | translate:lang }}: {{report.notes}}
+extends ../../report.common.pug
+
+block report
+  table(#report_body)
+    thead
+      tr
+        th.timeColumn {{ 'Log.time' | translate:lang }}
+        th.groupColumn {{ 'Log.group' | translate:lang }}
+        th.quantityColumn {{ 'Log.quantity_abbr' | translate:lang }}
+        th.approvedColumn {{ 'Log.approved' | translate:lang }}
+        th.returnedColumn {{ 'Log.returned_good_conditions' | translate:lang }}
+        th.actionColumn {{ 'Log.corrective_action' | translate:lang }}
+        th.sanitationColumn {{ 'Log.sanitized' | translate:lang }}
+    tbody
+      ng-template(ngFor, let-item, [ngForOf]='report.items')
+        tr(gmp-packing-scissors-knives-report-item, [item]='item')
+      tr
+        td.fullColumn(colspan='7') {{ 'Log.notes' | translate:lang }}: {{report.notes}}

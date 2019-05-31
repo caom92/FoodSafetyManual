@@ -1,21 +1,21 @@
-report-header([header]="header")
-mz-card
-  mz-card-content
-    div(#report_body)
-      ng-template(ngFor, let-item, [ngForOf]='groupedItems', let-i='index')
-        table
-          tbody
+extends ../../report.common.pug
+
+block report
+  div(#report_body)
+    ng-template(ngFor, let-item, [ngForOf]='groupedItems', let-i='index')
+      table
+        tbody
+          tr
+            th(class='nameColumn_{{signatures[i]}}') {{ 'Log.name' | translate:lang }}
+            th(class='timeColumn_{{signatures[i]}}') {{ 'Log.time' | translate:lang }}
+            ng-template(ngFor, let-field, [ngForOf]='item[0].fields')
+              th(class='field_{{signatures[i]}}_{{field.field_id}}') {{field['name_abbr_' + lang]}}
+          ng-template(ngFor, let-machine, [ngForOf]='item')
             tr
-              th(class='nameColumn_{{signatures[i]}}') {{ 'Log.name' | translate:lang }}
-              th(class='timeColumn_{{signatures[i]}}') {{ 'Log.time' | translate:lang }}
-              ng-template(ngFor, let-field, [ngForOf]='item[0].fields')
-                th(class='field_{{signatures[i]}}_{{field.field_id}}') {{field['name_abbr_' + lang]}}
-            ng-template(ngFor, let-machine, [ngForOf]='item')
-              tr
-                td(class='nameColumn_{{signatures[i]}}') {{machine.name}}
-                td(class='timeColumn_{{signatures[i]}}') {{machine.time}}
-                ng-template(ngFor, let-field, [ngForOf]='machine.fields')
-                  td(*ngIf='field.field_id != 13', class='field_{{signatures[i]}}_{{field.field_id}}') {{field.value}}
-                  td(*ngIf='field.field_id == 13 && field.value == 1', class='field_{{signatures[i]}}_{{field.field_id}}') {{ 'Log.pass' | translate:lang }}
-                  td(*ngIf='field.field_id == 13 && field.value == 0', class='field_{{signatures[i]}}_{{field.field_id}}') {{ 'Log.fail' | translate:lang }}
-        p()= ' '
+              td(class='nameColumn_{{signatures[i]}}') {{machine.name}}
+              td(class='timeColumn_{{signatures[i]}}') {{machine.time}}
+              ng-template(ngFor, let-field, [ngForOf]='machine.fields')
+                td(*ngIf='field.field_id != 13', class='field_{{signatures[i]}}_{{field.field_id}}') {{field.value}}
+                td(*ngIf='field.field_id == 13 && field.value == 1', class='field_{{signatures[i]}}_{{field.field_id}}') {{ 'Log.pass' | translate:lang }}
+                td(*ngIf='field.field_id == 13 && field.value == 0', class='field_{{signatures[i]}}_{{field.field_id}}') {{ 'Log.fail' | translate:lang }}
+      p()= ' '

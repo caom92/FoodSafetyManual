@@ -1,20 +1,20 @@
-report-header([header]="header")
-mz-card
-  mz-card-content
-    table(#report_body)
-      thead
-        tr
-          th.timeColumn {{ 'Log.time' | translate:lang }}
-          th.areaColumn {{ 'Log.area' | translate:lang }}
-          th.testColumn {{ 'Log.reading' | translate:lang }}
-          th.resultColumn {{ 'Log.results' | translate:lang }}
-          th.actionColumn {{ 'Log.corrective_action' | translate:lang }}
-          th.testColumn {{ 'Log.reading' | translate:lang }}
-          th.resultColumn {{ 'Log.retests' | translate:lang }}
-      tbody
-        ng-template(ngFor, let-area, [ngForOf]='report.areas')
-          ng-template(ngFor, let-item, [ngForOf]='area.items', let-first='first')
-            tr(gmp-packing-atp-testing-report-area, [area]='area', [item]='item', *ngIf='first')
-            tr(gmp-packing-atp-testing-report-item, [item]='item', *ngIf='!first')
-        tr
-          td.fullColumn(colspan='7') {{ 'Log.notes' | translate:lang }}: {{report.notes}}
+extends ../../report.common.pug
+
+block report
+  table(#report_body)
+    thead
+      tr
+        th.timeColumn {{ 'Log.time' | translate:lang }}
+        th.areaColumn {{ 'Log.area' | translate:lang }}
+        th.testColumn {{ 'Log.reading' | translate:lang }}
+        th.resultColumn {{ 'Log.results' | translate:lang }}
+        th.actionColumn {{ 'Log.corrective_action' | translate:lang }}
+        th.testColumn {{ 'Log.reading' | translate:lang }}
+        th.resultColumn {{ 'Log.retests' | translate:lang }}
+    tbody
+      ng-template(ngFor, let-area, [ngForOf]='report.areas')
+        ng-template(ngFor, let-item, [ngForOf]='area.items', let-first='first')
+          tr(gmp-packing-atp-testing-report-area, [area]='area', [item]='item', *ngIf='first')
+          tr(gmp-packing-atp-testing-report-item, [item]='item', *ngIf='!first')
+      tr
+        td.fullColumn(colspan='7') {{ 'Log.notes' | translate:lang }}: {{report.notes}}

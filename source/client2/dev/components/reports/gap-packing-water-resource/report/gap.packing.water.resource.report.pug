@@ -1,15 +1,15 @@
-report-header([header]="header")
-mz-card
-  mz-card-content
-    table(#report_body)
-      thead
-        tr
-          th.nameColumn {{ 'Log.area' | translate:lang }}
-          th.dateColumn {{ 'Log.date' | translate:lang }}
-          th.complianceColumn {{ 'Log.compliance' | translate:lang }}
-          th.actionColumn {{ 'Log.corrective_action' | translate:lang }}
-      tbody
-        ng-template(ngFor, let-area, [ngForOf]='report.areas')
-          tr(gap-packing-water-resource-report-area, [area]='area')
-          ng-template(ngFor, let-item, [ngForOf]='area.items')
-            tr(gap-packing-water-resource-report-item, [item]='item')
+extends ../../report.common.pug
+
+block report
+  table(#report_body)
+    thead
+      tr
+        th.nameColumn {{ 'Log.area' | translate:lang }}
+        th.dateColumn {{ 'Log.date' | translate:lang }}
+        th.complianceColumn {{ 'Log.compliance' | translate:lang }}
+        th.actionColumn {{ 'Log.corrective_action' | translate:lang }}
+    tbody
+      ng-template(ngFor, let-area, [ngForOf]='report.areas')
+        tr(gap-packing-water-resource-report-area, [area]='area')
+        ng-template(ngFor, let-item, [ngForOf]='area.items')
+          tr(gap-packing-water-resource-report-item, [item]='item')

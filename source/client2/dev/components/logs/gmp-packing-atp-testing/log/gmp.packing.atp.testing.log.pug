@@ -42,7 +42,7 @@ mixin testButtons(entryForm)
     block header
       log-header([log]="logHeaderData", [dateGroup]='captureForm')
     form((ngSubmit)='save(myForm)', [formGroup]="captureForm")
-      +card(null)
+      +card()
         +cardContent()
           +card(true)(*ngFor="let entry of captureForm.controls.areas.controls; let i = index")
             +cardContent()
