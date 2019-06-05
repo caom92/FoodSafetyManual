@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
-import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LanguageService } from '../../../../services/app.language'
@@ -15,9 +14,8 @@ import { Authorization, AuthorizationEntry, AuthorizationTest } from '../interfa
   templateUrl: './gmp.packing.atp.testing.authorization.html'
 })
 
-export class GMPPackingATPTestingAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
-  @Input() log: Authorization = { report_id: null, created_by: null, creation_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, notes: null, entries: [{ name: null, time: null, items: [{ id: null, test_number: null, test1: null, results1: null, corrective_action: null, test2: null, results2: null }] }] }
-  @Language() lang: string
+export class GMPPackingATPTestingAuthorizationComponent extends SuperAuthorizationComponent {
+  log: Authorization
 
   constructor(_fb: FormBuilder,
     private langManager: LanguageService,

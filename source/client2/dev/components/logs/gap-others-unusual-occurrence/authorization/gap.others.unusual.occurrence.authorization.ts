@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
-import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LanguageService } from '../../../../services/app.language'
@@ -15,9 +14,8 @@ import { Authorization } from '../interfaces/gap.others.unusual.occurrence.autho
   templateUrl: './gap.others.unusual.occurrence.authorization.html'
 })
 
-export class GAPOthersUnusualOccurrenceAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
-  @Input() log: Authorization = { report_id: null, created_by: null, creation_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, items: { shifts: [{ shift_id: null, name: null }], entry: { incident_date: null, time: null, shift: null, shift_id: null, area: null, product_name: null, batch: null, description: null, corrective_action: null, album_url: null } } }
-  @Language() lang: string
+export class GAPOthersUnusualOccurrenceAuthorizationComponent extends SuperAuthorizationComponent {
+  log: Authorization
 
   readonly maxLengths = {
     area_id: 255,

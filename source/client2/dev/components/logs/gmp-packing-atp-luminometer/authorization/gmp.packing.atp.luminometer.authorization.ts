@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
-import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { DataResolverService } from '../../../../services/data-resolver.service'
@@ -9,16 +8,14 @@ import { LogService } from '../../../../services/log.service'
 import { ToastsService } from '../../../../services/toasts.service'
 import { SuperAuthorizationComponent } from '../../super-logs/super.logs.authorization'
 import { Authorization, AuthorizationItem, AuthorizationTest, AuthorizationType, AuthorizationWeek } from '../interfaces/gmp.packing.atp.luminometer.authorization.interface'
-import { WeekData, LogWeek } from '../interfaces/gmp.packing.atp.luminometer.log.interface';
 
 @Component({
   selector: 'gmp-packing-atp-luminometer-authorization',
   templateUrl: './gmp.packing.atp.luminometer.authorization.html'
 })
 
-export class GMPPackingATPLuminometerAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
-  @Language() lang: string
-  @Input() log: Authorization
+export class GMPPackingATPLuminometerAuthorizationComponent extends SuperAuthorizationComponent {
+  log: Authorization
 
   constructor(_fb: FormBuilder,
     logService: LogService,

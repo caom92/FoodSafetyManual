@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 import { FormArray, FormBuilder, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
-import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LogService } from '../../../../services/log.service'
@@ -14,9 +13,8 @@ import { Authorization, AuthorizationItem } from '../interfaces/gmp.self.inspect
   templateUrl: './gmp.self.inspection.pest.control.authorization.html'
 })
 
-export class GMPSelfInspectionPestControlAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
-  @Input() log: Authorization = { report_id: null, created_by: null, creation_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, notes: null, rooms: [{ id: null, name: null, stations: [{ id: null, name: null, order: null, secured: null, condition: null, activity: null, corrective_actions: null }] }] }
-  @Language() lang: string
+export class GMPSelfInspectionPestControlAuthorizationComponent extends SuperAuthorizationComponent {
+  log: Authorization
   offset: Array<number> = []
 
   constructor(_fb: FormBuilder,

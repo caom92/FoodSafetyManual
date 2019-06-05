@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
-import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LanguageService } from '../../../../services/app.language'
@@ -15,9 +14,8 @@ import { Authorization, AuthorizationEntry } from '../interfaces/gmp.packing.fin
   templateUrl: './gmp.packing.finished.product.authorization.html'
 })
 
-export class GMPPackingFinishedProductAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
-  @Input() log: Authorization = { report_id: null, created_by: null, creation_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, log_info: { quality_types: [{ id: null, name: null }], entries: [] } }
-  @Language() lang: string
+export class GMPPackingFinishedProductAuthorizationComponent extends SuperAuthorizationComponent {
+  log: Authorization
 
   readonly maxLengths = {
     batch: 255,

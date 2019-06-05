@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
-import { Language } from 'angular-l10n'
 import { Observable } from 'rxjs/Rx'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
@@ -18,9 +17,8 @@ import { Authorization } from '../interfaces/gap.doc.control.doc.control.authori
   templateUrl: './gap.doc.control.doc.control.authorization.html'
 })
 
-export class GAPDocControlDocControlAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
-  @Input() log: Authorization = { report_id: null, created_by: null, creation_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, documents: [{ id: null, name: null, entries: [{ employee: null, date: null, notes: null, additional_info_url: null, pictures: null, files: null }] }] }
-  @Language() lang: string
+export class GAPDocControlDocControlAuthorizationComponent extends SuperAuthorizationComponent {
+  log: Authorization
   selectedDocument: number
   selectedDocumentName: string
   files: Array<string> = []

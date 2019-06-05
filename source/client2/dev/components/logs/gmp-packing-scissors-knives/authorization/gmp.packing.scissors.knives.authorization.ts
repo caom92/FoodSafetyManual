@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
-import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LogService } from '../../../../services/log.service'
@@ -15,10 +14,8 @@ import { UpdateItem } from '../interfaces/gmp.packing.scissors.knives.update.int
   templateUrl: './gmp.packing.scissors.knives.authorization.html'
 })
 
-export class GMPPackingScissorsKnivesAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
-  @Input() log: Authorization = { report_id: null, created_by: null, creation_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, notes: null, items: [{ id: null, name: null, time: null, quantity: null, approved: null, condition: null, corrective_action: null, is_sanitized: null }] }
-  @Language() lang: string
-  captureForm: FormGroup = new FormBuilder().group({})
+export class GMPPackingScissorsKnivesAuthorizationComponent extends SuperAuthorizationComponent {
+  log: Authorization
 
   constructor(_fb: FormBuilder, toastService: ToastsService, logService: LogService, routeState: ActivatedRoute, router: Router) {
     super(_fb, logService, toastService, routeState, router)

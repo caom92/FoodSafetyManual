@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 import { FormArray, FormBuilder, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
-import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LanguageService } from '../../../../services/app.language'
@@ -16,9 +15,8 @@ import { UpdateItem } from '../interfaces/gmp.packing.thermo.calibration.update.
   templateUrl: './gmp.packing.thermo.calibration.authorization.html'
 })
 
-export class GMPPackingThermoCalibrationAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
-  @Input() log: Authorization = { report_id: null, created_by: null, creation_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, time: null, items: [{ id: null, name: null, test: null, calibration: null, sanitization: null, deficiencies: null, corrective_action: null }] }
-  @Language() lang: string
+export class GMPPackingThermoCalibrationAuthorizationComponent extends SuperAuthorizationComponent {
+  log: Authorization
 
   readonly maxLengths = {
     deficiencies: 65535,

@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
-import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LogService } from '../../../../services/log.service'
@@ -15,10 +14,8 @@ import { UpdateItem } from '../interfaces/gmp.packing.hand.washing.update.interf
   templateUrl: './gmp.packing.hand.washing.authorization.html'
 })
 
-export class GMPPackingHandWashingAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
-  @Input() log: Authorization = { report_id: null, created_by: null, creation_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, notes: null, items: [{ id: null, name: null, is_acceptable: null }] }
-  @Language() lang: string
-  captureForm: FormGroup = new FormBuilder().group({})
+export class GMPPackingHandWashingAuthorizationComponent extends SuperAuthorizationComponent {
+  log: Authorization
 
   readonly maxLengths = {
     notes: 65535

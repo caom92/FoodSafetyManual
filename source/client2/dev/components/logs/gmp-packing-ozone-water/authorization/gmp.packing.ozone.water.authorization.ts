@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
-import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LogService } from '../../../../services/log.service'
@@ -17,10 +16,8 @@ import { maxLengths } from '../maxLengths/max.lengths'
   templateUrl: './gmp.packing.ozone.water.authorization.html'
 })
 
-export class GMPPackingOzoneWaterAuthorizationComponent extends SuperAuthorizationComponent implements OnInit {
-  @Input() log: Authorization = { report_id: null, created_by: null, creation_date: null, zone_name: null, program_name: null, module_name: null, log_name: null, items: [{ id: null, name: null, fields: [{ id: null, is_active: null, name_en: null, name_es: null, field_id: null, value: null }], entries: [{ test_number: null, time: null, fields: [{ id: null, is_active: null, name_en: null, name_es: null, field_id: null, value: null }] }] }] }
-  @Language() lang: string
-  captureForm: FormGroup = new FormBuilder().group({})
+export class GMPPackingOzoneWaterAuthorizationComponent extends SuperAuthorizationComponent {
+  log: Authorization
 
   readonly maxLengths = maxLengths
 
