@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core'
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms'
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 import { LanguageService } from '../../../services/app.language'
-import { DateTimeService } from '../../../services/time.service'
 import { CAPAService } from '../../../services/capa.service'
+import { DateTimeService } from '../../../services/time.service'
 import { CAPAForm } from './capa-log.interface'
 
 @Component({
@@ -18,8 +18,8 @@ export class CAPAFormComponent {
   userID: number = Number(localStorage.getItem('user_id'))
   username: string = localStorage.getItem('user_full_name')
   dateConfig
-  images: Array<{ id?: number, name: string, dataUrl: string }> = []
-  pdfs: Array<{ id?: number, name: string }> = []
+  images: Array<{ id?: number, name: string, path?: string, dataUrl: string }> = []
+  pdfs: Array<{ id?: number, name: string, path?: string }> = []
 
   constructor(private langManager: LanguageService, private formBuilder: FormBuilder, private timeService: DateTimeService, private capaService: CAPAService) {
 
@@ -74,7 +74,7 @@ export class CAPAFormComponent {
     if (this.data.files !== undefined && this.data.files !== null) {
       if (this.data.files.length > 0) {
         for (let file of this.data.files) {
-          this.pdfs.push({ id: file.id, name: file.path })
+          this.pdfs.push({ id: file.id, name: file.path, path: file.path })
         }
       }
     }
@@ -82,7 +82,7 @@ export class CAPAFormComponent {
     if (this.data.images !== undefined && this.data.images !== null) {
       if (this.data.images.length > 0) {
         for (let image of this.data.images) {
-          this.images.push({ id: image.id, name: image.path, dataUrl: 'http://localhost/espresso/data/capa/images/' + image.path })
+          this.images.push({ id: image.id, name: image.path, dataUrl: 'http://localhost/espresso/data/capa/images/' + image.path, path: image.path })
         }
       }
     }
@@ -151,7 +151,7 @@ export class CAPAFormComponent {
     const control = <FormArray>this.capaForm.controls.images
     const imageLength = Number(this.images.length)
     const controlLength = Number(control.length)
-    if (index > (imageLength - controlLength)) {
+    if (index >= (imageLength - controlLength)) {
       control.removeAt(index - (imageLength - controlLength))
       this.images.splice(index, 1)
     } else {
@@ -167,7 +167,7 @@ export class CAPAFormComponent {
     const control = <FormArray>this.capaForm.controls.files
     const pdfsLength = Number(this.pdfs.length)
     const controlLength = Number(control.length)
-    if (index > (pdfsLength - controlLength)) {
+    if (index >= (pdfsLength - controlLength)) {
       control.removeAt(index - (pdfsLength - controlLength))
       this.pdfs.splice(index, 1)
     } else {
