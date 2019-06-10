@@ -149,7 +149,7 @@ $service = [
 
       for ($i = 0; $i < $length; $i++) { // individual file array
         $originalFileName = $_FILES[$field]['name'][$i];
-        $format = substr($originalFileName, strpos($originalFileName, '.'));
+        $format = substr($originalFileName, strrpos($originalFileName, '.'));
 
         $fileName = "{$formID}_".date('Y-m-d_H-i-s')."_$i$format";
 
@@ -180,9 +180,9 @@ $service = [
     $images = (isset($_FILES['images']) && array_key_exists('images', $_FILES)) ?
       $uploadFiles('images', realpath(dirname(__FILE__)."/../../../../data/capa/images/")) : [];
     
-    if (count($images) > 0) {
-      $imagesTable = $scope->daoFactory->get('capa\Images');
+    $imagesTable = $scope->daoFactory->get('capa\Images');
 
+    if (count($images) > 0) {
       foreach ($images as $image) {
         $imagesTable->insert([
           'form_id' => $formID,
@@ -194,9 +194,9 @@ $service = [
     $files = (isset($_FILES['files']) && array_key_exists('files', $_FILES)) ?
       $uploadFiles('files', realpath(dirname(__FILE__)."/../../../../data/capa/documents/")) : [];
 
-    if (count($files) > 0) {
-      $filesTable = $scope->daoFactory->get('capa\Files');
+    $filesTable = $scope->daoFactory->get('capa\Files');
 
+    if (count($files) > 0) {
       foreach ($files as $file) {
         $filesTable->insert([
           'form_id' => $formID,
@@ -204,6 +204,13 @@ $service = [
         ]);
       }
     }
+
+    $files = array();
+
+    $files['files'] = $filesTable->selectByFormID($request['id']);
+    $files['images'] = $imagesTable->selectByFormID($request['id']);
+
+    return $files;
   }
 ];
 

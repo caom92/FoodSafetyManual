@@ -71,21 +71,7 @@ export class CAPAFormComponent {
       this.capaForm.addControl('id', new FormControl(this.data.id, [Validators.required]))
     }
 
-    if (this.data.files !== undefined && this.data.files !== null) {
-      if (this.data.files.length > 0) {
-        for (let file of this.data.files) {
-          this.pdfs.push({ id: file.id, name: file.path, path: file.path })
-        }
-      }
-    }
-
-    if (this.data.images !== undefined && this.data.images !== null) {
-      if (this.data.images.length > 0) {
-        for (let image of this.data.images) {
-          this.images.push({ id: image.id, name: image.path, dataUrl: 'http://localhost/espresso/data/capa/images/' + image.path, path: image.path })
-        }
-      }
-    }
+    this.refreshFiles()
   }
 
   public onImageFileSelected(event): void {
@@ -243,9 +229,13 @@ export class CAPAFormComponent {
         this.capaForm.addControl('images', this.formBuilder.array([]))
         this.capaForm.addControl('files', this.formBuilder.array([]))
         this.capaForm.markAsPristine()
-        if (Number(success) > 0) {
-          this.data.id = Number(success)
+        if (Number(success.id) > 0) {
+          this.data.id = Number(success.id)
+          this.data.files = success.files
+          this.data.images = success.images
           this.capaForm.addControl('id', new FormControl(this.data.id, [Validators.required]))
+
+          this.refreshFiles()
         }
       }, error => {
         this.enableForm()
@@ -263,6 +253,11 @@ export class CAPAFormComponent {
         this.capaForm.addControl('images', this.formBuilder.array([]))
         this.capaForm.addControl('files', this.formBuilder.array([]))
         this.capaForm.markAsPristine()
+
+        this.data.files = success.files
+        this.data.images = success.images
+
+        this.refreshFiles()
       }, error => {
         this.enableForm()
       })
@@ -291,5 +286,25 @@ export class CAPAFormComponent {
 
   public back(): void {
     this.closeCapa.emit()
+  }
+
+  private refreshFiles(): void {
+    this.pdfs = []
+    if (this.data.files !== undefined && this.data.files !== null) {
+      if (this.data.files.length > 0) {
+        for (let file of this.data.files) {
+          this.pdfs.push({ id: file.id, name: file.path, path: file.path })
+        }
+      }
+    }
+
+    this.images = []
+    if (this.data.images !== undefined && this.data.images !== null) {
+      if (this.data.images.length > 0) {
+        for (let image of this.data.images) {
+          this.images.push({ id: image.id, name: image.path, dataUrl: 'http://localhost/espresso/data/capa/images/' + image.path, path: image.path })
+        }
+      }
+    }
   }
 }
