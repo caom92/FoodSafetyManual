@@ -1,10 +1,10 @@
 <?php
 
 namespace fsm\database\gmp\packing\atpLuminometer;
-require_once realpath(dirname(__FILE__).'/../../../../dao/InsertableTable.php');
+require_once realpath(dirname(__FILE__).'/../../../../dao/LogTable.php');
 use fsm\database as db;
 
-class ItemLogs extends db\InsertableTable
+class ItemLogs extends db\LogTable
 {
   function __construct() { 
     parent::__construct('gmp_packing_atp_luminometer_item_logs');

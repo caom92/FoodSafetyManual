@@ -17,7 +17,7 @@ block report
         th.actionColumn {{ 'Log.action' | translate:lang }}
         th.urlColumn {{ 'Log.external_url' | translate:lang }}
         th.notesColumn {{ 'Log.notes' | translate:lang }}
-      tr(*ngFor="let entry of report.entries", '[ngClass]'="{ 'report-yellow': entry.action_id == 4, 'report-red': entry.action_id == 3 }")
+      tr(*ngFor="let entry of report.entries", '[ngClass]'="{ 'report-orange': entry.action_id == 5, 'report-yellow': entry.action_id == 4, 'report-red': entry.action_id == 3 }")
         td.productsColumn {{entry.item}}
         td.suppliersColumn {{entry.vendor}}
         td.clientsColumn {{entry.age}}
