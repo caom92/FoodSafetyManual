@@ -1,9 +1,9 @@
 include ../../../log-ionic-materialize.pug
 
 +fullLogWrapper()
-  div(*ngIf="showLog == true")
+  div(*ngIf='showLog == true')
     block header
-      log-header([log]="logHeaderData", [dateGroup]='captureForm')
+      log-header([log]='logHeaderData', [dateGroup]='captureForm')
     block documentSelect
       +card()
         +cardContent()

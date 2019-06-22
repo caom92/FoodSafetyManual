@@ -14,3 +14,5 @@ class Types extends db\DataBaseTable
     return parent::select('*');
   }
 }
+
+?>

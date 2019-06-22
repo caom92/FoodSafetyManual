@@ -38,10 +38,10 @@ mixin testButtons(entryForm)
         i(mz-icon-mdi, [icon]="'minus'")
 
 +fullLogWrapper()
-  div(*ngIf="showLog == true")
+  div(*ngIf='showLog == true')
     block header
-      log-header([log]="logHeaderData", [dateGroup]='captureForm')
-    form((ngSubmit)='save(myForm)', [formGroup]="captureForm")
+      log-header([log]='logHeaderData', [dateGroup]='captureForm')
+    form((ngSubmit)='save()', [formGroup]="captureForm")
       +card()
         +cardContent()
           +card(true)(*ngFor="let entry of captureForm.controls.areas.controls; let i = index")

@@ -37,7 +37,6 @@ export class GMPPackingATPLuminometerLogComponent extends SuperUpdateComponent {
 
   public initForm(): void {
     const currentDate = (this.log.creation_date !== undefined) ? this.log.creation_date : this.timeService.getISODate()
-
     this.captureForm = this._fb.group({
       date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       items: this._fb.array([])
