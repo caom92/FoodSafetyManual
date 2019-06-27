@@ -110,7 +110,7 @@ $controller = new ServiceProvider(
       $scissors, $thermometers, $gmpOthersUnusualOccurrences, 
       $gapOthersUnusualOccurrences, $selfInspection, $footers, $gapPreop, 
       $docControl, $coldRoomTemp, $agedProduct, $ozoneWater, $waterResource, $menu,
-      $gapDocControl, $capa, $atpLuminometer) {
+      $gapDocControl, $capa, $atpLuminometer, $gmpHarvestTool) {
       return new db\TableFactory(
         'fsm\database\\',
         $zone['tables'] +
@@ -139,6 +139,7 @@ $controller = new ServiceProvider(
         $waterResource['tables'] +
         $gapDocControl['tables'] +
         $atpLuminometer['tables'] +
+        $gmpHarvestTool['tables'] +
         $menu['tables'] +
         $capa['tables'] +
         [
@@ -180,6 +181,7 @@ $controller = new ServiceProvider(
       $waterResource['services'] +
       $gapDocControl['services'] +
       $atpLuminometer['services'] +
+      $gmpHarvestTool['services'] +
       $menu['services'] +
       $capa['services']
   ]

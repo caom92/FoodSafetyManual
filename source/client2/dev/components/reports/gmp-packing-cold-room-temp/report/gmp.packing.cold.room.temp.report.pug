@@ -8,7 +8,7 @@ block report
         th.numberColumn {{ 'Log.number_abbr' | translate:lang }}
         th.testColumn {{ 'Log.reading' | translate:lang }}
         th.humidityColumn {{ 'Log.relative_humidity' | translate:lang }}
-        th.deficienciesColumn {{ 'Log.deficiencies' | translate:lang }}
+        th.deficienciesColumn {{ 'Log.deficiencies_noted' | translate:lang }}
         th.actionColumn {{ 'Log.corrective_action' | translate:lang }}
     tbody
       ng-template(ngFor, let-item, [ngForOf]='report.items', let-first='first')

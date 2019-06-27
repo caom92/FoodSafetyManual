@@ -1,0 +1,96 @@
+{
+  "Standard Capture Component": {
+    "prefix": "fsm-capture-component",
+    "description": "Standard capture Component",
+    "body": [
+      "extends ../../capture.common.pug",
+      "",
+      "block reportViewer",
+      "\t${prefix}-report-viewer",
+      "",
+      "block logViewer",
+      "\t${prefix}-log"
+    ]
+  },
+  "Partial Capture Component": {
+    "prefix": "fsm-partial-capture-component",
+    "description": "Partial Capture Component",
+    "body": [
+      "extends ../../capture.common.pug",
+      "",
+      "block reportViewer",
+      "\t${prefix}-report-viewer",
+      "",
+      "block logViewer",
+      "\t${prefix}-log-list([suffix]='suffix', *ngIf='newLog !== true', (startLog)='onOpenLog(\\$event)')",
+      "\t${prefix}-log(*ngIf='newLog == true', [log]='logData', (closeLog)='onCloseLog(\\$event)')"
+    ]
+  },
+  "Standard Report Loader": {
+    "prefix": "fsm-report-loader",
+    "description": "Standard report loader",
+    "body": [
+      "extends ../../report-loader.common.pug",
+      "",
+      "block report",
+      "\t${prefix}-report(#reportContainer, [report]='report')"
+    ]
+  },
+  "Standard Report Viewer": {
+    "prefix": "fsm-report-viewer",
+    "description": "Standard report viewer",
+    "body": [
+      "extends ../../report-viewer.common.pug",
+      "",
+      "block loader",
+      "\t${prefix}-report-loader(#reports, *ngFor='let report of reports', [report]='report', [activeReport]='activeReport', [suffix]='suffix', [footer]='footer', (removed)='onRemoved(\\$event)')"
+    ]
+  },
+  "Standard Report Component": {
+    "prefix": "fsm-report-component",
+    "description": "Standard report component",
+    "body": [
+      "extends ../../report.common.pug",
+      "",
+      "block report",
+      "\t$0"
+    ]
+  },
+  "Standard Log Component": {
+    "prefix": "fsm-log",
+    "description": "Standard log component",
+    "body": [
+      "include ../../../log-ionic-materialize.pug",
+      "",
+      "+fullLogWrapper()",
+      "\tdiv(*ngIf='showLog == true')",
+      "\t\tblock header",
+      "\t\t\tlog-header([log]='logHeaderData', [dateGroup]='captureForm')",
+      "\t\tform([formGroup]='captureForm', (ngSubmit)='save()')",
+      "\t\t\tblock buttonRow",
+      "\t\t\t\t+sendLogButton(\"{{ 'Log.send_report' | translate:lang }}\")"
+    ]
+  },
+  "Standard Authorization Component": {
+    "prefix": "fsm-authorization",
+    "description": "Standard authorization component",
+    "body": [
+      "extends ../log/${prefix}-log.component.pug",
+      "",
+      "prepend header",
+      "\th4 {{log.log_name}}",
+      "\t.divider",
+      "",
+      "block buttonRow",
+      "\t+authorizationButtonRow(\"{{ 'Authorization.send' | translate:lang }}\", \"{{ 'Authorization.authorize' | translate:lang }}\", \"{{ 'Authorization.delete' | translate:lang }}\", \"{{ 'Authorization.back' | translate:lang }}\")"
+    ]
+  },
+  "Standard Log List Component": {
+    "prefix": "fsm-log-list",
+    "description": "Standard log list component",
+    "body": [
+      "extends ../../log-list.common.pug",
+      ""
+    ]
+  }
+}

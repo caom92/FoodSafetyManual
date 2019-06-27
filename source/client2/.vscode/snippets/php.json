@@ -1,0 +1,376 @@
+{
+  "Standard Log Table": {
+    "prefix": "fsm-log-table",
+    "description": "Standard log table",
+    "body": [
+      "namespace fsm\\database\\\\${program}\\\\${module}\\\\${log};",
+      "require_once realpath(dirname(__FILE__).'/../../../../dao/LogTable.php');",
+      "use fsm\\database as db;",
+      "",
+      "class Logs extends db\\LogTable",
+      "{",
+      "\tfunction __construct() { ",
+      "\t\tparent::__construct('${prefix}_logs');",
+      "\t}",
+      "",
+      "\tfunction selectByCaptureDateID(\\$dateID) {",
+      "\t\treturn parent::select(",
+      "\t\t\t[",
+      "",
+      "\t\t\t],",
+      "\t\t\t[",
+      "\t\t\t\t'capture_date_id' => $dateID,",
+      "\t\t\t]",
+      "\t\t);",
+      "\t}",
+      "}"
+    ]
+  },
+  "Standard Insertable Table": {
+    "prefix": "fsm-insertable-table",
+    "description": "Standard insertable table",
+    "body": [
+      "namespace fsm\\database\\\\${program}\\\\${module}\\\\${log};",
+      "require_once realpath(dirname(__FILE__).'/../../../../dao/InsertableTable.php');",
+      "use fsm\\database as db;",
+      "",
+      "class ${ClassName} extends db\\InsertableTable",
+      "{",
+      "\tfunction __construct() { ",
+      "\t\tparent::__construct('${prefix}_${table}');",
+      "\t}",
+      "}"
+    ]
+  },
+  "Standard Authorization Report": {
+    "prefix": "fsm-authorization-report",
+    "description": "Standard authorization report service",
+    "body": [
+      "require_once realpath(dirname(__FILE__).'/../../../service_creators.php');",
+      "",
+      "\\$service = fsm\\createAuthorizationReportService(",
+      "\t'${program}',",
+      "\t'${module}',",
+      "\t'${log}',",
+      "\t[",
+      "\t\t'items_name' => 'items',",
+      "\t\t'extra_info' => [",
+      "\t\t\t// NULL",
+      "\t\t],",
+      "\t\t'function' => function(\\$scope, \\$segment, \\$logDate) {",
+      "\t\t\t\\$items = \\$scope->daoFactory->get('${LogsTable}')",
+      "\t\t\t\t->selectByCaptureDateID(\\$logDate['id']);",
+      "",
+      "\t\t\treturn \\$items;",
+      "\t\t}",
+      "\t]",
+      ");"
+    ]
+  },
+  "Standard Capture": {
+    "prefix": "fsm-capture",
+    "description": "Standard capture service",
+    "body": [
+      "require_once realpath(dirname(__FILE__).'/../../../service_creators.php');",
+      "",
+      "\\$service = fsm\\createCaptureService(",
+      "\t'${program}',",
+      "\t'${module}',",
+      "\t'${log}',",
+      "\t[",
+      "",
+      "\t],",
+      "\t[",
+      "\t\t'extra_info' => [",
+      "\t\t\t// NULL",
+      "\t\t],",
+      "\t\t'function' => function(\\$scope, \\$segment, \\$request, \\$logID) {",
+      "\t\t\t\\$logs = \\$scope->daoFactory->get('gap\\docControl\\docControl\\Logs');",
+      "",
+      "\t\t\t\\$logData = [];",
+      "",
+      "\t\t\t\\$logs->insert(\\$logData);",
+      "\t\t}",
+      "\t]",
+      ");"
+    ]
+  },
+  "Standard Log": {
+    "prefix": "fsm-log",
+    "description": "Standard log service",
+    "body": [
+      "require_once realpath(dirname(__FILE__).'/../../../service_creators.php');",
+      "",
+      "\\$service = fsm\\createLogService(",
+      "\t'${program}',",
+      "\t'${module}',",
+      "\t'${log}',",
+      "\t[",
+      "\t\t'items_name' => 'items',",
+      "\t\t'function' => function(\\$scope, \\$segment) {",
+      "\t\t\t",
+      "\t\t}",
+      "\t]",
+      ");"
+    ]
+  },
+  "Standard Report": {
+    "prefix": "fsm-report",
+    "description": "Standard report service",
+    "body": [
+      "require_once realpath(dirname(__FILE__).'/../../../service_creators.php');",
+      "",
+      "\\$service = fsm\\createReportService(",
+      "\t'${program}',",
+      "\t'${module}',",
+      "\t'${log}',",
+      "\t[",
+      "\t\t'items_name' => 'items',",
+      "\t\t'extra_info' => [",
+      "\t\t\t// NULL",
+      "\t\t],",
+      "\t\t'function' => function(\\$scope, \\$segment, \\$logDate) {",
+      "\t\t\t\\$items = \\$scope->daoFactory->get('${logsTable}')",
+      "\t\t\t\t->selectByCaptureDateID(\\$logDate['id']);",
+      "\t\t\treturn \\$items;",
+      "\t\t}",
+      "\t]",
+      ");"
+    ]
+  },
+  "Standard Update": {
+    "prefix": "fsm-update",
+    "description": "Standard update service",
+    "body": [
+      "require_once realpath(dirname(__FILE__).'/../../../service_creators.php');",
+      "",
+      "\\$service = fsm\\createUpdateService(",
+      "\t'${program}',",
+      "\t'${module}',",
+      "\t'${log}',",
+      "\t[",
+      "",
+      "\t],",
+      "\t[",
+      "\t\t'extra_info' => [",
+      "\t\t\t// NULL",
+      "\t\t],",
+      "\t\t'function' => function(\\$scope, \\$request) {",
+      "",
+      "\t\t}",
+      "\t]",
+      ");"
+    ]
+  },
+  "Standard Upload Manual": {
+    "prefix": "fsm-upload-manual",
+    "description": "Standard upload manual service",
+    "body": [
+      "require_once realpath(dirname(__FILE__).'/../../../service_creators.php');",
+      "",
+      "\\$service = fsm\\createUploadManualService(",
+      "\t'${program}',",
+      "\t'${module}',",
+      "\t'${log}',",
+      "\t'${manualDirectory}'",
+      ");"
+    ]
+  },
+  "Standard Log List": {
+    "prefix": "fsm-list-waiting-logs",
+    "description": "Standard waiting logs list",
+    "body": [
+      "require_once realpath(dirname(__FILE__).'/../../../service_creators.php');",
+      "",
+      "\\$service = fsm\\createLogListService(",
+      "\t'${program}',",
+      "\t'${module}',",
+      "\t'${log}'",
+      ");"
+    ]
+  },
+  "Boolean field": {
+    "prefix": "fsm-boolean-field",
+    "description": "Boolean field",
+    "body": [
+      "'${name}' => [",
+      "\t'type' => 'bool'",
+      "]"
+    ]
+  },
+  "Int field": {
+    "prefix": "fsm-int-field",
+    "description": "Integer number field",
+    "body": [
+      "'${name}' => [",
+      "\t'type' => 'int'",
+      "]"
+    ]
+  },
+  "Float field": {
+    "prefix": "fsm-float-field",
+    "description": "Floating number field",
+    "body": [
+      "'${name}' => [",
+      "\t'type' => 'float'",
+      "]"
+    ]
+  },
+  "String field": {
+    "prefix": "fsm-string-field",
+    "description": "String field",
+    "body": [
+      "'${name}' => [",
+      "\t'type' => 'string'",
+      "]"
+    ]
+  },
+  "Time field": {
+    "prefix": "fsm-time-field",
+    "description": "Time field",
+    "body": [
+      "'${name}' => [",
+      "\t'type' => 'datetime',",
+      "\t'format' => 'G:i'",
+      "]"
+    ]
+  },
+  "Date field": {
+    "prefix": "fsm-date-field",
+    "description": "Date field",
+    "body": [
+      "'${name}' => [",
+      "\t'type' => 'datetime',",
+      "\t'format' => 'Y-m-d'",
+      "]"
+    ]
+  },
+  "PDF field": {
+    "prefix": "fsm-pdf-field",
+    "description": "PDF field",
+    "body": [
+      "'${name}' => [",
+      "\t'type' => 'files'",
+      "\t'format' => 'documents'",
+      "]"
+    ]
+  },
+  "Image field": {
+    "prefix": "fsm-images-field",
+    "description": "Images field",
+    "body": [
+      "'${name}' => [",
+      "\t'type' => 'files'",
+      "\t'format' => 'bitmap'",
+      "]"
+    ]
+  },
+  "Array field": {
+    "prefix": "fsm-array-field",
+    "description": "Array field",
+    "body": [
+      "'${name}' => [",
+      "\t'type' => 'array',",
+      "\t'values' => [",
+      "\t]",
+      "]"
+    ]
+  },
+  "Optional Field": {
+    "prefix": "fsm-optional",
+    "description": "Optional field specification",
+    "body": [
+      "'optional' => true"
+    ]
+  },
+  "Min length": {
+    "prefix": "fsm-min-length",
+    "description": "Min length",
+    "body": [
+      "'min_length' => ${0}"
+    ]
+  },
+  "Max length": {
+    "prefix": "fsm-max-length",
+    "description": "Max length",
+    "body": [
+      "'max_length' => ${0}"
+    ]
+  },
+  "Max length 16 bits": {
+    "prefix": "fsm-max-length-16",
+    "description": "Max length for 16 bits field",
+    "body": [
+      "'max_length' => 65535"
+    ]
+  },
+  "Max length 8 bits": {
+    "prefix": "fsm-max-length-8",
+    "description": "Max length for 8 bits field",
+    "body": [
+      "'max_length' => 255"
+    ]
+  },
+  "Min number": {
+    "prefix": "fsm-min-number",
+    "description": "Min number",
+    "body": [
+      "'min' => ${0}"
+    ]
+  },
+  "Max number": {
+    "prefix": "fsm-max-number",
+    "description": "Max number",
+    "body": [
+      "'max' => ${0}"
+    ]
+  },
+  "Standard Service Specifications": {
+    "prefix": "fsm-services",
+    "description": "Standard service specifications",
+    "body": [
+      "\\$${serviceName} = [",
+      "\t'tables' => [",
+      "\t\t",
+      "\t],",
+      "\t'services' => [",
+      "",
+      "\t]",
+      "];"
+    ]
+  },
+  "Standard service list": {
+    "prefix": "fsm-service-list",
+    "description": "Standard service list for minimal services for any log",
+    "body": [
+      "'authorization-report-${logSuffix}' =>",
+      "\trealpath(dirname(__FILE__).'/authorization-report-${logSuffix}.php'),",
+      "'capture-${logSuffix}' =>",
+      "\trealpath(dirname(__FILE__).'/capture-${logSuffix}.php'),",
+      "'log-${logSuffix}' =>",
+      "\trealpath(dirname(__FILE__).'/log-${logSuffix}.php'),",
+      "'report-${logSuffix}' =>",
+      "\trealpath(dirname(__FILE__).'/report-${logSuffix}.php'),",
+      "'update-${logSuffix}' =>",
+      "\trealpath(dirname(__FILE__).'/update-${logSuffix}.php'),",
+      "'upload-manual-${logSuffix}' =>",
+      "\trealpath(dirname(__FILE__).'/upload-manual-${logSuffix}.php')"
+    ]
+  },
+  "Standard Service": {
+    "prefix": "fsm-service",
+    "description": "Standard service",
+    "body": [
+      "'${logAddress}\\${tableName}' =>",
+      "\trealpath(dirname(__FILE__).'/${tableName}.php')"
+    ]
+  },
+  "Standard Table": {
+    "prefix": "fsm-table",
+    "description": "Standard table",
+    "body": [
+      "'${service-prefix}\\-${log-suffix}' =>",
+      "\trealpath(dirname(__FILE__).'/${service-prefix}-${log-suffix}.php')"
+    ]
+  }
+}

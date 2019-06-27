@@ -1,0 +1,12 @@
+td.typeColumn {{type['name_' + lang]}}
+td.timeColumn {{type.issue_time}}
+td.quantityColumn {{type.issue_qty}}
+td.conditionsColumn(*ngIf='type.issue_conditions == 1') {{ 'Log.acceptable' | translate:lang }}
+td.conditionsColumn(*ngIf='type.issue_conditions != 1') {{ 'Log.unacceptable' | translate:lang }}
+td.timeColumn {{type.recovery_time}}
+td.quantityColumn {{type.recovery_qty}}
+td.conditionsColumn(*ngIf='type.recovery_conditions == 1') {{ 'Log.acceptable' | translate:lang }}
+td.conditionsColumn(*ngIf='type.recovery_conditions != 1') {{ 'Log.unacceptable' | translate:lang }}
+td.sanitationColumn {{type.sanitation}}
+td.deficienciesColumn {{type.deficiencies}}
+td.actionColumn {{type.corrective_actions}}

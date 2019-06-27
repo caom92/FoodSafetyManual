@@ -1,0 +1,102 @@
+{
+	"Ordered Inventory Table": {
+		"prefix": "fsm-ordered-inventory",
+		"description": "A FSM inventory table with standard fields",
+		"body": [
+			"CREATE TABLE `${prefix}_items` (",
+			"\t`id` int(10) UNSIGNED NOT NULL,",
+			"\t`zone_id` int(10) UNSIGNED NOT NULL,",
+			"\t`is_active` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',",
+			"\t`position` int(10) UNSIGNED NOT NULL,",
+			"\t`name` tinytext NOT NULL  ",
+      ") ENGINE=InnoDB DEFAULT CHARSET=utf8;",
+      "",
+      "ALTER TABLE `${prefix}_items`",
+      "\tADD PRIMARY KEY (`id`),",
+      "\tADD KEY `zone_id` (`zone_id`);",
+      "",
+      "ALTER TABLE `${prefix}_items`",
+      "\tMODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;",
+      "",
+      "ALTER TABLE `${prefix}_items`",
+      "\tADD CONSTRAINT `${prefix}_items_ibfk_1` FOREIGN KEY (`zone_id`) REFERENCES `zones` (`id`) ON UPDATE CASCADE;"
+		]
+	},
+	"Unordered Inventory Table": {
+		"prefix": "fsm-unordered-inventory",
+		"description": "A FSM inventory table with standard fields",
+		"body": [
+			"CREATE TABLE `${prefix}_items` (",
+			"\t`id` int(10) UNSIGNED NOT NULL,",
+			"\t`zone_id` int(10) UNSIGNED NOT NULL,",
+			"\t`is_active` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',",
+			"\t`name` tinytext NOT NULL  ",
+      ") ENGINE=InnoDB DEFAULT CHARSET=utf8;",
+      "",
+      "ALTER TABLE `${prefix}_items`",
+      "\tADD PRIMARY KEY (`id`),",
+      "\tADD KEY `zone_id` (`zone_id`);",
+      "",
+      "ALTER TABLE `${prefix}_items`",
+      "\tMODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;",
+      "",
+      "ALTER TABLE `${prefix}_items`",
+      "\tADD CONSTRAINT `${prefix}_items_ibfk_1` FOREIGN KEY (`zone_id`) REFERENCES `zones` (`id`) ON UPDATE CASCADE;"
+		]
+  },
+  "Logs Basic Table": {
+    "prefix": "fsm-log",
+    "description": "A FSM log table with no depending item/area/types",
+    "body": [
+      "CREATE TABLE `${prefix}_logs` (",
+      "\t`id` int(10) UNSIGNED NOT NULL,",
+      "\t`capture_date_id` int(10) UNSIGNED NOT NULL,",
+      ") ENGINE=InnoDB DEFAULT CHARSET=utf8;",
+      "",
+      "ALTER TABLE `${prefix}_logs`",
+      "  ADD PRIMARY KEY (`id`),",
+      "  ADD KEY `capture_date_id` (`capture_date_id`);",
+      "",
+      "ALTER TABLE `${prefix}_logs`",
+      "  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;",
+      "",
+      "ALTER TABLE `${prefix}_logs`",
+      "  ADD CONSTRAINT `${prefix}_logs_ibfk_1` FOREIGN KEY (`capture_date_id`) REFERENCES `captured_logs` (`id`) ON UPDATE CASCADE;"
+    ]
+  },
+  "Logs with Items Basic Table": {
+    "prefix": "fsm-log-item",
+    "description": "A FSM log table that points to an item inventory table",
+    "body": [
+
+    ]
+  },
+  "Time field": {
+    "prefix": "fsm-time-field",
+    "description": "A time field",
+    "body": [
+      "`${field_name}` time NOT NULL,"
+    ]
+  },
+  "Date field": {
+    "prefix": "fsm-date-field",
+    "description": "A date field",
+    "body": [
+      "`${field_name}` date NOT NULL,"
+    ]
+  },
+  "Text field": {
+    "prefix": "fsm-text-field",
+    "description": "A text field",
+    "body": [
+      "`${field_name}` text NOT NULL"
+    ]
+  },
+  "Tinytext field": {
+    "prefix": "fsm-tinytext-field",
+    "description": "A tinytext field",
+    "body": [
+      "`${field_name}` tinytext NOT NULL"
+    ]
+  }
+}

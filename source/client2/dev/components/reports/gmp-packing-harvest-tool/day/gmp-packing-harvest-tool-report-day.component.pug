@@ -1,0 +1,13 @@
+td.dateColumn([rowSpan]='day.types.length') {{day.date}}
+td.typeColumn {{day.types[0]['name_' + lang]}}
+td.timeColumn {{day.types[0].issue_time}}
+td.quantityColumn {{day.types[0].issue_qty}}
+td.conditionsColumn(*ngIf='day.types[0].issue_conditions == 1') {{ 'Log.acceptable' | translate:lang }}
+td.conditionsColumn(*ngIf='day.types[0].issue_conditions != 1') {{ 'Log.unacceptable' | translate:lang }}
+td.timeColumn {{day.types[0].recovery_time}}
+td.quantityColumn {{day.types[0].recovery_qty}}
+td.conditionsColumn(*ngIf='day.types[0].recovery_conditions == 1') {{ 'Log.acceptable' | translate:lang }}
+td.conditionsColumn(*ngIf='day.types[0].recovery_conditions != 1') {{ 'Log.unacceptable' | translate:lang }}
+td.sanitationColumn {{day.types[0].sanitation}}
+td.deficienciesColumn {{day.types[0].deficiencies}}
+td.actionColumn {{day.types[0].corrective_actions}}
