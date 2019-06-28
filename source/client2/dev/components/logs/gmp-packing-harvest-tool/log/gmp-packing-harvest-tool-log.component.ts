@@ -1,8 +1,9 @@
 import { Component, Input } from '@angular/core'
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
+import { DataResolverService } from '../../../../services/data-resolver.service'
 import { FormUtilService } from '../../../../services/form-util.service'
 import { LogService } from '../../../../services/log.service'
 import { DateTimeService } from '../../../../services/time.service'
@@ -22,7 +23,7 @@ export class GMPPackingHarvestToolLogComponent extends SuperUpdateComponent {
 
   readonly maxLengths = maxLengths
 
-  constructor(private _fb: FormBuilder, private timeService: DateTimeService, logService: LogService, toastService: ToastsService, formUtilService: FormUtilService) {
+  constructor(private _fb: FormBuilder, private timeService: DateTimeService, private dataResolver: DataResolverService, logService: LogService, toastService: ToastsService, formUtilService: FormUtilService) {
     super(logService, toastService, formUtilService)
   }
 
@@ -50,8 +51,8 @@ export class GMPPackingHarvestToolLogComponent extends SuperUpdateComponent {
 
   initDay(day: LogDay): FormGroup {
     let captureDayGroup: FormGroup = this._fb.group({
-      date: [day.date, [Validators.required, CustomValidators.dateValidator()]],
-      day_num: [day.day_num, [Validators.required]],
+      date: [this.dataResolver.resolveString(day.date), [Validators.required, CustomValidators.dateValidator()]],
+      day_num: [this.dataResolver.resolveNumber(day.day_num), [Validators.required]],
       types: this._fb.array([])
     })
 
@@ -65,16 +66,16 @@ export class GMPPackingHarvestToolLogComponent extends SuperUpdateComponent {
 
   initType(type: LogType): FormGroup {
     let captureTypeGroup: FormGroup = this._fb.group({
-      type_id: [type.type_id, [Validators.required]],
-      issue_time: [type.issue_time, [Validators.required]],
-      issue_qty: [type.issue_qty, [Validators.required]],
-      issue_conditions: [type.issue_conditions, [Validators.required]],
-      recovery_time: [type.recovery_time, [Validators.required]],
-      recovery_qty: [type.recovery_qty, [Validators.required]],
-      recovery_conditions: [type.recovery_conditions, [Validators.required]],
-      sanitation: [type.sanitation, [Validators.required]],
-      deficiencies: [type.deficiencies, [Validators.required, Validators.maxLength(this.maxLengths.deficiencies)]],
-      corrective_actions: [type.corrective_actions, [Validators.required, Validators.maxLength(this.maxLengths.corrective_actions)]]
+      type_id: [this.dataResolver.resolveNumber(type.type_id), [Validators.required]],
+      issue_time: [this.dataResolver.resolveString(type.issue_time), []],
+      issue_qty: [this.dataResolver.resolveNumber(type.issue_qty), []],
+      issue_conditions: [this.dataResolver.resolveBoolean(type.issue_conditions), []],
+      recovery_time: [this.dataResolver.resolveString(type.recovery_time), []],
+      recovery_qty: [this.dataResolver.resolveNumber(type.recovery_qty), []],
+      recovery_conditions: [this.dataResolver.resolveBoolean(type.recovery_conditions), []],
+      sanitation: [this.dataResolver.resolveNumber(type.sanitation), []],
+      deficiencies: [this.dataResolver.resolveString(type.deficiencies), [Validators.maxLength(this.maxLengths.deficiencies)]],
+      corrective_actions: [this.dataResolver.resolveString(type.corrective_actions), [Validators.maxLength(this.maxLengths.corrective_actions)]]
     })
 
     return captureTypeGroup
@@ -97,6 +98,37 @@ export class GMPPackingHarvestToolLogComponent extends SuperUpdateComponent {
     
     this.log.days.push(day)
     control.push(this.initDay(day))
+  }
+
+  cleanForm() {
+    for (let d in (<FormGroup>this.captureForm.controls.days).controls) {
+      const day = (<FormGroup>(<FormGroup>this.captureForm.controls.days).controls[d])
+      for (let t in (<FormGroup>day.controls.types).controls) {
+        const type = (<FormGroup>(<FormGroup>day.controls.types).controls[t])
+        
+        let controlArray: Array<AbstractControl> = []
+
+        controlArray.push(type.controls.issue_time)
+        controlArray.push(type.controls.issue_qty)
+        controlArray.push(type.controls.issue_conditions)
+        controlArray.push(type.controls.recovery_time)
+        controlArray.push(type.controls.recovery_qty)
+        controlArray.push(type.controls.recovery_conditions)
+        controlArray.push(type.controls.sanitation)
+        controlArray.push(type.controls.deficiencies)
+        controlArray.push(type.controls.corrective_actions)
+
+        for (let control of controlArray) {
+          if (control.value === null || control.value === '') {
+            control.disable()
+          }
+        }
+      }
+    }
+  }
+
+  enableForm() {
+    this.captureForm.enable()
   }
 
   onEntryRemove() {

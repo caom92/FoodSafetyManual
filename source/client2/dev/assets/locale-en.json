@@ -218,6 +218,7 @@
     "recovery_qty": "Recovery QTY",
     "recovery_conditions": "Recovery conditions",
     "sanitation": "Sanitation",
+    "chlorine": "Chlorine",
     "tools_issued": "Tools issued",
     "tools_recovered": "Tools recovered",
     "deficiencies": "Deficiencies"
