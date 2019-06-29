@@ -83,6 +83,11 @@ const routes: Routes = [
     loadChildren: './gmp-packing-preop/gmp-packing-preop-capture.module#GMPPackingPreopCaptureModule'
   },
   {
+    path: 'gmp-packing-product-revision',
+    data: { suffix: 'gmp-packing-product-revision' },
+    loadChildren: './gmp-packing-product-revision/gmp-packing-product-revision-capture.module#GMPPackingProductRevisionCaptureModule'
+  },
+  {
     path: 'gmp-packing-scale-calibration',
     data: { suffix: 'gmp-packing-scale-calibration' },
     loadChildren: './gmp-packing-scale-calibration/gmp-packing-scale-calibration-capture.module#GMPPackingScaleCalibrationCaptureModule'

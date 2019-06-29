@@ -14,6 +14,7 @@ require_once realpath(dirname(__FILE__).'/gmp/packing/glass/services.php');
 require_once realpath(dirname(__FILE__).'/gmp/packing/hand_wash/services.php');
 require_once realpath(dirname(__FILE__).'/gmp/packing/harvest_tool/services.php');
 require_once realpath(dirname(__FILE__).'/gmp/packing/preop/services.php');
+require_once realpath(dirname(__FILE__).'/gmp/packing/product_revision/services.php');
 require_once realpath(dirname(__FILE__).'/gmp/packing/scissors/services.php');
 require_once realpath(dirname(__FILE__).'/gmp/packing/thermometers/services.php');
 require_once realpath(dirname(__FILE__).'/gmp/others/unusual_occurrence/services.php');
