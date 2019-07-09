@@ -29,20 +29,29 @@ $service = [
     $parsedUrl = parse_url($link);
     // If we don't have a scheme, we add the default and reparse our URL
     if(empty($parsedUrl['scheme'])) {
-      $link = "http://".$link;
-      $parsedUrl = parse_url($link);
+      if (parse_url("http://".$link) !== false) {
+        $link = "http://".$link;
+        $parsedUrl = parse_url($link);
+      }
     }
     if($parsedUrl === false) {
       // at this point, we could have received a invalid, unfixable URL, so we throw an error
+      throw new \Exception('Invalid link', 2);
     } else {
+      if(!empty($parsedUrl['host'])) {
       $isSameDomain = strpos($parsedUrl['host'], $localDomain);
+      } else {
+      $isSameDomain = true;
+      }  
       if($isSameDomain !== false){
         // When we are inside the same domain, we only keep the url from the path onwards
         $link = (!empty($parsedUrl['path']) ? $parsedUrl['path'] : '') . (!empty($parsedUrl['query']) ? '?' . $parsedUrl['query'] : '') . (!empty($parsedUrl['fragment']) ? '#' . $parsedUrl['fragment'] : '');
         // If final is empty, we consider this as the root of our url
-        if($link === '') {
-          $link = '/';
-        }
+      } else {
+        $link = (!empty($parsedUrl['scheme']) ? $parsedUrl['scheme'].'://' : '') . (!empty($parsedUrl['host']) ? $parsedUrl['host'] : '') . (!empty($parsedUrl['path']) ? $parsedUrl['path'] : '') . (!empty($parsedUrl['query']) ? '?' . $parsedUrl['query'] : '') . (!empty($parsedUrl['fragment']) ? '#' . $parsedUrl['fragment'] : '');
+      }
+      if($link === '') {
+        $link = '/';
       }
     }
 
