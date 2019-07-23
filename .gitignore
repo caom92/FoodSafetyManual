@@ -19,6 +19,7 @@ data/images/
 data/menu/*
 data/capa/*
 source/client2/prod
+source/client2/docs
 source/client2/node_modules/
 source/client2/dev/templates/*.html
 source/client2/dev/stylesheets/*.css

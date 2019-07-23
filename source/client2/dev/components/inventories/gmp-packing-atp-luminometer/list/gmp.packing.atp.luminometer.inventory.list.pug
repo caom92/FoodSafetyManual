@@ -4,5 +4,7 @@ include ../../../inventory-ionic-materialize.pug
 //-+inventoryListWrapper()([dragula]='bagName', [(dragulaModel)]='items')
   +inventoryItemComponent('gmp-packing-atp-luminometer', 'item', 'items')([item]='item')
 //-For ng2-Materialize version uncomment the next line, Dragula variables were placed on the inventory.pug file of this log
-+inventoryListWrapper()
+ng-content(select='.header')
++inventoryListWrapper()([dragula]='bagName', [(dragulaModel)]='items')
   +inventoryItemComponent('gmp-packing-atp-luminometer', 'item', 'items')([item]='item')
+ng-content(select='.footer')

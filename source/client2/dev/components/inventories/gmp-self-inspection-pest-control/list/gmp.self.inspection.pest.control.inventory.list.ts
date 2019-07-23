@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { Language } from 'angular-l10n'
+import { Component, Input } from '@angular/core'
 import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
 
@@ -12,8 +11,7 @@ import { InventoryItem } from '../interfaces/gmp.self.inspection.pest.control.in
   templateUrl: './gmp.self.inspection.pest.control.inventory.list.html'
 })
 
-export class GMPSelfInspectionPestControlInventoryListComponent extends SuperInventoryListComponent implements OnInit {
-  @Language() private lang: string
+export class GMPSelfInspectionPestControlInventoryListComponent extends SuperInventoryListComponent {
   @Input() items: Array<InventoryItem>
 
   constructor(dragulaService: DragulaService,

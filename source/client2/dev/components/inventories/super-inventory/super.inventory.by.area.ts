@@ -1,4 +1,3 @@
-import { OnDestroy, OnInit } from '@angular/core'
 import { PubSubService } from 'angular2-pubsub'
 import { Subscription } from 'angular2-pubsub/node_modules/rxjs'
 import { DragulaService } from 'ng2-dragula'
@@ -8,7 +7,7 @@ import { InventoryService } from '../../../services/inventory.service'
 import { SuperInventoryAreaInterface } from './super.area.inventory.interface'
 import { SuperInventoryComponent } from './super.inventory'
 
-export class SuperInventoryByAreaComponent extends SuperInventoryComponent implements OnInit, OnDestroy {
+export class SuperInventoryByAreaComponent extends SuperInventoryComponent {
   protected areas: Array<SuperInventoryAreaInterface> = null
   protected selectedArea: number = null
   areaAddSubscription: Subscription

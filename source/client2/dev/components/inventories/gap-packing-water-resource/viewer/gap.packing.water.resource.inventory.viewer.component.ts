@@ -6,7 +6,7 @@ import { SuperInventoryViewer } from '../../super-inventory/super.inventory.view
 
 @Component({
   selector: 'gap-packing-water-resource-inventory-viewer',
-  templateUrl: 'gap.packing.water.resource.inventory.viewer.component.html'
+  templateUrl: './gap.packing.water.resource.inventory.viewer.component.html'
 })
 
 export class GAPPackingWaterResourceInventoryViewerComponent extends SuperInventoryViewer {

@@ -1,7 +1,7 @@
 include ../../../inventory-ionic-materialize.pug
 
 +inventoryWrapper()
-  +inventoryListsWrapper('activeInventory == true')
+  +inventoryListsWrapper('activeInventory == true')('gmp-packing-atp-luminometer-inventory-list', [items]='inventory')
     +inventoryTitleWrapper()
       +inventoryTitleHandler()
       +inventoryTitleColumn("{{ 'InventoryLists.id' | translate:lang }}")
@@ -11,7 +11,7 @@ include ../../../inventory-ionic-materialize.pug
     //-For Ionic version uncomment the next line, Dragula variables are found inside the .list.pug file
     //-+inventoryList('gmp-packing-atp-luminometer')([items]='inventory')
     //-For ng2-Materialize version uncomment the next two lines, we have to pass Dragula variables here
-    +inventoryList('gmp-packing-atp-luminometer')([items]='inventory', [dragula]='bagName', [(dragulaModel)]='inventory')
+    //-+inventoryList('gmp-packing-atp-luminometer')([items]='inventory', [dragula]='bagName', [(dragulaModel)]='inventory')
     +inventoryListAddItemFooter('gmp-packing-atp-luminometer')
   +inventoryEmptyMessage()
   +inventoryAddButton()

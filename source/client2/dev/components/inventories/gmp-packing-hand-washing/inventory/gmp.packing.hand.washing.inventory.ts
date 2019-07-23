@@ -1,5 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core'
-import { Language } from 'angular-l10n'
+import { Component, Input } from '@angular/core'
 import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
 
@@ -12,8 +11,7 @@ import { InventoryItem } from '../interfaces/gmp.packing.hand.washing.inventory.
   templateUrl: './gmp.packing.hand.washing.inventory.html'
 })
 
-export class GMPPackingHandWashingInventoryComponent extends SuperInventoryComponent implements OnInit, OnDestroy {
-  @Language() lang: string
+export class GMPPackingHandWashingInventoryComponent extends SuperInventoryComponent {
   @Input() inventory: Array<InventoryItem> = []
 
   constructor(events: PubSubService,

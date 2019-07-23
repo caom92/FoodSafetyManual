@@ -6,7 +6,9 @@ $service = fsm\createInventoryService(
   'GMP',
   'Packing',
   'Daily Equipment Calibration Check',
-  [],
+  [
+    
+  ],
   function($scope, $request) {
     // first, we get the session segment
     $segment = $scope->session->getSegment('fsm');

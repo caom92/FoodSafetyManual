@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 
 import { FormUtilService } from '../../../../services/form-util.service'
@@ -14,7 +13,6 @@ import { SuperInventoryAddItemComponent } from '../../super-inventory/super.inve
 })
 
 export class GMPPackingScaleCalibrationAddItemComponent extends SuperInventoryAddItemComponent implements OnInit {
-  @Language() lang: string
   @Input() types: Array<any> = []
   newItem: FormGroup = new FormBuilder().group({})
 

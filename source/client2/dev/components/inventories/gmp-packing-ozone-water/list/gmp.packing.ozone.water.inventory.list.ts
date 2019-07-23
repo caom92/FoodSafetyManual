@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { Language } from 'angular-l10n'
+import { Component, Input } from '@angular/core'
 import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
 
@@ -12,8 +11,7 @@ import { InventoryItem } from '../interfaces/gmp.packing.ozone.water.inventory.i
   templateUrl: './gmp.packing.ozone.water.inventory.list.html'
 })
 
-export class GMPPackingOzoneWaterInventoryListComponent extends SuperInventoryListComponent implements OnInit {
-  @Language() private lang: string
+export class GMPPackingOzoneWaterInventoryListComponent extends SuperInventoryListComponent {
   @Input() items: Array<InventoryItem>
 
   constructor(dragulaService: DragulaService,

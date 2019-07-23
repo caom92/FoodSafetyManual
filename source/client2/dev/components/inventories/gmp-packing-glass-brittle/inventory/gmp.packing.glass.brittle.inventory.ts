@@ -1,5 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core'
-import { Language } from 'angular-l10n'
+import { Component, Input } from '@angular/core'
 import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
 
@@ -13,8 +12,7 @@ import { InventoryItem } from '../interfaces/gmp.packing.glass.brittle.inventory
   templateUrl: './gmp.packing.glass.brittle.inventory.html'
 })
 
-export class GMPPackingGlassBrittleInventoryComponent extends SuperInventoryByAreaComponent implements OnInit, OnDestroy {
-  @Language() private lang: string
+export class GMPPackingGlassBrittleInventoryComponent extends SuperInventoryByAreaComponent {
   @Input() inventory: Array<InventoryItem> = []
 
   constructor(events: PubSubService,

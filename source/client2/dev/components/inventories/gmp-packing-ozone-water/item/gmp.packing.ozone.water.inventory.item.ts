@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { Language } from 'angular-l10n'
 
 import { InventoryService } from '../../../../services/inventory.service'
 import { SuperInventoryItemComponent } from '../../super-inventory/super.inventory.item'
@@ -11,7 +10,6 @@ import { InventoryItem } from '../interfaces/gmp.packing.ozone.water.inventory.i
 })
 
 export class GMPPackingOzoneWaterInventoryItemComponent extends SuperInventoryItemComponent implements OnInit {
-  @Language() lang: string
   @Input() item: InventoryItem = null
 
   constructor(inventoryService: InventoryService) {

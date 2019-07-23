@@ -6,7 +6,7 @@ import { SuperInventoryViewer } from '../../super-inventory/super.inventory.view
 
 @Component({
   selector: 'gap-packing-preop-inventory-viewer',
-  templateUrl: 'gap.packing.preop.inventory.viewer.component.html'
+  templateUrl: './gap.packing.preop.inventory.viewer.component.html'
 })
 
 export class GAPPackingPreopInventoryViewerComponent extends SuperInventoryViewer {

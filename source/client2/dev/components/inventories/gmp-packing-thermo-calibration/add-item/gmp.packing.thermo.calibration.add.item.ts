@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 
 import { FormUtilService } from '../../../../services/form-util.service'
@@ -14,13 +13,12 @@ import { SuperInventoryAddItemComponent } from '../../super-inventory/super.inve
 })
 
 export class GMPPackingThermoCalibrationAddItemComponent extends SuperInventoryAddItemComponent implements OnInit {
-  @Language() lang: string
   newItem: FormGroup = new FormBuilder().group({})
 
   constructor(_fb: FormBuilder, inventoryService: InventoryService, events: PubSubService, toastService: ToastsService, formUtilService: FormUtilService) {
     super(_fb, inventoryService, events, toastService, formUtilService)
   }
-  
+
   public ngOnInit(): void {
     this.setSuffix('gmp-packing-thermo-calibration')
     this.createItemForm({

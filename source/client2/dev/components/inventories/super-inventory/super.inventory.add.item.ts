@@ -1,4 +1,5 @@
 import { FormBuilder, FormGroup } from '@angular/forms'
+import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 
 import { FormUtilService } from '../../../services/form-util.service'
@@ -6,6 +7,7 @@ import { InventoryService } from '../../../services/inventory.service'
 import { ToastsService } from '../../../services/toasts.service'
 
 export class SuperInventoryAddItemComponent {
+  @Language() lang: string
   protected newItem: FormGroup = new FormBuilder().group({})
   private suffix: string = null
 

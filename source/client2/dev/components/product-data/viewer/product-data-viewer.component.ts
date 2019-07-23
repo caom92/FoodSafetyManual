@@ -348,6 +348,9 @@ export class ProductDataViewerComponent implements OnInit {
       }
     }
 
+    this.allZones.arr.sort()
+    this.allKeys.arr.sort()
+
     this.autocompleteLots = this.allLots
     this.autocompleteProducts = this.allProducts
     this.autocompleteVarieties = this.allVarieties

@@ -1,5 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core'
-import { Language } from 'angular-l10n'
+import { Component, Input } from '@angular/core'
 import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
 
@@ -13,8 +12,7 @@ import { InventoryType } from '../interfaces/gap.packing.preop.inventory.interfa
   templateUrl: './gap.packing.preop.inventory.html'
 })
 
-export class GAPPackingPreopInventoryComponent extends SuperInventoryByAreaComponent implements OnInit, OnDestroy {
-  @Language() private lang: string
+export class GAPPackingPreopInventoryComponent extends SuperInventoryByAreaComponent {
   @Input() inventory: Array<InventoryType> = []
   public type_array: Array<{ id: number, es: string, en: string }> = []
 

@@ -1,5 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core'
-import { Language } from 'angular-l10n'
+import { Component, Input } from '@angular/core'
 import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
 
@@ -12,8 +11,7 @@ import { InventoryItem, InventoryType } from '../interfaces/gmp.packing.scale.ca
   templateUrl: './gmp.packing.scale.calibration.inventory.list.html'
 })
 
-export class GMPPackingScaleCalibrationInventoryListComponent extends SuperInventoryListComponent implements OnInit, OnDestroy {
-  @Language() lang: string
+export class GMPPackingScaleCalibrationInventoryListComponent extends SuperInventoryListComponent {
   @Input() type: InventoryType
 
   constructor(dragulaService: DragulaService,

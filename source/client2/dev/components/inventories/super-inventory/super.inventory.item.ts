@@ -1,7 +1,10 @@
+import { Language } from 'angular-l10n'
+
 import { InventoryService } from '../../../services/inventory.service'
 import { SuperInventoryItemInterface } from './super.inventory.interface'
 
 export class SuperInventoryItemComponent {
+  @Language() lang: string
   private suffix: string = null
   protected toggleValue: boolean = true
   private toggleError: boolean = false

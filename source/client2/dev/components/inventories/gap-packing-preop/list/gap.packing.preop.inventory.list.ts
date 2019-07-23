@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { Language } from 'angular-l10n'
+import { Component, Input } from '@angular/core'
 import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
 
@@ -12,8 +11,7 @@ import { InventoryItem, InventoryType } from '../interfaces/gap.packing.preop.in
   templateUrl: './gap.packing.preop.inventory.list.html'
 })
 
-export class GAPPackingPreopInventoryListComponent extends SuperInventoryListComponent implements OnInit {
-  @Language() private lang: string
+export class GAPPackingPreopInventoryListComponent extends SuperInventoryListComponent {
   @Input() items: Array<InventoryItem>
   @Input() type: InventoryType
   @Input() areaID: number
