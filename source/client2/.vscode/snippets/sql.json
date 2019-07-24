@@ -8,7 +8,7 @@
 			"\t`zone_id` int(10) UNSIGNED NOT NULL,",
 			"\t`is_active` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',",
 			"\t`position` int(10) UNSIGNED NOT NULL,",
-			"\t`name` tinytext NOT NULL  ",
+			"\t`name` tinytext NOT NULL",
       ") ENGINE=InnoDB DEFAULT CHARSET=utf8;",
       "",
       "ALTER TABLE `${prefix}_items`",

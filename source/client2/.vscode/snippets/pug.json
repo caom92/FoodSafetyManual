@@ -92,5 +92,83 @@
       "extends ../../log-list.common.pug",
       ""
     ]
+  },
+  "Standard Add Item Component": {
+    "prefix": "fsm-add-item",
+    "description": "Standard add item component",
+    "body": [
+      "include ../../../inventory-ionic-materialize.pug",
+      "include ../../../log-ionic-materialize.pug",
+      "",
+      "tr([formGroup]='newItem')",
+      "\ttd",
+      "\ttd",
+      "\ttd",
+      "\ttd",
+      "\t\t+textInput(null, null, 'name', 'text', 'new_item', \"{{ 'InventoryLists.new_item' | translate:lang }}\")",
+      "\t\t+errorMessage('!newItem.controls.name.valid && newItem.controls.name.dirty && newItem.controls.name.value.length == 0', \"{{ 'InventoryErrors.generic.name_required' | translate:lang }}\")",
+      "\t\t+errorMessage('!newItem.controls.name.valid && newItem.controls.name.dirty && newItem.controls.name.value.length >= 1', \"{{ 'InventoryErrors.generic.name_max_255' | translate:lang }}\")",
+      "\ttd",
+      "\t\t+addItemButton()((click)='addItem()')"
+    ]
+  },
+  "Standard Inventory List Component": {
+    "prefix": "fsm-inventory-list",
+    "description": "Standard inventory list component",
+    "body": [
+      "include ../../../inventory-ionic-materialize.pug",
+      "",
+      "ng-content(select='.header')",
+      "+inventoryListWrapper()([dragula]='bagName', [(dragulaModel)]='items')",
+      "\t+inventoryItemComponent('${prefix}', 'item', 'items')([item]='item')",
+      "ng-content(select='.footer')"
+    ]
+  },
+  "Standard Inventory Component": {
+    "prefix": "fsm-inventory",
+    "description": "Standard inventory component",
+    "body": [
+    "include ../../../inventory-ionic-materialize.pug",
+    "",
+    "+inventoryWrapper()",
+    "\t+inventoryListsWrapper('activeInventory == true')('${prefix}-inventory-list', [items]='inventory')",
+    "\t\t+inventoryTitleWrapper()",
+    "\t\t\t+inventoryTitleHandler()",
+    "\t\t\t+inventoryTitleColumn(\"{{ 'InventoryLists.id' | translate:lang }}\")",
+    "\t\t\t+inventoryTitleColumn(\"{{ 'InventoryLists.order' | translate:lang }}\")",
+    "\t\t\t+inventoryTitleColumn(\"{{ 'InventoryLists.name' | translate:lang }}\")",
+    "\t\t\t+inventoryTitleToggle()",
+    "\t\t//-For Ionic version uncomment the next line, Dragula variables are found inside the .list.pug file",
+    "\t\t//-+inventoryList('${prefix}')([items]='inventory')",
+    "\t\t//-For ng2-Materialize version uncomment the next two lines, we have to pass Dragula variables here",
+    "\t\t//-+inventoryList('${prefix}')([items]='inventory', [dragula]='bagName', [(dragulaModel)]='inventory')",
+    "\t\t+inventoryListAddItemFooter('${prefix}')",
+    "\t+inventoryEmptyMessage()",
+    "\t+inventoryAddButton()"
+    ]
+  },
+  "Standard Inventory Item Component": {
+    "prefix": "fsm-inventory-item",
+    "description": "Standard inventory item component",
+    "body": [
+      "include ../../../inventory-ionic-materialize.pug",
+      "",
+      "+inventoryItemWrapper()",
+      "\t+inventoryItemHandler()",
+      "\t+inventoryItemColumn('{{item.id}}')",
+      "\t+inventoryItemColumn('{{item.position}}')",
+      "\t+inventoryItemColumn('{{item.name}}')",
+      "\t+inventoryItemToggle()"
+    ]
+  },
+  "Standard Inventory Viewer Component": {
+    "prefix": "fsm-inventory-viewer",
+    "description": "Standard Inventory Viewer Component",
+    "body": [
+      "extends ../../inventory-viewer.common.pug",
+      "",
+      "block inventory",
+      "\t${prefix}-inventory"
+    ]
   }
 }

@@ -189,6 +189,98 @@
       ");"
     ]
   },
+  "Standard Inventory Service": {
+    "prefix": "fsm-inventory",
+    "description": "Standard inventory service",
+    "body": [
+      "require_once realpath(dirname(__FILE__).'/../../../service_creators.php');",
+      "",
+      "\\$service = fsm\\createInventoryService(",
+      "\t'${program}',",
+      "\t'${module}',",
+      "\t'${log}',",
+      "\t[",
+      "\t\t",
+      "\t],",
+      "\tfunction(\\$scope, \\$request) {",
+      "\t\t\\$segment = \\$scope->session->getSegment('fsm');",
+      "\t\treturn \\$scope->daoFactory->get('${inventoryTable}')",
+      "\t\t\t->selectByZoneID(\\$segment->get('zone_id'));",
+      "\t}",
+      ");"
+    ]
+  },
+  "Standard Toggle Service": {
+    "prefix": "fsm-toggle",
+    "description": "Standard toggle service",
+    "body": [
+      "require_once realpath(dirname(__FILE__).'/../../../service_creators.php');",
+      "",
+      "\\$service = fsm\\createToggleService(",
+      "\t'${program}',",
+      "\t'${module}',",
+      "\t'${log}'",
+      "\t'${inventoryTable}'",
+      ");"
+    ]
+  },
+  "Standard Add Inventory Service": {
+    "prefix": "fsm-add",
+    "description": "Standard add service",
+    "body": [
+      "require_once realpath(dirname(__FILE__).'/../../../service_creators.php');",
+      "",
+      "\\$service = fsm\\createAddService(",
+      "\t'${program}',",
+      "\t'${module}',",
+      "\t'${log}',",
+      "\t[",
+      "\t\t'name' => [",
+      "\t\t\t'type' => 'string',",
+      "\t\t\t'min_length' => 1,",
+      "\t\t\t'max_length' => 255",
+      "\t\t]",
+      "\t],",
+      "\tfunction(\\$scope, \\$request) {",
+      "\t\t\\$segment = \\$scope->session->getSegment('fsm');",
+      "\t\t\\$zoneID = \\$segment->get('zone_id');",
+      "\t\t\\$items = \\$scope->daoFactory->get('${inventoryTable}');",
+      "",
+      "\t\t\\$isNameDuplicated = \\$items->hasByNameAndZoneID(",
+      "\t\t\t\\$request['name'],",
+      "\t\t\t\\$zoneID",
+      "\t\t);",
+      "",
+      "\t\tif (\\$isNameDuplicated) {",
+      "\t\t\tthrow new \\Exception('Item name is already taken.', 1);",
+      "\t\t}",
+      "",
+      "\t\t\\$count = \\$items->countByZoneID(\\$zoneID);",
+      "",
+      "\t\treturn \\$items->insert([",
+      "\t\t\t'zone_id' => \\$zoneID,",
+      "\t\t\t'is_active' => TRUE,",
+      "\t\t\t'position' => \\$count + 1,",
+      "\t\t\t'name' => \\$request['name']",
+      "\t\t]);",
+      "\t}",
+      ");"
+    ]
+  },
+  "Standard Reorder Service": {
+    "prefix": "fsm-reorder",
+    "description": "Standard reorder service",
+    "body": [
+      "require_once realpath(dirname(__FILE__).'/../../../service_creators.php');",
+      "",
+      "\\$service = fsm\\createReorderService(",
+      "\t'${program}',",
+      "\t'${module}',",
+      "\t'${log}',",
+      "\t'${inventoryTable}'",
+      ");"
+    ]
+  },
   "Boolean field": {
     "prefix": "fsm-boolean-field",
     "description": "Boolean field",
@@ -276,11 +368,18 @@
       "]"
     ]
   },
-  "Optional Field": {
+  "Optional": {
     "prefix": "fsm-optional",
     "description": "Optional field specification",
     "body": [
       "'optional' => true"
+    ]
+  },
+  "Optional Field": {
+    "prefix": "fsm-optional-field",
+    "description": "Optional field",
+    "body": [
+      "'${field}' => (isset(\\$${array}['${field}']) && array_key_exists('${field}', \\$${array})) ? \\$${array}['${field}'] : NULL,"
     ]
   },
   "Min length": {
@@ -294,7 +393,7 @@
     "prefix": "fsm-max-length",
     "description": "Max length",
     "body": [
-      "'max_length' => ${0}"
+      "'max_length' => ${1}"
     ]
   },
   "Max length 16 bits": {
@@ -361,16 +460,16 @@
     "prefix": "fsm-service",
     "description": "Standard service",
     "body": [
-      "'${logAddress}\\${tableName}' =>",
-      "\trealpath(dirname(__FILE__).'/${tableName}.php')"
+      "'${servicePrefix}-${logSuffix}' =>",
+      "\trealpath(dirname(__FILE__).'/${servicePrefix}-${logSuffix}.php')"
     ]
   },
   "Standard Table": {
     "prefix": "fsm-table",
     "description": "Standard table",
     "body": [
-      "'${service-prefix}\\-${log-suffix}' =>",
-      "\trealpath(dirname(__FILE__).'/${service-prefix}-${log-suffix}.php')"
+      "'${logAddress}\\\\${tableName}' =>",
+      "\trealpath(dirname(__FILE__).'/${tableName}.php')"
     ]
   }
 }
