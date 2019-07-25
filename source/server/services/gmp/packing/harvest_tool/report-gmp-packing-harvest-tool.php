@@ -16,7 +16,7 @@ $service = fsm\createReportService(
         ->selectByCaptureDateID($logDate['id']);
 
       foreach ($days as &$day) {
-        $day['types'] = $scope->daoFactory->get('gmp\packing\harvestTool\TypeLogs')
+        $day['tools'] = $scope->daoFactory->get('gmp\packing\harvestTool\ToolLogs')
           ->selectByDateLogID($day['id']);
       }
 

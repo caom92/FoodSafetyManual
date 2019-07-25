@@ -23,6 +23,6 @@ export class GMPPackingHarvestToolReportComponent extends SuperReportComponent {
   }
 
   public getCSS(appendCSS?: string): string {
-    return '<style>' + this.commonCSS() + ((appendCSS === String(appendCSS)) ? appendCSS : '') + '.timeColumn{width:40px}.quantityColumn{width:40px}.conditionsColumn{width:85px}.issueColumn{width:165px}.recoveryColumn{width:165px}.typeColumn{width:65px}.dateColumn{width:80px}.sanitationColumn{width:85px}.deficienciesColumn{width:190px}.actionColumn{width:190px}</style>'
+    return '<style>' + this.commonCSS() + ((appendCSS === String(appendCSS)) ? appendCSS : '') + '.timeColumn{width:40px}.quantityColumn{width:40px}.conditionsColumn{width:85px}.issueColumn{width:165px}.recoveryColumn{width:165px}.toolColumn{width:65px}.dateColumn{width:80px}.sanitationColumn{width:85px}.deficienciesColumn{width:190px}.actionColumn{width:190px}</style>'
   }
 }

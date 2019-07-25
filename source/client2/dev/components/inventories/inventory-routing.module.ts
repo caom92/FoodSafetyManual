@@ -43,6 +43,11 @@ const routes: Routes = [
     loadChildren: './gmp-packing-hand-washing/gmp-packing-hand-washing-inventory.module#GMPPackingHandWashingInventoryModule'
   },
   {
+    path: 'gmp-packing-harvest-tool',
+    data: { suffix: 'gmp-packing-harvest-tool' },
+    loadChildren: './gmp-packing-harvest-tool/gmp-packing-harvest-tool-inventory.module#GMPPackingHarvestToolInventoryModule'
+  },
+  {
     path: 'gmp-packing-ozone-water',
     data: { suffix: 'gmp-packing-ozone-water' },
     loadChildren: './gmp-packing-ozone-water/gmp-packing-ozone-water-inventory.module#GMPPackingOzoneWaterInventoryModule'

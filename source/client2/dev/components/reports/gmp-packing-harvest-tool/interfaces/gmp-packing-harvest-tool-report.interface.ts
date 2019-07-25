@@ -7,13 +7,12 @@ export interface Report extends SuperReportInterface {
 export interface ReportDay {
   date: string
   day_num: number
-  types: Array<ReportType>
+  tools: Array<ReportTool>
 }
 
-export interface ReportType {
-  type_id: number
-  name_en: string
-  name_es: string
+export interface ReportTool {
+  tool_id: number
+  name: string
   issue_time: string
   issue_qty: number
   issue_conditions: number

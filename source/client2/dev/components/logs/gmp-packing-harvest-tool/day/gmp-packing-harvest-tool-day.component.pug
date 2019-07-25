@@ -6,4 +6,4 @@ include ../../../log-ionic-materialize.pug
     +row()
       +col()(class='col s12 m12 l12')
         +dateInput(false, "{{ 'Log.date' | translate:lang }}", "date", "date_{{day.day_num}}", null, "langManager.messages.global.datePickerConfig")
-    gmp-packing-harvest-tool-type([type]='type', [dayNum]='day.day_num', [typeForm]='dayForm.controls.types.controls[i]', *ngFor='let type of day.types; let i=index')
+    gmp-packing-harvest-tool-tool([tool]='tool', [dayNum]='day.day_num', [toolForm]='dayForm.controls.tools.controls[i]', *ngFor='let tool of day.tools; let i=index')

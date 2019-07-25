@@ -8,7 +8,7 @@ import { ReportCommonModule } from '../report-common/report-common.module'
 import { GMPPackingHarvestToolReportDayComponent } from './day/gmp-packing-harvest-tool-report-day.component'
 import { GMPPackingHarvestToolReportLoaderComponent } from './loader/gmp-packing-harvest-tool-report-loader.component'
 import { GMPPackingHarvestToolReportComponent } from './report/gmp-packing-harvest-tool-report.component'
-import { GMPPackingHarvestToolReportTypeComponent } from './type/gmp-packing-harvest-tool-report-type.component'
+import { GMPPackingHarvestToolReportToolComponent } from './tool/gmp-packing-harvest-tool-report-tool.component'
 import { GMPPackingHarvestToolReportViewerComponent } from './viewer/gmp-packing-harvest-tool-report-viewer.component'
 
 @NgModule({
@@ -24,12 +24,12 @@ import { GMPPackingHarvestToolReportViewerComponent } from './viewer/gmp-packing
     GMPPackingHarvestToolReportLoaderComponent,
     GMPPackingHarvestToolReportComponent,
     GMPPackingHarvestToolReportDayComponent,
-    GMPPackingHarvestToolReportTypeComponent
+    GMPPackingHarvestToolReportToolComponent
   ],
   exports: [
     GMPPackingHarvestToolReportViewerComponent,
     GMPPackingHarvestToolReportDayComponent,
-    GMPPackingHarvestToolReportTypeComponent
+    GMPPackingHarvestToolReportToolComponent
   ]
 })
 

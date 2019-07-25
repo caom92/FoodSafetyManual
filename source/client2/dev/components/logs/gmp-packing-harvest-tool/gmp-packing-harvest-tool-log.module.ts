@@ -8,7 +8,7 @@ import { LogCommonModule } from '../log-common/log-common.module'
 import { GMPPackingHarvestToolDayComponent } from './day/gmp-packing-harvest-tool-day.component'
 import { GMPPackingHarvestToolLogList } from './log-list/gmp-packing-harvest-tool-log-list.component'
 import { GMPPackingHarvestToolLogComponent } from './log/gmp-packing-harvest-tool-log.component'
-import { GMPPackingHarvestToolTypeComponent } from './type/gmp-packing-harvest-tool-type.component'
+import { GMPPackingHarvestToolToolComponent } from './tool/gmp-packing-harvest-tool-tool.component'
 
 @NgModule({
   imports: [
@@ -21,13 +21,13 @@ import { GMPPackingHarvestToolTypeComponent } from './type/gmp-packing-harvest-t
   declarations: [
     GMPPackingHarvestToolLogComponent,
     GMPPackingHarvestToolDayComponent,
-    GMPPackingHarvestToolTypeComponent,
+    GMPPackingHarvestToolToolComponent,
     GMPPackingHarvestToolLogList
   ],
   exports: [
     GMPPackingHarvestToolLogComponent,
     GMPPackingHarvestToolDayComponent,
-    GMPPackingHarvestToolTypeComponent,
+    GMPPackingHarvestToolToolComponent,
     GMPPackingHarvestToolLogList
   ]
 })

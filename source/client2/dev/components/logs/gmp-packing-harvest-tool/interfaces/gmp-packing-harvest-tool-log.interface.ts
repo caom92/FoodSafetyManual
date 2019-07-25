@@ -7,13 +7,12 @@ export interface Log extends SuperWaiting {
 export interface LogDay {
   date: string
   day_num: number
-  types: Array<LogType>
+  tools: Array<LogTool>
 }
 
-export interface LogType {
-  type_id: number
-  name_en: string
-  name_es: string
+export interface LogTool {
+  tool_id: number
+  name: string
   issue_time?: string
   issue_qty?: number
   issue_conditions?: number

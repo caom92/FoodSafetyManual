@@ -17,10 +17,10 @@ $service = fsm\createUpdateService(
         'day_num' => [
           'type' => 'int'
         ],
-        'types' => [
+        'tools' => [
           'type' => 'array',
           'values' => [
-            'type_id' => [
+            'tool_id' => [
               'type' => 'int',
               'min' => 1
             ],
@@ -80,7 +80,7 @@ $service = fsm\createUpdateService(
     ],
     'function' => function($scope, $request) {
       $dateLogs = $scope->daoFactory->get('gmp\packing\harvestTool\DateLogs');
-      $typeLogs = $scope->daoFactory->get('gmp\packing\harvestTool\TypeLogs');
+      $toolLogs = $scope->daoFactory->get('gmp\packing\harvestTool\ToolLogs');
 
       $lastDayNumber = 1;
 
@@ -99,21 +99,21 @@ $service = fsm\createUpdateService(
 
           $dateID = $dateLogs->selectIDByCaptureDateIDAndDay($request['report_id'], $day['day_num']);
 
-          foreach ($day['types'] as $type) {
-            $typeLogs->updateByDateIDAndTypeID(
+          foreach ($day['tools'] as $tool) {
+            $toolLogs->updateByDateIDAndToolID(
               [
-                'issue_time' => (isset($type['issue_time']) && array_key_exists('issue_time', $type)) ? $type['issue_time'] : NULL,
-                'issue_qty' => (isset($type['issue_qty']) && array_key_exists('issue_qty', $type)) ? $type['issue_qty'] : NULL,
-                'issue_conditions' => (isset($type['issue_conditions']) && array_key_exists('issue_conditions', $type)) ? $type['issue_conditions'] : NULL,
-                'recovery_time' => (isset($type['recovery_time']) && array_key_exists('recovery_time', $type)) ? $type['recovery_time'] : NULL,
-                'recovery_qty' => (isset($type['recovery_qty']) && array_key_exists('recovery_qty', $type)) ? $type['recovery_qty'] : NULL,
-                'recovery_conditions' => (isset($type['recovery_conditions']) && array_key_exists('recovery_conditions', $type)) ? $type['recovery_conditions'] : NULL,
-                'sanitation' => (isset($type['sanitation']) && array_key_exists('sanitation', $type)) ? $type['sanitation'] : NULL,
-                'deficiencies' => (isset($type['deficiencies']) && array_key_exists('deficiencies', $type)) ? $type['deficiencies'] : NULL,
-                'corrective_actions' => (isset($type['corrective_actions']) && array_key_exists('corrective_actions', $type)) ? $type['corrective_actions'] : NULL
+                'issue_time' => (isset($tool['issue_time']) && array_key_exists('issue_time', $tool)) ? $tool['issue_time'] : NULL,
+                'issue_qty' => (isset($tool['issue_qty']) && array_key_exists('issue_qty', $tool)) ? $tool['issue_qty'] : NULL,
+                'issue_conditions' => (isset($tool['issue_conditions']) && array_key_exists('issue_conditions', $tool)) ? $tool['issue_conditions'] : NULL,
+                'recovery_time' => (isset($tool['recovery_time']) && array_key_exists('recovery_time', $tool)) ? $tool['recovery_time'] : NULL,
+                'recovery_qty' => (isset($tool['recovery_qty']) && array_key_exists('recovery_qty', $tool)) ? $tool['recovery_qty'] : NULL,
+                'recovery_conditions' => (isset($tool['recovery_conditions']) && array_key_exists('recovery_conditions', $tool)) ? $tool['recovery_conditions'] : NULL,
+                'sanitation' => (isset($tool['sanitation']) && array_key_exists('sanitation', $tool)) ? $tool['sanitation'] : NULL,
+                'deficiencies' => (isset($tool['deficiencies']) && array_key_exists('deficiencies', $tool)) ? $tool['deficiencies'] : NULL,
+                'corrective_actions' => (isset($tool['corrective_actions']) && array_key_exists('corrective_actions', $tool)) ? $tool['corrective_actions'] : NULL
               ],
               $dateID,
-              $type['type_id']
+              $tool['tool_id']
             );
           }
         } else {
@@ -124,19 +124,19 @@ $service = fsm\createUpdateService(
             'day_num' => $day['day_num']
           ]);
 
-          foreach ($day['types'] as $type) {
-            $typeLogs->insert([
+          foreach ($day['tools'] as $tool) {
+            $toolLogs->insert([
               'date_log_id' => $dateID,
-              'type_id' => $type['type_id'],
-              'issue_time' => (isset($type['issue_time']) && array_key_exists('issue_time', $type)) ? $type['issue_time'] : NULL,
-              'issue_qty' => (isset($type['issue_qty']) && array_key_exists('issue_qty', $type)) ? $type['issue_qty'] : NULL,
-              'issue_conditions' => (isset($type['issue_conditions']) && array_key_exists('issue_conditions', $type)) ? $type['issue_conditions'] : NULL,
-              'recovery_time' => (isset($type['recovery_time']) && array_key_exists('recovery_time', $type)) ? $type['recovery_time'] : NULL,
-              'recovery_qty' => (isset($type['recovery_qty']) && array_key_exists('recovery_qty', $type)) ? $type['recovery_qty'] : NULL,
-              'recovery_conditions' => (isset($type['recovery_conditions']) && array_key_exists('recovery_conditions', $type)) ? $type['recovery_conditions'] : NULL,
-              'sanitation' => (isset($type['sanitation']) && array_key_exists('sanitation', $type)) ? $type['sanitation'] : NULL,
-              'deficiencies' => (isset($type['deficiencies']) && array_key_exists('deficiencies', $type)) ? $type['deficiencies'] : NULL,
-              'corrective_actions' => (isset($type['corrective_actions']) && array_key_exists('corrective_actions', $type)) ? $type['corrective_actions'] : NULL
+              'tool_id' => $tool['tool_id'],
+              'issue_time' => (isset($tool['issue_time']) && array_key_exists('issue_time', $tool)) ? $tool['issue_time'] : NULL,
+              'issue_qty' => (isset($tool['issue_qty']) && array_key_exists('issue_qty', $tool)) ? $tool['issue_qty'] : NULL,
+              'issue_conditions' => (isset($tool['issue_conditions']) && array_key_exists('issue_conditions', $tool)) ? $tool['issue_conditions'] : NULL,
+              'recovery_time' => (isset($tool['recovery_time']) && array_key_exists('recovery_time', $tool)) ? $tool['recovery_time'] : NULL,
+              'recovery_qty' => (isset($tool['recovery_qty']) && array_key_exists('recovery_qty', $tool)) ? $tool['recovery_qty'] : NULL,
+              'recovery_conditions' => (isset($tool['recovery_conditions']) && array_key_exists('recovery_conditions', $tool)) ? $tool['recovery_conditions'] : NULL,
+              'sanitation' => (isset($tool['sanitation']) && array_key_exists('sanitation', $tool)) ? $tool['sanitation'] : NULL,
+              'deficiencies' => (isset($tool['deficiencies']) && array_key_exists('deficiencies', $tool)) ? $tool['deficiencies'] : NULL,
+              'corrective_actions' => (isset($tool['corrective_actions']) && array_key_exists('corrective_actions', $tool)) ? $tool['corrective_actions'] : NULL
             ]);
           }
         }
@@ -149,8 +149,8 @@ $service = fsm\createUpdateService(
       $daysToDelete = $dateLogs->selectHigherDayByCaptureDateID($request['report_id'], $lastDayNumber);
 
       foreach ($daysToDelete as $dayToDelete) {
-        // delete types before deleting days
-        $typeLogs->delete([
+        // delete tools before deleting days
+        $toolLogs->delete([
           'date_log_id' => $dayToDelete['id']
         ]);
       }

@@ -4,18 +4,17 @@ namespace fsm\database\gmp\packing\harvestTool;
 require_once realpath(dirname(__FILE__).'/../../../../dao/InsertableTable.php');
 use fsm\database as db;
 
-class TypeLogs extends db\InsertableTable
+class ToolLogs extends db\InsertableTable
 {
   function __construct() { 
-    parent::__construct('gmp_packing_harvest_tool_type_logs');
+    parent::__construct('gmp_packing_harvest_tool_tool_logs');
   }
 
   function selectByDateLogID($dateLogID){
     return parent::$dataBase->query(
       "SELECT
-        type_id,
-        t.name_en AS name_en,
-        t.name_es AS name_es,
+        tool_id,
+        t.name AS name,
         DATE_FORMAT(issue_time, '%H:%i') AS issue_time,
         issue_qty,
         issue_conditions,
@@ -26,17 +25,17 @@ class TypeLogs extends db\InsertableTable
         deficiencies,
         corrective_actions
       FROM $this->table
-      INNER JOIN gmp_packing_harvest_tool_types AS t
-        ON $this->table.type_id = t.id
+      INNER JOIN gmp_packing_harvest_tool_tools AS t
+        ON $this->table.tool_id = t.id
       WHERE date_log_id = $dateLogID"
     )->fetchAll();
   }
 
-  function updateByDateIDAndTypeID($changes, $dateID, $typeID) {
+  function updateByDateIDAndToolID($changes, $dateID, $toolID) {
     return parent::update($changes, [
       'AND' => [
         'date_log_id' => $dateID,
-        'type_id' => $typeID
+        'tool_id' => $toolID
       ]
     ]);
   }

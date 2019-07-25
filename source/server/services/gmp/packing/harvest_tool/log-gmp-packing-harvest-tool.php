@@ -11,21 +11,20 @@ $service = fsm\createLogService(
     'function' => function($scope, $segment) {
       $days = array();
 
-      $types = $scope->daoFactory->get('gmp\packing\harvestTool\Types')->selectAll();
+      $tools = $scope->daoFactory->get('gmp\packing\harvestTool\Tools')->selectActiveByZoneID($segment->get('zone_id'));
 
       $day = [
         'date' => '',
         'day_num' => 1,
-        'types' => []
+        'tools' => []
       ];
 
-      foreach ($types as $type) {
-        $tempType = [
-          'type_id' => $type['id'],
-          'name_en' => $type['name_en'],
-          'name_es' => $type['name_es']
+      foreach ($tools as $tool) {
+        $tempTool = [
+          'tool_id' => $tool['id'],
+          'name' => $tool['name']
         ];
-        array_push($day['types'], $tempType);
+        array_push($day['tools'], $tempTool);
       }
 
       array_push($days, $day);

@@ -7,13 +7,12 @@ export interface Authorization extends SuperAuthorization {
 export interface AuthorizationDay {
   date: string
   day_num: number
-  types: Array<AuthorizationType>
+  tools: Array<AuthorizationTool>
 }
 
-export interface AuthorizationType {
-  type_id: number
-  name_en: string
-  name_es: string
+export interface AuthorizationTool {
+  tool_id: number
+  name: string
   issue_time?: string
   issue_qty?: number
   issue_conditions?: number
