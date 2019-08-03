@@ -13,7 +13,7 @@ import { Log } from '../interfaces/gmp.packing.scissors.knives.log.interface'
 
 @Component({
   selector: 'gmp-packing-scissors-knives-log',
-  templateUrl: './gmp.packing.scissors.knives.log.html'
+  templateUrl: './closed.log.html'
 })
 
 export class GMPPackingScissorsKnivesLogComponent extends SuperLogComponent implements OnInit {
@@ -28,6 +28,19 @@ export class GMPPackingScissorsKnivesLogComponent extends SuperLogComponent impl
     super(logService, toastService, formUtilService)
   }
 
+  ngOnInit() {
+
+  }
+
+  initForm() {
+
+  }
+
+  resetForm() {
+
+  }
+
+  /*
   ngOnInit() {
     this.setSuffix('gmp-packing-scissors-knives')
     super.ngOnInit()
@@ -70,5 +83,5 @@ export class GMPPackingScissorsKnivesLogComponent extends SuperLogComponent impl
       is_sanitized: [item.is_sanitized],
       corrective_action: [item.corrective_action]
     })
-  }
+  }*/
 }

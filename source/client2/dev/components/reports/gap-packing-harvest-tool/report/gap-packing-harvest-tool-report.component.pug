@@ -1,0 +1,25 @@
+extends ../../report.common.pug
+
+block report
+  table(#report_body)
+    thead
+      tr
+        th([rowSpan]='2').dateColumn {{ 'Log.date' | translate:lang }}
+        th([rowSpan]='2').toolColumn {{ 'Log.type' | translate:lang }}
+        th.issueColumn([colSpan]='3') {{ 'Log.tools_issued' | translate:lang }}
+        th.recoveryColumn([colSpan]='3') {{ 'Log.tools_recovered' | translate:lang }}
+        th([rowSpan]='2').sanitationColumn {{ 'Log.sanitation' | translate:lang }}
+        th([rowSpan]='2').deficienciesColumn {{ 'Log.deficiencies' | translate:lang }}
+        th([rowSpan]='2').actionColumn {{ 'Log.corrective_action' | translate:lang }}
+      tr
+        th.timeColumn {{ 'Log.time' | translate:lang }}
+        th.quantityColumn {{ 'Log.quantity_abbr' | translate:lang }}
+        th.conditionsColumn {{ 'Log.conditions' | translate:lang }}
+        th.timeColumn {{ 'Log.time' | translate:lang }}
+        th.quantityColumn {{ 'Log.quantity_abbr' | translate:lang }}
+        th.conditionsColumn {{ 'Log.conditions' | translate:lang }}
+    tbody
+      ng-template(ngFor, let-day, [ngForOf]='report.days')
+        tr(gap-packing-harvest-tool-report-day, [day]='day')
+        ng-template(ngFor, let-tool, [ngForOf]='day.tools', let-ftool='first')
+          tr(gap-packing-harvest-tool-report-tool, [tool]='tool', *ngIf='!ftool')

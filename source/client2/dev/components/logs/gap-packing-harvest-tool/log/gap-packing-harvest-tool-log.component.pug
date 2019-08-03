@@ -1,0 +1,18 @@
+include ../../../log-ionic-materialize.pug
+
++fullLogWrapper()
+  div(*ngIf='showLog == true')
+    block header
+      log-header([log]='logHeaderData', [dateGroup]='captureForm')
+    form([formGroup]='captureForm', (ngSubmit)='save()')
+      gap-packing-harvest-tool-day([day]='day', [dayForm]='captureForm.controls.days.controls[i]', *ngFor='let day of log.days; let i=index')
+      block addButtons
+        +row()
+          +col()(class="s1 m1 l1 offset-s10 offset-m10 offset-l10")
+            button.green(mz-button, type='button', float='true', (click)='onEntryAdd()')
+              i(mz-icon-mdi, [icon]="'plus'")
+          +col()(class="s1 m1 l1")
+            button.red(mz-button, type='button', float='true', (click)='onEntryRemove()', [disabled]="captureForm.controls.days.controls.length <= 1")
+              i(mz-icon-mdi, [icon]="'minus'")
+      block buttonRow
+        +updateLogButtonRow("{{ 'Log.send_report' | translate:lang }}", "{{ 'Log.finish_report' | translate:lang }}", "{{ 'Log.back_report' | translate:lang }}")

@@ -1,0 +1,10 @@
+extends ../log/gap-packing-harvest-tool-log.component.pug
+
+prepend header
+  h4 {{log.log_name}}
+  .divider
+
+block addButtons
+
+block buttonRow
+  +authorizationButtonRow("{{ 'Authorization.send' | translate:lang }}", "{{ 'Authorization.authorize' | translate:lang }}", "{{ 'Authorization.delete' | translate:lang }}", "{{ 'Authorization.back' | translate:lang }}")

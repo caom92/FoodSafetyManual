@@ -42,6 +42,7 @@
   "Default Title": "El nombre del inventario no pudo recuperarse",
   "Manage Inventory": "Gestión de Inventario",
   "Manage Areas": "Gestión de Áreas",
+  "Closed Log": "Esta bitácora se encuentra cerrada. A partir de ahora se cuenta con una nueva versión llamada Cutting Tool Accountability Program And Sanitizing Log. Los manuales y reportes de los registros anteriores de esta bitácora podrán seguir consultándose, pero las futuras capturas y futuros reportes deberán realizarse desde la nueva versión antes mencionada.",
   "InventoryLists": {
     "id": "ID",
     "order": "Orden",
