@@ -69,7 +69,7 @@ export class AreaInventoryService {
 
   public addArea(suffix: string, data: any): Promise<any> {
     let addAreaPromise = new Promise<any>((resolve, reject) => {
-      this.apiService.confirmationService('add-workplace-area-' + suffix, { key: 'Titles.add_area' }, { key: 'Messages.add_area' }, data).then(success => {
+      this.apiService.confirmationService('add-workplace-area-' + suffix, { key: 'Titles.add_area' }, { key: 'Messages.add_area', args: { area: data.area_name } }, data).then(success => {
         resolve(success)
       }, error => {
         reject(error)
