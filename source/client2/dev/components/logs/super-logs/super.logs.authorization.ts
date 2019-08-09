@@ -1,7 +1,6 @@
 import { OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
-import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../directives/custom.validators'
 import { LogService } from '../../../services/log.service'
@@ -10,7 +9,6 @@ import { LogHeaderData } from '../log.interfaces'
 import { SuperAuthorization } from './super.logs.authorization.interface'
 
 export abstract class SuperAuthorizationComponent implements OnInit {
-  @Language() lang: string
   protected log: SuperAuthorization
   protected captureForm: FormGroup = new FormBuilder().group({})
   private showLog: boolean = false

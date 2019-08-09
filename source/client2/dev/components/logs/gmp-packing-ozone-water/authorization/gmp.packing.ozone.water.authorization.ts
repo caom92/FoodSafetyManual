@@ -1,6 +1,7 @@
 import { Component } from '@angular/core'
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
+import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LogService } from '../../../../services/log.service'
@@ -17,6 +18,7 @@ import { maxLengths } from '../maxLengths/max.lengths'
 })
 
 export class GMPPackingOzoneWaterAuthorizationComponent extends SuperAuthorizationComponent {
+  @Language() lang: string
   log: Authorization
 
   readonly maxLengths = maxLengths

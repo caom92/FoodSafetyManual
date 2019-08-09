@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core'
 import { PubSubService } from 'angular2-pubsub'
+import { Language } from 'angular-l10n'
 import { DragulaService } from 'ng2-dragula'
 
 import { InventoryService } from '../../../../services/inventory.service'
@@ -12,6 +13,7 @@ import { InventoryItem, InventoryType } from '../interfaces/gmp.packing.preop.in
 })
 
 export class GMPPackingPreopInventoryListComponent extends SuperInventoryListComponent {
+  @Language() lang: string
   @Input() type: InventoryType
 
   constructor(dragulaService: DragulaService,

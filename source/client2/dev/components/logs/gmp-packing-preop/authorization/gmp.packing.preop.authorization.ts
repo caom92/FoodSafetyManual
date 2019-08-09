@@ -1,6 +1,7 @@
 import { Component } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
+import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LogService } from '../../../../services/log.service'
@@ -15,6 +16,7 @@ import { UpdateArea, UpdateItem } from '../interfaces/gmp.packing.preop.update.i
 })
 
 export class GMPPackingPreopAuthorizationComponent extends SuperAuthorizationComponent {
+  @Language() lang: string
   log: Authorization
 
   constructor(_fb: FormBuilder, toastService: ToastsService, logService: LogService, routeState: ActivatedRoute, router: Router) {

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
+import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LanguageService } from '../../../../services/app.language'
@@ -16,6 +17,7 @@ import { UpdateArea, UpdateItem } from '../interfaces/gmp.packing.glass.brittle.
 })
 
 export class GMPPackingGlassBrittleAuthorizationComponent extends SuperAuthorizationComponent {
+  @Language() lang: string
   log: Authorization
 
   readonly maxLengths = {

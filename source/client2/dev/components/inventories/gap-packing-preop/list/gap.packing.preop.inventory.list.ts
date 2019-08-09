@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core'
 import { PubSubService } from 'angular2-pubsub'
+import { Language } from 'angular-l10n'
 import { DragulaService } from 'ng2-dragula'
 
 import { InventoryService } from '../../../../services/inventory.service'
@@ -12,6 +13,7 @@ import { InventoryItem, InventoryType } from '../interfaces/gap.packing.preop.in
 })
 
 export class GAPPackingPreopInventoryListComponent extends SuperInventoryListComponent {
+  @Language() lang: string
   @Input() items: Array<InventoryItem>
   @Input() type: InventoryType
   @Input() areaID: number

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core'
 import { FormArray, FormBuilder, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
+import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LanguageService } from '../../../../services/app.language'
@@ -16,6 +17,7 @@ import { UpdateItem } from '../interfaces/gmp.packing.thermo.calibration.update.
 })
 
 export class GMPPackingThermoCalibrationAuthorizationComponent extends SuperAuthorizationComponent {
+  @Language() lang: string
   log: Authorization
 
   readonly maxLengths = {

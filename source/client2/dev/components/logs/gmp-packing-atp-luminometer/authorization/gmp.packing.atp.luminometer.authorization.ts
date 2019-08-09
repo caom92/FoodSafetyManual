@@ -1,6 +1,7 @@
 import { Component } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
+import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { DataResolverService } from '../../../../services/data-resolver.service'
@@ -15,6 +16,7 @@ import { Authorization, AuthorizationItem, AuthorizationTest, AuthorizationType,
 })
 
 export class GMPPackingATPLuminometerAuthorizationComponent extends SuperAuthorizationComponent {
+  @Language() lang: string
   log: Authorization
 
   constructor(_fb: FormBuilder,

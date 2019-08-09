@@ -1,6 +1,7 @@
 import { Component } from '@angular/core'
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
+import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { DataResolverService } from '../../../../services/data-resolver.service'
@@ -17,6 +18,7 @@ import { maxLengths } from '../max-lengths/max-lengths'
 })
 
 export class GMPPackingHarvestToolAuthorizationComponent extends SuperAuthorizationComponent {
+  @Language() lang: string
   log: Authorization
   
   readonly maxLengths = maxLengths

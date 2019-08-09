@@ -2,10 +2,8 @@ import { OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 
 import { LogService } from '../../../services/log.service'
-import { Language } from 'angular-l10n'
 
 export abstract class SuperInventoryViewer implements OnInit {
-  @Language() lang: string
   private inventorySuffix: string = ''
   private title: string = null
 

@@ -13,7 +13,7 @@ import { InventoryArea } from '../interfaces/gmp.self.inspection.pest.control.ar
 })
 
 export class GMPSelfInspectionPestControlAreaInventoryListComponent extends SuperAreaInventoryListComponent implements OnInit, OnDestroy {
-  @Language() private lang: string
+  @Language() lang: string
   @Input() areas: Array<InventoryArea> = null
 
   constructor(dragulaService: DragulaService, events: PubSubService, areaInventoryService: AreaInventoryService) {

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
+import { Language } from 'angular-l10n'
 import { Observable } from 'rxjs/Rx'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
@@ -18,6 +19,7 @@ import { Authorization } from '../interfaces/gmp.doc.control.doc.control.authori
 })
 
 export class GMPDocControlDocControlAuthorizationComponent extends SuperAuthorizationComponent {
+  @Language() lang: string
   log: Authorization
   selectedDocument: number
   selectedDocumentName: string

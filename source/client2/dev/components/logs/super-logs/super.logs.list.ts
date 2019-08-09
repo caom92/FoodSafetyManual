@@ -1,5 +1,4 @@
 import { EventEmitter, Input, Output } from '@angular/core'
-import { DefaultLocale, Language } from 'angular-l10n'
 
 import { LogService } from '../../../services/log.service'
 
@@ -9,9 +8,7 @@ export interface LogListElement {
   created_by: string
 }
 
-export abstract class SuperLogListComponent {
-  @Language() lang: string
-  @DefaultLocale() defaultLocale: string
+export abstract class SuperLogListComponent {  
   @Output() startLog = new EventEmitter<number | boolean>()
   @Input() suffix: string
   public logList: Array<LogListElement> = []

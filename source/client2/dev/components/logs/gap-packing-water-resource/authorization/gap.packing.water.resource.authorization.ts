@@ -1,6 +1,7 @@
 import { Component } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
+import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
 import { LogService } from '../../../../services/log.service'
@@ -14,6 +15,7 @@ import { Authorization, AuthorizationArea, AuthorizationItem } from '../interfac
 })
 
 export class GAPPackingWaterResourceAuthorizationComponent extends SuperAuthorizationComponent {
+  @Language() lang: string
   log: Authorization
 
   constructor(_fb: FormBuilder,

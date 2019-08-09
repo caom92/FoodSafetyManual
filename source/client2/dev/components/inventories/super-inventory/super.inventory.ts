@@ -1,5 +1,4 @@
 import { OnDestroy, OnInit } from '@angular/core'
-import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 import { Subscription } from 'angular2-pubsub/node_modules/rxjs'
 import { DragulaService } from 'ng2-dragula'
@@ -8,7 +7,6 @@ import { InventoryService } from '../../../services/inventory.service'
 import { DragulaInventory } from './dragula.inventory'
 
 export abstract class SuperInventoryComponent extends DragulaInventory implements OnInit, OnDestroy {
-  @Language() lang: string
   protected inventory: any = null
   protected emptyInventoryFlag: boolean = null
   protected scrollAllowed: boolean = true

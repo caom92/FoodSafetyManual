@@ -1,6 +1,5 @@
 import { OnDestroy, OnInit } from '@angular/core'
 import { PubSubService } from 'angular2-pubsub'
-import { Language } from 'angular-l10n'
 import { Subscription as LegacySubscription } from 'angular2-pubsub/node_modules/rxjs'
 import { DragulaService } from 'ng2-dragula'
 import { Subscription } from 'rxjs'
@@ -9,7 +8,6 @@ import { InventoryService } from '../../../services/inventory.service'
 import { SuperInventoryItemInterface } from './super.inventory.interface'
 
 export abstract class SuperInventoryListComponent implements OnInit, OnDestroy {
-  @Language() lang: string
   protected drag: Subscription = new Subscription()
   protected dragend: Subscription = new Subscription()
   protected itemEvent: LegacySubscription

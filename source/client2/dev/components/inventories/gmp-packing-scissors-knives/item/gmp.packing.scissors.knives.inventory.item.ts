@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
+import { Language } from 'angular-l10n'
 
 import { InventoryService } from '../../../../services/inventory.service'
 import { SuperInventoryItemComponent } from '../../super-inventory/super.inventory.item'
@@ -10,6 +11,7 @@ import { InventoryItem } from '../interfaces/gmp.packing.scissors.knives.invento
 })
 
 export class GMPPackingScissorsKnivesInventoryItemComponent extends SuperInventoryItemComponent implements OnInit {
+  @Language() lang: string
   @Input() type: string = ''
   @Input() item: InventoryItem = null
 

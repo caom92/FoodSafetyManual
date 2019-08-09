@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core'
+import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
 
@@ -12,6 +13,7 @@ import { InventoryItem } from '../interfaces/gmp-packing-harvest-tool-inventory.
 })
 
 export class GMPPackingHarvestToolInventoryComponent extends SuperInventoryComponent {
+  @Language() lang: string
   @Input() inventory: Array<InventoryItem> = []
 
   constructor(events: PubSubService,

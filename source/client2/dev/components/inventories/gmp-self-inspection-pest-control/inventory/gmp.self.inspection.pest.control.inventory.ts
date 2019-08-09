@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core'
+import { Language } from 'angular-l10n'
 import { PubSubService } from 'angular2-pubsub'
 import { DragulaService } from 'ng2-dragula'
 
@@ -13,6 +14,7 @@ import { InventoryItem } from '../interfaces/gmp.self.inspection.pest.control.in
 })
 
 export class GMPSelfInspectionPestControlInventoryComponent extends SuperInventoryByAreaComponent {
+  @Language() lang: string
   @Input() inventory: Array<InventoryItem> = []
 
   constructor(events: PubSubService,
