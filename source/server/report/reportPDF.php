@@ -93,7 +93,8 @@ $style = (isset($_POST['style']) && array_key_exists('style', $_POST)) ?
 
 // calculate and update footer size, if exists
 if(isset($pdf->footer)){
-    $pdf->AddPage();
+    $reportOrientation = (isset($report->orientation)) ? ((isString($report->orientation) && ($report->orientation == 'P' || $report->orientation == 'L')) ? $report->orientation : $orientation ) : $orientation;
+    $pdf->AddPage($reportOrientation);
     $pdf->SetFont('helvetica', 'I', 8);
 
     $pdf->writeHTMLCell(

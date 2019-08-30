@@ -1,11 +1,11 @@
 td.toolColumn {{tool.name}}
 td.timeColumn {{tool.issue_time}}
 td.quantityColumn {{tool.issue_qty}}
-td.conditionsColumn(*ngIf='tool.issue_conditions == 1') {{ 'Log.acceptable' | translate:lang }}
+td.conditionsColumn(*ngIf='tool.issue_conditions == 1') {{ 'Log.acceptable_sanitized_abbr' | translate:lang }}
 td.conditionsColumn(*ngIf='tool.issue_conditions != 1') {{ 'Log.unacceptable' | translate:lang }}
 td.timeColumn {{tool.recovery_time}}
 td.quantityColumn {{tool.recovery_qty}}
-td.conditionsColumn(*ngIf='tool.recovery_conditions == 1') {{ 'Log.acceptable' | translate:lang }}
+td.conditionsColumn(*ngIf='tool.recovery_conditions == 1') {{ 'Log.acceptable_sanitized_abbr' | translate:lang }}
 td.conditionsColumn(*ngIf='tool.recovery_conditions != 1') {{ 'Log.unacceptable' | translate:lang }}
 td.sanitationColumn {{tool.sanitation}}
 td.deficienciesColumn {{tool.deficiencies}}

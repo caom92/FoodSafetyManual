@@ -125,6 +125,8 @@
     "activity": "Actividad",
     "acceptable": "Aceptable",
     "unacceptable": "No aceptable",
+    "acceptable_sanitized": "Aceptable-Sanitizado",
+    "acceptable_sanitized_abbr": "Acept/Sanit",
     "corrective_action": "Acción correctiva",
     "corrective_action_of": "Acción correctiva de",
     "item_place_equipment": "Objeto/Lugar/Equipo, etc.",
