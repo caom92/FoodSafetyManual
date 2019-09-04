@@ -36,7 +36,7 @@ $service = fsm\createUpdateService(
             'issue_conditions' => [
               'type' => 'int',
               'min' => 0,
-              'max' => 1,
+              'max' => 2,
               'optional' => true
             ],
             'recovery_time' => [

@@ -2,12 +2,13 @@ td.dateColumn([rowSpan]='day.tools.length') {{day.date}}
 td.toolColumn {{day.tools[0].name}}
 td.timeColumn {{day.tools[0].issue_time}}
 td.quantityColumn {{day.tools[0].issue_qty}}
-td.conditionsColumn(*ngIf='day.tools[0].issue_conditions == 1') {{ 'Log.acceptable_sanitized_abbr' | translate:lang }}
-td.conditionsColumn(*ngIf='day.tools[0].issue_conditions != 1') {{ 'Log.unacceptable' | translate:lang }}
+td.conditionsColumn(*ngIf='day.tools[0].issue_conditions == 2') {{ 'Log.acceptable_sanitized_abbr' | translate:lang }}
+td.conditionsColumn(*ngIf='day.tools[0].issue_conditions == 1') {{ 'Log.acceptable' | translate:lang }}
+td.conditionsColumn(*ngIf='day.tools[0].issue_conditions == 0') {{ 'Log.unacceptable' | translate:lang }}
 td.timeColumn {{day.tools[0].recovery_time}}
 td.quantityColumn {{day.tools[0].recovery_qty}}
-td.conditionsColumn(*ngIf='day.tools[0].recovery_conditions == 1') {{ 'Log.acceptable_sanitized_abbr' | translate:lang }}
-td.conditionsColumn(*ngIf='day.tools[0].recovery_conditions != 1') {{ 'Log.unacceptable' | translate:lang }}
+td.conditionsColumn(*ngIf='day.tools[0].recovery_conditions == 1') {{ 'Log.acceptable' | translate:lang }}
+td.conditionsColumn(*ngIf='day.tools[0].recovery_conditions == 0') {{ 'Log.unacceptable' | translate:lang }}
 td.sanitationColumn {{day.tools[0].sanitation}}
 td.deficienciesColumn {{day.tools[0].deficiencies}}
 td.actionColumn {{day.tools[0].corrective_actions}}
