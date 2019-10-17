@@ -8,6 +8,11 @@ const routes: Routes = [
     loadChildren: './gap-doc-control-doc-control/gap-doc-control-doc-control-inventory.module#GAPDocControlDocControlInventoryModule'
   },
   {
+    path: 'gap-packing-harvest-block-inspection',
+    data: { suffix: 'gap-packing-harvest-block-inspection' },
+    loadChildren: './gap-packing-harvest-block-inspection/gap-packing-harvest-block-inspection-inventory.module#GAPPackingHarvestBlockInspectionInventoryModule'
+  },
+  {
     path: 'gap-packing-harvest-tool',
     data: { suffix: 'gap-packing-harvest-tool' },
     loadChildren: './gap-packing-harvest-tool/gap-packing-harvest-tool-inventory.module#GAPPackingHarvestToolInventoryModule'

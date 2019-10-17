@@ -225,7 +225,18 @@
     "chlorine": "Cloración",
     "tools_issued": "Herramientas entregadas",
     "tools_recovered": "Herramientas recuperadas",
-    "deficiencies": "Deficiencias"
+    "deficiencies": "Deficiencias",
+    "inspection_start_date": "Fecha de inicio de inspección",
+    "inspection_start_time": "Hora de inicio de inspección",
+    "inspection_end_date": "Fecha de fin de inspección",
+    "inspection_end_time": "Hora de fin de inspección",
+    "commodities": "Productos",
+    "pounds": "Libras",
+    "grower": "Agricultor",
+    "block_code": "Código del bloque",
+    "contact": "Contacto",
+    "city_location": "Ciudad y Estado",
+    "country": "Pais"
   },
   "Authorization": {
     "send": "Enviar",

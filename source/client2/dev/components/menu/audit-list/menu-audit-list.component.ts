@@ -19,7 +19,7 @@ export interface UserForMenu {
 })
 
 export class MenuAuditListComponent implements OnInit, OnDestroy {
-  @Language() lang
+  @Language() lang: string
   zoneChange: Subscription
   userList: Array<UserForMenu> = []
 

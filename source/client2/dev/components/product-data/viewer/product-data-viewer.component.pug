@@ -59,7 +59,7 @@ mz-collapsible(#collapsible, [mode]="'expandable'")
               option(*ngFor="let opt of autocompleteVarieties.arr", [value]="opt") {{opt}}
         .col.s2.m2.l2
           mz-select-container
-            select(mz-select, id='product-select', label="{{ 'ProductDataViewer.batch' | translate:lang }}", [(ngModel)]="autocompleteProducts.current", (change)='onAutocompleteChange($event, autocompleteProducts)')
+            select(mz-select, id='product-select', label="{{ 'ProductDataViewer.type' | translate:lang }}", [(ngModel)]="autocompleteProducts.current", (change)='onAutocompleteChange($event, autocompleteProducts)')
               option([value]="''") {{ 'ProductDataViewer.all' | translate:lang }}
               option(*ngFor="let opt of autocompleteProducts.arr", [value]="opt") {{opt}}
         .col.s2.m2.l2

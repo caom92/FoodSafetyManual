@@ -1,0 +1,3 @@
+td.questionColumn {{ item.name }}
+td.answerColumn(*ngIf='item.status === 1') {{ 'Log.yes' | translate:lang }}
+td.answerColumn(*ngIf='item.status === 0') {{ 'Log.no' | translate:lang }}

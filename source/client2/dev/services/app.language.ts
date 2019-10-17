@@ -534,13 +534,13 @@ export class LanguageService {
           selectYears: true,
           selectMonths: true
         },
-        "timePickerConfig": {
-          "donetext": "OK",
-          "cleartext": "Clear",
-          "canceltext": "Cancel",
-          "twelvehour": false,
-          "autoclose": true,
-          "container": "body"
+        timePickerConfig: {
+          donetext: 'OK',
+          cleartext: 'Clear',
+          canceltext: 'Cancel',
+          twelvehour: false,
+          autoclose: true,
+          container: 'body'
         }
       }
       ,
@@ -934,7 +934,8 @@ export class LanguageService {
     global: {
       wait: null,
       datePickerConfig: null,
-      datePickerConfigShort: null
+      datePickerConfigShort: null,
+      timePickerConfig: null
     },
     navBar: {
       zone: null

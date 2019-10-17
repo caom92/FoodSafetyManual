@@ -4,10 +4,12 @@ td.quantityColumn {{tool.issue_qty}}
 td.conditionsColumn(*ngIf='tool.issue_conditions == 2') {{ 'Log.acceptable_sanitized_abbr' | translate:lang }}
 td.conditionsColumn(*ngIf='tool.issue_conditions == 1') {{ 'Log.acceptable' | translate:lang }}
 td.conditionsColumn(*ngIf='tool.issue_conditions == 0') {{ 'Log.unacceptable' | translate:lang }}
+td.conditionsColumn(*ngIf='tool.issue_conditions == null')
 td.timeColumn {{tool.recovery_time}}
 td.quantityColumn {{tool.recovery_qty}}
 td.conditionsColumn(*ngIf='tool.recovery_conditions == 1') {{ 'Log.acceptable' | translate:lang }}
 td.conditionsColumn(*ngIf='tool.recovery_conditions == 0') {{ 'Log.unacceptable' | translate:lang }}
+td.conditionsColumn(*ngIf='tool.recovery_conditions == null')
 td.sanitationColumn {{tool.sanitation}}
 td.deficienciesColumn {{tool.deficiencies}}
 td.actionColumn {{tool.corrective_actions}}

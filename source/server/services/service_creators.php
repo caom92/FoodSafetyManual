@@ -235,7 +235,7 @@ function createCaptureService($program, $module, $log,
 // [out]  return (dictionary): arreglo asociativo que contiene la descripcion
 //        del servicio
 function createReportService($program, $module, $log, $strategy,
-  $useCustom = FALSE) {
+  $useCustom = FALSE, $organization = FALSE) {
   return [
     'requirements_desc' => [
       'logged_in' => ['Director', 'Manager', 'Supervisor', 'Employee'],
@@ -255,7 +255,7 @@ function createReportService($program, $module, $log, $strategy,
       ]
     ],
     'callback' => (!$useCustom) ?
-      function($scope, $request) use ($program, $module, $log, $strategy) {
+      function($scope, $request) use ($program, $module, $log, $strategy, $organization) {
         // first, we get the session segment
         $segment = $scope->session->getSegment('fsm');
 
@@ -339,7 +339,14 @@ function createReportService($program, $module, $log, $strategy,
           }
 
           // add the actual log items to the report info structure
-          $reportInfo[$strategy['items_name']] = $items;
+          if ($organization === FALSE) {
+            $reportInfo[$strategy['items_name']] = $items;
+          } else {
+            foreach ($strategy['organization'] as $org) {
+              $reportInfo[$org] = $items[$org];
+            }
+            //$reportInfo[$strategy['items_name']] = $items[$strategy['items_name']];
+          }
 
           // and push the report to the final report list
           array_push($reports, $reportInfo); 
@@ -624,7 +631,7 @@ function createUpdateService($program, $module, $log, $requirements, $strategy,
 // [out]  return (dictionary): arreglo asociativo que contiene la descripcion
 //        del servicio
 function createAuthorizationReportService($program, $module, $log, $strategy,
-  $useCustom = FALSE) {
+  $useCustom = FALSE, $organization = FALSE) {
   return [
     'requirements_desc' => [
       'logged_in' => ['Supervisor', 'Employee'],
@@ -640,7 +647,7 @@ function createAuthorizationReportService($program, $module, $log, $strategy,
       ]
     ],
     'callback' => (!$useCustom) ?
-      function($scope, $request) use ($program, $module, $log, $strategy) {
+      function($scope, $request) use ($program, $module, $log, $strategy, $organization) {
         // first, we get the session segment
         $segment = $scope->session->getSegment('fsm');
 
@@ -706,7 +713,14 @@ function createAuthorizationReportService($program, $module, $log, $strategy,
         }
 
         // add the actual log items to the report info structure
-        $reportInfo[$strategy['items_name']] = $items;
+        if ($organization === FALSE) {
+          $reportInfo[$strategy['items_name']] = $items;
+        } else {
+          foreach ($strategy['organization'] as $org) {
+            $reportInfo[$org] = $items[$org];
+          }
+          //$reportInfo[$strategy['items_name']] = $items[$strategy['items_name']];
+        }
 
         // finally return the list of reports
         return $reportInfo;

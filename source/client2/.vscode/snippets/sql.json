@@ -98,5 +98,12 @@
     "body": [
       "`${field_name}` tinytext NOT NULL"
     ]
+  },
+  "Tinyint field (for boolean)": {
+    "prefix": "fsm-boolean-field",
+    "description": "A tinyint field that can also work as a boolean field",
+    "body": [
+      "`${field_name}` tinyint(1) DEFAULT NULL"
+    ]
   }
 }

@@ -1,0 +1,8 @@
+extends ../../capture.common.pug
+
+block reportViewer
+  gap-packing-harvest-block-inspection-report-viewer
+
+block logViewer
+  gap-packing-harvest-block-inspection-log-list([suffix]='suffix', *ngIf='newLog !== true', (startLog)='onOpenLog($event)')
+  gap-packing-harvest-block-inspection-log(*ngIf='newLog == true', [log]='logData', (closeLog)='onCloseLog($event)')

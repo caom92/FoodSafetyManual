@@ -29,10 +29,16 @@ mixin slimDateInput(showIcon, label, formControlName, id, placeholder, options)
     input(mz-datepicker, label=label, type="text", id=id, placeholder=placeholder, [options]=options, formControlName=formControlName)&attributes(attributes)
 
 mixin timeInput(showIcon, label, formControlName, id, placeholder, options)
-  mz-timepicker-container()&attributes(attributes)
+  mz-timepicker-container()
     if (showIcon == true)
       i(mz-icon-mdi, mz-input-prefix, [icon]="'clock'")
-    input(mz-timepicker, label=label, type="text", id=id, placeholder=placeholder, [options]=options, formControlName=formControlName)
+    input(mz-timepicker, label=label, type="text", id=id, placeholder=placeholder, [options]=options, formControlName=formControlName)&attributes(attributes)
+
+mixin slimTimeInput(showIcon, label, formControlName, id, placeholder, options)
+  mz-timepicker-container(class='slim-div-parent')
+    if (showIcon == true)
+      i(mz-icon-mdi, mz-input-prefix, [icon]="'clock'")
+    input(mz-timepicker, label=label, type="text", id=id, placeholder=placeholder, [options]=options, formControlName=formControlName)&attributes(attributes)
 
 mixin list()
   if block

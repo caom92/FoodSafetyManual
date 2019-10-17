@@ -225,7 +225,18 @@
     "chlorine": "Chlorine",
     "tools_issued": "Tools issued",
     "tools_recovered": "Tools recovered",
-    "deficiencies": "Deficiencies"
+    "deficiencies": "Deficiencies",
+    "inspection_start_date": "Inspection start date",
+    "inspection_start_time": "Inspection start time",
+    "inspection_end_date": "Inspection end date",
+    "inspection_end_time": "Inspection end time",
+    "commodities": "Commodities",
+    "pounds": "Pounds",
+    "grower": "Grower name",
+    "block_code": "Block code",
+    "contact": "Foreman contact",
+    "city_location": "City location",
+    "country": "Country"
   },
   "Authorization": {
     "send": "Send",

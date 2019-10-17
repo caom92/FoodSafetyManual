@@ -13,6 +13,11 @@ const routes: Routes = [
     loadChildren: './gap-others-unusual-occurrence/gap-others-unusual-occurrence-capture.module#GAPOthersUnusualOccurrenceCaptureModule'
   },
   {
+    path: 'gap-packing-harvest-block-inspection',
+    data: { suffix: 'gap-packing-harvest-block-inspection' },
+    loadChildren: './gap-packing-harvest-block-inspection/gap-packing-harvest-block-inspection-capture.module#GAPPackingHarvestBlockInspectionCaptureModule'
+  },
+  {
     path: 'gap-packing-harvest-tool',
     data: { suffix: 'gap-packing-harvest-tool' },
     loadChildren: './gap-packing-harvest-tool/gap-packing-harvest-tool-capture.module#GAPPackingHarvestToolCaptureModule'
