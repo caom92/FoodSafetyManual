@@ -1,0 +1,9 @@
+td.numberColumn {{item.order}}
+td.areaColumn {{item.name}}
+//-td.securedColumn(*ngIf='item.secured == 1') {{ 'Log.yes' | translate:lang }}
+//-td.securedColumn(*ngIf='item.secured == 0') {{ 'Log.no' | translate:lang }}
+td.statusColumn(*ngIf='item.condition == 1') {{ 'Log.acceptable' | translate:lang }}
+td.statusColumn(*ngIf='item.condition == 0') {{ 'Log.unacceptable' | translate:lang }}
+td.activityColumn(*ngIf='item.activity == 1') {{ 'Log.yes' | translate:lang }}
+td.activityColumn(*ngIf='item.activity == 0') {{ 'Log.no' | translate:lang }}
+td.actionColumn {{item.corrective_actions}}

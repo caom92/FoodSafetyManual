@@ -33,6 +33,11 @@ const routes: Routes = [
     loadChildren: './gap-packing-water-resource/gap-packing-water-resource-authorization.module#GAPPackingWaterResourceAuthorizationModule'
   },
   {
+    path: 'gap-self-inspection-pest-control',
+    data: { suffix: 'gap-self-inspection-pest-control' },
+    loadChildren: './gap-self-inspection-pest-control/gap-self-inspection-pest-control-authorization.module#GAPSelfInspectionPestControlAuthorizationModule'
+  },
+  {
     path: 'gmp-doc-control-doc-control',
     data: { suffix: 'gmp-doc-control-doc-control' },
     loadChildren: './gmp-doc-control-doc-control/gmp-doc-control-doc-control-authorization.module#GMPDocControlDocControlAuthorizationModule'

@@ -1,0 +1,18 @@
+include ../../../log-ionic-materialize.pug
+
++fullLogWrapper()
+  div(*ngIf='showLog == true')
+    block header
+      log-header([log]='logHeaderData', [dateGroup]='captureForm')
+    form([formGroup]='captureForm', (ngSubmit)='save()')
+      gap-self-inspection-pest-control-area(*ngFor='let area of log.rooms; let i = index', [area]='area', [group]='captureForm', [offset]='offset[i]')
+      div(class="row")
+        div(class="col s12 m12 l12")
+          button(mz-button, type='button', (click)='fillBlanks()')= ""
+            i(mz-icon-mdi, [icon]="'auto-fix'")
+      +card()
+        +cardHeader("{{ 'Log.complementary_information' | translate:lang }}")
+        +cardContent()
+          +textArea("{{ 'Log.notes_of' | translate:lang }} {{log.log_name}}", "clipboard", "notes")
+      block buttonRow
+        +sendLogButton("{{ 'Log.send_report' | translate:lang }}")

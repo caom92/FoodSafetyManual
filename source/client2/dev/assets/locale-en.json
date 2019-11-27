@@ -81,7 +81,8 @@
     "close_capa": "Close CAPA",
     "delete_capa": "Delete CAPA",
     "delete_file": "Delete file permanently",
-    "delete_image": "Delete image permanently"
+    "delete_image": "Delete image permanently",
+    "autofill": "Autofill empty fields"
   },
   "Messages": {
     "resend_log": "Are you sure you want to retry sending this log?",
@@ -95,7 +96,8 @@
     "close_capa": "Form will be closed. It will be available to create reports, but it will no longer be editable, are you sure you want to continue?",
     "delete_capa": "The CAPA form and all its attached images and files will be deleted permanently from the server. This action cannot be undone, are you sure you want to continue?",
     "delete_file": "The PDF file you selected to delete is a file stored in the server. This action cannot be undone, are you sure you want to continue?",
-    "delete_image": "The image you selected to delete is a file stored in the server. This action cannot be undone, are you sure you want to continue?"
+    "delete_image": "The image you selected to delete is a file stored in the server. This action cannot be undone, are you sure you want to continue?",
+    "autofill": "All unfilled elements will be automatically filled as \"acceptable\". Make sure to have filled all elements with deficiencies."
   },
   "Adverbs": {
     "before": "Before",
@@ -122,6 +124,7 @@
     "compliance": "Complies",
     "secured": "Secured",
     "conditions": "Conditions",
+    "conditions_cleanness": "Conditions and Cleanness",
     "activity": "Activity",
     "acceptable": "Acceptable",
     "unacceptable": "Unacceptable",
@@ -236,7 +239,8 @@
     "block_code": "Block code",
     "contact": "Foreman contact",
     "city_location": "City location",
-    "country": "Country"
+    "country": "Country",
+    "autofill": "Autofill"
   },
   "Authorization": {
     "send": "Send",

@@ -81,7 +81,8 @@
     "close_capa": "Cerrar CAPA",
     "delete_capa": "Borrar CAPA",
     "delete_file": "Borrar archivo permanentemente",
-    "delete_image": "Borrar imagen permanentemente"
+    "delete_image": "Borrar imagen permanentemente",
+    "autofill": "Auto llenar campos vacíos"
   },
   "Messages": {
     "resend_log": "¿Está seguro que desea reintentar el envío de esta bitácora?",
@@ -95,7 +96,8 @@
     "close_capa": "El formulario se cerrará. Estará disponible para generar reportes, pero no podrá editarse, ¿está seguro que desea continuar?",
     "delete_capa": "El formulario CAPA y todas las imágenes y archivos asociados serán eliminados permanentemente del servidor. Esta acción no se puede deshacer, ¿está seguro que desea continuar?",
     "delete_file": "El archivo PDF que seleccionó para borrar es un archivo que se encuentra en el servidor. Esta acción no se puede deshacer, ¿está seguro que desea continuar?",
-    "delete_image": "La imagen que seleccionó para borrar es un archivo que se encuentra en el servidor. Esta acción no se puede deshacer, ¿está seguro que desea continuar?"
+    "delete_image": "La imagen que seleccionó para borrar es un archivo que se encuentra en el servidor. Esta acción no se puede deshacer, ¿está seguro que desea continuar?",
+    "autofill": "Todos los elementos que no hayan sido llenados serán autollenados como \"aceptables\". Asegúrese de haber llenado todos los elementos con deficiencias."
   },
   "Adverbs": {
     "before": "Antes",
@@ -122,6 +124,7 @@
     "compliance": "Cumple",
     "secured": "Asegurado",
     "conditions": "Condiciones",
+    "conditions_cleanness": "Condiciones y Limpieza",
     "activity": "Actividad",
     "acceptable": "Aceptable",
     "unacceptable": "No aceptable",
@@ -236,7 +239,8 @@
     "block_code": "Código del bloque",
     "contact": "Contacto",
     "city_location": "Ciudad y Estado",
-    "country": "Pais"
+    "country": "Pais",
+    "autofill": "Auto llenado"
   },
   "Authorization": {
     "send": "Enviar",
