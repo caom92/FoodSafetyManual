@@ -1,0 +1,9 @@
+h4(style="text-align: center;") {{ 'CustomerComplaintForm.title' | translate:lang }}
+.divider
+div
+  mz-tab([fixedTabWidth]="'true'")
+    mz-tab-item(label="{{ 'CustomerComplaintForm.view_report' | translate:lang }}")
+      customer-complaint-report-viewer
+    mz-tab-item(label="{{ 'CustomerComplaintForm.capture' | translate:lang }}")
+      customer-complaint-list(*ngIf='newCustomerComplaint !== true', (startCustomerComplaint)='onOpenCustomerComplaint($event)')
+      customer-complaint-log(*ngIf='newCustomerComplaint == true', [data]='customerComplaintData', (closeCustomerComplaint)='onCloseCustomerComplaint($event)')

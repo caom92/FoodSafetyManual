@@ -59,6 +59,7 @@ import { LogService } from '../services/log.service'
 import { ReportService } from '../services/report.service'
 import { MenuService } from '../services/app.menu'
 import { CAPAService } from '../services/capa.service'
+import { CustomerComplaintService } from '../services/customer-complaint.service'
 import { ToastsService } from '../services/toasts.service'
 import { TranslationConfigService } from '../services/translation-config.service'
 import { AreaInventoryService } from '../services/area-inventory.service'
@@ -101,6 +102,7 @@ import { RootRoutingModule } from './app-routing.root'
     ReportService,
     MenuService,
     CAPAService,
+    CustomerComplaintService,
     ToastsService,
     TranslationConfigService,
     DragulaService

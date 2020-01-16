@@ -1,0 +1,31 @@
+.custom-item-content.button-number-3
+  .row.no-margin-bottom
+    .col.s4.m4.l4 {{report.sales_order_number}}
+    .col.s4.m4.l4 {{report.complaint_date}}
+    .col.s4.m4.l4 {{report.creator_name}}
+.custom-collection-button
+  button.green(mz-button, float='true', (click)='openHTMLReport()', *ngIf='activeCustomerComplaint.id != report.id')
+    i(mz-icon-mdi, [icon]='"file-document-box"', [size]='"24px"')
+  button.red(mz-button, float='true', (click)='closeHTMLReport()', *ngIf='activeCustomerComplaint.id == report.id')
+    i(mz-icon-mdi, [icon]='"close-box"', [size]='"24px"')
+.custom-collection-button
+  form(method='POST', target='_blank', action='http://localhost/espresso/source/server/report/reportPDF.php', ngNoForm)
+    input(type='hidden', name='lang', [ngModel]='reportRequest.lang')
+    input(type='hidden', name='content', [ngModel]='reportRequest.content')
+    input(type='hidden', name='style', [ngModel]='reportRequest.style')
+    input(type='hidden', name='company', [ngModel]='reportRequest.company')
+    input(type='hidden', name='address', [ngModel]='reportRequest.address')
+    input(type='hidden', name='logo', [ngModel]='reportRequest.logo')
+    input(type='hidden', name='orientation', [ngModel]='reportRequest.orientation')
+    input(type='hidden', name='fontsize', [ngModel]='reportRequest.fontsize')
+    input(type='hidden', name='footer', [ngModel]='reportRequest.footer')
+    input(type='hidden', name='supervisor', [ngModel]='reportRequest.supervisor')
+    input(type='hidden', name='signature', [ngModel]='reportRequest.signature')
+    input(type='hidden', name='images', [ngModel]='reportRequest.images')
+    button.red.darken-4(mz-button, float='true', (click)='requestPDFReport()')
+      i(mz-icon-mdi, [icon]='"file-pdf-box"', [size]='"24px"')
+.custom-collection-button
+  button.red(mz-button, float='true', (click)='delete()', *ngIf='activeCustomerComplaint.id == report.id')
+    i(mz-icon-mdi, [icon]='"delete"', [size]='"24px"')
+.tableWrapper([hidden]='activeCustomerComplaint.id != report.id')
+  customer-complaint-report(#reportContainer, [report]='report')

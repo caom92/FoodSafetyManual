@@ -434,6 +434,12 @@
     "filterMessage": "Choose the filters you wish to apply to visualize the table",
     "errorMessage": "No elements match the selected filters"
   },
+  "FormButtons": {
+    "save": "Save",
+    "close": "Close",
+    "delete": "Delete",
+    "return": "Return"
+  },
   "CAPAForm": {
     "title": "Corrective and preventative action report form",
     "title_uppercase": "CORRECTIVE AND PREVENTATIVE ACTION REPORT FORM",
@@ -467,5 +473,37 @@
     "link": "Link",
     "pdfs": "PDFs",
     "images": "Images"
+  },
+  "CustomerComplaintForm": {
+    "title": "Customer Complaint form",
+    "view_report": "View report",
+    "capture": "Capture Customer Complaint",
+    "open": "Open Customer Complaint",
+    "start": "Start new Customer Complaint",
+    "subject": "Subject",
+    "corrective_action": "Corrective Action",
+    "customer": "Customer",
+    "complaint_date": "Complaint date",
+    "sales_order_number": "SO #",
+    "account_manager": "JFDC Account Manager",
+    "shipped_to": "Shipped to",
+    "complaint_reason": "Customer reason for complaint",
+    "root_cause": "Plausible root cause",
+    "product": "Product",
+    "quantity": "Quantity",
+    "price": "Price",
+    "product_sources": "Product sources",
+    "select_product_sources": "Select one or more product sources",
+    "shipping_point": "Shipping Point - Warehouse",
+    "incoming_qc_score": "Incoming QC Score",
+    "total_age": "Total age of product when complaint was received",
+    "shipping_age": "Average total age of product prior to shipping including transfer",
+    "transit_time": "Transit time to customer",
+    "complaint_age": "Age of product at customer prior to complaint received",
+    "date_required": "A complaint date is required",
+    "product_required": "Product name is required",
+    "quantity_required": "Product quantity is required",
+    "cost_required": "Cost is required",
+    "sources_required": "Please select one or more sources"
   }
 }

@@ -61,4 +61,15 @@ export class FormUtilService {
       }
     }
   }
+
+  public deepUpdateValueAndValidity(control: FormGroup | FormArray) {
+    control.updateValueAndValidity()
+    for (let i in control.controls) {
+      if (control.controls[i] instanceof FormControl) {
+        control.controls[i].updateValueAndValidity()
+      } else {
+        this.deepUpdateValueAndValidity(control.controls[i])
+      }
+    }
+  }
 }

@@ -92,6 +92,10 @@ const routes: Routes = [
     loadChildren: './document-viewer/document.module#DocumentModule'
   },
   {
+    path: 'customer-complaint',
+    loadChildren: './customer-complaint/customer-complaint.module#CustomerComplaintModule'
+  },
+  {
     path: '',
     redirectTo: '/menu',
     pathMatch: 'full'

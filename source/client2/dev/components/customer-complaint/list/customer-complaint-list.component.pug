@@ -1,0 +1,23 @@
+include ../../log-ionic-materialize.pug
+
+h4 {{ 'CustomerComplaintForm.open' | translate:lang }}
+
+.custom-collection
+  .custom-item
+    .custom-item-content.button-number-1
+      .row.no-margin-bottom
+        .col.s12.m12.l12 {{ 'CustomerComplaintForm.start' | translate:lang }}
+    .custom-collection-button
+      button.blue(mz-button, float='true', (click)='onCustomerComplaintOpen(true)')
+        i(mz-icon-mdi, [icon]='"new-box"', [size]='"24px"')
+  .custom-item(*ngFor='let customerComplaint of customerComplaintList')
+    .custom-item-content.button-number-1
+      .row.no-margin-bottom
+        .col.s12.m12.l12 {{customerComplaint.subject}}
+      .row.no-margin-bottom
+        .col.s4.m4.l4 {{customerComplaint.complaint_date}}
+        .col.s4.m4.l4 {{customerComplaint.creator_name}}
+        .col.s4.m4.l4 {{customerComplaint.sales_order_number}}
+    .custom-collection-button
+      button.green(mz-button, float='true', (click)='onCustomerComplaintOpen(customerComplaint.id)')
+        i(mz-icon-mdi, [icon]='"file-outline"', [size]='"24px"')

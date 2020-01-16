@@ -434,6 +434,12 @@
     "filterMessage": "Seleccione los filtros que desea aplicar para poder visualizar la tabla",
     "errorMessage": "No hay elementos que correspondan a los filtros seleccionados"
   },
+  "FormButtons": {
+    "save": "Guardar",
+    "close": "Cerrar",
+    "delete": "Borrar",
+    "return": "Regresar"
+  },
   "CAPAForm": {
     "title": "Formulario de acción correctiva y preventiva",
     "title_uppercase": "FORMULARIO DE ACCIÓN CORRECTIVA Y PREVENTIVA",
@@ -467,5 +473,37 @@
     "link": "Enlace",
     "pdfs": "PDFs",
     "images": "Imagenes"
+  },
+  "CustomerComplaintForm": {
+    "title": "Formulario de reclamación de cliente",
+    "view_report": "Ver reporte",
+    "capture": "Capturar reclamación de cliente",
+    "open": "Abrir reclamación de cliente",
+    "start": "Iniciar nuevo reclamación de cliente",
+    "subject": "Asunto",
+    "corrective_action": "Acción correctiva",
+    "customer": "Cliente",
+    "complaint_date": "Fecha de reclamación",
+    "sales_order_number": "SO #",
+    "account_manager": "Administrador de cuenta de JFDC",
+    "shipped_to": "Enviado a",
+    "complaint_reason": "Motivo de la reclamación del cliente",
+    "root_cause": "Causa raíz plausible",
+    "product": "Producto",
+    "quantity": "Cantidad",
+    "price": "Precio",
+    "product_sources": "Origen del producto",
+    "select_product_sources": "Seleccione uno o más puntos de origen del producto",
+    "shipping_point": "Punto de envío - Almacén",
+    "incoming_qc_score": "Puntaje de QC",
+    "total_age": "Edad total del producto al momento de recibir la reclamación",
+    "shipping_age": "Edad promedio total del producto previo al envío incluyendo el traslado",
+    "transit_time": "Tiempo de tránsito al cliente",
+    "complaint_age": "Edad del producto con el cliente antes de recibir la reclamación",
+    "date_required": "Se requiere una fecha de reclamación",
+    "product_required": "El nombre del producto es requerido",
+    "quantity_required": "La cantidad del producto es requerida",
+    "cost_required": "El costo del producto es requerido",
+    "sources_required": "Por favor seleccione uno o más puntos de origen del producto"
   }
 }
