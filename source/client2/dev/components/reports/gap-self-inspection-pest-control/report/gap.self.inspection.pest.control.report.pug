@@ -4,9 +4,9 @@ block report
   table(#report_body)
     thead
       tr
-        th.numberColumn {{ 'Log.number_abbr' | translate:lang }}
+        //-th.numberColumn {{ 'Log.number_abbr' | translate:lang }}
         th.areaColumn {{ 'Log.area' | translate:lang }}
-        th.securedColumn {{ 'Log.secured' | translate:lang }}
+        //-th.securedColumn {{ 'Log.secured' | translate:lang }}
         th.statusColumn {{ 'Log.conditions_cleanness' | translate:lang }}
         th.activityColumn {{ 'Log.activity' | translate:lang }}
         th.actionColumn {{ 'Log.corrective_action' | translate:lang }}
