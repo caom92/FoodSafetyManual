@@ -41,7 +41,7 @@ export abstract class SuperLogComponent implements OnInit {
         }, 200)
       }, error => {
 
-      }) 
+      })
     } else {
       // TODO En este caso, los datos de la bitácora son recibidos como
       // un input del elemento HTML

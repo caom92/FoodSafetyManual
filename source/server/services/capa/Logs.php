@@ -10,11 +10,6 @@ class Logs extends db\InsertableTable
     parent::__construct('capa_form');
   }
 
-  // recuperar todas las bitácoras abiertas en la zona
-  function selectOpenByZoneID($zoneID) {
-
-  }
-
   function selectByDateIntervalAndZoneID($startDate, $endDate, $zoneID) {
     return parent::select(
       [

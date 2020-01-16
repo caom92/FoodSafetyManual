@@ -7,8 +7,6 @@ $service = [
   'callback' => function($scope, $request) {
     $segment = $scope->session->getSegment('fsm');
     $capaForms = $scope->daoFactory->get('capa\Logs');
-    $capaFiles = $scope->daoFactory->get('capa\Files');
-    $capaImages = $scope->daoFactory->get('capa\Images');
 
     $zoneID = $segment->get('zone_id');
 

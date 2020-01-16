@@ -145,7 +145,6 @@ $service = [
     ]);
 
     // if add was successful, we obtain the inserted ID so we can use it to add files
-    //$formID = $capaTable->lastInsertId();
 
     $uploadFiles = function($field, $uploadDir) use ($formID) {
       $files = [];
