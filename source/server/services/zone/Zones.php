@@ -28,6 +28,10 @@ class Zones extends db\InsertableTable
     return parent::select("*", [ 'ORDER' => 'id' ]);
   }
 
+  function selectZoneNames() {
+    return parent::select(['id', 'name'], [ 'ORDER' => 'name' ]);
+  }
+
   // Searches a zone with the given name and returns its data if it 
   // found it or NULL otherwise
   function hasByName($zoneName) {
