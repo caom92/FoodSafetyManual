@@ -36,6 +36,7 @@ require_once realpath(dirname(__FILE__)
   .'/gap/doc_control/doc_control/services.php');
 require_once realpath(__DIR__.'/menu/services.php');
 require_once realpath(__DIR__.'/capa/services.php');
+require_once realpath(__DIR__.'/customer_complaint/services.php');
 require_once realpath(__DIR__.'/gmp/packing/atp_luminometer/services.php');
 require_once realpath(dirname(__FILE__).'/gap/self_inspection/pest_control/services.php');
 

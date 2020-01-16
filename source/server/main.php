@@ -111,7 +111,7 @@ $controller = new ServiceProvider(
       $gapOthersUnusualOccurrences, $selfInspection, $footers, $gapPreop, 
       $docControl, $coldRoomTemp, $agedProduct, $ozoneWater, $waterResource, $menu,
       $gapDocControl, $capa, $atpLuminometer, $gmpHarvestTool, $gapHarvestTool,
-      $productRevision, $harvestBlockInspection, $gapSelfInspection) {
+      $productRevision, $harvestBlockInspection, $gapSelfInspection, $customerComplaint) {
       return new db\TableFactory(
         'fsm\database\\',
         $zone['tables'] +
@@ -147,6 +147,7 @@ $controller = new ServiceProvider(
         $gapSelfInspection['tables'] +
         $menu['tables'] +
         $capa['tables'] +
+        $customerComplaint['tables'] +
         [
           'Shifts' =>
             realpath(dirname(__FILE__).'/services/Shifts.php'),
@@ -192,7 +193,8 @@ $controller = new ServiceProvider(
       $harvestBlockInspection['services'] +
       $gapSelfInspection['services'] +
       $menu['services'] +
-      $capa['services']
+      $capa['services'] +
+      $customerComplaint['services']
   ]
 );
 
