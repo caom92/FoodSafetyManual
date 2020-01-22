@@ -38,7 +38,7 @@ export class CustomerComplaintLogComponent implements OnInit {
         quantity: null
       }]
       let sources: Array<CustomerComplaintSource> = []
-      this.data = { id: null, creator_id: null, subject: null, corrective_action: null, customer: null, complaint_date: null, sales_order_number: null, account_manager: null, shipped_to: null, complaint_reason: null, root_cause: null, shipping_point: null, incoming_qc_score: null, product_age: null, shipping_age: null, transit_time: null, complaint_age: null, closure_date: null, product_details: productDetails, sources: sources }
+      this.data = { id: null, creator_id: null, subject: null, corrective_action: null, customer: null, complaint_date: null, sales_order_number: null, account_manager: null, shipped_to: null, complaint_reason: null, root_cause: null, shipping_point: null, incoming_qc_score: null, product_age: null, shipping_age: null, transit_time: null, complaint_age: null, closure_date: null, notes: null, product_details: productDetails, sources: sources }
       this.initForm()
     } else {
       // data was received from Input directive, init
@@ -81,6 +81,7 @@ export class CustomerComplaintLogComponent implements OnInit {
       shipping_age: [this.dataResolver.resolveNumber(this.data.shipping_age), []],
       transit_time: [this.dataResolver.resolveNumber(this.data.transit_time), []],
       complaint_age: [this.dataResolver.resolveNumber(this.data.complaint_age), []],
+      notes: [this.dataResolver.resolveString(this.data.notes, ''), []],
       product_details: detailsControl,
       sources: sourcesControl
     })
@@ -161,6 +162,7 @@ export class CustomerComplaintLogComponent implements OnInit {
     controlArray.push(this.customerComplaintForm.controls.shipping_age)
     controlArray.push(this.customerComplaintForm.controls.transit_time)
     controlArray.push(this.customerComplaintForm.controls.complaint_age)
+    controlArray.push(this.customerComplaintForm.controls.notes)
 
     for (let control of controlArray) {
       if (control.value === null || control.value === '') {

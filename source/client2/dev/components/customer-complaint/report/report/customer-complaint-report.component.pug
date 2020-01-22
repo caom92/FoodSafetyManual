@@ -4,67 +4,73 @@ mz-card
       table
         tbody
           tr
-            td {{ 'CustomerComplaintForm.subject' | translate:lang }}
-            td {{ report.subject }}
+            td.headerTitleColumn.pseudoHeader {{ 'CustomerComplaintForm.subject' | translate:lang }}
+            td.headerColumn {{ report.subject }}
           tr
-            td {{ 'CustomerComplaintForm.corrective_action' | translate:lang }}
-            td {{ report.corrective_action }}
+            td.headerTitleColumn.pseudoHeader {{ 'CustomerComplaintForm.corrective_action' | translate:lang }}
+            td.headerColumn([innerHtml]='report.corrective_action')
+          tr
+            td.headerTitleColumn.pseudoHeader {{ 'CustomerComplaintForm.notes' | translate:lang }}
+            td.headerColumn([innerHtml]='report.notes')
       p()= " "
       table
         tbody
           tr
-            td {{ 'CustomerComplaintForm.customer' | translate:lang }}
-            td {{ 'CustomerComplaintForm.complaint_date' | translate:lang }}
-            td {{ 'CustomerComplaintForm.sales_order_number' | translate:lang }}
-            td {{ 'CustomerComplaintForm.account_manager' | translate:lang }}
-            td {{ 'CustomerComplaintForm.shipped_to' | translate:lang }}
+            td.customerColumn.pseudoHeader {{ 'CustomerComplaintForm.customer' | translate:lang }}
+            td.complaintDateColumn.pseudoHeader {{ 'CustomerComplaintForm.complaint_date' | translate:lang }}
+            td.salesOrderNumberColumn.pseudoHeader {{ 'CustomerComplaintForm.sales_order_number' | translate:lang }}
+            td.accountManagerColumn.pseudoHeader {{ 'CustomerComplaintForm.account_manager' | translate:lang }}
+            td.shippedToColumn.pseudoHeader {{ 'CustomerComplaintForm.shipped_to' | translate:lang }}
           tr
-            td {{ report.customer }}
-            td {{ report.complaint_date }}
-            td {{ report.sales_order_number }}
-            td {{ report.account_manager }}
-            td {{ report.shipped_to }}
+            td.customerColumn {{ report.customer }}
+            td.complaintDateColumn {{ report.complaint_date }}
+            td.salesOrderNumberColumn {{ report.sales_order_number }}
+            td.accountManagerColumn {{ report.account_manager }}
+            td.shippedToColumn {{ report.shipped_to }}
+      p()= " "
+      table
+        tbody
           tr
-            td {{ 'CustomerComplaintForm.complaint_reason' | translate:lang }}
-            td(colspan='4') {{ report.complaint_reason }}
+            td.secondaryHeaderTitleColumn.pseudoHeader {{ 'CustomerComplaintForm.complaint_reason' | translate:lang }}
+            td.secondaryHeaderColumn(colspan='4', [innerHtml]='report.complaint_reason')
           tr
-            td {{ 'CustomerComplaintForm.root_cause' | translate:lang }}
-            td(colspan='4') {{ report.root_cause }}
+            td.secondaryHeaderTitleColumn.pseudoHeader {{ 'CustomerComplaintForm.root_cause' | translate:lang }}
+            td.secondaryHeaderColumn(colspan='4', [innerHtml]='report.root_cause')
       p()= " "
       table
         thead
           tr
-            th {{ 'CustomerComplaintForm.product' | translate:lang }}
-            th {{ 'CustomerComplaintForm.quantity' | translate:lang }}
-            th {{ 'CustomerComplaintForm.price' | translate:lang }}
+            th.productColumn {{ 'CustomerComplaintForm.product' | translate:lang }}
+            th.quantityColumn {{ 'CustomerComplaintForm.quantity' | translate:lang }}
+            th.costColumn {{ 'CustomerComplaintForm.price' | translate:lang }}
         tbody
           tr(*ngFor='let detail of report.details')
-            td {{ detail.product }}
-            td {{ detail.quantity }}
-            td {{ detail.cost }}
+            td.productColumn {{ detail.product }}
+            td.quantityColumn {{ detail.quantity }}
+            td.costColumn {{ detail.cost }}
       p()= " "
       table
         tbody
           tr
-            td {{ 'CustomerComplaintForm.shipping_point' | translate:lang }}
-            td {{ report.shipping_point }}
+            td.infoTitleColumn.pseudoHeader {{ 'CustomerComplaintForm.shipping_point' | translate:lang }}
+            td.infoColumn {{ report.shipping_point }}
           tr
-            td {{ 'CustomerComplaintForm.product_sources' | translate:lang }}
-            td
+            td.infoTitleColumn.pseudoHeader {{ 'CustomerComplaintForm.product_sources' | translate:lang }}
+            td.infoColumn
               ng-template(ngFor, [ngForOf]='report.sources', let-source, let-last='last') {{ source.zone_name }}
                 span(*ngIf='!last')= ", "
           tr
-            td {{ 'CustomerComplaintForm.incoming_qc_score' | translate:lang }}
-            td {{ report.incoming_qc_score }}
+            td.infoTitleColumn.pseudoHeader {{ 'CustomerComplaintForm.incoming_qc_score' | translate:lang }}
+            td.infoColumn {{ report.incoming_qc_score }}
           tr
-            td {{ 'CustomerComplaintForm.total_age' | translate:lang }}
-            td {{ report.product_age }}
+            td.infoTitleColumn.pseudoHeader {{ 'CustomerComplaintForm.total_age' | translate:lang }}
+            td.infoColumn {{ report.product_age }} {{ 'CustomerComplaintForm.days' | translate:lang }}
           tr
-            td {{ 'CustomerComplaintForm.shipping_age' | translate:lang }}
-            td {{ report.shipping_age }}
+            td.infoTitleColumn.pseudoHeader {{ 'CustomerComplaintForm.shipping_age' | translate:lang }}
+            td.infoColumn {{ report.shipping_age }} {{ 'CustomerComplaintForm.days' | translate:lang }}
           tr
-            td {{ 'CustomerComplaintForm.transit_time' | translate:lang }}
-            td {{ report.transit_time }}
+            td.infoTitleColumn.pseudoHeader {{ 'CustomerComplaintForm.transit_time' | translate:lang }}
+            td.infoColumn {{ report.transit_time }} {{ 'CustomerComplaintForm.days' | translate:lang }}
           tr
-            td {{ 'CustomerComplaintForm.complaint_age' | translate:lang }}
-            td {{ report.complaint_age }}
+            td.infoTitleColumn.pseudoHeader {{ 'CustomerComplaintForm.complaint_age' | translate:lang }}
+            td.infoColumn {{ report.complaint_age }} {{ 'CustomerComplaintForm.days' | translate:lang }}

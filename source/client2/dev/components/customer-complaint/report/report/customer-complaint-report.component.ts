@@ -18,7 +18,10 @@ export class CustomerComplaintReport implements OnInit {
   }
 
   public ngOnInit(): void {
-    //this.report.reference = (this.report.reference === String(this.report.reference)) ? this.report.reference.replace(/(?:\r\n|\r|\n)/g, '<br>') : ''
+    this.report.corrective_action = (this.report.corrective_action === String(this.report.corrective_action)) ? this.report.corrective_action.replace(/(?:\r\n|\r|\n)/g, '<br>') : ''
+    this.report.root_cause = (this.report.root_cause === String(this.report.root_cause)) ? this.report.root_cause.replace(/(?:\r\n|\r|\n)/g, '<br>') : ''
+    this.report.complaint_reason = (this.report.complaint_reason === String(this.report.complaint_reason)) ? this.report.complaint_reason.replace(/(?:\r\n|\r|\n)/g, '<br>') : ''
+    this.report.notes = (this.report.notes === String(this.report.notes)) ? this.report.notes.replace(/(?:\r\n|\r|\n)/g, '<br>') : ''
   }
 
   public getPDFContent(): Object {
@@ -40,7 +43,7 @@ export class CustomerComplaintReport implements OnInit {
   }
 
   public getCSS(): string {
-    return '<style>' + this.commonCSS() + '</style>'
+    return '<style>' + this.commonCSS() + '.fullColumn{width:630px}.productColumn{width:490px}.costColumn{width:70px}.quantityColumn{width:70px}.headerTitleColumn{width:120px}.headerColumn{width:510px}.secondaryHeaderTitleColumn{width:180px}.secondaryHeaderColumn{width:450px}.pseudoHeader{text-align:left;font-weight:bold;background-color:#4CAF50}.customerColumn{width:70px}.complaintDateColumn{width:100px}.salesOrderNumberColumn{width:70px}.accountManagerColumn{width:195px}.shippedToColumn{width:195px}.infoTitleColumn{width:400px}.infoColumn{width:230px}' + '</style>'
   }
 
   public commonCSS(): string {

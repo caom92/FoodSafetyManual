@@ -17,6 +17,7 @@ export interface CustomerComplaintReportInterface {
   transit_time: number
   complaint_age: number
   closure_date: string
+  notes: string
   product_details: Array<CustomerComplaintReportDetails>
   sources: Array<CustomerComplaintReportSource>
 }

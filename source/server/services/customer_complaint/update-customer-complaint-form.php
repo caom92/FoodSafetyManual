@@ -122,6 +122,12 @@ $service = [
       'type' => 'int',
       'min' => 1,
       'optional' => true
+    ],
+    'notes' => [
+      'type' => 'string',
+      'min_length' => 0,
+      'max_length' => 65535,
+      'optional' => true
     ]
   ],
   'callback' => function($scope, $request) {
@@ -146,6 +152,7 @@ $service = [
       'shipping_age' => (isset($request['shipping_age']) && array_key_exists('shipping_age', $request)) ? $request['shipping_age'] : NULL,
       'transit_time' => (isset($request['transit_time']) && array_key_exists('transit_time', $request)) ? $request['transit_time'] : NULL,
       'complaint_age' => (isset($request['complaint_age']) && array_key_exists('complaint_age', $request)) ? $request['complaint_age'] : NULL,
+      'notes' => (isset($request['notes']) && array_key_exists('notes', $request)) ? $request['notes'] : NULL,
     ], $request['id']);
 
     $details = (isset($request['product_details']) && array_key_exists('product_details', $request)) ? $request['product_details'] : [];

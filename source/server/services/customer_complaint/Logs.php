@@ -31,6 +31,7 @@ class Logs extends db\InsertableTable
         'shipping_age',
         'transit_time',
         'complaint_age',
+        'notes',
         'a.first_name(accepter_first_name)',
         'a.last_name(accepter_last_name)',
         'closure_date'
@@ -78,6 +79,7 @@ class Logs extends db\InsertableTable
         'shipping_age',
         'transit_time',
         'complaint_age',
+        'notes',
         'a.first_name(accepter_first_name)',
         'a.last_name(accepter_last_name)',
         'closure_date'
