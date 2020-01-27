@@ -74,11 +74,39 @@ $service = [
         ],
         'cost' => [
           'type' => 'int',
-          'min' => 1
+          'min' => 1,
+          'optional' => true
         ],
         'quantity' => [
           'type' => 'int',
-          'min' => 1
+          'min' => 1,
+          'optional' => true
+        ],
+        'product_age' => [
+          'type' => 'int',
+          'min' => 1,
+          'optional' => true
+        ],
+        'shipping_age' => [
+          'type' => 'int',
+          'min' => 1,
+          'optional' => true
+        ],
+        'transit_time' => [
+          'type' => 'int',
+          'min' => 1,
+          'optional' => true
+        ],
+        'complaint_age' => [
+          'type' => 'int',
+          'min' => 1,
+          'optional' => true
+        ],
+        'incoming_qc_score' => [
+          'type' => 'string',
+          'min_length' => 0,
+          'max_length' => 65535,
+          'optional' => true
         ]
       ]
     ],
@@ -95,32 +123,6 @@ $service = [
       'type' => 'string',
       'min_length' => 0,
       'max_length' => 65535,
-      'optional' => true
-    ],
-    'incoming_qc_score' => [
-      'type' => 'string',
-      'min_length' => 0,
-      'max_length' => 65535,
-      'optional' => true
-    ],
-    'product_age' => [
-      'type' => 'int',
-      'min' => 1,
-      'optional' => true
-    ],
-    'shipping_age' => [
-      'type' => 'int',
-      'min' => 1,
-      'optional' => true
-    ],
-    'transit_time' => [
-      'type' => 'int',
-      'min' => 1,
-      'optional' => true
-    ],
-    'complaint_age' => [
-      'type' => 'int',
-      'min' => 1,
       'optional' => true
     ],
     'notes' => [
@@ -147,11 +149,6 @@ $service = [
       'complaint_reason' => (isset($request['complaint_reason']) && array_key_exists('complaint_reason', $request)) ? $request['complaint_reason'] : NULL,
       'root_cause' => (isset($request['root_cause']) && array_key_exists('root_cause', $request)) ? $request['root_cause'] : NULL,
       'shipping_point' => (isset($request['shipping_point']) && array_key_exists('shipping_point', $request)) ? $request['shipping_point'] : NULL,
-      'incoming_qc_score' => (isset($request['incoming_qc_score']) && array_key_exists('incoming_qc_score', $request)) ? $request['incoming_qc_score'] : NULL,
-      'product_age' => (isset($request['product_age']) && array_key_exists('product_age', $request)) ? $request['product_age'] : NULL,
-      'shipping_age' => (isset($request['shipping_age']) && array_key_exists('shipping_age', $request)) ? $request['shipping_age'] : NULL,
-      'transit_time' => (isset($request['transit_time']) && array_key_exists('transit_time', $request)) ? $request['transit_time'] : NULL,
-      'complaint_age' => (isset($request['complaint_age']) && array_key_exists('complaint_age', $request)) ? $request['complaint_age'] : NULL,
       'notes' => (isset($request['notes']) && array_key_exists('notes', $request)) ? $request['notes'] : NULL,
     ], $request['id']);
 
@@ -169,7 +166,12 @@ $service = [
             [
               'product' => $detail['product'],
               'cost' => $detail['cost'],
-              'quantity' => $detail['quantity']
+              'quantity' => $detail['quantity'],
+              'product_age' => $detail['product_age'],
+              'shipping_age' => $detail['shipping_age'],
+              'transit_time' => $detail['transit_time'],
+              'complaint_age' => $detail['complaint_age'],
+              'incoming_qc_score' => $detail['incoming_qc_score']
             ],
             $request['id'],
             $detail['entry_num']
@@ -181,7 +183,12 @@ $service = [
             'entry_num' => $detail['entry_num'],
             'product' => $detail['product'],
             'cost' => $detail['cost'],
-            'quantity' => $detail['quantity']
+            'quantity' => $detail['quantity'],
+            'product_age' => $detail['product_age'],
+            'shipping_age' => $detail['shipping_age'],
+            'transit_time' => $detail['transit_time'],
+            'complaint_age' => $detail['complaint_age'],
+            'incoming_qc_score' => $detail['incoming_qc_score']
           ]);
         }
 

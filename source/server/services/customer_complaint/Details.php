@@ -18,7 +18,12 @@ class Details extends db\InsertableTable
         'entry_num',
         'product',
         'cost',
-        'quantity'
+        'quantity',
+        'product_age',
+        'shipping_age',
+        'transit_time',
+        'complaint_age',
+        'incoming_qc_score',
       ],
       [
         'form_id' => $formID

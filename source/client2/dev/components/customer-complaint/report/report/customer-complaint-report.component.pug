@@ -43,34 +43,36 @@ mz-card
             th.productColumn {{ 'CustomerComplaintForm.product' | translate:lang }}
             th.quantityColumn {{ 'CustomerComplaintForm.quantity' | translate:lang }}
             th.costColumn {{ 'CustomerComplaintForm.price' | translate:lang }}
+            th.productAgeColumn {{ 'CustomerComplaintForm.total_age_abbr' | translate:lang }}
+            th.shippingAgeColumn {{ 'CustomerComplaintForm.shipping_age_abbr' | translate:lang }}
+            th.transitTimeColumn {{ 'CustomerComplaintForm.transit_time_abbr' | translate:lang }}
+            th.complaintAgeColumn {{ 'CustomerComplaintForm.complaint_age_abbr' | translate:lang }}
+            th.incomingQCScoreColumn {{ 'CustomerComplaintForm.incoming_qc_score' | translate:lang }}
         tbody
           tr(*ngFor='let detail of report.details')
             td.productColumn {{ detail.product }}
             td.quantityColumn {{ detail.quantity }}
             td.costColumn {{ detail.cost }}
+            td.productAgeColumn {{ detail.product_age }} {{ 'CustomerComplaintForm.days' | translate:lang }}
+            td.shippingAgeColumn {{ detail.shipping_age }} {{ 'CustomerComplaintForm.days' | translate:lang }}
+            td.transitTimeColumn {{ detail.transit_time }} {{ 'CustomerComplaintForm.days' | translate:lang }}
+            td.complaintAgeColumn {{ detail.complaint_age }} {{ 'CustomerComplaintForm.days' | translate:lang }}
+            td.incomingQCScoreColumn {{ detail.incoming_qc_score }}
+      span() {{ 'CustomerComplaintForm.total_age_abbr' | translate:lang }} = {{ 'CustomerComplaintForm.total_age' | translate:lang }}
+      br
+      span() {{ 'CustomerComplaintForm.shipping_age_abbr' | translate:lang }} = {{ 'CustomerComplaintForm.shipping_age' | translate:lang }}
+      br
+      span() {{ 'CustomerComplaintForm.transit_time_abbr' | translate:lang }} = {{ 'CustomerComplaintForm.transit_time' | translate:lang }}
+      br
+      span() {{ 'CustomerComplaintForm.complaint_age_abbr' | translate:lang }} = {{ 'CustomerComplaintForm.complaint_age' | translate:lang }}
       p()= " "
       table
         tbody
           tr
-            td.infoTitleColumn.pseudoHeader {{ 'CustomerComplaintForm.shipping_point' | translate:lang }}
-            td.infoColumn {{ report.shipping_point }}
+            td.secondaryHeaderTitleColumn.pseudoHeader {{ 'CustomerComplaintForm.shipping_point' | translate:lang }}
+            td.secondaryHeaderColumn {{ report.shipping_point }}
           tr
-            td.infoTitleColumn.pseudoHeader {{ 'CustomerComplaintForm.product_sources' | translate:lang }}
-            td.infoColumn
+            td.secondaryHeaderTitleColumn.pseudoHeader {{ 'CustomerComplaintForm.product_sources' | translate:lang }}
+            td.secondaryHeaderColumn
               ng-template(ngFor, [ngForOf]='report.sources', let-source, let-last='last') {{ source.zone_name }}
                 span(*ngIf='!last')= ", "
-          tr
-            td.infoTitleColumn.pseudoHeader {{ 'CustomerComplaintForm.incoming_qc_score' | translate:lang }}
-            td.infoColumn {{ report.incoming_qc_score }}
-          tr
-            td.infoTitleColumn.pseudoHeader {{ 'CustomerComplaintForm.total_age' | translate:lang }}
-            td.infoColumn {{ report.product_age }} {{ 'CustomerComplaintForm.days' | translate:lang }}
-          tr
-            td.infoTitleColumn.pseudoHeader {{ 'CustomerComplaintForm.shipping_age' | translate:lang }}
-            td.infoColumn {{ report.shipping_age }} {{ 'CustomerComplaintForm.days' | translate:lang }}
-          tr
-            td.infoTitleColumn.pseudoHeader {{ 'CustomerComplaintForm.transit_time' | translate:lang }}
-            td.infoColumn {{ report.transit_time }} {{ 'CustomerComplaintForm.days' | translate:lang }}
-          tr
-            td.infoTitleColumn.pseudoHeader {{ 'CustomerComplaintForm.complaint_age' | translate:lang }}
-            td.infoColumn {{ report.complaint_age }} {{ 'CustomerComplaintForm.days' | translate:lang }}

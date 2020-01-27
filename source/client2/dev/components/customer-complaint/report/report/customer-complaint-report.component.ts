@@ -31,7 +31,7 @@ export class CustomerComplaintReport implements OnInit {
   }
 
   public getOrientation(): string {
-    return 'P'
+    return 'L'
   }
 
   public getFontSize(): string {
@@ -43,7 +43,7 @@ export class CustomerComplaintReport implements OnInit {
   }
 
   public getCSS(): string {
-    return '<style>' + this.commonCSS() + '.fullColumn{width:630px}.productColumn{width:490px}.costColumn{width:70px}.quantityColumn{width:70px}.headerTitleColumn{width:120px}.headerColumn{width:510px}.secondaryHeaderTitleColumn{width:180px}.secondaryHeaderColumn{width:450px}.pseudoHeader{text-align:left;font-weight:bold;background-color:#4CAF50}.customerColumn{width:70px}.complaintDateColumn{width:100px}.salesOrderNumberColumn{width:70px}.accountManagerColumn{width:195px}.shippedToColumn{width:195px}.infoTitleColumn{width:400px}.infoColumn{width:230px}' + '</style>'
+    return '<style>' + this.commonCSS() + '.fullColumn{width:940px}.productColumn{width:260px}.costColumn{width:70px}.quantityColumn{width:70px}.productAgeColumn{width:70px}.shippingAgeColumn{width:70px}.transitTimeColumn{width:70px}.complaintAgeColumn{width:70px}.incomingQCScoreColumn{width:260px}.headerTitleColumn{width:120px}.headerColumn{width:820px}.secondaryHeaderTitleColumn{width:180px}.secondaryHeaderColumn{width:760px}.pseudoHeader{text-align:left;font-weight:bold;background-color:#4CAF50}.customerColumn{width:225px}.complaintDateColumn{width:100px}.salesOrderNumberColumn{width:70px}.accountManagerColumn{width:350px}.shippedToColumn{width:195px}' + '</style>'
   }
 
   public commonCSS(): string {

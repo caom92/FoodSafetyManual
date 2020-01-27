@@ -35,10 +35,15 @@ export class CustomerComplaintLogComponent implements OnInit {
         entry_num: 1,
         product: null,
         cost: null,
-        quantity: null
+        quantity: null,
+        product_age: null,
+        shipping_age: null,
+        transit_time: null,
+        complaint_age: null,
+        incoming_qc_score: null
       }]
       let sources: Array<CustomerComplaintSource> = []
-      this.data = { id: null, creator_id: null, subject: null, corrective_action: null, customer: null, complaint_date: null, sales_order_number: null, account_manager: null, shipped_to: null, complaint_reason: null, root_cause: null, shipping_point: null, incoming_qc_score: null, product_age: null, shipping_age: null, transit_time: null, complaint_age: null, closure_date: null, notes: null, product_details: productDetails, sources: sources }
+      this.data = { id: null, creator_id: null, subject: null, corrective_action: null, customer: null, complaint_date: null, sales_order_number: null, account_manager: null, shipped_to: null, complaint_reason: null, root_cause: null, shipping_point: null, closure_date: null, notes: null, product_details: productDetails, sources: sources }
       this.initForm()
     } else {
       // data was received from Input directive, init
@@ -76,11 +81,6 @@ export class CustomerComplaintLogComponent implements OnInit {
       complaint_reason: [this.dataResolver.resolveString(this.data.complaint_reason, ''), []],
       root_cause: [this.dataResolver.resolveString(this.data.root_cause, ''), []],
       shipping_point: [this.dataResolver.resolveString(this.data.shipping_point, ''), []],
-      incoming_qc_score: [this.dataResolver.resolveString(this.data.incoming_qc_score, ''), []],
-      product_age: [this.dataResolver.resolveNumber(this.data.product_age), []],
-      shipping_age: [this.dataResolver.resolveNumber(this.data.shipping_age), []],
-      transit_time: [this.dataResolver.resolveNumber(this.data.transit_time), []],
-      complaint_age: [this.dataResolver.resolveNumber(this.data.complaint_age), []],
       notes: [this.dataResolver.resolveString(this.data.notes, ''), []],
       product_details: detailsControl,
       sources: sourcesControl
@@ -107,8 +107,13 @@ export class CustomerComplaintLogComponent implements OnInit {
     let detailsGroup: FormGroup = this.formBuilder.group({
       entry_num: [this.dataResolver.resolveNumber(details.entry_num), [Validators.required]],
       product: [this.dataResolver.resolveString(details.product), [Validators.required]],
-      cost: [this.dataResolver.resolveNumber(details.cost), [Validators.required]],
-      quantity: [this.dataResolver.resolveNumber(details.quantity), [Validators.required]]
+      cost: [this.dataResolver.resolveNumber(details.cost), []],
+      quantity: [this.dataResolver.resolveNumber(details.quantity), []],
+      product_age: [this.dataResolver.resolveNumber(details.product_age), []],
+      shipping_age: [this.dataResolver.resolveNumber(details.shipping_age), []],
+      transit_time: [this.dataResolver.resolveNumber(details.transit_time), []],
+      complaint_age: [this.dataResolver.resolveNumber(details.complaint_age), []],
+      incoming_qc_score: [this.dataResolver.resolveString(details.incoming_qc_score, ''), []]
     })
 
     return detailsGroup
@@ -123,7 +128,12 @@ export class CustomerComplaintLogComponent implements OnInit {
       entry_num: control.controls.length + 1,
       product: null,
       cost: null,
-      quantity: null
+      quantity: null,
+      product_age: null,
+      shipping_age: null,
+      transit_time: null,
+      complaint_age: null,
+      incoming_qc_score: null
     }
 
     this.data.product_details.push(detail)
@@ -157,16 +167,31 @@ export class CustomerComplaintLogComponent implements OnInit {
     controlArray.push(this.customerComplaintForm.controls.complaint_reason)
     controlArray.push(this.customerComplaintForm.controls.root_cause)
     controlArray.push(this.customerComplaintForm.controls.shipping_point)
-    controlArray.push(this.customerComplaintForm.controls.incoming_qc_score)
-    controlArray.push(this.customerComplaintForm.controls.product_age)
-    controlArray.push(this.customerComplaintForm.controls.shipping_age)
-    controlArray.push(this.customerComplaintForm.controls.transit_time)
-    controlArray.push(this.customerComplaintForm.controls.complaint_age)
     controlArray.push(this.customerComplaintForm.controls.notes)
 
     for (let control of controlArray) {
       if (control.value === null || control.value === '') {
         control.disable()
+      }
+    }
+
+    let details: FormArray = <FormArray>this.customerComplaintForm.controls.product_details
+
+    for (let detail of details.controls) {
+      let detailsControlArray: Array<AbstractControl> = []
+
+      detailsControlArray.push((<FormGroup>detail).controls.cost)
+      detailsControlArray.push((<FormGroup>detail).controls.quantity)
+      detailsControlArray.push((<FormGroup>detail).controls.product_age)
+      detailsControlArray.push((<FormGroup>detail).controls.shipping_age)
+      detailsControlArray.push((<FormGroup>detail).controls.transit_time)
+      detailsControlArray.push((<FormGroup>detail).controls.complaint_age)
+      detailsControlArray.push((<FormGroup>detail).controls.incoming_qc_score)
+      
+      for (let detailControl of detailsControlArray) {
+        if (detailControl.value === null || detailControl.value === '') {
+          detailControl.disable()
+        }
       }
     }
   }

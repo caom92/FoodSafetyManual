@@ -11,11 +11,6 @@ export interface CustomerComplaintReportInterface {
   complaint_reason: string
   root_cause: string
   shipping_point: string
-  incoming_qc_score: string
-  product_age: number
-  shipping_age: number
-  transit_time: number
-  complaint_age: number
   closure_date: string
   notes: string
   product_details: Array<CustomerComplaintReportDetails>
@@ -28,6 +23,11 @@ export interface CustomerComplaintReportDetails {
   product: string
   cost: number
   quantity: number
+  product_age: number
+  shipping_age: number
+  transit_time: number
+  complaint_age: number
+  incoming_qc_score: string
 }
 
 export interface CustomerComplaintReportSource {
