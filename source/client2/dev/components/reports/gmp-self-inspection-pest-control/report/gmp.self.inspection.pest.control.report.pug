@@ -10,6 +10,7 @@ block report
         th.statusColumn {{ 'Log.conditions' | translate:lang }}
         th.activityColumn {{ 'Log.activity' | translate:lang }}
         th.actionColumn {{ 'Log.corrective_action' | translate:lang }}
+        th.observationColumn {{ 'Log.observations' | translate:lang }}
     tbody
       ng-template(ngFor, let-area, [ngForOf]='report.rooms')
         tr(gmp-self-inspection-pest-control-report-area, [area]='area')

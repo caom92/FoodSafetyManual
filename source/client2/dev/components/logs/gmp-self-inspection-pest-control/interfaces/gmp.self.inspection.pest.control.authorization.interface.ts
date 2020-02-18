@@ -19,4 +19,5 @@ export interface AuthorizationItem {
   condition: number
   activity: number
   corrective_actions: string
+  observations: string
 }

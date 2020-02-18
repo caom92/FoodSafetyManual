@@ -7,3 +7,4 @@ td.statusColumn(*ngIf='item.condition == 0') {{ 'Log.unacceptable' | translate:l
 td.activityColumn(*ngIf='item.activity == 1') {{ 'Log.yes' | translate:lang }}
 td.activityColumn(*ngIf='item.activity == 0') {{ 'Log.no' | translate:lang }}
 td.actionColumn {{item.corrective_actions}}
+td.observationColumn {{item.observations}}

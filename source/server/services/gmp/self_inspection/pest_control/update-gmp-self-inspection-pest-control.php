@@ -30,7 +30,13 @@ $service = fsm\createUpdateService(
         ],
         'corrective_actions' => [
           'type' => 'string',
-          'max_length' => 65535
+          'max_length' => 65535,
+          'optional' => true
+        ],
+        'observations' => [
+          'type' => 'string',
+          'max_length' => 65535,
+          'optional' => true
         ]
       ]
     ]
@@ -47,7 +53,8 @@ $service = fsm\createUpdateService(
             'is_secured' => $station['is_secured'],
             'is_condition_acceptable' => $station['condition'],
             'has_activity' => $station['activity'],
-            'corrective_actions' => $station['corrective_actions']
+            'corrective_actions' => (isset($station['corrective_actions']) && array_key_exists('corrective_actions', $station)) ? $station['corrective_actions'] : NULL,
+            'observations' => (isset($station['observations']) && array_key_exists('observations', $station)) ? $station['observations'] : NULL
           ],
           $request['report_id'],
           $station['id']

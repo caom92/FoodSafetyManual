@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { FormArray, FormBuilder, Validators } from '@angular/forms'
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
@@ -63,7 +63,23 @@ export class GMPSelfInspectionPestControlAuthorizationComponent extends SuperAut
       is_secured: [(item.secured == 1) ? true : (item.secured == 0) ? false : null, [Validators.required]],
       condition: [(item.condition == 1) ? true : (item.condition == 0) ? false : null, [Validators.required]],
       activity: [(item.activity == 1) ? true : (item.activity == 0) ? false : null, [Validators.required]],
-      corrective_actions: [item.corrective_actions]
+      corrective_actions: [item.corrective_actions, [Validators.required]],
+      observations: [item.observations]
     })
+  }
+
+  public cleanForm(): void {
+    let items: FormArray = <FormArray>this.captureForm.controls.stations
+
+    for (let item of items.controls) {
+      if (item.value.condition !== false && item.value.activity !== true) {
+        let correctiveActionsControl = (<FormGroup>item).controls.corrective_actions
+        correctiveActionsControl.disable()
+      }
+    }
+  }
+
+  public enableForm(): void {
+    this.captureForm.enable()
   }
 }

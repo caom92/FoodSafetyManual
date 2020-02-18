@@ -165,13 +165,13 @@ $service = [
           $detailsTable->updateByFormIDAndEntry(
             [
               'product' => $detail['product'],
-              'cost' => $detail['cost'],
-              'quantity' => $detail['quantity'],
-              'product_age' => $detail['product_age'],
-              'shipping_age' => $detail['shipping_age'],
-              'transit_time' => $detail['transit_time'],
-              'complaint_age' => $detail['complaint_age'],
-              'incoming_qc_score' => $detail['incoming_qc_score']
+              'cost' => (isset($detail['cost']) && array_key_exists('cost', $detail)) ? $detail['cost'] : NULL,
+              'quantity' => (isset($detail['quantity']) && array_key_exists('quantity', $detail)) ? $detail['quantity'] : NULL,
+              'product_age' => (isset($detail['product_age']) && array_key_exists('product_age', $detail)) ? $detail['product_age'] : NULL,
+              'shipping_age' => (isset($detail['shipping_age']) && array_key_exists('shipping_age', $detail)) ? $detail['shipping_age'] : NULL,
+              'transit_time' => (isset($detail['transit_time']) && array_key_exists('transit_time', $detail)) ? $detail['transit_time'] : NULL,
+              'complaint_age' => (isset($detail['complaint_age']) && array_key_exists('complaint_age', $detail)) ? $detail['complaint_age'] : NULL,
+              'incoming_qc_score' => (isset($detail['incoming_qc_score']) && array_key_exists('incoming_qc_score', $detail)) ? $detail['incoming_qc_score'] : NULL,
             ],
             $request['id'],
             $detail['entry_num']
@@ -182,13 +182,13 @@ $service = [
             'form_id' => $request['id'],
             'entry_num' => $detail['entry_num'],
             'product' => $detail['product'],
-            'cost' => $detail['cost'],
-            'quantity' => $detail['quantity'],
-            'product_age' => $detail['product_age'],
-            'shipping_age' => $detail['shipping_age'],
-            'transit_time' => $detail['transit_time'],
-            'complaint_age' => $detail['complaint_age'],
-            'incoming_qc_score' => $detail['incoming_qc_score']
+            'cost' => (isset($detail['cost']) && array_key_exists('cost', $detail)) ? $detail['cost'] : NULL,
+            'quantity' => (isset($detail['quantity']) && array_key_exists('quantity', $detail)) ? $detail['quantity'] : NULL,
+            'product_age' => (isset($detail['product_age']) && array_key_exists('product_age', $detail)) ? $detail['product_age'] : NULL,
+            'shipping_age' => (isset($detail['shipping_age']) && array_key_exists('shipping_age', $detail)) ? $detail['shipping_age'] : NULL,
+            'transit_time' => (isset($detail['transit_time']) && array_key_exists('transit_time', $detail)) ? $detail['transit_time'] : NULL,
+            'complaint_age' => (isset($detail['complaint_age']) && array_key_exists('complaint_age', $detail)) ? $detail['complaint_age'] : NULL,
+            'incoming_qc_score' => (isset($detail['incoming_qc_score']) && array_key_exists('incoming_qc_score', $detail)) ? $detail['incoming_qc_score'] : NULL,
           ]);
         }
 

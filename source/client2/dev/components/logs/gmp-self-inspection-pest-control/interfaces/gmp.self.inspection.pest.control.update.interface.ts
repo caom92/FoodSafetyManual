@@ -11,4 +11,5 @@ export interface UpdateItem {
   condition: boolean
   activity: boolean
   corrective_actions: string
+  observations: string
 }

@@ -18,7 +18,11 @@ export class GMPSelfInspectionPestControlReportComponent extends SuperReportComp
     super(translationService)
   }
 
+  public getOrientation(): string {
+    return 'L'
+  }
+
   public getCSS(appendCSS?: string): string {
-    return '<style>' + this.commonCSS() + ((appendCSS === String(appendCSS)) ? appendCSS : '') + '.even{background-color:#b8e0b9}.typeTitle{background-color:yellow;width:588px}.fullColumn{background-color:#D3D3D3;width:631px}.numberColumn{width:47px}.areaColumn{width:195px}.securedColumn{width:75px}.statusColumn{width:100px}.activityColumn{width:70px}.actionColumn{width:144px}</style>'
+    return '<style>' + this.commonCSS() + ((appendCSS === String(appendCSS)) ? appendCSS : '') + '.even{background-color:#b8e0b9}.typeTitle{background-color:yellow;width:588px}.fullColumn{background-color:#D3D3D3;width:940px}.numberColumn{width:47px}.areaColumn{width:194px}.securedColumn{width:75px}.statusColumn{width:100px}.activityColumn{width:70px}.actionColumn{width:227px}.observationColumn{width:227px}</style>'
   }
 }

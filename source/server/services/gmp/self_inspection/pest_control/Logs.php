@@ -32,7 +32,8 @@ class Logs extends db\LogTable
         'is_secured(secured)',
         'is_condition_acceptable(condition)',
         'has_activity(activity)',
-        'corrective_actions'
+        'corrective_actions',
+        'observations'
       ],
       [
         'capture_date_id' => $dateID,

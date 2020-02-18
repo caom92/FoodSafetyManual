@@ -10,6 +10,16 @@ $service = [
     'end_date' => [
       'type' => 'datetime',
       'format' => 'Y-m-d'
+    ],
+    'sources' => [
+      'type' => 'array',
+      'optional' => true,
+      'values' => [
+        'id' => [
+          'type' => 'int',
+          'min' => 1
+        ]
+      ]
     ]
   ],
   'callback' => function($scope, $request) {
@@ -19,7 +29,21 @@ $service = [
     $customerComplaintSources = $scope->daoFactory->get('customerComplaint\Sources');
     $zoneID = $segment->get('zone_id');
 
-    $forms = $customerComplaintForms->selectByDateIntervalAndZoneID($request['start_date'], $request['end_date'], $zoneID);
+    if (isset($request['sources']) && array_key_exists('sources', $request)) {
+      if (count($request['sources']) > 0) {
+        $zones = '';
+        foreach ($request['sources'] as $source) {
+          $zones = $zones.$source['id'].',';
+        }
+        $zones = substr($zones, 0, -1);
+
+        $forms = $customerComplaintForms->selectByDateIntervalAndZones($request['start_date'], $request['end_date'], $zones);
+      } else {
+        $forms = $customerComplaintForms->selectByDateInterval($request['start_date'], $request['end_date']);  
+      }
+    } else {
+      $forms = $customerComplaintForms->selectByDateInterval($request['start_date'], $request['end_date']);
+    }
 
     foreach ($forms as &$form) {
       $form['creator_name'] = $form['creator_first_name'].' '.$form['creator_last_name'];

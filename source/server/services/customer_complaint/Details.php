@@ -23,7 +23,7 @@ class Details extends db\InsertableTable
         'shipping_age',
         'transit_time',
         'complaint_age',
-        'incoming_qc_score',
+        'incoming_qc_score'
       ],
       [
         'form_id' => $formID

@@ -53,8 +53,8 @@ $service = fsm\createReportService(
               'secured' => $station['secured'],
               'condition' => $station['condition'],
               'activity' => $station['activity'],
-              'corrective_actions' => 
-                $station['corrective_actions']
+              'corrective_actions' => $station['corrective_actions'],
+              'observations' => $station['observations']
             ]]
           ];
         } else {
@@ -67,7 +67,9 @@ $service = fsm\createReportService(
             'condition' => $station['condition'],
             'activity' => $station['activity'],
             'corrective_actions' => 
-              $station['corrective_actions']
+              $station['corrective_actions'],
+            'observations' => 
+              $station['observations']
           ]);
         }
       }

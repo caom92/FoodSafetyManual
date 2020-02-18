@@ -11,6 +11,17 @@ div
             i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
             input(mz-datepicker, label="{{ 'Log.final_date' | translate:lang }}", type='text', formControlName='end_date', [options]='dateOptions')
         .row
+          .col.s6.m6.l6
+            mz-radio-button-container
+              input(mz-radio-button, type='radio', name='selectZones', id='all', label="{{ 'CustomerComplaintForm.search_all_zones' | translate:lang }}", [(ngModel)]='selectZones', [ngModelOptions]='{standalone: true}', [value]='false', (change)='onOptionChange()')
+          .col.s6.m6.l6
+            mz-radio-button-container
+              input(mz-radio-button, type='radio', name='selectZones', id='few', label="{{ 'CustomerComplaintForm.search_selected_zones' | translate:lang }}", [(ngModel)]='selectZones', [ngModelOptions]='{standalone: true}', [value]='true', (change)='onOptionChange()')
+        .row([hidden]='!selectZones')
+          mz-select-container
+            select(multiple, mz-select, label="{{ 'CustomerComplaintForm.zones' | translate:lang }}", formControlName='sources', placeholder="{{ 'CustomerComplaintForm.select_zones' | translate:lang }}")
+              option(*ngFor='let zone of zoneList', [ngValue]='{ id: zone.id }') {{zone.name}}
+        .row
           .col.s12.m12.l12.center
             button(mz-button, [disabled]='!dateRangeForm.valid')
               | {{ 'Open Report' | translate:lang }}

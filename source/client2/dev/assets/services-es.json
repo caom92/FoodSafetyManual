@@ -208,6 +208,12 @@
     "add-gap-doc-control-doc-control": {
       "0": "Elemento agregado exitosamente"
     },
+    "add-gap-packing-harvest-block-inspection": {
+      "0": "Elemento agregado exitosamente"
+    },
+    "add-gap-packing-harvest-tool": {
+      "0": "Elemento agregado exitosamente"
+    },
     "add-gap-packing-preop": {
       "0": "Elemento agregado exitosamente"
     },
@@ -227,6 +233,9 @@
       "0": "Elemento agregado exitosamente"
     },
     "add-gmp-packing-hand-washing": {
+      "0": "Elemento agregado exitosamente"
+    },
+    "add-gmp-packing-harvest-tool": {
       "0": "Elemento agregado exitosamente"
     },
     "add-gmp-packing-ozone-water": {
@@ -277,10 +286,16 @@
     "authorization-report-gap-others-unusual-occurrence": {
       "0": "Datos de la bitácora recuperados exitosamente"
     },
-    "authorization-report-gap-packing-water-resource": {
+    "authorization-report-gap-packing-harvest-block-inspection": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "authorization-report-gap-packing-harvest-tool": {
       "0": "Datos de la bitácora recuperados exitosamente"
     },
     "authorization-report-gap-packing-preop": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "authorization-report-gap-packing-water-resource": {
       "0": "Datos de la bitácora recuperados exitosamente"
     },
     "authorization-report-gmp-doc-control-doc-control": {
@@ -307,6 +322,9 @@
     "authorization-report-gmp-packing-hand-washing": {
       "0": "Datos de la bitácora recuperados exitosamente"
     },
+    "authorization-report-gmp-packing-harvest-tool": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
     "authorization-report-gmp-packing-ozone-water": {
       "0": "Datos de la bitácora recuperados exitosamente"
     },
@@ -329,6 +347,12 @@
       "0": "La bitácora ha sido enviada exitosamente"
     },
     "capture-gap-others-unusual-occurrence": {
+      "0": "La bitácora ha sido enviada exitosamente"
+    },
+    "capture-gap-packing-harvest-block-inspection": {
+      "0": "La bitácora ha sido enviada exitosamente"
+    },
+    "capture-gap-packing-harvest-tool": {
       "0": "La bitácora ha sido enviada exitosamente"
     },
     "capture-gap-packing-preop": {
@@ -359,6 +383,9 @@
       "0": "La bitácora ha sido enviada exitosamente"
     },
     "capture-gmp-packing-hand-washing": {
+      "0": "La bitácora ha sido enviada exitosamente"
+    },
+    "capture-gmp-packing-harvest-tool": {
       "0": "La bitácora ha sido enviada exitosamente"
     },
     "capture-gmp-packing-ozone-water": {
@@ -434,6 +461,12 @@
     "inventory-gap-doc-control-doc-control": {
       "0": "Inventario recuperado exitosamente"
     },
+    "inventory-gap-packing-harvest-block-inspection": {
+      "0": "Inventario recuperado exitosamente"
+    },
+    "inventory-gap-packing-harvest-tool": {
+      "0": "Inventario recuperado exitosamente"
+    },
     "inventory-gap-packing-preop": {
       "0": "Inventario recuperado exitosamente"
     },
@@ -453,6 +486,9 @@
       "0": "Inventario recuperado exitosamente"
     },
     "inventory-gmp-packing-hand-washing": {
+      "0": "Inventario recuperado exitosamente"
+    },
+    "inventory-gmp-packing-harvest-tool": {
       "0": "Inventario recuperado exitosamente"
     },
     "inventory-gmp-packing-ozone-water": {
@@ -479,7 +515,16 @@
     "list-corrective-actions-gmp-packing-preop": {
       "0": "Acciones correctivas recuperadas exitosamente"
     },
+    "list-waiting-logs-gap-packing-harvest-block-inspection": {
+      "0": "Lista de bitácoras recuperada exitosamente"
+    },
+    "list-waiting-logs-gap-packing-harvest-tool": {
+      "0": "Lista de bitácoras recuperada exitosamente"
+    },
     "list-waiting-logs-gap-packing-water-resource": {
+      "0": "Lista de bitácoras recuperada exitosamente"
+    },
+    "list-waiting-logs-gmp-packing-harvest-tool": {
       "0": "Lista de bitácoras recuperada exitosamente"
     },
     "list-waiting-logs-gmp-packing-ozone-water": {
@@ -489,6 +534,12 @@
       "0": "Datos de la bitácora recuperados exitosamente"
     },
     "log-gap-others-unusual-occurrence": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "log-gap-packing-harvest-block-inspection": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "log-gap-packing-harvest-tool": {
       "0": "Datos de la bitácora recuperados exitosamente"
     },
     "log-gap-packing-preop": {
@@ -519,6 +570,9 @@
       "0": "Datos de la bitácora recuperados exitosamente"
     },
     "log-gmp-packing-hand-washing": {
+      "0": "Datos de la bitácora recuperados exitosamente"
+    },
+    "log-gmp-packing-harvest-tool": {
       "0": "Datos de la bitácora recuperados exitosamente"
     },
     "log-gmp-packing-ozone-water": {
@@ -554,6 +608,16 @@
       "1": "Posición invalidad ingresada; el reordenamiento no pudo completarse",
       "2": "Posición ingresada dos veces; el reordenamiento no pudo completarse"
     },
+    "reorder-gap-packing-harvest-block-inspection": {
+      "0": "Inventario reordenado exitosamente",
+      "1": "Posición invalidad ingresada; el reordenamiento no pudo completarse",
+      "2": "Posición ingresada dos veces; el reordenamiento no pudo completarse"
+    },
+    "reorder-gap-packing-harvest-tool": {
+      "0": "Inventario reordenado exitosamente",
+      "1": "Posición invalidad ingresada; el reordenamiento no pudo completarse",
+      "2": "Posición ingresada dos veces; el reordenamiento no pudo completarse"
+    },
     "reorder-gap-packing-preop": {
       "0": "Inventario reordenado exitosamente",
       "1": "Posición invalidad ingresada; el reordenamiento no pudo completarse",
@@ -565,6 +629,11 @@
       "2": "Posición ingresada dos veces; el reordenamiento no pudo completarse"
     },
     "reorder-gmp-packing-glass-brittle": {
+      "0": "Inventario reordenado exitosamente",
+      "1": "Posición invalidad ingresada; el reordenamiento no pudo completarse",
+      "2": "Posición ingresada dos veces; el reordenamiento no pudo completarse"
+    },
+    "reorder-gmp-packing-harvest-tool": {
       "0": "Inventario reordenado exitosamente",
       "1": "Posición invalidad ingresada; el reordenamiento no pudo completarse",
       "2": "Posición ingresada dos veces; el reordenamiento no pudo completarse"
@@ -594,6 +663,14 @@
       "2": "No se encontraron reportes para el intervalo de fechas ingresado"
     },
     "report-gap-others-unusual-occurrence": {
+      "0": "Reportes recuperados exitosamente",
+      "2": "No se encontraron reportes para el intervalo de fechas ingresado"
+    },
+    "report-gap-packing-harvest-block-inspection": {
+      "0": "Reportes recuperados exitosamente",
+      "2": "No se encontraron reportes para el intervalo de fechas ingresado"
+    },
+    "report-gap-packing-harvest-tool": {
       "0": "Reportes recuperados exitosamente",
       "2": "No se encontraron reportes para el intervalo de fechas ingresado"
     },
@@ -637,6 +714,10 @@
       "0": "Reportes recuperados exitosamente",
       "2": "No se encontraron reportes para el intervalo de fechas ingresado"
     },
+    "report-gmp-packing-harvest-tool": {
+      "0": "Reportes recuperados exitosamente",
+      "2": "No se encontraron reportes para el intervalo de fechas ingresado"
+    },
     "report-gmp-packing-ozone-water": {
       "0": "Reportes recuperados exitosamente",
       "2": "No se encontraron reportes para el intervalo de fechas ingresado"
@@ -673,6 +754,12 @@
     "toggle-gap-doc-control-doc-control": {
       "0": "Estado de elemento modificado exitosamente"
     },
+    "toggle-gap-packing-harvest-block-inspection": {
+      "0": "Estado de elemento modificado exitosamente"
+    },
+    "toggle-gap-packing-harvest-tool": {
+      "0": "Estado de elemento modificado exitosamente"
+    },
     "toggle-gap-packing-preop": {
       "0": "Estado de elemento modificado exitosamente"
     },
@@ -689,6 +776,9 @@
       "0": "Estado de elemento modificado exitosamente"
     },
     "toggle-gmp-packing-hand-washing": {
+      "0": "Estado de elemento modificado exitosamente"
+    },
+    "toggle-gmp-packing-harvest-tool": {
       "0": "Estado de elemento modificado exitosamente"
     },
     "toggle-gmp-packing-ozone-water": {
@@ -717,6 +807,20 @@
       "12": "La bitácora no pudo modificarse; el usuario no tiene el rol correcto"
     },
     "update-gap-others-unusual-occurrence": {
+      "0": "La bitácora fue actualizada exitosamente",
+      "9": "La bitácora no pudo modificarse; la bitácora ya fue aprobada",
+      "10": "La bitácora no pudo modificarse; está siendo revisada por un supervisor",
+      "11": "La bitácora no pudo modificarse; está siendo capturada por un empleado",
+      "12": "La bitácora no pudo modificarse; el usuario no tiene el rol correcto"
+    },
+    "update-gap-packing-harvest-block-inspection": {
+      "0": "La bitácora fue actualizada exitosamente",
+      "9": "La bitácora no pudo modificarse; la bitácora ya fue aprobada",
+      "10": "La bitácora no pudo modificarse; está siendo revisada por un supervisor",
+      "11": "La bitácora no pudo modificarse; está siendo capturada por un empleado",
+      "12": "La bitácora no pudo modificarse; el usuario no tiene el rol correcto"
+    },
+    "update-gap-packing-harvest-tool": {
       "0": "La bitácora fue actualizada exitosamente",
       "9": "La bitácora no pudo modificarse; la bitácora ya fue aprobada",
       "10": "La bitácora no pudo modificarse; está siendo revisada por un supervisor",
@@ -793,6 +897,13 @@
       "11": "La bitácora no pudo modificarse; está siendo capturada por un empleado",
       "12": "La bitácora no pudo modificarse; el usuario no tiene el rol correcto"
     },
+    "update-gmp-packing-harvest-tool": {
+      "0": "La bitácora fue actualizada exitosamente",
+      "9": "La bitácora no pudo modificarse; la bitácora ya fue aprobada",
+      "10": "La bitácora no pudo modificarse; está siendo revisada por un supervisor",
+      "11": "La bitácora no pudo modificarse; está siendo capturada por un empleado",
+      "12": "La bitácora no pudo modificarse; el usuario no tiene el rol correcto"
+    },
     "update-gmp-packing-ozone-water": {
       "0": "La bitácora fue actualizada exitosamente",
       "9": "La bitácora no pudo modificarse; la bitácora ya fue aprobada",
@@ -843,6 +954,14 @@
       "0": "Manual subido exitosamente",
       "1": "El manual no pudo ser subido"
     },
+    "upload-manual-gap-packing-harvest-block-inspection": {
+      "0": "Manual subido exitosamente",
+      "1": "El manual no pudo ser subido"
+    },
+    "upload-manual-gap-packing-harvest-tool": {
+      "0": "Manual subido exitosamente",
+      "1": "El manual no pudo ser subido"
+    },
     "upload-manual-gap-packing-preop": {
       "0": "Manual subido exitosamente",
       "1": "El manual no pudo ser subido"
@@ -880,6 +999,10 @@
       "1": "El manual no pudo ser subido"
     },
     "upload-manual-gmp-packing-hand-washing": {
+      "0": "Manual subido exitosamente",
+      "1": "El manual no pudo ser subido"
+    },
+    "upload-manual-gmp-packing-harvest-tool": {
       "0": "Manual subido exitosamente",
       "1": "El manual no pudo ser subido"
     },

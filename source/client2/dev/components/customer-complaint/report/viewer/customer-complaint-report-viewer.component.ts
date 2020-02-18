@@ -18,6 +18,8 @@ export class CustomerComplaintReportViewer implements OnInit {
   dateRangeForm: FormGroup
   reports: Array<CustomerComplaintReportInterface> = []
   activeCustomerComplaint: ActiveCustomerComplaint = { id: 'any' }
+  selectZones: boolean = true
+  zoneList
 
   constructor(private formBuilder: FormBuilder,
     private dateTimeService: DateTimeService,
@@ -28,7 +30,17 @@ export class CustomerComplaintReportViewer implements OnInit {
   public ngOnInit(): void {
     this.dateOptions = getDatePickerConfig(localStorage.getItem('lang'))
 
+    this.customerComplaintService.log().then(success => {
+      this.zoneList = success
+      setTimeout(() => {
+        $('select').material_select()
+      }, 200)
+    }, error => {
+
+    })
+
     this.initRequestForm()
+    this.onOptionChange()
   }
 
   public initRequestForm(): void {
@@ -37,7 +49,8 @@ export class CustomerComplaintReportViewer implements OnInit {
 
     this.dateRangeForm = this.formBuilder.group({
       start_date: [startDate, [Validators.required]],
-      end_date: [endDate, [Validators.required]]
+      end_date: [endDate, [Validators.required]],
+      sources: [[], [Validators.required]]
     })
   }
 
@@ -49,6 +62,14 @@ export class CustomerComplaintReportViewer implements OnInit {
       }, error => {
 
       })
+    }
+  }
+
+  public onOptionChange(): void {
+    if (this.selectZones === true) {
+      this.dateRangeForm.controls.sources.enable()
+    } else {
+      this.dateRangeForm.controls.sources.disable()
     }
   }
 }

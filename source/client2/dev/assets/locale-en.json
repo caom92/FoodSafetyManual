@@ -82,7 +82,8 @@
     "delete_capa": "Delete CAPA",
     "delete_file": "Delete file permanently",
     "delete_image": "Delete image permanently",
-    "autofill": "Autofill empty fields"
+    "autofill": "Autofill empty fields",
+    "close_customer_complaint": "Close Customer Complaint"
   },
   "Messages": {
     "resend_log": "Are you sure you want to retry sending this log?",
@@ -97,7 +98,8 @@
     "delete_capa": "The CAPA form and all its attached images and files will be deleted permanently from the server. This action cannot be undone, are you sure you want to continue?",
     "delete_file": "The PDF file you selected to delete is a file stored in the server. This action cannot be undone, are you sure you want to continue?",
     "delete_image": "The image you selected to delete is a file stored in the server. This action cannot be undone, are you sure you want to continue?",
-    "autofill": "All unfilled elements will be automatically filled as \"acceptable\". Make sure to have filled all elements with deficiencies."
+    "autofill": "All unfilled elements will be automatically filled as \"acceptable\". Make sure to have filled all elements with deficiencies.",
+    "close_customer_complaint": "Form will be closed. It will be available to create reports, but it will no longer be editable, are you sure you want to continue?"
   },
   "Adverbs": {
     "before": "Before",
@@ -132,6 +134,8 @@
     "acceptable_sanitized_abbr": "Accept/Sanit",
     "corrective_action": "Corrective action",
     "corrective_action_of": "Corrective action of",
+    "observations": "Observations",
+    "observations_of": "Observations of",
     "item_place_equipment": "Item/Place/Equipment, etc.",
     "reading": "Reading",
     "results": "Results",
@@ -335,6 +339,7 @@
     "generic": {
       "name_required": "The item's name is required",
       "name_max_255": "The item's name can't exceed 255 characters",
+      "name_max_65535": "The item's name can't exceed 65535 characters",
       "type_required": "You must indicate the item's type",
       "quantity_required": "You must indicate the quantity of this item"
     }
@@ -494,6 +499,10 @@
     "price": "Price",
     "product_sources": "Product sources",
     "select_product_sources": "Select one or more product sources",
+    "search_all_zones": "Search in all zones",
+    "search_selected_zones": "Search in selected zones",
+    "zones": "Zones",
+    "select_zones": "Select one or more zones",
     "shipping_point": "Shipping Point - Warehouse",
     "incoming_qc_score": "Incoming QC Score",
     "total_age": "Total age of product when complaint was received",

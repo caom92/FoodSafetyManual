@@ -22,7 +22,7 @@ export class GAPPackingHarvestBlockInspectionAddItemComponent extends SuperInven
   public ngOnInit(): void {
     this.setSuffix('gap-packing-harvest-block-inspection')
     this.createItemForm({
-      name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
+      name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(65535)]],
     })
   }
 

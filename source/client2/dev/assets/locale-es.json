@@ -82,7 +82,8 @@
     "delete_capa": "Borrar CAPA",
     "delete_file": "Borrar archivo permanentemente",
     "delete_image": "Borrar imagen permanentemente",
-    "autofill": "Auto llenar campos vacíos"
+    "autofill": "Auto llenar campos vacíos",
+    "close_customer_complaint": "Cerrar Reclamación del Cliente"
   },
   "Messages": {
     "resend_log": "¿Está seguro que desea reintentar el envío de esta bitácora?",
@@ -97,7 +98,8 @@
     "delete_capa": "El formulario CAPA y todas las imágenes y archivos asociados serán eliminados permanentemente del servidor. Esta acción no se puede deshacer, ¿está seguro que desea continuar?",
     "delete_file": "El archivo PDF que seleccionó para borrar es un archivo que se encuentra en el servidor. Esta acción no se puede deshacer, ¿está seguro que desea continuar?",
     "delete_image": "La imagen que seleccionó para borrar es un archivo que se encuentra en el servidor. Esta acción no se puede deshacer, ¿está seguro que desea continuar?",
-    "autofill": "Todos los elementos que no hayan sido llenados serán autollenados como \"aceptables\". Asegúrese de haber llenado todos los elementos con deficiencias."
+    "autofill": "Todos los elementos que no hayan sido llenados serán autollenados como \"aceptables\". Asegúrese de haber llenado todos los elementos con deficiencias.",
+    "close_customer_complaint": "El formulario se cerrará. Estará disponible para generar reportes, pero no podrá editarse, ¿está seguro que desea continuar?"
   },
   "Adverbs": {
     "before": "Antes",
@@ -132,6 +134,8 @@
     "acceptable_sanitized_abbr": "Acept/Sanit",
     "corrective_action": "Acción correctiva",
     "corrective_action_of": "Acción correctiva de",
+    "observations": "Observaciones",
+    "observations_of": "Observaciones de",
     "item_place_equipment": "Objeto/Lugar/Equipo, etc.",
     "reading": "Lectura",
     "results": "Resultado",
@@ -335,6 +339,7 @@
     "generic": {
       "name_required": "El nombre del objeto es requerido",
       "name_max_255": "El nombre del objeto no puede exceder 255 caracteres",
+      "name_max_65535": "El nombre del objeto no puede exceder 65535 caracteres",
       "type_required": "Debe especificar el tipo del objeto",
       "quantity_required": "La cantidad de elementos del objeto es requerido"
     }
@@ -494,6 +499,10 @@
     "price": "Precio",
     "product_sources": "Origen del producto",
     "select_product_sources": "Seleccione uno o más puntos de origen del producto",
+    "search_all_zones": "Buscar en todas las zonas",
+    "search_selected_zones": "Buscar en zonas seleccionadas",
+    "zones": "Zonas",
+    "select_zones": "Selecciones una o más zonas",
     "shipping_point": "Punto de envío - Almacén",
     "incoming_qc_score": "Puntaje de QC",
     "total_age": "Edad total del producto al momento de recibir la reclamación",

@@ -1,8 +1,7 @@
 .custom-item-content.button-number-3
   .row.no-margin-bottom
-    .col.s4.m4.l4 {{report.sales_order_number}}
+    .col.s8.m8.l8 {{report.subject}}
     .col.s4.m4.l4 {{report.complaint_date}}
-    .col.s4.m4.l4 {{report.creator_name}}
 .custom-collection-button
   button.green(mz-button, float='true', (click)='openHTMLReport()', *ngIf='activeCustomerComplaint.id != report.id')
     i(mz-icon-mdi, [icon]='"file-document-box"', [size]='"24px"')
