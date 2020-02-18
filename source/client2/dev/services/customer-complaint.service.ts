@@ -10,90 +10,34 @@ export class CustomerComplaintService {
   }
 
   public log(): Promise<any> {
-    let logPromise = new Promise<any>((resolve, reject) => {
-      this.apiService.service('log-customer-complaint-form').then(success => {
-        resolve(success)
-      }, error => {
-        reject(error)
-      })
-    })
-
-    return logPromise
+    return this.apiService.serviceCall('log-customer-complaint-form')
   }
 
   public capture(data: Object): Promise<any> {
-    let capturePromise = new Promise<any>((resolve, reject) => {
-      this.apiService.service('capture-customer-complaint-form', data).then(success => {
-        resolve(success)
-      }, error => {
-        reject(error)
-      })
-    })
-
-    return capturePromise
+    return this.apiService.serviceCall('capture-customer-complaint-form', data)
   }
 
   public update(data: Object): Promise<any> {
-    let updatePromise = new Promise<any>((resolve, reject) => {
-      this.apiService.service('update-customer-complaint-form', data).then(success => {
-        resolve(success)
-      }, error => {
-        reject(error)
-      })
-    })
-
-    return updatePromise
+    return this.apiService.serviceCall('update-customer-complaint-form', data)
   }
 
   public authorization(id: number): Promise<any> {
     let data = { id: id }
 
-    let authorizationPromise = new Promise<any>((resolve, reject) => {
-      this.apiService.service('authorization-report-customer-complaint-form', data, false).then(success => {
-        resolve(success)
-      }, error => {
-        reject(error)
-      })
-    })
-
-    return authorizationPromise
+    return this.apiService.serviceCall('authorization-report-customer-complaint-form', data, false)
   }
 
   public report(data: Object): Promise<any> {
-    let reportPromise = new Promise<any>((resolve, reject) => {
-      this.apiService.service('report-customer-complaint-form', data).then(success => {
-        resolve(success)
-      }, error => {
-        reject(error)
-      })
-    })
-
-    return reportPromise
+    return this.apiService.serviceCall('report-customer-complaint-form', data)
   }
 
   public listWaitingLogs(): Promise<any> {
-    let listPromise = new Promise<any>((resolve, reject) => {
-      this.apiService.service('list-waiting-logs-customer-complaint-form', null, false).then(success => {
-        resolve(success)
-      }, error => {
-        reject(error)
-      })
-    })
-
-    return listPromise
+    return this.apiService.serviceCall('list-waiting-logs-customer-complaint-form')
   }
 
   public close(id: number): Promise<any> {
     let data = { id: id, date: this.timeService.getISODate() }
 
-    let closePromise = new Promise<any>((resolve, reject) => {
-      this.apiService.confirmationService('approve-customer-complaint-form', { key: 'Titles.close_customer_complaint' }, { key: 'Messages.close_customer_complaint' }, data).then(success => {
-        resolve(success)
-      }, error => {
-        reject(error)
-      })
-    })
-
-    return closePromise
+    return this.apiService.confirmationServiceCall('approve-customer-complaint-form', { key: 'Titles.close_customer_complaint' }, { key: 'Messages.close_customer_complaint' }, data)
   }
 }
