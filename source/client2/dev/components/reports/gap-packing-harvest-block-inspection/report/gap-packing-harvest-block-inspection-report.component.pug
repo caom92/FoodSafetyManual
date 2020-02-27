@@ -11,25 +11,26 @@ block report
           td {{ 'Log.inspection_end_date' | translate:lang }}: {{report.inspection_end_date | l10nDate:defaultLocale:'longDate'}}
           td {{ 'Log.inspection_end_time' | translate:lang }}: {{report.inspection_end_time}}
         tr
-          td {{ 'Log.commodities' | translate:lang }}: {{report.commodities}}
+          td(colspan='2') {{ 'Log.commodities' | translate:lang }}: {{report.commodities}}
         tr
-          td {{ 'Log.pounds' | translate:lang }}: {{report.pounds}}
+          td(colspan='2') {{ 'Log.pounds' | translate:lang }}: {{report.pounds}}
         tr
-          td {{ 'Log.grower' | translate:lang }}: {{report.grower}}
+          td(colspan='2') {{ 'Log.grower' | translate:lang }}: {{report.grower}}
         tr
-          td {{ 'Log.block_code' | translate:lang }}: {{report.block_code}}
+          td(colspan='2') {{ 'Log.block_code' | translate:lang }}: {{report.block_code}}
         tr
-          td {{ 'Log.contact' | translate:lang }}: {{report.contact}}
+          td(colspan='2') {{ 'Log.contact' | translate:lang }}: {{report.contact}}
         tr
-          td {{ 'Log.location' | translate:lang }}: {{report.location}}
+          td(colspan='2') {{ 'Log.location' | translate:lang }}: {{report.location}}
         tr
-          td {{ 'Log.country' | translate:lang }}: {{report.country}}
+          td(colspan='2') {{ 'Log.country' | translate:lang }}: {{report.country}}
     p()= ' '
     table
       tbody
         tr
-          th PREGUNTA
-          th ESTATUS
-        ng-template(ngFor, let-item, [ngForOf]='report.items')
-          tr(gap-packing-harvest-block-inspection-report-item, [item]='item')
-          tr(gap-packing-harvest-block-inspection-report-comment, [item]='item', *ngIf='item.status === 1')
+          th.numberColumn
+          th.questionColumn {{ 'Log.question' | translate:lang }}
+          th.answerColumn {{ 'Log.status' | translate:lang }}
+          th.commentColumn {{ 'Log.comment' | translate:lang }}
+        ng-template(ngFor, let-item, [ngForOf]='report.items', let-i='index + 1')
+          tr(gap-packing-harvest-block-inspection-report-item, [item]='item', [num]='i')

@@ -158,6 +158,24 @@ export class BackendAPIService {
     return promise
   }
 
+  public backgroundServiceCall(service: string, data: Object = null, showOnSuccess: boolean = true, resolveCallback: Function = () => { }, rejectCallback: Function = () => { }): Promise<any> {
+    let promise = new Promise<any>((resolve, reject) => {
+      this.backgroundService(service, data, showOnSuccess).then(success => {
+        if (resolveCallback instanceof Function) {
+          resolveCallback(success)
+        }
+        resolve(success)
+      }, error => {
+        if (rejectCallback instanceof Function) {
+          rejectCallback(error)
+        }
+        reject(error)
+      })
+    })
+
+    return promise
+  }
+
   public confirmationServiceCall(service: string, title: TranslateKeyData, message: TranslateKeyData, data: Object = null, showOnSuccess: boolean = true, resolveCallback: Function = () => { }, rejectCallback: Function = () => { }): Promise<any> {
     let promise = new Promise<any>((resolve, reject) => {
       this.confirmationService(service, title, message, data, showOnSuccess).then(success => {

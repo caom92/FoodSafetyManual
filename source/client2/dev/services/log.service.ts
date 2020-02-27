@@ -11,149 +11,61 @@ export class LogService {
   }
 
   public log(suffix: string): Promise<any> {
-    let logPromise = new Promise<any>((resolve, reject) => {
-      this.apiService.service('log-' + suffix, null, false).then(success => {
-        resolve(success)
-      }, error => {
-        reject(error)
-      })
-    })
-
-    return logPromise
+    return this.apiService.serviceCall('log-' + suffix, null, false)
   }
 
   public capture(suffix: string, data: Object): Promise<any> {
-    let capturePromise = new Promise<any>((resolve, reject) => {
-      this.apiService.service('capture-' + suffix, data).then(success => {
-        resolve(success)
-      }, error => {
-        reject(error)
-      })
-    })
-
-    return capturePromise
+    return this.apiService.serviceCall('capture-' + suffix, data)
   }
 
   public listWaitingLogs(suffix: string): Promise<any> {
-    let listPromise = new Promise<any>((resolve, reject) => {
-      this.apiService.service('list-waiting-logs-' + suffix, null, false).then(success => {
-        resolve(success)
-      }, error => {
-        reject(error)
-      })
-    })
-
-    return listPromise
+    return this.apiService.serviceCall('list-waiting-logs-' + suffix, null, false)
   }
 
   public authorization(suffix: string, id: number): Promise<any> {
     let data = { report_id: id }
 
-    let authorizationPromise = new Promise<any>((resolve, reject) => {
-      this.apiService.service('authorization-report-' + suffix, data).then(success => {
-        resolve(success)
-      }, error => {
-        reject(error)
-      })
-    })
-
-    return authorizationPromise
+    return this.apiService.serviceCall('authorization-report-' + suffix, data)
   }
 
   public update(suffix: string, data: Object): Promise<any> {
-    let updatePromise = new Promise<any>((resolve, reject) => {
-      this.apiService.service('update-' + suffix, data).then(success => {
-        resolve(success)
-      }, error => {
-        reject(error)
-      })
-    })
-
-    return updatePromise
+    return this.apiService.serviceCall('update-' + suffix, data)
   }
 
   public approve(id: number): Promise<any> {
     let data = { captured_log_id: id, date: this.timeService.getISODate() }
 
-    let approvePromise = new Promise<any>((resolve, reject) => {
-      this.apiService.confirmationService('approve-log', { key: 'Titles.approve_log' }, { key: 'Messages.approve_log' }, data).then(success => {
-        resolve(success)
-      }, error => {
-        reject(error)
-      })
-    })
-
-    return approvePromise
+    return this.apiService.confirmationServiceCall('approve-log', { key: 'Titles.approve_log' }, { key: 'Messages.approve_log' }, data)
   }
 
   public retreat(id: number): Promise<any> {
     let data = { captured_log_id: id }
 
-    let retreatPromise = new Promise<any>((resolve, reject) => {
-      this.apiService.confirmationService('retreat-log', { key: 'Titles.retreat_log' }, { key: 'Messages.retreat_log' }, data).then(success => {
-        resolve(success)
-      }, error => {
-        reject(error)
-      })
-    })
-
-    return retreatPromise
+    return this.apiService.confirmationServiceCall('retreat-log', { key: 'Titles.retreat_log' }, { key: 'Messages.retreat_log' }, data)
   }
 
   public reject(id: number): Promise<any> {
     let data = { captured_log_id: id }
 
-    let rejectPromise = new Promise<any>((resolve, reject) => {
-      this.apiService.confirmationService('reject-log', { key: 'Titles.reject_log' }, { key: 'Messages.reject_log' }, data).then(success => {
-        resolve(success)
-      }, error => {
-        reject(error)
-      })
-    })
-
-    return rejectPromise
+    return this.apiService.confirmationServiceCall('reject-log', { key: 'Titles.reject_log' }, { key: 'Messages.reject_log' }, data)
   }
 
   public finish(id: number): Promise<any> {
     let data = { captured_log_id: id }
 
-    let finishPromise = new Promise<any>((resolve, reject) => {
-      this.apiService.confirmationService('finish-log', { key: 'Titles.finish_log' }, { key: 'Messages.finish_log' }, data).then(success => {
-        resolve(success)
-      }, error => {
-        reject(error)
-      })
-    })
-
-    return finishPromise
+    return this.apiService.confirmationServiceCall('finish-log', { key: 'Titles.finish_log' }, { key: 'Messages.finish_log' }, data)
   }
 
   public uploadManual(suffix: string, manual: FileList): Promise<any> {
     let data = { manual_file: manual[0] }
 
-    let uploadPromise = new Promise<any>((resolve, reject) => {
-      this.apiService.service('upload-manual-' + suffix, data).then(success => {
-        resolve(success)
-      }, error => {
-        reject(error)
-      })
-    })
-
-    return uploadPromise
+    return this.apiService.serviceCall('upload-manual-' + suffix, data)
   }
 
   public manualUrl(suffix: string): Promise<any> {
     let data = { suffix: suffix }
 
-    let manualPromise = new Promise<any>((resolve, reject) => {
-      this.apiService.backgroundService('get-log-manual-url', data, false).then(success => {
-        resolve(success)
-      }, error => {
-        reject(error)
-      })
-    })
-
-    return manualPromise
+    return this.apiService.backgroundServiceCall('get-log-manual-url', data, false)
   }
 
   // https://stackoverflow.com/questions/43551221/angular-2-mark-nested-formbuilder-as-touched

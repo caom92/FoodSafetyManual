@@ -10,6 +10,7 @@ import { ReportItem } from '../interfaces/gap-packing-harvest-block-inspection-r
 
 export class GAPPackingHarvestBlockInspectionReportItemComponent {
   @Input() item: ReportItem
+  @Input() num: number
   @Language() lang: string
 
   constructor() {

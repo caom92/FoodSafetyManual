@@ -26,7 +26,7 @@ export class SuperReportComponent implements OnInit {
       log: this.report.log_name,
       created_on: this.report.creation_date,
       created_by: this.report.created_by,
-      approved_on: this.report.approval_date,
+      approved_on: this.report.creation_date,
       approved_by: this.report.approved_by
     }
   }
@@ -35,12 +35,18 @@ export class SuperReportComponent implements OnInit {
     return {
       header: this.getPDFReportHeader(),
       footer: this.getPDFReportFooter(),
-      body: this.getPDFReportBody().replace(/\n/g, '').replace(/<!--(.*?)-->/g, '').replace(/>( *?)</g, '><').replace(/ng-reflect-(.*?)]"/g, '').replace(/ g[am]p(.*?)="" /g, ' ').replace(/([ ]+>)/g, '>')
+      body: this.getPDFReportBody().
+        replace(/\n/g, ''). // remove linebreaks
+        replace(/<!--(.*?)-->/g, ''). // remove any comments from HTML code, since TCPDF has no use for them
+        replace(/>( *?)</g, '><'). // remove blank space between brackets; TCPDF ignores it
+        replace(/ng-reflect-(.*?)="(.*?)"/g, ''). // remove any Angular parameters in HTML, since TCPDF has no use for them
+        replace(/ g[am]p(.*?)="" /g, ' '). // remove angular selectors
+        replace(/([ ]+>)/g, '>') // remove blankspace at the end of HTML tags
     }
   }
 
   public getPDFReportHeader(): string {
-    return '<table><tr><td>' + this.translationService.translate('ReportHeader.zone') + ': <span style="font-weight: bold;">' + this.report.zone_name + '</span><br>' + this.translationService.translate('ReportHeader.program') + ': <span style="font-weight: bold;">' + this.report.program_name + '</span><br>' + this.translationService.translate('ReportHeader.module') + ': <span style="font-weight: bold;">' + this.report.module_name + '</span><br>' + this.translationService.translate('ReportHeader.log') + ': <span style="font-weight: bold;">' + this.report.log_name + '</span></td><td>' + this.translationService.translate('ReportHeader.made_on') + ': <span style="font-weight: bold;">' + this.report.creation_date + '</span><br>' + this.translationService.translate('ReportHeader.made_by') + ': <span style="font-weight: bold;">' + this.report.created_by + '</span><br>' + this.translationService.translate('ReportHeader.approved_on') + ': <span style="font-weight: bold;">' + this.report.approval_date + '</span><br>' + this.translationService.translate('ReportHeader.approved_by') + ': <span style="font-weight: bold;">' + this.report.approved_by + '</span></td></tr></table>'
+    return '<table><tr><td>' + this.translationService.translate('ReportHeader.zone') + ': <span style="font-weight: bold;">' + this.report.zone_name + '</span><br>' + this.translationService.translate('ReportHeader.program') + ': <span style="font-weight: bold;">' + this.report.program_name + '</span><br>' + this.translationService.translate('ReportHeader.module') + ': <span style="font-weight: bold;">' + this.report.module_name + '</span><br>' + this.translationService.translate('ReportHeader.log') + ': <span style="font-weight: bold;">' + this.report.log_name + '</span></td><td>' + this.translationService.translate('ReportHeader.made_on') + ': <span style="font-weight: bold;">' + this.report.creation_date + '</span><br>' + this.translationService.translate('ReportHeader.made_by') + ': <span style="font-weight: bold;">' + this.report.created_by + '</span><br>' + this.translationService.translate('ReportHeader.approved_on') + ': <span style="font-weight: bold;">' + this.report.creation_date + '</span><br>' + this.translationService.translate('ReportHeader.approved_by') + ': <span style="font-weight: bold;">' + this.report.approved_by + '</span></td></tr></table>'
   }
 
   public getPDFReportBody(): string {

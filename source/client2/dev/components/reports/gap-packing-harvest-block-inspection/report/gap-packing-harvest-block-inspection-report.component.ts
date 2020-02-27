@@ -19,7 +19,11 @@ export class GAPPackingHarvestBlockInspectionReportComponent extends SuperReport
     super(translationService)
   }
 
+  public getOrientation(): string {
+    return 'L'
+  }
+
   public getCSS(appendCSS?: string): string {
-    return '<style>' + this.commonCSS() + ((appendCSS === String(appendCSS)) ? appendCSS : '') + '</style>'
+    return '<style>' + this.commonCSS() + ((appendCSS === String(appendCSS)) ? appendCSS : '') + '.fullColumn{width:940px}.questionColumn{width:425px}.answerColumn{width:60px}.commentColumn{width:425px}.numberColumn{width:30px}</style>'
   }
 }
