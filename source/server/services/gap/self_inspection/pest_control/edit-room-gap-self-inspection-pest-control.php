@@ -6,7 +6,7 @@ $service = [
     'has_privileges' => [
       'privilege' => 'Read',
       'program' => 'GAP',
-      'module' => 'Self Inspection',
+      'module' => 'Fields',
       'log' => 'Pest Control & Log'
     ],
     'room_id' => [
