@@ -62,8 +62,14 @@ export class GAPPackingHarvestBlockInspectionAuthorizationComponent extends Supe
     let captureItemGroup: FormGroup = this._fb.group({
       id: [this.dataResolver.resolveNumber(item.id), [Validators.required]],
       status: [this.dataResolver.resolveBoolean(item.status), []],
-      comment: [this.dataResolver.resolveString(item.comment), [Validators.maxLength(this.maxLengths.comment)]]
+      comment: [this.dataResolver.resolveString(item.comment), [Validators.required, Validators.maxLength(this.maxLengths.comment)]]
     })
+
+    if (captureItemGroup.controls.status.value === true) {
+      captureItemGroup.controls.comment.enable()
+    } else {
+      captureItemGroup.controls.comment.disable()
+    }
 
     return captureItemGroup
   }
@@ -88,7 +94,7 @@ export class GAPPackingHarvestBlockInspectionAuthorizationComponent extends Supe
       let itemControlArray: Array<AbstractControl> = []
 
       itemControlArray.push(item.controls.status)
-      itemControlArray.push(item.controls.comment)
+      //itemControlArray.push(item.controls.comment)
 
       for (let control of itemControlArray) {
         if (control.value === null || control.value === '') {

@@ -4,9 +4,9 @@ include ../../../log-ionic-materialize.pug
   +col()(class="s8 m8 l8")
     p() {{item.name}}
   +col()(class="s2 m2 l2")
-    +radio("{{ 'Log.yes' | translate:lang }}", false, "true", false, false, "answer_yes_{{item.id}}", "answer_{{item.id}}")([formControl]='itemForm.controls.status', [value]='true')
+    +radio("{{ 'Log.yes' | translate:lang }}", false, "true", false, false, "answer_yes_{{item.id}}", "answer_{{item.id}}")([formControl]='itemForm.controls.status', [value]='true', (change)='onStatusChange()')
   +col()(class="s2 m2 l2")
-    +radio("{{ 'Log.no' | translate:lang }}", false, "false", false, false, "answer_no_{{item.id}}", "answer_{{item.id}}")([formControl]='itemForm.controls.status', [value]='false')
+    +radio("{{ 'Log.no' | translate:lang }}", false, "false", false, false, "answer_no_{{item.id}}", "answer_{{item.id}}")([formControl]='itemForm.controls.status', [value]='false', (change)='onStatusChange()')
 +row()(*ngIf='itemForm.value.status === true', style="margin-bottom: 0px; margin-top: 4px;", [formGroup]='itemForm')
   +col()(class="s12 m12 l12")
     +slimTextInput(null, null, "comment", "text", "comment_{{item.id}}", "{{ 'Log.comments' | translate:lang }}")(class='slim-text-input no-margin-top')

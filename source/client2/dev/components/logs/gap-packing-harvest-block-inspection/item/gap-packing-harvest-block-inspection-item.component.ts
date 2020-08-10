@@ -17,4 +17,12 @@ export class GAPPackingHarvestBlockInspectionItemComponent {
   constructor() {
 
   }
+
+  public onStatusChange(): void {
+    if (this.itemForm.controls.status.value == true) {
+      this.itemForm.controls.comment.enable()
+    } else {
+      this.itemForm.controls.comment.disable()
+    }
+  }
 }
