@@ -6,7 +6,7 @@ $service = [
     'has_privileges' => [
       'privilege' => 'Read',
       'program' => 'GMP',
-      'module' => 'Self Inspection',
+      'module' => 'Packing',
       'log' => 'Pest Control'
     ],
     'room_id' => [
