@@ -298,6 +298,8 @@ function createReportService($program, $module, $log, $strategy,
           // then retrieve the name of the employee and supervisor
           // that worked on this log
           $users = $scope->daoFactory->get('Users');
+          $gpSupervisor = $users->getNameByID(
+            $logDate['gp_supervisor_id']);
           $supervisor = $users->getNameByID(
             $logDate['supervisor_id']);
           $employee = $users->getNameByID(
@@ -316,6 +318,12 @@ function createReportService($program, $module, $log, $strategy,
                 : 'N/A',
             'signature_path' => (strlen($supervisor['signature_path']) > 0) ? 
               $supervisor['signature_path'] : 'default.png',
+            'gp_supervisor' => (isset($gpSupervisor['first_name'])) ?
+                $gpSupervisor['first_name'].' '.
+                $gpSupervisor['last_name'] 
+                : NULL,
+            'gp_signature_path' => $gpSupervisor != NULL ? (strlen($gpSupervisor['signature_path']) > 0) ? 
+              $gpSupervisor['signature_path'] : 'default.png' : NULL,
             'creation_date' => $logDate['capture_date'],
             'approval_date' => 
               (isset($logDate['approval_date'])) ?

@@ -1,0 +1,15 @@
+mz-modal([fixedFooter]='true')
+  mz-modal-header
+    h4 {{ 'GPSignatures.edit_signature' | translate:lang }}
+  mz-modal-content
+    h5 {{ signature.full_name }}
+    div(class='file-field input-field')
+      div(class='btn')
+        span() {{ 'GPSignatures.choose_signature' | translate:lang }} 
+        input(type='file', class='fileControl', (change)='onFileSelected($event)', accept='image/*', multiple='false')
+      div(class='file-path-wrapper')
+        input(class='file-path validate fileControl', type='text')
+  mz-modal-footer
+    button(mz-button, mz-modal-close, (click)='onSendButtonClick()', [disabled]='!signatureForm.valid') 
+      | {{ 'GPSignatures.edit_signature' | translate:lang }} 
+      i.mdi.mdi-send

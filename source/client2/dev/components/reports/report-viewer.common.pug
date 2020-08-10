@@ -29,6 +29,8 @@ div
         input(type='hidden', name='footer', [ngModel]='dateRangeReport.footer')
         input(type='hidden', name='supervisor', [ngModel]='dateRangeReport.supervisor')
         input(type='hidden', name='signature', [ngModel]='dateRangeReport.signature')
+        input(type='hidden', name='gp_supervisor', [ngModel]='dateRangeReport.gp_supervisor')
+        input(type='hidden', name='gp_signature', [ngModel]='dateRangeReport.gp_signature')
         .row(*ngIf='reports.length != 0')
           .col.s12.m12.l12.center
             div

@@ -3,6 +3,8 @@ export interface SuperReportInterface {
   created_by: string
   approved_by: string
   signature_path: string
+  gp_supervisor: string
+  gp_signature_path: string
   creation_date: string
   approval_date: string
   zone_name: string

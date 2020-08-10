@@ -18,13 +18,15 @@ class PDFCreator extends TCPDF
     // Create an instance of the PDF file creator
     // [in]     lang: a string that contains the code of the language that we 
     //          going to use to display the text
-    function __construct($lang, $logo, $company, $address, $footer, $signature, $supervisor, $fontsize, $orientation) {
+    function __construct($lang, $logo, $company, $address, $footer, $signature, $supervisor, $gpSignature, $gpSupervisor, $fontsize, $orientation) {
         $this->logo = $logo;
         $this->company = $company;
         $this->address = $address;
         $this->footer = $footer;
         $this->signature = $signature;
         $this->supervisor = $supervisor;
+        $this->gpSignature = $gpSignature;
+        $this->gpSupervisor = $gpSupervisor;
         $this->fontsize = $fontsize;
         $this->orientation = $orientation;
         $this->footerOffset = 0;
@@ -39,14 +41,16 @@ class PDFCreator extends TCPDF
             case 'es':
                 $this->texts = [
                     'page' => 'Página',
-                    'of' => 'de'
+                    'of' => 'de',
+                    'gp' => 'Supervisor de Buenas Practicas'
                 ];
             break;
 
             default:
                 $this->texts = [
                     'page' => 'Page',
-                    'of' => 'of'
+                    'of' => 'of',
+                    'gp' => 'Good Practices Supervisor'
                 ];
             break;
         }
@@ -124,28 +128,58 @@ class PDFCreator extends TCPDF
     }
 
     public function closing(){
+        $sizeMultiplier = 0.6;
+        $signatureWidth = 50 * $sizeMultiplier;
+        $signatureHeight = 30 * $sizeMultiplier;
         if($this->orientation == "P")
-            $x_offset = 120;
+            $x_offset = 180 - $signatureWidth;
         else
-            $x_offset = 215;
+            $x_offset = 265 - $signatureWidth;
+
+        $initialX = $this->x;
+        $initialY = $this->y;
 
         $signature = realpath(dirname(__FILE__)."/../../../data/signatures/$this->signature");
 
-        $this->Image($signature, $this->x + $x_offset, $this->y, 50, 30, '', '', 'T', false, 300, '', 
+        $this->Image($signature, $this->x + $x_offset, $this->y, $signatureWidth, $signatureHeight, '', '', 'T', false, 300, '', 
             false, false, 0, false, false, false);
 
-        $this->ln(30);
-        $this->Line($this->x + $x_offset,$this->y,$this->x + $x_offset + 50,$this->y);
+        $this->ln($signatureHeight);
+        $this->Line($this->x + $x_offset,$this->y,$this->x + $x_offset + $signatureWidth,$this->y);
         $this->writeHTMLCell(
-                50, 0, $this->x + $x_offset, $this->y,
-                "<div style='width:50px;'>Supervisor</div>", 
+                $signatureWidth, 0, $this->x + $x_offset, $this->y,
+                "<div style='width:".$signatureWidth."px;'>Supervisor</div>", 
                 0, 1, 0, true, 'C', false
             );
         $this->writeHTMLCell(
-                50, 0, $this->x + $x_offset, $this->y,
-                "<div style='width:50px;'>" . $this->supervisor . "</div>", 
+                $signatureWidth, 0, $this->x + $x_offset, $this->y,
+                "<div style='width:".$signatureWidth."px;'>" . $this->supervisor . "</div>", 
                 0, 1, 0, true, 'C', false
             );
+
+        if ($this->gpSupervisor != NULL) {
+            $this->SetX($initialX);
+            $this->SetY($initialY);
+            $x_offset = 0;
+
+            $gpSignature = realpath(dirname(__FILE__)."/../../../data/signatures/$this->gpSignature");
+
+            $this->Image($gpSignature, $this->x + $x_offset, $this->y, $signatureWidth, $signatureHeight, '', '', 'T', false, 300, '', 
+                false, false, 0, false, false, false);
+
+            $this->ln($signatureHeight);
+            $this->Line($this->x + $x_offset,$this->y,$this->x + $x_offset + $signatureWidth,$this->y);
+            $this->writeHTMLCell(
+                    $signatureWidth, 0, $this->x + $x_offset, $this->y,
+                    "<div style='width:".$signatureWidth."px;'>".$this->texts["gp"]."</div>", 
+                    0, 1, 0, true, 'C', false
+                );
+            $this->writeHTMLCell(
+                    $signatureWidth, 0, $this->x + $x_offset, $this->y,
+                    "<div style='width:".$signatureWidth."px;'>" . $this->gpSupervisor . "</div>", 
+                    0, 1, 0, true, 'C', false
+                );
+        }
     }
 
 

@@ -12,7 +12,7 @@ import { SuperReportLoader } from './super.report.loader'
 export class SuperReportViewer implements OnInit {
   @Language() lang: string
   @ViewChildren('reports') reportList: any
-  private dateRangeReport: ReportRequest = { lang: null, content: null, style: null, company: null, address: null, logo: null, orientation: null, footer: null, supervisor: null, signature: null, subject: null, fontsize: null, images: null }
+  private dateRangeReport: ReportRequest = { lang: null, content: null, style: null, company: null, address: null, logo: null, orientation: null, footer: null, supervisor: null, signature: null, gp_signature: null, subject: null, fontsize: null, images: null }
   options: Pickadate.DateOptions
   suffix: string = ''
   footer: string = ''
@@ -86,6 +86,8 @@ export class SuperReportViewer implements OnInit {
       footer: this.footer,
       supervisor: sourceReport.report.approved_by,
       signature: sourceReport.report.signature_path,
+      gp_supervisor: sourceReport.report.gp_supervisor,
+      gp_signature: sourceReport.report.gp_signature_path,
       fontsize: sourceReport.reportComponent.getFontSize()
     }
   }

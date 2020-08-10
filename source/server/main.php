@@ -111,7 +111,8 @@ $controller = new ServiceProvider(
       $gapOthersUnusualOccurrences, $selfInspection, $footers, $gapPreop, 
       $docControl, $coldRoomTemp, $agedProduct, $ozoneWater, $waterResource, $menu,
       $gapDocControl, $capa, $atpLuminometer, $gmpHarvestTool, $gapHarvestTool,
-      $productRevision, $harvestBlockInspection, $gapSelfInspection, $customerComplaint) {
+      $productRevision, $harvestBlockInspection, $gapSelfInspection, $customerComplaint,
+      $gpSignatures) {
       return new db\TableFactory(
         'fsm\database\\',
         $zone['tables'] +
@@ -133,6 +134,7 @@ $controller = new ServiceProvider(
         $selfInspection['tables'] +
         $footers['tables'] +
         $gapPreop['tables'] +
+        $gpSignatures['tables'] +
         $docControl['tables'] +
         $coldRoomTemp['tables'] +
         $agedProduct['tables'] +
@@ -180,6 +182,7 @@ $controller = new ServiceProvider(
       $footers['services'] +
       $gapPreop['services'] +
       $signatures['services'] +
+      $gpSignatures['services'] +
       $docControl['services'] +
       $coldRoomTemp['services'] +
       $agedProduct['services'] +

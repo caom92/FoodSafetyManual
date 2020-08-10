@@ -1,0 +1,13 @@
+h4
+  i.mdi.mdi-pen()
+  |  {{ 'GPSignatures.title' | translate:lang }}
+table
+  thead
+    tr
+      th {{ 'GPSignatures.id' | translate:lang }}
+      th {{ 'GPSignatures.name' | translate:lang }}
+      th {{ 'GPSignatures.zones_under_charge' | translate:lang }}
+      th {{ 'GPSignatures.signature' | translate:lang }}
+      th
+  tbody
+    tr(gp-signatures-signature, *ngFor='let signature of signatures', [signature]='signature', [zoneList]='zoneList')

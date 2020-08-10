@@ -83,7 +83,8 @@
     "delete_file": "Delete file permanently",
     "delete_image": "Delete image permanently",
     "autofill": "Autofill empty fields",
-    "close_customer_complaint": "Close Customer Complaint"
+    "close_customer_complaint": "Close Customer Complaint",
+    "gp_signature": "Good Practices Signature"
   },
   "Messages": {
     "resend_log": "Are you sure you want to retry sending this log?",
@@ -99,7 +100,8 @@
     "delete_file": "The PDF file you selected to delete is a file stored in the server. This action cannot be undone, are you sure you want to continue?",
     "delete_image": "The image you selected to delete is a file stored in the server. This action cannot be undone, are you sure you want to continue?",
     "autofill": "All unfilled elements will be automatically filled as \"acceptable\". Make sure to have filled all elements with deficiencies.",
-    "close_customer_complaint": "Form will be closed. It will be available to create reports, but it will no longer be editable, are you sure you want to continue?"
+    "close_customer_complaint": "Form will be closed. It will be available to create reports, but it will no longer be editable, are you sure you want to continue?",
+    "gp_signature": "This log will be signed. This action cannot be undone, are you sure you want to continue?"
   },
   "Adverbs": {
     "before": "Before",
@@ -521,5 +523,20 @@
     "quantity_required": "Product quantity is required",
     "cost_required": "Cost is required",
     "sources_required": "Please select one or more sources"
+  },
+  "GPSignatures": {
+    "title": "Good Practices Supervisors",
+    "edit": "Edit",
+    "edit_signature": "Edit signature",
+    "choose_signature": "Choose signature",
+    "id": "ID",
+    "name": "Name",
+    "zones_under_charge": "Zones under charge",
+    "signature": "Signature",
+    "select_zones": "Select one or more zones",
+    "pending_signatures": "There are no pending registers pending of signature for this log",
+    "pending_logs": "Logs with pending signatures",
+    "select_zone": "Select a zone",
+    "select_log": "Select a log"
   }
 }

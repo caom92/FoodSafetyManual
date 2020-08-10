@@ -95,6 +95,29 @@ class Logs extends db\DataBaseTable
     );
   }
 
+  // Returns an associative array which contains the id and name of all the
+  // logs, along with the module and program name. This version should be used
+  // for flat arrays, instead of multidimensional arrays
+  function selectLogList() {
+    return parent::select(
+      [
+        'p.name(program_name)',
+        'm.name(module_name)',
+        "$this->table.id(id)",
+        "$this->table.name(name)"
+      ],
+      [
+        'ORDER' => [
+          'p.id', 'm.id', "$this->table.id"
+        ]
+      ],
+      [
+        '[><]modules(m)' => ['module_id' => 'id'],
+        '[><]programs(p)' => ['m.program_id' => 'id']
+      ]
+    );
+  }
+
   // Returns the URL of the log with the especified suffix where the manual 
   // PDF file is located
   function getManualURLBySuffix($suffix) {

@@ -75,6 +75,8 @@ $pdf = new PDFCreator(
     $_POST['footer'],
     $_POST['signature'],
     $_POST['supervisor'],
+    (isset($_POST['gp_signature'])) ? $_POST['gp_signature'] : NULL,
+    (isset($_POST['gp_supervisor'])) ? $_POST['gp_supervisor'] : NULL,
     $fontsize,
     $orientation
 );

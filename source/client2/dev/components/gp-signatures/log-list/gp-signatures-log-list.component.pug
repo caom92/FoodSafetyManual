@@ -1,0 +1,28 @@
+include ../../log-ionic-materialize.pug
+
+h4
+  i.mdi.mdi-pen()
+  |  {{ 'GPSignatures.pending_logs' | translate:lang }}
+div([formGroup]='requestForm')
+  +row()
+    +col(class='col s3 m3 l3')
+      mz-select-container
+        select(mz-select, formControlName='zone_id', placeholder="{{ 'GPSignatures.select_zone' | translate:lang }}", (change)='listPendingSignatures()')
+          option(*ngFor='let zone of zoneList', [ngValue]='{ id: zone.id }') {{zone.name}}
+    +col(class='col s9 m9 l9')
+      mz-select-container
+        select(mz-select, formControlName='log_id', placeholder="{{ 'GPSignatures.select_log' | translate:lang }}", (change)='listPendingSignatures()')
+          option(*ngFor='let log of logList', [ngValue]='{ id: log.id }') {{log.program_name}} - {{log.module_name}} - {{log.name}}
+.custom-collection(*ngIf='pendingList.length > 0')
+  .custom-item(*ngFor='let log of pendingList')
+    .custom-item-content.button-number-1
+      .row.no-margin-bottom
+        .col.s12.m12.l12 {{log.capture_date}}
+      .row.no-margin-bottom
+        .col.s12.m12.l12 {{log.supervisor_first_name}} {{log.supervisor_last_name}}
+      .row.no-margin-bottom
+        .col.s12.m12.l12 {{log.employee_first_name}} {{log.employee_last_name}}
+    .custom-collection-button
+      button.green(mz-button, float='true', (click)='signDocument(log.id)')
+        i(mz-icon-mdi, [icon]='"file-outline"', [size]='"24px"')
+h4(*ngIf='pendingList.length === 0') {{ 'GPSignatures.pending_signatures' | translate:lang }}

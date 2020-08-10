@@ -36,6 +36,7 @@ import { EditSignatureModalComponent } from './modal.edit.signature'
 import { ZoneInfoModalComponent } from './modal.zone.info'
 import { UserInfoModalComponent } from './modal.user.info'
 import { EditUserInfoModalComponent } from './modal.user.info.edit'
+import { GPSignaturesEditModalComponent } from './gp-signatures/edit/gp-signatures-edit-modal.component'
 
 // Importamos los servicios que van a ser necesitados por cada pagina del 
 // sistema
@@ -60,6 +61,7 @@ import { ReportService } from '../services/report.service'
 import { MenuService } from '../services/app.menu'
 import { CAPAService } from '../services/capa.service'
 import { CustomerComplaintService } from '../services/customer-complaint.service'
+import { GPSignaturesService } from '../services/gp-signatures.service'
 import { ToastsService } from '../services/toasts.service'
 import { TranslationConfigService } from '../services/translation-config.service'
 import { AreaInventoryService } from '../services/area-inventory.service'
@@ -103,6 +105,7 @@ import { RootRoutingModule } from './app-routing.root'
     MenuService,
     CAPAService,
     CustomerComplaintService,
+    GPSignaturesService,
     ToastsService,
     TranslationConfigService,
     DragulaService
@@ -127,6 +130,7 @@ import { RootRoutingModule } from './app-routing.root'
     SignaturesComponent,
     ZonesComponent,
     EditSignatureModalComponent,
+    GPSignaturesEditModalComponent,
     ZoneInfoModalComponent,
     UsersComponent,
     UserInfoModalComponent,
@@ -146,6 +150,7 @@ import { RootRoutingModule } from './app-routing.root'
     AlertComponent,
     EditFooterModalComponent,
     EditSignatureModalComponent,
+    GPSignaturesEditModalComponent,
     ZoneInfoModalComponent,
     UserInfoModalComponent,
     EditUserInfoModalComponent

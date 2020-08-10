@@ -9,6 +9,8 @@ export interface ReportRequest {
   footer: string
   supervisor: string
   signature: string
+  gp_supervisor?: string
+  gp_signature?: string
   subject?: string
   fontsize?: string
   images?: any

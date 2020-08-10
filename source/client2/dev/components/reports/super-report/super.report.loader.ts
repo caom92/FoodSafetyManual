@@ -20,7 +20,7 @@ export class SuperReportLoader implements OnInit {
 
   @ViewChild('reportContainer') public reportComponent: SuperReportComponent
 
-  private reportRequest: ReportRequest = { lang: null, content: null, style: null, company: null, address: null, logo: null, orientation: null, footer: null, supervisor: null, signature: null, subject: null, fontsize: null, images: null }
+  private reportRequest: ReportRequest = { lang: null, content: null, style: null, company: null, address: null, logo: null, orientation: null, footer: null, supervisor: null, signature: null, gp_supervisor: null, gp_signature: null, subject: null, fontsize: null, images: null }
   private showReport: boolean = false
   preview: Array<Preview> = null
 
@@ -53,6 +53,8 @@ export class SuperReportLoader implements OnInit {
       footer: this.footer,
       supervisor: this.reportComponent.report.approved_by,
       signature: this.reportComponent.report.signature_path,
+      gp_supervisor: this.reportComponent.report.gp_supervisor,
+      gp_signature: this.reportComponent.report.gp_signature_path,
       subject: '',
       images: (this.reportComponent.getImages() == '') ? null : this.reportComponent.getImages(),
       fontsize: this.reportComponent.getFontSize()

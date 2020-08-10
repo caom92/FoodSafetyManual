@@ -96,6 +96,10 @@ const routes: Routes = [
     loadChildren: './customer-complaint/customer-complaint.module#CustomerComplaintModule'
   },
   {
+    path: 'gp-signatures',
+    loadChildren: './gp-signatures/gp-signatures.module#GPSignaturesModule'
+  },
+  {
     path: '',
     redirectTo: '/menu',
     pathMatch: 'full'

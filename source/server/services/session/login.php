@@ -319,6 +319,10 @@ function constructUserProfileArray($scope, $userData) {
       }
     break;
 
+    case 'GP Supervisor':
+      $privileges = [];
+    break;
+
     case 'Supervisor':
       // get the modules associated with this user and assign them 
       // read privileges

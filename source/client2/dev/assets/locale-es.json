@@ -83,7 +83,8 @@
     "delete_file": "Borrar archivo permanentemente",
     "delete_image": "Borrar imagen permanentemente",
     "autofill": "Auto llenar campos vacíos",
-    "close_customer_complaint": "Cerrar Reclamación del Cliente"
+    "close_customer_complaint": "Cerrar Reclamación del Cliente",
+    "gp_signature": "Firma de Buenas Prácticas"
   },
   "Messages": {
     "resend_log": "¿Está seguro que desea reintentar el envío de esta bitácora?",
@@ -99,7 +100,8 @@
     "delete_file": "El archivo PDF que seleccionó para borrar es un archivo que se encuentra en el servidor. Esta acción no se puede deshacer, ¿está seguro que desea continuar?",
     "delete_image": "La imagen que seleccionó para borrar es un archivo que se encuentra en el servidor. Esta acción no se puede deshacer, ¿está seguro que desea continuar?",
     "autofill": "Todos los elementos que no hayan sido llenados serán autollenados como \"aceptables\". Asegúrese de haber llenado todos los elementos con deficiencias.",
-    "close_customer_complaint": "El formulario se cerrará. Estará disponible para generar reportes, pero no podrá editarse, ¿está seguro que desea continuar?"
+    "close_customer_complaint": "El formulario se cerrará. Estará disponible para generar reportes, pero no podrá editarse, ¿está seguro que desea continuar?",
+    "gp_signature": "Está a punto de firmar esta bitácora. Esta acción no se puede deshacer, ¿está seguro que desea continuar?"
   },
   "Adverbs": {
     "before": "Antes",
@@ -521,5 +523,20 @@
     "quantity_required": "La cantidad del producto es requerida",
     "cost_required": "El costo del producto es requerido",
     "sources_required": "Por favor seleccione uno o más puntos de origen del producto"
+  },
+  "GPSignatures": {
+    "title": "Supervisores de Buenas Prácticas",
+    "edit": "Editar",
+    "edit_signature": "Editar firma",
+    "choose_signature": "Seleccionar firma",
+    "id": "ID",
+    "name": "Nombre",
+    "zones_under_charge": "Zonas a cargo",
+    "signature": "Firma",
+    "select_zones": "Seleccione una o más zonas",
+    "pending_signatures": "No hay registros pendintes para la zona y bitácora seleccionada",
+    "pending_logs": "Bitacoras pendientes de firma",
+    "select_zone": "Seleccione una zona",
+    "select_log": "Seleccione una bitácora"
   }
 }

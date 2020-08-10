@@ -1,0 +1,10 @@
+td {{signature.id}}
+td {{signature.full_name}}
+td([formGroup]='signatureForm')
+  mz-select-container
+    select(multiple, [compareWith]="compareFn", mz-select, formControlName='zones', placeholder="{{ 'GPSignatures.select_zones' | translate:lang }}", (change)='onSelectChange()')
+      option(*ngFor='let zone of zoneList', [ngValue]='{ id: zone.id }') {{zone.name}}
+td
+  img(src="{{ 'http://localhost/espresso/data/signatures/' + signature.signature_path }}", height='42')
+td
+  button(mz-button, (click)='onEditButtonClick()') {{ 'GPSignatures.edit_signature' | translate:lang }}

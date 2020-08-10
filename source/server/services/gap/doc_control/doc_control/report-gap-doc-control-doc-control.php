@@ -75,6 +75,7 @@ $service = [
       // then retrieve the name of the employee and supervisor
       // that worked on this log
       $users = $scope->daoFactory->get('Users');
+      $gpSupervisor = $users->getNameByID($log['gp_supervisor_id']);
       $supervisor = $users->getNameByID($log['supervisor_id']);
       $employee = $users->getNameByID($log['employee_id']);
 
@@ -91,6 +92,12 @@ $service = [
             : 'N/A',
         'signature_path' => (strlen($supervisor['signature_path']) > 0) ? 
           $supervisor['signature_path'] : 'default.png',
+        'gp_supervisor' => (isset($gpSupervisor['first_name'])) ?
+          $gpSupervisor['first_name'].' '.
+          $gpSupervisor['last_name'] 
+          : NULL,
+        'gp_signature_path' => $gpSupervisor != NULL ? (strlen($gpSupervisor['signature_path']) > 0) ? 
+          $gpSupervisor['signature_path'] : 'default.png' : NULL,
         'creation_date' => $log['capture_date'],
         'approval_date' => 
           (isset($log['approval_date'])) ?

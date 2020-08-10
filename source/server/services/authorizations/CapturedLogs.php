@@ -40,6 +40,7 @@ class CapturedLogs extends db\InsertableTable
         'employee_id',
         'approval_date',
         'supervisor_id',
+        'gp_supervisor_id',
         'extra_info1',
         'extra_info2'
       ], 
@@ -84,6 +85,7 @@ class CapturedLogs extends db\InsertableTable
         'employee_id',
         'approval_date',
         'supervisor_id',
+        'gp_supervisor_id',
         'extra_info1',
         'extra_info2'
       ], 
@@ -178,6 +180,68 @@ class CapturedLogs extends db\InsertableTable
         )
       ORDER BY t.capture_date DESC"
     )->fetchAll();
+  }
+
+  function selectZoneIDByCapturedLogID($capturedLogID) {
+    $rows = parent::select(
+      [
+        'e.zone_id(zone_id)'
+      ],
+      [
+        "$this->table.id" => $capturedLogID
+      ],
+      [
+        '[><]users(e)' => [
+          'employee_id' => 'id'
+        ]
+      ]
+    );
+
+    return $rows[0]['zone_id'];
+  }
+
+  function selectUnsignedLogsByLogIDAndZoneID($logID, $zoneID) {
+    return parent::select(
+      [
+        "$this->table.id(id)",
+        'capture_date',
+        'employee_id',
+        'e.first_name(employee_first_name)',
+        'e.last_name(employee_last_name)',
+        'supervisor_id',
+        's.first_name(supervisor_first_name)',
+        's.last_name(supervisor_last_name)'
+      ],
+      [
+        'AND' => [
+          'log_id' => $logID,
+          'e.zone_id' => $zoneID,
+          'gp_supervisor_id' => NULL
+        ],
+        'ORDER' => [
+          'capture_date'
+        ]
+      ],
+      [
+        '[><]users(e)' => [
+          'employee_id' => 'id'
+        ],
+        '[><]users(s)' => [
+          'supervisor_id' => 'id'
+        ]
+      ]
+    );
+  }
+
+  function signByCapturedLogID($capturedLogID, $gpSupervisorID) {
+    parent::update(
+      [
+        'gp_supervisor_id' => $gpSupervisorID
+      ],
+      [
+        'id' => $capturedLogID
+      ]
+    );
   }
 
   function selectCapturingLogsByLogIDAndZoneID($logID, $zoneID) {

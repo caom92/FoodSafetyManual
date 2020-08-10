@@ -112,6 +112,12 @@ div.navbar-fixed
     )
       i.mdi.mdi-pen.mdi-24px
       ='{{ langManager.messages.sideNavOptions.signatures }}'
+  mz-sidenav-link('*ngIf'="home.roleName === 'Administrator'")
+    +routerLink("['gp-signatures/supervisor-list']")(
+      class='side-menu-link waves-effect waves-green'
+    )
+      i.mdi.mdi-pen.mdi-24px
+      ='GP Signatures'
 
   //- Menú de navegación para el director
   mz-sidenav-link('*ngIf'="home.roleName === 'Director'")
@@ -150,8 +156,15 @@ div.navbar-fixed
         )
           ='{{ module }}'
 
+  //- Menu de navegacion para el supervisor de buenas prácticas
+  div('*ngIf'="home.roleName === 'GP Supervisor'")
+    mz-sidenav-link
+      +routerLink("['gp-signatures/log-list']")(class='side-menu-link waves-effect waves-green')
+        i.mdi.mdi-file-document-box.mdi-24px.mdi-dark
+        ='Log GP Signature'
+
   //- Menu de navegacion para el empleado, el supervisor, gerente o director
-  div('*ngIf'="home.roleName != 'Administrator'")
+  div('*ngIf'="home.roleName != 'Administrator' && home.roleName != 'GP Supervisor'")
     +sideNavCollapsible(
       '{{ program }}', 'mdi mdi-wrench'
     )(
@@ -166,17 +179,17 @@ div.navbar-fixed
           ='{{ module }}'
 
   //- Menú de navegación para supervisor, gerente o director
-  div('*ngIf'="home.roleName != 'Administrator' && home.roleName != 'Employee'")
+  div('*ngIf'="home.roleName != 'Administrator' && home.roleName != 'Employee' && home.roleName != 'GP Supervisor'")
     mz-sidenav-link
       +routerLink("['product-data-viewer']")(class='side-menu-link waves-effect waves-green')
         i.mdi.mdi-database.mdi-24px.mdi-dark
         ='Database BCN'
-  div('*ngIf'="home.roleName != 'Administrator' && home.roleName != 'Employee'")
+  div('*ngIf'="home.roleName != 'Administrator' && home.roleName != 'Employee' && home.roleName != 'GP Supervisor'")
     mz-sidenav-link
       +routerLink("['capa/capture']")(class='side-menu-link waves-effect waves-green')
         i.mdi.mdi-file-document-box.mdi-24px.mdi-dark
         ='CAPA'
-  div('*ngIf'="home.roleName != 'Administrator' && home.roleName != 'Employee'")
+  div('*ngIf'="home.roleName != 'Administrator' && home.roleName != 'Employee' && home.roleName != 'GP Supervisor'")
     mz-sidenav-link
       +routerLink("['customer-complaint/capture']")(class='side-menu-link waves-effect waves-green')
         i.mdi.mdi-file-document-box.mdi-24px.mdi-dark
