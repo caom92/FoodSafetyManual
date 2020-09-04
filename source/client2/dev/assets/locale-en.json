@@ -143,6 +143,7 @@
     "results": "Results",
     "retests": "Retests",
     "units": "Units",
+    "unit_type": "Unit type",
     "status": "Status",
     "pass": "Pass",
     "fail": "Fail",

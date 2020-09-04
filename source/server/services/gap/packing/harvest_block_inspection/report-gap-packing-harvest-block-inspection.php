@@ -16,7 +16,8 @@ $service = fsm\createReportService(
         ->selectByCaptureDateID($logDate['id'])[0];
 
       $items = [
-        'items' => $scope->daoFactory->get('gap\packing\harvestBlockInspection\QuestionLogs')->selectByCaptureDateID($logDate['id'])
+        'items' => $scope->daoFactory->get('gap\packing\harvestBlockInspection\QuestionLogs')->selectByCaptureDateID($logDate['id']),
+        'unit_types' => $scope->daoFactory->get('gap\packing\harvestBlockInspection\UnitTypes')->selectAll()
       ];
 
       return array_merge($info, $items);
@@ -27,13 +28,15 @@ $service = fsm\createReportService(
       'inspection_end_date',
       'inspection_end_time',
       'commodities',
-      'pounds',
+      'units',
+      'unit_type',
       'grower',
       'block_code',
       'contact',
       'location',
       'country',
-      'items'
+      'items',
+      'unit_types'
     ]
   ],
   FALSE,

@@ -7,7 +7,9 @@ $harvestBlockInspection = [
     'gap\packing\harvestBlockInspection\QuestionLogs' =>
       realpath(dirname(__FILE__).'/QuestionLogs.php'),
     'gap\packing\harvestBlockInspection\Questions' =>
-      realpath(dirname(__FILE__).'/Questions.php')
+      realpath(dirname(__FILE__).'/Questions.php'),
+    'gap\packing\harvestBlockInspection\UnitTypes' =>
+      realpath(dirname(__FILE__).'/UnitTypes.php')
   ],
   'services' => [
     'add-gap-packing-harvest-block-inspection' =>

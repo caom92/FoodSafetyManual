@@ -2,7 +2,7 @@ import { Component, Input, ViewChild } from '@angular/core'
 import { Language, TranslationService, DefaultLocale } from 'angular-l10n'
 
 import { SuperReportComponent } from '../../super-report/super.report'
-import { Report } from '../interfaces/gap-packing-harvest-block-inspection-report.interface'
+import { Report, ReportUnitType } from '../interfaces/gap-packing-harvest-block-inspection-report.interface'
 
 @Component({
   selector: 'gap-packing-harvest-block-inspection-report',
@@ -14,9 +14,18 @@ export class GAPPackingHarvestBlockInspectionReportComponent extends SuperReport
   @Language() lang: string
   @DefaultLocale() defaultLocale: string
   @ViewChild('report_body') reportHTML: any
+  unitDetails: ReportUnitType = { id: null, name_en: '', name_es: '' }
 
   constructor(translationService: TranslationService) {
     super(translationService)
+  }
+
+  public ngOnInit(): void {
+    super.ngOnInit()
+    let unitTypeIndex = this.report.unit_types[this.report.unit_types.findIndex((x => x.id == this.report.unit_type))]
+    if (unitTypeIndex !== undefined) {
+      this.unitDetails = this.report.unit_types[this.report.unit_types.findIndex((x => x.id == this.report.unit_type))]
+    }
   }
 
   public getOrientation(): string {

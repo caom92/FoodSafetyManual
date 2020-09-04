@@ -111,7 +111,7 @@ createUploadManualService($program, $module, $log, $manualFileDir) {
 // [out]  return (dictionary): arreglo asociativo que contiene la descripcion
 //        del servicio
 function createLogService($program, $module, $log, $strategy, 
-  $useCustom = FALSE) {
+  $useCustom = FALSE, $organization = FALSE) {
   return [
     'requirements_desc' => [
       'logged_in' => ['Manager', 'Supervisor', 'Employee'],
@@ -123,7 +123,7 @@ function createLogService($program, $module, $log, $strategy,
       ]
     ],
     'callback' => (!$useCustom) ?
-      function($scope, $request) use ($strategy, $program, $module, $log) {
+      function($scope, $request) use ($strategy, $program, $module, $log, $organization) {
         // first, get the session segment
         $segment = $scope->session->getSegment('fsm');
 
@@ -140,14 +140,23 @@ function createLogService($program, $module, $log, $strategy,
           );
 
         // prepare the response JSON
-        return [
+        $result = [
           'zone_name' => $segment->get('zone_name'),
           'program_name' => $program,
           'module_name' => $module,
           'log_name' => $log,
-          'html_footer' => $footers['form_footer'],
-          $strategy['items_name'] => $items
+          'html_footer' => $footers['form_footer']
         ];
+
+        if ($organization === FALSE) {
+          $result[$strategy['items_name']] = $items;
+        } else {
+          foreach ($strategy['organization'] as $org) {
+            $result[$org] = $items[$org];
+          }
+        }
+
+        return $result;
       } : $strategy
   ];
 }

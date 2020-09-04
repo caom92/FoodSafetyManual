@@ -30,7 +30,10 @@ $service = fsm\createCaptureService(
     'commodities' => [
       'type' => 'string'
     ],
-    'pounds' => [
+    'units' => [
+      'type' => 'int'
+    ],
+    'unit_type' => [
       'type' => 'int'
     ],
     'grower' => [
@@ -81,7 +84,8 @@ $service = fsm\createCaptureService(
         'inspection_end_date' => (isset($request['inspection_end_date']) && array_key_exists('inspection_end_date', $request)) ? $request['inspection_end_date'] : NULL,
         'inspection_end_time' => (isset($request['inspection_end_time']) && array_key_exists('inspection_end_time', $request)) ? $request['inspection_end_time'] : NULL,
         'commodities' => (isset($request['commodities']) && array_key_exists('commodities', $request)) ? $request['commodities'] : NULL,
-        'pounds' => (isset($request['pounds']) && array_key_exists('pounds', $request)) ? $request['pounds'] : NULL,
+        'units' => (isset($request['units']) && array_key_exists('units', $request)) ? $request['units'] : NULL,
+        'unit_type' => (isset($request['unit_type']) && array_key_exists('unit_type', $request)) ? $request['unit_type'] : NULL,
         'grower' => (isset($request['grower']) && array_key_exists('grower', $request)) ? $request['grower'] : NULL,
         'block_code' => (isset($request['block_code']) && array_key_exists('block_code', $request)) ? $request['block_code'] : NULL,
         'contact' => (isset($request['contact']) && array_key_exists('contact', $request)) ? $request['contact'] : NULL,

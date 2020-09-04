@@ -143,6 +143,7 @@
     "results": "Resultado",
     "retests": "2da Prueba",
     "units": "Unidades",
+    "unit_type": "Tipo de unidad",
     "status": "Estado",
     "pass": "Pasó",
     "fail": "Falló",
