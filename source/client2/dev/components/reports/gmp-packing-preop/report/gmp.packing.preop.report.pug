@@ -24,6 +24,8 @@ block report
           td.fullColumn(colspan='7')
             | {{ 'Log.sanitization_person' | translate:lang }}: {{area.person_performing_sanitation}}
       tr
+        td.fullColumn(colspan='7') {{ 'Log.subject' | translate:lang }}: {{report.subjects}}
+      tr
         td.fullColumn(colspan='7') {{ 'Log.notes' | translate:lang }}: {{report.notes}}
       tr
         td.fullColumn(colspan='7') {{ 'Log.album_url' | translate:lang }}: 

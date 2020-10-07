@@ -114,6 +114,7 @@
     "final_date": "Fecha de cierre",
     "pdf_report": "Ver en PDF",
     "complementary_information": "Información Complementaria del Reporte",
+    "subject": "Tema de la plática impartida al inicio de la jornada",
     "notes": "Notas",
     "notes_of": "Notas de",
     "external_link_of": "Enlace externo de",
@@ -270,6 +271,7 @@
   "LogErrors": {
     "gmp-packing-preop": {
       "item_status": "Debe marcar un elemento como Aceptable o No Aceptable",
+      "subject_length": "The subject can't exceed 65535 characters",
       "comment_length": "El comentario no puede exceder 65535 caracteres",
       "person_length": "El nombre de la persona a cargo de la sanitización no puede exceder 255 caracteres",
       "album_length": "El enlace del album no puede exceder 2000 caracteres"

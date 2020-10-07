@@ -22,7 +22,7 @@ $service = fsm\createAuthorizationReportService(
 
       return array_merge($info, $items);
     },
-    'organization' =>   [
+    'organization' => [
       'inspection_start_date',
       'inspection_start_time',
       'inspection_end_date',

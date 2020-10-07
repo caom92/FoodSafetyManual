@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms'
 import { SuperCaptureLog } from '../../super-logs/super.logs.capture.interface'
 
 export interface CaptureLog extends SuperCaptureLog {
+  subject: string
   notes: string
   album_url: string
   areas: Array<CaptureArea>

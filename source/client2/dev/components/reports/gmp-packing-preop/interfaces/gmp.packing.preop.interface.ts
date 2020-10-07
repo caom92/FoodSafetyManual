@@ -1,6 +1,7 @@
 import { SuperReportInterface } from '../../super-report/super.report.interface'
 
 export interface Report extends SuperReportInterface {
+  subject: string
   notes: string
   album_url: string
   areas: Array<ReportArea>

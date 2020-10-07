@@ -77,13 +77,20 @@ $service = fsm\createAuthorizationReportService(
       }
 
       return [
-        'corrective_actions' => 
-          $scope->daoFactory->get('gmp\packing\preop\CorrectiveActions')
-            ->selectAllButOptionOther(),
-        'logs' => $areasLogEntries
+        'areas' => [
+          'corrective_actions' => $scope->daoFactory->get('gmp\packing\preop\CorrectiveActions')->selectAllButOptionOther(),
+          'logs' => $areasLogEntries
+        ],
+        'subject' => ''
       ];
-    }
-  ]
+    },
+    'organization' => [
+      'areas',
+      'subject'
+    ]
+  ],
+  FALSE,
+  TRUE
 );
 
 ?>

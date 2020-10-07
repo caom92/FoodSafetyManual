@@ -114,6 +114,7 @@
     "final_date": "Closing date",
     "pdf_report": "View in PDF",
     "complementary_information": "Complementary Report Information",
+    "subject": "Subject discussed at the start of the working day",
     "notes": "Notes",
     "notes_of": "Notes of",
     "external_link_of": "External link of",
@@ -270,6 +271,7 @@
   "LogErrors": {
     "gmp-packing-preop": {
       "item_status": "You must mark an item as either acceptable or unnaceptable",
+      "subject_length": "The subject can't exceed 65535 characters",
       "comment_length": "The comment can't exceed 65535 characters",
       "person_length": "The name of the person performing sanitation can't exceed 255 characters",
       "album_length": "The album URL can't exceed 2000 characters"

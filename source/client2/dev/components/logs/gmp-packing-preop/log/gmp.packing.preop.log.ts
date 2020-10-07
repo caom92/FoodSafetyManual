@@ -38,6 +38,7 @@ export class GMPPackingPreopLogComponent extends SuperLogComponent implements On
     const currentTime = this.timeService.getISOTime()
     this.captureForm = this._fb.group({
       date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
+      subject: ['', [Validators.maxLength(65535)]],
       notes: ['', [Validators.maxLength(65535)]],
       album_url: ['', [Validators.maxLength(65535)]],
       areas: this._fb.array([])

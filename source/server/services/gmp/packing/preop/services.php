@@ -12,6 +12,8 @@ $preop = [
       realpath(dirname(__FILE__).'/Items.php'),
     'gmp\packing\preop\ItemTypes' =>
       realpath(dirname(__FILE__).'/ItemTypes.php'),
+    'gmp\packing\preop\SubjectLogs' =>
+      realpath(dirname(__FILE__).'/SubjectLogs.php'),
     'gmp\packing\preop\WorkingAreas' =>
       realpath(dirname(__FILE__).'/WorkingAreas.php')
   ],
