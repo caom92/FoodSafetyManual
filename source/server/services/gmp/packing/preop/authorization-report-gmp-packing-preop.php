@@ -76,12 +76,14 @@ $service = fsm\createAuthorizationReportService(
         array_push($areasLogEntries, $tempAreaLogEntry);
       }
 
+      $subject = $scope->daoFactory->get('gmp\packing\preop\SubjectLogs')->selectByCaptureDateID($logDate['id']);
+
       return [
         'areas' => [
           'corrective_actions' => $scope->daoFactory->get('gmp\packing\preop\CorrectiveActions')->selectAllButOptionOther(),
           'logs' => $areasLogEntries
         ],
-        'subject' => ''
+        'subject' => (isset($subject[0])) ? $subject[0]['subject'] : ''
       ];
     },
     'organization' => [

@@ -83,7 +83,7 @@ $service = [
     // for updating the subject, we must first verify if a subject already
     // exists (in order to guarantee compatibility with previously registered
     // logs); we insert if it doesn't exist, update if it exists
-    $subject = $scope->daoFactory->get('gmp\packing\preop\SubjectLogs')->selectByCaptureDateID($logDate['id']);    
+    $subject = $scope->daoFactory->get('gmp\packing\preop\SubjectLogs')->selectByCaptureDateID($request['report_id']);
     if (isset($subject[0])) {
       $scope->daoFactory->get('gmp\packing\preop\SubjectLogs')->updateByCapturedLogID(
         [
@@ -94,7 +94,7 @@ $service = [
     } else {
       $scope->daoFactory->get('gmp\packing\preop\SubjectLogs')
         ->insert([
-          'capture_date_id' => $logID,
+          'capture_date_id' => $request['report_id'],
           'subject' => $request['subject']
       ]);
     }      
