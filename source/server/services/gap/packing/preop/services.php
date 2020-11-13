@@ -12,6 +12,8 @@ $gapPreop = [
       realpath(dirname(__FILE__).'/Items.php'),
     'gap\packing\preop\ItemTypes' =>
       realpath(dirname(__FILE__).'/ItemTypes.php'),
+    'gap\packing\preop\SubjectLogs' =>
+      realpath(dirname(__FILE__).'/SubjectLogs.php'),
     'gap\packing\preop\WorkingAreas' =>
       realpath(dirname(__FILE__).'/WorkingAreas.php')
   ],

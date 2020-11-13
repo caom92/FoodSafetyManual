@@ -1,6 +1,7 @@
 import { SuperUpdateLog } from '../../super-logs/super.logs.update.interface'
 
 export interface UpdateLog extends SuperUpdateLog {
+  subject: string
   notes: string
   album_url: string
   areas: Array<UpdateArea>

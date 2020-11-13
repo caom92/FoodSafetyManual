@@ -8,6 +8,10 @@ $service = fsm\createCaptureService(
   'Fields',
   'Pre Operativo Diario',
   [
+    'subject' => [
+      'type' => 'string',
+      'max_length' => 65535
+    ],
     'areas' => [
       'type' => 'array',
       'values' => [
@@ -107,6 +111,13 @@ $service = fsm\createCaptureService(
           ]);
         }
       }
+
+      // record the subject for the log
+      $scope->daoFactory->get('gap\packing\preop\SubjectLogs')
+        ->insert([
+          'capture_date_id' => $logID,
+          'subject' => $request['subject']
+        ]);
 
       // finally, store all the per item log entries in the data base in a
       // single query

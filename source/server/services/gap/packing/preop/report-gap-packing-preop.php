@@ -76,9 +76,20 @@ $service = fsm\createReportService(
         array_push($areasLogEntries, $tempAreaLogEntry);
       }
 
-      return $areasLogEntries;
-    }
-  ]
+      $subject = $scope->daoFactory->get('gap\packing\preop\SubjectLogs')->selectByCaptureDateID($logDate['id']);
+
+      return [
+        'areas' => $areasLogEntries,
+        'subject' => (isset($subject[0])) ? $subject[0]['subject'] : ''
+      ];
+    },
+    'organization' => [
+      'areas',
+      'subject'
+    ]
+  ],
+  FALSE,
+  TRUE
 );
 
 ?>

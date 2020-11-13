@@ -46,6 +46,7 @@ export class GAPPackingPreopLogComponent extends SuperLogComponent implements On
     const currentTime = this.timeService.getISOTime()
     this.captureForm = this._fb.group({
       date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
+      subject: ['', [Validators.maxLength(65535)]],
       notes: ['', [Validators.maxLength(this.maxLengths.report_notes)]],
       album_url: ['', [Validators.maxLength(this.maxLengths.album_url)]],
       areas: this._fb.array([])

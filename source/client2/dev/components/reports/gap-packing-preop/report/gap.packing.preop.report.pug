@@ -19,6 +19,8 @@ block report
           ng-template(ngFor, let-item, [ngForOf]='type.items')
             tr(gap-packing-preop-report-item, [item]='item')
         tr
+          td.fullColumn(colspan='7') {{ 'Log.subject' | translate:lang }}: {{report.subject}}
+        tr
           td.fullColumn(colspan='7') {{ 'Log.notes' | translate:lang }}: {{area.notes}}
         tr
           td.fullColumn(colspan='7')

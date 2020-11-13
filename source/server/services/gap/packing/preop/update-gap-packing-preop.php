@@ -13,6 +13,10 @@ $service = [
       'type' => 'int',
       'min' => 1
     ],
+    'subject' => [
+      'type' => 'string',
+      'max_length' => 65535
+    ],
     'notes' => [
       'type' => 'string',
       'max_length' => 65535
@@ -77,6 +81,25 @@ $service = [
       ], 
       $request['report_id']
     );
+
+    // for updating the subject, we must first verify if a subject already
+    // exists (in order to guarantee compatibility with previously registered
+    // logs); we insert if it doesn't exist, update if it exists
+    $subject = $scope->daoFactory->get('gap\packing\preop\SubjectLogs')->selectByCaptureDateID($request['report_id']);    
+    if (isset($subject[0])) {
+      $scope->daoFactory->get('gap\packing\preop\SubjectLogs')->updateByCapturedLogID(
+        [
+          'subject' => $request['subject']
+        ],
+        $request['report_id']
+      );
+    } else {
+      $scope->daoFactory->get('gap\packing\preop\SubjectLogs')
+        ->insert([
+          'capture_date_id' => $request['report_id'],
+          'subject' => $request['subject']
+      ]);
+    }
 
     // for each area in the input array...
     foreach ($request['areas'] as $area) {

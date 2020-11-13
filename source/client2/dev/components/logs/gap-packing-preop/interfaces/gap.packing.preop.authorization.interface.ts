@@ -1,6 +1,7 @@
 import { SuperAuthorization } from '../../super-logs/super.logs.authorization.interface'
 
 export interface Authorization extends SuperAuthorization {
+  subject: string
   notes: string
   album_url: string
   areas: {

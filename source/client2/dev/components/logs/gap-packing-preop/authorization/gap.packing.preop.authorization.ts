@@ -41,6 +41,7 @@ export class GAPPackingPreopAuthorizationComponent extends SuperAuthorizationCom
     this.captureForm = this._fb.group({
       report_id: [this.log.report_id, [Validators.required]],
       date: [this.log.creation_date, [Validators.required, CustomValidators.dateValidator()]],
+      subject: [this.log.subject, [Validators.maxLength(65535)]],
       notes: [this.log.notes, [Validators.maxLength(this.maxLengths.report_notes)]],
       album_url: [this.log.album_url, [Validators.maxLength(this.maxLengths.album_url)]],
       areas: this._fb.array([])
