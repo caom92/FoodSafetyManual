@@ -67,10 +67,10 @@ mz-collapsible(#collapsible, [mode]="'expandable'")
             input#batch-input(mz-input, label="{{ 'ProductDataViewer.batch' | translate:lang }}", placeholder="{{ 'ProductDataViewer.batch' | translate:lang }}", type='text', autocomplete='off', [autocomplete]='autocompleteBatches', (change)='onAutocompleteChange($event, autocompleteBatches)', [(ngModel)]='autocompleteBatches.current')
         .col.s2.m2.l2
           mz-input-container
-            input#batch-input(mz-input, label="{{ 'ProductDataViewer.id' | translate:lang }}", placeholder="{{ 'ProductDataViewer.id' | translate:lang }}", type='text', autocomplete='off', [autocomplete]='autocompleteIDs', (change)='onAutocompleteChange($event, autocompleteIDs)', [(ngModel)]='autocompleteIDs.current')
+            input#id-input(mz-input, label="{{ 'ProductDataViewer.id' | translate:lang }}", placeholder="{{ 'ProductDataViewer.id' | translate:lang }}", type='text', autocomplete='off', [autocomplete]='autocompleteIDs', (change)='onAutocompleteChange($event, autocompleteIDs)', [(ngModel)]='autocompleteIDs.current')
         .col.s2.m2.l2
           mz-input-container
-            input#batch-input(mz-input, label="{{ 'ProductDataViewer.shipping' | translate:lang }}", placeholder="{{ 'ProductDataViewer.shipping' | translate:lang }}", type='text', autocomplete='off', [autocomplete]='autocompleteShipments', (change)='onAutocompleteChange($event, autocompleteShipments)', [(ngModel)]='autocompleteShipments.current')
+            input#shipping-input(mz-input, label="{{ 'ProductDataViewer.shipping' | translate:lang }}", placeholder="{{ 'ProductDataViewer.shipping' | translate:lang }}", type='text', autocomplete='off', [autocomplete]='autocompleteShipments', (change)='onAutocompleteChange($event, autocompleteShipments)', [(ngModel)]='autocompleteShipments.current')
       .row
         .col.s12.m6.l3
           .center
@@ -114,7 +114,7 @@ div
         th.slim-table-cell.no-wrap-table-cell {{ 'ProductDataViewer.shipping' | translate:lang }}
     tbody
       ng-template(ngFor, [ngForOf]='currentData', let-d, let-i='index')
-        tr([ngClass]="d['Rec']?'received':''")
+        tr([ngClass]="{'received': d['Rec'] && (d['Batch'] != autocompleteBatches.current || d['Batch'] == null || d['Batch'] == ''), 'highlightrow': d['Batch']!= null && d['Batch'] != '' && d['Batch'] == autocompleteBatches.current}")
           td.slim-table-cell.no-wrap-table-cell {{d['ID_Cosecha']}}
           td.slim-table-cell.no-wrap-table-cell {{formatDate(d['Fecha']) | l10nDate:defaultLocale:monthOptions | slice:0:3 | titlecase}} {{formatDate(d['Fecha']) | l10nDate:defaultLocale:dayOptions}}, {{formatDate(d['Fecha']) | l10nDate:defaultLocale:yearOptions}}
           //-td.slim-table-cell.no-wrap-table-cell {{formatDate(d['Fecha']) | l10nDate:defaultLocale:'MMMM' | slice:0:3 | titlecase }} {{formatDate(d['Fecha']) | l10nDate:defaultLocale:'d'}}, {{formatDate(d['Fecha']) | l10nDate:defaultLocale:'yyyy' | slice:2:4}}

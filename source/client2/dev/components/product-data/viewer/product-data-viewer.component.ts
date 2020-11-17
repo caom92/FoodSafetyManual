@@ -196,6 +196,16 @@ export class ProductDataViewerComponent implements OnInit {
     }
   }
 
+  public goToPage(page: number): void {
+    if (page * this.pageSize < this.filteredData.length) {
+      this.currentPage = page
+      this.currentData = []
+      for (let i = this.currentPage * this.pageSize; i < (this.currentPage + 1) * this.pageSize && i < this.filteredData.length; i++) {
+        this.currentData.push(this.filteredData[i])
+      }
+    }
+  }
+
   public goToFirst(): void {    
     this.currentPage = 0
     this.currentData = []
@@ -389,6 +399,13 @@ export class ProductDataViewerComponent implements OnInit {
   public showDetails(): void {
     this.filter()
 
+    if (this.allBatches.current != null && this.allBatches.current != '') {
+      let batchIndex = this.filteredData.findIndex(x => x.Batch == this.allBatches.current)
+      if (batchIndex != -1) {
+        this.goToPage(Math.floor((batchIndex + 1) / this.pageSize))
+      }
+    }
+
     this.noFilters = false
 
     this.showDetailedView = true
@@ -492,7 +509,6 @@ export class ProductDataViewerComponent implements OnInit {
         (this.allProducts.current == null || d['Producto'] == this.allProducts.current || this.allProducts.current == '') &&
         (this.allLots.current == null || d['Lote'] == this.allLots.current || this.allLots.current == '') &&
         (this.allVarieties.current == null || d['Variedad'] == this.allVarieties.current || this.allVarieties.current == '') &&
-        (this.allBatches.current == null || d['Batch'] == this.allBatches.current || this.allBatches.current == '') &&
         (this.allIDs.current == null || d['ID_Cosecha'] == this.allIDs.current || this.allIDs.current == '') &&
         (this.allShipments.current == null || d['nCamion'] == this.allShipments.current || this.allShipments.current == '') &&
         (this.allTraceability.current == null || d['Grupo'] == this.allTraceability.current || this.allTraceability.current == '') &&
