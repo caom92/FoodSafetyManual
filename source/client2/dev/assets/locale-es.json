@@ -42,6 +42,7 @@
   "Default Title": "El nombre del inventario no pudo recuperarse",
   "Manage Inventory": "Gestión de Inventario",
   "Manage Areas": "Gestión de Áreas",
+  "Manage Form": "Gestión de Formulario",
   "Closed Log": "Esta bitácora se encuentra cerrada. A partir de ahora se cuenta con una nueva versión llamada Cutting Tool Accountability Program And Sanitizing Log. Los manuales y reportes de los registros anteriores de esta bitácora podrán seguir consultándose, pero las futuras capturas y futuros reportes deberán realizarse desde la nueva versión antes mencionada.",
   "InventoryLists": {
     "id": "ID",
@@ -73,6 +74,7 @@
     "resend_log": "Enviar bitácora",
     "add_item": "Añadir elemento",
     "add_area": "Añadir área",
+    "add_subject": "Habilitar Tema de la plática impartida al inicio de la jornada",
     "edit_area": "Editar área",
     "approve_log": "Aprobar bitácora",
     "retreat_log": "Retroceder bitácora",
@@ -90,6 +92,7 @@
     "resend_log": "¿Está seguro que desea reintentar el envío de esta bitácora?",
     "add_item": "¿Está seguro de que desea añadir este elemento?<br><br>{{item}}",
     "add_area": "¿Está seguro de que desea añadir esta área?<br><br>{{area}}",
+    "add_subject": "¿Está seguro que desea habilitar el campo para esta zona?",
     "edit_area": "¿Está seguro de que desea cambiar el nombre de esta área?",
     "approve_log": "¿Está seguro que desea aprobar esta bitácora? Esta acción no se puede deshacer",
     "retreat_log": "¿Está seguro que desea regresar bitácora para ser revisada nuevamente por un supervisor? Esta acción no se puede deshacer",
@@ -249,7 +252,9 @@
     "contact": "Contacto",
     "city_location": "Ciudad y Estado",
     "country": "Pais",
-    "autofill": "Auto llenado"
+    "autofill": "Auto llenado",
+    "enable_field_desc": "Esta zona aún no cuenta con el campo Tema de la plática impartida al inicio de la jornada. Para habilitarlo presione el siguiente botón:",
+    "enable_field": "Habilitar campo"
   },
   "Authorization": {
     "send": "Enviar",

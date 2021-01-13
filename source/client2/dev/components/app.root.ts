@@ -65,6 +65,7 @@ import { GPSignaturesService } from '../services/gp-signatures.service'
 import { ToastsService } from '../services/toasts.service'
 import { TranslationConfigService } from '../services/translation-config.service'
 import { AreaInventoryService } from '../services/area-inventory.service'
+import { SubjectInventoryService } from '../services/subject-inventory.service'
 import { languageConfig } from '../functions/l10n-config'
 import { HttpClientModule } from '@angular/common/http'
 import { RootRoutingModule } from './app-routing.root'
@@ -98,6 +99,7 @@ import { RootRoutingModule } from './app-routing.root'
     LoaderService,
     InventoryService,
     AreaInventoryService,
+    SubjectInventoryService,
     AlertController,
     FlattenService,
     LogService,

@@ -80,12 +80,14 @@ $service = fsm\createReportService(
 
       return [
         'areas' => $areasLogEntries,
-        'subject' => (isset($subject[0])) ? $subject[0]['subject'] : ''
+        'subject' => (isset($subject[0])) ? $subject[0]['subject'] : '',
+        'has_subject' => isset($subject[0])
       ];
     },
     'organization' => [
       'areas',
-      'subject'
+      'subject',
+      'has_subject'
     ]
   ],
   FALSE,

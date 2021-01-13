@@ -8,6 +8,7 @@ export interface Authorization extends SuperAuthorization {
     corrective_actions: Array<CorrectiveAction>
     logs: Array<AuthorizationArea>
   }
+  has_subject: boolean
 }
 
 export interface CorrectiveAction {

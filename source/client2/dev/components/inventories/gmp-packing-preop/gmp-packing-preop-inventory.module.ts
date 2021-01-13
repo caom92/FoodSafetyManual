@@ -10,6 +10,7 @@ import { GMPPackingPreopAddItemComponent } from './add-item/gmp.packing.preop.ad
 import { GMPPackingPreopAreaInventoryComponent } from './area-inventory/gmp.packing.preop.area.inventory'
 import { GMPPackingPreopAreaInventoryListComponent } from './area-list/gmp.packing.preop.area.inventory.list'
 import { GMPPackingPreopAreaInventoryAreaComponent } from './area/gmp.packing.preop.area.inventory.area'
+import { GMPPackingPreopFormInventoryComponent } from './form-inventory/gmp.packing.preop.form.inventory'
 import { GMPPackingPreopInventoryComponent } from './inventory/gmp.packing.preop.inventory'
 import { GMPPackingPreopInventoryItemComponent } from './item/gmp.packing.preop.inventory.item'
 import { GMPPackingPreopInventoryListComponent } from './list/gmp.packing.preop.inventory.list'
@@ -31,6 +32,7 @@ import { GMPPackingPreopInventoryRoutingModule } from './routing.module'
     GMPPackingPreopInventoryListComponent,
     GMPPackingPreopInventoryItemComponent,
     GMPPackingPreopAddItemComponent,
+    GMPPackingPreopFormInventoryComponent,
     GMPPackingPreopAreaInventoryComponent,
     GMPPackingPreopAreaInventoryListComponent,
     GMPPackingPreopAreaInventoryAreaComponent,

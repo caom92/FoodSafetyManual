@@ -10,6 +10,7 @@ $service = fsm\createCaptureService(
   [
     'subject' => [
       'type' => 'string',
+      'optional' => true,
       'max_length' => 65535
     ],
     'areas' => [
@@ -67,6 +68,8 @@ $service = fsm\createCaptureService(
       // the per item log
       $itemsLogEntries = [];
 
+      $subjects = $scope->daoFactory->get('gmp\packing\preop\SubjectControl');
+
       // insert each per area log entry one at the time...
       foreach ($request['areas'] as $areaLogEntry) {
         // save the resulting ID for later use
@@ -94,11 +97,13 @@ $service = fsm\createCaptureService(
       }
 
       // record the subject for the log
-      $scope->daoFactory->get('gmp\packing\preop\SubjectLogs')
+      if ($subjects->isActiveByZoneID($segment->get('zone_id'))) {
+        $scope->daoFactory->get('gmp\packing\preop\SubjectLogs')
         ->insert([
           'capture_date_id' => $logID,
           'subject' => $request['subject']
         ]);
+      }
 
       // finally, store all the per item log entries in the data base in a
       // single query

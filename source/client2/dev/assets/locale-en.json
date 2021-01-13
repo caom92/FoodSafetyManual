@@ -42,6 +42,7 @@
   "Default Title": "Inventory name not retrieved",
   "Manage Inventory": "Manage Inventory",
   "Manage Areas": "Manage Areas",
+  "Manage Form": "Manage Form",
   "Closed Log": "This log is currently closed. From now on there is a new version called Cutting Tool Accountability Program And Sanitizing Log. Manuals and reports of previously registered data will still be viewable here, but future logs and reports must be created using the new version.",
   "InventoryLists": {
     "id": "ID",
@@ -73,6 +74,7 @@
     "resend_log": "Resend log",
     "add_item": "Add Item",
     "add_area": "Add Area",
+    "add_subject": "Enable Subject discussed at the start of the working day",
     "approve_log": "Approve log",
     "retreat_log": "Return log",
     "reject_log": "Reject log",
@@ -90,6 +92,7 @@
     "resend_log": "Are you sure you want to retry sending this log?",
     "add_item": "Are you sure you want to add this item?<br><br>{{item}}",
     "add_area": "Are you sure you want to add this area?<br><br>{{area}}",
+    "add_subject": "Are you sure you want to enable this field for this zone",
     "edit_area": "Are you sure you want to change this area's name?",
     "approve_log": "Are you sure you want to approve this log? This action cannot be undone",
     "retreat_log": "Are you sure you want to return this log to be reviewed by a supervisor again? This action cannot be undone",
@@ -249,7 +252,9 @@
     "contact": "Foreman contact",
     "city_location": "City location",
     "country": "Country",
-    "autofill": "Autofill"
+    "autofill": "Autofill",
+    "enable_field_desc": "This zone doesn't have the Subject discussed at the start of the working day field enabled. To enable it, click on this button:",
+    "enable_field": "Enable field"
   },
   "Authorization": {
     "send": "Send",

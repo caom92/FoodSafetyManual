@@ -5,6 +5,7 @@ export interface Log extends SuperLog {
     corrective_actions: Array<CorrectiveAction>
     logs: Array<LogArea>
   }
+  has_subject: boolean
 }
 
 export interface LogArea {

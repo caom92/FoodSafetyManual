@@ -12,6 +12,8 @@ $preop = [
       realpath(dirname(__FILE__).'/Items.php'),
     'gmp\packing\preop\ItemTypes' =>
       realpath(dirname(__FILE__).'/ItemTypes.php'),
+    'gmp\packing\preop\SubjectControl' =>
+      realpath(dirname(__FILE__).'/SubjectControl.php'),
     'gmp\packing\preop\SubjectLogs' =>
       realpath(dirname(__FILE__).'/SubjectLogs.php'),
     'gmp\packing\preop\WorkingAreas' =>
@@ -45,6 +47,12 @@ $preop = [
     'get-areas-of-zone-by-position-gmp-packing-preop' =>
       realpath(dirname(__FILE__)
       .'/get-areas-of-zone-by-position-gmp-packing-preop.php'),
+    'add-subject-gmp-packing-preop' =>
+      realpath(dirname(__FILE__).'/add-subject-gmp-packing-preop.php'),
+    'toggle-subject-gmp-packing-preop' =>
+      realpath(dirname(__FILE__).'/toggle-subject-gmp-packing-preop.php'),
+    'get-subject-of-zone-gmp-packing-preop' =>
+      realpath(dirname(__FILE__).'/get-subject-of-zone-gmp-packing-preop.php'),
     'inventory-gmp-packing-preop' => 
       realpath(dirname(__FILE__).'/get-items-of-area-gmp-packing-preop.php'),
     'authorization-report-gmp-packing-preop' =>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Language } from 'angular-l10n'
 
@@ -33,11 +33,15 @@ export class GMPPackingPreopAuthorizationComponent extends SuperAuthorizationCom
     this.captureForm = this._fb.group({
       report_id: [this.log.report_id, [Validators.required]],
       date: [this.log.creation_date, [Validators.required, CustomValidators.dateValidator()]],
-      subject: [this.log.subject, [Validators.maxLength(65535)]],
       notes: [this.log.notes, [Validators.maxLength(65535)]],
       album_url: [this.log.album_url, [Validators.maxLength(65535)]],
       areas: this._fb.array([])
     })
+
+    if (this.log.has_subject) {
+      this.captureForm.addControl('subject', new FormControl(this.log.subject, [Validators.maxLength(65535)]))
+    }
+
     const control = <FormArray>this.captureForm.controls['areas']
     for (let area of this.log.areas.logs) {
       let itemControl = []

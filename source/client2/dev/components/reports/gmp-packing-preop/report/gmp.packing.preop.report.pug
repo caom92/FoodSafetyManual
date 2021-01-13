@@ -23,7 +23,7 @@ block report
         tr
           td.fullColumn(colspan='7')
             | {{ 'Log.sanitization_person' | translate:lang }}: {{area.person_performing_sanitation}}
-      tr
+      tr(*ngIf='report.has_subject == true')
         td.fullColumn(colspan='7') {{ 'Log.subject' | translate:lang }}: {{report.subject}}
       tr
         td.fullColumn(colspan='7') {{ 'Log.notes' | translate:lang }}: {{report.notes}}

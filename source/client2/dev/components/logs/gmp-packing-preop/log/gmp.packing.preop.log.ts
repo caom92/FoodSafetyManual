@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 
 import { CustomValidators } from '../../../../directives/custom.validators'
@@ -38,11 +38,15 @@ export class GMPPackingPreopLogComponent extends SuperLogComponent implements On
     const currentTime = this.timeService.getISOTime()
     this.captureForm = this._fb.group({
       date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
-      subject: ['', [Validators.maxLength(65535)]],
       notes: ['', [Validators.maxLength(65535)]],
       album_url: ['', [Validators.maxLength(65535)]],
       areas: this._fb.array([])
     })
+
+    if (this.log.has_subject) {
+      this.captureForm.addControl('subject', new FormControl('', [Validators.maxLength(65535)]))
+    }
+
     const control = <FormArray>this.captureForm.controls['areas']
     for (let area of this.log.areas.logs) {
       let itemControl: Array<FormGroup> = []
@@ -93,5 +97,9 @@ export class GMPPackingPreopLogComponent extends SuperLogComponent implements On
       corrective_action_id: [item.corrective_action],
       comment: [item.comment, [Validators.maxLength(65535)]]
     })
+  }
+
+  public save() {
+    console.log(this.captureForm)
   }
 }

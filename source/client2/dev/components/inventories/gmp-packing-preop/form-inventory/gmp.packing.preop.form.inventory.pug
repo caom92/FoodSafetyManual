@@ -1,0 +1,10 @@
+div(*ngIf='subjectControl == null')
+  p {{ 'Log.enable_field_desc' | translate:lang }}
+  button(mz-button, (click)='addSubject()') {{ 'Log.enable_field' | translate:lang }}
+div(*ngIf='subjectControl !== null')
+  table
+    tr
+      td {{ 'Log.subject' | translate:lang }}
+      td
+        mz-switch-container
+          input(mz-switch, type='checkbox', [(ngModel)]='toggleValue', (click)='toggleSubject()')

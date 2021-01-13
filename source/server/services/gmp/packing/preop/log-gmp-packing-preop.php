@@ -12,6 +12,7 @@ $service = fsm\createLogService(
     'function' => function($scope, $segment) {
       $rows = $scope->daoFactory->get('gmp\packing\preop\Items')
         ->selectByZoneID($segment->get('zone_id'));
+      $subjects = $scope->daoFactory->get('gmp\packing\preop\SubjectControl');
 
       // final array where the working areas are going to be stored
       $areas = [];
@@ -106,13 +107,22 @@ $service = fsm\createLogService(
       }
 
       return [
-        'corrective_actions' => 
+        'areas' => [
+          'corrective_actions' => 
           $scope->daoFactory->get('gmp\packing\preop\CorrectiveActions')
             ->selectAllButOptionOther(),
-        'logs' => $areas
+          'logs' => $areas
+        ],
+        'has_subject' => $subjects->isActiveByZoneID($segment->get('zone_id'))
       ];
-    }
-  ]
+    },
+    'organization' => [
+      'areas',
+      'has_subject'
+    ]
+  ],
+  FALSE,
+  TRUE
 );
 
 ?>

@@ -5,6 +5,7 @@ export interface Report extends SuperReportInterface {
   notes: string
   album_url: string
   areas: Array<ReportArea>
+  has_subject: boolean
 }
 
 export interface ReportArea {
