@@ -58,7 +58,7 @@ $service = fsm\createCaptureService(
           'capture_date_id' => $logID,
           'date' => $day['date'],
           'time' => $day['time'],
-          'initials' => $day['initials'],
+          'initials' => (isset($day['initials']) && array_key_exists('initials', $day)) ? $day['initials'] : NULL,
           'day_num' => $day['day_num']
         ]);
 
