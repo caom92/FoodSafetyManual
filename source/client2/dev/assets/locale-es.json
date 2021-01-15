@@ -254,7 +254,9 @@
     "country": "Pais",
     "autofill": "Auto llenado",
     "enable_field_desc": "Esta zona aún no cuenta con el campo Tema de la plática impartida al inicio de la jornada. Para habilitarlo presione el siguiente botón:",
-    "enable_field": "Habilitar campo"
+    "enable_field": "Habilitar campo",
+    "initials": "Iniciales",
+    "answer": "Respuesta"
   },
   "Authorization": {
     "send": "Enviar",

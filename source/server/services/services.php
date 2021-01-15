@@ -10,6 +10,7 @@ require_once realpath(dirname(__FILE__).'/account/services.php');
 require_once realpath(dirname(__FILE__).'/gap/packing/harvest_block_inspection/services.php');
 require_once realpath(dirname(__FILE__).'/gap/packing/harvest_tool/services.php');
 require_once realpath(dirname(__FILE__).'/gmp/packing/atp/services.php');
+require_once realpath(dirname(__FILE__).'/gmp/packing/bathroom_cleaning/services.php');
 require_once realpath(dirname(__FILE__).'/gmp/packing/calibration/services.php');
 require_once realpath(dirname(__FILE__).'/gmp/packing/finished_product/services.php');
 require_once realpath(dirname(__FILE__).'/gmp/packing/glass/services.php');

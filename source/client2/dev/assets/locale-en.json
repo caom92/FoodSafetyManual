@@ -254,7 +254,9 @@
     "country": "Country",
     "autofill": "Autofill",
     "enable_field_desc": "This zone doesn't have the Subject discussed at the start of the working day field enabled. To enable it, click on this button:",
-    "enable_field": "Enable field"
+    "enable_field": "Enable field",
+    "initials": "Initials",
+    "answer": "Answer"
   },
   "Authorization": {
     "send": "Send",

@@ -63,6 +63,11 @@ const routes: Routes = [
     loadChildren: './gmp-packing-atp-testing/gmp-packing-atp-testing-capture.module#GMPPackingATPTestingCaptureModule'
   },
   {
+    path: 'gmp-packing-bathroom-cleaning',
+    data: { suffix: 'gmp-packing-bathroom-cleaning' },
+    loadChildren: './gmp-packing-bathroom-cleaning/gmp-packing-bathroom-cleaning-capture.module#GMPPackingBathroomCleaningCaptureModule'
+  },
+  {
     path: 'gmp-packing-cold-room-temp',
     data: { suffix: 'gmp-packing-cold-room-temp' },
     loadChildren: './gmp-packing-cold-room-temp/gmp-packing-cold-room-temp-capture.module#GMPPackingColdRoomTempCaptureModule'

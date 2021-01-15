@@ -1,0 +1,8 @@
+extends ../../capture.common.pug
+
+block reportViewer
+  gmp-packing-bathroom-cleaning-report-viewer
+
+block logViewer
+  gmp-packing-bathroom-cleaning-log-list([suffix]='suffix', *ngIf='newLog !== true', (startLog)='onOpenLog($event)')
+  gmp-packing-bathroom-cleaning-log(*ngIf='newLog == true', [log]='logData', (closeLog)='onCloseLog($event)')
