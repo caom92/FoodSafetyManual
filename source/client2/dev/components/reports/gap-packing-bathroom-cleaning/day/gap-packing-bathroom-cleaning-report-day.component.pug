@@ -1,0 +1,7 @@
+td.dateColumn([rowSpan]='day.items.length') {{day.date}}
+td.timeColumn([rowSpan]='day.items.length') {{day.time}}
+td.initialsColumn([rowSpan]='day.items.length') {{day.initials}}
+td.questionColumn {{day.items[0].name}}
+td.answerColumn(*ngIf='day.items[0].status == 1') {{ 'Log.yes' | translate:lang }}
+td.answerColumn(*ngIf='day.items[0].status == 0') {{ 'Log.no' | translate:lang }}
+td.activityColumn {{day.items[0].activity}}

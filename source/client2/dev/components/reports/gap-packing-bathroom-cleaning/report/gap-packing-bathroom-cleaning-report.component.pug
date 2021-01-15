@@ -1,0 +1,17 @@
+extends ../../report.common.pug
+
+block report
+  table(#report_body)
+    thead
+      tr
+        th.dateColumn {{ 'Log.date' | translate:lang }}
+        th.timeColumn {{ 'Log.time' | translate:lang }}
+        th.initialsColumn {{ 'Log.initials' | translate:lang }}
+        th.questionColumn {{ 'Log.question' | translate:lang }}
+        th.answerColumn {{ 'Log.answer' | translate:lang }}
+        th.activityColumn {{ 'Log.activity' | translate:lang }}
+    tbody
+      ng-template(ngFor, let-day, [ngForOf]='report.days')
+        tr(gap-packing-bathroom-cleaning-report-day, [day]='day')
+        ng-template(ngFor, let-item, [ngForOf]='day.items', let-fitem='first')
+          tr(gap-packing-bathroom-cleaning-report-item, [item]='item', *ngIf='!fitem')

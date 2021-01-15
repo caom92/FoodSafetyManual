@@ -1,0 +1,8 @@
+extends ../../capture.common.pug
+
+block reportViewer
+  gap-packing-bathroom-cleaning-report-viewer
+
+block logViewer
+  gap-packing-bathroom-cleaning-log-list([suffix]='suffix', *ngIf='newLog !== true', (startLog)='onOpenLog($event)')
+  gap-packing-bathroom-cleaning-log(*ngIf='newLog == true', [log]='logData', (closeLog)='onCloseLog($event)')

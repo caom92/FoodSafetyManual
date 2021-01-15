@@ -7,6 +7,7 @@ require_once realpath(dirname(__FILE__).'/programs/services.php');
 require_once realpath(dirname(__FILE__).'/contact/services.php');
 require_once realpath(dirname(__FILE__).'/authorizations/services.php');
 require_once realpath(dirname(__FILE__).'/account/services.php');
+require_once realpath(dirname(__FILE__).'/gap/packing/bathroom_cleaning/services.php');
 require_once realpath(dirname(__FILE__).'/gap/packing/harvest_block_inspection/services.php');
 require_once realpath(dirname(__FILE__).'/gap/packing/harvest_tool/services.php');
 require_once realpath(dirname(__FILE__).'/gmp/packing/atp/services.php');

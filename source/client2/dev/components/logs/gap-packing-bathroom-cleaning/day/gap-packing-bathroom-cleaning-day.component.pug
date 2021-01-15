@@ -1,0 +1,13 @@
+include ../../../log-ionic-materialize.pug
+
++card()([formGroup]='dayForm')
+  +cardHeader("{{ 'Log.day' | translate:lang }} {{day.day_num}}")
+  +cardContent()
+    +row()
+      +col()(class='col s4 m4 l4')
+        +dateInput(false, "{{ 'Log.date' | translate:lang }}", "date", "date_{{day.day_num}}", null, "langManager.messages.global.datePickerConfig")
+      +col()(class='col s4 m4 l4')
+        +timeInput(true, "{{ 'Log.time' | translate:lang }}", "time", "time_{{day.day_num}}", null, "langManager.messages.global.timePickerConfig")
+      +col()(class='col s4 m4 l4')
+        +textInput("{{ 'Log.initials' | translate:lang }}", null, "initials", "text", "initials_{{day_num}}", null)
+    gap-packing-bathroom-cleaning-item([item]='item', [dayNum]='day.day_num', [itemForm]='dayForm.controls.items.controls[i]', *ngFor='let item of day.items; let i=index')
