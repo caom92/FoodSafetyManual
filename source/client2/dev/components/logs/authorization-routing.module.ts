@@ -13,6 +13,11 @@ const routes: Routes = [
     loadChildren: './gap-others-unusual-occurrence/gap-others-unusual-occurrence-authorization.module#GAPOthersUnusualOccurrenceAuthorizationModule'
   },
   {
+    path: 'gap-packing-bathroom-cleaning',
+    data: { suffix: 'gap-packing-bathroom-cleaning' },
+    loadChildren: './gap-packing-bathroom-cleaning/gap-packing-bathroom-cleaning-authorization.module#GAPPackingBathroomCleaningAuthorizationModule'
+  },
+  {
     path: 'gap-packing-harvest-block-inspection',
     data: { suffix: 'gap-packing-harvest-block-inspection' },
     loadChildren: './gap-packing-harvest-block-inspection/gap-packing-harvest-block-inspection-authorization.module#GAPPackingHarvestBlockInspectionAuthorizationModule'
