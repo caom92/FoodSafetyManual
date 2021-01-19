@@ -80,6 +80,22 @@ export class GMPPackingPreopLogComponent extends SuperLogComponent implements On
     })
   }
 
+  public cleanForm(): void {
+    if (this.log.has_subject) {
+      let subjectControl = this.captureForm.controls.subject
+      if (subjectControl.value === '' || subjectControl.value === null) {        
+        subjectControl.disable()
+      }
+    }
+  }
+
+  public enableForm(): void {
+    if (this.log.has_subject) {
+      let subjectControl = this.captureForm.controls.subject
+      subjectControl.enable()
+    }
+  }
+
   public initArea(area: CaptureArea): FormGroup {
     return this._fb.group({
       id: [area.id, [Validators.required]],
@@ -97,9 +113,5 @@ export class GMPPackingPreopLogComponent extends SuperLogComponent implements On
       corrective_action_id: [item.corrective_action],
       comment: [item.comment, [Validators.maxLength(65535)]]
     })
-  }
-
-  public save() {
-    console.log(this.captureForm)
   }
 }

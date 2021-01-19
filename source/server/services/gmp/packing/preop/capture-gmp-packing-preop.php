@@ -101,7 +101,7 @@ $service = fsm\createCaptureService(
         $scope->daoFactory->get('gmp\packing\preop\SubjectLogs')
         ->insert([
           'capture_date_id' => $logID,
-          'subject' => $request['subject']
+          'subject' => (isset($request['subject']) && array_key_exists('subject', $request)) ? $request['subject'] : NULL,
         ]);
       }
 
