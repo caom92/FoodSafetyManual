@@ -90,6 +90,8 @@ $service = fsm\createUpdateService(
           $dateID = $dateLogs->insert([
             'capture_date_id' => $logID,
             'date' => $day['date'],
+            'time' => $day['time'],
+            'initials' => (isset($day['initials']) && array_key_exists('initials', $day)) ? $day['initials'] : NULL,
             'day_num' => $day['day_num']
           ]);
 
