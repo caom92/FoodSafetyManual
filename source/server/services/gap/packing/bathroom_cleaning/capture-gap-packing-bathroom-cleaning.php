@@ -4,7 +4,7 @@ require_once realpath(dirname(__FILE__).'/../../../service_creators.php');
 
 $service = fsm\createCaptureService(
   'GAP',
-  'Packing',
+  'Fields',
   'Bathroom Cleaning Record',
   [
     'days' => [
