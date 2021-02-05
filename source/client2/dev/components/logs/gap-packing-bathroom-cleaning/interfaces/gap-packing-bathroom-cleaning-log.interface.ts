@@ -8,6 +8,7 @@ export interface LogDay {
   date: string
   time: string
   initials: string
+  bathroom_num: number
   day_num: number
   items: Array<LogItem>
 }

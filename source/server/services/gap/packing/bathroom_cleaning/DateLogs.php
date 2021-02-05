@@ -15,6 +15,7 @@ class DateLogs extends db\LogTable
       "SELECT
         id,
         date,
+        bathroom_num,
         day_num,
         DATE_FORMAT(time, '%H:%i') AS time,
         initials

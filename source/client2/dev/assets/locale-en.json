@@ -256,6 +256,8 @@
     "enable_field_desc": "This zone doesn't have the Subject discussed at the start of the working day field enabled. To enable it, click on this button:",
     "enable_field": "Enable field",
     "initials": "Initials",
+    "bathroom_number": "Bathroom number",
+    "bathroom_number_abbr": "#",
     "answer": "Answer"
   },
   "Authorization": {

@@ -18,6 +18,7 @@ $service = fsm\createLogService(
         'time' => '',
         'initials' => '',
         'day_num' => 1,
+        'bathroom_num' => NULL,
         'items' => []
       ];
 

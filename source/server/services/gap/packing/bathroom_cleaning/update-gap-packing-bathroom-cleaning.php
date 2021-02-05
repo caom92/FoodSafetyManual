@@ -23,6 +23,9 @@ $service = fsm\createUpdateService(
           'max_length' => 255,
           'optional' => true
         ],
+        'bathroom_num' => [
+          'type' => 'int'
+        ],
         'day_num' => [
           'type' => 'int'
         ],
@@ -67,7 +70,8 @@ $service = fsm\createUpdateService(
             [
               'date' => $day['date'],
               'time' => $day['time'],
-              'initials' => $day['initials']
+              'initials' => $day['initials'],
+              'bathroom_num' => $day['bathroom_num']
             ],
             $request['report_id'],
             $day['day_num']
@@ -92,6 +96,7 @@ $service = fsm\createUpdateService(
             'date' => $day['date'],
             'time' => $day['time'],
             'initials' => (isset($day['initials']) && array_key_exists('initials', $day)) ? $day['initials'] : NULL,
+            'bathroom_num' => $day['bathroom_num'],
             'day_num' => $day['day_num']
           ]);
 

@@ -256,6 +256,8 @@
     "enable_field_desc": "Esta zona aún no cuenta con el campo Tema de la plática impartida al inicio de la jornada. Para habilitarlo presione el siguiente botón:",
     "enable_field": "Habilitar campo",
     "initials": "Iniciales",
+    "bathroom_number": "Número de baño",
+    "bathroom_number_abbr": "#",
     "answer": "Respuesta"
   },
   "Authorization": {

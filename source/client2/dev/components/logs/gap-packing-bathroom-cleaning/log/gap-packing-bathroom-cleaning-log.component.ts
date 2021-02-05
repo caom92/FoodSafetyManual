@@ -54,6 +54,7 @@ export class GAPPackingBathroomCleaningLogComponent extends SuperUpdateComponent
       date: [this.dataResolver.resolveString(day.date), [Validators.required, CustomValidators.dateValidator()]],
       time: [this.dataResolver.resolveString(day.time), [Validators.required, CustomValidators.timeValidator()]],
       initials: [this.dataResolver.resolveString(day.initials), []],
+      bathroom_num: [this.dataResolver.resolveNumber(day.bathroom_num), [Validators.required]],
       day_num: [this.dataResolver.resolveNumber(day.day_num), [Validators.required]],
       items: this._fb.array([])
     })
@@ -89,6 +90,7 @@ export class GAPPackingBathroomCleaningLogComponent extends SuperUpdateComponent
       date: '',
       time: '',
       initials: '',
+      bathroom_num: null,
       day_num: control.controls.length + 1,
       items: items
     }

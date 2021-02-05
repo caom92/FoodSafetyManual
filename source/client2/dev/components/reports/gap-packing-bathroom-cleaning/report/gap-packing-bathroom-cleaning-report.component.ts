@@ -19,6 +19,6 @@ export class GAPPackingBathroomCleaningReportComponent extends SuperReportCompon
   }
 
   public getCSS(appendCSS?: string): string {
-    return '<style>' + this.commonCSS() + ((appendCSS === String(appendCSS)) ? appendCSS : '') + '.dateColumn{width:80px}.timeColumn{width:40px}.initialsColumn{width:70px}.questionColumn{width:279px}.answerColumn{width:80px}.activityColumn{width:80px}</style>'
+    return '<style>' + this.commonCSS() + ((appendCSS === String(appendCSS)) ? appendCSS : '') + '.numberColumn{width:40px}.dateColumn{width:80px}.timeColumn{width:40px}.initialsColumn{width:70px}.questionColumn{width:239px}.answerColumn{width:80px}.activityColumn{width:80px}</style>'
   }
 }

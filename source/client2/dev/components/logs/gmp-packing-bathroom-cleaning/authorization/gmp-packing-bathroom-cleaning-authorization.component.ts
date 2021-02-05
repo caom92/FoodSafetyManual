@@ -78,15 +78,8 @@ export class GMPPackingBathroomCleaningAuthorizationComponent extends SuperAutho
 
         let controlArray: Array<AbstractControl> = []
 
-        controlArray.push(item.controls.issue_time)
-        controlArray.push(item.controls.issue_qty)
-        controlArray.push(item.controls.issue_conditions)
-        controlArray.push(item.controls.recovery_time)
-        controlArray.push(item.controls.recovery_qty)
-        controlArray.push(item.controls.recovery_conditions)
-        controlArray.push(item.controls.sanitation)
-        controlArray.push(item.controls.deficiencies)
-        controlArray.push(item.controls.corrective_actions)
+        controlArray.push(item.controls.status)
+        controlArray.push(item.controls.activity)
 
         for (let control of controlArray) {
           if (control.value === null || control.value === '') {

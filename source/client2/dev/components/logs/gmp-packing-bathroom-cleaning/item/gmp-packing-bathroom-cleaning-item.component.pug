@@ -1,11 +1,11 @@
 include ../../../log-ionic-materialize.pug
 
 +row()([formGroup]='itemForm')
-  +col()(class='col s4 m4 l4')
+  +col()(class='s4 m4 l4')
     | {{item.name}}
   +col()(class="s2 m2 l2")
-    +radio("{{ 'Log.yes' | translate:lang }}", false, "true", false, false, "answer_yes_{{item.item_id}}", "answer_{{item.item_id}}")([formControl]='itemForm.controls.status', [value]='true')
+    +radio("{{ 'Log.yes' | translate:lang }}", false, "true", false, false, "answer_yes_{{dayNum}}_{{item.item_id}}", "answer_{{dayNum}}_{{item.item_id}}")([formControl]='itemForm.controls.status', [value]='true')
   +col()(class="s2 m2 l2")
-    +radio("{{ 'Log.no' | translate:lang }}", false, "false", false, false, "answer_no_{{item.item_id}}", "answer_{{item.item_id}}")([formControl]='itemForm.controls.status', [value]='false')
-  +col()(class='col s4 m4 l4')
-    +textInput("{{ 'Log.activity' | translate:lang }}", null, "activity", "text", "activity_{{item.item_id}}", null)
+    +radio("{{ 'Log.no' | translate:lang }}", false, "false", false, false, "answer_no_{{dayNum}}_{{item.item_id}}", "answer_{{dayNum}}_{{item.item_id}}")([formControl]='itemForm.controls.status', [value]='false')
+  +col()(class='s4 m4 l4')
+    +textInput("{{ 'Log.corrective_action' | translate:lang }}", null, "activity", "text", "activity_{{dayNum}}_{{item.item_id}}", null)

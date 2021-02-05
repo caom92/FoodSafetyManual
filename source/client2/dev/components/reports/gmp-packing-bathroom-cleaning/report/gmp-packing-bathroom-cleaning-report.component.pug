@@ -9,7 +9,7 @@ block report
         th.initialsColumn {{ 'Log.initials' | translate:lang }}
         th.questionColumn {{ 'Log.question' | translate:lang }}
         th.answerColumn {{ 'Log.answer' | translate:lang }}
-        th.activityColumn {{ 'Log.activity' | translate:lang }}
+        th.activityColumn {{ 'Log.corrective_action' | translate:lang }}
     tbody
       ng-template(ngFor, let-day, [ngForOf]='report.days')
         tr(gmp-packing-bathroom-cleaning-report-day, [day]='day')
