@@ -15,6 +15,7 @@ $service = [
     ],
     'subject' => [
       'type' => 'string',
+      'optional' => true,
       'max_length' => 65535
     ],
     'notes' => [
@@ -89,16 +90,16 @@ $service = [
     if (isset($subject[0])) {
       $scope->daoFactory->get('gap\packing\preop\SubjectLogs')->updateByCapturedLogID(
         [
-          'subject' => $request['subject']
+          'subject' => (isset($request['subject']) && array_key_exists('subject', $request)) ? $request['subject'] : NULL
         ],
         $request['report_id']
       );
     } else {
-      $scope->daoFactory->get('gap\packing\preop\SubjectLogs')
+      /*$scope->daoFactory->get('gap\packing\preop\SubjectLogs')
         ->insert([
           'capture_date_id' => $request['report_id'],
           'subject' => $request['subject']
-      ]);
+      ]);*/
     }
 
     // for each area in the input array...
@@ -131,7 +132,7 @@ $service = [
               'is_acceptable' => 
                 (isset($item['is_acceptable']) 
                 && array_key_exists('is_acceptable', $item)) ? 
-                  $item['is_acceptable'] : "NULL",
+                  $item['is_acceptable'] : NULL,
               'corrective_action_id' => (isset($item['corrective_action_id']) 
                 && array_key_exists('corrective_action_id', $item)) ? 
                   $item['corrective_action_id'] 

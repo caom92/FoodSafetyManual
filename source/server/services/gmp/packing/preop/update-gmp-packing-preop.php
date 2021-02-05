@@ -15,6 +15,7 @@ $service = [
     ],
     'subject' => [
       'type' => 'string',
+      'optional' => true,
       'max_length' => 65535
     ],
     'notes' => [
@@ -87,16 +88,16 @@ $service = [
     if (isset($subject[0])) {
       $scope->daoFactory->get('gmp\packing\preop\SubjectLogs')->updateByCapturedLogID(
         [
-          'subject' => $request['subject']
+          'subject' => (isset($request['subject']) && array_key_exists('subject', $request)) ? $request['subject'] : NULL
         ],
         $request['report_id']
       );
     } else {
-      $scope->daoFactory->get('gmp\packing\preop\SubjectLogs')
+      /*$scope->daoFactory->get('gmp\packing\preop\SubjectLogs')
         ->insert([
           'capture_date_id' => $request['report_id'],
           'subject' => $request['subject']
-      ]);
+      ]);*/
     }      
 
     // for each area in the input array...
