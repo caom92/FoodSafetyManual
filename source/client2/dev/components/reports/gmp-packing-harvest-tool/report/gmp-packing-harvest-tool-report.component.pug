@@ -8,7 +8,7 @@ block report
         th([rowSpan]='2').toolColumn {{ 'Log.type' | translate:lang }}
         th.issueColumn([colSpan]='3') {{ 'Log.tools_issued' | translate:lang }}
         th.recoveryColumn([colSpan]='3') {{ 'Log.tools_recovered' | translate:lang }}
-        th([rowSpan]='2').sanitationColumn {{ 'Log.sanitation' | translate:lang }}
+        th([rowSpan]='2').sanitationColumn {{ 'Log.sanitized' | translate:lang }} 100-250 ppm {{ 'Log.chlorine' | translate:lang }} / 800 mV {{ 'Log.to' | translate:lang }} 1000 mV
         th([rowSpan]='2').deficienciesColumn {{ 'Log.deficiencies' | translate:lang }}
         th([rowSpan]='2').actionColumn {{ 'Log.corrective_action' | translate:lang }}
       tr

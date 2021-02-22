@@ -258,7 +258,8 @@
     "initials": "Initials",
     "bathroom_number": "Bathroom number",
     "bathroom_number_abbr": "#",
-    "answer": "Answer"
+    "answer": "Answer",
+    "to": "to"
   },
   "Authorization": {
     "send": "Send",
