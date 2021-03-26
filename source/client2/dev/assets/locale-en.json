@@ -259,7 +259,12 @@
     "bathroom_number": "Bathroom number",
     "bathroom_number_abbr": "#",
     "answer": "Answer",
-    "to": "to"
+    "to": "to",
+    "harvest_machine_quantity": "Quantity of harvest machines",
+    "disinfection": "Blade and floor disinfected with chlorine (100-250ppm)",
+    "soap_bag_wash": "Wash the bag with soap",
+    "water_rinse": "Rinse with water",
+    "noted_defects": "Noted defects (Physical damage)"
   },
   "Authorization": {
     "send": "Send",

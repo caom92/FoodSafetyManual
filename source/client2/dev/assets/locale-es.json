@@ -259,7 +259,12 @@
     "bathroom_number": "Número de baño",
     "bathroom_number_abbr": "#",
     "answer": "Respuesta",
-    "to": "a"
+    "to": "a",
+    "harvest_machine_quantity": "Cantidad de cosechadoras",
+    "disinfection": "Desinfectar el piso y navaja con cloro (100-250ppm)",
+    "soap_bag_wash": "Lavar la bolsa con jabón",
+    "water_rinse": "Enjuage con agua",
+    "noted_defects": "Defectos notados (Daños físicos)"
   },
   "Authorization": {
     "send": "Enviar",

@@ -1,0 +1,17 @@
+extends ../../report.common.pug
+
+block report
+  table(#report_body)
+    thead
+      tr
+        th.dateColumn {{ 'Log.date' | translate:lang }}
+        th.quantityColumn {{ 'Log.harvest_machine_quantity' | translate:lang }}
+        th.disinfectionColumn {{ 'Log.disinfection' | translate:lang }}
+        th.washColumn {{ 'Log.soap_bag_wash' | translate:lang }}
+        th.rinseColumn {{ 'Log.rinse' | translate:lang }}
+        th.conditionsColumn {{ 'Log.conditions' | translate:lang }}
+        th.defectsColumn {{ 'Log.noted_defects' | translate:lang }}
+        th.initialsColumn {{ 'Log.initials' | translate:lang }}
+    tbody
+      ng-template(ngFor, let-machine, [ngForOf]='report.machines')
+        tr(gap-packing-harvest-machine-cleaning-report-machine, [machine]='machine')

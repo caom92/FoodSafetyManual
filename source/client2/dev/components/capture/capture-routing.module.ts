@@ -23,6 +23,11 @@ const routes: Routes = [
     loadChildren: './gap-packing-harvest-block-inspection/gap-packing-harvest-block-inspection-capture.module#GAPPackingHarvestBlockInspectionCaptureModule'
   },
   {
+    path: 'gap-packing-harvest-machine-cleaning',
+    data: { suffix: 'gap-packing-harvest-machine-cleaning' },
+    loadChildren: './gap-packing-harvest-machine-cleaning/gap-packing-harvest-machine-cleaning-capture.module#GAPPackingHarvestMachineCleaningCaptureModule'
+  },
+  {
     path: 'gap-packing-harvest-tool',
     data: { suffix: 'gap-packing-harvest-tool' },
     loadChildren: './gap-packing-harvest-tool/gap-packing-harvest-tool-capture.module#GAPPackingHarvestToolCaptureModule'
