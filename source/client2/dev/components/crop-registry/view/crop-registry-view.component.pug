@@ -1,0 +1,31 @@
+include ../../log-ionic-materialize.pug
+
+div
+  table.ugly-ass-table
+    thead
+      tr
+        th.slim-table-cell.no-wrap-table-cell ID
+        th.slim-table-cell.no-wrap-table-cell {{ 'CropRegistry.zone' | translate:lang }}
+        th.slim-table-cell.no-wrap-table-cell {{ 'CropRegistry.date' | translate:lang }}
+        th.slim-table-cell.no-wrap-table-cell {{ 'CropRegistry.crop' | translate:lang }}
+        th.slim-table-cell.no-wrap-table-cell {{ 'CropRegistry.variety' | translate:lang }}
+        th.slim-table-cell.no-wrap-table-cell {{ 'CropRegistry.section' | translate:lang }}
+        th.slim-table-cell.no-wrap-table-cell {{ 'CropRegistry.block' | translate:lang }}
+        th.slim-table-cell.no-wrap-table-cell {{ 'CropRegistry.weight' | translate:lang }}
+        th.slim-table-cell.no-wrap-table-cell {{ 'CropRegistry.people' | translate:lang }}
+        th.slim-table-cell.no-wrap-table-cell {{ 'CropRegistry.hours' | translate:lang }}
+    tbody
+      ng-template(ngFor, [ngForOf]='registers', let-register)
+        tr
+          td.slim-table-cell.no-wrap-table-cell {{register['id']}}
+          td.slim-table-cell.no-wrap-table-cell {{register['zone_name']}}
+          td.slim-table-cell.no-wrap-table-cell {{register['date']}}
+          td.slim-table-cell.no-wrap-table-cell {{register['crop']}}
+          td.slim-table-cell.no-wrap-table-cell {{register['variety']}}
+          td.slim-table-cell.no-wrap-table-cell {{register['section']}}
+          td.slim-table-cell.no-wrap-table-cell {{register['block']}}
+          td.slim-table-cell.no-wrap-table-cell {{register['weight']}}
+          td.slim-table-cell.no-wrap-table-cell {{register['people']}}
+          td.slim-table-cell.no-wrap-table-cell {{register['hours']}}
+
+crop-registry-add((addRegister)='onAddRegister($event)')

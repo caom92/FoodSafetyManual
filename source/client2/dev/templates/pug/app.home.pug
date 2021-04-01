@@ -191,6 +191,11 @@ div.navbar-fixed
         ='CAPA'
   div('*ngIf'="home.roleName != 'Administrator' && home.roleName != 'Employee' && home.roleName != 'GP Supervisor'")
     mz-sidenav-link
+      +routerLink("['crop-registry']")(class='side-menu-link waves-effect waves-green')
+        i.mdi.mdi-database.mdi-24px.mdi-dark
+        ='Crop Registry'
+  div('*ngIf'="home.roleName != 'Administrator' && home.roleName != 'Employee' && home.roleName != 'GP Supervisor'")
+    mz-sidenav-link
       +routerLink("['customer-complaint/capture']")(class='side-menu-link waves-effect waves-green')
         i.mdi.mdi-file-document-box.mdi-24px.mdi-dark
         ='Customer Complaint'

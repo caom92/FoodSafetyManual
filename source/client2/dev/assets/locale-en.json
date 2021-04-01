@@ -272,6 +272,18 @@
     "delete": "Delete",
     "back": "Return"
   },
+  "CropRegistry": {
+    "zone": "Zone",
+    "date": "Date",
+    "crop": "Crop",
+    "variety": "Variety",
+    "section": "Section",
+    "block": "Block",
+    "weight": "Weight",
+    "people": "People",
+    "hours": "Hours",
+    "save": "Save register"
+  },
   "LogList": {
     "open": "Open log",
     "start": "Start new log"

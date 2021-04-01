@@ -84,6 +84,10 @@ const routes: Routes = [
     loadChildren: './product-data/product-data.module#ProductDataModule'
   },
   {
+    path: 'crop-registry',
+    loadChildren: './crop-registry/crop-registry.module#CropRegistryModule'
+  },
+  {
     path: 'menu',
     loadChildren: './menu/menu.module#MenuModule'
   },

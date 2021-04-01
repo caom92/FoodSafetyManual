@@ -60,6 +60,7 @@ import { LogService } from '../services/log.service'
 import { ReportService } from '../services/report.service'
 import { MenuService } from '../services/app.menu'
 import { CAPAService } from '../services/capa.service'
+import { CropRegistryService } from '../services/crop-registry.service'
 import { CustomerComplaintService } from '../services/customer-complaint.service'
 import { GPSignaturesService } from '../services/gp-signatures.service'
 import { ToastsService } from '../services/toasts.service'
@@ -106,6 +107,7 @@ import { RootRoutingModule } from './app-routing.root'
     ReportService,
     MenuService,
     CAPAService,
+    CropRegistryService,
     CustomerComplaintService,
     GPSignaturesService,
     ToastsService,

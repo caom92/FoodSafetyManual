@@ -266,6 +266,18 @@
     "water_rinse": "Enjuage con agua",
     "noted_defects": "Defectos notados (Daños físicos)"
   },
+  "CropRegistry": {
+    "zone": "Zona",
+    "date": "Fecha",
+    "crop": "Cultivo",
+    "variety": "Variedad",
+    "section": "Sección",
+    "block": "Bloque",
+    "weight": "Peso",
+    "people": "Personas",
+    "hours": "Horas",
+    "save": "Guardar registro"
+  },
   "Authorization": {
     "send": "Enviar",
     "authorize": "Autorizar",
