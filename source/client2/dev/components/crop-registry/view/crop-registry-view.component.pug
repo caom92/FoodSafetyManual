@@ -1,6 +1,8 @@
 include ../../log-ionic-materialize.pug
 
-div
+crop-registry-add((addRegister)='onAddRegister($event)')
+
+div(*ngIf='registers.length > 0')
   table.ugly-ass-table
     thead
       tr
@@ -14,6 +16,8 @@ div
         th.slim-table-cell.no-wrap-table-cell {{ 'CropRegistry.weight' | translate:lang }}
         th.slim-table-cell.no-wrap-table-cell {{ 'CropRegistry.people' | translate:lang }}
         th.slim-table-cell.no-wrap-table-cell {{ 'CropRegistry.hours' | translate:lang }}
+        th.slim-table-cell.no-wrap-table-cell {{ 'CropRegistry.total_hours' | translate:lang }}
+        th.slim-table-cell.no-wrap-table-cell {{ 'CropRegistry.weight_hour' | translate:lang }}
     tbody
       ng-template(ngFor, [ngForOf]='registers', let-register)
         tr
@@ -27,5 +31,7 @@ div
           td.slim-table-cell.no-wrap-table-cell {{register['weight']}}
           td.slim-table-cell.no-wrap-table-cell {{register['people']}}
           td.slim-table-cell.no-wrap-table-cell {{register['hours']}}
-
-crop-registry-add((addRegister)='onAddRegister($event)')
+          td.slim-table-cell.no-wrap-table-cell(*ngIf='register["hours"] === null || register["people"] === null')
+          td.slim-table-cell.no-wrap-table-cell(*ngIf='register["hours"] !== null && register["people"] !== null') {{register['hours'] * register['people']}}
+          td.slim-table-cell.no-wrap-table-cell(*ngIf='register["weight"] === null || register["hours"] === null || register["hours"] === 0')
+          td.slim-table-cell.no-wrap-table-cell(*ngIf='register["weight"] !== null && register["hours"] !== null && register["hours"] !== 0') {{register['weight'] / register['hours'] | number: '1.0-2'}}

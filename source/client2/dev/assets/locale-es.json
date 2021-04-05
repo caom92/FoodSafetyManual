@@ -273,9 +273,11 @@
     "variety": "Variedad",
     "section": "Sección",
     "block": "Bloque",
-    "weight": "Peso",
+    "weight": "Libras",
     "people": "Personas",
     "hours": "Horas",
+    "total_hours": "Horas totales",
+    "weight_hour": "Lbs/Hr",
     "save": "Guardar registro"
   },
   "Authorization": {

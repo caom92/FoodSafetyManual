@@ -279,9 +279,11 @@
     "variety": "Variety",
     "section": "Section",
     "block": "Block",
-    "weight": "Weight",
+    "weight": "Pounds",
     "people": "People",
     "hours": "Hours",
+    "total_hours": "Total hours",
+    "weight_hour": "Pounds/Hr",
     "save": "Save register"
   },
   "LogList": {

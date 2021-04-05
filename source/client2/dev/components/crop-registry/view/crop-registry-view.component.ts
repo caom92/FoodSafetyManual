@@ -11,7 +11,7 @@ import { CropRegistryEntryInterface } from '../interfaces/crop-registry.interfac
 
 export class CropRegistryViewComponent {
   @Language() lang: string
-  registers: Array<CropRegistryEntryInterface>
+  registers: Array<CropRegistryEntryInterface> = []
 
   constructor(private cropRegistryService: CropRegistryService) {
 
@@ -25,5 +25,5 @@ export class CropRegistryViewComponent {
 
   public onAddRegister(register: CropRegistryEntryInterface): void {
     this.registers.push(register)
-  }1
+  }
 }

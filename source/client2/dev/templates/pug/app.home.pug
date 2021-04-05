@@ -65,7 +65,7 @@ div.navbar-fixed
   
   //- Enlaces temporales
   mz-sidenav-link('*ngIf'='home.roleName !== "Administrator"')
-    +link('http://documents.jfdc.tech')(
+    +link('http://documents.jfdc.us')(
       target='_blank'
       class='side-menu-link waves-effect waves-green'
     )
@@ -177,6 +177,11 @@ div.navbar-fixed
           class='waves-effect waves-green'
         )
           ='{{ module }}'
+  div('*ngIf'="home.roleName != 'Administrator' && home.roleName != 'GP Supervisor'")
+    mz-sidenav-link
+      +routerLink("['crop-registry']")(class='side-menu-link waves-effect waves-green')
+        i.mdi.mdi-database.mdi-24px.mdi-dark
+        ='Crop Registry'
 
   //- Menú de navegación para supervisor, gerente o director
   div('*ngIf'="home.roleName != 'Administrator' && home.roleName != 'Employee' && home.roleName != 'GP Supervisor'")
@@ -189,11 +194,6 @@ div.navbar-fixed
       +routerLink("['capa/capture']")(class='side-menu-link waves-effect waves-green')
         i.mdi.mdi-file-document-box.mdi-24px.mdi-dark
         ='CAPA'
-  div('*ngIf'="home.roleName != 'Administrator' && home.roleName != 'Employee' && home.roleName != 'GP Supervisor'")
-    mz-sidenav-link
-      +routerLink("['crop-registry']")(class='side-menu-link waves-effect waves-green')
-        i.mdi.mdi-database.mdi-24px.mdi-dark
-        ='Crop Registry'
   div('*ngIf'="home.roleName != 'Administrator' && home.roleName != 'Employee' && home.roleName != 'GP Supervisor'")
     mz-sidenav-link
       +routerLink("['customer-complaint/capture']")(class='side-menu-link waves-effect waves-green')

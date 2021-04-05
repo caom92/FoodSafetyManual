@@ -2,7 +2,7 @@
 
 $service = [
   'requirements_desc' => [
-    'logged_in' => ['Supervisor', 'Manager', 'Director']
+    'logged_in' => ['Employee', 'Supervisor', 'Manager', 'Director']
   ],
   'callback' => function($scope, $request) {
     $segment = $scope->session->getSegment('fsm');
