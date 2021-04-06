@@ -61,22 +61,22 @@ export class GAPPackingHarvestToolAuthorizationComponent extends SuperAuthorizat
   initTool(tool: LogTool): FormGroup {
     let captureTypeGroup: FormGroup = this._fb.group({
       tool_id: [this.dataResolver.resolveNumber(tool.tool_id), [Validators.required]],
-      issue_time: [this.dataResolver.resolveString(tool.issue_time), []],
-      issue_qty: [this.dataResolver.resolveNumber(tool.issue_qty), []],
-      issue_conditions: [this.dataResolver.resolveNumber(tool.issue_conditions), []],
-      recovery_time: [this.dataResolver.resolveString(tool.recovery_time), []],
-      recovery_qty: [this.dataResolver.resolveNumber(tool.recovery_qty), []],
-      recovery_conditions: [this.dataResolver.resolveNumber(tool.recovery_conditions), []],
-      sanitation: [this.dataResolver.resolveNumber(tool.sanitation), []],
-      deficiencies: [this.dataResolver.resolveString(tool.deficiencies), [Validators.maxLength(this.maxLengths.deficiencies)]],
-      corrective_actions: [this.dataResolver.resolveString(tool.corrective_actions), [Validators.maxLength(this.maxLengths.corrective_actions)]]
+      issue_time: [this.dataResolver.resolveString(tool.issue_time), [Validators.required, CustomValidators.timeValidator()]],
+      issue_qty: [this.dataResolver.resolveNumber(tool.issue_qty), [Validators.required]],
+      issue_conditions: [this.dataResolver.resolveNumber(tool.issue_conditions), [Validators.required]],
+      recovery_time: [this.dataResolver.resolveString(tool.recovery_time), [Validators.required, CustomValidators.timeValidator()]],
+      recovery_qty: [this.dataResolver.resolveNumber(tool.recovery_qty), [Validators.required]],
+      recovery_conditions: [this.dataResolver.resolveNumber(tool.recovery_conditions), [Validators.required]],
+      sanitation: [this.dataResolver.resolveNumber(tool.sanitation), [Validators.required]],
+      deficiencies: [this.dataResolver.resolveString(tool.deficiencies), [Validators.required, Validators.maxLength(this.maxLengths.deficiencies)]],
+      corrective_actions: [this.dataResolver.resolveString(tool.corrective_actions), [Validators.required, Validators.maxLength(this.maxLengths.corrective_actions)]]
     })
 
     return captureTypeGroup
   }
 
   cleanForm() {
-    for (let d in (<FormGroup>this.captureForm.controls.days).controls) {
+    /*for (let d in (<FormGroup>this.captureForm.controls.days).controls) {
       const day = (<FormGroup>(<FormGroup>this.captureForm.controls.days).controls[d])
       for (let t in (<FormGroup>day.controls.tools).controls) {
         const tool = (<FormGroup>(<FormGroup>day.controls.tools).controls[t])
@@ -99,7 +99,7 @@ export class GAPPackingHarvestToolAuthorizationComponent extends SuperAuthorizat
           }
         }
       }
-    }
+    }*/
   }
 
   enableForm() {
