@@ -10,6 +10,7 @@
     "reverse-bad-request": "Su última acción se revirtió debido a un error en la conexión",
     "reverse-network": "Su última acción se revirtió debido a un error en la aplicación; notifique al administrador",
     "server-unreachable": "Servidor inalcanzable",
+    "finish-fail": "La bitácora debe llenarse completamente antes de su cierre",
     "default": "Mensaje desconocido, código:"
   }
 }

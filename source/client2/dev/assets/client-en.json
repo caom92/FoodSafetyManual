@@ -10,6 +10,7 @@
     "reverse-bad-request": "Your last action was undone due to an app error; notify the administrator",
     "reverse-network": "Your last action was undone due to a network error",
     "server-unreachable": "Server unreachable",
+    "finish-fail": "Log needs to be completed before closing",
     "default": "Unknow message to display, code:"
   }
 }

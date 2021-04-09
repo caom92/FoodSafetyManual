@@ -49,7 +49,27 @@ export class GAPPackingHarvestToolLogComponent extends SuperUpdateComponent {
     }
   }
 
-  initDay(day: LogDay): FormGroup {
+  finishForm() {
+    let tempForm: FormGroup
+    const currentDate = (this.log.creation_date !== undefined) ? this.log.creation_date : this.timeService.getISODate()
+    tempForm = this._fb.group({
+      date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
+      days: this._fb.array([])
+    })
+
+    if (this.log.report_id != null && this.log.report_id != undefined) {
+      tempForm.addControl('report_id', new FormControl(this.log.report_id, []))
+    }
+
+    const control = <FormArray>tempForm.controls['days']
+    for (let day of this.log.days) {
+      control.push(this.initDay(day, true))
+    }
+
+    return tempForm
+  }
+
+  initDay(day: LogDay, isFinish: boolean = false): FormGroup {
     let captureDayGroup: FormGroup = this._fb.group({
       date: [this.dataResolver.resolveString(day.date), [Validators.required, CustomValidators.dateValidator()]],
       day_num: [this.dataResolver.resolveNumber(day.day_num), [Validators.required]],
@@ -58,24 +78,24 @@ export class GAPPackingHarvestToolLogComponent extends SuperUpdateComponent {
 
     const control = <FormArray>captureDayGroup.controls['tools']
     for (let tool of day.tools) {
-      control.push(this.initTool(tool))
+      control.push(this.initTool(tool, isFinish))
     }
 
     return captureDayGroup
   }
 
-  initTool(tool: LogTool): FormGroup {
+  initTool(tool: LogTool, isFinish: boolean = false): FormGroup {
     let captureTypeGroup: FormGroup = this._fb.group({
       tool_id: [this.dataResolver.resolveNumber(tool.tool_id), [Validators.required]],
-      issue_time: [this.dataResolver.resolveString(tool.issue_time), [Validators.required, CustomValidators.timeValidator()]],
-      issue_qty: [this.dataResolver.resolveNumber(tool.issue_qty), [Validators.required]],
-      issue_conditions: [this.dataResolver.resolveNumber(tool.issue_conditions), [Validators.required]],
-      recovery_time: [this.dataResolver.resolveString(tool.recovery_time), [Validators.required, CustomValidators.timeValidator()]],
-      recovery_qty: [this.dataResolver.resolveNumber(tool.recovery_qty), [Validators.required]],
-      recovery_conditions: [this.dataResolver.resolveNumber(tool.recovery_conditions), [Validators.required]],
-      sanitation: [this.dataResolver.resolveNumber(tool.sanitation), [Validators.required]],
-      deficiencies: [this.dataResolver.resolveString(tool.deficiencies), [Validators.required, Validators.maxLength(this.maxLengths.deficiencies)]],
-      corrective_actions: [this.dataResolver.resolveString(tool.corrective_actions), [Validators.required, Validators.maxLength(this.maxLengths.corrective_actions)]]
+      issue_time: [this.dataResolver.resolveString(tool.issue_time), [isFinish ? Validators.required : Validators.nullValidator, CustomValidators.timeValidator()]],
+      issue_qty: [this.dataResolver.resolveNumber(tool.issue_qty), [isFinish ? Validators.required : Validators.nullValidator]],
+      issue_conditions: [this.dataResolver.resolveNumber(tool.issue_conditions), [isFinish ? Validators.required : Validators.nullValidator]],
+      recovery_time: [this.dataResolver.resolveString(tool.recovery_time), [isFinish ? Validators.required : Validators.nullValidator, CustomValidators.timeValidator()]],
+      recovery_qty: [this.dataResolver.resolveNumber(tool.recovery_qty), [isFinish ? Validators.required : Validators.nullValidator]],
+      recovery_conditions: [this.dataResolver.resolveNumber(tool.recovery_conditions), [isFinish ? Validators.required : Validators.nullValidator]],
+      sanitation: [this.dataResolver.resolveNumber(tool.sanitation), [isFinish ? Validators.required : Validators.nullValidator]],
+      deficiencies: [this.dataResolver.resolveString(tool.deficiencies), [isFinish ? Validators.required : Validators.nullValidator, Validators.maxLength(this.maxLengths.deficiencies)]],
+      corrective_actions: [this.dataResolver.resolveString(tool.corrective_actions), [isFinish ? Validators.required : Validators.nullValidator, Validators.maxLength(this.maxLengths.corrective_actions)]]
     })
 
     return captureTypeGroup
@@ -101,7 +121,7 @@ export class GAPPackingHarvestToolLogComponent extends SuperUpdateComponent {
   }
 
   cleanForm() {
-    /*for (let d in (<FormGroup>this.captureForm.controls.days).controls) {
+    for (let d in (<FormGroup>this.captureForm.controls.days).controls) {
       const day = (<FormGroup>(<FormGroup>this.captureForm.controls.days).controls[d])
       for (let t in (<FormGroup>day.controls.tools).controls) {
         const tool = (<FormGroup>(<FormGroup>day.controls.tools).controls[t])
@@ -124,7 +144,7 @@ export class GAPPackingHarvestToolLogComponent extends SuperUpdateComponent {
           }
         }
       }
-    }*/
+    }
   }
 
   enableForm() {
@@ -143,5 +163,18 @@ export class GAPPackingHarvestToolLogComponent extends SuperUpdateComponent {
 
   resetForm() {
     this.captureForm.reset()
+  }
+
+  finish() {
+    let finishForm: FormGroup = this.finishForm()
+
+    finishForm.patchValue(this.captureForm.value)
+    finishForm.updateValueAndValidity()
+
+    if (finishForm.valid) {
+      super.finish()
+    } else {
+      this.toastService.showClientMessage('finish-fail', 1)
+    }
   }
 }
