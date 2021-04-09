@@ -10,8 +10,14 @@ $service = [
     $zoneID = $segment->get('zone_id');
 
     $logs = $cropRegistryLogs->selectByZoneID($zoneID);
+    $crops = $cropRegistryLogs->selectUniqueCrops();
+    $varieties = $cropRegistryLogs->selectUniqueVarieties();
 
-    return $logs;
+    return [
+      'logs' => $logs,
+      'crops' => $crops,
+      'varieties' => $varieties
+    ];
   }
 ];
 

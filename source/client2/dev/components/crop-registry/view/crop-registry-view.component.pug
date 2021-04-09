@@ -1,6 +1,6 @@
 include ../../log-ionic-materialize.pug
 
-crop-registry-add((addRegister)='onAddRegister($event)')
+crop-registry-add((addRegister)='onAddRegister($event)', [autocompleteVarieties]='autocompleteVarieties', [autocompleteCrops]='autocompleteCrops')
 
 div(*ngIf='registers.length > 0')
   table.ugly-ass-table

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Language } from 'angular-l10n'
 import { CustomValidators } from '../../../directives/custom.validators'
@@ -15,6 +15,8 @@ import { CropRegistryEntryInterface } from '../interfaces/crop-registry.interfac
 export class CropRegistryAddComponent implements OnInit {
   @Language() lang: string
   @Output() addRegister = new EventEmitter<CropRegistryEntryInterface>()
+  @Input() autocompleteCrops
+  @Input() autocompleteVarieties
   dateConfig
   registerForm: FormGroup
 
@@ -35,6 +37,9 @@ export class CropRegistryAddComponent implements OnInit {
       people: [null, [Validators.min(1)]],
       hours: [null, [Validators.min(1)]]
     })
+
+    console.log(this.autocompleteVarieties)
+    console.log(this.autocompleteCrops)
   }
 
   public onAddRegister(): void {

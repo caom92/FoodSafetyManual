@@ -12,3 +12,11 @@ export interface CropRegistryEntryInterface {
   people: number
   hours: number
 }
+
+export interface CropRegistryAutocompleteInterface {
+  data: { [key: string]: string }
+  limit: number
+  //current: string
+  //count: number
+  //arr?: Array<string>
+}

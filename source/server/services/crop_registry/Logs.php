@@ -39,6 +39,24 @@ class Logs extends db\InsertableTable
       ]
     );
   }
+
+  function selectUniqueVarieties() {
+    return parent::$dataBase->query(
+      "SELECT DISTINCT
+        variety
+      FROM $this->table
+      ORDER BY variety ASC;"
+    )->fetchAll();
+  }
+
+  function selectUniqueCrops() {
+    return parent::$dataBase->query(
+      "SELECT DISTINCT
+        crop
+      FROM $this->table
+      ORDER BY crop ASC;"
+    )->fetchAll();
+  }
 }
 
 ?>
