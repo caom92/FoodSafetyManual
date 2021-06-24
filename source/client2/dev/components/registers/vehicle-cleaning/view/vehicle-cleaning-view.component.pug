@@ -1,0 +1,22 @@
+div(#report_body)
+  div(*ngIf='registers.length > 0', style='max-width:100%;, background-color: white;')
+    table.register-table
+      thead
+        tr.register-table-header-row
+          th.register-table-cell.dateColumn {{ 'VehicleCleaning.date' | translate:lang }}
+          th.register-table-cell.zoneColumn {{ 'VehicleCleaning.zone' | translate:lang }}
+          th.register-table-cell.plateColumn {{ 'VehicleCleaning.license_plate' | translate:lang }}
+          th.register-table-cell.disinfectionColumn {{ 'VehicleCleaning.disinfection' | translate:lang }}
+          th.register-table-cell.waterColumn {{ 'VehicleCleaning.water_rinse' | translate:lang }}
+          th.register-table-cell.conditionsColumn {{ 'VehicleCleaning.conditions' | translate:lang }}
+          th.register-table-cell.contaminationColumn {{ 'VehicleCleaning.contamination_free' | translate:lang }}
+          th.register-table-cell.actionColumn {{ 'VehicleCleaning.corrective_action' | translate:lang }}
+          th.register-table-cell.initialsColumn {{ 'VehicleCleaning.initials' | translate:lang }}
+          th.register-table-cell.signatureColumn {{ 'VehicleCleaning.verification' | translate:lang }}
+          th.register-table-cell.gpSignatureColumn {{ 'VehicleCleaning.good_practices' | translate:lang }}
+      tbody
+        ng-template(ngFor, [ngForOf]='registers', let-register, let-i='index')
+          tr.register-table-row([register]='register', [selectedID]='selectedID', vehicle-cleaning-view-row, (editRegister)='onEditRegister($event)')
+
+div(*ngIf='currentRegister != null')
+  vehicle-cleaning-details([register]='currentRegister')

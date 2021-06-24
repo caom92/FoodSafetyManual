@@ -773,4 +773,153 @@ function createLogListService($program, $module, $log, $sameUserOnly = FALSE) {
   ];
 }
 
+function createViewRegisterService($code, $requirements, $task, $structure) {
+  return [
+    'requirements_desc' => [
+      'logged_in' => ['Employee','Supervisor','GP Supervisor','Manager','Director'],
+      'start_date' => [
+        'type' => 'datetime',
+        'format' => 'Y-m-d'
+      ],
+      'end_date' => [
+        'type' => 'datetime',
+        'format' => 'Y-m-d'
+      ],
+    ] + $requirements,
+    'callback' => function($scope, $request) use ($code, $task, $structure) {
+      $segment = $scope->session->getSegment('fsm');
+      $userID = $segment->get('user_id');
+      $zoneID = $scope->daoFactory->get('Users')->getZoneIDByID($userID);
+      $registerID = $scope->daoFactory->get('Registers')->getIDByCode($code);
+      $role = $segment->get('role_name');
+
+      $registerNames = $scope->daoFactory->get('Registers')->getNamesByCode($code);
+      $registerFooter = $scope->daoFactory->get('RegisterFooters')->getByZoneIDAndRegisterID($zoneID, $registerID);
+
+      // Initialize the response dictionary
+      $response = [];
+
+      // Add register name for multi-language
+      foreach($registerNames as $registerName) {
+        foreach($registerName as $lang => $name) {
+          $response['name'][$lang] = $name;
+        }
+      }
+
+      // Set footer
+      $response['footer'] = '';
+      if ($registerFooter !== false && $role !== 'GP Supervisor') {
+        if (isset($registerFooter['footer']) && array_key_exists('footer', $registerFooter)) {
+          if ($registerFooter['footer'] != null && $registerFooter['footer'] != '') {
+            $response['footer'] = $registerFooter['footer'];
+          }
+        }
+      }
+
+      // Execute the task specific for the service in order to recover register-specific data
+      $taskResult = $task($scope, $request);
+
+      // Append the contents of the result to the response dictionary
+      foreach($structure as $field) {
+        $response[$field] = $taskResult[$field];
+      }
+
+      return $response;
+    }
+  ];
+}
+
+function createAddRegisterService($code, $requirements, $task) {
+  return [
+    'requirements_desc' => [
+      'logged_in' => ['Employee'],
+      'date' => [
+        'type' => 'datetime',
+        'format' => 'Y-m-d'
+      ]
+    ] + $requirements,
+    'callback' => function($scope, $request) use ($code, $task) {
+      $segment = $scope->session->getSegment('fsm');
+      $userID = $segment->get('user_id');
+      $zoneID = $scope->daoFactory->get('Users')->getZoneIDByID($userID);
+      $registerID = $scope->daoFactory->get('Registers')->getIDByCode($code);
+
+      $capturedRegisterID = $scope->daoFactory->get('CapturedRegisters')->insert([
+        'register_id' => $registerID,
+        'zone_id' => $zoneID,
+        'submitter_id' => $userID,
+        'supervisor_id' => NULL,
+        'gp_supervisor_id' => NULL,
+        'capture_date' => $request['date'],
+        'is_active' => 1
+      ]);
+
+      $response = $task($scope, $request, $capturedRegisterID);
+
+      return $response;
+    }
+  ];
+}
+
+function createEditRegisterService($code, $requirements, $task) {
+  return [
+    'requirements_desc' => [
+      'logged_in' => ['Employee', 'Supervisor'],
+      'captured_register_id' => [
+        'type' => 'int',
+        'min' => 1
+      ],
+      'date' => [
+        'type' => 'datetime',
+        'format' => 'Y-m-d'
+      ]
+    ] + $requirements,
+    'callback' => function($scope, $request) use ($code, $task) {
+      $segment = $scope->session->getSegment('fsm');
+      $userID = $segment->get('user_id');
+      $zoneID = $scope->daoFactory->get('Users')->getZoneIDByID($userID);
+      $registerID = $scope->daoFactory->get('Registers')->getIDByCode($code);
+      $role = $segment->get('role_name');
+      $register = $scope->daoFactory->get('CapturedRegisters')->selectByID($request['captured_register_id']);
+
+      if ($role === 'Supervisor') {
+        // Check if supervisor is the same
+        $supervisorID = $segment->get('user_id');
+        $submitterID = $register['submitter_id'];
+        $isEditable = $scope->daoFactory->get('SupervisorsEmployees')->hasSupervisorAndEmployeeID($supervisorID, $submitterID);
+        if (!$isEditable) {
+          throw new \Exception(
+            'Requested register cannot be edited; the submitter is not assigned to this supervisor', 
+            3
+          );
+        }
+      } else if ($role === 'Employee') {
+        if ($register['supervisor_id'] !== NULL) {
+          throw new \Exception(
+            'Requested register cannot be edited; it has already been signed', 
+            1
+          );
+        }
+        $employeeID = $segment->get('user_id');
+        $submitter = $register['submitter_id'];
+        if ($employeeID != $submitter) {
+          throw new \Exception(
+            'Requested register cannot be edited; only the submitter may edit it', 
+            2
+          );
+        }
+      }
+
+      $scope->daoFactory->get('CapturedRegisters')->updateByID([
+        'capture_date' => $request['date']
+      ], $request['captured_register_id']);
+
+      $response = $task($scope, $request, $request['captured_register_id']);
+
+      return $response;
+      //return [];
+    }
+  ];
+}
+
 ?>

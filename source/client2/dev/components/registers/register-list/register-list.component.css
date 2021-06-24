@@ -1,0 +1,19 @@
+.title {
+  font-size: 18px;
+}
+
+.custom-item-content {
+  background: none !important;
+  min-height: auto !important;
+}
+
+.custom-item-content.with-pending-message {
+  width: -webkit-calc(100% - 170px);
+  width: -moz-calc(100% - 170px);
+  width: calc(100% - 170px);
+}
+
+.custom-item:hover {
+  cursor: pointer;
+  background-color: #e0e0e0;
+}

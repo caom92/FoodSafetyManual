@@ -88,6 +88,10 @@ const routes: Routes = [
     loadChildren: './crop-registry/crop-registry.module#CropRegistryModule'
   },
   {
+    path: 'registers',
+    loadChildren: './registers/registers.module#RegistersModule'
+  },
+  {
     path: 'menu',
     loadChildren: './menu/menu.module#MenuModule'
   },

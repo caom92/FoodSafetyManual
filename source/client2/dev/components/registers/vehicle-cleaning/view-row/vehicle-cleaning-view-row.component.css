@@ -1,0 +1,102 @@
+.signature-button {
+  color: #FFFFFFDE;
+  font-weight: 400;
+  background-color: #4CAF50;
+  border-radius: 4px;
+  cursor: pointer;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.selected-register {
+  background-color: #abffb9;
+}
+
+.edit-button {
+  color: #FFFFFFDE;
+  font-weight: 400;
+  background-color: #4c4faf;
+  border-radius: 4px;
+  cursor: pointer;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.approved-register {
+  color: blue;
+  text-align: center;
+}
+
+.signature-cell {
+  height: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.register-table {
+  border: 1px solid #0000003D;
+}
+
+.register-table-row, .register-table-header-row {
+  border-top: 1px solid #0000003D;
+  border-bottom: 1px solid #0000003D;
+  padding: 16px;
+}
+
+.register-table-row:hover {
+  background-color: #DADADA;
+}
+
+.register-table-cell {
+  padding: 10px 5px !important;
+}
+
+.dateColumn{
+  word-wrap: break-word;
+  max-width: 120px;
+}
+
+.plateColumn{
+  word-wrap: break-word;
+  max-width: 120px;
+}
+
+.disinfectionColumn{
+  word-wrap: break-word;
+  max-width: 150px;
+}
+
+.waterColumn{
+  word-wrap: break-word;
+  max-width: 150px;
+}
+
+.conditionsColumn{
+  word-wrap: break-word;
+  max-width: 150px;
+}
+
+.contaminationColumn{
+  word-wrap: break-word;
+  max-width: 150px;
+}
+
+.actionColumn{
+  word-wrap: break-word;
+}
+
+.initialsColumn{
+  word-wrap: break-word;
+  max-width: 120px;
+}
+
+.signatureColumn{
+  word-wrap: break-word;
+  max-width: 120px;
+}
+
+.gpSignatureColumn{
+  word-wrap: break-word;
+  max-width: 120px;
+}

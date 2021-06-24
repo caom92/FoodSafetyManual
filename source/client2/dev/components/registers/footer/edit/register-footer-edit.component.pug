@@ -1,0 +1,9 @@
+mz-modal([options]='modalOptions', [fixedFooter]='true')
+  mz-modal-header
+    h4 Editar pie de página de Registro
+  mz-modal-content
+    div([formGroup]='editFooterForm')
+      mz-textarea-container
+        textarea(mz-textarea, formControlName='footer', required, length='65535')
+  mz-modal-footer
+    button(mz-button, mz-modal-close, (click)='editRegisterFooter()', [disabled]='!editFooterForm.valid') {{ 'Registers.edit' | translate:lang }}

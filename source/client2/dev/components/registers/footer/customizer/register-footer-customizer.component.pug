@@ -1,0 +1,31 @@
+include ../../../log-ionic-materialize.pug
+
++row()
+  +col()(class='s12 m12 l12')
+    h4
+      i.mdi.mdi-note-multiple
+      |  {{ 'Registers.footers' | translate:lang }}
+    .divider
+
++row()([formGroup]='footersForm')
+  +col()(class='s12 m12 l12')
+    +select("{{ 'Registers.zones' | translate:lang }}", null, 'zoneID', null, 'zones', "{{ 'Registers.zones' | translate:lang }}")((change)='onZoneChange()')
+      +option('{{zone.name}}', 'zone.id', false, false)(*ngFor='let zone of zones')
+
+table(*ngIf='footers.length > 0')
+  thead
+    tr
+      th {{ 'Registers.register' | translate:lang }}
+      th {{ 'Registers.footer' | translate:lang }}
+      th
+  tbody
+    tr(*ngFor='let footer of footers')
+      td {{footer.name[lang]}}
+      td
+        i.mdi.mdi-check.mdi-24px.green-text(*ngIf='footer.id !== null')
+      td(*ngIf='footer.id === null')
+        button(type='button', mz-button, (click)='onAddFooter(footer.register_id)')
+          | {{ 'Registers.add' | translate:lang }}
+      td(*ngIf='footer.id !== null')
+        button(type='button', mz-button, (click)='onEditFooter(footer.id, footer.footer)')
+          | {{ 'Registers.edit' | translate:lang }}

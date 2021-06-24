@@ -86,6 +86,12 @@ export class HomeComponent implements OnInit
               case 'Supervisor':
                 this.home.initProgramsMenu()
                 this.home.initSupervisorMenu(this.server, this.toastManager)
+                this.home.initGpSupervisorMenu()
+              break
+              
+              case 'GP Supervisor':
+                this.home.initProgramsMenu()
+                this.home.initGpSupervisorMenu()
               break
 
               case 'Director':

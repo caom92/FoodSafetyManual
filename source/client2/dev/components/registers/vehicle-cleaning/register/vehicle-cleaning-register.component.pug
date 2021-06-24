@@ -1,0 +1,47 @@
+extends ../../templates/register-template.component.pug
+
+block add
+  div(*ngIf='isEmployee === true')
+    mz-tab([fixedTabWidth]="'true'")
+      mz-tab-item(label="{{ 'VehicleCleaning.save' | translate:lang }}")
+        vehicle-cleaning-add(*ngIf='isEmployee === true', (addRegister)='onAddRegister($event)')
+      mz-tab-item(label="{{ 'VehicleCleaning.search' | translate:lang }}")
+        form([formGroup]='dateRangeForm', (ngSubmit)='searchRegisters()')
+          mz-card
+            mz-card-content
+              .row
+                mz-datepicker-container.col.s6.m6.l6
+                  i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
+                  input(mz-datepicker, label="{{ 'Log.start_date' | translate:lang }}", type='text', formControlName='start_date', [options]='dateOptions')
+                mz-datepicker-container.col.s6.m6.l6
+                  i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
+                  input(mz-datepicker, label="{{ 'Log.final_date' | translate:lang }}", type='text', formControlName='end_date', [options]='dateOptions')
+          .row
+            .col.s12.m12.l12
+              button(style='float: right;', mz-button, [disabled]='!dateRangeForm.valid')
+                | {{ 'VehicleCleaning.search' | translate:lang }}
+  div(*ngIf='isEmployee !== true')
+    form([formGroup]='dateRangeForm', (ngSubmit)='searchRegisters()')
+      mz-card
+        mz-card-content
+          .row
+            mz-datepicker-container.col.s6.m6.l6
+              i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
+              input(mz-datepicker, label="{{ 'Log.start_date' | translate:lang }}", type='text', formControlName='start_date', [options]='dateOptions')
+            mz-datepicker-container.col.s6.m6.l6
+              i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
+              input(mz-datepicker, label="{{ 'Log.final_date' | translate:lang }}", type='text', formControlName='end_date', [options]='dateOptions')
+      .row
+        .col.s12.m12.l12
+          button(style='float: right;', mz-button, [disabled]='!dateRangeForm.valid')
+            | {{ 'VehicleCleaning.search' | translate:lang }}
+
+block report
+  div(*ngIf='register.registers.length > 0')
+    +row()
+      +col()(class="s12 m12 l12")
+        register-report-generator([reportHTML]='reportComponent.reportHTML', [name]='register.name', [footer]='register.footer')
+
+block view
+  div(style='color:#000000A3;font-size:12px;') {{ register.registers.length }} {{ 'VehicleCleaning.total' | translate:lang }}
+  vehicle-cleaning-view(#reportComponent, [registers]='register.registers')

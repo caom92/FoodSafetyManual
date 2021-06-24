@@ -86,7 +86,9 @@
     "delete_image": "Borrar imagen permanentemente",
     "autofill": "Auto llenar campos vacíos",
     "close_customer_complaint": "Cerrar Reclamación del Cliente",
-    "gp_signature": "Firma de Buenas Prácticas"
+    "gp_signature": "Firma de Buenas Prácticas",
+    "sign_register": "Firma de registro por el supervisor",
+    "gp_sign_register": "Firma de registro por el supervisor de Buenas Prácticas"
   },
   "Messages": {
     "resend_log": "¿Está seguro que desea reintentar el envío de esta bitácora?",
@@ -104,7 +106,9 @@
     "delete_image": "La imagen que seleccionó para borrar es un archivo que se encuentra en el servidor. Esta acción no se puede deshacer, ¿está seguro que desea continuar?",
     "autofill": "Todos los elementos que no hayan sido llenados serán autollenados como \"aceptables\". Asegúrese de haber llenado todos los elementos con deficiencias.",
     "close_customer_complaint": "El formulario se cerrará. Estará disponible para generar reportes, pero no podrá editarse, ¿está seguro que desea continuar?",
-    "gp_signature": "Está a punto de firmar esta bitácora. Esta acción no se puede deshacer, ¿está seguro que desea continuar?"
+    "gp_signature": "Está a punto de firmar esta bitácora. Esta acción no se puede deshacer, ¿está seguro que desea continuar?",
+    "sign_register": "Está a punto de firmar este registro. Esta acción no se puede deshacer, ¿está seguro que desea continuar?",
+    "gp_sign_register": "Está a punto de firmar este registro. Esta acción no se puede deshacer, ¿está seguro que desea continuar?"
   },
   "Adverbs": {
     "before": "Antes",
@@ -212,7 +216,7 @@
     "reference": "Referencia",
     "total_chlorine": "Cloro Total",
     "free_chlorine": "Cloro Libre",
-    "rinse": "Enjuage",
+    "rinse": "Enjuague",
     "reason": "Motivo",
     "attached_images": "Imágenes adjuntas",
     "attached_pdfs": "Archivos PDF adjuntos",
@@ -263,7 +267,7 @@
     "harvest_machine_quantity": "Cantidad de cosechadoras",
     "disinfection": "Desinfectar el piso y navaja con cloro (100-250ppm)",
     "soap_bag_wash": "Lavar la bolsa con jabón",
-    "water_rinse": "Enjuage con agua",
+    "water_rinse": "Enjuague con agua",
     "noted_defects": "Defectos notados (Daños físicos)"
   },
   "CropRegistry": {
@@ -279,6 +283,39 @@
     "total_hours": "Horas totales",
     "weight_hour": "Lbs/Hr",
     "save": "Guardar registro"
+  },
+  "Registers": {
+    "registers": "Registros",
+    "register": "Registro",
+    "pending": "firmas pendientes",
+    "zones": "Zonas",
+    "footers": "Pies de página",
+    "footer": "Pie de página",
+    "add": "Añadir",
+    "edit": "Editar"
+  },
+  "VehicleCleaning": {
+    "date": "Fecha",
+    "zone": "Zona",
+    "submitter": "Capturista",
+    "license_plate": "Número de placa",
+    "disinfection": "Desinfectar el piso con cloro (100-250ppm)",
+    "water_rinse": "Enjuague con agua",
+    "conditions": "Verificar condiciones",
+    "contamination_free": "Libre de contaminación",
+    "corrective_action": "Acción correctiva",
+    "initials": "Iniciales",
+    "verification": "Verificado",
+    "good_practices": "Verificado BP",
+    "pending": "Pendiente",
+    "approved": "Aprobado",
+    "edit": "Editar",
+    "cancel": "Cancelar",
+    "sign": "Firmar",
+    "search": "Buscar registros",
+    "total": "registros en total para las fechas elegidas",
+    "save": "Guardar registro",
+    "pdf": "Reporte en PDF"
   },
   "Authorization": {
     "send": "Enviar",

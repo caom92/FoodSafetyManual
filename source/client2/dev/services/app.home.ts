@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core'
+import { RegisterService } from './register.service'
 
 // Este servicio incluye todos los elementos y banderas encontrados en el 
 // componente de la pantalla principal para que sean accedidos y modificados 
@@ -6,6 +7,7 @@ import { Injectable } from '@angular/core'
 @Injectable()
 export class HomeElementsService
 {
+  constructor(private registerService: RegisterService) {}
   // Bandera que indica si se debe desplegar el menu lateral
   private _showSideNav = false
   get showSideNav() {
@@ -219,6 +221,9 @@ export class HomeElementsService
   // El numero de autorizaciones pendientes de revisar por el supervisor
   numPendingAuthorizations: number = 0
 
+  // El numero de registros pendientes de firmar por el supervisor
+  pendingSignaturesCount: number = 0
+
   // Realiza los procesos necesarios para desplegar en la aplicacion las 
   // opciones apropiadas que corresponden a un usuario con el rol de empleado
   initProgramsMenu(): void {
@@ -275,6 +280,18 @@ export class HomeElementsService
     // indicamos que cada minuto volveremos a recuperar las autorizaciones 
     // pendientes del servidor
     setInterval(getNumPendingAuthorizations, 60000)
+  }
+
+  initGpSupervisorMenu() {
+    let countPendingRegisters = () => {
+      this.registerService.countPendingRegisters().then(success => {
+        this.pendingSignaturesCount = success
+      })
+    }
+    
+    countPendingRegisters()
+
+    setInterval(countPendingRegisters, 60000)
   }
 
   // Realiza los procesos necesarios para desplegar en la aplicacion las 

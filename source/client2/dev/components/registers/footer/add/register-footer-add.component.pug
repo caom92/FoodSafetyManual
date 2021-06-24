@@ -1,0 +1,9 @@
+mz-modal([options]='modalOptions', [fixedFooter]='true')
+  mz-modal-header
+    h4 Añadir pie de página de Registro
+  mz-modal-content
+    div([formGroup]='addFooterForm')
+      mz-textarea-container
+        textarea(mz-textarea, formControlName='footer', required, length='65535')
+  mz-modal-footer
+    button(mz-button, mz-modal-close, (click)='addRegisterFooter()', [disabled]='!addFooterForm.valid') {{ 'Registers.add' | translate:lang }}

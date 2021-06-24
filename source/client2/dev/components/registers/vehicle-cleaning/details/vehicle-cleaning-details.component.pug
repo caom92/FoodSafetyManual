@@ -1,0 +1,91 @@
+include ../../../log-ionic-materialize.pug
+
+div(*ngIf='!editMode')
+  +card()
+    +cardContent()
+      +row()
+        +col()(class='col s3 m3 l3')
+          span.detail-title {{ 'VehicleCleaning.date' | translate:lang }}: 
+          span {{register['capture_date']}}
+        +col()(class='col s3 m3 l3')
+          span.detail-title {{ 'VehicleCleaning.zone' | translate:lang }}: 
+          span {{register['zone']}}
+        +col()(class='col s3 m3 l3')
+          span.detail-title {{ 'VehicleCleaning.submitter' | translate:lang }}: 
+          span {{register['submitter_first_name']}} {{register['submitter_last_name']}}
+        +col()(class='col s3 m3 l3')
+          span.detail-title {{ 'VehicleCleaning.license_plate' | translate:lang }}: 
+          span {{register['license_plate']}}
+      +row()
+        +col()(class='col s3 m3 l3')
+          span.detail-title {{ 'VehicleCleaning.disinfection' | translate:lang }}: 
+          span {{register['disinfection']}} ppm
+        +col()(class='col s3 m3 l3')
+          span.detail-title {{ 'VehicleCleaning.water_rinse' | translate:lang }}: 
+          span(*ngIf='register.water_rinse == 1') {{ 'Log.yes' | translate:lang }}
+          span(*ngIf='register.water_rinse == 0') {{ 'Log.no' | translate:lang }}
+        +col()(class='col s3 m3 l3')
+          span.detail-title {{ 'VehicleCleaning.conditions' | translate:lang }}: 
+          span(*ngIf='register.conditions == 1') {{ 'Log.acceptable' | translate:lang }}
+          span(*ngIf='register.conditions == 0') {{ 'Log.unacceptable' | translate:lang }}
+        +col()(class='col s3 m3 l3')
+          span.detail-title {{ 'VehicleCleaning.contamination_free' | translate:lang }}: 
+          span(*ngIf='register.contamination_free == 1') {{ 'Log.yes' | translate:lang }}
+          span(*ngIf='register.contamination_free == 0') {{ 'Log.no' | translate:lang }}
+      +row()
+        +col()(class='col s9 m9 l9')
+          p {{ 'VehicleCleaning.corrective_action' | translate:lang }}: {{register['corrective_action']}}
+        +col()(class='col s3 m3 l3')
+          p {{ 'VehicleCleaning.initials' | translate:lang }}: {{register['initials']}}
+      +row()
+        +col()(class='col s6 m6 l6')
+          span.detail-title {{ 'VehicleCleaning.verification' | translate:lang }}: 
+          span(*ngIf='register.supervisor_id === null') {{ 'VehicleCleaning.pending' | translate:lang }}
+          span(*ngIf='register.supervisor_id !== null') {{register['supervisor_first_name']}} {{register['supervisor_last_name']}}
+            img.signature(src="{{ 'http://localhost/espresso/data/signatures/' + register.signature_path }}")
+        +col()(class='col s6 m6 l6')
+          span.detail-title {{ 'VehicleCleaning.good_practices' | translate:lang }}: 
+          span(*ngIf='register.gp_supervisor_id === null') {{ 'VehicleCleaning.pending' | translate:lang }}
+          span(*ngIf='register.gp_supervisor_id !== null') {{register['gp_supervisor_first_name']}} {{register['gp_supervisor_last_name']}}
+            img.signature(src="{{ 'http://localhost/espresso/data/signatures/' + register.gp_signature_path }}")
+      +row()
+        +col()(class='s12 m12 l12')
+          button(style='float: right;', mz-button, *ngIf='isEditable', (click)='enableEditMode()')
+            | {{ 'VehicleCleaning.edit' | translate:lang }}
+
+div([formGroup]='registerForm', *ngIf='editMode')
+  +card()
+    +cardContent()
+      +row()
+        +col()(class="s3 m3 l3")
+          +dateInput(false, "{{ 'VehicleCleaning.date' | translate:lang }}", 'date', 'date', null, 'dateConfig')
+        +col()(class="s3 m3 l3")
+          +textInput("{{ 'VehicleCleaning.license_plate' | translate:lang }}", null, 'license_plate', 'text', 'license_plate', null)
+        +col()(class="s3 m3 l3")
+          +textInput("{{ 'VehicleCleaning.disinfection' | translate:lang }}", null, 'disinfection', 'number', 'disinfection', null)
+        +col()(class="s3 m3 l3")
+          +select("{{ 'VehicleCleaning.water_rinse' | translate:lang }}", false, "water_rinse", "popover", null, "{{ 'VehicleCleaning.water_rinse' | translate:lang }}")
+            +option("{{ 'Log.yes' | translate:lang }}", "true", false, false)
+            +option("{{ 'Log.no' | translate:lang }}", "false", false, false)
+      +row()
+        +col()(class="s3 m3 l3")
+          +select("{{ 'VehicleCleaning.conditions' | translate:lang }}", false, "conditions", "popover", null, "{{ 'VehicleCleaning.conditions' | translate:lang }}")
+            +option("{{ 'Log.acceptable' | translate:lang }}", "true", false, false)
+            +option("{{ 'Log.unacceptable' | translate:lang }}", "false", false, false)
+        +col()(class="s3 m3 l3")
+          +select("{{ 'VehicleCleaning.contamination_free' | translate:lang }}", false, "contamination_free", "popover", null, "{{ 'VehicleCleaning.contamination_free' | translate:lang }}")
+            +option("{{ 'Log.yes' | translate:lang }}", "true", false, false)
+            +option("{{ 'Log.no' | translate:lang }}", "false", false, false)
+        +col()(class="s3 m3 l3")
+          +textInput("{{ 'VehicleCleaning.corrective_action' | translate:lang }}", null, 'corrective_action', 'text', 'corrective_action', null)
+        +col()(class="s3 m3 l3")
+          +textInput("{{ 'VehicleCleaning.initials' | translate:lang }}", null, 'initials', 'text', 'initials', null)
+
+  +row()(*ngIf='isEditable == true')
+    +col()(class="s6 m6 l6")
+    +col()(class="s3 m3 l3")
+      button(style='float: right;', mz-button, (click)='disableEditMode()')= "{{ 'VehicleCleaning.cancel' | translate:lang }} "
+        i(mz-icon-mdi, [icon]="'close'")
+    +col()(class="s3 m3 l3")
+      button(style='float: right;', mz-button, (click)='editRegister()')= "{{ 'VehicleCleaning.save' | translate:lang }} "
+        i(mz-icon-mdi, [icon]="'send'")

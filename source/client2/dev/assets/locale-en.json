@@ -86,7 +86,9 @@
     "delete_image": "Delete image permanently",
     "autofill": "Autofill empty fields",
     "close_customer_complaint": "Close Customer Complaint",
-    "gp_signature": "Good Practices Signature"
+    "gp_signature": "Good Practices Signature",
+    "sign_register": "Register Signature",
+    "gp_sign_register": "Good Practices Register Signature"
   },
   "Messages": {
     "resend_log": "Are you sure you want to retry sending this log?",
@@ -104,7 +106,9 @@
     "delete_image": "The image you selected to delete is a file stored in the server. This action cannot be undone, are you sure you want to continue?",
     "autofill": "All unfilled elements will be automatically filled as \"acceptable\". Make sure to have filled all elements with deficiencies.",
     "close_customer_complaint": "Form will be closed. It will be available to create reports, but it will no longer be editable, are you sure you want to continue?",
-    "gp_signature": "This log will be signed. This action cannot be undone, are you sure you want to continue?"
+    "gp_signature": "This log will be signed. This action cannot be undone, are you sure you want to continue?",
+    "sign_register": "This register will be signed. This action cannot be undone, are you sure you want to continue?",
+    "gp_sign_register": "This register will be signed. This action cannot be undone, are you sure you want to continue?"
   },
   "Adverbs": {
     "before": "Before",
@@ -285,6 +289,39 @@
     "total_hours": "Total hours",
     "weight_hour": "Pounds/Hr",
     "save": "Save register"
+  },
+  "Registers": {
+    "registers": "Registers",
+    "register": "Register",
+    "pending": "pending signatures",
+    "zones": "Zones",
+    "footers": "Footers",
+    "footer": "Footer",
+    "add": "Add",
+    "edit": "Edit"
+  },
+  "VehicleCleaning": {
+    "date": "Date",
+    "zone": "Zone",
+    "submitter": "Submitter",
+    "license_plate": "License plate",
+    "disinfection": "Disinfected with chlorine (100-250ppm)",
+    "water_rinse": "Water rinse",
+    "conditions": "Verify conditions",
+    "contamination_free": "Free of contamination",
+    "corrective_action": "Corrective action",
+    "initials": "Initials",
+    "verification": "Verified",
+    "good_practices": "GP Verified",
+    "pending": "Pending",
+    "approved": "Approved",
+    "edit": "Edit",
+    "cancel": "Cancel",
+    "sign": "Sign",
+    "search": "Search registers",
+    "total": "total registers for the selected dates",
+    "save": "Save register",
+    "pdf": "PDF Report"
   },
   "LogList": {
     "open": "Open log",
