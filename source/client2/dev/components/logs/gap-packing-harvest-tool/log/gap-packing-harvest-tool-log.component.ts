@@ -95,7 +95,8 @@ export class GAPPackingHarvestToolLogComponent extends SuperUpdateComponent {
       recovery_conditions: [this.dataResolver.resolveNumber(tool.recovery_conditions), [isFinish ? Validators.required : Validators.nullValidator]],
       sanitation: [this.dataResolver.resolveNumber(tool.sanitation), [isFinish ? Validators.required : Validators.nullValidator]],
       deficiencies: [this.dataResolver.resolveString(tool.deficiencies), [isFinish ? Validators.required : Validators.nullValidator, Validators.maxLength(this.maxLengths.deficiencies)]],
-      corrective_actions: [this.dataResolver.resolveString(tool.corrective_actions), [isFinish ? Validators.required : Validators.nullValidator, Validators.maxLength(this.maxLengths.corrective_actions)]]
+      corrective_actions: [this.dataResolver.resolveString(tool.corrective_actions), [isFinish ? Validators.required : Validators.nullValidator, Validators.maxLength(this.maxLengths.corrective_actions)]],
+      is_captured: [this.dataResolver.resolveBoolean(tool.is_captured), [Validators.required]]
     })
 
     return captureTypeGroup
@@ -107,7 +108,7 @@ export class GAPPackingHarvestToolLogComponent extends SuperUpdateComponent {
     let tools: Array<LogTool> = []
 
     for (let tool of this.log.days[0].tools) {
-      tools.push({ tool_id: Number(tool.tool_id), name: String(tool.name) })
+      tools.push({ tool_id: Number(tool.tool_id), name: String(tool.name), is_captured: true })
     }
 
     let day: LogDay = {
@@ -165,11 +166,39 @@ export class GAPPackingHarvestToolLogComponent extends SuperUpdateComponent {
     this.captureForm.reset()
   }
 
+  cleanFinishForm(finishForm: FormGroup) {
+    for (let d in (<FormGroup>finishForm.controls.days).controls) {
+      const day = (<FormGroup>(<FormGroup>finishForm.controls.days).controls[d])
+      for (let t in (<FormGroup>day.controls.tools).controls) {
+        const tool = (<FormGroup>(<FormGroup>day.controls.tools).controls[t])
+        if (tool.controls.is_captured.value == false) {
+          let controlArray: Array<AbstractControl> = []
+
+          controlArray.push(tool.controls.issue_time)
+          controlArray.push(tool.controls.issue_qty)
+          controlArray.push(tool.controls.issue_conditions)
+          controlArray.push(tool.controls.recovery_time)
+          controlArray.push(tool.controls.recovery_qty)
+          controlArray.push(tool.controls.recovery_conditions)
+          controlArray.push(tool.controls.sanitation)
+          controlArray.push(tool.controls.deficiencies)
+          controlArray.push(tool.controls.corrective_actions)
+
+          for (let control of controlArray) {
+            control.disable()
+          }
+        }
+      }
+    }
+  }
+
   finish() {
     let finishForm: FormGroup = this.finishForm()
 
     finishForm.patchValue(this.captureForm.value)
     finishForm.updateValueAndValidity()
+
+    this.cleanFinishForm(finishForm)
 
     if (finishForm.valid) {
       super.finish()

@@ -134,6 +134,10 @@ mixin captureCheckbox(label, id, func)
   mz-checkbox-container()&attributes(attributes)
     input(mz-checkbox, label=label, type="checkbox", id=id, filledIn="true", (change)=func, checked)
 
+mixin captureCheckboxControl(label, id, func, formControlName)
+  mz-checkbox-container()&attributes(attributes)
+    input(mz-checkbox, label=label, type="checkbox", id=id, filledIn="true", (change)=func, formControlName=formControlName)
+
 mixin radioGroup(label, icon, formControlName)
   div
     label()= label

@@ -69,7 +69,8 @@ export class GAPPackingHarvestToolAuthorizationComponent extends SuperAuthorizat
       recovery_conditions: [this.dataResolver.resolveNumber(tool.recovery_conditions), [Validators.required]],
       sanitation: [this.dataResolver.resolveNumber(tool.sanitation), [Validators.required]],
       deficiencies: [this.dataResolver.resolveString(tool.deficiencies), [Validators.required, Validators.maxLength(this.maxLengths.deficiencies)]],
-      corrective_actions: [this.dataResolver.resolveString(tool.corrective_actions), [Validators.required, Validators.maxLength(this.maxLengths.corrective_actions)]]
+      corrective_actions: [this.dataResolver.resolveString(tool.corrective_actions), [Validators.required, Validators.maxLength(this.maxLengths.corrective_actions)]],
+      is_captured: [this.dataResolver.resolveBoolean(tool.is_captured), [Validators.required]]
     })
 
     return captureTypeGroup

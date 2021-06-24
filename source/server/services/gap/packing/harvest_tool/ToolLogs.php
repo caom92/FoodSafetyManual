@@ -23,11 +23,33 @@ class ToolLogs extends db\InsertableTable
         recovery_conditions,
         sanitation,
         deficiencies,
-        corrective_actions
+        corrective_actions,
+        is_captured
       FROM $this->table
       INNER JOIN gap_packing_harvest_tool_tools AS t
         ON $this->table.tool_id = t.id
       WHERE date_log_id = $dateLogID"
+    )->fetchAll();
+  }
+
+  function selectCapturedByDateLogID($dateLogID){
+    return parent::$dataBase->query(
+      "SELECT
+        tool_id,
+        t.name AS name,
+        DATE_FORMAT(issue_time, '%H:%i') AS issue_time,
+        issue_qty,
+        issue_conditions,
+        DATE_FORMAT(recovery_time, '%H:%i') AS recovery_time,
+        recovery_qty,
+        recovery_conditions,
+        sanitation,
+        deficiencies,
+        corrective_actions
+      FROM $this->table
+      INNER JOIN gap_packing_harvest_tool_tools AS t
+        ON $this->table.tool_id = t.id
+      WHERE date_log_id = $dateLogID AND is_captured = '1'"
     )->fetchAll();
   }
 

@@ -17,7 +17,7 @@ $service = fsm\createReportService(
 
       foreach ($days as &$day) {
         $day['tools'] = $scope->daoFactory->get('gap\packing\harvestTool\ToolLogs')
-          ->selectByDateLogID($day['id']);
+          ->selectCapturedByDateLogID($day['id']);
       }
 
       return $days;

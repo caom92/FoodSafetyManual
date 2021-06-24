@@ -68,6 +68,9 @@ $service = fsm\createCaptureService(
               'type' => 'string',
               'max_length' => 65535,
               'optional' => true
+            ],
+            'is_captured' => [
+              'type' => 'bool'
             ]
           ]
         ]
@@ -87,19 +90,39 @@ $service = fsm\createCaptureService(
         ]);
 
         foreach ($day['tools'] as $tool) {
-          $scope->daoFactory->get('gap\packing\harvestTool\ToolLogs')->insert([
-            'date_log_id' => $dateID,
-            'tool_id' => $tool['tool_id'],
-            'issue_time' => (isset($tool['issue_time']) && array_key_exists('issue_time', $tool)) ? $tool['issue_time'] : NULL,
-            'issue_qty' => (isset($tool['issue_qty']) && array_key_exists('issue_qty', $tool)) ? $tool['issue_qty'] : NULL,
-            'issue_conditions' => (isset($tool['issue_conditions']) && array_key_exists('issue_conditions', $tool)) ? $tool['issue_conditions'] : NULL,
-            'recovery_time' => (isset($tool['recovery_time']) && array_key_exists('recovery_time', $tool)) ? $tool['recovery_time'] : NULL,
-            'recovery_qty' => (isset($tool['recovery_qty']) && array_key_exists('recovery_qty', $tool)) ? $tool['recovery_qty'] : NULL,
-            'recovery_conditions' => (isset($tool['recovery_conditions']) && array_key_exists('recovery_conditions', $tool)) ? $tool['recovery_conditions'] : NULL,
-            'sanitation' => (isset($tool['sanitation']) && array_key_exists('sanitation', $tool)) ? $tool['sanitation'] : NULL,
-            'deficiencies' => (isset($tool['deficiencies']) && array_key_exists('deficiencies', $tool)) ? $tool['deficiencies'] : NULL,
-            'corrective_actions' => (isset($tool['corrective_actions']) && array_key_exists('corrective_actions', $tool)) ? $tool['corrective_actions'] : NULL
-          ]);
+          if (isset($tool['is_captured']) && array_key_exists('is_captured', $tool)) {
+            if ($tool['is_captured'] == TRUE) {
+              $scope->daoFactory->get('gap\packing\harvestTool\ToolLogs')->insert([
+                'date_log_id' => $dateID,
+                'tool_id' => $tool['tool_id'],
+                'issue_time' => (isset($tool['issue_time']) && array_key_exists('issue_time', $tool)) ? $tool['issue_time'] : NULL,
+                'issue_qty' => (isset($tool['issue_qty']) && array_key_exists('issue_qty', $tool)) ? $tool['issue_qty'] : NULL,
+                'issue_conditions' => (isset($tool['issue_conditions']) && array_key_exists('issue_conditions', $tool)) ? $tool['issue_conditions'] : NULL,
+                'recovery_time' => (isset($tool['recovery_time']) && array_key_exists('recovery_time', $tool)) ? $tool['recovery_time'] : NULL,
+                'recovery_qty' => (isset($tool['recovery_qty']) && array_key_exists('recovery_qty', $tool)) ? $tool['recovery_qty'] : NULL,
+                'recovery_conditions' => (isset($tool['recovery_conditions']) && array_key_exists('recovery_conditions', $tool)) ? $tool['recovery_conditions'] : NULL,
+                'sanitation' => (isset($tool['sanitation']) && array_key_exists('sanitation', $tool)) ? $tool['sanitation'] : NULL,
+                'deficiencies' => (isset($tool['deficiencies']) && array_key_exists('deficiencies', $tool)) ? $tool['deficiencies'] : NULL,
+                'corrective_actions' => (isset($tool['corrective_actions']) && array_key_exists('corrective_actions', $tool)) ? $tool['corrective_actions'] : NULL,
+                'is_captured' => (isset($tool['is_captured']) && array_key_exists('is_captured', $tool)) ? $tool['is_captured'] : NULL
+              ]);
+            } else {
+              $scope->daoFactory->get('gap\packing\harvestTool\ToolLogs')->insert([
+                'date_log_id' => $dateID,
+                'tool_id' => $tool['tool_id'],
+                'issue_time' => NULL,
+                'issue_qty' => NULL,
+                'issue_conditions' => NULL,
+                'recovery_time' => NULL,
+                'recovery_qty' => NULL,
+                'recovery_conditions' => NULL,
+                'sanitation' => NULL,
+                'deficiencies' => NULL,
+                'corrective_actions' => NULL,
+                'is_captured' => (isset($tool['is_captured']) && array_key_exists('is_captured', $tool)) ? $tool['is_captured'] : NULL
+              ]);
+            }
+          }
         }
       }
     }

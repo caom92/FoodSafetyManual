@@ -21,5 +21,6 @@ export interface AuthorizationTool {
   recovery_conditions?: number
   sanitation?: string
   deficiencies?: string
-  corrective_actions?: string
+  corrective_actions?: string,
+  is_captured: boolean
 }

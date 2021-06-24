@@ -22,7 +22,8 @@ $service = fsm\createLogService(
       foreach ($tools as $tool) {
         $tempTool = [
           'tool_id' => $tool['id'],
-          'name' => $tool['name']
+          'name' => $tool['name'],
+          'is_captured' => TRUE
         ];
         array_push($day['tools'], $tempTool);
       }
