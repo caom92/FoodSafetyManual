@@ -3,12 +3,12 @@ td.quantityColumn {{machine.harvest_machine_quantity}}
 td.disinfectionColumn {{machine.disinfection}} PPM
 td.washColumn(*ngIf='machine.soap_bag_wash == 1') {{ 'Log.yes' | translate:lang }}
 td.washColumn(*ngIf='machine.soap_bag_wash == 0') {{ 'Log.no' | translate:lang }}
-td.washColumn(*ngIf='machine.soap_bag_wash == null')
+td.washColumn(*ngIf='machine.soap_bag_wash == null') N/A
 td.rinseColumn(*ngIf='machine.rinse == 1') {{ 'Log.yes' | translate:lang }}
 td.rinseColumn(*ngIf='machine.rinse == 0') {{ 'Log.no' | translate:lang }}
-td.rinseColumn(*ngIf='machine.rinse == null')
+td.rinseColumn(*ngIf='machine.rinse == null') N/A
 td.conditionsColumn(*ngIf='machine.conditions == 1') {{ 'Log.acceptable' | translate:lang }}
 td.conditionsColumn(*ngIf='machine.conditions == 0') {{ 'Log.unacceptable' | translate:lang }}
-td.conditionsColumn(*ngIf='machine.conditions == null')
+td.conditionsColumn(*ngIf='machine.conditions == null') N/A
 td.defectsColumn {{machine.noted_defects}}
 td.initialsColumn {{machine.initials}}
