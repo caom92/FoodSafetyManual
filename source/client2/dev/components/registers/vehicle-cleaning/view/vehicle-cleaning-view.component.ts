@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core'
+import { Component, ElementRef, Input, OnChanges, ViewChild } from '@angular/core'
 import { Language } from 'angular-l10n'
 import { RegisterService } from '../../../../services/register.service'
 
@@ -10,7 +10,7 @@ import { VehicleCleaningEntryInterface } from '../interfaces/vehicle-cleaning.in
   styleUrls: ['./vehicle-cleaning-view.component.css']
 })
 
-export class VehicleCleaningViewComponent {
+export class VehicleCleaningViewComponent implements OnChanges {
   @Language() lang: string
   @ViewChild('report_body') reportHTML: ElementRef
   @Input() registers: Array<VehicleCleaningEntryInterface> = []
@@ -27,6 +27,11 @@ export class VehicleCleaningViewComponent {
       this.currentRegister = null
       this.selectedID = null
     }
+  }
+
+  public ngOnChanges(): void {
+    this.currentRegister = null
+    this.selectedID = null
   }
   
   /*public onSignClick(id: number): void {

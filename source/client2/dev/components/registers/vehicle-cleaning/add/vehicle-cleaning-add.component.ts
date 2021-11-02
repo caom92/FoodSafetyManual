@@ -42,29 +42,32 @@ export class VehicleCleaningAddComponent implements OnInit {
   }
 
   public onAddRegister(): void {
-    this.registerService.add('vehicle-cleaning', this.registerForm.value).then(success => {
-      this.addRegister.emit({
-        id: success,
-        captured_register_id: success,
-        capture_date: this.registerForm.value.date,
-        license_plate: this.registerForm.value.license_plate,
-        disinfection: this.registerForm.value.disinfection,
-        water_rinse: this.registerForm.value.water_rinse,
-        conditions: this.registerForm.value.conditions,
-        contamination_free: this.registerForm.value.contamination_free,
-        corrective_action: this.registerForm.value.corrective_action,
-        initials: this.registerForm.value.initials,
-        submitter_id: Number(localStorage.getItem('user_id')),
-        signable: 0,
-        signature_path: null,
-        supervisor_id: null,
-        gp_signable: 0,
-        gp_supervisor_id: null,
-        gp_signature_path: null,
-        zone_id: Number(localStorage.getItem('zone_name'))
-      })
+    if (this.registerForm.valid == true) {
+      this.registerService.add('vehicle-cleaning', this.registerForm.value).then(success => {
+        this.addRegister.emit({
+          id: success,
+          captured_register_id: success,
+          capture_date: this.registerForm.value.date,
+          license_plate: this.registerForm.value.license_plate,
+          disinfection: this.registerForm.value.disinfection,
+          water_rinse: this.registerForm.value.water_rinse,
+          conditions: this.registerForm.value.conditions,
+          contamination_free: this.registerForm.value.contamination_free,
+          corrective_action: this.registerForm.value.corrective_action,
+          initials: this.registerForm.value.initials,
+          submitter_id: Number(localStorage.getItem('user_id')),
+          signable: 0,
+          signature_path: null,
+          supervisor_id: null,
+          gp_signable: 0,
+          gp_supervisor_id: null,
+          gp_signature_path: null,
+          zone_id: Number(localStorage.getItem('zone_id')),
+          zone: localStorage.getItem('zone_name')
+        })
 
-      this.registerForm.reset()
-    })
+        this.registerForm.reset()
+      })
+    }
   }
 }

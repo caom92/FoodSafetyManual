@@ -33,5 +33,5 @@ div([formGroup]='registerForm')
 
 +row()
   +col()(class="s12 m12 l12")
-    button(style='float: right;', mz-button, (click)='onAddRegister()')= "{{ 'VehicleCleaning.save' | translate:lang }} "
+    button(style='float: right;', mz-button, (click)='onAddRegister()', [disabled]='!registerForm.valid')= "{{ 'VehicleCleaning.save' | translate:lang }} "
       i(mz-icon-mdi, [icon]="'send'")

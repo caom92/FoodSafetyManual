@@ -11,10 +11,20 @@ $service = fsm\createViewRegisterService(
     $zoneID = $segment->get('zone_id');
     $role = $segment->get('role_name');
 
-    if ($role === 'GP Supervisor') {
-      $registers = $vehicleCleaningLogs->selectAll($request['start_date'], $request['end_date']);
+    $hasDateRange = isset($request['start_date']) && array_key_exists('start_date', $request) && isset($request['end_date']) && array_key_exists('end_date', $request);
+
+    if ($hasDateRange) {
+      if ($role === 'GP Supervisor') {
+        $registers = $vehicleCleaningLogs->selectAll($request['start_date'], $request['end_date']);
+      } else {
+        $registers = $vehicleCleaningLogs->selectByZoneID($zoneID, $request['start_date'], $request['end_date']);
+      }
     } else {
-      $registers = $vehicleCleaningLogs->selectByZoneID($zoneID, $request['start_date'], $request['end_date']);
+      if ($role === 'GP Supervisor') {
+        $registers = $vehicleCleaningLogs->selectRecentRegisters();
+      } else {
+        $registers = $vehicleCleaningLogs->selectRecentRegistersByZoneID($zoneID);
+      }
     }
 
     // Only supervisors may sign registers

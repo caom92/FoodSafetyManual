@@ -65,7 +65,7 @@ export class RegisterReportGeneratorComponent {
   }
 
   public getPDFReportHeader(): string {
-    return '<div style="font-size:35px;font-weight:bold;">' + this.name[this.lang] + '</div>'
+    return '<div style="font-size:18px;font-weight:bold;">' + this.name[this.lang] + '</div>'
   }
 
   public getPDFReportFooter(): string {

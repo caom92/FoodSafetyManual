@@ -28,13 +28,20 @@ export class VehicleCleaningRegisterComponent implements OnInit {
 
     this.initRequestForm()
 
-    this.searchRegisters()
+    this.initRegisters()
   }
 
   public initRequestForm(): void {
     this.dateRangeForm = this.formBuilder.group({
       start_date: [this.timeService.getISODate()],
       end_date: [this.timeService.getISODate()]
+    })
+  }
+
+  public initRegisters(): void {
+    // request an empty service, so you can get a few recent registers
+    this.registerService.view('vehicle-cleaning', null).then(success => {
+      this.register = success
     })
   }
 

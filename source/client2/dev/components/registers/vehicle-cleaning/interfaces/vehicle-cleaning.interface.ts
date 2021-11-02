@@ -16,5 +16,6 @@ export interface VehicleCleaningEntryInterface {
   gp_signable: number,
   gp_signature_path: string,
   gp_supervisor_id: number,
-  zone_id: number
+  zone_id: number,
+  zone: string
 }

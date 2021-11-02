@@ -779,11 +779,13 @@ function createViewRegisterService($code, $requirements, $task, $structure) {
       'logged_in' => ['Employee','Supervisor','GP Supervisor','Manager','Director'],
       'start_date' => [
         'type' => 'datetime',
-        'format' => 'Y-m-d'
+        'format' => 'Y-m-d',
+        'optional' => true
       ],
       'end_date' => [
         'type' => 'datetime',
-        'format' => 'Y-m-d'
+        'format' => 'Y-m-d',
+        'optional' => true
       ],
     ] + $requirements,
     'callback' => function($scope, $request) use ($code, $task, $structure) {
