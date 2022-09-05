@@ -113,7 +113,11 @@ $controller = new ServiceProvider(
       $gapDocControl, $capa, $atpLuminometer, $gmpHarvestTool, $gapHarvestTool,
       $productRevision, $harvestBlockInspection, $gapSelfInspection, $customerComplaint,
       $gapBathroomCleaning, $gmpBathroomCleaning, $harvestMachineCleaning, $gpSignatures,
-      $cropRegistry, $registers, $vehicleCleaning) {
+      $cropRegistry, $registers, $vehicleCleaning, $gapPestControlInspectionExterior,
+      $gmpPestControlInspectionExterior, $gapPestControlInspectionInterior,
+      $gmpPestControlInspectionInterior, $gapPestControlInspectionFlytrap,
+      $gmpPestControlInspectionFlytrap, $registerOzoneWater, $workOrder,
+      $finishedProductRegister) {
       return new db\TableFactory(
         'fsm\database\\',
         $zone['tables'] +
@@ -153,9 +157,18 @@ $controller = new ServiceProvider(
         $gapSelfInspection['tables'] +
         $menu['tables'] +
         $capa['tables'] +
+        $workOrder['tables'] +
         $cropRegistry['tables'] +
         $registers['tables'] +
         $vehicleCleaning['tables'] +
+        $registerOzoneWater['tables'] +
+        $finishedProductRegister['tables'] +
+        $gapPestControlInspectionExterior['tables'] +
+        $gmpPestControlInspectionExterior['tables'] +
+        $gapPestControlInspectionInterior['tables'] +
+        $gmpPestControlInspectionInterior['tables'] +
+        $gapPestControlInspectionFlytrap['tables'] +
+        $gmpPestControlInspectionFlytrap['tables'] +
         $customerComplaint['tables'] +
         [
           'Shifts' =>
@@ -207,9 +220,18 @@ $controller = new ServiceProvider(
       $gapSelfInspection['services'] +
       $menu['services'] +
       $capa['services'] +
+      $workOrder['services'] +
       $cropRegistry['services'] +
       $registers['services'] +
       $vehicleCleaning['services'] +
+      $registerOzoneWater['services'] +
+      $finishedProductRegister['services'] +
+      $gapPestControlInspectionExterior['services'] +
+      $gmpPestControlInspectionExterior['services'] +
+      $gapPestControlInspectionInterior['services'] +
+      $gmpPestControlInspectionInterior['services'] +
+      $gapPestControlInspectionFlytrap['services'] +
+      $gmpPestControlInspectionFlytrap['services'] +
       $customerComplaint['services']
   ]
 );

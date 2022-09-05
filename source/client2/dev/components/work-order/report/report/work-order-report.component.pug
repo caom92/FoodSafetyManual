@@ -1,0 +1,98 @@
+mz-card
+  mz-card-content
+    div(#report_body)
+      h4.centeredTitle {{ 'WorkOrderForm.title_uppercase' | translate:lang }}
+      span.italicFont {{ 'WorkOrderForm.location' | translate:lang }}: {{report.zone_name}}
+      br
+      span.italicFont {{ 'WorkOrderForm.work_order_number' | translate:lang }}: {{report.work_order_number}}
+      br
+      span.italicFont {{ 'WorkOrderForm.date' | translate:lang }}: {{report.capture_date}}
+      h4 I. {{ 'WorkOrderForm.quality_assurance' | translate:lang }}
+      table
+        tbody
+          tr
+            td.boldText.grayBackground.smallHalfColumn {{ 'WorkOrderForm.creator_name' | translate:lang }}
+            td.bigHalfColumn {{report.creator_name}}
+            td.boldText.grayBackground.smallHalfColumn {{ 'WorkOrderForm.department' | translate:lang }}
+            td.bigHalfColumn {{report.department}}
+          tr
+            td.boldText.grayBackground.smallHalfColumn {{ 'WorkOrderForm.location' | translate:lang }}
+            td.bigHalfColumn {{report.zone_name}}
+            td.boldText.grayBackground.smallHalfColumn {{ 'WorkOrderForm.date' | translate:lang }}
+            td.bigHalfColumn {{report.capture_date}}
+          tr
+            td.boldText.grayBackground.fullColumn {{ 'WorkOrderForm.description' | translate:lang }}
+          tr
+            td.fullColumn([innerHtml]='report.description')
+      h4 II. {{ 'WorkOrderForm.general_manager' | translate:lang }}
+      table
+        tbody
+          tr
+            td.boldText.grayBackground.smallFullColumn {{ 'WorkOrderForm.received_by' | translate:lang }}
+            td.bigFullColumn {{report.received_by}}
+          tr
+            td.boldText.grayBackground.smallFullColumn {{ 'WorkOrderForm.assigned_to' | translate:lang }}
+            td.bigFullColumn {{report.assigned_to}}
+          tr
+            td.boldText.grayBackground.smallFullColumn {{ 'WorkOrderForm.date' | translate:lang }}
+            td.bigFullColumn {{report.repair_date}}
+          tr
+            td.boldText.grayBackground.smallFullColumn {{ 'WorkOrderForm.time' | translate:lang }}
+            td.bigFullColumn {{report.repair_time}}
+          tr
+            td.boldText.grayBackground.smallFullColumn {{ 'WorkOrderForm.repair_duration' | translate:lang }}
+            td.bigFullColumn {{report.repair_duration}}
+          tr
+            td.boldText.grayBackground.fullColumn {{ 'WorkOrderForm.repair_work_order_type' | translate:lang }}
+          tr
+            td.fullColumn([innerHtml]='report.repair_work_order_type')
+      h4 III. {{ 'WorkOrderForm.maintenance' | translate:lang }}
+      table
+        tbody
+          tr
+            td.boldText.grayBackground.smallFullColumn {{ 'WorkOrderForm.task_performer' | translate:lang }}
+            td.bigFullColumn {{report.maintenance_task_performer}}
+          tr
+            td.boldText.grayBackground.smallFullColumn {{ 'WorkOrderForm.repair_start_date' | translate:lang }}
+            td.bigFullColumn {{report.repair_start_date}}
+          tr
+            td.boldText.grayBackground.smallFullColumn {{ 'WorkOrderForm.repair_start_time' | translate:lang }}
+            td.bigFullColumn {{report.repair_start_time}}
+          tr
+            td.boldText.grayBackground.smallFullColumn {{ 'WorkOrderForm.repair_finish_date' | translate:lang }}
+            td.bigFullColumn {{report.repair_finish_date}}
+          tr
+            td.boldText.grayBackground.smallFullColumn {{ 'WorkOrderForm.repair_finish_time' | translate:lang }}
+            td.bigFullColumn {{report.repair_finish_time}}
+          tr
+            td.boldText.grayBackground.fullColumn {{ 'WorkOrderForm.comments' | translate:lang }}
+          tr
+            td.fullColumn([innerHtml]='report.repair_comments')
+      h4 IV. {{ 'WorkOrderForm.sanitation' | translate:lang }}
+      table
+        tbody
+          tr
+            td.boldText.grayBackground.smallFullColumn {{ 'WorkOrderForm.task_performer' | translate:lang }}
+            td.bigFullColumn {{report.sanitation_task_performer}}
+          tr
+            td.boldText.grayBackground.smallFullColumn {{ 'WorkOrderForm.date' | translate:lang }}
+            td.bigFullColumn {{report.sanitation_date}}
+          tr
+            td.boldText.grayBackground.smallHalfColumn {{ 'WorkOrderForm.sanitation_start_time' | translate:lang }}
+            td.bigHalfColumn {{report.sanitation_start_time}}
+            td.boldText.grayBackground.smallHalfColumn {{ 'WorkOrderForm.sanitation_finish_time' | translate:lang }}
+            td.bigHalfColumn {{report.sanitation_finish_time}}
+          tr
+            td.boldText.grayBackground.fullColumn {{ 'WorkOrderForm.corrective_action' | translate:lang }}
+          tr
+            td.fullColumn([innerHtml]='report.sanitation_corrective_action')
+      h4 V. {{ 'WorkOrderForm.quality_assurance' | translate:lang }} / {{ 'WorkOrderForm.general_manager' | translate:lang }}
+      table
+        tbody
+          tr
+            td.boldText.grayBackground.fullColumn {{ 'WorkOrderForm.checkbox' | translate:lang }}
+          tr
+            td.fullColumn(*ngIf='report.cleaning_verification === 1') {{ 'Log.yes' | translate:lang }}
+            td.fullColumn(*ngIf='report.cleaning_verification === 0') {{ 'Log.no' | translate:lang }}
+            td.fullColumn(*ngIf='report.cleaning_verification === null || report.cleaning_verification === undefined') N/A
+          

@@ -16,14 +16,21 @@ $service = fsm\createViewRegisterService(
     if ($hasDateRange) {
       if ($role === 'GP Supervisor') {
         $registers = $vehicleCleaningLogs->selectAll($request['start_date'], $request['end_date']);
+      } else if ($role === 'Supervisor') {
+        $registers = $vehicleCleaningLogs->selectByZoneID($zoneID, $request['start_date'], $request['end_date']);
       } else {
         $registers = $vehicleCleaningLogs->selectByZoneID($zoneID, $request['start_date'], $request['end_date']);
       }
     } else {
       if ($role === 'GP Supervisor') {
-        $registers = $vehicleCleaningLogs->selectRecentRegisters();
+        $registers = $vehicleCleaningLogs->selectGPPendingRegisters($zoneID);
+        //$registers = $vehicleCleaningLogs->selectRecentRegisters();
+      } else if ($role === 'Supervisor') {
+        $registers = $vehicleCleaningLogs->selectPendingRegisters($zoneID);
+        //$registers = $vehicleCleaningLogs->selectRecentRegistersByZoneID($zoneID);
       } else {
-        $registers = $vehicleCleaningLogs->selectRecentRegistersByZoneID($zoneID);
+        $registers = $vehicleCleaningLogs->selectPendingRegisters($zoneID);
+        //$registers = $vehicleCleaningLogs->selectRecentRegistersByZoneID($zoneID);
       }
     }
 

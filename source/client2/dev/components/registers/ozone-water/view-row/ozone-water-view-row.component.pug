@@ -1,0 +1,24 @@
+td.register-table-cell.no-wrap-table-cell.dateColumn {{register['capture_date']}}
+td.register-table-cell.no-wrap-table-cell.timeColumn {{register['time']}}
+td.register-table-cell.initialsColumn {{register['initials']}}
+td.register-table-cell.areaColumn {{register['area']}}
+//- pending cell, informative
+td.register-table-cell.signatureColumn(*ngIf='register.supervisor_id === null && register.signable === 0')
+  div.pending-cell {{ 'OzoneWater.pending' | translate:lang }}
+//- sign, button
+td.register-table-cell.signatureColumn(*ngIf='register.supervisor_id === null && register.signable === 1')
+  div.signature-button((click)='onSignClick()') {{ 'OzoneWater.sign' | translate:lang }}
+//- signature cell, informative, supervisor basis
+td.register-table-cell.signatureColumn(*ngIf='register.supervisor_id !== null && register.signature_path !== null')
+  img.signature-cell(src="{{ 'http://localhost/espresso/data/signatures/' + register.signature_path }}")
+td.register-table-cell.signatureColumn(*ngIf='register.supervisor_id !== null && register.signature_path === null')
+  div.approved-register {{ 'OzoneWater.approved' | translate:lang }}
+//- signature cell, gp supervisor
+td.register-table-cell.gpSignatureColumn(*ngIf='register.gp_supervisor_id === null && register.gp_signable === 0')
+  div.pending-cell {{ 'OzoneWater.pending' | translate:lang }}
+td.register-table-cell.gpSignatureColumn(*ngIf='register.gp_supervisor_id === null && register.gp_signable === 1')
+  div.signature-button((click)='onGpSignClick()') {{ 'OzoneWater.sign' | translate:lang }}
+td.register-table-cell.gpSignatureColumn(*ngIf='register.gp_supervisor_id !== null && register.gp_signature_path !== null')
+  img.signature-cell(src="{{ 'http://localhost/espresso/data/signatures/' + register.gp_signature_path }}")
+td.register-table-cell.gpSignatureColumn(*ngIf='register.gp_supervisor_id !== null && register.gp_signature_path === null')
+  div.approved-register {{ 'OzoneWater.approved' | translate:lang }}

@@ -1,0 +1,6 @@
+include ../../../../inventory-ionic-materialize.pug
+
+ng-content(select='.header')
++inventoryListWrapper()([dragula]='bagName', [(dragulaModel)]='items')
+  +inventoryItemComponent('gap-packing-pest-control-inspection-flytrap-corrective-action', 'item', 'items')([item]='item')
+ng-content(select='.footer')

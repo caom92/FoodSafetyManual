@@ -5,9 +5,8 @@ import { LocalizationModule } from 'angular-l10n'
 import { MaterializeModule } from 'ngx-materialize'
 
 import { RegisterCommonModule } from '../register-common/register-common.module'
-import { VehicleCleaningAddComponent } from './add/vehicle-cleaning-add.component'
-import { VehicleCleaningDetailsComponent } from './details/vehicle-cleaning-details.component'
-import { RegisterReportGeneratorComponent } from './register-report-generator/register-report-generator.component'
+import { VehicleCleaningAddRegisterModalComponent } from './add-modal/vehicle-cleaning-add-modal.component'
+import { VehicleCleaningEditRegisterModalComponent } from './edit-modal/vehicle-cleaning-edit-modal.component'
 import { VehicleCleaningRegisterComponent } from './register/vehicle-cleaning-register.component'
 import { VehicleCleaningRoutingModule } from './vehicle-cleaning-routing.module'
 import { VehicleCleaningViewRowComponent } from './view-row/vehicle-cleaning-view-row.component'
@@ -23,20 +22,22 @@ import { VehicleCleaningViewComponent } from './view/vehicle-cleaning-view.compo
     CommonModule
   ],
   declarations: [
-    RegisterReportGeneratorComponent,
-    VehicleCleaningAddComponent,
-    VehicleCleaningDetailsComponent,
+    VehicleCleaningAddRegisterModalComponent,
+    VehicleCleaningEditRegisterModalComponent,
     VehicleCleaningViewComponent,
     VehicleCleaningViewRowComponent,
     VehicleCleaningRegisterComponent
   ],
   exports: [
-    RegisterReportGeneratorComponent,
-    VehicleCleaningAddComponent,
-    VehicleCleaningDetailsComponent,
+    VehicleCleaningAddRegisterModalComponent,
+    VehicleCleaningEditRegisterModalComponent,
     VehicleCleaningViewComponent,
     VehicleCleaningViewRowComponent,
     VehicleCleaningRegisterComponent
+  ],
+  entryComponents: [
+    VehicleCleaningAddRegisterModalComponent,
+    VehicleCleaningEditRegisterModalComponent
   ]
 })
 

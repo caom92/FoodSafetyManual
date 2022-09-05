@@ -1,0 +1,14 @@
+extends ../../register-common/add-register-modal/add-register-modal.component.pug
+
+block add
+  div([formGroup]='registerForm')
+    +row()
+      +col()(class="s12 m6 l6")
+        +dateInput(false, "{{ 'OzoneWater.date' | translate:lang }}", 'date', 'date', null, 'dateConfig')
+      +col()(class="s12 m6 l6")
+        +timeInput(true, "{{ 'OzoneWater.time' | translate:lang }}", 'time', null, null, 'timeConfig')
+    +row()
+      +col()(class="s12 m6 l6")
+        +textInput("{{ 'OzoneWater.initials' | translate:lang }}", null, 'initials', 'text', 'initials', null)
+      +col()(class="s12 m6 l6")
+        +textInput("{{ 'OzoneWater.area' | translate:lang }}", null, 'area', 'text', 'area', null)

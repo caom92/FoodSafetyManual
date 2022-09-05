@@ -1,16 +1,24 @@
 include ../../log-ionic-materialize.pug
 
-block title
-  register-title([name]='register.name')
+div([ngClass]="(isEmployee)?'view-with-button':''")
+  block title
+    register-title([name]='register.name', (searchClick)='onSearchClick()', (reportClick)='onReportClick()')
 
-block add
-  div
-    | Add Form
+  //-block add
+    div
+      | Add Form
 
-block report
-  div
-    | Report generator
+  block report
+    div
+      | Report generator
 
-block view
-  div
-    | View Table
+  block view
+    div
+      | View Table
+
+block addButton
+  div(class='fixed-action-btn', *ngIf='isEmployee')
+    button.expanded-action-button(mz-button, float='true', (click)='openAddModal()')
+      div(style='padding: 0 12px;')
+        i(mz-icon-mdi, [icon]="'plus'", [size]="'18px'")
+        span Nuevo registro

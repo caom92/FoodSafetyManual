@@ -1,0 +1,19 @@
+include ../../../log-ionic-materialize.pug
+
+mz-modal(#addModal, '[options]'='modalOptions', '[fullscreen]'='true', [bottomSheet]='true')
+  mz-modal-header
+    div(style='display: flex; flex-direction: row; align-items: center;')
+      div(style='flex-grow: 100;')
+        h5 Nuevo registro
+      div(style='flex-grow: 0;')
+        div(style='padding-left: 20px')
+          button(mz-button, mz-modal-close, [flat]='true', [float]='true')
+            i(mz-icon-mdi, style='color: #585858;', [icon]='"window-close"', [size]='"24px"')
+  mz-modal-content
+    block add
+    div(style='display: flex; flex-direction: row; padding-bottom: 20px;')
+      button(mz-button, style='flex-grow:1;flex-basis:80%;', (click)='addRegisterAndClose()') Guardar registro
+        i(mz-icon-mdi, [icon]='"check"', [align]='"left"')
+    div(style='display: flex; flex-direction: row;')
+      button(mz-button, [flat]='true', style='flex-grow:1;flex-basis:80%;border-color:#26A69A;color:#26A69A;border-width:1px;border-style:solid;', (click)='addRegister()') Guardar y agregar otro
+        i(mz-icon-mdi, [icon]='"file-multiple"', [align]='"left"', style='color:#26A69A;')

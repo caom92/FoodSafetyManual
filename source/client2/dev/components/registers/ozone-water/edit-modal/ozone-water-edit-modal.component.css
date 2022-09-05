@@ -1,0 +1,16 @@
+.signature {
+  height: 40px;
+  display: block;
+}
+
+.detail-title {
+  font-weight: 600;
+}
+
+.row {
+  margin-bottom: 0px !important; 
+}
+
+h5 {
+  margin-bottom: 0px !important;
+}

@@ -1,0 +1,9 @@
+h4(style="text-align: center;") {{ 'WorkOrderForm.title' | translate:lang }}
+.divider
+div
+  mz-tab([fixedTabWidth]="'true'")
+    mz-tab-item(label="{{ 'WorkOrderForm.view_report' | translate:lang }}")
+      work-order-report-viewer
+    mz-tab-item(label="{{ 'WorkOrderForm.capture' | translate:lang }}")
+      work-order-list(*ngIf='newWorkOrder !== true', (startWorkOrder)='onOpenWorkOrder($event)')
+      work-order-log(*ngIf='newWorkOrder == true', [data]='workOrderData', (closeWorkOrder)='onCloseWorkOrder($event)')

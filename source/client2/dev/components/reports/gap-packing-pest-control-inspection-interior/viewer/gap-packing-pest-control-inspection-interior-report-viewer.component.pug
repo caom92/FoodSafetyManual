@@ -1,0 +1,7 @@
+extends ../../report-viewer.common.pug
+
+block overview
+  gap-packing-pest-control-inspection-interior-report-overview([overview]='overview', *ngIf='overview != null')
+
+block loader
+  gap-packing-pest-control-inspection-interior-report-loader(#reports, *ngFor='let report of reports', [report]='report', [activeReport]='activeReport', [suffix]='suffix', [footer]='footer', (removed)='onRemoved($event)')

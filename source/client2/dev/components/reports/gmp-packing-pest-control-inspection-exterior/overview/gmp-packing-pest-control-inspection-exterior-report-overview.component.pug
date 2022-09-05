@@ -1,0 +1,13 @@
+mz-card
+  mz-card-content
+    //-div(style='font-size:24px;font-weight:800;') {{ 'Log.total_captured_pests' | translate:lang }}
+    //-table
+      tbody
+        tr
+          th.nameColumn {{ 'Log.name' | translate:lang }}
+          th.capturedPestColumn {{ 'Log.captured_pests' | translate:lang }}
+        tr(*ngFor='let o of overview')
+          td.nameColumn {{o.name}}
+          td.capturedPestColumn {{o.total_pests}}
+    div(*ngIf='plotlyGraph != null')
+      plotly-plot([data]='plotlyGraph.data', [layout]='plotlyGraph.layout', [useResizeHandler]='true')

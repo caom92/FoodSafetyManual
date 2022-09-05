@@ -1,0 +1,46 @@
+extends ../../register-common/edit-register-modal/edit-register-modal.component.pug
+
+block edit
+  div(*ngIf='!editMode')
+    +row()
+      +col()(class='col s12 m3 l3')
+        span.detail-title {{ 'OzoneWater.date' | translate:lang }}: 
+        span {{register['capture_date']}}
+      +col()(class='col s12 m3 l3')
+        span.detail-title {{ 'OzoneWater.zone' | translate:lang }}: 
+        span {{register['zone']}}
+      +col()(class='col s12 m3 l3')
+        span.detail-title {{ 'OzoneWater.submitter' | translate:lang }}: 
+        span {{register['submitter_first_name']}} {{register['submitter_last_name']}}
+      +col()(class='col s12 m3 l3')
+        span.detail-title {{ 'OzoneWater.time' | translate:lang }}: 
+        span {{register['time']}}
+    +row()
+      +col()(class='col s12 m6 l6')
+        span.detail-title {{ 'OzoneWater.initials' | translate:lang }}: 
+        span {{register['initials']}}
+      +col()(class='col s12 m6 l6')
+        span.detail-title {{ 'OzoneWater.area' | translate:lang }}: 
+        span {{register['area']}}
+    +row()
+      +col()(class='col s12 m6 l6')
+        span.detail-title {{ 'OzoneWater.verification' | translate:lang }}: 
+        span(*ngIf='register.supervisor_id === null') {{ 'OzoneWater.pending' | translate:lang }}
+        span(*ngIf='register.supervisor_id !== null') {{register['supervisor_first_name']}} {{register['supervisor_last_name']}}
+          img.signature(src="{{ 'http://localhost/espresso/data/signatures/' + register.signature_path }}")
+      +col()(class='col s12 m6 l6')
+        span.detail-title {{ 'OzoneWater.good_practices' | translate:lang }}: 
+        span(*ngIf='register.gp_supervisor_id === null') {{ 'OzoneWater.pending' | translate:lang }}
+        span(*ngIf='register.gp_supervisor_id !== null') {{register['gp_supervisor_first_name']}} {{register['gp_supervisor_last_name']}}
+          img.signature(src="{{ 'http://localhost/espresso/data/signatures/' + register.gp_signature_path }}")
+  div([formGroup]='registerForm', *ngIf='editMode')
+    +row()
+      +col()(class="s12 m6 l6")
+        +dateInput(false, "{{ 'OzoneWater.date' | translate:lang }}", 'date', 'date', null, 'dateConfig')
+      +col()(class="s12 m6 l6")
+        +timeInput(true, "{{ 'OzoneWater.time' | translate:lang }}", 'time', null, null, 'timeConfig')
+    +row()
+      +col()(class="s12 m6 l6")
+        +textInput("{{ 'OzoneWater.initials' | translate:lang }}", null, 'initials', 'text', 'initials', null)
+      +col()(class="s12 m6 l6")
+        +textInput("{{ 'OzoneWater.area' | translate:lang }}", null, 'area', 'text', 'area', null)

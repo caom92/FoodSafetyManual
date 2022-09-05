@@ -1,7 +1,9 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core'
+import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { Language } from 'angular-l10n'
-import { RegisterService } from '../../../../services/register.service'
+import { MzModalService } from 'ngx-materialize'
 
+import { RegisterService } from '../../../../services/register.service'
+import { VehicleCleaningEditRegisterModalComponent } from '../edit-modal/vehicle-cleaning-edit-modal.component'
 import { VehicleCleaningEntryInterface } from '../interfaces/vehicle-cleaning.interface'
 
 @Component({
@@ -9,8 +11,7 @@ import { VehicleCleaningEntryInterface } from '../interfaces/vehicle-cleaning.in
   templateUrl: './vehicle-cleaning-view-row.component.html',
   styleUrls: ['./vehicle-cleaning-view-row.component.css'],
   host: {
-    '(click)': 'onEditClick()',
-    '[class.selected-register]': 'selectedID == register.id'
+    '(click)': 'onEditClick()'
   }
 })
 
@@ -18,9 +19,8 @@ export class VehicleCleaningViewRowComponent {
   @Language() lang: string
   @Input() register: VehicleCleaningEntryInterface
   @Input() selectedID: number = null
-  @Output() editRegister = new EventEmitter<VehicleCleaningEntryInterface>()
 
-  constructor(private registerService: RegisterService) {}
+  constructor(private registerService: RegisterService, private modalService: MzModalService) {}
 
   public onSignClick(): void {
     this.registerService.supervisorSign(this.register.captured_register_id).then(success => {
@@ -37,6 +37,8 @@ export class VehicleCleaningViewRowComponent {
   }
 
   public onEditClick(): void {
-    this.editRegister.emit(this.register)
+    this.modalService.open(VehicleCleaningEditRegisterModalComponent, {
+      register: this.register
+    })
   }
 }

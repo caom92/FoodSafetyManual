@@ -12,7 +12,8 @@ import { SignaturesComponent } from './app.signatures'
 import { SupervisorsComponent } from './app.supervisors'
 import { UsersComponent } from './app.users'
 import { ZonesComponent } from './app.zones'
-import { CAPACaptureComponent } from './capa/capture/capa-capture.component';
+import { CAPACaptureComponent } from './capa/capture/capa-capture.component'
+import { WorkOrderCaptureComponent } from './work-order/capture/work-order-capture.component'
 
 const routes: Routes = [
   {
@@ -66,6 +67,10 @@ const routes: Routes = [
   {
     path: 'capa/capture',
     component: CAPACaptureComponent
+  },
+  {
+    path: 'work-order/capture',
+    component: WorkOrderCaptureComponent
   },
   {
     path: 'log',

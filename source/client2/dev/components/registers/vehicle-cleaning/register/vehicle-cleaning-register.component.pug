@@ -1,6 +1,6 @@
 extends ../../templates/register-template.component.pug
 
-block add
+//-block add
   div(*ngIf='isEmployee === true')
     mz-tab([fixedTabWidth]="'true'")
       mz-tab-item(label="{{ 'VehicleCleaning.save' | translate:lang }}")
@@ -40,8 +40,9 @@ block report
   div(*ngIf='register.registers.length > 0')
     +row()
       +col()(class="s12 m12 l12")
-        register-report-generator([reportHTML]='reportComponent.reportHTML', [name]='register.name', [footer]='register.footer')
+        register-report-generator(#reportGeneratorComponent, [reportHTML]='reportComponent.reportHTML', [name]='register.name', [footer]='register.footer', [css]='getCSS()')
 
 block view
   div(style='color:#000000A3;font-size:12px;') {{ register.registers.length }} {{ 'VehicleCleaning.total' | translate:lang }}
-  vehicle-cleaning-view(#reportComponent, [registers]='register.registers')
+  div(style='width: 100%; overflow-x: auto;')
+    vehicle-cleaning-view(#reportComponent, [registers]='register.registers')

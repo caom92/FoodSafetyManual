@@ -1,0 +1,23 @@
+include ../../log-ionic-materialize.pug
+
+h4 {{ 'WorkOrderForm.open' | translate:lang }}
+
+.custom-collection
+  .custom-item
+    .custom-item-content.button-number-1
+      .row.no-margin-bottom
+        .col.s12.m12.l12 {{ 'WorkOrderForm.start' | translate:lang }}
+    .custom-collection-button
+      button.blue(mz-button, float='true', (click)='onWorkOrderOpen(true)')
+        i(mz-icon-mdi, [icon]='"new-box"', [size]='"24px"')
+  .custom-item(*ngFor='let workOrder of workOrderList')
+    .custom-item-content.button-number-1
+      .row.no-margin-bottom
+        .col.s4.m4.l4 {{workOrder.work_order_number}}
+        .col.s4.m4.l4 {{workOrder.capture_date}}
+        .col.s4.m4.l4 {{workOrder.creator_name}}
+      //-.row.no-margin-bottom
+        //-.col.s12.m12.l12 {{workOrder.reference}}
+    .custom-collection-button
+      button.green(mz-button, float='true', (click)='onWorkOrderOpen(workOrder.id)')
+        i(mz-icon-mdi, [icon]='"file-outline"', [size]='"24px"')

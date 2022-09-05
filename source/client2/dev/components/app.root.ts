@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { MaterializeModule } from 'ngx-materialize'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { HttpModule } from '@angular/http'
+import { PlotlyViaWindowModule } from 'angular-plotly.js'
 import { PubSubModule } from 'angular2-pubsub'
 import { LocalizationModule, LocaleService, TranslationService, L10nLoader } from 'angular-l10n'
 
@@ -27,6 +28,12 @@ import { CAPAList } from './capa/list/capa-list.component'
 import { CAPAReportViewer } from './capa/report/viewer/capa-report-viewer.component'
 import { CAPAReportLoader } from './capa/report/loader/capa-report-loader.component'
 import { CAPAReport } from './capa/report/report/capa-report.component'
+import { WorkOrderFormComponent } from './work-order/log/work-order-log.component'
+import { WorkOrderCaptureComponent } from './work-order/capture/work-order-capture.component'
+import { WorkOrderList } from './work-order/list/work-order-list.component'
+import { WorkOrderReportViewer } from './work-order/report/viewer/work-order-report-viewer.component'
+import { WorkOrderReportLoader } from './work-order/report/loader/work-order-report-loader.component'
+import { WorkOrderReport } from './work-order/report/report/work-order-report.component'
 import { DynamicComponentContainerDirective } from '../directives/dynamic.container'
 
 // Importamos los componentes de los modales
@@ -60,6 +67,8 @@ import { LogService } from '../services/log.service'
 import { ReportService } from '../services/report.service'
 import { MenuService } from '../services/app.menu'
 import { CAPAService } from '../services/capa.service'
+import { WorkOrderService } from '../services/work-order.service'
+import { ProcessFinishedProductService } from '../services/process-finished-product.service'
 import { CropRegistryService } from '../services/crop-registry.service'
 import { RegisterService } from '../services/register.service'
 import { CustomerComplaintService } from '../services/customer-complaint.service'
@@ -86,6 +95,7 @@ import { RootRoutingModule } from './app-routing.root'
     LocalizationModule.forRoot(languageConfig),
     MaterializeModule.forRoot(),
     PubSubModule.forRoot(),
+    PlotlyViaWindowModule,
     RootRoutingModule
   ],
   // declaramos los servicios globales
@@ -108,6 +118,8 @@ import { RootRoutingModule } from './app-routing.root'
     ReportService,
     MenuService,
     CAPAService,
+    WorkOrderService,
+    ProcessFinishedProductService,
     CropRegistryService,
     RegisterService,
     CustomerComplaintService,
@@ -147,6 +159,12 @@ import { RootRoutingModule } from './app-routing.root'
     CAPAReportViewer,
     CAPAReportLoader,
     CAPAReport,
+    WorkOrderFormComponent,
+    WorkOrderCaptureComponent,
+    WorkOrderList,
+    WorkOrderReportViewer,
+    WorkOrderReportLoader,
+    WorkOrderReport,
     DynamicComponentContainerDirective
   ],
   // declaramos cualquier componente que sera inyectado dinamicamente

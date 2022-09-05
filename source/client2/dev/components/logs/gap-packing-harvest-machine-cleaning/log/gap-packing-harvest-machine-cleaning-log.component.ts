@@ -61,23 +61,40 @@ export class GAPPackingHarvestMachineCleaningLogComponent extends SuperUpdateCom
     for (let machine of this.log.machines) {
       control.push(this.initMachine(machine))
     }
-
-    console.log(this.log)
-    console.log(this.captureForm)
-    console.log(this.captureForm.value)
   }
 
-  initMachine(machine: LogMachine): FormGroup {
+  finishForm() {
+    let tempForm: FormGroup
+    const currentDate = String(this.captureForm.value.date)
+    tempForm = this._fb.group({
+      date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
+      machines: this._fb.array([])
+    })
+
+    if (this.log.report_id != null && this.log.report_id != undefined) {
+      // Previous entry, add report_id
+      tempForm.addControl('report_id', new FormControl(this.log.report_id, []))
+    }
+
+    const control = <FormArray>tempForm.controls['machines']
+    for (let machine of this.log.machines) {
+      control.push(this.initMachine(machine, true))
+    }
+
+    return tempForm
+  }
+
+  initMachine(machine: LogMachine, isFinish: boolean = false): FormGroup {
     let captureMachineGroup: FormGroup = this._fb.group({
       date: [this.dataResolver.resolveString(machine.date), [Validators.required, CustomValidators.dateValidator()]],
-      entry_num: [this.dataResolver.resolveNumber(machine.entry_num), []],
-      harvest_machine_quantity: [this.dataResolver.resolveNumber(machine.harvest_machine_quantity), []],
-      disinfection: [this.dataResolver.resolveNumber(machine.disinfection), []],
-      soap_bag_wash: [this.dataResolver.resolveBoolean(machine.soap_bag_wash), []],
-      rinse: [this.dataResolver.resolveBoolean(machine.rinse), []],
-      conditions: [this.dataResolver.resolveBoolean(machine.conditions), []],
-      noted_defects: [this.dataResolver.resolveString(machine.noted_defects), []],
-      initials: [this.dataResolver.resolveString(machine.initials), []]
+      entry_num: [this.dataResolver.resolveNumber(machine.entry_num), [Validators.required]],
+      harvest_machine_quantity: [this.dataResolver.resolveNumber(machine.harvest_machine_quantity), [isFinish ? Validators.required : Validators.nullValidator]],
+      disinfection: [this.dataResolver.resolveNumber(machine.disinfection), [isFinish ? Validators.required : Validators.nullValidator]],
+      soap_bag_wash: [this.dataResolver.resolveBoolean(machine.soap_bag_wash), [isFinish ? Validators.required : Validators.nullValidator]],
+      rinse: [this.dataResolver.resolveBoolean(machine.rinse), [isFinish ? Validators.required : Validators.nullValidator]],
+      conditions: [this.dataResolver.resolveBoolean(machine.conditions), [isFinish ? Validators.required : Validators.nullValidator]],
+      noted_defects: [this.dataResolver.resolveString(machine.noted_defects), [isFinish ? Validators.required : Validators.nullValidator]],
+      initials: [this.dataResolver.resolveString(machine.initials), [isFinish ? Validators.required : Validators.nullValidator]]
     })
 
     return captureMachineGroup
@@ -145,6 +162,19 @@ export class GAPPackingHarvestMachineCleaningLogComponent extends SuperUpdateCom
       control.controls.pop()
       this.log.machines.pop()
       this.logService.refreshFormGroup(this.captureForm)
+    }
+  }
+
+  finish() {
+    let finishForm: FormGroup = this.finishForm()
+
+    finishForm.patchValue(this.captureForm.value)
+    finishForm.updateValueAndValidity()
+
+    if (finishForm.valid) {
+      super.finish()
+    } else {
+      this.toastService.showClientMessage('finish-fail', 1)
     }
   }
 }

@@ -1,0 +1,29 @@
+include ../../../log-ionic-materialize.pug
+
+mz-modal(#editModal, '[options]'='modalOptions', '[fullscreen]'='true', [bottomSheet]='true')
+  mz-modal-header
+    div(style='display: flex; flex-direction: row; align-items: center; align-content: center;')
+      div(style='flex-grow: 0;', *ngIf='editMode')
+        div(style='padding-right: 20px')
+          button(mz-button, [flat]='true', [float]='true', (click)='disableEditMode()')
+            i(mz-icon-mdi, style='color: #585858;', [icon]='"arrow-left"', [size]='"24px"')
+      div(style='flex-grow: 100;')
+        h5(*ngIf='editMode') Editar registro
+        h5(*ngIf='!editMode') Detalles
+      div(style='flex-grow: 0;', *ngIf='!editMode && isEditable')
+        div(style='padding-left: 20px')
+          button(mz-button, [flat]='true', [float]='true', (click)='enableEditMode()')
+            i(mz-icon-mdi, style='color: #585858;', [icon]='"pencil"', [size]='"24px"')
+      div(style='flex-grow: 0;', *ngIf='!editMode')
+        div(style='padding-left: 20px')
+          button(mz-button, mz-modal-close, [flat]='true', [float]='true')
+            i(mz-icon-mdi, style='color: #585858;', [icon]='"window-close"', [size]='"24px"')
+  mz-modal-content
+    block edit
+    div(*ngIf='editMode')
+      div(style='display: flex; flex-direction: row; padding-bottom: 20px;')
+        button(mz-button, style='flex-grow:1;flex-basis:80%;', (click)='editRegister()') Guardar cambios
+          i(mz-icon-mdi, [icon]='"check"', [align]='"left"')
+      div(style='display: flex; flex-direction: row;')
+        button(mz-button, [flat]='true', style='flex-grow:1;flex-basis:80%;border-color:#26A69A;color:#26A69A;border-width:1px;border-style:solid;', (click)='disableEditMode()') Cancelar
+          i(mz-icon-mdi, [icon]='"window-close"', [align]='"left"', style='color:#26A69A;')

@@ -11,6 +11,9 @@ require_once realpath(dirname(__FILE__).'/gap/packing/bathroom_cleaning/services
 require_once realpath(dirname(__FILE__).'/gap/packing/harvest_block_inspection/services.php');
 require_once realpath(dirname(__FILE__).'/gap/packing/harvest_machine_cleaning/services.php');
 require_once realpath(dirname(__FILE__).'/gap/packing/harvest_tool/services.php');
+require_once realpath(dirname(__FILE__).'/gap/packing/pest_control_inspection_exterior/services.php');
+require_once realpath(dirname(__FILE__).'/gap/packing/pest_control_inspection_interior/services.php');
+require_once realpath(dirname(__FILE__).'/gap/packing/pest_control_inspection_flytrap/services.php');
 require_once realpath(dirname(__FILE__).'/gmp/packing/atp/services.php');
 require_once realpath(dirname(__FILE__).'/gmp/packing/bathroom_cleaning/services.php');
 require_once realpath(dirname(__FILE__).'/gmp/packing/calibration/services.php');
@@ -18,6 +21,9 @@ require_once realpath(dirname(__FILE__).'/gmp/packing/finished_product/services.
 require_once realpath(dirname(__FILE__).'/gmp/packing/glass/services.php');
 require_once realpath(dirname(__FILE__).'/gmp/packing/hand_wash/services.php');
 require_once realpath(dirname(__FILE__).'/gmp/packing/harvest_tool/services.php');
+require_once realpath(dirname(__FILE__).'/gmp/packing/pest_control_inspection_exterior/services.php');
+require_once realpath(dirname(__FILE__).'/gmp/packing/pest_control_inspection_interior/services.php');
+require_once realpath(dirname(__FILE__).'/gmp/packing/pest_control_inspection_flytrap/services.php');
 require_once realpath(dirname(__FILE__).'/gmp/packing/preop/services.php');
 require_once realpath(dirname(__FILE__).'/gmp/packing/product_revision/services.php');
 require_once realpath(dirname(__FILE__).'/gmp/packing/scissors/services.php');
@@ -39,9 +45,12 @@ require_once realpath(dirname(__FILE__)
   .'/gap/doc_control/doc_control/services.php');
 require_once realpath(__DIR__.'/menu/services.php');
 require_once realpath(__DIR__.'/capa/services.php');
+require_once realpath(__DIR__.'/work_order/services.php');
 require_once realpath(__DIR__.'/crop_registry/services.php');
 require_once realpath(__DIR__.'/registers/services.php');
 require_once realpath(__DIR__.'/registers/vehicle_cleaning/services.php');
+require_once realpath(__DIR__.'/registers/ozone_water/services.php');
+require_once realpath(__DIR__.'/registers/finished_product/services.php');
 require_once realpath(__DIR__.'/customer_complaint/services.php');
 require_once realpath(__DIR__.'/gp_supervisors/services.php');
 require_once realpath(__DIR__.'/gmp/packing/atp_luminometer/services.php');

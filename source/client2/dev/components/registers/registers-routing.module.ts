@@ -8,8 +8,16 @@ const routes: Routes = [
     component: RegisterListComponent
   },
   {
+    path: 'finished-product',
+    loadChildren: './finished-product/finished-product.module#FinishedProductModule'
+  },
+  {
     path: 'vehicle-cleaning',
     loadChildren: './vehicle-cleaning/vehicle-cleaning.module#VehicleCleaningModule'
+  },
+  {
+    path: 'ozone-water',
+    loadChildren: './ozone-water/ozone-water.module#OzoneWaterModule'
   },
   {
     path: 'footers',

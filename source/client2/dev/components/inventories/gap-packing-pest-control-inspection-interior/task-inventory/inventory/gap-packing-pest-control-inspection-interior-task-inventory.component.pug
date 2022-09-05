@@ -1,0 +1,17 @@
+include ../../../../inventory-ionic-materialize.pug
+
++inventoryWrapper()
+  +inventoryListsWrapper('activeInventory == true')('gap-packing-pest-control-inspection-interior-task-inventory-list', [items]='inventory')
+    +inventoryTitleWrapper()
+      +inventoryTitleHandler()
+      +inventoryTitleColumn("{{ 'InventoryLists.id' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.order' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.name' | translate:lang }}")
+      +inventoryTitleToggle()
+    //-For Ionic version uncomment the next line, Dragula variables are found inside the .list.pug file
+    //-+inventoryList('gap-packing-pest-control-inspection-interior')([items]='inventory')
+    //-For ng2-Materialize version uncomment the next two lines, we have to pass Dragula variables here
+    //-+inventoryList('gap-packing-pest-control-inspection-interior')([items]='inventory', [dragula]='bagName', [(dragulaModel)]='inventory')
+    +inventoryListAddItemFooter('gap-packing-pest-control-inspection-interior-task-inventory')
+  +inventoryEmptyMessage()
+  +inventoryAddButton()

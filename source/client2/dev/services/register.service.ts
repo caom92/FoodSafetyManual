@@ -13,6 +13,10 @@ export class RegisterService {
     return this.apiService.silentService('count-pending-registers')
   }
 
+  public info(suffix: string): Promise<any> {
+    return this.apiService.serviceCall('info-' + suffix, null, false)
+  }
+
   public list(): Promise<any> {
     return this.apiService.serviceCall('list-registers', null, false)
   }

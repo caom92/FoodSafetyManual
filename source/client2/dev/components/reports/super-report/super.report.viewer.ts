@@ -17,6 +17,7 @@ export class SuperReportViewer implements OnInit {
   suffix: string = ''
   footer: string = ''
   reports: Array<any> = []
+  overview: any = null
   dateRangeForm: FormGroup
   activeReport: ActiveReport = { id: 'any' }
 
@@ -53,6 +54,10 @@ export class SuperReportViewer implements OnInit {
   public requestReports(): void {
     this.reportService.report(this.suffix, this.dateRangeForm.value).then(success => {
       this.reports = success.reports
+      if (success.overview != null) {
+        console.log('there is overview')
+        this.overview = success.overview
+      }
       this.footer = success.pdf_footer
       this.activeReport.id = 'any'
     }, error => {

@@ -213,6 +213,11 @@ div.navbar-fixed
         ='CAPA'
   div('*ngIf'="home.roleName != 'Administrator' && home.roleName != 'Employee' && home.roleName != 'GP Supervisor'")
     mz-sidenav-link
+      +routerLink("['work-order/capture']")(class='side-menu-link waves-effect waves-green')
+        i.mdi.mdi-file-document-box.mdi-24px.mdi-dark
+        ='Work order'
+  div('*ngIf'="home.roleName != 'Administrator' && home.roleName != 'Employee' && home.roleName != 'GP Supervisor'")
+    mz-sidenav-link
       +routerLink("['customer-complaint/capture']")(class='side-menu-link waves-effect waves-green')
         i.mdi.mdi-file-document-box.mdi-24px.mdi-dark
         ='Customer Complaint'

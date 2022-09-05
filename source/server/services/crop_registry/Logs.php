@@ -28,6 +28,9 @@ class Logs extends db\InsertableTable
       ],
       [
         "$this->table.zone_id" => $zoneID,
+        'ORDER' => [
+          'date' => 'DESC'
+        ]
       ],
       [
         '[><]users(u)' => [

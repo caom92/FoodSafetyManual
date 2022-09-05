@@ -51,7 +51,7 @@ export class GAPPackingHarvestToolLogComponent extends SuperUpdateComponent {
 
   finishForm() {
     let tempForm: FormGroup
-    const currentDate = (this.log.creation_date !== undefined) ? this.log.creation_date : this.timeService.getISODate()
+    const currentDate = (this.captureForm.value.date !== undefined) ? this.captureForm.value.date : this.timeService.getISODate()
     tempForm = this._fb.group({
       date: [currentDate, [Validators.required, CustomValidators.dateValidator()]],
       days: this._fb.array([])

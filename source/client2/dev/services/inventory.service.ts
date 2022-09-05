@@ -5,7 +5,7 @@ import { ToastsService } from './toasts.service'
 
 @Injectable()
 export class InventoryService {
-  constructor(private apiService: BackendAPIService, private toastService: ToastsService) {
+  constructor(protected apiService: BackendAPIService, protected toastService: ToastsService) {
 
   }
 

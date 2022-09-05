@@ -1,0 +1,10 @@
+include ../../../log-ionic-materialize.pug
+
++fullLogWrapper()
+  div(*ngIf='showLog == true')
+    block header
+      log-header([log]='logHeaderData', [dateGroup]='captureForm')
+    form([formGroup]='captureForm', (ngSubmit)='save()')
+      gap-packing-pest-control-inspection-exterior-item([item]='item', [itemForm]='captureForm.controls.areas.controls[i]', *ngFor='let item of log.areas; let i=index', [areaVerifications]='log.area_verifications', [correctiveActions]='log.corrective_actions', [equipmentStatuses]='log.equipment_status', [pestTypes]='log.pest_types', [tasks]='log.tasks', [protectionStatuses]='log.protection_status')
+      block buttonRow
+        +updateLogButtonRow("{{ 'Log.send_report' | translate:lang }}", "{{ 'Log.finish_report' | translate:lang }}", "{{ 'Log.back_report' | translate:lang }}")

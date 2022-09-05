@@ -1,0 +1,19 @@
+div(#report_body)
+  div(*ngIf='registers.length > 0', style='max-width:100%;, background-color: white;')
+    table.register-table
+      thead
+        tr.register-table-header-row
+          th.register-table-cell.dateColumn {{ 'FinishedProduct.date' | translate:lang }}
+          th.register-table-cell.zoneColumn {{ 'FinishedProduct.zone' | translate:lang }}
+          th.register-table-cell.codeColumn {{ 'FinishedProduct.code' | translate:lang }}
+          th.register-table-cell.descriptionColumn {{ 'FinishedProduct.description' | translate:lang }}
+          th.register-table-cell.folioColumn {{ 'FinishedProduct.folio' | translate:lang }}
+          th.register-table-cell.statusColumn {{ 'FinishedProduct.status' | translate:lang }}
+          th.register-table-cell.samplingColumn {{ 'FinishedProduct.sampling' | translate:lang }}
+          th.register-table-cell.gradeFPColumn {{ 'FinishedProduct.grade_fp' | translate:lang }}
+          th.register-table-cell.majorGradeFPColumn {{ 'FinishedProduct.major_grade_fp' | translate:lang }}
+          th.register-table-cell.signatureColumn {{ 'FinishedProduct.verification' | translate:lang }}
+          th.register-table-cell.gpSignatureColumn {{ 'FinishedProduct.good_practices' | translate:lang }}
+      tbody
+        ng-template(ngFor, [ngForOf]='registers', let-register, let-i='index')
+          tr.register-table-row([register]='register', finished-product-view-row, [codes]='codes', [status]='status')

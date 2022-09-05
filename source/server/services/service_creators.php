@@ -244,7 +244,7 @@ function createCaptureService($program, $module, $log,
 // [out]  return (dictionary): arreglo asociativo que contiene la descripcion
 //        del servicio
 function createReportService($program, $module, $log, $strategy,
-  $useCustom = FALSE, $organization = FALSE) {
+  $useCustom = FALSE, $organization = FALSE, $overview = FALSE) {
   return [
     'requirements_desc' => [
       'logged_in' => ['Director', 'Manager', 'Supervisor', 'Employee'],
@@ -264,7 +264,7 @@ function createReportService($program, $module, $log, $strategy,
       ]
     ],
     'callback' => (!$useCustom) ?
-      function($scope, $request) use ($program, $module, $log, $strategy, $organization) {
+      function($scope, $request) use ($program, $module, $log, $strategy, $organization, $overview) {
         // first, we get the session segment
         $segment = $scope->session->getSegment('fsm');
 
@@ -370,10 +370,16 @@ function createReportService($program, $module, $log, $strategy,
         }
 
         // finally return the list of reports
-        return [
+        $response = [
           'pdf_footer' => $footers['report_footer'],
           'reports' => $reports
         ];
+
+        if($overview != FALSE) {
+          $response['overview'] = $strategy['overview']($scope, $segment, $request['start_date'], $request['end_date']);
+        }
+
+        return $response;
       } : $strategy
   ];
 }
@@ -773,6 +779,28 @@ function createLogListService($program, $module, $log, $sameUserOnly = FALSE) {
   ];
 }
 
+function createRegisterInfoService($code, $requirements, $task, $structure) {
+  return [
+    'requirements_desc' => [
+      'logged_in' => ['Employee','Supervisor','GP Supervisor','Manager','Director']
+    ] + $requirements,
+    'callback' => function($scope, $request) use ($code, $task, $structure) {
+      // Initialize the response dictionary
+      $response = [];
+
+      // Execute the task specific for the service in order to recover register-specific data
+      $taskResult = $task($scope, $request);
+
+      // Append the contents of the result to the response dictionary
+      foreach($structure as $field) {
+        $response[$field] = $taskResult[$field];
+      }
+
+      return $response;
+    }
+  ];
+}
+
 function createViewRegisterService($code, $requirements, $task, $structure) {
   return [
     'requirements_desc' => [
@@ -923,5 +951,69 @@ function createEditRegisterService($code, $requirements, $task) {
     }
   ];
 }
+
+/*function createSignRegisterService($code, $requirements, $task) {
+  return [
+    'requirements_desc' => [
+      'logged_in' => ['Employee'],
+      'date' => [
+        'type' => 'datetime',
+        'format' => 'Y-m-d'
+      ]
+    ] + $requirements,
+    'callback' => function($scope, $request) use ($code, $task) {
+      $segment = $scope->session->getSegment('fsm');
+      $userID = $segment->get('user_id');
+      $zoneID = $scope->daoFactory->get('Users')->getZoneIDByID($userID);
+      $registerID = $scope->daoFactory->get('Registers')->getIDByCode($code);
+
+      $capturedRegisterID = $scope->daoFactory->get('CapturedRegisters')->insert([
+        'register_id' => $registerID,
+        'zone_id' => $zoneID,
+        'submitter_id' => $userID,
+        'supervisor_id' => NULL,
+        'gp_supervisor_id' => NULL,
+        'capture_date' => $request['date'],
+        'is_active' => 1
+      ]);
+
+      $response = $task($scope, $request, $capturedRegisterID);
+
+      return $response;
+    }
+  ];
+}
+
+function createGpSignRegisterService($code, $requirements, $task) {
+  return [
+    'requirements_desc' => [
+      'logged_in' => ['Employee'],
+      'date' => [
+        'type' => 'datetime',
+        'format' => 'Y-m-d'
+      ]
+    ] + $requirements,
+    'callback' => function($scope, $request) use ($code, $task) {
+      $segment = $scope->session->getSegment('fsm');
+      $userID = $segment->get('user_id');
+      $zoneID = $scope->daoFactory->get('Users')->getZoneIDByID($userID);
+      $registerID = $scope->daoFactory->get('Registers')->getIDByCode($code);
+
+      $capturedRegisterID = $scope->daoFactory->get('CapturedRegisters')->insert([
+        'register_id' => $registerID,
+        'zone_id' => $zoneID,
+        'submitter_id' => $userID,
+        'supervisor_id' => NULL,
+        'gp_supervisor_id' => NULL,
+        'capture_date' => $request['date'],
+        'is_active' => 1
+      ]);
+
+      $response = $task($scope, $request, $capturedRegisterID);
+
+      return $response;
+    }
+  ];
+}*/
 
 ?>

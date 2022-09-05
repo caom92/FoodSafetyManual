@@ -23,6 +23,21 @@ const routes: Routes = [
     loadChildren: './gap-packing-harvest-tool/gap-packing-harvest-tool-inventory.module#GAPPackingHarvestToolInventoryModule'
   },
   {
+    path: 'gap-packing-pest-control-inspection-exterior',
+    data: { suffix: 'gap-packing-pest-control-inspection-exterior' },
+    loadChildren: './gap-packing-pest-control-inspection-exterior/gap-packing-pest-control-inspection-exterior-inventory.module#GAPPackingPestControlInspectionExteriorInventoryModule'
+  },
+  {
+    path: 'gap-packing-pest-control-inspection-interior',
+    data: { suffix: 'gap-packing-pest-control-inspection-interior' },
+    loadChildren: './gap-packing-pest-control-inspection-interior/gap-packing-pest-control-inspection-interior-inventory.module#GAPPackingPestControlInspectionInteriorInventoryModule'
+  },
+  {
+    path: 'gap-packing-pest-control-inspection-flytrap',
+    data: { suffix: 'gap-packing-pest-control-inspection-flytrap' },
+    loadChildren: './gap-packing-pest-control-inspection-flytrap/gap-packing-pest-control-inspection-flytrap-inventory.module#GAPPackingPestControlInspectionFlytrapInventoryModule'
+  },
+  {
     path: 'gap-packing-preop',
     data: { suffix: 'gap-packing-preop' },
     loadChildren: './gap-packing-preop/gap-packing-preop-inventory.module#GAPPackingPreopInventoryModule'
@@ -76,6 +91,21 @@ const routes: Routes = [
     path: 'gmp-packing-ozone-water',
     data: { suffix: 'gmp-packing-ozone-water' },
     loadChildren: './gmp-packing-ozone-water/gmp-packing-ozone-water-inventory.module#GMPPackingOzoneWaterInventoryModule'
+  },
+  {
+    path: 'gmp-packing-pest-control-inspection-exterior',
+    data: { suffix: 'gmp-packing-pest-control-inspection-exterior' },
+    loadChildren: './gmp-packing-pest-control-inspection-exterior/gmp-packing-pest-control-inspection-exterior-inventory.module#GMPPackingPestControlInspectionExteriorInventoryModule'
+  },
+  {
+    path: 'gmp-packing-pest-control-inspection-interior',
+    data: { suffix: 'gmp-packing-pest-control-inspection-interior' },
+    loadChildren: './gmp-packing-pest-control-inspection-interior/gmp-packing-pest-control-inspection-interior-inventory.module#GMPPackingPestControlInspectionInteriorInventoryModule'
+  },
+  {
+    path: 'gmp-packing-pest-control-inspection-flytrap',
+    data: { suffix: 'gmp-packing-pest-control-inspection-flytrap' },
+    loadChildren: './gmp-packing-pest-control-inspection-flytrap/gmp-packing-pest-control-inspection-flytrap-inventory.module#GMPPackingPestControlInspectionFlytrapInventoryModule'
   },
   {
     path: 'gmp-packing-preop',

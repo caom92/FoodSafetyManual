@@ -1,0 +1,8 @@
+extends ../../capture.common.pug
+
+block reportViewer
+  gmp-packing-pest-control-inspection-exterior-report-viewer
+
+block logViewer
+  gmp-packing-pest-control-inspection-exterior-log-list([suffix]='suffix', *ngIf='newLog !== true', (startLog)='onOpenLog($event)')
+  gmp-packing-pest-control-inspection-exterior-log(*ngIf='newLog == true', [log]='logData', (closeLog)='onCloseLog($event)')

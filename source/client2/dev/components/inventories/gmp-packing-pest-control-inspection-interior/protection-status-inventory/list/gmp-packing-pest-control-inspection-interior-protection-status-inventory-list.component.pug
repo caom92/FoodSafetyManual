@@ -1,0 +1,6 @@
+include ../../../../inventory-ionic-materialize.pug
+
+ng-content(select='.header')
++inventoryListWrapper()([dragula]='bagName', [(dragulaModel)]='items')
+  +inventoryItemComponent('gmp-packing-pest-control-inspection-interior-protection-status', 'item', 'items')([item]='item')
+ng-content(select='.footer')

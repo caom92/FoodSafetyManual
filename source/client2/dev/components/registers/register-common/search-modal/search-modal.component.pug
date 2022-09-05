@@ -1,0 +1,28 @@
+include ../../../log-ionic-materialize.pug
+
+mz-modal(#searchModal, '[options]'='modalOptions', '[fullscreen]'='true', [bottomSheet]='true')
+  mz-modal-header
+    div(style='display: flex; flex-direction: row; align-items: center;')
+      div(style='flex-grow: 100;')
+        h5 Filtrar registros
+      //-div(style='flex-grow: 0;')
+        div(style='padding-left: 20px')
+          button(mz-button, mz-modal-close, [flat]='true', [float]='true')
+            i(mz-icon-mdi, style='color: #585858;', [icon]='"window-close"', [size]='"24px"')
+  mz-modal-content
+    form([formGroup]='dateRangeForm', (ngSubmit)='searchRegisters()')
+      .row
+        mz-datepicker-container.col.s12.m12.l12
+          i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
+          input(mz-datepicker, label="{{ 'Log.from_date' | translate:lang }}", type='text', formControlName='start_date', [options]='dateOptions')
+      .row
+        mz-datepicker-container.col.s12.m12.l12
+          i(mz-icon-mdi, mz-input-prefix, [icon]="'calendar'")
+          input(mz-datepicker, label="{{ 'Log.to_date' | translate:lang }}", type='text', formControlName='end_date', [options]='dateOptions')
+      //-.row
+        .col.s12.m12.l12
+          button(style='float: right;', mz-button, [disabled]='!dateRangeForm.valid')
+            | {{ 'VehicleCleaning.search' | translate:lang }}
+  mz-modal-footer
+    button(mz-button, mz-modal-close, [flat]='true') Cancelar
+    button(mz-button, [flat]='true', (click)='search()') Buscar

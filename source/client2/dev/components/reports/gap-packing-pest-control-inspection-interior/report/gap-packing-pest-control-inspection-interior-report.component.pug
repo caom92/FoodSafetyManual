@@ -1,0 +1,25 @@
+extends ../../report.common.pug
+
+block report
+  table(#report_body, style="display: block; overflow: scroll;")
+    tbody
+      tr
+        th.nameColumn {{ 'Log.name' | translate:lang }}
+        th.protectionStatusColumn {{ 'Log.protection_status' | translate:lang }}
+        th.equipmentStatusColumn {{ 'Log.equipment_status' | translate:lang }}
+        th.pestTypeColumn {{ 'Log.pest_type' | translate:lang }}
+        th.areaVerificationColumn {{ 'Log.area_verification' | translate:lang }}
+        th.taskColumn {{ 'Log.task' | translate:lang }}
+        th.capturedPestColumn {{ 'Log.captured_pests' | translate:lang }}
+        th.correctiveActionColumn {{ 'Log.corrective_action' | translate:lang }}
+        th.observationsColumn {{ 'Log.observations' | translate:lang }}
+      tr(*ngFor="let area of report.areas")
+        td.nameColumn {{area.name}}
+        td.protectionStatusColumn {{area.protection_status}}
+        td.equipmentStatusColumn {{area.equipment_status}}
+        td.pestTypeColumn {{area.pest_type}}
+        td.areaVerificationColumn {{area.area_verification}}
+        td.taskColumn {{area.task}}
+        td.capturedPestColumn {{area.captured_pests}}
+        td.correctiveActionColumn {{area.corrective_action}}
+        td.observationsColumn {{area.observations}}

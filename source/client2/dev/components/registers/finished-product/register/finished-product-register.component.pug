@@ -1,0 +1,12 @@
+extends ../../templates/register-template.component.pug
+
+block report
+  div(*ngIf='register.registers.length > 0')
+    +row()
+      +col()(class="s12 m12 l12")
+        register-report-generator(#reportGeneratorComponent, [reportHTML]='reportComponent.reportHTML', [name]='register.name', [footer]='register.footer', [css]='getCSS()')
+
+block view
+  div(style='color:#000000A3;font-size:12px;') {{ register.registers.length }} {{ 'FinishedProduct.total' | translate:lang }}
+  div(style='width: 100%; overflow-x: auto;')
+    finished-product-view(#reportComponent, [registers]='register.registers', [codes]='codes', [status]='status')

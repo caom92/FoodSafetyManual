@@ -1,0 +1,14 @@
+div(#report_body)
+  div(*ngIf='registers.length > 0', style='max-width:100%;, background-color: white;')
+    table.register-table
+      thead
+        tr.register-table-header-row
+          th.register-table-cell.dateColumn {{ 'OzoneWater.date' | translate:lang }}
+          th.register-table-cell.timeColumn {{ 'OzoneWater.time' | translate:lang }}
+          th.register-table-cell.initialsColumn {{ 'OzoneWater.initials' | translate:lang }}
+          th.register-table-cell.areaColumn {{ 'OzoneWater.area' | translate:lang }}
+          th.register-table-cell.signatureColumn {{ 'OzoneWater.verification' | translate:lang }}
+          th.register-table-cell.gpSignatureColumn {{ 'OzoneWater.good_practices' | translate:lang }}
+      tbody
+        ng-template(ngFor, [ngForOf]='registers', let-register, let-i='index')
+          tr.register-table-row([register]='register', ozone-water-view-row)

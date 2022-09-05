@@ -1,0 +1,8 @@
+extends ../../capture.common.pug
+
+block reportViewer
+  gap-packing-pest-control-inspection-interior-report-viewer
+
+block logViewer
+  gap-packing-pest-control-inspection-interior-log-list([suffix]='suffix', *ngIf='newLog !== true', (startLog)='onOpenLog($event)')
+  gap-packing-pest-control-inspection-interior-log(*ngIf='newLog == true', [log]='logData', (closeLog)='onCloseLog($event)')

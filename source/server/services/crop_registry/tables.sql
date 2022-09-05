@@ -1,5 +1,5 @@
 CREATE TABLE `crop_registry_form` (
-  `id`(10) int UNSIGNED NOT NULL,
+  `id` int(10) UNSIGNED NOT NULL,
   `submitter_id` int(10) UNSIGNED NOT NULL,
   `zone_id` int(10) UNSIGNED NOT NULL,
   `date` date DEFAULT NULL,

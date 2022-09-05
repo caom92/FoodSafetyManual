@@ -1,0 +1,28 @@
+include ../../log-ionic-materialize.pug
+
+div([formGroup]='productForm')
+  +card()
+    +cardContent()
+      +row()
+        +col()(class="s3 m3 l3")
+          mz-input-container
+            input#shipping-input(mz-input, label="CODIGO", placeholder="CODIGO", type='text', autocomplete='off', [autocomplete]='autocompleteCodes')
+          //-+slimDateInput(false, "{{ 'CropRegistry.date' | translate:lang }}", 'date', 'date', null, 'dateConfig')(class='medium-text-input no-margin-top')
+        +col()(class="s9 m9 l9")
+          div DESCRIPCION
+          //-+slimTextInput("{{ 'CropRegistry.crop' | translate:lang }}", null, 'crop', 'text', 'crop', null)(class='medium-text-input no-margin-top', autocomplete='off', [autocomplete]='autocompleteCrops')
+      +row()
+        +col()(class="s4 m4 l4")
+          div BRIX
+          //-+slimTextInput("{{ 'CropRegistry.block' | translate:lang }}", null, 'block', 'text', 'block', null)(class='medium-text-input no-margin-top')
+        +col()(class="s4 m4 l4")
+          div COLOR
+          //-+slimTextInput("{{ 'CropRegistry.weight' | translate:lang }}", null, 'weight', 'number', 'weight', null)(class='medium-text-input no-margin-top')
+        +col()(class="s4 m4 l4")
+          div ACCION
+          //-+slimTextInput("{{ 'CropRegistry.people' | translate:lang }}", null, 'people', 'number', 'people', null)(class='medium-text-input no-margin-top')
+
++row()
+  +col()(class="s3 m3 l3 offset-s9 offset-m9 offset-l9")
+    button(mz-button, (click)='onAddRegister()')= "{{ 'CropRegistry.save' | translate:lang }} "
+      i(mz-icon-mdi, [icon]="'send'")

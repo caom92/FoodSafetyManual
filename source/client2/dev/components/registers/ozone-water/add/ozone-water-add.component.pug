@@ -1,0 +1,19 @@
+include ../../../log-ionic-materialize.pug
+
+div([formGroup]='registerForm')
+  +card()
+    +cardContent()
+      +row()
+        +col()(class="s3 m3 l3")
+          +dateInput(false, "{{ 'OzoneWater.date' | translate:lang }}", 'date', 'date', null, 'dateConfig')
+        +col()(class="s3 m3 l3")
+          +timeInput(true, "{{ 'OzoneWater.time' | translate:lang }}", 'time', null, null, 'timeConfig')
+        +col()(class="s3 m3 l3")
+          +textInput("{{ 'OzoneWater.initials' | translate:lang }}", null, 'initials', 'text', 'initials', null)
+        +col()(class="s3 m3 l3")
+          +textInput("{{ 'OzoneWater.area' | translate:lang }}", null, 'area', 'text', 'area', null)
+
++row()
+  +col()(class="s12 m12 l12")
+    button(style='float: right;', mz-button, (click)='onAddRegister()', [disabled]='!registerForm.valid')= "{{ 'OzoneWater.save' | translate:lang }} "
+      i(mz-icon-mdi, [icon]="'send'")

@@ -1,2 +1,19 @@
-h4 {{name[lang]}}
-.divider
+include ../../../log-ionic-materialize.pug
+
+div(style='display: flex; flex-direction: row; align-items: center;')
+  div(style='flex-grow: 100;')
+    h5 {{name[lang]}}
+  div(style='flex-grow: 0;')
+    div(style='padding-left: 20px')
+      i(mz-icon-mdi, [icon]='"magnify"', [size]='"24px"', style='color:#585858;', (click)='onSearchClick()')
+  div(style='flex-grow: 0;')
+    div(style='padding-left: 20px')
+      i(mz-icon-mdi, [icon]='"file-pdf-box"', [size]='"24px"', style='color:#585858;', (click)='onReportClick()')
+//-+row()
+  +col()(class='s10 m10 l10')
+    h4 {{name[lang]}}
+  //-+col()(class='s1 m1 l1')
+  +col()(class='s2 m2 l2')
+    i(mz-icon-mdi, [icon]='"magnify"', [size]='"24px"')
+    i(mz-icon-mdi, [icon]='"file-pdf-box"', [size]='"24px"')
+//-.divider
