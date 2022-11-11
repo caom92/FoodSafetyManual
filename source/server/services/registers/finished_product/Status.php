@@ -23,7 +23,15 @@ class Status extends db\InsertableTable
   }
 
   function selectAll() {
-    return parent::select('*');
+    return parent::select([
+      'id',
+      'name'
+    ],
+    [
+      'ORDER' => [
+        'name'
+      ]
+    ]);
   }
 }
 
