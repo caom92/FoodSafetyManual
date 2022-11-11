@@ -34,6 +34,17 @@ class CapturedRegisters extends db\InsertableTable
     );
   }
 
+  // Firma el registro por parte del supervisor asignado del empleado
+  function disapproveRegisterBySupervisor($capturedRegisterID) {
+    return parent::update(
+      [
+        'supervisor_id' => NULL,
+        'approval_date' => NULL
+      ],
+      [ 'id' => $capturedRegisterID ]
+    );
+  }
+
   // Firma el registro por parte del supervisor de buenas prácticas asignado
   // para la zona
   function approveRegisterByGPSupervisor($capturedRegisterID, $gpSupervisorID, $date) {
@@ -52,6 +63,16 @@ class CapturedRegisters extends db\InsertableTable
       [ 'is_active' => 0 ], 
       [ 'id' => $capturedRegisterID ]
     );
+  }
+
+  // Regresa el ID del supervisor que aprobó un registro
+  function approverIDByCapturedRegisterID($capturedRegisterID) {
+    $row = parent::get(
+      [ 'supervisor_id' ], 
+      [ 'id' => $capturedRegisterID ]
+    );
+
+    return $row['supervisor_id'];
   }
 
   // Revisa si un registro ha sido aprobado por un supervisor

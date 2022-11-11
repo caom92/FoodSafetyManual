@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core'
+import { Component, ComponentRef, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms'
 import { DateTimeService } from '../../../../services/time.service'
 
@@ -6,7 +6,7 @@ import { RegisterService } from '../../../../services/register.service'
 import { FinishedProductEntryInterface } from '../interfaces/finished-product.interface'
 import { getDatePickerConfig } from '../../../../components/reports/super-report/report-language-config'
 import { TranslatableText } from '../../register-list/register-list.interface'
-import { MzModalService } from 'ngx-materialize'
+import { MzBaseModal, MzModalService } from 'ngx-materialize'
 import { FinishedProductAddRegisterModalComponent } from '../add-modal/finished-product-add-modal.component'
 import { SearchModal } from '../../register-common/search-modal/search-modal.component'
 
@@ -25,6 +25,7 @@ export class FinishedProductRegisterComponent implements OnInit {
   @ViewChild('reportGeneratorComponent') reportGeneratorComponent
   dateRangeForm: FormGroup
   dateOptions: Pickadate.DateOptions
+  currentModal: ComponentRef<MzBaseModal> = null
 
   constructor(private registerService: RegisterService, private formBuilder: FormBuilder, private timeService: DateTimeService, private modalService: MzModalService) { }
 
@@ -36,6 +37,12 @@ export class FinishedProductRegisterComponent implements OnInit {
     this.initRequestForm()
 
     this.initRegisters()
+  }
+
+  public ngOnDestroy(): void {
+    if (this.currentModal !== null) {
+      this.currentModal.instance.modalComponent.closeModal()
+    }
   }
 
   public initRequestForm(): void {
@@ -64,6 +71,7 @@ export class FinishedProductRegisterComponent implements OnInit {
   }
 
   public onAddRegister(register: FinishedProductEntryInterface): void {
+    console.log('register just added', register)
     this.register.registers.push(register)
 
     this.register.registers.sort((a, b) => a.capture_date > b.capture_date ? -1 : a.capture_date < b.capture_date ? 1 : 0)
@@ -75,10 +83,11 @@ export class FinishedProductRegisterComponent implements OnInit {
   }
 
   public onSearchClick(): void {
-    this.modalService.open(SearchModal, {
+    this.currentModal = this.modalService.open(SearchModal, {
       dateRangeForm: this.dateRangeForm,
       onClose: () => {
         this.searchRegisters()
+        this.currentModal = null
       }
     })
   }
@@ -88,9 +97,10 @@ export class FinishedProductRegisterComponent implements OnInit {
   }
 
   public openAddModal(): void {
-    this.modalService.open(FinishedProductAddRegisterModalComponent, {
+    this.currentModal = this.modalService.open(FinishedProductAddRegisterModalComponent, {
       onClose: (register: FinishedProductEntryInterface) => {
         this.onAddRegister(register)
+        this.currentModal = null
       },
       codes: this.codes,
       status: this.status
@@ -98,6 +108,7 @@ export class FinishedProductRegisterComponent implements OnInit {
   }
 
   public getCSS(): string {
-    return '.dateColumn{width:70px}.codeColumn{width:60px}.brixColumn{width:60px}.colorColumn{width:60px}.descriptionColumn{width:250px}.actionColumn{width:250px}.signatureColumn{width:70px}.gpSignatureColumn{width:80px}.zoneColumn{width:40px}'
+    //.descriptionColumn{width:250px}
+    return '.dateColumn{width:70px}.codeColumn{width:60px}.brixColumn{width:60px}.colorColumn{width:60px}.actionColumn{width:250px}.signatureColumn{width:80px}.gpSignatureColumn{width:80px}.zoneColumn{width:40px}'
   }
 }

@@ -39,7 +39,7 @@ export class VehicleCleaningAddRegisterModalComponent extends AddRegisterModal {
     }, 100)
   }
 
-  public addRegister(): void {
+  public addRegister(close: boolean = false): void {
     this.cleanForm()
     if (this.registerForm.valid == true) {
       this.registerService.add('vehicle-cleaning', this.registerForm.value).then(success => {
@@ -66,6 +66,10 @@ export class VehicleCleaningAddRegisterModalComponent extends AddRegisterModal {
         })
 
         this.registerForm.reset()
+
+        if (close === true) {
+          this.addModal.closeModal()
+        }
       })
     } else {
       this.registerForm.enable()

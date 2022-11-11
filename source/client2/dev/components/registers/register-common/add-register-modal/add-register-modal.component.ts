@@ -15,12 +15,12 @@ export class AddRegisterModal extends MzBaseModal {
     super()
   }
 
-  public addRegister(): void {
+  public addRegister(close: boolean = false): void {
     
   }
 
   public addRegisterAndClose(): void {
-    this.addRegister()
-    this.addModal.closeModal()
+    this.addRegister(true)
+    //this.addModal.closeModal()
   }
 }

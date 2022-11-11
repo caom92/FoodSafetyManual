@@ -5,15 +5,41 @@ div(#report_body)
         tr.register-table-header-row
           th.register-table-cell.dateColumn {{ 'FinishedProduct.date' | translate:lang }}
           th.register-table-cell.zoneColumn {{ 'FinishedProduct.zone' | translate:lang }}
+          th.register-table-cell.submitterColumn {{ 'FinishedProduct.submitter' | translate:lang }}
           th.register-table-cell.codeColumn {{ 'FinishedProduct.code' | translate:lang }}
-          th.register-table-cell.descriptionColumn {{ 'FinishedProduct.description' | translate:lang }}
+          //-th.register-table-cell.descriptionColumn {{ 'FinishedProduct.description' | translate:lang }}
           th.register-table-cell.folioColumn {{ 'FinishedProduct.folio' | translate:lang }}
+          th.register-table-cell {{ 'FinishedProduct.temperature' | translate:lang }}
+          th.register-table-cell {{ 'FinishedProduct.color' | translate:lang }}
+          th.register-table-cell {{ 'FinishedProduct.label' | translate:lang }}
+          th.register-table-cell {{ 'FinishedProduct.weight' | translate:lang }}
+          th.register-table-cell {{ 'FinishedProduct.traceability' | translate:lang }}
           th.register-table-cell.statusColumn {{ 'FinishedProduct.status' | translate:lang }}
+          th.register-table-cell.orange-column {{ 'FinishedProduct.mechanical_damage' | translate:lang }}
+          th.register-table-cell.orange-column {{ 'FinishedProduct.soggy' | translate:lang }}
+          th.register-table-cell.orange-column {{ 'FinishedProduct.insect_damage' | translate:lang }}
+          th.register-table-cell.orange-column {{ 'FinishedProduct.decoloration' | translate:lang }}
+          th.register-table-cell.red-column {{ 'FinishedProduct.decay' | translate:lang }}
+          th.register-table-cell.red-column {{ 'FinishedProduct.wrinkly' | translate:lang }}
+          th.register-table-cell.red-column {{ 'FinishedProduct.busted' | translate:lang }}
+          th.register-table-cell.red-column {{ 'FinishedProduct.dehydration' | translate:lang }}
+          //-th.register-table-cell.yellow-column {{ 'FinishedProduct.small_count' | translate:lang }}
+          //-th.register-table-cell.yellow-column {{ 'FinishedProduct.big_count' | translate:lang }}
+          //-th.register-table-cell.yellow-column {{ 'FinishedProduct.deformation' | translate:lang }}
+          //-th.register-table-cell.yellow-column {{ 'FinishedProduct.insect_damage' | translate:lang }}
+          //-th.register-table-cell.yellow-column {{ 'FinishedProduct.scarring' | translate:lang }}
+          //-th.register-table-cell.orange-column {{ 'FinishedProduct.decoloration' | translate:lang }}
+          //-th.register-table-cell.orange-column {{ 'FinishedProduct.dehydration' | translate:lang }}
+          //-th.register-table-cell.orange-column {{ 'FinishedProduct.mechanical_damage' | translate:lang }}
+          //-th.register-table-cell.orange-column {{ 'FinishedProduct.mushiness' | translate:lang }}
+          //-th.register-table-cell.orange-column {{ 'FinishedProduct.bruises' | translate:lang }}
           th.register-table-cell.samplingColumn {{ 'FinishedProduct.sampling' | translate:lang }}
-          th.register-table-cell.gradeFPColumn {{ 'FinishedProduct.grade_fp' | translate:lang }}
-          th.register-table-cell.majorGradeFPColumn {{ 'FinishedProduct.major_grade_fp' | translate:lang }}
+          th.register-table-cell.gradeFPColumn.orange-column {{ 'FinishedProduct.grade_fp' | translate:lang }}
+          th.register-table-cell.majorGradeFPColumn.red-column {{ 'FinishedProduct.major_grade_fp' | translate:lang }}
+          th.register-table-cell {{ 'FinishedProduct.exposition_temperature' | translate:lang }}
           th.register-table-cell.signatureColumn {{ 'FinishedProduct.verification' | translate:lang }}
-          th.register-table-cell.gpSignatureColumn {{ 'FinishedProduct.good_practices' | translate:lang }}
+          th.register-table-cell.deleteColumn {{ 'FinishedProduct.delete' | translate:lang }}
+          //-th.register-table-cell.gpSignatureColumn {{ 'FinishedProduct.good_practices' | translate:lang }}
       tbody
         ng-template(ngFor, [ngForOf]='registers', let-register, let-i='index')
-          tr.register-table-row([register]='register', finished-product-view-row, [codes]='codes', [status]='status')
+          tr.register-table-row([register]='register', finished-product-view-row, [codes]='codes', [status]='status', (delete)='onDeleteRegister($event)')

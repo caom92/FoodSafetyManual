@@ -9,10 +9,10 @@ $service = fsm\createAddRegisterService(
       'type' => 'string',
       'max_length' => 255
     ],
-    'description' => [
+    /*'description' => [
       'type' => 'string',
       'max_length' => 65535
-    ],
+    ],*/
     'folio' => [
       'type' => 'string',
       'max_length' => 255,
@@ -38,26 +38,26 @@ $service = fsm\createAddRegisterService(
       'type' => 'bool',
       'optional' => true
     ],
-    'small_count' => [
+    /*'small_count' => [
       'type' => 'int',
       'optional' => true
-    ],
-    'big_count' => [
+    ],*/
+    /*'big_count' => [
       'type' => 'int',
       'optional' => true
-    ],
-    'deformation' => [
+    ],*/
+    /*'deformation' => [
       'type' => 'int',
       'optional' => true
-    ],
+    ],*/
     'insect_damage' => [
       'type' => 'int',
       'optional' => true
     ],
-    'scarring' => [
+    /*'scarring' => [
       'type' => 'int',
       'optional' => true
-    ],
+    ],*/
     'decoloration' => [
       'type' => 'int',
       'optional' => true
@@ -70,14 +70,30 @@ $service = fsm\createAddRegisterService(
       'type' => 'int',
       'optional' => true
     ],
-    'mushiness' => [
+    'soggy' => [
       'type' => 'int',
       'optional' => true
     ],
-    'bruises' => [
+    'decay' => [
       'type' => 'int',
       'optional' => true
     ],
+    'wrinkly' => [
+      'type' => 'int',
+      'optional' => true
+    ],
+    'busted' => [
+      'type' => 'int',
+      'optional' => true
+    ],
+    /*'mushiness' => [
+      'type' => 'int',
+      'optional' => true
+    ],*/
+    /*'bruises' => [
+      'type' => 'int',
+      'optional' => true
+    ],*/
     'status_id' => [
       'type' => 'int',
       'optional' => true
@@ -108,8 +124,8 @@ $service = fsm\createAddRegisterService(
       $code = $finishedProductCodes->selectByCode($request['code']);
     } else {
       $codeID = $finishedProductCodes->insert([
-        'code' => $request['code'],
-        'description' => $request['description']
+        'code' => $request['code']
+        //'description' => $request['description']
       ]);
       $code = $finishedProductCodes->selectByID($codeID);
     }
@@ -132,16 +148,20 @@ $service = fsm\createAddRegisterService(
       'label' => (isset($request['label']) && array_key_exists('label', $request)) ? $request['label'] : NULL,
       'weight' => (isset($request['weight']) && array_key_exists('weight', $request)) ? $request['weight'] : NULL,
       'traceability' => (isset($request['traceability']) && array_key_exists('traceability', $request)) ? $request['traceability'] : NULL,
-      'small_count' => (isset($request['small_count']) && array_key_exists('small_count', $request)) ? $request['small_count'] : NULL,
-      'big_count' => (isset($request['big_count']) && array_key_exists('big_count', $request)) ? $request['big_count'] : NULL,
-      'deformation' => (isset($request['deformation']) && array_key_exists('deformation', $request)) ? $request['deformation'] : NULL,
+      //'small_count' => (isset($request['small_count']) && array_key_exists('small_count', $request)) ? $request['small_count'] : NULL,
+      //'big_count' => (isset($request['big_count']) && array_key_exists('big_count', $request)) ? $request['big_count'] : NULL,
+      //'deformation' => (isset($request['deformation']) && array_key_exists('deformation', $request)) ? $request['deformation'] : NULL,
       'insect_damage' => (isset($request['insect_damage']) && array_key_exists('insect_damage', $request)) ? $request['insect_damage'] : NULL,
-      'scarring' => (isset($request['scarring']) && array_key_exists('scarring', $request)) ? $request['scarring'] : NULL,
+      //'scarring' => (isset($request['scarring']) && array_key_exists('scarring', $request)) ? $request['scarring'] : NULL,
       'decoloration' => (isset($request['decoloration']) && array_key_exists('decoloration', $request)) ? $request['decoloration'] : NULL,
       'dehydration' => (isset($request['dehydration']) && array_key_exists('dehydration', $request)) ? $request['dehydration'] : NULL,
       'mechanical_damage' => (isset($request['mechanical_damage']) && array_key_exists('mechanical_damage', $request)) ? $request['mechanical_damage'] : NULL,
-      'mushiness' => (isset($request['mushiness']) && array_key_exists('mushiness', $request)) ? $request['mushiness'] : NULL,
-      'bruises' => (isset($request['bruises']) && array_key_exists('bruises', $request)) ? $request['bruises'] : NULL,
+      'soggy' => (isset($request['soggy']) && array_key_exists('soggy', $request)) ? $request['soggy'] : NULL,
+      'decay' => (isset($request['decay']) && array_key_exists('decay', $request)) ? $request['decay'] : NULL,
+      'wrinkly' => (isset($request['wrinkly']) && array_key_exists('wrinkly', $request)) ? $request['wrinkly'] : NULL,
+      'busted' => (isset($request['busted']) && array_key_exists('busted', $request)) ? $request['busted'] : NULL,
+      //'mushiness' => (isset($request['mushiness']) && array_key_exists('mushiness', $request)) ? $request['mushiness'] : NULL,
+      //'bruises' => (isset($request['bruises']) && array_key_exists('bruises', $request)) ? $request['bruises'] : NULL,
       'status_id' => (isset($request['status_id']) && array_key_exists('status_id', $request)) ? $request['status_id'] : NULL,
       'sampling' => (isset($request['sampling']) && array_key_exists('sampling', $request)) ? $request['sampling'] : NULL,
       'exposition_temperature' => (isset($request['exposition_temperature']) && array_key_exists('exposition_temperature', $request)) ? $request['exposition_temperature'] : NULL,
@@ -156,7 +176,7 @@ $service = fsm\createAddRegisterService(
       'capture_date' => $request['date'],
       'code_id' => $code['id'],
       'code' => $code['code'],
-      'description' => $code['description'],
+      //'description' => $code['description'],
       'status_name' => $status['name'],
       'folio' => (isset($request['folio']) && array_key_exists('folio', $request)) ? $request['folio'] : NULL,
       'temperature' => (isset($request['temperature']) && array_key_exists('temperature', $request)) ? $request['temperature'] : NULL,
@@ -164,16 +184,20 @@ $service = fsm\createAddRegisterService(
       'label' => (isset($request['label']) && array_key_exists('label', $request)) ? $request['label'] : NULL,
       'weight' => (isset($request['weight']) && array_key_exists('weight', $request)) ? $request['weight'] : NULL,
       'traceability' => (isset($request['traceability']) && array_key_exists('traceability', $request)) ? $request['traceability'] : NULL,
-      'small_count' => (isset($request['small_count']) && array_key_exists('small_count', $request)) ? $request['small_count'] : NULL,
-      'big_count' => (isset($request['big_count']) && array_key_exists('big_count', $request)) ? $request['big_count'] : NULL,
-      'deformation' => (isset($request['deformation']) && array_key_exists('deformation', $request)) ? $request['deformation'] : NULL,
+      //'small_count' => (isset($request['small_count']) && array_key_exists('small_count', $request)) ? $request['small_count'] : NULL,
+      //'big_count' => (isset($request['big_count']) && array_key_exists('big_count', $request)) ? $request['big_count'] : NULL,
+      //'deformation' => (isset($request['deformation']) && array_key_exists('deformation', $request)) ? $request['deformation'] : NULL,
       'insect_damage' => (isset($request['insect_damage']) && array_key_exists('insect_damage', $request)) ? $request['insect_damage'] : NULL,
-      'scarring' => (isset($request['scarring']) && array_key_exists('scarring', $request)) ? $request['scarring'] : NULL,
+      //'scarring' => (isset($request['scarring']) && array_key_exists('scarring', $request)) ? $request['scarring'] : NULL,
       'decoloration' => (isset($request['decoloration']) && array_key_exists('decoloration', $request)) ? $request['decoloration'] : NULL,
       'dehydration' => (isset($request['dehydration']) && array_key_exists('dehydration', $request)) ? $request['dehydration'] : NULL,
       'mechanical_damage' => (isset($request['mechanical_damage']) && array_key_exists('mechanical_damage', $request)) ? $request['mechanical_damage'] : NULL,
-      'mushiness' => (isset($request['mushiness']) && array_key_exists('mushiness', $request)) ? $request['mushiness'] : NULL,
-      'bruises' => (isset($request['bruises']) && array_key_exists('bruises', $request)) ? $request['bruises'] : NULL,
+      'soggy' => (isset($request['soggy']) && array_key_exists('soggy', $request)) ? $request['soggy'] : NULL,
+      'decay' => (isset($request['decay']) && array_key_exists('decay', $request)) ? $request['decay'] : NULL,
+      'wrinkly' => (isset($request['wrinkly']) && array_key_exists('wrinkly', $request)) ? $request['wrinkly'] : NULL,
+      'busted' => (isset($request['busted']) && array_key_exists('busted', $request)) ? $request['busted'] : NULL,
+      //'mushiness' => (isset($request['mushiness']) && array_key_exists('mushiness', $request)) ? $request['mushiness'] : NULL,
+      //'bruises' => (isset($request['bruises']) && array_key_exists('bruises', $request)) ? $request['bruises'] : NULL,
       'status_id' => (isset($request['status_id']) && array_key_exists('status_id', $request)) ? $request['status_id'] : NULL,
       'sampling' => (isset($request['sampling']) && array_key_exists('sampling', $request)) ? $request['sampling'] : NULL,
       'exposition_temperature' => (isset($request['exposition_temperature']) && array_key_exists('exposition_temperature', $request)) ? $request['exposition_temperature'] : NULL,

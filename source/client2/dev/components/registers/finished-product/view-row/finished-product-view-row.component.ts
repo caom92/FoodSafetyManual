@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core'
+import { Component, ComponentRef, EventEmitter, Input, Output } from '@angular/core'
 import { Language } from 'angular-l10n'
-import { MzModalService } from 'ngx-materialize'
+import { MzBaseModal, MzModalService } from 'ngx-materialize'
 
 import { RegisterService } from '../../../../services/register.service'
 import { FinishedProductEditRegisterModalComponent } from '../edit-modal/finished-product-edit-modal.component'
@@ -21,14 +21,29 @@ export class FinishedProductViewRowComponent {
   @Input() selectedID: number = null
   @Input() codes: Array<any>
   @Input() status: Array<any>
+  @Output() delete = new EventEmitter<number>()
+  currentModal: ComponentRef<MzBaseModal> = null
 
   constructor(private registerService: RegisterService, private modalService: MzModalService) { }
 
+  public ngOnDestroy(): void {
+    if (this.currentModal !== null) {
+      this.currentModal.instance.modalComponent.closeModal()
+    } 
+  }
+
   public onSignClick(): void {
-    this.registerService.supervisorSign(this.register.captured_register_id).then(success => {
-      this.register.supervisor_id = success.supervisor_id
-      this.register.signature_path = success.signature_path
-    })
+    if(this.register.supervisor_id === null) {
+      this.registerService.directSupervisorSign(this.register.captured_register_id).then(success => {
+        this.register.supervisor_id = success.supervisor_id
+        this.register.signature_path = success.signature_path
+      })
+    } else {
+      this.registerService.directSupervisorUnsign(this.register.captured_register_id).then(success => {
+        this.register.supervisor_id = null
+        this.register.signature_path = null
+      })
+    }
   }
 
   public onGpSignClick(): void {
@@ -39,10 +54,19 @@ export class FinishedProductViewRowComponent {
   }
 
   public onEditClick(): void {
-    this.modalService.open(FinishedProductEditRegisterModalComponent, {
+    this.currentModal = this.modalService.open(FinishedProductEditRegisterModalComponent, {
+      onClose: () => {
+        this.currentModal = null
+      },
       register: this.register,
       codes: this.codes,
       status: this.status
+    })
+  }
+
+  public onDeleteClick(): void {
+    this.registerService.delete(this.register.captured_register_id).then(success => {
+      this.delete.emit(this.register.id)
     })
   }
 }

@@ -14,11 +14,14 @@ $service = [
 
     $registerList = [];
 
+    $gpExceptions = ['finished-product'];
+
     foreach($registers as $register) {
       $capturedRegisters = $scope->daoFactory->get('CapturedRegisters');
       $pendingRegistersCount = 0;
 
       if ($role === 'Supervisor') {
+        $n = in_array($register['code'], $gpExceptions);
         $supervisorEmployees = $scope->daoFactory->get('SupervisorsEmployees');
         $employees = $supervisorEmployees->selectEmployeesBySupervisorID($userID);
         foreach ($employees as $employee) {
@@ -26,11 +29,14 @@ $service = [
             ->countUnsignedRegistersByUserIDAndRegisterID($employee['id'], $register['id']);
         }
       } else if ($role === 'GP Supervisor') {
-        $assignedZones = $scope->daoFactory->get('gpSupervisors\AssignedZones');
-        $zones = $assignedZones->selectZoneIDByUserID($userID);
-        foreach ($zones as $zone) {
-          $pendingRegistersCount += (int)$capturedRegisters
-            ->countGpUnsignedRegistersByZoneIDAndRegisterID($zone['id'], $register['id']);
+        $isException = in_array($register['code'], $gpExceptions);
+        if (!$isException) {
+          $assignedZones = $scope->daoFactory->get('gpSupervisors\AssignedZones');
+          $zones = $assignedZones->selectZoneIDByUserID($userID);
+          foreach ($zones as $zone) {
+            $pendingRegistersCount += (int)$capturedRegisters
+              ->countGpUnsignedRegistersByZoneIDAndRegisterID($zone['id'], $register['id']);
+          }
         }
       }
 

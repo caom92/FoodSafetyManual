@@ -24,8 +24,8 @@ class Codes extends db\InsertableTable
     return parent::select(
       [
         "$this->table.id(id)",
-        'code',
-        'description'
+        'code'
+        //'description'
       ],
       [
         'id' => $id
@@ -37,8 +37,8 @@ class Codes extends db\InsertableTable
     return parent::select(
       [
         "$this->table.id(id)",
-        'code',
-        'description'
+        'code'
+        //'description'
       ],
       [
         'code' => $code

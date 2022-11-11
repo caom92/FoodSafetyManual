@@ -1,36 +1,91 @@
 td.register-table-cell.no-wrap-table-cell.dateColumn {{register['capture_date']}}
 td.register-table-cell.zoneColumn {{register['zone']}}
+td.register-table-cell.submitterColumn {{register['submitter_first_name']}} {{register['submitter_last_name']}}
 td.register-table-cell.codeColumn(*ngIf='register.code !== null') {{register['code']}}
 td.register-table-cell.codeColumn(*ngIf='register.code === null')
-td.register-table-cell.descriptionColumn(*ngIf='register.description !== null') {{register['description']}}
-td.register-table-cell.descriptionColumn(*ngIf='register.description === null')
+//-td.register-table-cell.descriptionColumn(*ngIf='register.description !== null') {{register['description']}}
+//-td.register-table-cell.descriptionColumn(*ngIf='register.description === null')
 td.register-table-cell.folioColumn(*ngIf='register.folio !== null') {{register['folio']}}
 td.register-table-cell.folioColumn(*ngIf='register.folio === null')
+td.register-table-cell {{register['temperature']}}
+td.register-table-cell {{register['color']}}
+td.register-table-cell(*ngIf='register.label == 1') {{ 'Log.yes' | translate:lang }}
+td.register-table-cell(*ngIf='register.label == 0') {{ 'Log.no' | translate:lang }}
+td.register-table-cell(*ngIf='register.label != 0 && register.label != 1')
+td.register-table-cell(*ngIf='register.weight == 1') {{ 'Log.yes' | translate:lang }}
+td.register-table-cell(*ngIf='register.weight == 0') {{ 'Log.no' | translate:lang }}
+td.register-table-cell(*ngIf='register.weight != 0 && register.weight != 1')
+td.register-table-cell(*ngIf='register.traceability == 1') {{ 'Log.yes' | translate:lang }}
+td.register-table-cell(*ngIf='register.traceability == 0') {{ 'Log.no' | translate:lang }}
+td.register-table-cell(*ngIf='register.traceability != 0 && register.traceability != 1')
 td.register-table-cell.statusColumn(*ngIf='register.status !== null') {{register['status_name']}}
 td.register-table-cell.statusColumn(*ngIf='register.status === null')
+td.register-table-cell(*ngIf='register.mechanical_damage !== null && register.mechanical_damage !== 0') {{register['mechanical_damage']}}
+td.register-table-cell.zero-value(*ngIf='register.mechanical_damage === null || register.mechanical_damage === 0') 0
+td.register-table-cell(*ngIf='register.soggy !== null && register.soggy !== 0') {{register['soggy']}}
+td.register-table-cell.zero-value(*ngIf='register.soggy === null || register.soggy === 0') 0
+td.register-table-cell(*ngIf='register.insect_damage !== null && register.insect_damage !== 0') {{register['insect_damage']}}
+td.register-table-cell.zero-value(*ngIf='register.insect_damage === null || register.insect_damage === 0') 0
+td.register-table-cell(*ngIf='register.decoloration !== null && register.decoloration !== 0') {{register['decoloration']}}
+td.register-table-cell.zero-value(*ngIf='register.decoloration === null || register.decoloration === 0') 0
+td.register-table-cell(*ngIf='register.decay !== null && register.decay !== 0') {{register['decay']}}
+td.register-table-cell.zero-value(*ngIf='register.decay === null || register.decay === 0') 0
+td.register-table-cell(*ngIf='register.wrinkly !== null && register.wrinkly !== 0') {{register['wrinkly']}}
+td.register-table-cell.zero-value(*ngIf='register.wrinkly === null || register.wrinkly === 0') 0
+td.register-table-cell(*ngIf='register.busted !== null && register.busted !== 0') {{register['busted']}}
+td.register-table-cell.zero-value(*ngIf='register.busted === null || register.busted === 0') 0
+td.register-table-cell(*ngIf='register.dehydration !== null && register.dehydration !== 0') {{register['dehydration']}}
+td.register-table-cell.zero-value(*ngIf='register.dehydration === null || register.dehydration === 0') 0
+//-td.register-table-cell.yellow-column(*ngIf='register.small_count !== null && register.small_count !== 0') {{register['small_count']}}
+//-td.register-table-cell.yellow-column.zero-value(*ngIf='register.small_count === null || register.small_count === 0') 0
+//-td.register-table-cell.yellow-column(*ngIf='register.big_count !== null && register.big_count !== 0') {{register['big_count']}}
+//-td.register-table-cell.yellow-column.zero-value(*ngIf='register.big_count === null || register.big_count === 0') 0
+//-td.register-table-cell.yellow-column(*ngIf='register.deformation !== null && register.deformation !== 0') {{register['deformation']}}
+//-td.register-table-cell.yellow-column.zero-value(*ngIf='register.deformation === null || register.deformation === 0') 0
+//-td.register-table-cell.yellow-column(*ngIf='register.insect_damage !== null && register.insect_damage !== 0') {{register['insect_damage']}}
+//-td.register-table-cell.yellow-column.zero-value(*ngIf='register.insect_damage === null || register.insect_damage === 0') 0
+//-td.register-table-cell.yellow-column(*ngIf='register.scarring !== null && register.scarring !== 0') {{register['scarring']}}
+//-td.register-table-cell.yellow-column.zero-value(*ngIf='register.scarring === null || register.scarring === 0') 0
+//-td.register-table-cell.orange-column(*ngIf='register.decoloration !== null && register.decoloration !== 0') {{register['decoloration']}}
+//-td.register-table-cell.orange-column.zero-value(*ngIf='register.decoloration === null || register.decoloration === 0') 0
+//-td.register-table-cell.orange-column(*ngIf='register.dehydration !== null && register.dehydration !== 0') {{register['dehydration']}}
+//-td.register-table-cell.orange-column.zero-value(*ngIf='register.dehydration === null || register.dehydration === 0') 0
+//-td.register-table-cell.orange-column(*ngIf='register.mechanical_damage !== null && register.mechanical_damage !== 0') {{register['mechanical_damage']}}
+//-td.register-table-cell.orange-column.zero-value(*ngIf='register.mechanical_damage === null || register.mechanical_damage === 0') 0
+//-td.register-table-cell.orange-column(*ngIf='register.mushiness !== null && register.mushiness !== 0') {{register['mushiness']}}
+//-td.register-table-cell.orange-column.zero-value(*ngIf='register.mushiness === null || register.mushiness === 0') 0
+//-td.register-table-cell.orange-column(*ngIf='register.bruises !== null && register.bruises !== 0') {{register['bruises']}}
+//-td.register-table-cell.orange-column.zero-value(*ngIf='register.bruises === null || register.bruises === 0') 0
 td.register-table-cell.samplingColumn(*ngIf='register.sampling !== null') {{register['sampling']}}
 td.register-table-cell.samplingColumn(*ngIf='register.sampling === null')
-td.register-table-cell.gradeFPColumn(*ngIf='register.sampling !== null') {{((register['small_count'] + register['big_count'] + register['deformation'] + register['insect_damage'] + register['scarring']) / register['sampling']) * 100 | number: '1.0-0' }}%
-td.register-table-cell.gradeFPColumn(*ngIf='register.sampling === null')
-td.register-table-cell.majorGradeFPColumn(*ngIf='register.sampling !== null') {{((register['decoloration'] + register['dehydration'] + register['mechanical_damage'] + register['mushiness'] + register['bruises']) / register['sampling']) * 100 | number: '1.0-0' }}%
-td.register-table-cell.majorGradeFPColumn(*ngIf='register.sampling === null')
+td.register-table-cell.gradeFPColumn(*ngIf='register.sampling !== null', [ngClass]="((register['mechanical_damage'] + register['soggy'] + register['insect_damage'] + register['decoloration']) * (100 / register['sampling'])) > 10?'orange-column':''") {{(register['mechanical_damage'] + register['soggy'] + register['insect_damage'] + register['decoloration']) * (100 / register['sampling']) | number: '1.0-0' }}%
+//-td.register-table-cell.gradeFPColumn(*ngIf='register.sampling !== null') {{(register['small_count'] + register['big_count'] + register['deformation'] + register['insect_damage'] + register['scarring']) | number: '1.0-0' }}%
+td.register-table-cell.gradeFPColumn(*ngIf='register.sampling === null') N/A
+td.register-table-cell.majorGradeFPColumn(*ngIf='register.sampling !== null', [ngClass]="((register['decay'] + register['wrinkly'] + register['busted'] + register['dehydration']) * (100 / register['sampling'])) > 5?'red-column':''") {{(register['decay'] + register['wrinkly'] + register['busted'] + register['dehydration']) * (100 / register['sampling']) | number: '1.0-0' }}%
+//-td.register-table-cell.majorGradeFPColumn(*ngIf='register.sampling !== null') {{(register['decoloration'] + register['dehydration'] + register['mechanical_damage'] + register['mushiness'] + register['bruises']) | number: '1.0-0' }}%
+td.register-table-cell.majorGradeFPColumn(*ngIf='register.sampling === null') N/A
+td.register-table-cell {{register['exposition_temperature']}}
 //- pending cell, informative
 td.register-table-cell.signatureColumn(*ngIf='register.supervisor_id === null && register.signable === 0')
   div.pending-cell {{ 'FinishedProduct.pending' | translate:lang }}
 //- sign, button
-td.register-table-cell.signatureColumn(*ngIf='register.supervisor_id === null && register.signable === 1')
-  div.signature-button((click)='$event.stopPropagation();onSignClick()') {{ 'FinishedProduct.sign' | translate:lang }}
+td.register-table-cell.signatureColumn(*ngIf='register.signable === 1')
+  mz-checkbox-container((click)='$event.stopPropagation();')
+    input(mz-checkbox, type='checkbox', filledIn='true', id='signbox_{{register.id}}', (click)='onSignClick()', [checked]='register.supervisor_id != null')
+td.register-table-cell.deleteColumn(*ngIf='register.signable === 1')
+  i.red-text(mz-icon-mdi, [icon]='"delete"', (click)='$event.stopPropagation();onDeleteClick();')
+  //-div.signature-button((click)='$event.stopPropagation();onSignClick()') {{ 'FinishedProduct.sign' | translate:lang }}
 //- signature cell, informative, supervisor basis
-td.register-table-cell.signatureColumn(*ngIf='register.supervisor_id !== null && register.signature_path !== null')
+//-td.register-table-cell.signatureColumn(*ngIf='register.supervisor_id !== null && register.signature_path !== null')
   img.signature-cell(src="{{ 'http://localhost/espresso/data/signatures/' + register.signature_path }}")
-td.register-table-cell.signatureColumn(*ngIf='register.supervisor_id !== null && register.signature_path === null')
+//-td.register-table-cell.signatureColumn(*ngIf='register.supervisor_id !== null && register.signature_path === null')
   div.approved-register {{ 'FinishedProduct.approved' | translate:lang }}
 //- signature cell, gp supervisor
-td.register-table-cell.gpSignatureColumn(*ngIf='register.gp_supervisor_id === null && register.gp_signable === 0')
+//-td.register-table-cell.gpSignatureColumn(*ngIf='register.gp_supervisor_id === null && register.gp_signable === 0')
   div.pending-cell {{ 'FinishedProduct.pending' | translate:lang }}
-td.register-table-cell.gpSignatureColumn(*ngIf='register.gp_supervisor_id === null && register.gp_signable === 1')
+//-td.register-table-cell.gpSignatureColumn(*ngIf='register.gp_supervisor_id === null && register.gp_signable === 1')
   div.signature-button((click)='$event.stopPropagation();onGpSignClick()') {{ 'FinishedProduct.sign' | translate:lang }}
-td.register-table-cell.gpSignatureColumn(*ngIf='register.gp_supervisor_id !== null && register.gp_signature_path !== null')
+//-td.register-table-cell.gpSignatureColumn(*ngIf='register.gp_supervisor_id !== null && register.gp_signature_path !== null')
   img.signature-cell(src="{{ 'http://localhost/espresso/data/signatures/' + register.gp_signature_path }}")
-td.register-table-cell.gpSignatureColumn(*ngIf='register.gp_supervisor_id !== null && register.gp_signature_path === null')
+//-td.register-table-cell.gpSignatureColumn(*ngIf='register.gp_supervisor_id !== null && register.gp_signature_path === null')
   div.approved-register {{ 'FinishedProduct.approved' | translate:lang }}

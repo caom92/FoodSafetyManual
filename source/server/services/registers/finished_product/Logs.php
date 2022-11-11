@@ -15,25 +15,23 @@ class Logs extends db\InsertableTable
     'label',
     'weight',
     'traceability',
-    'small_count',
-    'big_count',
-    'deformation',
-    'insect_damage',
-    'scarring',
-    'decoloration',
-    'dehydration',
     'mechanical_damage',
-    'mushiness',
-    'bruises',
+    'soggy',
+    'insect_damage',
+    'decoloration',
+    'decay',
+    'wrinkly',
+    'busted',
+    'dehydration',
     'status_id',
-    'sampling',
     'exposition_temperature',
+    'sampling',
     'notes'
   ];
 
   public $codeColumns = [
-    'fpc.code',
-    'fpc.description'
+    'fpc.code'
+    //'fpc.description'
   ];
 
   public $statusColumns = [
@@ -66,7 +64,8 @@ class Logs extends db\InsertableTable
         'AND' => [
           'capture_date[>=]' => $startDate,
           'capture_date[<=]' => $endDate,
-          'cr.zone_id' => $zoneID
+          'cr.zone_id' => $zoneID,
+          'cr.is_active' => 1
         ],
         'ORDER' => [
           'capture_date' => 'DESC'
@@ -114,7 +113,8 @@ class Logs extends db\InsertableTable
       [
         'AND' => [
           'capture_date[>=]' => $startDate,
-          'capture_date[<=]' => $endDate
+          'capture_date[<=]' => $endDate,
+          'cr.is_active' => 1
         ],
         'ORDER' => [
           'capture_date' => 'DESC'
@@ -165,7 +165,8 @@ class Logs extends db\InsertableTable
       [
         'AND' => [
           'cr.zone_id' => $zoneID,
-          'cr.supervisor_id' => NULL
+          'cr.supervisor_id' => NULL,
+          'cr.is_active' => 1
         ],
         'ORDER' => [
           'capture_date' => 'DESC'
@@ -219,7 +220,8 @@ class Logs extends db\InsertableTable
       [
         'AND' => [
           'cr.supervisor_id[!]' => NULL,
-          'cr.gp_supervisor_id' => NULL
+          'cr.gp_supervisor_id' => NULL,
+          'cr.is_active' => 1
         ],
         'ORDER' => [
           'capture_date' => 'DESC'
@@ -271,7 +273,10 @@ class Logs extends db\InsertableTable
         'gpsu.signature_path(gp_signature_path)'
       ], $this->infoColumns, $this->codeColumns, $this->statusColumns),
       [
-        'cr.zone_id' => $zoneID,
+        'AND' => [
+          'cr.zone_id' => $zoneID,
+          'cr.is_active' => 1
+        ],
         'ORDER' => [
           'capture_date' => 'DESC',
           "$this->table.id" => 'DESC'
@@ -320,6 +325,7 @@ class Logs extends db\InsertableTable
         'gpsu.signature_path(gp_signature_path)'
       ], $this->infoColumns, $this->codeColumns, $this->statusColumns),
       [
+        'cr.is_active' => 1,
         'ORDER' => [
           'capture_date' => 'DESC'
         ],
@@ -364,7 +370,10 @@ class Logs extends db\InsertableTable
         'gpsu.signature_path(gp_signature_path)'
       ], $this->infoColumns, $this->codeColumns, $this->statusColumns),
       [
-        'captured_register_id' => $capturedRegisterID,
+        'AND' => [
+          'captured_register_id' => $capturedRegisterID,
+          'cr.is_active' => 1
+        ]
       ],
       [
         '[><]captured_registers(cr)' => [

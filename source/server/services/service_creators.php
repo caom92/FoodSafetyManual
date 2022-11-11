@@ -891,7 +891,7 @@ function createAddRegisterService($code, $requirements, $task) {
   ];
 }
 
-function createEditRegisterService($code, $requirements, $task) {
+function createEditRegisterService($code, $requirements, $task, $anySubmitter = FALSE, $anySupervisor = FALSE) {
   return [
     'requirements_desc' => [
       'logged_in' => ['Employee', 'Supervisor'],
@@ -904,7 +904,7 @@ function createEditRegisterService($code, $requirements, $task) {
         'format' => 'Y-m-d'
       ]
     ] + $requirements,
-    'callback' => function($scope, $request) use ($code, $task) {
+    'callback' => function($scope, $request) use ($code, $task, $anySubmitter, $anySupervisor) {
       $segment = $scope->session->getSegment('fsm');
       $userID = $segment->get('user_id');
       $zoneID = $scope->daoFactory->get('Users')->getZoneIDByID($userID);
@@ -914,29 +914,33 @@ function createEditRegisterService($code, $requirements, $task) {
 
       if ($role === 'Supervisor') {
         // Check if supervisor is the same
-        $supervisorID = $segment->get('user_id');
-        $submitterID = $register['submitter_id'];
-        $isEditable = $scope->daoFactory->get('SupervisorsEmployees')->hasSupervisorAndEmployeeID($supervisorID, $submitterID);
-        if (!$isEditable) {
-          throw new \Exception(
-            'Requested register cannot be edited; the submitter is not assigned to this supervisor', 
-            3
-          );
+        if ($anySupervisor == FALSE) {
+          $supervisorID = $segment->get('user_id');
+          $submitterID = $register['submitter_id'];
+          $isEditable = $scope->daoFactory->get('SupervisorsEmployees')->hasSupervisorAndEmployeeID($supervisorID, $submitterID);
+          if (!$isEditable) {
+            throw new \Exception(
+              'Requested register cannot be edited; the submitter is not assigned to this supervisor', 
+              3
+            );
+          }
         }
       } else if ($role === 'Employee') {
-        if ($register['supervisor_id'] !== NULL) {
-          throw new \Exception(
-            'Requested register cannot be edited; it has already been signed', 
-            1
-          );
-        }
-        $employeeID = $segment->get('user_id');
-        $submitter = $register['submitter_id'];
-        if ($employeeID != $submitter) {
-          throw new \Exception(
-            'Requested register cannot be edited; only the submitter may edit it', 
-            2
-          );
+        if ($anySubmitter == FALSE) {
+          if ($register['supervisor_id'] !== NULL) {
+            throw new \Exception(
+              'Requested register cannot be edited; it has already been signed', 
+              1
+            );
+          }
+          $employeeID = $segment->get('user_id');
+          $submitter = $register['submitter_id'];
+          if ($employeeID != $submitter) {
+            throw new \Exception(
+              'Requested register cannot be edited; only the submitter may edit it', 
+              2
+            );
+          }
         }
       }
 
@@ -947,7 +951,6 @@ function createEditRegisterService($code, $requirements, $task) {
       $response = $task($scope, $request, $request['captured_register_id']);
 
       return $response;
-      //return [];
     }
   ];
 }

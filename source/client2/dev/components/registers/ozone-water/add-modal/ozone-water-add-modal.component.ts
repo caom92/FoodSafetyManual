@@ -37,7 +37,7 @@ export class OzoneWaterAddRegisterModalComponent extends AddRegisterModal {
     }, 100)
   }
 
-  public addRegister(): void {
+  public addRegister(close: boolean = false): void {
     this.cleanForm()
     if (this.registerForm.valid == true) {
       this.registerService.add('ozone-water', this.registerForm.value).then(success => {
@@ -60,6 +60,10 @@ export class OzoneWaterAddRegisterModalComponent extends AddRegisterModal {
         })
 
         this.registerForm.reset()
+
+        if (close === true) {
+          this.addModal.closeModal()
+        }
       })
     } else {
       this.registerForm.enable()

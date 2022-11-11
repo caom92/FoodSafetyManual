@@ -9,7 +9,8 @@ import { AddRegisterModal } from '../../register-common/add-register-modal/add-r
 import { FinishedProductEntryInterface } from '../interfaces/finished-product.interface'
 
 @Component({
-  templateUrl: './finished-product-add-modal.component.html'
+  templateUrl: './finished-product-add-modal.component.html',
+  styleUrls: ['./finished-product-add-modal.component.css']
 })
 
 export class FinishedProductAddRegisterModalComponent extends AddRegisterModal {
@@ -30,25 +31,29 @@ export class FinishedProductAddRegisterModalComponent extends AddRegisterModal {
     this.registerForm = this._fb.group({
       date: [null, [CustomValidators.dateValidator(), Validators.required]],
       code: ['', [Validators.required]],
-      description: ['', [Validators.required]],
+      //description: ['', [Validators.required]],
       folio: [null, []],
       temperature: [null, []],
       color: [null, []],
       label: [null, []],
       weight: [null, []],
       traceability: [null, []],
-      small_count: [null, []],
-      big_count: [null, []],
-      deformation: [null, []],
+      //small_count: [null, []],
+      //big_count: [null, []],
+      //deformation: [null, []],
       insect_damage: [null, []],
-      scarring: [null, []],
+      //scarring: [null, []],
       decoloration: [null, []],
       dehydration: [null, []],
       mechanical_damage: [null, []],
-      mushiness: [null, []],
-      bruises: [null, []],
+      soggy: [null, []],
+      decay: [null, []],
+      wrinkly: [null, []],
+      busted: [null, []],
+      //mushiness: [null, []],
+      //bruises: [null, []],
       status_id: [null, []],
-      sampling: [null, []],
+      sampling: [100, []],
       exposition_temperature: [null, []],
       notes: [null, []]
     })
@@ -62,7 +67,7 @@ export class FinishedProductAddRegisterModalComponent extends AddRegisterModal {
     }, 100)
   }
 
-  public addRegister(): void {
+  public addRegister(close: boolean = false): void {
     this.cleanForm()
     if (this.registerForm.valid == true) {
       this.registerService.add('finished-product', this.registerForm.value).then(success => {
@@ -71,23 +76,30 @@ export class FinishedProductAddRegisterModalComponent extends AddRegisterModal {
           captured_register_id: success,
           capture_date: this.registerForm.value.date,
           code: this.registerForm.value.code,
-          description: this.registerForm.value.description,
+          submitter_first_name: localStorage.getItem('user_full_name'),
+          submitter_last_name: '',
+          //description: this.registerForm.value.description,
           folio: this.registerForm.value.folio,
           color: this.registerForm.value.color,
           label: this.registerForm.value.label,
           weight: this.registerForm.value.weight,
           traceability: this.registerForm.value.traceability,
-          small_count: this.registerForm.value.small_count,
-          big_count: this.registerForm.value.big_count,
-          deformation: this.registerForm.value.deformation,
-          insect_damage: this.registerForm.value.insect_damage,
-          scarring: this.registerForm.value.scarring,
-          decoloration: this.registerForm.value.decoloration,
-          dehydration: this.registerForm.value.dehydration,
-          mechanical_damage: this.registerForm.value.mechanical_damage,
-          mushiness: this.registerForm.value.mushiness,
-          bruises: this.registerForm.value.bruises,
+          //small_count: this.registerForm.value.small_count === undefined ? 0 : this.registerForm.value.small_count,
+          //big_count: this.registerForm.value.big_count === undefined ? 0 : this.registerForm.value.big_count,
+          //deformation: this.registerForm.value.deformation === undefined ? 0 : this.registerForm.value.deformation,
+          insect_damage: this.registerForm.value.insect_damage === undefined ? 0 : this.registerForm.value.insect_damage,
+          //scarring: this.registerForm.value.scarring === undefined ? 0 : this.registerForm.value.scarring,
+          decoloration: this.registerForm.value.decoloration === undefined ? 0 : this.registerForm.value.decoloration,
+          dehydration: this.registerForm.value.dehydration === undefined ? 0 : this.registerForm.value.dehydration,
+          mechanical_damage: this.registerForm.value.mechanical_damage === undefined ? 0 : this.registerForm.value.mechanical_damage,
+          soggy: this.registerForm.value.soggy === undefined ? 0 : this.registerForm.value.soggy,
+          decay: this.registerForm.value.decay === undefined ? 0 : this.registerForm.value.decay,
+          wrinkly: this.registerForm.value.wrinkly === undefined ? 0 : this.registerForm.value.wrinkly,
+          busted: this.registerForm.value.busted === undefined ? 0 : this.registerForm.value.busted,
+          //mushiness: this.registerForm.value.mushiness === undefined ? 0 : this.registerForm.value.mushiness,
+          //bruises: this.registerForm.value.bruises === undefined ? 0 : this.registerForm.value.bruises,
           status_id: this.registerForm.value.status_id,
+          status_name: this.status.find(x => x.id == this.registerForm.value.status_id).name,
           sampling: this.registerForm.value.sampling,
           exposition_temperature: this.registerForm.value.exposition_temperature,
           notes: this.registerForm.value.notes,
@@ -102,7 +114,12 @@ export class FinishedProductAddRegisterModalComponent extends AddRegisterModal {
           zone: localStorage.getItem('zone_name')
         })
 
+        this.registerForm.enable()
         this.registerForm.reset()
+
+        if (close === true) {
+          this.addModal.closeModal()
+        }
       })
     } else {
       this.registerForm.enable()
@@ -110,16 +127,16 @@ export class FinishedProductAddRegisterModalComponent extends AddRegisterModal {
   }
 
   public onCodeChange(): void {
-    console.log(this.registerForm.controls.code.value)
-    this.registerForm.controls.code.setValue(this.registerForm.controls.code.value.toUpperCase())
-    let selectedCode = this.codes.find(x => x.code == this.registerForm.controls.code.value)
-    console.log(this.registerForm.controls.code.value)
-    console.log('selectedCode', selectedCode)
-    if (selectedCode !== undefined) {
+    //console.log(this.registerForm.controls.code.value)
+    //this.registerForm.controls.code.setValue(this.registerForm.controls.code.value.toUpperCase())
+    //let selectedCode = this.codes.find(x => x.code == this.registerForm.controls.code.value)
+    //console.log(this.registerForm.controls.code.value)
+    //console.log('selectedCode', selectedCode)
+    /*if (selectedCode !== undefined) {
       this.registerForm.controls.description.setValue(selectedCode.description)
     } else {
       this.registerForm.controls.description.setValue('')
-    }
+    }*/
   }
 
   public cleanForm(): void {
@@ -131,16 +148,20 @@ export class FinishedProductAddRegisterModalComponent extends AddRegisterModal {
     controlArray.push(this.registerForm.controls.label)
     controlArray.push(this.registerForm.controls.weight)
     controlArray.push(this.registerForm.controls.traceability)
-    controlArray.push(this.registerForm.controls.small_count)
-    controlArray.push(this.registerForm.controls.big_count)
-    controlArray.push(this.registerForm.controls.deformation)
+    //controlArray.push(this.registerForm.controls.small_count)
+    //controlArray.push(this.registerForm.controls.big_count)
+    //controlArray.push(this.registerForm.controls.deformation)
     controlArray.push(this.registerForm.controls.insect_damage)
-    controlArray.push(this.registerForm.controls.scarring)
+    //controlArray.push(this.registerForm.controls.scarring)
     controlArray.push(this.registerForm.controls.decoloration)
     controlArray.push(this.registerForm.controls.dehydration)
     controlArray.push(this.registerForm.controls.mechanical_damage)
-    controlArray.push(this.registerForm.controls.mushiness)
-    controlArray.push(this.registerForm.controls.bruises)
+    controlArray.push(this.registerForm.controls.soggy)
+    controlArray.push(this.registerForm.controls.decay)
+    controlArray.push(this.registerForm.controls.wrinkly)
+    controlArray.push(this.registerForm.controls.busted)
+    //controlArray.push(this.registerForm.controls.mushiness)
+    //controlArray.push(this.registerForm.controls.bruises)
     controlArray.push(this.registerForm.controls.status_id)
     controlArray.push(this.registerForm.controls.sampling)
     controlArray.push(this.registerForm.controls.exposition_temperature)

@@ -19,4 +19,9 @@ export class FinishedProductViewComponent {
   selectedID: number = null
 
   constructor() { }
+
+  public onDeleteRegister(id: number) {
+    let deleteID = this.registers.findIndex((x => x.id == id))
+    this.registers.splice(deleteID, 1)
+  }
 }

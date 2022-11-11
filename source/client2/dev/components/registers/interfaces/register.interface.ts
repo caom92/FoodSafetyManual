@@ -3,6 +3,8 @@ export interface RegisterEntryInterface {
   captured_register_id: number
   capture_date: string
   submitter_id: number
+  submitter_first_name?: string
+  submitter_last_name?: string
   signable: number
   signature_path: string
   supervisor_id: number

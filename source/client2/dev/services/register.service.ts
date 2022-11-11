@@ -33,6 +33,24 @@ export class RegisterService {
     return this.apiService.serviceCall('edit-' + suffix, data)
   }
 
+  public delete(id: number): Promise<any> {
+    let data = { captured_register_id: id }
+
+    return this.apiService.confirmationServiceCall('delete-register', { key: 'Titles.delete_register' }, { key: 'Messages.delete_register' }, data)
+  }
+
+  public directSupervisorSign(id: number): Promise<any> {
+    let data = { captured_register_id: id, date: this.timeService.getISODate() }
+
+    return this.apiService.serviceCall('sign-register', data)
+  }
+
+  public directSupervisorUnsign(id: number): Promise<any> {
+    let data = { captured_register_id: id }
+
+    return this.apiService.serviceCall('unsign-register', data)
+  }
+
   public supervisorSign(id: number): Promise<any> {
     let data = { captured_register_id: id, date: this.timeService.getISODate() }
 

@@ -91,3 +91,22 @@
   word-wrap: break-word;
   max-width: 120px;
 }
+
+.zero-value {
+  color: #cccccc;
+}
+
+td.yellow-column {
+  font-weight: 800;
+  color: #c8c800;
+}
+
+td.orange-column {
+  font-weight: 800;
+  color: #c87800;
+}
+
+td.red-column {
+  font-weight: 800;
+  color: #c82f00;
+}

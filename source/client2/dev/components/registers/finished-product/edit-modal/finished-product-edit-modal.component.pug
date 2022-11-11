@@ -16,7 +16,7 @@ block edit
         span.detail-title {{ 'FinishedProduct.code' | translate:lang }}: 
         span {{register['code']}}
     +row()
-      +col()(class='col s12 m3 l3')
+      //-+col()(class='col s12 m3 l3')
         span.detail-title {{ 'FinishedProduct.description' | translate:lang }}: 
         span {{register['description']}}
       +col()(class='col s12 m3 l3')
@@ -29,19 +29,45 @@ block edit
         span.detail-title {{ 'FinishedProduct.color' | translate:lang }}: 
         span {{register['color']}}
     +row()
-      +col()(class='col s12 m4 l4')
+      +col()(class='col s12 m3 l3')
         span.detail-title {{ 'FinishedProduct.label' | translate:lang }}: 
         span(*ngIf='register.label == 1') {{ 'Log.yes' | translate:lang }}
-        span(*ngIf='register.label == 0') {{ 'Log.no' | translate:lang }}
-      +col()(class='col s12 m4 l4')
+        span(*ngIf='register.label == 0') {{ 'FinishedProduct.corrected' | translate:lang }}
+      +col()(class='col s12 m3 l3')
         span.detail-title {{ 'FinishedProduct.weight' | translate:lang }}: 
         span(*ngIf='register.weight == 1') {{ 'Log.yes' | translate:lang }}
-        span(*ngIf='register.weight == 0') {{ 'Log.no' | translate:lang }}
-      +col()(class='col s12 m4 l4')
+        span(*ngIf='register.weight == 0') {{ 'FinishedProduct.corrected' | translate:lang }}
+      +col()(class='col s12 m3 l3')
         span.detail-title {{ 'FinishedProduct.traceability' | translate:lang }}: 
         span(*ngIf='register.traceability == 1') {{ 'Log.yes' | translate:lang }}
-        span(*ngIf='register.traceability == 0') {{ 'Log.no' | translate:lang }}
+        span(*ngIf='register.traceability == 0') {{ 'FinishedProduct.corrected' | translate:lang }}
     +row()
+      +col()(class='col s12 m3 l3')
+        span.detail-title {{ 'FinishedProduct.mechanical_damage' | translate:lang }}: 
+        span {{register['mechanical_damage'] !== null ? register['mechanical_damage'] : 0}}
+      +col()(class='col s12 m3 l3')
+        span.detail-title {{ 'FinishedProduct.soggy' | translate:lang }}: 
+        span {{register['soggy'] !== null ? register['soggy'] : 0}}
+      +col()(class='col s12 m3 l3')
+        span.detail-title {{ 'FinishedProduct.insect_damage' | translate:lang }}: 
+        span {{register['insect_damage'] !== null ? register['insect_damage'] : 0}}
+      +col()(class='col s12 m3 l3')
+        span.detail-title {{ 'FinishedProduct.decoloration' | translate:lang }}: 
+        span {{register['decoloration'] !== null ? register['decoloration'] : 0}}
+    +row()
+      +col()(class='col s12 m3 l3')
+        span.detail-title {{ 'FinishedProduct.decay' | translate:lang }}: 
+        span {{register['decay'] !== null ? register['decay'] : 0}}
+      +col()(class='col s12 m3 l3')
+        span.detail-title {{ 'FinishedProduct.wrinkly' | translate:lang }}: 
+        span {{register['wrinkly'] !== null ? register['wrinkly'] : 0}}
+      +col()(class='col s12 m3 l3')
+        span.detail-title {{ 'FinishedProduct.busted' | translate:lang }}: 
+        span {{register['busted'] !== null ? register['busted'] : 0}}
+      +col()(class='col s12 m3 l3')
+        span.detail-title {{ 'FinishedProduct.dehydration' | translate:lang }}: 
+        span {{register['dehydration'] !== null ? register['dehydration'] : 0}}
+    //-+row()
       +col()(class='col s12 m3 l3')
         span.detail-title {{ 'FinishedProduct.small_count' | translate:lang }}: 
         span {{register['small_count'] !== null ? register['small_count'] : 0}}
@@ -54,7 +80,7 @@ block edit
       +col()(class='col s12 m3 l3')
         span.detail-title {{ 'FinishedProduct.insect_damage' | translate:lang }}: 
         span {{register['insect_damage'] !== null ? register['insect_damage'] : 0}}
-    +row()
+    //-+row()
       +col()(class='col s12 m3 l3')
         span.detail-title {{ 'FinishedProduct.scarring' | translate:lang }}: 
         span {{register['scarring'] !== null ? register['scarring'] : 0}}
@@ -67,7 +93,7 @@ block edit
       +col()(class='col s12 m3 l3')
         span.detail-title {{ 'FinishedProduct.mechanical_damage' | translate:lang }}: 
         span {{register['mechanical_damage'] !== null ? register['mechanical_damage'] : 0}}
-    +row()
+    //-+row()
       +col()(class='col s12 m3 l3')
         span.detail-title {{ 'FinishedProduct.mushiness' | translate:lang }}: 
         span {{register['mushiness'] !== null ? register['mushiness'] : 0}}
@@ -77,16 +103,18 @@ block edit
       +col()(class='col s12 m3 l3')
         span.detail-title {{ 'FinishedProduct.status' | translate:lang }}: 
         span {{register['status_name'] !== null ? register['status_name'] : 'N/A'}}
-      +col()(class='col s12 m3 l3')
+      //-+col()(class='col s12 m3 l3')
         span.detail-title {{ 'FinishedProduct.sampling' | translate:lang }}: 
         span {{register['sampling']}}
     +row()
       +col()(class='col s12 m3 l3')
         span.detail-title {{ 'FinishedProduct.grade_fp' | translate:lang }}: 
-        span {{((register['small_count'] + register['big_count'] + register['deformation'] + register['insect_damage'] + register['scarring']) / register['sampling']) * 100 | number: '1.0-0' }}%
+        span {{(register['mechanical_damage'] + register['soggy'] + register['insect_damage'] + register['decoloration']) * (100 / register['sampling']) | number: '1.0-0' }}%
+        //-span {{(register['small_count'] + register['big_count'] + register['deformation'] + register['insect_damage'] + register['scarring']) | number: '1.0-0' }}%
       +col()(class='col s12 m3 l3')
         span.detail-title {{ 'FinishedProduct.major_grade_fp' | translate:lang }}: 
-        span {{((register['decoloration'] + register['dehydration'] + register['mechanical_damage'] + register['mushiness'] + register['bruises']) / register['sampling']) * 100 | number: '1.0-0' }}%
+        span {{(register['decay'] + register['wrinkly'] + register['busted'] + register['dehydration']) * (100 / register['sampling'])| number: '1.0-0' }}%
+        //-span {{(register['decoloration'] + register['dehydration'] + register['mechanical_damage'] + register['mushiness'] + register['bruises']) | number: '1.0-0' }}%
       +col()(class='col s12 m3 l3')
         span.detail-title {{ 'FinishedProduct.exposition_temperature' | translate:lang }}: 
         span {{register['exposition_temperature']}}
@@ -109,8 +137,9 @@ block edit
       +col()(class="s12 m6 l6")
         +dateInput(false, "{{ 'FinishedProduct.date' | translate:lang }}", 'date', 'date', null, 'dateConfig')
       +col()(class="s12 m6 l6")
-        +textInput("{{ 'FinishedProduct.code' | translate:lang }}", null, 'code', 'text', 'code', null)((input)='onCodeChange()')
-    +row()
+        //-+textInput("{{ 'FinishedProduct.code' | translate:lang }}", null, 'code', 'text', 'code', null)((input)='onCodeChange()')
+        +textInput("{{ 'FinishedProduct.code' | translate:lang }}", null, 'code', 'text', 'code', null)((input)='onCodeChange()', [autocomplete]='codesAutocomplete')
+    //-+row()
       +col()(class="s12 m12 l12")
         +textInput("{{ 'FinishedProduct.description' | translate:lang }}", null, 'description', 'text', 'description', null)
     +row()
@@ -124,50 +153,76 @@ block edit
       +col()(class="s12 m6 l6")
         +radioGroup("{{ 'FinishedProduct.label' | translate:lang }}", false, "label")
           +radio("{{ 'FinishedProduct.yes' | translate:lang }}", false, "true", false, false, "label_yes_{{i + 1}}", "label_{{i + 1}}")([formControl]='registerForm.controls.label', [value]='true')
-          +radio("{{ 'FinishedProduct.no' | translate:lang }}", false, "false", false, false, "label_no_{{i + 1}}", "label_{{i + 1}}")([formControl]='registerForm.controls.label', [value]='false')
+          +radio("{{ 'FinishedProduct.corrected' | translate:lang }}", false, "false", false, false, "label_no_{{i + 1}}", "label_{{i + 1}}")([formControl]='registerForm.controls.label', [value]='false')
     +row()
       +col()(class="s12 m6 l6")
         +radioGroup("{{ 'FinishedProduct.weight' | translate:lang }}", false, "weight")
           +radio("{{ 'FinishedProduct.yes' | translate:lang }}", false, "true", false, false, "weight_yes_{{i + 1}}", "weight_{{i + 1}}")([formControl]='registerForm.controls.weight', [value]='true')
-          +radio("{{ 'FinishedProduct.no' | translate:lang }}", false, "false", false, false, "weight_no_{{i + 1}}", "weight_{{i + 1}}")([formControl]='registerForm.controls.weight', [value]='false')
+          +radio("{{ 'FinishedProduct.corrected' | translate:lang }}", false, "false", false, false, "weight_no_{{i + 1}}", "weight_{{i + 1}}")([formControl]='registerForm.controls.weight', [value]='false')
       +col()(class="s12 m6 l6")
         +radioGroup("{{ 'FinishedProduct.traceability' | translate:lang }}", false, "traceability")
           +radio("{{ 'FinishedProduct.yes' | translate:lang }}", false, "true", false, false, "traceability_yes_{{i + 1}}", "traceability_{{i + 1}}")([formControl]='registerForm.controls.traceability', [value]='true')
-          +radio("{{ 'FinishedProduct.no' | translate:lang }}", false, "false", false, false, "traceability_no_{{i + 1}}", "traceability_{{i + 1}}")([formControl]='registerForm.controls.traceability', [value]='false')
+          +radio("{{ 'FinishedProduct.corrected' | translate:lang }}", false, "false", false, false, "traceability_no_{{i + 1}}", "traceability_{{i + 1}}")([formControl]='registerForm.controls.traceability', [value]='false')
+    +row()
+      +col()(class="s12 m12 l12")
+        +select("{{ 'FinishedProduct.status' | translate:lang }}", false, "status_id", "popover")
+          +option('N/A', 'null', false, false)
+          +option("{{stat.name}}", "stat.id", false, false)(*ngFor='let stat of status')
+    .divider.black-divider
     +row()
       +col()(class="s12 m6 l6")
-        +textInput("{{ 'FinishedProduct.small_count' | translate:lang }}", null, 'small_count', 'number', 'small_count', null)
+        +textInput("{{ 'FinishedProduct.mechanical_damage' | translate:lang }}", null, 'mechanical_damage', 'number', 'mechanical_damage', null)
       +col()(class="s12 m6 l6")
-        +textInput("{{ 'FinishedProduct.big_count' | translate:lang }}", null, 'big_count', 'number', 'big_count', null)
+        +textInput("{{ 'FinishedProduct.soggy' | translate:lang }}", null, 'soggy', 'number', 'soggy', null)
     +row()
-      +col()(class="s12 m6 l6")
-        +textInput("{{ 'FinishedProduct.deformation' | translate:lang }}", null, 'deformation', 'number', 'deformation', null)
       +col()(class="s12 m6 l6")
         +textInput("{{ 'FinishedProduct.insect_damage' | translate:lang }}", null, 'insect_damage', 'number', 'insect_damage', null)
-    +row()
-      +col()(class="s12 m6 l6")
-        +textInput("{{ 'FinishedProduct.scarring' | translate:lang }}", null, 'scarring', 'number', 'scarring', null)
       +col()(class="s12 m6 l6")
         +textInput("{{ 'FinishedProduct.decoloration' | translate:lang }}", null, 'decoloration', 'number', 'decoloration', null)
     +row()
       +col()(class="s12 m6 l6")
+        +textInput("{{ 'FinishedProduct.decay' | translate:lang }}", null, 'decay', 'number', 'decay', null)
+      +col()(class="s12 m6 l6")
+        +textInput("{{ 'FinishedProduct.wrinkly' | translate:lang }}", null, 'wrinkly', 'number', 'wrinkly', null)
+    +row()
+      +col()(class="s12 m6 l6")
+        +textInput("{{ 'FinishedProduct.busted' | translate:lang }}", null, 'busted', 'number', 'busted', null)
+      +col()(class="s12 m6 l6")
+        +textInput("{{ 'FinishedProduct.dehydration' | translate:lang }}", null, 'dehydration', 'number', 'dehydration', null)
+    //-+row()
+      +col()(class="s12 m6 l6")
+        +textInput("{{ 'FinishedProduct.small_count' | translate:lang }}", null, 'small_count', 'number', 'small_count', null)
+      +col()(class="s12 m6 l6")
+        +textInput("{{ 'FinishedProduct.big_count' | translate:lang }}", null, 'big_count', 'number', 'big_count', null)
+    //-+row()
+      +col()(class="s12 m6 l6")
+        +textInput("{{ 'FinishedProduct.deformation' | translate:lang }}", null, 'deformation', 'number', 'deformation', null)
+      +col()(class="s12 m6 l6")
+        +textInput("{{ 'FinishedProduct.insect_damage' | translate:lang }}", null, 'insect_damage', 'number', 'insect_damage', null)
+    //-+row()
+      +col()(class="s12 m6 l6")
+        +textInput("{{ 'FinishedProduct.scarring' | translate:lang }}", null, 'scarring', 'number', 'scarring', null)
+      +col()(class="s12 m6 l6")
+        +textInput("{{ 'FinishedProduct.decoloration' | translate:lang }}", null, 'decoloration', 'number', 'decoloration', null)
+    //-+row()
+      +col()(class="s12 m6 l6")
         +textInput("{{ 'FinishedProduct.dehydration' | translate:lang }}", null, 'dehydration', 'number', 'dehydration', null)
       +col()(class="s12 m6 l6")
         +textInput("{{ 'FinishedProduct.mechanical_damage' | translate:lang }}", null, 'mechanical_damage', 'number', 'mechanical_damage', null)
-    +row()
+    //-+row()
       +col()(class="s12 m6 l6")
         +textInput("{{ 'FinishedProduct.mushiness' | translate:lang }}", null, 'mushiness', 'number', 'mushiness', null)
       +col()(class="s12 m6 l6")
         +textInput("{{ 'FinishedProduct.bruises' | translate:lang }}", null, 'bruises', 'number', 'bruises', null)
-    +row()
-      +col()(class="s12 m6 l6")
-        +select("{{ 'FinishedProduct.status' | translate:lang }}", false, "status_id", "popover")
-          +option('N/A', 'null', false, false)
-          +option("{{stat.name}}", "stat.id", false, false)(*ngFor='let stat of status')
-      +col()(class="s12 m6 l6")
+      //-+col()(class="s12 m6 l6")
+        +textInput("{{ 'FinishedProduct.sampling' | translate:lang }}", null, 'sampling', 'number', 'sampling', null)
+      //-+col()(class="s12 m6 l6")
         +textInput("{{ 'FinishedProduct.sampling' | translate:lang }}", null, 'sampling', 'number', 'sampling', null)
     +row()
       +col()(class="s12 m6 l6")
-        +textInput("{{ 'FinishedProduct.exposition_temperature' | translate:lang }}", null, 'exposition_temperature', 'number', 'exposition_temperature', null)
+        +textInput("{{ 'FinishedProduct.sampling' | translate:lang }}", null, 'sampling', 'number', 'sampling', null)
       +col()(class="s12 m6 l6")
+        +textInput("{{ 'FinishedProduct.exposition_temperature' | translate:lang }}", null, 'exposition_temperature', 'number', 'exposition_temperature', null)
+    +row()
+      +col()(class="s12 m12 l12")
         +textInput("{{ 'FinishedProduct.notes' | translate:lang }}", null, 'notes', 'text', 'notes', null)
