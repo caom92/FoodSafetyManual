@@ -6,10 +6,6 @@ $service = [
     'captured_register_id' => [
       'type' => 'int',
       'min' => 1
-    ],
-    'date' => [
-      'type' => 'datetime',
-      'format' => 'Y-m-d'
     ]
   ],
   'callback' => function($scope, $request) {
@@ -38,26 +34,20 @@ $service = [
 
     if ($isAlreadyApproved) {
       throw new \Exception(
-        'This supervisor is not allowed to sign this register; the '.
+        'This supervisor is not allowed to delete this register; the '.
         'register is already signed',
         2
       );
     }
 
-    // if the supervisor is authorized to sign this register, update its
+    // if the supervisor is authorized to delete this register, update its
     // status
-    $capturedRegisters->approveRegisterBySupervisor(
-      $request['captured_register_id'],
-      $supervisorID,
-      $request['date']
+    $capturedRegisters->deleteRegisterByID(
+      $request['captured_register_id']
     );
 
-    $users = $scope->daoFactory->get('Users');
-    $path = $users->getNameByID($supervisorID)['signature_path'];
-
     return [
-      'supervisor_id' => $supervisorID,
-      'signature_path' => $path,
+      'captured_register_id' => $request['captured_register_id']
     ];
   }
 ];
