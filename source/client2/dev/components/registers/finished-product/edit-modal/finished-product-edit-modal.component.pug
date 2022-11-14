@@ -138,7 +138,7 @@ block edit
         +dateInput(false, "{{ 'FinishedProduct.date' | translate:lang }}", 'date', 'date', null, 'dateConfig')
       +col()(class="s12 m6 l6")
         //-+textInput("{{ 'FinishedProduct.code' | translate:lang }}", null, 'code', 'text', 'code', null)((input)='onCodeChange()')
-        +textInput("{{ 'FinishedProduct.code' | translate:lang }}", null, 'code', 'text', 'code', null)((input)='onCodeChange()', [autocomplete]='codesAutocomplete')
+        +textInput("{{ 'FinishedProduct.code' | translate:lang }}", null, 'code', 'text', 'code', null)([autocomplete]='codesAutocomplete')
     //-+row()
       +col()(class="s12 m12 l12")
         +textInput("{{ 'FinishedProduct.description' | translate:lang }}", null, 'description', 'text', 'description', null)

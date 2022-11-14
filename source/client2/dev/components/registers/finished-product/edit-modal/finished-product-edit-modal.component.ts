@@ -17,6 +17,7 @@ export class FinishedProductEditRegisterModalComponent extends EditRegisterModal
   @Input() register: FinishedProductEntryInterface
   @Input() codes: Array<any>
   @Input() status: Array<any>
+  private codesAutocomplete: { data: { [key: string]: string }, limit: number, onAutocomplete: Function } = { data: {}, limit: 5, onAutocomplete: this.onCodeAutocomplete() }
 
   constructor(langManager: LanguageService, private registerService: RegisterService, private _fb: FormBuilder, private dataResolver: DataResolverService) {
     super(langManager)
@@ -55,6 +56,10 @@ export class FinishedProductEditRegisterModalComponent extends EditRegisterModal
       exposition_temperature: [this.dataResolver.resolveNumber(this.register.exposition_temperature), []],
       notes: [this.dataResolver.resolveString(this.register.notes), []]
     })
+
+    for (let code of this.codes) {
+      this.codesAutocomplete.data[code.code] = null
+    }
 
     setTimeout(() => {
       $('select').material_select()
@@ -108,9 +113,17 @@ export class FinishedProductEditRegisterModalComponent extends EditRegisterModal
 
         this.registerForm.enable()
         this.editModal.closeModal()
+      }, error => {
+        this.registerForm.enable()
       })
     } else {
       this.registerForm.enable()
+    }
+  }
+
+  public onCodeAutocomplete(): Function {
+    return (value) => {
+      this.registerForm.controls.code.setValue(value)
     }
   }
 

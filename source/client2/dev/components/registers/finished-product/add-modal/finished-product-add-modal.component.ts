@@ -19,7 +19,7 @@ export class FinishedProductAddRegisterModalComponent extends AddRegisterModal {
   @Input() onClose: (register: FinishedProductEntryInterface) => {}
   @Input() codes: Array<any>
   @Input() status: Array<any>
-  private codesAutocomplete: { data: { [key: string]: string }, limit: number } = { data: {}, limit: 5 }
+  private codesAutocomplete: { data: { [key: string]: string }, limit: number, onAutocomplete: Function } = { data: {}, limit: 5, onAutocomplete: this.onCodeAutocomplete() }
 
   constructor(private registerService: RegisterService, private langManager: LanguageService, private _fb: FormBuilder) {
     super()
@@ -120,9 +120,17 @@ export class FinishedProductAddRegisterModalComponent extends AddRegisterModal {
         if (close === true) {
           this.addModal.closeModal()
         }
+      }, error => {
+        this.registerForm.enable()
       })
     } else {
       this.registerForm.enable()
+    }
+  }
+
+  public onCodeAutocomplete(): Function {
+    return (value) => {
+      this.registerForm.controls.code.setValue(value)
     }
   }
 

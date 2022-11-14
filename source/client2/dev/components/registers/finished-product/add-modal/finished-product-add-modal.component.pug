@@ -6,7 +6,7 @@ block add
       +col()(class="s12 m6 l6")
         +dateInput(false, "{{ 'FinishedProduct.date' | translate:lang }}", 'date', 'date', null, 'dateConfig')
       +col()(class="s12 m6 l6")
-        +textInput("{{ 'FinishedProduct.code' | translate:lang }}", null, 'code', 'text', 'code', null)((input)='onCodeChange()', [autocomplete]='codesAutocomplete')
+        +textInput("{{ 'FinishedProduct.code' | translate:lang }}", null, 'code', 'text', 'code', null)([autocomplete]='codesAutocomplete')
         //-+textInput("{{ 'FinishedProduct.code' | translate:lang }}", null, 'code', 'text', 'code', null)((input)='onCodeChange()')
     //-+row()
       +col()(class="s12 m12 l12")
