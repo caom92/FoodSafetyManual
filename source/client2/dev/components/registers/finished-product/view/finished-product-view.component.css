@@ -3,6 +3,7 @@ th.register-table-cell {
   -webkit-transform: rotate(180deg);
   transform: rotate(180deg);
   vertical-align: text-top;
+  max-height: 300px;
 }
 
 th.yellow-column {

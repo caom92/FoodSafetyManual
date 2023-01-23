@@ -4,6 +4,7 @@ div(#report_body)
       thead
         tr.register-table-header-row
           th.register-table-cell.dateColumn {{ 'FinishedProduct.date' | translate:lang }}
+          th.register-table-cell.timeColumn {{ 'FinishedProduct.time' | translate:lang }}
           th.register-table-cell.zoneColumn {{ 'FinishedProduct.zone' | translate:lang }}
           th.register-table-cell.submitterColumn {{ 'FinishedProduct.submitter' | translate:lang }}
           th.register-table-cell.codeColumn {{ 'FinishedProduct.code' | translate:lang }}
@@ -14,6 +15,7 @@ div(#report_body)
           th.register-table-cell {{ 'FinishedProduct.label' | translate:lang }}
           th.register-table-cell {{ 'FinishedProduct.weight' | translate:lang }}
           th.register-table-cell {{ 'FinishedProduct.traceability' | translate:lang }}
+          th.register-table-cell {{ 'FinishedProduct.mark' | translate:lang }}
           th.register-table-cell.statusColumn {{ 'FinishedProduct.status' | translate:lang }}
           th.register-table-cell.orange-column {{ 'FinishedProduct.mechanical_damage' | translate:lang }}
           th.register-table-cell.orange-column {{ 'FinishedProduct.soggy' | translate:lang }}

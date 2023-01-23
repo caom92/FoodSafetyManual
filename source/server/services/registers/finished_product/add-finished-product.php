@@ -9,6 +9,10 @@ $service = fsm\createAddRegisterService(
       'type' => 'string',
       'max_length' => 255
     ],
+    'time' => [
+      'type' => 'datetime',
+      'format' => 'G:i'
+    ],
     /*'description' => [
       'type' => 'string',
       'max_length' => 65535
@@ -35,6 +39,10 @@ $service = fsm\createAddRegisterService(
       'optional' => true
     ],
     'traceability' => [
+      'type' => 'bool',
+      'optional' => true
+    ],
+    'mark' => [
       'type' => 'bool',
       'optional' => true
     ],
@@ -142,12 +150,14 @@ $service = fsm\createAddRegisterService(
     $registerID = $finishedProductLogs->insert([
       'captured_register_id' => $capturedRegisterID,
       'code_id' => $code['id'],
+      'time' => (isset($request['time']) && array_key_exists('time', $request)) ? $request['time'] : NULL,
       'folio' => (isset($request['folio']) && array_key_exists('folio', $request)) ? $request['folio'] : NULL,
       'temperature' => (isset($request['temperature']) && array_key_exists('temperature', $request)) ? $request['temperature'] : NULL,
       'color' => (isset($request['color']) && array_key_exists('color', $request)) ? $request['color'] : NULL,
       'label' => (isset($request['label']) && array_key_exists('label', $request)) ? $request['label'] : NULL,
       'weight' => (isset($request['weight']) && array_key_exists('weight', $request)) ? $request['weight'] : NULL,
       'traceability' => (isset($request['traceability']) && array_key_exists('traceability', $request)) ? $request['traceability'] : NULL,
+      'mark' => (isset($request['mark']) && array_key_exists('mark', $request)) ? $request['mark'] : NULL,
       //'small_count' => (isset($request['small_count']) && array_key_exists('small_count', $request)) ? $request['small_count'] : NULL,
       //'big_count' => (isset($request['big_count']) && array_key_exists('big_count', $request)) ? $request['big_count'] : NULL,
       //'deformation' => (isset($request['deformation']) && array_key_exists('deformation', $request)) ? $request['deformation'] : NULL,
@@ -178,12 +188,14 @@ $service = fsm\createAddRegisterService(
       'code' => $code['code'],
       //'description' => $code['description'],
       'status_name' => $status['name'],
+      'time' => (isset($request['time']) && array_key_exists('time', $request)) ? substr($request['time'], 0, 5) : NULL,
       'folio' => (isset($request['folio']) && array_key_exists('folio', $request)) ? $request['folio'] : NULL,
       'temperature' => (isset($request['temperature']) && array_key_exists('temperature', $request)) ? $request['temperature'] : NULL,
       'color' => (isset($request['color']) && array_key_exists('color', $request)) ? $request['color'] : NULL,
       'label' => (isset($request['label']) && array_key_exists('label', $request)) ? $request['label'] : NULL,
       'weight' => (isset($request['weight']) && array_key_exists('weight', $request)) ? $request['weight'] : NULL,
       'traceability' => (isset($request['traceability']) && array_key_exists('traceability', $request)) ? $request['traceability'] : NULL,
+      'mark' => (isset($request['mark']) && array_key_exists('mark', $request)) ? $request['mark'] : NULL,
       //'small_count' => (isset($request['small_count']) && array_key_exists('small_count', $request)) ? $request['small_count'] : NULL,
       //'big_count' => (isset($request['big_count']) && array_key_exists('big_count', $request)) ? $request['big_count'] : NULL,
       //'deformation' => (isset($request['deformation']) && array_key_exists('deformation', $request)) ? $request['deformation'] : NULL,

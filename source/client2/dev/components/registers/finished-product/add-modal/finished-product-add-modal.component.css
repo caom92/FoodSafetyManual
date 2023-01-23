@@ -1,3 +1,11 @@
 .black-divider {
   background-color: #000;
 }
+
+.orange-field {
+  color: #c87800 !important;
+}
+
+.red-field {
+  color: #c82f00 !important;
+}

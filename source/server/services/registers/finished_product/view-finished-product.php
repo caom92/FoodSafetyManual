@@ -60,6 +60,10 @@ $service = fsm\createViewRegisterService(
       }
     }
 
+    foreach($registers as &$register) {
+      $register['time'] = substr($register['time'], 0, 5);
+    }
+
     return [
       'registers' => $registers
     ];

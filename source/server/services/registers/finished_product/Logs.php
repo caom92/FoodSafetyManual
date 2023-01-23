@@ -9,12 +9,14 @@ class Logs extends db\InsertableTable
   public $infoColumns = [
     'captured_register_id',
     'code_id',
+    'time',
     'folio',
     'temperature',
     'color',
     'label',
     'weight',
     'traceability',
+    'mark',
     'mechanical_damage',
     'soggy',
     'insect_damage',
@@ -68,7 +70,8 @@ class Logs extends db\InsertableTable
           'cr.is_active' => 1
         ],
         'ORDER' => [
-          'capture_date' => 'DESC'
+          'capture_date' => 'DESC',
+          'time' => 'DESC'
         ]
       ],
       [
@@ -117,7 +120,8 @@ class Logs extends db\InsertableTable
           'cr.is_active' => 1
         ],
         'ORDER' => [
-          'capture_date' => 'DESC'
+          'capture_date' => 'DESC',
+          'time' => 'DESC'
         ]
       ],
       [
@@ -169,7 +173,8 @@ class Logs extends db\InsertableTable
           'cr.is_active' => 1
         ],
         'ORDER' => [
-          'capture_date' => 'DESC'
+          'capture_date' => 'DESC',
+          'time' => 'DESC'
         ]
       ],
       [
@@ -224,7 +229,8 @@ class Logs extends db\InsertableTable
           'cr.is_active' => 1
         ],
         'ORDER' => [
-          'capture_date' => 'DESC'
+          'capture_date' => 'DESC',
+          'time' => 'DESC'
         ]
       ],
       [
@@ -279,7 +285,7 @@ class Logs extends db\InsertableTable
         ],
         'ORDER' => [
           'capture_date' => 'DESC',
-          "$this->table.id" => 'DESC'
+          'time' => 'DESC'
         ],
         'LIMIT' => [
           0, 10
@@ -327,7 +333,8 @@ class Logs extends db\InsertableTable
       [
         'cr.is_active' => 1,
         'ORDER' => [
-          'capture_date' => 'DESC'
+          'capture_date' => 'DESC',
+          'time' => 'DESC'
         ],
         'LIMIT' => [
           0, 10

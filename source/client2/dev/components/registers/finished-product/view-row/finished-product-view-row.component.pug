@@ -1,4 +1,5 @@
 td.register-table-cell.no-wrap-table-cell.dateColumn {{register['capture_date']}}
+td.register-table-cell.no-wrap-table-cell.timeColumn {{register['time']}}
 td.register-table-cell.zoneColumn {{register['zone']}}
 td.register-table-cell.submitterColumn {{register['submitter_first_name']}} {{register['submitter_last_name']}}
 td.register-table-cell.codeColumn(*ngIf='register.code !== null') {{register['code']}}
@@ -18,6 +19,9 @@ td.register-table-cell(*ngIf='register.weight != 0 && register.weight != 1')
 td.register-table-cell(*ngIf='register.traceability == 1') {{ 'Log.yes' | translate:lang }}
 td.register-table-cell(*ngIf='register.traceability == 0') {{ 'Log.no' | translate:lang }}
 td.register-table-cell(*ngIf='register.traceability != 0 && register.traceability != 1')
+td.register-table-cell(*ngIf='register.mark == 1') {{ 'Log.yes' | translate:lang }}
+td.register-table-cell(*ngIf='register.mark == 0') {{ 'Log.no' | translate:lang }}
+td.register-table-cell(*ngIf='register.mark != 0 && register.mark != 1')
 td.register-table-cell.statusColumn(*ngIf='register.status !== null') {{register['status_name']}}
 td.register-table-cell.statusColumn(*ngIf='register.status === null')
 td.register-table-cell(*ngIf='register.mechanical_damage !== null && register.mechanical_damage !== 0') {{register['mechanical_damage']}}

@@ -15,6 +15,7 @@ import { FinishedProductEntryInterface } from '../interfaces/finished-product.in
 
 export class FinishedProductAddRegisterModalComponent extends AddRegisterModal {
   dateConfig
+  timeConfig
   registerForm: FormGroup
   @Input() onClose: (register: FinishedProductEntryInterface) => {}
   @Input() codes: Array<any>
@@ -27,9 +28,11 @@ export class FinishedProductAddRegisterModalComponent extends AddRegisterModal {
 
   public ngOnInit(): void {
     this.dateConfig = this.langManager.messages.global.datePickerConfig
+    this.timeConfig = this.langManager.messages.global.timePickerConfig
 
     this.registerForm = this._fb.group({
       date: [null, [CustomValidators.dateValidator(), Validators.required]],
+      time: [null, [CustomValidators.timeValidator(), Validators.required]],
       code: ['', [Validators.required]],
       //description: ['', [Validators.required]],
       folio: [null, []],
@@ -38,6 +41,7 @@ export class FinishedProductAddRegisterModalComponent extends AddRegisterModal {
       label: [null, []],
       weight: [null, []],
       traceability: [null, []],
+      mark: [null, []],
       //small_count: [null, []],
       //big_count: [null, []],
       //deformation: [null, []],
@@ -75,6 +79,7 @@ export class FinishedProductAddRegisterModalComponent extends AddRegisterModal {
           id: success,
           captured_register_id: success,
           capture_date: this.registerForm.value.date,
+          time: this.registerForm.value.time,
           code: this.registerForm.value.code,
           submitter_first_name: localStorage.getItem('user_full_name'),
           submitter_last_name: '',
@@ -84,6 +89,7 @@ export class FinishedProductAddRegisterModalComponent extends AddRegisterModal {
           label: this.registerForm.value.label,
           weight: this.registerForm.value.weight,
           traceability: this.registerForm.value.traceability,
+          mark: this.registerForm.value.mark,
           //small_count: this.registerForm.value.small_count === undefined ? 0 : this.registerForm.value.small_count,
           //big_count: this.registerForm.value.big_count === undefined ? 0 : this.registerForm.value.big_count,
           //deformation: this.registerForm.value.deformation === undefined ? 0 : this.registerForm.value.deformation,
@@ -156,6 +162,7 @@ export class FinishedProductAddRegisterModalComponent extends AddRegisterModal {
     controlArray.push(this.registerForm.controls.label)
     controlArray.push(this.registerForm.controls.weight)
     controlArray.push(this.registerForm.controls.traceability)
+    controlArray.push(this.registerForm.controls.mark)
     //controlArray.push(this.registerForm.controls.small_count)
     //controlArray.push(this.registerForm.controls.big_count)
     //controlArray.push(this.registerForm.controls.deformation)

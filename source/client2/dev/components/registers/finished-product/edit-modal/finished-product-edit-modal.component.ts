@@ -14,6 +14,7 @@ import { FinishedProductEntryInterface } from '../interfaces/finished-product.in
 })
 
 export class FinishedProductEditRegisterModalComponent extends EditRegisterModal {
+  timeConfig
   @Input() register: FinishedProductEntryInterface
   @Input() codes: Array<any>
   @Input() status: Array<any>
@@ -26,9 +27,12 @@ export class FinishedProductEditRegisterModalComponent extends EditRegisterModal
   public ngOnInit(): void {
     super.ngOnInit()
 
+    this.timeConfig = this.langManager.messages.global.timePickerConfig
+
     this.registerForm = this._fb.group({
       captured_register_id: [this.dataResolver.resolveNumber(this.register.captured_register_id), [Validators.required]],
-      date: [this.dataResolver.resolveString(this.register.capture_date), [CustomValidators.dateValidator()]],
+      date: [this.dataResolver.resolveString(this.register.capture_date), [CustomValidators.dateValidator(), Validators.required]],
+      time: [this.dataResolver.resolveString(this.register.time), [CustomValidators.timeValidator(), Validators.required]],
       code: [this.dataResolver.resolveString(this.register.code), [Validators.required]],
       //description: [this.dataResolver.resolveString(this.register.description), [Validators.required]],
       folio: [this.dataResolver.resolveString(this.register.folio), []],
@@ -37,6 +41,7 @@ export class FinishedProductEditRegisterModalComponent extends EditRegisterModal
       label: [this.dataResolver.resolveBoolean(this.register.label), []],
       weight: [this.dataResolver.resolveBoolean(this.register.weight), []],
       traceability: [this.dataResolver.resolveBoolean(this.register.traceability), []],
+      mark: [this.dataResolver.resolveBoolean(this.register.mark), []],
       //small_count: [this.dataResolver.resolveNumber(this.register.small_count), []],
       //big_count: [this.dataResolver.resolveNumber(this.register.big_count), []],
      //deformation: [this.dataResolver.resolveNumber(this.register.deformation), []],
@@ -84,6 +89,7 @@ export class FinishedProductEditRegisterModalComponent extends EditRegisterModal
     if (this.registerForm.valid == true) {
       this.registerService.edit('finished-product', this.registerForm.value).then(success => {
         this.register.capture_date = success.capture_date
+        this.register.time = success.time
         this.register.code = success.code
         //this.register.description = success.description
         this.register.folio = success.folio
@@ -91,6 +97,7 @@ export class FinishedProductEditRegisterModalComponent extends EditRegisterModal
         this.register.label = success.label
         this.register.weight = success.weight
         this.register.traceability = success.traceability
+        this.register.mark = success.mark
         //this.register.small_count = success.small_count
         //this.register.big_count = success.big_count
         //this.register.deformation = success.deformation
@@ -111,12 +118,15 @@ export class FinishedProductEditRegisterModalComponent extends EditRegisterModal
         this.register.exposition_temperature = success.exposition_temperature
         this.register.notes = success.notes
 
+        console.log('communication successful')
         this.registerForm.enable()
         this.editModal.closeModal()
       }, error => {
+        console.log('form valid, but error in communication')
         this.registerForm.enable()
       })
     } else {
+      console.log('form invalid')
       this.registerForm.enable()
     }
   }
@@ -146,6 +156,7 @@ export class FinishedProductEditRegisterModalComponent extends EditRegisterModal
     controlArray.push(this.registerForm.controls.label)
     controlArray.push(this.registerForm.controls.weight)
     controlArray.push(this.registerForm.controls.traceability)
+    controlArray.push(this.registerForm.controls.mark)
     //controlArray.push(this.registerForm.controls.small_count)
     //controlArray.push(this.registerForm.controls.big_count)
     //controlArray.push(this.registerForm.controls.deformation)

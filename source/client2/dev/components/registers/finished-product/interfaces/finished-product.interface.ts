@@ -2,6 +2,7 @@ import { RegisterEntryInterface } from '../../interfaces/register.interface'
 
 export interface FinishedProductEntryInterface extends RegisterEntryInterface {
   code?: string
+  time?: string
   description?: string
   folio?: string
   temperature?: number
@@ -9,6 +10,7 @@ export interface FinishedProductEntryInterface extends RegisterEntryInterface {
   label?: number
   weight?: number
   traceability?: number
+  mark?: number
   //small_count?: number
   //big_count?: number
   //deformation?: number

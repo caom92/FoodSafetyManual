@@ -355,6 +355,7 @@
   },
   "FinishedProduct": {
     "date": "Date",
+    "time": "Time",
     "zone": "Zone",
     "submitter": "Submitter",
     "code": "Code",
@@ -366,6 +367,7 @@
     "label": "Correct front label?",
     "weight": "Correct weight?",
     "traceability": "Traceability",
+    "mark": "Marked box?",
     "yes": "Yes",
     "no": "No",
     "corrected": "Corrected",

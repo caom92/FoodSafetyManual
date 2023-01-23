@@ -7,18 +7,21 @@ block edit
         span.detail-title {{ 'FinishedProduct.date' | translate:lang }}: 
         span {{register['capture_date']}}
       +col()(class='col s12 m3 l3')
+        span.detail-title {{ 'FinishedProduct.time' | translate:lang }}: 
+        span {{register['time']}}
+      +col()(class='col s12 m3 l3')
         span.detail-title {{ 'FinishedProduct.zone' | translate:lang }}: 
         span {{register['zone']}}
       +col()(class='col s12 m3 l3')
         span.detail-title {{ 'FinishedProduct.submitter' | translate:lang }}: 
         span {{register['submitter_first_name']}} {{register['submitter_last_name']}}
-      +col()(class='col s12 m3 l3')
-        span.detail-title {{ 'FinishedProduct.code' | translate:lang }}: 
-        span {{register['code']}}
     +row()
       //-+col()(class='col s12 m3 l3')
         span.detail-title {{ 'FinishedProduct.description' | translate:lang }}: 
         span {{register['description']}}
+      +col()(class='col s12 m3 l3')
+        span.detail-title {{ 'FinishedProduct.code' | translate:lang }}: 
+        span {{register['code']}}
       +col()(class='col s12 m3 l3')
         span.detail-title {{ 'FinishedProduct.folio' | translate:lang }}: 
         span {{register['folio']}}
@@ -41,6 +44,10 @@ block edit
         span.detail-title {{ 'FinishedProduct.traceability' | translate:lang }}: 
         span(*ngIf='register.traceability == 1') {{ 'Log.yes' | translate:lang }}
         span(*ngIf='register.traceability == 0') {{ 'FinishedProduct.corrected' | translate:lang }}
+      +col()(class='col s12 m3 l3')
+        span.detail-title {{ 'FinishedProduct.mark' | translate:lang }}: 
+        span(*ngIf='register.mark == 1') {{ 'Log.yes' | translate:lang }}
+        span(*ngIf='register.mark == 0') {{ 'FinishedProduct.corrected' | translate:lang }}
     +row()
       +col()(class='col s12 m3 l3')
         span.detail-title {{ 'FinishedProduct.mechanical_damage' | translate:lang }}: 
@@ -137,32 +144,39 @@ block edit
       +col()(class="s12 m6 l6")
         +dateInput(false, "{{ 'FinishedProduct.date' | translate:lang }}", 'date', 'date', null, 'dateConfig')
       +col()(class="s12 m6 l6")
-        //-+textInput("{{ 'FinishedProduct.code' | translate:lang }}", null, 'code', 'text', 'code', null)((input)='onCodeChange()')
-        +textInput("{{ 'FinishedProduct.code' | translate:lang }}", null, 'code', 'text', 'code', null)([autocomplete]='codesAutocomplete')
+        +timeInput(true, "{{ 'FinishedProduct.time' | translate:lang }}", "time", "time", null, 'timeConfig')
     //-+row()
       +col()(class="s12 m12 l12")
         +textInput("{{ 'FinishedProduct.description' | translate:lang }}", null, 'description', 'text', 'description', null)
     +row()
       +col()(class="s12 m6 l6")
-        +textInput("{{ 'FinishedProduct.folio' | translate:lang }}", null, 'folio', 'text', 'folio', null)
+        //-+textInput("{{ 'FinishedProduct.code' | translate:lang }}", null, 'code', 'text', 'code', null)((input)='onCodeChange()')
+        +textInput("{{ 'FinishedProduct.code' | translate:lang }}", null, 'code', 'text', 'code', null)([autocomplete]='codesAutocomplete')
       +col()(class="s12 m6 l6")
-        +textInput("{{ 'FinishedProduct.temperature' | translate:lang }}", null, 'temperature', 'number', 'temperature', null)
+        +textInput("{{ 'FinishedProduct.folio' | translate:lang }}", null, 'folio', 'text', 'folio', null)
     +row()
       +col()(class="s12 m6 l6")
+        +textInput("{{ 'FinishedProduct.temperature' | translate:lang }}", null, 'temperature', 'number', 'temperature', null)
+      +col()(class="s12 m6 l6")
         +textInput("{{ 'FinishedProduct.color' | translate:lang }}", null, 'color', 'number', 'color', null)
+    +row()
       +col()(class="s12 m6 l6")
         +radioGroup("{{ 'FinishedProduct.label' | translate:lang }}", false, "label")
           +radio("{{ 'FinishedProduct.yes' | translate:lang }}", false, "true", false, false, "label_yes_{{i + 1}}", "label_{{i + 1}}")([formControl]='registerForm.controls.label', [value]='true')
           +radio("{{ 'FinishedProduct.corrected' | translate:lang }}", false, "false", false, false, "label_no_{{i + 1}}", "label_{{i + 1}}")([formControl]='registerForm.controls.label', [value]='false')
-    +row()
       +col()(class="s12 m6 l6")
         +radioGroup("{{ 'FinishedProduct.weight' | translate:lang }}", false, "weight")
           +radio("{{ 'FinishedProduct.yes' | translate:lang }}", false, "true", false, false, "weight_yes_{{i + 1}}", "weight_{{i + 1}}")([formControl]='registerForm.controls.weight', [value]='true')
           +radio("{{ 'FinishedProduct.corrected' | translate:lang }}", false, "false", false, false, "weight_no_{{i + 1}}", "weight_{{i + 1}}")([formControl]='registerForm.controls.weight', [value]='false')
+    +row()
       +col()(class="s12 m6 l6")
         +radioGroup("{{ 'FinishedProduct.traceability' | translate:lang }}", false, "traceability")
           +radio("{{ 'FinishedProduct.yes' | translate:lang }}", false, "true", false, false, "traceability_yes_{{i + 1}}", "traceability_{{i + 1}}")([formControl]='registerForm.controls.traceability', [value]='true')
           +radio("{{ 'FinishedProduct.corrected' | translate:lang }}", false, "false", false, false, "traceability_no_{{i + 1}}", "traceability_{{i + 1}}")([formControl]='registerForm.controls.traceability', [value]='false')
+      +col()(class="s12 m6 l6")
+        +radioGroup("{{ 'FinishedProduct.mark' | translate:lang }}", false, "mark")
+          +radio("{{ 'FinishedProduct.yes' | translate:lang }}", false, "true", false, false, "mark_yes_{{i + 1}}", "mark_{{i + 1}}")([formControl]='registerForm.controls.mark', [value]='true')
+          +radio("{{ 'FinishedProduct.corrected' | translate:lang }}", false, "false", false, false, "mark_no_{{i + 1}}", "mark_{{i + 1}}")([formControl]='registerForm.controls.mark', [value]='false')
     +row()
       +col()(class="s12 m12 l12")
         +select("{{ 'FinishedProduct.status' | translate:lang }}", false, "status_id", "popover")
