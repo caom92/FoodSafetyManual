@@ -11,6 +11,7 @@ require_once realpath(dirname(__FILE__).'/gap/packing/bathroom_cleaning/services
 require_once realpath(dirname(__FILE__).'/gap/packing/harvest_block_inspection/services.php');
 require_once realpath(dirname(__FILE__).'/gap/packing/harvest_machine_cleaning/services.php');
 require_once realpath(dirname(__FILE__).'/gap/packing/harvest_tool/services.php');
+require_once realpath(dirname(__FILE__).'/gap/packing/master_sanitation/services.php');
 require_once realpath(dirname(__FILE__).'/gap/packing/pest_control_inspection_exterior/services.php');
 require_once realpath(dirname(__FILE__).'/gap/packing/pest_control_inspection_interior/services.php');
 require_once realpath(dirname(__FILE__).'/gap/packing/pest_control_inspection_flytrap/services.php');

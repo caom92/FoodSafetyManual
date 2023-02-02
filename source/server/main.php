@@ -57,7 +57,11 @@ ServiceProvider::addValidationRule(
     $segment = $scope->session->getSegment('fsm');
 
     // check if a single or multiple permissions are required
-    $isSingle = count($options['privilege']) == 1;
+    if (is_array($options['privilege'])) {
+      $isSingle = count($options['privilege']) == 1;
+    } else {
+      $isSingle = true;
+    }
 
     // then check if the user has the given privilege in the
     // specified log
@@ -116,8 +120,8 @@ $controller = new ServiceProvider(
       $cropRegistry, $registers, $vehicleCleaning, $gapPestControlInspectionExterior,
       $gmpPestControlInspectionExterior, $gapPestControlInspectionInterior,
       $gmpPestControlInspectionInterior, $gapPestControlInspectionFlytrap,
-      $gmpPestControlInspectionFlytrap, $registerOzoneWater, $workOrder,
-      $finishedProductRegister) {
+      $gmpPestControlInspectionFlytrap, $gapMasterSanitation, $registerOzoneWater, 
+      $workOrder, $finishedProductRegister) {
       return new db\TableFactory(
         'fsm\database\\',
         $zone['tables'] +
@@ -169,6 +173,7 @@ $controller = new ServiceProvider(
         $gmpPestControlInspectionInterior['tables'] +
         $gapPestControlInspectionFlytrap['tables'] +
         $gmpPestControlInspectionFlytrap['tables'] +
+        $gapMasterSanitation['tables'] +
         $customerComplaint['tables'] +
         [
           'Shifts' =>
@@ -232,6 +237,7 @@ $controller = new ServiceProvider(
       $gmpPestControlInspectionInterior['services'] +
       $gapPestControlInspectionFlytrap['services'] +
       $gmpPestControlInspectionFlytrap['services'] +
+      $gapMasterSanitation['services'] +
       $customerComplaint['services']
   ]
 );

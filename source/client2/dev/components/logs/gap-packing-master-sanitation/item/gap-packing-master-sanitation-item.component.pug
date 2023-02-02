@@ -1,0 +1,8 @@
+include ../../../log-ionic-materialize.pug
+
++row()(style="margin-bottom: 0px; margin-top: 4px;")
+  +col()(class="s9 m9 l9")
+    p() {{item.name}}
+  +col()(class="s3 m3 l3")
+    +checkbox("{{ 'Log.approved' | translate:lang }}", false, "status", "status_{{item.id}}")([formGroup]='itemForm')
+.divider

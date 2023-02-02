@@ -1,0 +1,21 @@
+extends ../../report.common.pug
+
+block report
+  table(#report_body)
+    thead
+      tr
+        th.nameColumn {{ 'Log.name' | translate:lang }}
+        th.statusColumn {{ 'Log.status' | translate:lang }}
+    tbody
+      ng-template(ngFor, let-area, [ngForOf]='report.areas')
+        ng-template(ngFor, let-type, [ngForOf]='area.types', let-first='first')
+          tr(*ngIf='first')
+            td.fullColumn(colspan='2') {{area.name}}
+          tr
+            td.fullColumn(colspan='2') {{type.name}}
+          ng-template(ngFor, let-item, [ngForOf]='type.items')
+            tr
+              td.nameColumn {{item.name}}
+              td.statusColumn.acceptable_tag(*ngIf='item.status == 1') {{ 'Log.yes' | translate:lang }}
+              td.statusColumn.unnaceptable_tag(*ngIf='item.status == 0') {{ 'Log.no' |   translate:lang }}
+          //-tr(gap-packing-preop-report-type, [type]='type', *ngIf='!first')

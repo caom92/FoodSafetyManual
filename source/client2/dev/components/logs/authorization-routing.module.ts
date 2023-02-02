@@ -33,6 +33,11 @@ const routes: Routes = [
     loadChildren: './gap-packing-harvest-tool/gap-packing-harvest-tool-authorization.module#GAPPackingHarvestToolAuthorizationModule'
   },
   {
+    path: 'gap-packing-master-sanitation',
+    data: { suffix: 'gap-packing-master-sanitation' },
+    loadChildren: './gap-packing-master-sanitation/gap-packing-master-sanitation-authorization.module#GAPPackingMasterSanitationAuthorizationModule'
+  },
+  {
     path: 'gap-packing-pest-control-inspection-exterior',
     data: { suffix: 'gap-packing-pest-control-inspection-exterior' },
     loadChildren: './gap-packing-pest-control-inspection-exterior/gap-packing-pest-control-inspection-exterior-authorization.module#GAPPackingPestControlInspectionExteriorAuthorizationModule'

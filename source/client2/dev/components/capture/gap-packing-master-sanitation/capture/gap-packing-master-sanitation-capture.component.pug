@@ -1,0 +1,8 @@
+extends ../../capture.common.pug
+
+block reportViewer
+  gap-packing-master-sanitation-report-viewer
+
+block logViewer
+  gap-packing-master-sanitation-log-list([suffix]='suffix', *ngIf='newLog !== true', (startLog)='onOpenLog($event)')
+  gap-packing-master-sanitation-log(*ngIf='newLog == true', [log]='logData', (closeLog)='onCloseLog($event)')
