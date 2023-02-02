@@ -145,7 +145,7 @@ function createLogService($program, $module, $log, $strategy,
           'program_name' => $program,
           'module_name' => $module,
           'log_name' => $log,
-          'html_footer' => $footers['form_footer']
+          'html_footer' => (is_array($footers)) ? $footers['form_footer'] : null
         ];
 
         if ($organization === FALSE) {
@@ -371,7 +371,7 @@ function createReportService($program, $module, $log, $strategy,
 
         // finally return the list of reports
         $response = [
-          'pdf_footer' => $footers['report_footer'],
+          'pdf_footer' => (is_array($footers)) ? $footers['report_footer'] : null,
           'reports' => $reports
         ];
 
