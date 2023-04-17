@@ -102,9 +102,16 @@ $service = fsm\createLogService(
         array_push($areas, $area);
       }
 
-      return $areas;
-    }
-  ]
+      return [
+        'areas' => $areas
+      ];
+    },
+    'organization' => [
+      'areas'
+    ]
+  ],
+  FALSE,
+  TRUE
 );
 
 ?>

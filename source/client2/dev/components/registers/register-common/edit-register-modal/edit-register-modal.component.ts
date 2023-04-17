@@ -34,11 +34,14 @@ export class EditRegisterModal extends MzBaseModal implements OnInit {
     this.isEditable = false
     const role: string = String(localStorage.getItem('role_name'))
 
-    if (role == 'Supervisor') {
+    // No longer editable by supervisor TODO: Delete block later
+    /*if (role == 'Supervisor') {
       if (this.register.signable == 1) {
         this.isEditable = true
       }
-    } else if (role == 'Employee') {
+    } else */
+    if (role == 'Employee') {
+      // Editable, as long as it belongs to the employee and it's still unsigned
       const userID: number = Number(localStorage.getItem('user_id'))
       if (userID == this.register.submitter_id && this.register.supervisor_id == null) {
         this.isEditable = true

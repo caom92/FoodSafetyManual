@@ -8,8 +8,10 @@ $gapMasterSanitation = [
       realpath(dirname(__FILE__).'/tables/Types.php'),
     'gap\packing\masterSanitation\Checks' =>
       realpath(dirname(__FILE__).'/tables/Checks.php'),
-    'gap\packing\masterSanitation\Logs' =>
-      realpath(dirname(__FILE__).'/tables/Logs.php')
+    'gap\packing\masterSanitation\AreasLogs' =>
+      realpath(dirname(__FILE__).'/tables/AreasLogs.php'),
+    'gap\packing\masterSanitation\ChecksLogs' =>
+      realpath(dirname(__FILE__).'/tables/ChecksLogs.php')
   ],
   'services' => [
     // Areas

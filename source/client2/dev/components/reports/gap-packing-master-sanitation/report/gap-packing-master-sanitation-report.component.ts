@@ -18,7 +18,12 @@ export class GAPPackingMasterSanitationReportComponent extends SuperReportCompon
     super(translationService)
   }
 
+  public getOrientation(): string {
+    return 'L'
+  }
+
+
   public getCSS(appendCSS?: string): string {
-    return '<style>' + this.commonCSS() + ((appendCSS === String(appendCSS)) ? appendCSS : '') + '.fullColumn{background-color:#D3D3D3;width:631px}.nameColumn{width:531px}.statusColumn{width:100px}</style>'
+    return '<style>' + this.commonCSS() + ((appendCSS === String(appendCSS)) ? appendCSS : '') + '.fullColumn{background-color:#D3D3D3;width:940px}.areaColumn{width:100px}.timeColumn{width:40px}.typeTitle{background-color:yellow;width:800px}.nameColumn{width:410px}.statusColumn{width:90px}.actionColumn{width:150px}.commentColumn{width:150px}</style>'
   }
 }

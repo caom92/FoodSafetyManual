@@ -21,6 +21,11 @@ import { GAPPackingMasterSanitationTypeInventoryComponent } from './type-invento
 import { GAPPackingMasterSanitationTypeInventoryItemComponent } from './type-inventory/item/gap-packing-master-sanitation-type-inventory-item.component'
 import { GAPPackingMasterSanitationTypeInventoryListComponent } from './type-inventory/list/gap-packing-master-sanitation-type-inventory-list.component'
 import { GAPPackingMasterSanitationTypeInventoryService } from './type-inventory/services/gap-packing-master-sanitation-type-inventory.service'
+import { GAPPackingMasterSanitationCorrectiveActionInventoryAddItemComponent } from './corrective-action-inventory/add-item/gap-packing-master-sanitation-corrective-action-inventory-add-item.component'
+import { GAPPackingMasterSanitationCorrectiveActionInventoryComponent } from './corrective-action-inventory/inventory/gap-packing-master-sanitation-corrective-action-inventory.component'
+import { GAPPackingMasterSanitationCorrectiveActionInventoryItemComponent } from './corrective-action-inventory/item/gap-packing-master-sanitation-corrective-action-inventory-item.component'
+import { GAPPackingMasterSanitationCorrectiveActionInventoryListComponent } from './corrective-action-inventory/list/gap-packing-master-sanitation-corrective-action-inventory-list.component'
+import { GAPPackingMasterSanitationCorrectiveActionInventoryService } from './corrective-action-inventory/services/gap-packing-master-sanitation-corrective-action-inventory.service'
 import { GAPPackingMasterSanitationInventoryViewerComponent } from './viewer/gap-packing-master-sanitation-inventory-viewer.component'
 
 @NgModule({
@@ -73,12 +78,17 @@ import { GAPPackingMasterSanitationInventoryViewerComponent } from './viewer/gap
     GAPPackingMasterSanitationTypeInventoryItemComponent,
     GAPPackingMasterSanitationTypeInventoryListComponent,
     GAPPackingMasterSanitationTypeInventoryAddItemComponent,
+    GAPPackingMasterSanitationCorrectiveActionInventoryComponent,
+    GAPPackingMasterSanitationCorrectiveActionInventoryItemComponent,
+    GAPPackingMasterSanitationCorrectiveActionInventoryListComponent,
+    GAPPackingMasterSanitationCorrectiveActionInventoryAddItemComponent,
     GAPPackingMasterSanitationInventoryViewerComponent
   ],
   providers: [
     GAPPackingMasterSanitationAreaInventoryService,
     GAPPackingMasterSanitationCheckInventoryService,
     GAPPackingMasterSanitationTypeInventoryService,
+    GAPPackingMasterSanitationCorrectiveActionInventoryService
   ]
 })
 

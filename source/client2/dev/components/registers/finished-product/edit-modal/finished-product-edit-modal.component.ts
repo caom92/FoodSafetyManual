@@ -71,7 +71,7 @@ export class FinishedProductEditRegisterModalComponent extends EditRegisterModal
     }, 100)
   }
 
-  public editionCheck(): void {
+  /*public editionCheck(): void {
     this.isEditable = false
     const role: string = String(localStorage.getItem('role_name'))
 
@@ -82,7 +82,7 @@ export class FinishedProductEditRegisterModalComponent extends EditRegisterModal
         this.isEditable = true
       }
     }
-  }
+  }*/
 
   public editRegister(): void {
     this.cleanForm()

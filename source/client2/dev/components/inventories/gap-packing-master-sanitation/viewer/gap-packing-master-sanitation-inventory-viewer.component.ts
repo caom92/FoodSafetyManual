@@ -34,7 +34,11 @@ export class GAPPackingMasterSanitationInventoryViewerComponent extends SuperInv
       {
         name: 'Verificaciones',
         code: 'check'
-      }
+      }/*,
+      {
+        name: 'Acciones correctivas',
+        code: 'corrective-action'
+      }*/
     ]
   }
 }

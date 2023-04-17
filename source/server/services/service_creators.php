@@ -912,7 +912,7 @@ function createEditRegisterService($code, $requirements, $task, $anySubmitter = 
       $role = $segment->get('role_name');
       $register = $scope->daoFactory->get('CapturedRegisters')->selectByID($request['captured_register_id']);
 
-      if ($role === 'Supervisor') {
+      /*if ($role === 'Supervisor') {
         // Check if supervisor is the same
         if ($anySupervisor == FALSE) {
           $supervisorID = $segment->get('user_id');
@@ -925,23 +925,27 @@ function createEditRegisterService($code, $requirements, $task, $anySubmitter = 
             );
           }
         }
-      } else if ($role === 'Employee') {
-        if ($anySubmitter == FALSE) {
-          if ($register['supervisor_id'] !== NULL) {
-            throw new \Exception(
-              'Requested register cannot be edited; it has already been signed', 
-              1
-            );
-          }
-          $employeeID = $segment->get('user_id');
-          $submitter = $register['submitter_id'];
-          if ($employeeID != $submitter) {
-            throw new \Exception(
-              'Requested register cannot be edited; only the submitter may edit it', 
-              2
-            );
-          }
+      } else */
+      if ($role === 'Employee') {
+        if ($register['supervisor_id'] !== NULL) {
+          throw new \Exception(
+            'Requested register cannot be edited; it has already been signed', 
+            1
+          );
         }
+        $employeeID = $segment->get('user_id');
+        $submitter = $register['submitter_id'];
+        if ($employeeID != $submitter) {
+          throw new \Exception(
+            'Requested register cannot be edited; only the submitter may edit it', 
+            2
+          );
+        }
+      } else {
+        throw new \Exception(
+          'Requested register cannot be edited; only the submitter may edit it', 
+          3
+        );
       }
 
       $scope->daoFactory->get('CapturedRegisters')->updateByID([

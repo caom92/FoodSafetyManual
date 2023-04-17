@@ -1,0 +1,12 @@
+include ../../../log-ionic-materialize.pug
+
+div([formGroup]='areaForm')
+  +card(true)
+    +cardHeader("{{area.name}}")
+    +cardContent()
+      +timeInput(true, "{{ 'Log.time' | translate:lang }}", "time", null, null, "langManager.messages.global.timePickerConfig")
+      ng-template(ngFor, let-j='index', let-type, [ngForOf]='area.types')
+        div(style="font-weight: bold;") {{type.name}}
+        gap-packing-master-sanitation-item(*ngFor='let item of type.items; let i = index', [item]='item', [actions]='actions', [itemForm]='areaForm.controls.items.controls[i + offset[j]]')
+      +textArea("{{ 'Log.comments_of' | translate:lang }} {{area.name}}", "clipboard", "notes")
+      +textArea("{{ 'Log.sanitization_person_of' | translate:lang }} {{area.name}}", "brush", "person_performing_sanitation")
