@@ -1,0 +1,26 @@
+include ../../../log-ionic-materialize.pug
+
+//-+row()(style="margin-bottom: 0px; margin-top: 4px;")
+  +col()(class="s9 m9 l9")
+    p() {{item.name}}
+  +col()(class="s3 m3 l3")
+    +checkbox("{{ 'Log.approved' | translate:lang }}", false, "status", "status_{{item.id}}")([formGroup]='itemForm')
+//-.divider
+
++card()([formGroup]='itemForm')
+  +cardHeader("{{item.name}}")
+  +cardContent()
+    +row()
+      +col()(class="s12 m12 l12")
+        +radioGroup("{{ 'Log.acceptable' | translate:lang }}", false, "status")
+          +radio("{{ 'Log.acceptable' | translate:lang }}", false, "true", false, false, "acceptable_{{item.id}}", "conditions_{{item.id}}")([formControl]='itemForm.controls.status', [value]='true')
+          +radio("{{ 'Log.unacceptable' | translate:lang }}", false, "false", false, false, "unacceptable_{{item.id}}", "conditions_{{item.id}}")([formControl]='itemForm.controls.status', [value]='false')
+          +radio("N/A", false, "null", false, false, "not_applicable_{{item.id}}", "conditions_{{item.id}}")([formControl]='itemForm.controls.status', [value]='null')
+      //-+col()(*ngIf='itemForm.controls.status.value == false', class="s6 m6 l6")
+        +select("{{ 'Log.corrective_action' | translate:lang }}", false, "corrective_action_id", "popover")([hidden]='itemForm.controls.status.value !== false')
+          +option("N/A", "null", false, false)
+          +option("{{action.name}}", "action.id", false, false)(*ngFor='let action of actions')
+      +col()(*ngIf='itemForm.controls.status.value == false', class="s12 m12 l12")
+        +textArea("{{ 'Log.corrective_action_of' | translate:lang }} {{item.name}}", "comment", "corrective_action")([hidden]='itemForm.controls.status.value !== false')
+      +col()(*ngIf='itemForm.controls.status.value == false', class="s12 m12 l12")
+        +textArea("{{ 'Log.notes_of' | translate:lang }} {{item.name}}", "comment", "notes")([hidden]='itemForm.controls.status.value !== false')

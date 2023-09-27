@@ -18,6 +18,11 @@ const routes: Routes = [
     loadChildren: './gap-packing-bathroom-cleaning/gap-packing-bathroom-cleaning-authorization.module#GAPPackingBathroomCleaningAuthorizationModule'
   },
   {
+    path: 'gap-packing-cooler-cleaning',
+    data: { suffix: 'gap-packing-cooler-cleaning' },
+    loadChildren: './gap-packing-cooler-cleaning/gap-packing-cooler-cleaning-authorization.module#GAPPackingCoolerCleaningAuthorizationModule'
+  },
+  {
     path: 'gap-packing-harvest-block-inspection',
     data: { suffix: 'gap-packing-harvest-block-inspection' },
     loadChildren: './gap-packing-harvest-block-inspection/gap-packing-harvest-block-inspection-authorization.module#GAPPackingHarvestBlockInspectionAuthorizationModule'

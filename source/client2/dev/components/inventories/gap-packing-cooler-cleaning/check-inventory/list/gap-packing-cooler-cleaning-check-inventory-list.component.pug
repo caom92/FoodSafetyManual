@@ -1,0 +1,6 @@
+include ../../../../inventory-ionic-materialize.pug
+
+ng-content(select='.header')
++inventoryListWrapper()
+  +inventoryItemComponent('gap-packing-cooler-cleaning-check', 'item', 'type.inventory')([item]='item', [type]='{ name:type.name }')
+ng-content(select='.footer')

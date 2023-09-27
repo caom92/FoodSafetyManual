@@ -1,0 +1,26 @@
+include ../../../../inventory-ionic-materialize.pug
+
++inventoryWrapper()
+  .row
+    .col.s12.m12.l12
+      mz-select-container
+        select(mz-select, id="area-select", placeholder="{{ 'InventoryLists.select_area' | translate:lang }}", [(ngModel)]="selectedArea", (change)="loadAreaInventory($event.detail)")
+          option(*ngFor='let area of areas; let first = first', [value]='area.id') {{area.name}}
+  //-+inventoryListsWrapper('activeInventory == true')('gap-packing-cooler-cleaning-check-inventory-list', [items]='inventory')
+  +inventoryListsWrapper("activeInventory == true && selectedArea != undefined && selectedArea != null")
+    +inventoryTitleWrapper()
+      +inventoryTitleHandler()
+      +inventoryTitleColumn("{{ 'InventoryLists.id' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.order' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.name' | translate:lang }}")
+      +inventoryTitleColumn("{{ 'InventoryLists.type' | translate:lang }}")
+      +inventoryTitleToggle()
+    +inventoryListMultiplier('type', 'inventory')
+      //-For Ionic version uncomment the next line, Dragula variables are found inside the .list.pug file
+      //-+inventoryList('gap-packing-cooler-cleaning')([items]='inventory')
+      //-For ng2-Materialize version uncomment the next two lines, we have to pass Dragula variables here
+      //-+inventoryList('gap-packing-cooler-cleaning')([items]='inventory', [dragula]='bagName', [(dragulaModel)]='inventory')
+      +inventoryList('gap-packing-cooler-cleaning-check')([type]='type', [areaID]='selectedArea', [dragula]='type.name', [(dragulaModel)]='type.inventory')
+    +inventoryListAddItemFooter('gap-packing-cooler-cleaning-check-inventory')([types]="type_array", [area]="selectedArea")
+  +inventoryEmptyMessage()
+  +inventoryAddButton()

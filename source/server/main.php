@@ -120,8 +120,8 @@ $controller = new ServiceProvider(
       $cropRegistry, $registers, $vehicleCleaning, $gapPestControlInspectionExterior,
       $gmpPestControlInspectionExterior, $gapPestControlInspectionInterior,
       $gmpPestControlInspectionInterior, $gapPestControlInspectionFlytrap,
-      $gmpPestControlInspectionFlytrap, $gapMasterSanitation, $registerOzoneWater, 
-      $workOrder, $finishedProductRegister) {
+      $gmpPestControlInspectionFlytrap, $gapMasterSanitation, $gapCoolerCleaning, 
+      $registerOzoneWater, $workOrder, $finishedProductRegister) {
       return new db\TableFactory(
         'fsm\database\\',
         $zone['tables'] +
@@ -174,6 +174,7 @@ $controller = new ServiceProvider(
         $gapPestControlInspectionFlytrap['tables'] +
         $gmpPestControlInspectionFlytrap['tables'] +
         $gapMasterSanitation['tables'] +
+        $gapCoolerCleaning['tables'] +
         $customerComplaint['tables'] +
         [
           'Shifts' =>
@@ -238,6 +239,7 @@ $controller = new ServiceProvider(
       $gapPestControlInspectionFlytrap['services'] +
       $gmpPestControlInspectionFlytrap['services'] +
       $gapMasterSanitation['services'] +
+      $gapCoolerCleaning['services'] +
       $customerComplaint['services']
   ]
 );

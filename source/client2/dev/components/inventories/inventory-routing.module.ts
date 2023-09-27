@@ -13,6 +13,11 @@ const routes: Routes = [
     loadChildren: './gap-packing-bathroom-cleaning/gap-packing-bathroom-cleaning-inventory.module#GAPPackingBathroomCleaningInventoryModule'
   },
   {
+    path: 'gap-packing-cooler-cleaning',
+    data: { suffix: 'gap-packing-cooler-cleaning' },
+    loadChildren: './gap-packing-cooler-cleaning/gap-packing-cooler-cleaning-inventory.module#GAPPackingCoolerCleaningInventoryModule'
+  },
+  {
     path: 'gap-packing-harvest-block-inspection',
     data: { suffix: 'gap-packing-harvest-block-inspection' },
     loadChildren: './gap-packing-harvest-block-inspection/gap-packing-harvest-block-inspection-inventory.module#GAPPackingHarvestBlockInspectionInventoryModule'

@@ -1,0 +1,8 @@
+extends ../../capture.common.pug
+
+block reportViewer
+  gap-packing-cooler-cleaning-report-viewer
+
+block logViewer
+  gap-packing-cooler-cleaning-log-list([suffix]='suffix', *ngIf='newLog !== true', (startLog)='onOpenLog($event)')
+  gap-packing-cooler-cleaning-log(*ngIf='newLog == true', [log]='logData', (closeLog)='onCloseLog($event)')

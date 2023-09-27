@@ -1,0 +1,8 @@
+extends ../log/gap-packing-cooler-cleaning-log.component.pug
+
+prepend header
+  h4 {{log.log_name}}
+  .divider
+
+block buttonRow
+  +authorizationButtonRow("{{ 'Authorization.send' | translate:lang }}", "{{ 'Authorization.authorize' | translate:lang }}", "{{ 'Authorization.delete' | translate:lang }}", "{{ 'Authorization.back' | translate:lang }}")
