@@ -90,9 +90,9 @@ export class GAPPackingHarvestMachineCleaningLogComponent extends SuperUpdateCom
       entry_num: [this.dataResolver.resolveNumber(machine.entry_num), [Validators.required]],
       harvest_machine_quantity: [this.dataResolver.resolveNumber(machine.harvest_machine_quantity), [isFinish ? Validators.required : Validators.nullValidator]],
       disinfection: [this.dataResolver.resolveNumber(machine.disinfection), [isFinish ? Validators.required : Validators.nullValidator]],
-      soap_bag_wash: [this.dataResolver.resolveBoolean(machine.soap_bag_wash), [isFinish ? Validators.required : Validators.nullValidator]],
-      rinse: [this.dataResolver.resolveBoolean(machine.rinse), [isFinish ? Validators.required : Validators.nullValidator]],
-      conditions: [this.dataResolver.resolveBoolean(machine.conditions), [isFinish ? Validators.required : Validators.nullValidator]],
+      soap_bag_wash: [this.dataResolver.resolveBoolean(machine.soap_bag_wash), []],
+      rinse: [this.dataResolver.resolveBoolean(machine.rinse), []],
+      conditions: [this.dataResolver.resolveBoolean(machine.conditions), []],
       noted_defects: [this.dataResolver.resolveString(machine.noted_defects), [isFinish ? Validators.required : Validators.nullValidator]],
       initials: [this.dataResolver.resolveString(machine.initials), [isFinish ? Validators.required : Validators.nullValidator]]
     })
