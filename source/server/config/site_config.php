@@ -23,7 +23,7 @@ const SERVER_CORS_CREDENTIALS_ALLOWED_ORIGINS = [
   'http://manual.jfdc.tech',
   'http://documents.jfdc.tech',
   'http://fsm.jfdc.us',
-  'https://fsm.jfdc.us'
+  'https://fsm.jfdc.us',
   'http://www.fsm.jfdc.us',
   'https://www.fsm.jfdc.us'
 ];
